@@ -491,7 +491,7 @@ export function calculateThermodynamicMetricsWithKinetics(
     const enhancedMetrics: ThermodynamicMetrics = {
       heat: baseMetrics.heat * (1 + kineticsData.velocityBoost * 0.1),
       entropy:
-        baseMetrics.entropy * (kinetics.aspectPhase === "square" ? 1.2 : 0.9),
+        baseMetrics.entropy * ((kinetics.aspectPhase as any) === "square" ? 1.2 : 0.9),
       reactivity: baseMetrics.reactivity * (kinetics.forceMagnitude / 5 + 0.8),
       gregsEnergy: baseMetrics.gregsEnergy,
       kalchm: calculateKalchmWithKinetics(alchemical, kinetics),
@@ -588,7 +588,7 @@ export function performEnhancedAnalysisWithKinetics(
 
     // Increase confidence based on kinetics stability
     const kineticsConfidence =
-      kinetics.forceClassification === "stable" ? 0.1 : 0;
+      (kinetics.forceClassification as any) === "stable" ? 0.1 : 0;
     const enhancedConfidence = Math.min(
       1.0,
       baseResult.confidence + kineticsConfidence,

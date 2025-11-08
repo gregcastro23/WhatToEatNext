@@ -419,14 +419,14 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
         // Initialize array-based categories except for structured ones
         if (
           !extractedFilters[pattern.category as string] &&
-          pattern.category !== "cookingTime"
+          (pattern.category as any) !== "cookingTime"
         ) {
           (extractedFilters as any)[pattern.category as string] =
             [] as string[];
         }
 
         // Add values to the appropriate filter category
-        if (pattern.category === "cookingTime") {
+        if ((pattern.category as any) === "cookingTime") {
           const timeRange = extractTimeRange(query) || { min: 0, max: 30 };
           // cookingTime is a structured object in SearchFilters
           // Assign strongly typed cookingTime
@@ -993,7 +993,7 @@ export function scoreItemWithKinetics(
   const itemThermalType = determineItemThermalType(item);
   if (
     kinetics.thermalDirection === itemThermalType ||
-    (kinetics.thermalDirection === "neutral" && itemThermalType === "neutral")
+    ((kinetics.thermalDirection as any) === "neutral" && itemThermalType === "neutral")
   ) {
     kineticsModifier *= 1.15;
   }
