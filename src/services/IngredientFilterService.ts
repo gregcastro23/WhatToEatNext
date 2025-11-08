@@ -86,7 +86,7 @@ export class IngredientFilterService {
       >,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.HERBS]: herbs as Record<string, IngredientMapping>,
-      [INGREDIENT_GROUPS.SPICES]: spices,
+      [INGREDIENT_GROUPS.SPICES]: spices as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.GRAINS]: grains as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.OILS]: oils as Record<string, IngredientMapping>,
     };

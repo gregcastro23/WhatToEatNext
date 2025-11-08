@@ -145,7 +145,7 @@ const loadOils = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(oils).length === 0) {
     try {
       const module = await import("../../data/ingredients/oils");
-      oils = module.oils;
+      oils = (module as any).oils || module;
     } catch (error) {
       _logger.error("Error loading oils: ", error);
     }

@@ -209,7 +209,7 @@ export function useIngredientRecommendations(
           }),
         );
 
-        setRecommendations(enhancedRecommendations);
+        setRecommendations(enhancedRecommendations as any);
 
         setState((prev) => ({
           ...prev,
