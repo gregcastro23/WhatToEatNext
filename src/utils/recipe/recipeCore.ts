@@ -238,8 +238,7 @@ export function getMatchScoreClass(score: number): string {
 
 export function getMatchRating(score: number): {
   stars: string;
-  tooltip;
-  string;
+  tooltip: string;
 } {
   if (score >= 95)
     return { stars: "★★★★★", tooltip: "Perfect match — highly recommended" };
@@ -545,7 +544,7 @@ function calculatePlanetaryDayInfluence(
   recipe: Recipe,
   planetaryDay: PlanetaryDay,
   recipeElements: Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air">,
-): { score: number; reason?; string } {
+): { score: number; reason?: string } {
   const associations: Record<
     PlanetaryDay["planet"],
     {

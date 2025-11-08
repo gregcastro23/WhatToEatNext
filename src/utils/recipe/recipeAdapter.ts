@@ -259,7 +259,7 @@ function normalizePlanetaryInfluences(
 ): RecipePlanetaryInfluences {
   if (Array.isArray(source)) {
     return {
-      _favorable: source,
+      favorable: source,
       unfavorable: [],
     };
   }
@@ -280,7 +280,7 @@ function normalizePlanetaryInfluences(
   });
 
   return {
-    _favorable: favorable,
+    favorable: favorable,
     unfavorable,
   };
 }

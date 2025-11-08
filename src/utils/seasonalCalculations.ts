@@ -332,6 +332,7 @@ const _getSeasonalModifier = (_season: Season, element: Element): number => {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
+    fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
   };
   return (modifiers[_season] && modifiers[_season][element]) || 0.25;

@@ -577,7 +577,7 @@ export interface RecipeNutrition {
 }
 
 export interface RecipePlanetaryInfluences {
-  _favorable: string[];
+  favorable: string[];
   unfavorable: string[];
   neutral?: string[];
 }

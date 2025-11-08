@@ -463,8 +463,7 @@ export function getMatchScoreClass(score: number): string {
  */
 export function getMatchRating(score: number): {
   stars: string;
-  tooltip;
-  string;
+  tooltip: string;
 } {
   if (score >= 0.9) {
     return { stars: "★★★★★", tooltip: "Excellent match - highly recommended" };
