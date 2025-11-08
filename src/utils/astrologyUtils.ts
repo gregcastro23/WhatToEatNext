@@ -34,10 +34,10 @@ import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from "@/ut
 
 // Removed unused, imports: solar, moon
 
-import {
-  getAccuratePlanetaryPositions,
-  getEnhancedPlanetaryPositions,
-} from "./accurateAstronomy";
+// import {
+//   getAccuratePlanetaryPositions,
+//   getEnhancedPlanetaryPositions,
+// } from "./accurateAstronomy";
 import { calculateAllHouseEffects } from "./houseEffects";
 
 // Import calculatePlanetaryAspects from safeAstrology

@@ -9,7 +9,7 @@ import type {
   Recipe,
   ZodiacSign,
 } from "@/types/alchemy";
-import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
+// import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
 
 /**
  * Validates that elemental properties are properly structured and normalized

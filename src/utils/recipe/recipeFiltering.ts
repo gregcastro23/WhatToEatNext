@@ -1,6 +1,6 @@
 import type { CuisineType } from "@/types/cuisine";
 import type {
-  DietaryRestriction,
+  // DietaryRestriction,
   ElementalProperties,
   Recipe,
 } from "@/types/recipe";

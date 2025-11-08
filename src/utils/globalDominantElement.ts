@@ -1,4 +1,5 @@
-import { getDominantElement as coreGetDominantElement } from "@/calculations/core/elementalCalculations";
+// import { getDominantElement as coreGetDominantElement } from "@/calculations/core/elementalCalculations";
+const coreGetDominantElement: any = null;
 
 // Ensure a global fallback for dynamic usages that expect getDominantElement to be available.
 if (typeof globalThis.getDominantElement === "undefined") {

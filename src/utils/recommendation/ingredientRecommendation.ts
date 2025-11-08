@@ -4,7 +4,7 @@ import type { ElementalData, ScoredItem } from "@/types/common";
 import type { Element } from "@/types/unified";
 import type {
   CookingMethod,
-  ElementalAffinity,
+  // ElementalAffinity,
   Ingredient,
   Modality,
   SensoryProfile,

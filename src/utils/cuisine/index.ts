@@ -31,7 +31,7 @@ export {
   filterSignaturesByStrength,
   getSignatureSummary,
   identifyCuisineSignatures,
-  validateSignatureIdentification,
+  // validateSignatureIdentification,
 } from "./signatureIdentificationEngine";
 
 export type { GlobalBaseline } from "./signatureIdentificationEngine";

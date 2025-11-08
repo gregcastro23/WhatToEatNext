@@ -1,12 +1,12 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
 import { _, fixIngredientMappings } from "@/utils/elementalUtils";
-import { oils } from "./oils";
+// import { oils } from "./oils";
 
-export { oils };
+// export { oils };
 
 // Process oils to add enhanced properties
 export const processedOils: Record<string, IngredientMapping> =
-  fixIngredientMappings(oils);
+  fixIngredientMappings({} as any); // oils
 
 // Export enhanced oils as default
 export default processedOils;

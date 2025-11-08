@@ -6,7 +6,7 @@ import type {
 import {
   calculateAlchemicalCompatibility,
   calculateAstrologicalAffinity,
-  validateAlgorithms,
+  // validateAlgorithms,
 } from "../calculations/enhancedAlchemicalMatching";
 import { getZodiacElementalInfluence } from "./zodiacUtils";
 

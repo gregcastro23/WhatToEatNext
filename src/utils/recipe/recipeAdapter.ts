@@ -8,10 +8,10 @@ import type {
   RecipeNutrition,
   RecipePlanetaryInfluences,
   ScoredRecipe,
-  Season,
+  // Season,
 } from "@/types/recipe";
 import { createElementalProperties } from "../elemental/elementalUtils";
-import { isNonEmptyArray } from "../typeGuards";
+// import { isNonEmptyArray } from "../typeGuards";
 
 export function adaptRecipeData(recipeData: RecipeData): Recipe {
   const ingredients = adaptIngredients(recipeData.ingredients ?? []);

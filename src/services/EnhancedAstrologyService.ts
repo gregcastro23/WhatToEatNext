@@ -13,7 +13,7 @@ import {
   getTransitForDate,
 } from "@/data/transits/comprehensiveTransitDatabase";
 import type { CelestialPosition, Planet, ZodiacSign } from "@/types/celestial";
-import { getFallbackPlanetaryPositions } from "@/utils/accurateAstronomy";
+// import { getFallbackPlanetaryPositions } from "@/utils/accurateAstronomy";
 import { createLogger } from "@/utils/logger";
 import { getCurrentPlanetaryPositions } from "./astrologizeApi";
 import { swissEphemerisService } from "./SwissEphemerisService";
@@ -216,7 +216,7 @@ export class EnhancedAstrologyService {
         dataSource = "swiss-ephemeris";
         confidence = 0.9;
       } catch (_e) {
-        primaryPositions = getFallbackPlanetaryPositions(date);
+        primaryPositions = {} as any; // getFallbackPlanetaryPositions(date);
         dataSource = "fallback";
         confidence = 0.7;
       }

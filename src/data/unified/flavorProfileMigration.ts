@@ -32,7 +32,7 @@ type CuisineFlavorCompatibility = unknown;
 
 // Missing unified data imports
 import { unifiedFlavorProfiles } from "./data/unifiedFlavorProfiles";
-import { _processAstrologicalData as processData } from "@/services/AstrologicalService";
+// import { _processAstrologicalData as processData } from "@/services/AstrologicalService";
 
 // ===== FLAVOR PROFILE MIGRATION UTILITY - PHASE 4 =====
 // Consolidates all existing flavor profile data into the unified system
