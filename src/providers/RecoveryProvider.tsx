@@ -1,9 +1,19 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { ErrorBoundary } from "@/components/errors/ErrorBoundary";
-import { ErrorFallback } from "@/components/errors/ErrorFallback";
+import { ErrorBoundary } from "react-error-boundary";
 import { logger } from "@/utils/logger";
+
+// Simple error fallback component
+function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
+  return (
+    <div role="alert" style={{ padding: '20px', textAlign: 'center' }}>
+      <h2>Something went wrong</h2>
+      <pre style={{ color: 'red' }}>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
+}
 
 interface RecoveryContextType {
   resetApp: () => Promise<void>;
@@ -36,11 +46,11 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 
     // Clean up listeners on unmount
     return () => {
-      (window.removeEventListener("error", handleGlobalError),
-        window.removeEventListener(
-          "unhandledrejection",
-          handleUnhandledRejection,
-        ));
+      window.removeEventListener("error", handleGlobalError);
+      window.removeEventListener(
+        "unhandledrejection",
+        handleUnhandledRejection,
+      );
     };
   }, []);
 
@@ -87,7 +97,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
   return (
     <RecoveryContext.Provider value={{ resetApp, isRecovering }}>
       <ErrorBoundary
-        fallback={ErrorFallback}
+        FallbackComponent={ErrorFallback}
         onError={(error) => {
           logger.error("App error caught: ", error);
           setLastError(error);
