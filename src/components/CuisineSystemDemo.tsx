@@ -11,7 +11,7 @@ import {
   configureGlobalCache,
   getGlobalCache,
 } from "@/utils/cuisine/cuisineComputationCache";
-import type { ElementalProperties } from "@/utils/cuisine/cuisineRecommendationEngine";
+import type { ElementalProperties } from "@/types/alchemy";
 import { generateCuisineRecommendations } from "@/utils/cuisine/cuisineRecommendationEngine";
 import React, { useEffect, useState } from "react";
 

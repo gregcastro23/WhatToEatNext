@@ -94,8 +94,6 @@ async function main() {
 
 // Run the main function
 // Execute only when run directly
-
-// @ts-expect-error Node.js runtime check
 if (typeof require !== "undefined" && require.main === module) {
   void main().catch(() => process.exit(1));
 }

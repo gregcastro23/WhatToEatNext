@@ -21,7 +21,7 @@ export function useServices() {
   );
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(!servicesManager.initialized);
-  const [status, setStatus] = useState<InitializationStatus>(
+  const [status, setStatus] = useState<typeof InitializationStatus>(
     servicesManager.initialized
       ? InitializationStatus.COMPLETED
       : InitializationStatus.NOT_STARTED,

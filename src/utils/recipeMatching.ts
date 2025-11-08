@@ -1464,7 +1464,7 @@ function _calculateAstrologicalMatch(
 
     // If recipe has multiple elements, average their compatibility
     if (Array.isArray(elements)) {
-      const totalCompatibility = 0;
+      let totalCompatibility = 0;
       elements.forEach((element: unknown) => {
         if (typeof element === "string") {
           const elemLower = element.toLowerCase();

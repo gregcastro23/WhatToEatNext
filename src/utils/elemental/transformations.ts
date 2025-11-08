@@ -20,7 +20,7 @@ import { calculateDominantElement, normalizeProperties } from "./core";
 // --- Types ---
 
 export interface TransformationContext {
-  planetPositions: { [key, string]; number };
+  planetPositions: { [key: string]: number };
   isDaytime: boolean;
   currentZodiac?: string | null;
   lunarPhase?: LunarPhaseWithSpaces | null;
