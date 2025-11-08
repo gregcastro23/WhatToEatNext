@@ -218,10 +218,10 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               ((methodData.astrologicalInfluences as any)
                 .favorableZodiac as any[]) || [],
             unfavorableZodiac:
-              ((methodData.astrologicalInfluences as unknown)
+              ((methodData.astrologicalInfluences as any)
                 .unfavorableZodiac as any[]) || [],
             dominantPlanets:
-              ((methodData.astrologicalInfluences as unknown)
+              ((methodData.astrologicalInfluences as any)
                 .dominantPlanets as string[]) || [],
           },
           duration: {
