@@ -508,7 +508,8 @@ export function calculatePlanetaryKinetics(input: {
 // Export all core calculation modules for direct access
 export * from "./core/elementalCalculations";
 export * from "./core/kalchmEngine";
-export * from "./core/planetaryInfluences";
+// Commented to avoid duplicate export with alchemicalCalculations
+// export * from "./core/planetaryInfluences";
 
 // Export culinary systems
 export * from "./culinary/cuisineRecommendations";

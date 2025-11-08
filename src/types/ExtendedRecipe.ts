@@ -121,7 +121,7 @@ export interface ExtendedRecipe extends Recipe {
 /**
  * Extended Scored Recipe
  */
-export interface ExtendedScoredRecipe extends ExtendedRecipe {
+export interface ExtendedScoredRecipe extends Omit<ExtendedRecipe, never> {
   score: number;
   alchemicalScores?: {
     elementalScore: number;
