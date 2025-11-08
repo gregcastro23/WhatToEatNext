@@ -130,7 +130,7 @@ export const _useAlchemicalRecommendations = ({
           items.map((item) => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
-              ...item,
+              ...(item as any),
               // Ensure all required AlchemicalItem properties are present
               elementalProperties: (item as any).elementalProperties || {
                 Fire: 0.25,

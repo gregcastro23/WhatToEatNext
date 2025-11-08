@@ -400,7 +400,7 @@ export const _getIngredientsFromCategories = async (
         ({
           name,
           category: categoryName,
-          ...(data as unknown),
+          ...(data as any),
         }) as EnhancedIngredient,
     );
 
@@ -531,7 +531,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...data,
+        ...(data as any),
       } as EnhancedIngredient;
 
       // Special categorization for grains and herbs

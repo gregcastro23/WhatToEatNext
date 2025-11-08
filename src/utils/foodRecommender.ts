@@ -130,7 +130,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...data,
+        ...(data as any),
       } as EnhancedIngredient;
 
       // Special tracking for grains and herbs

@@ -1241,7 +1241,7 @@ export function getRecipesForCuisineMatch(
             }
 
             return {
-              ...recipe,
+              ...(recipe as any),
               matchScore: finalScore,
               matchPercentage: Math.round(finalScore * 100),
             };
@@ -1251,7 +1251,7 @@ export function getRecipesForCuisineMatch(
               scoreError,
             );
             return {
-              ...recipe,
+              ...(recipe as any),
               matchScore: 0.5,
               matchPercentage: 50,
             };
@@ -1272,12 +1272,12 @@ export function getRecipesForCuisineMatch(
     // Combine all matches, prioritizing direct matches, then regional, then others
     const allMatches = [
       ...exactCuisineMatches.map((recipe) => ({
-        ...recipe,
+        ...(recipe as any),
         matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
         matchPercentage: Math.round((0.9 + Math.random() * 0.1) * 100),
       })),
       ...regionalMatches.map((recipe) => ({
-        ...recipe,
+        ...(recipe as any),
         matchScore: 0.8 + Math.random() * 0.1, // 80-90% match
         matchPercentage: Math.round((0.8 + Math.random() * 0.1) * 100),
       })),

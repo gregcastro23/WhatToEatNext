@@ -74,7 +74,7 @@ export function CelestialEventNotifications({
   React.useEffect(() => {
     if (lastCelestialEvent) {
       const eventWithId: CelestialEventWithId = {
-        ...lastCelestialEvent,
+        ...(lastCelestialEvent as any),
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         visible: true,
         receivedAt: Date.now(),

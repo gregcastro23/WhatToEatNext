@@ -57,7 +57,7 @@ export function enhanceDishWithProperties(
   originalDish: unknown,
 ) {
   return {
-    ...originalDish,
+    ...(originalDish as any),
     properties: getDishProperties(dishName),
   };
 }

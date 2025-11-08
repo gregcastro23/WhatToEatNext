@@ -73,7 +73,7 @@ export function EnergyVisualization({
     if (lastEnergyUpdate) {
       const newReading: EnergyReading = {
         timestamp: Date.now(),
-        ...lastEnergyUpdate,
+        ...(lastEnergyUpdate as any),
       };
 
       setEnergyHistory((prev) => {
