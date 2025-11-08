@@ -219,9 +219,7 @@ export default function DemoOptimizedPage() {
                     <ComponentLoader message="Loading recommendation engine..." />
                   }
                 >
-                  <LazyEnhancedRecommendationEngine
-                    onRecipeSelect={handleRecipeSelect as any}
-                  />
+                  {React.createElement(LazyEnhancedRecommendationEngine as any, { onRecipeSelect: handleRecipeSelect })}
                 </Suspense>
               </LazyComponentErrorBoundary>
             </div>

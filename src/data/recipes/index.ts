@@ -14,7 +14,7 @@ const flattenCuisineRecipes = (cuisines: any) => {
       // Iterate through meal types
       Object.values(cuisine.dishes).forEach((mealType: unknown) => {
         // Iterate through seasons
-        (Object.values(mealType) as any).forEach((recipes: unknown) => {
+        ((Object.values as any)(mealType)).forEach((recipes: unknown) => {
           if (Array.isArray(recipes)) {
             allRecipes.push(...recipes);
           }

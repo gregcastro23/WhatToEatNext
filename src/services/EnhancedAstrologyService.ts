@@ -232,7 +232,7 @@ export class EnhancedAstrologyService {
     const dominantElements = this.calculateDominantElements(primaryPositions as any);
 
     // Get retrograde planets
-    const retrogradePlanets = (Object.entries(primaryPositions) as any)
+    const retrogradePlanets = (Object.entries(primaryPositions || {}) as any)
       .filter(([_, position]) => position.isRetrograde)
       .map(([planet]) => planet);
 
