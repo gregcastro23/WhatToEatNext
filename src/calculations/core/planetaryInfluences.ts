@@ -209,8 +209,9 @@ export function calculatePlanetaryStrength(
         (aspect) =>
           aspect.planet1.toLowerCase() === planet.toLowerCase() ||
           aspect.planet2.toLowerCase() === planet.toLowerCase(),
-      )(planetAspects || [])
-      .forEach((aspect) => {
+      );
+
+    planetAspects.forEach((aspect) => {
         switch (aspect.type) {
           case "conjunction":
             strength *= 1.2;

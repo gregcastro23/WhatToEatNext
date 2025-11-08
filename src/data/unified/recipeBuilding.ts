@@ -1344,10 +1344,10 @@ export class UnifiedRecipeBuildingSystem {
     // Generate modern adaptations based on recipe and cuisine characteristics
     if (recipe.ingredients && recipe.ingredients.length > 0) {
       (adaptations as string[])
-        .push(`Modern ${cuisine} fusion with contemporary techniques`)(
-          // Add health-conscious adaptations
-          adaptations as string[],
-        )
+        .push(`Modern ${cuisine} fusion with contemporary techniques`);
+
+      // Add health-conscious adaptations
+      (adaptations as string[])
         .push(
           `Health-optimized ${cuisine} version with nutritional enhancement`,
         );
@@ -1365,7 +1365,8 @@ export class UnifiedRecipeBuildingSystem {
 
       // Dietary adaptation suggestions
       (adaptations as string[])
-        .push("Plant-based alternative adaptation")(adaptations as string[])
+        .push("Plant-based alternative adaptation");
+      (adaptations as string[])
         .push("Gluten-free modern interpretation");
     }
 
