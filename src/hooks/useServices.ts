@@ -23,8 +23,8 @@ export function useServices() {
   const [isLoading, setIsLoading] = useState(!servicesManager.initialized);
   const [status, setStatus] = useState<typeof InitializationStatus>(
     servicesManager.initialized
-      ? InitializationStatus.COMPLETED
-      : InitializationStatus.NOT_STARTED,
+      ? (InitializationStatus.COMPLETED as any)
+      : (InitializationStatus.NOT_STARTED as any),
   );
 
   useEffect(() => {
@@ -38,13 +38,13 @@ export function useServices() {
     const initializeServices = async () => {
       try {
         setIsLoading(true);
-        setStatus(InitializationStatus.IN_PROGRESS);
+        setStatus(InitializationStatus.IN_PROGRESS as any);
         await servicesManager.initialize();
 
         if (isMounted) {
           setIsInitialized(true);
           setIsLoading(false);
-          setStatus(InitializationStatus.COMPLETED);
+          setStatus(InitializationStatus.COMPLETED as any);
           logger.info("Services initialized successfully");
         }
       } catch (err) {
@@ -54,7 +54,7 @@ export function useServices() {
         if (isMounted) {
           setError(error);
           setIsLoading(false);
-          setStatus(InitializationStatus.FAILED);
+          setStatus(InitializationStatus.FAILED as any);
         }
       }
     };
