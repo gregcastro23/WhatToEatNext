@@ -796,7 +796,7 @@ export class ElementalCalculator {
     const result = { ...seasonalModifiers };
     Object.entries(specificAdjustments).forEach(([element, value]) => {
       // Use nullish coalescing to ensure value is never undefined
-      result[element as any] += value || 0;
+      result[element as any] = (result[element as any] as number || 0) + (value as number || 0);
     });
 
     // Normalize to ensure values stay in valid range

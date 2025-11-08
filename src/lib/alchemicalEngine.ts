@@ -479,7 +479,7 @@ export class AlchemicalEngineBase {
       1 -
       (
         ["Fire", "Water", "Air", "Earth"] as Array<keyof ElementalProperties>
-      ).reduce((diff, key) => {
+      ).reduce((diff: number, key) => {
         const v1 = typeof p1[key] === "number" ? (p1[key] as number) : 0;
         const v2 = typeof p2[key] === "number" ? (p2[key] as number) : 0;
         return diff + Math.abs(v1 - v2) / 2;
