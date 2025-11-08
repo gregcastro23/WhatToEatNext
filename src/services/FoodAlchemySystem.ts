@@ -594,9 +594,9 @@ export class FoodAlchemySystem {
     }
 
     // Apply aspect effects if available
-    if (aspects?.length > 0) {
+    if ((aspects || []).length > 0) {
       // Find aspects involving the planetary hour ruler
-      const hourAspects = aspects.filter((a) =>
+      const hourAspects = (aspects || []).filter((a) =>
         a.planets.includes(planetaryHour),
       );
 
@@ -827,9 +827,9 @@ export class FoodAlchemySystem {
       }
 
       // Add aspect-based recommendations
-      if (aspects?.length > 0) {
+      if ((aspects || []).length > 0) {
         // Find relevant aspects involving the food's ruling planet
-        const foodPlanetAspects = aspects.filter((a) =>
+        const foodPlanetAspects = (aspects || []).filter((a) =>
           a.planets.includes(food.planetaryRuler),
         );
 

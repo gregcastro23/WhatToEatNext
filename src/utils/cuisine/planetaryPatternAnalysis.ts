@@ -365,7 +365,7 @@ export function analyzePlanetaryPatterns(
   });
 
   // Sort by planetary strength (strongest first)
-  return patterns.sort((a, b) => b.planetaryStrength - a.planetaryStrength);
+  return patterns.sort((a, b) => (b.planetaryStrength || 0) - (a.planetaryStrength || 0));
 }
 
 // ========== UTILITY FUNCTIONS ==========
@@ -393,9 +393,9 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
   let totalStrength = 0;
 
   patterns.forEach((pattern) => {
-    totalStrength += pattern.planetaryStrength;
+    totalStrength += (pattern.planetaryStrength || 0);
     dominantElements[pattern.dominantElement]++;
-    planetDistribution[pattern.planet] = pattern.planetaryStrength as any;
+    planetDistribution[pattern.planet] = (pattern.planetaryStrength || 0) as any;
   });
 
   return {
@@ -437,7 +437,7 @@ export function calculatePlanetaryDiversity(
   if (patterns.length === 0) return 0;
 
   // Count unique planets with strong patterns
-  const strongPatterns = patterns.filter((p) => p.planetaryStrength > 0.5);
+  const strongPatterns = patterns.filter((p) => (p.planetaryStrength || 0) > 0.5);
   const uniquePlanets = new Set(strongPatterns.map((p) => p.planet));
 
   // Count unique elements

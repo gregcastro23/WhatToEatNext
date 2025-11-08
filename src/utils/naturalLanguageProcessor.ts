@@ -861,7 +861,7 @@ export function filterItemsWithKinetics(
     const { kineticsFilters } = filters;
 
     // Check force type compatibility
-    if (kineticsFilters.preferredForceType) {
+    if (kineticsFilters?.preferredForceType) {
       const itemForceType = determineItemForceType(item);
       if (itemForceType !== kineticsFilters.preferredForceType) {
         // Allow some flexibility for medium preference
@@ -875,7 +875,7 @@ export function filterItemsWithKinetics(
     }
 
     // Check thermal alignment
-    if (kineticsFilters.thermalAlignment) {
+    if (kineticsFilters?.thermalAlignment) {
       const itemThermalType = determineItemThermalType(item);
       if (itemThermalType !== kineticsFilters.thermalAlignment) {
         return false;
@@ -883,7 +883,7 @@ export function filterItemsWithKinetics(
     }
 
     // Check power range
-    if (kineticsFilters.powerRange) {
+    if (kineticsFilters?.powerRange) {
       const itemPower = estimateItemPower(item);
       if (
         itemPower < kineticsFilters.powerRange[0] ||

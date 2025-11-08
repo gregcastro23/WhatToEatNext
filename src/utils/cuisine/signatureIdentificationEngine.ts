@@ -232,8 +232,8 @@ export function identifyAlchemicalSignatures(
 
   properties.forEach((property) => {
     const value = cuisineAlchemical[property];
-    const globalMean = globalBaseline.alchemical[property];
-    const globalStdDev = globalBaseline.alchemicalStdDevs[property];
+    const globalMean = globalBaseline.alchemical?.[property];
+    const globalStdDev = globalBaseline.alchemicalStdDevs?.[property];
 
     if (globalMean === undefined || globalStdDev === undefined) {
       return; // Skip if no global data available
@@ -286,8 +286,8 @@ export function identifyThermodynamicSignatures(
 
   properties.forEach((property) => {
     const value = cuisineThermodynamics[property];
-    const globalMean = globalBaseline.thermodynamics[property];
-    const globalStdDev = globalBaseline.thermodynamicStdDevs[property];
+    const globalMean = globalBaseline.thermodynamics?.[property];
+    const globalStdDev = globalBaseline.thermodynamicStdDevs?.[property];
 
     if (globalMean === undefined || globalStdDev === undefined) {
       return; // Skip if no global data available

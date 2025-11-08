@@ -165,7 +165,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
     "dehydrating",
   ];
 
-  const matches = recipeData.tags.filter((tag) =>
+  const matches = (recipeData.tags || []).filter((tag) =>
     cookingMethodKeywords.some((method) => tag.toLowerCase().includes(method)),
   );
 

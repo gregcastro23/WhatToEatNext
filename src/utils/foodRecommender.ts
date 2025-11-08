@@ -688,7 +688,7 @@ export const getRecommendedIngredients = (
             modifier.elementalBoost as Partial<ElementalProperties>;
           Object.entries(boosts).forEach(([element, boost]) => {
             if (standardized.elementalProperties[element as any] > 0.3) {
-              lunarScore += boost * 0.1; // Small additional boost
+              lunarScore += (boost || 0) * 0.1; // Small additional boost
             }
           });
 
