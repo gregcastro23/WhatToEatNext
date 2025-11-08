@@ -296,7 +296,7 @@ export const LivePlanetaryTracker: React.FC = () => {
             <div className="mt-6 p-3 bg-blue-50 rounded-lg">
               <div className="text-sm text-blue-800">
                 <strong>Live Update: </strong> Last received at{" "}
-                {new Date(lastPlanetaryHour.timestamp).toLocaleTimeString()}
+                {(new Date(lastPlanetaryHour.timestamp) as any).toLocaleTimeString()}
               </div>
             </div>
           )}

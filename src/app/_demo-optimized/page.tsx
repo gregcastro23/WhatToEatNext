@@ -220,7 +220,7 @@ export default function DemoOptimizedPage() {
                   }
                 >
                   <LazyEnhancedRecommendationEngine
-                    onRecipeSelect={handleRecipeSelect}
+                    onRecipeSelect={handleRecipeSelect as any}
                   />
                 </Suspense>
               </LazyComponentErrorBoundary>

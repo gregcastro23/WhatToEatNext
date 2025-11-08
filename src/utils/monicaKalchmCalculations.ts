@@ -456,16 +456,16 @@ export function calculateKalchmWithKinetics(
   // Apply aspect phase influence
   let aspectMultiplier = 1.0;
   switch (kinetics.aspectPhase) {
-    case "conjunction":
+    case "conjunction" as any:
       aspectMultiplier = 1.3; // Maximum enhancement
       break;
-    case "opposition":
+    case "opposition" as any:
       aspectMultiplier = 1.1; // Moderate enhancement
       break;
-    case "trine":
+    case "trine" as any:
       aspectMultiplier = 1.15; // Harmonic enhancement
       break;
-    case "square":
+    case "square" as any:
       aspectMultiplier = 0.9; // Mild reduction
       break;
   }

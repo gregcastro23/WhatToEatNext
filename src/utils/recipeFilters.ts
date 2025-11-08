@@ -251,24 +251,24 @@ export class RecipeFilter {
   ): boolean {
     // Properly check dietary restrictions based on recipe properties
     switch (restriction) {
-      case "vegetarian":
+      case "vegetarian" as any:
         return recipe.isVegetarian === true;
-      case "vegan":
+      case "vegan" as any:
         return recipe.isVegan === true;
-      case "gluten-free":
+      case "gluten-free" as any:
         return recipe.isGlutenFree === true;
-      case "dairy-free":
+      case "dairy-free" as any:
         return recipe.isDairyFree === true;
-      case "keto":
+      case "keto" as any:
         return recipe.isKeto === true || this.hasKetoAttributes(recipe);
-      case "paleo":
+      case "paleo" as any:
         return recipe.isPaleo === true || this.hasPaleoAttributes(recipe);
-      case "low-carb":
+      case "low-carb" as any:
         return (
           recipe.isLowCarb === true ||
           (recipe.nutrition?.carbs !== undefined && recipe.nutrition.carbs < 20)
         );
-      case "low-fat":
+      case "low-fat" as any:
         return (
           recipe.isLowFat === true ||
           (recipe.nutrition?.fat !== undefined && recipe.nutrition.fat < 10)

@@ -232,7 +232,7 @@ export class UnifiedFlavorEngine {
           );
 
           // Log category stats
-          const categoryStats = profiles.reduce(
+          const categoryStats = (profiles as any).reduce(
             (acc, profile: Record<string, unknown>) => {
               const category =
                 (profile as { category?: string }).category ?? "unknown";

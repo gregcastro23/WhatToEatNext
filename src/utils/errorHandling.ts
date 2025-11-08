@@ -437,7 +437,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
     return React.createElement(
       ErrorBoundary,
       {
-        fallback: (error, Error, errorInfo: React.ErrorInfo) => {
+        fallback: ((error, Error, errorInfo: React.ErrorInfo) => {
           const enhancedError = createEnhancedError(
             error.message,
             errorType,
@@ -480,7 +480,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
               ),
             ],
           );
-        },
+        }) as any,
       },
       children,
     );
