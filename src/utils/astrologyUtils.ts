@@ -38,6 +38,8 @@ import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from "@/ut
 //   getAccuratePlanetaryPositions,
 //   getEnhancedPlanetaryPositions,
 // } from "./accurateAstronomy";
+const getAccuratePlanetaryPositions: any = null; // Function not available
+const getEnhancedPlanetaryPositions: any = null; // Function not available
 import { calculateAllHouseEffects } from "./houseEffects";
 
 // Import calculatePlanetaryAspects from safeAstrology

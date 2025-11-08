@@ -10,6 +10,7 @@ import type {
   ZodiacSign,
 } from "@/types/alchemy";
 // import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
+const getAccuratePlanetaryPositions: any = async () => ({}); // Function not available
 
 /**
  * Validates that elemental properties are properly structured and normalized

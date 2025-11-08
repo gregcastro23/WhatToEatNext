@@ -30,6 +30,9 @@ export interface RecommendationCriteria {
   servings?: number;
 }
 
+// Type alias for compatibility
+type IngredientRecommendation = Ingredient;
+
 export function useIngredientRecommendations(
   _criteria?: RecommendationCriteria,
 ) {
