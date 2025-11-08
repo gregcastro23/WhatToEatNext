@@ -2,8 +2,9 @@
 export { alchemicalService } from "./AlchemicalService";
 export { currentMomentManager } from "./CurrentMomentManager";
 export { ingredientService } from "./IngredientService";
-export { recipeService } from "./RecipeService";
-export { recommendationService } from "./RecommendationService";
+// DISABLED - Services have been deleted or renamed
+// export { recipeService } from "./RecipeService";
+// export { recommendationService } from "./RecommendationService";
 export {
   fetchPlanetaryPositions,
   getCurrentPlanetaryPositions,

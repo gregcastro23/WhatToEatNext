@@ -5,7 +5,7 @@
 
 import type { KineticMetrics } from "@/types/kinetics";
 import type { SearchFilters } from "@/types/unified";
-import { calculateKinetics } from "./kinetics";
+import { calculateKinetics } from "../calculations/kinetics";
 
 // ========== TYPE GUARDS ==========
 

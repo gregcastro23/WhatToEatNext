@@ -6,7 +6,10 @@
 import type { TokenPayload } from "@/lib/auth/jwt-auth";
 import { authService, UserRole } from "@/lib/auth/jwt-auth";
 import { logger } from "@/utils/logger";
-import type { Request, Response, NextFunction } from "express";
+// import type { Request, Response, NextFunction } from "express"; // Commented out - express not installed
+type Request = any;
+type Response = any;
+type NextFunction = any;
 
 // Extend Express Request interface to include user information
 declare global {

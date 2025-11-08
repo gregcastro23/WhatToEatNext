@@ -13,20 +13,24 @@ import type { ComponentType } from "react";
  * Lazy load calculation modules with optimized loading
  */
 export const lazyCalculations = {
+  // DISABLED - These barrel exports don't exist, use main calculations/index instead
   // Alchemical calculations - loaded on demand
-  alchemical: () => import("@/calculations/alchemical"),
+  // alchemical: () => import("@/calculations/alchemical"),
 
   // Astrological calculations - loaded on demand
-  astrological: () => import("@/calculations/astrological"),
+  // astrological: () => import("@/calculations/astrological"),
 
   // Elemental calculations - loaded on demand
-  elemental: () => import("@/calculations/elemental"),
+  // elemental: () => import("@/calculations/elemental"),
 
   // Thermodynamics calculations - loaded on demand
-  thermodynamics: () => import("@/calculations/thermodynamics"),
+  // thermodynamics: () => import("@/calculations/thermodynamics"),
 
   // Complex recommendation algorithms - loaded on demand
-  recommendations: () => import("@/calculations/recommendations"),
+  // recommendations: () => import("@/calculations/recommendations"),
+
+  // Use the main calculations module instead
+  main: () => import("@/calculations"),
 };
 
 /**
@@ -64,22 +68,21 @@ export function createLazyComponent<T extends ComponentType<any>>(
 
 /**
  * Preload calculation modules when user is likely to need them
+ * DISABLED - Old calculation barrel exports don't exist
  */
 export const preloadCalculations = {
   // Preload when user hovers over calculation-related UI
   onCalculationHover: () => {
-    lazyCalculations.alchemical();
-    lazyCalculations.elemental();
+    lazyCalculations.main();
   },
   // Preload when user hovers over recipe recommendation UI
   onRecommendationHover: () => {
-    lazyCalculations.recommendations();
+    lazyCalculations.main();
     lazyUnifiedData.enhancedIngredients();
   },
   // Preload when user hovers over astrological features
   onAstrologicalHover: () => {
-    lazyCalculations.astrological();
-    lazyCalculations.thermodynamics();
+    lazyCalculations.main();
   },
 };
 

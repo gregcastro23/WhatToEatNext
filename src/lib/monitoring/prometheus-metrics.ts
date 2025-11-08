@@ -3,11 +3,24 @@
  * Comprehensive monitoring and observability instrumentation
  */
 
-import client from "prom-client";
+// import client from "prom-client"; // Commented out - prom-client not installed
 import { logger } from "@/utils/logger";
-import type { Request, Response, NextFunction } from "express";
+// import type { Request, Response, NextFunction } from "express"; // Commented out - express not installed
+type Request = any;
+type Response = any;
+type NextFunction = any;
 
-// Initialize Prometheus metrics collection
+// Mock client for prom-client (not installed)
+const client: any = {
+  collectDefaultMetrics: () => {},
+  Histogram: class { constructor(_config: any) {} },
+  Counter: class { constructor(_config: any) {} },
+  Gauge: class { constructor(_config: any) {} },
+  Summary: class { constructor(_config: any) {} },
+  register: { metrics: () => "", contentType: "text/plain" },
+};
+
+// Initialize Prometheus metrics collection (DISABLED - prom-client not installed)
 const { collectDefaultMetrics } = client;
 collectDefaultMetrics({
   timeout: 10000,

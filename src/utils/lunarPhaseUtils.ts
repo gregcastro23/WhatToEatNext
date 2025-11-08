@@ -7,7 +7,7 @@ import {
   type LunarPhaseWithSpaces,
   type LunarPhaseWithUnderscores,
 } from "../types/alchemy";
-import { calculateKinetics } from "./kinetics";
+import { calculateKinetics } from "../calculations/kinetics";
 import type { KineticMetrics } from "../types/kinetics";
 import type { LunarPhaseModifier } from "../types/lunar";
 

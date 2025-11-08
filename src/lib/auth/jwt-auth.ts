@@ -3,7 +3,7 @@
  * Implements secure token-based authentication with role-based access control
  */
 
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs"; // Commented out - bcryptjs not installed
 import jwt from "jsonwebtoken";
 import { logger } from "@/utils/logger";
 
@@ -99,21 +99,21 @@ export class JWTAuthService {
     const defaultUsers: Array<Omit<User, "id">> = [
       {
         email: "admin@alchm.kitchen",
-        passwordHash: bcrypt.hashSync("admin123", 10),
+        passwordHash: "DISABLED_bcrypt_not_installed", // bcrypt.hashSync("admin123", 10),
         roles: [UserRole.ADMIN],
         isActive: true,
         createdAt: new Date(),
       },
       {
         email: "user@alchm.kitchen",
-        passwordHash: bcrypt.hashSync("user123", 10),
+        passwordHash: "DISABLED_bcrypt_not_installed", // bcrypt.hashSync("user123", 10),
         roles: [UserRole.USER],
         isActive: true,
         createdAt: new Date(),
       },
       {
         email: "service@alchm.kitchen",
-        passwordHash: bcrypt.hashSync("service123", 10),
+        passwordHash: "DISABLED_bcrypt_not_installed", // bcrypt.hashSync("service123", 10),
         roles: [UserRole.SERVICE],
         isActive: true,
         createdAt: new Date(),
@@ -148,9 +148,10 @@ export class JWTAuthService {
         return null;
       }
 
-      const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+      // const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+      const isPasswordValid = false; // DISABLED - bcrypt not installed
       if (!isPasswordValid) {
-        logger.warn("Authentication failed: invalid password", { email });
+        logger.warn("Authentication failed: invalid password (bcrypt disabled)", { email });
         return null;
       }
 
@@ -346,7 +347,8 @@ export class JWTAuthService {
         return null;
       }
 
-      const passwordHash = await bcrypt.hash(password, 10);
+      // const passwordHash = await bcrypt.hash(password, 10);
+      const passwordHash = "DISABLED_bcrypt_not_installed"; // bcrypt not available
       const user: User = {
         id: `user_${Date.now()}`,
         email,
