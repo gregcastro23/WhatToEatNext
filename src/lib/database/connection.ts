@@ -199,14 +199,14 @@ export async function withTransaction<T>(
 }
 
 // Query execution with error handling and logging
-export async function executeQuery<T = any>(
+export async function executeQuery<T extends any = any>(
   query: string,
   params: any[] = [],
   options: {
     logQuery?: boolean;
     timeout?: number;
   } = {},
-): Promise<QueryResult<T>> {
+): Promise<QueryResult<any>> {
   const { logQuery = databaseConfig.logQueries, timeout = 30000 } = options;
   const startTime = Date.now();
 
@@ -244,12 +244,12 @@ export async function executeQuery<T = any>(
 }
 
 // Utility function to safely execute queries with retry logic
-export async function executeQueryWithRetry<T = any>(
+export async function executeQueryWithRetry<T extends any = any>(
   query: string,
   params: any[] = [],
   maxRetries = 3,
   retryDelay = 1000,
-): Promise<QueryResult<T>> {
+): Promise<QueryResult<any>> {
   let lastError: Error;
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
