@@ -1,6 +1,6 @@
 "use client";
 
-import type { _ } from "@/types/alchemy";
+// import type { _ } from "@/types/alchemy";
 import type { ReactNode } from "react";
 
 export interface ElementalInfluence {

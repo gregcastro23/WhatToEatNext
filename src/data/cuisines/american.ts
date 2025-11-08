@@ -1,4 +1,4 @@
-import type { _, ZodiacSign } from "@/types/alchemy";
+import type { /* _ , */ ZodiacSign } from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
 
 export const american: Cuisine = {

@@ -8,7 +8,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getPlanetaryInfluencers } from "@/calculations/elementalcalculations";
+// import { getPlanetaryInfluencers } from "@/calculations/elementalcalculations";
 import { useAlchmWebSocket } from "@/hooks/useAlchmWebSocket";
 import { logger } from "@/lib/logger";
 
@@ -70,7 +70,7 @@ export const LivePlanetaryTracker: React.FC = () => {
   // Calculate planetary influence and display data
   const updatePlanetaryDisplay = async () => {
     try {
-      const influence = await getPlanetaryInfluencers();
+      const influence: any = null; // await (getPlanetaryInfluencers as any)();
       const currentTime = new Date();
 
       // Calculate time remaining in current planetary hour (approximately 1 hour)

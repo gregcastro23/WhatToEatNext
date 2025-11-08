@@ -2,7 +2,7 @@ import type {
   AlchemicalProperties,
   ElementalProperties,
 } from "@/types/alchemy";
-import { _ } from "@/types/alchemy";
+// import { _ } from "@/types/alchemy";
 
 export interface AlchemicalState {
   elementalProperties: ElementalProperties;

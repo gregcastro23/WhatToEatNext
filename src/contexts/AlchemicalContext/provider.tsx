@@ -11,7 +11,7 @@ import React, { useReducer, useEffect } from "react";
 import { _AlchemicalContext, defaultState } from "./context";
 import type {
   AlchemicalState,
-  AlchemicalAction,
+  // AlchemicalAction,
   AlchemicalContextType,
 } from "./types";
 import type { ReactNode } from "react";

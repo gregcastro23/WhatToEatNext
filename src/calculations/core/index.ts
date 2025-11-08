@@ -25,11 +25,11 @@ export {
   // applySeasonalAdjustments,
   calculateBaseElementalProperties,
   // calculateElementalBalance,
-  combineElementalProperties,
-  default as elementalCalculations,
-  getDominantElement,
-  getElementalRecommendations,
-  normalizeElementalProperties,
+  // combineElementalProperties,
+  // default as elementalCalculations,
+  // getDominantElement,
+  // getElementalRecommendations,
+  // normalizeElementalProperties,
 } from "./elementalCalculations";
 
 // Export all from kalchm engine

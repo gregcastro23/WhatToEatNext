@@ -1,4 +1,4 @@
-import type { _, Season } from "@/types/alchemy";
+import type { /* _ , */ Season } from "@/types/alchemy";
 
 export interface SeasonalPattern {
   [key: string]: number | TarotInfluences;
