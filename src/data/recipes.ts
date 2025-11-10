@@ -18,7 +18,8 @@ import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
 
 // Log what was imported
-logger.debug("cuisinesMap keys: ", Object.keys(cuisinesMap));
+// DISABLED: Module-level logging causes Next.js build to hang during module scanning
+// logger.debug("cuisinesMap keys: ", Object.keys(cuisinesMap));
 
 export interface Ingredient {
   name: string;

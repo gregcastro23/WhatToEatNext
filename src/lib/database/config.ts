@@ -87,6 +87,9 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
 }
 
 // Initialize configuration and log warnings
+// DISABLED: Module-level validation and logging causes Next.js build to hang during module scanning
+// These should be called at runtime initialization, not during import
+/*
 const validation = validateDatabaseConfig();
 if (!validation.valid) {
   void logger.error("Database configuration validation failed", {
@@ -109,5 +112,6 @@ void logger.info("Database configuration loaded", {
   logQueries: databaseConfig.logQueries,
   autoMigrate: databaseConfig.autoMigrate,
 });
+*/
 
 export default databaseConfig;
