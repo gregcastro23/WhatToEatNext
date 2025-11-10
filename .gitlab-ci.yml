@@ -204,8 +204,8 @@ test:database:
     - echo "Setting up PostgreSQL 17 for integration tests..."
     - until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do sleep 2; done
     - echo "Creating test databases..."
-    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "SELECT 'CREATE DATABASE whattoeatnext' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'whattoeatnext')\gexec"
-    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "SELECT 'CREATE DATABASE alchm_kitchen' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'alchm_kitchen')\gexec"
+    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE whattoeatnext" || echo "Database whattoeatnext may already exist"
+    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE alchm_kitchen" || echo "Database alchm_kitchen may already exist"
     - echo "Databases ready"
     - echo "Running database integration tests..."
     - yarn test --testPathPattern="integration" --passWithNoTests
