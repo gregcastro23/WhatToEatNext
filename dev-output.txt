@@ -1,4 +1,0 @@
-Makefile:279: warning: overriding commands for target `lint-incremental'
-Makefile:184: warning: ignoring old commands for target `lint-incremental'
-🚀 Starting development server...
-yarn dev

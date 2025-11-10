@@ -88,6 +88,9 @@ bak/
 .next-backup/
 eslint-fix-backups/push_script.sh
 
+# Archive directory (organized legacy files)
+archive/
+
 # SWC binaries (large files)
 .yarn/unplugged/@next-swc-*
 node_modules/@next/swc-*
