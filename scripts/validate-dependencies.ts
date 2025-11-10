@@ -12,7 +12,7 @@ import { join, resolve } from "path";
 import {
   autoFixDependencyIssues,
   generateDependencyReport,
-} from "../src/utils/dependencyValidation";
+} from "../src/utils/dependencyValidation.js";
 
 async function main() {
   const projectRoot = resolve(__dirname, "..");

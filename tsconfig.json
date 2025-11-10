@@ -34,8 +34,7 @@
     "maxNodeModuleJsDepth": 0,
     "types": [
       "node",
-      "jest",
-      "@testing-library/jest-dom"
+      "jest"
     ],
     "paths": {
       "@/*": [
