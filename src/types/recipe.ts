@@ -1,8 +1,5 @@
-import {
-  validateElementalProperties as validateAlchemyElementalProps,
-  validateIngredient as validateAlchemyIngredient,
-  _validateRecipe as validateAlchemyRecipe,
-} from "./validators";
+// Note: Validator imports removed to avoid circular dependency with ./validators
+// Validators are now only imported where they're actually used
 import type { LunarPhase } from "./alchemy";
 
 // Primary elemental properties interface - used throughout the application
@@ -278,10 +275,8 @@ export const validateIngredient = (
   return true;
 };
 
-// Re-export validators with descriptive names
-export const _validateElementalPropertiesExt = validateAlchemyElementalProps;
-export const _validateIngredientExt = validateAlchemyIngredient;
-export const __validateRecipeExt = validateAlchemyRecipe;
+// Note: Validator re-exports removed to avoid circular dependency with ./validators
+// Import validators directly from ./validators where needed
 
 // Legacy interfaces for backward compatibility - all now extend unified Recipe
 export interface RecipeExtended extends Recipe {

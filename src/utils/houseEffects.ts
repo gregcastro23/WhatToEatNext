@@ -1,7 +1,6 @@
 import { _logger } from "@/lib/logger";
 // Removed unused log import
 import type { ZodiacSign } from "@/types/alchemy";
-import { getZodiacElement } from "./astrologyUtils";
 import type { ElementalCharacter } from "../constants/planetaryElements";
 
 /**
@@ -11,6 +10,28 @@ import type { ElementalCharacter } from "../constants/planetaryElements";
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
+};
+
+/**
+ * Maps zodiac signs to their corresponding elemental character
+ * Inlined here to avoid circular dependency with astrologyUtils
+ */
+const getZodiacElement = (sign: ZodiacSign): ElementalCharacter => {
+  const elements: Record<ZodiacSign, ElementalCharacter> = {
+    aries: "Fire",
+    leo: "Fire",
+    sagittarius: "Fire",
+    taurus: "Earth",
+    virgo: "Earth",
+    capricorn: "Earth",
+    gemini: "Air",
+    libra: "Air",
+    aquarius: "Air",
+    cancer: "Water",
+    scorpio: "Water",
+    pisces: "Water",
+  };
+  return elements[sign] || "Fire";
 };
 
 /**

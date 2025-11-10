@@ -1,6 +1,7 @@
+// Import directly from recipe to avoid circular dependency with index
 import type {
   ElementalProperties /*, QuantityScaledProperties */,
-} from "./index";
+} from "./recipe";
 
 // Type not exported from index
 type QuantityScaledProperties = any;

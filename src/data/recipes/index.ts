@@ -1,6 +1,5 @@
 import type { Recipe } from "@/types/recipe";
 import Recipes from "../cuisines";
-import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from "../recipes";
 
 export { Recipes };
 
@@ -28,5 +27,4 @@ const flattenCuisineRecipes = (cuisines: any) => {
 
 // Export alias for compatibility
 export const allRecipes = flattenCuisineRecipes(Recipes);
-// export { getAllRecipes } from "@/services/RecipeFinder"; // Service doesn't exist
-export { getBestRecipeMatchesFromMain as getBestRecipeMatches };
+// Note: getBestRecipeMatches moved to @/data/recipes to avoid circular dependency
