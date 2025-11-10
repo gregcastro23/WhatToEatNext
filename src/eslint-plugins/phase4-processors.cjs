@@ -6,7 +6,6 @@
  * Provides immediate feedback to prevent errors from being committed
  */
 
-
 /**
  * Create an ESLint rule from processor patterns
  */

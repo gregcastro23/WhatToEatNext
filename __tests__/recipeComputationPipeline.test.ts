@@ -142,7 +142,11 @@ describe("Recipe Computation Pipeline", () => {
 
     test("throws error when planetary positions are missing", () => {
       expect(() => {
-        computeRecipeProperties(sampleIngredients, sampleCookingMethods, {} as any);
+        computeRecipeProperties(
+          sampleIngredients,
+          sampleCookingMethods,
+          {} as any,
+        );
       }).toThrow("planetaryPositions are required");
     });
   });
