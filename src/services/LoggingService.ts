@@ -1,10 +1,11 @@
-import { _logger } from "@/lib/logger";
 /**
  * Centralized Logging Service for WhatToEatNext
  *
  * Provides structured logging with different levels and contexts.
  * Replaces _logger.info statements in production code while preserving
  * _logger.warn and _logger.error for debugging purposes.
+ *
+ * NOTE: Removed circular dependency with @/lib/logger (was causing build hangs)
  */
 
 export enum LogLevel {
