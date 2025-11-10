@@ -279,7 +279,7 @@ export async function executeQueryWithRetry<T extends any = any>(
           maxRetries,
           delay: retryDelay,
         });
-        await new Promise((resolve) => setTimeout(() => void resolve(), retryDelay));
+        await new Promise<void>((resolve) => setTimeout(() => resolve(), retryDelay));
         retryDelay *= 2; // Exponential backoff
       }
     }

@@ -180,8 +180,8 @@ class InitializationService {
 
   private async initializeUserState() {
     try {
-      // Get the actual stateManager instance first
-      const manager = stateManager;
+      // Get the actual stateManager instance first (it's a Promise)
+      const manager = await stateManager;
       return manager.getState();
     } catch (error) {
       logger.warn("Failed to load user state, using defaults: ", error);
