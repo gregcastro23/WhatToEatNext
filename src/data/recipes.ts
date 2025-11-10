@@ -1239,10 +1239,14 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
           },
           season: Array.isArray(recipe.season)
             ? recipe.season
-            : recipe.season ? [recipe.season as Season] : ["all"],
+            : recipe.season
+              ? [recipe.season as Season]
+              : ["all"],
           mealType: Array.isArray(recipe.mealType)
             ? recipe.mealType
-            : recipe.mealType ? [recipe.mealType] : ["dinner"],
+            : recipe.mealType
+              ? [recipe.mealType]
+              : ["dinner"],
           matchPercentage: recipe.matchPercentage || 0,
           timeToMake: recipe.timeToMake || 30,
           nutrition: recipe.nutrition,

@@ -160,7 +160,12 @@ export class BuildSystemRepair {
     await monitor();
 
     // Set up interval monitoring
-    setInterval(() => { void monitor(); }, intervalMinutes * 60 * 1000);
+    setInterval(
+      () => {
+        void monitor();
+      },
+      intervalMinutes * 60 * 1000,
+    );
   }
 
   /**
@@ -194,7 +199,8 @@ export class BuildSystemRepair {
     }
 
     if (
-      ((configValidation as unknown as { issues?: string[] })?.issues?.length ?? 0) > 0
+      ((configValidation as unknown as { issues?: string[] })?.issues?.length ??
+        0) > 0
     ) {
       report.recommendations.push(
         "Update Next.js configuration to resolve issues",

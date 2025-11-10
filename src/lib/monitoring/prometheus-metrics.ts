@@ -13,10 +13,18 @@ type NextFunction = any;
 // Mock client for prom-client (not installed)
 const client: any = {
   collectDefaultMetrics: () => {},
-  Histogram: class { constructor(_config: any) {} },
-  Counter: class { constructor(_config: any) {} },
-  Gauge: class { constructor(_config: any) {} },
-  Summary: class { constructor(_config: any) {} },
+  Histogram: class {
+    constructor(_config: any) {}
+  },
+  Counter: class {
+    constructor(_config: any) {}
+  },
+  Gauge: class {
+    constructor(_config: any) {}
+  },
+  Summary: class {
+    constructor(_config: any) {}
+  },
   register: { metrics: () => "", contentType: "text/plain" },
 };
 

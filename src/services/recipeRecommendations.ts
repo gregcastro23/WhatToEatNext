@@ -36,7 +36,6 @@ export class RecipeRecommender {
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
-         
         throw createEnhancedError("Empty recipe list", "VALIDATION" as any);
       }
 

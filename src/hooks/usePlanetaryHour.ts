@@ -18,15 +18,16 @@ export function usePlanetaryHour(): PlanetaryHourData {
   const { planet, loading, error } = useUnifiedPlanetaryHour();
 
   const chakraMapping: Record<Planet, string[]> = useMemo(
-    () => ({
-      Sun: ["Crown", "Solar Plexus"],
-      Moon: ["Third Eye", "Sacral"],
-      Mercury: ["Throat", "Root"],
-      Venus: ["Heart", "Sacral"],
-      Mars: ["Root", "Solar Plexus"],
-      Jupiter: ["Crown", "Heart"],
-      Saturn: ["Root", "Third Eye"],
-    } as any),
+    () =>
+      ({
+        Sun: ["Crown", "Solar Plexus"],
+        Moon: ["Third Eye", "Sacral"],
+        Mercury: ["Throat", "Root"],
+        Venus: ["Heart", "Sacral"],
+        Mars: ["Root", "Solar Plexus"],
+        Jupiter: ["Crown", "Heart"],
+        Saturn: ["Root", "Third Eye"],
+      }) as any,
     [],
   );
 

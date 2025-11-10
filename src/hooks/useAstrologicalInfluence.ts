@@ -15,7 +15,7 @@ export interface AstrologicalInfluence {
 
 export function useAstrologicalInfluence() {
   const { planetaryPositions, isLoading } = useAlchemical();
-   
+
   const [astrologicalState, setAstrologicalState] = useState<any>(null);
 
   useEffect(() => {

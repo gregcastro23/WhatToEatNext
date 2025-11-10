@@ -273,13 +273,18 @@ export async function executeQueryWithRetry<T extends any = any>(
       }
 
       if (attempt < maxRetries) {
-        void logger.warn(`Database query attempt ${attempt} failed, retrying...`, {
-          error: lastError.message,
-          attempt,
-          maxRetries,
-          delay: retryDelay,
-        });
-        await new Promise<void>((resolve) => setTimeout(() => resolve(), retryDelay));
+        void logger.warn(
+          `Database query attempt ${attempt} failed, retrying...`,
+          {
+            error: lastError.message,
+            attempt,
+            maxRetries,
+            delay: retryDelay,
+          },
+        );
+        await new Promise<void>((resolve) =>
+          setTimeout(() => resolve(), retryDelay),
+        );
         retryDelay *= 2; // Exponential backoff
       }
     }

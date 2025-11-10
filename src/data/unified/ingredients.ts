@@ -302,9 +302,7 @@ export function getIngredientsBySubcategory(
 /**
  * Find ingredients with high Kalchm values
  */
-export function getHighKalchmIngredients(
-  threshold = 1.5,
-): UnifiedIngredient[] {
+export function getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm comparison,
   return Object.values(unifiedIngredients || {})
     .filter((ingredient) => Number(ingredient.kalchm || 0) > threshold)

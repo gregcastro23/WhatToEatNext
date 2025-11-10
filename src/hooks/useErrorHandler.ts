@@ -48,7 +48,6 @@ export default function useErrorHandler({
 
   // Capture and handle errors
   const captureError = useCallback(
-     
     (error: Error | string, context: any = {}) => {
       // Create error object if string was passed
       const errorObj = typeof error === "string" ? new Error(error) : error;

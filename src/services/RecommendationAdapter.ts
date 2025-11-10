@@ -236,7 +236,10 @@ export class RecommendationAdapter {
     try {
       // Get alchemical results from the positions
       const result = alchemize({
-        positions: this.convertedPositions as unknown as Record<string, PlanetaryPosition>,
+        positions: this.convertedPositions as unknown as Record<
+          string,
+          PlanetaryPosition
+        >,
         isDaytime: this.isDaytime,
         lunarPhase: this.lunarPhase || undefined,
         retrogradeStatus: this.retrogradeStatus,

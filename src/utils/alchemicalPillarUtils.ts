@@ -705,9 +705,7 @@ export const _getHolisticCookingRecommendations = async (
   logger.debug(`Planet influence: ${planet || "None"}`);
   logger.debug(`Tarot influence: ${tarotCard || "None"}`);
   logger.debug(`Time of day: ${isDaytime ? "Daytime" : "Nighttime"}`);
-  logger.debug(
-    `Available methods count: ${(availableMethods as any).length}`,
-  );
+  logger.debug(`Available methods count: ${(availableMethods as any).length}`);
   logger.debug(`Requesting top ${count} recommendations`);
 
   // Transform ingredient based on planetary and tarot influences
@@ -797,8 +795,7 @@ export const _getHolisticCookingRecommendations = async (
       // Add elemental associations
       if ((pillar as unknown as any).elementalAssociations) {
         const pillarData = pillar as unknown as any;
-        const elementalAssociations =
-          pillarData.elementalAssociations;
+        const elementalAssociations = pillarData.elementalAssociations;
         const elements = [String(elementalAssociations.primary || "")];
         if (elementalAssociations.secondary) {
           (elements as unknown[]).push(String(elementalAssociations.secondary));

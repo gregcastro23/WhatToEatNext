@@ -18,7 +18,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
     const detailed = (calculator.getCurrentPlanetaryHour as any)(now);
     const next = (calculator as any).getNextPlanetaryHourTransition(now);
     const schedule = calculator.getDailyPlanetaryHours(now) as unknown as any[];
-    const idx = schedule.findIndex((s) => now >= (s).start && now < (s).end);
+    const idx = schedule.findIndex((s) => now >= s.start && now < s.end);
     const nextPlanet =
       schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
@@ -27,8 +27,8 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
       isDaytime: detailed.isDaytime,
       timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
       nextPlanet,
-      start: (detailed).start,
-      end: (detailed).end,
+      start: detailed.start,
+      end: detailed.end,
     };
   });
 
@@ -37,8 +37,10 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
       const now = new Date();
       const detailed = (calculator.getCurrentPlanetaryHour as any)(now);
       const next = (calculator as any).getNextPlanetaryHourTransition(now);
-      const schedule = calculator.getDailyPlanetaryHours(now) as unknown as any[];
-      const idx = schedule.findIndex((s) => now >= (s).start && now < (s).end);
+      const schedule = calculator.getDailyPlanetaryHours(
+        now,
+      ) as unknown as any[];
+      const idx = schedule.findIndex((s) => now >= s.start && now < s.end);
       const nextPlanet =
         schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
@@ -47,8 +49,8 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
         isDaytime: detailed.isDaytime,
         timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
         nextPlanet,
-        start: (detailed).start,
-        end: (detailed).end,
+        start: detailed.start,
+        end: detailed.end,
       });
     };
 

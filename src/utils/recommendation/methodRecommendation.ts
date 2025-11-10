@@ -177,8 +177,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 toolsRequired: (methodData.toolsRequired as Element[]) || [],
                 bestFor: (methodData.bestFor as Element[]) || [],
                 culturalOrigin: methodData.culturalOrigin,
-                astrologicalInfluences:
-                  methodData.astrologicalInfluences,
+                astrologicalInfluences: methodData.astrologicalInfluences,
                 duration: {
                   min: (methodData.duration as { min?: number }).min || 0,
                   max: (methodData.duration as { max?: number }).max || 0,
@@ -215,14 +214,14 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           culturalOrigin: methodData.culturalOrigin,
           astrologicalInfluences: {
             favorableZodiac:
-              ((methodData.astrologicalInfluences)
-                .favorableZodiac as any[]) || [],
+              (methodData.astrologicalInfluences.favorableZodiac as any[]) ||
+              [],
             unfavorableZodiac:
-              ((methodData.astrologicalInfluences)
-                .unfavorableZodiac as any[]) || [],
+              (methodData.astrologicalInfluences.unfavorableZodiac as any[]) ||
+              [],
             dominantPlanets:
-              ((methodData.astrologicalInfluences)
-                .dominantPlanets as string[]) || [],
+              (methodData.astrologicalInfluences.dominantPlanets as string[]) ||
+              [],
           },
           duration: {
             min: (methodData.duration as { min?: number }).min || 0,

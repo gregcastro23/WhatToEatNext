@@ -805,7 +805,7 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
   if (profile.vitamins) {
     const vitaminTotal = Object.values(profile.vitamins).reduce(
       (sum, val) => sum + val,
-      0
+      0,
     );
     fire += vitaminTotal * 0.1;
     air += vitaminTotal * 0.05;
@@ -814,7 +814,7 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
   if (profile.minerals) {
     const mineralTotal = Object.values(profile.minerals).reduce(
       (sum, val) => sum + val,
-      0
+      0,
     );
     earth += mineralTotal * 0.1;
     water += mineralTotal * 0.05;
@@ -954,9 +954,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   }
 
   // Normalize elements to sum to 1.0
-  const elementsTotal = Object.values(elements).reduce(
-    (sum, val) => sum + val,
-  );
+  const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val);
   if (elementsTotal > 0) {
     Object.keys(elements).forEach((element) => {
       elements[element] = elements[element] / elementsTotal;

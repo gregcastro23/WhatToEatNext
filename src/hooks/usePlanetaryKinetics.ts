@@ -182,10 +182,13 @@ export function usePlanetaryKinetics(
   );
 
   // Check API health
-  const checkHealth = useCallback(async (): Promise<{ status: string; latency: number }> => {
+  const checkHealth = useCallback(async (): Promise<{
+    status: string;
+    latency: number;
+  }> => {
     try {
       const result = await planetaryKineticsClient.checkHealth();
-      return typeof result === 'boolean'
+      return typeof result === "boolean"
         ? { status: result ? "online" : "offline", latency: 0 }
         : result;
     } catch (err) {

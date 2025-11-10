@@ -11,10 +11,7 @@ import nutritional, {
   calculateNutritionalBalance,
   nutritionalToElemental,
 } from "./nutritional";
-import {
-  allRecipes,
-  getBestRecipeMatches,
-} from "./recipes/index";
+import { allRecipes, getBestRecipeMatches } from "./recipes/index";
 import sauces, {
   allSauces,
   sauceRecommendations,

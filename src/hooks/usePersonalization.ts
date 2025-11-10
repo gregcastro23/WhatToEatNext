@@ -153,7 +153,10 @@ export function usePersonalization(
           type: interactionType,
         });
       } catch (error) {
-        void logger.error("Failed to track recipe interaction", { userId, error });
+        void logger.error("Failed to track recipe interaction", {
+          userId,
+          error,
+        });
       }
     },
     [userId, config.autoLearn, loadPreferences],
@@ -189,7 +192,11 @@ export function usePersonalization(
       if (!userId || !config.autoLearn) return;
 
       try {
-        void userLearning.learnFromPlanetaryQuery(userId, planetaryHour, engagement);
+        void userLearning.learnFromPlanetaryQuery(
+          userId,
+          planetaryHour,
+          engagement,
+        );
         await loadPreferences();
 
         void logger.debug("Planetary interest tracked", {
@@ -198,7 +205,10 @@ export function usePersonalization(
           engagement,
         });
       } catch (error) {
-        void logger.error("Failed to track planetary interest", { userId, error });
+        void logger.error("Failed to track planetary interest", {
+          userId,
+          error,
+        });
       }
     },
     [userId, config.autoLearn, loadPreferences],
@@ -336,7 +346,10 @@ export function usePersonalization(
   useEffect(() => {
     if (!userId || !config.updateInterval) return;
 
-    const interval = setInterval(() => void loadPreferences(), config.updateInterval);
+    const interval = setInterval(
+      () => void loadPreferences(),
+      config.updateInterval,
+    );
     return () => clearInterval(interval);
   }, [userId, config.updateInterval, loadPreferences]);
 

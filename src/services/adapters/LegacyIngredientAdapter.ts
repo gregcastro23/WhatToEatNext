@@ -125,8 +125,9 @@ export class LegacyIngredientAdapter {
     filter: IngredientFilter = {},
   ): Record<string, UnifiedIngredient[]> {
     try {
-      const result: unknown =
-        unifiedIngredientService.filterIngredients(filter as any); // Pattern UUU: Import Path Interface Resolution
+      const result: unknown = unifiedIngredientService.filterIngredients(
+        filter as any,
+      ); // Pattern UUU: Import Path Interface Resolution
       return result as Record<string, UnifiedIngredient[]>;
     } catch (error) {
       logger.error("Error in filterIngredients:", error);

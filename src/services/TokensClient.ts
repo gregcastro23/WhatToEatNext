@@ -108,7 +108,11 @@ export class TokensClient {
         };
 
         const result = await alchmAPI.calculateTokenRates(request);
-        (logger.debug as any)("TokensClient", "Backend calculation successful", result);
+        (logger.debug as any)(
+          "TokensClient",
+          "Backend calculation successful",
+          result,
+        );
         return result;
       } catch (error) {
         (logger.warn as any)(

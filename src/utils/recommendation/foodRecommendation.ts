@@ -534,8 +534,7 @@ export function calculateRecipeMatchScore(
       Air: elementalState.Air,
     };
     // Apply Pattern, J: Safe type casting for recipe.elementalState
-    const recipeElementalProperties =
-      recipe.elementalState as any;
+    const recipeElementalProperties = recipe.elementalState as any;
     const elementalMatch = calculateElementalMatch(
       recipeElementalProperties,
       userElementalProperties,

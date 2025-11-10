@@ -996,7 +996,8 @@ export function scoreItemWithKinetics(
   const itemThermalType = determineItemThermalType(item);
   if (
     kinetics.thermalDirection === itemThermalType ||
-    ((kinetics.thermalDirection as any) === "neutral" && itemThermalType === "neutral")
+    ((kinetics.thermalDirection as any) === "neutral" &&
+      itemThermalType === "neutral")
   ) {
     kineticsModifier *= 1.15;
   }

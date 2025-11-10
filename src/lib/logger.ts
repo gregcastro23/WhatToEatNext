@@ -5,7 +5,6 @@ export class Logger {
 
   async log(level: LogLevel, message: string, data?: unknown): Promise<void> {
     if (process.env.NODE_ENV === "development") {
-       
       console[level](`[${new Date().toISOString()}] ${message}`, data);
     }
 

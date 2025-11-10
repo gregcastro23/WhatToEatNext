@@ -106,22 +106,29 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
 
       {value && showElement && (
         <Box mt={2}>
-          {(HStack as any)({ spacing: 2, children: [
-            (Icon as any)({
-              as: ELEMENT_ICONS[
-                ZODIAC_ELEMENTS[
-                  value as keyof typeof ZODIAC_ELEMENTS
-                ] as keyof typeof ELEMENT_ICONS
-              ],
-              color: `${ELEMENT_COLORS[ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS] as keyof typeof ELEMENT_COLORS]}.500`,
-              boxSize: 4,
-            }),
-            (Text as any)({ fontSize: "xs", color: "gray.600", children: [
-              `${value} is a `,
-              ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS],
-              " sign"
-            ]}),
-          ]})}
+          {(HStack as any)({
+            spacing: 2,
+            children: [
+              (Icon as any)({
+                as: ELEMENT_ICONS[
+                  ZODIAC_ELEMENTS[
+                    value as keyof typeof ZODIAC_ELEMENTS
+                  ] as keyof typeof ELEMENT_ICONS
+                ],
+                color: `${ELEMENT_COLORS[ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS] as keyof typeof ELEMENT_COLORS]}.500`,
+                boxSize: 4,
+              }),
+              (Text as any)({
+                fontSize: "xs",
+                color: "gray.600",
+                children: [
+                  `${value} is a `,
+                  ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS],
+                  " sign",
+                ],
+              }),
+            ],
+          })}
         </Box>
       )}
     </Box>

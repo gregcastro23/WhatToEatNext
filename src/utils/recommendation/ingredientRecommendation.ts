@@ -400,7 +400,7 @@ export const _getIngredientsFromCategories = async (
         ({
           name,
           category: categoryName,
-          ...(data),
+          ...data,
         }) as EnhancedIngredient,
     );
 

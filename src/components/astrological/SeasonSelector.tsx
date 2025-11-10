@@ -3,7 +3,14 @@
  * Phase 5: Frontend Integration - Seasonal Selection
  */
 
-import { Box, HStack, Icon, Select as _Select, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Icon,
+  Select as _Select,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 const Select = _Select as any;
 import React from "react";

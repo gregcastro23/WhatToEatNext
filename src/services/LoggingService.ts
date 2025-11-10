@@ -24,7 +24,7 @@ export interface LogContext {
   requestId?: string;
 
   // Intentionally any: Logging context needs flexibility for various metadata
-   
+
   [key: string]: any;
 }
 
@@ -36,7 +36,7 @@ export interface LogEntry {
   error?: Error;
 
   // Intentionally, any: Log data can be of any type for debugging purposes
-   
+
   data?: any;
 }
 
@@ -71,17 +71,14 @@ class LoggingService {
     this.logLevel = level;
   }
 
-   
   public debug(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.DEBUG, message, context, undefined, data);
   }
 
-   
   public info(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.INFO, message, context, undefined, data);
   }
 
-   
   public warn(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.WARN, message, context, undefined, data);
   }
@@ -218,16 +215,15 @@ const logger = LoggingService.getInstance();
 // Export convenience functions
 
 export const log = {
-   
   debug: (message: string, context?: LogContext, data?: any) =>
     logger.debug(message, context, data),
-   
+
   info: (message: string, context?: LogContext, data?: any) =>
     logger.info(message, context, data),
-   
+
   warn: (message: string, context?: LogContext, data?: any) =>
     logger.warn(message, context, data),
-   
+
   error: (message: string, context?: LogContext, error?: Error, data?: any) =>
     logger.error(message, context, error, data),
 };

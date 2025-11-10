@@ -451,7 +451,8 @@ export function calculateKalchmWithKinetics(
   );
 
   // Apply momentum boost to Kalchm calculation
-  const momentumFactor = 1 + ((kinetics.momentum as unknown as number) || 0) * 0.1;
+  const momentumFactor =
+    1 + ((kinetics.momentum as unknown as number) || 0) * 0.1;
 
   // Apply aspect phase influence
   let aspectMultiplier = 1.0;
@@ -491,7 +492,8 @@ export function calculateThermodynamicMetricsWithKinetics(
     const enhancedMetrics: ThermodynamicMetrics = {
       heat: baseMetrics.heat * (1 + kineticsData.velocityBoost * 0.1),
       entropy:
-        baseMetrics.entropy * ((kinetics.aspectPhase as any) === "square" ? 1.2 : 0.9),
+        baseMetrics.entropy *
+        ((kinetics.aspectPhase as any) === "square" ? 1.2 : 0.9),
       reactivity: baseMetrics.reactivity * (kinetics.forceMagnitude / 5 + 0.8),
       gregsEnergy: baseMetrics.gregsEnergy,
       kalchm: calculateKalchmWithKinetics(alchemical, kinetics),

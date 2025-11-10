@@ -21,11 +21,11 @@ export interface RecipeCompatibilityResult {
  */
 export function calculateRecipeCompatibility(
   recipe: Recipe,
-  state: AstrologicalState
+  state: AstrologicalState,
 ): RecipeCompatibilityResult {
   // Simple compatibility calculation
   const elementalScore = 0.7; // Placeholder
-  const temporalScore = 0.8;  // Placeholder
+  const temporalScore = 0.8; // Placeholder
   const astrologicalScore = 0.6; // Placeholder
 
   const totalScore = (elementalScore + temporalScore + astrologicalScore) / 3;

@@ -9,7 +9,7 @@ export interface ConfigurationUpdate {
   key: string;
 
   // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
-   
+
   value: any;
   timestamp: number;
 }
@@ -364,7 +364,7 @@ class ConfigurationServiceImpl {
       section: keyof ConfigurationState;
       key: string;
       // Intentionally any: Bulk configuration values can be of any valid type
-       
+
       value: any;
     }>,
   ): Promise<boolean> {

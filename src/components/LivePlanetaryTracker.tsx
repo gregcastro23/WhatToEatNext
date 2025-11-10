@@ -159,7 +159,10 @@ export const LivePlanetaryTracker: React.FC = () => {
   // Handle WebSocket updates
   useEffect(() => {
     if (lastPlanetaryHour) {
-      void logger.info("Received live planetary hour update", lastPlanetaryHour);
+      void logger.info(
+        "Received live planetary hour update",
+        lastPlanetaryHour,
+      );
       void updatePlanetaryDisplay();
     }
   }, [lastPlanetaryHour]);
@@ -296,7 +299,9 @@ export const LivePlanetaryTracker: React.FC = () => {
             <div className="mt-6 p-3 bg-blue-50 rounded-lg">
               <div className="text-sm text-blue-800">
                 <strong>Live Update: </strong> Last received at{" "}
-                {(new Date(lastPlanetaryHour.timestamp || Date.now()) as any).toLocaleTimeString()}
+                {(
+                  new Date(lastPlanetaryHour.timestamp || Date.now()) as any
+                ).toLocaleTimeString()}
               </div>
             </div>
           )}

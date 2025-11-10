@@ -17,9 +17,8 @@ export function useAlchemicalBridge() {
   const serviceData = useServices();
   const { isLoading, error, astrologyService } = serviceData;
 
-   
   const elementalCalculator = (serviceData as any)?.elementalCalculator;
-   
+
   const chakraService = (serviceData as any)?.chakraService;
 
   // Create state for service-based data
@@ -90,7 +89,6 @@ export function useChakraBridge() {
   const chakraServiceData = useServices();
   const { isLoading, error } = chakraServiceData;
 
-   
   const chakraService = (chakraServiceData as any)?.chakraService;
 
   // State for chakra data

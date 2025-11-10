@@ -413,7 +413,9 @@ export function EnhancedRecommendationEngine({
             Recommendations
           </h3>
           <button
-            onClick={() => { void generateRecommendations(); }}
+            onClick={() => {
+              void generateRecommendations();
+            }}
             disabled={isLoading}
             style={{
               padding: "8px 16px",

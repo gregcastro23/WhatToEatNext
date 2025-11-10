@@ -48,7 +48,12 @@ export async function getCachedCalculation<T>(
     const result = await calculationFn();
 
     // Store in database cache
-    await (CacheService.set as any)(cacheKey, inputHash, JSON.stringify(result), ttl);
+    await (CacheService.set as any)(
+      cacheKey,
+      inputHash,
+      JSON.stringify(result),
+      ttl,
+    );
 
     return result;
   } catch (error) {

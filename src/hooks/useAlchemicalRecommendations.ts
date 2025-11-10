@@ -95,7 +95,6 @@ export const useAlchemicalRecommendations = ({
 
         // Initialize with planetary data and context
         adapter.initialize(
-           
           planetPositions as any,
           isDaytime,
           currentZodiac || null,

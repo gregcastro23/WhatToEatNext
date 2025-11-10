@@ -185,7 +185,11 @@ export function identifyElementalSignatures(
     const value = cuisineElementals[element];
     const globalMean = globalBaseline.elementals[element];
     const globalStdDev = globalBaseline.elementalStdDevs[element];
-    const zScore = calculateZScore(value as any, globalMean as any, globalStdDev as any);
+    const zScore = calculateZScore(
+      value as any,
+      globalMean as any,
+      globalStdDev as any,
+    );
 
     if (Math.abs(zScore) >= threshold) {
       const strength = classifySignatureStrength(zScore);
@@ -239,7 +243,11 @@ export function identifyAlchemicalSignatures(
       return; // Skip if no global data available
     }
 
-    const zScore = calculateZScore(value as any, globalMean as any, globalStdDev as any);
+    const zScore = calculateZScore(
+      value as any,
+      globalMean as any,
+      globalStdDev as any,
+    );
 
     if (Math.abs(zScore) >= threshold) {
       const strength = classifySignatureStrength(zScore);
@@ -293,7 +301,11 @@ export function identifyThermodynamicSignatures(
       return; // Skip if no global data available
     }
 
-    const zScore = calculateZScore(value as any, globalMean as any, globalStdDev as any);
+    const zScore = calculateZScore(
+      value as any,
+      globalMean as any,
+      globalStdDev as any,
+    );
 
     if (Math.abs(zScore) >= threshold) {
       const strength = classifySignatureStrength(zScore);

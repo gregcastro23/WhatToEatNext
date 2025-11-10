@@ -13,7 +13,8 @@ export class ConsolidatedIngredientService {
 
   public static getInstance(): ConsolidatedIngredientService {
     if (!ConsolidatedIngredientService.instance) {
-      ConsolidatedIngredientService.instance = new ConsolidatedIngredientService();
+      ConsolidatedIngredientService.instance =
+        new ConsolidatedIngredientService();
     }
     return ConsolidatedIngredientService.instance;
   }
@@ -26,7 +27,10 @@ export class ConsolidatedIngredientService {
     return [];
   }
 
-  async getRecommendedIngredients(criteria: any, options?: any): Promise<UnifiedIngredient[]> {
+  async getRecommendedIngredients(
+    criteria: any,
+    options?: any,
+  ): Promise<UnifiedIngredient[]> {
     return [];
   }
 
@@ -34,7 +38,10 @@ export class ConsolidatedIngredientService {
     return [];
   }
 
-  async findComplementaryIngredients(ingredient: any, maxResults?: number): Promise<UnifiedIngredient[]> {
+  async findComplementaryIngredients(
+    ingredient: any,
+    maxResults?: number,
+  ): Promise<UnifiedIngredient[]> {
     return [];
   }
 
@@ -43,4 +50,5 @@ export class ConsolidatedIngredientService {
   }
 }
 
-export const consolidatedIngredientService = ConsolidatedIngredientService.getInstance();
+export const consolidatedIngredientService =
+  ConsolidatedIngredientService.getInstance();

@@ -331,7 +331,12 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 });
 
 // To ensure we're exporting all available herbs, explicitly export each collection
-export { _aromaticHerbs as aromaticHerbs, driedHerbs, freshHerbs, medicinalHerbs };
+export {
+  _aromaticHerbs as aromaticHerbs,
+  driedHerbs,
+  freshHerbs,
+  medicinalHerbs,
+};
 
 // Create a comprehensive herb collection that includes all herb variants
 export const allHerbs = fixIngredientMappings({

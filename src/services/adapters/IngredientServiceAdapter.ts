@@ -107,9 +107,7 @@ export class EnhancedIngredientSystem {
         filtered = filtered.filter((ingredient) => {
           const profile = ingredient.astrologicalPropertiesProfile as any;
           const zodiac =
-            profile?.zodiacAffinity ||
-            profile?.favorableZodiac ||
-            [];
+            profile?.zodiacAffinity || profile?.favorableZodiac || [];
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(
             (z) =>
@@ -136,7 +134,10 @@ export class EnhancedIngredientSystem {
           filtered = filtered.filter((ingredient) => {
             if (ingredient.category !== "proteins") return true;
             const nonVegetarianCategories = ["meat", "poultry", "seafood"];
-            const subCat = typeof ingredient.subCategory === 'string' ? ingredient.subCategory : "";
+            const subCat =
+              typeof ingredient.subCategory === "string"
+                ? ingredient.subCategory
+                : "";
             return !nonVegetarianCategories.includes(subCat);
           });
         }
@@ -151,7 +152,10 @@ export class EnhancedIngredientSystem {
               "dAiry",
               "eggs",
             ];
-            const subCat = typeof ingredient.subCategory === 'string' ? ingredient.subCategory : "";
+            const subCat =
+              typeof ingredient.subCategory === "string"
+                ? ingredient.subCategory
+                : "";
             return !nonVeganCategories.includes(subCat);
           });
         }
@@ -314,7 +318,8 @@ export class EnhancedIngredientSystem {
       };
 
       // Use the consolidated service to filter ingredients
-      const results = await consolidatedIngredientService.filterIngredients(combinedFilter);
+      const results =
+        await consolidatedIngredientService.filterIngredients(combinedFilter);
       return results as any; // Type cast for compatibility
     } catch (error) {
       logger.error("Error getting seasonal ingredients", error);

@@ -151,7 +151,10 @@ export class JWTAuthService {
       // const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
       const isPasswordValid = false; // DISABLED - bcrypt not installed
       if (!isPasswordValid) {
-        logger.warn("Authentication failed: invalid password (bcrypt disabled)", { email });
+        logger.warn(
+          "Authentication failed: invalid password (bcrypt disabled)",
+          { email },
+        );
         return null;
       }
 
@@ -417,7 +420,7 @@ function getJWTSecret(): string {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
     throw new Error(
-      "JWT_SECRET environment variable is required. Set this to a secure random string in production."
+      "JWT_SECRET environment variable is required. Set this to a secure random string in production.",
     );
   }
   return secret;

@@ -12,7 +12,8 @@ import type {
 } from "@/types/recipe";
 import { createElementalProperties } from "../elemental/elementalUtils";
 // import { isNonEmptyArray } from "../typeGuards";
-const isNonEmptyArray = (arr: any): boolean => Array.isArray(arr) && arr.length > 0; // Fallback function
+const isNonEmptyArray = (arr: any): boolean =>
+  Array.isArray(arr) && arr.length > 0; // Fallback function
 
 export function adaptRecipeData(recipeData: RecipeData): Recipe {
   const ingredients = adaptIngredients(recipeData.ingredients ?? []);

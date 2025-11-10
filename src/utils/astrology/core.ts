@@ -146,7 +146,8 @@ export async function calculateActivePlanets(
   try {
     // Add ruling planet of current sun sign
     const sunSign =
-      (positions.sun as any)?.sign?.toLowerCase() || (positions.Sun as any)?.sign?.toLowerCase();
+      (positions.sun as any)?.sign?.toLowerCase() ||
+      (positions.Sun as any)?.sign?.toLowerCase();
     if (sunSign) {
       // Map signs to their ruling planets
       const signRulers: Record<string, string> = {
@@ -277,9 +278,9 @@ export async function calculateLunarPhase(
       throw new Error("Sun or Moon position missing");
     }
     // Calculate the angular distance between Sun and Moon
-     
+
     const moonLong = (positions.Moon as any)?.longitude || 0;
-     
+
     const sunLong = (positions.Sun as any)?.longitude || 0;
     let angularDistance = moonLong - sunLong;
     // Normalize to 0-360 range

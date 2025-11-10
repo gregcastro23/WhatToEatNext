@@ -170,7 +170,7 @@ export class UnifiedFlavorEngine {
 
   // Phase 8: Enhanced caching and performance monitoring
   private readonly profileCache: Map<string, UnifiedFlavorProfile> = new Map();
-   
+
   private readonly memoizedCalculations: Map<string, any> = new Map();
   private readonly performanceMetrics: {
     totalCalculations: number;
@@ -717,7 +717,7 @@ export class UnifiedFlavorEngine {
       "umami",
       "spicy",
     ];
-     
+
     const breakdown: Record<keyof BaseFlavorNotes, number> = {} as any;
 
     for (const flavor of flavors) {
@@ -734,7 +734,7 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
   ): Record<Season, number> {
     const seasons: Season[] = ["spring", "summer", "autumn", "winter"];
-     
+
     const breakdown: Record<Season, number> = {} as any;
 
     for (const season of seasons) {

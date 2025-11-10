@@ -5,11 +5,12 @@ import { AlchemicalProvider } from "@/contexts/AlchemicalContext";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 
 export default function WhatToEatNextPage() {
-  const { cuisines, loading, error, getCuisineRecommendations } =
-    (useEnhancedRecommendations as any)({
-      datetime: new Date(),
-      useBackendInfluence: true,
-    });
+  const { cuisines, loading, error, getCuisineRecommendations } = (
+    useEnhancedRecommendations as any
+  )({
+    datetime: new Date(),
+    useBackendInfluence: true,
+  });
 
   // Fetch enhanced cuisines on mount
 

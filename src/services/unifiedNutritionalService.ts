@@ -47,7 +47,6 @@ function hasProperty<T extends string>(
 export class UnifiedNutritionalService {
   private static instance: UnifiedNutritionalService;
 
-   
   private readonly cache: Map<string, any> = new Map();
 
   private constructor() {
@@ -303,8 +302,9 @@ export class UnifiedNutritionalService {
     nutritionalFilter?: NutritionalFilter;
   }): NutritionalRecommendations {
     try {
-      const baseRecommendations =
-        (UnifiedNutritionalSystem as any).getNutritionalRecommendations(criteria);
+      const baseRecommendations = (
+        UnifiedNutritionalSystem as any
+      ).getNutritionalRecommendations(criteria);
       // Apply nutritional filters if provided
       if (criteria.nutritionalFilter) {
         baseRecommendations.ingredients = this.applyNutritionalFilter(

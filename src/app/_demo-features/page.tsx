@@ -124,7 +124,9 @@ export default function DemoFeaturesPage() {
             marginBottom: "30px",
           }}
         >
-          {React.createElement(EnhancedRecommendationEngine as any, { onRecipeSelect: handleRecipeSelect })}
+          {React.createElement(EnhancedRecommendationEngine as any, {
+            onRecipeSelect: handleRecipeSelect,
+          })}
         </div>
 
         {/* Selected Recipe Display */}

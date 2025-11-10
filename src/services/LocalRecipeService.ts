@@ -659,8 +659,10 @@ export class LocalRecipeService {
       // Parse timeToMake from prepTime and cookTime if available
       let timeToMake = dish.timeToMake || "";
       if (!timeToMake && prepTime && cookTime) {
-        const prepMinutes = parseInt(prepTime.toString().split(" ")[0], 10) || 0;
-        const cookMinutes = parseInt(cookTime.toString().split(" ")[0], 10) || 0;
+        const prepMinutes =
+          parseInt(prepTime.toString().split(" ")[0], 10) || 0;
+        const cookMinutes =
+          parseInt(cookTime.toString().split(" ")[0], 10) || 0;
         timeToMake = `${prepMinutes + cookMinutes} minutes`;
       }
       if (!timeToMake) {

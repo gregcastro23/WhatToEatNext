@@ -399,7 +399,9 @@ export async function calculatePlanetaryPositions(
       // Format each planet's position with enhanced accuracy
       Object.entries(positions).forEach(([planet, data]) => {
         const planetData = data as any;
-        const { sign, degree } = getSignFromLongitude(planetData.exactLongitude);
+        const { sign, degree } = getSignFromLongitude(
+          planetData.exactLongitude,
+        );
 
         formattedPositions[planet] = {
           sign: sign as any, // Cast string to ZodiacSign
@@ -436,7 +438,9 @@ export async function calculatePlanetaryPositions(
         // Format each planet's position
         Object.entries(positions).forEach(([planet, data]) => {
           const planetData = data as any;
-          const { sign, degree } = getSignFromLongitude(planetData.exactLongitude);
+          const { sign, degree } = getSignFromLongitude(
+            planetData.exactLongitude,
+          );
 
           formattedPositions[planet] = {
             sign: sign as any, // Cast string to ZodiacSign
@@ -2060,9 +2064,7 @@ export async function runAstroTests() {
  * @param date Date to calculate positions for
  * @returns Record of planetary positions in degrees (0-360)
  */
-function _calculatePlanetPositionsInternal(
-  date: Date,
-): Record<string, number> {
+function _calculatePlanetPositionsInternal(date: Date): Record<string, number> {
   const positions: Record<string, number> = {};
   const jd = calculateJulianDate(date);
 
@@ -2720,7 +2722,10 @@ function calculateCurrentElementalInfluence(
     // Add influence from each planet
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
       const weight = planetWeights[planet] || 0.5;
-      const sign = typeof data === "object" && (data as any)?.sign ? (data as any).sign : "";
+      const sign =
+        typeof data === "object" && (data as any)?.sign
+          ? (data as any).sign
+          : "";
 
       if (sign) {
         const element = getZodiacElement(sign.toLowerCase());

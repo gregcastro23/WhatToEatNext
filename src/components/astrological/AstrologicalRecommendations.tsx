@@ -195,7 +195,9 @@ export const AstrologicalRecommendations: React.FC = () => {
             <Heading size="md">Personalize Your Recommendations</Heading>
           </CardHeader>
           <CardBody>
-            <SimpleGrid {...({ columns: { base: 1, md: 2 }, spacing: 4 } as any)}>
+            <SimpleGrid
+              {...({ columns: { base: 1, md: 2 }, spacing: 4 } as any)}
+            >
               <Box>
                 <Text mb={2} fontWeight="medium">
                   Your Zodiac Sign
@@ -235,7 +237,9 @@ export const AstrologicalRecommendations: React.FC = () => {
             <Button
               mt={4}
               colorScheme="purple"
-              onClick={() => { void fetchCookingPlan(); }}
+              onClick={() => {
+                void fetchCookingPlan();
+              }}
               loading={loading}
               loadingText="Finding your perfect recipes..."
               disabled={!zodiacSign && !season}
@@ -291,7 +295,9 @@ export const AstrologicalRecommendations: React.FC = () => {
                 <Heading size="md" mb={4}>
                   Your Personalized Recipe Recommendations
                 </Heading>
-                <SimpleGrid {...({ columns: { base: 1, lg: 2 }, spacing: 4 } as any)}>
+                <SimpleGrid
+                  {...({ columns: { base: 1, lg: 2 }, spacing: 4 } as any)}
+                >
                   {cookingPlan.recommendations.map((rec, index) => (
                     <Card
                       key={rec.recipe_id || index}

@@ -326,12 +326,7 @@ export function withComputationCaching<T extends any[], R>(
       "computationMetadata" in result
     ) {
       const planetaryPositions = options.getPlanetaryPositions(args);
-      cache.set(
-        cacheKey,
-        result as any,
-        computationTimeMs,
-        planetaryPositions,
-      );
+      cache.set(cacheKey, result as any, computationTimeMs, planetaryPositions);
     }
 
     return result;

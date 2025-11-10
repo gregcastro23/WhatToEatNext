@@ -774,7 +774,7 @@ export class SwissEphemerisService {
     seasonalTransits: SeasonalTransit[];
     keyAspects: PlanetaryAspect[];
     dominantElements: Record<string, number>;
-     
+
     planetaryTrends: Record<string, any[]>;
   } {
     const seasonalTransits: SeasonalTransit[] = [];
@@ -785,7 +785,7 @@ export class SwissEphemerisService {
       Air: 0,
       Water: 0,
     };
-     
+
     const planetaryTrends: Record<string, any[]> = {};
 
     // Collect all transits in the date range

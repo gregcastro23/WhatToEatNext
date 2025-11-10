@@ -1343,14 +1343,14 @@ export class UnifiedRecipeBuildingSystem {
 
     // Generate modern adaptations based on recipe and cuisine characteristics
     if (recipe.ingredients && recipe.ingredients.length > 0) {
-      (adaptations as string[])
-        .push(`Modern ${cuisine} fusion with contemporary techniques`);
+      (adaptations as string[]).push(
+        `Modern ${cuisine} fusion with contemporary techniques`,
+      );
 
       // Add health-conscious adaptations
-      (adaptations as string[])
-        .push(
-          `Health-optimized ${cuisine} version with nutritional enhancement`,
-        );
+      (adaptations as string[]).push(
+        `Health-optimized ${cuisine} version with nutritional enhancement`,
+      );
 
       // Add technique-based adaptations - Fix property name consistency
       if (
@@ -1364,10 +1364,8 @@ export class UnifiedRecipeBuildingSystem {
       }
 
       // Dietary adaptation suggestions
-      (adaptations as string[])
-        .push("Plant-based alternative adaptation");
-      (adaptations as string[])
-        .push("Gluten-free modern interpretation");
+      (adaptations as string[]).push("Plant-based alternative adaptation");
+      (adaptations as string[]).push("Gluten-free modern interpretation");
     }
 
     return adaptations;
@@ -1791,13 +1789,14 @@ export class UnifiedRecipeBuildingSystem {
     if (recipe.ingredients && recipe.ingredients.length >= 5) criteriaMatched++;
     if (
       (recipe as { cookingMethods?: string[] })?.cookingMethods &&
-      ((recipe as { cookingMethods?: string[] })?.cookingMethods?.length ?? 0) > 0
+      ((recipe as { cookingMethods?: string[] })?.cookingMethods?.length ?? 0) >
+        0
     )
       criteriaMatched++;
     if (recipe.monicaOptimization.optimizationScore >= 0.7) criteriaMatched++;
     if (
-      ((recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm ?? 0) >=
-      0.7
+      ((recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm ??
+        0) >= 0.7
     )
       criteriaMatched++;
     if (

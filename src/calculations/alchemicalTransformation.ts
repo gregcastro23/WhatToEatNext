@@ -72,7 +72,7 @@ export const transformItemWithPlanetaryPositions = (
     };
 
     // Calculate alchemical properties based on planetary positions
-    const alchemicalResults = (calculateAlchemicalProperties)(
+    const alchemicalResults = calculateAlchemicalProperties(
       planetPositions as unknown,
       isDaytime,
     );
@@ -158,10 +158,7 @@ export const transformItemWithPlanetaryPositions = (
 
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
-    const zodiacSign = (
-      currentZodiac ||
-      "aries"
-    ).toLowerCase() as ZodiacSign;
+    const zodiacSign = (currentZodiac || "aries").toLowerCase() as ZodiacSign;
     const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: "Fire",
       leo: "Fire",

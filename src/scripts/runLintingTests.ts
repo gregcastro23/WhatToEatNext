@@ -124,7 +124,9 @@ class LintingTestRunner {
         testFile,
         passed: false,
         duration,
-        errors: this.extractErrors((error as any).stdout || (error as any).message),
+        errors: this.extractErrors(
+          (error as any).stdout || (error as any).message,
+        ),
         warnings: this.extractWarnings((error as any).stdout || ""),
       };
     }
@@ -449,7 +451,8 @@ ${report.results
       const config = require(configPath);
 
       const perfConfig = config.find(
-        (c: unknown) => (c as any).settings && (c as any).settings["import/cache"],
+        (c: unknown) =>
+          (c as any).settings && (c as any).settings["import/cache"],
       );
       const issues: string[] = [];
 

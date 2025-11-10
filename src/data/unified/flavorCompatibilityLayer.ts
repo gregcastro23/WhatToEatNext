@@ -86,7 +86,10 @@ export function calculateFlavorCompatibility(
  * Legacy calculateFlavorMatch function
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
-export function calculateFlavorMatch(profile1: unknown, profile2: unknown): number {
+export function calculateFlavorMatch(
+  profile1: unknown,
+  profile2: unknown,
+): number {
   const result = calculateFlavorCompatibility(profile1 as any, profile2 as any);
   return result.compatibility;
 }
@@ -146,7 +149,7 @@ export function calculatePlanetaryFlavorMatch(
 
     // Find strongest planetary influence
     const strongestPlanet = Object.entries(planetaryInfluences).sort(
-      (a, b) => (b[1]) - (a[1]),
+      (a, b) => b[1] - a[1],
     )[0];
 
     if (!strongestPlanet) return 0.5;

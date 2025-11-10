@@ -5,7 +5,7 @@
  * with robust fallback mechanisms when API calls fail.
  */
 
-import { _logger } from '@/lib/logger';
+import { _logger } from "@/lib/logger";
 // getMCPServerIntegration removed with MCP cleanup
 import { logger } from "@/utils/logger";
 

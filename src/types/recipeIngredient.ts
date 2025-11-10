@@ -1,4 +1,6 @@
-import type { ElementalProperties /*, QuantityScaledProperties */ } from "./index";
+import type {
+  ElementalProperties /*, QuantityScaledProperties */,
+} from "./index";
 
 // Type not exported from index
 type QuantityScaledProperties = any;

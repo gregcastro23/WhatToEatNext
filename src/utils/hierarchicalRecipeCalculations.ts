@@ -22,7 +22,9 @@ import type {
   RecipeComputationOptions,
   RecipeComputedProperties,
 } from "@/types/hierarchy";
-import type { KineticMetrics /*, KineticsCalculationInput */ } from "@/types/kinetics";
+import type {
+  KineticMetrics /*, KineticsCalculationInput */,
+} from "@/types/kinetics";
 import { normalizeElementalProperties } from "./ingredientUtils";
 import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import {
@@ -372,7 +374,8 @@ export function calculateRecipeKinetics(
   const dominantPlanet = getDominantPlanet(planetaryPositions);
 
   // Prepare kinetics calculation input
-  const kineticsInput: any = { // KineticsCalculationInput type not defined
+  const kineticsInput: any = {
+    // KineticsCalculationInput type not defined
     currentPlanetaryPositions: planetaryPositions,
     timeInterval,
     currentPlanet: dominantPlanet,

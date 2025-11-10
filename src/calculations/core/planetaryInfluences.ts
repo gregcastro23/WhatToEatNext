@@ -204,32 +204,31 @@ export function calculatePlanetaryStrength(
 
   // Adjust for aspects (if provided)
   if (aspects) {
-    const planetAspects = (aspects || [])
-      .filter(
-        (aspect) =>
-          aspect.planet1.toLowerCase() === planet.toLowerCase() ||
-          aspect.planet2.toLowerCase() === planet.toLowerCase(),
-      );
+    const planetAspects = (aspects || []).filter(
+      (aspect) =>
+        aspect.planet1.toLowerCase() === planet.toLowerCase() ||
+        aspect.planet2.toLowerCase() === planet.toLowerCase(),
+    );
 
     planetAspects.forEach((aspect) => {
-        switch (aspect.type) {
-          case "conjunction":
-            strength *= 1.2;
-            break;
-          case "trine":
-            strength *= 1.15;
-            break;
-          case "sextile":
-            strength *= 1.1;
-            break;
-          case "square":
-            strength *= 0.9;
-            break;
-          case "opposition":
-            strength *= 0.85;
-            break;
-        }
-      });
+      switch (aspect.type) {
+        case "conjunction":
+          strength *= 1.2;
+          break;
+        case "trine":
+          strength *= 1.15;
+          break;
+        case "sextile":
+          strength *= 1.1;
+          break;
+        case "square":
+          strength *= 0.9;
+          break;
+        case "opposition":
+          strength *= 0.85;
+          break;
+      }
+    });
   }
 
   return Math.max(0.3, Math.min(2.0, strength));

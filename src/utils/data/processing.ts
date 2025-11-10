@@ -333,7 +333,7 @@ export function cleanupIngredientsDatabase(
           );
         }
 
-        if (validation.warnings && ((validation.warnings?.length ?? 0) > 0)) {
+        if (validation.warnings && (validation.warnings?.length ?? 0) > 0) {
           result.warnings.push(
             `Ingredient ${index} warnings: ${validation.warnings?.join(", ")}`,
           );
@@ -623,7 +623,7 @@ function validateAstrologicalProfile(
   // Safe property access for AstrologicalProfile properties
   const profileData = profile as any;
   const { elementalAffinity } = profileData;
-  if (!(elementalAffinity).base) {
+  if (!elementalAffinity.base) {
     errors.push("Elemental affinity is required");
   }
 

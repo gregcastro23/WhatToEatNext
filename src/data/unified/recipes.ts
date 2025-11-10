@@ -396,7 +396,7 @@ export class RecipeEnhancer {
    */
   static calculateOptimalTemperature(thermodynamics: unknown): number {
     // Use safe type casting for thermodynamics property access
-     
+
     const thermoData = thermodynamics as any;
     const { heat = 0.5, reactivity = 0.5 } = thermoData || {};
     // Base temperature (350°F) adjusted by thermodynamic properties
@@ -532,7 +532,7 @@ export class RecipeEnhancer {
    */
   static calculatePlanetaryTiming(recipe: unknown): string | null {
     // Use safe type casting for recipe property access
-     
+
     const recipeData = recipe as any;
 
     // Use existing astrological data if available
@@ -572,10 +572,7 @@ export class RecipeEnhancer {
   /**
    * Enhance a recipe with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceRecipe(
-    recipe: any,
-    sourceFile = "unknown",
-  ): EnhancedRecipe {
+  static enhanceRecipe(recipe: any, sourceFile = "unknown"): EnhancedRecipe {
     // Calculate recipe Kalchm from ingredients
     const kalchmResult = this.calculateRecipeKalchm(recipe.ingredients || []);
 
@@ -691,7 +688,7 @@ export class RecipeAnalyzer {
   ): EnhancedRecipe[] {
     return recipes.filter((recipe) => {
       // Use safe type casting for alchemical properties access
-       
+
       const alchemicalData = recipe.alchemicalProperties as any;
       const elementalBalance = alchemicalData?.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;

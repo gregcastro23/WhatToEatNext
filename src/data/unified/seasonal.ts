@@ -1129,10 +1129,7 @@ export class UnifiedSeasonalSystem {
 
     // Monica compatibility
     const methodData = method as any;
-    if (
-      targetMonica !== undefined &&
-      !isNaN(methodData.monicaConstant)
-    ) {
+    if (targetMonica !== undefined && !isNaN(methodData.monicaConstant)) {
       const monicaDifference = Math.abs(
         methodData.monicaConstant - targetMonica,
       );
@@ -1140,8 +1137,8 @@ export class UnifiedSeasonalSystem {
     }
 
     // Elemental compatibility
-    const methodElement = methodData.alchemicalPillar
-      ?.elementalAssociations?.primary;
+    const methodElement =
+      methodData.alchemicalPillar?.elementalAssociations?.primary;
     if (methodElement) {
       const elementalScore =
         seasonProfile.elementalDominance[methodElement] || 0;

@@ -11,10 +11,10 @@ import React, { createContext } from "react";
 import type { AlchemicalState, AlchemicalContextType } from "./types";
 
 // Define default state
-export const defaultState: AlchemicalState = ({
+export const defaultState: AlchemicalState = {
   currentSeason: "spring",
   timeOfDay: "morning",
-  astrologicalState: ({
+  astrologicalState: {
     currentZodiac: "aries",
     planetaryInfluences: {
       Sun: 0.7,
@@ -44,7 +44,7 @@ export const defaultState: AlchemicalState = ({
       enthalpy: 0.5,
     },
     timestamp: Date.now(),
-  } as any),
+  } as any,
   lunarPhase: "new moon",
   currentTime: new Date(),
   lastUpdated: new Date(),
@@ -53,7 +53,7 @@ export const defaultState: AlchemicalState = ({
   dominantElement: "Fire",
   planetaryHour: "Sun",
   svgRepresentation: null,
-} as any);
+} as any;
 
 // Create the context with default values
 export const _AlchemicalContext = createContext<AlchemicalContextType>({

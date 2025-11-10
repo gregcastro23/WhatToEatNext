@@ -307,10 +307,8 @@ export class UnifiedNutritionalSystem {
     const values = Object.values(totalElementalValues);
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
-      values.reduce(
-        (sum, val) => sum + Math.pow((val as any) - mean, 2),
-        0,
-      ) / values.length;
+      values.reduce((sum, val) => sum + Math.pow((val as any) - mean, 2), 0) /
+      values.length;
     const stdDev = Math.sqrt(variance);
     // Higher balance = lower standard deviation
     return Math.max(0, 1 - stdDev / mean);

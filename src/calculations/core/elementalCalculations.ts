@@ -57,14 +57,17 @@ export function calculateBaseElementalProperties(planetaryPositions: {
   // Use the exported ZODIAC_ELEMENTS mapping
   // Calculate elemental influence from each planet
   for (const [planetName, position] of Object.entries(planetaryPositions)) {
-    const sign = position.sign || '';
+    const sign = position.sign || "";
     const signElement = ZODIAC_ELEMENTS[sign];
     if (signElement && elements[signElement] !== undefined) {
       // Base influence of 1.0 for each planet in its sign
       elements[signElement] += 1.0;
 
       // Additional influence based on planetary dignity
-      const dignityBonus = calculatePlanetaryDignity(planetName, position.sign || '');
+      const dignityBonus = calculatePlanetaryDignity(
+        planetName,
+        position.sign || "",
+      );
       elements[signElement] += dignityBonus;
     }
   }

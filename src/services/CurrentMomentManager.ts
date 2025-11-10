@@ -206,7 +206,10 @@ class CurrentMomentManager {
           "streamlinedPositions",
           "accurateAstronomy",
         ];
-        void logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
+        void logger.warn(
+          `Failed to update ${updateNames[index]}:`,
+          result.reason,
+        );
       }
     });
   }
@@ -684,10 +687,16 @@ export const getCurrentMoment = (forceRefresh = false) =>
 export const updateCurrentMoment = (
   date?: Date,
   location?: { latitude: number; longitude: number },
-) => { void currentMomentManager.updateCurrentMoment(date, location); };
+) => {
+  void currentMomentManager.updateCurrentMoment(date, location);
+};
 export const onAlchemizeApiCall = (
   positions?: Record<string, PlanetPosition>,
-) => { void currentMomentManager.onAlchemizeApiCall(positions); };
+) => {
+  void currentMomentManager.onAlchemizeApiCall(positions);
+};
 export const onAstrologizeApiCall = (
   positions?: Record<string, PlanetPosition>,
-) => { void currentMomentManager.onAstrologizeApiCall(positions); };
+) => {
+  void currentMomentManager.onAstrologizeApiCall(positions);
+};

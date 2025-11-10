@@ -401,7 +401,13 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
               Failed to load cuisine recommendations
             </Text>
             <Text fontSize="sm">{error}</Text>
-            <Button size="sm" mt={2} onClick={() => { void fetchCuisineRecommendations(); }}>
+            <Button
+              size="sm"
+              mt={2}
+              onClick={() => {
+                void fetchCuisineRecommendations();
+              }}
+            >
               Try Again
             </Button>
           </Box>
@@ -428,7 +434,11 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
           <Card bg={cardBg} shadow="md" maxW="800px" mx="auto">
             <CardBody>
               <SimpleGrid
-                {...({ columns: { base: 1, md: 3 }, spacing: 4, textAlign: "center" } as any)}
+                {...({
+                  columns: { base: 1, md: 3 },
+                  spacing: 4,
+                  textAlign: "center",
+                } as any)}
               >
                 <VStack>
                   <Icon as={FaMagic} boxSize={8} color="purple.500" />
@@ -497,7 +507,10 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
           <VStack {...({ spacing: 8 } as any)}>
             {data.cuisine_recommendations.map((cuisine) => (
-              <Card key={cuisine.cuisine_id} {...({ bg: cardBg, shadow: "lg", size: "lg" } as any)}>
+              <Card
+                key={cuisine.cuisine_id}
+                {...({ bg: cardBg, shadow: "lg", size: "lg" } as any)}
+              >
                 <CardHeader>
                   <Flex justify="space-between" align="start" wrap="wrap">
                     <Box>
@@ -553,7 +566,12 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                           <AccordionItemIndicator />
                         </AccordionItemTrigger>
                         <AccordionItemContent pb={4}>
-                          <SimpleGrid {...({ columns: { base: 1, lg: 2 }, spacing: 4 } as any)}>
+                          <SimpleGrid
+                            {...({
+                              columns: { base: 1, lg: 2 },
+                              spacing: 4,
+                            } as any)}
+                          >
                             {cuisine.nested_recipes.map(renderRecipeCard)}
                           </SimpleGrid>
                         </AccordionItemContent>
@@ -575,7 +593,10 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                         </AccordionItemTrigger>
                         <AccordionItemContent pb={4}>
                           <SimpleGrid
-                            {...({ columns: { base: 1, md: 2, lg: 3 }, spacing: 4 } as any)}
+                            {...({
+                              columns: { base: 1, md: 2, lg: 3 },
+                              spacing: 4,
+                            } as any)}
                           >
                             {cuisine.recommended_sauces.map(renderSauceCard)}
                           </SimpleGrid>
@@ -600,7 +621,9 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
           <Button
             colorScheme="purple"
             variant="outline"
-            onClick={() => { void fetchCuisineRecommendations(); }}
+            onClick={() => {
+              void fetchCuisineRecommendations();
+            }}
             loading={loading}
             loadingText="Refreshing cosmic alignment..."
           >

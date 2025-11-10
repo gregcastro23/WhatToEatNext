@@ -30,9 +30,13 @@ export class ConsolidatedRecipeService {
     return [];
   }
 
-  async getRecipesForPlanetaryAlignment(alignment: any, minScore?: number): Promise<Recipe[]> {
+  async getRecipesForPlanetaryAlignment(
+    alignment: any,
+    minScore?: number,
+  ): Promise<Recipe[]> {
     return [];
   }
 }
 
-export const consolidatedRecipeService = ConsolidatedRecipeService.getInstance();
+export const consolidatedRecipeService =
+  ConsolidatedRecipeService.getInstance();

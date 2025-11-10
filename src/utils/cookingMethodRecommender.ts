@@ -761,9 +761,13 @@ export async function getRecommendedCookingMethods(
     const temperamentData = marsDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (fireSigns.includes(lowerSign) && temperamentData?.FireMars) {
-      _marsTemperament = (temperamentData.FireMars as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _marsTemperament =
+        (temperamentData.FireMars as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterMars) {
-      _marsTemperament = (temperamentData.WaterMars as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _marsTemperament =
+        (temperamentData.WaterMars as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     }
   }
 
@@ -779,12 +783,16 @@ export async function getRecommendedCookingMethods(
       mercuryDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (airSigns.includes(lowerSign) && temperamentData?.AirMercury) {
-      _mercuryTemperament = (temperamentData.AirMercury as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _mercuryTemperament =
+        (temperamentData.AirMercury as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     } else if (
       earthSigns.includes(lowerSign) &&
       temperamentData?.EarthMercury
     ) {
-      _mercuryTemperament = (temperamentData.EarthMercury as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _mercuryTemperament =
+        (temperamentData.EarthMercury as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     }
   }
 
@@ -800,9 +808,13 @@ export async function getRecommendedCookingMethods(
       jupiterDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (fireSigns.includes(lowerSign) && temperamentData?.FireJupiter) {
-      _jupiterTemperament = (temperamentData.FireJupiter as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _jupiterTemperament =
+        (temperamentData.FireJupiter as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirJupiter) {
-      _jupiterTemperament = (temperamentData.AirJupiter as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _jupiterTemperament =
+        (temperamentData.AirJupiter as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     }
   }
 
@@ -817,9 +829,13 @@ export async function getRecommendedCookingMethods(
     const temperamentData = saturnDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (earthSigns.includes(lowerSign) && temperamentData?.EarthSaturn) {
-      _saturnTemperament = (temperamentData.EarthSaturn as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _saturnTemperament =
+        (temperamentData.EarthSaturn as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirSaturn) {
-      _saturnTemperament = (temperamentData.AirSaturn as Record<string, unknown>) || ({} as Record<string, unknown>);
+      _saturnTemperament =
+        (temperamentData.AirSaturn as Record<string, unknown>) ||
+        ({} as Record<string, unknown>);
     }
   }
 
@@ -1343,10 +1359,7 @@ export async function getRecommendedCookingMethods(
         }
 
         // Check elements alignment with transit
-        if (
-          venusZodiacTransit.Elements &&
-          (method as any).elementalEffect
-        ) {
+        if (venusZodiacTransit.Elements && (method as any).elementalEffect) {
           for (const element in venusZodiacTransit.Elements) {
             const elementProperty = element as any;
             const methodElementalEffect = (method as any)

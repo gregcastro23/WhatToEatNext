@@ -6,7 +6,10 @@ import {
   _VALIDATION_THRESHOLDS,
 } from "@/constants/elementalConstants";
 import type { Element, ElementalProperties, Recipe } from "@/types/alchemy";
-import { validateElementalProperties, _normalizeElementalProperties } from "@/types/validators";
+import {
+  validateElementalProperties,
+  _normalizeElementalProperties,
+} from "@/types/validators";
 
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {

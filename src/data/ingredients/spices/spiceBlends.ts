@@ -9,16 +9,16 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
 
     astrologicalProfile: {
-    rulingPlanets: ["Sun", "Jupiter"],
-    favorableZodiac: ["leo", "sagittarius"],
-    elementalAffinity: {
-      base: "Fire",
-      decanModifiers: {
-        first: { element: "Fire", planet: "Sun" },
-        second: { element: "Air", planet: "Jupiter" },
-        third: { element: "Earth", planet: "Saturn" },
+      rulingPlanets: ["Sun", "Jupiter"],
+      favorableZodiac: ["leo", "sagittarius"],
+      elementalAffinity: {
+        base: "Fire",
+        decanModifiers: {
+          first: { element: "Fire", planet: "Sun" },
+          second: { element: "Air", planet: "Jupiter" },
+          third: { element: "Earth", planet: "Saturn" },
+        },
       },
-    },
     },
 
     qualities: ["warming", "aromatic", "complex"],
@@ -27,84 +27,84 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     subCategory: "blend",
 
     baseIngredients: {
-    cumin: 2,
-    coriander: 2,
-    cardamom: 1,
-    cinnamon: 1,
-    cloves: 0.5,
-    "black pepper": 1,
-    nutmeg: 0.5,
-    },
-
-    ratios: "2:2:1:1:0.5:1:0.5",
-
-    regionalVariations: {
-    "North Indian": {
-      name: "North Indian",
       cumin: 2,
       coriander: 2,
-      "black cardamom": 1,
+      cardamom: 1,
       cinnamon: 1,
       cloves: 0.5,
       "black pepper": 1,
       nutmeg: 0.5,
     },
-    "South Indian": {
-      name: "South Indian",
-      cumin: 2,
-      coriander: 2,
-      cardamom: 1,
-      "curry leaves": 1,
-      "star anise": 0.5,
-      "black pepper": 1,
-      nutmeg: 0.5,
-    },
+
+    ratios: "2:2:1:1:0.5:1:0.5",
+
+    regionalVariations: {
+      "North Indian": {
+        name: "North Indian",
+        cumin: 2,
+        coriander: 2,
+        "black cardamom": 1,
+        cinnamon: 1,
+        cloves: 0.5,
+        "black pepper": 1,
+        nutmeg: 0.5,
+      },
+      "South Indian": {
+        name: "South Indian",
+        cumin: 2,
+        coriander: 2,
+        cardamom: 1,
+        "curry leaves": 1,
+        "star anise": 0.5,
+        "black pepper": 1,
+        nutmeg: 0.5,
+      },
     },
 
     affinities: ["lentils", "rice", "meat", "vegetables", "yogurt"],
     cookingMethods: ["bloomed in oil", "added to sauces", "marinades"],
 
     preparation: {
-    toasting: "individually before grinding",
-    grinding: "just before use",
-    storage: "airtight, dark container",
-    notes: "Blend can be adjusted for heat preference",
+      toasting: "individually before grinding",
+      grinding: "just before use",
+      storage: "airtight, dark container",
+      notes: "Blend can be adjusted for heat preference",
     },
 
     medicinalProperties: {
-    actions: ["digestive aid", "anti-inflammatory", "warming"],
-    energetics: "heating",
-    tastes: ["pungent", "sweet", "bitter"],
+      actions: ["digestive aid", "anti-inflammatory", "warming"],
+      energetics: "heating",
+      tastes: ["pungent", "sweet", "bitter"],
     },
 
     sensoryProfile: {
-    taste: ["Mild"],
-    aroma: ["Fresh"],
-    texture: ["Standard"],
-    notes: "Characteristic garam_masala profile",
+      taste: ["Mild"],
+      aroma: ["Fresh"],
+      texture: ["Standard"],
+      notes: "Characteristic garam_masala profile",
     },
 
     culinaryProfile: {
-    flavorProfile: {
-      primary: ["balanced"],
-    },
+      flavorProfile: {
+        primary: ["balanced"],
+      },
 
-    cookingMethods: ["versatile"],
-    cuisineAffinity: ["Global"],
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
     season: ["Year-round"],
 
     nutritionalProfile: {
-    macronutrients: {},
-    micronutrients: {},
-    healthBenefits: ["Nutritious"],
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ["Nutritious"],
     },
 
     storage: {
-    temperature: "Cool, dry place",
-    duration: "6-12 months",
-    container: "Airtight",
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
     },
 
     varieties: {},
@@ -115,16 +115,16 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
 
     astrologicalProfile: {
-    rulingPlanets: ["Venus", "Mars"],
-    favorableZodiac: ["taurus", "scorpio"],
-    elementalAffinity: {
-      base: "Fire",
-      decanModifiers: {
-        first: { element: "Fire", planet: "Venus" },
-        second: { element: "Earth", planet: "Mars" },
-        third: { element: "Air", planet: "Mercury" },
+      rulingPlanets: ["Venus", "Mars"],
+      favorableZodiac: ["taurus", "scorpio"],
+      elementalAffinity: {
+        base: "Fire",
+        decanModifiers: {
+          first: { element: "Fire", planet: "Venus" },
+          second: { element: "Earth", planet: "Mars" },
+          third: { element: "Air", planet: "Mercury" },
+        },
       },
-    },
     },
 
     qualities: ["warming", "complex", "aromatic"],
@@ -133,79 +133,79 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     subCategory: "blend",
 
     baseIngredients: [
-    "cumin",
-    "coriander",
-    "cinnamon",
-    "ginger",
-    "black pepper",
-    "turmeric",
-    "paprika",
-    "allspice",
-    "rose petals",
+      "cumin",
+      "coriander",
+      "cinnamon",
+      "ginger",
+      "black pepper",
+      "turmeric",
+      "paprika",
+      "allspice",
+      "rose petals",
     ],
 
     regionalVariations: {
-    Moroccan: ["saffron", "rose buds", "grains of paradise"],
-    Tunisian: ["dried mint", "dried rose petals"],
-    Algerian: ["cinnamon heavy", "dried rosebuds"],
+      Moroccan: ["saffron", "rose buds", "grains of paradise"],
+      Tunisian: ["dried mint", "dried rose petals"],
+      Algerian: ["cinnamon heavy", "dried rosebuds"],
     },
 
     affinities: ["lamb", "chicken", "couscous", "vegetables", "tagines"],
     cookingMethods: ["marinades", "rubs", "stews"],
 
     proportions: {
-    cumin: 2,
-    coriander: 2,
-    cinnamon: 1,
-    ginger: 1,
-    "black pepper": 1,
-    turmeric: 1,
-    paprika: 1,
-    allspice: 0.5,
-    "rose petals": 0.5,
+      cumin: 2,
+      coriander: 2,
+      cinnamon: 1,
+      ginger: 1,
+      "black pepper": 1,
+      turmeric: 1,
+      paprika: 1,
+      allspice: 0.5,
+      "rose petals": 0.5,
     },
 
     preparation: {
-    toasting: "light toasting of whole spices",
-    grinding: "grind together just before use",
-    storage: "airtight container away from light",
-    notes: "Can contain up to 30 ingredients",
+      toasting: "light toasting of whole spices",
+      grinding: "grind together just before use",
+      storage: "airtight container away from light",
+      notes: "Can contain up to 30 ingredients",
     },
 
     medicinalProperties: {
-    actions: ["digestive aid", "anti-inflammatory"],
-    energetics: "warming",
-    tastes: ["complex", "floral", "pungent"],
+      actions: ["digestive aid", "anti-inflammatory"],
+      energetics: "warming",
+      tastes: ["complex", "floral", "pungent"],
     },
 
     sensoryProfile: {
-    taste: ["Mild"],
-    aroma: ["Fresh"],
-    texture: ["Standard"],
-    notes: "Characteristic ras_el_hanout profile",
+      taste: ["Mild"],
+      aroma: ["Fresh"],
+      texture: ["Standard"],
+      notes: "Characteristic ras_el_hanout profile",
     },
 
     culinaryProfile: {
-    flavorProfile: {
-      primary: ["balanced"],
-    },
+      flavorProfile: {
+        primary: ["balanced"],
+      },
 
-    cookingMethods: ["versatile"],
-    cuisineAffinity: ["Global"],
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
     season: ["Year-round"],
 
     nutritionalProfile: {
-    macronutrients: {},
-    micronutrients: {},
-    healthBenefits: ["Nutritious"],
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ["Nutritious"],
     },
 
     storage: {
-    temperature: "Cool, dry place",
-    duration: "6-12 months",
-    container: "Airtight",
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
     },
 
     varieties: {},
@@ -220,47 +220,47 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     subCategory: "blend",
 
     baseIngredients: [
-    "thyme",
-    "basil",
-    "rosemary",
-    "tarragon",
-    "savory",
-    "marjoram",
-    "oregano",
-    "lavender",
+      "thyme",
+      "basil",
+      "rosemary",
+      "tarragon",
+      "savory",
+      "marjoram",
+      "oregano",
+      "lavender",
     ],
 
     regionalVariations: {
-    Traditional: ["no lavender"],
-    Modern: ["includes lavender"],
-    Commercial: ["may include fennel"],
+      Traditional: ["no lavender"],
+      Modern: ["includes lavender"],
+      Commercial: ["may include fennel"],
     },
 
     affinities: ["chicken", "fish", "vegetables", "tomatoes", "grilled meats"],
     cookingMethods: ["roasting", "grilling", "sauce making"],
 
     proportions: {
-    thyme: 2,
-    basil: 1,
-    rosemary: 1,
-    tarragon: 1,
-    savory: 1,
-    marjoram: 1,
-    oregano: 1,
-    lavender: 0.5,
+      thyme: 2,
+      basil: 1,
+      rosemary: 1,
+      tarragon: 1,
+      savory: 1,
+      marjoram: 1,
+      oregano: 1,
+      lavender: 0.5,
     },
 
     preparation: {
-    mixing: "individually before grinding",
-    grinding: "just before use",
-    storage: "airtight, dark container",
-    notes: "Blend can be adjusted for heat preference",
+      mixing: "individually before grinding",
+      grinding: "just before use",
+      storage: "airtight, dark container",
+      notes: "Blend can be adjusted for heat preference",
     },
 
     medicinalProperties: {
-    actions: ["digestive aid", "anti-inflammatory", "warming"],
-    energetics: "heating",
-    tastes: ["pungent", "sweet", "bitter"],
+      actions: ["digestive aid", "anti-inflammatory", "warming"],
+      energetics: "heating",
+      tastes: ["pungent", "sweet", "bitter"],
     },
 
     // Removed excessive sensoryProfile nesting
@@ -270,34 +270,34 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
 
     culinaryProfile: {
-    flavorProfile: {
-      primary: ["balanced"],
-    },
+      flavorProfile: {
+        primary: ["balanced"],
+      },
 
-    cookingMethods: ["versatile"],
-    cuisineAffinity: ["Global"],
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
     season: ["Year-round"],
 
     nutritionalProfile: {
-    macronutrients: {},
-    micronutrients: {},
-    healthBenefits: ["Nutritious"],
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ["Nutritious"],
     },
 
     storage: {
-    temperature: "Cool, dry place",
-    duration: "6-12 months",
-    container: "Airtight",
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
     },
 
     varieties: {},
 
     astrologicalProfile: {
-    rulingPlanets: ["Mercury", "Jupiter"],
-    favorableZodiac: ["Gemini", "Sagittarius", "Virgo"],
-    seasonalAffinity: ["all"],
+      rulingPlanets: ["Mercury", "Jupiter"],
+      favorableZodiac: ["Gemini", "Sagittarius", "Virgo"],
+      seasonalAffinity: ["all"],
     },
   },
 
@@ -305,9 +305,9 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     name: "Chinese Five Spice",
     elementalProperties: { Fire: 0.58, Water: 0.14, Earth: 0.14, Air: 0.14 },
     astrologicalProfile: {
-    rulingPlanets: ["Jupiter", "Mars"],
-    favorableZodiac: ["Sagittarius", "Aries", "Leo"],
-    seasonalAffinity: ["all"],
+      rulingPlanets: ["Jupiter", "Mars"],
+      favorableZodiac: ["Sagittarius", "Aries", "Leo"],
+      seasonalAffinity: ["all"],
     },
     qualities: ["warming", "balanced", "complex"],
     origin: ["China"],
@@ -315,33 +315,33 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     subCategory: "blend",
 
     baseIngredients: {
-    "star anise": 2,
-    "chinese cinnamon": 2,
-    "fennel seeds": 2,
-    cloves: 1,
-    "sichuan pepper": 1,
-    },
-
-    ratios: "2:2:2:1:1",
-
-    regionalVariations: {
-    Northern: {
-      name: "Northern",
-      "star anise": 2,
-      "chinese cinnamon": 3,
-      "fennel seeds": 2,
-      cloves: 1,
-      "sichuan pepper": 1,
-    },
-    Southern: {
-      name: "Southern",
       "star anise": 2,
       "chinese cinnamon": 2,
       "fennel seeds": 2,
       cloves: 1,
       "sichuan pepper": 1,
-      "licorice root": 0.5,
     },
+
+    ratios: "2:2:2:1:1",
+
+    regionalVariations: {
+      Northern: {
+        name: "Northern",
+        "star anise": 2,
+        "chinese cinnamon": 3,
+        "fennel seeds": 2,
+        cloves: 1,
+        "sichuan pepper": 1,
+      },
+      Southern: {
+        name: "Southern",
+        "star anise": 2,
+        "chinese cinnamon": 2,
+        "fennel seeds": 2,
+        cloves: 1,
+        "sichuan pepper": 1,
+        "licorice root": 0.5,
+      },
     },
 
     affinities: ["pork", "duck", "chicken", "seafood", "vegetables"],
@@ -353,32 +353,32 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
 
     culinaryProfile: {
-    flavorProfile: {
-      primary: ["balanced"],
-    },
+      flavorProfile: {
+        primary: ["balanced"],
+      },
 
-    cookingMethods: ["versatile"],
-    cuisineAffinity: ["Global"],
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
     season: ["Year-round"],
 
     preparation: {
-    methods: ["Standard"],
-    timing: "As needed",
-    notes: "Standard prep for chinese_five_spice",
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for chinese_five_spice",
     },
 
     nutritionalProfile: {
-    macronutrients: {},
-    micronutrients: {},
-    healthBenefits: ["Nutritious"],
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ["Nutritious"],
     },
 
     storage: {
-    temperature: "Cool, dry place",
-    duration: "6-12 months",
-    container: "Airtight",
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
     },
 
     varieties: {},
@@ -393,35 +393,35 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     subCategory: "blend",
 
     baseIngredients: {
-    "dried thyme": 2,
-    "sesame seeds": 2,
-    sumac: 1,
-    oregano: 1,
-    marjoram: 1,
-    salt: 0.5,
-    },
-
-    ratios: "2:2:1:1:1:0.5",
-
-    regionalVariations: {
-    Lebanese: {
-      name: "Lebanese",
       "dried thyme": 2,
       "sesame seeds": 2,
-      sumac: 2, // more sumac,
-      oregano: 1,
-      marjoram: 1,
-      salt: 0.5,
-    },
-    Palestinian: {
-      name: "Palestinian",
-      "dried thyme": 2,
-      "sesame seeds": 3, // more sesame,
       sumac: 1,
       oregano: 1,
       marjoram: 1,
       salt: 0.5,
     },
+
+    ratios: "2:2:1:1:1:0.5",
+
+    regionalVariations: {
+      Lebanese: {
+        name: "Lebanese",
+        "dried thyme": 2,
+        "sesame seeds": 2,
+        sumac: 2, // more sumac,
+        oregano: 1,
+        marjoram: 1,
+        salt: 0.5,
+      },
+      Palestinian: {
+        name: "Palestinian",
+        "dried thyme": 2,
+        "sesame seeds": 3, // more sesame,
+        sumac: 1,
+        oregano: 1,
+        marjoram: 1,
+        salt: 0.5,
+      },
     },
 
     // Removed excessive sensoryProfile nesting
@@ -440,22 +440,6 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     subCategory: "blend",
 
     baseIngredients: {
-    turmeric: 3,
-    coriander: 2,
-    cumin: 2,
-    ginger: 1,
-    "black pepper": 1,
-    cinnamon: 0.5,
-    cardamom: 0.5,
-    cayenne: 0.5,
-    fenugreek: 0.5,
-    },
-
-    ratios: "3:2:2:1:1:0.5:0.5:0.5:0.5",
-
-    regionalVariations: {
-    Madras: {
-      name: "Madras",
       turmeric: 3,
       coriander: 2,
       cumin: 2,
@@ -463,9 +447,25 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       "black pepper": 1,
       cinnamon: 0.5,
       cardamom: 0.5,
-      cayenne: 2, // extra hot,
+      cayenne: 0.5,
       fenugreek: 0.5,
     },
+
+    ratios: "3:2:2:1:1:0.5:0.5:0.5:0.5",
+
+    regionalVariations: {
+      Madras: {
+        name: "Madras",
+        turmeric: 3,
+        coriander: 2,
+        cumin: 2,
+        ginger: 1,
+        "black pepper": 1,
+        cinnamon: 0.5,
+        cardamom: 0.5,
+        cayenne: 2, // extra hot,
+        fenugreek: 0.5,
+      },
     },
 
     // Removed excessive sensoryProfile nesting

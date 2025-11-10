@@ -397,7 +397,10 @@ export class AlchemicalEngine {
         Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2,
       };
     }
-    return (this.advanced as any).combineElementObjects(elementObject1, elementObject2);
+    return (this.advanced as any).combineElementObjects(
+      elementObject1,
+      elementObject2,
+    );
   }
 }
 

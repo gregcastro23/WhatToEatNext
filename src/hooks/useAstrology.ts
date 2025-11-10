@@ -10,7 +10,7 @@ import * as safeAstrology from "@/utils/safeAstrology";
 const logger = createLogger("useAstrology");
 
 // Track active API requests to prevent duplicate calls
- 
+
 const activeRequests = new Map<string, Promise<any>>();
 
 interface AstrologyOptions {

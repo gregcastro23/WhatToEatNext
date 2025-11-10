@@ -89,10 +89,9 @@ export async function POST(request: NextRequest) {
       force_sync: forceSync,
     });
 
-    const result =
-      await (planetaryPositionRectificationService.rectifyPlanetaryPositions as any)(
-        targetDate,
-      );
+    const result = await (
+      planetaryPositionRectificationService.rectifyPlanetaryPositions as any
+    )(targetDate);
 
     return NextResponse.json({
       success: result.success,

@@ -360,7 +360,6 @@ export class ServicesManager {
         Neptune: "sagittarius",
         Pluto: "capricorn",
         Ascendant: "aquarius",
-         
       } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
@@ -370,7 +369,6 @@ export class ServicesManager {
         ingredients: [],
         instructions: [],
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-         
       } as any;
       const _recipeRecommendations =
         alchemicalRecommendationService.getRecipeRecommendations(

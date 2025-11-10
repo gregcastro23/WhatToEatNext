@@ -217,7 +217,8 @@ export const useFoodRecommendations = (
                 Earth: 0,
               },
               basePortionSize: 1,
-              nutritionalDensity: (ingredient.nutritionalScore || 0.5) as number,
+              nutritionalDensity: (ingredient.nutritionalScore ||
+                0.5) as number,
             } as any,
             kinetics,
           );

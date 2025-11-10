@@ -357,13 +357,11 @@ export function getRecommendedIngredients(
       const ingredientA = a as unknown as BaseIngredient;
       const ingredientB = b as unknown as BaseIngredient;
       const aValue =
-        ingredientA.elementalProperties?.[
-          astroState.dominantElement as any
-        ] || 0;
+        ingredientA.elementalProperties?.[astroState.dominantElement as any] ||
+        0;
       const bValue =
-        ingredientB.elementalProperties?.[
-          astroState.dominantElement as any
-        ] || 0;
+        ingredientB.elementalProperties?.[astroState.dominantElement as any] ||
+        0;
       return bValue - aValue;
     });
   }
@@ -3479,8 +3477,7 @@ function generateRecommendationsForIngredient(
             (p) => p !== planetaryDay && p !== planetaryHour,
           );
           const ingredientData = ingredient as unknown as any;
-          const astrologicalProfile =
-            ingredientData.astrologicalProfile;
+          const astrologicalProfile = ingredientData.astrologicalProfile;
           const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
           if (otherPlanet && rulingPlanets.includes(otherPlanet)) {
             recs.push(
@@ -3495,8 +3492,7 @@ function generateRecommendationsForIngredient(
             (p) => p !== planetaryDay && p !== planetaryHour,
           );
           const ingredientData = ingredient as unknown as any;
-          const astrologicalProfile =
-            ingredientData.astrologicalProfile;
+          const astrologicalProfile = ingredientData.astrologicalProfile;
           const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
           if (otherPlanet && rulingPlanets.includes(otherPlanet)) {
             recs.push(

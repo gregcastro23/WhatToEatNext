@@ -32,7 +32,7 @@ export function useAstrologize(
 ): AstrologizeResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-   
+
   const [data, setData] = useState<any>(null);
   const [location, setLocation] = useState<{
     latitude: number;

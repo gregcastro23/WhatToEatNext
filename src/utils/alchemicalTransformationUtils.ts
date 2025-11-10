@@ -28,14 +28,14 @@ export const _transformIngredients = (
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] =>
-  ingredients.map(ingredient =>
+  ingredients.map((ingredient) =>
     transformItemWithPlanetaryPositions(
       ingredient,
       planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
       isDaytime,
       currentZodiac,
       lunarPhase,
-    )
+    ),
   );
 
 /**
@@ -57,14 +57,14 @@ export const _transformCookingMethods = (
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
   // First, apply the standard transformations - Pattern, TTT: Record Type Conversion
-  const transformedItems = methods.map(method =>
+  const transformedItems = methods.map((method) =>
     transformItemWithPlanetaryPositions(
       method,
       planetPositions as unknown as Record<string, CelestialPosition>,
       isDaytime,
       currentZodiac,
       lunarPhase,
-    )
+    ),
   );
 
   // Then apply alchemical pillar transformations based on method names
@@ -92,14 +92,14 @@ export const _transformCuisines = (
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] =>
-  cuisines.map(cuisine =>
+  cuisines.map((cuisine) =>
     transformItemWithPlanetaryPositions(
       cuisine,
       planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
       isDaytime,
       currentZodiac,
       lunarPhase,
-    )
+    ),
   );
 
 /**
@@ -293,29 +293,31 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
   let score = 0;
   let count = 0;
   // Add spirit, essence, matter, substance if they exist
-  ["spirit", "essence", "matter", "substance"]
-    .forEach((prop) => {
-      if (
-        prop in item &&
-        typeof item[prop as keyof AlchemicalItem] === "number"
-      ) {
-        score += item[prop as keyof AlchemicalItem] as number;
-        count++;
-      }
-    });
+  ["spirit", "essence", "matter", "substance"].forEach((prop) => {
+    if (
+      prop in item &&
+      typeof item[prop as keyof AlchemicalItem] === "number"
+    ) {
+      score += item[prop as keyof AlchemicalItem] as number;
+      count++;
+    }
+  });
 
   [
     // Include thermodynamic properties if they exist
-    "heat", "entropy", "reactivity", "gregsEnergy"
+    "heat",
+    "entropy",
+    "reactivity",
+    "gregsEnergy",
   ].forEach((prop) => {
-      if (
-        prop in item &&
-        typeof item[prop as keyof AlchemicalItem] === "number"
-      ) {
-        score += item[prop as keyof AlchemicalItem] as number;
-        count++;
-      }
-    });
+    if (
+      prop in item &&
+      typeof item[prop as keyof AlchemicalItem] === "number"
+    ) {
+      score += item[prop as keyof AlchemicalItem] as number;
+      count++;
+    }
+  });
 
   // Calculate average score
   return count > 0 ? score / count : 0.5;

@@ -402,12 +402,18 @@ export function getLunarPhaseWithKinetics(
       kinetics.forceClassification === "accelerating" &&
       phase.includes("waxing")
     ) {
-      return applyVelocityBoost(phase, kinetics.aspectPhase?.velocityBoost || 0);
+      return applyVelocityBoost(
+        phase,
+        kinetics.aspectPhase?.velocityBoost || 0,
+      );
     } else if (
       kinetics.forceClassification === "decelerating" &&
       phase.includes("waning")
     ) {
-      return applyVelocityBoost(phase, kinetics.aspectPhase?.velocityBoost || 0);
+      return applyVelocityBoost(
+        phase,
+        kinetics.aspectPhase?.velocityBoost || 0,
+      );
     }
     return phase;
   } catch (_error) {
@@ -449,7 +455,8 @@ export function getKineticsEnhancedLunarModifiers(
     }
 
     const dominant = getDominantElementFromModifiers(enhanced);
-    const aspectPhaseType = (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
+    const aspectPhaseType =
+      (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
     const aspectBoost =
       aspectPhaseType === "conjunction"
         ? 0.15
@@ -502,7 +509,8 @@ export function calculateLunarKineticsMetrics(
       timeInterval: 3600, // 1 hour default
     });
     const phaseVelocity = calculatePhaseVelocity(phase, kinetics);
-    const aspectPhaseType = (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
+    const aspectPhaseType =
+      (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
     const aspectInfluence =
       aspectPhaseType === "conjunction"
         ? 1.0

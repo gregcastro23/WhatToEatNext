@@ -317,10 +317,7 @@ export function identifyAspect(
  * @param orb Orb (angle deviation from exact aspect)
  * @returns Strength value (0-10)
  */
-export function calculateAspectStrength(
-  type: AspectType,
-  orb: number,
-): number {
+export function calculateAspectStrength(type: AspectType, orb: number): number {
   const baseStrengths = {
     conjunction: 10,
     opposition: 10,

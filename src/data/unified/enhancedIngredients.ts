@@ -874,10 +874,10 @@ export class EnhancedIngredientsSystem {
         serving_size: String(existingProfile.servingSize || "100g"),
         calories: Number(existingProfile.calories || 0),
         macros: {
-          protein: Number((existingProfile.macros).protein || 0),
-          carbs: Number((existingProfile.macros).carbs || 0),
-          fat: Number((existingProfile.macros).fat || 0),
-          fiber: Number((existingProfile.macros).fiber || 0),
+          protein: Number(existingProfile.macros.protein || 0),
+          carbs: Number(existingProfile.macros.carbs || 0),
+          fat: Number(existingProfile.macros.fat || 0),
+          fiber: Number(existingProfile.macros.fiber || 0),
         },
         vitamins: (existingProfile.vitamins as Record<string, number>) || {},
         minerals: (existingProfile.minerals as Record<string, number>) || {},
@@ -928,7 +928,10 @@ export class EnhancedIngredientsSystem {
 
     // Check for additional data
     if (ingredient.nutritionalProfile) qualityPoints += 1;
-    if (((ingredient.astrologicalPropertiesProfile as any)?.rulingPlanets || []).length)
+    if (
+      ((ingredient.astrologicalPropertiesProfile as any)?.rulingPlanets || [])
+        .length
+    )
       qualityPoints += 1;
     if ((ingredient.qualities || []).length) qualityPoints += 1;
     if ((ingredient.seasonality || []).length) qualityPoints += 1;
@@ -1004,8 +1007,8 @@ export class EnhancedIngredientsSystem {
       }
 
       // Index by planetary ruler
-      const planetaryRuler =
-        (ingredient.astrologicalPropertiesProfile as any)?.planetaryRuler;
+      const planetaryRuler = (ingredient.astrologicalPropertiesProfile as any)
+        ?.planetaryRuler;
       if (planetaryRuler) {
         const planetaryIngredients =
           this.planetaryIndex.get(planetaryRuler) || [];

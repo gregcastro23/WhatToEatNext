@@ -204,12 +204,14 @@ export class UnifiedCalculationEngine {
       const kalchmResult = calculateKalchmResults(planetaryPositions as any);
 
       // Calculate elemental properties
-      const elementalProperties =
-        calculateBaseElementalProperties(planetaryPositions as any);
+      const elementalProperties = calculateBaseElementalProperties(
+        planetaryPositions as any,
+      );
 
       // Calculate planetary influences
-      const planetaryInfluence =
-        calculatePlanetaryInfluences(planetaryPositions as any);
+      const planetaryInfluence = calculatePlanetaryInfluences(
+        planetaryPositions as any,
+      );
 
       // Calculate kinetics
       const kinetics = calculateKinetics({
@@ -244,11 +246,12 @@ export class UnifiedCalculationEngine {
         elements: elementalProperties,
 
         // Thermodynamic Metrics
-        thermodynamics: kalchmResult.thermodynamicResults || {} as any,
+        thermodynamics: kalchmResult.thermodynamicResults || ({} as any),
 
         // Planetary Influences
         planetaryInfluence: {
-          dominantPlanet: planetaryInfluence.dominantPlanets?.[0]?.planet || "Sun",
+          dominantPlanet:
+            planetaryInfluence.dominantPlanets?.[0]?.planet || "Sun",
           planetaryStrength: (planetaryInfluence as any).strength || 1,
           aspectHarmony: (planetaryInfluence as any).aspectHarmony || 0.8,
         },
@@ -437,7 +440,7 @@ export class UnifiedCalculationEngine {
     profile2: ElementalProperties,
   ): number {
     const result = analyzeElementalCompatibility(profile1, profile2);
-    return ((result as any).compatibility || result);
+    return (result as any).compatibility || result;
   }
 
   private generateCacheKey(

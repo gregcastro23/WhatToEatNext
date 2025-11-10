@@ -947,8 +947,9 @@ export function getRecipesForCuisineMatch(
         // First, try LocalRecipeService (ESM import at top)
         // Clear cache to ensure fresh data
         LocalRecipeService.clearCache();
-        const localRecipes =
-          LocalRecipeService.getRecipesByCuisine(cuisineName) as any;
+        const localRecipes = LocalRecipeService.getRecipesByCuisine(
+          cuisineName,
+        ) as any;
         log.info(
           `LocalRecipeService returned ${localRecipes.length || 0} recipes for ${cuisineName}`,
         );
@@ -1055,8 +1056,9 @@ export function getRecipesForCuisineMatch(
           `No recipes array provided, trying LocalRecipeService for ${cuisineName}`,
         );
         // Use ESM import at top
-        const localRecipes =
-          LocalRecipeService.getRecipesByCuisine(cuisineName) as any;
+        const localRecipes = LocalRecipeService.getRecipesByCuisine(
+          cuisineName,
+        ) as any;
         log.info(
           `Fetched ${localRecipes.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`,
         );
@@ -1257,12 +1259,8 @@ export function getRecipesForCuisineMatch(
             };
           }
         })
-        .filter((recipe) => Number((recipe).matchScore || 0) >= 0.5) // Only include reasonably good matches
-        .sort(
-          (a, b) =>
-            Number((b).matchScore || 0) -
-            Number((a).matchScore || 0),
-        ); // Sort by score (high to low)
+        .filter((recipe) => Number(recipe.matchScore || 0) >= 0.5) // Only include reasonably good matches
+        .sort((a, b) => Number(b.matchScore || 0) - Number(a.matchScore || 0)); // Sort by score (high to low)
     }
 
     log.info(

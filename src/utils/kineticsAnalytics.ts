@@ -34,7 +34,7 @@ export function trackKineticsRecommendation(
       });
     } catch (error) {
       // Silently fail - analytics shouldn't break the app
-       
+
       console.debug("Analytics tracking failed: ", error);
     }
   }
@@ -64,7 +64,6 @@ export function trackKineticsImprovement(data: {
         custom_parameter_2: data.powerLevel,
       });
     } catch (error) {
-       
       console.debug("Analytics tracking failed: ", error);
     }
   }

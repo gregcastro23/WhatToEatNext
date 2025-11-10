@@ -39,19 +39,23 @@ export function getIngredientsForCuisine(
 
   // Process each matrix to find ingredients that pair with this cuisine
   if (categories.includes("grain")) {
-    Object.entries(_grainCuisineMatrix).forEach(([grain, cuisines]: [string, any]) => {
-      if (cuisines.includes(cuisineName)) {
-        result.grain.push(grain);
-      }
-    });
+    Object.entries(_grainCuisineMatrix).forEach(
+      ([grain, cuisines]: [string, any]) => {
+        if (cuisines.includes(cuisineName)) {
+          result.grain.push(grain);
+        }
+      },
+    );
   }
 
   if (categories.includes("herb")) {
-    Object.entries(_herbCuisineMatrix).forEach(([herb, cuisines]: [string, any]) => {
-      if (cuisines.includes(cuisineName)) {
-        result.herb.push(herb);
-      }
-    });
+    Object.entries(_herbCuisineMatrix).forEach(
+      ([herb, cuisines]: [string, any]) => {
+        if (cuisines.includes(cuisineName)) {
+          result.herb.push(herb);
+        }
+      },
+    );
   }
 
   // Additional matrices can be processed here

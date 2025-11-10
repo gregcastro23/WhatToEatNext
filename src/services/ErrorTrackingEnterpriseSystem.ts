@@ -5,11 +5,11 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import { log } from "@/services/LoggingService";
-import {
-  TypeScriptErrorAnalyzer,
+import { TypeScriptErrorAnalyzer } from "./campaign/TypeScriptErrorAnalyzer";
+import type {
+  TypeScriptError,
+  ErrorCategory,
 } from "./campaign/TypeScriptErrorAnalyzer";
-import type { TypeScriptError ,
-  ErrorCategory} from "./campaign/TypeScriptErrorAnalyzer";
 
 // ========== ENTERPRISE ERROR TRACKING INTERFACES ==========
 

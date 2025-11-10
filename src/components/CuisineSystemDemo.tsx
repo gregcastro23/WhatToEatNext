@@ -344,7 +344,7 @@ const CuisineSystemDemo: React.FC = () => {
                       type="range"
                       min="0"
                       max="100"
-                      value={(value) * 100}
+                      value={value * 100}
                       onChange={(e) =>
                         handleElementalChange(
                           element as keyof ElementalProperties,
@@ -354,7 +354,7 @@ const CuisineSystemDemo: React.FC = () => {
                       className="flex-1"
                     />
                     <span className="w-12 text-right">
-                      {Math.round((value) * 100)}%
+                      {Math.round(value * 100)}%
                     </span>
                   </div>
                 ),
@@ -437,7 +437,9 @@ const CuisineSystemDemo: React.FC = () => {
 
         <div className="mt-6 flex space-x-4">
           <button
-            onClick={() => { void generateRecommendations(); }}
+            onClick={() => {
+              void generateRecommendations();
+            }}
             disabled={loading}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
           >
