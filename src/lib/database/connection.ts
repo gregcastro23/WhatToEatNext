@@ -94,14 +94,14 @@ export function initializeDatabase(): Pool {
 
   // Connection event handlers
   pool.on("connect", (client: PoolClient) => {
-    logger.info("New database connection established", {
+    void logger.info("New database connection established", {
       database: config.database,
       host: config.host,
     });
   });
 
   pool.on("error", (err: Error, client: PoolClient) => {
-    logger.error("Unexpected database pool error", {
+    void logger.error("Unexpected database pool error", {
       error: err.message,
       stack: err.stack,
       database: config.database,
@@ -109,19 +109,23 @@ export function initializeDatabase(): Pool {
   });
 
   // Graceful shutdown handling
-  process.on("SIGINT", async () => {
-    logger.info("Received SIGINT, closing database pool...");
-    await closeDatabase();
-    process.exit(0);
+  process.on("SIGINT", () => {
+    void (async () => {
+      void logger.info("Received SIGINT, closing database pool...");
+      await closeDatabase();
+      process.exit(0);
+    })();
   });
 
-  process.on("SIGTERM", async () => {
-    logger.info("Received SIGTERM, closing database pool...");
-    await closeDatabase();
-    process.exit(0);
+  process.on("SIGTERM", () => {
+    void (async () => {
+      void logger.info("Received SIGTERM, closing database pool...");
+      await closeDatabase();
+      process.exit(0);
+    })();
   });
 
-  logger.info("Database connection pool initialized", {
+  void logger.info("Database connection pool initialized", {
     database: config.database,
     host: config.host,
     port: config.port,
@@ -142,10 +146,10 @@ export function getDatabasePool(): Pool {
 // Close database connection pool
 export async function closeDatabase(): Promise<void> {
   if (pool) {
-    logger.info("Closing database connection pool...");
+    void logger.info("Closing database connection pool...");
     await pool.end();
     pool = null;
-    logger.info("Database connection pool closed");
+    void logger.info("Database connection pool closed");
   }
 }
 
@@ -189,7 +193,7 @@ export async function withTransaction<T>(
     return result;
   } catch (error) {
     await client.query("ROLLBACK");
-    logger.error("Database transaction failed, rolled back", {
+    void logger.error("Database transaction failed, rolled back", {
       error: error instanceof Error ? error.message : "Unknown error",
     });
     throw error;
@@ -212,7 +216,7 @@ export async function executeQuery<T extends any = any>(
 
   try {
     if (logQuery) {
-      logger.debug("Executing database query", {
+      void logger.debug("Executing database query", {
         query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
         paramCount: params.length,
       });
@@ -223,7 +227,7 @@ export async function executeQuery<T extends any = any>(
     const executionTime = Date.now() - startTime;
     if (executionTime > 1000) {
       // Log slow queries (>1s)
-      logger.warn("Slow database query detected", {
+      void logger.warn("Slow database query detected", {
         executionTime,
         query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
         rowCount: result.rowCount,
@@ -233,7 +237,7 @@ export async function executeQuery<T extends any = any>(
     return result;
   } catch (error) {
     const executionTime = Date.now() - startTime;
-    logger.error("Database query failed", {
+    void logger.error("Database query failed", {
       error: error instanceof Error ? error.message : "Unknown error",
       executionTime,
       query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
@@ -269,13 +273,13 @@ export async function executeQueryWithRetry<T extends any = any>(
       }
 
       if (attempt < maxRetries) {
-        logger.warn(`Database query attempt ${attempt} failed, retrying...`, {
+        void logger.warn(`Database query attempt ${attempt} failed, retrying...`, {
           error: lastError.message,
           attempt,
           maxRetries,
           delay: retryDelay,
         });
-        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+        await new Promise((resolve) => setTimeout(() => void resolve(), retryDelay));
         retryDelay *= 2; // Exponential backoff
       }
     }

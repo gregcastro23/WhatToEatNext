@@ -3,11 +3,10 @@
  */
 
 // Import standardized types from alchemy
-import type { LunarPhase } from "@/types/alchemy";
-
 import type {
   AstrologicalStateType,
   ElementalPropertiesType,
+  LunarPhase,
   LunarPhaseType,
   PlanetaryPositionsType,
   ZodiacSignType,

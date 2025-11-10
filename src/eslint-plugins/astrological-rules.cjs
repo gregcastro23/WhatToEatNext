@@ -6,8 +6,6 @@
  * properties, and transit date validation patterns.
  */
 
-const path = require("path");
-
 /**
  * Rule: Preserve planetary constants
  * Ensures that mathematical constants used in planetary calculations are not modified

@@ -6,8 +6,6 @@
  * Provides immediate feedback to prevent errors from being committed
  */
 
-const fs = require("fs");
-const path = require("path");
 
 /**
  * Create an ESLint rule from processor patterns
@@ -29,7 +27,7 @@ function createProcessorRule(processorName, patterns) {
     },
     create(context) {
       return {
-        Program(node) {
+        Program() {
           const sourceCode = context.getSourceCode();
           const text = sourceCode.getText();
 
@@ -65,7 +63,7 @@ function createProcessorRule(processorName, patterns) {
                           fixed,
                         );
                       }
-                    } catch (error) {
+                    } catch {
                       // Fixer failed, report without fix
                       return null;
                     }
@@ -73,7 +71,7 @@ function createProcessorRule(processorName, patterns) {
                 }
 
                 context.report(report);
-              } catch (error) {
+              } catch {
                 // Skip this match if location calculation fails
                 continue;
               }
@@ -178,12 +176,12 @@ module.exports = {
       {
         regex: /,,+/g,
         message: "Multiple consecutive commas detected",
-        fix: (match) => ",",
+        fix: () => ",",
       },
       {
         regex: /;;+/g,
         message: "Multiple consecutive semicolons detected",
-        fix: (match) => ";",
+        fix: () => ";",
       },
     ]),
 

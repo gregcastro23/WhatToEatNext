@@ -119,15 +119,8 @@ function compareDecanRulers(
   decanA: Record<string, unknown>,
   decanB: Record<string, unknown>,
 ): number {
-  try {
-    // Simple implementation - can be expanded
-    return 0.5; // Neutral compatibility
-  } catch (error) {
-    logger.error("Error comparing decan rulers:", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return 0.5;
-  }
+  // Simple implementation - can be expanded
+  return 0.5; // Neutral compatibility
 }
 
 /**
@@ -137,15 +130,8 @@ function calculateDegreeOverlap(
   degreeA: Record<string, unknown>,
   degreeB: Record<string, unknown>,
 ): number {
-  try {
-    // Simple implementation - can be expanded
-    return 0.5; // Neutral compatibility
-  } catch (error) {
-    logger.error("Error calculating degree overlap:", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return 0.5;
-  }
+  // Simple implementation - can be expanded
+  return 0.5; // Neutral compatibility
 }
 
 /**

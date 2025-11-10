@@ -23,7 +23,7 @@ interface _ {
   [key: string]: SafePlanetaryData;
 }
 
-export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({
+export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { planetaryPositions: alchemicalPositions } = useAlchemical();

@@ -308,7 +308,7 @@ export const spices = fixIngredientMappings({
       },
     },
   },
-  } as any,
+  },
 );
 
 // Validate spice heat levels

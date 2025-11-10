@@ -79,14 +79,14 @@ export async function POST(request: Request) {
     let result;
 
     switch (action) {
-      case "update":
+      case "update": {
         const customDate = customDateTime
           ? new Date(customDateTime)
           : undefined;
         const customLocation =
           latitude && longitude ? { latitude, longitude } : undefined;
 
-        result = await updateCurrentMoment(customDate, customLocation);
+        result = updateCurrentMoment(customDate, customLocation);
 
         return NextResponse.json({
           success: true,
@@ -101,8 +101,9 @@ export async function POST(request: Request) {
             "src/utils/accurateAstronomy.ts",
           ],
         });
+      }
 
-      case "status":
+      case "status": {
         const currentMoment = await getCurrentMoment();
         return NextResponse.json({
           success: true,
@@ -119,6 +120,7 @@ export async function POST(request: Request) {
                 : "incomplete",
           },
         });
+      }
 
       default:
         return NextResponse.json(
@@ -163,7 +165,7 @@ export async function PUT(request: Request) {
     const customLocation =
       latitude && longitude ? { latitude, longitude } : undefined;
 
-    const currentMoment = await updateCurrentMoment(customDate, customLocation);
+    const currentMoment = updateCurrentMoment(customDate, customLocation);
 
     const updateResults = {
       notebook: false,

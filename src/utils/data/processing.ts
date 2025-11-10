@@ -623,7 +623,7 @@ function validateAstrologicalProfile(
   // Safe property access for AstrologicalProfile properties
   const profileData = profile as any;
   const { elementalAffinity } = profileData;
-  if (!(elementalAffinity as any).base) {
+  if (!(elementalAffinity).base) {
     errors.push("Elemental affinity is required");
   }
 

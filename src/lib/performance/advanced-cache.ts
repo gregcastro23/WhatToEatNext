@@ -74,7 +74,7 @@ class AdvancedCache {
     this.stats.hits++;
     this.updateHitRate();
 
-    logger.debug("Cache hit", { key, accessCount: entry.accessCount });
+    void logger.debug("Cache hit", { key, accessCount: entry.accessCount });
     return entry.data;
   }
 
@@ -105,7 +105,7 @@ class AdvancedCache {
       this.stats.size++;
     }
 
-    logger.debug("Cache set", { key, ttl, size: this.stats.size });
+    void logger.debug("Cache set", { key, ttl, size: this.stats.size });
   }
 
   /**
@@ -122,7 +122,7 @@ class AdvancedCache {
       return cached;
     }
 
-    logger.debug("Cache miss, computing value", { key });
+    void logger.debug("Cache miss, computing value", { key });
     const computed = await computeFn();
     this.set(key, computed, ttlOverride);
 
@@ -139,20 +139,20 @@ class AdvancedCache {
       ttl?: number;
     }>,
   ): Promise<void> {
-    logger.info("Starting cache warmup", { count: entries.length });
+    void logger.info("Starting cache warmup", { count: entries.length });
 
     const promises = entries.map(async ({ key, computeFn, ttl }) => {
       try {
         const data = await computeFn();
         this.set(key, data, ttl);
-        logger.debug("Cache warmed", { key });
+        void logger.debug("Cache warmed", { key });
       } catch (error) {
-        logger.error("Cache warmup failed", { key, error });
+        void logger.error("Cache warmup failed", { key, error });
       }
     });
 
     await Promise.allSettled(promises);
-    logger.info("Cache warmup complete", this.getStats());
+    void logger.info("Cache warmup complete", this.getStats());
   }
 
   /**
@@ -169,7 +169,7 @@ class AdvancedCache {
       }
     }
 
-    logger.info("Cache invalidated by pattern", {
+    void logger.info("Cache invalidated by pattern", {
       pattern: pattern.source,
       invalidated,
     });
@@ -196,7 +196,7 @@ class AdvancedCache {
     this.stats.hits = 0;
     this.stats.misses = 0;
     this.stats.hitRate = 0;
-    logger.info("Cache cleared");
+    void logger.info("Cache cleared");
   }
 
   /**
@@ -222,7 +222,7 @@ class AdvancedCache {
     }
 
     if (removed > 0) {
-      logger.debug("Cache cleanup completed", {
+      void logger.debug("Cache cleanup completed", {
         removed,
         size: this.stats.size,
       });
@@ -246,7 +246,7 @@ class AdvancedCache {
     if (oldestKey) {
       this.cache.delete(oldestKey);
       this.stats.size--;
-      logger.debug("Evicted LRU entry", { key: oldestKey });
+      void logger.debug("Evicted LRU entry", { key: oldestKey });
     }
   }
 
@@ -269,7 +269,7 @@ export const userCache = new AdvancedCache(100, 24 * 60 * 60 * 1000); // 24 hour
  * Cache warmup for application startup
  */
 export async function initializeCaches(): Promise<void> {
-  logger.info("Initializing advanced caching system");
+  void logger.info("Initializing advanced caching system");
 
   try {
     // Warm up planetary cache with current data
@@ -302,12 +302,12 @@ export async function initializeCaches(): Promise<void> {
       },
     ]);
 
-    logger.info("Cache initialization complete", {
+    void logger.info("Cache initialization complete", {
       planetary: planetaryCache.getStats(),
       elemental: elementalCache.getStats(),
     });
   } catch (error) {
-    logger.error("Cache initialization failed", error);
+    void logger.error("Cache initialization failed", error);
   }
 }
 

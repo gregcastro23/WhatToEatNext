@@ -371,7 +371,7 @@ export class CacheService {
         return result.rows[0].result_data;
       }
     } catch (error) {
-      logger.warn("Cache retrieval failed", {
+      void logger.warn("Cache retrieval failed", {
         key,
         error: error instanceof Error ? error.message : "Unknown error",
       });
@@ -395,7 +395,7 @@ export class CacheService {
         [key, "general", {}, data, expiresAt],
       );
     } catch (error) {
-      logger.warn("Cache storage failed", {
+      void logger.warn("Cache storage failed", {
         key,
         error: error instanceof Error ? error.message : "Unknown error",
       });
@@ -410,7 +410,7 @@ export class CacheService {
       );
       return result.rowCount || 0;
     } catch (error) {
-      logger.warn("Cache invalidation failed", {
+      void logger.warn("Cache invalidation failed", {
         pattern,
         error: error instanceof Error ? error.message : "Unknown error",
       });
@@ -425,7 +425,7 @@ export class CacheService {
       );
       return result.rows[0].deleted_count || 0;
     } catch (error) {
-      logger.warn("Cache cleanup failed", {
+      void logger.warn("Cache cleanup failed", {
         error: error instanceof Error ? error.message : "Unknown error",
       });
       return 0;
@@ -472,7 +472,7 @@ export class DatabaseHealthService {
         [name, value, unit, tags],
       );
     } catch (error) {
-      logger.warn("Failed to log system metric", {
+      void logger.warn("Failed to log system metric", {
         name,
         value,
         error: error instanceof Error ? error.message : "Unknown error",
@@ -486,13 +486,13 @@ export class DatabaseHealthService {
 // ==========================================
 
 export async function initializeDatabaseData(): Promise<void> {
-  logger.info("Initializing database with seed data...");
+  void logger.info("Initializing database with seed data...");
 
   // This will be expanded in Phase 2 with actual data migration
   // For now, just ensure the database is responsive
   await executeQuery("SELECT 1");
 
-  logger.info("Database initialization complete");
+  void logger.info("Database initialization complete");
 }
 
 export { checkDatabaseHealth };

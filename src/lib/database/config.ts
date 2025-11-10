@@ -89,7 +89,7 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
 // Initialize configuration and log warnings
 const validation = validateDatabaseConfig();
 if (!validation.valid) {
-  logger.error("Database configuration validation failed", {
+  void logger.error("Database configuration validation failed", {
     errors: validation.errors,
   });
   throw new Error(
@@ -98,7 +98,7 @@ if (!validation.valid) {
 }
 
 // Log configuration summary (without sensitive data)
-logger.info("Database configuration loaded", {
+void logger.info("Database configuration loaded", {
   environment: databaseConfig.environment,
   hasDatabaseUrl: !!databaseConfig.databaseUrl,
   host: databaseConfig.databaseUrl ? "[hidden]" : databaseConfig.host,

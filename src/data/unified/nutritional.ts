@@ -282,11 +282,11 @@ export class UnifiedNutritionalSystem {
       const nutrients = profileData.elementalNutrients;
 
       if (nutrients) {
-        const nutrientData = nutrients as any;
-        const fireNutrients = nutrientData.Fire as any;
-        const waterNutrients = nutrientData.Water as any;
-        const earthNutrients = nutrientData.Earth as any;
-        const airNutrients = nutrientData.Air as any;
+        const nutrientData = nutrients;
+        const fireNutrients = nutrientData.Fire;
+        const waterNutrients = nutrientData.Water;
+        const earthNutrients = nutrientData.Earth;
+        const airNutrients = nutrientData.Air;
 
         totalElementalValues.Fire += Number(
           fireNutrients.totalElementalValue || 0,
@@ -328,7 +328,7 @@ export class UnifiedNutritionalSystem {
       const profileData = profile as any;
       const astroProfile = profileData.astrologicalProfile;
 
-      const astroData = astroProfile as any;
+      const astroData = astroProfile;
       if (astroData?.seasonalPeak) {
         validProfiles++;
         if (
@@ -357,7 +357,7 @@ export class UnifiedNutritionalSystem {
       const profileData = profile as any;
       const astroProfile = profileData.astrologicalProfile;
 
-      const astroData = astroProfile as any;
+      const astroData = astroProfile;
       if (astroData?.rulingPlanets) {
         validProfiles++;
         if (

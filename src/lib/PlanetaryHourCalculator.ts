@@ -1,6 +1,6 @@
 import SunCalc from "suncalc";
-import type { Planet } from "@/types/celestial";
 import { _logger } from "@/lib/logger";
+import type { Planet } from "@/types/celestial";
 
 export class PlanetaryHourCalculator {
   // Planetary hour configuration according to traditional planetary rulers

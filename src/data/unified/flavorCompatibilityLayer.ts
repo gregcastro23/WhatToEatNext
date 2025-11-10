@@ -1,5 +1,5 @@
-import type { ElementalProperties } from "@/types/alchemy";
 import { _logger } from "@/lib/logger";
+import type { ElementalProperties } from "@/types/alchemy";
 import {
   // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====
   // Provides the same API as old fragmented systems while using unified engine
@@ -146,7 +146,7 @@ export function calculatePlanetaryFlavorMatch(
 
     // Find strongest planetary influence
     const strongestPlanet = Object.entries(planetaryInfluences).sort(
-      (a, b) => (b[1] as number) - (a[1] as number),
+      (a, b) => (b[1]) - (a[1]),
     )[0];
 
     if (!strongestPlanet) return 0.5;

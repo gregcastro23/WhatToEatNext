@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // Test utility for cooking method recommendations
 
 import type { AlchemicalItem } from "../calculations/alchemicalTransformation";

@@ -2,10 +2,10 @@
  * React hook for using the ingredient mapping service in components
  */
 
+import { useCallback, useState } from "react";
 import ingredientMappingService from "@/services/ingredientMappingService";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
-import { useCallback, useState } from "react";
 
 export function useIngredientMapping() {
   const [isLoading, setIsLoading] = useState(false);

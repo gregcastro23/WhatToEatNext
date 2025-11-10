@@ -1,3 +1,4 @@
+import { ELEMENT_COMBINATIONS } from "@/constants/elementalCore";
 import type {
   CombinationEffect,
   EffectType,
@@ -5,7 +6,6 @@ import type {
   LunarPhase,
 } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
-import { ELEMENT_COMBINATIONS } from "@/constants/elementalCore";
 import { ingredientMappings } from "@/utils/elementalMappings/ingredients";
 import { logger } from "@/utils/logger";
 

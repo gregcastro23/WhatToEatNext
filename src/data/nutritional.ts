@@ -1,5 +1,5 @@
-import { log } from "@/services/LoggingService";
 import { _logger } from "@/lib/logger";
+import { log } from "@/services/LoggingService";
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {

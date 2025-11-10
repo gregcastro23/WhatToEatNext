@@ -14,6 +14,7 @@ import type {
   // AlchemicalAction,
   AlchemicalContextType,
 } from "./types";
+
 type AlchemicalAction = any; // Type not exported
 import type { ReactNode } from "react";
 
@@ -118,7 +119,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const getAlchemicalHarmony = (): number => {
     const { elementalProperties } = state.astrologicalState;
     const values = (Object.values as any)(elementalProperties);
-    const mean = (values as any).reduce((sum, val) => sum + val, 0) / values.length;
+    const mean = (values).reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
       values.length;

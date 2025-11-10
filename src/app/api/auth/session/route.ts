@@ -3,9 +3,18 @@ import { NextResponse } from "next/server";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
-// JWT Secret - in production this should be from environment variables
-const JWT_SECRET =
-  process.env.JWT_SECRET || "your-secret-key-change-in-production";
+// JWT Secret - REQUIRED in production
+function getJWTSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error(
+      "JWT_SECRET environment variable is required. Set this to a secure random string in production."
+    );
+  }
+  return secret;
+}
+
+const JWT_SECRET = getJWTSecret();
 const JWT_EXPIRY = process.env.JWT_EXPIRY || "24h";
 
 /**

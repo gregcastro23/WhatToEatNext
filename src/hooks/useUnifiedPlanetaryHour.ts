@@ -42,7 +42,7 @@ export function useUnifiedPlanetaryHour(
   // Seed from backend/local on mount and when coords change
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    void (async () => {
       try {
         const result = await planetaryHoursClient.getCurrentPlanetaryHour({
           datetime: new Date(),

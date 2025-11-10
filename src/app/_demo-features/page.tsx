@@ -42,7 +42,7 @@ export default function DemoFeaturesPage() {
 
   const handleRecipeSelect = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
-    logger.debug("DemoFeaturesPage recipe selected", recipe);
+    void logger.debug("DemoFeaturesPage recipe selected", recipe);
   };
 
   return (

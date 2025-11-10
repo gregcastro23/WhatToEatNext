@@ -5,8 +5,8 @@ import {
   _PLANET_TO_MAJOR_ARCANA,
   _TAROT_CARDS,
 } from "@/constants/tarotCards";
-import { log } from "@/services/LoggingService";
 import { _logger } from "@/lib/logger";
+import { log } from "@/services/LoggingService";
 
 // Type definitions for the imported constants to improve type safety
 type DecanKey = keyof typeof _DECAN_TO_TAROT;

@@ -323,7 +323,7 @@ function extractTimeRange(query: string): { min: number; max: number } | null {
   for (const { pattern, multiplier = 1, max, min } of timePatterns) {
     const match = query.match(pattern);
     if (match) {
-      const value = parseInt(match[1]) * multiplier;
+      const value = parseInt(match[1], 10) * multiplier;
       if (max) return { min: 0, max: value };
       if (min) return { min: value, max: 480 };
       return { min: value - 15, max: value + 15 };

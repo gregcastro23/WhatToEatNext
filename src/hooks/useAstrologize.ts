@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
+import { _logger } from "@/lib/logger";
 import { AstrologicalService } from "@/services/AstrologicalService";
 import { log } from "@/services/LoggingService";
-import { _logger } from "@/lib/logger";
 
 interface AstrologizeOptions {
   useCurrentTime?: boolean;
@@ -32,7 +32,7 @@ export function useAstrologize(
 ): AstrologizeResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   const [data, setData] = useState<any>(null);
   const [location, setLocation] = useState<{
     latitude: number;
@@ -77,7 +77,7 @@ export function useAstrologize(
         }
       };
 
-      getLocation();
+      void getLocation();
     } else if (!useCurrentLocation) {
       // Use provided coordinates or null
       setLocation(latitude && longitude ? { latitude, longitude } : null);

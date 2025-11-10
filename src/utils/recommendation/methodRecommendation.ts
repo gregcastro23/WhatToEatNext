@@ -178,7 +178,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 bestFor: (methodData.bestFor as Element[]) || [],
                 culturalOrigin: methodData.culturalOrigin,
                 astrologicalInfluences:
-                  methodData.astrologicalInfluences as any,
+                  methodData.astrologicalInfluences,
                 duration: {
                   min: (methodData.duration as { min?: number }).min || 0,
                   max: (methodData.duration as { max?: number }).max || 0,
@@ -215,13 +215,13 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           culturalOrigin: methodData.culturalOrigin,
           astrologicalInfluences: {
             favorableZodiac:
-              ((methodData.astrologicalInfluences as any)
+              ((methodData.astrologicalInfluences)
                 .favorableZodiac as any[]) || [],
             unfavorableZodiac:
-              ((methodData.astrologicalInfluences as any)
+              ((methodData.astrologicalInfluences)
                 .unfavorableZodiac as any[]) || [],
             dominantPlanets:
-              ((methodData.astrologicalInfluences as any)
+              ((methodData.astrologicalInfluences)
                 .dominantPlanets as string[]) || [],
           },
           duration: {
@@ -532,7 +532,7 @@ export function getRecommendedCookingMethods(
     }
 
     // Zodiac compatibility (20% weight)
-    const astrologicalInfluences = methodData.astrologicalInfluences as any;
+    const astrologicalInfluences = methodData.astrologicalInfluences;
     const favorableZodiac = astrologicalInfluences.favorableZodiac as string[];
     if (currentZodiac && favorableZodiac) {
       const zodiacMatch = favorableZodiac.includes(currentZodiac);

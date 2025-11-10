@@ -172,8 +172,8 @@ class SafeUnusedImportRemover {
 
           unusedImports.push({
             file: filePath,
-            line: parseInt(lineNum),
-            column: parseInt(colNum),
+            line: parseInt(lineNum, 10),
+            column: parseInt(colNum, 10),
             importName,
             message,
             isTypeImport: message.includes("type"),

@@ -214,7 +214,7 @@ export function EnhancedRecommendationEngine({
   }, [currentFilters, maxRecommendations]);
 
   React.useEffect(() => {
-    generateRecommendations();
+    void generateRecommendations();
   }, [generateRecommendations]);
 
   const handleDietaryChange = (restriction: string, checked: boolean) => {
@@ -413,7 +413,7 @@ export function EnhancedRecommendationEngine({
             Recommendations
           </h3>
           <button
-            onClick={generateRecommendations}
+            onClick={() => { void generateRecommendations(); }}
             disabled={isLoading}
             style={{
               padding: "8px 16px",

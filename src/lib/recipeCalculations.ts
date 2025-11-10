@@ -1,5 +1,5 @@
-import { _SUIT_TO_ELEMENT } from "@/utils/tarotMappings";
 import { _logger } from "@/lib/logger";
+import { _SUIT_TO_ELEMENT } from "@/utils/tarotMappings";
 
 // Local interface for a tarot card used in recipes
 interface RecipeTarotCard {

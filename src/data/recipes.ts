@@ -408,7 +408,7 @@ export const _getRecipesForZodiac = async (
   const recipes = await getRecipes();
   return recipes.filter((recipe) => {
     const recipeData = recipe as any;
-    const energyProfile = recipeData.energyProfile as any;
+    const energyProfile = recipeData.energyProfile;
     return (
       Array.isArray(energyProfile.zodiac) &&
       (energyProfile.zodiac as unknown[]).includes(zodiac)
@@ -422,7 +422,7 @@ export const _getRecipesForSeason = async (
   const recipes = await getRecipes();
   return recipes.filter((recipe) => {
     const recipeData = recipe as any;
-    const energyProfile = recipeData.energyProfile as any;
+    const energyProfile = recipeData.energyProfile;
     return (
       (Array.isArray(energyProfile.season) &&
         (energyProfile.season as unknown[]).includes(season)) ||
@@ -437,7 +437,7 @@ export const _getRecipesForLunarPhase = async (
   const recipes = await getRecipes();
   return recipes.filter((recipe) => {
     const recipeData = recipe as any;
-    const energyProfile = recipeData.energyProfile as any;
+    const energyProfile = recipeData.energyProfile;
     return (
       Array.isArray(energyProfile.lunar) &&
       (energyProfile.lunar as unknown[]).includes(lunarPhase)
@@ -1239,10 +1239,10 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
           },
           season: Array.isArray(recipe.season)
             ? recipe.season
-            : [recipe.season as Season] || ["all"],
+            : recipe.season ? [recipe.season as Season] : ["all"],
           mealType: Array.isArray(recipe.mealType)
             ? recipe.mealType
-            : [recipe.mealType] || ["dinner"],
+            : recipe.mealType ? [recipe.mealType] : ["dinner"],
           matchPercentage: recipe.matchPercentage || 0,
           timeToMake: recipe.timeToMake || 30,
           nutrition: recipe.nutrition,

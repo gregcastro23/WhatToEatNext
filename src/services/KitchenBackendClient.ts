@@ -89,7 +89,7 @@ export class KitchenBackendClient {
         };
 
         const apiRecipes = await alchmAPI.getRecommendations(request);
-        logger.debug("KitchenBackendClient: Got recipes from API", {
+        void logger.debug("KitchenBackendClient: Got recipes from API", {
           count: apiRecipes.length,
         });
 
@@ -122,7 +122,7 @@ export class KitchenBackendClient {
         preferences: ctx.preferences,
       });
     } catch (err) {
-      logger.warn(
+      void logger.warn(
         "KitchenBackendClient: Failed to get recipe recommendations",
         err,
       );

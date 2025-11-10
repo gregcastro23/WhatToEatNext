@@ -24,7 +24,7 @@ export interface LogContext {
   requestId?: string;
 
   // Intentionally any: Logging context needs flexibility for various metadata
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   [key: string]: any;
 }
 
@@ -36,7 +36,7 @@ export interface LogEntry {
   error?: Error;
 
   // Intentionally, any: Log data can be of any type for debugging purposes
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   data?: any;
 }
 
@@ -71,17 +71,17 @@ class LoggingService {
     this.logLevel = level;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   public debug(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.DEBUG, message, context, undefined, data);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   public info(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.INFO, message, context, undefined, data);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   public warn(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.WARN, message, context, undefined, data);
   }
@@ -218,16 +218,16 @@ const logger = LoggingService.getInstance();
 // Export convenience functions
 
 export const log = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   debug: (message: string, context?: LogContext, data?: any) =>
     logger.debug(message, context, data),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   info: (message: string, context?: LogContext, data?: any) =>
     logger.info(message, context, data),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   warn: (message: string, context?: LogContext, data?: any) =>
     logger.warn(message, context, data),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   error: (message: string, context?: LogContext, error?: Error, data?: any) =>
     logger.error(message, context, error, data),
 };

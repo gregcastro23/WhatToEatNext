@@ -5,7 +5,7 @@ import { _TarotContext } from "./context";
 import type { TarotCard, TarotElementalInfluences } from "./types";
 import type { ReactNode } from "react";
 
-export const _TarotProvider = ({ children }: { children: ReactNode }) => {
+export const TarotProvider = ({ children }: { children: ReactNode }) => {
   const [tarotCard, setTarotCard] = useState<TarotCard | null>(null);
   const [tarotElementalInfluences, setTarotElementalInfluences] =
     useState<TarotElementalInfluences>({

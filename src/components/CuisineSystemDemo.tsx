@@ -7,13 +7,13 @@
 
 "use client";
 
+import React, { useEffect, useState } from "react";
+import type { ElementalProperties } from "@/types/alchemy";
 import {
   configureGlobalCache,
   getGlobalCache,
 } from "@/utils/cuisine/cuisineComputationCache";
-import type { ElementalProperties } from "@/types/alchemy";
 import { generateCuisineRecommendations } from "@/utils/cuisine/cuisineRecommendationEngine";
-import React, { useEffect, useState } from "react";
 
 interface UserProfile {
   elementalPreferences: ElementalProperties;
@@ -344,17 +344,17 @@ const CuisineSystemDemo: React.FC = () => {
                       type="range"
                       min="0"
                       max="100"
-                      value={(value as number) * 100}
+                      value={(value) * 100}
                       onChange={(e) =>
                         handleElementalChange(
                           element as keyof ElementalProperties,
-                          parseInt(e.target.value),
+                          parseInt(e.target.value, 10),
                         )
                       }
                       className="flex-1"
                     />
                     <span className="w-12 text-right">
-                      {Math.round((value as number) * 100)}%
+                      {Math.round((value) * 100)}%
                     </span>
                   </div>
                 ),
@@ -437,7 +437,7 @@ const CuisineSystemDemo: React.FC = () => {
 
         <div className="mt-6 flex space-x-4">
           <button
-            onClick={generateRecommendations}
+            onClick={() => { void generateRecommendations(); }}
             disabled={loading}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
           >

@@ -50,6 +50,7 @@ import {
   generateCuisineRecommendations,
   // calculateCuisineCompatibility,
 } from "./culinary/cuisineRecommendations";
+
 const calculateCuisineCompatibility: any = null; // Commented out non-existent export
 import { calculateRecipeCompatibility } from "./culinary/recipeMatching";
 import { calculateGregsEnergy } from "./gregsEnergy";
@@ -199,7 +200,7 @@ export class UnifiedCalculationEngine {
           : await getCurrentPlanetaryPositions());
 
       // Calculate core alchemical properties
-      const alchemicalResult = await alchemize(planetaryPositions as any);
+      const alchemicalResult = alchemize(planetaryPositions as any);
       const kalchmResult = calculateKalchmResults(planetaryPositions as any);
 
       // Calculate elemental properties
@@ -226,7 +227,7 @@ export class UnifiedCalculationEngine {
       });
 
       // Update current moment tracking
-      await updateCurrentMoment(planetaryPositions as any);
+      updateCurrentMoment(planetaryPositions as any);
 
       // Log API call
       (onAlchemizeApiCall as any)(planetaryPositions, alchemicalResult);
@@ -436,7 +437,7 @@ export class UnifiedCalculationEngine {
     profile2: ElementalProperties,
   ): number {
     const result = analyzeElementalCompatibility(profile1, profile2);
-    return ((result as any).compatibility || result) as any;
+    return ((result as any).compatibility || result);
   }
 
   private generateCacheKey(

@@ -1,7 +1,7 @@
-import { _logger } from "@/lib/logger";
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
+import { _logger } from "@/lib/logger";
 
 export interface TypeScriptError {
   code: string;
@@ -209,8 +209,8 @@ class ErrorTrackingSystem {
           code,
           message: message.trim(),
           file: file.trim(),
-          line: parseInt(lineStr),
-          column: parseInt(columnStr),
+          line: parseInt(lineStr, 10),
+          column: parseInt(columnStr, 10),
           severity: severity as "error" | "warning",
           category: this.ERROR_CATEGORIES[code] || "Other",
           timestamp: new Date(),
@@ -579,7 +579,7 @@ class ErrorTrackingSystem {
           stdio: "pipe",
         },
       );
-      return parseInt(result.trim()) || 0;
+      return parseInt(result.trim(), 10) || 0;
     } catch (error) {
       return 0;
     }

@@ -1,8 +1,8 @@
 import { african } from "@/data/cuisines/african";
 import { american } from "@/data/cuisines/american";
+import { _logger } from "@/lib/logger";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { log } from "@/services/LoggingService";
-import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
 
@@ -1165,7 +1165,7 @@ export function getRecipesForCuisineMatch(
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
               const ingredients = recipeData.ingredients as any[];
               const recipeIngredientNames = ingredients.map((ing: any) => {
-                const ingData = ing as any;
+                const ingData = ing;
                 return typeof ing === "string"
                   ? ing.toLowerCase()
                   : String(ingData.name || "").toLowerCase();
@@ -1191,7 +1191,7 @@ export function getRecipesForCuisineMatch(
               cuisineProfile.signatureTechniques &&
               recipeData.cookingMethods
             ) {
-              const cookingMethods = recipeData.cookingMethods as any;
+              const cookingMethods = recipeData.cookingMethods;
               const recipeTechniques = Array.isArray(cookingMethods)
                 ? (cookingMethods as string[]).map((tech: string) =>
                     String(tech || "").toLowerCase(),
@@ -1219,7 +1219,7 @@ export function getRecipesForCuisineMatch(
             ) {
               const elementScore = calculateSimilarityScore(
                 cuisineProfile.elementalAlignment,
-                recipeData.elementalProperties as any,
+                recipeData.elementalProperties,
               );
               scoreComponents.push(elementScore * 0.1);
               totalWeight += 0.1;
@@ -1257,11 +1257,11 @@ export function getRecipesForCuisineMatch(
             };
           }
         })
-        .filter((recipe) => Number((recipe as any).matchScore || 0) >= 0.5) // Only include reasonably good matches
+        .filter((recipe) => Number((recipe).matchScore || 0) >= 0.5) // Only include reasonably good matches
         .sort(
           (a, b) =>
-            Number((b as any).matchScore || 0) -
-            Number((a as any).matchScore || 0),
+            Number((b).matchScore || 0) -
+            Number((a).matchScore || 0),
         ); // Sort by score (high to low)
     }
 

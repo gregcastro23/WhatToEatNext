@@ -1,5 +1,5 @@
-import type { ElementalProperties, CookingMethod } from "@/types/alchemy";
 import { _logger } from "@/lib/logger";
+import type { ElementalProperties, CookingMethod } from "@/types/alchemy";
 import {
   calculatePlanetaryPositions,
   calculateSunSign,
@@ -9,6 +9,7 @@ import {
   elementalUtils,
   // _getCurrentElementalState,
 } from "../utils/elementalUtils";
+
 const _getCurrentElementalState: any = null; // Commented out non-existent export
 import {
   AstrologicalService,

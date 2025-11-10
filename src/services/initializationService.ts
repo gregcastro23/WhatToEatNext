@@ -75,7 +75,7 @@ class InitializationService {
       const processedRecipes = this.processRecipes(recipes, celestialData);
 
       // Get the actual stateManager instance
-      const manager = await stateManager;
+      const manager = stateManager;
 
       // Convert celestial data to elemental properties format
       const elementalPreference =
@@ -181,8 +181,8 @@ class InitializationService {
   private async initializeUserState() {
     try {
       // Get the actual stateManager instance first
-      const manager = await stateManager;
-      return await manager.getState();
+      const manager = stateManager;
+      return manager.getState();
     } catch (error) {
       logger.warn("Failed to load user state, using defaults: ", error);
       return { recipes: { favorites: [] } };

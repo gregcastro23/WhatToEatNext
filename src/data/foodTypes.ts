@@ -1,8 +1,8 @@
 // src/data/foodTypes.ts
 
 import type { ElementalProperties } from "@/types/alchemy";
-import type { Cuisine } from "./cuisines";
 import type { Recipe } from "@/types/recipe";
+import type { Cuisine } from "./cuisines";
 
 // Properties that describe food characteristics
 export type FoodProperty =

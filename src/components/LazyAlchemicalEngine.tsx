@@ -57,7 +57,7 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
     if (!shouldPreload) {
       setShouldPreload(true);
       // Trigger preload
-      import("@/calculations/alchemicalEngine");
+      void import("@/calculations/alchemicalEngine");
     }
   };
 

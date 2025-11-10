@@ -108,7 +108,7 @@ function enhanceIngredient(
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5 - (0.5 || 0) * 0.2,
+      gregsEnergy: 0.5 - 0.5 * 0.2,
     };
 
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility

@@ -304,7 +304,7 @@ export const errorRates = new client.Gauge({
 export function collectHttpMetrics(serviceName: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     const startTime = Date.now();
-    const requestSize = parseInt(req.get("content-length") || "0", 10);
+    const requestSize = parseInt(req.get("content-length", 10) || "0", 10);
 
     // Track request size
     if (requestSize > 0) {

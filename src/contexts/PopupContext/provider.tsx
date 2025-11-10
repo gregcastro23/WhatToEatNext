@@ -15,7 +15,7 @@ import type {
   PopupProviderProps,
 } from "./types";
 
-export const _PopupProvider = ({
+export const PopupProvider = ({
   children,
 }: PopupProviderProps): React.ReactElement => {
   const [popups, setPopups] = useState<Popup[]>([]);

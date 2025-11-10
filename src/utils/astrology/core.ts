@@ -277,9 +277,9 @@ export async function calculateLunarPhase(
       throw new Error("Sun or Moon position missing");
     }
     // Calculate the angular distance between Sun and Moon
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+     
     const moonLong = (positions.Moon as any)?.longitude || 0;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+     
     const sunLong = (positions.Sun as any)?.longitude || 0;
     let angularDistance = moonLong - sunLong;
     // Normalize to 0-360 range
@@ -459,7 +459,7 @@ export async function getCurrentAstrologicalState(
     // Get active planets
     const activePlanets = await calculateActivePlanets(positions);
     // Calculate aspects between planets
-    const aspects = await calculatePlanetaryAspects(
+    const aspects = calculatePlanetaryAspects(
       positions as Record<string, CelestialPosition>,
     );
 

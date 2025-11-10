@@ -189,7 +189,7 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
 
   try {
     const degree = parseFloat(degreeParam);
-    const year = parseInt(yearParam);
+    const year = parseInt(yearParam, 10);
 
     if (isNaN(degree) || degree < 0 || degree > 360) {
       throw new Error("Degree must be between 0 and 360");
@@ -238,7 +238,7 @@ function handleYearMap(searchParams: URLSearchParams) {
   }
 
   try {
-    const year = parseInt(yearParam);
+    const year = parseInt(yearParam, 10);
 
     if (isNaN(year) || year < 1900 || year > 2100) {
       throw new Error("Year must be between 1900 and 2100");
@@ -298,8 +298,8 @@ function handleMonthlyCalendar(searchParams: URLSearchParams) {
   }
 
   try {
-    const year = parseInt(yearParam);
-    const month = parseInt(monthParam);
+    const year = parseInt(yearParam, 10);
+    const month = parseInt(monthParam, 10);
 
     if (isNaN(year) || year < 1900 || year > 2100) {
       throw new Error("Year must be between 1900 and 2100");

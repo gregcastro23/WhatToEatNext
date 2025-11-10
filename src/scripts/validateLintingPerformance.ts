@@ -439,7 +439,7 @@ export const testVariable = 'test';
     // Try to extract file count from ESLint output
     const fileMatches = output.match(/(\d+)\s+files?\s+linted/i);
     if (fileMatches) {
-      return parseInt(fileMatches[1]);
+      return parseInt(fileMatches[1], 10);
     }
 
     // Fallback: count lines that look like file paths
@@ -459,7 +459,7 @@ export const testVariable = 'test';
     // Try to extract parallel process info from output
     const parallelMatches = output.match(/(\d+)\s+parallel\s+processes?/i);
     if (parallelMatches) {
-      return parseInt(parallelMatches[1]);
+      return parseInt(parallelMatches[1], 10);
     }
 
     // Estimate based on system capabilities

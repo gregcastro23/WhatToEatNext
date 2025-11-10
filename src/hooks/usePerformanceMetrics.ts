@@ -24,7 +24,7 @@ export interface ComponentPerformanceData {
   memoryImpact: number;
 }
 
-export const _usePerformanceMetrics = (componentName?: string) => {
+export const usePerformanceMetrics = (componentName?: string) => {
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     renderTime: 0,
     dataFetchTime: 0,

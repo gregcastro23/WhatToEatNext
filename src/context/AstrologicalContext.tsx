@@ -170,19 +170,19 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({
   // Update zodiac sign and recalculate state
   const updateZodiac = (zodiac: string): void => {
     setCurrentZodiac(zodiac);
-    calculateAstrologicalState(zodiac);
+    void calculateAstrologicalState(zodiac);
   };
 
   // Initialize with default zodiac sign
   useEffect(() => {
-    calculateAstrologicalState(currentZodiac);
+    void calculateAstrologicalState(currentZodiac);
   }, []);
 
   // Periodic updates (every 10 minutes) to refresh planetary hour
   useEffect(() => {
     const interval = setInterval(
       () => {
-        calculateAstrologicalState(currentZodiac);
+        void calculateAstrologicalState(currentZodiac);
       },
       10 * 60 * 1000,
     ); // 10 minutes

@@ -1,3 +1,4 @@
+import { _logger } from "@/lib/logger";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
 import { log } from "@/services/LoggingService";
 import type {
@@ -9,7 +10,6 @@ import type {
   ZodiacSign,
 } from "@/types/celestial";
 import { normalizePlanetaryPositions } from "@/utils/astrology/core";
-import { _logger } from "@/lib/logger";
 
 /**
  * AstrologyService

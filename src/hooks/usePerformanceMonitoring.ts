@@ -140,7 +140,7 @@ export function usePerformanceMonitoring(
         });
         clsObserver.observe({ entryTypes: ["layout-shift"] });
       } catch (error) {
-        logger.warn("Web Vitals tracking failed", error);
+        void logger.warn("Web Vitals tracking failed", error);
       }
     }
   }, [config.trackWebVitals]);
@@ -229,7 +229,7 @@ export function usePerformanceMonitoring(
 
       getMemoryUsage();
     } catch (error) {
-      logger.error("Performance metrics update failed", error);
+      void logger.error("Performance metrics update failed", error);
     }
   }, [generateRecommendations, getMemoryUsage]);
 
@@ -238,12 +238,12 @@ export function usePerformanceMonitoring(
     setIsTracking(true);
     updateMetrics();
     getWebVitals();
-    logger.info("Performance monitoring started");
+    void logger.info("Performance monitoring started");
   }, [updateMetrics, getWebVitals]);
 
   const stopTracking = useCallback(() => {
     setIsTracking(false);
-    logger.info("Performance monitoring stopped");
+    void logger.info("Performance monitoring stopped");
   }, []);
 
   // Setup periodic updates

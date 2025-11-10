@@ -88,7 +88,7 @@ class UserLearningSystem {
     this.interactions.set(userId, userInteractions);
     this.updateUserPreferences(userId);
 
-    logger.debug("User interaction tracked", {
+    void logger.debug("User interaction tracked", {
       userId,
       type: interaction.type,
     });
@@ -165,7 +165,7 @@ class UserLearningSystem {
     };
 
     this.trackInteraction(userId, interaction);
-    logger.info("Recipe interaction learned", {
+    void logger.info("Recipe interaction learned", {
       userId,
       recipeId: recipeData.id,
       type: interactionType,
@@ -191,7 +191,7 @@ class UserLearningSystem {
     };
 
     this.trackInteraction(userId, interaction);
-    logger.debug("Ingredient preferences learned", {
+    void logger.debug("Ingredient preferences learned", {
       userId,
       selected: selectedIngredients.length,
       rejected: rejectedIngredients.length,
@@ -640,7 +640,7 @@ class UserLearningSystem {
 
   private loadFromCache(): void {
     // In a real implementation, this would load from persistent storage
-    logger.debug("User learning system initialized");
+    void logger.debug("User learning system initialized");
   }
 }
 

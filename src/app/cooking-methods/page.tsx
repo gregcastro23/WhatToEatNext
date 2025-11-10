@@ -207,7 +207,7 @@ export default function CookingMethodsPage() {
               <CookingMethodsSection
                 {...({ methods: formattedMethods,
                 onSelectMethod: handleSelectMethod,
-                selectedMethodId: selectedMethodId,
+                selectedMethodId,
                 initiallyExpanded: true } as any)}
               />
             </>

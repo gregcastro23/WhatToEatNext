@@ -31,26 +31,26 @@ export function useAlchmWebSocket(): WebSocketState {
     // Override handlers to update local state
     alchmWs["updatePlanetaryHour"] = (data: PlanetaryHourUpdate) => {
       setState((prev) => ({ ...prev, lastPlanetaryHour: data }));
-      logger.debug("WebSocket planetary hour update", data);
+      void logger.debug("WebSocket planetary hour update", data);
     };
 
     alchmWs["updateEnergy"] = (data: EnergyUpdate) => {
       setState((prev) => ({ ...prev, lastEnergyUpdate: data }));
-      logger.debug("WebSocket energy update", data);
+      void logger.debug("WebSocket energy update", data);
     };
 
     alchmWs["updateCelestial"] = (data: CelestialEvent) => {
       setState((prev) => ({ ...prev, lastCelestialEvent: data }));
-      logger.debug("WebSocket celestial event", data);
+      void logger.debug("WebSocket celestial event", data);
     };
 
     // Connect to WebSocket
     try {
       alchmWs.connect();
       setState((prev) => ({ ...prev, isConnected: true }));
-      logger.info("WebSocket connection initiated");
+      void logger.info("WebSocket connection initiated");
     } catch (error) {
-      logger.error("Failed to connect to WebSocket", error);
+      void logger.error("Failed to connect to WebSocket", error);
     }
 
     // Cleanup on unmount

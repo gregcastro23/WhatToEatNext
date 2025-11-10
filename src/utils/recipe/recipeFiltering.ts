@@ -878,7 +878,7 @@ export function filterRecipesByIngredientMappings(
 
       // Check required ingredients
       if (isNonEmptyArray(ingredientRequirements?.required)) {
-        const hasAllRequired = ingredientRequirements!.required!.every(
+        const hasAllRequired = ingredientRequirements!.required.every(
           (required) =>
             ingredients.some(
               (ingredient) =>
@@ -891,7 +891,7 @@ export function filterRecipesByIngredientMappings(
 
       // Check avoided ingredients
       if (isNonEmptyArray(ingredientRequirements?.avoided)) {
-        const hasAvoided = ingredientRequirements!.avoided!.some((avoided) =>
+        const hasAvoided = ingredientRequirements!.avoided.some((avoided) =>
           ingredients.some(
             (ingredient) =>
               ingredient.name &&

@@ -1,4 +1,5 @@
 import type { ElementalState } from "@/types/elemental";
+import { calculateKinetics } from "../calculations/kinetics";
 import {
   type ElementalProperties,
   _LUNAR_PHASE_MAPPING,
@@ -7,7 +8,6 @@ import {
   type LunarPhaseWithSpaces,
   type LunarPhaseWithUnderscores,
 } from "../types/alchemy";
-import { calculateKinetics } from "../calculations/kinetics";
 import type { KineticMetrics } from "../types/kinetics";
 import type { LunarPhaseModifier } from "../types/lunar";
 

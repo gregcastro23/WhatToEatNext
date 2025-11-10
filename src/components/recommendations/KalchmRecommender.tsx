@@ -22,13 +22,8 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
   const { recommendations, loading, error, getRecommendations } =
     useEnhancedRecommendations();
 
-  // Get alchemical context (with null check)
-  let alchemicalContext;
-  try {
-    alchemicalContext = useAlchemical();
-  } catch {
-    alchemicalContext = null;
-  }
+  // Get alchemical context (hook must be called unconditionally)
+  const alchemicalContext = useAlchemical();
 
   // Fetch recommendations on mount
   useEffect(() => {
@@ -225,12 +220,12 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
           {error || "An unexpected error occurred"}
         </p>
         <button
-          onClick={() =>
-            getRecommendations({
+          onClick={() => {
+            void getRecommendations({
               datetime: new Date().toISOString(),
               useBackendInfluence: true,
-            })
-          }
+            });
+          }}
           className="mt-4 rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
         >
           Try Again

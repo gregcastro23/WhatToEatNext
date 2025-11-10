@@ -97,11 +97,11 @@ export const BackendStatus: React.FC = () => {
   };
 
   useEffect(() => {
-    checkHealth();
-    runDemoCalculations();
+    void checkHealth();
+    void runDemoCalculations();
 
     // Periodic health checks
-    const interval = setInterval(checkHealth, 30000);
+    const interval = setInterval(() => void checkHealth(), 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -264,13 +264,13 @@ export const BackendStatus: React.FC = () => {
         <h3 className="text-lg font-semibold mb-4">🔧 Integration Controls</h3>
         <div className="space-y-3">
           <button
-            onClick={checkHealth}
+            onClick={() => { void checkHealth(); }}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             🔄 Refresh Health Status
           </button>
           <button
-            onClick={runDemoCalculations}
+            onClick={() => { void runDemoCalculations(); }}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors ml-3"
           >
             ⚡ Run Performance Demo

@@ -27,7 +27,7 @@ export default function DemoOptimizedPage() {
 
   const handleRecipeSelect = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
-    logger.debug("DemoOptimizedPage recipe selected", recipe);
+    void logger.debug("DemoOptimizedPage recipe selected", recipe);
   };
 
   const toggleSection = (section: keyof typeof visibleSections) => {
@@ -384,7 +384,7 @@ export default function DemoOptimizedPage() {
         </div>
 
         {/* Animation Styles */}
-        <style jsx>{`
+        <style>{`
           @keyframes slideIn {
             from {
               opacity: 0,

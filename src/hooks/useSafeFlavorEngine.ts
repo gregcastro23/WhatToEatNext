@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { _useFlavorEngine } from "../contexts/FlavorEngineContext";
+import { useFlavorEngine } from "../contexts/FlavorEngineContext";
 import type { UnifiedFlavorProfile } from "../data/unified/unifiedFlavorEngine";
 
 // Keep track of global init state across hook instances
@@ -17,7 +17,7 @@ const globalInitState = {
  * and protection against re-render loops
  */
 export function useSafeFlavorEngine() {
-  const flavorEngine = _useFlavorEngine();
+  const flavorEngine = useFlavorEngine();
   const [error, setError] = useState<Error | null>(null);
   const [isReady, setIsReady] = useState(false);
 
@@ -28,25 +28,6 @@ export function useSafeFlavorEngine() {
 
   // Increment render count on each render
   renderCountRef.current += 1;
-
-  // Add circuit breaker to prevent infinite update loops
-  if (renderCountRef.current > 100) {
-    // logger.error('Potential infinite loop in useSafeFlavorEngine detected - render count exceeded 100')
-
-    // If we're entering an infinite loop, use the most recent valid state
-    if (!isReady && globalInitState.initialized) {
-      // logger.warn('Using globally initialized state to break potential loop')
-      return {
-        isReady: true,
-        error: null,
-        getProfile: () => undefined,
-        searchProfiles: () => [],
-        calculateCompatibility: () => null,
-        profileCount: 0,
-        categories: {},
-      };
-    }
-  }
 
   // Check if flavor engine is ready (only once per component)
   useEffect(() => {
@@ -155,7 +136,7 @@ export function useSafeFlavorEngine() {
     : "{}";
 
   // Memoize the complete API to prevent unnecessary re-renders
-  return useMemo(
+  const result = useMemo(
     () => ({
       isReady,
       error,
@@ -175,6 +156,24 @@ export function useSafeFlavorEngine() {
       categoriesString,
     ],
   );
+
+  // Add circuit breaker to prevent infinite update loops (AFTER all hooks are called)
+  if (renderCountRef.current > 100) {
+    // If we're entering an infinite loop, use the most recent valid state
+    if (!isReady && globalInitState.initialized) {
+      return {
+        isReady: true,
+        error: null,
+        getProfile: () => undefined,
+        searchProfiles: () => [],
+        calculateCompatibility: () => null,
+        profileCount: 0,
+        categories: {},
+      };
+    }
+  }
+
+  return result;
 }
 
 export default useSafeFlavorEngine;

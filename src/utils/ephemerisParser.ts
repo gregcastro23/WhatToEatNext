@@ -100,9 +100,9 @@ export class EphemerisParser {
     const match = cleanStr.toLowerCase().match(pattern);
 
     if (match) {
-      const degrees = parseInt(match[1]);
+      const degrees = parseInt(match[1], 10);
       const signChar = match[2];
-      const minutes = parseInt(match[3]);
+      const minutes = parseInt(match[3], 10);
       const signNum = this.signSymbols[signChar] || 0;
 
       // Calculate absolute longitude (0-360°)

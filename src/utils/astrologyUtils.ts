@@ -1102,7 +1102,7 @@ export function calculateEnhancedStelliumEffects(
     // Process house stelliums
     Object.entries(planetsByHouse).forEach(([houseStr, planets]) => {
       if (planets.length >= 3) {
-        const houseNumber = parseInt(houseStr);
+        const houseNumber = parseInt(houseStr, 10);
 
         // Determine house element
         const houseElement = getHouseElement(houseNumber);

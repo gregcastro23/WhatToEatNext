@@ -11,6 +11,7 @@
  * Based on the authoritative alchemizer engine formulas.
  */
 
+import { calculateKinetics } from "@/calculations/kinetics";
 import type {
   CookingMethod,
   ElementalProperties,
@@ -22,7 +23,6 @@ import type {
   RecipeComputedProperties,
 } from "@/types/hierarchy";
 import type { KineticMetrics /*, KineticsCalculationInput */ } from "@/types/kinetics";
-import { calculateKinetics } from "@/calculations/kinetics";
 import { normalizeElementalProperties } from "./ingredientUtils";
 import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import {

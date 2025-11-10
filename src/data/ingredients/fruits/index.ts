@@ -99,7 +99,7 @@ export const getFruitsByRulingPlanet = (
   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
-      const astroProfile = fruitData.astrologicalProfile as any;
+      const astroProfile = fruitData.astrologicalProfile;
       const { rulingPlanets } = astroProfile;
       return (
         Array.isArray(rulingPlanets) &&
@@ -115,7 +115,7 @@ export const getFruitsByElementalAffinity = (
   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
-      const astroProfile = fruitData.astrologicalProfile as any;
+      const astroProfile = fruitData.astrologicalProfile;
       const affinity = astroProfile.elementalAffinity;
       if (!affinity) return false;
       if (typeof affinity === "string") {

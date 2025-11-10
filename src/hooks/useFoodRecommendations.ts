@@ -27,7 +27,7 @@ export interface FoodRecommendationOptions {
   userIds?: string[]; // For group recommendations
 }
 
-export const _useFoodRecommendations = (
+export const useFoodRecommendations = (
   options: FoodRecommendationOptions = {},
 ) => {
   const { state, planetaryPositions } = useAlchemical();
@@ -322,5 +322,5 @@ export const _useFoodRecommendations = (
   };
 };
 
-// Legacy export for compatibility
-export const useFoodRecommendations = _useFoodRecommendations;
+// Export default
+export default useFoodRecommendations;

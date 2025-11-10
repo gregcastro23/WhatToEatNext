@@ -16,7 +16,7 @@ interface DraggableOptions {
   };
 }
 
-export const _useDraggable = (options: DraggableOptions = {}) => {
+export const useDraggable = (options: DraggableOptions = {}) => {
   const elementRef = useRef<HTMLElement>(null);
   const isDragging = useRef(false);
   const startPos = useRef({ x: 0, y: 0 });

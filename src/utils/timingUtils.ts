@@ -58,7 +58,7 @@ export const timingUtils = {
     );
 
     // Implement getDominantElement directly
-    const entries = Object.entries(baseProperties) as [string, number][];
+    const entries = Object.entries(baseProperties);
     const dominantElement = entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
 
     // Base timing by dominant element (in minutes)

@@ -8,8 +8,8 @@
  * - Caching and optimization
  */
 
-import type { ElementalProperties } from "@/types/alchemy";
 import { _logger } from "@/lib/logger";
+import type { ElementalProperties } from "@/types/alchemy";
 
 // Backend service configuration
 const API_CONFIG = {

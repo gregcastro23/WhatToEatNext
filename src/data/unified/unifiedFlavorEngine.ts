@@ -1,3 +1,4 @@
+import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import type {
   AlchemicalProperties,
@@ -5,7 +6,6 @@ import type {
   Season,
 } from "@/types/alchemy";
 import * as flavorProfileMigration from "./flavorProfileMigration";
-import { _logger } from "@/lib/logger";
 
 // ===== UNIFIED INTERFACES =====;
 
@@ -170,7 +170,7 @@ export class UnifiedFlavorEngine {
 
   // Phase 8: Enhanced caching and performance monitoring
   private readonly profileCache: Map<string, UnifiedFlavorProfile> = new Map();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   private readonly memoizedCalculations: Map<string, any> = new Map();
   private readonly performanceMetrics: {
     totalCalculations: number;
@@ -717,7 +717,7 @@ export class UnifiedFlavorEngine {
       "umami",
       "spicy",
     ];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+     
     const breakdown: Record<keyof BaseFlavorNotes, number> = {} as any;
 
     for (const flavor of flavors) {
@@ -734,7 +734,7 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
   ): Record<Season, number> {
     const seasons: Season[] = ["spring", "summer", "autumn", "winter"];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+     
     const breakdown: Record<Season, number> = {} as any;
 
     for (const season of seasons) {

@@ -1,5 +1,5 @@
-import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 import { useEffect, useState } from "react";
+import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 
 export interface PlanetaryHoursData {
   currentHour: string;

@@ -111,13 +111,14 @@ export function calculateRecipeWeight(
     case "equal":
       return 1.0;
 
-    case "popularity":
+    case "popularity": {
       // Weight by view count and rating (if available)
       const viewCount = recipe.viewCount || 1;
       const rating = recipe.rating || 3;
       return Math.sqrt(viewCount) * (rating / 5.0);
+    }
 
-    case "representativeness":
+    case "representativeness": {
       // Weight by how typical the recipe is for the cuisine
       // Calculate similarity to cuisine average
       const similarities: number[] = [];
@@ -145,6 +146,7 @@ export function calculateRecipeWeight(
           : 0.5;
 
       return avgSimilarity;
+    }
 
     default:
       return 1.0;

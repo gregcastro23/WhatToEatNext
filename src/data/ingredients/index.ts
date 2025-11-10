@@ -73,7 +73,7 @@ const calculateElementalProperties = (
   // Calculate from astrological correspondences if available
   const ingredientDataObj = ingredientData as unknown as any;
   if (ingredientDataObj.astrologicalCorrespondence) {
-    const astro = ingredientDataObj.astrologicalCorrespondence as any;
+    const astro = ingredientDataObj.astrologicalCorrespondence;
     const elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
     // Add elemental influence from planetary rulers

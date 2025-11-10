@@ -463,7 +463,6 @@ export class FlavorProfileMigration {
       alchemicalProperties: this.getDefaultAlchemicalProperties(),
 
       seasonalPeak: (flavorData.seasonalPeak as Season[]) || [
-        ,
         "spring",
         "summer",
         "autumn",

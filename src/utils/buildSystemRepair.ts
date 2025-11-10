@@ -160,7 +160,7 @@ export class BuildSystemRepair {
     await monitor();
 
     // Set up interval monitoring
-    setInterval(monitor, intervalMinutes * 60 * 1000);
+    setInterval(() => { void monitor(); }, intervalMinutes * 60 * 1000);
   }
 
   /**

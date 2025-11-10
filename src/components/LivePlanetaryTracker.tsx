@@ -102,7 +102,7 @@ export const LivePlanetaryTracker: React.FC = () => {
 
       setIsLoading(false);
     } catch (error) {
-      logger.error("Error updating planetary display", error);
+      void logger.error("Error updating planetary display", error);
       setIsLoading(false);
     }
   };
@@ -148,10 +148,10 @@ export const LivePlanetaryTracker: React.FC = () => {
 
   // Real-time updates
   useEffect(() => {
-    updatePlanetaryDisplay();
+    void updatePlanetaryDisplay();
 
     // Update every minute for accurate time remaining
-    const interval = setInterval(updatePlanetaryDisplay, 60000);
+    const interval = setInterval(() => void updatePlanetaryDisplay(), 60000);
 
     return () => clearInterval(interval);
   }, []);
@@ -159,8 +159,8 @@ export const LivePlanetaryTracker: React.FC = () => {
   // Handle WebSocket updates
   useEffect(() => {
     if (lastPlanetaryHour) {
-      logger.info("Received live planetary hour update", lastPlanetaryHour);
-      updatePlanetaryDisplay();
+      void logger.info("Received live planetary hour update", lastPlanetaryHour);
+      void updatePlanetaryDisplay();
     }
   }, [lastPlanetaryHour]);
 

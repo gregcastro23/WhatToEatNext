@@ -115,13 +115,13 @@ export function usePersonalization(
       const responseTime = performance.now() - startTime;
       trackApiCall("personalization/preferences", responseTime);
 
-      logger.debug("User preferences loaded", {
+      void logger.debug("User preferences loaded", {
         userId,
         confidence: preferences.learningConfidence,
         responseTime,
       });
     } catch (error) {
-      logger.error("Failed to load user preferences", { userId, error });
+      void logger.error("Failed to load user preferences", { userId, error });
       setData((prev) => ({ ...prev, isLoading: false }));
     }
   }, [userId, trackApiCall]);
@@ -142,18 +142,18 @@ export function usePersonalization(
       if (!userId || !config.autoLearn) return;
 
       try {
-        userLearning.learnFromRecipe(userId, recipeData, interactionType);
+        void userLearning.learnFromRecipe(userId, recipeData, interactionType);
 
         // Update local preferences after learning
         await loadPreferences();
 
-        logger.debug("Recipe interaction tracked", {
+        void logger.debug("Recipe interaction tracked", {
           userId,
           recipeId: recipeData.id,
           type: interactionType,
         });
       } catch (error) {
-        logger.error("Failed to track recipe interaction", { userId, error });
+        void logger.error("Failed to track recipe interaction", { userId, error });
       }
     },
     [userId, config.autoLearn, loadPreferences],
@@ -165,16 +165,16 @@ export function usePersonalization(
       if (!userId || !config.autoLearn) return;
 
       try {
-        userLearning.learnFromIngredients(userId, selected, rejected);
+        void userLearning.learnFromIngredients(userId, selected, rejected);
         await loadPreferences();
 
-        logger.debug("Ingredient preferences tracked", {
+        void logger.debug("Ingredient preferences tracked", {
           userId,
           selected: selected.length,
           rejected: rejected.length,
         });
       } catch (error) {
-        logger.error("Failed to track ingredient preferences", {
+        void logger.error("Failed to track ingredient preferences", {
           userId,
           error,
         });
@@ -189,16 +189,16 @@ export function usePersonalization(
       if (!userId || !config.autoLearn) return;
 
       try {
-        userLearning.learnFromPlanetaryQuery(userId, planetaryHour, engagement);
+        void userLearning.learnFromPlanetaryQuery(userId, planetaryHour, engagement);
         await loadPreferences();
 
-        logger.debug("Planetary interest tracked", {
+        void logger.debug("Planetary interest tracked", {
           userId,
           planet: planetaryHour,
           engagement,
         });
       } catch (error) {
-        logger.error("Failed to track planetary interest", { userId, error });
+        void logger.error("Failed to track planetary interest", { userId, error });
       }
     },
     [userId, config.autoLearn, loadPreferences],
@@ -238,9 +238,9 @@ export function usePersonalization(
             scores: personalizedScores,
             lastUpdated: Date.now(),
           },
-        } as any));
+        }));
 
-        logger.debug("Personalized recommendations generated", {
+        void logger.debug("Personalized recommendations generated", {
           userId,
           count: personalizedScores.length,
           avgConfidence:
@@ -256,7 +256,7 @@ export function usePersonalization(
           confidence: score.confidence,
         }));
       } catch (error) {
-        logger.error("Failed to generate personalized recommendations", {
+        void logger.error("Failed to generate personalized recommendations", {
           userId,
           error,
         });
@@ -336,13 +336,13 @@ export function usePersonalization(
   useEffect(() => {
     if (!userId || !config.updateInterval) return;
 
-    const interval = setInterval(loadPreferences, config.updateInterval);
+    const interval = setInterval(() => void loadPreferences(), config.updateInterval);
     return () => clearInterval(interval);
   }, [userId, config.updateInterval, loadPreferences]);
 
   // Initial load
   useEffect(() => {
-    loadPreferences();
+    void loadPreferences();
   }, [loadPreferences]);
 
   return {

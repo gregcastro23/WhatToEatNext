@@ -72,7 +72,7 @@ export const transformItemWithPlanetaryPositions = (
     };
 
     // Calculate alchemical properties based on planetary positions
-    const alchemicalResults = (calculateAlchemicalProperties as any)(
+    const alchemicalResults = (calculateAlchemicalProperties)(
       planetPositions as unknown,
       isDaytime,
     );
@@ -85,7 +85,7 @@ export const transformItemWithPlanetaryPositions = (
     } = calculatePlanetaryBoost(
       sanitizedItem,
       planetPositions,
-      currentZodiac || "aries" || "aries",
+      currentZodiac || "aries",
       lunarPhase || null,
     );
 
@@ -95,7 +95,7 @@ export const transformItemWithPlanetaryPositions = (
       sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
-      (currentZodiac || "aries" || "aries").toLowerCase() as ZodiacSign,
+      (currentZodiac || "aries").toLowerCase() as ZodiacSign,
     );
 
     // Calculate dominant element and alchemical property
@@ -160,7 +160,6 @@ export const transformItemWithPlanetaryPositions = (
     let zodiacModifier = 0;
     const zodiacSign = (
       currentZodiac ||
-      "aries" ||
       "aries"
     ).toLowerCase() as ZodiacSign;
     const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
@@ -285,7 +284,7 @@ export const _transformItemsWithPlanetaryPositions = (
         item,
         planetPositions,
         isDaytime,
-        currentZodiac || "aries" || "aries",
+        currentZodiac || "aries",
         lunarPhase,
       ),
     );

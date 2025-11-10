@@ -8,7 +8,7 @@ import {
   saveComponentState,
   saveNavigationState,
   saveScrollPosition,
-  useStateCleanup,
+  setupStateCleanup,
 } from "@/utils/statePreservation";
 import type { ElementalProperties } from "@/utils/steeringFileIntelligence";
 import { useSteeringFileIntelligence } from "@/utils/steeringFileIntelligence";
@@ -149,8 +149,10 @@ export function useScrollPreservation(sectionId: string) {
  */
 export function useAutoStateCleanup() {
   useEffect(() => {
-    const cleanup = useStateCleanup();
-    return cleanup;
+    // Call the cleanup setup function directly
+    const cleanupFn = setupStateCleanup();
+    // Return the cleanup function if it exists
+    return cleanupFn || undefined;
   }, []);
 }
 

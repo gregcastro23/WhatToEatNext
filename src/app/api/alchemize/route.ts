@@ -111,10 +111,10 @@ export async function POST(request: Request) {
         hour,
         minute,
       );
-      await updateCurrentMoment(customDate, { latitude, longitude });
+      updateCurrentMoment(customDate, { latitude, longitude });
     } else {
       // Trigger update with current moment
-      await onAlchemizeApiCall(planetaryPositions);
+      onAlchemizeApiCall(planetaryPositions);
     }
 
     logger.info("Updated current moment data across all storage locations");

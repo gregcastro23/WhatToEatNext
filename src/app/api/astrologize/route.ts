@@ -181,7 +181,7 @@ export async function POST(request: Request) {
 
     // Update current moment data
     try {
-      await onAstrologizeApiCall(planetaryPositions);
+      onAstrologizeApiCall(planetaryPositions);
       logger.info("Updated current moment data from local calculations");
     } catch (updateError) {
       logger.warn("Failed to update current moment data:", updateError);

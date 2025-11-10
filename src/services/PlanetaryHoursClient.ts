@@ -79,7 +79,7 @@ export class PlanetaryHoursClient {
         };
 
         const result = await alchmAPI.getCurrentPlanetaryHour(request);
-        logger.debug(
+        void logger.debug(
           "PlanetaryHoursClient: Backend calculation successful",
           result,
         );
@@ -93,7 +93,7 @@ export class PlanetaryHoursClient {
           end: result.end ? new Date(result.end) : undefined,
         };
       } catch (error) {
-        logger.warn(
+        void logger.warn(
           "PlanetaryHoursClient: Backend calculation failed, falling back to local",
           error,
         );

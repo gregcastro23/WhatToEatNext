@@ -409,12 +409,7 @@ export function handleSyncError<T>(
 export function useErrorHandler() {
   const handleError = React.useCallback(
     async (error: Error, context?: Record<string, unknown>) => {
-      try {
-        return await globalErrorHandler.handleError(error, context);
-      } catch (enhancedError) {
-        // Re-throw enhanced error for component error boundaries to catch
-        throw enhancedError;
-      }
+      return await globalErrorHandler.handleError(error, context);
     },
     [],
   );

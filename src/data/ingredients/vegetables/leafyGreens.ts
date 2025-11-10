@@ -15,7 +15,7 @@ const generateVegetableAttributes = (vegData: {
   volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale)
   seasonal_peak_months: [], // Will be set individually
   cell_wall_strength: Math.round(
-    10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1),
+    10 - vegData.water / 10 + vegData.fiber / 2,
   ), // Structural integrity when cooked
   nutrient_density: Math.round(
     ((vegData as any)?.fiber || 0) * 0.2 +

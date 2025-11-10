@@ -47,7 +47,7 @@ function hasProperty<T extends string>(
 export class UnifiedNutritionalService {
   private static instance: UnifiedNutritionalService;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   private readonly cache: Map<string, any> = new Map();
 
   private constructor() {

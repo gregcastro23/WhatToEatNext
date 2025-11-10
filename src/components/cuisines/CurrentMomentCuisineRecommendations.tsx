@@ -196,7 +196,7 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetchCuisineRecommendations();
+    void fetchCuisineRecommendations();
   }, [fetchCuisineRecommendations]);
 
   const getElementIcon = (element: string) =>
@@ -401,7 +401,7 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
               Failed to load cuisine recommendations
             </Text>
             <Text fontSize="sm">{error}</Text>
-            <Button size="sm" mt={2} onClick={fetchCuisineRecommendations}>
+            <Button size="sm" mt={2} onClick={() => { void fetchCuisineRecommendations(); }}>
               Try Again
             </Button>
           </Box>
@@ -497,7 +497,7 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
           <VStack {...({ spacing: 8 } as any)}>
             {data.cuisine_recommendations.map((cuisine) => (
-              <Card {...({ key: cuisine.cuisine_id, bg: cardBg, shadow: "lg", size: "lg" } as any)}>
+              <Card key={cuisine.cuisine_id} {...({ bg: cardBg, shadow: "lg", size: "lg" } as any)}>
                 <CardHeader>
                   <Flex justify="space-between" align="start" wrap="wrap">
                     <Box>
@@ -600,7 +600,7 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
           <Button
             colorScheme="purple"
             variant="outline"
-            onClick={fetchCuisineRecommendations}
+            onClick={() => { void fetchCuisineRecommendations(); }}
             loading={loading}
             loadingText="Refreshing cosmic alignment..."
           >

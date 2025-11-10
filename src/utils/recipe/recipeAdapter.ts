@@ -281,7 +281,7 @@ function normalizePlanetaryInfluences(
   });
 
   return {
-    favorable: favorable,
+    favorable,
     unfavorable,
   };
 }

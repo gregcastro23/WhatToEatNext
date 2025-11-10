@@ -41,7 +41,7 @@ const FlavorEngineContext = createContext<FlavorEngineContextType>({
 });
 
 // Hook to use the flavor engine context
-export const _useFlavorEngine = () => useContext(FlavorEngineContext);
+export const useFlavorEngine = () => useContext(FlavorEngineContext);
 
 // Create a stable engine instance - we access it once here and never again;
 const engine = unifiedFlavorEngine;

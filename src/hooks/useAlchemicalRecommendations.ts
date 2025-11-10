@@ -50,7 +50,7 @@ interface AlchemicalRecommendationResults {
  *
  * @returns Recommendations, transformed data, loading state, and any errors
  */
-export const _useAlchemicalRecommendations = ({
+export const useAlchemicalRecommendations = ({
   ingredients,
   cookingMethods,
   cuisines,
@@ -95,7 +95,7 @@ export const _useAlchemicalRecommendations = ({
 
         // Initialize with planetary data and context
         adapter.initialize(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+           
           planetPositions as any,
           isDaytime,
           currentZodiac || null,

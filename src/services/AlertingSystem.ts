@@ -1,7 +1,7 @@
-import { log } from "@/services/LoggingService";
-import { _logger } from "@/lib/logger";
 import fs from "fs";
 import path from "path";
+import { _logger } from "@/lib/logger";
+import { log } from "@/services/LoggingService";
 import { buildPerformanceMonitor } from "./BuildPerformanceMonitor";
 import { _errorTrackingSystem } from "./ErrorTrackingSystem";
 import { _qualityMetricsService } from "./QualityMetricsService";
@@ -610,12 +610,12 @@ class AlertingSystem {
     // In a real implementation, this would be more sophisticated
 
     if (condition.includes("error_count >")) {
-      const threshold = parseInt(condition.split(">")[1].trim());
+      const threshold = parseInt(condition.split(">")[1].trim(), 10);
       return alert.currentValue > threshold;
     }
 
     if (condition.includes("automation_opportunities >")) {
-      const threshold = parseInt(condition.split(">")[1].trim());
+      const threshold = parseInt(condition.split(">")[1].trim(), 10);
       const errorSummary = _errorTrackingSystem.getErrorSummary();
       return errorSummary.automationOpportunities > threshold;
     }

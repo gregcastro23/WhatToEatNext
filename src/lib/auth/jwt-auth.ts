@@ -316,7 +316,7 @@ export class JWTAuthService {
     const match = expiry.match(/^(\d+)([smhd])$/);
     if (!match) return 3600; // Default 1 hour
 
-    const value = parseInt(match[1]);
+    const value = parseInt(match[1], 10);
     const unit = match[2];
 
     switch (unit) {
@@ -413,8 +413,18 @@ export class JWTAuthService {
 }
 
 // Export singleton instance
+function getJWTSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error(
+      "JWT_SECRET environment variable is required. Set this to a secure random string in production."
+    );
+  }
+  return secret;
+}
+
 export const authService = new JWTAuthService({
-  jwtSecret: process.env.JWT_SECRET || "alchm_kitchen_jwt_secret_key",
+  jwtSecret: getJWTSecret(),
   tokenExpiry: "1h",
   refreshTokenExpiry: "7d",
   issuer: "alchm.kitchen",

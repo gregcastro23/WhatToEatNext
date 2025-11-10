@@ -143,7 +143,7 @@ export const AstrologicalRecommendations: React.FC = () => {
 
   useEffect(() => {
     if (zodiacSign || season) {
-      fetchCookingPlan();
+      void fetchCookingPlan();
     }
   }, [fetchCookingPlan]);
 
@@ -235,7 +235,7 @@ export const AstrologicalRecommendations: React.FC = () => {
             <Button
               mt={4}
               colorScheme="purple"
-              onClick={fetchCookingPlan}
+              onClick={() => { void fetchCookingPlan(); }}
               loading={loading}
               loadingText="Finding your perfect recipes..."
               disabled={!zodiacSign && !season}

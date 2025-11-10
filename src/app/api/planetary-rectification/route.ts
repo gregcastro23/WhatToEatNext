@@ -170,8 +170,8 @@ export async function GET(request: NextRequest) {
 /**
  * Handle status request
  */
-function handleStatusRequest() {
-  const status = planetaryPositionRectificationService.getSyncStatus();
+async function handleStatusRequest() {
+  const status = await planetaryPositionRectificationService.getSyncStatus();
 
   return NextResponse.json({
     ...status,
@@ -189,7 +189,7 @@ function handleStatusRequest() {
  * Handle health check request
  */
 async function handleHealthRequest() {
-  const health = await planetaryPositionRectificationService.getHealthStatus();
+  const health = planetaryPositionRectificationService.getHealthStatus();
 
   return NextResponse.json({
     ...health,
@@ -253,7 +253,7 @@ export async function PUT(request: NextRequest) {
     });
 
     const result = await (forcePositionSync as any)(targetDate);
-    const resultData = result as any;
+    const resultData = result;
 
     return NextResponse.json({
       success: resultData.success,

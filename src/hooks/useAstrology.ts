@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import type {
   LunarPhase,
   PlanetaryPosition,
@@ -5,12 +6,11 @@ import type {
 } from "@/types/astrology";
 import { createLogger } from "@/utils/logger";
 import * as safeAstrology from "@/utils/safeAstrology";
-import { useCallback, useEffect, useRef, useState } from "react";
 
 const logger = createLogger("useAstrology");
 
 // Track active API requests to prevent duplicate calls
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const activeRequests = new Map<string, Promise<any>>();
 
 interface AstrologyOptions {
@@ -211,7 +211,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
             // Use fallback if specified
             if (useFallback) {
-              useFallbackData();
+              applyFallbackData();
             }
           }
 
@@ -296,7 +296,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
             // Use fallback if fallback mode is on
             if (useFallback) {
-              return useFallbackElementalBalance();
+              return applyFallbackElementalBalance();
             }
 
             return null;
@@ -398,9 +398,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
   );
 
   /**
-   * Use fallback data from safeAstrology when API fails
+   * Apply fallback data from safeAstrology when API fails
    */
-  const useFallbackData = useCallback(() => {
+  const applyFallbackData = useCallback(() => {
     if (!isMountedRef.current) return null;
 
     try {
@@ -421,7 +421,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
           lunarPhase,
         },
         lastUpdated: Date.now(),
-      } as any));
+      }));
 
       return {
         positions,
@@ -435,9 +435,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
   }, []);
 
   /**
-   * Use fallback elemental balance calculation
+   * Apply fallback elemental balance calculation
    */
-  const useFallbackElementalBalance = useCallback(() => {
+  const applyFallbackElementalBalance = useCallback(() => {
     if (!isMountedRef.current) return null;
 
     try {

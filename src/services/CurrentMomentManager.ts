@@ -193,7 +193,7 @@ class CurrentMomentManager {
       this.updateNotebook(momentData),
       this.updateSystemDefaults(momentData),
       this.updateStreamlinedPositions(momentData),
-      void this.updateAccurateAstronomy(momentData),
+      this.updateAccurateAstronomy(momentData),
     ];
 
     const results = await Promise.allSettled(updatePromises);
@@ -206,7 +206,7 @@ class CurrentMomentManager {
           "streamlinedPositions",
           "accurateAstronomy",
         ];
-        logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
+        void logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
       }
     });
   }
@@ -265,13 +265,13 @@ class CurrentMomentManager {
           "\n",
           `# LIVE CURRENT MOMENT ANALYSIS - ${momentData.date}\n`,
           `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,
-          `print(f\'🌟 RUNNING LIVE API CALL FOR ${momentData.date.toUpperCase()}: {current_timestamp}\")\n`,
+          `print(f'🌟 RUNNING LIVE API CALL FOR ${momentData.date.toUpperCase()}: {current_timestamp}")\n`,
           "\n",
           `# CORRECT PLANETARY POSITIONS FOR ${momentData.date.toUpperCase()}\n`,
           "# Based on astronomical calculations\n",
           notebookPositions,
           "\n",
-          `print(f\"🎉 SUCCESS - Live planetary positions for ${momentData.date}:\")\n`,
+          `print(f"🎉 SUCCESS - Live planetary positions for ${momentData.date}:")\n`,
           "for planet, data in live_positions.items():\n",
           "    retro = ' (R)' if data.get('retrograde') else ''\n",
           "    print(f'   {planet}: {data['minutes']} {data['sign']}{retro} () {data['element']})\")\n",
@@ -407,12 +407,12 @@ class CurrentMomentManager {
       const minutes = `${position.degree}° ${position.minute}'`;
       const retrograde = position.isRetrograde ? ", 'retrograde': True" : "";
 
-      void lines.push(
+      lines.push(
         `    '${planet}': {'sign': '${position.sign}', 'degree': ${position.degree}, 'minutes': '${minutes}', 'element': '${element}', 'longitude': ${position.exactLongitude}${retrograde}},`,
       );
     });
 
-    void lines.push("}");
+    lines.push("}");
     return lines.join("\n");
   }
 
@@ -431,15 +431,15 @@ class CurrentMomentManager {
     ];
 
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(`  ${planet}: {`);
-      void lines.push(`    sign: '${position.sign}' as any,`);
-      void lines.push(`    degree: ${position.degree + position.minute / 60},`);
-      void lines.push(`    exactLongitude: ${position.exactLongitude},`);
-      void lines.push(`    isRetrograde: ${position.isRetrograde}`);
-      void lines.push(`  },`);
+      lines.push(`  ${planet}: {`);
+      lines.push(`    sign: '${position.sign}' as any,`);
+      lines.push(`    degree: ${position.degree + position.minute / 60},`);
+      lines.push(`    exactLongitude: ${position.exactLongitude},`);
+      lines.push(`    isRetrograde: ${position.isRetrograde}`);
+      lines.push(`  },`);
     });
 
-    void lines.push(" }");
+    lines.push(" }");
     return lines.join("\n");
   }
 
@@ -456,12 +456,12 @@ class CurrentMomentManager {
     ];
 
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(
+      lines.push(
         `    ${planet}: { sign: '${position.sign}', degree: ${position.degree + position.minute / 60}, exactLongitude: ${position.exactLongitude}, isRetrograde: ${position.isRetrograde} },`,
       );
     });
 
-    void lines.push(" }");
+    lines.push(" }");
     return lines.join("\n");
   }
 
@@ -478,12 +478,12 @@ class CurrentMomentManager {
     ];
 
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(
+      lines.push(
         `  ${planet}: [${position.degree}, ${position.minute}, 0, '${position.sign}'],`,
       );
     });
 
-    void lines.push(" }");
+    lines.push(" }");
     return lines.join("\n");
   }
 
@@ -684,10 +684,10 @@ export const getCurrentMoment = (forceRefresh = false) =>
 export const updateCurrentMoment = (
   date?: Date,
   location?: { latitude: number; longitude: number },
-) => void currentMomentManager.updateCurrentMoment(date, location);
+) => { void currentMomentManager.updateCurrentMoment(date, location); };
 export const onAlchemizeApiCall = (
   positions?: Record<string, PlanetPosition>,
-) => void currentMomentManager.onAlchemizeApiCall(positions);
+) => { void currentMomentManager.onAlchemizeApiCall(positions); };
 export const onAstrologizeApiCall = (
   positions?: Record<string, PlanetPosition>,
-) => void currentMomentManager.onAstrologizeApiCall(positions);
+) => { void currentMomentManager.onAstrologizeApiCall(positions); };

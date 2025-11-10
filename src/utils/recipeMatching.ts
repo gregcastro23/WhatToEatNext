@@ -190,7 +190,7 @@ export async function findBestMatches(
             } else {
               // Extract ingredient data with safe property access
               const ingredientData = ingredient as any;
-              const name = ingredientData.name as any;
+              const name = ingredientData.name;
               return (
                 typeof name === "string" &&
                 name.toLowerCase().includes(lowerExcluded)
@@ -1158,7 +1158,7 @@ function _calculateNutritionalMatch(
             ? (recipeProfile[factor] as number)
             : parseFloat(recipeProfile[factor] as string) || 5;
 
-        const normalizedValue = 1 - Math.min(recipeValue / (5 || 1), 1);
+        const normalizedValue = 1 - Math.min(recipeValue / 5, 1);
         matchScore += normalizedValue;
       }
       // For 'high' goals (e.g., 'high protein'), a higher value is better
@@ -1169,7 +1169,7 @@ function _calculateNutritionalMatch(
             ? (recipeProfile[factor] as number)
             : parseFloat(recipeProfile[factor] as string) || 0;
 
-        const normalizedValue = Math.min(recipeValue / (5 || 1), 1);
+        const normalizedValue = Math.min(recipeValue / 5, 1);
         matchScore += normalizedValue;
       }
       // For exact targets (e.g., specific calorie count)

@@ -1,7 +1,7 @@
+import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
-import { _logger } from "@/lib/logger";
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = "/api/astrologize";

@@ -343,7 +343,7 @@ export class AlchemicalService {
 
     for (const element of ["Fire", "Water", "Earth", "Air"] as const) {
       const change = result[element] - (baseProperties[element] || 0);
-      result[element] = baseProperties[element]! + change * intensityMultiplier;
+      result[element] = baseProperties[element] + change * intensityMultiplier;
       result[element] = Math.max(0, Math.min(1, result[element]));
     }
 

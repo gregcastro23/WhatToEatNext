@@ -46,7 +46,7 @@ export default function SignVectorPanel({
     let mounted = true;
     if (!propPositions) {
       setLoading(true);
-      getCurrentPlanetaryPositions()
+      void getCurrentPlanetaryPositions()
         .then((p) => {
           if (mounted) setPositions(p);
         })

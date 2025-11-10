@@ -15,9 +15,10 @@ export function getCuisinePAirings(
   category: IngredientCategory,
 ): string[] {
   switch (category) {
-    case "grain":
+    case "grain": {
       const grainData = __grainCuisineMatrix[ingredientName] as any;
       return grainData?.cuisines || [];
+    }
     case "culinary_herb":
       return __herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created

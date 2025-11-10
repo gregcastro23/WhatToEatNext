@@ -93,7 +93,7 @@ export interface ScoringContext {
   planetaryPositions?: Record<Planet, PlanetaryPosition>;
 
   // Intentionally any: Transit data structure varies by astronomical library
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   currentTransits?: any;
   aspects?: PlanetaryAspect[];
   lunarPhase?: LunarPhase;
@@ -109,7 +109,7 @@ export interface ScoringContext {
     culturalOrigins?: string[];
 
     // Intentionally any: Item properties vary by type (ingredient/recipe/cuisine/method)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+     
     [key: string]: any;
   };
 
@@ -120,7 +120,7 @@ export interface ScoringContext {
     intensityPreference?: "mild" | "moderate" | "intense";
     complexityPreference?: "simple" | "moderate" | "complex";
     // Intentionally any: User preferences can include custom fields
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+     
     [key: string]: any;
   };
 

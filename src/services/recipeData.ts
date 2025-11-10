@@ -449,7 +449,7 @@ class RecipeData {
       // Then ensure all other properties are valid
       return ensureRecipeProperties({
         ...recipe,
-        elementalProperties: ((withElementalProps as any)
+        elementalProperties: ((withElementalProps)
           .elementalProperties as ElementalProperties) || {
           Fire: 0.25,
           Water: 0.25,

@@ -9,7 +9,7 @@ export interface ConfigurationUpdate {
   key: string;
 
   // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   value: any;
   timestamp: number;
 }
@@ -324,7 +324,7 @@ class ConfigurationServiceImpl {
             });
           }
           break;
-        case "defaultTimezoneName":
+        case "defaultTimezoneName": {
           // Basic timezone validation
           const validTimezones = [
             "UTC",
@@ -345,6 +345,7 @@ class ConfigurationServiceImpl {
             });
           }
           break;
+        }
       }
     }
 
@@ -363,7 +364,7 @@ class ConfigurationServiceImpl {
       section: keyof ConfigurationState;
       key: string;
       // Intentionally any: Bulk configuration values can be of any valid type
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+       
       value: any;
     }>,
   ): Promise<boolean> {

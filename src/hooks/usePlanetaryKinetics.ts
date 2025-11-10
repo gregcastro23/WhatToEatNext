@@ -212,11 +212,11 @@ export function usePlanetaryKinetics(
   // Auto-update effect
   useEffect(() => {
     // Initial fetch
-    refreshKinetics();
+    void refreshKinetics();
 
     if (!enableAutoUpdate) return;
 
-    const interval = setInterval(refreshKinetics, updateInterval);
+    const interval = setInterval(() => void refreshKinetics(), updateInterval);
     return () => clearInterval(interval);
   }, [refreshKinetics, updateInterval, enableAutoUpdate]);
 

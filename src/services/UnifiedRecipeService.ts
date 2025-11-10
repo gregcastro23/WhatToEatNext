@@ -26,45 +26,26 @@ export class UnifiedRecipeService {
    * Get all recipes
    */
   async getAllRecipes(): Promise<Recipe[]> {
-    try {
-      // TODO: Implement recipe fetching logic
-      return [];
-    } catch (error) {
-      ErrorHandler.log(error, {
-        context: "UnifiedRecipeService.getAllRecipes",
-      });
-      return [];
-    }
+    // TODO: Implement recipe fetching logic
+    return [];
   }
 
   /**
    * Get recipe by ID
    */
   async getRecipeById(id: string): Promise<Recipe | null> {
-    try {
-      // TODO: Implement recipe fetching by ID
-      return null;
-    } catch (error) {
-      ErrorHandler.log(error, {
-        context: "UnifiedRecipeService.getRecipeById",
-      });
-      return null;
-    }
+    // TODO: Implement recipe fetching by ID
+    void id; // Acknowledge unused parameter
+    return null;
   }
 
   /**
    * Search recipes
    */
   async searchRecipes(query: string): Promise<Recipe[]> {
-    try {
-      // TODO: Implement recipe search logic
-      return [];
-    } catch (error) {
-      ErrorHandler.log(error, {
-        context: "UnifiedRecipeService.searchRecipes",
-      });
-      return [];
-    }
+    // TODO: Implement recipe search logic
+    void query; // Acknowledge unused parameter
+    return [];
   }
   /**
    * Get recipes for a specific cuisine (Phase 11 addition)

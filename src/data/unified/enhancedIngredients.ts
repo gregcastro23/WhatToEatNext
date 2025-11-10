@@ -25,10 +25,10 @@ import { unifiedCuisineIntegrationSystem } from "./cuisineIntegrations";
 import { unifiedFlavorProfileSystem } from "./flavorProfiles";
 
 // Import unified systems
-import type { UnifiedFlavorProfile } from "./flavorProfiles";
 import { unifiedIngredients } from "./ingredients";
-import { unifiedSeasonalSystem } from "./seasonal";
 import { UnifiedNutritionalSystem } from "./nutritional";
+import { unifiedSeasonalSystem } from "./seasonal";
+import type { UnifiedFlavorProfile } from "./flavorProfiles";
 
 // Import unified ingredients
 import type { UnifiedIngredient } from "./unifiedTypes";
@@ -874,10 +874,10 @@ export class EnhancedIngredientsSystem {
         serving_size: String(existingProfile.servingSize || "100g"),
         calories: Number(existingProfile.calories || 0),
         macros: {
-          protein: Number((existingProfile.macros as any).protein || 0),
-          carbs: Number((existingProfile.macros as any).carbs || 0),
-          fat: Number((existingProfile.macros as any).fat || 0),
-          fiber: Number((existingProfile.macros as any).fiber || 0),
+          protein: Number((existingProfile.macros).protein || 0),
+          carbs: Number((existingProfile.macros).carbs || 0),
+          fat: Number((existingProfile.macros).fat || 0),
+          fiber: Number((existingProfile.macros).fiber || 0),
         },
         vitamins: (existingProfile.vitamins as Record<string, number>) || {},
         minerals: (existingProfile.minerals as Record<string, number>) || {},

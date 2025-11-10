@@ -1,6 +1,6 @@
 import { log } from "@/services/LoggingService";
-import { createLogger } from "@/utils/logger";
 import { normalizeProperties } from "@/utils/elementalUtils";
+import { createLogger } from "@/utils/logger";
 import { DEFAULT_ELEMENTAL_PROPERTIES } from "../constants/elementalConstants";
 import { planetInfo, signInfo } from "../data/astrology";
 import {
@@ -228,7 +228,7 @@ export class ElementalCalculator {
       } else if (hasTropical) {
         // Nested within tropical
         const positionsData = positions as any;
-        const tropicalData = positionsData.tropical as any;
+        const tropicalData = positionsData.tropical;
         const celestialBodies = tropicalData.CelestialBodies;
         if (celestialBodies) {
           this.processCelestialBodies(celestialBodies, elementalValues);
@@ -796,7 +796,7 @@ export class ElementalCalculator {
     const result = { ...seasonalModifiers };
     Object.entries(specificAdjustments).forEach(([element, value]) => {
       // Use nullish coalescing to ensure value is never undefined
-      result[element as any] = (result[element as any] as number || 0) + (value as number || 0);
+      result[element as any] = (result[element as any] || 0) + (value as number || 0);
     });
 
     // Normalize to ensure values stay in valid range

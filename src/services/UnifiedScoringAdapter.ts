@@ -191,7 +191,7 @@ export class UnifiedScoringAdapter {
           Earth: 0.25,
           Air: 0.25,
         },
-        seasonality: ((method as unknown as any).seasonality as any) || [],
+        seasonality: ((method as unknown as any).seasonality) || [],
         planetaryRulers:
           ((method as unknown as any).planetaryRulers as Planet[]) || [],
         flavorProfile:

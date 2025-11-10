@@ -146,17 +146,9 @@ export class EnhancedCuisineRecommender {
    * Get recipes for a specific cuisine
    */
   private getRecipesForCuisine(cuisineName: string): RecipeData[] {
-    try {
-      // This would typically load recipes from the cuisine data files
-      // For now, return empty array - can be expanded
-      return [];
-    } catch (error) {
-      logger.error("Error getting recipes for cuisine:", {
-        cuisineName,
-        error: error instanceof Error ? error.message : String(error),
-      });
-      return [];
-    }
+    // This would typically load recipes from the cuisine data files
+    // For now, return empty array - can be expanded
+    return [];
   }
 
   /**

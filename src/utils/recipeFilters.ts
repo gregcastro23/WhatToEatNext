@@ -236,8 +236,8 @@ export class RecipeFilter {
       const minutes = timeString.match(/(\d+)\s*min/i);
       const hours = timeString.match(/(\d+)\s*h/i);
       return (
-        (hours ? parseInt(hours[1]) * 60 : 0) +
-        (minutes ? parseInt(minutes[1]) : 0)
+        (hours ? parseInt(hours[1], 10) * 60 : 0) +
+        (minutes ? parseInt(minutes[1], 10) : 0)
       );
     } catch (error) {
       logger.error("Error parsing time: ", { timeString, error });
@@ -839,7 +839,7 @@ export function filterRecipesByIngredientMappings(
         Math.abs(recipe.elementalProperties.Water - targetElements.Water) +
         Math.abs(recipe.elementalProperties.Earth - targetElements.Earth) +
         Math.abs(recipe.elementalProperties.Air - targetElements.Air);
-      elementalScore = 1 - diff / (4 || 1); // Convert to 0-1 score
+      elementalScore = 1 - diff / 4; // Convert to 0-1 score
       score += elementalScore * 0.3; // 30% weight on elemental alignment
     }
 

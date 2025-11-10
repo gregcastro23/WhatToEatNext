@@ -17,9 +17,9 @@ export function useAlchemicalBridge() {
   const serviceData = useServices();
   const { isLoading, error, astrologyService } = serviceData;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   const elementalCalculator = (serviceData as any)?.elementalCalculator;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   const chakraService = (serviceData as any)?.chakraService;
 
   // Create state for service-based data
@@ -90,7 +90,7 @@ export function useChakraBridge() {
   const chakraServiceData = useServices();
   const { isLoading, error } = chakraServiceData;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   const chakraService = (chakraServiceData as any)?.chakraService;
 
   // State for chakra data

@@ -73,16 +73,16 @@ export function createLazyComponent<T extends ComponentType<any>>(
 export const preloadCalculations = {
   // Preload when user hovers over calculation-related UI
   onCalculationHover: () => {
-    lazyCalculations.main();
+    void lazyCalculations.main();
   },
   // Preload when user hovers over recipe recommendation UI
   onRecommendationHover: () => {
-    lazyCalculations.main();
-    lazyUnifiedData.enhancedIngredients();
+    void lazyCalculations.main();
+    void lazyUnifiedData.enhancedIngredients();
   },
   // Preload when user hovers over astrological features
   onAstrologicalHover: () => {
-    lazyCalculations.main();
+    void lazyCalculations.main();
   },
 };
 

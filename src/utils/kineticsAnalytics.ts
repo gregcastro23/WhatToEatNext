@@ -34,7 +34,7 @@ export function trackKineticsRecommendation(
       });
     } catch (error) {
       // Silently fail - analytics shouldn't break the app
-      // eslint-disable-next-line no-console
+       
       console.debug("Analytics tracking failed: ", error);
     }
   }
@@ -64,7 +64,7 @@ export function trackKineticsImprovement(data: {
         custom_parameter_2: data.powerLevel,
       });
     } catch (error) {
-      // eslint-disable-next-line no-console
+       
       console.debug("Analytics tracking failed: ", error);
     }
   }
