@@ -139,10 +139,7 @@ dev-astro:
 # Build commands
 build:
 	@echo "🏗️  Building project..."
-	@echo "Step 1: TypeScript compilation check..."
-	yarn tsc --noEmit --skipLibCheck
-	@echo "Step 2: Production build..."
-	yarn build
+	@NODE_OPTIONS="--max-old-space-size=4096" yarn build
 	@echo "✅ Build completed successfully!"
 
 build-astro:

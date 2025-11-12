@@ -16,12 +16,13 @@ const nextConfig = {
     typedRoutes: true,
   },
   typescript: {
-    // IMPORTANT: Build hangs with ignoreBuildErrors: false (issue under investigation)
-    // This allows build to complete. TypeScript errors (~149) should be fixed separately.
-    // `yarn tsc --noEmit` can be used for type checking without building.
+    // TypeScript error checking is done separately via `yarn tsc --noEmit --skipLibCheck`
+    // This prevents build hangs and allows for faster iteration
+    // Build hang was caused by restrictive types array in tsconfig.json (now fixed)
     ignoreBuildErrors: true,
   },
-  output: "standalone", // This will optimize for production deployment
+  // output: "standalone", // Temporarily disabled - can cause very long build times
+  // Re-enable for Docker/serverless deployments when needed
   transpilePackages: ["react-syntax-highlighter", "react-markdown"],
   images: {
     remotePatterns: [

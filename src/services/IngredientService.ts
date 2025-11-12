@@ -501,8 +501,8 @@ export class IngredientService implements IngredientServiceInterface {
     };
 
     // Pairings (simplified)
-    const strongPairings: Array<{ ingredients: string[]; score; number }> = [];
-    const weakPairings: Array<{ ingredients: string[]; score; number }> = [];
+    const strongPairings: Array<{ ingredients: string[]; score: number }> = [];
+    const weakPairings: Array<{ ingredients: string[]; score: number }> = [];
 
     return {
       overallHarmony,

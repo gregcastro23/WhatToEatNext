@@ -19,7 +19,6 @@ const config = {
       },
     ],
   },
-  setupFilesAfterEnv: ["<rootDir>/src/__tests__/setupTests.tsx"],
   testPathIgnorePatterns: ["/node_modules/", "/.next/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 
@@ -56,6 +55,33 @@ const config = {
     runScripts: "dangerously",
     pretendToBeVisual: false,
   },
+
+  // Test reporters for CI/CD artifacts
+  reporters: [
+    "default",
+    [
+      "jest-junit",
+      {
+        outputDirectory: ".",
+        outputName: "junit.xml",
+        classNameTemplate: "{classname}",
+        titleTemplate: "{title}",
+        ancestorSeparator: " › ",
+        usePathForSuiteName: true,
+      },
+    ],
+  ],
+
+  // Coverage configuration
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/**/__tests__/**",
+    "!src/**/*.test.{ts,tsx}",
+    "!src/**/*.spec.{ts,tsx}",
+  ],
+  coverageReporters: ["text", "lcov", "cobertura"],
+  coverageDirectory: "coverage",
 };
 
 export default config;

@@ -149,7 +149,7 @@ export class EnhancedIngredientSystem {
               "meat",
               "poultry",
               "seafood",
-              "dAiry",
+              "dairy",
               "eggs",
             ];
             const subCat =
@@ -172,7 +172,7 @@ export class EnhancedIngredientSystem {
 
         if (dietaryFilter.isDAiryFree) {
           filtered = filtered.filter(
-            (ingredient) => ingredient.subCategory !== "dAiry",
+            (ingredient) => ingredient.subCategory !== "dairy",
           );
         }
       }

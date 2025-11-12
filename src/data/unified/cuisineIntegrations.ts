@@ -2197,7 +2197,7 @@ export class UnifiedCuisineIntegrationSystem {
       proteins: [],
       grains: [],
       fruits: [],
-      dAiry: [],
+      dairy: [],
       other: [],
     };
 
