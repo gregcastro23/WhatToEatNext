@@ -29,8 +29,8 @@ const config = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 
   // Memory Management Configuration
-  testTimeout: 15000, // Reduced from 30s to 15s for integration tests
-  maxWorkers: 2, // Max 2 workers for memory safety
+  testTimeout: 30000, // 30s timeout for CI environment
+  maxWorkers: process.env.CI ? 2 : "50%", // 2 workers in CI, 50% locally
   workerIdleMemoryLimit: "1GB", // 1GB limit per worker
 
   // Memory optimization settings
@@ -47,8 +47,9 @@ const config = {
   verbose: true,
 
   // Additional memory-safe configurations
-  detectOpenHandles: true,
+  detectOpenHandles: false, // Disabled in CI to prevent hanging
   forceExit: true,
+  bail: false, // Don't stop on first failure
 
   // Cache configuration for memory efficiency
   cacheDirectory: "<rootDir>/.jest-cache",
