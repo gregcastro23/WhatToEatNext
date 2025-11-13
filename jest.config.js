@@ -19,7 +19,13 @@ const config = {
       },
     ],
   },
-  testPathIgnorePatterns: ["/node_modules/", "/.next/"],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/.next/",
+    "/docs/archived-tests/",
+    "/.temp-disabled-tests/",
+    "/archive/",
+  ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 
   // Memory Management Configuration

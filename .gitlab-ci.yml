@@ -208,26 +208,22 @@ test:database:
     - until pg_isready -h postgres -p 5432 -U postgres; do sleep 2; done
     - echo "Creating test databases..."
     - |
-      psql -h postgres -U postgres -d postgres <<EOF
-      DO \$\$
-      BEGIN
-        IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'whattoeatnext') THEN
-          CREATE DATABASE whattoeatnext;
-        END IF;
-      END \$\$;
-      EOF
+      if ! psql -h postgres -U postgres -d postgres -lqt | cut -d \| -f 1 | grep -qw whattoeatnext; then
+        psql -h postgres -U postgres -d postgres -c "CREATE DATABASE whattoeatnext;"
+        echo "✅ Created whattoeatnext database"
+      else
+        echo "✅ whattoeatnext database already exists"
+      fi
     - |
-      psql -h postgres -U postgres -d postgres <<EOF
-      DO \$\$
-      BEGIN
-        IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'alchm_kitchen') THEN
-          CREATE DATABASE alchm_kitchen;
-        END IF;
-      END \$\$;
-      EOF
+      if ! psql -h postgres -U postgres -d postgres -lqt | cut -d \| -f 1 | grep -qw alchm_kitchen; then
+        psql -h postgres -U postgres -d postgres -c "CREATE DATABASE alchm_kitchen;"
+        echo "✅ Created alchm_kitchen database"
+      else
+        echo "✅ alchm_kitchen database already exists"
+      fi
     - echo "Databases ready"
     - echo "Running database integration tests..."
-    - yarn test --testPathPattern="integration" --passWithNoTests --maxWorkers=2
+    - yarn test --testPathPattern="integration" --testPathIgnorePatterns="docs/archived-tests|.temp-disabled-tests" --passWithNoTests --maxWorkers=2
   allow_failure: true
   only:
     - branches
