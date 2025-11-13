@@ -25,6 +25,7 @@ const config = {
     "/docs/archived-tests/",
     "/.temp-disabled-tests/",
     "/archive/",
+    "/__tests__/temp-validation/", // Exclude temp validation components (not actual tests)
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 
