@@ -190,6 +190,9 @@ test:database:
     - setup:dependencies
   variables:
     POSTGRES_HOST_AUTH_METHOD: trust
+    POSTGRES_USER: postgres
+    POSTGRES_DB: postgres
+    DATABASE_URL: postgresql://postgres@postgres:5432/alchm_kitchen
   before_script:
     - echo "Setting up Node.js ${NODE_VERSION} environment..."
     - node --version
@@ -202,13 +205,29 @@ test:database:
     - apt-get update && apt-get install -y postgresql-client
   script:
     - echo "Setting up PostgreSQL 17 for integration tests..."
-    - until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do sleep 2; done
+    - until pg_isready -h postgres -p 5432 -U postgres; do sleep 2; done
     - echo "Creating test databases..."
-    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE whattoeatnext" || echo "Database whattoeatnext may already exist"
-    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE alchm_kitchen" || echo "Database alchm_kitchen may already exist"
+    - |
+      psql -h postgres -U postgres -d postgres <<EOF
+      DO \$\$
+      BEGIN
+        IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'whattoeatnext') THEN
+          CREATE DATABASE whattoeatnext;
+        END IF;
+      END \$\$;
+      EOF
+    - |
+      psql -h postgres -U postgres -d postgres <<EOF
+      DO \$\$
+      BEGIN
+        IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'alchm_kitchen') THEN
+          CREATE DATABASE alchm_kitchen;
+        END IF;
+      END \$\$;
+      EOF
     - echo "Databases ready"
     - echo "Running database integration tests..."
-    - yarn test --testPathPattern="integration" --passWithNoTests
+    - yarn test --testPathPattern="integration" --passWithNoTests --maxWorkers=2
   allow_failure: true
   only:
     - branches
