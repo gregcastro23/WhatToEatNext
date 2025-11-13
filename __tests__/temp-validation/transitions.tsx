@@ -1,4 +1,4 @@
-import { startTransition, useDeferredValue, useTransition } from "react";
+import React, { startTransition, useDeferredValue, useTransition } from "react";
 
 export function TransitionComponent() {
   const [isPending, startTransition] = useTransition();

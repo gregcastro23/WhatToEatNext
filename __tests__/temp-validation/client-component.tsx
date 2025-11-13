@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function ClientComponent() {
   const [count, setCount] = useState(0);

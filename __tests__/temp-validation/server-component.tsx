@@ -1,3 +1,5 @@
+import React from "react";
+
 async function ServerComponent() {
   const data = await fetch("https://api.example.com/data");
   const json = await data.json();
