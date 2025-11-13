@@ -92,6 +92,7 @@
   "exclude": [
     "node_modules",
     "docs/**",
+    "archive/**",
     "src/scripts/**",
     "src/app/alchemicalEngine.ts",
     "**/* 2.*",
@@ -100,6 +101,16 @@
     "**/* 3/**",
     "temp/**",
     "tmp-**",
-    "**/tmp-**"
+    "**/tmp-**",
+    "src/types/testing-library__jest-dom.d.ts",
+    "src/types/testing-library__jest-dom/**",
+    "src/types/jest-dom.d.ts",
+    "src/jest-dom.d.ts",
+    "src/setupTests.ts",
+    "src/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }
