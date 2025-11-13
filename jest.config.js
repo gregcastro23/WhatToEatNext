@@ -39,12 +39,6 @@ const config = {
   restoreMocks: true,
   resetModules: true,
 
-  // Force garbage collection between test suites
-  setupFilesAfterEnv: [
-    "<rootDir>/src/__tests__/setupTests.tsx",
-    "<rootDir>/src/__tests__/setupMemoryManagement.ts",
-  ],
-
   verbose: true,
 
   // Additional memory-safe configurations

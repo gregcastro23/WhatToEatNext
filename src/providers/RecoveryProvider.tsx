@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { logger } from "@/utils/logger";

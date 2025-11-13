@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 // Add static generation marker
 export const _dynamic = "force-static";
 

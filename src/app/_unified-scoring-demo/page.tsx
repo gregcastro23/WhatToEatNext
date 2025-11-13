@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 const UnifiedScoringDemo = () => (
   <div className="p-4 text-gray-600">UnifiedScoringDemo unavailable.</div>
 );

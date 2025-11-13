@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 /**
  * Cuisines Recommendations Page
  * Phase 6: Complete Current Moment Cuisine Integration

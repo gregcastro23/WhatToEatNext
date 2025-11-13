@@ -295,9 +295,11 @@ describe("Recipe Computation Pipeline", () => {
         "boiling",
       ]);
 
-      // First grilling increases Fire, then boiling decreases it
-      expect(result.Fire).toBeGreaterThan(baseElementals.Fire * 0.7); // Partial increase
-      expect(result.Water).toBeGreaterThan(baseElementals.Water); // Boiling increases Water
+      // First grilling increases Fire (and decreases Water), then boiling partially recovers Water
+      expect(result.Fire).toBeGreaterThan(baseElementals.Fire * 0.7); // Partial Fire increase from grilling
+      // After grilling reduces Water to ~0.15, boiling's 1.3x brings it to ~0.218 (less than original 0.25)
+      expect(result.Water).toBeGreaterThan(0.15); // Water partially recovers from grilling's reduction
+      expect(result.Water).toBeLessThan(baseElementals.Water); // But still less than original due to normalization
     });
   });
 

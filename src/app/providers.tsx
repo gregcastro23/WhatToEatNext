@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";

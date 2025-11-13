@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 /**
  * Astrological Recommendations Page
  * Phase 5: Frontend Integration - Astrological Cooking Guide

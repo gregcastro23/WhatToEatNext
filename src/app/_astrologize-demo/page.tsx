@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 const AstrologizeDemo = () => (
   <div className="text-gray-600">AstrologizeDemo component unavailable.</div>
 );

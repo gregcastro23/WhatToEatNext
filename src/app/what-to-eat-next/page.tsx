@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { KalchmRecommender } from "@/components/recommendations/KalchmRecommender";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
