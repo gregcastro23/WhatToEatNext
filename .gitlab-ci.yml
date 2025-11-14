@@ -276,6 +276,7 @@ build:production:
     - echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.production
     - echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.production
     - echo "NODE_ENV=production" >> .env.production
+    - echo "JWT_SECRET=build-time-dummy-secret-not-for-production" >> .env.production
     - echo "Building Next.js application for production..."
     - yarn build
     - echo "Build completed successfully"
