@@ -3,6 +3,10 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 255, 255, 255;
+  --alchm-gold: #FFD700;
+  --alchm-purple: #8B5CF6;
+  --alchm-orange: #F97316;
+  --alchm-green: #10B981;
 }
 
 [data-theme="dark"] {
@@ -13,10 +17,63 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Alchemical theme enhancements */
+.alchm-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.alchm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.alchm-gradient-text {
+  background: linear-gradient(135deg, #8B5CF6, #F97316, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.alchm-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.alchm-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.alchm-glow {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.5); }
 }
 
 .tarot-card {
