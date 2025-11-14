@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "yarn build",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
