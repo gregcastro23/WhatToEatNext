@@ -22,7 +22,9 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
 
 # Install dependencies with frozen lockfile for reproducible builds
-RUN yarn install --frozen-lockfile --production=false
+# Yarn 3.x uses --immutable instead of --frozen-lockfile
+# No --production flag needed - Yarn 3.x installs all dependencies by default
+RUN yarn install --immutable
 
 # Stage 3: Build the application
 FROM base AS builder
@@ -56,13 +58,15 @@ ENV PORT=3000
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
+# Copy node_modules from builder (needed for non-standalone mode)
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+
 # Copy built application
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 
 # Copy necessary configuration files
-COPY --from=builder --chown=nextjs:nodejs /app/next.config.js ./
+COPY --from=builder --chown=nextjs:nodejs /app/next.config.mjs ./
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 
 # Switch to non-root user
@@ -75,5 +79,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000/api/health || exit 1
 
-# Start the application
-CMD ["node", "server.js"] 
+# Start the application using Next.js start (non-standalone mode)
+CMD ["yarn", "start"] 
