@@ -3,19 +3,27 @@ import { NextResponse } from "next/server";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
+// Force dynamic rendering for this API route
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 // JWT Secret - REQUIRED in production
+// Lazy initialization to avoid accessing env vars at build time
+let _jwtSecret: string | null = null;
 function getJWTSecret(): string {
+  if (_jwtSecret) return _jwtSecret;
+
   const secret = process.env.JWT_SECRET;
   if (!secret) {
     throw new Error(
       "JWT_SECRET environment variable is required. Set this to a secure random string in production.",
     );
   }
+  _jwtSecret = secret;
   return secret;
 }
 
-const JWT_SECRET = getJWTSecret();
-const JWT_EXPIRY = process.env.JWT_EXPIRY || "24h";
+const getJWTExpiry = () => process.env.JWT_EXPIRY || "24h";
 
 /**
  * Mock user database - in production this would be a real database
@@ -59,7 +67,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-      const decoded = jwt.verify(token, JWT_SECRET) as any;
+      const decoded = jwt.verify(token, getJWTSecret()) as any;
 
       return NextResponse.json({
         authenticated: true,
@@ -138,7 +146,7 @@ export async function POST(request: NextRequest) {
       iss: "alchm.kitchen",
     };
 
-    const accessToken = jwt.sign(tokenPayload, JWT_SECRET);
+    const accessToken = jwt.sign(tokenPayload, getJWTSecret());
 
     // Create response with token
     const response = NextResponse.json({

@@ -17,8 +17,9 @@ WORKDIR /app
 # Stage 2: Dependencies installation
 FROM base AS deps
 
-# Copy package files
-COPY package.json yarn.lock .yarnrc ./
+# Copy package files and Yarn 4 configuration
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
 
 # Install dependencies with frozen lockfile for reproducible builds
 RUN yarn install --frozen-lockfile --production=false
