@@ -19,12 +19,14 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 via-purple-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 via-pink-50 to-blue-50">
       {/* Hero Section with Mission Statement */}
       <div className="mx-auto max-w-7xl px-4 py-16">
         <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold text-gray-900 mb-6">Alchm</h1>
-          <p className="text-2xl text-gray-700 mb-4 font-semibold">
+          <h1 className="text-7xl font-bold mb-6 alchm-gradient-text alchm-shimmer" style={{ fontSize: '5rem', letterSpacing: '0.1em' }}>
+            ALCHM
+          </h1>
+          <p className="text-2xl text-gray-800 mb-4 font-semibold max-w-4xl mx-auto leading-relaxed">
             Everyone deserves to eat the best possible food, perfectly aligned
             with the present moment
           </p>
@@ -34,8 +36,8 @@ export default function HomePage() {
           </p>
 
           {/* The Infinite Yoga of Cooking */}
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto mb-12">
-            <h2 className="text-3xl font-bold text-purple-600 mb-4">
+          <div className="alchm-card rounded-2xl shadow-2xl p-10 max-w-4xl mx-auto mb-16 alchm-shimmer">
+            <h2 className="text-4xl font-bold text-purple-600 mb-6 text-center">
               The Infinite Yoga of Cooking
             </h2>
             <p className="text-gray-700 mb-6">
@@ -76,30 +78,33 @@ export default function HomePage() {
           </div>
 
           {/* Three Pillars */}
-          <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto mb-12">
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <h2 className="text-2xl font-semibold mb-3 text-orange-600">
-                🔥 Elemental
+          <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto mb-16">
+            <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group">
+              <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🔥</div>
+              <h2 className="text-2xl font-bold mb-4 text-orange-600">
+                Elemental
               </h2>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-700 leading-relaxed">
                 Balance Fire, Water, Earth, and Air in your culinary journey
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <h2 className="text-2xl font-semibold mb-3 text-purple-600">
-                ⭐ Astrological
+            <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group">
+              <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">⭐</div>
+              <h2 className="text-2xl font-bold mb-4 text-purple-600">
+                Astrological
               </h2>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-700 leading-relaxed">
                 Align your meals with planetary positions and zodiac energies
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <h2 className="text-2xl font-semibold mb-3 text-green-600">
-                🧪 Alchemical
+            <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group">
+              <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🧪</div>
+              <h2 className="text-2xl font-bold mb-4 text-green-600">
+                Alchemical
               </h2>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-700 leading-relaxed">
                 Transform ingredients through Spirit, Essence, Matter, and
                 Substance
               </p>
@@ -108,24 +113,24 @@ export default function HomePage() {
         </div>
 
         {/* Preview Components */}
-        <div className="space-y-8">
+        <div className="space-y-10">
           {/* Cuisine Recommender Preview */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-purple-200">
             <div
-              className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6 cursor-pointer hover:from-purple-700 hover:to-indigo-700 transition-colors"
+              className="bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white p-8 cursor-pointer hover:from-purple-700 hover:to-indigo-700 transition-all duration-300"
               onClick={() => toggleSection("cuisines")}
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-3xl font-bold mb-2">
+                  <h2 className="text-4xl font-bold mb-3">
                     🍽️ Cuisine Recommendations
                   </h2>
-                  <p className="text-purple-100">
+                  <p className="text-purple-100 text-lg">
                     Discover cuisines aligned with current celestial energies,
                     with nested recipes and sauces
                   </p>
                 </div>
-                <div className="text-4xl">
+                <div className="text-5xl font-light">
                   {expandedSection === "cuisines" ? "−" : "+"}
                 </div>
               </div>
@@ -136,7 +141,7 @@ export default function HomePage() {
                 <div className="mt-6 text-center">
                   <Link
                     href="/cuisines"
-                    className="inline-block bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                    className="inline-block bg-purple-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-purple-700 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
                   >
                     View Full Cuisine Explorer →
                   </Link>
@@ -146,22 +151,22 @@ export default function HomePage() {
           </div>
 
           {/* Ingredient Recommender Preview */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-green-200">
             <div
-              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-6 cursor-pointer hover:from-green-700 hover:to-emerald-700 transition-colors"
+              className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 text-white p-8 cursor-pointer hover:from-green-700 hover:to-teal-700 transition-all duration-300"
               onClick={() => toggleSection("ingredients")}
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-3xl font-bold mb-2">
+                  <h2 className="text-4xl font-bold mb-3">
                     🥬 Ingredient Recommendations
                   </h2>
-                  <p className="text-green-100">
+                  <p className="text-green-100 text-lg">
                     Browse ingredients by category, aligned with your current
                     moment
                   </p>
                 </div>
-                <div className="text-4xl">
+                <div className="text-5xl font-light">
                   {expandedSection === "ingredients" ? "−" : "+"}
                 </div>
               </div>
@@ -172,7 +177,7 @@ export default function HomePage() {
                 <div className="mt-6 text-center">
                   <Link
                     href="/ingredients"
-                    className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                    className="inline-block bg-green-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-green-700 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
                   >
                     View Full Ingredient Browser →
                   </Link>
@@ -182,22 +187,22 @@ export default function HomePage() {
           </div>
 
           {/* Cooking Methods Recommender Preview */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-orange-200">
             <div
-              className="bg-gradient-to-r from-orange-600 to-red-600 text-white p-6 cursor-pointer hover:from-orange-700 hover:to-red-700 transition-colors"
+              className="bg-gradient-to-r from-orange-600 via-amber-500 to-red-600 text-white p-8 cursor-pointer hover:from-orange-700 hover:to-red-700 transition-all duration-300"
               onClick={() => toggleSection("methods")}
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-3xl font-bold mb-2">
+                  <h2 className="text-4xl font-bold mb-3">
                     🔥 Cooking Method Recommendations
                   </h2>
-                  <p className="text-orange-100">
+                  <p className="text-orange-100 text-lg">
                     Explore cooking techniques that resonate with current
                     elemental energies
                   </p>
                 </div>
-                <div className="text-4xl">
+                <div className="text-5xl font-light">
                   {expandedSection === "methods" ? "−" : "+"}
                 </div>
               </div>
@@ -208,7 +213,7 @@ export default function HomePage() {
                 <div className="mt-6 text-center">
                   <Link
                     href="/cooking-methods"
-                    className="inline-block bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors"
+                    className="inline-block bg-orange-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-orange-700 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
                   >
                     View Full Cooking Methods →
                   </Link>
@@ -219,14 +224,16 @@ export default function HomePage() {
         </div>
 
         {/* System Status */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-500">
-            System Status:{" "}
-            <span className="text-green-600 font-semibold">Operational</span>
-          </p>
-          <p className="text-sm text-gray-400 mt-2">
-            Build: Stable | PostgreSQL: Running | Next.js: Active
-          </p>
+        <div className="mt-16 text-center">
+          <div className="inline-block alchm-card px-8 py-4 rounded-xl shadow-lg">
+            <p className="text-gray-600 text-lg mb-2">
+              System Status:{" "}
+              <span className="text-green-600 font-bold">● Operational</span>
+            </p>
+            <p className="text-sm text-gray-500">
+              Build: Stable | PostgreSQL: Running | Next.js: Active
+            </p>
+          </div>
         </div>
       </div>
     </div>
