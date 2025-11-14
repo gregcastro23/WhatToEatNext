@@ -1,7 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "corepack enable && corepack prepare yarn@3.6.4 --activate && yarn build",
-  "installCommand": "corepack enable && corepack prepare yarn@3.6.4 --activate && yarn install",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
@@ -11,7 +9,6 @@
   },
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1",
-    "YARN_ENABLE_IMMUTABLE_INSTALLS": "false",
-    "ENABLE_EXPERIMENTAL_COREPACK": "1"
+    "YARN_ENABLE_IMMUTABLE_INSTALLS": "false"
   }
 }
