@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { themeManager } from "@/utils/theme";
 import { _ThemeContext } from "./context";
 import type { Theme } from "./types";

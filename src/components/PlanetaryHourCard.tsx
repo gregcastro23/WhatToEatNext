@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 
 interface Props {

@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft, Home } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { IngredientRecommender } from "@/components/recommendations/IngredientRecommender";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 import {

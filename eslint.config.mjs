@@ -516,6 +516,11 @@ export default [
       "src/scripts/",
       "src/types/utils.d.ts",
 
+      // Test-related type definitions (parser errors)
+      "src/jest-dom.d.ts",
+      "src/setupTests.ts",
+      "src/types/testing-library__jest-dom/**",
+
       // Untracked development files
       "dev-output.txt",
       "dev-server.log",

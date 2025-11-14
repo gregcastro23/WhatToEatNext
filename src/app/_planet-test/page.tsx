@@ -1,11 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 
 // Add static generation marker
 export const _dynamic = "force-static";
-
-import { Suspense } from "react";
 
 // Temporary lightweight fallbacks for missing components
 const PlanetaryHoursTest = () => (

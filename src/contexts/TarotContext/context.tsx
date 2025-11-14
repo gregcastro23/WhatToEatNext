@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { createContext } from "react";
+import React, { createContext } from "react";
 import type { TarotContextType } from "./types";
 
 const defaultContext: TarotContextType = {

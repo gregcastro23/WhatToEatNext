@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";
 
 import dynamic_import from "next/dynamic";
-import { useEffect, useState } from "react";
 import { AstrologicalProvider } from "@/context/AstrologicalContext";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { createLogger } from "@/utils/logger";

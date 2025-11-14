@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AccessTime,
   Kitchen,
@@ -27,7 +27,6 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { allCookingMethods } from "@/data/cooking/methods";
 import type { CookingMethodInfo } from "@/types/cooking";
 

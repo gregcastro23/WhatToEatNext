@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import {
   dryCookingMethods,
   molecularCookingMethods,

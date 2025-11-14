@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { usePlanetaryKinetics } from "@/hooks/usePlanetaryKinetics";
 
 interface PlanetaryFoodRecommendationsProps {

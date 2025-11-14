@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { _TarotContext } from "./context";
 import type { TarotCard, TarotElementalInfluences } from "./types";
 import type { ReactNode } from "react";
