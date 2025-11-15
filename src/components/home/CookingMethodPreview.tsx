@@ -24,8 +24,16 @@ interface MethodData {
     Earth: number;
     Air: number;
   };
+  duration?: { min: number; max: number };
   time_range?: { min: number; max: number };
   suitable_for?: string[];
+  benefits?: string[];
+  toolsRequired?: string[];
+  commonMistakes?: string[];
+  pairingSuggestions?: string[];
+  regionalVariations?: Record<string, string[]>;
+  expertTips?: string[];
+  optimalTemperatures?: Record<string, number>;
 }
 
 interface CategoryConfig {
@@ -101,7 +109,8 @@ export default function CookingMethodPreview() {
     setExpandedMethod(expandedMethod === methodId ? null : methodId);
   };
 
-  const formatDuration = (time_range?: { min: number; max: number }) => {
+  const formatDuration = (method: MethodData) => {
+    const time_range = method.duration || method.time_range;
     if (!time_range) return "Variable";
     if (time_range.min >= 1440) {
       return `${Math.floor(time_range.min / 1440)}-${Math.floor(time_range.max / 1440)} days`;
@@ -179,13 +188,14 @@ export default function CookingMethodPreview() {
                   <div className="flex flex-wrap gap-2 text-xs">
                     <span className="inline-flex items-center gap-1 bg-white bg-opacity-70 text-gray-700 px-2 py-1 rounded-full font-medium border border-gray-200">
                       <span>⏱️</span>
-                      <span>{formatDuration(method.time_range)}</span>
+                      <span>{formatDuration(method)}</span>
                     </span>
                     {method.suitable_for && method.suitable_for.length > 0 && (
                       <span className="inline-flex items-center gap-1 bg-white bg-opacity-70 text-gray-700 px-2 py-1 rounded-full font-medium border border-gray-200">
                         <span>👨‍🍳</span>
                         <span>
                           {method.suitable_for.slice(0, 2).join(", ")}
+                          {method.suitable_for.length > 2 && ` +${method.suitable_for.length - 2}`}
                         </span>
                       </span>
                     )}
@@ -203,78 +213,134 @@ export default function CookingMethodPreview() {
             </div>
 
             {expandedMethod === method.id && (
-              <div className="p-6 bg-gradient-to-br from-gray-50 to-white border-t-2 border-orange-100">
-                <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <span className="text-2xl">⚗️</span>
-                  <span>Elemental Effects</span>
-                </h4>
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {Object.entries(method.elementalEffect).map(
-                    ([element, value]) => (
-                      <div
-                        key={element}
-                        className="bg-white p-3 rounded-lg shadow-sm border border-gray-100"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span
-                              className={`text-xl ${
-                                element === "Fire"
-                                  ? "🔥"
-                                  : element === "Water"
-                                    ? "💧"
-                                    : element === "Earth"
-                                      ? "🌍"
-                                      : "💨"
-                              }`}
-                            >
-                              {element === "Fire"
-                                ? "🔥"
-                                : element === "Water"
-                                  ? "💧"
-                                  : element === "Earth"
-                                    ? "🌍"
-                                    : "💨"}
-                            </span>
-                            <span className="text-sm font-bold text-gray-800">
-                              {element}
-                            </span>
+              <div className="p-6 bg-gradient-to-br from-gray-50 to-white border-t-2 border-orange-100 space-y-5">
+                {/* Benefits */}
+                {method.benefits && method.benefits.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-xl">✨</span>
+                      <span>Benefits & Effects</span>
+                    </h5>
+                    <div className="grid md:grid-cols-2 gap-2">
+                      {method.benefits.slice(0, 6).map((benefit, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                          <span className="text-green-600 mt-0.5">✓</span>
+                          <span>{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Expert Tips */}
+                {method.expertTips && method.expertTips.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-xl">💡</span>
+                      <span>Expert Tips</span>
+                    </h5>
+                    <div className="space-y-2">
+                      {method.expertTips.slice(0, 3).map((tip, idx) => (
+                        <div key={idx} className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-sm text-gray-800">
+                          {tip}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Common Mistakes */}
+                {method.commonMistakes && method.commonMistakes.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-xl">⚠️</span>
+                      <span>Common Mistakes to Avoid</span>
+                    </h5>
+                    <div className="space-y-2">
+                      {method.commonMistakes.slice(0, 4).map((mistake, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                          <span className="text-red-500 mt-0.5">✗</span>
+                          <span>{mistake}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tools Required */}
+                {method.toolsRequired && method.toolsRequired.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-xl">🔧</span>
+                      <span>Essential Tools</span>
+                    </h5>
+                    <div className="flex flex-wrap gap-2">
+                      {method.toolsRequired.slice(0, 8).map((tool, idx) => (
+                        <span key={idx} className="text-xs bg-blue-50 text-blue-800 px-3 py-1.5 rounded-full border border-blue-200">
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Pairing Suggestions */}
+                {method.pairingSuggestions && method.pairingSuggestions.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-xl">🤝</span>
+                      <span>Perfect Pairings</span>
+                    </h5>
+                    <div className="space-y-2">
+                      {method.pairingSuggestions.slice(0, 4).map((pairing, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                          <span className="text-purple-600">•</span>
+                          <span>{pairing}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Regional Variations */}
+                {method.regionalVariations && Object.keys(method.regionalVariations).length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-xl">🌍</span>
+                      <span>Regional Techniques</span>
+                    </h5>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {Object.entries(method.regionalVariations).slice(0, 4).map(([region, variations]) => (
+                        <div key={region} className="bg-white border border-gray-200 rounded-lg p-3">
+                          <div className="font-semibold text-gray-900 mb-2 capitalize">
+                            {region.replace(/_/g, ' ')}
                           </div>
-                          <span className="text-xs font-bold text-gray-600">
-                            {(value * 100).toFixed(0)}%
-                          </span>
+                          <ul className="space-y-1">
+                            {variations.slice(0, 2).map((variation, idx) => (
+                              <li key={idx} className="text-xs text-gray-600 flex items-start gap-1">
+                                <span>•</span>
+                                <span>{variation}</span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full transition-all duration-500 ${
-                              element === "Fire"
-                                ? "bg-gradient-to-r from-red-400 to-orange-500"
-                                : element === "Water"
-                                  ? "bg-gradient-to-r from-blue-400 to-cyan-500"
-                                  : element === "Earth"
-                                    ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                                    : "bg-gradient-to-r from-purple-400 to-indigo-500"
-                            }`}
-                            style={{ width: `${value * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                    ),
-                  )}
-                </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Suitable For */}
                 {method.suitable_for && method.suitable_for.length > 0 && (
-                  <div className="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-lg border border-orange-100">
-                    <div className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <span>👨‍🍳</span>
-                      <span>Best Used With:</span>
-                    </div>
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-xl">👨‍🍳</span>
+                      <span>Best Used With</span>
+                    </h5>
                     <div className="flex flex-wrap gap-2">
                       {method.suitable_for.map((item, idx) => (
                         <span
                           key={idx}
-                          className="text-sm bg-white text-gray-800 px-3 py-1.5 rounded-full font-medium border border-orange-200 shadow-sm"
+                          className="text-sm bg-gradient-to-r from-orange-50 to-red-50 text-gray-800 px-3 py-1.5 rounded-full font-medium border border-orange-200 shadow-sm"
                         >
                           {item}
                         </span>
@@ -282,6 +348,43 @@ export default function CookingMethodPreview() {
                     </div>
                   </div>
                 )}
+
+                {/* Elemental Effects - De-emphasized at bottom */}
+                <div className="pt-4 border-t border-gray-200">
+                  <details className="group">
+                    <summary className="cursor-pointer flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium">
+                      <span className="text-lg">⚗️</span>
+                      <span>Show Elemental Effects</span>
+                      <span className="ml-auto group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <div className="mt-3 grid grid-cols-2 gap-2">
+                      {Object.entries(method.elementalEffect).map(([element, value]) => (
+                        <div key={element} className="flex items-center gap-2">
+                          <span className="text-sm">
+                            {element === "Fire" ? "🔥" : element === "Water" ? "💧" : element === "Earth" ? "🌍" : "💨"}
+                          </span>
+                          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full ${
+                                element === "Fire"
+                                  ? "bg-gradient-to-r from-red-400 to-orange-500"
+                                  : element === "Water"
+                                    ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                                    : element === "Earth"
+                                      ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                                      : "bg-gradient-to-r from-purple-400 to-indigo-500"
+                              }`}
+                              style={{ width: `${value * 100}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-500 w-10 text-right">
+                            {(value * 100).toFixed(0)}%
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                </div>
               </div>
             )}
           </div>
