@@ -28,15 +28,30 @@ const CurrentMomentCuisineRecommendations = dynamic(
   }
 );
 
-const IngredientRecommender = dynamic(
-  () => import("@/components/recommendations/IngredientRecommender").then(mod => ({ default: mod.IngredientRecommender })),
+const EnhancedIngredientRecommender = dynamic(
+  () => import("@/components/recommendations/EnhancedIngredientRecommender").then(mod => ({ default: mod.EnhancedIngredientRecommender })),
   {
     ssr: false,
     loading: () => (
       <div className="flex items-center justify-center py-12">
         <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-green-600 mb-4" />
         <p className="text-lg font-medium text-gray-700 ml-4">
-          Loading full recommendations...
+          Loading ingredient recommendations...
+        </p>
+      </div>
+    ),
+  }
+);
+
+const EnhancedCookingMethodRecommender = dynamic(
+  () => import("@/components/recommendations/EnhancedCookingMethodRecommender"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600 mb-4" />
+        <p className="text-lg font-medium text-gray-700 ml-4">
+          Loading cooking methods...
         </p>
       </div>
     ),
@@ -237,8 +252,7 @@ export default function HomePage() {
                     🥬 Ingredient Recommendations
                   </h2>
                   <p className="text-green-100 text-lg">
-                    Browse ingredients by category, aligned with your current
-                    moment
+                    Explore ingredients with full profiles including sensory, alchemical, and astrological properties
                   </p>
                 </div>
                 <div className="text-5xl font-light">
@@ -273,8 +287,8 @@ export default function HomePage() {
                 </div>
 
                 {useFullComponents.ingredients ? (
-                  <div className="bg-white rounded-xl p-6 shadow-lg">
-                    <IngredientRecommender isFullPageVersion={true} />
+                  <div className="bg-white rounded-xl shadow-lg">
+                    <EnhancedIngredientRecommender isFullPageVersion={true} />
                   </div>
                 ) : (
                   <IngredientPreview />
@@ -304,8 +318,7 @@ export default function HomePage() {
                     🔥 Cooking Method Recommendations
                   </h2>
                   <p className="text-orange-100 text-lg">
-                    Explore cooking techniques that resonate with current
-                    elemental energies
+                    Discover the 14 Alchemical Pillars, thermodynamics, and kinetic properties of cooking methods
                   </p>
                 </div>
                 <div className="text-5xl font-light">
@@ -315,7 +328,38 @@ export default function HomePage() {
             </div>
             {expandedSection === "methods" && (
               <div className="p-6">
-                <CookingMethodPreview />
+                {/* Toggle between preview and full component */}
+                <div className="mb-4 flex justify-center gap-2">
+                  <button
+                    onClick={() => toggleFullComponent('methods')}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      !useFullComponents.methods
+                        ? 'bg-orange-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    Preview Mode
+                  </button>
+                  <button
+                    onClick={() => toggleFullComponent('methods')}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      useFullComponents.methods
+                        ? 'bg-orange-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    Full Alchemical View
+                  </button>
+                </div>
+
+                {useFullComponents.methods ? (
+                  <div className="bg-white rounded-xl shadow-lg">
+                    <EnhancedCookingMethodRecommender />
+                  </div>
+                ) : (
+                  <CookingMethodPreview />
+                )}
+
                 <div className="mt-6 text-center">
                   <Link
                     href="/cooking-methods"
