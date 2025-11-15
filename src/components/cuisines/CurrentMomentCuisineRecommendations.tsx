@@ -237,49 +237,60 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
   );
 
   const renderRecipeCard = (recipe: NestedRecipe) => (
-    <Card key={recipe.recipe_id} size="sm" bg={cardBg} shadow="sm">
+    <Card key={recipe.recipe_id} size="sm" bg={cardBg} shadow="md" borderWidth="2px" borderColor="purple.100">
       <CardHeader pb={2}>
         <Flex justify="space-between" align="start">
           <Box>
-            <Heading size="sm">{recipe.name}</Heading>
-            <Text fontSize="sm" color="gray.600" mt={1}>
+            <Heading size="md" color="purple.700">{recipe.name}</Heading>
+            <Text fontSize="sm" color="gray.700" mt={2} fontWeight="medium">
               {recipe.description}
             </Text>
           </Box>
-          <Badge colorScheme="green" size="sm">
+          <Badge colorScheme="green" size="sm" fontSize="xs">
             {recipe.seasonal_fit}
           </Badge>
         </Flex>
       </CardHeader>
 
       <CardBody pt={0}>
-        <VStack {...({ align: "start", spacing: 3 } as any)}>
-          {/* Recipe Meta */}
-          <HStack {...({ spacing: 4, wrap: "wrap" } as any)}>
+        <VStack {...({ align: "start", spacing: 4 } as any)}>
+          {/* Recipe Meta - Enhanced */}
+          <Wrap {...({ spacing: 2 } as any)}>
             {recipe.prep_time && (
-              <HStack {...({ spacing: 1 } as any)}>
-                <Icon as={FaClock} color="blue.500" boxSize={3} />
-                <Text fontSize="xs">{recipe.prep_time} prep</Text>
-              </HStack>
+              <Badge colorScheme="blue" size="sm">
+                <HStack {...({ spacing: 1 } as any)}>
+                  <Icon as={FaClock} boxSize={3} />
+                  <Text fontSize="xs">{recipe.prep_time}</Text>
+                </HStack>
+              </Badge>
             )}
             {recipe.cook_time && (
-              <HStack {...({ spacing: 1 } as any)}>
-                <Icon as={FaFire} color="orange.500" boxSize={3} />
-                <Text fontSize="xs">{recipe.cook_time} cook</Text>
-              </HStack>
+              <Badge colorScheme="orange" size="sm">
+                <HStack {...({ spacing: 1 } as any)}>
+                  <Icon as={FaFire} boxSize={3} />
+                  <Text fontSize="xs">{recipe.cook_time}</Text>
+                </HStack>
+              </Badge>
             )}
             {recipe.servings && (
-              <HStack {...({ spacing: 1 } as any)}>
-                <Icon as={FaUsers} color="purple.500" boxSize={3} />
-                <Text fontSize="xs">{recipe.servings} servings</Text>
-              </HStack>
+              <Badge colorScheme="purple" size="sm">
+                <HStack {...({ spacing: 1 } as any)}>
+                  <Icon as={FaUsers} boxSize={3} />
+                  <Text fontSize="xs">{recipe.servings} servings</Text>
+                </HStack>
+              </Badge>
             )}
             {recipe.difficulty && (
               <Badge size="sm" colorScheme="yellow">
                 {recipe.difficulty}
               </Badge>
             )}
-          </HStack>
+            {recipe.meal_type && (
+              <Badge size="sm" colorScheme="cyan">
+                {recipe.meal_type}
+              </Badge>
+            )}
+          </Wrap>
 
           {/* Ingredients */}
           <Box>
@@ -332,43 +343,38 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
   );
 
   const renderSauceCard = (sauce: SauceRecommendation) => (
-    <Card key={sauce.sauce_name} size="sm" bg={cardBg} shadow="sm">
+    <Card key={sauce.sauce_name} size="sm" bg={cardBg} shadow="md" borderWidth="1px" borderColor="orange.100">
       <CardBody>
-        <VStack {...({ align: "start", spacing: 2 } as any)}>
+        <VStack {...({ align: "start", spacing: 3 } as any)}>
           <Flex justify="space-between" width="100%" align="start">
-            <Heading size="sm">{sauce.sauce_name}</Heading>
-            <Badge colorScheme="purple" size="sm">
+            <Heading size="sm" color="orange.700">{sauce.sauce_name}</Heading>
+            <Badge colorScheme="purple" size="sm" fontSize="xs">
               {(sauce.compatibility_score * 100).toFixed(0)}%
             </Badge>
           </Flex>
 
-          <Text fontSize="xs" color="gray.600">
+          <Text fontSize="sm" color="gray.700" fontWeight="medium">
             {sauce.description}
           </Text>
 
           {sauce.key_ingredients && sauce.key_ingredients.length > 0 && (
-            <Wrap {...({ spacing: 1 } as any)}>
-              {sauce.key_ingredients.slice(0, 3).map((ingredient, idx) => (
-                <WrapItem key={idx}>
-                  <TagRoot size="sm" variant="subtle" colorScheme="orange">
-                    <FaPepperHot size={8} />
-                    <TagLabel>{ingredient}</TagLabel>
-                  </TagRoot>
-                </WrapItem>
-              ))}
-            </Wrap>
-          )}
-
-          {sauce.elemental_properties && (
             <Box width="100%">
-              <Text fontSize="xs" fontWeight="medium" mb={1}>
-                Elemental Balance:
+              <Text fontSize="xs" fontWeight="bold" color="gray.600" mb={2}>
+                🥘 Key Ingredients:
               </Text>
-              {renderElementalProperties(sauce.elemental_properties)}
+              <Wrap {...({ spacing: 1 } as any)}>
+                {sauce.key_ingredients.map((ingredient, idx) => (
+                  <WrapItem key={idx}>
+                    <TagRoot size="sm" variant="subtle" colorScheme="orange">
+                      <TagLabel fontSize="xs">{ingredient}</TagLabel>
+                    </TagRoot>
+                  </WrapItem>
+                ))}
+              </Wrap>
             </Box>
           )}
 
-          <Text fontSize="xs" fontStyle="italic" color="purple.600">
+          <Text fontSize="sm" fontStyle="italic" color="purple.700" borderLeftWidth="3px" borderLeftColor="purple.300" pl={3}>
             {sauce.reason}
           </Text>
         </VStack>
@@ -541,16 +547,8 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
                 <CardBody>
                   <VStack {...({ spacing: 6, align: "stretch" } as any)}>
-                    {/* Elemental Properties */}
-                    <Box>
-                      <Text fontSize="sm" fontWeight="medium" mb={2}>
-                        Elemental Balance:
-                      </Text>
-                      {renderElementalProperties(cuisine.elemental_properties)}
-                    </Box>
-
-                    {/* Accordion for Recipes and Sauces */}
-                    <AccordionRoot collapsible multiple>
+                    {/* Accordion for Recipes and Sauces - PRIMARY FOCUS */}
+                    <AccordionRoot collapsible multiple defaultValue={["recipes"]}>
                       {/* Nested Recipes */}
                       <AccordionItem value="recipes">
                         <AccordionItemTrigger>
@@ -600,6 +598,29 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                           >
                             {cuisine.recommended_sauces.map(renderSauceCard)}
                           </SimpleGrid>
+                        </AccordionItemContent>
+                      </AccordionItem>
+
+                      {/* Elemental Properties - De-emphasized, collapsible */}
+                      <AccordionItem value="elemental">
+                        <AccordionItemTrigger>
+                          <Box flex="1" textAlign="left">
+                            <HStack>
+                              <Icon as={FaMagic} color="purple.500" />
+                              <Text fontWeight="medium" fontSize="sm" color="gray.600">
+                                Elemental Balance
+                              </Text>
+                            </HStack>
+                          </Box>
+                          <AccordionItemIndicator />
+                        </AccordionItemTrigger>
+                        <AccordionItemContent pb={4}>
+                          <Box>
+                            <Text fontSize="xs" color="gray.500" mb={3}>
+                              Traditional alchemical properties
+                            </Text>
+                            {renderElementalProperties(cuisine.elemental_properties)}
+                          </Box>
                         </AccordionItemContent>
                       </AccordionItem>
                     </AccordionRoot>
