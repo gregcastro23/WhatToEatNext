@@ -7,15 +7,59 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import CookingMethodPreview from "@/components/home/CookingMethodPreview";
 import CuisinePreview from "@/components/home/CuisinePreview";
 import IngredientPreview from "@/components/home/IngredientPreview";
 
+// Import full recommendation components for expanded sections
+const CurrentMomentCuisineRecommendations = dynamic(
+  () => import("@/components/cuisines/CurrentMomentCuisineRecommendations"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mb-4" />
+        <p className="text-lg font-medium text-gray-700 ml-4">
+          Loading full recommendations...
+        </p>
+      </div>
+    ),
+  }
+);
+
+const IngredientRecommender = dynamic(
+  () => import("@/components/recommendations/IngredientRecommender").then(mod => ({ default: mod.IngredientRecommender })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-green-600 mb-4" />
+        <p className="text-lg font-medium text-gray-700 ml-4">
+          Loading full recommendations...
+        </p>
+      </div>
+    ),
+  }
+);
+
 export default function HomePage() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [useFullComponents, setUseFullComponents] = useState<{ [key: string]: boolean }>({
+    cuisines: false,
+    ingredients: false,
+    methods: false,
+  });
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  const toggleFullComponent = (section: string) => {
+    setUseFullComponents(prev => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
   };
 
   return (
@@ -137,7 +181,38 @@ export default function HomePage() {
             </div>
             {expandedSection === "cuisines" && (
               <div className="p-6">
-                <CuisinePreview />
+                {/* Toggle between preview and full component */}
+                <div className="mb-4 flex justify-center gap-2">
+                  <button
+                    onClick={() => toggleFullComponent('cuisines')}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      !useFullComponents.cuisines
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    Preview Mode
+                  </button>
+                  <button
+                    onClick={() => toggleFullComponent('cuisines')}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      useFullComponents.cuisines
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    Full Recommendations
+                  </button>
+                </div>
+
+                {useFullComponents.cuisines ? (
+                  <div className="bg-white rounded-xl p-6 shadow-lg">
+                    <CurrentMomentCuisineRecommendations />
+                  </div>
+                ) : (
+                  <CuisinePreview />
+                )}
+
                 <div className="mt-6 text-center">
                   <Link
                     href="/cuisines"
@@ -173,7 +248,38 @@ export default function HomePage() {
             </div>
             {expandedSection === "ingredients" && (
               <div className="p-6">
-                <IngredientPreview />
+                {/* Toggle between preview and full component */}
+                <div className="mb-4 flex justify-center gap-2">
+                  <button
+                    onClick={() => toggleFullComponent('ingredients')}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      !useFullComponents.ingredients
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    Preview Mode
+                  </button>
+                  <button
+                    onClick={() => toggleFullComponent('ingredients')}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      useFullComponents.ingredients
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    Full Recommendations
+                  </button>
+                </div>
+
+                {useFullComponents.ingredients ? (
+                  <div className="bg-white rounded-xl p-6 shadow-lg">
+                    <IngredientRecommender isFullPageVersion={true} />
+                  </div>
+                ) : (
+                  <IngredientPreview />
+                )}
+
                 <div className="mt-6 text-center">
                   <Link
                     href="/ingredients"
