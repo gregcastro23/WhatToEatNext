@@ -5,6 +5,7 @@ import { allSauces } from "@/data/sauces";
 // Import the planet data
 import type { ElementalProperties, PlanetName } from "@/types/alchemy";
 import type { AstrologicalState } from "@/types/celestial";
+import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
 // Removed unused culinary type-only imports
 
 // Mock planetary data for calculations
@@ -125,11 +126,11 @@ export function generateTopSauceRecommendations(
       ...sauce,
       id: name.replace(/\s+/g, "-").toLowerCase(),
       score: overallScore,
-      matchPercentage: Math.round(overallScore * 100),
+      matchPercentage: compatibilityToMatchPercentage(overallScore),
       scores: {
-        elemental: Math.round(elementalMatchScore * 100),
-        astrological: Math.round(astrologicalScore * 100),
-        flavor: Math.round(flavorMatchScore * 100),
+        elemental: compatibilityToMatchPercentage(elementalMatchScore),
+        astrological: compatibilityToMatchPercentage(astrologicalScore),
+        flavor: compatibilityToMatchPercentage(flavorMatchScore),
       },
       reasoning: [
         `${Math.round(elementalMatchScore * 100)}% elemental compatibility.`,
@@ -247,7 +248,7 @@ export function getCuisineRecommendations(
       ...cuisine,
       id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, "-"),
       name: cuisine.name,
-      matchPercentage: Math.round(finalScore * 100),
+      matchPercentage: compatibilityToMatchPercentage(finalScore),
       score: finalScore,
       reasoning,
     };
