@@ -15,10 +15,8 @@ class Logger {
   private logLevel: LogLevel = isDev ? "debug" : "info";
   private readonly recentErrors: Array<{
     message: string;
-    timestamp;
-    number;
-    component?;
-    string;
+    timestamp: number;
+    component?: string;
   }> = [];
   private readonly MAX_ERRORS = 20;
 
