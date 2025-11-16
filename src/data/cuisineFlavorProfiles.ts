@@ -5,6 +5,7 @@ import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { log } from "@/services/LoggingService";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
+import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
 
 export interface CuisineFlavorProfile {
   id: string;
@@ -957,11 +958,14 @@ export function getRecipesForCuisineMatch(
         if (localRecipes.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map((recipe: any) => ({
-              ...recipe,
-              matchScore: 0.85 + Math.random() * 0.15, // 85-100% match
-              matchPercentage: Math.round((0.85 + Math.random() * 0.15) * 100), // For display
-            }))
+            .map((recipe: any) => {
+              const matchScore = 0.85 + Math.random() * 0.15; // 85-100% match
+              return {
+                ...recipe,
+                matchScore,
+                matchPercentage: compatibilityToMatchPercentage(matchScore),
+              };
+            })
             .slice(0, limit);
         }
 
@@ -1066,11 +1070,14 @@ export function getRecipesForCuisineMatch(
         if (localRecipes.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map((recipe: any) => ({
-              ...recipe,
-              matchScore: 0.8 + Math.random() * 0.2, // 80-100% match
-              matchPercentage: Math.round((0.8 + Math.random() * 0.2) * 100), // For display
-            }))
+            .map((recipe: any) => {
+              const matchScore = 0.8 + Math.random() * 0.2; // 80-100% match
+              return {
+                ...recipe,
+                matchScore,
+                matchPercentage: compatibilityToMatchPercentage(matchScore),
+              };
+            })
             .slice(0, limit);
         } else {
           log.info(
@@ -1245,7 +1252,7 @@ export function getRecipesForCuisineMatch(
             return {
               ...(recipe as any),
               matchScore: finalScore,
-              matchPercentage: Math.round(finalScore * 100),
+              matchPercentage: compatibilityToMatchPercentage(finalScore),
             };
           } catch (scoreError) {
             _logger.error(
@@ -1269,16 +1276,22 @@ export function getRecipesForCuisineMatch(
 
     // Combine all matches, prioritizing direct matches, then regional, then others
     const allMatches = [
-      ...exactCuisineMatches.map((recipe) => ({
-        ...(recipe as any),
-        matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
-        matchPercentage: Math.round((0.9 + Math.random() * 0.1) * 100),
-      })),
-      ...regionalMatches.map((recipe) => ({
-        ...(recipe as any),
-        matchScore: 0.8 + Math.random() * 0.1, // 80-90% match
-        matchPercentage: Math.round((0.8 + Math.random() * 0.1) * 100),
-      })),
+      ...exactCuisineMatches.map((recipe) => {
+        const matchScore = 0.9 + Math.random() * 0.1; // 90-100% match
+        return {
+          ...(recipe as any),
+          matchScore,
+          matchPercentage: compatibilityToMatchPercentage(matchScore),
+        };
+      }),
+      ...regionalMatches.map((recipe) => {
+        const matchScore = 0.8 + Math.random() * 0.1; // 80-90% match
+        return {
+          ...(recipe as any),
+          matchScore,
+          matchPercentage: compatibilityToMatchPercentage(matchScore),
+        };
+      }),
       ...scoredOtherRecipes.slice(
         0,
         limit - exactCuisineMatches.length - regionalMatches.length,

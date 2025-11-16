@@ -16,6 +16,7 @@ import { _logger } from "@/lib/logger";
 import type { LunarPhase, Season } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
+import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
 
 // Log what was imported
 // DISABLED: Module-level logging causes Next.js build to hang during module scanning
@@ -961,9 +962,9 @@ async function applyAdditionalFilters(
     if (recipe.matchScore !== undefined) {
       return {
         ...recipe,
-        // Add matchPercentage if it doesn't exist
+        // Add matchPercentage if it doesn't exist with enhanced differentiation
         matchPercentage:
-          recipe.matchPercentage || Math.round(recipe.matchScore * 100),
+          recipe.matchPercentage || compatibilityToMatchPercentage(recipe.matchScore),
       };
     }
 

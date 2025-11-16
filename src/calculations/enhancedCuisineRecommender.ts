@@ -3,6 +3,7 @@ import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
 
 // Internal imports
 import { createLogger } from "@/utils/logger";
+import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
 
 // Logger
 const logger = createLogger("EnhancedCuisineRecommender");
@@ -179,14 +180,17 @@ export class EnhancedCuisineRecommender {
       );
       const timeOfDayScore = this.calculateTimeOfDayScore(recipe);
 
-      // Calculate overall match percentage
-      const matchPercentage =
+      // Calculate overall match score (0-1 range)
+      const overallScore =
         seasonalScore * 0.2 +
         planetaryDayScore * 0.15 +
         planetaryHourScore * 0.15 +
         elementalScore * 0.25 +
         astrologicalScore * 0.15 +
         timeOfDayScore * 0.1;
+
+      // Convert to match percentage with enhanced differentiation
+      const matchPercentage = compatibilityToMatchPercentage(overallScore);
 
       return {
         cuisine: cuisineName,
