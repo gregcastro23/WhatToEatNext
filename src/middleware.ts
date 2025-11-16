@@ -7,14 +7,14 @@ export function middleware(_request: NextRequest) {
   // Define the environment;
   const isDevelopment = process.env.NODE_ENV === "development";
 
-  // Add security headers with more permissive settings for development
+  // Add security headers with more permissive settings for development and Chakra UI
+  // Chakra UI uses runtime style injection, so we need 'unsafe-inline' and 'unsafe-hashes'
   const cspHeader =
     `default-src 'self'; ` +
-    `script-src 'self' 'unsafe-inline' ${isDevelopment ? "'unsafe-eval' https://vercel.live" : ""} ` +
-    `https://unpkg.com https://cdn.jsdelivr.net; ` +
-    `style-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; ` +
+    `script-src 'self' 'unsafe-inline' ${isDevelopment ? "'unsafe-eval' https://vercel.live" : ""} https://unpkg.com https://cdn.jsdelivr.net https://r2cdn.perplexity.ai; ` +
+    `style-src 'self' 'unsafe-inline' 'unsafe-hashes' https://unpkg.com https://cdn.jsdelivr.net https://r2cdn.perplexity.ai; ` +
     `img-src 'self' data: blob: https:; ` +
-    `font-src 'self' data: https:; ` +
+    `font-src 'self' data: https: https://r2cdn.perplexity.ai; ` +
     `connect-src 'self' ${isDevelopment ? "https://vercel.live" : ""} https:; ` +
     `media-src 'self' https:; ` +
     `object-src 'none'; ` +
