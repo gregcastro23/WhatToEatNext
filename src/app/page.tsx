@@ -82,55 +82,47 @@ export default function HomePage() {
       {/* Hero Section with Mission Statement */}
       <div className="mx-auto max-w-7xl px-4 py-16">
         <div className="text-center mb-12">
-          <h1 className="text-7xl font-bold mb-6 alchm-gradient-text alchm-shimmer" style={{ fontSize: '5rem', letterSpacing: '0.1em' }}>
-            ALCHM
-          </h1>
-          <p className="text-2xl text-gray-800 mb-4 font-semibold max-w-4xl mx-auto leading-relaxed">
+          <p className="text-3xl text-gray-800 mb-4 font-bold max-w-4xl mx-auto leading-relaxed">
             Everyone deserves to eat the best possible food, perfectly aligned
             with the present moment
           </p>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
             We bridge ancient astrological wisdom with cutting-edge AI, helping
             you discover not just what to eat, but why you should eat it.
           </p>
 
           {/* The Infinite Yoga of Cooking */}
-          <div className="alchm-card rounded-2xl shadow-2xl p-10 max-w-4xl mx-auto mb-16 alchm-shimmer">
-            <h2 className="text-4xl font-bold text-purple-600 mb-6 text-center">
+          <div className="alchm-card rounded-2xl shadow-xl p-8 max-w-4xl mx-auto mb-12 alchm-shimmer">
+            <h2 className="text-3xl font-bold text-purple-600 mb-4 text-center">
               The Infinite Yoga of Cooking
             </h2>
-            <p className="text-gray-700 mb-6">
-              At our heart lies the infinite yoga of cooking—where every meal
-              becomes an opportunity for growth, connection, and self-discovery.
-              Cooking transcends daily routine; it&apos;s a lifelong practice
-              uniting body, mind, and spirit.
+            <p className="text-gray-700 mb-6 text-center text-lg">
+              Every meal is an opportunity for growth, connection, and self-discovery.
+              Cooking transcends routine—it&apos;s a lifelong practice uniting body, mind, and spirit.
             </p>
-            <div className="grid md:grid-cols-3 gap-6 text-left">
+            <div className="grid md:grid-cols-3 gap-6 text-center">
               <div>
-                <h3 className="text-lg font-semibold text-orange-600 mb-2">
+                <h3 className="text-lg font-semibold text-orange-600 mb-1">
                   Universal Invitation
                 </h3>
                 <p className="text-sm text-gray-600">
-                  We foster a community where everyone explores cooking&apos;s
-                  endless possibilities, regardless of experience
+                  Explore endless possibilities, regardless of experience
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-green-600 mb-2">
+                <h3 className="text-lg font-semibold text-green-600 mb-1">
                   Continuous Learning
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Our platform encourages curiosity and experimentation,
-                  deepening understanding of ingredients and techniques
+                  Deepen understanding through curiosity and experimentation
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-blue-600 mb-2">
+                <h3 className="text-lg font-semibold text-blue-600 mb-1">
                   Mindful Practice
                 </h3>
                 <p className="text-sm text-gray-600">
-                  We view the kitchen as sacred space for creativity,
-                  reflection, and transformation
+                  Transform your kitchen into sacred creative space
                 </p>
               </div>
             </div>
@@ -138,36 +130,51 @@ export default function HomePage() {
 
           {/* Three Pillars */}
           <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto mb-16">
-            <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group">
-              <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🔥</div>
-              <h2 className="text-2xl font-bold mb-4 text-orange-600">
-                Elemental
-              </h2>
-              <p className="text-gray-700 leading-relaxed">
-                Balance Fire, Water, Earth, and Air in your culinary journey
-              </p>
-            </div>
+            <Link href="/ingredients" className="block">
+              <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer">
+                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🔥</div>
+                <h2 className="text-2xl font-bold mb-4 text-orange-600">
+                  Elemental
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-3">
+                  Balance Fire, Water, Earth, and Air in your culinary journey
+                </p>
+                <p className="text-sm text-orange-600 font-semibold">
+                  Explore Elemental Properties →
+                </p>
+              </div>
+            </Link>
 
-            <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group">
-              <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">⭐</div>
-              <h2 className="text-2xl font-bold mb-4 text-purple-600">
-                Astrological
-              </h2>
-              <p className="text-gray-700 leading-relaxed">
-                Align your meals with planetary positions and zodiac energies
-              </p>
-            </div>
+            <Link href="/_live-planetary-demo" className="block">
+              <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer">
+                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">⭐</div>
+                <h2 className="text-2xl font-bold mb-4 text-purple-600">
+                  Astrological
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-3">
+                  Align your meals with planetary positions and zodiac energies
+                </p>
+                <p className="text-sm text-purple-600 font-semibold">
+                  View Current Planetary Chart →
+                </p>
+              </div>
+            </Link>
 
-            <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group">
-              <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🧪</div>
-              <h2 className="text-2xl font-bold mb-4 text-green-600">
-                Alchemical
-              </h2>
-              <p className="text-gray-700 leading-relaxed">
-                Transform ingredients through Spirit, Essence, Matter, and
-                Substance
-              </p>
-            </div>
+            <Link href="/_alchemize-demo" className="block">
+              <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer">
+                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🧪</div>
+                <h2 className="text-2xl font-bold mb-4 text-green-600">
+                  Alchemical
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-3">
+                  Transform ingredients through Spirit, Essence, Matter, and
+                  Substance
+                </p>
+                <p className="text-sm text-green-600 font-semibold">
+                  Explore Alchemical Kinetics →
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
 
