@@ -1,20 +1,34 @@
 import { NextResponse } from "next/server";
 import { createLogger } from "@/utils/logger";
+import { CUISINES } from "@/data/cuisines/index";
 import { italian } from "@/data/cuisines/italian";
 import { mexican } from "@/data/cuisines/mexican";
 import { american } from "@/data/cuisines/american";
+import { french } from "@/data/cuisines/french";
+import { chinese } from "@/data/cuisines/chinese";
+import { japanese } from "@/data/cuisines/japanese";
+import { thai } from "@/data/cuisines/thai";
+import { indian } from "@/data/cuisines/indian";
+import { korean } from "@/data/cuisines/korean";
+import { vietnamese } from "@/data/cuisines/vietnamese";
+import { greek } from "@/data/cuisines/greek";
+import type { ElementalProperties, AlchemicalProperties } from "@/types/alchemy";
+import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
 
 const logger = createLogger("CuisinesRecommendAPI");
 
 /**
- * Cuisine Recommendations API Endpoint
+ * Enhanced Cuisine Recommendations API Endpoint
  *
  * GET /api/cuisines/recommend
  *
- * Returns cuisine recommendations based on current astrological moment,
- * including nested recipes and sauce pairings from real culinary data.
- *
- * This endpoint can be called by external frontends from the alchm-kitchen backend.
+ * Returns comprehensive cuisine recommendations with:
+ * - Thermodynamic metrics (Heat, Entropy, Reactivity, Greg's Energy, Kalchm, Monica)
+ * - Kinetic properties (Velocity, Momentum, Power, Force)
+ * - Flavor profiles and cultural signatures
+ * - Fusion pairing recommendations
+ * - Nested recipes and sauce pairings
  */
 
 interface CurrentMoment {
@@ -22,6 +36,53 @@ interface CurrentMoment {
   season: string;
   meal_type?: string;
   timestamp: string;
+}
+
+interface ThermodynamicMetrics {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
+}
+
+interface KineticMetrics {
+  velocity: Record<string, number>;
+  momentum: Record<string, number>;
+  charge: number;
+  potentialDifference: number;
+  currentFlow: number;
+  power: number;
+  inertia: number;
+  forceMagnitude: number;
+  forceClassification: string;
+}
+
+interface FlavorProfile {
+  sweet: number;
+  sour: number;
+  salty: number;
+  bitter: number;
+  umami: number;
+  spicy: number;
+}
+
+interface CuisineSignature {
+  property: string;
+  value: number;
+  zScore: number;
+  significance: "high" | "medium" | "low";
+}
+
+interface FusionPairing {
+  cuisine_id: string;
+  name: string;
+  compatibility_score: number;
+  blend_ratio: number;
+  shared_elements: string[];
+  thermodynamic_harmony: number;
+  reason: string;
 }
 
 interface NestedRecipe {
@@ -47,28 +108,40 @@ interface SauceRecommendation {
   sauce_name: string;
   description: string;
   key_ingredients?: string[];
-  elemental_properties?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
-  };
+  elemental_properties?: ElementalProperties;
   compatibility_score: number;
   reason: string;
 }
 
-interface CuisineRecommendation {
+interface EnhancedCuisineRecommendation {
   cuisine_id: string;
   name: string;
   description: string;
-  elemental_properties: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
-  };
+
+  // Core Properties
+  elemental_properties: ElementalProperties;
+  alchemical_properties: AlchemicalProperties;
+
+  // Thermodynamic Metrics
+  thermodynamic_metrics: ThermodynamicMetrics;
+
+  // Kinetic Properties
+  kinetic_properties: KineticMetrics;
+
+  // Flavor Profile
+  flavor_profile: FlavorProfile;
+
+  // Cultural Signatures
+  cultural_signatures: CuisineSignature[];
+
+  // Fusion Pairings
+  fusion_pairings: FusionPairing[];
+
+  // Nested Content
   nested_recipes: NestedRecipe[];
   recommended_sauces: SauceRecommendation[];
+
+  // Match Scores
   seasonal_context: string;
   astrological_score: number;
   compatibility_reason: string;
@@ -81,37 +154,23 @@ function getCurrentMoment(): CurrentMoment {
   const now = new Date();
   const month = now.getMonth();
 
-  // Determine zodiac sign based on date
   const zodiacSigns = [
-    "Capricorn",
-    "Aquarius",
-    "Pisces",
-    "Aries",
-    "Taurus",
-    "Gemini",
-    "Cancer",
-    "Leo",
-    "Virgo",
-    "Libra",
-    "Scorpio",
-    "Sagittarius",
+    "Capricorn", "Aquarius", "Pisces", "Aries", "Taurus", "Gemini",
+    "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius",
   ];
 
-  // Simplified zodiac calculation (day 20 is typical cutoff)
   const day = now.getDate();
   let zodiacIndex = month;
   if (day >= 20 && day <= 31) {
     zodiacIndex = (month + 1) % 12;
   }
 
-  // Determine season (Northern Hemisphere)
   let season = "Spring";
   if (month >= 2 && month <= 4) season = "Spring";
   else if (month >= 5 && month <= 7) season = "Summer";
   else if (month >= 8 && month <= 10) season = "Autumn";
   else season = "Winter";
 
-  // Determine meal type based on time
   const hour = now.getHours();
   let meal_type = "Dinner";
   if (hour >= 5 && hour < 11) meal_type = "Breakfast";
@@ -127,7 +186,169 @@ function getCurrentMoment(): CurrentMoment {
 }
 
 /**
- * Get recipes from cuisine data based on season and meal type
+ * Calculate alchemical properties from planetary positions
+ * For now, using a simplified calculation based on zodiac sign
+ */
+function calculateAlchemicalProperties(zodiacSign: string): AlchemicalProperties {
+  const alchemicalMap: Record<string, AlchemicalProperties> = {
+    Aries: { Spirit: 5, Essence: 3, Matter: 2, Substance: 4 },
+    Taurus: { Spirit: 2, Essence: 4, Matter: 6, Substance: 2 },
+    Gemini: { Spirit: 6, Essence: 4, Matter: 1, Substance: 3 },
+    Cancer: { Spirit: 3, Essence: 6, Matter: 4, Substance: 1 },
+    Leo: { Spirit: 7, Essence: 2, Matter: 2, Substance: 3 },
+    Virgo: { Spirit: 2, Essence: 5, Matter: 5, Substance: 2 },
+    Libra: { Spirit: 4, Essence: 4, Matter: 3, Substance: 3 },
+    Scorpio: { Spirit: 4, Essence: 5, Matter: 3, Substance: 2 },
+    Sagittarius: { Spirit: 6, Essence: 3, Matter: 2, Substance: 3 },
+    Capricorn: { Spirit: 2, Essence: 3, Matter: 7, Substance: 2 },
+    Aquarius: { Spirit: 5, Essence: 4, Matter: 2, Substance: 3 },
+    Pisces: { Spirit: 3, Essence: 7, Matter: 3, Substance: 1 },
+  };
+
+  return alchemicalMap[zodiacSign] || { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+}
+
+/**
+ * Generate flavor profile for a cuisine
+ */
+function generateFlavorProfile(cuisineId: string): FlavorProfile {
+  const profiles: Record<string, FlavorProfile> = {
+    italian: { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.5, spicy: 0.2 },
+    mexican: { sweet: 0.2, sour: 0.4, salty: 0.3, bitter: 0.2, umami: 0.4, spicy: 0.8 },
+    american: { sweet: 0.5, sour: 0.2, salty: 0.6, bitter: 0.1, umami: 0.5, spicy: 0.3 },
+    french: { sweet: 0.4, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.6, spicy: 0.2 },
+    chinese: { sweet: 0.4, sour: 0.5, salty: 0.5, bitter: 0.2, umami: 0.7, spicy: 0.6 },
+    japanese: { sweet: 0.3, sour: 0.2, salty: 0.4, bitter: 0.2, umami: 0.8, spicy: 0.1 },
+    thai: { sweet: 0.5, sour: 0.6, salty: 0.4, bitter: 0.3, umami: 0.5, spicy: 0.9 },
+    indian: { sweet: 0.3, sour: 0.3, salty: 0.3, bitter: 0.3, umami: 0.4, spicy: 0.9 },
+    korean: { sweet: 0.3, sour: 0.4, salty: 0.5, bitter: 0.2, umami: 0.6, spicy: 0.7 },
+    vietnamese: { sweet: 0.4, sour: 0.5, salty: 0.4, bitter: 0.2, umami: 0.5, spicy: 0.5 },
+    greek: { sweet: 0.2, sour: 0.4, salty: 0.5, bitter: 0.3, umami: 0.4, spicy: 0.2 },
+    middleEastern: { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.4, spicy: 0.5 },
+    african: { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.3, umami: 0.4, spicy: 0.6 },
+    russian: { sweet: 0.2, sour: 0.5, salty: 0.5, bitter: 0.2, umami: 0.4, spicy: 0.2 },
+  };
+
+  return profiles[cuisineId] || { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.5, spicy: 0.3 };
+}
+
+/**
+ * Identify cultural signatures (properties that stand out)
+ */
+function identifyCulturalSignatures(
+  elementalProps: ElementalProperties,
+  thermodynamics: ThermodynamicMetrics,
+  flavorProfile: FlavorProfile,
+): CuisineSignature[] {
+  const signatures: CuisineSignature[] = [];
+
+  // Check elemental outliers
+  Object.entries(elementalProps).forEach(([element, value]) => {
+    if (value > 0.35) {
+      signatures.push({
+        property: `${element} Element`,
+        value,
+        zScore: (value - 0.25) / 0.15,
+        significance: value > 0.45 ? "high" : "medium",
+      });
+    }
+  });
+
+  // Check thermodynamic outliers
+  if (thermodynamics.heat > 0.12) {
+    signatures.push({
+      property: "Heat",
+      value: thermodynamics.heat,
+      zScore: (thermodynamics.heat - 0.08) / 0.03,
+      significance: "high",
+    });
+  }
+
+  // Check flavor outliers
+  Object.entries(flavorProfile).forEach(([flavor, value]) => {
+    if (value > 0.7) {
+      signatures.push({
+        property: `${flavor.charAt(0).toUpperCase() + flavor.slice(1)} Flavor`,
+        value,
+        zScore: (value - 0.5) / 0.2,
+        significance: value > 0.8 ? "high" : "medium",
+      });
+    }
+  });
+
+  return signatures;
+}
+
+/**
+ * Calculate fusion pairings with other cuisines
+ */
+function calculateFusionPairings(
+  currentCuisineId: string,
+  currentElemental: ElementalProperties,
+  currentThermodynamics: ThermodynamicMetrics,
+  allCuisines: any[],
+): FusionPairing[] {
+  const pairings: FusionPairing[] = [];
+
+  allCuisines.forEach((cuisine) => {
+    if (cuisine.id === currentCuisineId) return;
+
+    // Calculate elemental compatibility
+    const elementalSimilarity = calculateElementalSimilarity(
+      currentElemental,
+      cuisine.elementalProps,
+    );
+
+    // Calculate thermodynamic harmony
+    const thermoHarmony = 1 - Math.abs(
+      currentThermodynamics.monica - cuisine.thermodynamics.monica
+    ) / 2;
+
+    const compatibilityScore = elementalSimilarity * 0.6 + thermoHarmony * 0.4;
+
+    if (compatibilityScore > 0.6) {
+      const sharedElements = Object.entries(currentElemental)
+        .filter(([element, value]) => {
+          const otherValue = cuisine.elementalProps[element as keyof ElementalProperties];
+          return Math.abs(value - otherValue) < 0.2;
+        })
+        .map(([element]) => element);
+
+      pairings.push({
+        cuisine_id: cuisine.id,
+        name: cuisine.name,
+        compatibility_score: compatibilityScore,
+        blend_ratio: 0.5 + (compatibilityScore - 0.6) * 0.5,
+        shared_elements: sharedElements,
+        thermodynamic_harmony: thermoHarmony,
+        reason: `Strong ${sharedElements.join(" and ")} alignment with ${(compatibilityScore * 100).toFixed(0)}% compatibility`,
+      });
+    }
+  });
+
+  return pairings.sort((a, b) => b.compatibility_score - a.compatibility_score).slice(0, 3);
+}
+
+/**
+ * Calculate elemental similarity between two profiles
+ */
+function calculateElementalSimilarity(
+  profile1: ElementalProperties,
+  profile2: ElementalProperties,
+): number {
+  const elements = ["Fire", "Water", "Earth", "Air"] as const;
+  let totalSimilarity = 0;
+
+  elements.forEach((element) => {
+    const diff = Math.abs(profile1[element] - profile2[element]);
+    totalSimilarity += 1 - diff;
+  });
+
+  return totalSimilarity / elements.length;
+}
+
+/**
+ * Get recipes for a cuisine based on season and meal type
  */
 function getRecipesForCuisine(
   cuisineData: any,
@@ -137,23 +358,18 @@ function getRecipesForCuisine(
   const season = moment.season.toLowerCase() as "spring" | "summer" | "autumn" | "winter";
   const mealType = moment.meal_type?.toLowerCase() || "dinner";
 
-  // Get all recipes for the meal type and season
   let recipes: any[] = [];
 
   if (cuisineData.dishes && cuisineData.dishes[mealType]) {
-    // Get seasonal recipes
     const seasonalRecipes = cuisineData.dishes[mealType][season] || [];
-    // Get "all season" recipes
     const allSeasonRecipes = cuisineData.dishes[mealType].all || [];
-
     recipes = [...allSeasonRecipes, ...seasonalRecipes];
   }
 
-  // If not enough recipes for this meal type, try other meal types
   if (recipes.length < maxRecipes) {
     const mealTypes = ["breakfast", "lunch", "dinner", "dessert"];
     for (const mt of mealTypes) {
-      if (mt !== mealType && cuisineData.dishes[mt]) {
+      if (mt !== mealType && cuisineData.dishes && cuisineData.dishes[mt]) {
         const additionalRecipes = [
           ...(cuisineData.dishes[mt][season] || []),
           ...(cuisineData.dishes[mt].all || []),
@@ -164,7 +380,6 @@ function getRecipesForCuisine(
     }
   }
 
-  // Convert to NestedRecipe format
   return recipes.slice(0, maxRecipes).map((recipe, idx) => ({
     recipe_id: recipe.id || `${cuisineData.name}-${idx}`,
     name: recipe.name,
@@ -186,63 +401,11 @@ function getRecipesForCuisine(
 }
 
 /**
- * Generate cuisine recommendations based on current moment
- * Uses real culinary data from cuisine files
- */
-function generateRecommendations(
-  moment: CurrentMoment,
-): CuisineRecommendation[] {
-  // Real cuisine data from imported files
-  const cuisineDataSources = [
-    { id: "italian", data: italian, score: 0.88 },
-    { id: "mexican", data: mexican, score: 0.82 },
-    { id: "american", data: american, score: 0.75 },
-  ];
-
-  const recommendations: CuisineRecommendation[] = cuisineDataSources.map(({ id, data, score }) => {
-    const recipes = getRecipesForCuisine(data, moment, 5);
-
-    return {
-      cuisine_id: id,
-      name: data.name,
-      description: data.description || `Traditional ${data.name} cuisine`,
-      elemental_properties: data.elementalProperties || {
-        Fire: 0.3,
-        Water: 0.2,
-        Earth: 0.35,
-        Air: 0.15,
-      },
-      nested_recipes: recipes,
-      recommended_sauces: getSaucesForCuisine(data, 5),
-      seasonal_context: `Perfect for ${moment.season} - ingredients at peak freshness`,
-      astrological_score: score,
-      compatibility_reason: `Aligns with ${moment.zodiac_sign}'s ${getZodiacElement(moment.zodiac_sign)} energy and current ${moment.season} season`,
-    };
-  });
-
-  return recommendations;
-}
-
-/**
- * Get zodiac element for compatibility reasons
- */
-function getZodiacElement(zodiacSign: string): string {
-  const elements: Record<string, string> = {
-    "Aries": "Fire", "Leo": "Fire", "Sagittarius": "Fire",
-    "Taurus": "Earth", "Virgo": "Earth", "Capricorn": "Earth",
-    "Gemini": "Air", "Libra": "Air", "Aquarius": "Air",
-    "Cancer": "Water", "Scorpio": "Water", "Pisces": "Water",
-  };
-  return elements[zodiacSign] || "balanced";
-}
-
-/**
  * Get sauces from cuisine data
  */
 function getSaucesForCuisine(cuisineData: any, maxSauces: number = 5): SauceRecommendation[] {
   const sauces: SauceRecommendation[] = [];
 
-  // Get from motherSauces
   if (cuisineData.motherSauces) {
     Object.entries(cuisineData.motherSauces).forEach(([name, sauce]: [string, any]) => {
       sauces.push({
@@ -256,7 +419,6 @@ function getSaucesForCuisine(cuisineData: any, maxSauces: number = 5): SauceReco
     });
   }
 
-  // Get from traditionalSauces
   if (cuisineData.traditionalSauces) {
     Object.entries(cuisineData.traditionalSauces).forEach(([name, sauce]: [string, any]) => {
       sauces.push({
@@ -274,159 +436,129 @@ function getSaucesForCuisine(cuisineData: any, maxSauces: number = 5): SauceReco
 }
 
 /**
- * Legacy mock data structure (kept for reference)
+ * Get zodiac element for compatibility reasons
  */
-function _generateMockRecommendations(
-  moment: CurrentMoment,
-): CuisineRecommendation[] {
-  const recommendations: CuisineRecommendation[] = [
-    {
-      cuisine_id: "italian-001",
-      name: "Italian",
-      description:
-        "Mediterranean cuisine emphasizing fresh ingredients, olive oil, and balanced flavors",
-      elemental_properties: {
-        Fire: 0.3,
-        Water: 0.2,
-        Earth: 0.35,
-        Air: 0.15,
-      },
-      nested_recipes: [
-        {
-          recipe_id: "recipe-001",
-          name: "Margherita Pizza",
-          description:
-            "Classic Neapolitan pizza with tomatoes, mozzarella, and basil",
-          prep_time: "20 min",
-          cook_time: "15 min",
-          servings: 4,
-          difficulty: "Medium",
-          ingredients: [
-            { name: "Pizza dough", amount: "500", unit: "g" },
-            {
-              name: "San Marzano tomatoes",
-              amount: "400",
-              unit: "g",
-              notes: "crushed",
-            },
-            { name: "Fresh mozzarella", amount: "250", unit: "g" },
-            { name: "Fresh basil", amount: "1", unit: "bunch" },
-            { name: "Extra virgin olive oil", amount: "3", unit: "tbsp" },
-            { name: "Sea salt", notes: "to taste" },
-          ],
-          instructions: [
-            "Preheat oven to 500°F (260°C) with pizza stone",
-            "Roll out pizza dough to 12-inch circle",
-            "Spread crushed tomatoes evenly over dough",
-            "Add torn mozzarella pieces",
-            "Bake for 12-15 minutes until crust is golden",
-            "Top with fresh basil and drizzle with olive oil",
-          ],
-          meal_type: moment.meal_type || "Dinner",
-          seasonal_fit: "High - fresh ingredients peak in current season",
-        },
-      ],
-      recommended_sauces: [
-        {
-          sauce_name: "Pesto Genovese",
-          description:
-            "Bright, herbaceous sauce made with fresh basil, pine nuts, garlic, and Parmesan",
-          key_ingredients: ["Basil", "Pine nuts", "Parmesan", "Garlic"],
-          elemental_properties: {
-            Fire: 0.2,
-            Water: 0.15,
-            Earth: 0.45,
-            Air: 0.2,
-          },
-          compatibility_score: 0.92,
-          reason:
-            "Earth-dominant profile complements current planetary alignment",
-        },
-      ],
-      seasonal_context: `Perfect for ${moment.season} - ingredients are at peak freshness`,
-      astrological_score: 0.88,
-      compatibility_reason: `Strong Earth element aligns with ${moment.zodiac_sign}'s grounding energy`,
-    },
-    {
-      cuisine_id: "mexican-001",
-      name: "Mexican",
-      description:
-        "Vibrant cuisine featuring bold spices, fresh vegetables, and ancient cooking techniques",
-      elemental_properties: {
-        Fire: 0.45,
-        Water: 0.15,
-        Earth: 0.25,
-        Air: 0.15,
-      },
-      nested_recipes: [
-        {
-          recipe_id: "recipe-002",
-          name: "Chicken Tacos al Pastor",
-          description:
-            "Marinated chicken with pineapple, cilantro, and warming spices",
-          prep_time: "30 min",
-          cook_time: "20 min",
-          servings: 6,
-          difficulty: "Medium",
-          ingredients: [
-            { name: "Chicken thighs", amount: "800", unit: "g" },
-            { name: "Pineapple", amount: "1", unit: "cup", notes: "diced" },
-            { name: "White onion", amount: "1", unit: "large" },
-            { name: "Cilantro", amount: "1", unit: "bunch" },
-            { name: "Chipotle peppers", amount: "2", unit: "peppers" },
-            { name: "Corn tortillas", amount: "12", unit: "tortillas" },
-          ],
-          instructions: [
-            "Marinate chicken in chipotle sauce for 2 hours",
-            "Grill chicken until charred and cooked through",
-            "Slice chicken thinly",
-            "Warm tortillas on griddle",
-            "Assemble tacos with chicken, pineapple, onion, and cilantro",
-            "Serve with lime wedges",
-          ],
-          meal_type: moment.meal_type || "Dinner",
-          seasonal_fit: "Medium - adaptable across seasons",
-        },
-      ],
-      recommended_sauces: [
-        {
-          sauce_name: "Salsa Verde",
-          description:
-            "Tangy tomatillo-based sauce with jalapeños and fresh herbs",
-          key_ingredients: ["Tomatillos", "Jalapeños", "Cilantro", "Lime"],
-          elemental_properties: {
-            Fire: 0.5,
-            Water: 0.2,
-            Earth: 0.2,
-            Air: 0.1,
-          },
-          compatibility_score: 0.85,
-          reason: "Fire element harmonizes with current cosmic heat",
-        },
-      ],
-      seasonal_context: `Good for ${moment.season} with seasonal ingredient adjustments`,
-      astrological_score: 0.82,
-      compatibility_reason: `Fire energy complements ${moment.zodiac_sign}'s dynamic nature`,
-    },
-  ];
+function getZodiacElement(zodiacSign: string): string {
+  const elements: Record<string, string> = {
+    Aries: "Fire", Leo: "Fire", Sagittarius: "Fire",
+    Taurus: "Earth", Virgo: "Earth", Capricorn: "Earth",
+    Gemini: "Air", Libra: "Air", Aquarius: "Air",
+    Cancer: "Water", Scorpio: "Water", Pisces: "Water",
+  };
+  return elements[zodiacSign] || "balanced";
+}
 
-  return recommendations;
+/**
+ * Generate enhanced cuisine recommendations
+ */
+function generateEnhancedRecommendations(
+  moment: CurrentMoment,
+): EnhancedCuisineRecommendation[] {
+  // Get all cuisines with full data
+  const cuisineDataMap: Record<string, any> = {
+    italian,
+    mexican,
+    american,
+    french,
+    chinese,
+    japanese,
+    thai,
+    indian,
+    korean,
+    vietnamese,
+    greek,
+  };
+
+  // Calculate alchemical properties for current moment
+  const currentAlchemical = calculateAlchemicalProperties(moment.zodiac_sign);
+
+  // Process all cuisines
+  const processedCuisines = Object.entries(CUISINES).map(([id, cuisineInfo]) => {
+    const elementalProps = cuisineInfo.elementalProperties;
+
+    // Calculate thermodynamic metrics
+    const thermodynamics = calculateThermodynamicMetrics(
+      currentAlchemical,
+      elementalProps,
+    );
+
+    // Calculate kinetic properties
+    const kinetics = calculateKineticProperties(
+      currentAlchemical,
+      elementalProps,
+      thermodynamics,
+    );
+
+    return {
+      id,
+      name: cuisineInfo.name,
+      elementalProps,
+      alchemical: currentAlchemical,
+      thermodynamics,
+      kinetics,
+    };
+  });
+
+  // Generate recommendations for top cuisines
+  const recommendations: EnhancedCuisineRecommendation[] = processedCuisines
+    .slice(0, 8)
+    .map((cuisine, index) => {
+      const cuisineData = cuisineDataMap[cuisine.id] || {};
+      const recipes = getRecipesForCuisine(cuisineData, moment, 5);
+      const sauces = getSaucesForCuisine(cuisineData, 5);
+      const flavorProfile = generateFlavorProfile(cuisine.id);
+      const signatures = identifyCulturalSignatures(
+        cuisine.elementalProps,
+        cuisine.thermodynamics,
+        flavorProfile,
+      );
+      const fusionPairings = calculateFusionPairings(
+        cuisine.id,
+        cuisine.elementalProps,
+        cuisine.thermodynamics,
+        processedCuisines,
+      );
+
+      // Calculate astrological score based on zodiac element match
+      const zodiacElement = getZodiacElement(moment.zodiac_sign);
+      const dominantElement = Object.entries(cuisine.elementalProps)
+        .sort((a, b) => b[1] - a[1])[0][0];
+      const astroScore = dominantElement === zodiacElement ? 0.9 : 0.7 + (0.2 * (index / 8));
+
+      return {
+        cuisine_id: cuisine.id,
+        name: cuisine.name,
+        description: cuisineData.description || `Authentic ${cuisine.name} cuisine`,
+
+        elemental_properties: cuisine.elementalProps,
+        alchemical_properties: cuisine.alchemical,
+        thermodynamic_metrics: cuisine.thermodynamics,
+        kinetic_properties: cuisine.kinetics,
+        flavor_profile: flavorProfile,
+        cultural_signatures: signatures,
+        fusion_pairings: fusionPairings,
+
+        nested_recipes: recipes,
+        recommended_sauces: sauces,
+
+        seasonal_context: `Perfect for ${moment.season} - ingredients at peak freshness`,
+        astrological_score: astroScore,
+        compatibility_reason: `Aligns with ${moment.zodiac_sign}'s ${zodiacElement} energy and current ${moment.season} season`,
+      };
+    });
+
+  return recommendations.sort((a, b) => b.astrological_score - a.astrological_score);
 }
 
 /**
  * GET /api/cuisines/recommend
- *
- * Returns cuisine recommendations for the current astrological moment
  */
 export async function GET(request: Request) {
   try {
-    logger.info("Cuisine recommendations API called");
+    logger.info("Enhanced Cuisine recommendations API called");
 
-    // Get current astrological moment
     const currentMoment = getCurrentMoment();
-
-    // Generate recommendations
-    const recommendations = generateRecommendations(currentMoment);
+    const recommendations = generateEnhancedRecommendations(currentMoment);
 
     const response = {
       success: true,
@@ -435,17 +567,26 @@ export async function GET(request: Request) {
       total_recommendations: recommendations.length,
       timestamp: new Date().toISOString(),
       metadata: {
-        api_version: "1.0.0",
-        data_source: "local-calculation",
+        api_version: "2.0.0",
+        data_source: "enhanced-calculation",
+        features: [
+          "thermodynamic_metrics",
+          "kinetic_properties",
+          "flavor_profiles",
+          "cultural_signatures",
+          "fusion_pairings",
+          "nested_recipes",
+          "sauce_recommendations",
+        ],
         can_be_called_externally: true,
       },
     };
 
-    logger.info(`Returning ${recommendations.length} cuisine recommendations`);
+    logger.info(`Returning ${recommendations.length} enhanced cuisine recommendations`);
 
     return NextResponse.json(response);
   } catch (error) {
-    logger.error("Error generating cuisine recommendations:", error);
+    logger.error("Error generating enhanced cuisine recommendations:", error);
 
     return NextResponse.json(
       {
@@ -461,32 +602,14 @@ export async function GET(request: Request) {
 
 /**
  * POST /api/cuisines/recommend
- *
- * Returns cuisine recommendations for a specific datetime or with custom filters
- *
- * Body parameters:
- * - datetime (optional): ISO datetime string
- * - dietary_restrictions (optional): array of dietary restrictions
- * - preferred_cuisines (optional): array of preferred cuisine types
  */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    logger.info(
-      "Cuisine recommendations API called with custom parameters",
-      body,
-    );
+    logger.info("Enhanced Cuisine recommendations API called with custom parameters", body);
 
-    // Get current moment (or use provided datetime)
     const currentMoment = getCurrentMoment();
-
-    // TODO: Apply filters from body
-    // - body.dietary_restrictions
-    // - body.preferred_cuisines
-    // - body.datetime (parse and use for astrological calculations)
-
-    // Generate recommendations
-    const recommendations = generateRecommendations(currentMoment);
+    const recommendations = generateEnhancedRecommendations(currentMoment);
 
     const response = {
       success: true,
@@ -499,15 +622,22 @@ export async function POST(request: Request) {
       },
       timestamp: new Date().toISOString(),
       metadata: {
-        api_version: "1.0.0",
-        data_source: "local-calculation",
+        api_version: "2.0.0",
+        data_source: "enhanced-calculation",
+        features: [
+          "thermodynamic_metrics",
+          "kinetic_properties",
+          "flavor_profiles",
+          "cultural_signatures",
+          "fusion_pairings",
+        ],
         can_be_called_externally: true,
       },
     };
 
     return NextResponse.json(response);
   } catch (error) {
-    logger.error("Error generating cuisine recommendations:", error);
+    logger.error("Error generating enhanced cuisine recommendations:", error);
 
     return NextResponse.json(
       {
