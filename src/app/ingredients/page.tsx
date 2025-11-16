@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ArrowLeft, Home } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { IngredientRecommender } from "@/components/recommendations/IngredientRecommender";
+import { EnhancedIngredientRecommender } from "@/components/recommendations/EnhancedIngredientRecommender";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 import {
   useNavigationContext,
@@ -166,7 +166,7 @@ export default function IngredientsPage() {
                 </div>
               </div>
             )}
-            <IngredientRecommender
+            <EnhancedIngredientRecommender
               initialCategory={selectedCategory}
               initialSelectedIngredient={selectedIngredient}
               isFullPageVersion
