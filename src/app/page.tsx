@@ -160,7 +160,7 @@ export default function HomePage() {
               </div>
             </Link>
 
-            <Link href="/_live-planetary-demo" className="block">
+            <Link href="/test-planetary" className="block">
               <div className="alchm-card p-8 rounded-2xl shadow-lg text-center group hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer">
                 <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">⭐</div>
                 <h2 className="text-2xl font-bold mb-4 text-purple-600">
