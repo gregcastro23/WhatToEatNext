@@ -1,12 +1,15 @@
 "use client";
 
 /**
- * Enhanced Cooking Method Recommender Component
- * Showcases the full power of the alchemical cooking system:
- * - 14 Alchemical Pillars
- * - Thermodynamic Properties (Heat, Entropy, Reactivity)
- * - Monica Constants and Classifications
- * - Kinetic Properties (Power, Force, Energy)
+ * Enhanced Cooking Method Recommender Component - REVAMPED
+ *
+ * Showcases the FULL POWER of the alchemical cooking system with 6 major sections:
+ * 1. 🔮 Transformation Overview Card - Top priority metrics
+ * 2. ⚗️ Alchemical Transformation Matrix - ESMS display with comparisons
+ * 3. 🌡️ Enhanced Thermodynamic Properties - Heat, Entropy, Reactivity, Energy, Kalchm, Monica
+ * 4. ⚡ Kinetic Properties Dashboard - P=IV Circuit Model (Power, Force, Velocity, Momentum)
+ * 5. 🎯 Optimal Cooking Conditions Calculator - Temperature, Timing, Planetary Hours, Lunar Phases
+ * 6. 🌊 Elemental Flow Visualization - Per-element velocity, momentum, force
  */
 
 import React, { useState, useMemo } from "react";
@@ -19,22 +22,21 @@ import {
 } from "@/data/cooking/methods";
 import { ALCHEMICAL_PILLARS, type AlchemicalPillar } from "@/constants/alchemicalPillars";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
+import {
+  calculatePillarKalchm,
+  calculatePillarMonica,
+  calculatePillarMonicaModifiers
+} from "@/utils/monicaKalchmCalculations";
+import { calculateOptimalCookingConditions } from "@/constants/alchemicalPillars";
+import { calculateKinetics, type KineticMetrics } from "@/calculations/kinetics";
+import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
+import type { AlchemicalProperties, ElementalProperties } from "@/types/celestial";
 
 interface MethodData {
   name: string;
   description: string;
-  elementalEffect: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
-  };
-  alchemicalProperties?: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
-  };
+  elementalEffect: ElementalProperties;
+  alchemicalProperties?: AlchemicalProperties;
   thermodynamicProperties?: {
     heat: number;
     entropy: number;
@@ -91,49 +93,66 @@ const categories: CategoryConfig[] = [
   },
 ];
 
-// Calculate Monica constant for a method
-function calculateMonica(alchemical: {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}): number | null {
-  const { Spirit, Essence, Matter, Substance } = alchemical;
-
-  // Prevent division by zero
-  if (Matter === 0 || Substance === 0) return null;
-
-  // Kalchm = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
-  const numerator = Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence);
-  const denominator = Math.pow(Matter, Matter) * Math.pow(Substance, Substance);
-
-  if (denominator === 0 || numerator === 0) return null;
-
-  const kalchm = numerator / denominator;
-
-  if (kalchm <= 0) return null;
-
-  return kalchm;
-}
-
-// Calculate Greg's Energy
-function calculateGregsEnergy(thermo: {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-}): number {
-  return thermo.heat - thermo.entropy * thermo.reactivity;
-}
+// Mock planetary positions for kinetic calculations
+const mockPlanetaryPositions = {
+  Sun: "Leo" as const,
+  Moon: "Cancer" as const,
+  Mercury: "Gemini" as const,
+  Venus: "Taurus" as const,
+  Mars: "Aries" as const,
+  Jupiter: "Sagittarius" as const,
+  Saturn: "Capricorn" as const,
+  Uranus: "Aquarius" as const,
+  Neptune: "Pisces" as const,
+  Pluto: "Scorpio" as const,
+};
 
 // Classify Monica constant
-function classifyMonica(monica: number | null): string {
-  if (monica === null) return "Undefined";
-  if (monica > 10) return "Highly Volatile";
-  if (monica > 5) return "Volatile";
-  if (monica > 2) return "Transformative";
-  if (monica > 1) return "Balanced";
-  if (monica > 0.5) return "Stable";
-  return "Very Stable";
+function classifyMonica(monica: number | null): {
+  label: string;
+  color: string;
+  bgColor: string;
+} {
+  if (monica === null || isNaN(monica)) {
+    return { label: "Undefined", color: "text-gray-600", bgColor: "bg-gray-100" };
+  }
+  if (monica > 10) {
+    return { label: "Highly Volatile", color: "text-red-800", bgColor: "bg-red-100" };
+  }
+  if (monica > 5) {
+    return { label: "Volatile", color: "text-orange-800", bgColor: "bg-orange-100" };
+  }
+  if (monica > 2) {
+    return { label: "Transformative", color: "text-yellow-800", bgColor: "bg-yellow-100" };
+  }
+  if (monica > 1) {
+    return { label: "Balanced", color: "text-green-800", bgColor: "bg-green-100" };
+  }
+  if (monica > 0.5) {
+    return { label: "Stable", color: "text-blue-800", bgColor: "bg-blue-100" };
+  }
+  return { label: "Very Stable", color: "text-indigo-800", bgColor: "bg-indigo-100" };
+}
+
+// Get pillar color scheme
+function getPillarColors(pillarId: number): { bg: string; text: string; border: string } {
+  const colorMap: Record<number, { bg: string; text: string; border: string }> = {
+    1: { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300" },
+    2: { bg: "bg-cyan-100", text: "text-cyan-800", border: "border-cyan-300" },
+    3: { bg: "bg-sky-100", text: "text-sky-800", border: "border-sky-300" },
+    4: { bg: "bg-indigo-100", text: "text-indigo-800", border: "border-indigo-300" },
+    5: { bg: "bg-purple-100", text: "text-purple-800", border: "border-purple-300" },
+    6: { bg: "bg-yellow-100", text: "text-yellow-800", border: "border-yellow-300" },
+    7: { bg: "bg-red-100", text: "text-red-800", border: "border-red-300" },
+    8: { bg: "bg-green-100", text: "text-green-800", border: "border-green-300" },
+    9: { bg: "bg-teal-100", text: "text-teal-800", border: "border-teal-300" },
+    10: { bg: "bg-orange-100", text: "text-orange-800", border: "border-orange-300" },
+    11: { bg: "bg-pink-100", text: "text-pink-800", border: "border-pink-300" },
+    12: { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-300" },
+    13: { bg: "bg-violet-100", text: "text-violet-800", border: "border-violet-300" },
+    14: { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-300" },
+  };
+  return colorMap[pillarId] || { bg: "bg-gray-100", text: "text-gray-800", border: "border-gray-300" };
 }
 
 export default function EnhancedCookingMethodRecommender() {
@@ -148,26 +167,61 @@ export default function EnhancedCookingMethodRecommender() {
     return Object.entries(category.methods)
       .map(([id, method]) => {
         const pillar = getCookingMethodPillar(id);
-        const monica = method.alchemicalProperties
-          ? calculateMonica(method.alchemicalProperties)
+
+        // Calculate alchemical metrics
+        const kalchm = method.alchemicalProperties && pillar
+          ? calculatePillarKalchm(pillar, method.alchemicalProperties)
           : null;
+
+        const monica = method.alchemicalProperties && pillar
+          ? calculatePillarMonica(pillar, method.alchemicalProperties)
+          : null;
+
+        const monicaModifiers = method.alchemicalProperties && pillar && monica !== null
+          ? calculatePillarMonicaModifiers(monica, method.alchemicalProperties)
+          : null;
+
+        // Calculate Greg's Energy
         const gregsEnergy = method.thermodynamicProperties
-          ? calculateGregsEnergy(method.thermodynamicProperties)
+          ? calculateGregsEnergy(
+              method.alchemicalProperties || { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
+              method.elementalEffect
+            )
           : 0;
+
+        // Calculate optimal cooking conditions
+        const optimalConditions = method.thermodynamicProperties && monica !== null
+          ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties)
+          : null;
+
+        // Calculate kinetic metrics
+        let kinetics: KineticMetrics | null = null;
+        if (method.alchemicalProperties) {
+          try {
+            kinetics = calculateKinetics(
+              method.alchemicalProperties,
+              method.elementalEffect,
+              mockPlanetaryPositions
+            );
+          } catch (error) {
+            console.warn(`Failed to calculate kinetics for ${id}:`, error);
+          }
+        }
 
         return {
           id,
           ...method,
           pillar,
+          kalchm,
           monica,
           monicaClass: classifyMonica(monica),
+          monicaModifiers,
           gregsEnergy,
+          optimalConditions,
+          kinetics,
         };
       })
-      .sort((a, b) => {
-        // Sort by Greg's Energy (most energetic first)
-        return b.gregsEnergy - a.gregsEnergy;
-      })
+      .sort((a, b) => b.gregsEnergy - a.gregsEnergy)
       .slice(0, 8);
   }, [selectedCategory]);
 
@@ -189,185 +243,454 @@ export default function EnhancedCookingMethodRecommender() {
 
   const category = categories.find((cat) => cat.id === selectedCategory);
 
-  // Render alchemical property bars
-  const renderAlchemicalProperties = (alchemical: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
-  }) => {
+  // ==================== SECTION 1: TRANSFORMATION OVERVIEW CARD ====================
+  const renderTransformationOverview = (method: typeof currentMethods[0]) => {
+    const { monicaClass, kalchm, gregsEnergy, pillar } = method;
+    const pillarColors = pillar ? getPillarColors(pillar.id) : null;
+
+    return (
+      <div className={`rounded-xl border-2 p-4 ${pillarColors?.border || 'border-indigo-300'} ${pillarColors?.bg || 'bg-indigo-50'} shadow-lg`}>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">🔮 Transformation Overview</h3>
+
+        <div className="grid grid-cols-2 gap-3">
+          {/* Monica Classification */}
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Monica Classification</div>
+            <div className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${monicaClass.bgColor} ${monicaClass.color}`}>
+              {monicaClass.label}
+            </div>
+          </div>
+
+          {/* Kalchm Value */}
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Kalchm (Equilibrium)</div>
+            <div className="text-xl font-bold text-purple-700">
+              {kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(4) : 'N/A'}
+            </div>
+          </div>
+
+          {/* Greg's Energy */}
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Greg's Energy</div>
+            <div className={`text-xl font-bold ${gregsEnergy >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+              {gregsEnergy >= 0 ? '+' : ''}{gregsEnergy.toFixed(3)}
+              <span className="ml-1 text-sm">⚙️</span>
+            </div>
+          </div>
+
+          {/* Pillar Badge */}
+          {pillar && (
+            <div className="rounded-lg bg-white p-3 shadow-sm">
+              <div className="mb-1 text-xs font-medium text-gray-600">Alchemical Pillar</div>
+              <div className={`inline-block rounded-full px-2 py-1 text-xs font-bold ${pillarColors?.bg} ${pillarColors?.text}`}>
+                #{pillar.id} {pillar.name}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ==================== SECTION 2: ALCHEMICAL TRANSFORMATION MATRIX ====================
+  const renderAlchemicalMatrix = (method: typeof currentMethods[0]) => {
+    if (!method.alchemicalProperties) return null;
+
+    const { Spirit, Essence, Matter, Substance } = method.alchemicalProperties;
     const properties = [
-      { name: "Spirit", value: alchemical.Spirit, color: "yellow", icon: "✨" },
-      { name: "Essence", value: alchemical.Essence, color: "blue", icon: "💫" },
-      { name: "Matter", value: alchemical.Matter, color: "green", icon: "🌿" },
-      { name: "Substance", value: alchemical.Substance, color: "purple", icon: "🔮" },
+      { name: "Spirit", value: Spirit, color: "bg-yellow-500", icon: "✨", textColor: "text-yellow-700" },
+      { name: "Essence", value: Essence, color: "bg-blue-500", icon: "💫", textColor: "text-blue-700" },
+      { name: "Matter", value: Matter, color: "bg-green-500", icon: "🌿", textColor: "text-green-700" },
+      { name: "Substance", value: Substance, color: "bg-purple-500", icon: "🔮", textColor: "text-purple-700" },
     ];
 
     return (
-      <div className="space-y-2">
-        {properties.map(({ name, value, color, icon }) => (
-          <div key={name} className="flex items-center gap-2">
-            <span className="text-lg">{icon}</span>
-            <span className="w-20 text-sm font-medium text-gray-700">
-              {name}
-            </span>
-            <div className="flex-1">
-              <div className="h-2 w-full rounded-full bg-gray-200">
-                <div
-                  className={`h-2 rounded-full bg-${color}-500`}
-                  style={{
-                    width: `${Math.max(0, Math.min(100, ((value + 5) / 10) * 100))}%`,
-                  }}
-                />
+      <div className="rounded-xl border-2 border-purple-300 bg-purple-50 p-4 shadow-lg">
+        <h3 className="mb-3 text-lg font-bold text-gray-900">⚗️ Alchemical Transformation Matrix (ESMS)</h3>
+
+        <div className="space-y-3">
+          {properties.map(({ name, value, color, icon, textColor }) => {
+            const normalizedValue = ((value + 5) / 10) * 100; // Normalize to 0-100% (assuming range -5 to +5)
+            const displayValue = Math.max(0, Math.min(100, normalizedValue));
+
+            return (
+              <div key={name} className="flex items-center gap-3">
+                <span className="text-2xl">{icon}</span>
+                <div className="w-24">
+                  <div className="text-sm font-bold text-gray-700">{name}</div>
+                  <div className={`text-xs ${textColor}`}>
+                    {value > 0 ? '+' : ''}{value}
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <div className="relative h-6 w-full overflow-hidden rounded-full bg-gray-200">
+                    <div
+                      className={`h-full ${color} transition-all duration-500`}
+                      style={{ width: `${displayValue}%` }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white mix-blend-difference">
+                      {displayValue.toFixed(0)}%
+                    </div>
+                  </div>
+                </div>
+                {/* Transformation direction */}
+                <div className="w-10 text-center text-lg">
+                  {value > 2 ? '⬆️' : value < -2 ? '⬇️' : '↔️'}
+                </div>
               </div>
+            );
+          })}
+        </div>
+
+        {method.pillar && (
+          <div className="mt-3 rounded-lg bg-white p-2 text-center">
+            <div className="text-xs font-medium text-gray-600">
+              Pillar Effects: {Object.entries(method.pillar.effects)
+                .map(([prop, val]) => `${prop} ${val > 0 ? '+' : ''}${val}`)
+                .join(', ')}
             </div>
-            <span className="w-8 text-right text-sm text-gray-600">
-              {value > 0 ? `+${value}` : value}
-            </span>
           </div>
-        ))}
+        )}
       </div>
     );
   };
 
-  // Render thermodynamic properties
-  const renderThermodynamicProperties = (thermo: {
-    heat: number;
-    entropy: number;
-    reactivity: number;
-    energy?: number;
-  }) => {
+  // ==================== SECTION 3: ENHANCED THERMODYNAMIC PROPERTIES ====================
+  const renderThermodynamicDashboard = (method: typeof currentMethods[0]) => {
+    if (!method.thermodynamicProperties) return null;
+
+    const { heat, entropy, reactivity } = method.thermodynamicProperties;
+    const { gregsEnergy, kalchm, monica } = method;
+
     const properties = [
-      {
-        name: "Heat",
-        value: thermo.heat,
-        color: "red",
-        icon: "🔥",
-        unit: "",
-      },
-      {
-        name: "Entropy",
-        value: thermo.entropy,
-        color: "orange",
-        icon: "🌀",
-        unit: "",
-      },
-      {
-        name: "Reactivity",
-        value: thermo.reactivity,
-        color: "pink",
-        icon: "⚡",
-        unit: "",
-      },
-      {
-        name: "Energy",
-        value: thermo.energy || 0,
-        color: "indigo",
-        icon: "⚙️",
-        unit: "",
-      },
+      { name: "Heat", value: heat, icon: "🔥", color: "bg-red-500", desc: "Active energy potential" },
+      { name: "Entropy", value: entropy, icon: "🌀", color: "bg-orange-500", desc: "System disorder" },
+      { name: "Reactivity", value: reactivity, icon: "⚡", color: "bg-pink-500", desc: "Change potential" },
     ];
 
     return (
-      <div className="space-y-2">
-        {properties.map(({ name, value, color, icon }) => (
-          <div key={name} className="flex items-center gap-2">
-            <span className="text-lg">{icon}</span>
-            <span className="w-24 text-sm font-medium text-gray-700">
-              {name}
-            </span>
-            <div className="flex-1">
-              <div className="h-2 w-full rounded-full bg-gray-200">
-                <div
-                  className={`h-2 rounded-full bg-${color}-500`}
-                  style={{ width: `${Math.round(value * 100)}%` }}
-                />
+      <div className="rounded-xl border-2 border-red-300 bg-red-50 p-4 shadow-lg">
+        <h3 className="mb-3 text-lg font-bold text-gray-900">🌡️ Thermodynamic Properties Dashboard</h3>
+
+        {/* Main metrics */}
+        <div className="mb-4 space-y-2">
+          {properties.map(({ name, value, icon, color, desc }) => (
+            <div key={name} className="flex items-center gap-3">
+              <span className="text-2xl">{icon}</span>
+              <div className="w-24">
+                <div className="text-sm font-bold text-gray-700">{name}</div>
+                <div className="text-xs text-gray-500">{desc}</div>
+              </div>
+              <div className="flex-1">
+                <div className="relative h-6 w-full overflow-hidden rounded-full bg-gray-200">
+                  <div
+                    className={`h-full ${color} transition-all duration-500`}
+                    style={{ width: `${Math.round(value * 100)}%` }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white mix-blend-difference">
+                    {(value * 100).toFixed(0)}%
+                  </div>
+                </div>
+              </div>
+              <div className="w-16 text-right text-sm font-semibold text-gray-700">
+                {value.toFixed(3)}
               </div>
             </div>
-            <span className="w-12 text-right text-sm text-gray-600">
-              {value.toFixed(2)}
-            </span>
+          ))}
+        </div>
+
+        {/* Derived metrics */}
+        <div className="grid grid-cols-2 gap-2">
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Greg's Energy ⚙️</div>
+            <div className={`text-lg font-bold ${gregsEnergy >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+              {gregsEnergy >= 0 ? '+' : ''}{gregsEnergy.toFixed(4)}
+            </div>
+            <div className="mt-1 text-xs text-gray-500">
+              Heat - (Entropy × Reactivity)
+            </div>
           </div>
-        ))}
+
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Kalchm (K_alchm)</div>
+            <div className="text-lg font-bold text-purple-700">
+              {kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(4) : 'N/A'}
+            </div>
+            <div className="mt-1 text-xs text-gray-500">
+              Alchemical equilibrium
+            </div>
+          </div>
+        </div>
+
+        {/* Monica breakdown */}
+        {monica !== null && !isNaN(monica) && (
+          <div className="mt-3 rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-2 text-xs font-medium text-gray-600">Monica Constant Calculation</div>
+            <div className="grid grid-cols-2 gap-2 text-xs text-gray-700">
+              <div>Monica Value: <span className="font-bold text-purple-700">{monica.toFixed(4)}</span></div>
+              <div>Classification: <span className={`font-bold ${method.monicaClass.color}`}>{method.monicaClass.label}</span></div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
 
-  // Render elemental properties
-  const renderElementalProperties = (elemental: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
-  }) => {
-    const elements = [
-      { name: "Fire", value: elemental.Fire, icon: "🔥", color: "red" },
-      { name: "Water", value: elemental.Water, icon: "💧", color: "blue" },
-      { name: "Earth", value: elemental.Earth, icon: "🌍", color: "green" },
-      { name: "Air", value: elemental.Air, icon: "💨", color: "sky" },
-    ];
+  // ==================== SECTION 4: KINETIC PROPERTIES DASHBOARD ====================
+  const renderKineticDashboard = (method: typeof currentMethods[0]) => {
+    if (!method.kinetics) return null;
+
+    const {
+      power,
+      potential,
+      current,
+      charge,
+      forceMagnitude,
+      forceClassification,
+      thermalDirection,
+      aspectPhase,
+    } = method.kinetics;
 
     return (
-      <div className="space-y-2">
-        {elements.map(({ name, value, icon, color }) => (
-          <div key={name} className="flex items-center gap-2">
-            <span className="text-lg">{icon}</span>
-            <span className="w-16 text-sm font-medium text-gray-700">
-              {name}
-            </span>
-            <div className="flex-1">
-              <div className="h-2 w-full rounded-full bg-gray-200">
-                <div
-                  className={`h-2 rounded-full bg-${color}-500`}
-                  style={{ width: `${Math.round(value * 100)}%` }}
-                />
-              </div>
-            </div>
-            <span className="w-12 text-right text-sm text-gray-600">
-              {Math.round(value * 100)}%
-            </span>
+      <div className="rounded-xl border-2 border-indigo-300 bg-indigo-50 p-4 shadow-lg">
+        <h3 className="mb-3 text-lg font-bold text-gray-900">⚡ Kinetic Properties (P=IV Circuit Model)</h3>
+
+        {/* Primary metrics */}
+        <div className="mb-4 grid grid-cols-2 gap-3">
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Power (P = I × V)</div>
+            <div className="text-2xl font-bold text-indigo-700">{power.toFixed(3)}</div>
+            <div className="text-xs text-gray-500">Total transformation power</div>
           </div>
-        ))}
+
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Force Magnitude</div>
+            <div className="text-2xl font-bold text-pink-700">{forceMagnitude.toFixed(3)}</div>
+            <div className="text-xs text-gray-500">Transformative force</div>
+          </div>
+
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Charge (Q)</div>
+            <div className="text-xl font-bold text-green-700">{charge.toFixed(3)}</div>
+            <div className="text-xs text-gray-500">Matter + Substance</div>
+          </div>
+
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Potential (V)</div>
+            <div className="text-xl font-bold text-blue-700">{potential.toFixed(3)}</div>
+            <div className="text-xs text-gray-500">Energy per unit charge</div>
+          </div>
+
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Current (I)</div>
+            <div className="text-xl font-bold text-yellow-700">{current.toFixed(3)}</div>
+            <div className="text-xs text-gray-500">Rate of charge flow</div>
+          </div>
+
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Force Classification</div>
+            <div className={`inline-block rounded-full px-2 py-1 text-xs font-bold ${
+              forceClassification === 'accelerating' ? 'bg-green-100 text-green-800' :
+              forceClassification === 'balanced' ? 'bg-blue-100 text-blue-800' :
+              'bg-orange-100 text-orange-800'
+            }`}>
+              {forceClassification.toUpperCase()}
+            </div>
+          </div>
+        </div>
+
+        {/* Thermal & Aspect Phase */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Thermal Direction 🌡️</div>
+            <div className={`text-sm font-bold ${
+              thermalDirection === 'heating' ? 'text-red-700' :
+              thermalDirection === 'cooling' ? 'text-blue-700' :
+              'text-gray-700'
+            }`}>
+              {thermalDirection.toUpperCase()}
+              {thermalDirection === 'heating' && ' 🔥'}
+              {thermalDirection === 'cooling' && ' ❄️'}
+              {thermalDirection === 'stable' && ' ➖'}
+            </div>
+          </div>
+
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Aspect Phase ⭐</div>
+            <div className={`text-sm font-bold ${
+              aspectPhase === 'applying' ? 'text-green-700' :
+              aspectPhase === 'exact' ? 'text-purple-700' :
+              'text-orange-700'
+            }`}>
+              {aspectPhase.toUpperCase()}
+              {aspectPhase === 'exact' && ' 🎯 +20% Energy!'}
+              {aspectPhase === 'applying' && ' ⬆️ +10% Energy'}
+            </div>
+          </div>
+        </div>
       </div>
     );
   };
 
-  // Render pillar badge
-  const renderPillarBadge = (pillar: AlchemicalPillar | undefined) => {
-    if (!pillar) {
-      return (
-        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600">
-          No Pillar
-        </span>
-      );
-    }
+  // ==================== SECTION 5: OPTIMAL COOKING CONDITIONS ====================
+  const renderOptimalConditions = (method: typeof currentMethods[0]) => {
+    if (!method.optimalConditions) return null;
 
-    const pillarColors: Record<number, string> = {
-      1: "bg-blue-100 text-blue-800",
-      2: "bg-cyan-100 text-cyan-800",
-      3: "bg-sky-100 text-sky-800",
-      4: "bg-indigo-100 text-indigo-800",
-      5: "bg-purple-100 text-purple-800",
-      6: "bg-yellow-100 text-yellow-800",
-      7: "bg-red-100 text-red-800",
-      8: "bg-green-100 text-green-800",
-      9: "bg-teal-100 text-teal-800",
-      10: "bg-orange-100 text-orange-800",
-      11: "bg-pink-100 text-pink-800",
-      12: "bg-emerald-100 text-emerald-800",
-      13: "bg-violet-100 text-violet-800",
-      14: "bg-amber-100 text-amber-800",
-    };
+    const { temperature, timing, planetaryHours, lunarPhases } = method.optimalConditions;
+    const { monicaModifiers } = method;
 
     return (
-      <div className="flex items-center gap-2">
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-medium ${
-            pillarColors[pillar.id] || "bg-gray-100 text-gray-800"
-          }`}
-        >
-          Pillar {pillar.id}: {pillar.name}
-        </span>
+      <div className="rounded-xl border-2 border-green-300 bg-green-50 p-4 shadow-lg">
+        <h3 className="mb-3 text-lg font-bold text-gray-900">🎯 Optimal Cooking Conditions</h3>
+
+        <div className="grid grid-cols-2 gap-3">
+          {/* Temperature */}
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Recommended Temperature</div>
+            <div className="text-2xl font-bold text-red-700">{temperature}°F</div>
+            <div className="text-sm text-gray-600">{Math.round((temperature - 32) * 5/9)}°C</div>
+          </div>
+
+          {/* Timing */}
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Optimal Timing</div>
+            <div className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${
+              timing === 'quick' ? 'bg-yellow-100 text-yellow-800' :
+              timing === 'slow' ? 'bg-blue-100 text-blue-800' :
+              timing === 'steady' ? 'bg-green-100 text-green-800' :
+              'bg-gray-100 text-gray-800'
+            }`}>
+              {timing.toUpperCase()}
+            </div>
+          </div>
+
+          {/* Planetary Hours */}
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Best Planetary Hours ☀️</div>
+            <div className="flex flex-wrap gap-1">
+              {planetaryHours.map((planet) => (
+                <span
+                  key={planet}
+                  className="rounded-md bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800"
+                >
+                  {planet}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Lunar Phases */}
+          <div className="rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-1 text-xs font-medium text-gray-600">Lunar Phase Recommendations 🌙</div>
+            <div className="flex flex-wrap gap-1">
+              {lunarPhases.map((phase) => (
+                <span
+                  key={phase}
+                  className="rounded-md bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-800"
+                >
+                  {phase.replace('_', ' ')}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Monica Modifiers */}
+        {monicaModifiers && (
+          <div className="mt-3 rounded-lg bg-white p-3 shadow-sm">
+            <div className="mb-2 text-xs font-bold text-gray-700">Monica Modifiers Applied:</div>
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div>
+                <span className="text-gray-600">Temp Adjust:</span>{' '}
+                <span className="font-bold text-red-700">
+                  {monicaModifiers.temperatureAdjustment >= 0 ? '+' : ''}
+                  {monicaModifiers.temperatureAdjustment.toFixed(0)}°F
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-600">Time Adjust:</span>{' '}
+                <span className="font-bold text-blue-700">
+                  {monicaModifiers.timingAdjustment >= 0 ? '+' : ''}
+                  {monicaModifiers.timingAdjustment.toFixed(0)} min
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-600">Intensity:</span>{' '}
+                <span className="font-bold text-green-700">
+                  {monicaModifiers.intensityModifier}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ==================== SECTION 6: ELEMENTAL FLOW VISUALIZATION ====================
+  const renderElementalFlow = (method: typeof currentMethods[0]) => {
+    if (!method.kinetics) return null;
+
+    const { velocity, momentum, elementalForce } = method.kinetics;
+    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+
+    return (
+      <div className="rounded-xl border-2 border-teal-300 bg-teal-50 p-4 shadow-lg">
+        <h3 className="mb-3 text-lg font-bold text-gray-900">🌊 Elemental Flow Visualization</h3>
+
+        <div className="space-y-3">
+          {elements.map((element) => {
+            const vel = velocity[element];
+            const mom = momentum[element];
+            const force = elementalForce[element];
+
+            const elementIcons: Record<string, string> = {
+              Fire: '🔥',
+              Water: '💧',
+              Earth: '🌍',
+              Air: '💨',
+            };
+
+            return (
+              <div key={element} className="rounded-lg bg-white p-3 shadow-sm">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-2xl">{elementIcons[element]}</span>
+                  <span className="text-sm font-bold text-gray-800">{element}</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <div className="text-gray-600">Velocity (d/dt)</div>
+                    <div className="font-bold text-blue-700">{vel.toFixed(3)}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-600">Momentum (m×v)</div>
+                    <div className="font-bold text-purple-700">{mom.toFixed(3)}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-600">Force (F)</div>
+                    <div className="font-bold text-pink-700">{force.toFixed(3)}</div>
+                  </div>
+                </div>
+
+                {/* Visual flow meter */}
+                <div className="mt-2">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                    <div
+                      className={`h-full transition-all duration-500 ${
+                        element === 'Fire' ? 'bg-red-500' :
+                        element === 'Water' ? 'bg-blue-500' :
+                        element === 'Earth' ? 'bg-green-500' :
+                        'bg-sky-500'
+                      }`}
+                      style={{ width: `${Math.min(100, Math.abs(force) * 20)}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   };
@@ -376,59 +699,64 @@ export default function EnhancedCookingMethodRecommender() {
     <div className="space-y-6 p-6">
       {/* Header */}
       <div className="text-center">
-        <h2 className="mb-2 text-3xl font-bold text-gray-900">
-          Alchemical Cooking Method Recommender
+        <h2 className="mb-2 text-4xl font-bold text-gray-900">
+          ⚗️ Alchemical Cooking Transformation System
         </h2>
-        <p className="text-gray-600">
-          Explore the 14 Pillars of Alchemical Transformation
+        <p className="text-lg text-gray-600">
+          Explore the Full Power of the 14 Pillars with Advanced Metrics
         </p>
         <button
           onClick={() => setShowPillarsGuide(!showPillarsGuide)}
-          className="mt-2 text-sm text-indigo-600 hover:text-indigo-800"
+          className="mt-2 text-sm text-indigo-600 hover:text-indigo-800 hover:underline"
         >
-          {showPillarsGuide ? "Hide" : "Show"} 14 Pillars Guide
+          {showPillarsGuide ? '▼ Hide' : '▶ Show'} 14 Pillars Guide
         </button>
       </div>
 
       {/* 14 Pillars Guide */}
       {showPillarsGuide && (
-        <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-6">
-          <h3 className="mb-4 text-xl font-bold text-indigo-900">
+        <div className="rounded-lg border-2 border-indigo-300 bg-indigo-50 p-6 shadow-lg">
+          <h3 className="mb-4 text-2xl font-bold text-indigo-900">
             The 14 Alchemical Pillars
           </h3>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {ALCHEMICAL_PILLARS.map((pillar) => (
-              <div
-                key={pillar.id}
-                className="rounded-lg bg-white p-4 shadow-sm"
-              >
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="font-bold text-gray-900">
-                    {pillar.id}. {pillar.name}
-                  </span>
-                  {pillar.elementalAssociations && (
-                    <span className="text-lg">
-                      {pillar.elementalAssociations.primary === "Fire" && "🔥"}
-                      {pillar.elementalAssociations.primary === "Water" && "💧"}
-                      {pillar.elementalAssociations.primary === "Earth" && "🌍"}
-                      {pillar.elementalAssociations.primary === "Air" && "💨"}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {ALCHEMICAL_PILLARS.map((pillar) => {
+              const colors = getPillarColors(pillar.id);
+              return (
+                <div
+                  key={pillar.id}
+                  className={`rounded-lg border-2 ${colors.border} ${colors.bg} p-4 shadow-md`}
+                >
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className={`font-bold ${colors.text}`}>
+                      {pillar.id}. {pillar.name}
                     </span>
+                    {pillar.elementalAssociations && (
+                      <span className="text-2xl">
+                        {pillar.elementalAssociations.primary === "Fire" && "🔥"}
+                        {pillar.elementalAssociations.primary === "Water" && "💧"}
+                        {pillar.elementalAssociations.primary === "Earth" && "🌍"}
+                        {pillar.elementalAssociations.primary === "Air" && "💨"}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mb-2 text-xs text-gray-700">
+                    {pillar.description}
+                  </p>
+                  <div className="text-xs text-gray-600">
+                    <strong>Effects:</strong>{" "}
+                    {Object.entries(pillar.effects)
+                      .map(([prop, val]) => `${prop} ${val > 0 ? '+' : ''}${val}`)
+                      .join(", ")}
+                  </div>
+                  {pillar.planetaryAssociations && (
+                    <div className="mt-1 text-xs text-gray-600">
+                      <strong>Planets:</strong> {pillar.planetaryAssociations.join(", ")}
+                    </div>
                   )}
                 </div>
-                <p className="mb-2 text-xs text-gray-600">
-                  {pillar.description}
-                </p>
-                <div className="text-xs text-gray-500">
-                  Effects:{" "}
-                  {Object.entries(pillar.effects)
-                    .map(
-                      ([prop, val]) =>
-                        `${prop} ${val > 0 ? `+${val}` : val}`
-                    )
-                    .join(", ")}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
@@ -439,10 +767,10 @@ export default function EnhancedCookingMethodRecommender() {
           <button
             key={cat.id}
             onClick={() => setSelectedCategory(cat.id)}
-            className={`transform rounded-xl px-5 py-3 font-semibold shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+            className={`transform rounded-xl px-6 py-3 font-bold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl ${
               selectedCategory === cat.id
-                ? "scale-105 bg-gradient-to-r from-orange-500 to-red-600 text-white"
-                : "border-2 border-gray-200 bg-white text-gray-700 hover:border-orange-300"
+                ? "scale-105 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white"
+                : "border-2 border-purple-300 bg-white text-gray-800 hover:border-purple-500"
             }`}
           >
             <span className="mr-2 text-2xl">{cat.icon}</span>
@@ -452,240 +780,182 @@ export default function EnhancedCookingMethodRecommender() {
       </div>
 
       {/* Category Info */}
-      <div className="rounded-lg border-l-4 border-orange-500 bg-gradient-to-r from-orange-50 via-red-50 to-pink-50 p-4 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-4xl">{category?.icon}</span>
-            <div>
-              <h3 className="text-xl font-bold text-gray-900">
-                {category?.name} Methods
-              </h3>
-              <p className="text-sm text-gray-600">
-                {currentMethods.length} methods available
-              </p>
-            </div>
+      <div className="rounded-xl border-l-4 border-purple-600 bg-gradient-to-r from-purple-100 via-pink-100 to-red-100 p-5 shadow-md">
+        <div className="flex items-center gap-4">
+          <span className="text-5xl">{category?.icon}</span>
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {category?.name} Methods
+            </h3>
+            <p className="text-sm text-gray-700">
+              {currentMethods.length} transformation methods • Sorted by Energy Potential
+            </p>
           </div>
         </div>
       </div>
 
       {/* Methods Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6">
         {currentMethods.map((method) => {
           const isExpanded = expandedMethod === method.id;
 
           return (
             <div
               key={method.id}
-              className={`cursor-pointer rounded-lg border-2 p-5 shadow-md transition-all ${
+              className={`cursor-pointer rounded-xl border-2 p-6 shadow-lg transition-all duration-300 ${
                 isExpanded
-                  ? "border-indigo-500 bg-indigo-50 shadow-xl"
-                  : "border-gray-200 bg-white hover:border-indigo-300 hover:shadow-lg"
+                  ? "border-purple-500 bg-gradient-to-br from-purple-50 via-pink-50 to-white shadow-2xl"
+                  : "border-gray-300 bg-white hover:border-purple-400 hover:shadow-xl"
               }`}
               onClick={() => toggleMethod(method.id)}
             >
               {/* Method Header */}
-              <div className="mb-3">
-                <h4 className="text-xl font-bold capitalize text-gray-900">
+              <div className="mb-4">
+                <h4 className="text-2xl font-bold capitalize text-gray-900">
                   {method.name}
                 </h4>
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-gray-600">
                   {method.description}
                 </p>
               </div>
 
-              {/* Key Metrics Row */}
-              <div className="mb-3 flex flex-wrap gap-2">
-                {/* Duration */}
-                <span className="rounded-md bg-blue-100 px-2 py-1 text-xs text-blue-800">
+              {/* Quick Metrics Row */}
+              <div className="mb-4 flex flex-wrap gap-2">
+                <span className="rounded-lg bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
                   ⏱️ {formatDuration(method)}
                 </span>
-
-                {/* Greg's Energy */}
-                <span className="rounded-md bg-green-100 px-2 py-1 text-xs text-green-800">
+                <span className={`rounded-lg px-3 py-1 text-sm font-medium ${
+                  method.gregsEnergy >= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                }`}>
                   ⚡ Energy: {method.gregsEnergy.toFixed(2)}
                 </span>
-
-                {/* Monica Classification */}
-                {method.monica !== null && (
-                  <span className="rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-800">
-                    🔮 {method.monicaClass}
+                {method.monica !== null && !isNaN(method.monica) && (
+                  <span className={`rounded-lg px-3 py-1 text-sm font-medium ${method.monicaClass.bgColor} ${method.monicaClass.color}`}>
+                    🔮 {method.monicaClass.label}
+                  </span>
+                )}
+                {method.pillar && (
+                  <span className={`rounded-lg px-3 py-1 text-sm font-medium ${getPillarColors(method.pillar.id).bg} ${getPillarColors(method.pillar.id).text}`}>
+                    Pillar #{method.pillar.id}
                   </span>
                 )}
               </div>
 
-              {/* Pillar Badge */}
-              {renderPillarBadge(method.pillar)}
-
-              {/* Expanded Details */}
+              {/* Expanded Sections */}
               {isExpanded && (
-                <div className="mt-4 space-y-4 border-t border-gray-200 pt-4">
-                  {/* Alchemical Properties */}
-                  {method.alchemicalProperties && (
-                    <div>
-                      <div className="mb-2 text-sm font-semibold text-gray-800">
-                        Alchemical Transformation (ESMS)
+                <div className="space-y-4 border-t-2 border-purple-200 pt-4">
+                  {/* Section 1: Transformation Overview */}
+                  {renderTransformationOverview(method)}
+
+                  {/* Section 2: Alchemical Matrix */}
+                  {renderAlchemicalMatrix(method)}
+
+                  {/* Section 3: Thermodynamic Dashboard */}
+                  {renderThermodynamicDashboard(method)}
+
+                  {/* Section 4: Kinetic Dashboard */}
+                  {renderKineticDashboard(method)}
+
+                  {/* Section 5: Optimal Conditions */}
+                  {renderOptimalConditions(method)}
+
+                  {/* Section 6: Elemental Flow */}
+                  {renderElementalFlow(method)}
+
+                  {/* Additional Info Sections */}
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {/* Pillar Details */}
+                    {method.pillar && (
+                      <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-4">
+                        <h4 className="mb-2 text-sm font-bold text-gray-800">
+                          📜 Pillar Details
+                        </h4>
+                        <p className="mb-2 text-xs text-gray-600">
+                          {method.pillar.description}
+                        </p>
+                        {method.pillar.planetaryAssociations && (
+                          <div className="mb-1 text-xs">
+                            <strong>Planets:</strong> {method.pillar.planetaryAssociations.join(", ")}
+                          </div>
+                        )}
+                        {method.pillar.tarotAssociations && (
+                          <div className="text-xs">
+                            <strong>Tarot:</strong> {method.pillar.tarotAssociations.join(", ")}
+                          </div>
+                        )}
                       </div>
-                      {renderAlchemicalProperties(method.alchemicalProperties)}
-                      {method.monica !== null && (
-                        <div className="mt-2 text-xs text-gray-600">
-                          Monica Constant (Kalchm): {method.monica.toFixed(4)}
+                    )}
+
+                    {/* Suitable For */}
+                    {method.suitable_for && method.suitable_for.length > 0 && (
+                      <div className="rounded-lg border-2 border-green-200 bg-green-50 p-4">
+                        <h4 className="mb-2 text-sm font-bold text-gray-800">
+                          ✅ Suitable For
+                        </h4>
+                        <div className="flex flex-wrap gap-1">
+                          {method.suitable_for.slice(0, 5).map((item, idx) => (
+                            <span
+                              key={idx}
+                              className="rounded-md bg-green-100 px-2 py-1 text-xs text-green-700"
+                            >
+                              {item}
+                            </span>
+                          ))}
                         </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Thermodynamic Properties */}
-                  {method.thermodynamicProperties && (
-                    <div>
-                      <div className="mb-2 text-sm font-semibold text-gray-800">
-                        Thermodynamic Properties
                       </div>
-                      {renderThermodynamicProperties(
-                        method.thermodynamicProperties
-                      )}
-                      <div className="mt-2 text-xs text-gray-600">
-                        Greg's Energy = Heat - (Entropy × Reactivity) ={" "}
-                        {method.gregsEnergy.toFixed(4)}
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Elemental Effects */}
-                  <div>
-                    <div className="mb-2 text-sm font-semibold text-gray-800">
-                      Elemental Effects
-                    </div>
-                    {renderElementalProperties(method.elementalEffect)}
-                  </div>
-
-                  {/* Pillar Details */}
-                  {method.pillar && (
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <div className="mb-1 text-sm font-semibold text-gray-800">
-                        Pillar: {method.pillar.name}
-                      </div>
-                      <p className="mb-2 text-xs text-gray-600">
-                        {method.pillar.description}
-                      </p>
-                      {method.pillar.planetaryAssociations && (
-                        <div className="text-xs text-gray-600">
-                          Planets:{" "}
-                          {method.pillar.planetaryAssociations.join(", ")}
-                        </div>
-                      )}
-                      {method.pillar.tarotAssociations && (
-                        <div className="text-xs text-gray-600">
-                          Tarot: {method.pillar.tarotAssociations.join(", ")}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Suitable For */}
-                  {method.suitable_for && method.suitable_for.length > 0 && (
-                    <div>
-                      <div className="mb-1 text-sm font-semibold text-gray-800">
-                        Suitable For
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {method.suitable_for.map((item, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-md bg-green-100 px-2 py-1 text-xs text-green-700"
-                          >
-                            {item}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Benefits */}
-                  {method.benefits && method.benefits.length > 0 && (
-                    <div>
-                      <div className="mb-1 text-sm font-semibold text-gray-800">
-                        Benefits
-                      </div>
-                      <ul className="list-inside list-disc text-sm text-gray-600">
-                        {method.benefits.slice(0, 3).map((benefit, idx) => (
-                          <li key={idx}>{benefit}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Expert Tips */}
-                  {method.expertTips && method.expertTips.length > 0 && (
-                    <div>
-                      <div className="mb-1 text-sm font-semibold text-gray-800">
-                        💡 Expert Tips
-                      </div>
-                      <ul className="list-inside list-disc text-sm text-gray-600">
-                        {method.expertTips.slice(0, 2).map((tip, idx) => (
-                          <li key={idx}>{tip}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Common Mistakes */}
-                  {method.commonMistakes &&
-                    method.commonMistakes.length > 0 && (
-                      <div>
-                        <div className="mb-1 text-sm font-semibold text-red-800">
-                          ⚠️ Common Mistakes
-                        </div>
-                        <ul className="list-inside list-disc text-sm text-red-600">
-                          {method.commonMistakes.slice(0, 2).map((mistake, idx) => (
-                            <li key={idx}>{mistake}</li>
+                    {/* Benefits */}
+                    {method.benefits && method.benefits.length > 0 && (
+                      <div className="rounded-lg border-2 border-blue-200 bg-blue-50 p-4">
+                        <h4 className="mb-2 text-sm font-bold text-gray-800">
+                          💎 Benefits
+                        </h4>
+                        <ul className="list-inside list-disc space-y-1 text-xs text-gray-700">
+                          {method.benefits.slice(0, 3).map((benefit, idx) => (
+                            <li key={idx}>{benefit}</li>
                           ))}
                         </ul>
                       </div>
                     )}
 
-                  {/* Tools Required */}
-                  {method.toolsRequired && method.toolsRequired.length > 0 && (
-                    <div>
-                      <div className="mb-1 text-sm font-semibold text-gray-800">
-                        Required Tools
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {method.toolsRequired.map((tool, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-700"
-                          >
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Regional Variations */}
-                  {method.regionalVariations &&
-                    Object.keys(method.regionalVariations).length > 0 && (
-                      <div>
-                        <div className="mb-1 text-sm font-semibold text-gray-800">
-                          🌍 Regional Variations
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {Object.keys(method.regionalVariations).slice(0, 3).join(", ")}
-                          {Object.keys(method.regionalVariations).length > 3 &&
-                            ` +${Object.keys(method.regionalVariations).length - 3} more`}
-                        </div>
+                    {/* Expert Tips */}
+                    {method.expertTips && method.expertTips.length > 0 && (
+                      <div className="rounded-lg border-2 border-yellow-200 bg-yellow-50 p-4">
+                        <h4 className="mb-2 text-sm font-bold text-gray-800">
+                          💡 Expert Tips
+                        </h4>
+                        <ul className="list-inside list-disc space-y-1 text-xs text-gray-700">
+                          {method.expertTips.slice(0, 2).map((tip, idx) => (
+                            <li key={idx}>{tip}</li>
+                          ))}
+                        </ul>
                       </div>
                     )}
+                  </div>
                 </div>
               )}
 
               {/* Expand/Collapse Indicator */}
-              <div className="mt-3 text-center text-xs text-gray-500">
-                {isExpanded ? "Click to collapse ▲" : "Click to expand ▼"}
+              <div className="mt-4 text-center">
+                <div className="inline-block rounded-full bg-purple-100 px-4 py-1 text-xs font-medium text-purple-700">
+                  {isExpanded ? '▲ Click to collapse' : '▼ Click to expand and view full transformation analysis'}
+                </div>
               </div>
             </div>
           );
         })}
+      </div>
+
+      {/* Footer */}
+      <div className="mt-8 rounded-xl border-2 border-purple-300 bg-purple-50 p-6 text-center shadow-lg">
+        <h3 className="mb-2 text-xl font-bold text-purple-900">
+          🌟 Alchemical Cooking System v2.0
+        </h3>
+        <p className="text-sm text-purple-700">
+          Powered by: 14 Alchemical Pillars • ESMS Transformations • Thermodynamic Analysis •
+          P=IV Kinetic Model • Monica Constants • Planetary Alignments • Elemental Harmony
+        </p>
       </div>
     </div>
   );
