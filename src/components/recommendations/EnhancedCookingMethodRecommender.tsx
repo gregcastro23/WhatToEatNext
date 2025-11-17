@@ -183,10 +183,16 @@ export default function EnhancedCookingMethodRecommender() {
 
         // Calculate Greg's Energy
         const gregsEnergy = method.thermodynamicProperties
-          ? calculateGregsEnergy(
-              method.alchemicalProperties || { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
-              method.elementalEffect
-            )
+          ? calculateGregsEnergy({
+              Spirit: method.alchemicalProperties?.Spirit || 0,
+              Essence: method.alchemicalProperties?.Essence || 0,
+              Matter: method.alchemicalProperties?.Matter || 0,
+              Substance: method.alchemicalProperties?.Substance || 0,
+              Fire: method.elementalEffect.Fire,
+              Water: method.elementalEffect.Water,
+              Air: method.elementalEffect.Air,
+              Earth: method.elementalEffect.Earth,
+            }).gregsEnergy
           : 0;
 
         // Calculate optimal cooking conditions
