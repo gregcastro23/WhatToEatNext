@@ -120,16 +120,48 @@ export default function HomePage() {
             <div className="bg-gradient-to-r from-orange-600 via-amber-500 to-red-600 text-white p-8">
               <div className="text-center">
                 <h2 className="text-4xl font-bold mb-3">
-                  🔥 Cooking Method Recommendations
+                  ⚗️ Alchemical Cooking Transformation System
                 </h2>
                 <p className="text-orange-100 text-lg mb-4">
-                  Discover the 14 Alchemical Pillars, thermodynamics, and kinetic properties of cooking methods
+                  Explore the full power of cooking transformations with 6 comprehensive dashboards
                 </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-3xl mx-auto mb-6 text-sm">
+                  <div className="bg-white bg-opacity-20 rounded-lg p-3 backdrop-blur-sm">
+                    <div className="text-2xl mb-1">🔮</div>
+                    <div className="font-semibold">Monica Classification</div>
+                    <div className="text-xs text-orange-100">Transformation potential</div>
+                  </div>
+                  <div className="bg-white bg-opacity-20 rounded-lg p-3 backdrop-blur-sm">
+                    <div className="text-2xl mb-1">⚗️</div>
+                    <div className="font-semibold">ESMS Matrix</div>
+                    <div className="text-xs text-orange-100">Alchemical properties</div>
+                  </div>
+                  <div className="bg-white bg-opacity-20 rounded-lg p-3 backdrop-blur-sm">
+                    <div className="text-2xl mb-1">🌡️</div>
+                    <div className="font-semibold">Thermodynamics</div>
+                    <div className="text-xs text-orange-100">Heat, entropy, energy</div>
+                  </div>
+                  <div className="bg-white bg-opacity-20 rounded-lg p-3 backdrop-blur-sm">
+                    <div className="text-2xl mb-1">⚡</div>
+                    <div className="font-semibold">Kinetic Model</div>
+                    <div className="text-xs text-orange-100">Power, force, velocity</div>
+                  </div>
+                  <div className="bg-white bg-opacity-20 rounded-lg p-3 backdrop-blur-sm">
+                    <div className="text-2xl mb-1">🎯</div>
+                    <div className="font-semibold">Optimal Conditions</div>
+                    <div className="text-xs text-orange-100">Temp, timing, planets</div>
+                  </div>
+                  <div className="bg-white bg-opacity-20 rounded-lg p-3 backdrop-blur-sm">
+                    <div className="text-2xl mb-1">🌊</div>
+                    <div className="font-semibold">Elemental Flow</div>
+                    <div className="text-xs text-orange-100">Forces & momentum</div>
+                  </div>
+                </div>
                 <Link
                   href="/cooking-methods"
                   className="inline-block bg-white text-orange-600 px-6 py-3 rounded-xl font-bold text-base hover:bg-orange-50 hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
-                  Explore Full Cooking Methods →
+                  Explore Full Transformation Dashboard →
                 </Link>
               </div>
             </div>
