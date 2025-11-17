@@ -358,8 +358,8 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
             <ListRoot {...({ spacing: 1 } as any)}>
               {recipe.ingredients.slice(0, 5).map((ingredient, idx) => (
                 <ListItem key={idx} fontSize="xs">
-                  <ListIndicator asChild>
-                    <FaAppleAlt color="green.500" size={8} />
+                  <ListIndicator>
+                    <Icon as={FaAppleAlt} color="green.500" boxSize={3} />
                   </ListIndicator>
                   {ingredient.amount && ingredient.unit
                     ? `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`
