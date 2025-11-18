@@ -480,7 +480,26 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     );
   }
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <Box textAlign="center" py={12} maxW="600px" mx="auto">
+        <Heading size="md" mb={4} color="gray.600">
+          No Cuisine Data Available
+        </Heading>
+        <Text color="gray.500" mb={4}>
+          We couldn't load the cuisine recommendations at this time.
+        </Text>
+        <Button
+          colorScheme="purple"
+          onClick={() => {
+            void fetchCuisineRecommendations();
+          }}
+        >
+          Try Again
+        </Button>
+      </Box>
+    );
+  }
 
   return (
     <Box maxW="1400px" mx="auto" p={6}>
