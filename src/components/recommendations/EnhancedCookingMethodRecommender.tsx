@@ -35,6 +35,7 @@ import {
   type KineticMetrics,
 } from "@/calculations/kinetics";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -259,13 +260,18 @@ export default function EnhancedCookingMethodRecommender() {
       .map(([id, method]) => {
         const pillar = getCookingMethodPillar(id);
 
-        // Calculate Greg's Energy first (needed for other calculations)
+        // Calculate alchemical properties from planetary positions (ESMS)
+        const alchemicalProperties = calculateAlchemicalFromPlanets(
+          mockPlanetaryPositions,
+        );
+
+        // Calculate Greg's Energy
         const gregsEnergy = method.thermodynamicProperties
           ? calculateGregsEnergy({
-              Spirit: method.alchemicalProperties?.Spirit || 0,
-              Essence: method.alchemicalProperties?.Essence || 0,
-              Matter: method.alchemicalProperties?.Matter || 0,
-              Substance: method.alchemicalProperties?.Substance || 0,
+              Spirit: alchemicalProperties.Spirit,
+              Essence: alchemicalProperties.Essence,
+              Matter: alchemicalProperties.Matter,
+              Substance: alchemicalProperties.Substance,
               Fire: method.elementalEffect.Fire,
               Water: method.elementalEffect.Water,
               Air: method.elementalEffect.Air,
@@ -274,18 +280,16 @@ export default function EnhancedCookingMethodRecommender() {
           : 0;
 
         // Calculate alchemical metrics
-        const kalchm = method.alchemicalProperties
-          ? calculateKAlchm(
-              method.alchemicalProperties.Spirit,
-              method.alchemicalProperties.Essence,
-              method.alchemicalProperties.Matter,
-              method.alchemicalProperties.Substance,
-            )
-          : null;
+        const kalchm = calculateKAlchm(
+          alchemicalProperties.Spirit,
+          alchemicalProperties.Essence,
+          alchemicalProperties.Matter,
+          alchemicalProperties.Substance,
+        );
 
         const reactivity = method.thermodynamicProperties?.reactivity || 0;
         const monica =
-          method.alchemicalProperties && gregsEnergy !== null && kalchm
+          gregsEnergy !== null && kalchm
             ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
             : null;
 
@@ -302,20 +306,19 @@ export default function EnhancedCookingMethodRecommender() {
 
         // Calculate kinetic metrics
         let kinetics: KineticMetrics | null = null;
-        if (method.alchemicalProperties) {
-          try {
-            kinetics = calculateKinetics({
-              currentPlanetaryPositions: mockPlanetaryPositions,
-              timeInterval: 1,
-            });
-          } catch (error) {
-            console.warn(`Failed to calculate kinetics for ${id}:`, error);
-          }
+        try {
+          kinetics = calculateKinetics({
+            currentPlanetaryPositions: mockPlanetaryPositions,
+            timeInterval: 1,
+          });
+        } catch (error) {
+          console.warn(`Failed to calculate kinetics for ${id}:`, error);
         }
 
         return {
           id,
           ...method,
+          alchemicalProperties,
           pillar,
           kalchm,
           monica,

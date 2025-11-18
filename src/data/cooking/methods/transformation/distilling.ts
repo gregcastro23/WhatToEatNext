@@ -60,6 +60,12 @@ export const _distilling: CookingMethodData = {
     "Concentrated plant compounds can be toxic if not properly identified",
     "High proof spirits should be consumed in moderation",
   ],
+  thermodynamicProperties: {
+    heat: 0.9, // High heat for vaporization
+    entropy: 0.85, // Very high transformation through phase change
+    reactivity: 0.85, // High chemical transformation
+    gregsEnergy: 0.1775, // heat - (entropy × reactivity)
+  } as any,
 };
 
 export const distilling = _distilling;

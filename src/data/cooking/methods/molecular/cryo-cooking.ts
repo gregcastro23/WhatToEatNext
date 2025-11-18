@@ -63,6 +63,12 @@ export const _cryoCooking: CookingMethodData = {
     "Not suitable for all ingredients or preparations",
     "Should only be performed by trained professionals",
   ],
+  thermodynamicProperties: {
+    heat: 0.05, // Extreme cold, minimal heat
+    entropy: 0.85, // High structural transformation from rapid freezing
+    reactivity: 0.15, // Minimal chemical reactions at extreme cold
+    gregsEnergy: -0.0775, // heat - (entropy × reactivity)
+  } as any,
 };
 
 export const cryoCooking = _cryoCooking;
