@@ -501,18 +501,47 @@ function generateEnhancedRecommendations(
       Substance: 2,
     };
 
-    // Calculate thermodynamic metrics
-    const thermodynamics = calculateThermodynamicMetrics(
-      safeAlchemical,
-      elementalProps,
-    );
+    // Calculate thermodynamic metrics with error handling
+    let thermodynamics;
+    try {
+      thermodynamics = calculateThermodynamicMetrics(
+        safeAlchemical,
+        elementalProps,
+      );
+    } catch (error) {
+      console.error(`Error calculating thermodynamics for ${cuisineInfo.name}:`, error);
+      thermodynamics = {
+        heat: 0.08,
+        entropy: 0.15,
+        reactivity: 0.45,
+        gregsEnergy: -0.02,
+        kalchm: 2.5,
+        monica: 1.0,
+      };
+    }
 
-    // Calculate kinetic properties
-    const kinetics = calculateKineticProperties(
-      safeAlchemical,
-      elementalProps,
-      thermodynamics,
-    );
+    // Calculate kinetic properties with error handling
+    let kinetics;
+    try {
+      kinetics = calculateKineticProperties(
+        safeAlchemical,
+        elementalProps,
+        thermodynamics,
+      );
+    } catch (error) {
+      console.error(`Error calculating kinetics for ${cuisineInfo.name}:`, error);
+      kinetics = {
+        velocity: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        momentum: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        charge: 0,
+        potentialDifference: 0,
+        currentFlow: 0,
+        power: 0,
+        inertia: 1,
+        forceMagnitude: 0,
+        forceClassification: "balanced",
+      };
+    }
 
     return {
       id,
@@ -550,13 +579,27 @@ function generateEnhancedRecommendations(
         .sort((a, b) => b[1] - a[1])[0][0];
       const astroScore = dominantElement === zodiacElement ? 0.9 : 0.7 + (0.2 * (index / 8));
 
+      // Ensure alchemical properties are always valid
+      const validAlchemical = cuisine.alchemical &&
+        typeof cuisine.alchemical.Spirit === 'number' &&
+        typeof cuisine.alchemical.Essence === 'number' &&
+        typeof cuisine.alchemical.Matter === 'number' &&
+        typeof cuisine.alchemical.Substance === 'number'
+          ? cuisine.alchemical
+          : {
+              Spirit: 4,
+              Essence: 4,
+              Matter: 4,
+              Substance: 2,
+            };
+
       return {
         cuisine_id: cuisine.id,
         name: cuisine.name,
         description: cuisineData.description || `Authentic ${cuisine.name} cuisine`,
 
         elemental_properties: cuisine.elementalProps,
-        alchemical_properties: cuisine.alchemical,
+        alchemical_properties: validAlchemical,
         thermodynamic_metrics: cuisine.thermodynamics,
         kinetic_properties: cuisine.kinetics,
         flavor_profile: flavorProfile,
