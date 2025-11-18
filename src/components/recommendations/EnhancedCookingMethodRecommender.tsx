@@ -29,7 +29,10 @@ import {
   calculateKAlchm,
   calculateMonicaConstant,
 } from "@/utils/monicaKalchmCalculations";
-import { calculateOptimalCookingConditions } from "@/constants/alchemicalPillars";
+import {
+  calculateOptimalCookingConditions,
+  calculatePillarMonicaModifiers,
+} from "@/constants/alchemicalPillars";
 import {
   calculateKinetics,
   type KineticMetrics,
@@ -293,7 +296,15 @@ export default function EnhancedCookingMethodRecommender() {
             ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
             : null;
 
-        const monicaModifiers = null; // TODO: Implement pillar-specific modifiers
+        // Calculate pillar-specific Monica modifiers if monica constant is available
+        const monicaModifiers =
+          monica !== null
+            ? calculatePillarMonicaModifiers(monica)
+            : {
+                temperatureAdjustment: 0,
+                timingAdjustment: 0,
+                intensityModifier: "neutral" as const,
+              };
 
         // Calculate optimal cooking conditions
         const optimalConditions =

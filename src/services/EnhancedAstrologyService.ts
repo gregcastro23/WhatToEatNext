@@ -11,6 +11,8 @@ import {
   getAvailableYears,
   getSeasonalAnalysis,
   getTransitForDate,
+  getEclipseSeasons,
+  COMPREHENSIVE_TRANSIT_DATABASE,
 } from "@/data/transits/comprehensiveTransitDatabase";
 import type { CelestialPosition, Planet, ZodiacSign } from "@/types/celestial";
 // import { getFallbackPlanetaryPositions } from "@/utils/accurateAstronomy";
@@ -110,6 +112,24 @@ export class EnhancedAstrologyService {
     upcomingEndDate.setDate(upcomingEndDate.getDate() + 30);
     const upcomingAnalysis = getSeasonalAnalysis(date, upcomingEndDate);
 
+    // Get eclipse seasons for current year and next year
+    const currentYear = date.getFullYear().toString();
+    const nextYear = (date.getFullYear() + 1).toString();
+    const currentYearEclipses = getEclipseSeasons(currentYear);
+    const nextYearEclipses = getEclipseSeasons(nextYear);
+
+    // Filter eclipses to only include future dates from current date
+    const allEclipses = [...currentYearEclipses, ...nextYearEclipses];
+    const futureEclipses = allEclipses
+      .filter((eclipseDate) => eclipseDate > date)
+      .slice(0, 4); // Return next 4 eclipses
+
+    // Get major transits from transit database
+    const yearlyData = COMPREHENSIVE_TRANSIT_DATABASE[currentYear];
+    const majorTransits = yearlyData?.majorTransits
+      ? (yearlyData.majorTransits as unknown as Season[])
+      : [];
+
     return {
       currentSeason: currentSeason as unknown as Season,
       upcomingTransits:
@@ -117,8 +137,8 @@ export class EnhancedAstrologyService {
       dominantElements: seasonalAnalysis.dominantElements || {},
       keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]) || [],
       retrogradePlanets: seasonalAnalysis.retrogradePlanets || [],
-      eclipseSeasons: [], // TODO: Implement eclipse season calculation
-      majorTransits: [], // TODO: Implement major transit calculation
+      eclipseSeasons: futureEclipses,
+      majorTransits: majorTransits,
     };
   }
 
