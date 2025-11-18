@@ -120,7 +120,7 @@ export default function AlchemicalKineticsDemo() {
   // Calculate thermodynamic metrics
   const thermodynamics = useMemo(() => {
     try {
-      const result = calculateKalchmResults(planetaryPositions);
+      const result = calculateKalchmResults(planetaryPositions as any);
       return result.thermodynamics;
     } catch (error) {
       console.error("Error calculating thermodynamics:", error);
