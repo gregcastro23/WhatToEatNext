@@ -240,7 +240,14 @@ export function aggregateAlchemicalProperties(
   recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
   strategy: WeightingStrategy = "equal",
 ): AlchemicalProperties | undefined {
-  const validRecipes = recipes.filter((r) => r._computed?.alchemicalProperties);
+  const validRecipes = recipes.filter(
+    (r) =>
+      r._computed?.alchemicalProperties &&
+      typeof r._computed.alchemicalProperties.Spirit === "number" &&
+      typeof r._computed.alchemicalProperties.Essence === "number" &&
+      typeof r._computed.alchemicalProperties.Matter === "number" &&
+      typeof r._computed.alchemicalProperties.Substance === "number",
+  );
   if (validRecipes.length === 0) return undefined;
 
   const totals = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -248,12 +255,12 @@ export function aggregateAlchemicalProperties(
 
   for (const recipe of validRecipes) {
     const weight = calculateRecipeWeight(recipe, strategy, recipes);
-    const props = recipe._computed!.alchemicalProperties;
+    const props = recipe._computed!.alchemicalProperties!;
 
-    totals.Spirit += props.Spirit * weight;
-    totals.Essence += props.Essence * weight;
-    totals.Matter += props.Matter * weight;
-    totals.Substance += props.Substance * weight;
+    totals.Spirit += (props.Spirit || 0) * weight;
+    totals.Essence += (props.Essence || 0) * weight;
+    totals.Matter += (props.Matter || 0) * weight;
+    totals.Substance += (props.Substance || 0) * weight;
 
     totalWeight += weight;
   }
