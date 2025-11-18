@@ -78,6 +78,59 @@ body {
   50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.5); }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid #8B5CF6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Enhanced link hover states */
+a {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Improved card interactions */
+.alchm-card {
+  will-change: transform, box-shadow;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .alchm-shimmer::before {
+    animation: none;
+  }
+}
+
 .tarot-card {
   padding: 20px;
   border: 1px solid #ccc;
