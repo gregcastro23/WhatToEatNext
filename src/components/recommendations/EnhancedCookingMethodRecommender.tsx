@@ -35,6 +35,7 @@ import {
   type KineticMetrics,
 } from "@/calculations/kinetics";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -259,13 +260,18 @@ export default function EnhancedCookingMethodRecommender() {
       .map(([id, method]) => {
         const pillar = getCookingMethodPillar(id);
 
-        // Calculate Greg's Energy first (needed for other calculations)
+        // Calculate alchemical properties from planetary positions (ESMS)
+        const alchemicalProperties = calculateAlchemicalFromPlanets(
+          mockPlanetaryPositions,
+        );
+
+        // Calculate Greg's Energy
         const gregsEnergy = method.thermodynamicProperties
           ? calculateGregsEnergy({
-              Spirit: method.alchemicalProperties?.Spirit || 0,
-              Essence: method.alchemicalProperties?.Essence || 0,
-              Matter: method.alchemicalProperties?.Matter || 0,
-              Substance: method.alchemicalProperties?.Substance || 0,
+              Spirit: alchemicalProperties.Spirit,
+              Essence: alchemicalProperties.Essence,
+              Matter: alchemicalProperties.Matter,
+              Substance: alchemicalProperties.Substance,
               Fire: method.elementalEffect.Fire,
               Water: method.elementalEffect.Water,
               Air: method.elementalEffect.Air,
@@ -274,18 +280,16 @@ export default function EnhancedCookingMethodRecommender() {
           : 0;
 
         // Calculate alchemical metrics
-        const kalchm = method.alchemicalProperties
-          ? calculateKAlchm(
-              method.alchemicalProperties.Spirit,
-              method.alchemicalProperties.Essence,
-              method.alchemicalProperties.Matter,
-              method.alchemicalProperties.Substance,
-            )
-          : null;
+        const kalchm = calculateKAlchm(
+          alchemicalProperties.Spirit,
+          alchemicalProperties.Essence,
+          alchemicalProperties.Matter,
+          alchemicalProperties.Substance,
+        );
 
         const reactivity = method.thermodynamicProperties?.reactivity || 0;
         const monica =
-          method.alchemicalProperties && gregsEnergy !== null && kalchm
+          gregsEnergy !== null && kalchm
             ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
             : null;
 
@@ -302,20 +306,19 @@ export default function EnhancedCookingMethodRecommender() {
 
         // Calculate kinetic metrics
         let kinetics: KineticMetrics | null = null;
-        if (method.alchemicalProperties) {
-          try {
-            kinetics = calculateKinetics({
-              currentPlanetaryPositions: mockPlanetaryPositions,
-              timeInterval: 1,
-            });
-          } catch (error) {
-            console.warn(`Failed to calculate kinetics for ${id}:`, error);
-          }
+        try {
+          kinetics = calculateKinetics({
+            currentPlanetaryPositions: mockPlanetaryPositions,
+            timeInterval: 1,
+          });
+        } catch (error) {
+          console.warn(`Failed to calculate kinetics for ${id}:`, error);
         }
 
         return {
           id,
           ...method,
+          alchemicalProperties,
           pillar,
           kalchm,
           monica,
@@ -418,7 +421,23 @@ export default function EnhancedCookingMethodRecommender() {
 
   // ==================== SECTION 2: ALCHEMICAL TRANSFORMATION MATRIX ====================
   const renderAlchemicalMatrix = (method: (typeof currentMethods)[0]) => {
-    if (!method.alchemicalProperties) return null;
+    if (!method.alchemicalProperties) {
+      return (
+        <div className="rounded-xl border-2 border-gray-300 bg-gray-50 p-4 shadow-lg">
+          <h3 className="mb-3 text-lg font-bold text-gray-700">
+            ⚗️ Alchemical Transformation Matrix (ESMS)
+          </h3>
+          <div className="text-center py-4">
+            <p className="text-sm text-gray-600">
+              No alchemical properties available for this cooking method.
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              This method may not have planetary associations or ESMS calculations defined.
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     const { Spirit, Essence, Matter, Substance } = method.alchemicalProperties;
     const properties = [
@@ -509,7 +528,23 @@ export default function EnhancedCookingMethodRecommender() {
 
   // ==================== SECTION 3: ENHANCED THERMODYNAMIC PROPERTIES ====================
   const renderThermodynamicDashboard = (method: (typeof currentMethods)[0]) => {
-    if (!method.thermodynamicProperties) return null;
+    if (!method.thermodynamicProperties) {
+      return (
+        <div className="rounded-xl border-2 border-gray-300 bg-gray-50 p-4 shadow-lg">
+          <h3 className="mb-3 text-lg font-bold text-gray-700">
+            🌡️ Thermodynamic Properties Dashboard
+          </h3>
+          <div className="text-center py-4">
+            <p className="text-sm text-gray-600">
+              No thermodynamic data available for this cooking method.
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              Heat, Entropy, and Reactivity calculations are not defined for this method.
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     const { heat, entropy, reactivity } = method.thermodynamicProperties;
     const { gregsEnergy, kalchm, monica } = method;
@@ -629,7 +664,23 @@ export default function EnhancedCookingMethodRecommender() {
 
   // ==================== SECTION 4: KINETIC PROPERTIES DASHBOARD ====================
   const renderKineticDashboard = (method: (typeof currentMethods)[0]) => {
-    if (!method.kinetics) return null;
+    if (!method.kinetics) {
+      return (
+        <div className="rounded-xl border-2 border-gray-300 bg-gray-50 p-4 shadow-lg">
+          <h3 className="mb-3 text-lg font-bold text-gray-700">
+            ⚡ Kinetic Properties (P=IV Circuit Model)
+          </h3>
+          <div className="text-center py-4">
+            <p className="text-sm text-gray-600">
+              No kinetic data available for this cooking method.
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              Power, Force, Velocity, and Momentum calculations require alchemical properties.
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     const {
       power,
@@ -767,7 +818,23 @@ export default function EnhancedCookingMethodRecommender() {
 
   // ==================== SECTION 5: OPTIMAL COOKING CONDITIONS ====================
   const renderOptimalConditions = (method: (typeof currentMethods)[0]) => {
-    if (!method.optimalConditions) return null;
+    if (!method.optimalConditions) {
+      return (
+        <div className="rounded-xl border-2 border-gray-300 bg-gray-50 p-4 shadow-lg">
+          <h3 className="mb-3 text-lg font-bold text-gray-700">
+            🎯 Optimal Cooking Conditions
+          </h3>
+          <div className="text-center py-4">
+            <p className="text-sm text-gray-600">
+              No optimal conditions calculated for this cooking method.
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              Temperature, timing, and planetary recommendations require thermodynamic and Monica constant data.
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     const { temperature, timing, planetaryHours, lunarPhases } =
       method.optimalConditions;
@@ -886,7 +953,23 @@ export default function EnhancedCookingMethodRecommender() {
 
   // ==================== SECTION 6: ELEMENTAL FLOW VISUALIZATION ====================
   const renderElementalFlow = (method: (typeof currentMethods)[0]) => {
-    if (!method.kinetics) return null;
+    if (!method.kinetics) {
+      return (
+        <div className="rounded-xl border-2 border-gray-300 bg-gray-50 p-4 shadow-lg">
+          <h3 className="mb-3 text-lg font-bold text-gray-700">
+            🌊 Elemental Flow Visualization
+          </h3>
+          <div className="text-center py-4">
+            <p className="text-sm text-gray-600">
+              No elemental flow data available for this cooking method.
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              Velocity, Momentum, and Force calculations require kinetic properties.
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     const { velocity, momentum, force } = method.kinetics;
     const elements = ["Fire", "Water", "Earth", "Air"] as const;

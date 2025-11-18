@@ -62,6 +62,12 @@ export const _pressureCooking: CookingMethodData = {
     "Some nutrients sensitive to high heat may be reduced",
     "Not ideal for foods needing monitoring during cooking",
   ],
+  thermodynamicProperties: {
+    heat: 0.85, // High heat under pressure
+    entropy: 0.75, // Significant structural transformation
+    reactivity: 0.9, // High chemical reactivity from pressure and heat
+    gregsEnergy: 0.175, // heat - (entropy × reactivity)
+  } as any,
 };
 
 // Export without underscore for compatibility

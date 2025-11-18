@@ -62,4 +62,10 @@ export const emulsification: CookingMethodData = {
     "Modern emulsifying agents should be used in appropriate quantities",
     "Hot emulsions can break if not properly stabilized",
   ],
+  thermodynamicProperties: {
+    heat: 0.4, // Moderate heat for creating stable mixtures
+    entropy: 0.5, // Moderate structural reorganization
+    reactivity: 0.6, // Moderate chemical interactions between phases
+    gregsEnergy: 0.1, // heat - (entropy × reactivity)
+  } as any,
 };
