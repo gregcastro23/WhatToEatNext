@@ -10,6 +10,8 @@ import type { Element } from "@/types/celestial";
 import type { AspectPhase, KineticMetrics } from "@/types/kinetics";
 import { alchemize, planetInfo } from "./core/alchemicalEngine";
 
+export type { KineticMetrics } from "@/types/kinetics";
+
 export interface KineticsCalculationInput {
   currentPlanetaryPositions: Record<string, string>;
   previousPlanetaryPositions?: Record<string, string>;

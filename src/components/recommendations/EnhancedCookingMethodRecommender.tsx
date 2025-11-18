@@ -20,17 +20,25 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
-import { ALCHEMICAL_PILLARS, type AlchemicalPillar } from "@/constants/alchemicalPillars";
+import {
+  ALCHEMICAL_PILLARS,
+  type AlchemicalPillar,
+} from "@/constants/alchemicalPillars";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import {
-  calculatePillarKalchm,
-  calculatePillarMonica,
-  calculatePillarMonicaModifiers
+  calculateKAlchm,
+  calculateMonicaConstant,
 } from "@/utils/monicaKalchmCalculations";
 import { calculateOptimalCookingConditions } from "@/constants/alchemicalPillars";
-import { calculateKinetics, type KineticMetrics } from "@/calculations/kinetics";
+import {
+  calculateKinetics,
+  type KineticMetrics,
+} from "@/calculations/kinetics";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
-import type { AlchemicalProperties, ElementalProperties } from "@/types/celestial";
+import type {
+  AlchemicalProperties,
+  ElementalProperties,
+} from "@/types/celestial";
 
 interface MethodData {
   name: string;
@@ -114,45 +122,128 @@ function classifyMonica(monica: number | null): {
   bgColor: string;
 } {
   if (monica === null || isNaN(monica)) {
-    return { label: "Undefined", color: "text-gray-600", bgColor: "bg-gray-100" };
+    return {
+      label: "Undefined",
+      color: "text-gray-600",
+      bgColor: "bg-gray-100",
+    };
   }
   if (monica > 10) {
-    return { label: "Highly Volatile", color: "text-red-800", bgColor: "bg-red-100" };
+    return {
+      label: "Highly Volatile",
+      color: "text-red-800",
+      bgColor: "bg-red-100",
+    };
   }
   if (monica > 5) {
-    return { label: "Volatile", color: "text-orange-800", bgColor: "bg-orange-100" };
+    return {
+      label: "Volatile",
+      color: "text-orange-800",
+      bgColor: "bg-orange-100",
+    };
   }
   if (monica > 2) {
-    return { label: "Transformative", color: "text-yellow-800", bgColor: "bg-yellow-100" };
+    return {
+      label: "Transformative",
+      color: "text-yellow-800",
+      bgColor: "bg-yellow-100",
+    };
   }
   if (monica > 1) {
-    return { label: "Balanced", color: "text-green-800", bgColor: "bg-green-100" };
+    return {
+      label: "Balanced",
+      color: "text-green-800",
+      bgColor: "bg-green-100",
+    };
   }
   if (monica > 0.5) {
     return { label: "Stable", color: "text-blue-800", bgColor: "bg-blue-100" };
   }
-  return { label: "Very Stable", color: "text-indigo-800", bgColor: "bg-indigo-100" };
+  return {
+    label: "Very Stable",
+    color: "text-indigo-800",
+    bgColor: "bg-indigo-100",
+  };
 }
 
 // Get pillar color scheme
-function getPillarColors(pillarId: number): { bg: string; text: string; border: string } {
-  const colorMap: Record<number, { bg: string; text: string; border: string }> = {
-    1: { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300" },
-    2: { bg: "bg-cyan-100", text: "text-cyan-800", border: "border-cyan-300" },
-    3: { bg: "bg-sky-100", text: "text-sky-800", border: "border-sky-300" },
-    4: { bg: "bg-indigo-100", text: "text-indigo-800", border: "border-indigo-300" },
-    5: { bg: "bg-purple-100", text: "text-purple-800", border: "border-purple-300" },
-    6: { bg: "bg-yellow-100", text: "text-yellow-800", border: "border-yellow-300" },
-    7: { bg: "bg-red-100", text: "text-red-800", border: "border-red-300" },
-    8: { bg: "bg-green-100", text: "text-green-800", border: "border-green-300" },
-    9: { bg: "bg-teal-100", text: "text-teal-800", border: "border-teal-300" },
-    10: { bg: "bg-orange-100", text: "text-orange-800", border: "border-orange-300" },
-    11: { bg: "bg-pink-100", text: "text-pink-800", border: "border-pink-300" },
-    12: { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-300" },
-    13: { bg: "bg-violet-100", text: "text-violet-800", border: "border-violet-300" },
-    14: { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-300" },
-  };
-  return colorMap[pillarId] || { bg: "bg-gray-100", text: "text-gray-800", border: "border-gray-300" };
+function getPillarColors(pillarId: number): {
+  bg: string;
+  text: string;
+  border: string;
+} {
+  const colorMap: Record<number, { bg: string; text: string; border: string }> =
+    {
+      1: {
+        bg: "bg-blue-100",
+        text: "text-blue-800",
+        border: "border-blue-300",
+      },
+      2: {
+        bg: "bg-cyan-100",
+        text: "text-cyan-800",
+        border: "border-cyan-300",
+      },
+      3: { bg: "bg-sky-100", text: "text-sky-800", border: "border-sky-300" },
+      4: {
+        bg: "bg-indigo-100",
+        text: "text-indigo-800",
+        border: "border-indigo-300",
+      },
+      5: {
+        bg: "bg-purple-100",
+        text: "text-purple-800",
+        border: "border-purple-300",
+      },
+      6: {
+        bg: "bg-yellow-100",
+        text: "text-yellow-800",
+        border: "border-yellow-300",
+      },
+      7: { bg: "bg-red-100", text: "text-red-800", border: "border-red-300" },
+      8: {
+        bg: "bg-green-100",
+        text: "text-green-800",
+        border: "border-green-300",
+      },
+      9: {
+        bg: "bg-teal-100",
+        text: "text-teal-800",
+        border: "border-teal-300",
+      },
+      10: {
+        bg: "bg-orange-100",
+        text: "text-orange-800",
+        border: "border-orange-300",
+      },
+      11: {
+        bg: "bg-pink-100",
+        text: "text-pink-800",
+        border: "border-pink-300",
+      },
+      12: {
+        bg: "bg-emerald-100",
+        text: "text-emerald-800",
+        border: "border-emerald-300",
+      },
+      13: {
+        bg: "bg-violet-100",
+        text: "text-violet-800",
+        border: "border-violet-300",
+      },
+      14: {
+        bg: "bg-amber-100",
+        text: "text-amber-800",
+        border: "border-amber-300",
+      },
+    };
+  return (
+    colorMap[pillarId] || {
+      bg: "bg-gray-100",
+      text: "text-gray-800",
+      border: "border-gray-300",
+    }
+  );
 }
 
 export default function EnhancedCookingMethodRecommender() {
@@ -168,20 +259,7 @@ export default function EnhancedCookingMethodRecommender() {
       .map(([id, method]) => {
         const pillar = getCookingMethodPillar(id);
 
-        // Calculate alchemical metrics
-        const kalchm = method.alchemicalProperties && pillar
-          ? calculatePillarKalchm(pillar, method.alchemicalProperties)
-          : null;
-
-        const monica = method.alchemicalProperties && pillar
-          ? calculatePillarMonica(pillar, method.alchemicalProperties)
-          : null;
-
-        const monicaModifiers = method.alchemicalProperties && pillar && monica !== null
-          ? calculatePillarMonicaModifiers(monica, method.alchemicalProperties)
-          : null;
-
-        // Calculate Greg's Energy
+        // Calculate Greg's Energy first (needed for other calculations)
         const gregsEnergy = method.thermodynamicProperties
           ? calculateGregsEnergy({
               Spirit: method.alchemicalProperties?.Spirit || 0,
@@ -195,20 +273,41 @@ export default function EnhancedCookingMethodRecommender() {
             }).gregsEnergy
           : 0;
 
-        // Calculate optimal cooking conditions
-        const optimalConditions = method.thermodynamicProperties && monica !== null
-          ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties)
+        // Calculate alchemical metrics
+        const kalchm = method.alchemicalProperties
+          ? calculateKAlchm(
+              method.alchemicalProperties.Spirit,
+              method.alchemicalProperties.Essence,
+              method.alchemicalProperties.Matter,
+              method.alchemicalProperties.Substance,
+            )
           : null;
+
+        const reactivity = method.thermodynamicProperties?.reactivity || 0;
+        const monica =
+          method.alchemicalProperties && gregsEnergy !== null && kalchm
+            ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
+            : null;
+
+        const monicaModifiers = null; // TODO: Implement pillar-specific modifiers
+
+        // Calculate optimal cooking conditions
+        const optimalConditions =
+          method.thermodynamicProperties && monica !== null
+            ? calculateOptimalCookingConditions(
+                monica,
+                method.thermodynamicProperties,
+              )
+            : null;
 
         // Calculate kinetic metrics
         let kinetics: KineticMetrics | null = null;
         if (method.alchemicalProperties) {
           try {
-            kinetics = calculateKinetics(
-              method.alchemicalProperties,
-              method.elementalEffect,
-              mockPlanetaryPositions
-            );
+            kinetics = calculateKinetics({
+              currentPlanetaryPositions: mockPlanetaryPositions,
+              timeInterval: 1,
+            });
           } catch (error) {
             console.warn(`Failed to calculate kinetics for ${id}:`, error);
           }
@@ -250,36 +349,51 @@ export default function EnhancedCookingMethodRecommender() {
   const category = categories.find((cat) => cat.id === selectedCategory);
 
   // ==================== SECTION 1: TRANSFORMATION OVERVIEW CARD ====================
-  const renderTransformationOverview = (method: typeof currentMethods[0]) => {
+  const renderTransformationOverview = (method: (typeof currentMethods)[0]) => {
     const { monicaClass, kalchm, gregsEnergy, pillar } = method;
     const pillarColors = pillar ? getPillarColors(pillar.id) : null;
 
     return (
-      <div className={`rounded-xl border-2 p-4 ${pillarColors?.border || 'border-indigo-300'} ${pillarColors?.bg || 'bg-indigo-50'} shadow-lg`}>
-        <h3 className="mb-3 text-lg font-bold text-gray-900">🔮 Transformation Overview</h3>
+      <div
+        className={`rounded-xl border-2 p-4 ${pillarColors?.border || "border-indigo-300"} ${pillarColors?.bg || "bg-indigo-50"} shadow-lg`}
+      >
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          🔮 Transformation Overview
+        </h3>
 
         <div className="grid grid-cols-2 gap-3">
           {/* Monica Classification */}
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Monica Classification</div>
-            <div className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${monicaClass.bgColor} ${monicaClass.color}`}>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Monica Classification
+            </div>
+            <div
+              className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${monicaClass.bgColor} ${monicaClass.color}`}
+            >
               {monicaClass.label}
             </div>
           </div>
 
           {/* Kalchm Value */}
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Kalchm (Equilibrium)</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Kalchm (Equilibrium)
+            </div>
             <div className="text-xl font-bold text-purple-700">
-              {kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(4) : 'N/A'}
+              {kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(4) : "N/A"}
             </div>
           </div>
 
           {/* Greg's Energy */}
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Greg's Energy</div>
-            <div className={`text-xl font-bold ${gregsEnergy >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-              {gregsEnergy >= 0 ? '+' : ''}{gregsEnergy.toFixed(3)}
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Greg's Energy
+            </div>
+            <div
+              className={`text-xl font-bold ${gregsEnergy >= 0 ? "text-green-700" : "text-red-700"}`}
+            >
+              {gregsEnergy >= 0 ? "+" : ""}
+              {gregsEnergy.toFixed(3)}
               <span className="ml-1 text-sm">⚙️</span>
             </div>
           </div>
@@ -287,8 +401,12 @@ export default function EnhancedCookingMethodRecommender() {
           {/* Pillar Badge */}
           {pillar && (
             <div className="rounded-lg bg-white p-3 shadow-sm">
-              <div className="mb-1 text-xs font-medium text-gray-600">Alchemical Pillar</div>
-              <div className={`inline-block rounded-full px-2 py-1 text-xs font-bold ${pillarColors?.bg} ${pillarColors?.text}`}>
+              <div className="mb-1 text-xs font-medium text-gray-600">
+                Alchemical Pillar
+              </div>
+              <div
+                className={`inline-block rounded-full px-2 py-1 text-xs font-bold ${pillarColors?.bg} ${pillarColors?.text}`}
+              >
                 #{pillar.id} {pillar.name}
               </div>
             </div>
@@ -299,20 +417,46 @@ export default function EnhancedCookingMethodRecommender() {
   };
 
   // ==================== SECTION 2: ALCHEMICAL TRANSFORMATION MATRIX ====================
-  const renderAlchemicalMatrix = (method: typeof currentMethods[0]) => {
+  const renderAlchemicalMatrix = (method: (typeof currentMethods)[0]) => {
     if (!method.alchemicalProperties) return null;
 
     const { Spirit, Essence, Matter, Substance } = method.alchemicalProperties;
     const properties = [
-      { name: "Spirit", value: Spirit, color: "bg-yellow-500", icon: "✨", textColor: "text-yellow-700" },
-      { name: "Essence", value: Essence, color: "bg-blue-500", icon: "💫", textColor: "text-blue-700" },
-      { name: "Matter", value: Matter, color: "bg-green-500", icon: "🌿", textColor: "text-green-700" },
-      { name: "Substance", value: Substance, color: "bg-purple-500", icon: "🔮", textColor: "text-purple-700" },
+      {
+        name: "Spirit",
+        value: Spirit,
+        color: "bg-yellow-500",
+        icon: "✨",
+        textColor: "text-yellow-700",
+      },
+      {
+        name: "Essence",
+        value: Essence,
+        color: "bg-blue-500",
+        icon: "💫",
+        textColor: "text-blue-700",
+      },
+      {
+        name: "Matter",
+        value: Matter,
+        color: "bg-green-500",
+        icon: "🌿",
+        textColor: "text-green-700",
+      },
+      {
+        name: "Substance",
+        value: Substance,
+        color: "bg-purple-500",
+        icon: "🔮",
+        textColor: "text-purple-700",
+      },
     ];
 
     return (
       <div className="rounded-xl border-2 border-purple-300 bg-purple-50 p-4 shadow-lg">
-        <h3 className="mb-3 text-lg font-bold text-gray-900">⚗️ Alchemical Transformation Matrix (ESMS)</h3>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          ⚗️ Alchemical Transformation Matrix (ESMS)
+        </h3>
 
         <div className="space-y-3">
           {properties.map(({ name, value, color, icon, textColor }) => {
@@ -325,7 +469,8 @@ export default function EnhancedCookingMethodRecommender() {
                 <div className="w-24">
                   <div className="text-sm font-bold text-gray-700">{name}</div>
                   <div className={`text-xs ${textColor}`}>
-                    {value > 0 ? '+' : ''}{value}
+                    {value > 0 ? "+" : ""}
+                    {value}
                   </div>
                 </div>
                 <div className="flex-1">
@@ -341,7 +486,7 @@ export default function EnhancedCookingMethodRecommender() {
                 </div>
                 {/* Transformation direction */}
                 <div className="w-10 text-center text-lg">
-                  {value > 2 ? '⬆️' : value < -2 ? '⬇️' : '↔️'}
+                  {value > 2 ? "⬆️" : value < -2 ? "⬇️" : "↔️"}
                 </div>
               </div>
             );
@@ -351,9 +496,10 @@ export default function EnhancedCookingMethodRecommender() {
         {method.pillar && (
           <div className="mt-3 rounded-lg bg-white p-2 text-center">
             <div className="text-xs font-medium text-gray-600">
-              Pillar Effects: {Object.entries(method.pillar.effects)
-                .map(([prop, val]) => `${prop} ${val > 0 ? '+' : ''}${val}`)
-                .join(', ')}
+              Pillar Effects:{" "}
+              {Object.entries(method.pillar.effects)
+                .map(([prop, val]) => `${prop} ${val > 0 ? "+" : ""}${val}`)
+                .join(", ")}
             </div>
           </div>
         )}
@@ -362,21 +508,41 @@ export default function EnhancedCookingMethodRecommender() {
   };
 
   // ==================== SECTION 3: ENHANCED THERMODYNAMIC PROPERTIES ====================
-  const renderThermodynamicDashboard = (method: typeof currentMethods[0]) => {
+  const renderThermodynamicDashboard = (method: (typeof currentMethods)[0]) => {
     if (!method.thermodynamicProperties) return null;
 
     const { heat, entropy, reactivity } = method.thermodynamicProperties;
     const { gregsEnergy, kalchm, monica } = method;
 
     const properties = [
-      { name: "Heat", value: heat, icon: "🔥", color: "bg-red-500", desc: "Active energy potential" },
-      { name: "Entropy", value: entropy, icon: "🌀", color: "bg-orange-500", desc: "System disorder" },
-      { name: "Reactivity", value: reactivity, icon: "⚡", color: "bg-pink-500", desc: "Change potential" },
+      {
+        name: "Heat",
+        value: heat,
+        icon: "🔥",
+        color: "bg-red-500",
+        desc: "Active energy potential",
+      },
+      {
+        name: "Entropy",
+        value: entropy,
+        icon: "🌀",
+        color: "bg-orange-500",
+        desc: "System disorder",
+      },
+      {
+        name: "Reactivity",
+        value: reactivity,
+        icon: "⚡",
+        color: "bg-pink-500",
+        desc: "Change potential",
+      },
     ];
 
     return (
       <div className="rounded-xl border-2 border-red-300 bg-red-50 p-4 shadow-lg">
-        <h3 className="mb-3 text-lg font-bold text-gray-900">🌡️ Thermodynamic Properties Dashboard</h3>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          🌡️ Thermodynamic Properties Dashboard
+        </h3>
 
         {/* Main metrics */}
         <div className="mb-4 space-y-2">
@@ -408,9 +574,14 @@ export default function EnhancedCookingMethodRecommender() {
         {/* Derived metrics */}
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Greg's Energy ⚙️</div>
-            <div className={`text-lg font-bold ${gregsEnergy >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-              {gregsEnergy >= 0 ? '+' : ''}{gregsEnergy.toFixed(4)}
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Greg's Energy ⚙️
+            </div>
+            <div
+              className={`text-lg font-bold ${gregsEnergy >= 0 ? "text-green-700" : "text-red-700"}`}
+            >
+              {gregsEnergy >= 0 ? "+" : ""}
+              {gregsEnergy.toFixed(4)}
             </div>
             <div className="mt-1 text-xs text-gray-500">
               Heat - (Entropy × Reactivity)
@@ -418,9 +589,11 @@ export default function EnhancedCookingMethodRecommender() {
           </div>
 
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Kalchm (K_alchm)</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Kalchm (K_alchm)
+            </div>
             <div className="text-lg font-bold text-purple-700">
-              {kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(4) : 'N/A'}
+              {kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(4) : "N/A"}
             </div>
             <div className="mt-1 text-xs text-gray-500">
               Alchemical equilibrium
@@ -431,10 +604,22 @@ export default function EnhancedCookingMethodRecommender() {
         {/* Monica breakdown */}
         {monica !== null && !isNaN(monica) && (
           <div className="mt-3 rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-2 text-xs font-medium text-gray-600">Monica Constant Calculation</div>
+            <div className="mb-2 text-xs font-medium text-gray-600">
+              Monica Constant Calculation
+            </div>
             <div className="grid grid-cols-2 gap-2 text-xs text-gray-700">
-              <div>Monica Value: <span className="font-bold text-purple-700">{monica.toFixed(4)}</span></div>
-              <div>Classification: <span className={`font-bold ${method.monicaClass.color}`}>{method.monicaClass.label}</span></div>
+              <div>
+                Monica Value:{" "}
+                <span className="font-bold text-purple-700">
+                  {monica.toFixed(4)}
+                </span>
+              </div>
+              <div>
+                Classification:{" "}
+                <span className={`font-bold ${method.monicaClass.color}`}>
+                  {method.monicaClass.label}
+                </span>
+              </div>
             </div>
           </div>
         )}
@@ -443,13 +628,13 @@ export default function EnhancedCookingMethodRecommender() {
   };
 
   // ==================== SECTION 4: KINETIC PROPERTIES DASHBOARD ====================
-  const renderKineticDashboard = (method: typeof currentMethods[0]) => {
+  const renderKineticDashboard = (method: (typeof currentMethods)[0]) => {
     if (!method.kinetics) return null;
 
     const {
       power,
       potential,
-      current,
+      currentFlow,
       charge,
       forceMagnitude,
       forceClassification,
@@ -459,47 +644,77 @@ export default function EnhancedCookingMethodRecommender() {
 
     return (
       <div className="rounded-xl border-2 border-indigo-300 bg-indigo-50 p-4 shadow-lg">
-        <h3 className="mb-3 text-lg font-bold text-gray-900">⚡ Kinetic Properties (P=IV Circuit Model)</h3>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          ⚡ Kinetic Properties (P=IV Circuit Model)
+        </h3>
 
         {/* Primary metrics */}
         <div className="mb-4 grid grid-cols-2 gap-3">
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Power (P = I × V)</div>
-            <div className="text-2xl font-bold text-indigo-700">{power.toFixed(3)}</div>
-            <div className="text-xs text-gray-500">Total transformation power</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Power (P = I × V)
+            </div>
+            <div className="text-2xl font-bold text-indigo-700">
+              {power.toFixed(3)}
+            </div>
+            <div className="text-xs text-gray-500">
+              Total transformation power
+            </div>
           </div>
 
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Force Magnitude</div>
-            <div className="text-2xl font-bold text-pink-700">{forceMagnitude.toFixed(3)}</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Force Magnitude
+            </div>
+            <div className="text-2xl font-bold text-pink-700">
+              {forceMagnitude.toFixed(3)}
+            </div>
             <div className="text-xs text-gray-500">Transformative force</div>
           </div>
 
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Charge (Q)</div>
-            <div className="text-xl font-bold text-green-700">{charge.toFixed(3)}</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Charge (Q)
+            </div>
+            <div className="text-xl font-bold text-green-700">
+              {charge.toFixed(3)}
+            </div>
             <div className="text-xs text-gray-500">Matter + Substance</div>
           </div>
 
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Potential (V)</div>
-            <div className="text-xl font-bold text-blue-700">{potential.toFixed(3)}</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Potential (V)
+            </div>
+            <div className="text-xl font-bold text-blue-700">
+              {potential?.toFixed(3) ?? "N/A"}
+            </div>
             <div className="text-xs text-gray-500">Energy per unit charge</div>
           </div>
 
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Current (I)</div>
-            <div className="text-xl font-bold text-yellow-700">{current.toFixed(3)}</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Current (I)
+            </div>
+            <div className="text-xl font-bold text-yellow-700">
+              {currentFlow.toFixed(3)}
+            </div>
             <div className="text-xs text-gray-500">Rate of charge flow</div>
           </div>
 
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Force Classification</div>
-            <div className={`inline-block rounded-full px-2 py-1 text-xs font-bold ${
-              forceClassification === 'accelerating' ? 'bg-green-100 text-green-800' :
-              forceClassification === 'balanced' ? 'bg-blue-100 text-blue-800' :
-              'bg-orange-100 text-orange-800'
-            }`}>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Force Classification
+            </div>
+            <div
+              className={`inline-block rounded-full px-2 py-1 text-xs font-bold ${
+                forceClassification === "accelerating"
+                  ? "bg-green-100 text-green-800"
+                  : forceClassification === "balanced"
+                    ? "bg-blue-100 text-blue-800"
+                    : "bg-orange-100 text-orange-800"
+              }`}
+            >
               {forceClassification.toUpperCase()}
             </div>
           </div>
@@ -508,29 +723,41 @@ export default function EnhancedCookingMethodRecommender() {
         {/* Thermal & Aspect Phase */}
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Thermal Direction 🌡️</div>
-            <div className={`text-sm font-bold ${
-              thermalDirection === 'heating' ? 'text-red-700' :
-              thermalDirection === 'cooling' ? 'text-blue-700' :
-              'text-gray-700'
-            }`}>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Thermal Direction 🌡️
+            </div>
+            <div
+              className={`text-sm font-bold ${
+                thermalDirection === "heating"
+                  ? "text-red-700"
+                  : thermalDirection === "cooling"
+                    ? "text-blue-700"
+                    : "text-gray-700"
+              }`}
+            >
               {thermalDirection.toUpperCase()}
-              {thermalDirection === 'heating' && ' 🔥'}
-              {thermalDirection === 'cooling' && ' ❄️'}
-              {thermalDirection === 'stable' && ' ➖'}
+              {thermalDirection === "heating" && " 🔥"}
+              {thermalDirection === "cooling" && " ❄️"}
+              {thermalDirection === "stable" && " ➖"}
             </div>
           </div>
 
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Aspect Phase ⭐</div>
-            <div className={`text-sm font-bold ${
-              aspectPhase === 'applying' ? 'text-green-700' :
-              aspectPhase === 'exact' ? 'text-purple-700' :
-              'text-orange-700'
-            }`}>
-              {aspectPhase.toUpperCase()}
-              {aspectPhase === 'exact' && ' 🎯 +20% Energy!'}
-              {aspectPhase === 'applying' && ' ⬆️ +10% Energy'}
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Aspect Phase ⭐
+            </div>
+            <div
+              className={`text-sm font-bold ${
+                aspectPhase?.type === "applying"
+                  ? "text-green-700"
+                  : aspectPhase?.type === "exact"
+                    ? "text-purple-700"
+                    : "text-orange-700"
+              }`}
+            >
+              {aspectPhase?.type.toUpperCase() ?? "N/A"}
+              {aspectPhase?.type === "exact" && " 🎯 +20% Energy!"}
+              {aspectPhase?.type === "applying" && " ⬆️ +10% Energy"}
             </div>
           </div>
         </div>
@@ -539,40 +766,58 @@ export default function EnhancedCookingMethodRecommender() {
   };
 
   // ==================== SECTION 5: OPTIMAL COOKING CONDITIONS ====================
-  const renderOptimalConditions = (method: typeof currentMethods[0]) => {
+  const renderOptimalConditions = (method: (typeof currentMethods)[0]) => {
     if (!method.optimalConditions) return null;
 
-    const { temperature, timing, planetaryHours, lunarPhases } = method.optimalConditions;
+    const { temperature, timing, planetaryHours, lunarPhases } =
+      method.optimalConditions;
     const { monicaModifiers } = method;
 
     return (
       <div className="rounded-xl border-2 border-green-300 bg-green-50 p-4 shadow-lg">
-        <h3 className="mb-3 text-lg font-bold text-gray-900">🎯 Optimal Cooking Conditions</h3>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          🎯 Optimal Cooking Conditions
+        </h3>
 
         <div className="grid grid-cols-2 gap-3">
           {/* Temperature */}
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Recommended Temperature</div>
-            <div className="text-2xl font-bold text-red-700">{temperature}°F</div>
-            <div className="text-sm text-gray-600">{Math.round((temperature - 32) * 5/9)}°C</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Recommended Temperature
+            </div>
+            <div className="text-2xl font-bold text-red-700">
+              {temperature}°F
+            </div>
+            <div className="text-sm text-gray-600">
+              {Math.round(((temperature - 32) * 5) / 9)}°C
+            </div>
           </div>
 
           {/* Timing */}
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Optimal Timing</div>
-            <div className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${
-              timing === 'quick' ? 'bg-yellow-100 text-yellow-800' :
-              timing === 'slow' ? 'bg-blue-100 text-blue-800' :
-              timing === 'steady' ? 'bg-green-100 text-green-800' :
-              'bg-gray-100 text-gray-800'
-            }`}>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Optimal Timing
+            </div>
+            <div
+              className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${
+                timing === "quick"
+                  ? "bg-yellow-100 text-yellow-800"
+                  : timing === "slow"
+                    ? "bg-blue-100 text-blue-800"
+                    : timing === "steady"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-800"
+              }`}
+            >
               {timing.toUpperCase()}
             </div>
           </div>
 
           {/* Planetary Hours */}
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Best Planetary Hours ☀️</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Best Planetary Hours ☀️
+            </div>
             <div className="flex flex-wrap gap-1">
               {planetaryHours.map((planet) => (
                 <span
@@ -587,14 +832,16 @@ export default function EnhancedCookingMethodRecommender() {
 
           {/* Lunar Phases */}
           <div className="rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-1 text-xs font-medium text-gray-600">Lunar Phase Recommendations 🌙</div>
+            <div className="mb-1 text-xs font-medium text-gray-600">
+              Lunar Phase Recommendations 🌙
+            </div>
             <div className="flex flex-wrap gap-1">
               {lunarPhases.map((phase) => (
                 <span
                   key={phase}
                   className="rounded-md bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-800"
                 >
-                  {phase.replace('_', ' ')}
+                  {phase.replace("_", " ")}
                 </span>
               ))}
             </div>
@@ -604,26 +851,30 @@ export default function EnhancedCookingMethodRecommender() {
         {/* Monica Modifiers */}
         {monicaModifiers && (
           <div className="mt-3 rounded-lg bg-white p-3 shadow-sm">
-            <div className="mb-2 text-xs font-bold text-gray-700">Monica Modifiers Applied:</div>
+            <div className="mb-2 text-xs font-bold text-gray-700">
+              Monica Modifiers Applied:
+            </div>
             <div className="grid grid-cols-3 gap-2 text-xs">
               <div>
-                <span className="text-gray-600">Temp Adjust:</span>{' '}
+                <span className="text-gray-600">Temp Adjust:</span>{" "}
                 <span className="font-bold text-red-700">
-                  {monicaModifiers.temperatureAdjustment >= 0 ? '+' : ''}
-                  {monicaModifiers.temperatureAdjustment.toFixed(0)}°F
+                  {(monicaModifiers as any).temperatureAdjustment >= 0
+                    ? "+"
+                    : ""}
+                  {(monicaModifiers as any).temperatureAdjustment.toFixed(0)}°F
                 </span>
               </div>
               <div>
-                <span className="text-gray-600">Time Adjust:</span>{' '}
+                <span className="text-gray-600">Time Adjust:</span>{" "}
                 <span className="font-bold text-blue-700">
-                  {monicaModifiers.timingAdjustment >= 0 ? '+' : ''}
-                  {monicaModifiers.timingAdjustment.toFixed(0)} min
+                  {(monicaModifiers as any).timingAdjustment >= 0 ? "+" : ""}
+                  {(monicaModifiers as any).timingAdjustment.toFixed(0)} min
                 </span>
               </div>
               <div>
-                <span className="text-gray-600">Intensity:</span>{' '}
+                <span className="text-gray-600">Intensity:</span>{" "}
                 <span className="font-bold text-green-700">
-                  {monicaModifiers.intensityModifier}
+                  {(monicaModifiers as any).intensityModifier}
                 </span>
               </div>
             </div>
@@ -634,48 +885,58 @@ export default function EnhancedCookingMethodRecommender() {
   };
 
   // ==================== SECTION 6: ELEMENTAL FLOW VISUALIZATION ====================
-  const renderElementalFlow = (method: typeof currentMethods[0]) => {
+  const renderElementalFlow = (method: (typeof currentMethods)[0]) => {
     if (!method.kinetics) return null;
 
-    const { velocity, momentum, elementalForce } = method.kinetics;
-    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+    const { velocity, momentum, force } = method.kinetics;
+    const elements = ["Fire", "Water", "Earth", "Air"] as const;
 
     return (
       <div className="rounded-xl border-2 border-teal-300 bg-teal-50 p-4 shadow-lg">
-        <h3 className="mb-3 text-lg font-bold text-gray-900">🌊 Elemental Flow Visualization</h3>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          🌊 Elemental Flow Visualization
+        </h3>
 
         <div className="space-y-3">
           {elements.map((element) => {
             const vel = velocity[element];
             const mom = momentum[element];
-            const force = elementalForce[element];
+            const forceValue = force[element];
 
             const elementIcons: Record<string, string> = {
-              Fire: '🔥',
-              Water: '💧',
-              Earth: '🌍',
-              Air: '💨',
+              Fire: "🔥",
+              Water: "💧",
+              Earth: "🌍",
+              Air: "💨",
             };
 
             return (
               <div key={element} className="rounded-lg bg-white p-3 shadow-sm">
                 <div className="mb-2 flex items-center gap-2">
                   <span className="text-2xl">{elementIcons[element]}</span>
-                  <span className="text-sm font-bold text-gray-800">{element}</span>
+                  <span className="text-sm font-bold text-gray-800">
+                    {element}
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 text-xs">
                   <div>
                     <div className="text-gray-600">Velocity (d/dt)</div>
-                    <div className="font-bold text-blue-700">{vel.toFixed(3)}</div>
+                    <div className="font-bold text-blue-700">
+                      {vel.toFixed(3)}
+                    </div>
                   </div>
                   <div>
                     <div className="text-gray-600">Momentum (m×v)</div>
-                    <div className="font-bold text-purple-700">{mom.toFixed(3)}</div>
+                    <div className="font-bold text-purple-700">
+                      {mom.toFixed(3)}
+                    </div>
                   </div>
                   <div>
                     <div className="text-gray-600">Force (F)</div>
-                    <div className="font-bold text-pink-700">{force.toFixed(3)}</div>
+                    <div className="font-bold text-pink-700">
+                      {forceValue.toFixed(3)}
+                    </div>
                   </div>
                 </div>
 
@@ -684,12 +945,17 @@ export default function EnhancedCookingMethodRecommender() {
                   <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
                     <div
                       className={`h-full transition-all duration-500 ${
-                        element === 'Fire' ? 'bg-red-500' :
-                        element === 'Water' ? 'bg-blue-500' :
-                        element === 'Earth' ? 'bg-green-500' :
-                        'bg-sky-500'
+                        element === "Fire"
+                          ? "bg-red-500"
+                          : element === "Water"
+                            ? "bg-blue-500"
+                            : element === "Earth"
+                              ? "bg-green-500"
+                              : "bg-sky-500"
                       }`}
-                      style={{ width: `${Math.min(100, Math.abs(force) * 20)}%` }}
+                      style={{
+                        width: `${Math.min(100, Math.abs(forceValue) * 20)}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -715,7 +981,7 @@ export default function EnhancedCookingMethodRecommender() {
           onClick={() => setShowPillarsGuide(!showPillarsGuide)}
           className="mt-2 text-sm text-indigo-600 hover:text-indigo-800 hover:underline"
         >
-          {showPillarsGuide ? '▼ Hide' : '▶ Show'} 14 Pillars Guide
+          {showPillarsGuide ? "▼ Hide" : "▶ Show"} 14 Pillars Guide
         </button>
       </div>
 
@@ -739,9 +1005,12 @@ export default function EnhancedCookingMethodRecommender() {
                     </span>
                     {pillar.elementalAssociations && (
                       <span className="text-2xl">
-                        {pillar.elementalAssociations.primary === "Fire" && "🔥"}
-                        {pillar.elementalAssociations.primary === "Water" && "💧"}
-                        {pillar.elementalAssociations.primary === "Earth" && "🌍"}
+                        {pillar.elementalAssociations.primary === "Fire" &&
+                          "🔥"}
+                        {pillar.elementalAssociations.primary === "Water" &&
+                          "💧"}
+                        {pillar.elementalAssociations.primary === "Earth" &&
+                          "🌍"}
                         {pillar.elementalAssociations.primary === "Air" && "💨"}
                       </span>
                     )}
@@ -752,12 +1021,15 @@ export default function EnhancedCookingMethodRecommender() {
                   <div className="text-xs text-gray-600">
                     <strong>Effects:</strong>{" "}
                     {Object.entries(pillar.effects)
-                      .map(([prop, val]) => `${prop} ${val > 0 ? '+' : ''}${val}`)
+                      .map(
+                        ([prop, val]) => `${prop} ${val > 0 ? "+" : ""}${val}`,
+                      )
                       .join(", ")}
                   </div>
                   {pillar.planetaryAssociations && (
                     <div className="mt-1 text-xs text-gray-600">
-                      <strong>Planets:</strong> {pillar.planetaryAssociations.join(", ")}
+                      <strong>Planets:</strong>{" "}
+                      {pillar.planetaryAssociations.join(", ")}
                     </div>
                   )}
                 </div>
@@ -794,7 +1066,8 @@ export default function EnhancedCookingMethodRecommender() {
               {category?.name} Methods
             </h3>
             <p className="text-sm text-gray-700">
-              {currentMethods.length} transformation methods • Sorted by Energy Potential
+              {currentMethods.length} transformation methods • Sorted by Energy
+              Potential
             </p>
           </div>
         </div>
@@ -830,18 +1103,26 @@ export default function EnhancedCookingMethodRecommender() {
                 <span className="rounded-lg bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
                   ⏱️ {formatDuration(method)}
                 </span>
-                <span className={`rounded-lg px-3 py-1 text-sm font-medium ${
-                  method.gregsEnergy >= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                }`}>
+                <span
+                  className={`rounded-lg px-3 py-1 text-sm font-medium ${
+                    method.gregsEnergy >= 0
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
                   ⚡ Energy: {method.gregsEnergy.toFixed(2)}
                 </span>
                 {method.monica !== null && !isNaN(method.monica) && (
-                  <span className={`rounded-lg px-3 py-1 text-sm font-medium ${method.monicaClass.bgColor} ${method.monicaClass.color}`}>
+                  <span
+                    className={`rounded-lg px-3 py-1 text-sm font-medium ${method.monicaClass.bgColor} ${method.monicaClass.color}`}
+                  >
                     🔮 {method.monicaClass.label}
                   </span>
                 )}
                 {method.pillar && (
-                  <span className={`rounded-lg px-3 py-1 text-sm font-medium ${getPillarColors(method.pillar.id).bg} ${getPillarColors(method.pillar.id).text}`}>
+                  <span
+                    className={`rounded-lg px-3 py-1 text-sm font-medium ${getPillarColors(method.pillar.id).bg} ${getPillarColors(method.pillar.id).text}`}
+                  >
                     Pillar #{method.pillar.id}
                   </span>
                 )}
@@ -881,12 +1162,14 @@ export default function EnhancedCookingMethodRecommender() {
                         </p>
                         {method.pillar.planetaryAssociations && (
                           <div className="mb-1 text-xs">
-                            <strong>Planets:</strong> {method.pillar.planetaryAssociations.join(", ")}
+                            <strong>Planets:</strong>{" "}
+                            {method.pillar.planetaryAssociations.join(", ")}
                           </div>
                         )}
                         {method.pillar.tarotAssociations && (
                           <div className="text-xs">
-                            <strong>Tarot:</strong> {method.pillar.tarotAssociations.join(", ")}
+                            <strong>Tarot:</strong>{" "}
+                            {method.pillar.tarotAssociations.join(", ")}
                           </div>
                         )}
                       </div>
@@ -945,7 +1228,9 @@ export default function EnhancedCookingMethodRecommender() {
               {/* Expand/Collapse Indicator */}
               <div className="mt-4 text-center">
                 <div className="inline-block rounded-full bg-purple-100 px-4 py-1 text-xs font-medium text-purple-700">
-                  {isExpanded ? '▲ Click to collapse' : '▼ Click to expand and view full transformation analysis'}
+                  {isExpanded
+                    ? "▲ Click to collapse"
+                    : "▼ Click to expand and view full transformation analysis"}
                 </div>
               </div>
             </div>
@@ -959,8 +1244,9 @@ export default function EnhancedCookingMethodRecommender() {
           🌟 Alchemical Cooking System v2.0
         </h3>
         <p className="text-sm text-purple-700">
-          Powered by: 14 Alchemical Pillars • ESMS Transformations • Thermodynamic Analysis •
-          P=IV Kinetic Model • Monica Constants • Planetary Alignments • Elemental Harmony
+          Powered by: 14 Alchemical Pillars • ESMS Transformations •
+          Thermodynamic Analysis • P=IV Kinetic Model • Monica Constants •
+          Planetary Alignments • Elemental Harmony
         </p>
       </div>
     </div>

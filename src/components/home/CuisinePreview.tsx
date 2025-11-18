@@ -14,6 +14,15 @@ interface NestedRecipe {
   description: string;
   prep_time?: string;
   cook_time?: string;
+  servings?: number;
+  difficulty?: string;
+  ingredients: Array<{
+    name: string;
+    amount?: string;
+    unit?: string;
+    notes?: string;
+  }>;
+  instructions: string[];
   meal_type: string;
   seasonal_fit: string;
 }
@@ -21,6 +30,7 @@ interface NestedRecipe {
 interface SauceRecommendation {
   sauce_name: string;
   description: string;
+  key_ingredients?: string[];
   compatibility_score: number;
   reason: string;
 }
@@ -155,7 +165,9 @@ export default function CuisinePreview() {
                 <div className="mb-6">
                   <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2 text-xl">
                     <span className="text-3xl">🍲</span>
-                    <span>Featured Recipes ({cuisine.nested_recipes.length})</span>
+                    <span>
+                      Featured Recipes ({cuisine.nested_recipes.length})
+                    </span>
                   </h4>
                   <div className="grid md:grid-cols-2 gap-4">
                     {cuisine.nested_recipes.map((recipe) => (
@@ -165,13 +177,23 @@ export default function CuisinePreview() {
                       >
                         <div
                           className="p-4 cursor-pointer hover:bg-purple-50 transition-colors"
-                          onClick={() => setExpandedRecipe(expandedRecipe === recipe.recipe_id ? null : recipe.recipe_id)}
+                          onClick={() =>
+                            setExpandedRecipe(
+                              expandedRecipe === recipe.recipe_id
+                                ? null
+                                : recipe.recipe_id,
+                            )
+                          }
                         >
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex-1">
                               <div className="font-bold text-gray-900 text-lg mb-1 flex items-center gap-2">
                                 {recipe.name}
-                                <span className="text-xl">{expandedRecipe === recipe.recipe_id ? "−" : "+"}</span>
+                                <span className="text-xl">
+                                  {expandedRecipe === recipe.recipe_id
+                                    ? "−"
+                                    : "+"}
+                                </span>
                               </div>
                               <div className="text-sm text-gray-600 line-clamp-2">
                                 {recipe.description}
@@ -222,34 +244,52 @@ export default function CuisinePreview() {
                             <div className="mb-4">
                               <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
                                 <span>🥘</span>
-                                <span>Ingredients ({recipe.ingredients.length})</span>
+                                <span>
+                                  Ingredients ({recipe.ingredients.length})
+                                </span>
                               </h5>
                               <div className="grid grid-cols-1 gap-1">
                                 {recipe.ingredients.map((ing, idx) => (
-                                  <div key={idx} className="text-sm text-gray-700 pl-4">
-                                    • {ing.amount && ing.unit ? `${ing.amount} ${ing.unit}` : ''} {ing.name}
-                                    {ing.notes && <span className="text-gray-500 italic"> ({ing.notes})</span>}
+                                  <div
+                                    key={idx}
+                                    className="text-sm text-gray-700 pl-4"
+                                  >
+                                    •{" "}
+                                    {ing.amount && ing.unit
+                                      ? `${ing.amount} ${ing.unit}`
+                                      : ""}{" "}
+                                    {ing.name}
+                                    {ing.notes && (
+                                      <span className="text-gray-500 italic">
+                                        {" "}
+                                        ({ing.notes})
+                                      </span>
+                                    )}
                                   </div>
                                 ))}
                               </div>
                             </div>
 
                             {/* Cooking Instructions */}
-                            {recipe.instructions && recipe.instructions.length > 0 && (
-                              <div className="mb-4">
-                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
-                                  <span>📝</span>
-                                  <span>Cooking Instructions</span>
-                                </h5>
-                                <ol className="list-decimal list-inside space-y-2">
-                                  {recipe.instructions.map((step, idx) => (
-                                    <li key={idx} className="text-sm text-gray-700 pl-2">
-                                      {step}
-                                    </li>
-                                  ))}
-                                </ol>
-                              </div>
-                            )}
+                            {recipe.instructions &&
+                              recipe.instructions.length > 0 && (
+                                <div className="mb-4">
+                                  <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                    <span>📝</span>
+                                    <span>Cooking Instructions</span>
+                                  </h5>
+                                  <ol className="list-decimal list-inside space-y-2">
+                                    {recipe.instructions.map((step, idx) => (
+                                      <li
+                                        key={idx}
+                                        className="text-sm text-gray-700 pl-2"
+                                      >
+                                        {step}
+                                      </li>
+                                    ))}
+                                  </ol>
+                                </div>
+                              )}
                           </div>
                         )}
                       </div>
@@ -273,21 +313,29 @@ export default function CuisinePreview() {
                           className="bg-white border border-indigo-100 rounded-lg p-3 hover:shadow-md transition-all"
                         >
                           <div className="flex justify-between items-start mb-2">
-                            <div className="font-bold text-indigo-900">{sauce.sauce_name}</div>
+                            <div className="font-bold text-indigo-900">
+                              {sauce.sauce_name}
+                            </div>
                             <span className="bg-indigo-100 text-indigo-900 px-2 py-0.5 rounded-full text-xs font-bold">
                               {(sauce.compatibility_score * 100).toFixed(0)}%
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 mb-2">{sauce.description}</p>
-                          {sauce.key_ingredients && sauce.key_ingredients.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-2">
-                              {sauce.key_ingredients.map((ing, i) => (
-                                <span key={i} className="text-xs bg-orange-50 text-orange-800 px-2 py-0.5 rounded-full">
-                                  {ing}
-                                </span>
-                              ))}
-                            </div>
-                          )}
+                          <p className="text-sm text-gray-600 mb-2">
+                            {sauce.description}
+                          </p>
+                          {sauce.key_ingredients &&
+                            sauce.key_ingredients.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {sauce.key_ingredients.map((ing, i) => (
+                                  <span
+                                    key={i}
+                                    className="text-xs bg-orange-50 text-orange-800 px-2 py-0.5 rounded-full"
+                                  >
+                                    {ing}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                         </div>
                       ))}
                     </div>
@@ -313,7 +361,9 @@ export default function CuisinePreview() {
                   className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   <span className="text-lg">⚗️</span>
-                  <span>{showElemental ? "Hide" : "Show"} Elemental Balance</span>
+                  <span>
+                    {showElemental ? "Hide" : "Show"} Elemental Balance
+                  </span>
                   <span className="text-lg">{showElemental ? "−" : "+"}</span>
                 </button>
                 {showElemental && (
@@ -329,7 +379,13 @@ export default function CuisinePreview() {
                               {element}
                             </span>
                             <span className="text-sm">
-                              {element === "Fire" ? "🔥" : element === "Water" ? "💧" : element === "Earth" ? "🌍" : "💨"}
+                              {element === "Fire"
+                                ? "🔥"
+                                : element === "Water"
+                                  ? "💧"
+                                  : element === "Earth"
+                                    ? "🌍"
+                                    : "💨"}
                             </span>
                           </div>
                           <div className="h-2 bg-gray-200 rounded-full overflow-hidden">

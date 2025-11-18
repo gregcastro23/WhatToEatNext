@@ -16,7 +16,12 @@ interface EnhancedIngredientRecommenderProps {
 
 // Category definitions mapped to ingredient categories
 const CATEGORIES = [
-  { id: "spice", name: "Spices & Herbs", icon: "🌿", altIds: ["culinary_herb"] },
+  {
+    id: "spice",
+    name: "Spices & Herbs",
+    icon: "🌿",
+    altIds: ["culinary_herb"],
+  },
   { id: "vegetable", name: "Vegetables", icon: "🥬", altIds: [] },
   { id: "protein", name: "Proteins", icon: "🥩", altIds: [] },
   { id: "grain", name: "Grains & Legumes", icon: "🌾", altIds: [] },
@@ -29,14 +34,14 @@ const CATEGORIES = [
 // Helper: Calculate elemental compatibility score
 function calculateCompatibilityScore(
   ingredientElementals: ElementalProperties,
-  currentElementals: ElementalProperties
+  currentElementals: ElementalProperties,
 ): number {
   const elements = ["Fire", "Water", "Earth", "Air"] as const;
   let totalDiff = 0;
 
   elements.forEach((element) => {
     const diff = Math.abs(
-      (ingredientElementals[element] || 0) - (currentElementals[element] || 0)
+      (ingredientElementals[element] || 0) - (currentElementals[element] || 0),
     );
     totalDiff += diff;
   });
@@ -47,7 +52,10 @@ function calculateCompatibilityScore(
 
 // Helper: Get dominant element
 function getDominantElement(elementals: ElementalProperties): string {
-  const entries = Object.entries(elementals) as [keyof ElementalProperties, number][];
+  const entries = Object.entries(elementals) as [
+    keyof ElementalProperties,
+    number,
+  ][];
   const sorted = entries.sort((a, b) => (b[1] as number) - (a[1] as number));
   return (sorted[0]?.[0] as string) || "Unknown";
 }
@@ -63,10 +71,10 @@ export const EnhancedIngredientRecommender: React.FC<
 }) => {
   // State
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    initialCategory || null
+    initialCategory || null,
   );
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(
-    initialSelectedIngredient || null
+    initialSelectedIngredient || null,
   );
   const [searchQuery, setSearchQuery] = useState("");
   const [ingredients, setIngredients] = useState<UnifiedIngredient[]>([]);
@@ -110,7 +118,7 @@ export const EnhancedIngredientRecommender: React.FC<
         : [selectedCategory];
 
       filtered = filtered.filter((ing) =>
-        allowedCategories.includes(ing.category)
+        allowedCategories.includes(ing.category),
       );
     }
 
@@ -121,7 +129,7 @@ export const EnhancedIngredientRecommender: React.FC<
         (ing) =>
           ing.name.toLowerCase().includes(query) ||
           ing.qualities?.some((q) => q.toLowerCase().includes(query)) ||
-          ing.origin?.some((o) => o.toLowerCase().includes(query))
+          ing.origin?.some((o) => o.toLowerCase().includes(query)),
       );
     }
 
@@ -130,7 +138,10 @@ export const EnhancedIngredientRecommender: React.FC<
       .map((ing) => ({
         ...ing,
         compatibilityScore: ing.elementalProperties
-          ? calculateCompatibilityScore(ing.elementalProperties, currentElementals)
+          ? calculateCompatibilityScore(
+              ing.elementalProperties,
+              currentElementals,
+            )
           : 0.5,
         dominantElement: ing.elementalProperties
           ? getDominantElement(ing.elementalProperties)
@@ -148,7 +159,7 @@ export const EnhancedIngredientRecommender: React.FC<
 
   const handleIngredientSelect = (ingredientName: string) => {
     setSelectedIngredient(
-      selectedIngredient === ingredientName ? null : ingredientName
+      selectedIngredient === ingredientName ? null : ingredientName,
     );
     onIngredientSelect?.(ingredientName);
   };
@@ -233,9 +244,7 @@ export const EnhancedIngredientRecommender: React.FC<
   };
 
   // Render ingredient card
-  const renderIngredientCard = (
-    ingredient: (typeof scoredIngredients)[0]
-  ) => {
+  const renderIngredientCard = (ingredient: (typeof scoredIngredients)[0]) => {
     const isSelected = selectedIngredient === ingredient.name;
 
     return (
@@ -258,11 +267,11 @@ export const EnhancedIngredientRecommender: React.FC<
               <span className="text-xs text-gray-500 capitalize">
                 {ingredient.category}
               </span>
-              {ingredient.subCategory && (
+              {ingredient.subcategory && (
                 <>
                   <span className="text-xs text-gray-400">•</span>
                   <span className="text-xs text-gray-500 capitalize">
-                    {ingredient.subCategory}
+                    {ingredient.subcategory}
                   </span>
                 </>
               )}
@@ -323,18 +332,20 @@ export const EnhancedIngredientRecommender: React.FC<
             )}
 
             {/* Sensory Profile */}
-            {ingredient.sensoryProfile && (
+            {(ingredient as any).sensoryProfile && (
               <div>
                 <div className="mb-2 text-sm font-semibold text-gray-800">
                   Sensory Profile
                 </div>
                 <div className="space-y-2 text-sm">
                   {/* Taste */}
-                  {ingredient.sensoryProfile.taste && (
+                  {(ingredient as any).sensoryProfile.taste && (
                     <div>
                       <span className="font-medium text-gray-700">Taste: </span>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {Object.entries(ingredient.sensoryProfile.taste)
+                        {Object.entries(
+                          (ingredient as any).sensoryProfile.taste,
+                        )
                           .filter(([, value]) => (value as number) > 0)
                           .sort(([, a], [, b]) => (b as number) - (a as number))
                           .map(([taste, value]) => (
@@ -350,11 +361,13 @@ export const EnhancedIngredientRecommender: React.FC<
                   )}
 
                   {/* Aroma */}
-                  {ingredient.sensoryProfile.aroma && (
+                  {(ingredient as any).sensoryProfile.aroma && (
                     <div>
                       <span className="font-medium text-gray-700">Aroma: </span>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {Object.entries(ingredient.sensoryProfile.aroma)
+                        {Object.entries(
+                          (ingredient as any).sensoryProfile.aroma,
+                        )
                           .filter(([, value]) => (value as number) > 0)
                           .sort(([, a], [, b]) => (b as number) - (a as number))
                           .map(([aroma, value]) => (
@@ -370,11 +383,15 @@ export const EnhancedIngredientRecommender: React.FC<
                   )}
 
                   {/* Texture */}
-                  {ingredient.sensoryProfile.texture && (
+                  {(ingredient as any).sensoryProfile.texture && (
                     <div>
-                      <span className="font-medium text-gray-700">Texture: </span>
+                      <span className="font-medium text-gray-700">
+                        Texture:{" "}
+                      </span>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {Object.entries(ingredient.sensoryProfile.texture)
+                        {Object.entries(
+                          (ingredient as any).sensoryProfile.texture,
+                        )
                           .filter(([, value]) => (value as number) > 0)
                           .sort(([, a], [, b]) => (b as number) - (a as number))
                           .map(([texture, value]) => (
@@ -382,7 +399,8 @@ export const EnhancedIngredientRecommender: React.FC<
                               key={texture}
                               className="rounded-md bg-orange-100 px-2 py-1 text-xs text-orange-700"
                             >
-                              {texture} ({Math.round((value as number) * 10)}/10)
+                              {texture} ({Math.round((value as number) * 10)}
+                              /10)
                             </span>
                           ))}
                       </div>
@@ -405,7 +423,9 @@ export const EnhancedIngredientRecommender: React.FC<
                         Ruling Planets:{" "}
                       </span>
                       <span className="text-gray-600">
-                        {ingredient.astrologicalProfile.rulingPlanets.join(", ")}
+                        {ingredient.astrologicalProfile.rulingPlanets.join(
+                          ", ",
+                        )}
                       </span>
                     </div>
                   )}
@@ -415,17 +435,21 @@ export const EnhancedIngredientRecommender: React.FC<
                         Favorable Signs:{" "}
                       </span>
                       <span className="text-gray-600 capitalize">
-                        {ingredient.astrologicalProfile.favorableZodiac.join(", ")}
+                        {ingredient.astrologicalProfile.favorableZodiac.join(
+                          ", ",
+                        )}
                       </span>
                     </div>
                   )}
-                  {ingredient.astrologicalProfile.seasonalAffinity && (
+                  {(ingredient.astrologicalProfile as any).seasonalAffinity && (
                     <div>
                       <span className="font-medium text-gray-700">
                         Seasonal Affinity:{" "}
                       </span>
                       <span className="text-gray-600 capitalize">
-                        {ingredient.astrologicalProfile.seasonalAffinity.join(", ")}
+                        {(
+                          ingredient.astrologicalProfile as any
+                        ).seasonalAffinity.join(", ")}
                       </span>
                     </div>
                   )}
@@ -434,21 +458,23 @@ export const EnhancedIngredientRecommender: React.FC<
             )}
 
             {/* Recommended Cooking Methods */}
-            {ingredient.recommendedCookingMethods &&
-              ingredient.recommendedCookingMethods.length > 0 && (
+            {(ingredient as any).recommendedCookingMethods &&
+              (ingredient as any).recommendedCookingMethods.length > 0 && (
                 <div>
                   <div className="mb-1 text-sm font-semibold text-gray-800">
                     Recommended Cooking Methods
                   </div>
                   <div className="flex flex-wrap gap-1">
-                    {ingredient.recommendedCookingMethods.map((method, idx) => (
-                      <span
-                        key={idx}
-                        className="rounded-md bg-blue-100 px-2 py-1 text-xs text-blue-700"
-                      >
-                        {method}
-                      </span>
-                    ))}
+                    {(ingredient as any).recommendedCookingMethods.map(
+                      (method: any, idx: number) => (
+                        <span
+                          key={idx}
+                          className="rounded-md bg-blue-100 px-2 py-1 text-xs text-blue-700"
+                        >
+                          {method}
+                        </span>
+                      ),
+                    )}
                   </div>
                 </div>
               )}
@@ -460,33 +486,38 @@ export const EnhancedIngredientRecommender: React.FC<
                   Pairings
                 </div>
                 <div className="space-y-1 text-sm">
-                  {ingredient.pairingRecommendations.complementary && (
+                  {(ingredient.pairingRecommendations as any)
+                    ?.complementary && (
                     <div>
                       <span className="font-medium text-green-700">
                         Complementary:{" "}
                       </span>
                       <span className="text-gray-600">
-                        {ingredient.pairingRecommendations.complementary.join(
-                          ", "
-                        )}
+                        {(
+                          ingredient.pairingRecommendations as any
+                        ).complementary.join(", ")}
                       </span>
                     </div>
                   )}
-                  {ingredient.pairingRecommendations.contrasting && (
+                  {(ingredient.pairingRecommendations as any)?.contrasting && (
                     <div>
                       <span className="font-medium text-orange-700">
                         Contrasting:{" "}
                       </span>
                       <span className="text-gray-600">
-                        {ingredient.pairingRecommendations.contrasting.join(", ")}
+                        {(
+                          ingredient.pairingRecommendations as any
+                        ).contrasting.join(", ")}
                       </span>
                     </div>
                   )}
-                  {ingredient.pairingRecommendations.toAvoid && (
+                  {(ingredient.pairingRecommendations as any)?.toAvoid && (
                     <div>
                       <span className="font-medium text-red-700">Avoid: </span>
                       <span className="text-gray-600">
-                        {ingredient.pairingRecommendations.toAvoid.join(", ")}
+                        {(
+                          ingredient.pairingRecommendations as any
+                        ).toAvoid.join(", ")}
                       </span>
                     </div>
                   )}
@@ -519,33 +550,31 @@ export const EnhancedIngredientRecommender: React.FC<
                         </span>
                         <span className="text-gray-600">{value}</span>
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               </div>
             )}
 
             {/* Thermodynamic Properties */}
-            {ingredient.thermodynamicProperties && (
+            {(ingredient as any).thermodynamicProperties && (
               <div>
                 <div className="mb-2 text-sm font-semibold text-gray-800">
                   Thermodynamic Properties
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-sm">
-                  {Object.entries(ingredient.thermodynamicProperties).map(
-                    ([prop, value]) => (
-                      <div key={prop} className="flex justify-between">
-                        <span className="font-medium text-gray-700 capitalize">
-                          {prop}:
-                        </span>
-                        <span className="text-gray-600">
-                          {typeof value === "number"
-                            ? value.toFixed(3)
-                            : value}
-                        </span>
-                      </div>
-                    )
-                  )}
+                  {Object.entries(
+                    (ingredient as any).thermodynamicProperties,
+                  ).map(([prop, value]: [string, any]) => (
+                    <div key={prop} className="flex justify-between">
+                      <span className="font-medium text-gray-700 capitalize">
+                        {prop}:
+                      </span>
+                      <span className="text-gray-600">
+                        {typeof value === "number" ? value.toFixed(3) : value}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
