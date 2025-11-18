@@ -15,6 +15,7 @@ npm-shrinkwrap.json
 /.next-backup/
 /.next*/
 /out/
+next-env.d.ts
 
 # production
 /build
