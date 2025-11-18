@@ -1,0 +1,78 @@
+# Simple Docker Compose for WhatToEatNext Next.js Application
+# Use this for development and simple production deployments
+#
+# Usage:
+#   Development: docker-compose -f docker-compose.simple.yml up
+#   Production:  docker-compose -f docker-compose.simple.yml -f docker-compose.simple.prod.yml up -d
+
+version: "3.8"
+
+services:
+  # Main Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    container_name: whattoe atnext_app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+      # Add your environment variables here
+      - DEFAULT_LATITUDE=${DEFAULT_LATITUDE:-40.7498}
+      - DEFAULT_LONGITUDE=${DEFAULT_LONGITUDE:-73.7976}
+      - DEFAULT_ZODIAC_SYSTEM=${DEFAULT_ZODIAC_SYSTEM:-tropical}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    # env_file:
+    #   - .env.production  # Uncomment and create this file for production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app_network
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+
+  # Optional: NGINX reverse proxy
+  # Uncomment if you need NGINX for SSL termination or load balancing
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: whattoeatnext_nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./nginx/ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - app
+  #   networks:
+  #     - app_network
+  #   restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
+
+# Note: This configuration does NOT include:
+# - PostgreSQL (app doesn't use a database currently)
+# - Redis (no caching layer needed yet)
+# - Separate backend services (all APIs are in Next.js)
+#
+# The docker-compose.production.yml file in the repo appears to be
+# for a different architecture with separate backend services.
+# Use this file for the current Next.js monolith structure.
