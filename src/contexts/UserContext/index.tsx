@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { _logger } from "@/lib/logger";
 import type { ReactNode } from "react";
+import type { BirthData, NatalChart } from "@/services/natalChartService";
 
 // Import { UserProfile } from '../../services/userService';
 // Import * as userService from '../../services/userService',
@@ -12,6 +13,8 @@ interface UserProfile {
   name?: string;
   email?: string;
   preferences?: Record<string, unknown>;
+  birthData?: BirthData;
+  natalChart?: NatalChart;
 }
 
 // Mock userService for build compatibility
@@ -47,13 +50,47 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Load profile from localStorage on mount
+  useEffect(() => {
+    const loadFromLocalStorage = () => {
+      try {
+        const storedProfile = localStorage.getItem("userProfile");
+        if (storedProfile) {
+          setCurrentUser(JSON.parse(storedProfile));
+        }
+      } catch (err) {
+        _logger.error("Error loading profile from localStorage: ", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadFromLocalStorage();
+  }, []);
+
+  // Save profile to localStorage whenever it changes
+  useEffect(() => {
+    if (currentUser) {
+      try {
+        localStorage.setItem("userProfile", JSON.stringify(currentUser));
+      } catch (err) {
+        _logger.error("Error saving profile to localStorage: ", err);
+      }
+    }
+  }, [currentUser]);
+
   const loadProfile = async () => {
     setIsLoading(true);
     setError(null);
     try {
       // Mock user ID for demo purposes
       const user = await userService.getUserProfile("mock-user-id");
-      setCurrentUser(user);
+      // Merge with existing data from localStorage
+      setCurrentUser((prev) => ({
+        ...user,
+        ...prev,
+        userId: user.userId,
+      }));
     } catch (err) {
       setError("Failed to load user profile");
       _logger.error("Error loading profile: ", err);
@@ -69,13 +106,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setError(null);
     try {
       if (!currentUser) {
-        throw new Error("No user profile loaded");
+        // Create a new profile if one doesn't exist
+        const newProfile: UserProfile = {
+          userId: "mock-user-id",
+          ...data,
+        };
+        setCurrentUser(newProfile);
+        return newProfile;
       }
 
-      const updatedProfile = await userService.saveUserProfile({
+      // Merge new data with existing profile
+      const updatedProfile: UserProfile = {
+        ...currentUser,
         ...data,
-        userId: currentUser.userId,
-      });
+      };
+
+      // Save to mock service (in real app, this would be an API call)
+      await userService.saveUserProfile(updatedProfile);
 
       setCurrentUser(updatedProfile);
       return updatedProfile;
@@ -90,11 +137,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const logout = () => {
     setCurrentUser(null);
+    localStorage.removeItem("userProfile");
   };
-
-  useEffect(() => {
-    void loadProfile();
-  }, []);
 
   const value = {
     currentUser,
