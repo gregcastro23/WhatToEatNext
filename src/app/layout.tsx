@@ -46,14 +46,14 @@ export default function RootLayout({
                 {/* Navigation Menu */}
                 <nav className="flex flex-wrap gap-2 md:gap-4" aria-label="Main navigation">
                   <Link
-                    href="/cuisines"
+                    href="/#cuisines"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 text-purple-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-200"
                     aria-label="Explore cuisines"
                   >
                     🍽️ Cuisines
                   </Link>
                   <Link
-                    href="/ingredients"
+                    href="/#ingredients"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200"
                     aria-label="Browse ingredients"
                   >
@@ -119,12 +119,12 @@ export default function RootLayout({
                   <h4 className="font-bold mb-4 text-purple-300">Explore</h4>
                   <ul className="space-y-2 text-sm">
                     <li>
-                      <Link href="/cuisines" className="text-gray-300 hover:text-purple-300 transition-colors">
+                      <Link href="/#cuisines" className="text-gray-300 hover:text-purple-300 transition-colors">
                         🍽️ Cuisines
                       </Link>
                     </li>
                     <li>
-                      <Link href="/ingredients" className="text-gray-300 hover:text-green-300 transition-colors">
+                      <Link href="/#ingredients" className="text-gray-300 hover:text-green-300 transition-colors">
                         🥬 Ingredients
                       </Link>
                     </li>
