@@ -7,13 +7,14 @@
 
 "use client";
 
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import { _AlchemicalContext, defaultState } from "./context";
 import type {
   AlchemicalState,
   // AlchemicalAction,
   AlchemicalContextType,
 } from "./types";
+import { AstrologicalService } from "@/services/AstrologicalService";
 
 type AlchemicalAction = any; // Type not exported
 import type { ReactNode } from "react";
@@ -218,7 +219,11 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty deps intentional - we only want this to run once on mount
 
-  // Update seasonal values
+  // Planetary positions state
+  const [planetaryPositions, setPlanetaryPositions] = useState<any>({});
+  const [normalizedPositions, setNormalizedPositions] = useState<any>({});
+
+  // Update seasonal values and planetary positions
   useEffect(() => {
     const updateSeasonalValues = () => {
       const now = new Date();
@@ -235,12 +240,28 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       }
     };
 
-    updateSeasonalValues();
-  }, [state.currentSeason]);
+    const updatePlanetaryPositions = async () => {
+      try {
+        const astroService = AstrologicalService as any;
+        const astroState = await (astroService.getStateForDate
+          ? astroService.getStateForDate(new Date())
+          : astroService.getCurrentState?.(new Date()));
 
-  // Mock planetary positions for now
-  const planetaryPositions = {};
-  const normalizedPositions = {};
+        if (astroState && astroState.currentPlanetaryAlignment) {
+          setPlanetaryPositions(astroState.currentPlanetaryAlignment);
+          setNormalizedPositions(astroState.currentPlanetaryAlignment);
+        }
+      } catch (error) {
+        logger.error("Failed to load planetary positions:", error);
+        throw new Error(
+          "Cannot initialize AlchemicalContext without planetary positions",
+        );
+      }
+    };
+
+    updateSeasonalValues();
+    void updatePlanetaryPositions();
+  }, [state.currentSeason]);
 
   const contextValue: AlchemicalContextType = {
     state,

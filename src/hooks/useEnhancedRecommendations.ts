@@ -66,119 +66,44 @@ interface EnhancedRecommendationsResponse {
   }; // Present when in group mode
 }
 
-// Mock backend client
-const kitchenBackendClient = {
-  getCuisineRecommendations: async (
-    payload: EnhancedRecommendationContext,
-  ): Promise<EnhancedRecommendationsResponse> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
+import { KitchenBackendClient } from "@/services/KitchenBackendClient";
 
-    const isGroupMode = !!payload.groupId;
+// Real backend client
+const kitchenBackendClient = new KitchenBackendClient();
 
-    // Mock response
-    const mockRecipes: Recipe[] = [
-      {
-        id: "1",
-        name: "Celestial Pasta Primavera",
-        cuisine: "italian",
-        description: "Fresh seasonal vegetables with cosmic elemental balance",
-        cookingTime: 25,
-        difficulty: "Medium",
-        rating: 4.8,
-        tags: ["vegetarian", "seasonal", "elemental-balance"],
-      },
-      {
-        id: "2",
-        name: "Planetary Spice Curry",
-        cuisine: "indian",
-        description: "Aromatic curry aligned with current planetary influences",
-        cookingTime: 45,
-        difficulty: "Hard",
-        rating: 4.9,
-        tags: ["vegan", "spicy", "planetary-aligned"],
-      },
-      {
-        id: "3",
-        name: "Lunar Phase Salad",
-        cuisine: "mediterranean",
-        description:
-          "Light, refreshing salad perfect for the current moon phase",
-        cookingTime: 15,
-        difficulty: "Easy",
-        rating: 4.6,
-        tags: ["raw", "lunar-aligned", "cleansing"],
-      },
-    ];
-
-    const recommendations: RecommendationResult[] = mockRecipes.map(
-      (recipe, index) => {
-        const baseResult = {
-          recipe,
-          score: 0.9 - index * 0.1,
-          reasons: [
-            "Matches dietary preferences",
-            "Aligned with current planetary hour",
-            "Compatible with elemental balance",
-          ],
-          alchemicalCompatibility: 0.85 - index * 0.05,
-          astrologicalAlignment: 0.8 - index * 0.03,
-        };
-
-        // Add group-specific data if in group mode
-        if (isGroupMode) {
-          return {
-            ...baseResult,
-            groupScore: 0.85 - index * 0.08,
-            harmony: 0.75 - index * 0.05,
-            memberScores: [
-              {
-                memberId: "member-1",
-                memberName: "Alice",
-                score: 0.9 - index * 0.12,
-              },
-              {
-                memberId: "member-2",
-                memberName: "Bob",
-                score: 0.8 - index * 0.1,
-              },
-            ],
-            reasons: [
-              ...baseResult.reasons,
-              "Good consensus among group members",
-            ],
-          };
-        }
-
-        return baseResult;
-      },
-    );
-
-    const response: EnhancedRecommendationsResponse = {
-      recommendations,
-      totalCount: recommendations.length,
-      processingTime: 750,
-      astrologicalContext: {
-        dominantElement: "Fire",
-        planetaryHour: "Venus",
-        lunarPhase: "waxing crescent",
-      },
-    };
-
-    // Add group context if in group mode
-    if (isGroupMode && payload.groupId) {
-      response.groupContext = {
-        groupId: payload.groupId,
-        groupName: "Mock Group",
-        memberCount: 2,
-        dominantElement: "Water",
-        harmony: 0.75,
-      };
-    }
-
-    return response;
+// Fallback mock recipes only used if backend is not available
+const mockRecipes: Recipe[] = [
+  {
+    id: "1",
+    name: "Celestial Pasta Primavera",
+    cuisine: "italian",
+    description: "Fresh seasonal vegetables with cosmic elemental balance",
+    cookingTime: 25,
+    difficulty: "Medium",
+    rating: 4.8,
+    tags: ["vegetarian", "seasonal", "elemental-balance"],
   },
-};
+  {
+    id: "2",
+    name: "Planetary Spice Curry",
+    cuisine: "indian",
+    description: "Aromatic curry aligned with current planetary influences",
+    cookingTime: 45,
+    difficulty: "Hard",
+    rating: 4.9,
+    tags: ["vegan", "spicy", "planetary-aligned"],
+  },
+  {
+    id: "3",
+    name: "Lunar Phase Salad",
+    cuisine: "mediterranean",
+    description: "Light, refreshing salad perfect for the current moon phase",
+    cookingTime: 15,
+    difficulty: "Easy",
+    rating: 4.6,
+    tags: ["raw", "lunar-aligned", "cleansing"],
+  },
+];
 
 // Hook implementation
 export const useEnhancedRecommendations = () => {
