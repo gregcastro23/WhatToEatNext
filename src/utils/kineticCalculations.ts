@@ -62,9 +62,22 @@ export function calculateKineticProperties(
     };
   }
 
-  const { Spirit, Essence, Matter, Substance } = alchemical;
-  const { Fire, Water, Earth, Air } = elemental;
-  const { heat, entropy, reactivity, gregsEnergy, monica } = thermodynamics;
+  // Defensive extraction with fallback values
+  const Spirit = typeof alchemical.Spirit === 'number' && !isNaN(alchemical.Spirit) ? alchemical.Spirit : 4;
+  const Essence = typeof alchemical.Essence === 'number' && !isNaN(alchemical.Essence) ? alchemical.Essence : 4;
+  const Matter = typeof alchemical.Matter === 'number' && !isNaN(alchemical.Matter) ? alchemical.Matter : 4;
+  const Substance = typeof alchemical.Substance === 'number' && !isNaN(alchemical.Substance) ? alchemical.Substance : 2;
+
+  const Fire = typeof elemental.Fire === 'number' && !isNaN(elemental.Fire) ? elemental.Fire : 0.25;
+  const Water = typeof elemental.Water === 'number' && !isNaN(elemental.Water) ? elemental.Water : 0.25;
+  const Earth = typeof elemental.Earth === 'number' && !isNaN(elemental.Earth) ? elemental.Earth : 0.25;
+  const Air = typeof elemental.Air === 'number' && !isNaN(elemental.Air) ? elemental.Air : 0.25;
+
+  const heat = typeof thermodynamics.heat === 'number' && !isNaN(thermodynamics.heat) ? thermodynamics.heat : 0.08;
+  const entropy = typeof thermodynamics.entropy === 'number' && !isNaN(thermodynamics.entropy) ? thermodynamics.entropy : 0.15;
+  const reactivity = typeof thermodynamics.reactivity === 'number' && !isNaN(thermodynamics.reactivity) ? thermodynamics.reactivity : 0.45;
+  const gregsEnergy = typeof thermodynamics.gregsEnergy === 'number' && !isNaN(thermodynamics.gregsEnergy) ? thermodynamics.gregsEnergy : -0.02;
+  const monica = typeof thermodynamics.monica === 'number' && !isNaN(thermodynamics.monica) ? thermodynamics.monica : 1.0;
 
   // Calculate elemental velocity (rate of elemental change per element)
   // Higher Spirit and Air = higher velocity
