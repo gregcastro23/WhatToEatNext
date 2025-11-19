@@ -17,17 +17,21 @@ const nextConfig = {
       "'unsafe-inline'",
       "https://unpkg.com",
       "https://cdn.jsdelivr.net",
-      "https://r2cdn.perplexity.ai"
+      "https://r2cdn.perplexity.ai",
+      "https://vercel.live",  // Always allow Vercel Live (for preview/production deployments)
+      "https://*.vercel.live" // Allow all Vercel Live subdomains
     ];
 
     if (isDevelopment) {
-      scriptSrcParts.push("'unsafe-eval'", "https://vercel.live");
+      scriptSrcParts.push("'unsafe-eval'");
     }
 
-    const connectSrcParts = ["'self'", "https:"];
-    if (isDevelopment) {
-      connectSrcParts.splice(1, 0, "https://vercel.live");
-    }
+    const connectSrcParts = [
+      "'self'",
+      "https://vercel.live",
+      "https://*.vercel.live",
+      "https:"
+    ];
 
     const cspHeader = [
       "default-src 'self'",
