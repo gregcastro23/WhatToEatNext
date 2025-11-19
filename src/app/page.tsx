@@ -69,7 +69,7 @@ export default function HomePage() {
         {/* Introduction Components - Always Visible */}
         <div className="space-y-8 md:space-y-10">
           {/* Cuisine Recommender Introduction */}
-          <div className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-purple-200 hover:border-purple-300 transition-all duration-300" role="region" aria-labelledby="cuisine-heading">
+          <div id="cuisines" className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-purple-200 hover:border-purple-300 transition-all duration-300" role="region" aria-labelledby="cuisine-heading">
             <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white p-6 md:p-8">
               <div className="text-center">
                 <h2 id="cuisine-heading" className="text-3xl md:text-4xl font-bold mb-3">
@@ -87,7 +87,7 @@ export default function HomePage() {
           </div>
 
           {/* Ingredient Recommender Introduction */}
-          <div className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-green-200 hover:border-green-300 transition-all duration-300" role="region" aria-labelledby="ingredient-heading">
+          <div id="ingredients" className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-green-200 hover:border-green-300 transition-all duration-300" role="region" aria-labelledby="ingredient-heading">
             <div className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 text-white p-6 md:p-8">
               <div className="text-center">
                 <h2 id="ingredient-heading" className="text-3xl md:text-4xl font-bold mb-3">
