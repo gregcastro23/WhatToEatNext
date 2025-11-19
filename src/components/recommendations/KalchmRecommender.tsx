@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
+import { useUser } from "@/contexts/UserContext";
 
 interface KalchmRecommenderProps {
   maxRecommendations?: number;
@@ -17,21 +18,32 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
 }) => {
   const [view, setView] = useState<"all" | "top">("all");
   const [sortBy, setSortBy] = useState<"score" | "name" | "time">("score");
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
 
   // Hooks
   const { recommendations, loading, error, getRecommendations } =
     useEnhancedRecommendations();
+  const { currentUser } = useUser();
 
   // Get alchemical context (hook must be called unconditionally)
   const alchemicalContext = useAlchemical();
 
-  // Fetch recommendations on mount
+  // Get dining groups from user profile
+  const diningGroups = currentUser?.diningGroups || [];
+  const groupMembers = currentUser?.groupMembers || [];
+
+  // Get selected group details
+  const selectedGroup = diningGroups.find((g) => g.id === selectedGroupId);
+  const isGroupMode = selectedGroupId !== null;
+
+  // Fetch recommendations when group selection changes
   useEffect(() => {
     void getRecommendations({
       datetime: new Date().toISOString(),
       useBackendInfluence: true,
+      groupId: selectedGroupId || undefined,
     });
-  }, [getRecommendations]);
+  }, [getRecommendations, selectedGroupId]);
 
   // Sorted recommendations
   const sortedRecommendations = useMemo(() => {
@@ -60,37 +72,76 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
       return null;
 
     const astroContext = recommendations?.astrologicalContext;
+    const groupContext = recommendations?.groupContext;
 
     return (
-      <div className="mb-6 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 p-4">
-        <h3 className="mb-3 text-lg font-semibold text-gray-800">
-          Current Alchemical Moment
-        </h3>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {astroContext?.dominantElement && (
-            <div>
-              <div className="text-sm text-gray-600">Dominant Element</div>
-              <div className="font-medium text-gray-900">
-                {astroContext.dominantElement}
+      <div className="mb-6 space-y-4">
+        {/* Group Mode Indicator */}
+        {isGroupMode && groupContext && (
+          <div className="rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 p-4">
+            <h3 className="mb-3 text-lg font-semibold text-purple-900">
+              Group Mode: {groupContext.groupName}
+            </h3>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              <div>
+                <div className="text-sm text-purple-700">Members</div>
+                <div className="font-medium text-purple-900">
+                  {groupContext.memberCount}
+                </div>
+              </div>
+              <div>
+                <div className="text-sm text-purple-700">Dominant Element</div>
+                <div className="font-medium text-purple-900">
+                  {groupContext.dominantElement}
+                </div>
+              </div>
+              <div>
+                <div className="text-sm text-purple-700">Group Harmony</div>
+                <div className="font-medium text-purple-900">
+                  {(groupContext.harmony * 100).toFixed(0)}%
+                </div>
+              </div>
+              <div>
+                <div className="text-sm text-purple-700">Mode</div>
+                <div className="font-medium text-purple-900">
+                  Group Recommendations
+                </div>
               </div>
             </div>
-          )}
-          {astroContext?.planetaryHour && (
-            <div>
-              <div className="text-sm text-gray-600">Planetary Hour</div>
-              <div className="font-medium text-gray-900">
-                {astroContext.planetaryHour}
+          </div>
+        )}
+
+        {/* Astrological Context */}
+        <div className="rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 p-4">
+          <h3 className="mb-3 text-lg font-semibold text-gray-800">
+            Current Alchemical Moment
+          </h3>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+            {astroContext?.dominantElement && (
+              <div>
+                <div className="text-sm text-gray-600">Dominant Element</div>
+                <div className="font-medium text-gray-900">
+                  {astroContext.dominantElement}
+                </div>
               </div>
-            </div>
-          )}
-          {astroContext?.lunarPhase && (
-            <div>
-              <div className="text-sm text-gray-600">Lunar Phase</div>
-              <div className="font-medium text-gray-900 capitalize">
-                {astroContext.lunarPhase}
+            )}
+            {astroContext?.planetaryHour && (
+              <div>
+                <div className="text-sm text-gray-600">Planetary Hour</div>
+                <div className="font-medium text-gray-900">
+                  {astroContext.planetaryHour}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+            {astroContext?.lunarPhase && (
+              <div>
+                <div className="text-sm text-gray-600">Lunar Phase</div>
+                <div className="font-medium text-gray-900 capitalize">
+                  {astroContext.lunarPhase}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -107,7 +158,15 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
       reasons,
       alchemicalCompatibility,
       astrologicalAlignment,
+      groupScore,
+      harmony,
+      memberScores,
     } = item;
+
+    const displayScore = isGroupMode && groupScore !== undefined ? groupScore : score;
+    const isBestForEveryone = isGroupMode && memberScores
+      ? Math.min(...memberScores.map((ms) => ms.score)) >= 0.6
+      : false;
 
     return (
       <div
@@ -116,14 +175,28 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
       >
         <div className="mb-2 flex items-start justify-between">
           <div className="flex-1">
-            <h4 className="text-lg font-semibold text-gray-900">
-              {recipe.name}
-            </h4>
+            <div className="flex items-center gap-2">
+              <h4 className="text-lg font-semibold text-gray-900">
+                {recipe.name}
+              </h4>
+              {isBestForEveryone && (
+                <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                  ✓ Best for everyone
+                </span>
+              )}
+            </div>
             <p className="text-sm text-gray-500">{recipe.cuisine}</p>
           </div>
           {showScoring && (
-            <div className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800">
-              {(score * 100).toFixed(0)}%
+            <div className="flex flex-col items-end gap-1">
+              <div className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800">
+                {(displayScore * 100).toFixed(0)}%
+              </div>
+              {isGroupMode && harmony !== undefined && (
+                <div className="text-xs text-gray-600">
+                  Harmony: {(harmony * 100).toFixed(0)}%
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -191,6 +264,43 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
             </ul>
           </div>
         )}
+
+        {/* Group member scores */}
+        {isGroupMode && memberScores && memberScores.length > 0 && (
+          <div className="mt-3 border-t border-gray-200 pt-3">
+            <details className="cursor-pointer">
+              <summary className="text-xs font-medium text-gray-600">
+                Per-member scores ({memberScores.length})
+              </summary>
+              <div className="mt-2 space-y-2">
+                {memberScores.map((memberScore) => {
+                  const scoreColor =
+                    memberScore.score >= 0.7
+                      ? "text-green-700 bg-green-50"
+                      : memberScore.score >= 0.5
+                        ? "text-yellow-700 bg-yellow-50"
+                        : "text-red-700 bg-red-50";
+
+                  return (
+                    <div
+                      key={memberScore.memberId}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-xs text-gray-700">
+                        {memberScore.memberName}
+                      </span>
+                      <span
+                        className={`rounded px-2 py-0.5 text-xs font-medium ${scoreColor}`}
+                      >
+                        {(memberScore.score * 100).toFixed(0)}%
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </details>
+          </div>
+        )}
       </div>
     );
   };
@@ -240,41 +350,74 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
       {renderCurrentMoment()}
 
       {/* Controls */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setView("all")}
-            className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
-              view === "all"
-                ? "bg-indigo-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            All Recommendations
-          </button>
-          <button
-            onClick={() => setView("top")}
-            className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
-              view === "top"
-                ? "bg-indigo-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Top 5
-          </button>
-        </div>
+      <div className="mb-6 space-y-4">
+        {/* Group Selector */}
+        {diningGroups.length > 0 && (
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              Recommendation Mode
+            </label>
+            <select
+              value={selectedGroupId || "individual"}
+              onChange={(e) =>
+                setSelectedGroupId(
+                  e.target.value === "individual" ? null : e.target.value,
+                )
+              }
+              className="w-full rounded border border-gray-300 px-4 py-2 text-sm md:w-auto"
+            >
+              <option value="individual">Individual (just me)</option>
+              {diningGroups.map((group) => {
+                const members = groupMembers.filter((m) =>
+                  group.memberIds.includes(m.id),
+                );
+                return (
+                  <option key={group.id} value={group.id}>
+                    Group: {group.name} ({members.length} members)
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        )}
 
-        <select
-          value={sortBy}
-          onChange={(e) =>
-            setSortBy(e.target.value as "score" | "name" | "time")
-          }
-          className="rounded border border-gray-300 px-4 py-2 text-sm"
-        >
-          <option value="score">Sort by Score</option>
-          <option value="name">Sort by Name</option>
-          <option value="time">Sort by Time</option>
-        </select>
+        {/* View and Sort Controls */}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setView("all")}
+              className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
+                view === "all"
+                  ? "bg-indigo-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              All Recommendations
+            </button>
+            <button
+              onClick={() => setView("top")}
+              className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
+                view === "top"
+                  ? "bg-indigo-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Top 5
+            </button>
+          </div>
+
+          <select
+            value={sortBy}
+            onChange={(e) =>
+              setSortBy(e.target.value as "score" | "name" | "time")
+            }
+            className="rounded border border-gray-300 px-4 py-2 text-sm"
+          >
+            <option value="score">Sort by Score</option>
+            <option value="name">Sort by Name</option>
+            <option value="time">Sort by Time</option>
+          </select>
+        </div>
       </div>
 
       {/* Recommendations grid */}

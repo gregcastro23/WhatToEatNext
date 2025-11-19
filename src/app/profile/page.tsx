@@ -7,6 +7,7 @@ import { ProfileHeader } from "./components/ProfileHeader";
 import { ElementalAffinitiesChart } from "./components/ElementalAffinitiesChart";
 import { PreferencesEditor } from "./components/PreferencesEditor";
 import { PersonalizationInsights } from "./components/PersonalizationInsights";
+import { GroupManagement } from "./components/GroupManagement";
 
 /**
  * User Profile Page
@@ -109,6 +110,11 @@ export default function ProfilePage() {
               }}
             />
           </div>
+        </div>
+
+        {/* Group Management Section */}
+        <div className="alchm-card p-6">
+          <GroupManagement />
         </div>
 
         {/* Additional Info Section */}

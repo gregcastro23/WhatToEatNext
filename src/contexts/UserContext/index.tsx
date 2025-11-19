@@ -6,12 +6,23 @@ import type { ReactNode } from "react";
 // Import { UserProfile } from '../../services/userService';
 // Import * as userService from '../../services/userService',
 
-// Mock UserProfile interface for build compatibility
+import type {
+  BirthData,
+  NatalChart,
+  GroupMember,
+  DiningGroup,
+} from "@/types/natalChart";
+
+// Extended UserProfile interface with natal chart and group support
 interface UserProfile {
   userId: string;
   name?: string;
   email?: string;
   preferences?: Record<string, unknown>;
+  birthData?: BirthData;
+  natalChart?: NatalChart;
+  groupMembers?: GroupMember[];
+  diningGroups?: DiningGroup[];
 }
 
 // Mock userService for build compatibility
@@ -20,11 +31,21 @@ const userService = {
     userId,
     name: "Mock User",
     email: "mock@example.com",
+    groupMembers: [],
+    diningGroups: [],
   }),
   saveUserProfile: async (
     profile: Partial<UserProfile>,
-  ): Promise<UserProfile> =>
-    ({ userId: profile.userId || "mock", ...profile }) as UserProfile,
+  ): Promise<UserProfile> => {
+    const baseProfile: UserProfile = {
+      userId: profile.userId || "mock",
+      name: profile.name || "Mock User",
+      email: profile.email || "mock@example.com",
+      groupMembers: profile.groupMembers || [],
+      diningGroups: profile.diningGroups || [],
+    };
+    return { ...baseProfile, ...profile };
+  },
 };
 
 interface UserContextType {
@@ -51,12 +72,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setIsLoading(true);
     setError(null);
     try {
-      // Mock user ID for demo purposes
-      const user = await userService.getUserProfile("mock-user-id");
-      setCurrentUser(user);
+      // Try to load from localStorage first
+      const storedProfile =
+        typeof window !== "undefined"
+          ? localStorage.getItem("userProfile")
+          : null;
+
+      if (storedProfile) {
+        const profile = JSON.parse(storedProfile) as UserProfile;
+        setCurrentUser(profile);
+      } else {
+        // Fallback to mock user
+        const user = await userService.getUserProfile("mock-user-id");
+        setCurrentUser(user);
+      }
     } catch (err) {
       setError("Failed to load user profile");
-      _logger.error("Error loading profile: ", err);
+      _logger.error("Error loading profile: ", err as any);
     } finally {
       setIsLoading(false);
     }
@@ -78,10 +110,16 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       });
 
       setCurrentUser(updatedProfile);
+
+      // Persist to localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+      }
+
       return updatedProfile;
     } catch (err) {
       setError("Failed to update profile");
-      _logger.error("Error updating profile: ", err);
+      _logger.error("Error updating profile: ", err as any);
       return null;
     } finally {
       setIsLoading(false);
@@ -90,6 +128,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const logout = () => {
     setCurrentUser(null);
+    // Clear localStorage on logout
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("userProfile");
+    }
   };
 
   useEffect(() => {
@@ -115,3 +157,6 @@ export const useUser = (): UserContextType => {
   }
   return context;
 };
+
+// Export types for use in other modules
+export type { UserProfile };
