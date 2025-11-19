@@ -380,18 +380,22 @@ export function calculateEnhancedCompatibility(
  * Convert compatibility score to match percentage with enhanced spread
  * Uses power function to create more differentiation
  *
+ * With exponent=1.5 (expands range):
  * Score 1.0 → 100%
- * Score 0.9 → ~93%
- * Score 0.8 → ~85%
- * Score 0.7 → ~76%
- * Score 0.6 → ~66%
- * Score 0.5 → ~55%
+ * Score 0.9 → 85%
+ * Score 0.8 → 72%
+ * Score 0.7 → 58%
+ * Score 0.6 → 46%
+ * Score 0.5 → 35%
+ *
+ * Higher exponent = more spread between scores
  */
 export function compatibilityToMatchPercentage(
   compatibilityScore: number,
-  exponent = 0.8,
+  exponent = 1.5,
 ): number {
-  // Apply power function to spread out scores
+  // Apply power function to EXPAND score range (exponent > 1)
+  // This creates better differentiation between top matches
   const adjusted = Math.pow(compatibilityScore, exponent);
 
   // Convert to percentage (0-100)
