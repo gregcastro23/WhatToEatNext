@@ -293,42 +293,55 @@ function calculateFusionPairings(
   allCuisines.forEach((cuisine) => {
     if (cuisine.id === currentCuisineId) return;
 
-    // Defensive check for required properties
-    if (!cuisine.elementalProps || !cuisine.thermodynamics) return;
+    // Defensive check for required properties - more comprehensive
+    if (!cuisine || !cuisine.elementalProps || !cuisine.thermodynamics) {
+      logger.debug(`Skipping fusion pairing for ${cuisine?.id || 'unknown'} - missing properties`);
+      return;
+    }
 
-    // Calculate elemental compatibility
-    const elementalSimilarity = calculateElementalSimilarity(
-      currentElemental,
-      cuisine.elementalProps,
-    );
+    // Validate that thermodynamics has monica property
+    const currentMonica = typeof currentThermodynamics?.monica === 'number' && !isNaN(currentThermodynamics.monica)
+      ? currentThermodynamics.monica
+      : 1;
+    const cuisineMonica = typeof cuisine.thermodynamics?.monica === 'number' && !isNaN(cuisine.thermodynamics.monica)
+      ? cuisine.thermodynamics.monica
+      : 1;
 
-    // Calculate thermodynamic harmony with defensive check
-    const monicaDiff = Math.abs(
-      (currentThermodynamics.monica || 1) - (cuisine.thermodynamics.monica || 1)
-    );
-    const thermoHarmony = Math.max(0, 1 - monicaDiff / 2);
+    // Calculate elemental compatibility with defensive checks
+    try {
+      const elementalSimilarity = calculateElementalSimilarity(
+        currentElemental,
+        cuisine.elementalProps,
+      );
 
-    const compatibilityScore = elementalSimilarity * 0.6 + thermoHarmony * 0.4;
+      // Calculate thermodynamic harmony with defensive check
+      const monicaDiff = Math.abs(currentMonica - cuisineMonica);
+      const thermoHarmony = Math.max(0, 1 - monicaDiff / 2);
 
-    if (compatibilityScore > 0.6) {
-      const sharedElements = Object.entries(currentElemental)
-        .filter(([element, value]) => {
-          const otherValue = cuisine.elementalProps[element as keyof ElementalProperties];
-          return otherValue !== undefined && Math.abs(value - otherValue) < 0.2;
-        })
-        .map(([element]) => element);
+      const compatibilityScore = elementalSimilarity * 0.6 + thermoHarmony * 0.4;
 
-      pairings.push({
-        cuisine_id: cuisine.id,
-        name: cuisine.name,
-        compatibility_score: compatibilityScore,
-        blend_ratio: 0.5 + (compatibilityScore - 0.6) * 0.5,
-        shared_elements: sharedElements.length > 0 ? sharedElements : ["balanced"],
-        thermodynamic_harmony: thermoHarmony,
-        reason: sharedElements.length > 0
-          ? `Strong ${sharedElements.join(" and ")} alignment with ${(compatibilityScore * 100).toFixed(0)}% compatibility`
-          : `${(compatibilityScore * 100).toFixed(0)}% compatibility through balanced properties`,
-      });
+      if (compatibilityScore > 0.6) {
+        const sharedElements = Object.entries(currentElemental)
+          .filter(([element, value]) => {
+            const otherValue = cuisine.elementalProps?.[element as keyof ElementalProperties];
+            return otherValue !== undefined && !isNaN(otherValue) && Math.abs(value - otherValue) < 0.2;
+          })
+          .map(([element]) => element);
+
+        pairings.push({
+          cuisine_id: cuisine.id,
+          name: cuisine.name,
+          compatibility_score: compatibilityScore,
+          blend_ratio: 0.5 + (compatibilityScore - 0.6) * 0.5,
+          shared_elements: sharedElements.length > 0 ? sharedElements : ["balanced"],
+          thermodynamic_harmony: thermoHarmony,
+          reason: sharedElements.length > 0
+            ? `Strong ${sharedElements.join(" and ")} alignment with ${(compatibilityScore * 100).toFixed(0)}% compatibility`
+            : `${(compatibilityScore * 100).toFixed(0)}% compatibility through balanced properties`,
+        });
+      }
+    } catch (error) {
+      logger.error(`Error calculating fusion pairing for ${cuisine.id}:`, error);
     }
   });
 
@@ -491,25 +504,44 @@ function generateEnhancedRecommendations(
 
   // Process all cuisines with defensive checks
   const processedCuisines = Object.entries(CUISINES).map(([id, cuisineInfo]) => {
+    // Defensive check for cuisine info
+    if (!cuisineInfo || !cuisineInfo.elementalProperties) {
+      logger.error(`Missing cuisine data for ${id}`);
+      return null;
+    }
+
     const elementalProps = cuisineInfo.elementalProperties;
 
-    // Ensure alchemical properties are defined
-    const safeAlchemical = currentAlchemical || {
-      Spirit: 4,
-      Essence: 4,
-      Matter: 4,
-      Substance: 2,
+    // Ensure elemental properties are complete
+    const safeElementalProps = {
+      Fire: elementalProps.Fire ?? 0.25,
+      Water: elementalProps.Water ?? 0.25,
+      Earth: elementalProps.Earth ?? 0.25,
+      Air: elementalProps.Air ?? 0.25,
+    };
+
+    // Ensure alchemical properties are defined with all required fields
+    const safeAlchemical: AlchemicalProperties = {
+      Spirit: currentAlchemical?.Spirit ?? 4,
+      Essence: currentAlchemical?.Essence ?? 4,
+      Matter: currentAlchemical?.Matter ?? 4,
+      Substance: currentAlchemical?.Substance ?? 2,
     };
 
     // Calculate thermodynamic metrics with error handling
-    let thermodynamics;
+    let thermodynamics: ThermodynamicMetrics;
     try {
       thermodynamics = calculateThermodynamicMetrics(
         safeAlchemical,
-        elementalProps,
+        safeElementalProps,
       );
+
+      // Validate thermodynamics result
+      if (!thermodynamics || typeof thermodynamics.heat !== 'number') {
+        throw new Error('Invalid thermodynamics result');
+      }
     } catch (error) {
-      console.error(`Error calculating thermodynamics for ${cuisineInfo.name}:`, error);
+      logger.error(`Error calculating thermodynamics for ${cuisineInfo.name}:`, error);
       thermodynamics = {
         heat: 0.08,
         entropy: 0.15,
@@ -525,11 +557,16 @@ function generateEnhancedRecommendations(
     try {
       kinetics = calculateKineticProperties(
         safeAlchemical,
-        elementalProps,
+        safeElementalProps,
         thermodynamics,
       );
+
+      // Validate kinetics result
+      if (!kinetics || typeof kinetics.charge !== 'number') {
+        throw new Error('Invalid kinetics result');
+      }
     } catch (error) {
-      console.error(`Error calculating kinetics for ${cuisineInfo.name}:`, error);
+      logger.error(`Error calculating kinetics for ${cuisineInfo.name}:`, error);
       kinetics = {
         velocity: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
         momentum: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
@@ -546,12 +583,12 @@ function generateEnhancedRecommendations(
     return {
       id,
       name: cuisineInfo.name,
-      elementalProps,
+      elementalProps: safeElementalProps,
       alchemical: safeAlchemical,
       thermodynamics,
       kinetics,
     };
-  });
+  }).filter((c): c is NonNullable<typeof c> => c !== null);
 
   // Generate recommendations for top cuisines
   const recommendations: EnhancedCuisineRecommendation[] = processedCuisines
@@ -579,26 +616,44 @@ function generateEnhancedRecommendations(
         .sort((a, b) => b[1] - a[1])[0][0];
       const astroScore = dominantElement === zodiacElement ? 0.9 : 0.7 + (0.2 * (index / 8));
 
-      // Ensure alchemical properties are always valid
-      const validAlchemical = cuisine.alchemical &&
-        typeof cuisine.alchemical.Spirit === 'number' &&
-        typeof cuisine.alchemical.Essence === 'number' &&
-        typeof cuisine.alchemical.Matter === 'number' &&
-        typeof cuisine.alchemical.Substance === 'number'
-          ? cuisine.alchemical
-          : {
-              Spirit: 4,
-              Essence: 4,
-              Matter: 4,
-              Substance: 2,
-            };
+      // Ensure alchemical properties are always valid with comprehensive checks
+      const validAlchemical: AlchemicalProperties = {
+        Spirit: typeof cuisine.alchemical?.Spirit === 'number' && !isNaN(cuisine.alchemical.Spirit)
+          ? cuisine.alchemical.Spirit
+          : 4,
+        Essence: typeof cuisine.alchemical?.Essence === 'number' && !isNaN(cuisine.alchemical.Essence)
+          ? cuisine.alchemical.Essence
+          : 4,
+        Matter: typeof cuisine.alchemical?.Matter === 'number' && !isNaN(cuisine.alchemical.Matter)
+          ? cuisine.alchemical.Matter
+          : 4,
+        Substance: typeof cuisine.alchemical?.Substance === 'number' && !isNaN(cuisine.alchemical.Substance)
+          ? cuisine.alchemical.Substance
+          : 2,
+      };
+
+      // Validate elemental properties
+      const validElementalProps: ElementalProperties = {
+        Fire: typeof cuisine.elementalProps?.Fire === 'number' && !isNaN(cuisine.elementalProps.Fire)
+          ? cuisine.elementalProps.Fire
+          : 0.25,
+        Water: typeof cuisine.elementalProps?.Water === 'number' && !isNaN(cuisine.elementalProps.Water)
+          ? cuisine.elementalProps.Water
+          : 0.25,
+        Earth: typeof cuisine.elementalProps?.Earth === 'number' && !isNaN(cuisine.elementalProps.Earth)
+          ? cuisine.elementalProps.Earth
+          : 0.25,
+        Air: typeof cuisine.elementalProps?.Air === 'number' && !isNaN(cuisine.elementalProps.Air)
+          ? cuisine.elementalProps.Air
+          : 0.25,
+      };
 
       return {
         cuisine_id: cuisine.id,
         name: cuisine.name,
         description: cuisineData.description || `Authentic ${cuisine.name} cuisine`,
 
-        elemental_properties: cuisine.elementalProps,
+        elemental_properties: validElementalProps,
         alchemical_properties: validAlchemical,
         thermodynamic_metrics: cuisine.thermodynamics,
         kinetic_properties: cuisine.kinetics,

@@ -211,6 +211,18 @@ export function calculateThermodynamicMetrics(
   alchemical: AlchemicalProperties,
   elemental: ElementalProperties,
 ): ThermodynamicMetrics {
+  // Defensive checks for undefined/null inputs
+  if (!alchemical || !elemental) {
+    return {
+      heat: 0.08,
+      entropy: 0.15,
+      reactivity: 0.45,
+      gregsEnergy: -0.02,
+      kalchm: 2.5,
+      monica: 1.0,
+    };
+  }
+
   const { Spirit, Essence, Matter, Substance } = alchemical;
   const { Fire, Water, Air, Earth } = elemental;
 

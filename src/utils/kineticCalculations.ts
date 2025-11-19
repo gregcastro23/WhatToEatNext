@@ -47,6 +47,21 @@ export function calculateKineticProperties(
   elemental: ElementalProperties,
   thermodynamics: ThermodynamicMetrics,
 ): KineticMetrics {
+  // Defensive checks for undefined/null inputs
+  if (!alchemical || !elemental || !thermodynamics) {
+    return {
+      velocity: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      momentum: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      charge: 0,
+      potentialDifference: 0,
+      currentFlow: 0,
+      power: 0,
+      inertia: 1,
+      forceMagnitude: 0,
+      forceClassification: "balanced",
+    };
+  }
+
   const { Spirit, Essence, Matter, Substance } = alchemical;
   const { Fire, Water, Earth, Air } = elemental;
   const { heat, entropy, reactivity, gregsEnergy, monica } = thermodynamics;
