@@ -291,35 +291,53 @@ export class RecipeEnhancer {
    */
   static calculateElementalBalance(breakdown: unknown[]): ElementalProperties {
     if (!breakdown || breakdown.length === 0) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      throw new Error(
+        "Cannot calculate elemental balance with no ingredient breakdown data",
+      );
     }
 
     let totalFire = 0,
       totalWater = 0,
       totalEarth = 0,
       totalAir = 0;
+    let validItemCount = 0;
 
     for (const item of breakdown) {
       if (!isValidObject(item)) continue;
 
-      const contribution = hasProperty(item, "elementalContribution")
-        ? (item.elementalContribution as ElementalProperties)
-        : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      if (!hasProperty(item, "elementalContribution")) {
+        throw new Error(
+          "Ingredient breakdown item missing required elementalContribution property",
+        );
+      }
+
+      const contribution = item.elementalContribution as ElementalProperties;
       const weight =
         hasProperty(item, "contribution") &&
         typeof item.contribution === "number"
           ? item.contribution
           : 0;
 
-      totalFire += contribution.Fire * weight;
-      totalWater += contribution.Water * weight;
-      totalEarth += contribution.Earth * weight;
-      totalAir += contribution.Air * weight;
+      if (weight > 0) {
+        totalFire += contribution.Fire * weight;
+        totalWater += contribution.Water * weight;
+        totalEarth += contribution.Earth * weight;
+        totalAir += contribution.Air * weight;
+        validItemCount++;
+      }
+    }
+
+    if (validItemCount === 0) {
+      throw new Error(
+        "No valid items with elemental contributions found in breakdown",
+      );
     }
 
     const total = totalFire + totalWater + totalEarth + totalAir;
     if (total === 0) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      throw new Error(
+        "Cannot calculate elemental balance: total weighted sum is zero",
+      );
     }
 
     return {
