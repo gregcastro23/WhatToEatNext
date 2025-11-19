@@ -19,6 +19,7 @@ interface EnhancedRecommendationContext {
     spiceLevel: number;
   };
   useBackendInfluence?: boolean;
+  groupId?: string; // Optional group ID for group recommendations
 }
 
 interface Recipe {
@@ -38,6 +39,13 @@ interface RecommendationResult {
   reasons: string[];
   alchemicalCompatibility: number;
   astrologicalAlignment: number;
+  groupScore?: number; // For group recommendations
+  harmony?: number; // For group recommendations
+  memberScores?: Array<{
+    memberId: string;
+    memberName: string;
+    score: number;
+  }>; // Individual scores in group mode
 }
 
 interface EnhancedRecommendationsResponse {
@@ -49,6 +57,13 @@ interface EnhancedRecommendationsResponse {
     planetaryHour: string;
     lunarPhase: string;
   };
+  groupContext?: {
+    groupId: string;
+    groupName: string;
+    memberCount: number;
+    dominantElement: string;
+    harmony: number;
+  }; // Present when in group mode
 }
 
 // Mock backend client
@@ -58,6 +73,8 @@ const kitchenBackendClient = {
   ): Promise<EnhancedRecommendationsResponse> => {
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 800));
+
+    const isGroupMode = !!payload.groupId;
 
     // Mock response
     const mockRecipes: Recipe[] = [
@@ -95,20 +112,49 @@ const kitchenBackendClient = {
     ];
 
     const recommendations: RecommendationResult[] = mockRecipes.map(
-      (recipe, index) => ({
-        recipe,
-        score: 0.9 - index * 0.1,
-        reasons: [
-          "Matches dietary preferences",
-          "Aligned with current planetary hour",
-          "Compatible with elemental balance",
-        ],
-        alchemicalCompatibility: 0.85 - index * 0.05,
-        astrologicalAlignment: 0.8 - index * 0.03,
-      }),
+      (recipe, index) => {
+        const baseResult = {
+          recipe,
+          score: 0.9 - index * 0.1,
+          reasons: [
+            "Matches dietary preferences",
+            "Aligned with current planetary hour",
+            "Compatible with elemental balance",
+          ],
+          alchemicalCompatibility: 0.85 - index * 0.05,
+          astrologicalAlignment: 0.8 - index * 0.03,
+        };
+
+        // Add group-specific data if in group mode
+        if (isGroupMode) {
+          return {
+            ...baseResult,
+            groupScore: 0.85 - index * 0.08,
+            harmony: 0.75 - index * 0.05,
+            memberScores: [
+              {
+                memberId: "member-1",
+                memberName: "Alice",
+                score: 0.9 - index * 0.12,
+              },
+              {
+                memberId: "member-2",
+                memberName: "Bob",
+                score: 0.8 - index * 0.1,
+              },
+            ],
+            reasons: [
+              ...baseResult.reasons,
+              "Good consensus among group members",
+            ],
+          };
+        }
+
+        return baseResult;
+      },
     );
 
-    return {
+    const response: EnhancedRecommendationsResponse = {
       recommendations,
       totalCount: recommendations.length,
       processingTime: 750,
@@ -118,6 +164,19 @@ const kitchenBackendClient = {
         lunarPhase: "waxing crescent",
       },
     };
+
+    // Add group context if in group mode
+    if (isGroupMode && payload.groupId) {
+      response.groupContext = {
+        groupId: payload.groupId,
+        groupName: "Mock Group",
+        memberCount: 2,
+        dominantElement: "Water",
+        harmony: 0.75,
+      };
+    }
+
+    return response;
   },
 };
 
