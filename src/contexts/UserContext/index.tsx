@@ -6,25 +6,86 @@ import type { ReactNode } from "react";
 // Import { UserProfile } from '../../services/userService';
 // Import * as userService from '../../services/userService',
 
+// Birth chart related types
+interface BirthLocation {
+  latitude: number;
+  longitude: number;
+  city?: string;
+  country?: string;
+}
+
+interface BirthData {
+  birthDate: string; // ISO date string
+  birthTime: string; // HH:mm format
+  birthLocation: BirthLocation;
+}
+
+interface NatalChart {
+  planetaryPositions: Record<string, string>; // Planet name -> Zodiac sign
+  elementalComposition: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  alchemicalProperties?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  };
+  calculatedAt: string; // ISO timestamp
+}
+
 // Mock UserProfile interface for build compatibility
 interface UserProfile {
   userId: string;
   name?: string;
   email?: string;
   preferences?: Record<string, unknown>;
+  birthData?: BirthData;
+  natalChart?: NatalChart;
 }
 
-// Mock userService for build compatibility
+// Mock userService for build compatibility with localStorage persistence
+const STORAGE_KEY = "whattoeatnext_user_profile";
+
 const userService = {
-  getUserProfile: async (userId: string): Promise<UserProfile> => ({
-    userId,
-    name: "Mock User",
-    email: "mock@example.com",
-  }),
+  getUserProfile: async (userId: string): Promise<UserProfile> => {
+    // Try to load from localStorage
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (error) {
+          console.error("Error parsing stored profile:", error);
+        }
+      }
+    }
+
+    // Return default profile
+    return {
+      userId,
+      name: "Mock User",
+      email: "mock@example.com",
+    };
+  },
   saveUserProfile: async (
     profile: Partial<UserProfile>,
-  ): Promise<UserProfile> =>
-    ({ userId: profile.userId || "mock", ...profile }) as UserProfile,
+  ): Promise<UserProfile> => {
+    const updatedProfile = {
+      userId: profile.userId || "mock",
+      ...profile,
+    } as UserProfile;
+
+    // Save to localStorage
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
+    }
+
+    return updatedProfile;
+  },
 };
 
 interface UserContextType {
@@ -72,7 +133,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         throw new Error("No user profile loaded");
       }
 
+      // Merge with existing profile data
       const updatedProfile = await userService.saveUserProfile({
+        ...currentUser,
         ...data,
         userId: currentUser.userId,
       });

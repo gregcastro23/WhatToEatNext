@@ -7,19 +7,67 @@ import { ProfileHeader } from "./components/ProfileHeader";
 import { ElementalAffinitiesChart } from "./components/ElementalAffinitiesChart";
 import { PreferencesEditor } from "./components/PreferencesEditor";
 import { PersonalizationInsights } from "./components/PersonalizationInsights";
+import { BirthChartInput } from "./components/BirthChartInput";
+import { BirthChartDisplay } from "./components/BirthChartDisplay";
+import {
+  calculateNatalChart,
+  getDefaultBirthData,
+  type NatalChart,
+} from "@/services/natalChartService";
 
 /**
  * User Profile Page
  * Displays user information, preferences, and personalization insights
  */
+interface BirthLocation {
+  latitude: number;
+  longitude: number;
+  city?: string;
+  country?: string;
+}
+
+interface BirthData {
+  birthDate: string;
+  birthTime: string;
+  birthLocation: BirthLocation;
+}
+
 export default function ProfilePage() {
-  const { currentUser, isLoading: userLoading } = useUser();
+  const { currentUser, isLoading: userLoading, updateProfile } = useUser();
   const personalization = usePersonalization(currentUser?.userId || null);
   const [mounted, setMounted] = useState(false);
+  const [showBirthChartInput, setShowBirthChartInput] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [calculationError, setCalculationError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleCalculateBirthChart = async (birthData: BirthData) => {
+    setIsCalculating(true);
+    setCalculationError(null);
+
+    try {
+      // Calculate natal chart
+      const natalChart = await calculateNatalChart(birthData);
+
+      // Update user profile with birth data and natal chart
+      await updateProfile({
+        birthData,
+        natalChart,
+      });
+
+      setShowBirthChartInput(false);
+    } catch (error) {
+      console.error("Error calculating birth chart:", error);
+      setCalculationError(
+        error instanceof Error ? error.message : "Failed to calculate birth chart",
+      );
+    } finally {
+      setIsCalculating(false);
+    }
+  };
 
   if (!mounted) {
     return null;
@@ -76,6 +124,42 @@ export default function ProfilePage() {
 
         {/* Profile Header */}
         <ProfileHeader />
+
+        {/* Birth Chart Section */}
+        <div className="mb-6">
+          {currentUser?.natalChart && !showBirthChartInput ? (
+            <BirthChartDisplay
+              natalChart={currentUser.natalChart}
+              birthData={currentUser.birthData}
+              onEdit={() => setShowBirthChartInput(true)}
+            />
+          ) : (
+            <div>
+              <BirthChartInput
+                initialData={currentUser?.birthData || getDefaultBirthData()}
+                onSave={handleCalculateBirthChart}
+                onCancel={
+                  currentUser?.natalChart
+                    ? () => setShowBirthChartInput(false)
+                    : undefined
+                }
+              />
+              {isCalculating && (
+                <div className="mt-4 text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-purple-600 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600">
+                    Calculating your natal chart...
+                  </p>
+                </div>
+              )}
+              {calculationError && (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-800">{calculationError}</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
