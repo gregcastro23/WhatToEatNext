@@ -103,10 +103,14 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
   // Helper function to get dominant element
   const getDominantElement = (): string => {
-    const elementalProps = state.astrologicalState.elementalProperties;
+    const elementalProps = state.astrologicalState?.elementalProperties;
+    if (!elementalProps) return "Fire";
+
     const entries = (Object.entries as any)(elementalProps);
+    if (!entries || entries.length === 0) return "Fire";
+
     return entries.reduce(
-      (max, [element, value]) =>
+      (max: any, [element, value]: [string, any]) =>
         (value as number) > max.value
           ? { element, value: value as number }
           : max,
@@ -120,11 +124,15 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
   // Helper function to calculate alchemical harmony
   const getAlchemicalHarmony = (): number => {
-    const { elementalProperties } = state.astrologicalState;
+    const elementalProperties = state.astrologicalState?.elementalProperties;
+    if (!elementalProperties) return 0.5; // Default harmony
+
     const values = (Object.values as any)(elementalProperties);
-    const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
+    if (!values || values.length === 0) return 0.5;
+
+    const mean = values.reduce((sum: number, val: number) => sum + val, 0) / values.length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
+      values.reduce((sum: number, val: number) => sum + Math.pow(val - mean, 2), 0) /
       values.length;
     return Math.max(0, 1 - Math.sqrt(variance));
   };
@@ -182,11 +190,10 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       const planetaryHour = planetaryHours[hour % 7];
       dispatch({ type: "UPDATE_PLANETARY_HOUR", payload: planetaryHour });
 
-      // Update current time
+      // Update current time - FIXED: don't spread state to avoid infinite loop
       dispatch({
         type: "UPDATE_ASTROLOGICAL_STATE",
         payload: {
-          ...state.astrologicalState,
           timestamp: now.getTime(),
         },
       });
@@ -198,7 +205,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     // Update every 5 minutes
     const interval = setInterval(updateTimeBasedValues, 5 * 60 * 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Update seasonal values
   useEffect(() => {
@@ -237,12 +244,13 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     getThermodynamicState,
   } as any;
 
-  logger.debug("AlchemicalProvider rendered with state:", {
-    season: state.currentSeason,
-    timeOfDay: state.timeOfDay,
-    dominantElement: getDominantElement(),
-    harmony: getAlchemicalHarmony(),
-  });
+  // Reduced logging to prevent console spam
+  // logger.debug("AlchemicalProvider rendered with state:", {
+  //   season: state.currentSeason,
+  //   timeOfDay: state.timeOfDay,
+  //   dominantElement: getDominantElement(),
+  //   harmony: getAlchemicalHarmony(),
+  // });
 
   return (
     <_AlchemicalContext.Provider value={contextValue}>
