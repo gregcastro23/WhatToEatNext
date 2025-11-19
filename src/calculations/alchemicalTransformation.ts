@@ -6,9 +6,8 @@ import type {
 import type { AlchemicalProperty, CelestialPosition } from "@/types/celestial";
 import { createLogger } from "@/utils/logger";
 import { calculatePlanetaryBoost } from "../constants/planetaryFoodAssociations";
-// import { calculateAlchemicalProperties } from "./alchemicalCalculations";
-// import type { AlchemicalResults } from "./alchemicalCalculations";
-const calculateAlchemicalProperties: any = null; // Function not available
+import { calculateAlchemicalProperties } from "./core/alchemicalCalculations";
+import type { AlchemicalResults } from "./core/alchemicalCalculations";
 import type { PlanetaryDignityDetails } from "../constants/planetaryFoodAssociations";
 
 // Create a component-specific logger
