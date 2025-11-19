@@ -268,13 +268,21 @@ export default function EnhancedCookingMethodRecommender() {
           mockPlanetaryPositions,
         );
 
+        // Ensure alchemical properties are defined with safe defaults
+        const safeAlchemical = {
+          Spirit: alchemicalProperties?.Spirit ?? 4,
+          Essence: alchemicalProperties?.Essence ?? 4,
+          Matter: alchemicalProperties?.Matter ?? 4,
+          Substance: alchemicalProperties?.Substance ?? 2,
+        };
+
         // Calculate Greg's Energy
         const gregsEnergy = method.thermodynamicProperties
           ? calculateGregsEnergy({
-              Spirit: alchemicalProperties.Spirit,
-              Essence: alchemicalProperties.Essence,
-              Matter: alchemicalProperties.Matter,
-              Substance: alchemicalProperties.Substance,
+              Spirit: safeAlchemical.Spirit,
+              Essence: safeAlchemical.Essence,
+              Matter: safeAlchemical.Matter,
+              Substance: safeAlchemical.Substance,
               Fire: method.elementalEffect.Fire,
               Water: method.elementalEffect.Water,
               Air: method.elementalEffect.Air,
@@ -284,10 +292,10 @@ export default function EnhancedCookingMethodRecommender() {
 
         // Calculate alchemical metrics
         const kalchm = calculateKAlchm(
-          alchemicalProperties.Spirit,
-          alchemicalProperties.Essence,
-          alchemicalProperties.Matter,
-          alchemicalProperties.Substance,
+          safeAlchemical.Spirit,
+          safeAlchemical.Essence,
+          safeAlchemical.Matter,
+          safeAlchemical.Substance,
         );
 
         const reactivity = method.thermodynamicProperties?.reactivity || 0;
