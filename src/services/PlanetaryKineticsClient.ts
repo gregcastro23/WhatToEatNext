@@ -115,20 +115,38 @@ export class PlanetaryKineticsClient {
   }
 
   /**
-   * Get group dynamics (simplified)
+   * Get group dynamics
+   *
+   * TODO: PLACEHOLDER IMPLEMENTATION - Requires real user elemental property data
+   *
+   * To calculate real group dynamics, this function needs:
+   * 1. Birth chart data for each user (planetary positions at birth)
+   * 2. Elemental properties calculated from each user's chart
+   * 3. Use calculateElementalHarmony() to compute pairwise harmony
+   * 4. Calculate collective energy from aggregated elemental properties
+   * 5. Identify dominant element from group elemental distribution
+   *
+   * Current implementation returns mock data and logs a warning.
    */
   async getGroupDynamics(
     userIds: string[],
     location: KineticsLocation,
   ): Promise<GroupDynamicsResponse> {
+    this.logger.warn(
+      "PlanetaryKineticsClient.getGroupDynamics: Using placeholder implementation. " +
+        "Real group dynamics calculation requires user birth chart data and elemental properties. " +
+        `Called for ${userIds.length} users at location ${JSON.stringify(location)}`
+    );
+
+    // PLACEHOLDER: Return mock data until user elemental properties are available
     return {
       groupId: `group_${userIds.join("_")}`,
       members: userIds,
-      collectiveEnergy: 0.7,
-      dominantElement: "Fire",
+      collectiveEnergy: 0.7, // PLACEHOLDER: Should be calculated from group elemental properties
+      dominantElement: "Fire", // PLACEHOLDER: Should be calculated from group elemental distribution
       recommendations: [
-        "Consider adding more Earth elements for stability",
-        "Balance with Water elements for emotional harmony",
+        "PLACEHOLDER: Real recommendations require user elemental property data",
+        "To enable real group analysis, provide birth chart data for each user",
       ],
     };
   }

@@ -1048,6 +1048,22 @@ export type _season = Season; // Lowercase underscore-prefixed alias for Season
 
 // ========== PHASE 29 TYPE INTELLIGENCE INTEGRATION AND DEMONSTRATION ==========
 
+/**
+ * WARNING: The constants below (ASTROLOGICAL_TYPE_INTELLIGENCE, ALCHEMICAL_PROPERTIES_INTELLIGENCE,
+ * TYPE_VALIDATION_INTELLIGENCE, CELESTIAL_ALIGNMENT_INTELLIGENCE, TYPE_INTELLIGENCE_DEMO)
+ * contain HARDCODED PLACEHOLDER VALUES and are NOT USED anywhere in the codebase.
+ *
+ * They were created for type demonstration purposes only and return mock harmony/energy values
+ * (0.75, 0.8, 0.85, etc.) instead of real calculations.
+ *
+ * DO NOT USE these in production code. For real harmony calculations, use:
+ * - calculateElementalHarmony() from @/utils/astrology/elementalValidation
+ * - calculateAlchemicalFromPlanets() from @/utils/planetaryAlchemyMapping
+ * - Actual thermodynamic calculations from the alchemical engine
+ *
+ * These constants are retained for backward compatibility but should be considered deprecated.
+ */
+
 // Add missing constants
 export const ASTROLOGICAL_TYPE_INTELLIGENCE = {
   analyzeLunarPhaseTypes: (phase: LunarPhase) => ({

@@ -280,39 +280,52 @@ function computeRecipeProperties(recipe) {
  */
 function aggregateIngredientElementals(ingredients) {
   if (!ingredients || ingredients.length === 0) {
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    throw new Error(
+      "Cannot aggregate elemental properties with no ingredients",
+    );
+  }
+
+  // Filter ingredients that have valid elemental properties
+  const validIngredients = ingredients.filter(
+    (ing) =>
+      ing.elementalProperties &&
+      typeof ing.elementalProperties === "object" &&
+      ing.elementalProperties.Fire !== undefined,
+  );
+
+  if (validIngredients.length === 0) {
+    throw new Error(
+      "No ingredients have valid elemental properties defined",
+    );
   }
 
   const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   let totalWeight = 0;
 
-  for (const ingredient of ingredients) {
-    const elementals = ingredient.elementalProperties || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    };
-    const weight = Math.log(ingredient.amount + 1); // Logarithmic scaling
+  for (const ingredient of validIngredients) {
+    const elementals = ingredient.elementalProperties;
+    const weight = Math.log((ingredient.amount || 1) + 1); // Logarithmic scaling
 
-    totals.Fire += elementals.Fire * weight;
-    totals.Water += elementals.Water * weight;
-    totals.Earth += elementals.Earth * weight;
-    totals.Air += elementals.Air * weight;
+    totals.Fire += (elementals.Fire || 0) * weight;
+    totals.Water += (elementals.Water || 0) * weight;
+    totals.Earth += (elementals.Earth || 0) * weight;
+    totals.Air += (elementals.Air || 0) * weight;
     totalWeight += weight;
   }
 
   // Normalize
-  if (totalWeight > 0) {
-    return {
-      Fire: totals.Fire / totalWeight,
-      Water: totals.Water / totalWeight,
-      Earth: totals.Earth / totalWeight,
-      Air: totals.Air / totalWeight,
-    };
+  if (totalWeight === 0) {
+    throw new Error(
+      "Cannot aggregate elemental properties with zero total weight",
+    );
   }
 
-  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  return {
+    Fire: totals.Fire / totalWeight,
+    Water: totals.Water / totalWeight,
+    Earth: totals.Earth / totalWeight,
+    Air: totals.Air / totalWeight,
+  };
 }
 
 /**

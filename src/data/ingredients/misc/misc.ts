@@ -5,7 +5,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawMisc: Record<string, Partial<IngredientMapping>> = {
   sugar: {
     name: "sugar",
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    // Refined sweetener: Earth (crystalline structure), Fire (quick energy), minimal Water/Air
+    elementalProperties: { Fire: 0.35, Water: 0.10, Earth: 0.45, Air: 0.10 },
     qualities: ["versatile", "culinary"],
     category: "misc",
     astrologicalProfile: {
@@ -16,7 +17,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
   },
   maple_syrup: {
     name: "maple syrup",
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    // Tree sap liquid sweetener: Water (liquid), Earth (from trees), Fire (sweet energy)
+    elementalProperties: { Fire: 0.30, Water: 0.40, Earth: 0.25, Air: 0.05 },
     qualities: ["versatile", "culinary"],
     category: "misc",
     astrologicalProfile: {
@@ -60,7 +62,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
   },
   mixed_berries: {
     name: "mixed berries",
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    // Juicy fruits: Water (juicy), Fire (sweet/tart energy), some Earth (fiber)
+    elementalProperties: { Fire: 0.30, Water: 0.50, Earth: 0.15, Air: 0.05 },
     qualities: ["versatile", "culinary"],
     category: "misc",
     astrologicalProfile: {
@@ -71,7 +74,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
   },
   honey: {
     name: "honey",
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    // Thick liquid sweetener from bees: Water (liquid), Earth (thick/grounding), Fire (energy)
+    elementalProperties: { Fire: 0.30, Water: 0.35, Earth: 0.30, Air: 0.05 },
     qualities: ["versatile", "culinary"],
     category: "misc",
     astrologicalProfile: {
@@ -82,7 +86,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
   },
   granola: {
     name: "granola",
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    // Crunchy dry oat mixture: Earth (grounding/dense), Air (light/crispy), some Fire
+    elementalProperties: { Fire: 0.20, Water: 0.05, Earth: 0.50, Air: 0.25 },
     qualities: ["versatile", "culinary"],
     category: "misc",
     astrologicalProfile: {
@@ -93,7 +98,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
   },
   pumpkin_puree: {
     name: "pumpkin puree",
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    // Vegetable puree: Earth (root vegetable), Water (pureed/moist), minimal Fire/Air
+    elementalProperties: { Fire: 0.15, Water: 0.40, Earth: 0.40, Air: 0.05 },
     qualities: ["versatile", "culinary"],
     category: "misc",
     astrologicalProfile: {
