@@ -1,10 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-
-// Mock useAlchemical hook since the import is missing
-const useAlchemical = () => ({
-  planetaryPositions: {},
-  isLoading: false,
-});
+import { useAlchemical } from "./useAlchemical";
 
 export interface Recipe {
   id: string;
