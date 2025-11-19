@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { _logger } from "@/lib/logger";
 import type { ReactNode } from "react";
+import type { BirthData, NatalChart } from "@/services/natalChartService";
+import { calculateNatalChart } from "@/services/natalChartService";
 
 // Import { UserProfile } from '../../services/userService';
 // Import * as userService from '../../services/userService',
@@ -12,19 +14,36 @@ interface UserProfile {
   name?: string;
   email?: string;
   preferences?: Record<string, unknown>;
+  birthData?: BirthData;
+  natalChart?: NatalChart;
 }
 
 // Mock userService for build compatibility
 const userService = {
-  getUserProfile: async (userId: string): Promise<UserProfile> => ({
-    userId,
-    name: "Mock User",
-    email: "mock@example.com",
-  }),
+  getUserProfile: async (userId: string): Promise<UserProfile> => {
+    // Try to load from localStorage
+    const stored = localStorage.getItem(`user_profile_${userId}`);
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        _logger.error("Error parsing stored user profile", e as any);
+      }
+    }
+    return {
+      userId,
+      name: "Mock User",
+      email: "mock@example.com",
+    };
+  },
   saveUserProfile: async (
     profile: Partial<UserProfile>,
-  ): Promise<UserProfile> =>
-    ({ userId: profile.userId || "mock", ...profile }) as UserProfile,
+  ): Promise<UserProfile> => {
+    const updated = { userId: profile.userId || "mock", ...profile } as UserProfile;
+    // Save to localStorage
+    localStorage.setItem(`user_profile_${updated.userId}`, JSON.stringify(updated));
+    return updated;
+  },
 };
 
 interface UserContextType {
@@ -33,6 +52,7 @@ interface UserContextType {
   error: string | null;
   loadProfile: () => void;
   updateProfile: (data: Partial<UserProfile>) => Promise<UserProfile | null>;
+  updateBirthData: (birthData: BirthData) => Promise<void>;
   logout: () => void;
 }
 
@@ -88,6 +108,35 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
+  const updateBirthData = async (birthData: BirthData): Promise<void> => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      if (!currentUser) {
+        throw new Error("No user profile loaded");
+      }
+
+      // Calculate natal chart from birth data
+      const natalChart = await calculateNatalChart(birthData);
+
+      // Update user profile with birth data and natal chart
+      const updatedProfile = await userService.saveUserProfile({
+        ...currentUser,
+        birthData,
+        natalChart,
+      });
+
+      setCurrentUser(updatedProfile);
+      _logger.info("Birth data and natal chart updated successfully");
+    } catch (err) {
+      setError("Failed to update birth data");
+      _logger.error("Error updating birth data: ", err);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = () => {
     setCurrentUser(null);
   };
@@ -102,6 +151,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     error,
     loadProfile,
     updateProfile,
+    updateBirthData,
     logout,
   };
 

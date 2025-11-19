@@ -7,19 +7,42 @@ import { ProfileHeader } from "./components/ProfileHeader";
 import { ElementalAffinitiesChart } from "./components/ElementalAffinitiesChart";
 import { PreferencesEditor } from "./components/PreferencesEditor";
 import { PersonalizationInsights } from "./components/PersonalizationInsights";
+import { BirthChartInput } from "@/components/profile/BirthChartInput";
+import { BirthChartDisplay } from "@/components/profile/BirthChartDisplay";
+import type { BirthData } from "@/services/natalChartService";
 
 /**
  * User Profile Page
  * Displays user information, preferences, and personalization insights
  */
 export default function ProfilePage() {
-  const { currentUser, isLoading: userLoading } = useUser();
+  const { currentUser, isLoading: userLoading, updateBirthData } = useUser();
   const personalization = usePersonalization(currentUser?.userId || null);
   const [mounted, setMounted] = useState(false);
+  const [editingBirthChart, setEditingBirthChart] = useState(false);
+  const [birthChartLoading, setBirthChartLoading] = useState(false);
+  const [birthChartError, setBirthChartError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleBirthDataSubmit = async (birthData: BirthData) => {
+    setBirthChartLoading(true);
+    setBirthChartError(null);
+    try {
+      await updateBirthData(birthData);
+      setEditingBirthChart(false);
+    } catch (error) {
+      setBirthChartError(
+        error instanceof Error
+          ? error.message
+          : "Failed to save birth chart data",
+      );
+    } finally {
+      setBirthChartLoading(false);
+    }
+  };
 
   if (!mounted) {
     return null;
@@ -76,6 +99,62 @@ export default function ProfilePage() {
 
         {/* Profile Header */}
         <ProfileHeader />
+
+        {/* Birth Chart Section */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold alchm-gradient-text">
+              Natal Chart
+            </h2>
+            {currentUser.natalChart && !editingBirthChart && (
+              <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
+                Active - Personalizing Recommendations
+              </span>
+            )}
+          </div>
+
+          {birthChartError && (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+              <p className="text-sm text-red-800">{birthChartError}</p>
+            </div>
+          )}
+
+          {!currentUser.natalChart && !editingBirthChart ? (
+            <div className="alchm-card p-6">
+              <div className="text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-100">
+                  <span className="text-3xl">🌟</span>
+                </div>
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
+                  Unlock Personalized Recommendations
+                </h3>
+                <p className="mb-4 text-gray-600">
+                  Add your birth chart to receive food recommendations aligned
+                  with your unique astrological profile.
+                </p>
+                <button
+                  onClick={() => setEditingBirthChart(true)}
+                  className="rounded-md bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2 text-white hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                >
+                  Add Birth Chart
+                </button>
+              </div>
+            </div>
+          ) : editingBirthChart ? (
+            <BirthChartInput
+              onSubmit={handleBirthDataSubmit}
+              onCancel={() => setEditingBirthChart(false)}
+              initialData={currentUser.birthData}
+              loading={birthChartLoading}
+            />
+          ) : currentUser.natalChart ? (
+            <BirthChartDisplay
+              natalChart={currentUser.natalChart}
+              onEdit={() => setEditingBirthChart(true)}
+              showDetails={true}
+            />
+          ) : null}
+        </div>
 
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -1,13 +1,18 @@
 "use client";
 
 /**
- * Enhanced Recommendations Hook - Minimal Recovery Version
+ * Enhanced Recommendations Hook - With Natal Chart Integration
  *
  * Custom hook for managing enhanced recipe recommendations with backend integration,
- * astrological context, and personalized filtering.
+ * astrological context, natal chart compatibility, and personalized filtering.
  */
 
 import { useState, useCallback } from "react";
+import { useUser } from "@/contexts/UserContext";
+import {
+  getRecommendedRecipesWithNatalChart,
+  type Recipe as NatalRecipe,
+} from "@/utils/natalChartRecommendations";
 
 // Type definitions
 interface EnhancedRecommendationContext {
@@ -19,6 +24,7 @@ interface EnhancedRecommendationContext {
     spiceLevel: number;
   };
   useBackendInfluence?: boolean;
+  useNatalChart?: boolean;
 }
 
 interface Recipe {
@@ -38,6 +44,9 @@ interface RecommendationResult {
   reasons: string[];
   alchemicalCompatibility: number;
   astrologicalAlignment: number;
+  natalChartCompatibility?: number;
+  elementalMatch?: number;
+  planetaryHarmony?: number;
 }
 
 interface EnhancedRecommendationsResponse {
@@ -128,6 +137,9 @@ export const useEnhancedRecommendations = () => {
   const [recommendations, setRecommendations] =
     useState<EnhancedRecommendationsResponse | null>(null);
 
+  // Get user context for natal chart data
+  const { currentUser } = useUser();
+
   const getRecommendations = useCallback(
     async (
       context?: Partial<EnhancedRecommendationContext>,
@@ -145,10 +157,66 @@ export const useEnhancedRecommendations = () => {
             context?.useBackendInfluence ??
             initial?.useBackendInfluence ??
             true,
+          useNatalChart:
+            context?.useNatalChart ??
+            initial?.useNatalChart ??
+            true,
         };
 
+        // Get base recommendations
         const result =
           await kitchenBackendClient.getCuisineRecommendations(payload);
+
+        // Apply natal chart scoring if available and enabled
+        if (payload.useNatalChart && currentUser?.natalChart) {
+          // Convert recipes to natal chart format
+          const natalRecipes: NatalRecipe[] = result.recommendations.map(
+            (rec) => ({
+              id: rec.recipe.id,
+              name: rec.recipe.name,
+              cuisine: rec.recipe.cuisine,
+              description: rec.recipe.description,
+              cookingTime: rec.recipe.cookingTime,
+              difficulty: rec.recipe.difficulty,
+              rating: rec.recipe.rating,
+              tags: rec.recipe.tags,
+            }),
+          );
+
+          // Get base scores
+          const baseScores = new Map(
+            result.recommendations.map((rec) => [rec.recipe.id, rec.score]),
+          );
+
+          // Apply natal chart scoring
+          const natalRecommendations = getRecommendedRecipesWithNatalChart(
+            natalRecipes,
+            currentUser.natalChart,
+            baseScores,
+          );
+
+          // Convert back to RecommendationResult format
+          const enhancedRecommendations: RecommendationResult[] =
+            natalRecommendations.map((natalRec) => ({
+              recipe: natalRec.recipe,
+              score: natalRec.score,
+              reasons: natalRec.reasons,
+              alchemicalCompatibility: natalRec.baseScore,
+              astrologicalAlignment: natalRec.planetaryHarmony,
+              natalChartCompatibility: natalRec.natalChartCompatibility,
+              elementalMatch: natalRec.elementalMatch,
+              planetaryHarmony: natalRec.planetaryHarmony,
+            }));
+
+          const enhancedResult: EnhancedRecommendationsResponse = {
+            ...result,
+            recommendations: enhancedRecommendations,
+          };
+
+          setRecommendations(enhancedResult);
+          return enhancedResult;
+        }
+
         setRecommendations(result);
         return result;
       } catch (err) {
@@ -176,7 +244,7 @@ export const useEnhancedRecommendations = () => {
         setLoading(false);
       }
     },
-    [],
+    [currentUser],
   );
 
   const clearRecommendations = useCallback(() => {

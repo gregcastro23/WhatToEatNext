@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
+import { useUser } from "@/contexts/UserContext";
 
 interface KalchmRecommenderProps {
   maxRecommendations?: number;
@@ -24,6 +25,10 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
 
   // Get alchemical context (hook must be called unconditionally)
   const alchemicalContext = useAlchemical();
+
+  // Get user context for natal chart data
+  const { currentUser } = useUser();
+  const hasNatalChart = Boolean(currentUser?.natalChart);
 
   // Fetch recommendations on mount
   useEffect(() => {
@@ -56,7 +61,7 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
 
   // Render current moment summary
   const renderCurrentMoment = () => {
-    if (!recommendations?.astrologicalContext && !alchemicalContext)
+    if (!recommendations?.astrologicalContext && !alchemicalContext && !hasNatalChart)
       return null;
 
     const astroContext = recommendations?.astrologicalContext;
@@ -65,8 +70,24 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
       <div className="mb-6 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 p-4">
         <h3 className="mb-3 text-lg font-semibold text-gray-800">
           Current Alchemical Moment
+          {hasNatalChart && (
+            <span className="ml-2 rounded-full bg-purple-600 px-2 py-0.5 text-xs font-medium text-white">
+              Personalized
+            </span>
+          )}
         </h3>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          {hasNatalChart && currentUser?.natalChart && (
+            <div>
+              <div className="text-sm text-gray-600">Natal Chart Active</div>
+              <div className="font-medium text-gray-900">
+                {currentUser.natalChart.dominantElements.Fire > 0.3 ? "🔥 Fire" :
+                 currentUser.natalChart.dominantElements.Water > 0.3 ? "💧 Water" :
+                 currentUser.natalChart.dominantElements.Earth > 0.3 ? "🌍 Earth" :
+                 currentUser.natalChart.dominantElements.Air > 0.3 ? "💨 Air" : "⚖️ Balanced"}
+              </div>
+            </div>
+          )}
           {astroContext?.dominantElement && (
             <div>
               <div className="text-sm text-gray-600">Dominant Element</div>
@@ -107,6 +128,9 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
       reasons,
       alchemicalCompatibility,
       astrologicalAlignment,
+      natalChartCompatibility,
+      elementalMatch,
+      planetaryHarmony,
     } = item;
 
     return (
@@ -146,6 +170,22 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
 
         {showScoring && (
           <div className="space-y-1">
+            {natalChartCompatibility !== undefined && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-purple-700">
+                  Natal Chart:
+                </span>
+                <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-200">
+                  <div
+                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                    style={{ width: `${natalChartCompatibility * 100}%` }}
+                  />
+                </div>
+                <span className="text-xs font-semibold text-purple-600">
+                  {(natalChartCompatibility * 100).toFixed(0)}%
+                </span>
+              </div>
+            )}
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium text-gray-600">
                 Alchemical:
