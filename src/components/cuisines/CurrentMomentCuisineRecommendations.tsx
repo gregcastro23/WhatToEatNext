@@ -678,37 +678,37 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                               <Box bg="orange.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Heat</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="orange.700">
-                                  {cuisine.thermodynamic_metrics.heat.toFixed(3)}
+                                  {cuisine.thermodynamic_metrics?.heat?.toFixed(3) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="purple.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Entropy</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="purple.700">
-                                  {cuisine.thermodynamic_metrics.entropy.toFixed(3)}
+                                  {cuisine.thermodynamic_metrics?.entropy?.toFixed(3) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="red.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Reactivity</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="red.700">
-                                  {cuisine.thermodynamic_metrics.reactivity.toFixed(3)}
+                                  {cuisine.thermodynamic_metrics?.reactivity?.toFixed(3) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="green.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Greg's Energy</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="green.700">
-                                  {cuisine.thermodynamic_metrics.gregsEnergy.toFixed(4)}
+                                  {cuisine.thermodynamic_metrics?.gregsEnergy?.toFixed(4) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="blue.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Kalchm</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="blue.700">
-                                  {cuisine.thermodynamic_metrics.kalchm.toFixed(3)}
+                                  {cuisine.thermodynamic_metrics?.kalchm?.toFixed(3) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="pink.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Monica Constant</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="pink.700">
-                                  {cuisine.thermodynamic_metrics.monica.toFixed(3)}
+                                  {cuisine.thermodynamic_metrics?.monica?.toFixed(3) ?? 'N/A'}
                                 </Text>
                               </Box>
                             </SimpleGrid>
@@ -735,43 +735,43 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                               <Box bg="cyan.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Charge (Q)</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="cyan.700">
-                                  {cuisine.kinetic_properties.charge.toFixed(2)}
+                                  {cuisine.kinetic_properties?.charge?.toFixed(2) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="blue.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Potential (V)</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="blue.700">
-                                  {cuisine.kinetic_properties.potentialDifference.toFixed(4)}
+                                  {cuisine.kinetic_properties?.potentialDifference?.toFixed(4) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="purple.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Current (I)</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="purple.700">
-                                  {cuisine.kinetic_properties.currentFlow.toFixed(4)}
+                                  {cuisine.kinetic_properties?.currentFlow?.toFixed(4) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="pink.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Power (P)</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="pink.700">
-                                  {cuisine.kinetic_properties.power.toFixed(6)}
+                                  {cuisine.kinetic_properties?.power?.toFixed(6) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="orange.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Force Magnitude</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="orange.700">
-                                  {cuisine.kinetic_properties.forceMagnitude.toFixed(4)}
+                                  {cuisine.kinetic_properties?.forceMagnitude?.toFixed(4) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="green.50" p={3} borderRadius="md">
                                 <Text fontSize="xs" color="gray.600" mb={1}>Inertia</Text>
                                 <Text fontSize="lg" fontWeight="bold" color="green.700">
-                                  {cuisine.kinetic_properties.inertia.toFixed(2)}
+                                  {cuisine.kinetic_properties?.inertia?.toFixed(2) ?? 'N/A'}
                                 </Text>
                               </Box>
                               <Box bg="gray.100" p={3} borderRadius="md" {...({ gridColumn: { base: "span 2", md: "span 2" } } as any)}>
                                 <Text fontSize="xs" color="gray.600" mb={1}>Force Classification</Text>
-                                <Badge colorScheme={cuisine.kinetic_properties.forceClassification === "accelerating" ? "green" : cuisine.kinetic_properties.forceClassification === "decelerating" ? "red" : "yellow"} fontSize="md">
-                                  {cuisine.kinetic_properties.forceClassification}
+                                <Badge colorScheme={cuisine.kinetic_properties?.forceClassification === "accelerating" ? "green" : cuisine.kinetic_properties?.forceClassification === "decelerating" ? "red" : "yellow"} fontSize="md">
+                                  {cuisine.kinetic_properties?.forceClassification ?? 'balanced'}
                                 </Badge>
                               </Box>
                             </SimpleGrid>
