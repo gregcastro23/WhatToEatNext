@@ -61,37 +61,37 @@ export const useFoodRecommendations = (
       ({
         // Required fields from the type definition
         currentZodiac:
-          (state.astrologicalState.zodiacSign as ZodiacSign) || "aries",
+          (state.astrologicalState?.zodiacSign as ZodiacSign) || "aries",
         moonPhase:
-          (state.astrologicalState.lunarPhase as LunarPhase) || "new moon",
+          (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
         currentPlanetaryAlignment:
-          state.astrologicalState.currentPlanetaryAlignment || {},
-        activePlanets: state.astrologicalState.activePlanets || ["sun", "moon"],
+          state.astrologicalState?.currentPlanetaryAlignment || {},
+        activePlanets: state.astrologicalState?.activePlanets || ["sun", "moon"],
         planetaryPositions: (planetaryPositions || {}) as Record<
           string,
           CelestialPosition
         >,
         lunarPhase:
-          (state.astrologicalState.lunarPhase as LunarPhase) || "new moon",
+          (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
         zodiacSign:
-          (state.astrologicalState.zodiacSign as ZodiacSign) || "aries",
+          (state.astrologicalState?.zodiacSign as ZodiacSign) || "aries",
         planetaryHours:
-          (state.astrologicalState.planetaryHour as Planet) || "Sun",
-        aspects: (state.astrologicalState.aspects || []) as PlanetaryAspect[],
-        tarotElementBoosts: (state.astrologicalState.tarotElementBoosts ||
+          (state.astrologicalState?.planetaryHour as Planet) || "Sun",
+        aspects: (state.astrologicalState?.aspects || []) as PlanetaryAspect[],
+        tarotElementBoosts: (state.astrologicalState?.tarotElementBoosts ||
           {}) as Record<string, number>,
-        tarotPlanetaryBoosts: (state.astrologicalState.tarotPlanetaryBoosts ||
+        tarotPlanetaryBoosts: (state.astrologicalState?.tarotPlanetaryBoosts ||
           {}) as Record<string, number>,
       }),
     [
-      state.astrologicalState.zodiacSign,
-      state.astrologicalState.lunarPhase,
-      state.astrologicalState.currentPlanetaryAlignment,
-      state.astrologicalState.activePlanets,
-      state.astrologicalState.planetaryHour,
-      state.astrologicalState.aspects,
-      state.astrologicalState.tarotElementBoosts,
-      state.astrologicalState.tarotPlanetaryBoosts,
+      state.astrologicalState?.zodiacSign,
+      state.astrologicalState?.lunarPhase,
+      state.astrologicalState?.currentPlanetaryAlignment,
+      state.astrologicalState?.activePlanets,
+      state.astrologicalState?.planetaryHour,
+      state.astrologicalState?.aspects,
+      state.astrologicalState?.tarotElementBoosts,
+      state.astrologicalState?.tarotPlanetaryBoosts,
       planetaryPositions,
     ],
   );
