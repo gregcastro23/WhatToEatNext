@@ -1206,7 +1206,22 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[],
   ): ElementalProperties {
     if ((ingredients || []).length === 0) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      throw new Error(
+        "Cannot calculate recipe elemental balance with no ingredients",
+      );
+    }
+
+    // Filter ingredients that have valid elemental properties
+    const validIngredients = ingredients.filter(
+      (ing) =>
+        ing.elementalProperties &&
+        typeof ing.elementalProperties === "object",
+    );
+
+    if (validIngredients.length === 0) {
+      throw new Error(
+        "No ingredients have valid elemental properties defined",
+      );
     }
 
     // Sum up elemental properties
@@ -1215,15 +1230,15 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     let Earth = 0;
     let Air = 0;
 
-    for (const ingredient of ingredients) {
-      Fire += ingredient.elementalProperties.Fire;
-      Water += ingredient.elementalProperties.Water;
-      Earth += ingredient.elementalProperties.Earth;
-      Air += ingredient.elementalProperties.Air;
+    for (const ingredient of validIngredients) {
+      Fire += ingredient.elementalProperties.Fire || 0;
+      Water += ingredient.elementalProperties.Water || 0;
+      Earth += ingredient.elementalProperties.Earth || 0;
+      Air += ingredient.elementalProperties.Air || 0;
     }
 
     // Calculate average
-    const count = (ingredients || []).length;
+    const count = validIngredients.length;
 
     return {
       Fire: Fire / count,
