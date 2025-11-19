@@ -75,17 +75,10 @@ export default function HomePage() {
                 <h2 id="cuisine-heading" className="text-3xl md:text-4xl font-bold mb-3">
                   🍽️ Cuisine Recommendations
                 </h2>
-                <p className="text-purple-100 text-base md:text-lg mb-4">
+                <p className="text-purple-100 text-base md:text-lg">
                   Discover cuisines aligned with current celestial energies,
                   with nested recipes and sauces
                 </p>
-                <Link
-                  href="/cuisines"
-                  className="inline-block bg-white text-purple-600 px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-sm md:text-base hover:bg-purple-50 hover:shadow-xl transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2"
-                  aria-label="Navigate to full cuisine recommender page"
-                >
-                  Explore Full Cuisine Recommender →
-                </Link>
               </div>
             </div>
             <div className="p-4 md:p-6 bg-white">
@@ -100,16 +93,9 @@ export default function HomePage() {
                 <h2 id="ingredient-heading" className="text-3xl md:text-4xl font-bold mb-3">
                   🥬 Ingredient Recommendations
                 </h2>
-                <p className="text-green-100 text-base md:text-lg mb-4">
+                <p className="text-green-100 text-base md:text-lg">
                   Explore ingredients with full profiles including sensory, alchemical, and astrological properties
                 </p>
-                <Link
-                  href="/ingredients"
-                  className="inline-block bg-white text-green-600 px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-sm md:text-base hover:bg-green-50 hover:shadow-xl transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-offset-2"
-                  aria-label="Navigate to full ingredient browser page"
-                >
-                  Explore Full Ingredient Browser →
-                </Link>
               </div>
             </div>
             <div className="p-4 md:p-6 bg-white">
@@ -148,7 +134,7 @@ export default function HomePage() {
             Explore Our Culinary Data
           </h2>
           <div className="grid gap-6 md:gap-8 md:grid-cols-3 max-w-5xl mx-auto">
-            <Link href="/ingredients" className="block group" aria-label="Explore elemental properties">
+            <Link href="/cooking-methods" className="block group" aria-label="Explore elemental properties">
               <div className="alchm-card p-6 md:p-8 rounded-2xl shadow-lg text-center group-hover:shadow-2xl group-hover:scale-105 transition-all duration-300 cursor-pointer focus-within:ring-2 focus-within:ring-orange-300 focus-within:ring-offset-2" tabIndex={0}>
                 <div className="text-4xl md:text-5xl mb-4 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">🔥</div>
                 <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-orange-600">
