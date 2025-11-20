@@ -6,18 +6,11 @@
  */
 
 import type { AlchemicalProperties, ElementalProperties } from "@/types/alchemy";
+import type { Element } from "@/types/celestial";
+import type { KineticMetrics as KineticMetricsType } from "@/types/kinetics";
 
-export interface KineticMetrics {
-  velocity: Record<string, number>;
-  momentum: Record<string, number>;
-  charge: number;
-  potentialDifference: number;
-  currentFlow: number;
-  power: number;
-  inertia: number;
-  forceMagnitude: number;
-  forceClassification: string;
-}
+// Re-export KineticMetrics for backwards compatibility
+export type { KineticMetrics } from "@/types/kinetics";
 
 export interface ThermodynamicMetrics {
   heat: number;
@@ -46,7 +39,7 @@ export function calculateKineticProperties(
   alchemical: AlchemicalProperties,
   elemental: ElementalProperties,
   thermodynamics: ThermodynamicMetrics,
-): KineticMetrics {
+): KineticMetricsType {
   // Defensive checks for undefined/null inputs
   if (!alchemical || !elemental || !thermodynamics) {
     return {
@@ -57,8 +50,11 @@ export function calculateKineticProperties(
       currentFlow: 0,
       power: 0,
       inertia: 1,
+      force: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       forceMagnitude: 0,
       forceClassification: "balanced",
+      aspectPhase: null,
+      thermalDirection: "stable",
     };
   }
 
@@ -113,6 +109,14 @@ export function calculateKineticProperties(
   // Calculate power (P) = I × V
   const power = currentFlow * potentialDifference;
 
+  // Calculate force per element (F = dp/dt, approximated as momentum / inertia for elemental force)
+  const force: Record<Element, number> = {
+    Fire: momentum.Fire / inertia,
+    Water: momentum.Water / inertia,
+    Earth: momentum.Earth / inertia,
+    Air: momentum.Air / inertia,
+  };
+
   // Calculate force magnitude from momentum
   const forceMagnitude = Math.sqrt(
     momentum.Fire ** 2 +
@@ -122,13 +126,23 @@ export function calculateKineticProperties(
   );
 
   // Classify force based on magnitude
-  let forceClassification: string;
+  let forceClassification: "accelerating" | "decelerating" | "balanced";
   if (forceMagnitude > 5) {
     forceClassification = "accelerating";
   } else if (forceMagnitude < 2) {
     forceClassification = "decelerating";
   } else {
     forceClassification = "balanced";
+  }
+
+  // Determine thermal direction based on heat and entropy
+  let thermalDirection: "heating" | "cooling" | "stable";
+  if (heat > entropy) {
+    thermalDirection = "heating";
+  } else if (entropy > heat * 1.2) {
+    thermalDirection = "cooling";
+  } else {
+    thermalDirection = "stable";
   }
 
   return {
@@ -139,7 +153,10 @@ export function calculateKineticProperties(
     currentFlow,
     power,
     inertia,
+    force,
     forceMagnitude,
     forceClassification,
+    aspectPhase: null, // Aspect phase is calculated separately from planetary aspects
+    thermalDirection,
   };
 }
