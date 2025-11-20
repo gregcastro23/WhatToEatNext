@@ -12,6 +12,7 @@ import { useChartData } from "@/hooks/useChartData";
 import PlanetaryChart from "@/components/PlanetaryChart";
 import PlanetaryChartControls from "@/components/PlanetaryChartControls";
 import AlchemicalDisplay from "@/components/AlchemicalDisplay";
+import KineticsDisplay from "@/components/KineticsDisplay";
 
 export default function PlanetaryChartPage() {
   const [dateTime, setDateTime] = useState<Date | undefined>(undefined);
@@ -31,7 +32,7 @@ export default function PlanetaryChartPage() {
     refreshInterval: 60000, // 1 minute
   });
 
-  const { positions, aspects, alchemical, timestamp, isLoading, error, refetch } = chartData;
+  const { positions, aspects, alchemical, kinetics, timestamp, isLoading, error, refetch } = chartData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 py-8 px-4">
@@ -42,7 +43,7 @@ export default function PlanetaryChartPage() {
             Planetary Chart
           </h1>
           <p className="text-gray-300 text-lg">
-            Real-time astronomical positions with alchemical analysis
+            Real-time astronomical positions with alchemical and kinetic analysis
           </p>
           {timestamp && (
             <p className="text-sm text-gray-400 mt-2">
@@ -192,13 +193,16 @@ export default function PlanetaryChartPage() {
 
             {/* Alchemical Display */}
             <AlchemicalDisplay alchemical={alchemical} isLoading={isLoading} />
+
+            {/* Kinetics Display */}
+            <KineticsDisplay kinetics={kinetics} isLoading={isLoading} />
           </div>
         </div>
 
         {/* Info Footer */}
         <div className="mt-8 p-6 bg-gradient-to-br from-gray-800/40 to-gray-900/40 rounded-lg border border-gray-700/50">
           <h3 className="text-lg font-semibold text-gray-300 mb-3">About This Chart</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-400">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-400">
             <div>
               <h4 className="font-semibold text-gray-300 mb-2">Planetary Positions</h4>
               <p>
@@ -214,6 +218,13 @@ export default function PlanetaryChartPage() {
               </p>
             </div>
             <div>
+              <h4 className="font-semibold text-gray-300 mb-2">Planetary Kinetics</h4>
+              <p>
+                P=IV circuit model calculates Power, Current, and Voltage from alchemical and
+                elemental properties. Includes velocity, momentum, and force dynamics.
+              </p>
+            </div>
+            <div>
               <h4 className="font-semibold text-gray-300 mb-2">Aspects</h4>
               <p>
                 Aspects represent geometric relationships between planets. Major aspects include
@@ -225,6 +236,13 @@ export default function PlanetaryChartPage() {
               <p>
                 When using &quot;current moment&quot; mode, the chart automatically refreshes every minute
                 to reflect the latest planetary positions.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-300 mb-2">Force Classification</h4>
+              <p>
+                Kinetic force is classified as accelerating, balanced, or decelerating based on
+                magnitude. Thermal direction indicates heating, cooling, or stable states.
               </p>
             </div>
           </div>
