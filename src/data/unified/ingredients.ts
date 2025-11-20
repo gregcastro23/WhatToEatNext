@@ -117,9 +117,13 @@ function enhanceIngredient(
     thermodynamics as unknown as ThermodynamicProperties | ThermodynamicMetrics,
   );
 
-  // Create enhanced unified ingredient
+  // Create enhanced unified ingredient by spreading all original properties
+  // and then overriding with computed/normalized values
   return {
-    // ✅ Pattern GG-6: Safe property access for core ingredient properties
+    // Spread all original properties first to preserve culinary details
+    ...(ingredient as any),
+
+    // Override with normalized core properties
     name: String((ingredient as any).name || ""),
     category: String((ingredient as any).category || sourceCategory),
     subcategory: String((ingredient as any).subCategory || ""),
@@ -139,6 +143,11 @@ function enhanceIngredient(
     // New calculated values
     kalchm,
     monica,
+
+    // Add energy profile if thermodynamics exist
+    ...(thermodynamics && {
+      energyProfile: thermodynamics,
+    }),
 
     // Reference to original ingredient data,
     originalData: ingredient,
