@@ -213,7 +213,7 @@ export function getAspectEnhancedRecommendations(
       currentPower,
       kinetics.data.agentOptimization?.powerAmplification,
     ),
-    seasonalTags: getSeasonalTags(kinetics.data.base.timing.seasonalInfluence),
+    seasonalTags: getSeasonalTags(kinetics.data.base.timing?.seasonalInfluence ?? "Spring"),
   };
 }
 
@@ -242,7 +242,7 @@ export function calculateKineticAlignment(
   // Seasonal alignment score (0-1)
   const seasonalScore = calculateSeasonalAlignment(
     foodItem.tags,
-    kinetics.data.base.timing.seasonalInfluence,
+    kinetics.data.base.timing?.seasonalInfluence ?? "Spring",
   );
 
   // Weighted total score
@@ -446,7 +446,7 @@ export function getKineticsEnhancedRecommendations(
     aspectPhase: kineticsMetrics.aspectPhase as any,
     portionModifier: calculateKineticsPortionModifier(kineticsMetrics),
     seasonalTags: getSeasonalTags(
-      kineticsResponse.data.base.timing.seasonalInfluence,
+      kineticsResponse.data.base.timing?.seasonalInfluence ?? "Spring",
     ),
     ...kineticsEnhancements,
   } as any;

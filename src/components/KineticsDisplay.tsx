@@ -35,7 +35,8 @@ export const KineticsDisplay: React.FC<KineticsDisplayProps> = ({
     );
   }
 
-  if (!kinetics) {
+  // Enhanced defensive checks for kinetics and all required properties
+  if (!kinetics || !kinetics.velocity || !kinetics.momentum || !kinetics.power) {
     return (
       <div className="p-6 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 rounded-lg border border-cyan-500/30">
         <p className="text-gray-400 italic">No kinetic data available</p>
