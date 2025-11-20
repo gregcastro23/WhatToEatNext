@@ -944,23 +944,23 @@ export default function EnhancedCookingMethodRecommender() {
               <div>
                 <span className="text-gray-600">Temp Adjust:</span>{" "}
                 <span className="font-bold text-red-700">
-                  {(monicaModifiers as any).temperatureAdjustment >= 0
+                  {((monicaModifiers as any)?.temperatureAdjustment ?? 0) >= 0
                     ? "+"
                     : ""}
-                  {(monicaModifiers as any).temperatureAdjustment.toFixed(0)}°F
+                  {((monicaModifiers as any)?.temperatureAdjustment ?? 0).toFixed(0)}°F
                 </span>
               </div>
               <div>
                 <span className="text-gray-600">Time Adjust:</span>{" "}
                 <span className="font-bold text-blue-700">
-                  {(monicaModifiers as any).timingAdjustment >= 0 ? "+" : ""}
-                  {(monicaModifiers as any).timingAdjustment.toFixed(0)} min
+                  {((monicaModifiers as any)?.timingAdjustment ?? 0) >= 0 ? "+" : ""}
+                  {((monicaModifiers as any)?.timingAdjustment ?? 0).toFixed(0)} min
                 </span>
               </div>
               <div>
                 <span className="text-gray-600">Intensity:</span>{" "}
                 <span className="font-bold text-green-700">
-                  {(monicaModifiers as any).intensityModifier}
+                  {(monicaModifiers as any)?.intensityModifier ?? "neutral"}
                 </span>
               </div>
             </div>

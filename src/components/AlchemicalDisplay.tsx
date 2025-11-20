@@ -33,7 +33,8 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
     );
   }
 
-  if (!alchemical) {
+  // Enhanced defensive checks for alchemical and all required properties
+  if (!alchemical || !alchemical.elementalProperties || !alchemical.thermodynamicProperties || !alchemical.esms) {
     return (
       <div className="p-6 bg-gradient-to-br from-orange-900/20 to-red-900/20 rounded-lg border border-orange-500/30">
         <p className="text-gray-400 italic">No alchemical data available</p>
@@ -53,7 +54,7 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
       {/* Header */}
       <div>
         <h3 className="text-2xl font-bold text-orange-300 mb-2">Alchemical Analysis</h3>
-        {metadata.dominantElement && (
+        {metadata?.dominantElement && (
           <p className="text-sm text-gray-400">
             Dominant Element: <span className="text-orange-300 font-semibold">{metadata.dominantElement}</span>
             {metadata.sunSign && (
@@ -170,7 +171,7 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
       </div>
 
       {/* Metadata */}
-      {metadata.source && (
+      {metadata?.source && (
         <div className="pt-4 border-t border-orange-500/20">
           <p className="text-xs text-gray-500">
             Source: {metadata.source}

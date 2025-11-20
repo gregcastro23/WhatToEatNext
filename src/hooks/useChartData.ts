@@ -176,12 +176,27 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         // Calculate kinetics from alchemical and elemental data
         try {
           const alchemicalResult = alchemizeData.alchemicalResult;
-          const kineticMetrics = calculateKineticProperties(
-            alchemicalResult.esms,
-            alchemicalResult.elementalProperties,
-            alchemicalResult.thermodynamicProperties,
-          );
-          setKinetics(kineticMetrics);
+
+          // Defensive checks before calculating kinetics
+          if (
+            alchemicalResult.esms &&
+            alchemicalResult.elementalProperties &&
+            alchemicalResult.thermodynamicProperties
+          ) {
+            const kineticMetrics = calculateKineticProperties(
+              alchemicalResult.esms,
+              alchemicalResult.elementalProperties,
+              alchemicalResult.thermodynamicProperties,
+            );
+            setKinetics(kineticMetrics);
+          } else {
+            console.warn("Incomplete alchemical data for kinetics calculation:", {
+              hasEsms: !!alchemicalResult.esms,
+              hasElemental: !!alchemicalResult.elementalProperties,
+              hasThermodynamics: !!alchemicalResult.thermodynamicProperties,
+            });
+            setKinetics(null);
+          }
         } catch (kineticError) {
           console.error("Error calculating kinetics:", kineticError);
           // Don't fail the whole request if kinetics calculation fails
