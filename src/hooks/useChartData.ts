@@ -179,21 +179,30 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
 
           // Defensive checks before calculating kinetics
           if (
+            alchemicalResult &&
             alchemicalResult.esms &&
             alchemicalResult.elementalProperties &&
             alchemicalResult.thermodynamicProperties
           ) {
+            // Combine thermodynamic properties with kalchm and monica for kinetic calculation
+            const fullThermodynamics = {
+              ...alchemicalResult.thermodynamicProperties,
+              kalchm: alchemicalResult.kalchm || 1.0,
+              monica: alchemicalResult.monica || 1.0,
+            };
+
             const kineticMetrics = calculateKineticProperties(
               alchemicalResult.esms,
               alchemicalResult.elementalProperties,
-              alchemicalResult.thermodynamicProperties,
+              fullThermodynamics,
             );
             setKinetics(kineticMetrics);
           } else {
             console.warn("Incomplete alchemical data for kinetics calculation:", {
-              hasEsms: !!alchemicalResult.esms,
-              hasElemental: !!alchemicalResult.elementalProperties,
-              hasThermodynamics: !!alchemicalResult.thermodynamicProperties,
+              hasAlchemicalResult: !!alchemicalResult,
+              hasEsms: !!alchemicalResult?.esms,
+              hasElemental: !!alchemicalResult?.elementalProperties,
+              hasThermodynamics: !!alchemicalResult?.thermodynamicProperties,
             });
             setKinetics(null);
           }
