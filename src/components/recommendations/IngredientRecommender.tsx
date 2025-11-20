@@ -143,7 +143,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
         onClick={() => handleIngredientSelect(ingredient.name)}
         className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
           isSelected
-            ? "border-indigo-500 bg-indigo-50 shadow-lg"
+            ? "border-indigo-500 bg-indigo-50 shadow-lg md:col-span-2 lg:col-span-3"
             : "border-gray-200 bg-white hover:border-indigo-300 hover:shadow-md"
         }`}
       >
