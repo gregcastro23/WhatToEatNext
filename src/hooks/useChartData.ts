@@ -8,6 +8,8 @@
 import { useState, useEffect, useCallback } from "react";
 import type { PlanetPosition, PlanetaryAspect } from "@/types/celestial";
 import { calculateAspects } from "@/utils/astrologyUtils";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import type { KineticMetrics } from "@/types/kinetics";
 
 export interface ChartDataOptions {
   dateTime?: Date;
@@ -55,6 +57,7 @@ export interface ChartData {
   positions: Record<string, PlanetPosition> | null;
   aspects: PlanetaryAspect[];
   alchemical: AlchemicalResult | null;
+  kinetics: KineticMetrics | null;
   timestamp: string | null;
   isLoading: boolean;
   error: string | null;
@@ -76,6 +79,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
   const [positions, setPositions] = useState<Record<string, PlanetPosition> | null>(null);
   const [aspects, setAspects] = useState<PlanetaryAspect[]>([]);
   const [alchemical, setAlchemical] = useState<AlchemicalResult | null>(null);
+  const [kinetics, setKinetics] = useState<KineticMetrics | null>(null);
   const [timestamp, setTimestamp] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -168,6 +172,21 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
 
       if (alchemizeData.success && alchemizeData.alchemicalResult) {
         setAlchemical(alchemizeData.alchemicalResult);
+
+        // Calculate kinetics from alchemical and elemental data
+        try {
+          const alchemicalResult = alchemizeData.alchemicalResult;
+          const kineticMetrics = calculateKineticProperties(
+            alchemicalResult.esms,
+            alchemicalResult.elementalProperties,
+            alchemicalResult.thermodynamicProperties,
+          );
+          setKinetics(kineticMetrics);
+        } catch (kineticError) {
+          console.error("Error calculating kinetics:", kineticError);
+          // Don't fail the whole request if kinetics calculation fails
+          setKinetics(null);
+        }
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
@@ -198,6 +217,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     positions,
     aspects,
     alchemical,
+    kinetics,
     timestamp,
     isLoading,
     error,

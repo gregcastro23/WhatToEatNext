@@ -9,6 +9,8 @@ import type {
   Modality,
   SensoryProfile,
 } from "../../data/ingredients/types";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import type { KineticMetrics, ThermodynamicMetrics } from "@/utils/kineticCalculations";
 
 // Phase 10: Calculation Type Interfaces
 interface _CalculationData {
@@ -220,6 +222,7 @@ export interface IngredientRecommendation {
   kalchmScore?: number;
   monicaScore?: number;
   culturalScore?: number;
+  kineticScore?: number;
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
   pairingRecommendations?: {
@@ -767,15 +770,23 @@ export async function getIngredientRecommendations(
           _options,
         );
 
-        // Enhanced weighted calculation
+        // NEW: Kinetic scoring using P=IV circuit model
+        const kineticScore = calculateKineticScore(
+          ingredient,
+          _elementalProps,
+        );
+
+        // Enhanced weighted calculation with kinetics integration
+        // Adjusted weights to include kinetics (0.12) while maintaining balance
         const totalScore =
-          elementalScore * 0.2 +
-          seasonalScore * 0.15 +
-          modalityScore * 0.1 +
-          flavorScore * 0.25 +
-          kalchmScore * 0.15 +
-          monicaScore * 0.1 +
-          culturalScore * 0.05;
+          elementalScore * 0.18 +  // Elemental (reduced from 0.20)
+          seasonalScore * 0.13 +   // Seasonal (reduced from 0.15)
+          modalityScore * 0.08 +   // Modality (reduced from 0.10)
+          flavorScore * 0.22 +     // Flavor (reduced from 0.25)
+          kalchmScore * 0.13 +     // Kalchm (reduced from 0.15)
+          monicaScore * 0.09 +     // Monica (reduced from 0.10)
+          culturalScore * 0.05 +   // Cultural (same)
+          kineticScore * 0.12;     // Kinetic (NEW - P=IV circuit model)
 
         return {
           ...ingredient,
@@ -787,6 +798,7 @@ export async function getIngredientRecommendations(
           kalchmScore,
           monicaScore,
           culturalScore,
+          kineticScore,
           totalScore,
         } as IngredientRecommendation;
       } catch (error) {
@@ -805,6 +817,7 @@ export async function getIngredientRecommendations(
           kalchmScore: 0.5,
           monicaScore: 0.5,
           culturalScore: 0.5,
+          kineticScore: 0.5,
           totalScore: 0.5,
         } as IngredientRecommendation;
       }
@@ -1210,6 +1223,109 @@ function calculateCulturalContextScore(
     return 0.6; // Default neutral score
   } catch (error) {
     _logger.warn("Error calculating cultural context score: ", error);
+    return 0.5;
+  }
+}
+
+/**
+ * Calculate kinetic score using P=IV circuit model
+ * Evaluates power, force, and temporal alignment
+ */
+function calculateKineticScore(
+  ingredient: Partial<EnhancedIngredient> | Ingredient,
+  elementalProps: ElementalProperties,
+): number {
+  try {
+    const { Fire, Water, Earth, Air } = elementalProps;
+
+    // Estimate ESMS from elements (same approach as other functions)
+    const Spirit = (Fire + Air) / 2; // Active elements
+    const Essence = Water; // Receptive element
+    const Matter = Earth; // Grounding element
+    const Substance = (Fire + Water) / 2; // Transformative elements
+
+    // Calculate thermodynamic properties
+    const elementSum = Substance + Essence + Matter + Water + Air + Earth;
+    const heat =
+      elementSum > 0
+        ? (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) / Math.pow(elementSum, 2)
+        : 0.08;
+
+    const entropyDenom = Essence + Matter + Earth + Water;
+    const entropy =
+      entropyDenom > 0
+        ? (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+          Math.pow(entropyDenom, 2)
+        : 0.15;
+
+    const reactivityDenom = Matter + Earth;
+    const reactivity =
+      reactivityDenom > 0
+        ? (Math.pow(Spirit, 2) +
+            Math.pow(Substance, 2) +
+            Math.pow(Essence, 2) +
+            Math.pow(Fire, 2) +
+            Math.pow(Air, 2) +
+            Math.pow(Water, 2)) /
+          Math.pow(reactivityDenom, 2)
+        : 0.45;
+
+    const gregsEnergy = heat - entropy * reactivity;
+
+    // Calculate Kalchm for thermodynamic completeness
+    const s = Math.max(0.01, Spirit);
+    const e = Math.max(0.01, Essence);
+    const m = Math.max(0.01, Matter);
+    const sub = Math.max(0.01, Substance);
+    const kalchm = (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+
+    // Calculate Monica
+    let monica = 1.0;
+    if (kalchm > 0 && reactivity > 0) {
+      const lnKalchm = Math.log(kalchm);
+      if (lnKalchm !== 0 && isFinite(lnKalchm)) {
+        monica = -gregsEnergy / (reactivity * lnKalchm);
+      }
+    }
+
+    const thermodynamics: ThermodynamicMetrics = {
+      heat,
+      entropy,
+      reactivity,
+      gregsEnergy,
+      kalchm,
+      monica,
+    };
+
+    // Calculate kinetic properties using P=IV circuit model
+    const kinetics = calculateKineticProperties(
+      { Spirit, Essence, Matter, Substance },
+      { Fire, Water, Earth, Air },
+      thermodynamics,
+    );
+
+    // Score based on kinetic properties
+    // Power level (P=IV) is the primary indicator of temporal energy
+    // Normalize power to 0-1 range (typical power range is -1 to 1)
+    const powerScore = 0.5 + kinetics.power / 2;
+
+    // Force magnitude indicates dynamic transformation potential
+    // Typical range is 0-10, normalize to 0-1
+    const forceScore = Math.min(1, kinetics.forceMagnitude / 10);
+
+    // Inertia indicates stability (higher = more grounded)
+    // Typical range is 1-20, normalize to 0-1
+    const inertiaScore = Math.min(1, (kinetics.inertia - 1) / 19);
+
+    // Combined kinetic score with weighted factors
+    const kineticScore =
+      powerScore * 0.5 + // Power is most important
+      forceScore * 0.3 + // Force indicates transformation
+      inertiaScore * 0.2; // Inertia provides stability context
+
+    return Math.max(0.1, Math.min(1, kineticScore));
+  } catch (error) {
+    _logger.warn("Error calculating kinetic score: ", error);
     return 0.5;
   }
 }
