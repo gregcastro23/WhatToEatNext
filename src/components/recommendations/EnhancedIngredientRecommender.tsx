@@ -15,20 +15,28 @@ interface EnhancedIngredientRecommenderProps {
 }
 
 // Category definitions mapped to ingredient categories
+// Note: IDs must match the actual 'category' values in ingredient data (plural forms)
 const CATEGORIES = [
   {
-    id: "spice",
-    name: "Spices & Herbs",
-    icon: "🌿",
-    altIds: ["culinary_herb"],
+    id: "spices",
+    name: "Spices",
+    icon: "🌶️",
+    altIds: [],
   },
-  { id: "vegetable", name: "Vegetables", icon: "🥬", altIds: [] },
-  { id: "protein", name: "Proteins", icon: "🥩", altIds: [] },
-  { id: "grain", name: "Grains & Legumes", icon: "🌾", altIds: [] },
+  {
+    id: "herbs",
+    name: "Herbs",
+    icon: "🌿",
+    altIds: [],
+  },
+  { id: "vegetables", name: "Vegetables", icon: "🥬", altIds: [] },
+  { id: "proteins", name: "Proteins", icon: "🥩", altIds: [] },
+  { id: "grains", name: "Grains", icon: "🌾", altIds: [] },
   { id: "dairy", name: "Dairy", icon: "🧀", altIds: [] },
-  { id: "fruit", name: "Fruits", icon: "🍎", altIds: [] },
-  { id: "oil", name: "Oils & Fats", icon: "🫒", altIds: [] },
-  { id: "seasoning", name: "Seasonings", icon: "🍯", altIds: [] },
+  { id: "fruits", name: "Fruits", icon: "🍎", altIds: [] },
+  { id: "oils", name: "Oils", icon: "🫒", altIds: [] },
+  { id: "vinegars", name: "Vinegars", icon: "🍶", altIds: [] },
+  { id: "seasonings", name: "Seasonings", icon: "🍯", altIds: [] },
 ];
 
 // Helper: Calculate elemental compatibility score
@@ -170,15 +178,15 @@ export const EnhancedIngredientRecommender: React.FC<
       <h3 className="mb-3 text-lg font-semibold text-gray-800">
         Browse by Category
       </h3>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {CATEGORIES.map((category) => (
           <button
             key={category.id}
             onClick={() => handleCategorySelect(category.id)}
             className={`rounded-lg border-2 p-4 transition-all ${
               selectedCategory === category.id
-                ? "border-indigo-500 bg-indigo-50"
-                : "border-gray-200 bg-white hover:border-indigo-300"
+                ? "border-indigo-500 bg-indigo-50 shadow-md"
+                : "border-gray-200 bg-white hover:border-indigo-300 hover:shadow-sm"
             }`}
           >
             <div className="mb-2 text-3xl">{category.icon}</div>
@@ -207,15 +215,15 @@ export const EnhancedIngredientRecommender: React.FC<
   // Render elemental properties
   const renderElementalProperties = (elementals: ElementalProperties) => {
     const elements = [
-      { name: "Fire", icon: "🔥", color: "red" },
-      { name: "Water", icon: "💧", color: "blue" },
-      { name: "Earth", icon: "🌍", color: "green" },
-      { name: "Air", icon: "💨", color: "sky" },
+      { name: "Fire", icon: "🔥", colorClass: "bg-red-500" },
+      { name: "Water", icon: "💧", colorClass: "bg-blue-500" },
+      { name: "Earth", icon: "🌍", colorClass: "bg-green-500" },
+      { name: "Air", icon: "💨", colorClass: "bg-sky-500" },
     ] as const;
 
     return (
       <div className="space-y-2">
-        {elements.map(({ name, icon, color }) => {
+        {elements.map(({ name, icon, colorClass }) => {
           const value = elementals[name] || 0;
           const percentage = Math.round(value * 100);
 
@@ -228,7 +236,7 @@ export const EnhancedIngredientRecommender: React.FC<
               <div className="flex-1">
                 <div className="h-2 w-full rounded-full bg-gray-200">
                   <div
-                    className={`h-2 rounded-full bg-${color}-500`}
+                    className={`h-2 rounded-full ${colorClass}`}
                     style={{ width: `${percentage}%` }}
                   />
                 </div>

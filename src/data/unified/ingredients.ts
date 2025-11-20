@@ -16,11 +16,11 @@ import { createElementalProperties } from "../../utils/elemental/elementalUtils"
 
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
+import { dairy } from "../ingredients/dairy";
 import { fruits } from "../ingredients/fruits";
 import { grains } from "../ingredients/grains";
 import { herbs } from "../ingredients/herbs";
-// import { oils } from "../ingredients/oils";
-const oils: any = {}; // Commented out non-existent export
+import { oils } from "../ingredients/oils";
 import { meats, plantBased, poultry, seafood } from "../ingredients/proteins";
 import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
@@ -179,6 +179,10 @@ function createUnifiedCollection(
 }
 
 // ✅ Pattern MM-1: Safe Record type casting for createUnifiedCollection compatibility
+export const unifiedDairy = createUnifiedCollection(
+  dairy as { [key: string]: IngredientMapping },
+  "dairy",
+);
 export const unifiedFruits = createUnifiedCollection(
   fruits as { [key: string]: IngredientMapping },
   "fruits",
@@ -218,6 +222,7 @@ export const unifiedProteins = createUnifiedCollection(
 
 // Combine all unified collections
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
+  ...unifiedDairy,
   ...unifiedFruits,
   ...unifiedVegetables,
   ...unifiedHerbs,
