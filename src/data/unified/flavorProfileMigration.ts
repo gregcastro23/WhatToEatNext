@@ -944,6 +944,8 @@ export class FlavorProfileMigration {
 
   private calculateKalchm(profile: UnifiedFlavorProfile): number {
     // Simplified Kalchm calculation based on elemental and alchemical properties
+    if (!profile.alchemicalProperties) return 1.0; // Default if no alchemical properties
+
     const { Spirit, Essence, Matter, Substance } = profile.alchemicalProperties;
 
     if (Matter === 0 || Substance === 0) return 1.0; // Default neutral value

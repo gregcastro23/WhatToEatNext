@@ -93,10 +93,10 @@ function enhanceIngredient(
   // ✅ Pattern GG-6: Safe property access for alchemical properties
   const alchemicalData = ingredient.alchemicalProperties as unknown as any;
   const alchemicalProperties: AlchemicalProperties = {
-    Spirit: Number(alchemicalData.Spirit) || 0.25,
-    Essence: Number(alchemicalData.Essence) || 0.25,
-    Matter: Number(alchemicalData.Matter) || 0.25,
-    Substance: Number(alchemicalData.Substance) || 0.25,
+    Spirit: Number(alchemicalData?.Spirit) || 0.25,
+    Essence: Number(alchemicalData?.Essence) || 0.25,
+    Matter: Number(alchemicalData?.Matter) || 0.25,
+    Substance: Number(alchemicalData?.Substance) || 0.25,
   };
 
   // Calculate Kalchm value
