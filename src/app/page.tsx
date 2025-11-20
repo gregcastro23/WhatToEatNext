@@ -9,7 +9,7 @@ import Link from "next/link";
 import React from "react";
 import CookingMethodPreview from "@/components/home/CookingMethodPreview";
 import CuisinePreview from "@/components/home/CuisinePreview";
-import IngredientPreview from "@/components/home/IngredientPreview";
+import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
 
 export default function HomePage() {
 
@@ -99,7 +99,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="p-4 md:p-6 bg-white">
-              <IngredientPreview />
+              <EnhancedIngredientRecommender />
             </div>
           </div>
 
