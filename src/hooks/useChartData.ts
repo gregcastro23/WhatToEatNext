@@ -1,15 +1,22 @@
 /**
  * useChartData Hook
  *
- * Fetches and manages planetary chart data from the astrologize and alchemize APIs.
- * Calculates planetary aspects and provides alchemical properties.
+ * Fetches and manages planetary chart data using the /api/planetary-positions endpoint.
+ * Provides planetary positions, aspects, alchemical properties, and kinetic metrics.
  */
 
 import { useState, useEffect, useCallback } from "react";
-import type { PlanetPosition, PlanetaryAspect } from "@/types/celestial";
-import { calculateAspects } from "@/utils/astrologyUtils";
+import type { PlanetaryAspect } from "@/types/celestial";
+import {
+  calculateAspects,
+  type PlanetPosition,
+} from "@/utils/astrologyUtils";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type { KineticMetrics } from "@/types/kinetics";
+import type {
+  PlanetaryPositionsResponse,
+  AlchemicalQuantities,
+} from "./usePlanetaryPositions";
 
 export interface ChartDataOptions {
   dateTime?: Date;
@@ -65,18 +72,133 @@ export interface ChartData {
 }
 
 /**
+ * Convert API planetary position to internal PlanetPosition format
+ */
+function convertToPlanetPosition(apiPosition: {
+  planet: string;
+  sign: string;
+  degree: number;
+  longitude?: number;
+  retrograde: boolean;
+}): PlanetPosition {
+  // Extract whole degrees and minutes from decimal degree
+  const wholeDegrees = Math.floor(apiPosition.degree);
+  const decimalMinutes = (apiPosition.degree - wholeDegrees) * 60;
+  const minutes = Math.floor(decimalMinutes);
+
+  return {
+    sign: apiPosition.sign.toLowerCase() as any,
+    degree: wholeDegrees,
+    minute: minutes,
+    exactLongitude: apiPosition.longitude || 0,
+    isRetrograde: apiPosition.retrograde,
+  };
+}
+
+/**
+ * Convert alchemical quantities from API to AlchemicalResult format
+ */
+function convertToAlchemicalResult(
+  alchmQuantities: AlchemicalQuantities,
+  monicaConstant: number,
+  positions: Record<string, PlanetPosition>,
+): AlchemicalResult {
+  // Calculate elemental properties from zodiac signs
+  const elementalProperties = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+  };
+
+  const zodiacElements: Record<string, keyof typeof elementalProperties> = {
+    aries: "Fire",
+    leo: "Fire",
+    sagittarius: "Fire",
+    taurus: "Earth",
+    virgo: "Earth",
+    capricorn: "Earth",
+    gemini: "Air",
+    libra: "Air",
+    aquarius: "Air",
+    cancer: "Water",
+    scorpio: "Water",
+    pisces: "Water",
+  };
+
+  let count = 0;
+  Object.values(positions).forEach((position) => {
+    const element = zodiacElements[position.sign];
+    if (element) {
+      elementalProperties[element] += 1;
+      count++;
+    }
+  });
+
+  // Normalize to sum to 1.0
+  if (count > 0) {
+    Object.keys(elementalProperties).forEach((key) => {
+      elementalProperties[key as keyof typeof elementalProperties] /= count;
+    });
+  }
+
+  // Find dominant element
+  let dominantElement: string | undefined;
+  let maxValue = 0;
+  Object.entries(elementalProperties).forEach(([element, value]) => {
+    if (value > maxValue) {
+      maxValue = value;
+      dominantElement = element;
+    }
+  });
+
+  // Get Sun sign if available
+  const sunPosition = positions["Sun"];
+  const sunSign = sunPosition
+    ? sunPosition.sign.charAt(0).toUpperCase() + sunPosition.sign.slice(1)
+    : undefined;
+
+  return {
+    elementalProperties,
+    thermodynamicProperties: {
+      heat: alchmQuantities.Heat,
+      entropy: alchmQuantities.Entropy,
+      reactivity: alchmQuantities.Reactivity,
+      gregsEnergy: alchmQuantities.Energy,
+    },
+    esms: {
+      Spirit: alchmQuantities.spirit,
+      Essence: alchmQuantities.essence,
+      Matter: alchmQuantities.matter,
+      Substance: alchmQuantities.substance,
+    },
+    kalchm: 1.0, // Not returned by API, would need separate calculation
+    monica: monicaConstant,
+    score: 0.8, // Default compatibility score
+    metadata: {
+      source: "planetary-positions-api",
+      dominantElement,
+      sunSign,
+    },
+  };
+}
+
+/**
  * Hook to fetch and manage planetary chart data
  */
 export function useChartData(options: ChartDataOptions = {}): ChartData {
   const {
     dateTime,
-    location = { latitude: 40.7128, longitude: -74.0060 }, // Default: NYC
+    location = { latitude: 40.7128, longitude: -74.006 }, // Default: NYC
     zodiacSystem = "tropical",
     autoRefresh = false,
     refreshInterval = 60000, // 1 minute default
   } = options;
 
-  const [positions, setPositions] = useState<Record<string, PlanetPosition> | null>(null);
+  const [positions, setPositions] = useState<Record<
+    string,
+    PlanetPosition
+  > | null>(null);
   const [aspects, setAspects] = useState<PlanetaryAspect[]>([]);
   const [alchemical, setAlchemical] = useState<AlchemicalResult | null>(null);
   const [kinetics, setKinetics] = useState<KineticMetrics | null>(null);
@@ -89,131 +211,72 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     setError(null);
 
     try {
-      // Build query parameters
+      // Build URL with query parameters
       const params = new URLSearchParams({
+        includeAlchemy: "true", // Always include alchemy for full chart data
+        zodiacSystem,
         latitude: location.latitude.toString(),
         longitude: location.longitude.toString(),
-        zodiacSystem,
       });
 
-      // Add date/time parameters if specified
       if (dateTime) {
-        params.append("year", dateTime.getFullYear().toString());
-        params.append("month", (dateTime.getMonth() + 1).toString()); // 1-indexed
-        params.append("date", dateTime.getDate().toString());
-        params.append("hour", dateTime.getHours().toString());
-        params.append("minute", dateTime.getMinutes().toString());
+        params.append("date", dateTime.toISOString());
       }
 
-      // Fetch planetary positions from astrologize API
-      const astrologizeResponse = await fetch(`/api/astrologize?${params}`);
+      // Fetch from planetary-positions API
+      const response = await fetch(`/api/planetary-positions?${params.toString()}`);
 
-      if (!astrologizeResponse.ok) {
-        throw new Error(`Astrologize API error: ${astrologizeResponse.statusText}`);
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
 
-      const astrologizeData = await astrologizeResponse.json();
+      const data: PlanetaryPositionsResponse = await response.json();
 
-      // Extract planet positions from _celestialBodies
+      // Convert API positions to internal format
       const planetPositions: Record<string, PlanetPosition> = {};
-
-      if (astrologizeData._celestialBodies) {
-        Object.entries(astrologizeData._celestialBodies).forEach(([key, data]: [string, any]) => {
-          if (key === "all") return; // Skip the 'all' array
-
-          const planetName = key.charAt(0).toUpperCase() + key.slice(1);
-
-          if (data && data.Sign && data.ChartPosition) {
-            planetPositions[planetName] = {
-              sign: data.Sign.key.toLowerCase(),
-              degree: data.ChartPosition.Ecliptic.ArcDegrees.degrees,
-              minute: data.ChartPosition.Ecliptic.ArcDegrees.minutes,
-              exactLongitude: data.ChartPosition.Ecliptic.DecimalDegrees,
-              isRetrograde: data.isRetrograde || false,
-            };
-          }
-        });
-      }
+      data.planetaryPositions.forEach((apiPos) => {
+        planetPositions[apiPos.planet] = convertToPlanetPosition(apiPos);
+      });
 
       setPositions(planetPositions);
-      setTimestamp(astrologizeData.metadata?.timestamp || new Date().toISOString());
+      setTimestamp(data.timestamp);
 
       // Calculate aspects from positions
       const calculatedAspects = calculateAspects(planetPositions);
       setAspects(calculatedAspects);
 
-      // Fetch alchemical data from alchemize API
-      // Pass the planetary positions we just fetched to avoid redundant calculation
-      const alchemizeResponse = await fetch("/api/alchemize", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          latitude: location.latitude,
-          longitude: location.longitude,
-          zodiacSystem,
-          planetaryPositions,
-          ...(dateTime && {
-            year: dateTime.getFullYear(),
-            month: dateTime.getMonth() + 1,
-            date: dateTime.getDate(),
-            hour: dateTime.getHours(),
-            minute: dateTime.getMinutes(),
-          }),
-        }),
-      });
-
-      if (!alchemizeResponse.ok) {
-        throw new Error(`Alchemize API error: ${alchemizeResponse.statusText}`);
-      }
-
-      const alchemizeData = await alchemizeResponse.json();
-
-      if (alchemizeData.success && alchemizeData.alchemicalResult) {
-        setAlchemical(alchemizeData.alchemicalResult);
+      // Convert alchemical data if available
+      if (data.alchmQuantities && data.monicaConstant !== undefined) {
+        const alchemicalResult = convertToAlchemicalResult(
+          data.alchmQuantities,
+          data.monicaConstant,
+          planetPositions,
+        );
+        setAlchemical(alchemicalResult);
 
         // Calculate kinetics from alchemical and elemental data
         try {
-          const alchemicalResult = alchemizeData.alchemicalResult;
-
-          // Defensive checks before calculating kinetics
-          if (
-            alchemicalResult &&
-            alchemicalResult.esms &&
-            alchemicalResult.elementalProperties &&
-            alchemicalResult.thermodynamicProperties
-          ) {
-            // Combine thermodynamic properties with kalchm and monica for kinetic calculation
-            const fullThermodynamics = {
+          const kineticMetrics = calculateKineticProperties(
+            alchemicalResult.esms,
+            alchemicalResult.elementalProperties,
+            {
               ...alchemicalResult.thermodynamicProperties,
-              kalchm: alchemicalResult.kalchm || 1.0,
-              monica: alchemicalResult.monica || 1.0,
-            };
-
-            const kineticMetrics = calculateKineticProperties(
-              alchemicalResult.esms,
-              alchemicalResult.elementalProperties,
-              fullThermodynamics,
-            );
-            setKinetics(kineticMetrics);
-          } else {
-            console.warn("Incomplete alchemical data for kinetics calculation:", {
-              hasAlchemicalResult: !!alchemicalResult,
-              hasEsms: !!alchemicalResult?.esms,
-              hasElemental: !!alchemicalResult?.elementalProperties,
-              hasThermodynamics: !!alchemicalResult?.thermodynamicProperties,
-            });
-            setKinetics(null);
-          }
+              kalchm: alchemicalResult.kalchm,
+              monica: alchemicalResult.monica,
+            },
+          );
+          setKinetics(kineticMetrics);
         } catch (kineticError) {
           console.error("Error calculating kinetics:", kineticError);
-          // Don't fail the whole request if kinetics calculation fails
           setKinetics(null);
         }
+      } else {
+        setAlchemical(null);
+        setKinetics(null);
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
+      const errorMessage =
+        err instanceof Error ? err.message : "Unknown error occurred";
       setError(errorMessage);
       console.error("Chart data fetch error:", err);
     } finally {
