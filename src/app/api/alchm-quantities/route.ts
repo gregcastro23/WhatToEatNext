@@ -45,13 +45,10 @@ export async function GET() {
     logger.info("Alchm Quantities API called");
 
     // Get current planetary positions
-    const planetaryData = await getCurrentPlanetaryPositions();
+    const planetaryPositions = await getCurrentPlanetaryPositions();
 
-    // Get alchemical properties using real service
-    const alchemicalResult = await alchemize({
-      planetaryPositions: planetaryData.positions,
-      zodiacSystem: "tropical",
-    });
+    // Get alchemical properties using real service (synchronous function)
+    const alchemicalResult = alchemize(planetaryPositions);
 
     const now = new Date();
     const timeOfDay = now.getHours() + now.getMinutes() / 60;
