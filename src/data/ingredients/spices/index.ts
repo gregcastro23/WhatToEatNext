@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { groundSpices } from "./groundspices";
 import { spiceBlends } from "./spiceBlends";
 import { wholeSpices } from "./wholespices";
+import { enhancedSpicesIngredients } from "./enhancedSpices";
 import type { Ingredient } from "../types";
 
 // Normalize elemental properties to sum to 1
@@ -76,10 +77,12 @@ export const _addHeatLevels = (
   }, {});
 
 // Combine all spice categories with heat levels
+// Enhanced spices take precedence (spread first, then legacy data can override if needed)
 export const spices = fixIngredientMappings({
   ...wholeSpices,
   ...groundSpices,
   ...(spiceBlends as any),
+  ...enhancedSpicesIngredients, // Add our enhanced spices with full data
   cumin: {
     name: "cumin",
     elementalProperties: { Earth: 0.48, Fire: 0.27, Air: 0.17, Water: 0.08 },

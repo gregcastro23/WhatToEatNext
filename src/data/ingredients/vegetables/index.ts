@@ -8,8 +8,10 @@ import { nightshades } from "./nightshades";
 import { roots } from "./roots";
 import { squash } from "./squash";
 import { starchyVegetables } from "./starchy";
+import { enhancedVegetablesIngredients } from "./enhancedVegetables";
 
 // Combine all vegetable categories
+// Enhanced vegetables with comprehensive data take precedence
 export const vegetables: Record<string, IngredientMapping> =
   fixIngredientMappings({
     ...leafyGreens,
@@ -20,6 +22,7 @@ export const vegetables: Record<string, IngredientMapping> =
     ...squash,
     ...starchyVegetables,
     ...legumes,
+    ...enhancedVegetablesIngredients, // Add our enhanced vegetables with full data
   });
 
 // Create enhanced vegetables with additional properties
