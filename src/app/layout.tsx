@@ -67,11 +67,11 @@ export default function RootLayout({
                     🔥 Cooking Methods
                   </Link>
                   <Link
-                    href="/test-planetary"
+                    href="/quantities"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-indigo-100 text-indigo-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-indigo-200"
-                    aria-label="View planetary chart"
+                    aria-label="View alchm quantities"
                   >
-                    ⭐ Planetary Chart
+                    ⚗️ Alchm Quantities
                   </Link>
                   <Link
                     href="https://planetary-agents.vercel.app/planetary-agents"
@@ -153,8 +153,8 @@ export default function RootLayout({
                   <h4 className="font-bold mb-4 text-orange-300">Discover</h4>
                   <ul className="space-y-2 text-sm">
                     <li>
-                      <Link href="/test-planetary" className="text-gray-300 hover:text-indigo-300 transition-colors">
-                        ⭐ Planetary Chart
+                      <Link href="/quantities" className="text-gray-300 hover:text-indigo-300 transition-colors">
+                        ⚗️ Alchm Quantities
                       </Link>
                     </li>
                   </ul>
