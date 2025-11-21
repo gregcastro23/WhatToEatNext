@@ -586,41 +586,6 @@ export default function IngredientPreview() {
                     </div>
                   </div>
                 )}
-
-                {/* Elemental Properties - De-emphasized, at bottom */}
-                <div className="pt-3 border-t border-gray-100">
-                  <h5 className="text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">
-                    ⚗️ Elemental Balance
-                  </h5>
-                  <div className="grid grid-cols-2 gap-2">
-                    {Object.entries(ingredient.elementalProperties).map(
-                      ([element, value]) => (
-                        <div key={element} className="flex items-center gap-2">
-                          <span className="text-sm">
-                            {element === "Fire" ? "🔥" : element === "Water" ? "💧" : element === "Earth" ? "🌍" : "💨"}
-                          </span>
-                          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full ${
-                                element === "Fire"
-                                  ? "bg-gradient-to-r from-red-400 to-orange-500"
-                                  : element === "Water"
-                                    ? "bg-gradient-to-r from-blue-400 to-cyan-500"
-                                    : element === "Earth"
-                                      ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                                      : "bg-gradient-to-r from-purple-400 to-indigo-500"
-                              }`}
-                              style={{ width: `${value * 100}%` }}
-                            />
-                          </div>
-                          <span className="text-xs text-gray-500 w-10 text-right">
-                            {(value * 100).toFixed(0)}%
-                          </span>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                </div>
               </div>
             )}
           </div>
