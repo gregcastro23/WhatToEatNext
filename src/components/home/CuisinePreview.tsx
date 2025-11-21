@@ -25,6 +25,28 @@ interface NestedRecipe {
   instructions: string[];
   meal_type: string;
   seasonal_fit: string;
+
+  // Enhanced recipe guidance fields
+  tips?: string[];  // Expert cooking tips
+  substitutions?: Array<{
+    original: string;
+    alternatives: string[];
+    notes?: string;
+  }>;  // Ingredient substitutions
+  variations?: string[];  // Regional or dietary variations
+  pairing_suggestions?: {
+    sides?: string[];
+    drinks?: string[];
+    condiments?: string[];
+  };  // What pairs well with this dish
+  storage_info?: {
+    storage_method?: string;
+    storage_duration?: string;
+    reheating_instructions?: string;
+    freezer_friendly?: boolean;
+  };  // Storage and reheating guidance
+  common_mistakes?: string[];  // What to avoid
+  timing_tips?: string[];  // Do-ahead suggestions
 }
 
 interface SauceRecommendation {
@@ -304,6 +326,210 @@ export default function CuisinePreview() {
                                   </ol>
                                 </div>
                               )}
+
+                            {/* Expert Tips */}
+                            {recipe.tips && recipe.tips.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>💡</span>
+                                  <span>Expert Tips</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.tips.map((tip, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-gray-700 pl-4"
+                                    >
+                                      • {tip}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Common Mistakes */}
+                            {recipe.common_mistakes && recipe.common_mistakes.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>⚠️</span>
+                                  <span>Common Mistakes to Avoid</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.common_mistakes.map((mistake, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-red-700 pl-4"
+                                    >
+                                      • {mistake}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Ingredient Substitutions */}
+                            {recipe.substitutions && recipe.substitutions.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>🔄</span>
+                                  <span>Ingredient Substitutions</span>
+                                </h5>
+                                <div className="space-y-2">
+                                  {recipe.substitutions.map((sub, idx) => (
+                                    <div
+                                      key={idx}
+                                      className="text-sm bg-yellow-50 p-2 rounded border border-yellow-200"
+                                    >
+                                      <span className="font-semibold text-gray-800">
+                                        {sub.original}:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {sub.alternatives.join(", ")}
+                                      </span>
+                                      {sub.notes && (
+                                        <span className="text-gray-600 italic block mt-1">
+                                          {sub.notes}
+                                        </span>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Recipe Variations */}
+                            {recipe.variations && recipe.variations.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>✨</span>
+                                  <span>Variations</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.variations.map((variation, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-gray-700 pl-4"
+                                    >
+                                      • {variation}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Pairing Suggestions */}
+                            {recipe.pairing_suggestions && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>🍷</span>
+                                  <span>Pairing Suggestions</span>
+                                </h5>
+                                <div className="grid grid-cols-1 gap-2">
+                                  {recipe.pairing_suggestions.sides && recipe.pairing_suggestions.sides.length > 0 && (
+                                    <div className="text-sm">
+                                      <span className="font-semibold text-gray-800">
+                                        Sides:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.pairing_suggestions.sides.join(", ")}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.pairing_suggestions.drinks && recipe.pairing_suggestions.drinks.length > 0 && (
+                                    <div className="text-sm">
+                                      <span className="font-semibold text-gray-800">
+                                        Drinks:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.pairing_suggestions.drinks.join(", ")}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.pairing_suggestions.condiments && recipe.pairing_suggestions.condiments.length > 0 && (
+                                    <div className="text-sm">
+                                      <span className="font-semibold text-gray-800">
+                                        Condiments:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.pairing_suggestions.condiments.join(", ")}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Storage & Reheating */}
+                            {recipe.storage_info && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>🥡</span>
+                                  <span>Storage & Reheating</span>
+                                </h5>
+                                <div className="text-sm bg-blue-50 p-3 rounded border border-blue-200 space-y-1">
+                                  {recipe.storage_info.storage_method && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Storage:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.storage_method}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.storage_info.storage_duration && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Duration:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.storage_duration}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.storage_info.reheating_instructions && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Reheating:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.reheating_instructions}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.storage_info.freezer_friendly !== undefined && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Freezer-Friendly:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.freezer_friendly ? "Yes" : "No"}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Timing Tips */}
+                            {recipe.timing_tips && recipe.timing_tips.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>⏰</span>
+                                  <span>Timing Tips</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.timing_tips.map((tip, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-gray-700 pl-4"
+                                    >
+                                      • {tip}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -383,46 +609,49 @@ export default function CuisinePreview() {
                 {showElemental && (
                   <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-2">
                     {Object.entries(cuisine.elemental_properties).map(
-                      ([element, value]) => (
-                        <div
-                          key={element}
-                          className="bg-gray-50 p-2 rounded-lg border border-gray-100"
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs font-bold text-gray-700">
-                              {element}
-                            </span>
-                            <span className="text-sm">
-                              {element === "Fire"
-                                ? "🔥"
-                                : element === "Water"
-                                  ? "💧"
-                                  : element === "Earth"
-                                    ? "🌍"
-                                    : "💨"}
-                            </span>
-                          </div>
-                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full transition-all duration-500 ${
-                                element === "Fire"
-                                  ? "bg-gradient-to-r from-red-400 to-orange-500"
+                      ([element, value]) => {
+                        const numValue = typeof value === 'number' ? value : 0;
+                        return (
+                          <div
+                            key={element}
+                            className="bg-gray-50 p-2 rounded-lg border border-gray-100"
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs font-bold text-gray-700">
+                                {element}
+                              </span>
+                              <span className="text-sm">
+                                {element === "Fire"
+                                  ? "🔥"
                                   : element === "Water"
-                                    ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                                    ? "💧"
                                     : element === "Earth"
-                                      ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                                      : "bg-gradient-to-r from-purple-400 to-indigo-500"
-                              }`}
-                              style={{ width: `${value * 100}%` }}
-                            />
+                                      ? "🌍"
+                                      : "💨"}
+                              </span>
+                            </div>
+                            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full transition-all duration-500 ${
+                                  element === "Fire"
+                                    ? "bg-gradient-to-r from-red-400 to-orange-500"
+                                    : element === "Water"
+                                      ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                                      : element === "Earth"
+                                        ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                                        : "bg-gradient-to-r from-purple-400 to-indigo-500"
+                                }`}
+                                style={{ width: `${numValue * 100}%` }}
+                              />
+                            </div>
+                            <div className="text-right mt-0.5">
+                              <span className="text-xs font-semibold text-gray-500">
+                                {(numValue * 100).toFixed(0)}%
+                              </span>
+                            </div>
                           </div>
-                          <div className="text-right mt-0.5">
-                            <span className="text-xs font-semibold text-gray-500">
-                              {(value * 100).toFixed(0)}%
-                            </span>
-                          </div>
-                        </div>
-                      ),
+                        );
+                      },
                     )}
                   </div>
                 )}
