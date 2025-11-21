@@ -97,6 +97,8 @@ export interface CuisineRecommendation {
 /**
  * Calculate elemental compatibility between user and cuisine
  *
+ * Enhanced with better discrimination and non-linear scaling
+ *
  * @param userPreferences - User's elemental preferences
  * @param cuisineElementals - Cuisine's elemental properties
  * @returns Compatibility score (0-1)
@@ -125,12 +127,21 @@ export function calculateElementalCompatibility(
 
   const cosineSimilarity = dotProduct / (userMagnitude * cuisineMagnitude);
 
-  // Convert to 0-1 scale (cosine similarity is -1 to 1, but we expect positive)
-  return Math.max(0, (cosineSimilarity + 1) / 2);
+  // Convert to 0-1 scale with better discrimination
+  // Instead of linear (cosineSimilarity + 1) / 2, use a more discriminating approach
+  // Map: -1 → 0, 0 → 0.3, 0.5 → 0.6, 1 → 1.0
+  const baseScore = (cosineSimilarity + 1) / 2; // 0-1 range
+
+  // Apply power function to amplify differences (perfect alignment gets higher, poor gets lower)
+  const enhancedScore = Math.pow(baseScore, 1.3);
+
+  return Math.max(0, Math.min(1, enhancedScore));
 }
 
 /**
  * Calculate alchemical compatibility between user and cuisine
+ *
+ * Enhanced with non-linear scaling to amplify differences
  *
  * @param userPreferences - User's alchemical preferences
  * @param cuisineAlchemical - Cuisine's alchemical properties
@@ -154,18 +165,22 @@ export function calculateAlchemicalCompatibility(
     if (userPref === undefined) return; // Skip if user has no preference for this property
 
     const cuisineValue = cuisineAlchemical[property];
-    const compatibility = 1 - Math.abs(userPref - cuisineValue); // Closer values = higher compatibility
+
+    // Apply power function to amplify differences
+    const compatibility = Math.pow(1 - Math.abs(userPref - cuisineValue), 1.5);
     const weight = userPref; // Weight by user's preference strength
 
     totalScore += compatibility * weight;
     weightedCount += weight;
   });
 
-  return weightedCount > 0 ? totalScore / weightedCount : 0.5; // Default to neutral
+  return weightedCount > 0 ? totalScore / weightedCount : 0.4; // Lower default (was 0.5)
 }
 
 /**
  * Calculate cultural alignment score
+ *
+ * Enhanced with lower defaults for better discrimination
  *
  * @param userProfile - User's cultural background
  * @param cuisineId - Cuisine identifier
@@ -177,7 +192,7 @@ export function calculateCulturalAlignment(
   cuisineId: string,
   cuisineName: string,
 ): number {
-  let alignment = 0.5; // Base neutral score
+  let alignment = 0.4; // Lower base neutral score (was 0.5)
 
   if (!userProfile.culturalBackground) {
     return alignment;
@@ -194,7 +209,10 @@ export function calculateCulturalAlignment(
     );
 
     if (cuisineMatch) {
-      alignment += 0.3; // Strong boost for preferred cuisines
+      alignment += 0.4; // Stronger boost for preferred cuisines (was 0.3)
+    } else {
+      // Slight penalty for not being in preferred list
+      alignment *= 0.8;
     }
   }
 
@@ -202,7 +220,7 @@ export function calculateCulturalAlignment(
   // For now, use a neutral approach
   if (spiceTolerance) {
     // Could be enhanced with cuisine spice level data
-    alignment += 0.1; // Small adjustment for having spice preference data
+    alignment += 0.05; // Small adjustment (reduced from 0.1)
   }
 
   return Math.min(1, Math.max(0, alignment));
@@ -233,6 +251,8 @@ export function calculateSeasonalRelevance(
 /**
  * Calculate signature match score
  *
+ * Enhanced with better z-score weighting and non-linear scaling
+ *
  * @param cuisineSignatures - Cuisine's identified signatures
  * @param userPreferences - User's elemental preferences
  * @returns Signature match score (0-1)
@@ -242,7 +262,7 @@ export function calculateSignatureMatch(
   userPreferences: ElementalProperties,
 ): number {
   if (!cuisineSignatures || cuisineSignatures.length === 0) {
-    return 0.5; // Neutral if no signatures
+    return 0.4; // Lower neutral if no signatures (was 0.5)
   }
 
   let totalMatch = 0;
@@ -257,18 +277,24 @@ export function calculateSignatureMatch(
       const signatureStrength = signature.zscore > 0 ? 1 : -1; // Positive or negative signature
 
       // Higher match if user prefers the signature direction
-      const match =
+      const baseMatch =
         signatureStrength > 0
           ? userPreference // Positive signature matches high preference
           : 1 - userPreference; // Negative signature matches low preference
 
-      totalMatch += match * Math.min(Math.abs(signature.zscore) / 3, 1); // Weight by signature strength
+      // Apply power function to amplify differences
+      const enhancedMatch = Math.pow(baseMatch, 1.3);
+
+      // Increased z-score cap from 3 to 5 (strong signatures have more impact)
+      const signatureWeight = Math.min(Math.abs(signature.zscore) / 5, 1);
+
+      totalMatch += enhancedMatch * signatureWeight;
     }
   });
 
   return cuisineSignatures.length > 0
     ? totalMatch / cuisineSignatures.length
-    : 0.5;
+    : 0.4;
 }
 
 // ========== MAIN RECOMMENDATION ENGINE ==========

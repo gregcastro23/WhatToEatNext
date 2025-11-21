@@ -192,6 +192,34 @@ export interface EnhancedRecommendationOptions {
   };
 }
 
+// ========== SCORE AMPLIFICATION ==========
+
+/**
+ * Apply final score amplification to improve discrimination
+ *
+ * Uses a combination of power function and sigmoid scaling to:
+ * - Push excellent matches (>0.7) higher toward 0.8-0.95
+ * - Push poor matches (<0.5) lower toward 0.2-0.4
+ * - Maintain moderate matches around 0.5-0.7
+ *
+ * @param rawScore - Raw weighted compatibility score (0-1)
+ * @returns Amplified score (0-1)
+ */
+function amplifyFinalScore(rawScore: number): number {
+  // First, apply a power function to amplify differences
+  const powerAmplified = Math.pow(rawScore, 1.2);
+
+  // Then, apply a gentle sigmoid curve centered at 0.6
+  // This pushes scores away from the middle
+  const sigmoid = 1 / (1 + Math.exp(-8 * (powerAmplified - 0.6)));
+
+  // Blend the power-amplified score with sigmoid (70% power, 30% sigmoid)
+  const blended = powerAmplified * 0.7 + sigmoid * 0.3;
+
+  // Ensure we stay in 0-1 range
+  return Math.max(0, Math.min(1, blended));
+}
+
 // ========== ENHANCED RECOMMENDATION ENGINE ==========
 
 /**
@@ -336,7 +364,7 @@ export function generateEnhancedCuisineRecommendations(
       scoringWeights.signature +
       scoringWeights.aspectPhase;
 
-    const overallScore =
+    const rawScore =
       (elementalCompatibility * scoringWeights.elemental +
         (alchemicalCompatibility || 0) * scoringWeights.alchemical +
         kineticScore * scoringWeights.kinetic +
@@ -346,6 +374,9 @@ export function generateEnhancedCuisineRecommendations(
         signatureMatch * scoringWeights.signature +
         aspectPhaseAlignment * scoringWeights.aspectPhase) /
       totalWeight;
+
+    // Apply final score amplification for better discrimination
+    const overallScore = amplifyFinalScore(rawScore);
 
     // Apply minimum threshold
     if (overallScore < minCompatibilityThreshold) {

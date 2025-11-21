@@ -185,6 +185,8 @@ export function calculateKineticCompatibility(
 /**
  * Calculate power level compatibility
  * Matches user's energy level with cuisine's typical power requirements
+ *
+ * Enhanced with non-linear scaling and stronger discrimination
  */
 function calculatePowerLevelCompatibility(
   userProfile: UserKineticProfile,
@@ -202,13 +204,15 @@ function calculatePowerLevelCompatibility(
   // Calculate match considering user's energy preference
   const powerDifference = Math.abs(normalizedUserPower - normalizedCuisinePower);
 
-  // If user has low energy preference, penalize high-power cuisines
-  let compatibility = 1 - powerDifference;
+  // Apply non-linear scaling to amplify differences (power function)
+  let compatibility = Math.pow(1 - powerDifference, 1.5);
+
+  // If user has low energy preference, penalize high-power cuisines (stronger penalty)
   if (userEnergyPref < 0.4 && normalizedCuisinePower > 0.7) {
-    compatibility *= 0.7; // 30% penalty for high-energy cuisine when user prefers low energy
+    compatibility *= 0.4; // 60% penalty for high-energy cuisine when user prefers low energy
     reasoning.push("Cuisine has higher energy requirements than your current preference");
   } else if (userEnergyPref > 0.7 && normalizedCuisinePower > 0.6) {
-    compatibility *= 1.2; // 20% bonus for high-energy match
+    compatibility *= 1.5; // 50% bonus for high-energy match
     reasoning.push("Strong power level alignment with your high-energy preference");
   }
 
@@ -218,6 +222,8 @@ function calculatePowerLevelCompatibility(
 /**
  * Calculate force classification match
  * Aligns user's preferred kinetic state with cuisine's dominant force pattern
+ *
+ * Enhanced with stronger penalties for opposing forces
  */
 function calculateForceClassificationMatch(
   userProfile: UserKineticProfile,
@@ -235,32 +241,34 @@ function calculateForceClassificationMatch(
     return 1.0;
   }
 
-  // Partial matches
+  // Partial matches - reduced scores for better discrimination
   if (userForce === "balanced") {
     reasoning.push("Balanced force preference allows flexibility with this cuisine");
-    return 0.8; // Balanced matches reasonably with anything
+    return 0.7; // Reduced from 0.8 - balanced matches reasonably with anything
   }
 
   if (cuisineForce === "balanced") {
     reasoning.push("Cuisine's balanced force pattern adapts well to your preference");
-    return 0.75;
+    return 0.65; // Reduced from 0.75
   }
 
-  // Opposing forces (accelerating vs decelerating)
+  // Opposing forces (accelerating vs decelerating) - stronger penalty
   if (
     (userForce === "accelerating" && cuisineForce === "decelerating") ||
     (userForce === "decelerating" && cuisineForce === "accelerating")
   ) {
-    reasoning.push("Force classification differs from your preference - may feel energetically off");
-    return 0.3;
+    reasoning.push("Force classification opposes your preference - may feel energetically challenging");
+    return 0.15; // Reduced from 0.3 - opposing forces should be heavily penalized
   }
 
-  return 0.5; // Default neutral
+  return 0.4; // Default neutral (reduced from 0.5)
 }
 
 /**
  * Calculate current flow alignment
  * Higher current flow = more reactive, dynamic cooking
+ *
+ * Enhanced with non-linear scaling to amplify differences
  */
 function calculateCurrentFlowAlignment(
   userKinetics: KineticMetrics,
@@ -275,11 +283,13 @@ function calculateCurrentFlowAlignment(
   const normalizedCuisineCurrent = Math.min(cuisineCurrent / 10, 1.0);
 
   const currentDifference = Math.abs(normalizedUserCurrent - normalizedCuisineCurrent);
-  const alignment = 1 - currentDifference;
+
+  // Apply power function to amplify differences
+  const alignment = Math.pow(1 - currentDifference, 1.5);
 
   if (alignment > 0.8) {
     reasoning.push("Excellent current flow alignment - recipes will feel natural to prepare");
-  } else if (alignment < 0.4) {
+  } else if (alignment < 0.5) {
     reasoning.push("Current flow mismatch - cooking style may require adjustment");
   }
 
@@ -289,6 +299,8 @@ function calculateCurrentFlowAlignment(
 /**
  * Calculate thermal direction harmony
  * Matches heating/cooling trends with user preference
+ *
+ * Enhanced with lower defaults and stronger penalties
  */
 function calculateThermalDirectionHarmony(
   userProfile: UserKineticProfile,
@@ -305,26 +317,28 @@ function calculateThermalDirectionHarmony(
     return 1.0;
   }
 
-  // Stable is compatible with everything
+  // Stable is compatible with everything (reduced from 0.8)
   if (userThermal === "stable" || cuisineThermal === "stable") {
-    return 0.8;
+    return 0.7;
   }
 
-  // Opposing thermal directions
+  // Opposing thermal directions (stronger penalty)
   if (
     (userThermal === "heating" && cuisineThermal === "cooling") ||
     (userThermal === "cooling" && cuisineThermal === "heating")
   ) {
-    reasoning.push("Thermal direction contrast - may benefit from seasonal timing adjustment");
-    return 0.4;
+    reasoning.push("Thermal direction opposes your preference - seasonal timing adjustment strongly recommended");
+    return 0.25; // Reduced from 0.4 - opposing thermal directions should be more penalized
   }
 
-  return 0.6; // Default
+  return 0.5; // Default (reduced from 0.6)
 }
 
 /**
  * Calculate circuit efficiency match
  * P=IV power conservation and efficiency metrics
+ *
+ * Enhanced with non-linear scaling and stronger penalties for low efficiency
  */
 function calculateCircuitEfficiencyMatch(
   userKinetics: KineticMetrics,
@@ -339,12 +353,20 @@ function calculateCircuitEfficiencyMatch(
   const cuisineEfficiency = cuisineProfile.averageCircuitEfficiency ?? 0.7;
 
   const efficiencyDifference = Math.abs(userEfficiency - cuisineEfficiency);
-  const match = 1 - efficiencyDifference;
+
+  // Apply power function to amplify differences
+  let match = Math.pow(1 - efficiencyDifference, 1.5);
+
+  // Extra penalty for low absolute efficiency (< 0.5)
+  if (cuisineEfficiency < 0.5) {
+    match *= 0.5; // 50% penalty for low-efficiency cuisines
+    reasoning.push("Low circuit efficiency - significant power losses expected");
+  }
 
   if (match > 0.85) {
     reasoning.push("Exceptional circuit efficiency match - optimal power transfer");
   } else if (match < 0.5) {
-    reasoning.push("Circuit efficiency mismatch - consider portion adjustments");
+    reasoning.push("Circuit efficiency mismatch - portion adjustments strongly recommended");
   }
 
   return match;
@@ -353,6 +375,8 @@ function calculateCircuitEfficiencyMatch(
 /**
  * Calculate aspect phase alignment
  * Aligns current astrological aspects with cuisine's energy pattern
+ *
+ * Enhanced with lower defaults and better discrimination
  */
 function calculateAspectPhaseAlignment(
   userKinetics: KineticMetrics,
@@ -362,9 +386,9 @@ function calculateAspectPhaseAlignment(
   const userPhase = userKinetics.aspectPhase;
   const cuisinePhase = cuisineKinetics.aspectPhase;
 
-  // If no phase data, return neutral
+  // If no phase data, return lower neutral (reduced from 0.5)
   if (!userPhase || !cuisinePhase) {
-    return 0.5;
+    return 0.4;
   }
 
   // Exact match
@@ -373,25 +397,25 @@ function calculateAspectPhaseAlignment(
     return 1.0;
   }
 
-  // Complementary phases
+  // Complementary phases (reduced from 0.75)
   if (
     (userPhase.type === "applying" && cuisinePhase.type === "exact") ||
     (userPhase.type === "exact" && cuisinePhase.type === "separating")
   ) {
     reasoning.push("Aspect phases are complementary - good energy flow");
-    return 0.75;
+    return 0.7;
   }
 
-  // Opposing phases
+  // Opposing phases (stronger penalty, reduced from 0.4)
   if (
     (userPhase.type === "applying" && cuisinePhase.type === "separating") ||
     (userPhase.type === "separating" && cuisinePhase.type === "applying")
   ) {
-    reasoning.push("Aspect phase contrast - timing optimization recommended");
-    return 0.4;
+    reasoning.push("Aspect phase contrast - timing optimization strongly recommended");
+    return 0.2;
   }
 
-  return 0.6;
+  return 0.5; // Default (reduced from 0.6)
 }
 
 /**

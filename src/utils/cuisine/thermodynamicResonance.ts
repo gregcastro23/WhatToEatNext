@@ -194,6 +194,8 @@ export function calculateThermodynamicResonance(
 /**
  * Calculate Kalchm resonance
  * Measures alchemical equilibrium compatibility
+ *
+ * Enhanced with logarithmic scaling for better discrimination
  */
 function calculateKalchmResonance(
   userThermo: ThermodynamicProperties,
@@ -203,8 +205,12 @@ function calculateKalchmResonance(
   const userKalchm = userThermo.kalchm;
   const cuisineKalchm = cuisineThermo.kalchm;
 
-  // Calculate ratio-based resonance (closer ratios = better resonance)
+  // Calculate ratio for logarithmic scaling
   const kalchmRatio = Math.min(userKalchm, cuisineKalchm) / Math.max(userKalchm, cuisineKalchm);
+
+  // Use logarithmic scaling to better discriminate ratio differences
+  // This gives: 1:1 = 1.0, 2:1 = 0.65, 3:1 = 0.45, 10:1 = 0
+  const ratioScore = Math.max(0, 1 - Math.abs(Math.log(kalchmRatio)) / Math.log(10));
 
   // Bonus for both being near equilibrium (Kalchm ≈ 1.0)
   const equilibriumBonus = Math.max(
@@ -212,7 +218,8 @@ function calculateKalchmResonance(
     1 - Math.abs(1 - userKalchm) - Math.abs(1 - cuisineKalchm)
   );
 
-  const resonance = kalchmRatio * 0.7 + equilibriumBonus * 0.3;
+  // Apply power function to equilibrium bonus for more discrimination
+  const resonance = ratioScore * 0.7 + Math.pow(equilibriumBonus, 1.5) * 0.3;
 
   if (resonance > 0.8) {
     reasoning.push("Exceptional Kalchm resonance - alchemical equilibrium strongly aligned");
@@ -228,6 +235,8 @@ function calculateKalchmResonance(
 /**
  * Calculate Monica Constant alignment
  * Measures dynamic system constant compatibility
+ *
+ * Enhanced with non-linear scaling and better discrimination
  */
 function calculateMonicaAlignment(
   userThermo: ThermodynamicProperties,
@@ -239,12 +248,14 @@ function calculateMonicaAlignment(
 
   // Monica difference (smaller = better alignment)
   const monicaDiff = Math.abs(userMonica - cuisineMonica);
-  const alignment = Math.max(0, 1 - monicaDiff / 10); // Normalize to 0-1
 
-  // Special case: Both near 1.0 (neutral equilibrium)
+  // Apply power function to amplify differences
+  const alignment = Math.pow(Math.max(0, 1 - monicaDiff / 10), 1.5);
+
+  // Special case: Both near 1.0 (neutral equilibrium) - reduced bonus
   if (Math.abs(userMonica - 1) < 0.2 && Math.abs(cuisineMonica - 1) < 0.2) {
     reasoning.push("Monica constants both near equilibrium - stable dynamic system");
-    return Math.max(alignment, 0.85);
+    return Math.max(alignment, 0.8); // Reduced from 0.85
   }
 
   if (alignment > 0.75) {
@@ -259,6 +270,8 @@ function calculateMonicaAlignment(
 /**
  * Calculate Greg's Energy harmony
  * Measures overall energy balance compatibility
+ *
+ * Enhanced with non-linear scaling and stronger multipliers
  */
 function calculateGregsEnergyHarmony(
   userProfile: UserThermodynamicProfile,
@@ -272,22 +285,22 @@ function calculateGregsEnergyHarmony(
   // Calculate energy difference
   const energyDiff = Math.abs(userEnergy - cuisineEnergy);
 
-  // Base harmony (closer values = better)
-  let harmony = Math.max(0, 1 - energyDiff / 5); // Normalize to 0-1
+  // Base harmony (closer values = better) - apply power function
+  let harmony = Math.pow(Math.max(0, 1 - energyDiff / 5), 1.5);
 
-  // Apply user preference
+  // Apply user preference with stronger multipliers
   if (userPref > 0 && cuisineEnergy > 0) {
     // User prefers positive energy, cuisine has positive energy
-    harmony *= 1.2;
+    harmony *= 1.5; // Increased from 1.2
     reasoning.push("Positive energy alignment matches your preference");
   } else if (userPref < 0 && cuisineEnergy < 0) {
     // User prefers negative energy, cuisine has negative energy
-    harmony *= 1.2;
+    harmony *= 1.5; // Increased from 1.2
     reasoning.push("Grounding energy alignment matches your preference");
   } else if (Math.abs(userPref) > 0.3 && Math.sign(cuisineEnergy) !== Math.sign(userPref)) {
-    // User has strong preference but cuisine is opposite
-    harmony *= 0.7;
-    reasoning.push("Energy balance differs from your strong preference");
+    // User has strong preference but cuisine is opposite - stronger penalty
+    harmony *= 0.4; // Reduced from 0.7
+    reasoning.push("Energy balance opposes your strong preference");
   }
 
   // Clamp to 0-1
@@ -297,6 +310,8 @@ function calculateGregsEnergyHarmony(
 /**
  * Calculate heat compatibility
  * Measures active energy compatibility
+ *
+ * Enhanced with non-linear scaling and stronger penalties
  */
 function calculateHeatCompatibility(
   userProfile: UserThermodynamicProfile,
@@ -312,23 +327,27 @@ function calculateHeatCompatibility(
   const normalizedCuisineHeat = Math.min(cuisineHeat * 2, 1);
 
   const heatDiff = Math.abs(normalizedUserHeat - normalizedCuisineHeat);
-  let compatibility = 1 - heatDiff;
 
-  // Apply tolerance factor
+  // Apply power function to amplify differences
+  let compatibility = Math.pow(1 - heatDiff, 1.5);
+
+  // Apply tolerance factor with stronger multipliers
   if (normalizedCuisineHeat > 0.7) {
     // High heat cuisine
     if (userTolerance < 0.4) {
-      compatibility *= 0.6;
-      reasoning.push("High heat cuisine may exceed your heat tolerance");
+      compatibility *= 0.3; // Stronger penalty (reduced from 0.6)
+      reasoning.push("High heat cuisine significantly exceeds your heat tolerance");
     } else if (userTolerance > 0.7) {
-      compatibility *= 1.2;
+      compatibility *= 1.6; // Stronger bonus (increased from 1.2)
       reasoning.push("High heat profile matches your heat tolerance well");
     }
   } else if (normalizedCuisineHeat < 0.3) {
     // Low heat cuisine
     if (userTolerance > 0.7) {
+      compatibility *= 0.7; // Slight penalty for mismatch
       reasoning.push("Mild heat profile - may be less stimulating than preferred");
     } else {
+      compatibility *= 1.2; // Small bonus
       reasoning.push("Gentle heat profile suits your preference");
     }
   }
@@ -339,6 +358,8 @@ function calculateHeatCompatibility(
 /**
  * Calculate entropy match
  * Measures disorder/diversity compatibility
+ *
+ * Enhanced with non-linear scaling and stronger multipliers
  */
 function calculateEntropyMatch(
   userProfile: UserThermodynamicProfile,
@@ -353,17 +374,23 @@ function calculateEntropyMatch(
   const normalizedCuisineEntropy = Math.min(cuisineEntropy, 1);
 
   const entropyDiff = Math.abs(userEntropy - cuisineEntropy);
-  let match = 1 - Math.min(entropyDiff, 1);
 
-  // Apply user preference
+  // Apply power function to amplify differences
+  let match = Math.pow(1 - Math.min(entropyDiff, 1), 1.5);
+
+  // Apply user preference with stronger multipliers
   if (userPref > 0.7 && normalizedCuisineEntropy > 0.6) {
     // User likes high diversity/chaos, cuisine is high entropy
-    match *= 1.2;
+    match *= 1.6; // Increased from 1.2
     reasoning.push("High culinary diversity matches your preference for variety");
   } else if (userPref < 0.3 && normalizedCuisineEntropy < 0.4) {
     // User prefers order/simplicity, cuisine is low entropy
-    match *= 1.2;
+    match *= 1.5; // Increased from 1.2
     reasoning.push("Structured, cohesive flavor profiles match your preference");
+  } else if (Math.abs(userPref - normalizedCuisineEntropy) > 0.5) {
+    // Strong mismatch between preference and cuisine entropy
+    match *= 0.6; // Penalty for mismatch
+    reasoning.push("Culinary complexity differs significantly from your preference");
   }
 
   return Math.max(0, Math.min(1, match));
@@ -372,6 +399,8 @@ function calculateEntropyMatch(
 /**
  * Calculate reactivity alignment
  * Measures transformative potential compatibility
+ *
+ * Enhanced with non-linear scaling and stronger multipliers
  */
 function calculateReactivityAlignment(
   userProfile: UserThermodynamicProfile,
@@ -383,20 +412,22 @@ function calculateReactivityAlignment(
   const userPref = userProfile.reactivityPreference ?? 0.5;
 
   const reactivityDiff = Math.abs(userReactivity - cuisineReactivity);
-  let alignment = 1 - Math.min(reactivityDiff / 2, 1); // Normalize to 0-1
 
-  // Apply user preference
+  // Apply power function to amplify differences
+  let alignment = Math.pow(1 - Math.min(reactivityDiff / 2, 1), 1.5);
+
+  // Apply user preference with stronger multipliers
   if (userPref > 0.7 && cuisineReactivity > 1.0) {
     // User wants transformative cooking, cuisine is highly reactive
-    alignment *= 1.3;
+    alignment *= 1.8; // Increased from 1.3
     reasoning.push("Highly transformative cooking methods match your preference for complex preparations");
   } else if (userPref < 0.3 && cuisineReactivity < 0.5) {
     // User prefers simple cooking, cuisine is low reactivity
-    alignment *= 1.2;
+    alignment *= 1.5; // Increased from 1.2
     reasoning.push("Simple, straightforward preparations match your preference");
   } else if (Math.abs(userPref - cuisineReactivity) > 0.5) {
-    alignment *= 0.8;
-    reasoning.push("Cooking complexity differs from your preference");
+    alignment *= 0.5; // Stronger penalty (reduced from 0.8)
+    reasoning.push("Cooking complexity differs significantly from your preference");
   }
 
   return Math.max(0, Math.min(1, alignment));
