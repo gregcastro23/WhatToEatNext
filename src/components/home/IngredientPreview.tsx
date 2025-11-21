@@ -404,11 +404,23 @@ function calculateScore(
 
 export default function IngredientPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>("spices");
-  const [expandedIngredient, setExpandedIngredient] = useState<string | null>(null);
+  const [expandedIngredients, setExpandedIngredients] = useState<Set<string>>(new Set());
 
   const category = categories.find((cat) => cat.id === selectedCategory);
   const data = category ? category.getData() : [];
   const currentIngredients = calculateScore(data);
+
+  const toggleIngredient = (ingredientName: string) => {
+    setExpandedIngredients(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(ingredientName)) {
+        newSet.delete(ingredientName);
+      } else {
+        newSet.add(ingredientName);
+      }
+      return newSet;
+    });
+  };
 
   // Get dominant element for selected category
   const getDominantElement = (): string => {
@@ -487,12 +499,12 @@ export default function IngredientPreview() {
             {/* Card Header - Clickable */}
             <div
               className="p-4 cursor-pointer hover:bg-green-50 transition-colors"
-              onClick={() => setExpandedIngredient(expandedIngredient === ingredient.name ? null : ingredient.name)}
+              onClick={() => toggleIngredient(ingredient.name)}
             >
               <div className="flex justify-between items-start mb-2">
                 <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                   {ingredient.name}
-                  <span className="text-lg">{expandedIngredient === ingredient.name ? "−" : "+"}</span>
+                  <span className="text-lg">{expandedIngredients.has(ingredient.name) ? "−" : "+"}</span>
                 </h4>
                 <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-md">
                   {(ingredient.score * 100).toFixed(0)}%
@@ -522,7 +534,7 @@ export default function IngredientPreview() {
             </div>
 
             {/* Expanded Details */}
-            {expandedIngredient === ingredient.name && (
+            {expandedIngredients.has(ingredient.name) && (
               <div className="border-t border-gray-200 p-4 bg-gradient-to-br from-green-50 to-white space-y-4">
                 {/* Culinary Uses */}
                 {ingredient.culinaryUses && ingredient.culinaryUses.length > 0 && (

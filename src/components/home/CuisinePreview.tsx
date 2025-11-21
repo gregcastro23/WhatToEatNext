@@ -56,8 +56,8 @@ export default function CuisinePreview() {
   const [cuisines, setCuisines] = useState<CuisineRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [expandedCuisine, setExpandedCuisine] = useState<string | null>(null);
-  const [expandedRecipe, setExpandedRecipe] = useState<string | null>(null);
+  const [expandedCuisines, setExpandedCuisines] = useState<Set<string>>(new Set());
+  const [expandedRecipes, setExpandedRecipes] = useState<Set<string>>(new Set());
   const [showElemental, setShowElemental] = useState(false);
 
   useEffect(() => {
@@ -77,7 +77,27 @@ export default function CuisinePreview() {
   }, []);
 
   const toggleCuisine = (cuisineId: string) => {
-    setExpandedCuisine(expandedCuisine === cuisineId ? null : cuisineId);
+    setExpandedCuisines(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(cuisineId)) {
+        newSet.delete(cuisineId);
+      } else {
+        newSet.add(cuisineId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleRecipe = (recipeId: string) => {
+    setExpandedRecipes(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(recipeId)) {
+        newSet.delete(recipeId);
+      } else {
+        newSet.add(recipeId);
+      }
+      return newSet;
+    });
   };
 
   if (loading) {
@@ -152,13 +172,13 @@ export default function CuisinePreview() {
                   <span className="text-xs text-gray-500 mt-1">match</span>
                 </div>
                 <div className="text-3xl text-gray-400 font-light">
-                  {expandedCuisine === cuisine.cuisine_id ? "−" : "+"}
+                  {expandedCuisines.has(cuisine.cuisine_id) ? "−" : "+"}
                 </div>
               </div>
             </div>
           </div>
 
-          {expandedCuisine === cuisine.cuisine_id && (
+          {expandedCuisines.has(cuisine.cuisine_id) && (
             <div className="p-6 bg-gradient-to-br from-gray-50 to-white border-t border-gray-200">
               {/* Nested Recipes - PRIMARY FOCUS */}
               {cuisine.nested_recipes && cuisine.nested_recipes.length > 0 && (
@@ -177,20 +197,14 @@ export default function CuisinePreview() {
                       >
                         <div
                           className="p-4 cursor-pointer hover:bg-purple-50 transition-colors"
-                          onClick={() =>
-                            setExpandedRecipe(
-                              expandedRecipe === recipe.recipe_id
-                                ? null
-                                : recipe.recipe_id,
-                            )
-                          }
+                          onClick={() => toggleRecipe(recipe.recipe_id)}
                         >
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex-1">
                               <div className="font-bold text-gray-900 text-lg mb-1 flex items-center gap-2">
                                 {recipe.name}
                                 <span className="text-xl">
-                                  {expandedRecipe === recipe.recipe_id
+                                  {expandedRecipes.has(recipe.recipe_id)
                                     ? "−"
                                     : "+"}
                                 </span>
@@ -238,7 +252,7 @@ export default function CuisinePreview() {
                         </div>
 
                         {/* Expanded Recipe Details */}
-                        {expandedRecipe === recipe.recipe_id && (
+                        {expandedRecipes.has(recipe.recipe_id) && (
                           <div className="border-t border-purple-100 p-4 bg-gradient-to-br from-purple-50 to-white">
                             {/* Ingredients */}
                             <div className="mb-4">

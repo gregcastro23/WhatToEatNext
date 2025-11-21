@@ -89,7 +89,7 @@ function calculateScore(method: MethodData): number {
 
 export default function CookingMethodPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
-  const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
+  const [expandedMethods, setExpandedMethods] = useState<Set<string>>(new Set());
 
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
@@ -106,7 +106,15 @@ export default function CookingMethodPreview() {
   }, [selectedCategory]);
 
   const toggleMethod = (methodId: string) => {
-    setExpandedMethod(expandedMethod === methodId ? null : methodId);
+    setExpandedMethods(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(methodId)) {
+        newSet.delete(methodId);
+      } else {
+        newSet.add(methodId);
+      }
+      return newSet;
+    });
   };
 
   const formatDuration = (method: MethodData) => {
@@ -206,13 +214,13 @@ export default function CookingMethodPreview() {
                     {(method.score * 100).toFixed(0)}%
                   </div>
                   <div className="text-3xl text-gray-400 font-light">
-                    {expandedMethod === method.id ? "−" : "+"}
+                    {expandedMethods.has(method.id) ? "−" : "+"}
                   </div>
                 </div>
               </div>
             </div>
 
-            {expandedMethod === method.id && (
+            {expandedMethods.has(method.id) && (
               <div className="p-6 bg-gradient-to-br from-gray-50 to-white border-t-2 border-orange-100 space-y-5">
                 {/* Benefits */}
                 {method.benefits && method.benefits.length > 0 && (
