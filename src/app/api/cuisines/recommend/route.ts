@@ -15,6 +15,12 @@ import { greek } from "@/data/cuisines/greek";
 import type { ElementalProperties, AlchemicalProperties } from "@/types/alchemy";
 import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import {
+  calculateEnhancedCompatibility,
+  compatibilityToMatchPercentage,
+  type ThermodynamicState,
+  type KineticState
+} from "@/utils/enhancedCompatibilityScoring";
 
 const logger = createLogger("CuisinesRecommendAPI");
 
@@ -102,6 +108,28 @@ interface NestedRecipe {
   instructions: string[];
   meal_type: string;
   seasonal_fit: string;
+
+  // Enhanced recipe guidance fields
+  tips?: string[];  // Expert cooking tips
+  substitutions?: Array<{
+    original: string;
+    alternatives: string[];
+    notes?: string;
+  }>;  // Ingredient substitutions
+  variations?: string[];  // Regional or dietary variations
+  pairing_suggestions?: {
+    sides?: string[];
+    drinks?: string[];
+    condiments?: string[];
+  };  // What pairs well with this dish
+  storage_info?: {
+    storage_method?: string;
+    storage_duration?: string;
+    reheating_instructions?: string;
+    freezer_friendly?: boolean;
+  };  // Storage and reheating guidance
+  common_mistakes?: string[];  // What to avoid
+  timing_tips?: string[];  // Do-ahead suggestions
 }
 
 interface SauceRecommendation {
@@ -422,6 +450,52 @@ function getRecipesForCuisine(
     instructions: recipe.instructions || recipe.preparationSteps || [],
     meal_type: recipe.mealType ? recipe.mealType.join(", ") : mealType,
     seasonal_fit: recipe.season?.includes("all") ? "Available year-round" : `Best in ${season}`,
+
+    // Enhanced recipe guidance (sample data for first recipe, can be expanded)
+    tips: idx === 0 ? [
+      "Let ingredients come to room temperature before cooking for best results",
+      "Taste and adjust seasoning throughout the cooking process",
+      "Use fresh herbs for maximum flavor impact"
+    ] : undefined,
+
+    substitutions: idx === 0 ? [
+      {
+        original: "Fresh herbs",
+        alternatives: ["Dried herbs (use 1/3 the amount)", "Herb paste"],
+        notes: "Fresh is preferred but dried works in a pinch"
+      }
+    ] : undefined,
+
+    variations: idx === 0 ? [
+      "Vegetarian: Replace meat with mushrooms or tofu",
+      "Spicy: Add red pepper flakes or fresh chilies",
+      "Light: Use olive oil spray instead of butter"
+    ] : undefined,
+
+    pairing_suggestions: idx === 0 ? {
+      sides: ["Roasted vegetables", "Fresh salad", "Crusty bread"],
+      drinks: ["Light red wine", "Sparkling water with lemon", "Iced tea"],
+      condiments: ["Extra virgin olive oil", "Fresh lemon wedges", "Grated cheese"]
+    } : undefined,
+
+    storage_info: idx === 0 ? {
+      storage_method: "Store in airtight container in refrigerator",
+      storage_duration: "Up to 3-4 days",
+      reheating_instructions: "Reheat gently on stovetop or in microwave, adding a splash of water if needed",
+      freezer_friendly: true
+    } : undefined,
+
+    common_mistakes: idx === 0 ? [
+      "Overcrowding the pan reduces browning",
+      "Not preheating the pan before adding ingredients",
+      "Adding salt too early can draw out moisture"
+    ] : undefined,
+
+    timing_tips: idx === 0 ? [
+      "Prep all ingredients before you start cooking",
+      "Sauce can be made up to 2 days ahead",
+      "Reheat gently before serving"
+    ] : undefined,
   }));
 }
 
@@ -476,6 +550,59 @@ function getZodiacElement(zodiacSign: string): string {
     Cancer: "Water", Scorpio: "Water", Pisces: "Water",
   };
   return elements[zodiacSign] || "balanced";
+}
+
+/**
+ * Calculate user's current state for compatibility scoring
+ * Based on current astrological moment
+ */
+function calculateUserState(moment: CurrentMoment): {
+  thermodynamic: ThermodynamicState;
+  kinetic: KineticState;
+  elemental: ElementalProperties;
+} {
+  // Calculate alchemical properties for current moment
+  const alchemical = calculateAlchemicalProperties(moment.zodiac_sign);
+
+  // Calculate elemental properties based on zodiac sign
+  const zodiacElement = getZodiacElement(moment.zodiac_sign);
+  const elementalProps: ElementalProperties = {
+    Fire: zodiacElement === "Fire" ? 0.4 : 0.2,
+    Water: zodiacElement === "Water" ? 0.4 : 0.2,
+    Earth: zodiacElement === "Earth" ? 0.4 : 0.2,
+    Air: zodiacElement === "Air" ? 0.4 : 0.2,
+  };
+
+  // Calculate thermodynamic state
+  const thermodynamics = calculateThermodynamicMetrics(alchemical, elementalProps);
+
+  // Calculate kinetic state
+  const kinetics = calculateKineticProperties(
+    alchemical,
+    elementalProps,
+    thermodynamics,
+  );
+
+  return {
+    thermodynamic: {
+      heat: thermodynamics.heat,
+      entropy: thermodynamics.entropy,
+      reactivity: thermodynamics.reactivity,
+      gregsEnergy: thermodynamics.gregsEnergy,
+      kalchm: thermodynamics.kalchm,
+      monica: thermodynamics.monica,
+    },
+    kinetic: {
+      power: kinetics.power,
+      currentFlow: kinetics.currentFlow,
+      potentialDifference: kinetics.potentialDifference,
+      charge: kinetics.charge,
+      velocity: kinetics.velocity,
+      momentum: kinetics.momentum,
+      forceMagnitude: kinetics.forceMagnitude,
+    },
+    elemental: elementalProps,
+  };
 }
 
 /**
@@ -590,10 +717,51 @@ function generateEnhancedRecommendations(
     };
   }).filter((c): c is NonNullable<typeof c> => c !== null);
 
+  // Calculate user's current state for compatibility scoring
+  const userState = calculateUserState(moment);
+
+  // Calculate compatibility scores for all cuisines
+  const cuisinesWithScores = processedCuisines.map((cuisine) => {
+    const cuisineState = {
+      thermodynamic: {
+        heat: cuisine.thermodynamics.heat,
+        entropy: cuisine.thermodynamics.entropy,
+        reactivity: cuisine.thermodynamics.reactivity,
+        gregsEnergy: cuisine.thermodynamics.gregsEnergy,
+        kalchm: cuisine.thermodynamics.kalchm,
+        monica: cuisine.thermodynamics.monica,
+      },
+      kinetic: {
+        power: cuisine.kinetics.power,
+        currentFlow: cuisine.kinetics.currentFlow,
+        potentialDifference: cuisine.kinetics.potentialDifference,
+        charge: cuisine.kinetics.charge,
+        velocity: cuisine.kinetics.velocity,
+        momentum: cuisine.kinetics.momentum,
+        forceMagnitude: cuisine.kinetics.forceMagnitude,
+      },
+      elemental: cuisine.elementalProps,
+    };
+
+    // Calculate enhanced compatibility score
+    const compatibility = calculateEnhancedCompatibility(userState, cuisineState);
+    const matchPercentage = compatibilityToMatchPercentage(compatibility.overallScore);
+
+    return {
+      ...cuisine,
+      compatibilityScore: compatibility.overallScore,
+      matchPercentage: matchPercentage / 100, // Convert back to 0-1 range for sorting
+    };
+  });
+
+  // Sort by compatibility and take top 8
+  const topCuisines = cuisinesWithScores
+    .sort((a, b) => b.matchPercentage - a.matchPercentage)
+    .slice(0, 8);
+
   // Generate recommendations for top cuisines
-  const recommendations: EnhancedCuisineRecommendation[] = processedCuisines
-    .slice(0, 8)
-    .map((cuisine, index) => {
+  const recommendations: EnhancedCuisineRecommendation[] = topCuisines
+    .map((cuisine) => {
       const cuisineData = cuisineDataMap[cuisine.id] || {};
       const recipes = getRecipesForCuisine(cuisineData, cuisine.name, moment, 5);
       const sauces = getSaucesForCuisine(cuisineData, cuisine.name, 5);
@@ -607,14 +775,11 @@ function generateEnhancedRecommendations(
         cuisine.id,
         cuisine.elementalProps,
         cuisine.thermodynamics,
-        processedCuisines,
+        topCuisines,
       );
 
-      // Calculate astrological score based on zodiac element match
-      const zodiacElement = getZodiacElement(moment.zodiac_sign);
-      const dominantElement = Object.entries(cuisine.elementalProps)
-        .sort((a, b) => b[1] - a[1])[0][0];
-      const astroScore = dominantElement === zodiacElement ? 0.9 : 0.7 + (0.2 * (index / 8));
+      // Use the calculated compatibility score
+      const astroScore = cuisine.matchPercentage;
 
       // Ensure alchemical properties are always valid with comprehensive checks
       const validAlchemical: AlchemicalProperties = {
@@ -648,6 +813,26 @@ function generateEnhancedRecommendations(
           : 0.25,
       };
 
+      // Generate compatibility reason based on strongest factors
+      const zodiacElement = getZodiacElement(moment.zodiac_sign);
+      const dominantElement = Object.entries(cuisine.elementalProps)
+        .sort((a, b) => b[1] - a[1])[0][0];
+
+      let compatibilityReason = `Strong compatibility (${(astroScore * 100).toFixed(0)}%) `;
+      if (dominantElement === zodiacElement) {
+        compatibilityReason += `with ${moment.zodiac_sign}'s ${zodiacElement} energy. `;
+      }
+      compatibilityReason += `Perfect for ${moment.season} season. `;
+
+      // Add thermodynamic insight if significant
+      if (cuisine.thermodynamics.monica > 1.5) {
+        compatibilityReason += `High alchemical harmony detected.`;
+      } else if (cuisine.thermodynamics.heat > 0.12) {
+        compatibilityReason += `Energetically aligned with your current state.`;
+      } else {
+        compatibilityReason += `Well-balanced properties for your needs.`;
+      }
+
       return {
         cuisine_id: cuisine.id,
         name: cuisine.name,
@@ -666,11 +851,12 @@ function generateEnhancedRecommendations(
 
         seasonal_context: `Perfect for ${moment.season} - ingredients at peak freshness`,
         astrological_score: astroScore,
-        compatibility_reason: `Aligns with ${moment.zodiac_sign}'s ${zodiacElement} energy and current ${moment.season} season`,
+        compatibility_reason: compatibilityReason,
       };
     });
 
-  return recommendations.sort((a, b) => b.astrological_score - a.astrological_score);
+  // Already sorted by compatibility score, no need to re-sort
+  return recommendations;
 }
 
 /**
