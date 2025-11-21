@@ -6,8 +6,10 @@ import { melons } from "./melons";
 import { pome } from "./pome";
 import { _stoneFruit } from "./stoneFruit";
 import { tropical } from "./tropical";
+import { enhancedFruitsIngredients } from "./enhancedFruits";
 
 // Combine all fruit categories
+// Enhanced fruits with comprehensive data take precedence
 export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
   ...citrus,
   ...berries,
@@ -15,6 +17,7 @@ export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
   ..._stoneFruit,
   ...pome,
   ...melons,
+  ...enhancedFruitsIngredients, // Add our enhanced fruits with full data
 });
 
 // Export individual categories
