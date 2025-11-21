@@ -210,44 +210,6 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     },
   }) as Partial<IngredientMapping>,
 
-  preparation_methods: createIngredientMapping("preparation_methods", {
-    elementalProperties: { Earth: 0.25, Water: 0.25, Fire: 0.25, Air: 0.25 },
-    category: "preparation",
-    drying: {
-      air_drying: {
-        method: "bundle and hang",
-        conditions: "warm, dry, good airflow",
-        duration: "1-2 weeks",
-        best_for: ["woody herbs", "large leaf herbs"],
-      },
-      dehydrator: {
-        temperature: "95-115°F",
-        duration: "2-6 hours",
-        best_for: ["tender herbs", "flowers"],
-      },
-    },
-    storage: {
-      dried_herbs: {
-        container: "airtight, dark glass",
-        location: "cool, dark place",
-        duration: "6-12 months",
-        tips: [
-          "check for moisture",
-          "label with date",
-          "crush to release oils",
-        ],
-      },
-      fresh_herbs: {
-        methods: {
-          refrigerator: {
-            technique: "wrap in damp paper",
-            duration: "1-2 weeks",
-          },
-        },
-      },
-    },
-  }) as Partial<IngredientMapping>,
-
   // Additional specialty herbs
   curry_leaves: createIngredientMapping("curry_leaves", {
     elementalProperties: { Earth: 0.2, Water: 0.2, Fire: 0.4, Air: 0.2 },
