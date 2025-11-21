@@ -433,70 +433,140 @@ function getRecipesForCuisine(
     }
   }
 
-  return recipes.slice(0, maxRecipes).map((recipe, idx) => ({
-    recipe_id: recipe.id || `${cuisineName}-${idx}`,
-    name: recipe.name || "Traditional Dish",
-    description: recipe.description || `A classic ${cuisineName} dish`,
-    prep_time: recipe.prepTime,
-    cook_time: recipe.cookTime,
-    servings: recipe.servingSize,
-    difficulty: recipe.difficulty || "Medium",
-    ingredients: (recipe.ingredients || []).map((ing: any) => ({
-      name: ing.name || "ingredient",
-      amount: ing.amount,
-      unit: ing.unit,
-      notes: ing.notes,
-    })),
-    instructions: recipe.instructions || recipe.preparationSteps || [],
-    meal_type: recipe.mealType ? recipe.mealType.join(", ") : mealType,
-    seasonal_fit: recipe.season?.includes("all") ? "Available year-round" : `Best in ${season}`,
+  return recipes.slice(0, maxRecipes).map((recipe, idx) => {
+    // Convert existing substitutions to enhanced format
+    const enhancedSubstitutions = recipe.substitutions
+      ? Object.entries(recipe.substitutions).map(([original, alternatives]: [string, any]) => ({
+          original,
+          alternatives: Array.isArray(alternatives) ? alternatives : [alternatives],
+          notes: `${alternatives.length} alternative${alternatives.length > 1 ? 's' : ''} available`
+        }))
+      : undefined;
 
-    // Enhanced recipe guidance (sample data for first recipe, can be expanded)
-    tips: idx === 0 ? [
-      "Let ingredients come to room temperature before cooking for best results",
-      "Taste and adjust seasoning throughout the cooking process",
-      "Use fresh herbs for maximum flavor impact"
-    ] : undefined,
+    // Convert pairing suggestions to enhanced format
+    const enhancedPairings = recipe.pairingSuggestions
+      ? {
+          sides: Array.isArray(recipe.pairingSuggestions)
+            ? recipe.pairingSuggestions.filter((s: string) => !s.toLowerCase().includes('wine') && !s.toLowerCase().includes('juice'))
+            : [],
+          drinks: Array.isArray(recipe.pairingSuggestions)
+            ? recipe.pairingSuggestions.filter((s: string) => s.toLowerCase().includes('wine') || s.toLowerCase().includes('juice'))
+            : [],
+          condiments: []
+        }
+      : undefined;
 
-    substitutions: idx === 0 ? [
-      {
-        original: "Fresh herbs",
-        alternatives: ["Dried herbs (use 1/3 the amount)", "Herb paste"],
-        notes: "Fresh is preferred but dried works in a pinch"
-      }
-    ] : undefined,
+    // Generate contextual tips based on cooking methods
+    const cookingTips = recipe.cookingMethods
+      ? recipe.cookingMethods.map((method: string) => {
+          const tipMap: Record<string, string> = {
+            'baking': 'Preheat oven thoroughly and use center rack for even heat',
+            'sauteing': 'Heat pan before adding ingredients for best browning',
+            'boiling': 'Use plenty of salted water for even cooking',
+            'grilling': 'Let grill reach proper temperature before cooking',
+            'roasting': 'Pat ingredients dry for better caramelization',
+            'simmering': 'Maintain gentle bubbles, not a rolling boil',
+            'steaming': 'Keep lid on to maintain consistent steam',
+            'frying': 'Ensure oil is hot enough to prevent sogginess',
+          };
+          return tipMap[method] || `Follow ${method} technique carefully`;
+        })
+      : undefined;
 
-    variations: idx === 0 ? [
-      "Vegetarian: Replace meat with mushrooms or tofu",
-      "Spicy: Add red pepper flakes or fresh chilies",
-      "Light: Use olive oil spray instead of butter"
-    ] : undefined,
+    // Generate storage info based on ingredients
+    const hasProtein = recipe.ingredients?.some((ing: any) =>
+      ['meat', 'fish', 'seafood', 'dairy', 'eggs'].includes(ing.category?.toLowerCase())
+    );
 
-    pairing_suggestions: idx === 0 ? {
-      sides: ["Roasted vegetables", "Fresh salad", "Crusty bread"],
-      drinks: ["Light red wine", "Sparkling water with lemon", "Iced tea"],
-      condiments: ["Extra virgin olive oil", "Fresh lemon wedges", "Grated cheese"]
-    } : undefined,
-
-    storage_info: idx === 0 ? {
+    const storageInfo = {
       storage_method: "Store in airtight container in refrigerator",
-      storage_duration: "Up to 3-4 days",
-      reheating_instructions: "Reheat gently on stovetop or in microwave, adding a splash of water if needed",
-      freezer_friendly: true
-    } : undefined,
+      storage_duration: hasProtein ? "2-3 days" : "3-5 days",
+      reheating_instructions: recipe.cookingMethods?.includes('baking') || recipe.cookingMethods?.includes('roasting')
+        ? "Reheat in oven at 350°F for best texture"
+        : "Reheat gently on stovetop or in microwave",
+      freezer_friendly: !recipe.ingredients?.some((ing: any) =>
+        ['cream', 'fresh herbs', 'salad'].some(term => ing.name?.toLowerCase().includes(term))
+      )
+    };
 
-    common_mistakes: idx === 0 ? [
-      "Overcrowding the pan reduces browning",
-      "Not preheating the pan before adding ingredients",
-      "Adding salt too early can draw out moisture"
-    ] : undefined,
+    // Generate common mistakes based on allergens and cooking methods
+    const commonMistakes = [];
+    if (recipe.cookingMethods?.includes('sauteing') || recipe.cookingMethods?.includes('frying')) {
+      commonMistakes.push("Not heating the pan sufficiently before adding ingredients");
+    }
+    if (recipe.allergens?.includes('gluten') && recipe.cookingMethods?.includes('baking')) {
+      commonMistakes.push("Overmixing dough can make it tough");
+    }
+    if (recipe.ingredients?.some((ing: any) => ing.category === 'protein')) {
+      commonMistakes.push("Overcooking protein makes it dry and tough");
+    }
 
-    timing_tips: idx === 0 ? [
-      "Prep all ingredients before you start cooking",
-      "Sauce can be made up to 2 days ahead",
-      "Reheat gently before serving"
-    ] : undefined,
-  }));
+    // Generate timing tips based on prep/cook time
+    const timingTips = [];
+    if (recipe.prepTime && parseInt(recipe.prepTime) > 15) {
+      timingTips.push("Prep all ingredients (mise en place) before starting to cook");
+    }
+    if (recipe.cookTime && parseInt(recipe.cookTime) > 30) {
+      timingTips.push("This dish benefits from being made ahead and reheated");
+    }
+    timingTips.push("Serve immediately for best taste and texture");
+
+    // Generate variations based on dietary info and cuisine
+    const variations = [];
+    if (!recipe.dietaryInfo?.includes('vegan')) {
+      variations.push("Vegan: Replace animal products with plant-based alternatives");
+    }
+    if (!recipe.dietaryInfo?.includes('gluten-free') && recipe.allergens?.includes('gluten')) {
+      variations.push("Gluten-free: Use gluten-free flour or pasta alternatives");
+    }
+    if (recipe.spiceLevel === 'none' || recipe.spiceLevel === 'mild') {
+      variations.push("Spicy: Add chili flakes, hot sauce, or fresh chilies");
+    }
+
+    return {
+      recipe_id: recipe.id || `${cuisineName}-${idx}`,
+      name: recipe.name || "Traditional Dish",
+      description: recipe.description || `A classic ${cuisineName} dish`,
+      prep_time: recipe.prepTime,
+      cook_time: recipe.cookTime,
+      servings: recipe.servingSize,
+      difficulty: recipe.difficulty || "Medium",
+      ingredients: (recipe.ingredients || []).map((ing: any) => ({
+        name: ing.name || "ingredient",
+        amount: ing.amount,
+        unit: ing.unit,
+        notes: ing.notes,
+      })),
+      instructions: recipe.instructions || recipe.preparationSteps || [],
+      meal_type: recipe.mealType ? recipe.mealType.join(", ") : mealType,
+      seasonal_fit: recipe.season?.includes("all") ? "Available year-round" : `Best in ${season}`,
+
+      // Enhanced recipe guidance - now intelligently generated for ALL recipes
+      tips: cookingTips && cookingTips.length > 0 ? cookingTips : [
+        "Read through entire recipe before starting",
+        "Taste and adjust seasoning as you cook"
+      ],
+
+      substitutions: enhancedSubstitutions || undefined,
+
+      variations: variations.length > 0 ? variations : undefined,
+
+      pairing_suggestions: enhancedPairings || {
+        sides: recipe.culturalNotes ? [`Traditional ${cuisineName} accompaniments`] : [],
+        drinks: [],
+        condiments: []
+      },
+
+      storage_info: storageInfo,
+
+      common_mistakes: commonMistakes.length > 0 ? commonMistakes : [
+        "Not reading recipe completely before starting",
+        "Rushing the cooking process"
+      ],
+
+      timing_tips: timingTips.length > 0 ? timingTips : undefined,
+    };
+  });
 }
 
 /**
