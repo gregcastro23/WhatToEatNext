@@ -68,26 +68,59 @@ export async function GET() {
       NightEssence: alchemicalResult.esms.Essence * 0.4,
     };
 
-    // Calculate kinetics (mock data - replace with real calculations if available)
+    // Calculate kinetics based on actual alchemical properties
+    // Velocity: Rate of change based on thermodynamic gradients
+    // Using reactivity as the driving force and heat/entropy as constraints
+    const { heat, entropy, reactivity, gregsEnergy } =
+      alchemicalResult.thermodynamicProperties;
+
+    // Base velocity factor from thermodynamic state
+    const velocityFactor = reactivity * (1 + Math.abs(gregsEnergy) / 10);
+
+    // Velocity: Each quantity's tendency to change based on its relative strength
+    const totalQuantity =
+      quantities.Spirit + quantities.Essence + quantities.Matter + quantities.Substance;
     const kinetics: KineticData = {
       velocity: {
-        Spirit: Math.sin((timeOfDay / 12) * Math.PI) * 0.5,
-        Essence: Math.cos((timeOfDay / 12) * Math.PI) * 0.3,
-        Matter: Math.sin(((timeOfDay + 6) / 12) * Math.PI) * 0.2,
-        Substance: Math.cos(((timeOfDay + 3) / 12) * Math.PI) * 0.4,
+        Spirit:
+          ((quantities.Spirit / totalQuantity - 0.25) * velocityFactor * heat) / 10,
+        Essence:
+          ((quantities.Essence / totalQuantity - 0.25) * velocityFactor * (1 - entropy)) /
+          10,
+        Matter:
+          ((quantities.Matter / totalQuantity - 0.25) * velocityFactor * (1 / reactivity)) /
+          10,
+        Substance:
+          ((quantities.Substance / totalQuantity - 0.25) *
+            velocityFactor *
+            (heat + entropy)) /
+          20,
       },
       acceleration: {
-        Spirit: Math.cos((timeOfDay / 6) * Math.PI) * 0.1,
-        Essence: Math.sin((timeOfDay / 6) * Math.PI) * 0.08,
-        Matter: Math.cos(((timeOfDay + 3) / 6) * Math.PI) * 0.05,
-        Substance: Math.sin(((timeOfDay + 1.5) / 6) * Math.PI) * 0.12,
+        Spirit: (gregsEnergy * heat) / 100,
+        Essence: (gregsEnergy * (1 - entropy)) / 100,
+        Matter: (-gregsEnergy * reactivity) / 100,
+        Substance: (gregsEnergy * (heat - entropy)) / 100,
       },
       momentum: {
-        Spirit: quantities.Spirit * Math.sin((timeOfDay / 12) * Math.PI) * 0.5,
-        Essence: quantities.Essence * Math.cos((timeOfDay / 12) * Math.PI) * 0.3,
-        Matter: quantities.Matter * Math.sin(((timeOfDay + 6) / 12) * Math.PI) * 0.2,
+        Spirit:
+          quantities.Spirit *
+          ((quantities.Spirit / totalQuantity - 0.25) * velocityFactor * heat) /
+          10,
+        Essence:
+          quantities.Essence *
+          ((quantities.Essence / totalQuantity - 0.25) * velocityFactor * (1 - entropy)) /
+          10,
+        Matter:
+          quantities.Matter *
+          ((quantities.Matter / totalQuantity - 0.25) * velocityFactor * (1 / reactivity)) /
+          10,
         Substance:
-          quantities.Substance * Math.cos(((timeOfDay + 3) / 12) * Math.PI) * 0.4,
+          quantities.Substance *
+          ((quantities.Substance / totalQuantity - 0.25) *
+            velocityFactor *
+            (heat + entropy)) /
+          20,
       },
     };
 
