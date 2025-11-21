@@ -150,3 +150,58 @@ export const PERFORMANCE_TARGETS = {
   patternAnalysis: 300, // ms per cuisine
   recommendationGeneration: 100, // ms per query
 };
+
+// ========== ENHANCED RECOMMENDATION SYSTEM (NEW) ==========
+
+// Enhanced engine with kinetic/thermodynamic integration
+export {
+  type EnhancedUserProfile,
+  type EnhancedCuisineData,
+  type EnhancedCuisineRecommendation,
+  type EnhancedRecommendationOptions,
+  generateEnhancedCuisineRecommendations,
+} from "./enhancedCuisineRecommendationEngine";
+
+// Kinetic compatibility scoring (P=IV circuit model)
+export {
+  type UserKineticProfile,
+  type CuisineKineticProfile,
+  type KineticCompatibilityResult,
+  calculateKineticCompatibility,
+  createUserKineticProfile,
+  aggregateCuisineKineticProfile,
+} from "./kineticCuisineCompatibility";
+
+// Thermodynamic resonance (Kalchm, Monica, Greg's Energy)
+export {
+  type UserThermodynamicProfile,
+  type CuisineThermodynamicProfile,
+  type ThermodynamicResonanceResult,
+  calculateThermodynamicResonance,
+  createUserThermodynamicProfile,
+  aggregateCuisineThermodynamicProfile,
+  calculateMultiCuisineHarmony,
+} from "./thermodynamicResonance";
+
+// Circuit-based recipe ranking
+export {
+  type RecipeWithKinetics,
+  type CircuitRankingCriteria,
+  type RankedRecipeResult,
+  type MultiCourseValidationResult,
+  rankRecipesByCircuitCompatibility,
+  validateMultiCoursePowerFlow,
+  optimizeCourseSequence,
+  generateCoursePairingRecommendations,
+} from "./circuitBasedRecipeRanking";
+
+// Intelligent sauce recommendations
+export {
+  type Sauce,
+  type SauceRecommendationCriteria,
+  type SauceRecommendationResult,
+  recommendSauces,
+} from "./intelligentSauceRecommender";
+
+// Convenience default export
+export { default as EnhancedCuisineRecommender } from "./enhancedCuisineRecommendationEngine";
