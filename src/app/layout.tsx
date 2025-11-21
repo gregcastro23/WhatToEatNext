@@ -74,6 +74,15 @@ export default function RootLayout({
                     ⭐ Planetary Chart
                   </Link>
                   <Link
+                    href="https://planetary-agents.vercel.app/planetary-agents"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200"
+                    aria-label="Visit Planetary Agents project"
+                  >
+                    🧪 Planetary Agents
+                  </Link>
+                  <Link
                     href="/profile"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-blue-100 text-blue-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-blue-200"
                     aria-label="View your profile"
