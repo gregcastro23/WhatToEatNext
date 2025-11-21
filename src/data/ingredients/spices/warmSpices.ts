@@ -24,7 +24,7 @@ const rawWarmSpices = {
       "carminative",
     ],
     origin: ["Sri Lanka", "India", "Southeast Asia"],
-    category: "spice",
+    category: "spices",
     subcategory: "warm spice",
     affinities: [
       "apple",

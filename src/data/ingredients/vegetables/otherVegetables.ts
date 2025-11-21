@@ -12,7 +12,7 @@ const rawOtherVegetables = {
       Air: 0.006592674588325188,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -77,7 +77,7 @@ const rawOtherVegetables = {
       Air: 0.023247174754624015,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -147,7 +147,7 @@ const rawOtherVegetables = {
       seasonalAffinity: ["all"],
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -206,7 +206,7 @@ const rawOtherVegetables = {
       Air: 0.019876657099904334,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -270,7 +270,7 @@ const rawOtherVegetables = {
       Air: 0.034665845869724134,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -338,7 +338,7 @@ const rawOtherVegetables = {
       Air: 0.03369946759375892,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -402,7 +402,7 @@ const rawOtherVegetables = {
       Air: 0.012630081830109875,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -466,7 +466,7 @@ const rawOtherVegetables = {
       Air: 0.004358510087946198,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -530,7 +530,7 @@ const rawOtherVegetables = {
       Air: 0.01914327018184585,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -594,7 +594,7 @@ const rawOtherVegetables = {
       Air: 0.12156115023930894,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -658,7 +658,7 @@ const rawOtherVegetables = {
       Air: 0.009221330333861648,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {
@@ -722,7 +722,7 @@ const rawOtherVegetables = {
       Air: 0.002704893753020595,
     },
 
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "other",
 
     nutritionalProfile: {

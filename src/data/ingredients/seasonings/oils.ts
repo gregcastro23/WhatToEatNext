@@ -7,7 +7,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
     name: "Olive Oil",
-    category: "oil",
+    category: "oils",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     seasonality: ["spring", "summer", "fall", "winter"],
@@ -64,7 +64,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "coconut oil": {
     name: "coconut oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -105,7 +105,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   sesame_oil: {
     name: "Sesame Oil",
-    category: "oil",
+    category: "oils",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     seasonality: ["fall", "winter"],
@@ -163,7 +163,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   ghee: {
     name: "Ghee",
-    category: "oil",
+    category: "oils",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 },
     astrologicalProfile: {
@@ -202,7 +202,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   avocado_oil: {
     name: "Avocado Oil",
-    category: "oil",
+    category: "oils",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     astrologicalProfile: {
@@ -242,7 +242,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "peanut oil": {
     name: "peanut oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.2,
@@ -283,7 +283,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "mustard oil": {
     name: "mustard oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.5,
       Water: 0.1,
@@ -312,7 +312,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "walnut oil": {
     name: "walnut oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -353,7 +353,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "rice bran oil": {
     name: "rice bran oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -382,7 +382,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "chili oil": {
     name: "chili oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.6,
       Water: 0.1,
@@ -411,7 +411,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "perilla oil": {
     name: "perilla oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -440,7 +440,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "camellia oil": {
     name: "camellia oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -469,7 +469,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "grapeseed oil": {
     name: "grapeseed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -511,7 +511,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "macadamia oil": {
     name: "macadamia oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -540,7 +540,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "palm oil": {
     name: "palm oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.1,
@@ -569,7 +569,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "tea seed oil": {
     name: "tea seed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -598,7 +598,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "shiso oil": {
     name: "shiso oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -627,7 +627,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "argan oil": {
     name: "argan oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -656,7 +656,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "hazelnut oil": {
     name: "hazelnut oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -685,7 +685,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "pistachio oil": {
     name: "pistachio oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -714,7 +714,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "hemp seed oil": {
     name: "hemp seed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.1,
       Water: 0.3,
@@ -743,7 +743,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "black seed oil": {
     name: "black seed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.2,
@@ -772,7 +772,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "almond oil": {
     name: "almond oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -814,7 +814,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "sunflower oil": {
     name: "sunflower oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -855,7 +855,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "safflower oil": {
     name: "safflower oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -887,7 +887,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "white truffle oil": {
     name: "white truffle oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.1,
       Water: 0.2,
@@ -916,7 +916,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "flaxseed oil": {
     name: "flaxseed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.1,
       Water: 0.3,
@@ -957,7 +957,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "red palm oil": {
     name: "red palm oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.1,
@@ -986,7 +986,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "roasted pumpkin seed oil": {
     name: "roasted pumpkin seed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -1019,7 +1019,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "mustard seed oil": {
     name: "mustard seed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.5,
       Water: 0.1,
@@ -1052,7 +1052,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "babassu oil": {
     name: "babassu oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -1085,7 +1085,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "apricot kernel oil": {
     name: "apricot kernel oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -1114,7 +1114,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   "grape seed oil": {
     name: "grape seed oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -1160,7 +1160,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   canola_oil: {
     name: "Canola Oil",
-    category: "oil",
+    category: "oils",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     seasonality: ["spring", "summer", "fall", "winter"],
@@ -1216,7 +1216,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   },
   mct_oil: {
     name: "MCT Oil",
-    category: "oil",
+    category: "oils",
     subCategory: "specialty",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     seasonality: ["spring", "summer", "fall", "winter"],

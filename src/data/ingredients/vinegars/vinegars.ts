@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawVinegars = {
   rice_vinegar: {
     name: "Rice Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grain",
 
     // Base elemental properties (unscaled)
@@ -42,7 +42,7 @@ const rawVinegars = {
   },
   balsamic_vinegar: {
     name: "Balsamic Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grape",
     elementalProperties: {
       Water: 0.3,
@@ -69,7 +69,7 @@ const rawVinegars = {
   },
   apple_cider_vinegar: {
     name: "Apple Cider Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "fruit",
     elementalProperties: {
       Water: 0.35,
@@ -96,7 +96,7 @@ const rawVinegars = {
   },
   red_wine_vinegar: {
     name: "Red Wine Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     elementalProperties: {
       Water: 0.4,
@@ -123,7 +123,7 @@ const rawVinegars = {
   },
   sherry_vinegar: {
     name: "Sherry Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     elementalProperties: {
       Water: 0.5,
@@ -148,7 +148,7 @@ const rawVinegars = {
   },
   white_wine_vinegar: {
     name: "White Wine Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     elementalProperties: {
       Water: 0.45,
@@ -175,7 +175,7 @@ const rawVinegars = {
   },
   champagne_vinegar: {
     name: "Champagne Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     elementalProperties: {
       Water: 0.4,
@@ -200,7 +200,7 @@ const rawVinegars = {
   },
   malt_vinegar: {
     name: "Malt Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grain",
     elementalProperties: {
       Earth: 0.4,
@@ -225,7 +225,7 @@ const rawVinegars = {
   },
   coconut_vinegar: {
     name: "Coconut Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "fruit",
     elementalProperties: {
       Water: 0.5,
@@ -251,7 +251,7 @@ const rawVinegars = {
   },
   black_vinegar: {
     name: "Black Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grain",
     elementalProperties: {
       Earth: 0.5,
@@ -276,7 +276,7 @@ const rawVinegars = {
   },
   date_vinegar: {
     name: "Date Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "fruit",
     elementalProperties: {
       Earth: 0.4,
@@ -309,7 +309,7 @@ export const vinegars = fixIngredientMappings(rawVinegars);
 const rawArtisanalVinegars = {
   aged_balsamic: {
     name: "Aged Balsamic Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "artisanal",
     elementalProperties: {
       Earth: 0.5,
@@ -329,7 +329,7 @@ const rawArtisanalVinegars = {
   },
   fig_vinegar: {
     name: "Fig Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "artisanal",
     elementalProperties: {
       Earth: 0.4,
@@ -349,7 +349,7 @@ const rawArtisanalVinegars = {
   },
   champagne_rose_vinegar: {
     name: "Champagne Rose Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "artisanal",
     elementalProperties: {
       Air: 0.4,

@@ -25,7 +25,7 @@ const generateVegetableAttributes = (vegData: {
 const rawLeafyGreens = {
   kale: {
     name: "Kale",
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "leafy_green",
 
     // Base elemental properties (unscaled)
@@ -389,7 +389,7 @@ const rawLeafyGreens = {
     },
     qualities: ["cooling", "moistening", "cleansing"],
     season: ["spring", "fall"],
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "leafy green",
     affinities: ["garlic", "olive oil", "lemon", "mushrooms", "nutmeg"],
     cookingMethods: ["raw", "steamed", "sautéed"],
@@ -451,7 +451,7 @@ const rawLeafyGreens = {
     },
     qualities: ["cooling", "cleansing"],
     season: ["summer", "fall"],
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "leafy green",
     affinities: ["garlic", "beans", "lemon", "pine nuts"],
     cookingMethods: ["steamed", "sautéed", "braised"],

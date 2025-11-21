@@ -32,7 +32,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["cooling", "drying", "light", "versatile", "transformative"],
     season: ["fall", "winter"],
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "cruciferous",
     affinities: [
       "cumin",

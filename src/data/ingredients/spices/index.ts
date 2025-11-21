@@ -99,7 +99,7 @@ export const spices = fixIngredientMappings({
       },
     },
     qualities: ["earthy", "warm", "aromatic"],
-    category: "spice",
+    category: "spices",
     varieties: {
       Indian: {
         origin: "India",
@@ -148,7 +148,7 @@ export const spices = fixIngredientMappings({
       },
     },
     qualities: ["warm", "sweet", "aromatic"],
-    category: "spice",
+    category: "spices",
     varieties: {
       Ceylon: {
         origin: "Sri Lanka",
@@ -198,7 +198,7 @@ export const spices = fixIngredientMappings({
       },
     },
     qualities: ["hot", "spicy", "stimulating"],
-    category: "spice",
+    category: "spices",
     varieties: {
       Red: {
         origin: "Global",
@@ -210,7 +210,7 @@ export const spices = fixIngredientMappings({
     elementalProperties: { Fire: 0.45, Earth: 0.3, Air: 0.15, Water: 0.1 },
     name: "paprika",
     qualities: ["earthy", "warm", "sweet"],
-    category: "spice",
+    category: "spices",
     varieties: {
       sweet: {
         flavor: "mild, fruity",
@@ -259,7 +259,7 @@ export const spices = fixIngredientMappings({
     elementalProperties: { Fire: 0.3, Earth: 0.5, Air: 0.1, Water: 0.1 },
     name: "turmeric",
     qualities: ["earthy", "bitter", "warm"],
-    category: "spice",
+    category: "spices",
     potency: 7,
     health_benefits: ["anti-inflammatory", "antioxidant"],
     pigment_strength: 9,

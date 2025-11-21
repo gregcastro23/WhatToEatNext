@@ -15,7 +15,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["light", "clean", "simple", "versatile", "neutral"],
-    category: "refined_grain",
+    category: "grains",
     varieties: {
       jasmine: {
         characteristics: "fragrant, soft, floral aroma",
@@ -91,7 +91,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["smooth", "versatile", "firm", "golden", "structured"],
-    category: "refined_grain",
+    category: "grains",
     varieties: {
       durum: {
         characteristics: "highest protein content, golden color",
@@ -170,7 +170,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["tender", "mild", "versatile", "creamy", "nutritious"],
-    category: "refined_grain",
+    category: "grains",
     varieties: {
       quick: {
         characteristics: "pre-steamed, faster cooking, less texture",
@@ -240,7 +240,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["refined", "hearty", "versatile", "nutty", "ancient"],
-    category: "refined_grain",
+    category: "grains",
     varieties: {
       pearled: {
         characteristics: "quickest cooking, most refined, least bran",
@@ -315,7 +315,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["versatile", "mild", "smooth", "sweet", "adaptable"],
-    category: "refined_grain",
+    category: "grains",
     varieties: {
       bolted: {
         characteristics: "some hull and germ removed, moderate refinement",
@@ -390,7 +390,7 @@ const rawRefinedGrains = {
       "adaptable",
       "foundational",
     ],
-    category: "refined_grain",
+    category: "grains",
     varieties: {
       bleached: {
         characteristics: "white, fine texture, treated with bleaching agents",

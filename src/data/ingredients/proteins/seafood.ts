@@ -6,7 +6,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   atlantic_salmon: {
     name: "Salmon",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -261,7 +261,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   // Phase 2: Additional Seafood with Quantity Scaling
   tuna: {
     name: "Tuna",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -311,7 +311,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   shrimp: {
     name: "Shrimp",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -357,7 +357,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   cod: {
     name: "Cod",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -403,7 +403,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   halibut: {
     name: "Halibut",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -449,7 +449,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   scallops: {
     name: "Scallops",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)

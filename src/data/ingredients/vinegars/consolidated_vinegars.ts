@@ -6,7 +6,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawVinegars = {
   rice_vinegar: {
     name: "Rice Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grain",
     elementalProperties: {
       Water: 0.4,
@@ -48,7 +48,7 @@ const rawVinegars = {
   },
   apple_cider_vinegar: {
     name: "Apple Cider Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "fruit",
     elementalProperties: {
       Water: 0.3,
@@ -90,7 +90,7 @@ const rawVinegars = {
   },
   balsamic_vinegar: {
     name: "Balsamic Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     elementalProperties: {
       Water: 0.3,
@@ -132,7 +132,7 @@ const rawVinegars = {
   },
   red_wine_vinegar: {
     name: "Red Wine Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     elementalProperties: {
       Water: 0.4,
@@ -174,7 +174,7 @@ const rawVinegars = {
   },
   white_wine_vinegar: {
     name: "White Wine Vinegar",
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     elementalProperties: {
       Water: 0.4,

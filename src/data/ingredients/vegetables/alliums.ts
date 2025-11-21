@@ -32,7 +32,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["warming", "pungent", "drying", "protective", "cleansing"],
     season: ["all"],
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "allium",
     affinities: [
       "olive oil",

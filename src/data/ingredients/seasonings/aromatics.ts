@@ -19,7 +19,7 @@ const rawAromatics = {
     },
     qualities: ["pungent", "savory", "sweet when cooked"],
     origin: ["Global"],
-    category: "aromatic",
+    category: "seasonings",
     subCategory: "allium",
     varieties: {},
     culinaryApplications: {
@@ -60,7 +60,7 @@ const rawAromatics = {
     },
     qualities: ["pungent", "spicy", "medicinal"],
     origin: ["Central Asia"],
-    category: "aromatic",
+    category: "seasonings",
     subCategory: "allium",
     varieties: {},
     culinaryApplications: {
@@ -101,7 +101,7 @@ const rawAromatics = {
     },
     qualities: ["warming", "pungent", "aromatic"],
     origin: ["Southeast Asia"],
-    category: "spice",
+    category: "spices",
     subCategory: "rhizome",
     varieties: {
       Young: {
@@ -156,7 +156,7 @@ const rawAromatics = {
     },
     qualities: ["citrusy", "aromatic", "bright"],
     origin: ["Southeast Asia"],
-    category: "aromatic",
+    category: "seasonings",
     subCategory: "herb",
     culinaryApplications: {
       infusing: {
@@ -201,7 +201,7 @@ const rawAromatics = {
     },
     qualities: ["delicate", "sweet", "aromatic"],
     origin: ["Southeast Asia"],
-    category: "aromatic",
+    category: "seasonings",
     subCategory: "allium",
     culinaryApplications: {
       diced: {
@@ -236,7 +236,7 @@ const rawAromatics = {
     },
     qualities: ["fresh", "mild", "grassy"],
     origin: ["Asia"],
-    category: "aromatic",
+    category: "seasonings",
     subCategory: "allium",
     culinaryApplications: {
       cooked: {
@@ -276,7 +276,7 @@ const rawAromatics = {
     },
     qualities: ["aromatic", "warm", "floral"],
     origin: ["Iran"],
-    category: "aromatic",
+    category: "seasonings",
     subCategory: "spices",
     culinaryApplications: {
       infusing: {
