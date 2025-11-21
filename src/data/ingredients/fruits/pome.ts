@@ -24,7 +24,7 @@ const rawPome = {
     },
     season: ["fall", "winter"],
     qualities: ["crisp", "sweet", "tart", "versatile", "refreshing"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "pome",
     nutritionalProfile: {
       calories: 52,
@@ -190,7 +190,7 @@ const rawPome = {
     },
     season: ["fall", "winter"],
     qualities: ["juicy", "sweet", "fragrant", "delicate", "elegant"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "pome",
     nutritionalProfile: {
       calories: 57,
@@ -349,7 +349,7 @@ const rawPome = {
     },
     season: ["fall"],
     qualities: ["astringent", "fragrant", "firm", "transformative", "aromatic"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "pome",
     nutritionalProfile: {
       calories: 57,
@@ -489,7 +489,7 @@ const rawPome = {
     },
     season: ["late summer", "fall"],
     qualities: ["crisp", "juicy", "refreshing", "fragrant", "delicate"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "pome",
     nutritionalProfile: {
       calories: 50,
@@ -618,7 +618,7 @@ const rawPome = {
     },
     season: ["late fall", "early winter"],
     qualities: ["complex", "unusual", "earthy", "historical", "transformative"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "pome",
     nutritionalProfile: {
       calories: 47,
@@ -744,7 +744,7 @@ const rawPome = {
     },
     season: ["spring"],
     qualities: ["sweet-tart", "fragrant", "floral", "refreshing", "unique"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "pome",
     nutritionalProfile: {
       calories: 47,

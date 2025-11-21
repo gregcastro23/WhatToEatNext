@@ -12,7 +12,7 @@ const rawWholeSpices = {
     },
     qualities: ["sweet", "licorice-like", "warming"],
     origin: ["China", "Vietnam"],
-    category: "spice",
+    category: "spices",
     subCategory: "whole",
     varieties: {
       Chinese: "traditional variety",
@@ -452,7 +452,7 @@ const rawWholeSpices = {
     },
     qualities: ["aromatic", "complex", "intense"],
     origin: ["India", "Guatemala", "Sri Lanka"],
-    category: "spice",
+    category: "spices",
     subCategory: "whole",
     varieties: {},
     preparation: {
@@ -553,7 +553,7 @@ const rawWholeSpices = {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["pungent", "hot", "nutty"],
     origin: ["India", "Canada", "Nepal"],
-    category: "spice",
+    category: "spices",
     subCategory: "whole",
     varieties: {
       Brown: {
@@ -663,7 +663,7 @@ const rawWholeSpices = {
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["sweet", "anise-like", "warming"],
     origin: ["India", "Mediterranean", "China"],
-    category: "spice",
+    category: "spices",
     subCategory: "whole",
     varieties: {
       Indian: {
@@ -723,7 +723,7 @@ const rawWholeSpices = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["citrusy", "nutty", "floral"],
     origin: ["India", "Morocco", "Eastern Europe"],
-    category: "spice",
+    category: "spices",
     subCategory: "whole",
     varieties: {
       Indian: {
@@ -784,7 +784,7 @@ const rawWholeSpices = {
     },
     qualities: ["earthy", "warm", "pungent"],
     origin: ["India", "Iran", "Turkey"],
-    category: "spice",
+    category: "spices",
     subCategory: "whole",
     varieties: {
       Indian: {
@@ -833,7 +833,7 @@ const rawWholeSpices = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["warming", "sharp", "slightly sweet"],
     origin: ["Netherlands", "Eastern Europe", "Finland"],
-    category: "spice",
+    category: "spices",
     subCategory: "whole",
     varieties: {
       Dutch: {

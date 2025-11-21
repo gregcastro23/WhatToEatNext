@@ -29,7 +29,7 @@ const rawPeppers = {
     },
     qualities: ["pungent", "sharp", "aromatic"],
     origin: ["India", "Vietnam", "Brazil"],
-    category: "pepper",
+    category: "spices",
     subCategory: "peppercorn",
     varieties: {
       Tellicherry: {
@@ -109,7 +109,7 @@ const rawPeppers = {
     },
     qualities: ["earthy", "musty", "hot"],
     origin: ["Indonesia", "Malaysia", "China"],
-    category: "pepper",
+    category: "spices",
     subCategory: "peppercorn",
     varieties: {
       Muntok: {
@@ -170,7 +170,7 @@ const rawPeppers = {
     },
     qualities: ["sweet", "aromatic", "mild heat"],
     origin: ["Brazil", "Madagascar", "Reunion Island"],
-    category: "pepper",
+    category: "spices",
     subCategory: "false peppercorn",
     botanical: {
       family: "Anacardiaceae",
@@ -222,7 +222,7 @@ const rawPeppers = {
     },
     qualities: ["numbing", "citrusy", "aromatic"],
     origin: ["China"],
-    category: "pepper",
+    category: "spices",
     subCategory: "false peppercorn",
     botanical: {
       family: "Rutaceae",
@@ -262,7 +262,7 @@ const rawPeppers = {
     },
     qualities: ["hot", "sweet", "complex"],
     origin: ["India", "Indonesia"],
-    category: "pepper",
+    category: "spices",
     subCategory: "true peppercorn",
     botanical: {
       species: "Piper longum",

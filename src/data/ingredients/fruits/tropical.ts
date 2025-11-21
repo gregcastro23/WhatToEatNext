@@ -19,7 +19,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "cooling", "nourishing"],
     season: ["summer"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "tropical",
     affinities: ["lime", "chili", "coconut", "mint", "ginger"],
     cookingMethods: ["raw", "grilled", "puréed", "dried"],

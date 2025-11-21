@@ -47,7 +47,7 @@ const rawStarchyVegetables = {
         },
       },
     },
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "starchy",
     qualities: ["filling", "versatile", "hearty", "comforting"],
     nutritionalProfile: {
@@ -110,7 +110,7 @@ const rawStarchyVegetables = {
         },
       },
     },
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "starchy",
     qualities: ["sweet", "versatile", "nutritious", "colorful"],
     nutritionalProfile: {
@@ -175,7 +175,7 @@ const rawStarchyVegetables = {
         },
       },
     },
-    category: "vegetable",
+    category: "vegetables",
     subCategory: "starchy",
     nutritionalProfile: {
       carbs_g: 14.4,

@@ -6,7 +6,7 @@ const rawLegumes = {
     name: "Black Beans",
     description:
       "Small, shiny black beans with a dense, meaty texture popular in Latin American cuisine.",
-    category: "legume",
+    category: "proteins",
     qualities: ["earthy", "dense", "hearty"],
     sustainabilityScore: 9,
     season: ["all"],
@@ -43,7 +43,7 @@ const rawLegumes = {
     name: "Chickpeas",
     description:
       "Round, beige legumes with a nutty flavor and versatile applications.",
-    category: "legume",
+    category: "proteins",
     qualities: ["nutty", "firm", "versatile"],
     sustainabilityScore: 9,
     season: ["all"],
@@ -81,7 +81,7 @@ const rawLegumes = {
     name: "Lentils",
     description:
       "Small, lens-shaped legumes available in various colors with quick cooking time.",
-    category: "legume",
+    category: "proteins",
     qualities: [
       "earthy",
       "quick-cooking",
@@ -345,7 +345,7 @@ const rawLegumes = {
   tempeh: {
     name: "Tempeh",
     description: "Fermented soybean cake with a firm texture and nutty flavor.",
-    category: "legume",
+    category: "proteins",
     qualities: ["firm", "nutty", "fermented"],
     sustainabilityScore: 8,
     season: ["all"],

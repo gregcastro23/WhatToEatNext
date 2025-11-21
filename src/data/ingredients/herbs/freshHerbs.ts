@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawFreshHerbs = {
   basil: {
     name: "Basil",
-    category: "culinary_herb",
+    category: "herbs",
     subCategory: "fresh_herb",
 
     // Base elemental properties (unscaled)

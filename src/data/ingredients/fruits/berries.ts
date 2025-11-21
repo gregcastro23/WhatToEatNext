@@ -33,7 +33,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     qualities: ["cooling", "sweet", "astringent", "balancing", "restorative"],
     origin: ["North America", "Europe", "Asia"],
     season: ["summer", "early fall"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "berry",
     affinities: [
       "lemon",

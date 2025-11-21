@@ -20,7 +20,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["warming", "sweet", "pungent"],
     origin: ["Sri Lanka", "Indonesia", "China"],
-    category: "spice",
+    category: "spices",
     subCategory: "ground",
     varieties: {
       Ceylon: "true cinnamon, more delicate",

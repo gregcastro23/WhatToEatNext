@@ -72,7 +72,7 @@ const rawWholeGrains = {
     ],
     origin: ["Asia", "Global cultivation"],
     season: ["all"],
-    category: "whole_grain",
+    category: "grains",
     subCategory: "rice",
     nutritionalProfile: {
       serving_size: "1/2 cup cooked",
@@ -384,7 +384,7 @@ const rawWholeGrains = {
       },
     },
     qualities: ["light", "protein-rich", "versatile"],
-    category: "whole_grain",
+    category: "grains",
     varieties: {},
     preparation: {
       rinsing: {
@@ -403,7 +403,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["autumn"],
     },
     qualities: ["buttery", "rich", "chewy"],
-    category: "whole_grain",
+    category: "grains",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 kamut to water",
@@ -447,7 +447,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["autumn"],
     },
     qualities: ["nutty", "complex", "hearty"],
-    category: "whole_grain",
+    category: "grains",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 spelt to water",
@@ -491,7 +491,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["autumn"],
     },
     qualities: ["nutty", "ancient", "nutritious"],
-    category: "whole_grain",
+    category: "grains",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:2 einkorn to water",
@@ -535,7 +535,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["autumn"],
     },
     qualities: ["earthy", "robust", "hearty"],
-    category: "whole_grain",
+    category: "grains",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 rye to water",
@@ -579,7 +579,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["autumn"],
     },
     qualities: ["nutty", "complex", "aromatic"],
-    category: "whole_grain",
+    category: "grains",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 rice to water",
@@ -622,7 +622,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["autumn"],
     },
     qualities: ["nutty", "hybrid vigor", "nutritious"],
-    category: "whole_grain",
+    category: "grains",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 triticale to water",
@@ -683,7 +683,7 @@ const rawWholeGrains = {
       },
     },
     qualities: ["nutty", "chewy", "wholesome"],
-    category: "whole_grain",
+    category: "grains",
     varieties: {
       short_grain: {
         characteristics: "sticky, plump",
@@ -712,7 +712,7 @@ const rawWholeGrains = {
     },
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ["nutty", "chewy", "wholesome"],
-    category: "whole_grain",
+    category: "grains",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 barley to water",

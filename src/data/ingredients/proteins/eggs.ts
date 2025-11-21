@@ -6,7 +6,7 @@ const rawEggs = {
     name: "Chicken Egg",
     description:
       "A common protein source from chickens, versatile in cooking applications.",
-    category: "egg",
+    category: "dairy",
     qualities: ["protein-rich", "versatile", "binding"],
     sustainabilityScore: 7,
     season: ["all"],
@@ -62,7 +62,7 @@ const rawEggs = {
     name: "Duck Egg",
     description:
       "Larger than chicken eggs with a richer flavor and higher fat content.",
-    category: "egg",
+    category: "dairy",
     qualities: ["rich", "creamy", "robust"],
     sustainabilityScore: 6,
     season: ["all"],
@@ -110,7 +110,7 @@ const rawEggs = {
   quail_egg: {
     name: "Quail Egg",
     description: "Small, delicate eggs with a higher yolk-to-white ratio.",
-    category: "egg",
+    category: "dairy",
     qualities: ["delicate", "miniature", "gourmet"],
     sustainabilityScore: 5,
     season: ["all"],

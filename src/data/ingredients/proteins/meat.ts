@@ -6,7 +6,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     name: "Beef",
     description:
       "Red meat from cattle, available in various cuts with different properties.",
-    category: "protein",
+    category: "proteins",
     qualities: ["robust", "rich", "substantial"],
     sustainabilityScore: 2,
     season: ["all"],
@@ -53,7 +53,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     name: "Chicken",
     description:
       "White meat from poultry, available in various cuts with different properties.",
-    category: "protein",
+    category: "proteins",
     qualities: ["light", "lean", "versatile"],
     sustainabilityScore: 1,
     season: ["all"],
@@ -98,7 +98,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
   pork: {
     name: "Pork",
     description: "Meat from pigs, known for its rich flavor and versatility.",
-    category: "protein",
+    category: "proteins",
     qualities: ["rich", "savory", "versatile"],
     sustainabilityScore: 3,
     season: ["all"],
@@ -144,7 +144,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     name: "Lamb",
     description:
       "Meat from young sheep, with a distinct, slightly gamy flavor.",
-    category: "protein",
+    category: "proteins",
     qualities: ["tender", "gamy", "distinctive"],
     sustainabilityScore: 4,
     season: ["spring"],
