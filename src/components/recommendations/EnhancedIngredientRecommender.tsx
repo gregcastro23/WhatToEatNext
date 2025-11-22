@@ -607,25 +607,6 @@ export const EnhancedIngredientRecommender: React.FC<
   // Main render
   return (
     <div className="p-6">
-      {/* Current moment summary */}
-      {alchemicalContext && (
-        <div className="mb-6 rounded-lg bg-gradient-to-r from-green-50 to-blue-50 p-4">
-          <div className="mb-3 text-center text-sm font-semibold text-gray-800">
-            Current Elemental Alignment
-          </div>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {Object.entries(currentElementals).map(([element, value]) => (
-              <div key={element} className="text-center">
-                <div className="text-xs text-gray-600">{element}</div>
-                <div className="text-lg font-semibold text-gray-900">
-                  {Math.round(value * 100)}%
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {renderCategoryGrid()}
       {renderSearchBar()}
 

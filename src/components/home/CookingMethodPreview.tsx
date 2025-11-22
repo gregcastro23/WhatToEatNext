@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useMemo } from "react";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   dryCookingMethods,
   wetCookingMethods,
@@ -76,20 +77,55 @@ const categories: CategoryConfig[] = [
   },
 ];
 
-// Calculate score based on elemental balance
-function calculateScore(method: MethodData): number {
-  const avg =
-    (method.elementalEffect.Fire +
-      method.elementalEffect.Water +
-      method.elementalEffect.Earth +
-      method.elementalEffect.Air) /
-    4;
-  return avg;
+// Calculate compatibility score based on current elemental state
+function calculateCompatibilityScore(
+  methodElementals: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  },
+  currentElementals: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  }
+): number {
+  const elements = ["Fire", "Water", "Earth", "Air"] as const;
+  let totalDiff = 0;
+
+  elements.forEach((element) => {
+    const diff = Math.abs(
+      (methodElementals[element] || 0) - (currentElementals[element] || 0)
+    );
+    totalDiff += diff;
+  });
+
+  // Convert to 0-1 score (lower difference = higher score)
+  return 1 - totalDiff / (2 * elements.length);
 }
 
 export default function CookingMethodPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethods, setExpandedMethods] = useState<Set<string>>(new Set());
+
+  // Get current alchemical context
+  const alchemicalContext = useAlchemical();
+
+  // Get current elemental properties from alchemical context
+  const currentElementals = useMemo(() => {
+    if (alchemicalContext?.state?.elementalState) {
+      return alchemicalContext.state.elementalState as {
+        Fire: number;
+        Water: number;
+        Earth: number;
+        Air: number;
+      };
+    }
+    // Default balanced elementals
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  }, [alchemicalContext]);
 
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
@@ -99,11 +135,11 @@ export default function CookingMethodPreview() {
       .map(([id, method]) => ({
         id,
         ...method,
-        score: calculateScore(method),
+        score: calculateCompatibilityScore(method.elementalEffect, currentElementals),
       }))
       .sort((a, b) => b.score - a.score)
       .slice(0, 6);
-  }, [selectedCategory]);
+  }, [selectedCategory, currentElementals]);
 
   const toggleMethod = (methodId: string) => {
     setExpandedMethods(prev => {

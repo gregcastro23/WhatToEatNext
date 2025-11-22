@@ -81,6 +81,7 @@ export default function CuisinePreview() {
   const [expandedCuisines, setExpandedCuisines] = useState<Set<string>>(new Set());
   const [expandedRecipes, setExpandedRecipes] = useState<Set<string>>(new Set());
   const [showElemental, setShowElemental] = useState(false);
+  const [showAllCuisines, setShowAllCuisines] = useState(false);
 
   useEffect(() => {
     fetch("/api/cuisines/recommend")
@@ -154,9 +155,11 @@ export default function CuisinePreview() {
     );
   }
 
+  const displayedCuisines = showAllCuisines ? cuisines : cuisines.slice(0, 5);
+
   return (
     <div className="space-y-4">
-      {cuisines.slice(0, 5).map((cuisine) => (
+      {displayedCuisines.map((cuisine) => (
         <div
           key={cuisine.cuisine_id}
           className="border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white"
@@ -660,6 +663,28 @@ export default function CuisinePreview() {
           )}
         </div>
       ))}
+
+      {/* Show All / Show Less Button */}
+      {cuisines.length > 5 && (
+        <div className="flex justify-center pt-4">
+          <button
+            onClick={() => setShowAllCuisines(!showAllCuisines)}
+            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 flex items-center gap-2"
+          >
+            {showAllCuisines ? (
+              <>
+                <span>Show Less</span>
+                <span className="text-xl">−</span>
+              </>
+            ) : (
+              <>
+                <span>Show All Cuisines ({cuisines.length})</span>
+                <span className="text-xl">+</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {cuisines.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl border-2 border-dashed border-purple-200">
