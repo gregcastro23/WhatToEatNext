@@ -6,6 +6,10 @@ import { log } from "@/services/LoggingService";
 import type { ZodiacSign } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
+import {
+  calculatePlanetaryPositionsSwissEph,
+  isSwissEphemerisAvailable,
+} from "@/utils/swissephCalculations";
 
 const logger = createLogger("AstrologizeAPI");
 
@@ -67,11 +71,30 @@ function longitudeToZodiacPosition(longitude: number): {
 }
 
 /**
- * Calculate planetary positions using astronomy-engine
+ * Calculate planetary positions using Swiss Ephemeris (preferred) or astronomy-engine (fallback)
  */
 function calculateLocalPlanetaryPositions(
   date: Date,
+  zodiacSystem: "tropical" | "sidereal" = "tropical",
 ): Record<string, PlanetPosition> {
+  // Try Swiss Ephemeris first for maximum accuracy
+  if (isSwissEphemerisAvailable()) {
+    try {
+      logger.info("Using Swiss Ephemeris for planetary calculations (high precision)");
+      const positions = calculatePlanetaryPositionsSwissEph(date, zodiacSystem);
+      logger.info(
+        `Calculated ${Object.keys(positions).length} planetary positions using Swiss Ephemeris`,
+      );
+      return positions;
+    } catch (swissephError) {
+      logger.warn("Swiss Ephemeris calculation failed, falling back to astronomy-engine:", swissephError);
+      // Fall through to astronomy-engine fallback
+    }
+  } else {
+    logger.info("Swiss Ephemeris not available, using astronomy-engine (install swisseph-v2 for higher precision)");
+  }
+
+  // Fallback to astronomy-engine
   const positions: Record<string, PlanetPosition> = {};
 
   try {
@@ -168,10 +191,10 @@ export async function POST(request: Request) {
     // Create date object (month is 1-indexed in request, 0-indexed in Date constructor)
     const targetDate = new Date(year, month - 1, date, hour, minute);
 
-    logger.info(`Calculating positions for ${targetDate.toISOString()}`);
+    logger.info(`Calculating positions for ${targetDate.toISOString()} (${zodiacSystem} zodiac)`);
 
-    // Calculate planetary positions using local astronomy-engine
-    const planetaryPositions = calculateLocalPlanetaryPositions(targetDate);
+    // Calculate planetary positions using Swiss Ephemeris or astronomy-engine fallback
+    const planetaryPositions = calculateLocalPlanetaryPositions(targetDate, zodiacSystem);
 
     // Validate planetary positions
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
@@ -235,9 +258,15 @@ export async function POST(request: Request) {
           zodiacSystem.toUpperCase() === "TROPICAL" ? "TROPICAL" : "LAHIRI",
       },
       metadata: {
-        source: "local-astronomy-engine",
+        source: isSwissEphemerisAvailable()
+          ? "swiss-ephemeris-v2"
+          : "astronomy-engine-fallback",
         timestamp: new Date().toISOString(),
         calculatedAt: targetDate.toISOString(),
+        zodiacSystem: zodiacSystem,
+        precision: isSwissEphemerisAvailable()
+          ? "NASA JPL DE (sub-arcsecond)"
+          : "astronomy-engine (moderate)",
       },
     };
 
