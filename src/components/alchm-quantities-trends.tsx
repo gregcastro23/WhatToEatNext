@@ -22,33 +22,52 @@ type QuantityPoint = {
 
 export default function AlchmQuantitiesTrends() {
   const [trendData, setTrendData] = useState<QuantityPoint[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Generate mock trend data (replace with real historical data)
-    const generateTrendData = () => {
-      const data: QuantityPoint[] = [];
-      const now = new Date();
-
-      for (let i = 23; i >= 0; i--) {
-        const time = new Date(now.getTime() - i * 60 * 60 * 1000);
-        const hour = time.getHours();
-
-        data.push({
-          time: time.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
-          Spirit: 3 + Math.sin((hour / 24) * 2 * Math.PI) * 2,
-          Essence: 3 + Math.cos((hour / 24) * 2 * Math.PI) * 2,
-          Matter: 3 + Math.sin(((hour + 6) / 24) * 2 * Math.PI) * 2,
-          Substance: 3 + Math.cos(((hour + 3) / 24) * 2 * Math.PI) * 2,
-        });
+    // Fetch real trend data based on planetary calculations
+    const fetchTrendData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/alchm-quantities/trends");
+        if (!response.ok) throw new Error("Failed to fetch trends");
+        const data = await response.json();
+        setTrendData(data.trends);
+      } catch (error) {
+        console.error("Failed to fetch trend data:", error);
+        // Fallback to empty array on error
+        setTrendData([]);
+      } finally {
+        setLoading(false);
       }
-
-      setTrendData(data);
     };
 
-    generateTrendData();
-    const interval = setInterval(generateTrendData, 60000); // Update every minute
+    fetchTrendData();
+    const interval = setInterval(fetchTrendData, 300000); // Update every 5 minutes
     return () => clearInterval(interval);
   }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-orange-300">24-Hour Trends</h3>
+        <div className="flex justify-center items-center h-[300px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (trendData.length === 0) {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-orange-300">24-Hour Trends</h3>
+        <div className="flex justify-center items-center h-[300px] text-gray-400">
+          No trend data available
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
