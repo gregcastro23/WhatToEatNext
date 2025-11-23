@@ -7,6 +7,23 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Exclude native modules from server bundle
+  // swisseph-v2 contains .node binaries that don't work in serverless
+  // The app automatically falls back to astronomy-engine
+  serverExternalPackages: ['swisseph-v2'],
+  // Configure webpack to handle native modules
+  webpack: (config) => {
+    // Handle .node files (native binaries) as assets
+    // This prevents webpack from trying to parse them
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+    config.module.rules.push({
+      test: /\.node$/,
+      type: 'asset/resource',
+    });
+
+    return config;
+  },
   async headers() {
     const isDevelopment = process.env.NODE_ENV === 'development';
 
