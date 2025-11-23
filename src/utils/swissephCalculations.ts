@@ -1,7 +1,14 @@
 /**
  * Swiss Ephemeris calculations module
- * Provides high-precision astronomical calculations using swisseph-v2
- * Based on NASA JPL DE data for maximum accuracy
+ *
+ * ⚠️ DEPRECATED (November 2025)
+ * This module is deprecated and no longer used in production.
+ * High-precision planetary calculations have been migrated to the Python backend
+ * using pyswisseph for better reliability in serverless environments.
+ *
+ * See: /backend/alchm_kitchen/main.py - /api/planetary/positions endpoint
+ *
+ * Kept for reference only - do not use in new code.
  */
 
 import type { ZodiacSign } from "@/types/celestial";

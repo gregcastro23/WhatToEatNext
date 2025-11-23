@@ -32,6 +32,16 @@ next-env.d.ts
 errors.log
 tsconfig.tsbuildinfo
 
+# Python/Backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
 # ESLint caches and reports
 .eslintcache
 .eslintcache-fast

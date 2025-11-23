@@ -146,37 +146,69 @@ _Total: 50+ pull requests merged in the past 15 days, demonstrating active devel
 - **Package Manager**: Yarn 3.6.4 (required)
 - **Build**: Next.js build system with enhanced validation
 - **Styling**: CSS Modules, Tailwind CSS 3.4.1
-- **Astronomical**: swisseph-v2 (Swiss Ephemeris v2 for high-precision calculations)
+- **Backend**: Python FastAPI, pyswisseph (Swiss Ephemeris for high-precision calculations)
+- **Astronomical**: astronomy-engine (frontend fallback), pyswisseph 2.10.3.2 (backend primary)
 - **Email**: Nodemailer 6.9.16
 - **Database**: PostgreSQL (pg 8.16.3)
 - **Authentication**: JWT (jsonwebtoken 9.0.2)
 
-### **Swiss Ephemeris v2 Integration**
+### **Swiss Ephemeris Migration to Backend** (November 2025)
 
-**New Dependency** (Added November 2025):
-- **Package**: `swisseph-v2@1.0.4`
-- **Purpose**: High-precision astronomical calculations for planetary positions
-- **Upgrade from**: Previous astronomical calculation methods
-- **Benefits**:
-  - Enhanced accuracy for natal chart calculations
-  - More precise planetary positions
-  - Better support for astrological calculations
-  - Professional-grade ephemeris data
+**Architecture Change**: Migrated from frontend `swisseph-v2` to Python backend `pyswisseph`
 
-**Usage**:
-```typescript
-// High-precision planetary calculations now available
-import { calculatePlanetaryPositions } from '@/utils/swissEphemeris';
+**Motivation**:
+- Node.js native modules (`swisseph-v2`) fail in Vercel serverless environment
+- Python `pyswisseph` provides same NASA JPL DE precision in all environments
+- Cleaner separation of concerns (calculations in backend, UI in frontend)
 
-// More accurate natal charts
-const positions = await calculatePlanetaryPositions(birthDate, location);
+**Current Architecture**:
+```
+Next.js Frontend (Vercel)
+  └─→ /api/astrologize/route.ts
+      ├─→ Primary: Call Python backend /api/planetary/positions
+      │   └─→ Uses pyswisseph 2.10.3.2 (NASA JPL DE - sub-arcsecond)
+      └─→ Fallback: astronomy-engine (moderate precision)
+          └─→ Used when backend unavailable
+
+Python Backend (localhost:8000 / production)
+  └─→ /api/planetary/positions
+      ├─→ Primary: pyswisseph (Swiss Ephemeris)
+      └─→ Fallback: pyephem (moderate precision)
 ```
 
-**Important Notes**:
-- Requires proper initialization before use
-- Provides more accurate results than previous methods
-- Essential for user personalization system (PR #114)
-- Integrated with natal/moment chart comparisons
+**Implementation**:
+- **Backend**: `/backend/alchm_kitchen/main.py` - New `/api/planetary/positions` endpoint
+- **Frontend**: `/src/app/api/astrologize/route.ts` - Updated to call backend
+- **Dependencies**:
+  - Removed: `swisseph-v2` from `package.json`
+  - Added: `pyswisseph==2.10.3.2` in `backend/requirements.txt`
+- **Configuration**: `BACKEND_URL` environment variable (see `.env.example`)
+
+**Benefits**:
+- ✅ Sub-arcsecond precision in all environments (development, staging, production)
+- ✅ No native module build issues on Vercel
+- ✅ Consistent results across all deployments
+- ✅ Automatic fallback to astronomy-engine if backend unavailable
+- ✅ Cleaner frontend build (no webpack native module config)
+
+**Testing**:
+```bash
+# Start backend
+cd backend && ./dev_start.sh
+
+# Test endpoint
+curl -X POST http://localhost:8000/api/planetary/positions \
+  -H "Content-Type: application/json" \
+  -d '{"year":2024,"month":1,"day":1,"hour":12,"minute":0}'
+
+# Test frontend (calls backend)
+curl -X POST http://localhost:3000/api/astrologize \
+  -H "Content-Type: application/json" \
+  -d '{"year":2024,"month":1,"date":1,"hour":12,"minute":0}'
+```
+
+**Deprecated Files**:
+- `/src/utils/swissephCalculations.ts` - Marked deprecated, kept for reference only
 
 ## Development Commands
 
