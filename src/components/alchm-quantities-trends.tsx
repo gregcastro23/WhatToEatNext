@@ -50,7 +50,7 @@ export default function AlchmQuantitiesTrends() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-orange-300">24-Hour Trends</h3>
+        <h3 className="text-lg font-semibold text-orange-300">7-Day Trends</h3>
         <div className="flex justify-center items-center h-[300px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400"></div>
         </div>
@@ -61,7 +61,7 @@ export default function AlchmQuantitiesTrends() {
   if (trendData.length === 0) {
     return (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-orange-300">24-Hour Trends</h3>
+        <h3 className="text-lg font-semibold text-orange-300">7-Day Trends</h3>
         <div className="flex justify-center items-center h-[300px] text-gray-400">
           No trend data available
         </div>
@@ -71,7 +71,7 @@ export default function AlchmQuantitiesTrends() {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-orange-300">24-Hour Trends</h3>
+      <h3 className="text-lg font-semibold text-orange-300">7-Day Trends</h3>
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={trendData}>
@@ -123,7 +123,7 @@ export default function AlchmQuantitiesTrends() {
       </ResponsiveContainer>
 
       <div className="text-xs text-gray-400">
-        Trends show quantity fluctuations over the past 24 hours based on planetary movements.
+        Trends show quantity fluctuations over the past 7 days based on planetary movements (sampled every 4 hours).
       </div>
     </div>
   );

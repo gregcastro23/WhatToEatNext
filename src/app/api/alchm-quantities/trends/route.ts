@@ -23,9 +23,15 @@ export async function GET() {
     const trends: QuantityPoint[] = [];
     const now = new Date();
 
-    // Calculate quantities for each hour in the past 24 hours
-    // We'll sample every 2 hours to reduce API calls (12 data points)
-    for (let i = 23; i >= 0; i -= 2) {
+    // Calculate quantities for the past 7 days to see meaningful planetary trends
+    // Sample every 4 hours for better resolution (42 data points)
+    // This captures the Moon's movement (changes sign every ~2.5 days)
+    // and shows daily variation from the Sun and faster planets
+    const daysToShow = 7;
+    const intervalHours = 4;
+    const totalHours = daysToShow * 24;
+
+    for (let i = totalHours; i >= 0; i -= intervalHours) {
       const timePoint = new Date(now.getTime() - i * 60 * 60 * 1000);
 
       try {
@@ -35,11 +41,21 @@ export async function GET() {
         // Calculate alchemical properties for this moment
         const alchemicalResult = alchemize(planetaryPositions);
 
+        // Format time - show date for multi-day trends
+        const timeLabel =
+          i >= 24
+            ? timePoint.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+              })
+            : timePoint.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+
         trends.push({
-          time: timePoint.toLocaleTimeString("en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
+          time: timeLabel,
           Spirit: alchemicalResult.esms.Spirit,
           Essence: alchemicalResult.esms.Essence,
           Matter: alchemicalResult.esms.Matter,
@@ -52,13 +68,13 @@ export async function GET() {
       }
     }
 
-    logger.info(`Successfully calculated ${trends.length} trend data points`);
+    logger.info(`Successfully calculated ${trends.length} trend data points over ${daysToShow} days`);
 
     return NextResponse.json(
       { trends },
       {
         headers: {
-          "Cache-Control": "public, max-age=300, s-maxage=300", // Cache for 5 minutes
+          "Cache-Control": "public, max-age=3600, s-maxage=3600", // Cache for 1 hour (longer for historical data)
         },
       }
     );
