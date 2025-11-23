@@ -41,6 +41,9 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 | PR # | Description | Status |
 |------|-------------|--------|
+| #121 | Planetary integration verification documentation | ✅ Merged |
+| #120 | Integrate backend planetary calculations with cuisine recommendations | ✅ Merged |
+| #119 | Migrate Swiss Ephemeris to Python backend (pyswisseph) | ✅ Merged |
 | #116 | Swiss Ephemeris v2 upgrade for high-precision calculations | ✅ Merged |
 | #115 | Network resilience configuration for Vercel builds | ✅ Merged |
 | #114 | User personalization system with natal/moment charts | ✅ Merged |
@@ -291,9 +294,11 @@ curl http://localhost:3000/api/cuisines/recommend
 ```
 
 **Documentation**:
+- `/PLANETARY_INTEGRATION_STATUS.md` - Executive status report (quick stakeholder reference)
 - `/PLANETARY_INTEGRATION_AUDIT.md` - Comprehensive audit report (identifies the issue)
 - `/INTEGRATION_FIX_SUMMARY.md` - Detailed fix documentation (describes the solution)
 - `/INTEGRATION_TEST_PLAN.md` - Complete test plan and code-level verification results
+- `/VERIFICATION_SUMMARY.md` - Detailed verification results and confidence assessment
 
 **Success Criteria**:
 
