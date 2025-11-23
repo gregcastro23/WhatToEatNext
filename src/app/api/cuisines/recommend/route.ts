@@ -21,6 +21,13 @@ import {
   type ThermodynamicState,
   type KineticState
 } from "@/utils/enhancedCompatibilityScoring";
+import {
+  calculateAlchemicalFromPlanets,
+  aggregateZodiacElementals,
+} from "@/utils/planetaryAlchemyMapping";
+import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
+import type { Planet, ZodiacSign } from "@/types/celestial";
+import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 const logger = createLogger("CuisinesRecommendAPI");
 
@@ -42,6 +49,7 @@ interface CurrentMoment {
   season: string;
   meal_type?: string;
   timestamp: string;
+  planetaryPositions?: Record<string, PlanetPosition>; // Optional for backward compatibility
 }
 
 interface ThermodynamicMetrics {
@@ -176,64 +184,138 @@ interface EnhancedCuisineRecommendation {
 }
 
 /**
- * Calculate current astrological moment
+ * Calculate current astrological moment using backend planetary positions
+ *
+ * IMPORTANT: This function now calls the backend for high-precision planetary
+ * positions instead of approximating from calendar dates. This ensures
+ * recommendations use real astronomical data from Swiss Ephemeris (NASA JPL DE).
  */
-function getCurrentMoment(): CurrentMoment {
+async function getCurrentMoment(): Promise<CurrentMoment> {
   const now = new Date();
   const month = now.getMonth();
 
-  const zodiacSigns = [
-    "Capricorn", "Aquarius", "Pisces", "Aries", "Taurus", "Gemini",
-    "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius",
-  ];
-
-  const day = now.getDate();
-  let zodiacIndex = month;
-  if (day >= 20 && day <= 31) {
-    zodiacIndex = (month + 1) % 12;
-  }
-
+  // Calculate season
   let season = "Spring";
   if (month >= 2 && month <= 4) season = "Spring";
   else if (month >= 5 && month <= 7) season = "Summer";
   else if (month >= 8 && month <= 10) season = "Autumn";
   else season = "Winter";
 
+  // Calculate meal type
   const hour = now.getHours();
   let meal_type = "Dinner";
   if (hour >= 5 && hour < 11) meal_type = "Breakfast";
   else if (hour >= 11 && hour < 15) meal_type = "Lunch";
   else if (hour >= 15 && hour < 18) meal_type = "Snack";
 
-  return {
-    zodiac_sign: zodiacSigns[zodiacIndex],
-    season,
-    meal_type,
-    timestamp: now.toISOString(),
-  };
+  // Get actual planetary positions from backend (via astrologize API)
+  try {
+    const planetaryPositionsRaw: Record<string, PlanetPosition> =
+      await getPlanetaryPositionsForDateTime(now, {
+        latitude: 40.7498, // Default: New York
+        longitude: -73.7976,
+      });
+
+    // Extract Sun's zodiac sign for backward compatibility
+    const sunSign = planetaryPositionsRaw.Sun?.sign || "gemini";
+    const zodiacSign = sunSign.charAt(0).toUpperCase() + sunSign.slice(1);
+
+    logger.info("Current moment calculated from backend planetary positions", {
+      zodiacSign,
+      sunPosition: planetaryPositionsRaw.Sun,
+      source: "backend-pyswisseph"
+    });
+
+    return {
+      zodiac_sign: zodiacSign,
+      season,
+      meal_type,
+      timestamp: now.toISOString(),
+      // Include planetary positions for downstream use
+      planetaryPositions: planetaryPositionsRaw,
+    };
+  } catch (error) {
+    logger.warn("Failed to get backend planetary positions, using date approximation", { error });
+
+    // Fallback to date approximation if backend unavailable
+    const zodiacSigns = [
+      "Capricorn", "Aquarius", "Pisces", "Aries", "Taurus", "Gemini",
+      "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius",
+    ];
+
+    const day = now.getDate();
+    let zodiacIndex = month;
+    if (day >= 20 && day <= 31) {
+      zodiacIndex = (month + 1) % 12;
+    }
+
+    return {
+      zodiac_sign: zodiacSigns[zodiacIndex],
+      season,
+      meal_type,
+      timestamp: now.toISOString(),
+    };
+  }
 }
 
 /**
- * Calculate alchemical properties from planetary positions
- * For now, using a simplified calculation based on zodiac sign
+ * Calculate alchemical properties from planetary positions (CORRECT METHOD)
+ *
+ * CRITICAL: This is the ONLY correct way to calculate ESMS properties.
+ * Uses actual planetary positions in zodiac signs, NOT simple zodiac sign lookup.
+ *
+ * Per CLAUDE.md: "ESMS ONLY from planetary positions, NOT elemental approximations"
+ *
+ * @param planetaryPositions - Actual planetary positions from backend
+ * @param fallbackZodiacSign - Fallback if planetary positions unavailable
+ * @returns Alchemical properties (Spirit, Essence, Matter, Substance)
  */
-function calculateAlchemicalProperties(zodiacSign: string): AlchemicalProperties {
-  const alchemicalMap: Record<string, AlchemicalProperties> = {
-    Aries: { Spirit: 5, Essence: 3, Matter: 2, Substance: 4 },
-    Taurus: { Spirit: 2, Essence: 4, Matter: 6, Substance: 2 },
-    Gemini: { Spirit: 6, Essence: 4, Matter: 1, Substance: 3 },
-    Cancer: { Spirit: 3, Essence: 6, Matter: 4, Substance: 1 },
-    Leo: { Spirit: 7, Essence: 2, Matter: 2, Substance: 3 },
-    Virgo: { Spirit: 2, Essence: 5, Matter: 5, Substance: 2 },
-    Libra: { Spirit: 4, Essence: 4, Matter: 3, Substance: 3 },
-    Scorpio: { Spirit: 4, Essence: 5, Matter: 3, Substance: 2 },
-    Sagittarius: { Spirit: 6, Essence: 3, Matter: 2, Substance: 3 },
-    Capricorn: { Spirit: 2, Essence: 3, Matter: 7, Substance: 2 },
-    Aquarius: { Spirit: 5, Essence: 4, Matter: 2, Substance: 3 },
-    Pisces: { Spirit: 3, Essence: 7, Matter: 3, Substance: 1 },
-  };
+function calculateAlchemicalPropertiesFromPlanets(
+  planetaryPositions: Record<string, PlanetPosition> | undefined,
+  fallbackZodiacSign?: string
+): AlchemicalProperties {
+  if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
+    // ✅ CORRECT: Use actual planetary positions
+    const planetSigns: Record<string, string> = {};
+    for (const [planet, position] of Object.entries(planetaryPositions)) {
+      planetSigns[planet] = position.sign;
+    }
 
-  return alchemicalMap[zodiacSign] || { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+    const alchemical = calculateAlchemicalFromPlanets(planetSigns);
+    logger.debug("Calculated ESMS from planetary positions", {
+      planets: Object.keys(planetSigns).length,
+      alchemical,
+      source: "backend-planetary-positions"
+    });
+
+    return alchemical;
+  } else if (fallbackZodiacSign) {
+    // ❌ FALLBACK ONLY: Approximate from Sun sign (not ideal, but better than nothing)
+    logger.warn("Using zodiac fallback for ESMS calculation - backend unavailable", {
+      fallbackZodiacSign
+    });
+
+    const alchemicalMap: Record<string, AlchemicalProperties> = {
+      Aries: { Spirit: 5, Essence: 3, Matter: 2, Substance: 4 },
+      Taurus: { Spirit: 2, Essence: 4, Matter: 6, Substance: 2 },
+      Gemini: { Spirit: 6, Essence: 4, Matter: 1, Substance: 3 },
+      Cancer: { Spirit: 3, Essence: 6, Matter: 4, Substance: 1 },
+      Leo: { Spirit: 7, Essence: 2, Matter: 2, Substance: 3 },
+      Virgo: { Spirit: 2, Essence: 5, Matter: 5, Substance: 2 },
+      Libra: { Spirit: 4, Essence: 4, Matter: 3, Substance: 3 },
+      Scorpio: { Spirit: 4, Essence: 5, Matter: 3, Substance: 2 },
+      Sagittarius: { Spirit: 6, Essence: 3, Matter: 2, Substance: 3 },
+      Capricorn: { Spirit: 2, Essence: 3, Matter: 7, Substance: 2 },
+      Aquarius: { Spirit: 5, Essence: 4, Matter: 2, Substance: 3 },
+      Pisces: { Spirit: 3, Essence: 7, Matter: 3, Substance: 1 },
+    };
+
+    return alchemicalMap[fallbackZodiacSign] || { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+  } else {
+    // Default balanced state
+    logger.error("No planetary positions or fallback zodiac sign available");
+    return { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+  }
 }
 
 /**
@@ -624,15 +706,20 @@ function getZodiacElement(zodiacSign: string): string {
 
 /**
  * Calculate user's current state for compatibility scoring
- * Based on current astrological moment
+ * Based on current astrological moment with backend planetary positions
+ *
+ * UPDATED: Now uses real planetary positions from backend for accurate ESMS calculation
  */
 function calculateUserState(moment: CurrentMoment): {
   thermodynamic: ThermodynamicState;
   kinetic: KineticState;
   elemental: ElementalProperties;
 } {
-  // Calculate alchemical properties for current moment
-  const alchemical = calculateAlchemicalProperties(moment.zodiac_sign);
+  // Calculate alchemical properties from planetary positions (or fallback to zodiac)
+  const alchemical = calculateAlchemicalPropertiesFromPlanets(
+    moment.planetaryPositions,
+    moment.zodiac_sign
+  );
 
   // Calculate elemental properties based on zodiac sign
   const zodiacElement = getZodiacElement(moment.zodiac_sign);
@@ -677,6 +764,8 @@ function calculateUserState(moment: CurrentMoment): {
 
 /**
  * Generate enhanced cuisine recommendations
+ *
+ * UPDATED: Now uses planetary positions from backend for accurate ESMS
  */
 function generateEnhancedRecommendations(
   moment: CurrentMoment,
@@ -696,8 +785,11 @@ function generateEnhancedRecommendations(
     greek,
   };
 
-  // Calculate alchemical properties for current moment
-  const currentAlchemical = calculateAlchemicalProperties(moment.zodiac_sign);
+  // Calculate alchemical properties for current moment from planetary positions
+  const currentAlchemical = calculateAlchemicalPropertiesFromPlanets(
+    moment.planetaryPositions,
+    moment.zodiac_sign
+  );
 
   // Process all cuisines with defensive checks
   const processedCuisines = Object.entries(CUISINES).map(([id, cuisineInfo]) => {
@@ -931,12 +1023,14 @@ function generateEnhancedRecommendations(
 
 /**
  * GET /api/cuisines/recommend
+ *
+ * UPDATED: Now calls backend for high-precision planetary positions
  */
 export async function GET(request: Request) {
   try {
-    logger.info("Enhanced Cuisine recommendations API called");
+    logger.info("Enhanced Cuisine recommendations API called (using backend planetary positions)");
 
-    const currentMoment = getCurrentMoment();
+    const currentMoment = await getCurrentMoment();
     const recommendations = generateEnhancedRecommendations(currentMoment);
 
     const response = {
@@ -981,13 +1075,15 @@ export async function GET(request: Request) {
 
 /**
  * POST /api/cuisines/recommend
+ *
+ * UPDATED: Now calls backend for high-precision planetary positions
  */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    logger.info("Enhanced Cuisine recommendations API called with custom parameters", body);
+    logger.info("Enhanced Cuisine recommendations API called with custom parameters (using backend)", body);
 
-    const currentMoment = getCurrentMoment();
+    const currentMoment = await getCurrentMoment();
     const recommendations = generateEnhancedRecommendations(currentMoment);
 
     const response = {
