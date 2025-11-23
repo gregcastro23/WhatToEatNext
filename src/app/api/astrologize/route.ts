@@ -6,12 +6,11 @@ import { log } from "@/services/LoggingService";
 import type { ZodiacSign } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
-import {
-  calculatePlanetaryPositionsSwissEph,
-  isSwissEphemerisAvailable,
-} from "@/utils/swissephCalculations";
 
 const logger = createLogger("AstrologizeAPI");
+
+// Backend URL configuration
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 
 // Interface for the API request
 interface AstrologizeRequest {
@@ -30,6 +29,91 @@ const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976,
 };
+
+/**
+ * Check if backend is available
+ */
+async function isBackendAvailable(): Promise<boolean> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+
+    const response = await fetch(`${BACKEND_URL}/health`, {
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+    return response.ok;
+  } catch (error) {
+    logger.debug("Backend health check failed:", error);
+    return false;
+  }
+}
+
+/**
+ * Call backend for planetary positions calculation
+ */
+async function calculatePlanetaryPositionsBackend(
+  date: Date,
+  zodiacSystem: "tropical" | "sidereal" = "tropical",
+): Promise<Record<string, PlanetPosition> | null> {
+  try {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Convert to 1-indexed
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+    const response = await fetch(`${BACKEND_URL}/api/planetary/positions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        zodiacSystem,
+      }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}`);
+    }
+
+    const data = await response.json();
+    const positions: Record<string, PlanetPosition> = {};
+
+    // Transform backend response to match our PlanetPosition interface
+    for (const [planetName, position] of Object.entries(data.planetary_positions || {})) {
+      const pos = position as any;
+      positions[planetName] = {
+        sign: pos.sign as ZodiacSign,
+        degree: pos.degree,
+        minute: pos.minute,
+        exactLongitude: pos.exactLongitude,
+        isRetrograde: pos.isRetrograde,
+      };
+    }
+
+    logger.info(
+      `Calculated ${Object.keys(positions).length} planetary positions using backend (${data.metadata?.source || 'unknown'})`,
+    );
+
+    return positions;
+  } catch (error) {
+    logger.warn("Backend planetary calculation failed:", error);
+    return null;
+  }
+}
 
 /**
  * Convert ecliptic longitude to zodiac sign and degree
@@ -71,28 +155,23 @@ function longitudeToZodiacPosition(longitude: number): {
 }
 
 /**
- * Calculate planetary positions using Swiss Ephemeris (preferred) or astronomy-engine (fallback)
+ * Calculate planetary positions using backend (preferred), then astronomy-engine (fallback)
  */
-function calculateLocalPlanetaryPositions(
+async function calculatePlanetaryPositions(
   date: Date,
   zodiacSystem: "tropical" | "sidereal" = "tropical",
-): Record<string, PlanetPosition> {
-  // Try Swiss Ephemeris first for maximum accuracy
-  if (isSwissEphemerisAvailable()) {
-    try {
-      logger.info("Using Swiss Ephemeris for planetary calculations (high precision)");
-      const positions = calculatePlanetaryPositionsSwissEph(date, zodiacSystem);
-      logger.info(
-        `Calculated ${Object.keys(positions).length} planetary positions using Swiss Ephemeris`,
-      );
-      return positions;
-    } catch (swissephError) {
-      logger.warn("Swiss Ephemeris calculation failed, falling back to astronomy-engine:", swissephError);
-      // Fall through to astronomy-engine fallback
+): Promise<Record<string, PlanetPosition>> {
+  // Try backend first for high-precision Swiss Ephemeris calculations
+  const backendAvailable = await isBackendAvailable();
+  if (backendAvailable) {
+    const backendPositions = await calculatePlanetaryPositionsBackend(date, zodiacSystem);
+    if (backendPositions && Object.keys(backendPositions).length > 0) {
+      logger.info("Using backend Swiss Ephemeris for planetary calculations (high precision)");
+      return backendPositions;
     }
-  } else {
-    logger.info("Swiss Ephemeris not available, using astronomy-engine (install swisseph-v2 for higher precision)");
   }
+
+  logger.info("Backend not available, using astronomy-engine fallback (moderate precision)");
 
   // Fallback to astronomy-engine
   const positions: Record<string, PlanetPosition> = {};
@@ -193,8 +272,8 @@ export async function POST(request: Request) {
 
     logger.info(`Calculating positions for ${targetDate.toISOString()} (${zodiacSystem} zodiac)`);
 
-    // Calculate planetary positions using Swiss Ephemeris or astronomy-engine fallback
-    const planetaryPositions = calculateLocalPlanetaryPositions(targetDate, zodiacSystem);
+    // Calculate planetary positions using backend or astronomy-engine fallback
+    const planetaryPositions = await calculatePlanetaryPositions(targetDate, zodiacSystem);
 
     // Validate planetary positions
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
@@ -258,15 +337,16 @@ export async function POST(request: Request) {
           zodiacSystem.toUpperCase() === "TROPICAL" ? "TROPICAL" : "LAHIRI",
       },
       metadata: {
-        source: isSwissEphemerisAvailable()
-          ? "swiss-ephemeris-v2"
+        source: (await isBackendAvailable())
+          ? "backend-pyswisseph"
           : "astronomy-engine-fallback",
         timestamp: new Date().toISOString(),
         calculatedAt: targetDate.toISOString(),
         zodiacSystem: zodiacSystem,
-        precision: isSwissEphemerisAvailable()
+        precision: (await isBackendAvailable())
           ? "NASA JPL DE (sub-arcsecond)"
           : "astronomy-engine (moderate)",
+        backendUrl: BACKEND_URL,
       },
     };
 
