@@ -103,10 +103,13 @@ export default function ProfilePage() {
                 ingredients: personalization.data.preferences.ingredients,
                 complexity: personalization.data.preferences.complexity,
               }}
-              onUpdate={(prefs) => {
-                // Handle preference updates
-                // In a real implementation, this would save to backend
-                console.log("Preferences updated:", prefs);
+              onUpdate={async (prefs) => {
+                // Save preferences to backend
+                try {
+                  await personalization.actions.updatePreferences(prefs);
+                } catch (error) {
+                  console.error("Failed to update preferences:", error);
+                }
               }}
             />
           </div>
