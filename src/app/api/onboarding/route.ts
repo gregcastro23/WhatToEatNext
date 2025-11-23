@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import emailService from "@/services/emailService";
 import type { NextRequest } from "next/server";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 import type { Planet, ZodiacSign, Element } from "@/types/celestial";
@@ -200,6 +201,26 @@ export async function POST(request: NextRequest) {
 
     if (!updatedUser) {
       throw new Error("Failed to update user profile");
+    }
+
+    // Send welcome email (non-blocking - don't fail onboarding if email fails)
+    if (emailService.isConfigured()) {
+      emailService
+        .sendWelcomeEmail(email, name, dominantElement)
+        .then((success) => {
+          if (success) {
+            console.log(`Welcome email sent successfully to ${email}`);
+          } else {
+            console.error(`Failed to send welcome email to ${email}`);
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending welcome email:", error);
+        });
+    } else {
+      console.log(
+        "Email service not configured - skipping welcome email. Set SMTP environment variables to enable email notifications.",
+      );
     }
 
     return NextResponse.json({
