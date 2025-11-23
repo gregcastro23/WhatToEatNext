@@ -1,0 +1,101 @@
+═══════════════════════════════════════════════════════════════════
+COPY THIS ENTIRE PROMPT TO START YOUR NEXT CHAT SESSION
+═══════════════════════════════════════════════════════════════════
+
+I need to create a pull request and test the planetary integration that was completed in the previous session.
+
+## Context
+
+In the previous session, a critical integration gap was identified and fixed:
+- The `/api/cuisines/recommend` endpoint was using hardcoded zodiac approximations instead of real-time, high-precision planetary positions from the Swiss Ephemeris backend
+- This has been fixed and committed to branch `claude/integrate-planetary-calculations-018bgP4UJVLkv3aSrsZFBDzi`
+- All code is committed and pushed to GitHub
+- Ready for PR creation, testing, and merge
+
+## Your Mission
+
+Please complete the following tasks in order:
+
+1. **Read the comprehensive instructions:**
+   - Primary file: `/home/user/WhatToEatNext/NEXT_STEPS_PROMPT.md`
+   - This contains detailed step-by-step instructions for all tasks
+
+2. **Review the implementation:**
+   - Audit report: `/home/user/WhatToEatNext/PLANETARY_INTEGRATION_AUDIT.md`
+   - Fix summary: `/home/user/WhatToEatNext/INTEGRATION_FIX_SUMMARY.md`
+   - Project guide: `/home/user/WhatToEatNext/CLAUDE.md` (see "Planetary Integration Verification" section)
+
+3. **Execute the tasks:**
+   - Task 1: Create Pull Request for the integration
+   - Task 2: Run end-to-end integration tests (8 comprehensive test steps)
+   - Task 3: Document test results
+   - Task 4: Merge PR if all tests pass
+
+## Key Information
+
+**Branch:** `claude/integrate-planetary-calculations-018bgP4UJVLkv3aSrsZFBDzi`
+**Latest Commits:**
+- `8192afe` - docs: Add comprehensive next steps prompt
+- `674a1fb` - feat: Integrate backend planetary calculations with cuisine recommendations
+
+**Files Modified:**
+- `src/app/api/cuisines/recommend/route.ts` (main fix - ~100 lines)
+- `CLAUDE.md` (documentation update)
+- Plus 3 new documentation files
+
+**What Was Fixed:**
+- `/api/cuisines/recommend` now calls backend for real planetary positions
+- ESMS calculations now use `calculateAlchemicalFromPlanets()` (authoritative method)
+- All 6 recommendation systems verified to use backend positions
+- Graceful fallback mechanism when backend unavailable
+
+## Instructions
+
+**Step 1:** Start by reading the main instructions file:
+```
+Please read and follow the instructions in /home/user/WhatToEatNext/NEXT_STEPS_PROMPT.md
+```
+
+**Step 2:** Begin with Task 1 (Create Pull Request)
+
+**Step 3:** Proceed through all tasks systematically
+
+**Step 4:** Document results and merge if tests pass
+
+## Expected Timeline
+
+- PR Creation: 5-10 minutes
+- Backend Setup: 10-15 minutes
+- Integration Testing: 30-45 minutes
+- Documentation: 15-20 minutes
+- Merge: 5-10 minutes
+- **Total: 1-2 hours**
+
+## Success Criteria
+
+- ✅ PR created with comprehensive description
+- ✅ Backend planetary positions endpoint works
+- ✅ Frontend astrologize API uses backend
+- ✅ Cuisine recommendations use backend positions
+- ✅ Metadata shows "backend-pyswisseph" as source
+- ✅ ESMS values are dynamic (not static)
+- ✅ Fallback works when backend unavailable
+- ✅ All tests pass
+- ✅ PR merged to main
+
+## Quick Start Commands
+
+```bash
+# Verify current status
+cd /home/user/WhatToEatNext
+git status
+git log --oneline -5
+
+# Check branch
+git branch -a | grep planetary
+```
+
+═══════════════════════════════════════════════════════════════════
+START BY READING: /home/user/WhatToEatNext/NEXT_STEPS_PROMPT.md
+THEN EXECUTE TASK 1: CREATE PULL REQUEST
+═══════════════════════════════════════════════════════════════════
