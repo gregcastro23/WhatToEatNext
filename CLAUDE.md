@@ -212,24 +212,34 @@ curl -X POST http://localhost:3000/api/astrologize \
 
 ### **Planetary Integration Verification** (November 23, 2025)
 
-**Status**: ✅ **FULLY INTEGRATED** - All recommendation systems now use backend planetary positions
+**Status**: ✅ **MERGED TO MAIN** (PR #120) - Code verified, runtime testing pending
+
+**Pull Request**: [#120](https://github.com/gregcastro23/WhatToEatNext/pull/120) - ✅ Merged to main
+**Commits**:
+- `f06b01e` - Merge pull request #120
+- `674a1fb` - feat: Integrate backend planetary calculations with cuisine recommendations
+
+**Verification Status**:
+- ✅ **Code-Level Verification**: COMPLETE (100% verified)
+- ⏳ **Runtime Testing**: PENDING (awaiting proper environment setup)
 
 **Audit Summary**:
 - Conducted comprehensive audit of planetary position data flow
 - Identified and fixed critical gap in cuisine recommendations API
 - Verified ESMS calculations use authoritative `calculateAlchemicalFromPlanets()` method
 - All recommendation systems now receive sub-arcsecond precision planetary data
+- Code changes merged and confirmed in main branch
 
 **Recommendation Systems Verified**:
 
-| System | Component | Data Source | ESMS Calculation | Status |
-|--------|-----------|-------------|------------------|--------|
-| **Cuisine API** | `/src/app/api/cuisines/recommend/route.ts` | ✅ Backend via `getPlanetaryPositionsForDateTime()` | ✅ `calculateAlchemicalFromPlanets()` | 🟢 **WORKING** |
-| **User Personalization** | `/src/services/PersonalizedRecommendationService.ts` | ✅ `ChartComparisonService` | ✅ `calculateAlchemicalFromPlanets()` | 🟢 **WORKING** |
-| **Moment Chart** | `/src/services/ChartComparisonService.ts` | ✅ `/api/astrologize` → Backend | ✅ `calculateAlchemicalFromPlanets()` | 🟢 **WORKING** |
-| **Recipe Calculations** | `/src/utils/hierarchicalRecipeCalculations.ts` | ✅ Planetary positions | ✅ `calculateAlchemicalFromPlanets()` | 🟢 **WORKING** |
-| **Ingredient Transform** | `/src/utils/ingredientUtils.ts` | ✅ Planetary positions | ✅ `transformItemWithPlanetaryPositions()` | 🟢 **WORKING** |
-| **Cooking Methods** | `/src/components/recommendations/EnhancedCookingMethodRecommender.tsx` | ✅ Planetary positions | ✅ `calculateAlchemicalFromPlanets()` | 🟢 **WORKING** |
+| System | Component | Data Source | ESMS Calculation | Code Status | Runtime Status |
+|--------|-----------|-------------|------------------|-------------|----------------|
+| **Cuisine API** | `/src/app/api/cuisines/recommend/route.ts` | ✅ Backend via `getPlanetaryPositionsForDateTime()` | ✅ `calculateAlchemicalFromPlanets()` | ✅ Verified | ⏳ Pending |
+| **User Personalization** | `/src/services/PersonalizedRecommendationService.ts` | ✅ `ChartComparisonService` | ✅ `calculateAlchemicalFromPlanets()` | ✅ Verified | ⏳ Pending |
+| **Moment Chart** | `/src/services/ChartComparisonService.ts` | ✅ `/api/astrologize` → Backend | ✅ `calculateAlchemicalFromPlanets()` | ✅ Verified | ⏳ Pending |
+| **Recipe Calculations** | `/src/utils/hierarchicalRecipeCalculations.ts` | ✅ Planetary positions | ✅ `calculateAlchemicalFromPlanets()` | ✅ Verified | ⏳ Pending |
+| **Ingredient Transform** | `/src/utils/ingredientUtils.ts` | ✅ Planetary positions | ✅ `transformItemWithPlanetaryPositions()` | ✅ Verified | ⏳ Pending |
+| **Cooking Methods** | `/src/components/recommendations/EnhancedCookingMethodRecommender.tsx` | ✅ Planetary positions | ✅ `calculateAlchemicalFromPlanets()` | ✅ Verified | ⏳ Pending |
 
 **Critical Fix Applied (November 23, 2025)**:
 - **Issue**: `/api/cuisines/recommend` was using hardcoded zodiac sign approximations instead of backend planetary positions
@@ -238,6 +248,7 @@ curl -X POST http://localhost:3000/api/astrologize \
 - **Result**: Cuisine recommendations now based on real-time, high-precision planetary positions
 - **Files Modified**: `/src/app/api/cuisines/recommend/route.ts` (~100 lines updated)
 - **Regressions**: Zero - All changes backward compatible
+- **PR Status**: ✅ Merged to main (PR #120)
 
 **Data Flow Verified**:
 ```
@@ -279,19 +290,42 @@ curl http://localhost:3000/api/cuisines/recommend
 # ESMS values change based on actual planetary positions, not static zodiac
 ```
 
-**Audit Documents**:
-- `/PLANETARY_INTEGRATION_AUDIT.md` - Comprehensive audit report
-- `/INTEGRATION_FIX_SUMMARY.md` - Detailed fix documentation
+**Documentation**:
+- `/PLANETARY_INTEGRATION_AUDIT.md` - Comprehensive audit report (identifies the issue)
+- `/INTEGRATION_FIX_SUMMARY.md` - Detailed fix documentation (describes the solution)
+- `/INTEGRATION_TEST_PLAN.md` - Complete test plan and code-level verification results
 
-**Success Criteria Met**:
-- ✅ All recommendation systems use backend planetary positions
-- ✅ ESMS calculated via `calculateAlchemicalFromPlanets()` (authoritative method)
-- ✅ No hardcoded zodiac → ESMS mappings remain
-- ✅ Metadata tracking shows data source (`backend-pyswisseph`)
-- ✅ Graceful fallback to `astronomy-engine` when backend unavailable
+**Success Criteria**:
+
+✅ **Code-Level (COMPLETE)**:
+- ✅ All recommendation systems use backend planetary positions (code verified)
+- ✅ ESMS calculated via `calculateAlchemicalFromPlanets()` (code verified)
+- ✅ No hardcoded zodiac → ESMS mappings remain (removed in fix)
+- ✅ Metadata tracking implemented (`backend-pyswisseph` vs `astronomy-engine-fallback`)
+- ✅ Graceful fallback to `astronomy-engine` when backend unavailable (code verified)
 - ✅ Zero TypeScript errors introduced
 - ✅ Zero breaking changes
 - ✅ 100% backward compatible
+
+⏳ **Runtime-Level (PENDING)**:
+- ⏳ Backend returns planetary positions for all 10 planets
+- ⏳ Frontend receives and stores planetary positions
+- ⏳ Cuisine recommendations include populated `planetaryPositions` field
+- ⏳ ESMS values change based on actual planetary movements
+- ⏳ Fallback works correctly when backend unavailable
+- ⏳ No crashes or errors in either mode
+
+**Confidence Assessment**:
+- **Implementation Quality**: 95% (code is correct and follows best practices)
+- **Runtime Functionality**: 80% (high probability of working based on code analysis)
+- **Production Readiness**: Pending runtime verification
+
+**Next Steps**:
+1. ✅ Code verification - COMPLETE
+2. ✅ Documentation - COMPLETE
+3. ⏳ Runtime testing in proper environment - PENDING
+4. ⏳ Staging deployment and validation - PENDING
+5. ⏳ Production deployment - PENDING
 
 ## Development Commands
 
