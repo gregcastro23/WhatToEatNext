@@ -131,6 +131,8 @@ export async function fetchPlanetaryPositions(
 ): Promise<Record<string, PlanetPosition>> {
   const fallbackPositions = (): Record<string, PlanetPosition> => {
     log.info("Using fallback planetary positions due to API failure");
+    // Updated fallback positions for November 24, 2025 (approximate)
+    // NOTE: These are fallback values only - production should use backend pyswisseph or astronomy-engine
     return {
       Sun: {
         sign: "sagittarius",
@@ -140,10 +142,10 @@ export async function fetchPlanetaryPositions(
         isRetrograde: false,
       },
       Moon: {
-        sign: "cancer",
-        degree: 15,
-        minute: 20,
-        exactLongitude: 105.33,
+        sign: "capricorn", // FIXED: Updated from cancer to capricorn
+        degree: 8,
+        minute: 45,
+        exactLongitude: 278.75, // Capricorn 8° = 270 + 8.75
         isRetrograde: false,
       },
       Mercury: {
