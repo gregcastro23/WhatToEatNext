@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import AlchmQuantitiesDisplay from "@/components/alchm-quantities-display";
 import AlchmQuantitiesTrends from "@/components/alchm-quantities-trends";
 import AlchmKinetics from "@/components/alchm-kinetics";
+import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
 
 export default function QuantitiesPage() {
   return (
@@ -56,6 +57,17 @@ export default function QuantitiesPage() {
             </Suspense>
           </div>
 
+          {/* Planetary Contributions - Full Width */}
+          <div className="p-6 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-lg border border-indigo-500/30 backdrop-blur-sm">
+            <h2 className="text-2xl font-bold text-indigo-300 mb-4">🪐 Planetary Contributions</h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Current planetary positions and their ESMS contributions with next sign transitions
+            </p>
+            <Suspense fallback={<LoadingSpinner />}>
+              <PlanetaryContributionsChart />
+            </Suspense>
+          </div>
+
           {/* Three Column Layout: Trends, Kinetics, Formulas */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Trends */}
@@ -84,7 +96,7 @@ export default function QuantitiesPage() {
               <h2 className="text-xl font-bold text-indigo-300 mb-4">
                 Alchemical Mathematics
               </h2>
-              <p className="text-sm text-gray-400 mb-6">Core formulas and planetary contributions</p>
+              <p className="text-sm text-gray-400 mb-6">Core formulas</p>
 
               <div className="space-y-4">
                 {/* A-Number Formula */}
@@ -123,36 +135,6 @@ export default function QuantitiesPage() {
                     <p>Acceleration = ΔVelocity / ΔTime</p>
                     <p>Momentum = Quantity × Velocity</p>
                     <p className="mt-2 font-bold">Kinetic Energy = ½ × Mass × Velocity²</p>
-                  </div>
-                </div>
-
-                {/* Planetary Contributions */}
-                <div className="p-4 bg-gradient-to-r from-rose-900/30 to-pink-900/30 rounded-lg border border-rose-500/20">
-                  <h4 className="font-semibold mb-2 flex items-center gap-2 text-gray-200">
-                    <span className="text-xl">🪐</span> Planetary Contributions
-                  </h4>
-                  <div className="text-xs space-y-1 text-rose-300">
-                    <p>
-                      <strong>Sun:</strong> Spirit: 1
-                    </p>
-                    <p>
-                      <strong>Moon:</strong> Essence: 1, Matter: 1
-                    </p>
-                    <p>
-                      <strong>Mercury:</strong> Spirit: 1, Substance: 1
-                    </p>
-                    <p>
-                      <strong>Venus:</strong> Essence: 1, Matter: 1
-                    </p>
-                    <p>
-                      <strong>Mars:</strong> Essence: 1, Matter: 1
-                    </p>
-                    <p>
-                      <strong>Jupiter:</strong> Spirit: 1, Essence: 1
-                    </p>
-                    <p>
-                      <strong>Saturn:</strong> Spirit: 1, Matter: 1
-                    </p>
                   </div>
                 </div>
               </div>
