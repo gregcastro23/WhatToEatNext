@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
+import { calculatePlanetaryPositions } from "@/app/api/astrologize/route";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 
@@ -44,8 +44,8 @@ export async function GET() {
   try {
     logger.info("Alchm Quantities API called");
 
-    // Get current planetary positions
-    const planetaryPositions = await getCurrentPlanetaryPositions();
+    // Get current planetary positions - using direct calculation instead of HTTP request
+    const planetaryPositions = await calculatePlanetaryPositions(new Date(), "tropical");
 
     // Get alchemical properties using real service (synchronous function)
     const alchemicalResult = alchemize(planetaryPositions);

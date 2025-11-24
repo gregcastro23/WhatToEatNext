@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
+import { calculatePlanetaryPositions } from "@/app/api/astrologize/route";
 import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
 import { calculateNextSignTransition } from "@/utils/planetaryTransitions";
 import { createLogger } from "@/utils/logger";
@@ -32,8 +32,8 @@ export async function GET() {
   try {
     logger.info("Planetary Contributions API called");
 
-    // Get current planetary positions
-    const planetaryPositions = await getCurrentPlanetaryPositions();
+    // Get current planetary positions - using direct calculation instead of HTTP request
+    const planetaryPositions = await calculatePlanetaryPositions(new Date(), "tropical");
 
     // Process each planet
     const planetNames = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];

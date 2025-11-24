@@ -156,8 +156,9 @@ function longitudeToZodiacPosition(longitude: number): {
 
 /**
  * Calculate planetary positions using backend (preferred), then astronomy-engine (fallback)
+ * EXPORTED for use by other server-side API routes
  */
-async function calculatePlanetaryPositions(
+export async function calculatePlanetaryPositions(
   date: Date,
   zodiacSystem: "tropical" | "sidereal" = "tropical",
 ): Promise<Record<string, PlanetPosition>> {
