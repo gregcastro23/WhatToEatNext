@@ -28,7 +28,7 @@ type PlanetaryData = {
   };
   transition: {
     nextSign: string;
-    estimatedDate: Date;
+    estimatedDate: Date | string; // API returns Date, but JSON serializes to string
     daysUntil: number;
     direction: "forward" | "retrograde";
   };
@@ -198,7 +198,7 @@ export default function PlanetaryContributionsChart() {
               </span>
             </div>
             <div className="text-xs text-gray-500 mt-1 ml-5">
-              {planet.transition.estimatedDate.toLocaleDateString("en-US", {
+              {new Date(planet.transition.estimatedDate).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
