@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
+import { calculatePlanetaryPositions, getFallbackPlanetaryPositions } from "@/utils/serverPlanetaryCalculations";
 import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
 import { calculateNextSignTransition } from "@/utils/planetaryTransitions";
 import { createLogger } from "@/utils/logger";
@@ -32,8 +32,14 @@ export async function GET() {
   try {
     logger.info("Planetary Contributions API called");
 
-    // Get current planetary positions
-    const planetaryPositions = await getCurrentPlanetaryPositions();
+    // Get current planetary positions using direct server-side calculation
+    let planetaryPositions;
+    try {
+      planetaryPositions = await calculatePlanetaryPositions();
+    } catch (calcError) {
+      logger.warn("Failed to calculate planetary positions, using fallback:", calcError);
+      planetaryPositions = getFallbackPlanetaryPositions();
+    }
 
     // Process each planet
     const planetNames = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];

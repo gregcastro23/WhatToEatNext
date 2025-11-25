@@ -4,7 +4,19 @@ import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 // Use local API endpoint instead of external
-const LOCAL_ASTROLOGIZE_API_URL = "/api/astrologize";
+// On server-side, we need an absolute URL since relative URLs don't work in Node.js
+const getAstrologizeApiUrl = () => {
+  // Check if running on server
+  if (typeof window === "undefined") {
+    // Server-side: use absolute URL with configured base
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+    return `${baseUrl}/api/astrologize`;
+  }
+  // Client-side: use relative URL
+  return "/api/astrologize";
+};
 
 // Interface for the local API request
 interface LocalAstrologizeRequest {
@@ -238,7 +250,7 @@ export async function fetchPlanetaryPositions(
       if (requestData.zodiacSystem)
         params.append("zodiacSystem", requestData.zodiacSystem);
 
-      const url = `${LOCAL_ASTROLOGIZE_API_URL}?${params.toString()}`;
+      const url = `${getAstrologizeApiUrl()}?${params.toString()}`;
       response = await fetch(url, {
         method: "GET",
         headers: {
@@ -248,7 +260,7 @@ export async function fetchPlanetaryPositions(
       });
     } else {
       // Use POST for custom date/time
-      response = await fetch(LOCAL_ASTROLOGIZE_API_URL, {
+      response = await fetch(getAstrologizeApiUrl(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
