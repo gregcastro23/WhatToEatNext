@@ -30,14 +30,17 @@ type PlanetaryData = {
 
 export async function GET() {
   try {
-    logger.info("Planetary Contributions API called");
+    logger.info("Planetary Contributions API called - starting processing");
 
     // Get current planetary positions using direct server-side calculation
     let planetaryPositions;
     try {
+      logger.info("Attempting to calculate planetary positions...");
       planetaryPositions = await calculatePlanetaryPositions();
+      logger.info(`Got ${Object.keys(planetaryPositions).length} planetary positions`);
     } catch (calcError) {
-      logger.warn("Failed to calculate planetary positions, using fallback:", calcError);
+      const errorMessage = calcError instanceof Error ? calcError.message : String(calcError);
+      logger.warn("Failed to calculate planetary positions, using fallback:", { error: errorMessage });
       planetaryPositions = getFallbackPlanetaryPositions();
     }
 
@@ -90,9 +93,15 @@ export async function GET() {
       },
     });
   } catch (error) {
-    logger.error("API Error generating planetary contributions:", error as any);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    logger.error("API Error generating planetary contributions:", { error: errorMessage, stack: errorStack });
     return NextResponse.json(
-      { error: "Failed to calculate planetary contributions" },
+      {
+        error: "Failed to calculate planetary contributions",
+        details: errorMessage,
+        timestamp: new Date().toISOString()
+      },
       { status: 500 }
     );
   }

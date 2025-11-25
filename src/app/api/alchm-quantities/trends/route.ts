@@ -85,7 +85,16 @@ export async function GET() {
       }
     );
   } catch (error) {
-    logger.error("API Error generating Alchm quantity trends:", error as any);
-    return NextResponse.json({ error: "Failed to calculate trends" }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    logger.error("API Error generating Alchm quantity trends:", { error: errorMessage, stack: errorStack });
+    return NextResponse.json(
+      {
+        error: "Failed to calculate trends",
+        details: errorMessage,
+        timestamp: new Date().toISOString()
+      },
+      { status: 500 }
+    );
   }
 }

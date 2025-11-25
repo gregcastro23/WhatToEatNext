@@ -42,15 +42,20 @@ type KineticData = {
 
 export async function GET() {
   try {
-    logger.info("Alchm Quantities API called");
+    logger.info("Alchm Quantities API called - starting processing");
 
     // Get current planetary positions using direct server-side calculation
     let planetaryPositions;
     try {
+      logger.info("Attempting to calculate planetary positions...");
       planetaryPositions = await calculatePlanetaryPositions();
+      logger.info(`Got ${Object.keys(planetaryPositions).length} planetary positions`);
     } catch (calcError) {
-      logger.warn("Failed to calculate planetary positions, using fallback:", calcError);
+      const errorMessage = calcError instanceof Error ? calcError.message : String(calcError);
+      const errorStack = calcError instanceof Error ? calcError.stack : undefined;
+      logger.warn("Failed to calculate planetary positions, using fallback:", { error: errorMessage, stack: errorStack });
       planetaryPositions = getFallbackPlanetaryPositions();
+      logger.info(`Using fallback positions: ${Object.keys(planetaryPositions).length} planets`);
     }
 
     // Get alchemical properties using real service (synchronous function)
@@ -157,9 +162,15 @@ export async function GET() {
       },
     });
   } catch (error) {
-    logger.error("API Error generating Alchm quantities:", error as any);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    logger.error("API Error generating Alchm quantities:", { error: errorMessage, stack: errorStack });
     return NextResponse.json(
-      { error: "Failed to calculate quantities" },
+      {
+        error: "Failed to calculate quantities",
+        details: errorMessage,
+        timestamp: new Date().toISOString()
+      },
       { status: 500 }
     );
   }
