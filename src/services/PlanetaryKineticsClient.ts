@@ -132,7 +132,7 @@ export class PlanetaryKineticsClient {
     userIds: string[],
     location: KineticsLocation,
   ): Promise<GroupDynamicsResponse> {
-    this.logger.warn(
+    logger.warn(
       "PlanetaryKineticsClient.getGroupDynamics: Using placeholder implementation. " +
         "Real group dynamics calculation requires user birth chart data and elemental properties. " +
         `Called for ${userIds.length} users at location ${JSON.stringify(location)}`

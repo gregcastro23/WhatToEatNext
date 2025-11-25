@@ -9,9 +9,10 @@ const getAstrologizeApiUrl = () => {
   // Check if running on server
   if (typeof window === "undefined") {
     // Server-side: use absolute URL with configured base
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+    // Priority: NEXT_PUBLIC_BASE_URL > VERCEL_URL > localhost
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
+      || "http://localhost:3000";
     return `${baseUrl}/api/astrologize`;
   }
   // Client-side: use relative URL
