@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
+import { calculatePlanetaryPositions, getFallbackPlanetaryPositions } from "@/utils/serverPlanetaryCalculations";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 
@@ -35,8 +35,14 @@ export async function GET() {
       const timePoint = new Date(now.getTime() - i * 60 * 60 * 1000);
 
       try {
-        // Get planetary positions for this specific time
-        const planetaryPositions = await getPlanetaryPositionsForDateTime(timePoint);
+        // Get planetary positions for this specific time using direct calculation
+        let planetaryPositions;
+        try {
+          planetaryPositions = await calculatePlanetaryPositions(timePoint);
+        } catch (calcError) {
+          logger.warn(`Failed to calculate positions for ${timePoint.toISOString()}, using fallback:`, calcError);
+          planetaryPositions = getFallbackPlanetaryPositions();
+        }
 
         // Calculate alchemical properties for this moment
         const alchemicalResult = alchemize(planetaryPositions);
