@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "rm -rf .next && yarn build",
-  "installCommand": "yarn install --network-timeout 300000 --check-files",
+  "buildCommand": "rm -rf .next .vercel/output .tsbuildinfo && yarn build",
+  "installCommand": "rm -rf node_modules/.cache .yarn/cache .yarn/install-state.gz && yarn install --network-timeout 300000 --check-files",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
