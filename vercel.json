@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "rm -rf .next .vercel/output .tsbuildinfo && yarn build",
-  "installCommand": "rm -rf node_modules/.cache .yarn/cache .yarn/install-state.gz && yarn install --network-timeout 300000 --check-files",
+  "buildCommand": "yarn build",
+  "installCommand": "corepack enable && corepack prepare yarn@3.6.4 --activate && yarn install",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
@@ -12,8 +12,10 @@
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1",
     "YARN_ENABLE_IMMUTABLE_INSTALLS": "false",
+    "YARN_NODE_LINKER": "node-modules",
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "YARN_HTTP_TIMEOUT": "300000",
-    "YARN_NETWORK_TIMEOUT": "300000"
+    "YARN_NETWORK_TIMEOUT": "300000",
+    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0"
   }
 }
