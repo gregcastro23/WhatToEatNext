@@ -389,6 +389,10 @@ export function ingredientToRecipeIngredient(
 
 /**
  * Normalizes elemental properties to ensure they sum to 1
+ *
+ * @deprecated Use normalizeForDisplay() from @/utils/elemental/normalization
+ * for display purposes. For calculations, use raw values without normalization.
+ * Raw values preserve true energetic intensity information.
  */
 export function normalizeElementalProperties(
   properties: ElementalProperties,

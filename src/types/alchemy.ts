@@ -178,13 +178,51 @@ export interface AstrologicalStateType {
 // ========== CORE ELEMENTAL TYPES ==========
 
 export type Element = "Fire" | "Water" | "Earth" | "Air";
-export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+
+/**
+ * Raw elemental properties - actual calculated values (NOT normalized)
+ * Values can be any positive number representing true energetic intensity.
+ *
+ * Use this for:
+ * - Recipe calculations that need to preserve intensity information
+ * - Aggregating ingredient properties
+ * - Thermodynamic calculations
+ * - Any calculation where relative magnitudes matter
+ */
+export interface RawElementalProperties {
+  Fire: number;   // >= 0, no upper bound
+  Water: number;  // >= 0, no upper bound
+  Earth: number;  // >= 0, no upper bound
+  Air: number;    // >= 0, no upper bound
   [key: string]: number; // Allow indexing with string
 }
+
+/**
+ * Normalized elemental properties - percentages (0.0-1.0, sum ≈ 1.0)
+ * Used ONLY for display/UI purposes
+ *
+ * Use this for:
+ * - UI display (progress bars, pie charts)
+ * - User-facing percentage representations
+ * - Legacy compatibility with normalized-only systems
+ */
+export interface NormalizedElementalProperties {
+  Fire: number;   // 0.0-1.0
+  Water: number;  // 0.0-1.0
+  Earth: number;  // 0.0-1.0
+  Air: number;    // 0.0-1.0
+  [key: string]: number; // Allow indexing with string
+}
+
+/**
+ * ElementalProperties is now RawElementalProperties by default
+ * This allows values to express true calculated intensities rather than
+ * being constrained to percentages that sum to 1.0.
+ *
+ * For normalized display values, use NormalizedElementalProperties and
+ * the normalizeForDisplay() utility function.
+ */
+export interface ElementalProperties extends RawElementalProperties {}
 
 // Also export the lowercase version used in astrologyUtils.ts
 export interface LowercaseElementalProperties {
@@ -1044,6 +1082,9 @@ export type _ThermodynamicMetrics = ThermodynamicMetrics;
 // Added simple boolean/season aliases for legacy code expecting these identifiers
 export type _isDaytime = boolean; // TRUE if time between sunrise and sunset
 export type _season = Season; // Lowercase underscore-prefixed alias for Season
+// Raw and Normalized elemental property aliases
+export type _RawElementalProperties = RawElementalProperties;
+export type _NormalizedElementalProperties = NormalizedElementalProperties;
 // ---------------------------------------------------------------------------
 
 // ========== PHASE 29 TYPE INTELLIGENCE INTEGRATION AND DEMONSTRATION ==========
