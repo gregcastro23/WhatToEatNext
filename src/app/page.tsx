@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * Home Page - WhatToEatNext
- * Main landing page with introductions to our three core recommendation algorithms
+ * Home Page - Alchm.kitchen
+ * Main landing page introducing the Alchm elemental system and recommendation engine
  */
 
 import Link from "next/link";
@@ -15,53 +15,152 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 via-pink-50 to-blue-50">
-      {/* Hero Section with Mission Statement */}
+      {/* Hero Section - Alchm.kitchen Introduction */}
       <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
         <div className="text-center mb-12 animate-fade-in">
-          <p className="text-2xl md:text-3xl text-gray-800 mb-4 font-bold max-w-4xl mx-auto leading-relaxed">
-            Everyone deserves to eat the best possible food, perfectly aligned
-            with the present moment
+          {/* Brand Header */}
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+            Alchm.kitchen
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-600 mb-2 italic">
+            Where the elements meet the cosmos
           </p>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10">
-            We bridge ancient astrological wisdom with cutting-edge AI, helping
-            you discover not just what to eat, but why you should eat it.
+          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-10">
+            Discover food perfectly aligned with the present moment through ancient elemental wisdom and real-time planetary calculations.
           </p>
 
-          {/* The Infinite Yoga of Cooking */}
-          <div className="alchm-card rounded-2xl shadow-xl p-6 md:p-8 max-w-4xl mx-auto mb-12 alchm-shimmer hover:shadow-2xl transition-shadow duration-300">
-            <h2 className="text-2xl md:text-3xl font-bold text-purple-600 mb-4 text-center">
-              The Infinite Yoga of Cooking
+          {/* The Four Elements - Primary Focus */}
+          <div className="alchm-card rounded-2xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto mb-8 alchm-shimmer hover:shadow-2xl transition-shadow duration-300">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+              The Four Elements
             </h2>
-            <p className="text-gray-700 mb-6 text-center text-base md:text-lg">
-              Every meal is an opportunity for growth, connection, and self-discovery.
-              Cooking transcends routine—it&apos;s a lifelong practice uniting body, mind, and spirit.
+            <p className="text-gray-600 mb-6 text-center text-base md:text-lg">
+              Every ingredient carries an elemental signature — raw energetic properties that define its culinary nature
             </p>
-            <div className="grid md:grid-cols-3 gap-4 md:gap-6 text-center">
-              <div className="p-4 rounded-lg bg-white bg-opacity-50 hover:bg-opacity-80 transition-all duration-200 hover:scale-105">
-                <h3 className="text-base md:text-lg font-semibold text-orange-600 mb-2">
-                  Universal Invitation
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+              <div className="p-4 rounded-xl bg-gradient-to-br from-red-50 to-orange-50 border-2 border-orange-200 hover:border-orange-400 hover:shadow-lg transition-all duration-200 hover:scale-105">
+                <div className="text-3xl md:text-4xl mb-2">🔥</div>
+                <h3 className="text-lg md:text-xl font-bold text-orange-600 mb-1">
+                  Fire
                 </h3>
-                <p className="text-sm text-gray-600">
-                  Explore endless possibilities, regardless of experience
+                <p className="text-xs md:text-sm text-gray-600 font-medium mb-2">
+                  Transformation & Vitality
+                </p>
+                <p className="text-xs text-gray-500">
+                  Spices, peppers, heat-driven cooking
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-white bg-opacity-50 hover:bg-opacity-80 transition-all duration-200 hover:scale-105">
-                <h3 className="text-base md:text-lg font-semibold text-green-600 mb-2">
-                  Continuous Learning
+              <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 hover:border-blue-400 hover:shadow-lg transition-all duration-200 hover:scale-105">
+                <div className="text-3xl md:text-4xl mb-2">💧</div>
+                <h3 className="text-lg md:text-xl font-bold text-blue-600 mb-1">
+                  Water
                 </h3>
-                <p className="text-sm text-gray-600">
-                  Deepen understanding through curiosity and experimentation
+                <p className="text-xs md:text-sm text-gray-600 font-medium mb-2">
+                  Flow & Nourishment
+                </p>
+                <p className="text-xs text-gray-500">
+                  Leafy greens, dairy, steaming
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-white bg-opacity-50 hover:bg-opacity-80 transition-all duration-200 hover:scale-105">
-                <h3 className="text-base md:text-lg font-semibold text-blue-600 mb-2">
-                  Mindful Practice
+              <div className="p-4 rounded-xl bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200 hover:border-amber-400 hover:shadow-lg transition-all duration-200 hover:scale-105">
+                <div className="text-3xl md:text-4xl mb-2">🌍</div>
+                <h3 className="text-lg md:text-xl font-bold text-amber-700 mb-1">
+                  Earth
                 </h3>
-                <p className="text-sm text-gray-600">
-                  Transform your kitchen into sacred creative space
+                <p className="text-xs md:text-sm text-gray-600 font-medium mb-2">
+                  Stability & Grounding
+                </p>
+                <p className="text-xs text-gray-500">
+                  Root vegetables, grains, slow cooking
+                </p>
+              </div>
+              <div className="p-4 rounded-xl bg-gradient-to-br from-sky-50 to-indigo-50 border-2 border-sky-200 hover:border-sky-400 hover:shadow-lg transition-all duration-200 hover:scale-105">
+                <div className="text-3xl md:text-4xl mb-2">💨</div>
+                <h3 className="text-lg md:text-xl font-bold text-sky-600 mb-1">
+                  Air
+                </h3>
+                <p className="text-xs md:text-sm text-gray-600 font-medium mb-2">
+                  Movement & Clarity
+                </p>
+                <p className="text-xs text-gray-500">
+                  Herbs, aromatics, fresh preparations
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* Alchemical Quantities (ESMS) */}
+          <div className="alchm-card rounded-2xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto mb-8 hover:shadow-2xl transition-shadow duration-300">
+            <h2 className="text-2xl md:text-3xl font-bold text-purple-700 mb-2 text-center">
+              The Alchemical Quantities
+            </h2>
+            <p className="text-gray-600 mb-6 text-center text-base md:text-lg">
+              Calculated from real-time planetary positions, these quantities emerge from the cosmos
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+              <div className="p-4 rounded-lg bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-200">
+                <div className="text-2xl mb-1">✨</div>
+                <h3 className="text-base md:text-lg font-semibold text-purple-600 mb-1">
+                  Spirit
+                </h3>
+                <p className="text-xs text-gray-600">
+                  The vital force driving transformation
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-200">
+                <div className="text-2xl mb-1">💧</div>
+                <h3 className="text-base md:text-lg font-semibold text-blue-600 mb-1">
+                  Essence
+                </h3>
+                <p className="text-xs text-gray-600">
+                  The fundamental nature and soul
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-200">
+                <div className="text-2xl mb-1">🪨</div>
+                <h3 className="text-base md:text-lg font-semibold text-amber-700 mb-1">
+                  Matter
+                </h3>
+                <p className="text-xs text-gray-600">
+                  Structure, texture, and grounding
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-200">
+                <div className="text-2xl mb-1">🌿</div>
+                <h3 className="text-base md:text-lg font-semibold text-green-600 mb-1">
+                  Substance
+                </h3>
+                <p className="text-xs text-gray-600">
+                  Depth and lasting nourishment
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* How Alchm Works */}
+          <div className="max-w-4xl mx-auto mb-12 p-6 rounded-2xl bg-gradient-to-r from-purple-100 via-pink-50 to-orange-100 border border-purple-200">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 text-center">
+              How Alchm Works
+            </h3>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-center">
+              <div className="px-4 py-2 bg-white rounded-lg shadow-sm">
+                <span className="font-semibold text-orange-600">Ingredients</span>
+                <span className="text-gray-500 text-sm block">Elemental Properties</span>
+              </div>
+              <span className="text-2xl text-purple-400">+</span>
+              <div className="px-4 py-2 bg-white rounded-lg shadow-sm">
+                <span className="font-semibold text-purple-600">Planetary Positions</span>
+                <span className="text-gray-500 text-sm block">ESMS Quantities</span>
+              </div>
+              <span className="text-2xl text-purple-400">=</span>
+              <div className="px-4 py-2 bg-gradient-to-r from-orange-500 to-purple-500 text-white rounded-lg shadow-md">
+                <span className="font-semibold">Recommendations</span>
+                <span className="text-purple-100 text-sm block">Aligned with NOW</span>
+              </div>
+            </div>
+            <p className="text-center mt-4 text-gray-600 italic">
+              Discover what the cosmos recommends for you today
+            </p>
           </div>
 
         </div>
