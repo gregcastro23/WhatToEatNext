@@ -16,6 +16,7 @@ import {
   allIngredients,
 } from "@/data/ingredients";
 import type { Ingredient } from "@/types";
+import { normalizeForDisplay } from "@/utils/elemental/normalization";
 
 interface IngredientData {
   name: string;
@@ -274,38 +275,42 @@ export default function IngredientPreview() {
                     <span>Elemental Properties</span>
                   </h5>
                   <div className="space-y-2">
-                    {Object.entries(ingredient.elementalProperties)
-                      .sort((a, b) => b[1] - a[1])
-                      .map(([element, value]) => (
-                        <div key={element} className="flex items-center gap-2">
-                          <span className="text-sm w-16">
-                            {element === "Fire"
-                              ? "🔥 Fire"
-                              : element === "Water"
-                                ? "💧 Water"
-                                : element === "Earth"
-                                  ? "🌍 Earth"
-                                  : "💨 Air"}
-                          </span>
-                          <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full ${
-                                element === "Fire"
-                                  ? "bg-gradient-to-r from-red-400 to-orange-500"
-                                  : element === "Water"
-                                    ? "bg-gradient-to-r from-blue-400 to-cyan-500"
-                                    : element === "Earth"
-                                      ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                                      : "bg-gradient-to-r from-purple-400 to-indigo-500"
-                              }`}
-                              style={{ width: `${value * 100}%` }}
-                            />
+                    {(() => {
+                      // Normalize raw elemental values for display
+                      const normalized = normalizeForDisplay(ingredient.elementalProperties);
+                      return Object.entries(normalized)
+                        .sort((a, b) => b[1] - a[1])
+                        .map(([element, value]) => (
+                          <div key={element} className="flex items-center gap-2">
+                            <span className="text-sm w-16">
+                              {element === "Fire"
+                                ? "🔥 Fire"
+                                : element === "Water"
+                                  ? "💧 Water"
+                                  : element === "Earth"
+                                    ? "🌍 Earth"
+                                    : "💨 Air"}
+                            </span>
+                            <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full ${
+                                  element === "Fire"
+                                    ? "bg-gradient-to-r from-red-400 to-orange-500"
+                                    : element === "Water"
+                                      ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                                      : element === "Earth"
+                                        ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                                        : "bg-gradient-to-r from-purple-400 to-indigo-500"
+                                }`}
+                                style={{ width: `${value * 100}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-500 w-12 text-right">
+                              {(value * 100).toFixed(0)}%
+                            </span>
                           </div>
-                          <span className="text-xs text-gray-500 w-12 text-right">
-                            {(value * 100).toFixed(0)}%
-                          </span>
-                        </div>
-                      ))}
+                        ));
+                    })()}
                   </div>
                 </div>
 

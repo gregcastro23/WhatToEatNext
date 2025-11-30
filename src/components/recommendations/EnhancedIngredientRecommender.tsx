@@ -5,6 +5,7 @@ import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { IngredientService } from "@/services/IngredientService";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { ElementalProperties } from "@/types/alchemy";
+import { normalizeForDisplay } from "@/utils/elemental/normalization";
 
 interface EnhancedIngredientRecommenderProps {
   initialCategory?: string | null;
@@ -221,10 +222,13 @@ export const EnhancedIngredientRecommender: React.FC<
       { name: "Air", icon: "💨", colorClass: "bg-sky-500" },
     ] as const;
 
+    // Normalize raw elemental values for display
+    const normalized = normalizeForDisplay(elementals);
+
     return (
       <div className="space-y-2">
         {elements.map(({ name, icon, colorClass }) => {
-          const value = elementals[name] || 0;
+          const value = normalized[name] || 0;
           const percentage = Math.round(value * 100);
 
           return (

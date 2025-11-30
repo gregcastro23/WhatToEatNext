@@ -2,6 +2,7 @@
 
 import React from "react";
 import type { ElementalProperties } from "@/types/alchemy";
+import { normalizeForDisplay, getTotalIntensity } from "@/utils/elemental/normalization";
 
 interface ElementalAffinitiesChartProps {
   affinities: ElementalProperties;
@@ -39,6 +40,10 @@ export const ElementalAffinitiesChart: React.FC<
 > = ({ affinities }) => {
   const elements = ["Fire", "Water", "Earth", "Air"] as const;
   const maxValue = Math.max(...elements.map((e) => affinities[e]));
+
+  // Normalize for display (converts raw values to percentages that sum to 1.0)
+  const normalizedAffinities = normalizeForDisplay(affinities);
+  const totalIntensity = getTotalIntensity(affinities);
 
   return (
     <div className="alchm-card p-6">
@@ -89,9 +94,16 @@ export const ElementalAffinitiesChart: React.FC<
       {/* Elemental Balance Summary */}
       <div className="mt-6 pt-6 border-t border-gray-200">
         <h3 className="font-semibold text-gray-700 mb-3">Balance Analysis</h3>
+        {/* Show total intensity for context when values are raw (> 1.0) */}
+        {totalIntensity > 1.5 && (
+          <p className="text-xs text-gray-500 mb-2">
+            Total Intensity: {totalIntensity.toFixed(1)}
+          </p>
+        )}
         <div className="grid grid-cols-2 gap-3">
           {elements.map((element) => {
-            const value = affinities[element];
+            // Use normalized values for percentage display
+            const normalizedValue = normalizedAffinities[element];
             const colors = elementColors[element];
             return (
               <div
@@ -103,7 +115,7 @@ export const ElementalAffinitiesChart: React.FC<
                   {element}
                 </div>
                 <div className="text-lg font-bold text-gray-800">
-                  {(value * 100).toFixed(0)}%
+                  {(normalizedValue * 100).toFixed(0)}%
                 </div>
               </div>
             );
