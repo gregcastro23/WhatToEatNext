@@ -107,6 +107,15 @@ export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> =
 
 /**
  * Validate elemental properties structure
+ *
+ * With the denormalization update, this validates:
+ * - All values are non-negative numbers
+ * - All required elements (Fire, Water, Earth, Air) are present
+ *
+ * Note: Upper bound (1.0) validation is no longer enforced as raw values
+ * can exceed 1.0 to represent true intensity. Use validateNormalizedProperties()
+ * for validating normalized values.
+ *
  * @param properties Properties to validate
  * @returns Boolean indicating if properties are valid
  */
@@ -128,7 +137,7 @@ export function validateElementalProperties(
     if (
       typeof properties[element] !== "number" ||
       properties[element] < 0 ||
-      properties[element] > 1
+      !isFinite(properties[element])
     ) {
       return false;
     }
@@ -139,8 +148,12 @@ export function validateElementalProperties(
 
 /**
  * Normalize elemental properties to ensure they sum to 1
+ *
+ * @deprecated Use normalizeForDisplay() from @/utils/elemental/normalization
+ * for display purposes. For calculations, use raw values without normalization.
+ *
  * @param properties Partial elemental properties
- * @returns Normalized elemental properties
+ * @returns Normalized elemental properties (sum = 1.0)
  */
 export function normalizeProperties(
   properties: Partial<ElementalProperties>,
