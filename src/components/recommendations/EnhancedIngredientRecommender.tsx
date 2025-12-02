@@ -6,6 +6,14 @@ import { IngredientService } from "@/services/IngredientService";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { ElementalProperties } from "@/types/alchemy";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
+import {
+  calculateThermodynamicMetrics,
+  elementalToAlchemicalApproximation,
+} from "@/utils/monicaKalchmCalculations";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+
+// Pagination constant - items shown before expansion
+const ITEMS_PER_PAGE = 21;
 
 interface EnhancedIngredientRecommenderProps {
   initialCategory?: string | null;
@@ -40,23 +48,116 @@ const CATEGORIES = [
   { id: "seasonings", name: "Seasonings", icon: "🍯", altIds: [] },
 ];
 
-// Helper: Calculate elemental compatibility score
+/**
+ * Enhanced compatibility scoring using exponential decay function
+ * Creates better differentiation between scores than linear approaches
+ *
+ * Perfect match (diff=0) → 1.0
+ * Small diff (0.1) → ~0.82
+ * Medium diff (0.5) → ~0.37
+ * Large diff (1.0) → ~0.14
+ */
+function exponentialCompatibility(value1: number, value2: number, sensitivity = 2.0): number {
+  const diff = Math.abs(value1 - value2);
+  return Math.exp(-sensitivity * diff);
+}
+
+/**
+ * Calculate enhanced compatibility score using thermodynamic properties
+ * This creates much more varied and meaningful match percentages
+ */
 function calculateCompatibilityScore(
   ingredientElementals: ElementalProperties,
   currentElementals: ElementalProperties,
 ): number {
-  const elements = ["Fire", "Water", "Earth", "Air"] as const;
-  let totalDiff = 0;
+  // Calculate elemental compatibility using exponential decay for better spread
+  const fireCompat = exponentialCompatibility(
+    ingredientElementals.Fire || 0,
+    currentElementals.Fire || 0,
+    2.5
+  );
+  const waterCompat = exponentialCompatibility(
+    ingredientElementals.Water || 0,
+    currentElementals.Water || 0,
+    2.5
+  );
+  const earthCompat = exponentialCompatibility(
+    ingredientElementals.Earth || 0,
+    currentElementals.Earth || 0,
+    2.5
+  );
+  const airCompat = exponentialCompatibility(
+    ingredientElementals.Air || 0,
+    currentElementals.Air || 0,
+    2.5
+  );
 
-  elements.forEach((element) => {
-    const diff = Math.abs(
-      (ingredientElementals[element] || 0) - (currentElementals[element] || 0),
-    );
-    totalDiff += diff;
-  });
+  const elementalScore = (fireCompat + waterCompat + earthCompat + airCompat) / 4;
 
-  // Convert to 0-1 score (lower difference = higher score)
-  return 1 - totalDiff / (2 * elements.length);
+  // Calculate thermodynamic metrics for both ingredient and current state
+  const ingredientAlchemical = elementalToAlchemicalApproximation(ingredientElementals);
+  const currentAlchemical = elementalToAlchemicalApproximation(currentElementals);
+
+  const ingredientThermo = calculateThermodynamicMetrics(ingredientAlchemical, ingredientElementals);
+  const currentThermo = calculateThermodynamicMetrics(currentAlchemical, currentElementals);
+
+  // Thermodynamic compatibility (heat, entropy, reactivity)
+  const heatCompat = exponentialCompatibility(ingredientThermo.heat, currentThermo.heat, 3.0);
+  const entropyCompat = exponentialCompatibility(ingredientThermo.entropy, currentThermo.entropy, 2.5);
+  const reactivityCompat = exponentialCompatibility(ingredientThermo.reactivity, currentThermo.reactivity, 2.0);
+
+  // Kalchm ratio compatibility (logarithmic scale for better handling of large differences)
+  const kalchmMin = Math.min(ingredientThermo.kalchm, currentThermo.kalchm);
+  const kalchmMax = Math.max(ingredientThermo.kalchm, currentThermo.kalchm);
+  const kalchmRatio = kalchmMax > 0 ? kalchmMin / kalchmMax : 0.5;
+
+  // Monica compatibility
+  const monicaCompat = exponentialCompatibility(ingredientThermo.monica, currentThermo.monica, 1.5);
+
+  // Calculate kinetic properties for deeper differentiation
+  const ingredientKinetics = calculateKineticProperties(
+    ingredientAlchemical,
+    ingredientElementals,
+    ingredientThermo
+  );
+  const currentKinetics = calculateKineticProperties(
+    currentAlchemical,
+    currentElementals,
+    currentThermo
+  );
+
+  // Kinetic compatibility (power matching)
+  const powerCompat = exponentialCompatibility(ingredientKinetics.power, currentKinetics.power, 2.0);
+  const forceCompat = exponentialCompatibility(
+    ingredientKinetics.forceMagnitude,
+    currentKinetics.forceMagnitude,
+    1.0
+  );
+
+  // Weighted composite score
+  const thermoScore = (
+    heatCompat * 0.25 +
+    entropyCompat * 0.20 +
+    reactivityCompat * 0.20 +
+    kalchmRatio * 0.15 +
+    monicaCompat * 0.20
+  );
+
+  const kineticScore = (powerCompat * 0.6 + forceCompat * 0.4);
+
+  // Final score: Blend elemental, thermodynamic, and kinetic
+  // Using geometric mean for better differentiation (penalizes imbalanced scores)
+  const geometricMean = Math.pow(
+    elementalScore * thermoScore * kineticScore,
+    1 / 3
+  );
+
+  // Blend geometric mean with weighted average for final score
+  const weightedScore = elementalScore * 0.35 + thermoScore * 0.40 + kineticScore * 0.25;
+  const finalScore = geometricMean * 0.5 + weightedScore * 0.5;
+
+  // Apply power function to expand the range (creates more variation)
+  return Math.pow(finalScore, 0.85);
 }
 
 // Helper: Get dominant element
@@ -88,6 +189,8 @@ export const EnhancedIngredientRecommender: React.FC<
   const [searchQuery, setSearchQuery] = useState("");
   const [ingredients, setIngredients] = useState<UnifiedIngredient[]>([]);
   const [loading, setLoading] = useState(true);
+  // Track which categories are expanded to show all items
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   // Hooks
   const alchemicalContext = useAlchemical();
@@ -163,6 +266,12 @@ export const EnhancedIngredientRecommender: React.FC<
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);
     setSelectedIngredient(null);
+    // Reset expanded state for this category when selecting
+    setExpandedCategories(prev => {
+      const next = new Set(prev);
+      next.delete(categoryId);
+      return next;
+    });
     onCategoryChange?.(categoryId);
   };
 
@@ -172,6 +281,38 @@ export const EnhancedIngredientRecommender: React.FC<
     );
     onIngredientSelect?.(ingredientName);
   };
+
+  const handleToggleExpand = (categoryId: string) => {
+    setExpandedCategories(prev => {
+      const next = new Set(prev);
+      if (next.has(categoryId)) {
+        next.delete(categoryId);
+      } else {
+        next.add(categoryId);
+      }
+      return next;
+    });
+  };
+
+  // Determine if current category is expanded
+  const currentCategoryExpanded = selectedCategory
+    ? expandedCategories.has(selectedCategory)
+    : false;
+
+  // Get paginated ingredients for display
+  const displayedIngredients = useMemo(() => {
+    if (!selectedCategory || currentCategoryExpanded || searchQuery) {
+      // Show all when no category, expanded, or searching
+      return scoredIngredients;
+    }
+    // Limit to ITEMS_PER_PAGE when collapsed
+    return scoredIngredients.slice(0, ITEMS_PER_PAGE);
+  }, [scoredIngredients, selectedCategory, currentCategoryExpanded, searchQuery]);
+
+  // Count of remaining items not shown
+  const remainingCount = selectedCategory && !currentCategoryExpanded && !searchQuery
+    ? Math.max(0, scoredIngredients.length - ITEMS_PER_PAGE)
+    : 0;
 
   // Render category grid
   const renderCategoryGrid = () => (
@@ -635,16 +776,65 @@ export const EnhancedIngredientRecommender: React.FC<
 
       {/* Results count */}
       <div className="mb-4 text-sm text-gray-600">
-        Showing {scoredIngredients.length} ingredient
+        Showing {displayedIngredients.length}
+        {remainingCount > 0 ? ` of ${scoredIngredients.length}` : ""} ingredient
         {scoredIngredients.length !== 1 ? "s" : ""} (sorted by compatibility)
       </div>
 
       {/* Ingredients grid */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {scoredIngredients.map(renderIngredientCard)}
+        {displayedIngredients.map(renderIngredientCard)}
       </div>
 
-      {scoredIngredients.length === 0 && (
+      {/* Expand/Collapse button */}
+      {selectedCategory && scoredIngredients.length > ITEMS_PER_PAGE && !searchQuery && (
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={() => handleToggleExpand(selectedCategory)}
+            className="group flex items-center gap-2 rounded-lg border-2 border-indigo-200 bg-white px-6 py-3 text-indigo-700 transition-all hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md"
+          >
+            {currentCategoryExpanded ? (
+              <>
+                <svg
+                  className="h-5 w-5 transition-transform group-hover:-translate-y-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 15l7-7 7 7"
+                  />
+                </svg>
+                <span className="font-medium">Show Less</span>
+              </>
+            ) : (
+              <>
+                <svg
+                  className="h-5 w-5 transition-transform group-hover:translate-y-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+                <span className="font-medium">
+                  Show {remainingCount} More Ingredient{remainingCount !== 1 ? "s" : ""}
+                </span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
+
+      {displayedIngredients.length === 0 && (
         <div className="py-12 text-center text-gray-500">
           {searchQuery || selectedCategory
             ? "No ingredients match your filters."
