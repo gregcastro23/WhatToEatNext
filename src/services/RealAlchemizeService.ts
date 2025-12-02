@@ -202,8 +202,11 @@ export function alchemize(
     const alchemy = planetaryAlchemy[planet];
     if (alchemy) {
       // Apply dignity modifier
+      // Dignity ranges from -3 (fall) to +3 (exaltation)
+      // Base multiplier is 1.0, modified by ±0.15 per dignity level
+      // Minimum 0.5 to prevent negative or zero contributions
       const dignity = getPlanetaryDignity(planet, position.sign);
-      const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
+      const dignityMultiplier = Math.max(0.5, 1.0 + dignity * 0.15);
 
       totals.Spirit += alchemy.Spirit * dignityMultiplier;
       totals.Essence += alchemy.Essence * dignityMultiplier;

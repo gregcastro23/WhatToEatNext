@@ -20,6 +20,8 @@ type AlchemyData = {
   entropy: number;
   reactivity: number;
   energy: number;
+  kalchm: number;
+  monica: number;
   timestamp: string;
   error?: string;
 };
@@ -189,6 +191,20 @@ export default function AlchmQuantitiesDisplay() {
         <div className="p-3 bg-green-900/20 border border-green-500/30 rounded-lg text-center">
           <div className="font-semibold text-gray-300">Energy</div>
           <div className="text-lg text-green-300">{data.energy.toFixed(4)}</div>
+        </div>
+      </div>
+
+      {/* Alchemical Constants */}
+      <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="p-3 bg-amber-900/20 border border-amber-500/30 rounded-lg text-center">
+          <div className="font-semibold text-gray-300">K<sub>alchm</sub></div>
+          <div className="text-lg text-amber-300">{data.kalchm?.toFixed(4) ?? "N/A"}</div>
+          <div className="text-xs text-gray-500 mt-1">Alchemical Equilibrium</div>
+        </div>
+        <div className="p-3 bg-pink-900/20 border border-pink-500/30 rounded-lg text-center">
+          <div className="font-semibold text-gray-300">Monica</div>
+          <div className="text-lg text-pink-300">{data.monica?.toFixed(4) ?? "N/A"}</div>
+          <div className="text-xs text-gray-500 mt-1">Dynamic System Constant</div>
         </div>
       </div>
 
