@@ -87,15 +87,58 @@ function exponentialCompatibility(value1: number, value2: number, sensitivity = 
 }
 
 /**
- * Check if ingredient is in season
+ * Normalize seasonality data to a string array
+ * Handles multiple data formats: string, string[], object with arrays, or undefined
  */
-function isIngredientInSeason(seasonality: string[] | undefined, currentSeason: string): boolean {
-  if (!seasonality || seasonality.length === 0) return false;
-  return seasonality.some(s =>
-    s.toLowerCase() === currentSeason ||
-    s.toLowerCase() === 'all' ||
-    s.toLowerCase() === 'year-round'
-  );
+function normalizeSeasonality(
+  seasonality: string | string[] | { peak?: string[]; available?: string[]; optimal?: string[] } | undefined
+): string[] {
+  if (!seasonality) return [];
+
+  if (typeof seasonality === 'string') {
+    // Handle string: "all" or "summer" or "autumn, winter"
+    return seasonality.split(',').map(s => s.trim());
+  }
+
+  if (Array.isArray(seasonality)) {
+    // Handle array: ["winter", "summer"]
+    return seasonality.filter(s => typeof s === 'string');
+  }
+
+  if (typeof seasonality === 'object') {
+    // Handle object: { peak: ["summer"], available: ["spring", "summer"], optimal: [...] }
+    const peak = seasonality.peak || [];
+    const available = seasonality.available || [];
+    const optimal = seasonality.optimal || [];
+    return [...peak, ...available, ...optimal].filter(s => typeof s === 'string');
+  }
+
+  return [];
+}
+
+/**
+ * Check if ingredient is in season
+ * Handles multiple data formats: string, string[], object with arrays, or undefined
+ */
+function isIngredientInSeason(
+  seasonality: string | string[] | { peak?: string[]; available?: string[]; optimal?: string[] } | undefined,
+  currentSeason: string
+): boolean {
+  const seasons = normalizeSeasonality(seasonality);
+
+  if (seasons.length === 0) return false;
+
+  const normalizedCurrent = currentSeason.toLowerCase();
+  return seasons.some(s => {
+    const normalizedSeason = s.toLowerCase();
+    return (
+      normalizedSeason === normalizedCurrent ||
+      normalizedSeason === 'all' ||
+      normalizedSeason === 'year-round' ||
+      (normalizedSeason === 'autumn' && normalizedCurrent === 'fall') ||
+      (normalizedSeason === 'fall' && normalizedCurrent === 'autumn')
+    );
+  });
 }
 
 /**
@@ -116,7 +159,7 @@ interface ScoreBreakdown {
 function calculateCompatibilityScore(
   ingredientElementals: ElementalProperties,
   currentElementals: ElementalProperties,
-  seasonality?: string[],
+  seasonality?: string | string[] | { peak?: string[]; available?: string[]; optimal?: string[] },
 ): { score: number; breakdown: ScoreBreakdown } {
   // Calculate elemental compatibility using exponential decay for better spread
   const fireCompat = exponentialCompatibility(
@@ -317,11 +360,14 @@ export const EnhancedIngredientRecommender: React.FC<
     // Calculate scores and sort
     return filtered
       .map((ing) => {
+        // Use seasonality or fall back to season field (some data uses one or the other)
+        const seasonData = ing.seasonality || (ing as any).season;
+
         const result = ing.elementalProperties
           ? calculateCompatibilityScore(
               ing.elementalProperties,
               currentElementals,
-              ing.seasonality,
+              seasonData,
             )
           : { score: 0.5, breakdown: { elemental: 0.5, thermodynamic: 0.5, kinetic: 0.5, seasonal: 0.5, final: 0.5 } };
 
@@ -332,7 +378,7 @@ export const EnhancedIngredientRecommender: React.FC<
           dominantElement: ing.elementalProperties
             ? getDominantElement(ing.elementalProperties)
             : "Unknown",
-          isInSeason: isIngredientInSeason(ing.seasonality, getCurrentSeason()),
+          isInSeason: isIngredientInSeason(seasonData, getCurrentSeason()),
         };
       })
       .sort((a, b) => b.compatibilityScore - a.compatibilityScore);
@@ -588,14 +634,19 @@ export const EnhancedIngredientRecommender: React.FC<
         )}
 
         {/* Seasonality */}
-        {ingredient.seasonality && ingredient.seasonality.length > 0 && (
-          <div className="mb-3 text-sm">
-            <span className="font-medium text-gray-700">Season: </span>
-            <span className="text-gray-600 capitalize">
-              {ingredient.seasonality.join(", ")}
-            </span>
-          </div>
-        )}
+        {(() => {
+          const seasonData = ingredient.seasonality || (ingredient as any).season;
+          const normalizedSeasons = normalizeSeasonality(seasonData);
+          if (normalizedSeasons.length === 0) return null;
+          return (
+            <div className="mb-3 text-sm">
+              <span className="font-medium text-gray-700">Season: </span>
+              <span className="text-gray-600 capitalize">
+                {normalizedSeasons.join(", ")}
+              </span>
+            </div>
+          );
+        })()}
 
         {/* Expanded details */}
         {isSelected && (
