@@ -279,6 +279,26 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     return "red";
   };
 
+  // Categorize cuisines into tiers based on compatibility score
+  const categorizeCuisines = (cuisines: CuisineRecommendation[]) => {
+    const topMatches = cuisines.filter(c => c.astrological_score >= 0.7);
+    const goodMatches = cuisines.filter(c => c.astrological_score >= 0.5 && c.astrological_score < 0.7);
+    const otherOptions = cuisines.filter(c => c.astrological_score < 0.5);
+    return { topMatches, goodMatches, otherOptions };
+  };
+
+  // Get tier label with appropriate styling
+  const getTierInfo = (tier: "top" | "good" | "other") => {
+    switch (tier) {
+      case "top":
+        return { label: "Top Matches", color: "green", icon: FaStar, description: "Excellent astrological alignment (70%+)" };
+      case "good":
+        return { label: "Good Matches", color: "purple", icon: FaMagic, description: "Favorable compatibility (50-70%)" };
+      case "other":
+        return { label: "Other Options", color: "orange", icon: FaUtensils, description: "Available alternatives" };
+    }
+  };
+
   const renderElementalProperties = (properties: {
     Fire: number;
     Water: number;
@@ -614,13 +634,38 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
         {/* Cuisine Recommendations */}
         <Box>
-          <Heading size="lg" mb={6} textAlign="center">
-            Your Astrologically Aligned Cuisines
-          </Heading>
+          <VStack {...({ spacing: 2, mb: 6 } as any)}>
+            <Heading size="lg" textAlign="center">
+              Your Astrologically Aligned Cuisines
+            </Heading>
+            <Text fontSize="md" color="gray.600" textAlign="center">
+              Showing all {data.cuisine_recommendations.length} cuisines ranked by compatibility
+            </Text>
+          </VStack>
 
-          {/* Top Matches - Always Visible */}
-          <VStack {...({ spacing: 8, mb: 8 } as any)}>
-            {data.cuisine_recommendations.slice(0, 3).map((cuisine) => (
+          {/* Tier-based display of all cuisines */}
+          {(() => {
+            const { topMatches, goodMatches, otherOptions } = categorizeCuisines(data.cuisine_recommendations);
+            const topTier = getTierInfo("top");
+            const goodTier = getTierInfo("good");
+            const otherTier = getTierInfo("other");
+
+            return (
+              <VStack {...({ spacing: 8 } as any)}>
+                {/* Top Matches Tier */}
+                {topMatches.length > 0 && (
+                  <Box width="100%">
+                    <Flex align="center" gap={2} mb={4}>
+                      <Icon as={topTier.icon} color={`${topTier.color}.500`} boxSize={5} />
+                      <Heading size="md" color={`${topTier.color}.600`}>
+                        {topTier.label} ({topMatches.length})
+                      </Heading>
+                      <Text fontSize="sm" color="gray.500" ml={2}>
+                        {topTier.description}
+                      </Text>
+                    </Flex>
+                    <VStack {...({ spacing: 6 } as any)}>
+                      {topMatches.map((cuisine) => (
               <Card
                 key={cuisine.cuisine_id}
                 {...({ bg: cardBg, shadow: "lg", size: "lg" } as any)}
@@ -1031,30 +1076,25 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                   </Button>
                 </CardFooter>
               </Card>
-            ))}
-          </VStack>
-
-          {/* Collapsible Section for Remaining Cuisines */}
-          {data.cuisine_recommendations.length > 3 && (
-            <AccordionRoot collapsible mt={4}>
-              <AccordionItem value="all-cuisines">
-                <AccordionItemTrigger>
-                  <Box flex="1" textAlign="center" py={2}>
-                    <HStack {...({ justify: "center", spacing: 2 } as any)}>
-                      <Icon as={FaUtensils} color="purple.500" />
-                      <Text fontWeight="bold" fontSize="lg">
-                        View All Cuisines ({data.cuisine_recommendations.length - 3} more)
-                      </Text>
-                    </HStack>
-                    <Text fontSize="sm" color="gray.600" mt={1}>
-                      Explore additional cuisine matches with detailed profiles
-                    </Text>
+                      ))}
+                    </VStack>
                   </Box>
-                  <AccordionItemIndicator />
-                </AccordionItemTrigger>
-                <AccordionItemContent pb={4}>
-                  <VStack {...({ spacing: 4, mt: 4 } as any)}>
-                    {data.cuisine_recommendations.slice(3).map((cuisine) => (
+                )}
+
+                {/* Good Matches Tier */}
+                {goodMatches.length > 0 && (
+                  <Box width="100%">
+                    <Flex align="center" gap={2} mb={4}>
+                      <Icon as={goodTier.icon} color={`${goodTier.color}.500`} boxSize={5} />
+                      <Heading size="md" color={`${goodTier.color}.600`}>
+                        {goodTier.label} ({goodMatches.length})
+                      </Heading>
+                      <Text fontSize="sm" color="gray.500" ml={2}>
+                        {goodTier.description}
+                      </Text>
+                    </Flex>
+                    <VStack {...({ spacing: 4 } as any)}>
+                      {goodMatches.map((cuisine) => (
                       <Card
                         key={cuisine.cuisine_id}
                         bg={cardBg}
@@ -1242,11 +1282,88 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                         </CardBody>
                       </Card>
                     ))}
-                  </VStack>
-                </AccordionItemContent>
-              </AccordionItem>
-            </AccordionRoot>
-          )}
+                    </VStack>
+                  </Box>
+                )}
+
+                {/* Other Options Tier */}
+                {otherOptions.length > 0 && (
+                  <Box width="100%">
+                    <Flex align="center" gap={2} mb={4}>
+                      <Icon as={otherTier.icon} color={`${otherTier.color}.500`} boxSize={5} />
+                      <Heading size="md" color={`${otherTier.color}.600`}>
+                        {otherTier.label} ({otherOptions.length})
+                      </Heading>
+                      <Text fontSize="sm" color="gray.500" ml={2}>
+                        {otherTier.description}
+                      </Text>
+                    </Flex>
+                    <VStack {...({ spacing: 4 } as any)}>
+                      {otherOptions.map((cuisine) => (
+                      <Card
+                        key={cuisine.cuisine_id}
+                        bg={cardBg}
+                        shadow="sm"
+                        size="md"
+                        width="100%"
+                        borderWidth="1px"
+                        borderColor="orange.100"
+                        opacity={0.9}
+                      >
+                        <CardBody>
+                          <Flex justify="space-between" align="start" gap={4} wrap="wrap">
+                            <Box flex="1" minW="300px">
+                              <Flex align="center" gap={2} mb={2}>
+                                <Heading size="sm">{cuisine.name}</Heading>
+                                <Badge
+                                  colorScheme={getScoreColor(cuisine.astrological_score)}
+                                  fontSize="md"
+                                  px={2}
+                                  py={1}
+                                >
+                                  {(cuisine.astrological_score * 100).toFixed(0)}%
+                                </Badge>
+                              </Flex>
+                              <Text fontSize="sm" color="gray.600" mb={2}>
+                                {cuisine.description}
+                              </Text>
+                              {renderFlavorProfileCompact(cuisine.flavor_profile)}
+                            </Box>
+                            <VStack {...({ align: "stretch", spacing: 2, minW: "200px" } as any)}>
+                              <Box>
+                                <Text fontSize="xs" color="gray.600" mb={1}>
+                                  Match Quality
+                                </Text>
+                                <Progress
+                                  value={cuisine.astrological_score * 100}
+                                  size="sm"
+                                  colorScheme={getScoreColor(cuisine.astrological_score)}
+                                  borderRadius="full"
+                                />
+                              </Box>
+                              <HStack {...({ spacing: 2, fontSize: "xs" } as any)}>
+                                <Icon as={FaUtensils} color="green.500" boxSize={3} />
+                                <Text>
+                                  {cuisine.nested_recipes.length} recipes
+                                </Text>
+                              </HStack>
+                              <HStack {...({ spacing: 2, fontSize: "xs" } as any)}>
+                                <Icon as={FaPepperHot} color="red.500" boxSize={3} />
+                                <Text>
+                                  {cuisine.recommended_sauces.length} sauces
+                                </Text>
+                              </HStack>
+                            </VStack>
+                          </Flex>
+                        </CardBody>
+                      </Card>
+                      ))}
+                    </VStack>
+                  </Box>
+                )}
+              </VStack>
+            );
+          })()}
         </Box>
 
         {/* Refresh Button */}
