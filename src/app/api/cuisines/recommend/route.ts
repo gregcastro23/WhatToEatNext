@@ -916,10 +916,9 @@ function generateEnhancedRecommendations(
     };
   });
 
-  // Sort by compatibility and take top 8
+  // Sort all cuisines by compatibility score (return all 14, not just top 8)
   const topCuisines = cuisinesWithScores
-    .sort((a, b) => b.matchPercentage - a.matchPercentage)
-    .slice(0, 8);
+    .sort((a, b) => b.matchPercentage - a.matchPercentage);
 
   // Generate recommendations for top cuisines
   const recommendations: EnhancedCuisineRecommendation[] = topCuisines
