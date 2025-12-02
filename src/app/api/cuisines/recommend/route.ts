@@ -572,7 +572,7 @@ function getRecipesForCuisine(
     };
 
     // Generate common mistakes based on allergens and cooking methods
-    const commonMistakes = [];
+    const commonMistakes: string[] = [];
     if (recipe.cookingMethods?.includes('sauteing') || recipe.cookingMethods?.includes('frying')) {
       commonMistakes.push("Not heating the pan sufficiently before adding ingredients");
     }
@@ -584,7 +584,7 @@ function getRecipesForCuisine(
     }
 
     // Generate timing tips based on prep/cook time
-    const timingTips = [];
+    const timingTips: string[] = [];
     if (recipe.prepTime && parseInt(recipe.prepTime) > 15) {
       timingTips.push("Prep all ingredients (mise en place) before starting to cook");
     }
@@ -594,7 +594,7 @@ function getRecipesForCuisine(
     timingTips.push("Serve immediately for best taste and texture");
 
     // Generate variations based on dietary info and cuisine
-    const variations = [];
+    const variations: string[] = [];
     if (!recipe.dietaryInfo?.includes('vegan')) {
       variations.push("Vegan: Replace animal products with plant-based alternatives");
     }
