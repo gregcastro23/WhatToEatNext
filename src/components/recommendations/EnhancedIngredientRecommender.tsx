@@ -15,6 +15,30 @@ import { calculateKineticProperties } from "@/utils/kineticCalculations";
 // Pagination constant - items shown before expansion
 const ITEMS_PER_PAGE = 21;
 
+/**
+ * Format ingredient name for display
+ * - Replaces underscores with spaces
+ * - Proper title case capitalization
+ */
+function formatIngredientName(name: string): string {
+  return name
+    .replace(/_/g, ' ')
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+/**
+ * Get current season based on date
+ */
+function getCurrentSeason(): string {
+  const month = new Date().getMonth();
+  if (month >= 2 && month <= 4) return 'spring';
+  if (month >= 5 && month <= 7) return 'summer';
+  if (month >= 8 && month <= 10) return 'autumn';
+  return 'winter';
+}
+
 interface EnhancedIngredientRecommenderProps {
   initialCategory?: string | null;
   initialSelectedIngredient?: string | null;
@@ -63,13 +87,37 @@ function exponentialCompatibility(value1: number, value2: number, sensitivity = 
 }
 
 /**
+ * Check if ingredient is in season
+ */
+function isIngredientInSeason(seasonality: string[] | undefined, currentSeason: string): boolean {
+  if (!seasonality || seasonality.length === 0) return false;
+  return seasonality.some(s =>
+    s.toLowerCase() === currentSeason ||
+    s.toLowerCase() === 'all' ||
+    s.toLowerCase() === 'year-round'
+  );
+}
+
+/**
+ * Score breakdown interface for detailed compatibility info
+ */
+interface ScoreBreakdown {
+  elemental: number;
+  thermodynamic: number;
+  kinetic: number;
+  seasonal: number;
+  final: number;
+}
+
+/**
  * Calculate enhanced compatibility score using thermodynamic properties
  * This creates much more varied and meaningful match percentages
  */
 function calculateCompatibilityScore(
   ingredientElementals: ElementalProperties,
   currentElementals: ElementalProperties,
-): number {
+  seasonality?: string[],
+): { score: number; breakdown: ScoreBreakdown } {
   // Calculate elemental compatibility using exponential decay for better spread
   const fireCompat = exponentialCompatibility(
     ingredientElementals.Fire || 0,
@@ -154,10 +202,31 @@ function calculateCompatibilityScore(
 
   // Blend geometric mean with weighted average for final score
   const weightedScore = elementalScore * 0.35 + thermoScore * 0.40 + kineticScore * 0.25;
-  const finalScore = geometricMean * 0.5 + weightedScore * 0.5;
+  let finalScore = geometricMean * 0.5 + weightedScore * 0.5;
+
+  // Seasonal boosting - ingredients in season get a boost
+  const currentSeason = getCurrentSeason();
+  const inSeason = isIngredientInSeason(seasonality, currentSeason);
+  const seasonalScore = inSeason ? 1.0 : 0.5;
+
+  // Apply seasonal boost (5% boost for in-season ingredients)
+  if (inSeason) {
+    finalScore = Math.min(1.0, finalScore * 1.05);
+  }
 
   // Apply power function to expand the range (creates more variation)
-  return Math.pow(finalScore, 0.85);
+  const adjustedScore = Math.pow(finalScore, 0.85);
+
+  return {
+    score: adjustedScore,
+    breakdown: {
+      elemental: elementalScore,
+      thermodynamic: thermoScore,
+      kinetic: kineticScore,
+      seasonal: seasonalScore,
+      final: adjustedScore,
+    },
+  };
 }
 
 // Helper: Get dominant element
@@ -247,18 +316,25 @@ export const EnhancedIngredientRecommender: React.FC<
 
     // Calculate scores and sort
     return filtered
-      .map((ing) => ({
-        ...ing,
-        compatibilityScore: ing.elementalProperties
+      .map((ing) => {
+        const result = ing.elementalProperties
           ? calculateCompatibilityScore(
               ing.elementalProperties,
               currentElementals,
+              ing.seasonality,
             )
-          : 0.5,
-        dominantElement: ing.elementalProperties
-          ? getDominantElement(ing.elementalProperties)
-          : "Unknown",
-      }))
+          : { score: 0.5, breakdown: { elemental: 0.5, thermodynamic: 0.5, kinetic: 0.5, seasonal: 0.5, final: 0.5 } };
+
+        return {
+          ...ing,
+          compatibilityScore: result.score,
+          scoreBreakdown: result.breakdown,
+          dominantElement: ing.elementalProperties
+            ? getDominantElement(ing.elementalProperties)
+            : "Unknown",
+          isInSeason: isIngredientInSeason(ing.seasonality, getCurrentSeason()),
+        };
+      })
       .sort((a, b) => b.compatibilityScore - a.compatibilityScore);
   }, [ingredients, selectedCategory, searchQuery, currentElementals]);
 
@@ -295,22 +371,30 @@ export const EnhancedIngredientRecommender: React.FC<
   };
 
   // Determine if current category is expanded
+  // Also track "all ingredients" expansion state with special key
+  const ALL_INGREDIENTS_KEY = "__all__";
   const currentCategoryExpanded = selectedCategory
     ? expandedCategories.has(selectedCategory)
-    : false;
+    : expandedCategories.has(ALL_INGREDIENTS_KEY);
 
   // Get paginated ingredients for display
   const displayedIngredients = useMemo(() => {
-    if (!selectedCategory || currentCategoryExpanded || searchQuery) {
-      // Show all when no category, expanded, or searching
+    // When searching, show all matches
+    if (searchQuery) {
       return scoredIngredients;
     }
-    // Limit to ITEMS_PER_PAGE when collapsed
-    return scoredIngredients.slice(0, ITEMS_PER_PAGE);
-  }, [scoredIngredients, selectedCategory, currentCategoryExpanded, searchQuery]);
 
-  // Count of remaining items not shown
-  const remainingCount = selectedCategory && !currentCategoryExpanded && !searchQuery
+    // When expanded (either a category or "all"), show all
+    if (currentCategoryExpanded) {
+      return scoredIngredients;
+    }
+
+    // Default: limit to ITEMS_PER_PAGE (top 21 highest-scoring)
+    return scoredIngredients.slice(0, ITEMS_PER_PAGE);
+  }, [scoredIngredients, currentCategoryExpanded, searchQuery]);
+
+  // Count of remaining items not shown (works for both category and "all" views)
+  const remainingCount = !currentCategoryExpanded && !searchQuery
     ? Math.max(0, scoredIngredients.length - ITEMS_PER_PAGE)
     : 0;
 
@@ -396,9 +480,37 @@ export const EnhancedIngredientRecommender: React.FC<
     );
   };
 
+  // Render score breakdown tooltip
+  const renderScoreBreakdown = (breakdown: ScoreBreakdown) => (
+    <div className="mt-2 rounded-md bg-gray-50 p-3 text-xs">
+      <div className="mb-1 font-semibold text-gray-700">Score Breakdown</div>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex justify-between">
+          <span className="text-gray-600">Elemental:</span>
+          <span className="font-medium">{Math.round(breakdown.elemental * 100)}%</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-600">Thermodynamic:</span>
+          <span className="font-medium">{Math.round(breakdown.thermodynamic * 100)}%</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-600">Kinetic:</span>
+          <span className="font-medium">{Math.round(breakdown.kinetic * 100)}%</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-600">Seasonal:</span>
+          <span className={`font-medium ${breakdown.seasonal === 1.0 ? 'text-green-600' : ''}`}>
+            {breakdown.seasonal === 1.0 ? 'In Season!' : 'Off Season'}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
   // Render ingredient card
   const renderIngredientCard = (ingredient: (typeof scoredIngredients)[0]) => {
     const isSelected = selectedIngredient === ingredient.name;
+    const displayName = formatIngredientName(ingredient.name);
 
     return (
       <div
@@ -413,28 +525,44 @@ export const EnhancedIngredientRecommender: React.FC<
         {/* Header */}
         <div className="mb-3 flex items-start justify-between">
           <div className="flex-1">
-            <h4 className="text-lg font-semibold text-gray-900 capitalize">
-              {ingredient.name}
-            </h4>
+            <div className="flex items-center gap-2">
+              <h4 className="text-lg font-semibold text-gray-900">
+                {displayName}
+              </h4>
+              {ingredient.isInSeason && (
+                <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                  In Season
+                </span>
+              )}
+            </div>
             <div className="mt-1 flex flex-wrap gap-1">
               <span className="text-xs text-gray-500 capitalize">
-                {ingredient.category}
+                {formatIngredientName(ingredient.category)}
               </span>
               {ingredient.subcategory && (
                 <>
                   <span className="text-xs text-gray-400">•</span>
                   <span className="text-xs text-gray-500 capitalize">
-                    {ingredient.subcategory}
+                    {formatIngredientName(ingredient.subcategory)}
                   </span>
                 </>
               )}
             </div>
           </div>
           <div className="flex flex-col items-end gap-2">
-            <div className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800">
+            <div
+              className="group relative rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800 cursor-help"
+              title="Click for score breakdown"
+            >
               {Math.round(ingredient.compatibilityScore * 100)}%
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <span className={`inline-block h-2 w-2 rounded-full ${
+                ingredient.dominantElement === 'Fire' ? 'bg-red-500' :
+                ingredient.dominantElement === 'Water' ? 'bg-blue-500' :
+                ingredient.dominantElement === 'Earth' ? 'bg-green-500' :
+                ingredient.dominantElement === 'Air' ? 'bg-sky-500' : 'bg-gray-400'
+              }`} />
               {ingredient.dominantElement}
             </div>
           </div>
@@ -472,6 +600,9 @@ export const EnhancedIngredientRecommender: React.FC<
         {/* Expanded details */}
         {isSelected && (
           <div className="mt-4 space-y-4 border-t border-gray-200 pt-4">
+            {/* Score Breakdown */}
+            {ingredient.scoreBreakdown && renderScoreBreakdown(ingredient.scoreBreakdown)}
+
             {/* Origin */}
             {ingredient.origin && ingredient.origin.length > 0 && (
               <div>
@@ -786,11 +917,11 @@ export const EnhancedIngredientRecommender: React.FC<
         {displayedIngredients.map(renderIngredientCard)}
       </div>
 
-      {/* Expand/Collapse button */}
-      {selectedCategory && scoredIngredients.length > ITEMS_PER_PAGE && !searchQuery && (
+      {/* Expand/Collapse button - works for both category and "all" views */}
+      {scoredIngredients.length > ITEMS_PER_PAGE && !searchQuery && (
         <div className="mt-6 flex justify-center">
           <button
-            onClick={() => handleToggleExpand(selectedCategory)}
+            onClick={() => handleToggleExpand(selectedCategory || ALL_INGREDIENTS_KEY)}
             className="group flex items-center gap-2 rounded-lg border-2 border-indigo-200 bg-white px-6 py-3 text-indigo-700 transition-all hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md"
           >
             {currentCategoryExpanded ? (
