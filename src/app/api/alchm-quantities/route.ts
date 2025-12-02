@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { calculatePlanetaryPositions, getFallbackPlanetaryPositions } from "@/utils/serverPlanetaryCalculations";
 import { alchemize } from "@/services/RealAlchemizeService";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("AlchmQuantitiesAPI");
@@ -38,6 +39,17 @@ type KineticData = {
     Matter: number;
     Substance: number;
   };
+};
+
+type CircuitData = {
+  charge: number;
+  potentialDifference: number;
+  currentFlow: number;
+  power: number;
+  inertia: number;
+  forceMagnitude: number;
+  forceClassification: string;
+  thermalDirection: string;
 };
 
 export async function GET() {
@@ -135,6 +147,33 @@ export async function GET() {
       },
     };
 
+    // Calculate P=IV circuit kinetics using the standard function
+    // Cast elementalProperties to match expected type (both have same shape)
+    const circuitKinetics = calculateKineticProperties(
+      alchemicalResult.esms,
+      alchemicalResult.elementalProperties as { Fire: number; Water: number; Earth: number; Air: number },
+      {
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy,
+        kalchm: alchemicalResult.kalchm,
+        monica: alchemicalResult.monica,
+      }
+    );
+
+    // Extract circuit data for API response
+    const circuit: CircuitData = {
+      charge: circuitKinetics.charge,
+      potentialDifference: circuitKinetics.potentialDifference,
+      currentFlow: circuitKinetics.currentFlow,
+      power: circuitKinetics.power,
+      inertia: circuitKinetics.inertia,
+      forceMagnitude: circuitKinetics.forceMagnitude,
+      forceClassification: circuitKinetics.forceClassification,
+      thermalDirection: circuitKinetics.thermalDirection,
+    };
+
     // Determine dominant element from elementalProperties
     const elements = alchemicalResult.elementalProperties;
     const dominantElement = Object.entries(elements).reduce((a, b) =>
@@ -146,11 +185,15 @@ export async function GET() {
     const responseData = {
       quantities,
       kinetics,
+      circuit,
       dominantElement,
+      elementalProperties: alchemicalResult.elementalProperties,
       heat: alchemicalResult.thermodynamicProperties.heat,
       entropy: alchemicalResult.thermodynamicProperties.entropy,
       reactivity: alchemicalResult.thermodynamicProperties.reactivity,
       energy: alchemicalResult.thermodynamicProperties.gregsEnergy,
+      kalchm: alchemicalResult.kalchm,
+      monica: alchemicalResult.monica,
       timestamp: now.toISOString(),
     };
 
