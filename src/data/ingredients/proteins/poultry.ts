@@ -2,6 +2,122 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawPoultry: Record<string, Partial<IngredientMapping>> = {
+  turkey: {
+    name: "Turkey",
+    category: "poultry",
+
+    // Base elemental properties (unscaled)
+    elementalProperties: { Fire: 0.15, Water: 0.35, Air: 0.35, Earth: 0.15 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 170, unit: "g" }, // Standard serving: 6oz
+    scaledElemental: { Fire: 0.14, Water: 0.36, Air: 0.36, Earth: 0.14 },
+    alchemicalProperties: {
+      Spirit: 0.255,
+      Essence: 0.25,
+      Matter: 0.07,
+      Substance: 0.18,
+    },
+    kineticsImpact: { thermalDirection: 0.02, forceMagnitude: 0.88 },
+    astrologicalProfile: {
+      rulingPlanets: ["Jupiter", "Mercury"],
+      favorableZodiac: ["sagittarius", "virgo"],
+      elementalAffinity: {
+        base: "Air",
+        secondary: "Water",
+      } as any,
+    },
+    qualities: [
+      "lean",
+      "mild",
+      "versatile",
+      "nutritious",
+      "festive",
+      "high-protein",
+    ],
+    origin: ["North America", "domesticated worldwide"],
+    sensoryProfile: {
+      taste: ["Mild", "Savory", "Clean"],
+      aroma: ["Fresh", "Clean", "Light"],
+      texture: ["Tender", "Lean", "Firm"],
+      notes: "Leaner than chicken with a slightly gamier flavor",
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["mild", "savory"],
+        secondary: ["slightly sweet"],
+        notes: "Versatile protein, excellent for holidays",
+      },
+      cookingMethods: ["roasting", "grilling", "smoking", "braising"],
+      cuisineAffinity: ["American", "Mediterranean", "International"],
+      preparationTips: ["Brine for moisture", "Don't overcook - use thermometer"],
+    },
+    season: ["year-round"],
+    preparation: {
+      methods: ["roast", "grill", "smoke", "braise"],
+      timing: "varies by cut",
+      notes: "Internal temperature 165°F (74°C)",
+    },
+  },
+
+  duck: {
+    name: "Duck",
+    category: "poultry",
+
+    // Base elemental properties (unscaled)
+    elementalProperties: { Fire: 0.35, Water: 0.25, Air: 0.25, Earth: 0.15 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 150, unit: "g" }, // Standard serving: 5oz
+    scaledElemental: { Fire: 0.34, Water: 0.26, Air: 0.26, Earth: 0.14 },
+    alchemicalProperties: {
+      Spirit: 0.30,
+      Essence: 0.20,
+      Matter: 0.07,
+      Substance: 0.26,
+    },
+    kineticsImpact: { thermalDirection: 0.12, forceMagnitude: 1.05 },
+    astrologicalProfile: {
+      rulingPlanets: ["Venus", "Jupiter"],
+      favorableZodiac: ["taurus", "libra", "sagittarius"],
+      elementalAffinity: {
+        base: "Fire",
+        secondary: "Water",
+      } as any,
+    },
+    qualities: [
+      "rich",
+      "luxurious",
+      "gamey",
+      "fatty",
+      "flavorful",
+      "succulent",
+    ],
+    origin: ["China", "France", "domesticated worldwide"],
+    sensoryProfile: {
+      taste: ["Rich", "Savory", "Gamey"],
+      aroma: ["Aromatic", "Complex", "Earthy"],
+      texture: ["Succulent", "Tender", "Crispy skin"],
+      notes: "Rich flavor with prized crispy skin",
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["rich", "savory", "umami"],
+        secondary: ["sweet"],
+        notes: "Pairs well with fruits like orange, cherry",
+      },
+      cookingMethods: ["roasting", "confit", "grilling", "pan-searing"],
+      cuisineAffinity: ["French", "Chinese", "Asian"],
+      preparationTips: ["Score the skin", "Render the fat", "Rest before carving"],
+    },
+    season: ["autumn", "winter"],
+    preparation: {
+      methods: ["roast", "confit", "pan-sear", "smoke"],
+      timing: "medium-rare to medium for breast",
+      notes: "Score skin to render fat properly",
+    },
+  },
+
   chicken: {
     name: "Chicken",
 
