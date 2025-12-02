@@ -88,13 +88,26 @@ function exponentialCompatibility(value1: number, value2: number, sensitivity = 
 
 /**
  * Check if ingredient is in season
+ * Handles both string and array seasonality values
  */
-function isIngredientInSeason(seasonality: string[] | undefined, currentSeason: string): boolean {
-  if (!seasonality || seasonality.length === 0) return false;
+function isIngredientInSeason(seasonality: string[] | string | undefined, currentSeason: string): boolean {
+  if (!seasonality) return false;
+
+  // Handle string seasonality (e.g., "all", "year-round", "summer")
+  if (typeof seasonality === 'string') {
+    const s = seasonality.toLowerCase();
+    return s === currentSeason || s === 'all' || s === 'year-round';
+  }
+
+  // Handle array seasonality
+  if (!Array.isArray(seasonality) || seasonality.length === 0) return false;
+
   return seasonality.some(s =>
-    s.toLowerCase() === currentSeason ||
-    s.toLowerCase() === 'all' ||
-    s.toLowerCase() === 'year-round'
+    typeof s === 'string' && (
+      s.toLowerCase() === currentSeason ||
+      s.toLowerCase() === 'all' ||
+      s.toLowerCase() === 'year-round'
+    )
   );
 }
 
