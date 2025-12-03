@@ -238,8 +238,8 @@ export default function CookingMethodPreview() {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }, [alchemicalContext?.state?.elementalState]);
 
-  // Calculate ESMS from real planetary positions
-  const currentESMS = useMemo(() => {
+  // Calculate BASE ESMS from real planetary positions (calculated once per planetary change)
+  const baseESMS = useMemo(() => {
     return calculateAlchemicalFromPlanets(planetaryPositions);
   }, [planetaryPositions]);
 
@@ -252,32 +252,55 @@ export default function CookingMethodPreview() {
         // Get the alchemical pillar for this cooking method
         const pillar = getCookingMethodPillar(id);
 
-        // Calculate Greg's Energy using actual thermodynamic data
-        let gregsEnergy = 0;
-        if (method.thermodynamicProperties) {
-          const result = calculateGregsEnergy({
-            Spirit: currentESMS.Spirit,
-            Essence: currentESMS.Essence,
-            Matter: currentESMS.Matter,
-            Substance: currentESMS.Substance,
-            Fire: method.elementalEffect.Fire,
-            Water: method.elementalEffect.Water,
-            Air: method.elementalEffect.Air,
-            Earth: method.elementalEffect.Earth,
-          });
-          gregsEnergy = result.gregsEnergy;
-        }
+        // Base ESMS from planetary positions
+        const safeBaseESMS = {
+          Spirit: baseESMS?.Spirit ?? 4,
+          Essence: baseESMS?.Essence ?? 4,
+          Matter: baseESMS?.Matter ?? 4,
+          Substance: baseESMS?.Substance ?? 2,
+        };
 
-        // Calculate Kalchm equilibrium constant
+        // Apply pillar transformation effects to get METHOD-SPECIFIC ESMS
+        // Each pillar modifies ESMS differently based on the cooking method's alchemical nature
+        const transformedESMS = pillar
+          ? {
+              Spirit: safeBaseESMS.Spirit + (pillar.effects.Spirit || 0),
+              Essence: safeBaseESMS.Essence + (pillar.effects.Essence || 0),
+              Matter: safeBaseESMS.Matter + (pillar.effects.Matter || 0),
+              Substance: safeBaseESMS.Substance + (pillar.effects.Substance || 0),
+            }
+          : safeBaseESMS;
+
+        // Use method's thermodynamic properties if available
+        const methodThermo = method.thermodynamicProperties || {
+          heat: 0.5,
+          entropy: 0.5,
+          reactivity: 0.5,
+        };
+
+        // Calculate Greg's Energy using TRANSFORMED ESMS and method elementals
+        const result = calculateGregsEnergy({
+          Spirit: transformedESMS.Spirit,
+          Essence: transformedESMS.Essence,
+          Matter: transformedESMS.Matter,
+          Substance: transformedESMS.Substance,
+          Fire: method.elementalEffect.Fire,
+          Water: method.elementalEffect.Water,
+          Air: method.elementalEffect.Air,
+          Earth: method.elementalEffect.Earth,
+        });
+        const gregsEnergy = result.gregsEnergy;
+
+        // Calculate Kalchm using TRANSFORMED ESMS (method-specific equilibrium constant)
         const kalchm = calculateKAlchm(
-          currentESMS.Spirit,
-          currentESMS.Essence,
-          currentESMS.Matter,
-          currentESMS.Substance
+          transformedESMS.Spirit,
+          transformedESMS.Essence,
+          transformedESMS.Matter,
+          transformedESMS.Substance
         );
 
-        // Calculate Monica constant
-        const reactivity = method.thermodynamicProperties?.reactivity || 0.5;
+        // Use method-specific reactivity for Monica calculation
+        const reactivity = methodThermo.reactivity;
         const monica = gregsEnergy !== null && kalchm
           ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
           : null;
@@ -293,12 +316,12 @@ export default function CookingMethodPreview() {
           kalchm,
           monica,
           monicaClass,
-          esms: currentESMS,
+          esms: transformedESMS, // Store transformed ESMS for display
         };
       })
       .sort((a, b) => b.score - a.score)
       .slice(0, 6);
-  }, [selectedCategory, currentElementals, currentESMS, planetaryPositions]);
+  }, [selectedCategory, currentElementals, baseESMS, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
     setExpandedMethods(prev => {
