@@ -325,50 +325,71 @@ export default function EnhancedCookingMethodRecommender() {
     const category = categories.find((cat) => cat.id === selectedCategory);
     if (!category) return [];
 
+    // Calculate BASE alchemical properties from real planetary positions (ESMS)
+    // This is calculated once and then transformed per-method by pillar effects
+    const baseAlchemicalProperties = calculateAlchemicalFromPlanets(
+      planetaryPositions,
+    );
+
     return Object.entries(category.methods)
       .map(([id, method]) => {
         const pillar = getCookingMethodPillar(id);
 
-        // Calculate alchemical properties from real planetary positions (ESMS)
-        const alchemicalProperties = calculateAlchemicalFromPlanets(
-          planetaryPositions,
-        );
-
-        // Ensure alchemical properties are defined with safe defaults
-        const safeAlchemical = {
-          Spirit: alchemicalProperties?.Spirit ?? 4,
-          Essence: alchemicalProperties?.Essence ?? 4,
-          Matter: alchemicalProperties?.Matter ?? 4,
-          Substance: alchemicalProperties?.Substance ?? 2,
+        // Base ESMS values from planetary positions
+        const baseESMS = {
+          Spirit: baseAlchemicalProperties?.Spirit ?? 4,
+          Essence: baseAlchemicalProperties?.Essence ?? 4,
+          Matter: baseAlchemicalProperties?.Matter ?? 4,
+          Substance: baseAlchemicalProperties?.Substance ?? 2,
         };
 
-        // Calculate Greg's Energy
-        const gregsEnergy = method.thermodynamicProperties
-          ? calculateGregsEnergy({
-              Spirit: safeAlchemical.Spirit,
-              Essence: safeAlchemical.Essence,
-              Matter: safeAlchemical.Matter,
-              Substance: safeAlchemical.Substance,
-              Fire: method.elementalEffect.Fire,
-              Water: method.elementalEffect.Water,
-              Air: method.elementalEffect.Air,
-              Earth: method.elementalEffect.Earth,
-            }).gregsEnergy
-          : 0;
+        // Apply pillar transformation effects to get METHOD-SPECIFIC ESMS
+        // Each pillar modifies ESMS differently (e.g., Calcination: Spirit -1, Essence +1, Matter +1, Substance -1)
+        const transformedESMS = pillar
+          ? {
+              Spirit: baseESMS.Spirit + (pillar.effects.Spirit || 0),
+              Essence: baseESMS.Essence + (pillar.effects.Essence || 0),
+              Matter: baseESMS.Matter + (pillar.effects.Matter || 0),
+              Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
+            }
+          : baseESMS;
 
-        // Calculate alchemical metrics
+        // Use method's thermodynamic properties if available, otherwise calculate from pillar
+        const methodThermo = method.thermodynamicProperties || {
+          heat: 0.5,
+          entropy: 0.5,
+          reactivity: 0.5,
+        };
+
+        // Calculate Greg's Energy using TRANSFORMED ESMS and method elementals
+        const gregsEnergy = calculateGregsEnergy({
+          Spirit: transformedESMS.Spirit,
+          Essence: transformedESMS.Essence,
+          Matter: transformedESMS.Matter,
+          Substance: transformedESMS.Substance,
+          Fire: method.elementalEffect.Fire,
+          Water: method.elementalEffect.Water,
+          Air: method.elementalEffect.Air,
+          Earth: method.elementalEffect.Earth,
+        }).gregsEnergy;
+
+        // Calculate Kalchm using TRANSFORMED ESMS (method-specific equilibrium constant)
         const kalchm = calculateKAlchm(
-          safeAlchemical.Spirit,
-          safeAlchemical.Essence,
-          safeAlchemical.Matter,
-          safeAlchemical.Substance,
+          transformedESMS.Spirit,
+          transformedESMS.Essence,
+          transformedESMS.Matter,
+          transformedESMS.Substance,
         );
 
-        const reactivity = method.thermodynamicProperties?.reactivity || 0;
+        // Use method-specific reactivity for Monica calculation
+        const reactivity = methodThermo.reactivity;
         const monica =
           gregsEnergy !== null && kalchm
             ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
             : null;
+
+        // Store both base and transformed ESMS for display
+        const alchemicalProperties = transformedESMS;
 
         // Calculate pillar-specific Monica modifiers if monica constant is available
         const monicaModifiers =
