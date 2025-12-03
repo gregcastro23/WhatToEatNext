@@ -276,7 +276,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
   },
   {
     id: 14,
-    name: "Projection",
+    name: "Protection",
     description:
       "The culminating transformation that protects and stabilizes, increasing all alchemical properties",
     effects: {

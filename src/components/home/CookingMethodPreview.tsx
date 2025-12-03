@@ -3,10 +3,10 @@
 /**
  * Cooking Method Preview Component
  * Shows cooking methods from real data organized by category
- * Uses actual cooking method database with elemental properties
+ * Uses actual cooking method database with elemental, ESMS, thermodynamic, and kinetic properties
  */
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   dryCookingMethods,
@@ -15,6 +15,13 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
+import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
+import {
+  calculateKAlchm,
+  calculateMonicaConstant,
+} from "@/utils/monicaKalchmCalculations";
 
 interface MethodData {
   name: string;
@@ -24,6 +31,12 @@ interface MethodData {
     Water: number;
     Earth: number;
     Air: number;
+  };
+  thermodynamicProperties?: {
+    heat: number;
+    entropy: number;
+    reactivity: number;
+    gregsEnergy?: number;
   };
   duration?: { min: number; max: number };
   time_range?: { min: number; max: number };
@@ -35,6 +48,75 @@ interface MethodData {
   regionalVariations?: Record<string, string[]>;
   expertTips?: string[];
   optimalTemperatures?: Record<string, number>;
+}
+
+// Default planetary positions (fallback when context not available)
+const DEFAULT_PLANETARY_POSITIONS = {
+  Sun: "Leo",
+  Moon: "Cancer",
+  Mercury: "Gemini",
+  Venus: "Taurus",
+  Mars: "Aries",
+  Jupiter: "Sagittarius",
+  Saturn: "Capricorn",
+  Uranus: "Aquarius",
+  Neptune: "Pisces",
+  Pluto: "Scorpio",
+};
+
+// Helper to extract zodiac sign from position data
+function extractZodiacSign(position: unknown): string {
+  if (!position) return "Aries";
+  if (typeof position === "string") return position;
+  if (typeof position === "object" && position !== null) {
+    const posObj = position as Record<string, unknown>;
+    if (typeof posObj.sign === "string") {
+      return posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase();
+    }
+  }
+  return "Aries";
+}
+
+// Convert context planetary positions to simple zodiac sign format
+function normalizePlanetaryPositions(
+  contextPositions: Record<string, unknown> | undefined
+): Record<string, string> {
+  if (!contextPositions || Object.keys(contextPositions).length === 0) {
+    return DEFAULT_PLANETARY_POSITIONS;
+  }
+
+  const normalized: Record<string, string> = {};
+  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+
+  for (const planet of planets) {
+    const position = contextPositions[planet] || contextPositions[planet.toLowerCase()];
+    normalized[planet] = extractZodiacSign(position);
+  }
+
+  return normalized;
+}
+
+// Classify Monica constant
+function classifyMonica(monica: number | null): { label: string; color: string } {
+  if (monica === null || isNaN(monica)) {
+    return { label: "Undefined", color: "text-gray-600" };
+  }
+  if (monica > 10) {
+    return { label: "Highly Volatile", color: "text-red-700" };
+  }
+  if (monica > 5) {
+    return { label: "Volatile", color: "text-orange-700" };
+  }
+  if (monica > 2) {
+    return { label: "Transformative", color: "text-yellow-700" };
+  }
+  if (monica > 1) {
+    return { label: "Balanced", color: "text-green-700" };
+  }
+  if (monica > 0.5) {
+    return { label: "Stable", color: "text-blue-700" };
+  }
+  return { label: "Very Stable", color: "text-indigo-700" };
 }
 
 interface CategoryConfig {
@@ -109,9 +191,38 @@ function calculateCompatibilityScore(
 export default function CookingMethodPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethods, setExpandedMethods] = useState<Set<string>>(new Set());
+  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
+  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
 
   // Get current alchemical context
-  const alchemicalContext = useAlchemical();
+  let alchemicalContext: ReturnType<typeof useAlchemical> | null = null;
+  try {
+    alchemicalContext = useAlchemical();
+  } catch {
+    // Context not available
+  }
+
+  // Update planetary positions from context
+  useEffect(() => {
+    if (alchemicalContext?.planetaryPositions) {
+      const normalized = normalizePlanetaryPositions(alchemicalContext.planetaryPositions);
+      setPlanetaryPositions(normalized);
+      setPositionsSource("real");
+    }
+
+    // Also try to refresh positions from backend
+    if (alchemicalContext?.refreshPlanetaryPositions) {
+      alchemicalContext.refreshPlanetaryPositions().then((positions) => {
+        if (positions && Object.keys(positions).length > 0) {
+          const normalized = normalizePlanetaryPositions(positions as Record<string, unknown>);
+          setPlanetaryPositions(normalized);
+          setPositionsSource("real");
+        }
+      }).catch(() => {
+        // Silently fail, use existing positions
+      });
+    }
+  }, [alchemicalContext?.planetaryPositions]);
 
   // Get current elemental properties from alchemical context
   const currentElementals = useMemo(() => {
@@ -125,21 +236,69 @@ export default function CookingMethodPreview() {
     }
     // Default balanced elementals
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  }, [alchemicalContext]);
+  }, [alchemicalContext?.state?.elementalState]);
+
+  // Calculate ESMS from real planetary positions
+  const currentESMS = useMemo(() => {
+    return calculateAlchemicalFromPlanets(planetaryPositions);
+  }, [planetaryPositions]);
 
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
     if (!category) return [];
 
     return Object.entries(category.methods)
-      .map(([id, method]) => ({
-        id,
-        ...method,
-        score: calculateCompatibilityScore(method.elementalEffect, currentElementals),
-      }))
+      .map(([id, method]) => {
+        // Get the alchemical pillar for this cooking method
+        const pillar = getCookingMethodPillar(id);
+
+        // Calculate Greg's Energy using actual thermodynamic data
+        let gregsEnergy = 0;
+        if (method.thermodynamicProperties) {
+          const result = calculateGregsEnergy({
+            Spirit: currentESMS.Spirit,
+            Essence: currentESMS.Essence,
+            Matter: currentESMS.Matter,
+            Substance: currentESMS.Substance,
+            Fire: method.elementalEffect.Fire,
+            Water: method.elementalEffect.Water,
+            Air: method.elementalEffect.Air,
+            Earth: method.elementalEffect.Earth,
+          });
+          gregsEnergy = result.gregsEnergy;
+        }
+
+        // Calculate Kalchm equilibrium constant
+        const kalchm = calculateKAlchm(
+          currentESMS.Spirit,
+          currentESMS.Essence,
+          currentESMS.Matter,
+          currentESMS.Substance
+        );
+
+        // Calculate Monica constant
+        const reactivity = method.thermodynamicProperties?.reactivity || 0.5;
+        const monica = gregsEnergy !== null && kalchm
+          ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
+          : null;
+
+        const monicaClass = classifyMonica(monica);
+
+        return {
+          id,
+          ...method,
+          score: calculateCompatibilityScore(method.elementalEffect, currentElementals),
+          pillar,
+          gregsEnergy,
+          kalchm,
+          monica,
+          monicaClass,
+          esms: currentESMS,
+        };
+      })
       .sort((a, b) => b.score - a.score)
       .slice(0, 6);
-  }, [selectedCategory, currentElementals]);
+  }, [selectedCategory, currentElementals, currentESMS, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
     setExpandedMethods(prev => {
@@ -201,6 +360,17 @@ export default function CookingMethodPreview() {
               </p>
             </div>
           </div>
+          {/* Planetary Data Source Indicator */}
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
+              positionsSource === "real"
+                ? "bg-green-100 text-green-800"
+                : "bg-yellow-100 text-yellow-800"
+            }`}
+          >
+            {positionsSource === "real" ? "🌟" : "⏳"}
+            {positionsSource === "real" ? "Live Data" : "Default Data"}
+          </span>
         </div>
       </div>
 
@@ -234,6 +404,29 @@ export default function CookingMethodPreview() {
                       <span>⏱️</span>
                       <span>{formatDuration(method)}</span>
                     </span>
+                    {/* Greg's Energy indicator */}
+                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full font-medium border ${
+                      method.gregsEnergy >= 0
+                        ? "bg-green-50 text-green-700 border-green-200"
+                        : "bg-red-50 text-red-700 border-red-200"
+                    }`}>
+                      <span>⚡</span>
+                      <span>{method.gregsEnergy >= 0 ? '+' : ''}{method.gregsEnergy.toFixed(2)}</span>
+                    </span>
+                    {/* Monica Classification */}
+                    {method.monica !== null && !isNaN(method.monica) && (
+                      <span className={`inline-flex items-center gap-1 bg-purple-50 border-purple-200 border px-2 py-1 rounded-full font-medium ${method.monicaClass.color}`}>
+                        <span>🔮</span>
+                        <span>{method.monicaClass.label}</span>
+                      </span>
+                    )}
+                    {/* Pillar indicator */}
+                    {method.pillar && (
+                      <span className="inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 px-2 py-1 rounded-full font-medium border border-indigo-200">
+                        <span>⚗️</span>
+                        <span>#{method.pillar.id}</span>
+                      </span>
+                    )}
                     {method.suitable_for && method.suitable_for.length > 0 && (
                       <span className="inline-flex items-center gap-1 bg-white bg-opacity-70 text-gray-700 px-2 py-1 rounded-full font-medium border border-gray-200">
                         <span>👨‍🍳</span>
@@ -258,6 +451,123 @@ export default function CookingMethodPreview() {
 
             {expandedMethods.has(method.id) && (
               <div className="p-6 bg-gradient-to-br from-gray-50 to-white border-t-2 border-orange-100 space-y-5">
+                {/* Alchemical & Thermodynamic Properties Section */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* ESMS Properties */}
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                    <h5 className="font-bold text-purple-900 mb-3 flex items-center gap-2">
+                      <span className="text-lg">⚗️</span>
+                      <span>Alchemical Properties (ESMS)</span>
+                    </h5>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="text-yellow-500">✨</span>
+                        <span className="text-gray-700">Spirit:</span>
+                        <span className="font-bold text-yellow-700">{method.esms.Spirit}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">💫</span>
+                        <span className="text-gray-700">Essence:</span>
+                        <span className="font-bold text-blue-700">{method.esms.Essence}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-green-500">🌿</span>
+                        <span className="text-gray-700">Matter:</span>
+                        <span className="font-bold text-green-700">{method.esms.Matter}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-purple-500">🔮</span>
+                        <span className="text-gray-700">Substance:</span>
+                        <span className="font-bold text-purple-700">{method.esms.Substance}</span>
+                      </div>
+                    </div>
+                    {method.pillar && (
+                      <div className="mt-3 pt-3 border-t border-purple-200">
+                        <span className="text-xs text-purple-700 font-medium">
+                          Pillar #{method.pillar.id}: {method.pillar.name}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Thermodynamic Properties */}
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <h5 className="font-bold text-red-900 mb-3 flex items-center gap-2">
+                      <span className="text-lg">🌡️</span>
+                      <span>Thermodynamic Properties</span>
+                    </h5>
+                    {method.thermodynamicProperties ? (
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-700">🔥 Heat:</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-red-500 rounded-full"
+                                style={{ width: `${method.thermodynamicProperties.heat * 100}%` }}
+                              />
+                            </div>
+                            <span className="font-bold text-red-700">{(method.thermodynamicProperties.heat * 100).toFixed(0)}%</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-700">🌀 Entropy:</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-orange-500 rounded-full"
+                                style={{ width: `${method.thermodynamicProperties.entropy * 100}%` }}
+                              />
+                            </div>
+                            <span className="font-bold text-orange-700">{(method.thermodynamicProperties.entropy * 100).toFixed(0)}%</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-700">⚡ Reactivity:</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-pink-500 rounded-full"
+                                style={{ width: `${method.thermodynamicProperties.reactivity * 100}%` }}
+                              />
+                            </div>
+                            <span className="font-bold text-pink-700">{(method.thermodynamicProperties.reactivity * 100).toFixed(0)}%</span>
+                          </div>
+                        </div>
+                        <div className="pt-2 border-t border-red-200 flex justify-between">
+                          <span className="text-gray-700">⚙️ Greg's Energy:</span>
+                          <span className={`font-bold ${method.gregsEnergy >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+                            {method.gregsEnergy >= 0 ? '+' : ''}{method.gregsEnergy.toFixed(3)}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-500 italic">Thermodynamic data not available</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Monica & Kalchm Summary */}
+                <div className="flex flex-wrap gap-3">
+                  {method.monica !== null && !isNaN(method.monica) && (
+                    <div className="bg-indigo-50 border border-indigo-200 rounded-lg px-4 py-2 flex items-center gap-2">
+                      <span className="text-lg">🔮</span>
+                      <span className="text-sm text-gray-700">Monica:</span>
+                      <span className={`font-bold ${method.monicaClass.color}`}>
+                        {method.monicaClass.label}
+                      </span>
+                      <span className="text-xs text-gray-500">({method.monica.toFixed(3)})</span>
+                    </div>
+                  )}
+                  {method.kalchm !== null && !isNaN(method.kalchm) && (
+                    <div className="bg-teal-50 border border-teal-200 rounded-lg px-4 py-2 flex items-center gap-2">
+                      <span className="text-lg">⚖️</span>
+                      <span className="text-sm text-gray-700">Kalchm (Equilibrium):</span>
+                      <span className="font-bold text-teal-700">{method.kalchm.toFixed(4)}</span>
+                    </div>
+                  )}
+                </div>
+
                 {/* Benefits */}
                 {method.benefits && method.benefits.length > 0 && (
                   <div>

@@ -12,7 +12,7 @@
  * 6. 🌊 Elemental Flow Visualization - Per-element velocity, momentum, force
  */
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   dryCookingMethods,
   wetCookingMethods,
@@ -39,6 +39,7 @@ import {
 } from "@/calculations/kinetics";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -105,8 +106,8 @@ const categories: CategoryConfig[] = [
   },
 ];
 
-// Mock planetary positions for kinetic calculations
-const mockPlanetaryPositions = {
+// Default planetary positions (fallback when context not available)
+const DEFAULT_PLANETARY_POSITIONS = {
   Sun: "Leo" as const,
   Moon: "Cancer" as const,
   Mercury: "Gemini" as const,
@@ -118,6 +119,39 @@ const mockPlanetaryPositions = {
   Neptune: "Pisces" as const,
   Pluto: "Scorpio" as const,
 };
+
+// Helper to extract zodiac sign from position data
+function extractZodiacSign(position: unknown): string {
+  if (!position) return "Aries";
+  if (typeof position === "string") return position;
+  if (typeof position === "object" && position !== null) {
+    const posObj = position as Record<string, unknown>;
+    if (typeof posObj.sign === "string") {
+      // Capitalize first letter for consistency
+      return posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase();
+    }
+  }
+  return "Aries";
+}
+
+// Convert context planetary positions to simple zodiac sign format
+function normalizePlanetaryPositions(
+  contextPositions: Record<string, unknown> | undefined
+): Record<string, string> {
+  if (!contextPositions || Object.keys(contextPositions).length === 0) {
+    return DEFAULT_PLANETARY_POSITIONS;
+  }
+
+  const normalized: Record<string, string> = {};
+  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+
+  for (const planet of planets) {
+    const position = contextPositions[planet] || contextPositions[planet.toLowerCase()];
+    normalized[planet] = extractZodiacSign(position);
+  }
+
+  return normalized;
+}
 
 // Classify Monica constant
 function classifyMonica(monica: number | null): {
@@ -254,6 +288,38 @@ export default function EnhancedCookingMethodRecommender() {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [showPillarsGuide, setShowPillarsGuide] = useState(false);
+  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
+  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
+
+  // Get planetary positions from AlchemicalContext
+  let alchemicalContext: ReturnType<typeof useAlchemical> | null = null;
+  try {
+    alchemicalContext = useAlchemical();
+  } catch {
+    // Context not available, will use fallback positions
+  }
+
+  // Update planetary positions from context
+  useEffect(() => {
+    if (alchemicalContext?.planetaryPositions) {
+      const normalized = normalizePlanetaryPositions(alchemicalContext.planetaryPositions);
+      setPlanetaryPositions(normalized);
+      setPositionsSource("real");
+    }
+
+    // Also try to refresh positions from backend
+    if (alchemicalContext?.refreshPlanetaryPositions) {
+      alchemicalContext.refreshPlanetaryPositions().then((positions) => {
+        if (positions && Object.keys(positions).length > 0) {
+          const normalized = normalizePlanetaryPositions(positions as Record<string, unknown>);
+          setPlanetaryPositions(normalized);
+          setPositionsSource("real");
+        }
+      }).catch(() => {
+        // Silently fail, use existing positions
+      });
+    }
+  }, [alchemicalContext?.planetaryPositions]);
 
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
@@ -263,9 +329,9 @@ export default function EnhancedCookingMethodRecommender() {
       .map(([id, method]) => {
         const pillar = getCookingMethodPillar(id);
 
-        // Calculate alchemical properties from planetary positions (ESMS)
+        // Calculate alchemical properties from real planetary positions (ESMS)
         const alchemicalProperties = calculateAlchemicalFromPlanets(
-          mockPlanetaryPositions,
+          planetaryPositions,
         );
 
         // Ensure alchemical properties are defined with safe defaults
@@ -323,11 +389,11 @@ export default function EnhancedCookingMethodRecommender() {
               )
             : null;
 
-        // Calculate kinetic metrics
+        // Calculate kinetic metrics using real planetary positions
         let kinetics: KineticMetrics | null = null;
         try {
           kinetics = calculateKinetics({
-            currentPlanetaryPositions: mockPlanetaryPositions,
+            currentPlanetaryPositions: planetaryPositions,
             timeInterval: 1,
           });
         } catch (error) {
@@ -350,7 +416,7 @@ export default function EnhancedCookingMethodRecommender() {
       })
       .sort((a, b) => b.gregsEnergy - a.gregsEnergy)
       .slice(0, 8);
-  }, [selectedCategory]);
+  }, [selectedCategory, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
     setExpandedMethod(expandedMethod === methodId ? null : methodId);
@@ -1079,6 +1145,21 @@ export default function EnhancedCookingMethodRecommender() {
         <p className="text-lg text-gray-600">
           Explore the Full Power of the 14 Pillars with Advanced Metrics
         </p>
+        {/* Planetary Data Source Indicator */}
+        <div className="mt-2 flex items-center justify-center gap-2">
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
+              positionsSource === "real"
+                ? "bg-green-100 text-green-800"
+                : "bg-yellow-100 text-yellow-800"
+            }`}
+          >
+            {positionsSource === "real" ? "🌟" : "⏳"}
+            {positionsSource === "real"
+              ? "Using Real-Time Planetary Positions"
+              : "Using Default Planetary Positions"}
+          </span>
+        </div>
         <button
           onClick={() => setShowPillarsGuide(!showPillarsGuide)}
           className="mt-2 text-sm text-indigo-600 hover:text-indigo-800 hover:underline"
