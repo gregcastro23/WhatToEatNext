@@ -150,7 +150,8 @@ find . -name "*.backup-*" -mtime -1 | head -20
 
 ```bash
 # Run from project root, not scripts directory
-cd /Users/GregCastro/Desktop/WhatToEatNext
+# Navigate to your project root directory first
+cd /path/to/your/project
 node scripts/fix-pattern-2-template-literals.cjs
 ```
 

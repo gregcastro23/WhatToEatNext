@@ -11,7 +11,7 @@ const glob = require("glob");
 
 // Find all test files in linting directory
 const testFiles = glob.sync("src/__tests__/linting/**/*.test.ts", {
-  cwd: "/Users/GregCastro/Desktop/WhatToEatNext",
+  cwd: process.cwd(),
   absolute: true,
 });
 

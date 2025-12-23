@@ -231,7 +231,8 @@ node --version  # Should be v16+
 
 ```bash
 # Scripts expect to be run from project root
-cd /Users/GregCastro/Desktop/WhatToEatNext
+# Navigate to your project root directory first
+cd /path/to/your/project
 node scripts/fix-pattern-2-template-literals.cjs
 ```
 
