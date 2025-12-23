@@ -32,6 +32,7 @@ import {
 import {
   calculateOptimalCookingConditions,
   calculatePillarMonicaModifiers,
+  getCookingMethodThermodynamics,
 } from "@/constants/alchemicalPillars";
 import {
   calculateKinetics,
@@ -355,11 +356,13 @@ export default function EnhancedCookingMethodRecommender() {
           : baseESMS;
 
         // Use method's thermodynamic properties if available, otherwise calculate from pillar
-        const methodThermo = method.thermodynamicProperties || {
-          heat: 0.5,
-          entropy: 0.5,
-          reactivity: 0.5,
-        };
+        // This ensures each method gets unique thermodynamic values based on its pillar
+        const methodThermo = method.thermodynamicProperties || 
+          getCookingMethodThermodynamics(id) || {
+            heat: 0.5,
+            entropy: 0.5,
+            reactivity: 0.5,
+          };
 
         // Calculate Greg's Energy using TRANSFORMED ESMS and method elementals
         const gregsEnergy = calculateGregsEnergy({

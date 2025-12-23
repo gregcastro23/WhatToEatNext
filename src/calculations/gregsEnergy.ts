@@ -31,7 +31,7 @@ export interface ThermodynamicMetrics {
   heat: number; // Thermal energy from celestial friction (0-1)
   entropy: number; // Disorder in planetary system (0-1)
   reactivity: number; // Chemical potential for transformation (0-1)
-  gregsEnergy: number; // Free energy metric (0-1)
+  gregsEnergy: number; // Free energy metric (can be negative: heat - entropy * reactivity)
 }
 
 /**
@@ -163,13 +163,15 @@ export function calculateGregsEnergy(
     const reactivity = reactivityDen > 0 ? reactivityNum / reactivityDen : 0;
 
     // Greg's Energy (free energy metric)
+    // Note: Greg's Energy can be negative (heat - entropy * reactivity)
+    // Do NOT clamp to [0, 1] as negative values are meaningful
     const gregsEnergy = heat - entropy * reactivity;
 
     return {
       heat: Math.max(0, Math.min(1, heat)),
       entropy: Math.max(0, Math.min(1, entropy)),
       reactivity: Math.max(0, Math.min(1, reactivity)),
-      gregsEnergy: Math.max(0, Math.min(1, gregsEnergy)),
+      gregsEnergy: gregsEnergy, // Allow negative values - do not clamp
     };
   } catch (error) {
     logger.error("Error calculating Gregs energy:", {
