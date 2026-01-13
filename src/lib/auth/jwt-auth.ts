@@ -415,7 +415,9 @@ export class JWTAuthService {
   }
 }
 
-// Export singleton instance
+// Export singleton instance with lazy initialization
+let _authService: JWTAuthService | null = null;
+
 function getJWTSecret(): string {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
@@ -426,11 +428,24 @@ function getJWTSecret(): string {
   return secret;
 }
 
-export const authService = new JWTAuthService({
-  jwtSecret: getJWTSecret(),
-  tokenExpiry: "1h",
-  refreshTokenExpiry: "7d",
-  issuer: "alchm.kitchen",
+function getAuthService(): JWTAuthService {
+  if (!_authService) {
+    _authService = new JWTAuthService({
+      jwtSecret: getJWTSecret(),
+      tokenExpiry: "1h",
+      refreshTokenExpiry: "7d",
+      issuer: "alchm.kitchen",
+    });
+  }
+  return _authService;
+}
+
+export const authService = new Proxy({} as JWTAuthService, {
+  get(target, prop) {
+    const service = getAuthService();
+    const value = (service as any)[prop];
+    return typeof value === 'function' ? value.bind(service) : value;
+  }
 });
 
 export default authService;
