@@ -33,7 +33,7 @@ function mean(numbers: number[]): number {
  * Identifies meals that:
  * 1. Have high resistance (low efficiency)
  * 2. Have low power output
- * 3. Are missing (empty slots)
+ * 3. Are missing (empty slots) - ONLY when actively planning (10+ meals) or disrupting flow
  * 4. Create elemental imbalance
  *
  * @param dayCircuits - Circuit metrics for all 7 days
@@ -45,6 +45,10 @@ export function findCircuitBottlenecks(
   currentMenu: WeeklyMenu
 ): CircuitBottleneck[] {
   const bottlenecks: CircuitBottleneck[] = [];
+
+  // Calculate total filled meal count (for smart empty slot detection)
+  const totalFilledMeals = currentMenu.meals.filter((m) => m.recipe).length;
+  const isActivelyPlanning = totalFilledMeals >= 10; // User has planned at least 10 meals
 
   // Calculate average power across all meals
   const allMealPowers: number[] = [];
@@ -91,16 +95,34 @@ export function findCircuitBottlenecks(
     }
   }
 
-  // 3. Find empty slots (power flow discontinuity)
-  for (const mealSlot of currentMenu.meals) {
-    if (!mealSlot.recipe) {
-      bottlenecks.push({
-        mealSlotId: mealSlot.id,
-        reason: "Empty slot creates power flow discontinuity",
-        impactScore: 0.5,
-      });
+  // 3. Find empty slots (power flow discontinuity) - SMART DETECTION
+  // Only flag empty slots as bottlenecks when:
+  // - User is actively planning (10+ meals filled), OR
+  // - Empty slot disrupts flow (has adjacent filled meals on same day)
+  if (isActivelyPlanning) {
+    // User is actively planning - flag strategic empty slots
+    for (const mealSlot of currentMenu.meals) {
+      if (!mealSlot.recipe) {
+        // Check if this empty slot disrupts flow on its day
+        const dayMeals = currentMenu.meals.filter(
+          (m) => m.dayOfWeek === mealSlot.dayOfWeek
+        );
+        const hasAdjacentMeals = dayMeals.some(
+          (m) => m.recipe && m.id !== mealSlot.id
+        );
+
+        if (hasAdjacentMeals) {
+          bottlenecks.push({
+            mealSlotId: mealSlot.id,
+            reason: `Empty ${mealSlot.mealType} slot disrupts ${getDayName(mealSlot.dayOfWeek)}'s power flow`,
+            impactScore: 0.4,
+          });
+        }
+      }
     }
   }
+  // If user has < 10 meals, don't flag empty slots as bottlenecks
+  // This prevents overwhelming new users with 28 empty slot warnings
 
   // 4. Find days with poor power balance
   for (const [dayKey, day] of Object.entries(dayCircuits)) {

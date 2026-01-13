@@ -15,6 +15,33 @@ import { getDayName } from "@/types/menuPlanner";
 import type { DayOfWeek } from "@/types/menuPlanner";
 
 /**
+ * Simple Tooltip Component
+ */
+function Tooltip({ text, children }: { text: string; children: React.ReactNode }) {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div className="relative inline-block">
+      <div
+        onMouseEnter={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+        className="cursor-help"
+      >
+        {children}
+      </div>
+      {show && (
+        <div className="absolute z-50 bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg max-w-xs whitespace-normal">
+          {text}
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+            <div className="border-4 border-transparent border-t-gray-900" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
  * Weekly Overview Section
  */
 function WeeklyOverview() {
@@ -49,37 +76,49 @@ function WeeklyOverview() {
     <div className="space-y-4">
       {/* Main Metrics Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-3 border-2 border-purple-200">
-          <div className="text-xs font-medium text-purple-600 mb-1">
-            Total Power
+        <Tooltip text="Total Power (P=IV): Sum of all meal energies calculated using current and voltage from alchemical properties. Higher = more energetic week.">
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-3 border-2 border-purple-200">
+            <div className="text-xs font-medium text-purple-600 mb-1 flex items-center gap-1">
+              Total Power <span className="text-[10px]">ⓘ</span>
+            </div>
+            <div className="text-lg font-bold text-purple-800">
+              {formatPower(metrics.totalWeekPower)}
+            </div>
           </div>
-          <div className="text-lg font-bold text-purple-800">
-            {formatPower(metrics.totalWeekPower)}
-          </div>
-        </div>
+        </Tooltip>
 
-        <div className={`rounded-lg p-3 border-2 ${efficiencyClasses[efficiencyColor]}`}>
-          <div className="text-xs font-medium mb-1">Efficiency</div>
-          <div className="text-lg font-bold">
-            {formatEfficiency(metrics.weekEfficiency)}
+        <Tooltip text="Efficiency: Percentage of power successfully delivered vs. lost to resistance. 70%+ is excellent, 40-70% is good, <40% needs optimization.">
+          <div className={`rounded-lg p-3 border-2 ${efficiencyClasses[efficiencyColor]}`}>
+            <div className="text-xs font-medium mb-1 flex items-center gap-1">
+              Efficiency <span className="text-[10px]">ⓘ</span>
+            </div>
+            <div className="text-lg font-bold">
+              {formatEfficiency(metrics.weekEfficiency)}
+            </div>
           </div>
-        </div>
+        </Tooltip>
 
-        <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg p-3 border-2 border-orange-200">
-          <div className="text-xs font-medium text-orange-600 mb-1">
-            Total Charge
+        <Tooltip text="Total Charge: Sum of alchemical current (Spirit + Essence) across all meals. Represents the week's overall vitality.">
+          <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg p-3 border-2 border-orange-200">
+            <div className="text-xs font-medium text-orange-600 mb-1 flex items-center gap-1">
+              Total Charge <span className="text-[10px]">ⓘ</span>
+            </div>
+            <div className="text-lg font-bold text-orange-800">
+              {metrics.totalWeekCharge.toFixed(1)} C
+            </div>
           </div>
-          <div className="text-lg font-bold text-orange-800">
-            {metrics.totalWeekCharge.toFixed(1)} C
-          </div>
-        </div>
+        </Tooltip>
 
-        <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-lg p-3 border-2 border-red-200">
-          <div className="text-xs font-medium text-red-600 mb-1">Losses</div>
-          <div className="text-lg font-bold text-red-800">
-            {formatPower(metrics.totalWeekLosses)}
+        <Tooltip text="Losses: Power dissipated due to resistance (Matter + Substance). Lower losses mean better harmony between meals.">
+          <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-lg p-3 border-2 border-red-200">
+            <div className="text-xs font-medium text-red-600 mb-1 flex items-center gap-1">
+              Losses <span className="text-[10px]">ⓘ</span>
+            </div>
+            <div className="text-lg font-bold text-red-800">
+              {formatPower(metrics.totalWeekLosses)}
+            </div>
           </div>
-        </div>
+        </Tooltip>
       </div>
 
       {/* Power Distribution */}
@@ -308,10 +347,50 @@ function SuggestionsSection() {
 }
 
 /**
+ * Empty State Component (< 6 meals)
+ */
+function EmptyStatePrompt({ mealCount }: { mealCount: number }) {
+  return (
+    <div className="p-6 text-center">
+      <div className="text-4xl mb-3">⚡</div>
+      <h3 className="text-lg font-bold text-purple-900 mb-2">
+        Circuit Optimization Ready
+      </h3>
+      <p className="text-sm text-gray-600 mb-4">
+        Add recipes to your calendar to unlock weekly power flow analysis and optimization suggestions.
+      </p>
+      {mealCount > 0 && (
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-lg border border-purple-200">
+          <span className="text-purple-700 font-semibold text-sm">
+            {mealCount} / 6 meals planned
+          </span>
+          <span className="text-xs text-purple-600">
+            ({6 - mealCount} more to unlock)
+          </span>
+        </div>
+      )}
+      {mealCount === 0 && (
+        <div className="mt-4 text-xs text-gray-500 max-w-md mx-auto">
+          <p>💡 Tip: Click "✨ Generate" on any day or search recipes below to get started!</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
  * Main Circuit Metrics Panel
  */
 export default function CircuitMetricsPanel() {
+  const { currentMenu } = useMenuPlanner();
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Calculate total meal count
+  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
+  const hasEnoughMeals = totalMeals >= 6;
+
+  // Auto-collapse when not enough meals
+  const shouldShowFullPanel = hasEnoughMeals && !isCollapsed;
 
   return (
     <div className="bg-white rounded-xl shadow-md border-2 border-purple-200 overflow-hidden">
@@ -327,7 +406,9 @@ export default function CircuitMetricsPanel() {
               Circuit Metrics
             </h2>
             <p className="text-xs text-purple-700">
-              Weekly power flow & optimization analysis
+              {hasEnoughMeals
+                ? "Weekly power flow & optimization analysis"
+                : `Add ${6 - totalMeals} more meal${6 - totalMeals === 1 ? "" : "s"} to unlock`}
             </p>
           </div>
         </div>
@@ -338,34 +419,42 @@ export default function CircuitMetricsPanel() {
 
       {/* Content */}
       {!isCollapsed && (
-        <div className="p-4 space-y-6">
-          {/* Weekly Overview */}
-          <section>
-            <WeeklyOverview />
-          </section>
+        <div>
+          {!hasEnoughMeals ? (
+            // Empty state when < 6 meals
+            <EmptyStatePrompt mealCount={totalMeals} />
+          ) : (
+            // Full metrics when >= 6 meals
+            <div className="p-4 space-y-6">
+              {/* Weekly Overview */}
+              <section>
+                <WeeklyOverview />
+              </section>
 
-          {/* Day Breakdown */}
-          <section>
-            <DayBreakdown />
-          </section>
+              {/* Day Breakdown */}
+              <section>
+                <DayBreakdown />
+              </section>
 
-          {/* Bottlenecks */}
-          <section>
-            <BottlenecksSection />
-          </section>
+              {/* Bottlenecks */}
+              <section>
+                <BottlenecksSection />
+              </section>
 
-          {/* Suggestions */}
-          <section>
-            <SuggestionsSection />
-          </section>
+              {/* Suggestions */}
+              <section>
+                <SuggestionsSection />
+              </section>
 
-          {/* Footer Note */}
-          <div className="text-center text-xs text-gray-500 pt-4 border-t border-gray-200">
-            <p>
-              Circuit metrics calculated using P=IV model with planetary
-              positions
-            </p>
-          </div>
+              {/* Footer Note */}
+              <div className="text-center text-xs text-gray-500 pt-4 border-t border-gray-200">
+                <p>
+                  Circuit metrics calculated using P=IV model with planetary
+                  positions
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

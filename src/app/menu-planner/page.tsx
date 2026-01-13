@@ -149,9 +149,9 @@ function MenuPlannerContent() {
             <div className="w-96">
               <RecipeQueue
                 onSelectRecipe={(queuedRecipe) => {
-                  // TODO: Show meal slot selector when clicking "Use Recipe"
+                  // Future enhancement: Add drag-to-slot or click-to-select UI
                   console.log("Selected from queue:", queuedRecipe.recipe.name);
-                  alert("Phase 2: Meal slot selector coming next!");
+                  alert("Drag recipes from the queue to meal slots on the calendar!");
                 }}
               />
             </div>
@@ -277,10 +277,10 @@ function MenuPlannerContent() {
         {/* Footer Info */}
         <div className="mt-12 text-center text-sm text-gray-500">
           <p className="mb-2">
-            ✨ Phase 2 In Progress - Recipe search, queue management, and enhanced grocery lists
+            ⚡ Powered by alchemical circuit optimization (P=IV model) and real-time planetary calculations
           </p>
           <p>
-            Coming next: Drag-and-drop, copy/move operations, and recipe recommendations
+            Drag recipes between slots • Copy/move meals • Generate planetary-aligned suggestions
           </p>
         </div>
       </div>

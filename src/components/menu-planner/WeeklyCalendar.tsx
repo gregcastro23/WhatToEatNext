@@ -264,6 +264,9 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
     );
   }
 
+  // Calculate total meal count for progressive messaging
+  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
+
   return (
     <div className="space-y-4">
       {/* Week Navigation */}
@@ -295,6 +298,65 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
           Next Week →
         </button>
       </div>
+
+      {/* Progressive Empty State Banner */}
+      {totalMeals === 0 && (
+        <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-blue-50 rounded-xl shadow-md p-6 border-2 border-purple-200">
+          <div className="text-center">
+            <div className="text-4xl mb-3">🍽️</div>
+            <h3 className="text-xl font-bold text-purple-900 mb-2">
+              Your Weekly Menu Awaits
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Plan your week with alchemical precision
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center text-sm text-gray-700">
+              <div className="flex items-center gap-2">
+                <span className="text-purple-600">✨</span>
+                <span>Click "Generate" on any day for planetary-aligned suggestions</span>
+              </div>
+              <div className="hidden sm:block text-gray-400">•</div>
+              <div className="flex items-center gap-2">
+                <span className="text-blue-600">🔍</span>
+                <span>Search recipes below and drag to calendar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {totalMeals > 0 && totalMeals < 6 && (
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl shadow-md p-4 border-2 border-blue-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="text-2xl">📅</div>
+              <div>
+                <h3 className="font-bold text-gray-800">
+                  Great start! {totalMeals} meal{totalMeals === 1 ? "" : "s"} planned
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Add {6 - totalMeals} more to unlock circuit optimization insights
+                </p>
+              </div>
+            </div>
+            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200">
+              <div className="flex gap-1">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-2 h-8 rounded ${
+                      i < totalMeals ? "bg-purple-500" : "bg-gray-200"
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="text-xs font-medium text-gray-600">
+                {totalMeals}/6
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Circuit Metrics Panel */}
       <CircuitMetricsPanel />
