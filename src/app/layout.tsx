@@ -67,6 +67,13 @@ export default function RootLayout({
                     🔥 Cooking Methods
                   </Link>
                   <Link
+                    href="/menu-planner"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 text-purple-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-200"
+                    aria-label="Plan your weekly menu"
+                  >
+                    📅 Menu Planner
+                  </Link>
+                  <Link
                     href="/quantities"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-indigo-100 text-indigo-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-indigo-200"
                     aria-label="View alchm quantities"
@@ -133,6 +140,11 @@ export default function RootLayout({
                     <li>
                       <Link href="/cooking-methods" className="text-gray-300 hover:text-orange-300 transition-colors">
                         🔥 Cooking Methods
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/menu-planner" className="text-gray-300 hover:text-purple-300 transition-colors">
+                        📅 Menu Planner
                       </Link>
                     </li>
                     <li>

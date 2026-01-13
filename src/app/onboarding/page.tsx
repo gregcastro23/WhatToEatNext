@@ -105,7 +105,7 @@ export default function OnboardingPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold alchm-gradient-text mb-4">
-            Welcome to WhatToEatNext
+            Welcome to alchm.kitchen
           </h1>
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
             Let's personalize your culinary journey with alchemical and

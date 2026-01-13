@@ -8,6 +8,7 @@ import { userDatabase } from "@/services/userDatabaseService";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import emailService from "@/services/emailService";
+import { UserRole } from "@/lib/auth/jwt-auth";
 import type { NextRequest } from "next/server";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 import type { Planet, ZodiacSign, Element } from "@/types/celestial";
@@ -137,13 +138,17 @@ export async function POST(request: NextRequest) {
 
     // Check if user already exists
     let user = await userDatabase.getUserByEmail(email);
+    const isNewUser = !user;
 
     if (!user) {
       // Create new user
       user = await userDatabase.createUser({
         email,
         name,
-        roles: email === "xalchm@gmail.com" ? ["admin", "user"] : ["user"],
+        roles:
+          email === "xalchm@gmail.com"
+            ? [UserRole.ADMIN, UserRole.USER]
+            : [UserRole.USER],
       });
     }
 
@@ -155,6 +160,7 @@ export async function POST(request: NextRequest) {
     );
 
     // Convert to Record<Planet, ZodiacSign>
+    // Note: Ascendant is optional as it may not always be calculated
     const positions: Record<Planet, ZodiacSign> = {
       Sun: planetaryPositions.Sun?.sign as ZodiacSign,
       Moon: planetaryPositions.Moon?.sign as ZodiacSign,
@@ -166,6 +172,7 @@ export async function POST(request: NextRequest) {
       Uranus: planetaryPositions.Uranus?.sign as ZodiacSign,
       Neptune: planetaryPositions.Neptune?.sign as ZodiacSign,
       Pluto: planetaryPositions.Pluto?.sign as ZodiacSign,
+      Ascendant: planetaryPositions.Ascendant?.sign as ZodiacSign || "aries", // Default fallback
     };
 
     // Calculate alchemical properties
@@ -203,8 +210,9 @@ export async function POST(request: NextRequest) {
       throw new Error("Failed to update user profile");
     }
 
-    // Send welcome email (non-blocking - don't fail onboarding if email fails)
+    // Send welcome email and admin notification concurrently (non-blocking - don't fail onboarding if email fails)
     if (emailService.isConfigured()) {
+      // Send welcome email to new user
       emailService
         .sendWelcomeEmail(email, name, dominantElement)
         .then((success) => {
@@ -217,9 +225,29 @@ export async function POST(request: NextRequest) {
         .catch((error) => {
           console.error("Error sending welcome email:", error);
         });
+
+      // Send admin notification concurrently (only for new users, not profile updates)
+      if (isNewUser) {
+        emailService
+          .sendAdminNotificationEmail(email, name, dominantElement)
+          .then((success) => {
+            if (success) {
+              console.log(
+                `Admin notification sent successfully for new user: ${email}`,
+              );
+            } else {
+              console.error(
+                `Failed to send admin notification for user: ${email}`,
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Error sending admin notification:", error);
+          });
+      }
     } else {
       console.log(
-        "Email service not configured - skipping welcome email. Set SMTP environment variables to enable email notifications.",
+        "Email service not configured - skipping welcome email and admin notification. Set SMTP environment variables to enable email notifications.",
       );
     }
 

@@ -40,7 +40,7 @@ class EmailService {
     const port = process.env.SMTP_PORT;
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
-    const fromName = process.env.EMAIL_FROM_NAME || "WhatToEatNext";
+    const fromName = process.env.EMAIL_FROM_NAME || "alchm.kitchen";
     const fromAddress = process.env.EMAIL_FROM_ADDRESS || "noreply@alchm.kitchen";
 
     // Check if email is configured
@@ -117,12 +117,37 @@ class EmailService {
     name: string,
     dominantElement?: string,
   ): Promise<boolean> {
-    const subject = "Welcome to WhatToEatNext! 🔮";
+    const subject = "Welcome to alchm.kitchen! 🔮";
 
     const html = this.getWelcomeEmailTemplate(name, dominantElement);
     const text = this.getWelcomeEmailText(name, dominantElement);
 
     return this.sendEmail({ to, subject, html, text });
+  }
+
+  /**
+   * Send admin notification email when a new user signs up
+   */
+  async sendAdminNotificationEmail(
+    userEmail: string,
+    userName: string,
+    dominantElement?: string,
+  ): Promise<boolean> {
+    const adminEmail = "xalchm@gmail.com";
+    const subject = `New User Signup: ${userName} on alchm.kitchen`;
+
+    const html = this.getAdminNotificationTemplate(
+      userEmail,
+      userName,
+      dominantElement,
+    );
+    const text = this.getAdminNotificationText(
+      userEmail,
+      userName,
+      dominantElement,
+    );
+
+    return this.sendEmail({ to: adminEmail, subject, html, text });
   }
 
   /**
@@ -152,14 +177,14 @@ class EmailService {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to WhatToEatNext</title>
+  <title>Welcome to alchm.kitchen</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f9fafb;">
   <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
     <!-- Header with Gradient -->
     <div style="background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); border-radius: 16px 16px 0 0; padding: 40px 30px; text-align: center;">
       <h1 style="color: white; margin: 0; font-size: 32px; font-weight: bold;">
-        Welcome to WhatToEatNext! ${elementIcon}
+        Welcome to alchm.kitchen! ${elementIcon}
       </h1>
       <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0; font-size: 18px;">
         Your Alchemical Culinary Journey Begins
@@ -173,7 +198,7 @@ class EmailService {
       </p>
 
       <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-        Thank you for joining WhatToEatNext! We're excited to help you discover personalized food recommendations based on your unique astrological and alchemical profile.
+        Thank you for joining alchm.kitchen! We're excited to help you discover personalized food recommendations based on your unique astrological and alchemical profile.
       </p>
 
       ${dominantElement ? `
@@ -208,7 +233,7 @@ class EmailService {
       <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 30px 0 0 0;">
         <p style="color: #6b7280; font-size: 14px; margin: 0; line-height: 1.6;">
           <strong>🔮 About Our Alchemical System:</strong><br>
-          WhatToEatNext uses a unique combination of astrological data and alchemical principles to create personalized culinary recommendations. Your preferences are analyzed through elemental properties (Fire, Water, Earth, Air) and planetary positions to find dishes that truly match your taste.
+          alchm.kitchen uses a unique combination of astrological data and alchemical principles to create personalized culinary recommendations. Your preferences are analyzed through elemental properties (Fire, Water, Earth, Air) and planetary positions to find dishes that truly match your taste.
         </p>
       </div>
 
@@ -218,17 +243,17 @@ class EmailService {
 
       <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 10px 0 0 0;">
         Happy exploring,<br>
-        <strong>The WhatToEatNext Team</strong>
+        <strong>The alchm.kitchen Team</strong>
       </p>
     </div>
 
     <!-- Footer -->
     <div style="text-align: center; padding: 30px 20px 0 20px;">
       <p style="color: #9ca3af; font-size: 12px; margin: 0;">
-        You're receiving this email because you signed up for WhatToEatNext.
+        You're receiving this email because you signed up for alchm.kitchen.
       </p>
       <p style="color: #9ca3af; font-size: 12px; margin: 10px 0 0 0;">
-        © ${new Date().getFullYear()} WhatToEatNext. All rights reserved.
+        © ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
       </p>
     </div>
   </div>
@@ -242,11 +267,11 @@ class EmailService {
    */
   private getWelcomeEmailText(name: string, dominantElement?: string): string {
     return `
-Welcome to WhatToEatNext!
+Welcome to alchm.kitchen!
 
 Hi ${name},
 
-Thank you for joining WhatToEatNext! We're excited to help you discover personalized food recommendations based on your unique astrological and alchemical profile.
+Thank you for joining alchm.kitchen! We're excited to help you discover personalized food recommendations based on your unique astrological and alchemical profile.
 
 ${dominantElement ? `Your Dominant Element: ${dominantElement}\n\nWe've calculated your natal chart and discovered your elemental affinity. This will help us recommend dishes that resonate with your unique energy.\n` : ""}
 What's Next?
@@ -257,16 +282,130 @@ What's Next?
 - Create Dining Groups: Add friends and family for group-optimized recommendations
 
 About Our Alchemical System:
-WhatToEatNext uses a unique combination of astrological data and alchemical principles to create personalized culinary recommendations. Your preferences are analyzed through elemental properties (Fire, Water, Earth, Air) and planetary positions to find dishes that truly match your taste.
+alchm.kitchen uses a unique combination of astrological data and alchemical principles to create personalized culinary recommendations. Your preferences are analyzed through elemental properties (Fire, Water, Earth, Air) and planetary positions to find dishes that truly match your taste.
 
 We're here to help you discover your next favorite meal!
 
 Happy exploring,
-The WhatToEatNext Team
+The alchm.kitchen Team
 
 ---
-You're receiving this email because you signed up for WhatToEatNext.
-© ${new Date().getFullYear()} WhatToEatNext. All rights reserved.
+You're receiving this email because you signed up for alchm.kitchen.
+© ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+    `.trim();
+  }
+
+  /**
+   * Get HTML template for admin notification email
+   */
+  private getAdminNotificationTemplate(
+    userEmail: string,
+    userName: string,
+    dominantElement?: string,
+  ): string {
+    const elementEmojis: Record<string, string> = {
+      Fire: "🔥",
+      Water: "💧",
+      Earth: "🌍",
+      Air: "💨",
+    };
+
+    const elementIcon = dominantElement
+      ? elementEmojis[dominantElement] || "✨"
+      : "✨";
+
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New User Signup - alchm.kitchen</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f9fafb;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); border-radius: 16px 16px 0 0; padding: 40px 30px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 32px; font-weight: bold;">
+        New User Signup ${elementIcon}
+      </h1>
+      <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0; font-size: 18px;">
+        alchm.kitchen Admin Notification
+      </p>
+    </div>
+
+    <!-- Main Content -->
+    <div style="background: white; padding: 40px 30px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+        A new user has completed onboarding on alchm.kitchen:
+      </p>
+
+      <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
+          <strong>Name:</strong> ${userName}
+        </p>
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
+          <strong>Email:</strong> ${userEmail}
+        </p>
+        ${dominantElement ? `
+        <p style="color: #1f2937; font-size: 16px; margin: 0;">
+          <strong>Dominant Element:</strong> ${elementIcon} ${dominantElement}
+        </p>
+        ` : ""}
+      </div>
+
+      <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 30px 0 0 0;">
+        The user has been added to the system and their natal chart has been calculated.
+      </p>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/profile"
+           style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">
+          View User Profile
+        </a>
+      </div>
+
+      <p style="color: #6b7280; font-size: 14px; line-height: 1.6; margin: 30px 0 0 0;">
+        This is an automated notification from alchm.kitchen.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align: center; padding: 30px 20px 0 20px;">
+      <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+        © ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+    `.trim();
+  }
+
+  /**
+   * Get plain text version of admin notification email
+   */
+  private getAdminNotificationText(
+    userEmail: string,
+    userName: string,
+    dominantElement?: string,
+  ): string {
+    return `
+New User Signup - alchm.kitchen
+
+A new user has completed onboarding on alchm.kitchen:
+
+Name: ${userName}
+Email: ${userEmail}
+${dominantElement ? `Dominant Element: ${dominantElement}\n` : ""}
+
+The user has been added to the system and their natal chart has been calculated.
+
+View User Profile: ${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/profile
+
+This is an automated notification from alchm.kitchen.
+
+© ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
     `.trim();
   }
 
