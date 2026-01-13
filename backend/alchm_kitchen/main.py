@@ -211,15 +211,18 @@ def calculate_planetary_positions_swisseph(
 
         for planet_name, planet_id in planets.items():
             try:
-                # Calculate position
-                # swe.calc_ut returns (longitude, latitude, distance, longitude_speed, latitude_speed, distance_speed)
+                # Calculate position with speed
+                # swe.calc_ut returns ((longitude, latitude, distance, longitude_speed, ...), flags)
+                # FLG_SPEED is required to get velocity data
                 if zodiac_system.lower() == "sidereal":
-                    result = swe.calc_ut(julian_day, planet_id, swe.FLG_SIDEREAL)
+                    result = swe.calc_ut(julian_day, planet_id, swe.FLG_SIDEREAL | swe.FLG_SPEED)
                 else:
-                    result = swe.calc_ut(julian_day, planet_id, swe.FLG_SWIEPH)
+                    result = swe.calc_ut(julian_day, planet_id, swe.FLG_SWIEPH | swe.FLG_SPEED)
 
-                longitude = result[0]
-                longitude_speed = result[3]
+                # Extract values correctly - result is ((positions...), flags)
+                positions_array = result[0]
+                longitude = positions_array[0]
+                longitude_speed = positions_array[3]
 
                 # Normalize longitude to 0-360
                 longitude = longitude % 360
@@ -233,13 +236,22 @@ def calculate_planetary_positions_swisseph(
                 # Check retrograde (negative speed means retrograde)
                 is_retrograde = longitude_speed < 0
 
+                # Convert speed to arcminutes/day for more meaningful tracking
+                arcminutes_per_day = longitude_speed * 60  # degrees/day * 60 = arcminutes/day
+
+                # Generate retrograde symbol
+                retrograde_symbol = "℞" if is_retrograde else ""
+
                 positions[planet_name] = {
                     "sign": zodiac_signs[sign_index],
                     "degree": degree,
                     "minute": minute_in_sign,
                     "exactLongitude": longitude,
                     "isRetrograde": is_retrograde,
-                    "longitudeSpeed": longitude_speed
+                    "retrogradeSymbol": retrograde_symbol,
+                    "longitudeSpeed": longitude_speed,  # degrees/day
+                    "arcminutesPerDay": round(arcminutes_per_day, 2),  # arcminutes/day (more granular)
+                    "speedDisplay": f"{arcminutes_per_day:+.1f}'/day" if abs(arcminutes_per_day) < 60 else f"{longitude_speed:+.2f}°/day"
                 }
             except Exception as planet_error:
                 print(f"Error calculating {planet_name}: {planet_error}")
@@ -248,11 +260,16 @@ def calculate_planetary_positions_swisseph(
         # Add North and South Nodes
         try:
             if zodiac_system.lower() == "sidereal":
-                node_result = swe.calc_ut(julian_day, swe.MEAN_NODE, swe.FLG_SIDEREAL)
+                node_result = swe.calc_ut(julian_day, swe.MEAN_NODE, swe.FLG_SIDEREAL | swe.FLG_SPEED)
             else:
-                node_result = swe.calc_ut(julian_day, swe.MEAN_NODE, swe.FLG_SWIEPH)
+                node_result = swe.calc_ut(julian_day, swe.MEAN_NODE, swe.FLG_SWIEPH | swe.FLG_SPEED)
 
-            north_node_longitude = node_result[0] % 360
+            # Extract correctly - result is ((positions...), flags)
+            node_positions_array = node_result[0]
+            north_node_longitude = node_positions_array[0] % 360
+            node_speed = node_positions_array[3]
+            node_arcminutes_per_day = node_speed * 60
+
             sign_index = int(north_node_longitude / 30)
             degree_in_sign = north_node_longitude % 30
 
@@ -261,7 +278,11 @@ def calculate_planetary_positions_swisseph(
                 "degree": int(degree_in_sign),
                 "minute": int((degree_in_sign - int(degree_in_sign)) * 60),
                 "exactLongitude": north_node_longitude,
-                "isRetrograde": True  # North Node is always retrograde
+                "isRetrograde": True,  # North Node is always retrograde (mean node)
+                "retrogradeSymbol": "℞",
+                "longitudeSpeed": node_speed,
+                "arcminutesPerDay": round(node_arcminutes_per_day, 2),
+                "speedDisplay": f"{node_arcminutes_per_day:+.1f}'/day"
             }
 
             # South Node is always 180 degrees opposite
@@ -274,7 +295,11 @@ def calculate_planetary_positions_swisseph(
                 "degree": int(degree_in_sign),
                 "minute": int((degree_in_sign - int(degree_in_sign)) * 60),
                 "exactLongitude": south_node_longitude,
-                "isRetrograde": True  # South Node is always retrograde
+                "isRetrograde": True,  # South Node is always retrograde (mean node)
+                "retrogradeSymbol": "℞",
+                "longitudeSpeed": node_speed,
+                "arcminutesPerDay": round(node_arcminutes_per_day, 2),
+                "speedDisplay": f"{node_arcminutes_per_day:+.1f}'/day"
             }
         except Exception as node_error:
             print(f"Error calculating nodes: {node_error}")
