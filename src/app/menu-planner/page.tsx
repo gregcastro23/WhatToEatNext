@@ -277,7 +277,7 @@ function MenuPlannerContent() {
         {/* Footer Info */}
         <div className="mt-12 text-center text-sm text-gray-500">
           <p className="mb-2">
-            ⚡ Powered by alchemical circuit optimization (P=IV model) and real-time planetary calculations
+            Powered by alchemical harmony and real-time planetary calculations
           </p>
           <p>
             Drag recipes between slots • Copy/move meals • Generate planetary-aligned suggestions

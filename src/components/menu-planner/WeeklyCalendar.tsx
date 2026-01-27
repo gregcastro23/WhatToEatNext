@@ -12,7 +12,7 @@
 import React, { useMemo, useState } from "react";
 import MealSlot from "./MealSlot";
 import CopyMealModal from "./CopyMealModal";
-import CircuitMetricsPanel from "./CircuitMetricsPanel";
+
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type {
@@ -335,7 +335,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
                   Great start! {totalMeals} meal{totalMeals === 1 ? "" : "s"} planned
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Add {6 - totalMeals} more to unlock circuit optimization insights
+                  Keep adding meals to build your ideal week
                 </p>
               </div>
             </div>
@@ -357,9 +357,6 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
           </div>
         </div>
       )}
-
-      {/* Circuit Metrics Panel */}
-      <CircuitMetricsPanel />
 
       {/* Calendar Grid - Desktop (7 columns) */}
       <div className="hidden lg:grid lg:grid-cols-7 gap-3">
