@@ -14,6 +14,8 @@ import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import GroceryListModal from "@/components/menu-planner/GroceryListModal";
 import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard";
+import { InlineNutritionDashboard, WeeklyNutritionDashboard as WeeklyNutritionDashboardModal } from "@/components/nutrition";
+import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { MenuPlannerProvider, useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { RecipeQueueProvider, useRecipeQueue } from "@/contexts/RecipeQueueContext";
 
@@ -33,12 +35,16 @@ function MenuPlannerContent() {
 
   const { queueSize } = useRecipeQueue();
 
+  // Real-time nutrition tracking - recalculates whenever menu changes
+  const weeklyNutrition = useNutritionTracking(currentMenu);
+
   const [showGroceryList, setShowGroceryList] = useState(false);
   const [showNutritionDashboard, setShowNutritionDashboard] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [showSaveTemplate, setShowSaveTemplate] = useState(false);
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
+  const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
 
   const handleSaveTemplate = async () => {
     if (!templateName.trim()) {
@@ -137,6 +143,13 @@ function MenuPlannerContent() {
           </div>
         </div>
 
+        {/* Inline Nutrition Dashboard - real-time updates */}
+        {weeklyNutrition && (
+          <div className="mb-6">
+            <InlineNutritionDashboard weeklyResult={weeklyNutrition} />
+          </div>
+        )}
+
         {/* Main Content - Calendar and Queue */}
         <div className="flex gap-6">
           {/* Calendar */}
@@ -164,11 +177,20 @@ function MenuPlannerContent() {
           onClose={() => setShowGroceryList(false)}
         />
 
-        {/* Nutritional Dashboard (Phase 3) */}
+        {/* Nutritional Dashboard - Alchemical Metrics (Phase 3) */}
         <NutritionalDashboard
           isOpen={showNutritionDashboard}
           onClose={() => setShowNutritionDashboard(false)}
         />
+
+        {/* Detailed Weekly Nutrition Dashboard Modal */}
+        {weeklyNutrition && (
+          <WeeklyNutritionDashboardModal
+            weeklyResult={weeklyNutrition}
+            isOpen={showDetailedNutrition}
+            onClose={() => setShowDetailedNutrition(false)}
+          />
+        )}
 
         {/* Statistics Modal */}
         {showStats && weeklyStats && (
