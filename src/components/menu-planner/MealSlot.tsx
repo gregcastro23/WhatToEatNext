@@ -12,7 +12,7 @@
 
 import React, { useState } from "react";
 import RecipeSelector from "./RecipeSelector";
-import MealCircuitBadge from "./MealCircuitBadge";
+
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
 import { getMealTypeCharacteristics } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
@@ -403,7 +403,6 @@ export default function MealSlot({
             {mealSlot.mealType}
           </span>
         </div>
-        {hasRecipe && <MealCircuitBadge mealSlotId={mealSlot.id} compact={true} />}
       </div>
 
       {/* Content */}
