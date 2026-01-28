@@ -21,6 +21,7 @@ import {
 } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import type { DragState } from "@/hooks/useDragAndDrop";
+import PlanetaryHourIndicator from "./PlanetaryHourIndicator";
 
 interface DayCardProps {
   dayOfWeek: DayOfWeek;
@@ -177,9 +178,7 @@ export default function DayCard({
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-lg" title={characteristics.planet}>
-              {PLANET_SYMBOLS[characteristics.planet] || ""}
-            </span>
+            <PlanetaryHourIndicator date={date} position="tooltip" />
             <div>
               <h3 className="font-semibold text-sm text-gray-800">
                 {getDayName(dayOfWeek)}
@@ -208,7 +207,13 @@ export default function DayCard({
       {/* Meal Slots */}
       <div className="flex-1 p-2 space-y-2">
         {sortedMeals.map((mealSlot) => (
-          <div key={mealSlot.id}>
+          <div
+            key={mealSlot.id}
+            role="region"
+            aria-label={`${mealSlot.mealType} slot`}
+            tabIndex={0}
+            className="focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 rounded-lg"
+          >
             {renderMealSlot(mealSlot)}
           </div>
         ))}

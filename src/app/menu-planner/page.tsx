@@ -15,8 +15,11 @@ import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import GroceryListModal from "@/components/menu-planner/GroceryListModal";
 import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
+import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
+import WeekProgress from "@/components/menu-builder/WeekProgress";
 import { InlineNutritionDashboard, WeeklyNutritionDashboard as WeeklyNutritionDashboardModal } from "@/components/nutrition";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
+import { useToast, Toast } from "@/components/common/Toast";
 import { MenuPlannerProvider, useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { RecipeQueueProvider, useRecipeQueue } from "@/contexts/RecipeQueueContext";
 
@@ -46,6 +49,10 @@ function MenuPlannerContent() {
   const [showSaveTemplate, setShowSaveTemplate] = useState(false);
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
   const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
+
+  const { toast, showSuccess, showError, showInfo } = useToast();
 
   const handleSaveTemplate = async () => {
     if (!templateName.trim()) {
@@ -55,11 +62,11 @@ function MenuPlannerContent() {
 
     try {
       await saveAsTemplate(templateName);
-      alert(`Template "${templateName}" saved successfully!`);
+      showSuccess(`Template "${templateName}" saved!`);
       setTemplateName("");
       setShowSaveTemplate(false);
     } catch (err) {
-      alert("Failed to save template");
+      showError("Failed to save template");
       console.error(err);
     }
   };
@@ -132,29 +139,70 @@ function MenuPlannerContent() {
           </div>
         </div>
 
-        {/* Inline Nutrition Dashboard - real-time updates */}
-        {weeklyNutrition && (
-          <div className="mb-6">
-            <InlineNutritionDashboard weeklyResult={weeklyNutrition} />
+        {/* Week Progress + Inline Nutrition */}
+        <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-1">
+            <WeekProgress
+              weekPlan={currentMenu}
+              weeklyNutrition={weeklyNutrition}
+            />
           </div>
-        )}
+          <div className="lg:col-span-2">
+            {weeklyNutrition && (
+              <InlineNutritionDashboard weeklyResult={weeklyNutrition} />
+            )}
+          </div>
+        </div>
 
-        {/* Main Content - Calendar and Queue */}
+        {/* Main Content - Calendar, Queue, and Smart Suggestions */}
         <div className="flex gap-6">
           {/* Calendar */}
-          <div className={`${showRecipeQueue ? "flex-1" : "w-full"}`}>
+          <div className={`min-w-0 ${showRecipeQueue ? "flex-1" : "flex-1"}`}>
             <WeeklyCalendar />
           </div>
 
           {/* Recipe Queue Sidebar */}
           {showRecipeQueue && (
-            <div className="w-96">
+            <div className="hidden md:block w-96 flex-shrink-0">
               <RecipeQueue
                 onSelectRecipe={(queuedRecipe) => {
-                  // Future enhancement: Add drag-to-slot or click-to-select UI
                   console.log("Selected from queue:", queuedRecipe.recipe.name);
-                  alert("Drag recipes from the queue to meal slots on the calendar!");
+                  showInfo("Drag recipes from the queue to meal slots on the calendar!");
                 }}
+              />
+            </div>
+          )}
+
+          {/* Smart Suggestions Sidebar - desktop only */}
+          <div className="hidden lg:block relative flex-shrink-0">
+            <SmartSuggestionsSidebar
+              weekPlan={currentMenu}
+              weeklyNutrition={weeklyNutrition}
+              isCollapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+            />
+          </div>
+        </div>
+
+        {/* Mobile: Suggestions Bottom Sheet */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+          <button
+            onClick={() => setShowMobileSuggestions(!showMobileSuggestions)}
+            className="w-full flex items-center justify-between px-4 py-3 focus:outline-none"
+          >
+            <span className="font-semibold text-gray-800 text-sm">
+              Smart Suggestions
+            </span>
+            <span className="text-gray-500">
+              {showMobileSuggestions ? "▼" : "▲"}
+            </span>
+          </button>
+          {showMobileSuggestions && (
+            <div className="px-4 pb-4 max-h-64 overflow-y-auto animate-fade-in">
+              <SmartSuggestionsSidebar
+                weekPlan={currentMenu}
+                weeklyNutrition={weeklyNutrition}
+                isCollapsed={false}
               />
             </div>
           )}
@@ -286,7 +334,7 @@ function MenuPlannerContent() {
         )}
 
         {/* Footer Info */}
-        <div className="mt-12 text-center text-sm text-gray-500">
+        <div className="mt-12 mb-16 lg:mb-0 text-center text-sm text-gray-500">
           <p className="mb-2">
             Powered by alchemical harmony and real-time planetary calculations
           </p>
@@ -295,6 +343,9 @@ function MenuPlannerContent() {
           </p>
         </div>
       </div>
+
+      {/* Toast Notifications */}
+      {toast}
     </div>
   );
 }
