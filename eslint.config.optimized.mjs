@@ -37,7 +37,7 @@ export default [
           jsx: true,
         },
         project: "./tsconfig.json",
-        tsconfigRootDir: ".",
+        tsconfigRootDir: import.meta.dirname,
       },
 
       globals: {
