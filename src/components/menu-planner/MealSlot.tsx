@@ -12,10 +12,13 @@
 
 import React, { useState } from "react";
 import RecipeSelector from "./RecipeSelector";
+import RecipeNutritionQuickView from "@/components/nutrition/RecipeNutritionQuickView";
+import RecipeNutritionModal from "@/components/nutrition/RecipeNutritionModal";
 
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
 import { getMealTypeCharacteristics } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
+import type { WeeklyNutritionResult } from "@/types/nutrition";
 
 interface MealSlotProps {
   mealSlot: MealSlotType;
@@ -28,6 +31,7 @@ interface MealSlotProps {
   isDragging?: boolean;
   onDragStart?: () => void;
   onDragEnd?: () => void;
+  weeklyNutrition?: WeeklyNutritionResult | null;
 }
 
 /**
@@ -119,6 +123,7 @@ function RecipeDisplay({
   onRemove,
   onUpdateServings,
   onCopyMeal,
+  weeklyNutrition,
 }: {
   recipe: Recipe;
   servings: number;
@@ -126,8 +131,10 @@ function RecipeDisplay({
   onRemove?: () => void;
   onUpdateServings?: (servings: number) => void;
   onCopyMeal?: () => void;
+  weeklyNutrition?: WeeklyNutritionResult | null;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showNutritionModal, setShowNutritionModal] = useState(false);
   const colors = getMealTypeColors(mealType);
 
   return (
@@ -189,13 +196,26 @@ function RecipeDisplay({
             <span>{recipe.prepTime}</span>
           </div>
         )}
-        {recipe.nutrition?.calories && (
-          <div className="flex items-center gap-1">
-            <span>🔥</span>
-            <span>{recipe.nutrition.calories * servings} cal</span>
-          </div>
-        )}
       </div>
+
+      {/* Nutrition Quick View */}
+      <div className="mb-2">
+        <RecipeNutritionQuickView
+          recipe={recipe}
+          servings={servings}
+          compact
+          onShowDetails={() => setShowNutritionModal(true)}
+        />
+      </div>
+
+      {/* Nutrition Details Modal */}
+      <RecipeNutritionModal
+        recipe={recipe}
+        servings={servings}
+        isOpen={showNutritionModal}
+        onClose={() => setShowNutritionModal(false)}
+        weeklyResult={weeklyNutrition}
+      />
 
       {/* Elemental Properties */}
       {recipe.elementalProperties && (
@@ -283,6 +303,7 @@ export default function MealSlot({
   isDragging = false,
   onDragStart,
   onDragEnd,
+  weeklyNutrition,
 }: MealSlotProps) {
   const [showRecipeSelector, setShowRecipeSelector] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -414,6 +435,7 @@ export default function MealSlot({
           onRemove={onRemoveRecipe}
           onUpdateServings={onUpdateServings}
           onCopyMeal={onCopyMeal}
+          weeklyNutrition={weeklyNutrition}
         />
       ) : (
         <EmptyMealSlot
