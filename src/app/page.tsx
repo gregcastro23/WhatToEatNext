@@ -8,9 +8,7 @@
 
 import Link from "next/link";
 import React from "react";
-import { PlanetaryStatusBar } from "@/components/home/PlanetaryStatusBar";
 import { HeroSection } from "@/components/home/HeroSection";
-import DynamicCuisineRecommender from "@/components/home/DynamicCuisineRecommender";
 import CuisinePreview from "@/components/home/CuisinePreview";
 import CookingMethodPreview from "@/components/home/CookingMethodPreview";
 import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
@@ -36,12 +34,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 via-pink-50 to-blue-50">
-      {/* Planetary Status Bar - Top of page */}
-      <PlanetaryStatusBar
-        currentPlanet={planetaryPlanet}
-        loading={planetaryLoading}
-      />
-
       {/* Hero Section - Alchm.kitchen Introduction */}
       <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
         <HeroSection
@@ -143,21 +135,16 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Dynamic Cuisine Recommender - NEW */}
-        <div id="cuisines" className="mb-10" role="region" aria-labelledby="dynamic-cuisine-heading">
-          <DynamicCuisineRecommender />
-        </div>
-
-        {/* Detailed Cuisine Recommendations (with recipes/sauces) */}
+        {/* Cuisine Recommendations with nested recipes */}
         <div className="space-y-8 md:space-y-10">
-          <div className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-purple-200 hover:border-purple-300 transition-all duration-300" role="region" aria-labelledby="cuisine-heading">
+          <div id="cuisines" className="alchm-card rounded-2xl shadow-2xl overflow-hidden border-2 border-purple-200 hover:border-purple-300 transition-all duration-300" role="region" aria-labelledby="cuisine-heading">
             <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white p-6 md:p-8">
               <div className="text-center">
                 <h2 id="cuisine-heading" className="text-3xl md:text-4xl font-bold mb-3">
-                  Detailed Cuisine Recommendations
+                  Explore Cuisines
                 </h2>
                 <p className="text-purple-100 text-base md:text-lg">
-                  Explore cuisines with nested recipes and sauces aligned with celestial energies
+                  Discover recipes organized by global cuisines, dynamically scored for right now
                 </p>
               </div>
             </div>
