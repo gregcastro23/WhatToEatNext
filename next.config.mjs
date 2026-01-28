@@ -13,7 +13,14 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Explicit webpack configuration to ensure path alias resolution
+  // Turbopack configuration (Next.js 16 default bundler)
+  turbopack: {
+    root: __dirname,
+    resolveAlias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+  // Webpack fallback configuration for path alias resolution
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
