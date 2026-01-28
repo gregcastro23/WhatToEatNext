@@ -14,6 +14,7 @@ import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import GroceryListModal from "@/components/menu-planner/GroceryListModal";
 import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard";
+import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import { InlineNutritionDashboard, WeeklyNutritionDashboard as WeeklyNutritionDashboardModal } from "@/components/nutrition";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { MenuPlannerProvider, useMenuPlanner } from "@/contexts/MenuPlannerContext";
@@ -85,8 +86,11 @@ function MenuPlannerContent() {
             </Link>
           </div>
 
-          {/* Quick Actions Bar */}
-          <div className="bg-white rounded-xl shadow-md p-4">
+          {/* Quick Actions Toolbar - Generate, Balance, Variety, Clear */}
+          <QuickActionsToolbar />
+
+          {/* Tools Bar */}
+          <div className="bg-white rounded-xl shadow-md p-4 mt-3">
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => setShowRecipeQueue(!showRecipeQueue)}
@@ -123,21 +127,6 @@ function MenuPlannerContent() {
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:shadow-lg transition-all font-medium"
               >
                 💾 Save as Template
-              </button>
-
-              <button
-                onClick={() => {
-                  if (
-                    confirm(
-                      "Are you sure you want to clear the entire week? This cannot be undone.",
-                    )
-                  ) {
-                    clearWeek();
-                  }
-                }}
-                className="px-4 py-2 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors font-medium"
-              >
-                🗑️ Clear Week
               </button>
             </div>
           </div>
