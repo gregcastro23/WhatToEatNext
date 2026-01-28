@@ -15,6 +15,7 @@ import type { Recipe } from "@/types/recipe";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { createLogger } from "@/utils/logger";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const logger = createLogger("QuickActionsToolbar");
 
@@ -337,64 +338,84 @@ export default function QuickActionsToolbar() {
 
   const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
 
+  const isAnyLoading = isGenerating || isBalancing || isDiversifying;
+  const loadingMessage = isGenerating
+    ? "Generating full week..."
+    : isBalancing
+      ? "Balancing nutrition..."
+      : isDiversifying
+        ? "Diversifying recipes..."
+        : "";
+
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
-      <div className="flex items-center gap-2 mb-3">
-        <span className="text-sm font-semibold text-gray-700">Quick Actions</span>
-        {totalMeals > 0 && (
-          <span className="text-xs text-gray-500">
-            ({totalMeals}/21 meals planned)
-          </span>
-        )}
+    <>
+      {/* Loading Overlay */}
+      {isAnyLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 shadow-xl animate-fade-in">
+            <LoadingSpinner size="lg" message={loadingMessage} />
+          </div>
+        </div>
+      )}
+
+      <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-sm font-semibold text-gray-700">Quick Actions</span>
+          {totalMeals > 0 && (
+            <span className="text-xs text-gray-500">
+              ({totalMeals}/21 meals planned)
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={handleGenerateFullWeek}
+            disabled={isGenerating}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg hover:from-amber-700 hover:to-amber-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+          >
+            <span>✨</span>
+            {isGenerating ? "Generating..." : "Generate Full Week"}
+          </button>
+
+          <button
+            onClick={handleBalanceNutrition}
+            disabled={isBalancing || totalMeals < 3}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            title={totalMeals < 3 ? "Add at least 3 meals first" : "Swap recipes to fix nutritional gaps"}
+          >
+            <span>⚖️</span>
+            {isBalancing ? "Balancing..." : "Balance Nutrition"}
+          </button>
+
+          <button
+            onClick={handleMaximizeVariety}
+            disabled={isDiversifying || totalMeals < 3}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+            title={totalMeals < 3 ? "Add at least 3 meals first" : "Replace repetitive recipes"}
+          >
+            <span>🌈</span>
+            {isDiversifying ? "Diversifying..." : "Maximize Variety"}
+          </button>
+
+          <button
+            onClick={() => {
+              if (
+                confirm(
+                  "Clear entire week? This cannot be undone."
+                )
+              ) {
+                clearWeek();
+              }
+            }}
+            disabled={totalMeals === 0}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+          >
+            <span>🗑️</span>
+            Clear Week
+          </button>
+        </div>
       </div>
-
-      <div className="flex flex-wrap gap-3">
-        <button
-          onClick={handleGenerateFullWeek}
-          disabled={isGenerating}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg hover:from-amber-700 hover:to-amber-800 disabled:opacity-50 transition-all font-medium text-sm"
-        >
-          <span>✨</span>
-          {isGenerating ? "Generating..." : "Generate Full Week"}
-        </button>
-
-        <button
-          onClick={handleBalanceNutrition}
-          disabled={isBalancing || totalMeals < 3}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:opacity-50 transition-all font-medium text-sm"
-          title={totalMeals < 3 ? "Add at least 3 meals first" : "Swap recipes to fix nutritional gaps"}
-        >
-          <span>⚖️</span>
-          {isBalancing ? "Balancing..." : "Balance Nutrition"}
-        </button>
-
-        <button
-          onClick={handleMaximizeVariety}
-          disabled={isDiversifying || totalMeals < 3}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 disabled:opacity-50 transition-all font-medium text-sm"
-          title={totalMeals < 3 ? "Add at least 3 meals first" : "Replace repetitive recipes"}
-        >
-          <span>🌈</span>
-          {isDiversifying ? "Diversifying..." : "Maximize Variety"}
-        </button>
-
-        <button
-          onClick={() => {
-            if (
-              confirm(
-                "Clear entire week? This cannot be undone."
-              )
-            ) {
-              clearWeek();
-            }
-          }}
-          disabled={totalMeals === 0}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-all font-medium text-sm"
-        >
-          <span>🗑️</span>
-          Clear Week
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
