@@ -23,6 +23,20 @@ const PLANET_FLAVOR_NOTES: Record<string, string> = {
   Saturn: "Traditional, slow-cooked, grounding meals",
 };
 
+const MOON_PHASES = [
+  "New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous",
+  "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent",
+];
+
+function getMoonPhase(): string {
+  // Approximate moon phase from a known new moon date
+  const knownNewMoon = new Date(2024, 0, 11).getTime(); // Jan 11 2024
+  const synodicMonth = 29.53059;
+  const daysSince = (Date.now() - knownNewMoon) / (1000 * 60 * 60 * 24);
+  const phase = ((daysSince % synodicMonth) / synodicMonth) * 8;
+  return MOON_PHASES[Math.floor(phase) % 8];
+}
+
 interface PlanetaryStatusBarProps {
   currentPlanet: Planet | null;
   loading: boolean;
@@ -39,6 +53,7 @@ export function PlanetaryStatusBar({
   const planetName = currentPlanet || "Sun";
   const icon = PLANET_ICONS[planetName] || "\u2609";
   const flavorNote = PLANET_FLAVOR_NOTES[planetName] || "";
+  const moonPhase = getMoonPhase();
 
   const formatTime = (date?: Date) => {
     if (!date) return "";
@@ -74,6 +89,9 @@ export function PlanetaryStatusBar({
         </div>
         <div className="text-indigo-200 text-xs sm:text-sm text-center">
           {flavorNote}
+        </div>
+        <div className="text-indigo-300 text-xs hidden md:flex items-center gap-2">
+          <span>{moonPhase}</span>
         </div>
       </div>
     </div>
