@@ -172,6 +172,9 @@ function DayColumn({
               swapMeals(sourceSlotId, mealSlot.id)
             }
             onCopyMeal={() => onCopyMealClick?.(mealSlot)}
+            onGenerateMeal={() =>
+              generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] })
+            }
           />
         ))}
       </div>

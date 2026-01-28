@@ -1,0 +1,400 @@
+"use client";
+
+/**
+ * Quick Actions Toolbar for Menu Builder
+ * Provides one-click actions for generating and optimizing weekly menus
+ *
+ * @file src/components/menu-builder/QuickActionsToolbar.tsx
+ * @created 2026-01-28
+ */
+
+import React, { useState } from "react";
+import type { DayOfWeek, MealType } from "@/types/menuPlanner";
+import type { Recipe } from "@/types/recipe";
+
+import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("QuickActionsToolbar");
+
+/**
+ * Check if a recipe is suitable for a given meal type
+ */
+function isSuitableForMealType(recipe: Recipe, mealType: MealType): boolean {
+  // Check explicit mealType field
+  if (recipe.mealType) {
+    const recipeMealTypes = Array.isArray(recipe.mealType)
+      ? recipe.mealType
+      : [recipe.mealType];
+    const normalized = recipeMealTypes.map((t) => t.toLowerCase());
+    if (normalized.includes(mealType)) return true;
+  }
+
+  // Check tags for meal type hints
+  const tags = (recipe.tags || []).map((t) => t.toLowerCase());
+  const name = (recipe.name || "").toLowerCase();
+
+  if (mealType === "breakfast") {
+    const breakfastKeywords = [
+      "egg", "oat", "pancake", "waffle", "smoothie", "cereal",
+      "toast", "breakfast", "muffin", "granola", "yogurt",
+    ];
+    return breakfastKeywords.some((k) => name.includes(k) || tags.some((t) => t.includes(k)));
+  }
+
+  if (mealType === "lunch") {
+    const lunchKeywords = [
+      "sandwich", "salad", "soup", "wrap", "bowl", "lunch",
+    ];
+    return lunchKeywords.some((k) => name.includes(k) || tags.some((t) => t.includes(k)));
+  }
+
+  if (mealType === "dinner") {
+    const dinnerKeywords = [
+      "pasta", "steak", "roast", "stir-fry", "curry", "stew",
+      "dinner", "casserole", "grill", "bake",
+    ];
+    return dinnerKeywords.some((k) => name.includes(k) || tags.some((t) => t.includes(k)));
+  }
+
+  return true; // snacks - anything works
+}
+
+/**
+ * Score a recipe for nutritional gap-filling potential
+ */
+function calculateNutritionScore(recipe: Recipe): number {
+  let score = 0;
+  const nutrition = recipe.nutrition;
+  if (!nutrition) return 50; // neutral score if no nutrition data
+
+  if (nutrition.protein && nutrition.protein > 15) score += 20;
+  if (nutrition.fiber && nutrition.fiber > 5) score += 15;
+  if (nutrition.calories && nutrition.calories > 200 && nutrition.calories < 800) score += 15;
+
+  return Math.min(100, score + 50);
+}
+
+export default function QuickActionsToolbar() {
+  const {
+    currentMenu,
+    addMealToSlot,
+    clearWeek,
+    generateMealsForDay,
+  } = useMenuPlanner();
+
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isBalancing, setIsBalancing] = useState(false);
+  const [isDiversifying, setIsDiversifying] = useState(false);
+
+  /**
+   * Generate Full Week - fills all empty meal slots
+   */
+  const handleGenerateFullWeek = async () => {
+    if (!currentMenu) return;
+    setIsGenerating(true);
+
+    try {
+      // Generate meals for each day
+      for (let day = 0; day < 7; day++) {
+        await generateMealsForDay(day as DayOfWeek, {
+          mealTypes: ["breakfast", "lunch", "dinner"],
+          useCurrentPlanetary: true,
+        });
+      }
+
+      // If generateMealsForDay didn't fill slots (recipe DB not connected),
+      // try using UnifiedRecipeService as fallback
+      const filledCount = currentMenu.meals.filter((m) => m.recipe).length;
+      if (filledCount === 0) {
+        await fillWithRecipeService();
+      }
+
+      logger.info("Generated full week menu");
+    } catch (err) {
+      logger.error("Failed to generate full week:", err);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  /**
+   * Fallback: fill slots using UnifiedRecipeService
+   */
+  const fillWithRecipeService = async () => {
+    if (!currentMenu) return;
+
+    try {
+      const service = UnifiedRecipeService.getInstance();
+      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+
+      if (!allRecipes || allRecipes.length === 0) {
+        logger.info("No recipes available from UnifiedRecipeService");
+        return;
+      }
+
+      const usedRecipeIds = new Set<string>();
+      const mealTypes: MealType[] = ["breakfast", "lunch", "dinner"];
+
+      for (let day = 0; day < 7; day++) {
+        for (const mealType of mealTypes) {
+          // Check if slot already has a recipe
+          const existingSlot = currentMenu.meals.find(
+            (m) => m.dayOfWeek === day && m.mealType === mealType && m.recipe
+          );
+          if (existingSlot) continue;
+
+          // Find suitable recipe not yet used
+          const suitable = allRecipes.filter(
+            (r) =>
+              !usedRecipeIds.has(r.id) &&
+              isSuitableForMealType(r, mealType)
+          );
+
+          // If no meal-type-specific match, use any unused recipe
+          const candidates = suitable.length > 0 ? suitable : allRecipes.filter(
+            (r) => !usedRecipeIds.has(r.id)
+          );
+
+          if (candidates.length > 0) {
+            // Sort by nutrition score
+            const scored = candidates
+              .map((r) => ({ recipe: r, score: calculateNutritionScore(r) }))
+              .sort((a, b) => b.score - a.score);
+
+            const best = scored[0].recipe;
+            await addMealToSlot(day as DayOfWeek, mealType, best);
+            usedRecipeIds.add(best.id);
+          }
+        }
+      }
+    } catch (err) {
+      logger.error("Failed to fill with recipe service:", err);
+    }
+  };
+
+  /**
+   * Balance Nutrition - swap low-scoring recipes with better alternatives
+   */
+  const handleBalanceNutrition = async () => {
+    if (!currentMenu) return;
+    setIsBalancing(true);
+
+    try {
+      const service = UnifiedRecipeService.getInstance();
+      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+
+      if (!allRecipes || allRecipes.length === 0) {
+        logger.info("No recipes available for balancing");
+        setIsBalancing(false);
+        return;
+      }
+
+      // Find meals with lowest nutrition scores
+      const filledMeals = currentMenu.meals
+        .filter((m) => m.recipe)
+        .map((m) => ({
+          slot: m,
+          score: calculateNutritionScore(m.recipe!),
+        }))
+        .sort((a, b) => a.score - b.score);
+
+      // Replace bottom 3-5 with higher scoring alternatives
+      const usedIds = new Set(
+        currentMenu.meals
+          .filter((m) => m.recipe)
+          .map((m) => m.recipe!.id)
+      );
+
+      const swapCount = Math.min(5, Math.floor(filledMeals.length / 2));
+
+      for (let i = 0; i < swapCount; i++) {
+        const meal = filledMeals[i];
+        if (!meal) break;
+
+        const betterRecipes = allRecipes
+          .filter(
+            (r) =>
+              !usedIds.has(r.id) &&
+              isSuitableForMealType(r, meal.slot.mealType) &&
+              calculateNutritionScore(r) > meal.score
+          )
+          .sort((a, b) => calculateNutritionScore(b) - calculateNutritionScore(a));
+
+        if (betterRecipes.length > 0) {
+          const replacement = betterRecipes[0];
+          usedIds.delete(meal.slot.recipe!.id);
+          usedIds.add(replacement.id);
+          await addMealToSlot(
+            meal.slot.dayOfWeek,
+            meal.slot.mealType,
+            replacement
+          );
+        }
+      }
+
+      logger.info(`Balanced nutrition - swapped up to ${swapCount} recipes`);
+    } catch (err) {
+      logger.error("Failed to balance nutrition:", err);
+    } finally {
+      setIsBalancing(false);
+    }
+  };
+
+  /**
+   * Maximize Variety - replace repeated ingredients with diverse alternatives
+   */
+  const handleMaximizeVariety = async () => {
+    if (!currentMenu) return;
+    setIsDiversifying(true);
+
+    try {
+      const service = UnifiedRecipeService.getInstance();
+      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+
+      if (!allRecipes || allRecipes.length === 0) {
+        setIsDiversifying(false);
+        return;
+      }
+
+      // Count ingredient frequency
+      const ingredientCounts = new Map<string, number>();
+      const recipeIngredients = new Map<string, Set<string>>();
+
+      currentMenu.meals
+        .filter((m) => m.recipe)
+        .forEach((m) => {
+          const recipeIngs = new Set<string>();
+          (m.recipe!.ingredients || []).forEach((ing) => {
+            const name = ing.name.toLowerCase();
+            ingredientCounts.set(name, (ingredientCounts.get(name) || 0) + 1);
+            recipeIngs.add(name);
+          });
+          recipeIngredients.set(m.recipe!.id, recipeIngs);
+        });
+
+      // Find meals using the most repeated ingredients
+      const filledMeals = currentMenu.meals
+        .filter((m) => m.recipe)
+        .map((m) => {
+          const ings = recipeIngredients.get(m.recipe!.id) || new Set();
+          const repetitionScore = Array.from(ings).reduce(
+            (sum, ing) => sum + (ingredientCounts.get(ing) || 0),
+            0
+          );
+          return { slot: m, repetitionScore };
+        })
+        .sort((a, b) => b.repetitionScore - a.repetitionScore);
+
+      const usedIds = new Set(
+        currentMenu.meals
+          .filter((m) => m.recipe)
+          .map((m) => m.recipe!.id)
+      );
+
+      // Replace top 3 most repetitive recipes
+      const swapCount = Math.min(3, Math.floor(filledMeals.length / 3));
+
+      for (let i = 0; i < swapCount; i++) {
+        const meal = filledMeals[i];
+        if (!meal) break;
+
+        // Find recipes with ingredients not currently in the menu
+        const currentIngs = new Set(ingredientCounts.keys());
+        const diverseRecipes = allRecipes
+          .filter((r) => !usedIds.has(r.id))
+          .map((r) => {
+            const recipeIngs = (r.ingredients || []).map((ing) =>
+              ing.name.toLowerCase()
+            );
+            const newIngCount = recipeIngs.filter(
+              (ing) => !currentIngs.has(ing)
+            ).length;
+            return { recipe: r, newIngCount };
+          })
+          .sort((a, b) => b.newIngCount - a.newIngCount);
+
+        if (diverseRecipes.length > 0 && diverseRecipes[0].newIngCount > 0) {
+          const replacement = diverseRecipes[0].recipe;
+          usedIds.delete(meal.slot.recipe!.id);
+          usedIds.add(replacement.id);
+          await addMealToSlot(
+            meal.slot.dayOfWeek,
+            meal.slot.mealType,
+            replacement
+          );
+        }
+      }
+
+      logger.info(`Diversified menu - swapped up to ${swapCount} recipes`);
+    } catch (err) {
+      logger.error("Failed to maximize variety:", err);
+    } finally {
+      setIsDiversifying(false);
+    }
+  };
+
+  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
+
+  return (
+    <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
+      <div className="flex items-center gap-2 mb-3">
+        <span className="text-sm font-semibold text-gray-700">Quick Actions</span>
+        {totalMeals > 0 && (
+          <span className="text-xs text-gray-500">
+            ({totalMeals}/21 meals planned)
+          </span>
+        )}
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        <button
+          onClick={handleGenerateFullWeek}
+          disabled={isGenerating}
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg hover:from-amber-700 hover:to-amber-800 disabled:opacity-50 transition-all font-medium text-sm"
+        >
+          <span>✨</span>
+          {isGenerating ? "Generating..." : "Generate Full Week"}
+        </button>
+
+        <button
+          onClick={handleBalanceNutrition}
+          disabled={isBalancing || totalMeals < 3}
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:opacity-50 transition-all font-medium text-sm"
+          title={totalMeals < 3 ? "Add at least 3 meals first" : "Swap recipes to fix nutritional gaps"}
+        >
+          <span>⚖️</span>
+          {isBalancing ? "Balancing..." : "Balance Nutrition"}
+        </button>
+
+        <button
+          onClick={handleMaximizeVariety}
+          disabled={isDiversifying || totalMeals < 3}
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 disabled:opacity-50 transition-all font-medium text-sm"
+          title={totalMeals < 3 ? "Add at least 3 meals first" : "Replace repetitive recipes"}
+        >
+          <span>🌈</span>
+          {isDiversifying ? "Diversifying..." : "Maximize Variety"}
+        </button>
+
+        <button
+          onClick={() => {
+            if (
+              confirm(
+                "Clear entire week? This cannot be undone."
+              )
+            ) {
+              clearWeek();
+            }
+          }}
+          disabled={totalMeals === 0}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-all font-medium text-sm"
+        >
+          <span>🗑️</span>
+          Clear Week
+        </button>
+      </div>
+    </div>
+  );
+}

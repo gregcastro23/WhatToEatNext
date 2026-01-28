@@ -28,7 +28,10 @@ interface MealSlotProps {
   onMoveMeal?: (targetSlotId: string) => void;
   onSwapMeals?: (targetSlotId: string) => void;
   onCopyMeal?: () => void;
+  onGenerateMeal?: () => void;
   isDragging?: boolean;
+  isDropTarget?: boolean;
+  isDropValid?: boolean;
   onDragStart?: () => void;
   onDragEnd?: () => void;
   weeklyNutrition?: WeeklyNutritionResult | null;
@@ -89,9 +92,11 @@ function getMealTypeColors(mealType: MealType): {
 function EmptyMealSlot({
   mealType,
   onClick,
+  onGenerate,
 }: {
   mealType: MealType;
   onClick: () => void;
+  onGenerate?: () => void;
 }) {
   const colors = getMealTypeColors(mealType);
   const characteristics = getMealTypeCharacteristics(mealType);
@@ -103,12 +108,23 @@ function EmptyMealSlot({
         Add {mealType}
       </p>
       <p className="text-xs text-gray-500 mb-2">{characteristics.guidance}</p>
-      <button
-        className={`px-3 py-1 text-xs rounded-lg border-2 ${colors.border} ${colors.bg} hover:shadow-md transition-all duration-200`}
-        onClick={onClick}
-      >
-        + Add Recipe
-      </button>
+      <div className="flex gap-2">
+        <button
+          className={`px-3 py-1 text-xs rounded-lg border-2 ${colors.border} ${colors.bg} hover:shadow-md transition-all duration-200`}
+          onClick={onClick}
+        >
+          + Add Recipe
+        </button>
+        {onGenerate && (
+          <button
+            className="px-3 py-1 text-xs rounded-lg border-2 border-amber-300 bg-gradient-to-r from-amber-50 to-yellow-50 text-amber-700 hover:shadow-md hover:border-amber-400 transition-all duration-200"
+            onClick={onGenerate}
+            title={`Auto-generate ${mealType} suggestion`}
+          >
+            ✨ Generate
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -300,7 +316,10 @@ export default function MealSlot({
   onMoveMeal,
   onSwapMeals,
   onCopyMeal,
+  onGenerateMeal,
   isDragging = false,
+  isDropTarget = false,
+  isDropValid = true,
   onDragStart,
   onDragEnd,
   weeklyNutrition,
@@ -406,7 +425,7 @@ export default function MealSlot({
         ${hasRecipe ? "hover:shadow-lg" : "hover:shadow-md"}
         transition-all duration-200
         ${isDragging ? "opacity-50 scale-95" : ""}
-        ${isDragOver ? "border-purple-500 scale-105 shadow-2xl" : ""}
+        ${isDragOver || isDropTarget ? (isDropValid ? "border-green-500 scale-[1.02] shadow-lg bg-green-50/30" : "border-red-400 bg-red-50/30") : ""}
         min-h-[200px] h-full
       `}
       draggable={hasRecipe}
@@ -441,6 +460,7 @@ export default function MealSlot({
         <EmptyMealSlot
           mealType={mealSlot.mealType}
           onClick={() => setShowRecipeSelector(true)}
+          onGenerate={onGenerateMeal}
         />
       )}
 
