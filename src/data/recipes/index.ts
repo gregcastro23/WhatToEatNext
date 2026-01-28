@@ -9,15 +9,18 @@ const flattenCuisineRecipes = (cuisines: any) => {
 
   // Iterate through all cuisines
   Object.values(cuisines).forEach((cuisine: any) => {
-    if (cuisine.dishes) {
+    if (cuisine && cuisine.dishes) {
       // Iterate through meal types
       Object.values(cuisine.dishes).forEach((mealType: unknown) => {
-        // Iterate through seasons
-        (Object.values as any)(mealType).forEach((recipes: unknown) => {
-          if (Array.isArray(recipes)) {
-            allRecipes.push(...recipes);
-          }
-        });
+        // Guard against null/undefined mealType before calling Object.values
+        if (mealType && typeof mealType === "object") {
+          // Iterate through seasons
+          (Object.values as any)(mealType).forEach((recipes: unknown) => {
+            if (Array.isArray(recipes)) {
+              allRecipes.push(...recipes);
+            }
+          });
+        }
       });
     }
   });
