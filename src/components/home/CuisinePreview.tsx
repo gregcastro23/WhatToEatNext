@@ -74,6 +74,13 @@ interface CuisineRecommendation {
   compatibility_reason: string;
 }
 
+function getTimeAgo(date: Date): string {
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (seconds < 60) return "just now";
+  if (seconds < 300) return `${Math.floor(seconds / 60)} minutes ago`;
+  return "recently";
+}
+
 export default function CuisinePreview() {
   const [cuisines, setCuisines] = useState<CuisineRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,8 +89,9 @@ export default function CuisinePreview() {
   const [expandedRecipes, setExpandedRecipes] = useState<Set<string>>(new Set());
   const [showElemental, setShowElemental] = useState(false);
   const [showAllCuisines, setShowAllCuisines] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  useEffect(() => {
+  const fetchRecommendations = React.useCallback(() => {
     fetch("/api/cuisines/recommend")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch cuisine recommendations");
@@ -91,6 +99,7 @@ export default function CuisinePreview() {
       })
       .then((data) => {
         setCuisines(data.cuisine_recommendations || []);
+        setLastUpdated(new Date());
         setLoading(false);
       })
       .catch((err) => {
@@ -98,6 +107,12 @@ export default function CuisinePreview() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    fetchRecommendations();
+    const interval = setInterval(fetchRecommendations, 15 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [fetchRecommendations]);
 
   const toggleCuisine = (cuisineId: string) => {
     setExpandedCuisines(prev => {
@@ -128,10 +143,10 @@ export default function CuisinePreview() {
       <div className="flex flex-col justify-center items-center py-12">
         <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mb-4" />
         <p className="text-lg font-medium text-gray-700">
-          Analyzing cosmic culinary influences...
+          Loading cuisine recommendations...
         </p>
         <p className="text-sm text-gray-500 mt-2">
-          Calculating astrological cuisine compatibility
+          Finding the best dishes for right now
         </p>
       </div>
     );
@@ -159,6 +174,15 @@ export default function CuisinePreview() {
 
   return (
     <div className="space-y-4">
+      {/* Subtle live update indicator */}
+      <div className="flex items-center justify-end gap-2 text-sm text-gray-500 px-1">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+        </span>
+        <span>Updated {getTimeAgo(lastUpdated)}</span>
+      </div>
+
       {displayedCuisines.map((cuisine) => (
         <div
           key={cuisine.cuisine_id}
@@ -693,7 +717,7 @@ export default function CuisinePreview() {
             No cuisine recommendations available
           </p>
           <p className="text-sm text-gray-500">
-            The stars are still aligning... Please check back soon.
+            Please check back soon for personalized recommendations.
           </p>
         </div>
       )}
