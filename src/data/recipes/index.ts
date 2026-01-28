@@ -1,5 +1,5 @@
 import type { Recipe } from "@/types/recipe";
-import Recipes from "../cuisines";
+import Recipes, { primaryCuisines } from "../cuisines";
 
 export { Recipes };
 
@@ -26,5 +26,6 @@ const flattenCuisineRecipes = (cuisines: any) => {
 };
 
 // Export alias for compatibility
-export const allRecipes = flattenCuisineRecipes(Recipes);
+// Use primaryCuisines (14 cuisines) to avoid duplicate counting from aliases
+export const allRecipes = flattenCuisineRecipes(primaryCuisines);
 // Note: getBestRecipeMatches moved to @/data/recipes to avoid circular dependency
