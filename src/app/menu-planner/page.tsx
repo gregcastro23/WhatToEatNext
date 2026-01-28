@@ -14,6 +14,8 @@ import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import GroceryListModal from "@/components/menu-planner/GroceryListModal";
 import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard";
+import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
+import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
 import WeekProgress from "@/components/menu-builder/WeekProgress";
@@ -22,6 +24,7 @@ import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { useToast, Toast } from "@/components/common/Toast";
 import { MenuPlannerProvider, useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { RecipeQueueProvider, useRecipeQueue } from "@/contexts/RecipeQueueContext";
+import type { Recipe } from "@/types/recipe";
 
 /**
  * Menu Planner Content (inner component with context access)
@@ -48,6 +51,8 @@ function MenuPlannerContent() {
   const [templateName, setTemplateName] = useState("");
   const [showSaveTemplate, setShowSaveTemplate] = useState(false);
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
+  const [showRecipeBrowser, setShowRecipeBrowser] = useState(false);
+  const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
   const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
@@ -111,6 +116,17 @@ function MenuPlannerContent() {
               </button>
 
               <button
+                onClick={() => setShowRecipeBrowser(!showRecipeBrowser)}
+                className={`px-4 py-2 rounded-lg transition-all font-medium ${
+                  showRecipeBrowser
+                    ? "bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:shadow-lg"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                🔍 Browse Recipes
+              </button>
+
+              <button
                 onClick={() => {
                   regenerateGroceryList();
                   setShowGroceryList(true);
@@ -153,6 +169,18 @@ function MenuPlannerContent() {
             )}
           </div>
         </div>
+
+        {/* Recipe Browser Panel (collapsible) */}
+        {showRecipeBrowser && (
+          <div className="mb-6" style={{ maxHeight: "500px" }}>
+            <RecipeBrowserPanel
+              onSelectRecipe={(recipe) => {
+                showInfo(`Selected "${recipe.name}" - drag from queue or use Recipe Selector to add to a meal slot`);
+              }}
+              onViewRecipeDetail={(recipe) => setDetailRecipe(recipe)}
+            />
+          </div>
+        )}
 
         {/* Main Content - Calendar, Queue, and Smart Suggestions */}
         <div className="flex gap-6">
@@ -207,6 +235,19 @@ function MenuPlannerContent() {
             </div>
           )}
         </div>
+
+        {/* Recipe Detail Modal */}
+        {detailRecipe && (
+          <RecipeDetailModal
+            recipe={detailRecipe}
+            isOpen={true}
+            onClose={() => setDetailRecipe(null)}
+            onAddToMeal={(recipe) => {
+              showInfo(`"${recipe.name}" ready to add - use the calendar meal slots`);
+              setDetailRecipe(null);
+            }}
+          />
+        )}
 
         {/* Enhanced Grocery List Modal (Phase 3) */}
         <GroceryListModal

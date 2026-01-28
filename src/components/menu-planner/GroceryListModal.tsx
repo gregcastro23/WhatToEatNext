@@ -180,8 +180,9 @@ interface GroceryListModalProps {
 }
 
 export default function GroceryListModal({ isOpen, onClose }: GroceryListModalProps) {
-  const { groceryList, updateGroceryItem, regenerateGroceryList } = useMenuPlanner();
+  const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu } = useMenuPlanner();
 
+  const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
   const [expandedCategories, setExpandedCategories] = useState<Record<GroceryCategory, boolean>>({
     produce: true,
     proteins: true,
@@ -320,6 +321,14 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
           >
             🔄 Regenerate
           </button>
+          <select
+            value={groupBy}
+            onChange={(e) => setGroupBy(e.target.value as "category" | "recipe")}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500"
+          >
+            <option value="category">Group by Aisle</option>
+            <option value="recipe">Group by Recipe</option>
+          </select>
           <button
             onClick={() => setShowPantryModal(true)}
             className="px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 text-sm ml-auto"
@@ -330,104 +339,74 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
 
         {/* List */}
         <div className="flex-1 overflow-y-auto p-4">
-          {Object.entries(groupedItems).map(([category, items]) => {
-            if (items.length === 0) return null;
+          {groupBy === "category" ? (
+            // GROUP BY AISLE (default)
+            <>
+              {(Object.entries(groupedItems) as [GroceryCategory, GroceryItem[]][]).map(([category, items]) => {
+                if (items.length === 0) return null;
 
-            const categoryKey = category as GroceryCategory;
-            const info = CATEGORY_INFO[categoryKey];
-            const isExpanded = expandedCategories[categoryKey];
+                const categoryKey = category as GroceryCategory;
+                const info = CATEGORY_INFO[categoryKey];
+                const isExpanded = expandedCategories[categoryKey];
 
-            return (
-              <div key={category} className="mb-4">
-                {/* Category Header */}
-                <div
-                  className={`${info.color} rounded-lg p-3 flex items-center justify-between cursor-pointer hover:opacity-80 transition-opacity`}
-                  onClick={() => toggleCategory(categoryKey)}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{info.icon}</span>
-                    <span className="font-bold">{info.name}</span>
-                    <span className="text-sm">({items.length})</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        markCategoryPurchased(categoryKey);
-                      }}
-                      className="px-2 py-1 bg-white bg-opacity-50 rounded text-xs hover:bg-opacity-70"
+                return (
+                  <div key={category} className="mb-4">
+                    <div
+                      className={`${info.color} rounded-lg p-3 flex items-center justify-between cursor-pointer hover:opacity-80 transition-opacity`}
+                      onClick={() => toggleCategory(categoryKey)}
                     >
-                      ✓ Mark All
-                    </button>
-                    <span className="text-xl">{isExpanded ? "▼" : "▶"}</span>
-                  </div>
-                </div>
-
-                {/* Category Items */}
-                {isExpanded && (
-                  <div className="mt-2 space-y-2">
-                    {items.map((item) => {
-                      const isInPantry = item.inPantry || checkPantryStatus(item.ingredient);
-
-                      return (
-                        <div
-                          key={item.id}
-                          className={`bg-white border rounded-lg p-3 ${
-                            item.purchased
-                              ? "opacity-50 border-green-300 bg-green-50"
-                              : isInPantry
-                              ? "border-orange-300 bg-orange-50"
-                              : "border-gray-200"
-                          }`}
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{info.icon}</span>
+                        <span className="font-bold">{info.name}</span>
+                        <span className="text-sm">({items.length})</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            markCategoryPurchased(categoryKey);
+                          }}
+                          className="px-2 py-1 bg-white bg-opacity-50 rounded text-xs hover:bg-opacity-70"
                         >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3 flex-1">
-                              <input
-                                type="checkbox"
-                                checked={item.purchased}
-                                onChange={(e) =>
-                                  updateGroceryItem(item.id, {
-                                    purchased: e.target.checked,
-                                  })
-                                }
-                                className="w-5 h-5"
-                              />
-                              <div className={item.purchased ? "line-through" : ""}>
-                                <div className="font-medium">
-                                  {item.quantity} {item.unit} {item.ingredient}
-                                </div>
-                                {item.usedInRecipes && item.usedInRecipes.length > 0 && (
-                                  <div className="text-xs text-gray-600">
-                                    Used in {item.usedInRecipes.length} recipe
-                                    {item.usedInRecipes.length > 1 ? "s" : ""}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
+                          ✓ Mark All
+                        </button>
+                        <span className="text-xl">{isExpanded ? "▼" : "▶"}</span>
+                      </div>
+                    </div>
 
-                            <div className="flex items-center gap-2">
-                              {isInPantry ? (
-                                <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">
-                                  In Pantry
-                                </span>
-                              ) : (
-                                <button
-                                  onClick={() => addToPantry(item)}
-                                  className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded hover:bg-orange-200"
-                                >
-                                  + Pantry
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                    {isExpanded && (
+                      <div className="mt-2 space-y-2">
+                        {items.map((item) => {
+                          const isInPantry = item.inPantry || checkPantryStatus(item.ingredient);
+
+                          return (
+                            <GroceryItemRow
+                              key={item.id}
+                              item={item}
+                              isInPantry={isInPantry}
+                              onTogglePurchased={(purchased) =>
+                                updateGroceryItem(item.id, { purchased })
+                              }
+                              onAddToPantry={() => addToPantry(item)}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                );
+              })}
+            </>
+          ) : (
+            // GROUP BY RECIPE
+            <RecipeGroupedView
+              groceryList={groceryList}
+              currentMenu={currentMenu}
+              updateGroceryItem={updateGroceryItem}
+              checkPantryStatus={checkPantryStatus}
+              addToPantry={addToPantry}
+            />
+          )}
 
           {groceryList.length === 0 && (
             <div className="text-center text-gray-500 py-12">
@@ -443,6 +422,160 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
       {showPantryModal && (
         <PantryModalSimple onClose={() => setShowPantryModal(false)} />
       )}
+    </div>
+  );
+}
+
+/**
+ * Reusable grocery item row
+ */
+function GroceryItemRow({
+  item,
+  isInPantry,
+  onTogglePurchased,
+  onAddToPantry,
+}: {
+  item: GroceryItem;
+  isInPantry: boolean;
+  onTogglePurchased: (purchased: boolean) => void;
+  onAddToPantry: () => void;
+}) {
+  return (
+    <div
+      className={`bg-white border rounded-lg p-3 ${
+        item.purchased
+          ? "opacity-50 border-green-300 bg-green-50"
+          : isInPantry
+          ? "border-orange-300 bg-orange-50"
+          : "border-gray-200"
+      }`}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3 flex-1">
+          <input
+            type="checkbox"
+            checked={item.purchased}
+            onChange={(e) => onTogglePurchased(e.target.checked)}
+            className="w-5 h-5"
+          />
+          <div className={item.purchased ? "line-through" : ""}>
+            <div className="font-medium">
+              {item.quantity} {item.unit} {item.ingredient}
+            </div>
+            {item.usedInRecipes && item.usedInRecipes.length > 0 && (
+              <div className="text-xs text-gray-600">
+                Used in {item.usedInRecipes.length} recipe
+                {item.usedInRecipes.length > 1 ? "s" : ""}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {isInPantry ? (
+            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">
+              In Pantry
+            </span>
+          ) : (
+            <button
+              onClick={onAddToPantry}
+              className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded hover:bg-orange-200"
+            >
+              + Pantry
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Recipe-grouped view for grocery list
+ * Shows ingredients organized by which recipe uses them
+ */
+function RecipeGroupedView({
+  groceryList,
+  currentMenu,
+  updateGroceryItem,
+  checkPantryStatus,
+  addToPantry,
+}: {
+  groceryList: GroceryItem[];
+  currentMenu: import("@/types/menuPlanner").WeeklyMenu | null;
+  updateGroceryItem: (id: string, updates: Partial<GroceryItem>) => void;
+  checkPantryStatus: (name: string) => boolean;
+  addToPantry: (item: GroceryItem) => void;
+}) {
+  // Build a map from recipe ID -> recipe name
+  const recipeNames = useMemo(() => {
+    const map = new Map<string, string>();
+    if (!currentMenu) return map;
+    currentMenu.meals.forEach((meal) => {
+      if (meal.recipe) {
+        map.set(meal.recipe.id, meal.recipe.name);
+      }
+    });
+    return map;
+  }, [currentMenu]);
+
+  // Group grocery items by recipe
+  const groupedByRecipe = useMemo(() => {
+    const groups = new Map<string, GroceryItem[]>();
+
+    groceryList.forEach((item) => {
+      if (item.usedInRecipes && item.usedInRecipes.length > 0) {
+        item.usedInRecipes.forEach((recipeId) => {
+          if (!groups.has(recipeId)) {
+            groups.set(recipeId, []);
+          }
+          groups.get(recipeId)!.push(item);
+        });
+      } else {
+        if (!groups.has("_uncategorized")) {
+          groups.set("_uncategorized", []);
+        }
+        groups.get("_uncategorized")!.push(item);
+      }
+    });
+
+    return groups;
+  }, [groceryList]);
+
+  return (
+    <div className="space-y-4">
+      {Array.from(groupedByRecipe.entries()).map(([recipeId, items]) => {
+        const recipeName =
+          recipeId === "_uncategorized"
+            ? "Other Items"
+            : recipeNames.get(recipeId) || recipeId;
+
+        return (
+          <div key={recipeId} className="mb-4">
+            <div className="bg-purple-50 text-purple-700 rounded-lg p-3 flex items-center gap-2 font-bold">
+              <span className="text-lg">🍽️</span>
+              <span>{recipeName}</span>
+              <span className="text-sm font-normal">({items.length} items)</span>
+            </div>
+            <div className="mt-2 space-y-2">
+              {items.map((item) => {
+                const isInPantry = item.inPantry || checkPantryStatus(item.ingredient);
+                return (
+                  <GroceryItemRow
+                    key={`${recipeId}-${item.id}`}
+                    item={item}
+                    isInPantry={isInPantry}
+                    onTogglePurchased={(purchased) =>
+                      updateGroceryItem(item.id, { purchased })
+                    }
+                    onAddToPantry={() => addToPantry(item)}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
