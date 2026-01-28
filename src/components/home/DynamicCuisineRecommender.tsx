@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
 import type { DynamicCuisineRecommendation } from "./CuisineCard";
-import type { PlanetaryPosition } from "@/types/celestial";
 
 // Cuisine definitions with planetary rulerships
 const CUISINE_DEFINITIONS = [
@@ -89,6 +89,7 @@ function generateReasoning(
   sign: string,
   dignityScore: number,
   isCurrentHour: boolean,
+  isRetrograde: boolean,
 ): string {
   const parts: string[] = [];
   if (dignityScore >= 0.9) {
@@ -96,6 +97,9 @@ function generateReasoning(
   }
   if (isCurrentHour) {
     parts.push(`current ${planet} hour enhances these flavors`);
+  }
+  if (isRetrograde) {
+    parts.push(`${planet} retrograde favors familiar preparations`);
   }
   parts.push(CUISINE_QUALITIES[cuisine] || "offers excellent variety");
   return parts.join(", ");
@@ -112,15 +116,16 @@ export default function DynamicCuisineRecommender() {
   const [recommendations, setRecommendations] = useState<DynamicCuisineRecommendation[]>([]);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string>("");
+  const [showAllCuisines, setShowAllCuisines] = useState(false);
 
   const loadRecommendations = useCallback(async () => {
     setIsLoading(true);
     try {
       const service = PlanetaryScoringService.getInstance();
+      const recipeService = UnifiedRecipeService.getInstance();
       const positions = await service.getCurrentPlanetaryPositions();
 
-      // Get current planetary hour from the service (access private method via workaround)
+      // Calculate current planetary hour
       const now = new Date();
       const hour = now.getHours();
       const dayOfWeek = now.getDay();
@@ -130,13 +135,11 @@ export default function DynamicCuisineRecommender() {
       const rulerIdx = chaldeanOrder.indexOf(dayRuler);
       const hourIdx = (rulerIdx + hour) % 7;
       const planetaryHour = chaldeanOrder[hourIdx];
-      setCurrentPlanetaryHour(planetaryHour);
 
       const currentHour = now.getHours();
 
       const scored: DynamicCuisineRecommendation[] = [];
       for (const cuisine of CUISINE_DEFINITIONS) {
-        // Find position for this cuisine's ruling planet
         const planetPos = positions.find(
           (p: any) => p.planet === cuisine.planet,
         );
@@ -145,14 +148,19 @@ export default function DynamicCuisineRecommender() {
             ? planetPos.sign
             : "aries"
           : "aries";
+        const isRetrograde = planetPos?.isRetrograde === true;
 
         const dignityScore = calculateDignity(cuisine.planet, sign);
         const isCurrentHourPlanet = planetaryHour === cuisine.planet;
         const hourBonus = isCurrentHourPlanet ? 0.2 : 0;
         const timingScore = getTimingScore(cuisine.name, currentHour);
+        const retrogradeModifier = isRetrograde ? -0.05 : 0;
 
         const totalScore = Math.round(
-          (dignityScore * 0.6 + timingScore * 0.2 + hourBonus * 0.2) * 100,
+          Math.min(
+            (dignityScore * 0.6 + timingScore * 0.2 + hourBonus * 0.2 + retrogradeModifier) * 100,
+            99,
+          ),
         );
 
         const reasoning = generateReasoning(
@@ -161,34 +169,50 @@ export default function DynamicCuisineRecommender() {
           sign,
           dignityScore,
           isCurrentHourPlanet,
+          isRetrograde,
         );
+
+        // Get real recipe count for this cuisine
+        let recipeCount = 0;
+        let topRecipes: Array<{ name: string; matchScore: number }> = [];
+        try {
+          const cuisineRecipes = await recipeService.getRecipesForCuisine(cuisine.name.toLowerCase());
+          recipeCount = cuisineRecipes.length;
+          topRecipes = cuisineRecipes.slice(0, 3).map((r) => ({
+            name: r.name || "Unknown",
+            matchScore: Math.round(totalScore * (0.85 + Math.random() * 0.15)),
+          }));
+        } catch {
+          recipeCount = 0;
+        }
 
         scored.push({
           cuisine: cuisine.name,
-          score: Math.min(totalScore, 99),
+          score: Math.max(totalScore, 1),
           planet: cuisine.planet,
           reasoning,
-          recipeCount: Math.floor(Math.random() * 30) + 10, // placeholder until recipe DB query
+          recipeCount,
           optimalTiming: OPTIMAL_TIMINGS[cuisine.planet] || "Anytime today",
-          topRecipes: [],
+          topRecipes,
+          isRetrograde,
         });
       }
 
       scored.sort((a, b) => b.score - a.score);
-      setRecommendations(scored.slice(0, 6));
+      setRecommendations(scored);
       setLastUpdated(new Date());
     } catch (error) {
       console.error("Failed to load dynamic cuisine recommendations:", error);
-      // Fallback
       setRecommendations(
-        CUISINE_DEFINITIONS.slice(0, 6).map((c, i) => ({
+        CUISINE_DEFINITIONS.map((c, i) => ({
           cuisine: c.name,
-          score: 80 - i * 5,
+          score: 80 - i * 3,
           planet: c.planet,
           reasoning: CUISINE_QUALITIES[c.name] || "Great variety",
-          recipeCount: 20,
+          recipeCount: 0,
           optimalTiming: OPTIMAL_TIMINGS[c.planet] || "Anytime",
           topRecipes: [],
+          isRetrograde: false,
         })),
       );
       setLastUpdated(new Date());
@@ -203,11 +227,14 @@ export default function DynamicCuisineRecommender() {
     return () => clearInterval(interval);
   }, [loadRecommendations]);
 
+  const topCuisines = recommendations.slice(0, 6);
+  const remainingCuisines = recommendations.slice(6);
+
   return (
     <div>
       {/* Section Header */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">
+        <h2 id="dynamic-cuisine-heading" className="text-3xl font-bold text-gray-900 mb-3">
           Cuisines Aligned with the Cosmos
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -227,7 +254,7 @@ export default function DynamicCuisineRecommender() {
         </div>
       </div>
 
-      {/* Cuisine Grid */}
+      {/* Top 6 Cuisine Grid */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -235,11 +262,40 @@ export default function DynamicCuisineRecommender() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recommendations.map((cuisine, index) => (
-            <CuisineCard key={cuisine.cuisine} cuisine={cuisine} rank={index + 1} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {topCuisines.map((cuisine, index) => (
+              <CuisineCard key={cuisine.cuisine} cuisine={cuisine} rank={index + 1} />
+            ))}
+          </div>
+
+          {/* Remaining Cuisines - Collapsible */}
+          {remainingCuisines.length > 0 && (
+            <div className="mt-8">
+              <button
+                onClick={() => setShowAllCuisines(!showAllCuisines)}
+                className="mx-auto flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                {showAllCuisines ? "Show fewer" : `Show ${remainingCuisines.length} more cuisines`}
+                <span className={`transition-transform duration-200 ${showAllCuisines ? "rotate-180" : ""}`}>
+                  &#9660;
+                </span>
+              </button>
+              {showAllCuisines && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                  {remainingCuisines.map((cuisine, index) => (
+                    <CuisineCard
+                      key={cuisine.cuisine}
+                      cuisine={cuisine}
+                      rank={index + 7}
+                      compact
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {/* Refresh Button */}

@@ -41,14 +41,16 @@ export interface DynamicCuisineRecommendation {
   recipeCount: number;
   optimalTiming: string;
   topRecipes: Array<{ name: string; matchScore: number }>;
+  isRetrograde?: boolean;
 }
 
 interface CuisineCardProps {
   cuisine: DynamicCuisineRecommendation;
   rank: number;
+  compact?: boolean;
 }
 
-export function CuisineCard({ cuisine, rank }: CuisineCardProps) {
+export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
   const [showPreview, setShowPreview] = useState(false);
 
   const icon = PLANET_ICONS[cuisine.planet] || "\u2609";
@@ -61,6 +63,36 @@ export function CuisineCard({ cuisine, rank }: CuisineCardProps) {
       : cuisine.score >= 70
         ? "bg-amber-500"
         : "bg-gray-400";
+
+  if (compact) {
+    return (
+      <Link
+        href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
+      >
+        <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200 hover:border-amber-300 cursor-pointer p-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">{icon}</span>
+              <h3 className="font-semibold text-gray-900">{cuisine.cuisine}</h3>
+              {cuisine.isRetrograde && (
+                <span className="text-xs text-amber-600" title={`${cuisine.planet} retrograde`}>
+                  Rx
+                </span>
+              )}
+            </div>
+            <div className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-xs font-bold`}>
+              {cuisine.score}%
+            </div>
+          </div>
+          <p className="text-xs text-gray-600 line-clamp-2">{cuisine.reasoning}</p>
+          <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+            {cuisine.recipeCount > 0 && <span>{cuisine.recipeCount} recipes</span>}
+            <span>{cuisine.optimalTiming}</span>
+          </div>
+        </div>
+      </Link>
+    );
+  }
 
   return (
     <div
@@ -105,13 +137,20 @@ export function CuisineCard({ cuisine, rank }: CuisineCardProps) {
           {/* Content */}
           <div className="p-5 space-y-3">
             {/* Planetary indicator */}
-            <div
-              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border ${colorClass}`}
-            >
-              <span className="text-lg">{icon}</span>
-              <span className="text-sm font-semibold">
-                {cuisine.planet} Ruled
-              </span>
+            <div className="flex items-center gap-2">
+              <div
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border ${colorClass}`}
+              >
+                <span className="text-lg">{icon}</span>
+                <span className="text-sm font-semibold">
+                  {cuisine.planet} Ruled
+                </span>
+              </div>
+              {cuisine.isRetrograde && (
+                <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full" title={`${cuisine.planet} is retrograde`}>
+                  Rx
+                </span>
+              )}
             </div>
 
             {/* Reasoning */}
@@ -122,7 +161,11 @@ export function CuisineCard({ cuisine, rank }: CuisineCardProps) {
             {/* Stats */}
             <div className="flex items-center justify-between pt-2 border-t border-gray-100">
               <div className="flex items-center gap-2 text-sm text-gray-600">
-                <span>{cuisine.recipeCount} recipes</span>
+                {cuisine.recipeCount > 0 ? (
+                  <span>{cuisine.recipeCount} recipes</span>
+                ) : (
+                  <span>Explore cuisine</span>
+                )}
               </div>
               <div className="text-xs text-gray-500">
                 {cuisine.optimalTiming}

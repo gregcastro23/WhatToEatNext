@@ -15,6 +15,26 @@ const PLANET_TAGLINES: Record<string, string> = {
   Saturn: "Saturn grounds your craft \u2014 honor tradition and patience",
 };
 
+const PLANET_ICONS: Record<string, string> = {
+  Sun: "\u2609",
+  Moon: "\u263D",
+  Mercury: "\u263F",
+  Venus: "\u2640",
+  Mars: "\u2642",
+  Jupiter: "\u2643",
+  Saturn: "\u2644",
+};
+
+const PLANET_GRADIENT: Record<string, string> = {
+  Sun: "from-yellow-400 to-amber-500",
+  Moon: "from-blue-300 to-indigo-400",
+  Mercury: "from-gray-300 to-slate-400",
+  Venus: "from-pink-300 to-rose-400",
+  Mars: "from-red-400 to-orange-500",
+  Jupiter: "from-orange-300 to-amber-500",
+  Saturn: "from-gray-400 to-slate-500",
+};
+
 const TIME_CTA: Record<TimeOfDay, string> = {
   morning: "Plan your breakfast",
   afternoon: "Discover your lunch",
@@ -47,6 +67,8 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
   const cta = TIME_CTA[timeOfDay];
   const season = getCurrentSeason();
   const seasonMsg = SEASON_MESSAGES[season];
+  const planetIcon = PLANET_ICONS[planet] || PLANET_ICONS.Sun;
+  const gradient = PLANET_GRADIENT[planet] || PLANET_GRADIENT.Sun;
 
   return (
     <div className="text-center mb-12 animate-fade-in">
@@ -57,6 +79,17 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
       <p className="text-xl md:text-2xl text-gray-600 mb-2 italic">
         Where the elements meet the cosmos
       </p>
+
+      {/* Planetary hour highlight */}
+      <div className="flex items-center justify-center gap-3 my-6">
+        <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}>
+          <span className="text-3xl text-white">{planetIcon}</span>
+        </div>
+        <div className="text-left">
+          <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Current Hour</p>
+          <p className="text-lg font-bold text-gray-800">{planet} Hour</p>
+        </div>
+      </div>
 
       {/* Dynamic tagline based on planetary hour */}
       <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-4">
