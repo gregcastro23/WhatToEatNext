@@ -56,6 +56,39 @@ export type {
   RecipeComputedProperties,
 } from "../../types/hierarchy";
 
+// Data Enrichment System (NEW - 2026-01-29)
+export {
+  RecipeDataEnricher,
+  recipeDataEnricher,
+  enrichRecipe,
+  enrichRecipes,
+  needsEnrichment,
+  applyEnrichment,
+} from "./RecipeDataEnricher";
+
+export type {
+  EnrichmentResult,
+  FlavorProfile,
+  NutritionEstimate,
+  EnrichmentMetadata,
+} from "./RecipeDataEnricher";
+
+// Batch Enrichment Utilities
+export {
+  batchEnrichRecipes,
+  applyBatchEnrichment,
+  extractRecipesFromCuisine,
+  convertToDisheFormat,
+  batchEnrichWithProgress,
+} from "./batchEnrichment";
+
+export type {
+  BatchEnrichmentResult,
+  EnrichmentStats,
+  BatchEnrichmentOptions,
+  ProgressCallback,
+} from "./batchEnrichment";
+
 // Re-export existing utilities for convenience
 export * from "./recipeAdapter";
 export * from "./recipeEnrichment";
