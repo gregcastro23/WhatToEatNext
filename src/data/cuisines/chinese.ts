@@ -248,10 +248,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.6,
-            Earth: 0.2,
-            Air: 0.1,
-            Fire: 0.1,
+            Fire: 0.18,
+            Water: 0.48,
+            Earth: 0.18,
+            Air: 0.16,
           },
           astrologicalInfluences: [
             "Moon - The nurturing, comforting quality",
@@ -310,10 +310,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Fire: 0.5,
-            Air: 0.3,
-            Earth: 0.1,
-            Water: 0.1,
+            Fire: 0.33,
+            Water: 0.06,
+            Earth: 0.42,
+            Air: 0.19,
           },
           astrologicalInfluences: [
             "Jupiter - The expansive, rising quality",
@@ -369,10 +369,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.5,
-            Earth: 0.3,
+            Fire: 0.12,
+            Water: 0.52,
+            Earth: 0.26,
             Air: 0.1,
-            Fire: 0.1,
           },
           astrologicalInfluences: [
             "Moon - The nurturing, comforting quality",
@@ -452,10 +452,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.6,
-            Earth: 0.2,
-            Water: 0.1,
-            Air: 0.1,
+            Fire: 0.13,
+            Water: 0.24,
+            Earth: 0.52,
+            Air: 0.11,
           },
           astrologicalInfluences: [
             "Mars - The intense heat and spice",
@@ -522,10 +522,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.6,
-            Water: 0.2,
-            Earth: 0.1,
-            Air: 0.1,
+            Fire: 0.19,
+            Water: 0.37,
+            Earth: 0.35,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Mars - The fiery, aggressive flavor profile",
@@ -589,10 +589,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["lunch"],
           elementalProperties: {
-            Water: 0.3,
-            Earth: 0.3,
-            Fire: 0.2,
-            Air: 0.2,
+            Fire: 0.15,
+            Water: 0.42,
+            Earth: 0.32,
+            Air: 0.11,
           },
           astrologicalInfluences: [
             "Venus - The delicate, artful presentation",
@@ -679,10 +679,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Fire: 0.4,
-            Air: 0.3,
-            Earth: 0.2,
-            Water: 0.1,
+            Fire: 0.38,
+            Water: 0.19,
+            Earth: 0.34,
+            Air: 0.08,
           },
           astrologicalInfluences: [
             "Sun - The golden, glistening skin",
@@ -761,10 +761,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Fire: 0.5,
-            Earth: 0.2,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.34,
+            Water: 0.21,
+            Earth: 0.3,
+            Air: 0.14,
           },
           astrologicalInfluences: [
             "Mars - The fiery, aggressive spice",
@@ -832,10 +832,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
-            Fire: 0.1,
+            Fire: 0.16,
+            Water: 0.42,
+            Earth: 0.33,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Neptune - The mysterious, hidden soup within",
@@ -896,10 +896,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
-            Air: 0.1,
+            Fire: 0.24,
+            Water: 0.33,
+            Earth: 0.32,
+            Air: 0.11,
           },
           astrologicalInfluences: [
             "Venus - The rich, indulgent quality",
@@ -972,10 +972,10 @@ export const chinese = {
           season: ["winter", "lunar new year"],
           mealType: ["dessert"],
           elementalProperties: {
-            Earth: 0.5,
-            Water: 0.3,
-            Fire: 0.1,
-            Air: 0.1,
+            Fire: 0.15,
+            Water: 0.29,
+            Earth: 0.41,
+            Air: 0.15,
           },
           astrologicalInfluences: [
             "Jupiter - The abundance and prosperity symbolism",
@@ -1043,10 +1043,10 @@ export const chinese = {
           season: ["summer"],
           mealType: ["dessert"],
           elementalProperties: {
+            Fire: 0.21,
             Water: 0.6,
-            Air: 0.2,
-            Earth: 0.1,
-            Fire: 0.1,
+            Earth: 0.11,
+            Air: 0.08,
           },
           astrologicalInfluences: [
             "Moon - The cooling, refreshing quality",

@@ -74,7 +74,13 @@ export const italian: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["all"],
-          mealType: ["breakfast"],
+          
+          elementalProperties: {
+            Fire: 0.19,
+            Water: 0.15,
+            Earth: 0.58,
+            Air: 0.08,
+          },mealType: ["breakfast"],
           astrologicalAffinities: {
             planets: ["Venus", "Mercury"],
             signs: ["Taurus", "Libra"],
@@ -389,7 +395,13 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          mealType: ["breakfast"],
+          
+          elementalProperties: {
+            Fire: 0.16,
+            Water: 0.38,
+            Earth: 0.37,
+            Air: 0.09,
+          },mealType: ["breakfast"],
         },
       ],
     },
@@ -598,7 +610,13 @@ export const italian: Cuisine = {
             minerals: ["Potassium", "Iron"],
           },
           season: ["summer"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.18,
+            Water: 0.09,
+            Earth: 0.55,
+            Air: 0.18,
+          },mealType: ["lunch"],
         },
       ],
       winter: [
@@ -671,7 +689,13 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Fiber"],
           },
           season: ["winter", "autumn"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.17,
+            Water: 0.11,
+            Earth: 0.54,
+            Air: 0.17,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Pasta e Fagioli",
@@ -740,7 +764,13 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["winter"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.08,
+            Water: 0.22,
+            Earth: 0.62,
+            Air: 0.08,
+          },mealType: ["lunch"],
         },
       ],
     },
@@ -871,7 +901,13 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["autumn"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.09,
+            Water: 0.27,
+            Earth: 0.55,
+            Air: 0.09,
+          },mealType: ["dinner"],
         },
         {
           name: "Gnocchi alla Sorrentina",
@@ -953,10 +989,10 @@ export const italian: Cuisine = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
+            Water: 0.24,
+            Earth: 0.4,
+            Air: 0.16,
           },
         },
       ],
@@ -1030,7 +1066,13 @@ export const italian: Cuisine = {
             minerals: ["Selenium", "Iodine", "Potassium"],
           },
           season: ["summer", "spring"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.05,
+            Water: 0.72,
+            Earth: 0.15,
+            Air: 0.07,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Melanzane alla Parmigiana",
@@ -1105,7 +1147,13 @@ export const italian: Cuisine = {
             minerals: ["Calcium", "Iron"],
           },
           season: ["summer"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.23,
+            Earth: 0.32,
+            Air: 0.1,
+          },mealType: ["dinner"],
         },
       ],
     },
@@ -1235,7 +1283,13 @@ export const italian: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["summer"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.1,
+            Water: 0.58,
+            Earth: 0.23,
+            Air: 0.1,
+          },mealType: ["dessert"],
         },
       ],
       winter: [
@@ -1302,7 +1356,13 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.09,
+            Water: 0.07,
+            Earth: 0.68,
+            Air: 0.16,
+          },mealType: ["dessert"],
         },
       ],
     },

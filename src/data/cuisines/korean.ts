@@ -89,10 +89,10 @@ export const korean: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.3,
-            Earth: 0.3,
-            Air: 0.2,
+            Fire: 0.12,
+            Water: 0.39,
+            Earth: 0.38,
+            Air: 0.11,
           },
         },
         {
@@ -167,7 +167,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["winter", "all"],
-          mealType: ["breakfast", "light meal"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.35,
+            Earth: 0.46,
+            Air: 0.09,
+          },mealType: ["breakfast", "light meal"],
         },
       ],
       summer: [
@@ -242,7 +248,13 @@ export const korean: Cuisine = {
             minerals: ["Calcium", "Iron"],
           },
           season: ["summer"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.26,
+            Earth: 0.54,
+            Air: 0.1,
+          },mealType: ["lunch"],
         },
       ],
     },
@@ -334,7 +346,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.13,
+            Water: 0.34,
+            Earth: 0.41,
+            Air: 0.12,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Kimchi Jjigae",
@@ -402,7 +420,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["autumn", "winter", "all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.34,
+            Earth: 0.36,
+            Air: 0.09,
+          },mealType: ["lunch", "dinner"],
         },
       ],
       summer: [
@@ -480,7 +504,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Manganese"],
           },
           season: ["summer"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.26,
+            Earth: 0.54,
+            Air: 0.1,
+          },mealType: ["lunch", "dinner"],
         },
       ],
       winter: [
@@ -549,7 +579,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter"],
-          mealType: ["holiday", "lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.29,
+            Earth: 0.41,
+            Air: 0.09,
+          },mealType: ["holiday", "lunch", "dinner"],
         },
       ],
     },
@@ -626,7 +662,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["dinner", "social dining"],
+          
+          elementalProperties: {
+            Fire: 0.38,
+            Water: 0.24,
+            Earth: 0.25,
+            Air: 0.13,
+          },mealType: ["dinner", "social dining"],
         },
         {
           name: "Sundubu Jjigae",
@@ -705,7 +747,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.23,
+            Water: 0.31,
+            Earth: 0.37,
+            Air: 0.09,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Bulgogi",
@@ -783,7 +831,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.45,
+            Water: 0.18,
+            Earth: 0.25,
+            Air: 0.12,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Dakgalbi",
@@ -858,7 +912,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
-          mealType: ["dinner", "social dining"],
+          
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.26,
+            Earth: 0.39,
+            Air: 0.16,
+          },mealType: ["dinner", "social dining"],
         },
         {
           name: "Haemul Pajeon",
@@ -935,7 +995,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all", "rainy days"],
-          mealType: ["snack", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.26,
+            Water: 0.14,
+            Earth: 0.43,
+            Air: 0.16,
+          },mealType: ["snack", "dinner"],
         },
         {
           name: "Gamjatang",
@@ -1012,7 +1078,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["autumn", "winter"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.3,
+            Earth: 0.4,
+            Air: 0.09,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Bossam",
@@ -1091,7 +1163,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter", "all"],
-          mealType: ["dinner", "social dining"],
+          
+          elementalProperties: {
+            Fire: 0.33,
+            Water: 0.28,
+            Earth: 0.25,
+            Air: 0.14,
+          },mealType: ["dinner", "social dining"],
         },
       ],
       winter: [
@@ -1175,7 +1253,13 @@ export const korean: Cuisine = {
           },
           timeToMake: "90 minutes",
           season: ["summer"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.29,
+            Water: 0.24,
+            Earth: 0.33,
+            Air: 0.14,
+          },mealType: ["dinner"],
         },
       ],
     },
@@ -1213,7 +1297,13 @@ export const korean: Cuisine = {
           },
           timeToMake: "15 minutes",
           season: ["summer"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.12,
+            Water: 0.39,
+            Earth: 0.39,
+            Air: 0.1,
+          },mealType: ["dessert"],
         },
       ],
       winter: [
@@ -1248,7 +1338,13 @@ export const korean: Cuisine = {
           },
           timeToMake: "45 minutes",
           season: ["winter"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.12,
+            Water: 0.1,
+            Earth: 0.59,
+            Air: 0.2,
+          },mealType: ["dessert"],
         },
       ],
       all: [
@@ -1282,7 +1378,13 @@ export const korean: Cuisine = {
           },
           timeToMake: "60 minutes",
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.22,
+            Earth: 0.35,
+            Air: 0.13,
+          },mealType: ["dessert"],
         },
         {
           name: "Japchae",
@@ -1370,7 +1472,13 @@ export const korean: Cuisine = {
             minerals: ["Iron", "Selenium"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner", "celebration"],
+          
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.16,
+            Earth: 0.44,
+            Air: 0.1,
+          },mealType: ["lunch", "dinner", "celebration"],
         },
       ],
     },

@@ -267,10 +267,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.25,
+            Water: 0.18,
+            Earth: 0.39,
+            Air: 0.18,
           },
           astrologicalInfluences: [
             "Venus - The sweetness and cardamom fragrance",
@@ -337,10 +337,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
-            Air: 0.1,
+            Fire: 0.16,
+            Water: 0.4,
+            Earth: 0.35,
+            Air: 0.08,
           },
           astrologicalInfluences: [
             "Mars - The bold, spicy tomato base",
@@ -400,10 +400,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.5,
-            Water: 0.3,
-            Fire: 0.1,
-            Air: 0.1,
+            Fire: 0.11,
+            Water: 0.17,
+            Earth: 0.62,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Saturn - The grounding, sustaining energy of beans",
@@ -477,10 +477,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.5,
-            Earth: 0.3,
-            Water: 0.1,
-            Air: 0.1,
+            Fire: 0.37,
+            Water: 0.3,
+            Earth: 0.24,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Sun - The vibrant red color and celebratory nature",
@@ -549,10 +549,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.6,
-            Earth: 0.2,
-            Water: 0.1,
-            Air: 0.1,
+            Fire: 0.26,
+            Water: 0.26,
+            Earth: 0.35,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Mars - The intense heat of berbere spice",
@@ -617,10 +617,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Water: 0.3,
-            Air: 0.1,
+            Fire: 0.33,
+            Water: 0.21,
+            Earth: 0.34,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Mercury - The bright citrus notes",
@@ -684,10 +684,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
-            Air: 0.1,
+            Fire: 0.35,
+            Water: 0.13,
+            Earth: 0.43,
+            Air: 0.08,
           },
           astrologicalInfluences: [
             "Jupiter - The complex spices and cultural fusion",
@@ -807,10 +807,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.5,
+            Fire: 0.31,
             Water: 0.2,
-            Fire: 0.2,
-            Air: 0.1,
+            Earth: 0.4,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Jupiter - The richness and abundance",
@@ -871,10 +871,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Water: 0.3,
-            Air: 0.1,
+            Fire: 0.22,
+            Water: 0.21,
+            Earth: 0.43,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Venus - The sweet, indulgent nature",
@@ -928,10 +928,10 @@ export const african: Cuisine = {
           season: ["all"],
           mealType: ["dessert", "snack"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.16,
+            Water: 0.19,
+            Earth: 0.49,
+            Air: 0.16,
           },
           astrologicalInfluences: [
             "Venus - The sweet indulgence",

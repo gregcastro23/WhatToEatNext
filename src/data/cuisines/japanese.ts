@@ -164,9 +164,9 @@ export const japanese: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Fire: 0.2,
+            Fire: 0.08,
+            Water: 0.45,
+            Earth: 0.37,
             Air: 0.1,
           },
           instructions: [
@@ -260,10 +260,10 @@ export const japanese: Cuisine = {
           season: ["all"],
           mealType: ["breakfast", "bento"],
           elementalProperties: {
-            Fire: 0.4,
-            Air: 0.3,
-            Earth: 0.2,
-            Water: 0.1,
+            Fire: 0.17,
+            Water: 0.36,
+            Earth: 0.37,
+            Air: 0.09,
           },
         },
         {
@@ -340,9 +340,9 @@ export const japanese: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Fire: 0.2,
+            Fire: 0.08,
+            Water: 0.47,
+            Earth: 0.35,
             Air: 0.1,
           },
         },
@@ -421,10 +421,10 @@ export const japanese: Cuisine = {
           season: ["all"],
           mealType: ["lunch", "snack"],
           elementalProperties: {
-            Earth: 0.5,
-            Water: 0.2,
-            Fire: 0.2,
-            Air: 0.1,
+            Fire: 0.07,
+            Water: 0.58,
+            Earth: 0.27,
+            Air: 0.09,
           },
         },
       ],
@@ -504,10 +504,10 @@ export const japanese: Cuisine = {
           season: ["summer"],
           mealType: ["lunch"],
           elementalProperties: {
-            Water: 0.3,
-            Air: 0.3,
-            Earth: 0.2,
-            Fire: 0.2,
+            Fire: 0.08,
+            Water: 0.32,
+            Earth: 0.51,
+            Air: 0.09,
           },
         },
         {
@@ -589,10 +589,10 @@ export const japanese: Cuisine = {
           season: ["summer"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Air: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
-            Fire: 0.1,
+            Fire: 0.08,
+            Water: 0.32,
+            Earth: 0.51,
+            Air: 0.09,
           },
         },
       ],
@@ -627,9 +627,9 @@ export const japanese: Cuisine = {
           season: ["winter"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
+            Fire: 0.24,
+            Water: 0.25,
+            Earth: 0.41,
             Air: 0.1,
           },
         },
@@ -671,10 +671,10 @@ export const japanese: Cuisine = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
-            Fire: 0.1,
+            Fire: 0.08,
+            Water: 0.52,
+            Earth: 0.31,
+            Air: 0.09,
           },
         },
       ],
@@ -724,9 +724,9 @@ export const japanese: Cuisine = {
           season: ["winter"],
           mealType: ["dinner"],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
+            Fire: 0.26,
+            Water: 0.25,
+            Earth: 0.39,
             Air: 0.1,
           },
         },
@@ -777,9 +777,9 @@ export const japanese: Cuisine = {
           season: ["winter"],
           mealType: ["dinner"],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.3,
-            Earth: 0.2,
+            Fire: 0.09,
+            Water: 0.25,
+            Earth: 0.57,
             Air: 0.1,
           },
         },
@@ -828,10 +828,10 @@ export const japanese: Cuisine = {
           season: ["summer"],
           mealType: ["dinner"],
           elementalProperties: {
-            Fire: 0.5,
-            Air: 0.2,
-            Earth: 0.2,
-            Water: 0.1,
+            Fire: 0.21,
+            Water: 0.31,
+            Earth: 0.33,
+            Air: 0.14,
           },
         },
         {
@@ -907,7 +907,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Selenium"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.1,
+            Water: 0.5,
+            Earth: 0.3,
+            Air: 0.1,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Okonomiyaki",
@@ -994,7 +1000,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner", "street food"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.19,
+            Earth: 0.42,
+            Air: 0.28,
+          },mealType: ["lunch", "dinner", "street food"],
         },
         {
           name: "Tempura",
@@ -1151,7 +1163,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Manganese"],
           },
           season: ["winter", "all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.07,
+            Water: 0.37,
+            Earth: 0.48,
+            Air: 0.08,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Tonkatsu",
@@ -1231,7 +1249,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.24,
+            Water: 0.25,
+            Earth: 0.41,
+            Air: 0.11,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Chawanmushi",
@@ -1308,7 +1332,13 @@ export const japanese: Cuisine = {
             minerals: ["Selenium", "Iodine"],
           },
           season: ["all"],
-          mealType: ["appetizer", "side dish"],
+          
+          elementalProperties: {
+            Fire: 0.14,
+            Water: 0.44,
+            Earth: 0.3,
+            Air: 0.12,
+          },mealType: ["appetizer", "side dish"],
         },
         {
           name: "Yakitori",
@@ -1378,7 +1408,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["dinner", "appetizer"],
+          
+          elementalProperties: {
+            Fire: 0.29,
+            Water: 0.24,
+            Earth: 0.32,
+            Air: 0.15,
+          },mealType: ["dinner", "appetizer"],
         },
         {
           name: "Miso Ramen",
@@ -1466,7 +1502,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter", "all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.07,
+            Water: 0.37,
+            Earth: 0.48,
+            Air: 0.08,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Katsudon",
@@ -1541,7 +1583,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.32,
+            Earth: 0.37,
+            Air: 0.1,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Gyoza",
@@ -1621,7 +1669,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["appetizer", "side dish"],
+          
+          elementalProperties: {
+            Fire: 0.12,
+            Water: 0.47,
+            Earth: 0.31,
+            Air: 0.09,
+          },mealType: ["appetizer", "side dish"],
         },
         {
           name: "Karaage",
@@ -1704,7 +1758,13 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["appetizer", "main dish"],
+          
+          elementalProperties: {
+            Fire: 0.32,
+            Water: 0.24,
+            Earth: 0.32,
+            Air: 0.12,
+          },mealType: ["appetizer", "main dish"],
         },
       ],
     },

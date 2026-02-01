@@ -264,9 +264,9 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Fire: 0.2,
+            Fire: 0.19,
+            Water: 0.37,
+            Earth: 0.34,
             Air: 0.1,
           },
           astrologicalInfluences: [
@@ -381,10 +381,10 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.5,
-            Earth: 0.3,
-            Fire: 0.1,
-            Air: 0.1,
+            Fire: 0.25,
+            Water: 0.15,
+            Earth: 0.44,
+            Air: 0.16,
           },
           astrologicalInfluences: [
             "Moon - The nurturing quality of eggs and cream",
@@ -480,9 +480,9 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Water: 0.3,
+            Fire: 0.2,
+            Water: 0.27,
+            Earth: 0.43,
             Air: 0.1,
           },
           astrologicalInfluences: [
@@ -593,10 +593,10 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.4,
-            Water: 0.2,
-            Air: 0.1,
+            Fire: 0.16,
+            Water: 0.22,
+            Earth: 0.5,
+            Air: 0.12,
           },
           astrologicalInfluences: [
             "Taurus - The sensuous, indulgent nature",
@@ -703,10 +703,10 @@ export const french: Cuisine = {
           season: ["spring", "summer"],
           mealType: ["lunch"],
           elementalProperties: {
-            Water: 0.3,
-            Earth: 0.3,
-            Air: 0.2,
-            Fire: 0.2,
+            Fire: 0.17,
+            Water: 0.41,
+            Earth: 0.33,
+            Air: 0.1,
           },
           astrologicalInfluences: [
             "Mercury - The light, fresh quality",
@@ -817,10 +817,10 @@ export const french: Cuisine = {
           season: ["autumn", "winter"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.4,
-            Earth: 0.3,
-            Water: 0.2,
-            Air: 0.1,
+            Fire: 0.15,
+            Water: 0.34,
+            Earth: 0.37,
+            Air: 0.14,
           },
           astrologicalInfluences: [
             "Saturn - The slow transformation of ingredients",
@@ -946,10 +946,10 @@ export const french: Cuisine = {
           season: ["autumn", "winter"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.5,
-            Fire: 0.3,
-            Water: 0.15,
-            Air: 0.05,
+            Fire: 0.2,
+            Water: 0.32,
+            Earth: 0.41,
+            Air: 0.08,
           },
           astrologicalInfluences: [
             "Saturn - The slow transformation through long cooking",
@@ -1071,10 +1071,10 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.3,
+            Fire: 0.21,
+            Water: 0.23,
+            Earth: 0.36,
             Air: 0.2,
-            Earth: 0.1,
           },
           astrologicalInfluences: [
             "Jupiter - The elegance and richness",
@@ -1220,9 +1220,9 @@ export const french: Cuisine = {
           season: ["autumn", "winter"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.6,
-            Fire: 0.2,
-            Water: 0.1,
+            Fire: 0.22,
+            Water: 0.31,
+            Earth: 0.37,
             Air: 0.1,
           },
           astrologicalInfluences: [
@@ -1320,10 +1320,10 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.3,
-            Water: 0.3,
-            Earth: 0.3,
-            Air: 0.1,
+            Fire: 0.19,
+            Water: 0.23,
+            Earth: 0.46,
+            Air: 0.11,
           },
           astrologicalInfluences: [
             "Venus - The sensual, creamy nature",
@@ -1423,10 +1423,10 @@ export const french: Cuisine = {
           season: ["autumn", "winter"],
           mealType: ["dessert"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
-            Air: 0.1,
+            Fire: 0.21,
+            Water: 0.25,
+            Earth: 0.41,
+            Air: 0.12,
           },
           astrologicalInfluences: [
             "Venus - The sweet, indulgent nature",
@@ -1526,9 +1526,9 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Earth: 0.3,
+            Fire: 0.18,
             Water: 0.3,
-            Fire: 0.3,
+            Earth: 0.42,
             Air: 0.1,
           },
           astrologicalInfluences: [
