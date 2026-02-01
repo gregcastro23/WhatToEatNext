@@ -13,6 +13,8 @@ interface CuisineStats {
   defaultDishes: number;
   noDishes: number;
   coveragePercent: number;
+  ingredientsWithElemental: number;
+  methodsWithElemental: number;
 }
 
 function analyzeFile(filePath: string): CuisineStats {
@@ -55,6 +57,16 @@ function analyzeFile(filePath: string): CuisineStats {
     }
   }
 
+  // Count deep grain enrichment: ingredients with elementalProperties
+  const ingredientElementalPattern = /ingredients:\s*\[[\s\S]*?elementalProperties:/g;
+  const ingredientMatches = content.match(ingredientElementalPattern);
+  const ingredientsWithElemental = ingredientMatches ? ingredientMatches.length : 0;
+
+  // Count deep grain enrichment: cooking methods as objects with elementalProperties
+  const methodObjectPattern = /cookingMethods:\s*\[\s*\{[\s\S]*?name:/g;
+  const methodMatches = content.match(methodObjectPattern);
+  const methodsWithElemental = methodMatches ? methodMatches.length : 0;
+
   const totalDishes = elementalMatches.length;
   const coverage = totalDishes > 0 ? (enriched / totalDishes) * 100 : 0;
 
@@ -65,6 +77,8 @@ function analyzeFile(filePath: string): CuisineStats {
     defaultDishes: defaulted,
     noDishes: 0,
     coveragePercent: coverage,
+    ingredientsWithElemental,
+    methodsWithElemental,
   };
 }
 
@@ -83,6 +97,8 @@ function main(): void {
   let totalEnriched = 0;
   let totalDefault = 0;
   let totalDishes = 0;
+  let totalIngredientsEnriched = 0;
+  let totalMethodsEnriched = 0;
 
   for (const file of cuisineFiles) {
     const filePath = path.join(cuisinesDir, file);
@@ -91,9 +107,11 @@ function main(): void {
     totalEnriched += result.enrichedDishes;
     totalDefault += result.defaultDishes;
     totalDishes += result.totalDishes;
+    totalIngredientsEnriched += result.ingredientsWithElemental;
+    totalMethodsEnriched += result.methodsWithElemental;
   }
 
-  console.log("Cuisine Coverage Breakdown:");
+  console.log("Recipe-Level Coverage Breakdown:");
   console.log("-".repeat(80));
   console.log(
     "Cuisine".padEnd(20) +
@@ -126,12 +144,43 @@ function main(): void {
 
   console.log("");
   console.log("=".repeat(80));
+  console.log("DEEP GRAIN ENRICHMENT (Ingredient/Method Level)");
+  console.log("=".repeat(80));
+  console.log("-".repeat(80));
+  console.log(
+    "Cuisine".padEnd(20) +
+      "Ingredients w/Elemental".padStart(25) +
+      "Methods w/Elemental".padStart(22)
+  );
+  console.log("-".repeat(80));
+
+  for (const stat of stats.sort((a, b) => a.cuisine.localeCompare(b.cuisine))) {
+    console.log(
+      stat.cuisine.padEnd(20) +
+        stat.ingredientsWithElemental.toString().padStart(25) +
+        stat.methodsWithElemental.toString().padStart(22)
+    );
+  }
+
+  console.log("-".repeat(80));
+  console.log(
+    "TOTAL".padEnd(20) +
+      totalIngredientsEnriched.toString().padStart(25) +
+      totalMethodsEnriched.toString().padStart(22)
+  );
+
+  console.log("");
+  console.log("=".repeat(80));
   console.log("SUMMARY");
   console.log("=".repeat(80));
-  console.log(`Total Recipes with Elemental Properties: ${totalDishes}`);
-  console.log(`Successfully Enriched (non-default values): ${totalEnriched}`);
-  console.log(`Still Using Default Values: ${totalDefault}`);
-  console.log(`Overall Coverage: ${totalCoverage.toFixed(1)}%`);
+  console.log(`\n📊 Recipe-Level Enrichment:`);
+  console.log(`   Total Recipes: ${totalDishes}`);
+  console.log(`   Successfully Enriched: ${totalEnriched}`);
+  console.log(`   Still Using Defaults: ${totalDefault}`);
+  console.log(`   Coverage: ${totalCoverage.toFixed(1)}%`);
+  console.log(`\n🔬 Deep Grain Enrichment:`);
+  console.log(`   Recipes with Enriched Ingredients: ${totalIngredientsEnriched}`);
+  console.log(`   Recipes with Enriched Methods: ${totalMethodsEnriched}`);
   console.log("");
 }
 

@@ -224,14 +224,46 @@ export const african: Cuisine = {
           description:
             "East African fried bread similar to doughnuts, lightly spiced with cardamom",
           cuisine: "african",
-          cookingMethods: ["frying", "dough-kneading"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "dough-kneading",
+            elementalProperties: {
+              Fire: 0.14,
+              Water: 0.14,
+              Earth: 0.43,
+              Air: 0.29,
+            },
+          }
+        ],
           ingredients: [
-            { name: "flour", amount: "2", unit: "cups", category: "grain" },
+            { name: "flour", amount: "2", unit: "cups", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
             {
               name: "sugar",
               amount: "1/4",
               unit: "cup",
               category: "sweetener",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.2,
+              },
             },
             {
               name: "coconut milk",
@@ -282,7 +314,26 @@ export const african: Cuisine = {
           description:
             "North African eggs poached in spiced tomato sauce with peppers and onions",
           cuisine: "african",
-          cookingMethods: ["poaching", "simmering"],
+          cookingMethods: [
+          {
+            name: "poaching",
+            elementalProperties: {
+              Fire: 0.19,
+              Water: 0.5,
+              Earth: 0.13,
+              Air: 0.19,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "eggs",
@@ -352,7 +403,26 @@ export const african: Cuisine = {
           description:
             "Egyptian breakfast of stewed fava beans with olive oil, lemon, and herbs",
           cuisine: "african",
-          cookingMethods: ["stewing", "mashing"],
+          cookingMethods: [
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "mashing",
+            elementalProperties: {
+              Fire: 0.11,
+              Water: 0.21,
+              Earth: 0.5,
+              Air: 0.18,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "fava beans",
@@ -423,34 +493,83 @@ export const african: Cuisine = {
           description:
             "One-pot West African rice dish with tomatoes and spices - a celebratory staple",
           cuisine: "african",
-          cookingMethods: ["simmering", "one-pot cooking"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          "one-pot cooking"
+        ],
           ingredients: [
-            { name: "rice", amount: "2", unit: "cups", category: "grain" },
+            { name: "rice", amount: "2", unit: "cups", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            },
             {
               name: "tomato paste",
               amount: "1",
               unit: "can",
               category: "condiment",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.1,
+              },
             },
             {
               name: "onions",
               amount: "2",
               unit: "whole",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "bell peppers",
               amount: "1",
               unit: "whole",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.6,
+                Water: 0.1,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "garlic",
               amount: "3",
               unit: "cloves",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-            { name: "ginger", amount: "1", unit: "tbsp", category: "spice" },
+            { name: "ginger", amount: "1", unit: "tbsp", category: "spice",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.2,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
             {
               name: "chicken broth",
               amount: "4",
@@ -492,7 +611,35 @@ export const african: Cuisine = {
           description:
             "Spicy Ethiopian chicken stew with berbere spice and boiled eggs",
           cuisine: "african",
-          cookingMethods: ["stewing", "sautéing", "simmering"],
+          cookingMethods: [
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "chicken legs",
@@ -564,7 +711,35 @@ export const african: Cuisine = {
           description:
             "Senegalese marinated chicken with caramelized onions and lemon",
           cuisine: "african",
-          cookingMethods: ["marinating", "grilling", "braising"],
+          cookingMethods: [
+          {
+            name: "marinating",
+            elementalProperties: {
+              Fire: 0.13,
+              Water: 0.44,
+              Earth: 0.19,
+              Air: 0.25,
+            },
+          },
+          {
+            name: "grilling",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.11,
+              Air: 0.33,
+            },
+          },
+          {
+            name: "braising",
+            elementalProperties: {
+              Fire: 0.25,
+              Water: 0.35,
+              Earth: 0.3,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "chicken",
@@ -640,7 +815,26 @@ export const african: Cuisine = {
           description:
             "South African curried meatloaf with egg custard topping",
           cuisine: "african",
-          cookingMethods: ["baking", "sautéing"],
+          cookingMethods: [
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          },
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "ground lamb",
@@ -755,7 +949,26 @@ export const african: Cuisine = {
           name: "Maafe",
           description: "West African peanut stew with meat and vegetables",
           cuisine: "african",
-          cookingMethods: ["stewing", "simmering"],
+          cookingMethods: [
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "lamb",
@@ -830,12 +1043,59 @@ export const african: Cuisine = {
           description:
             "Sweet and sticky South African baked dessert with a caramelized exterior",
           cuisine: "african",
-          cookingMethods: ["baking", "sauce-making"],
+          cookingMethods: [
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          },
+          {
+            name: "sauce-making",
+            elementalProperties: {
+              Fire: 0.27,
+              Water: 0.33,
+              Earth: 0.2,
+              Air: 0.2,
+            },
+          }
+        ],
           ingredients: [
-            { name: "flour", amount: "1", unit: "cup", category: "grain" },
-            { name: "sugar", amount: "1", unit: "cup", category: "sweetener" },
-            { name: "milk", amount: "1", unit: "cup", category: "dairy" },
-            { name: "eggs", amount: "2", unit: "whole", category: "protein" },
+            { name: "flour", amount: "1", unit: "cup", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
+            { name: "sugar", amount: "1", unit: "cup", category: "sweetener",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.2,
+              },
+            },
+            { name: "milk", amount: "1", unit: "cup", category: "dairy",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
+            { name: "eggs", amount: "2", unit: "whole", category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
+            },
             {
               name: "apricot jam",
               amount: "1/2",
@@ -885,9 +1145,27 @@ export const african: Cuisine = {
           name: "Coconut Chin Chin",
           description: "West African fried pastry snack with coconut",
           cuisine: "african",
-          cookingMethods: ["frying", "dough-making"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          "dough-making"
+        ],
           ingredients: [
-            { name: "flour", amount: "3", unit: "cups", category: "grain" },
+            { name: "flour", amount: "3", unit: "cups", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
             {
               name: "coconut",
               amount: "1",

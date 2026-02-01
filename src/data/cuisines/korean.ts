@@ -13,7 +13,27 @@ export const korean: Cuisine = {
           name: "Gyeran Bap",
           description: "Rice with soft scrambled eggs and sesame oil",
           cuisine: "Korean",
-          cookingMethods: ["steaming", "scrambling", "mixing"],
+          cookingMethods: [
+          {
+            name: "steaming",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.56,
+              Earth: 0.13,
+              Air: 0.25,
+            },
+          },
+          "scrambling",
+          {
+            name: "mixing",
+            elementalProperties: {
+              Fire: 0.07,
+              Water: 0.21,
+              Earth: 0.21,
+              Air: 0.5,
+            },
+          }
+        ],
           tools: [
             "rice cooker",
             "non-stick pan",
@@ -35,6 +55,12 @@ export const korean: Cuisine = {
               amount: "1",
               unit: "cup",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "eggs",
@@ -99,7 +125,19 @@ export const korean: Cuisine = {
           name: "Juk",
           description: "Korean rice porridge with various toppings",
           cuisine: "Korean",
-          cookingMethods: ["simmering", "stirring", "garnishing"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          "stirring",
+          "garnishing"
+        ],
           tools: [
             "heavy-bottomed pot",
             "wooden spoon",
@@ -121,6 +159,12 @@ export const korean: Cuisine = {
               amount: "1",
               unit: "cup",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "mushrooms",
@@ -181,7 +225,35 @@ export const korean: Cuisine = {
           name: "Kong Guksu",
           description: "Chilled soy milk noodle soup",
           cuisine: "Korean",
-          cookingMethods: ["blending", "boiling", "chilling"],
+          cookingMethods: [
+          {
+            name: "blending",
+            elementalProperties: {
+              Fire: 0.1,
+              Water: 0.26,
+              Earth: 0.16,
+              Air: 0.48,
+            },
+          },
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          },
+          {
+            name: "chilling",
+            elementalProperties: {
+              Fire: 0,
+              Water: 0.54,
+              Earth: 0.15,
+              Air: 0.31,
+            },
+          }
+        ],
           tools: [
             "blender",
             "strainer",
@@ -198,7 +270,14 @@ export const korean: Cuisine = {
             "Assemble with toppings",
           ],
           ingredients: [
-            { name: "soybeans", amount: "200", unit: "g", category: "legume" },
+            { name: "soybeans", amount: "200", unit: "g", category: "legume",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
+            },
             {
               name: "somyeon noodles",
               amount: "200",
@@ -264,7 +343,35 @@ export const korean: Cuisine = {
           name: "Bibimbap",
           description: "Mixed rice bowl with vegetables and gochujang",
           cuisine: "Korean",
-          cookingMethods: ["stir-frying", "steaming", "assembling"],
+          cookingMethods: [
+          {
+            name: "stir-frying",
+            elementalProperties: {
+              Fire: 0.44,
+              Water: 0.09,
+              Earth: 0.15,
+              Air: 0.32,
+            },
+          },
+          {
+            name: "steaming",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.56,
+              Earth: 0.13,
+              Air: 0.25,
+            },
+          },
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "rice cooker",
             "multiple small pans",
@@ -287,6 +394,12 @@ export const korean: Cuisine = {
               amount: "2",
               unit: "cups",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "bulgogi",
@@ -358,7 +471,26 @@ export const korean: Cuisine = {
           name: "Kimchi Jjigae",
           description: "Spicy kimchi stew with pork and tofu",
           cuisine: "Korean",
-          cookingMethods: ["simmering", "stewing"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          }
+        ],
           tools: [
             "earthenware pot",
             "ladle",
@@ -434,7 +566,35 @@ export const korean: Cuisine = {
           name: "Naengmyeon",
           description: "Cold buckwheat noodles in chilled broth",
           cuisine: "Korean",
-          cookingMethods: ["boiling", "chilling", "assembling"],
+          cookingMethods: [
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          },
+          {
+            name: "chilling",
+            elementalProperties: {
+              Fire: 0,
+              Water: 0.54,
+              Earth: 0.15,
+              Air: 0.31,
+            },
+          },
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "large pot",
             "strainer",
@@ -518,7 +678,27 @@ export const korean: Cuisine = {
           name: "Tteokguk",
           description: "Rice cake soup traditionally eaten on New Year's Day",
           cuisine: "Korean",
-          cookingMethods: ["simmering", "slicing", "garnishing"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "slicing",
+            elementalProperties: {
+              Fire: 0.08,
+              Water: 0.08,
+              Earth: 0.54,
+              Air: 0.31,
+            },
+          },
+          "garnishing"
+        ],
           tools: ["large pot", "knife", "strainer", "ladle", "serving bowls"],
           preparationSteps: [
             "Prepare beef broth",
@@ -534,6 +714,12 @@ export const korean: Cuisine = {
               amount: "300",
               unit: "g",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "beef brisket",
@@ -595,7 +781,27 @@ export const korean: Cuisine = {
           name: "Samgyeopsal-gui",
           description: "Grilled pork belly with lettuce wraps and condiments",
           cuisine: "Korean",
-          cookingMethods: ["grilling", "wrapping", "assembling"],
+          cookingMethods: [
+          {
+            name: "grilling",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.11,
+              Air: 0.33,
+            },
+          },
+          "wrapping",
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "tabletop grill",
             "tongs",
@@ -617,12 +823,24 @@ export const korean: Cuisine = {
               amount: "600",
               unit: "g",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "lettuce leaves",
               amount: "1",
               unit: "head",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.05,
+                Water: 0.6,
+                Earth: 0.15,
+                Air: 0.2,
+              },
             },
             {
               name: "perilla leaves",
@@ -635,6 +853,12 @@ export const korean: Cuisine = {
               amount: "1",
               unit: "head",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             { name: "ssamjang", amount: "4", unit: "tbsp", category: "sauce" },
             { name: "kimchi", amount: "200", unit: "g", category: "side dish" },
@@ -674,7 +898,26 @@ export const korean: Cuisine = {
           name: "Sundubu Jjigae",
           description: "Spicy soft tofu stew",
           cuisine: "Korean",
-          cookingMethods: ["simmering", "stewing"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          }
+        ],
           tools: [
             "earthenware pot",
             "ladle",
@@ -696,6 +939,12 @@ export const korean: Cuisine = {
               amount: "400",
               unit: "g",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.4,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "clams",
@@ -703,6 +952,12 @@ export const korean: Cuisine = {
               unit: "g",
               category: "seafood",
               optional: true,
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "gochugaru",
@@ -715,13 +970,32 @@ export const korean: Cuisine = {
               amount: "4",
               unit: "cloves",
               category: "aromatic",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-            { name: "egg", amount: "1", unit: "large", category: "protein" },
+            { name: "egg", amount: "1", unit: "large", category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
+            },
             {
               name: "mushrooms",
               amount: "100",
               unit: "g",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
           ],
           substitutions: {
@@ -759,7 +1033,35 @@ export const korean: Cuisine = {
           name: "Bulgogi",
           description: "Marinated and grilled beef",
           cuisine: "Korean",
-          cookingMethods: ["marinating", "grilling", "pan-frying"],
+          cookingMethods: [
+          {
+            name: "marinating",
+            elementalProperties: {
+              Fire: 0.13,
+              Water: 0.44,
+              Earth: 0.19,
+              Air: 0.25,
+            },
+          },
+          {
+            name: "grilling",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.11,
+              Air: 0.33,
+            },
+          },
+          {
+            name: "pan-frying",
+            elementalProperties: {
+              Fire: 0.42,
+              Water: 0.09,
+              Earth: 0.21,
+              Air: 0.27,
+            },
+          }
+        ],
           tools: [
             "grill or skillet",
             "mixing bowls",
@@ -781,6 +1083,12 @@ export const korean: Cuisine = {
               amount: "500",
               unit: "g",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "asian pear",
@@ -793,19 +1101,44 @@ export const korean: Cuisine = {
               amount: "4",
               unit: "tbsp",
               category: "seasoning",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.5,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
-            { name: "sesame oil", amount: "2", unit: "tbsp", category: "oil" },
+            { name: "sesame oil", amount: "2", unit: "tbsp", category: "oil",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.2,
+              },
+            },
             {
               name: "garlic",
               amount: "4",
               unit: "cloves",
               category: "aromatic",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "green onions",
               amount: "2",
               unit: "stalks",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
           ],
           substitutions: {
@@ -844,7 +1177,26 @@ export const korean: Cuisine = {
           description:
             "Spicy stir-fried chicken with rice cakes and vegetables",
           cuisine: "Korean",
-          cookingMethods: ["stir-frying", "simmering"],
+          cookingMethods: [
+          {
+            name: "stir-frying",
+            elementalProperties: {
+              Fire: 0.44,
+              Water: 0.09,
+              Earth: 0.15,
+              Air: 0.32,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: [
             "large skillet or dakgalbi pan",
             "tongs",
@@ -867,19 +1219,44 @@ export const korean: Cuisine = {
               amount: "600",
               unit: "g",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.25,
+                Earth: 0.35,
+                Air: 0.15,
+              },
             },
-            { name: "rice cakes", amount: "200", unit: "g", category: "grain" },
+            { name: "rice cakes", amount: "200", unit: "g", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            },
             {
               name: "cabbage",
               amount: "300",
               unit: "g",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.3,
+                Air: 0.3,
+              },
             },
             {
               name: "sweet potato",
               amount: "1",
               unit: "medium",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "gochugaru",
@@ -924,7 +1301,26 @@ export const korean: Cuisine = {
           name: "Haemul Pajeon",
           description: "Seafood and green onion pancake",
           cuisine: "Korean",
-          cookingMethods: ["pan-frying", "mixing"],
+          cookingMethods: [
+          {
+            name: "pan-frying",
+            elementalProperties: {
+              Fire: 0.42,
+              Water: 0.09,
+              Earth: 0.21,
+              Air: 0.27,
+            },
+          },
+          {
+            name: "mixing",
+            elementalProperties: {
+              Fire: 0.07,
+              Water: 0.21,
+              Earth: 0.21,
+              Air: 0.5,
+            },
+          }
+        ],
           tools: [
             "large non-stick pan",
             "mixing bowls",
@@ -942,12 +1338,25 @@ export const korean: Cuisine = {
             "Flip and cook until crispy",
           ],
           ingredients: [
-            { name: "flour", amount: "2", unit: "cups", category: "grain" },
+            { name: "flour", amount: "2", unit: "cups", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
             {
               name: "green onions",
               amount: "10",
               unit: "stalks",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "squid",
@@ -1007,7 +1416,26 @@ export const korean: Cuisine = {
           name: "Gamjatang",
           description: "Spicy pork spine soup with potatoes",
           cuisine: "Korean",
-          cookingMethods: ["simmering", "boiling"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          }
+        ],
           tools: ["large pot", "strainer", "ladle", "knife", "cutting board"],
           preparationSteps: [
             "Soak pork bones",
@@ -1023,12 +1451,24 @@ export const korean: Cuisine = {
               amount: "1",
               unit: "kg",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "potatoes",
               amount: "4",
               unit: "medium",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "perilla leaves",
@@ -1047,12 +1487,24 @@ export const korean: Cuisine = {
               amount: "8",
               unit: "cloves",
               category: "aromatic",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "bean sprouts",
               amount: "200",
               unit: "g",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
           ],
           substitutions: {
@@ -1090,7 +1542,18 @@ export const korean: Cuisine = {
           name: "Bossam",
           description: "Boiled pork belly wrapped in cabbage leaves",
           cuisine: "Korean",
-          cookingMethods: ["boiling", "wrapping"],
+          cookingMethods: [
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          },
+          "wrapping"
+        ],
           tools: [
             "large pot",
             "strainer",
@@ -1112,20 +1575,45 @@ export const korean: Cuisine = {
               amount: "1",
               unit: "kg",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "napa cabbage",
               amount: "1",
               unit: "head",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.3,
+                Air: 0.3,
+              },
             },
             {
               name: "garlic",
               amount: "10",
               unit: "cloves",
               category: "aromatic",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-            { name: "ginger", amount: "50", unit: "g", category: "aromatic" },
+            { name: "ginger", amount: "50", unit: "g", category: "aromatic",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.2,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
             {
               name: "saeujeot",
               amount: "100",
@@ -1270,12 +1758,25 @@ export const korean: Cuisine = {
           description: "Shaved ice with sweet red beans and toppings",
           cuisine: "Korean",
           ingredients: [
-            { name: "shaved ice", amount: "4", unit: "cups", category: "ice" },
+            { name: "shaved ice", amount: "4", unit: "cups", category: "ice",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.85,
+                Earth: 0.05,
+                Air: 0.1,
+              },
+            },
             {
               name: "red bean paste",
               amount: "200",
               unit: "g",
               category: "bean",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "condensed milk",
@@ -1353,14 +1854,34 @@ export const korean: Cuisine = {
           description: "Half-moon shaped rice cakes",
           cuisine: "Korean",
           ingredients: [
-            { name: "rice flour", amount: "400", unit: "g", category: "grain" },
+            { name: "rice flour", amount: "400", unit: "g", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            },
             {
               name: "sesame seeds",
               amount: "100",
               unit: "g",
               category: "seeds",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.2,
+              },
             },
-            { name: "honey", amount: "60", unit: "ml", category: "sweetener" },
+            { name: "honey", amount: "60", unit: "ml", category: "sweetener",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.3,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
             {
               name: "pine needles",
               amount: "2",
@@ -1391,7 +1912,35 @@ export const korean: Cuisine = {
           description:
             "Sweet potato noodles stir-fried with vegetables and meat",
           cuisine: "Korean",
-          cookingMethods: ["stir-frying", "blanching", "assembling"],
+          cookingMethods: [
+          {
+            name: "stir-frying",
+            elementalProperties: {
+              Fire: 0.44,
+              Water: 0.09,
+              Earth: 0.15,
+              Air: 0.32,
+            },
+          },
+          {
+            name: "blanching",
+            elementalProperties: {
+              Fire: 0.23,
+              Water: 0.55,
+              Earth: 0.1,
+              Air: 0.13,
+            },
+          },
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "large wok",
             "multiple bowls",
@@ -1414,6 +1963,12 @@ export const korean: Cuisine = {
               amount: "250",
               unit: "g",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "beef",

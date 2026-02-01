@@ -221,6 +221,134 @@ const INGREDIENT_ELEMENTAL_MAP: Record<string, ElementalProperties> = {
   dressing: { Fire: 0.2, Water: 0.45, Earth: 0.2, Air: 0.15 },
 };
 
+// Cooking method elemental mappings (extracted from src/data/cooking/cookingMethods.ts)
+const METHOD_ELEMENTAL_MAP: Record<string, ElementalProperties> = {
+  // High heat methods - Fire dominant
+  roasting: { Fire: 0.8, Water: 0.1, Earth: 0.3, Air: 0.5 },
+  roast: { Fire: 0.8, Water: 0.1, Earth: 0.3, Air: 0.5 },
+  grilling: { Fire: 0.9, Water: 0.1, Earth: 0.2, Air: 0.6 },
+  grill: { Fire: 0.9, Water: 0.1, Earth: 0.2, Air: 0.6 },
+  grilled: { Fire: 0.9, Water: 0.1, Earth: 0.2, Air: 0.6 },
+  charring: { Fire: 0.95, Water: 0.05, Earth: 0.2, Air: 0.6 },
+  broiling: { Fire: 0.85, Water: 0.1, Earth: 0.2, Air: 0.55 },
+  searing: { Fire: 0.9, Water: 0.1, Earth: 0.2, Air: 0.5 },
+
+  // Pan/Oil cooking - Fire with Earth
+  frying: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.5 },
+  fry: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.5 },
+  fried: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.5 },
+  "deep-frying": { Fire: 0.75, Water: 0.1, Earth: 0.35, Air: 0.45 },
+  "deep-fried": { Fire: 0.75, Water: 0.1, Earth: 0.35, Air: 0.45 },
+  sauteing: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.5 },
+  saute: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.5 },
+  sautéing: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.5 },
+  sauté: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.5 },
+  "stir-frying": { Fire: 0.75, Water: 0.15, Earth: 0.25, Air: 0.55 },
+  "stir-fry": { Fire: 0.75, Water: 0.15, Earth: 0.25, Air: 0.55 },
+  "pan-frying": { Fire: 0.7, Water: 0.15, Earth: 0.35, Air: 0.45 },
+  toasting: { Fire: 0.65, Water: 0.1, Earth: 0.4, Air: 0.45 },
+
+  // Oven methods - Fire with Air
+  baking: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.7 },
+  bake: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.7 },
+  baked: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.7 },
+
+  // Wet cooking methods - Water dominant
+  boiling: { Fire: 0.4, Water: 1.0, Earth: 0.2, Air: 0.1 },
+  boil: { Fire: 0.4, Water: 1.0, Earth: 0.2, Air: 0.1 },
+  boiled: { Fire: 0.4, Water: 1.0, Earth: 0.2, Air: 0.1 },
+  steaming: { Fire: 0.1, Water: 0.9, Earth: 0.2, Air: 0.4 },
+  steam: { Fire: 0.1, Water: 0.9, Earth: 0.2, Air: 0.4 },
+  steamed: { Fire: 0.1, Water: 0.9, Earth: 0.2, Air: 0.4 },
+  simmering: { Fire: 0.3, Water: 0.8, Earth: 0.25, Air: 0.15 },
+  simmer: { Fire: 0.3, Water: 0.8, Earth: 0.25, Air: 0.15 },
+  simmered: { Fire: 0.3, Water: 0.8, Earth: 0.25, Air: 0.15 },
+  poaching: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.3 },
+  poach: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.3 },
+  poached: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.3 },
+  blanching: { Fire: 0.35, Water: 0.85, Earth: 0.15, Air: 0.2 },
+  blanch: { Fire: 0.35, Water: 0.85, Earth: 0.15, Air: 0.2 },
+  "water bath": { Fire: 0.2, Water: 0.9, Earth: 0.2, Air: 0.2 },
+
+  // Mixed methods - Water and Fire
+  braising: { Fire: 0.5, Water: 0.7, Earth: 0.6, Air: 0.2 },
+  braise: { Fire: 0.5, Water: 0.7, Earth: 0.6, Air: 0.2 },
+  braised: { Fire: 0.5, Water: 0.7, Earth: 0.6, Air: 0.2 },
+  stewing: { Fire: 0.4, Water: 0.75, Earth: 0.55, Air: 0.15 },
+  stew: { Fire: 0.4, Water: 0.75, Earth: 0.55, Air: 0.15 },
+
+  // Pressure/Slow cooking
+  pressure_cooking: { Fire: 0.5, Water: 0.7, Earth: 0.6, Air: 0.3 },
+  "pressure cooking": { Fire: 0.5, Water: 0.7, Earth: 0.6, Air: 0.3 },
+  sous_vide: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.2 },
+  "sous vide": { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.2 },
+  "slow-cooking": { Fire: 0.35, Water: 0.7, Earth: 0.6, Air: 0.15 },
+
+  // Smoking/Curing - Air and Fire
+  smoking: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.8 },
+  smoke: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.8 },
+  smoked: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.8 },
+  curing: { Fire: 0.2, Water: 0.3, Earth: 0.7, Air: 0.4 },
+  cured: { Fire: 0.2, Water: 0.3, Earth: 0.7, Air: 0.4 },
+  drying: { Fire: 0.3, Water: 0.1, Earth: 0.5, Air: 0.9 },
+  dehydrating: { Fire: 0.4, Water: 0.1, Earth: 0.5, Air: 0.9 },
+
+  // Fermentation - Earth and Water
+  fermenting: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.4 },
+  ferment: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.4 },
+  fermented: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.4 },
+  pickling: { Fire: 0.1, Water: 0.7, Earth: 0.5, Air: 0.3 },
+  pickled: { Fire: 0.1, Water: 0.7, Earth: 0.5, Air: 0.3 },
+
+  // Raw/Cold methods - Water and Air
+  raw: { Fire: 0.0, Water: 0.5, Earth: 0.3, Air: 0.6 },
+  chilling: { Fire: 0.0, Water: 0.7, Earth: 0.2, Air: 0.4 },
+  freezing: { Fire: 0.0, Water: 0.9, Earth: 0.3, Air: 0.2 },
+  marinating: { Fire: 0.2, Water: 0.7, Earth: 0.3, Air: 0.4 },
+  marinate: { Fire: 0.2, Water: 0.7, Earth: 0.3, Air: 0.4 },
+
+  // Mixing/Preparation - Air dominant
+  whipping: { Fire: 0.1, Water: 0.3, Earth: 0.2, Air: 0.9 },
+  whip: { Fire: 0.1, Water: 0.3, Earth: 0.2, Air: 0.9 },
+  mixing: { Fire: 0.1, Water: 0.3, Earth: 0.3, Air: 0.7 },
+  blending: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.75 },
+  folding: { Fire: 0.05, Water: 0.25, Earth: 0.25, Air: 0.85 },
+  kneading: { Fire: 0.2, Water: 0.2, Earth: 0.6, Air: 0.4 },
+  whisking: { Fire: 0.1, Water: 0.35, Earth: 0.15, Air: 0.85 },
+
+  // Specialty methods
+  caramelizing: { Fire: 0.8, Water: 0.1, Earth: 0.4, Air: 0.3 },
+  reducing: { Fire: 0.5, Water: 0.6, Earth: 0.3, Air: 0.35 },
+  deglazing: { Fire: 0.5, Water: 0.7, Earth: 0.2, Air: 0.3 },
+  infusing: { Fire: 0.2, Water: 0.6, Earth: 0.3, Air: 0.5 },
+  brewing: { Fire: 0.4, Water: 0.7, Earth: 0.2, Air: 0.4 },
+  warming: { Fire: 0.4, Water: 0.3, Earth: 0.3, Air: 0.3 },
+  reheating: { Fire: 0.5, Water: 0.3, Earth: 0.3, Air: 0.3 },
+
+  // Cutting/Prep - Earth dominant
+  chopping: { Fire: 0.1, Water: 0.1, Earth: 0.7, Air: 0.4 },
+  slicing: { Fire: 0.1, Water: 0.1, Earth: 0.7, Air: 0.4 },
+  dicing: { Fire: 0.1, Water: 0.1, Earth: 0.7, Air: 0.4 },
+  mincing: { Fire: 0.15, Water: 0.15, Earth: 0.65, Air: 0.45 },
+  grinding: { Fire: 0.2, Water: 0.1, Earth: 0.8, Air: 0.3 },
+  pureeing: { Fire: 0.15, Water: 0.5, Earth: 0.4, Air: 0.45 },
+  mashing: { Fire: 0.15, Water: 0.3, Earth: 0.7, Air: 0.25 },
+
+  // Additional culinary methods
+  "sauce-making": { Fire: 0.4, Water: 0.5, Earth: 0.3, Air: 0.3 },
+  soaking: { Fire: 0.0, Water: 0.9, Earth: 0.2, Air: 0.1 },
+  assembling: { Fire: 0.05, Water: 0.2, Earth: 0.5, Air: 0.5 },
+  "pastry-making": { Fire: 0.3, Water: 0.2, Earth: 0.6, Air: 0.5 },
+  piping: { Fire: 0.05, Water: 0.3, Earth: 0.3, Air: 0.7 },
+  glazing: { Fire: 0.4, Water: 0.3, Earth: 0.3, Air: 0.4 },
+  coating: { Fire: 0.2, Water: 0.3, Earth: 0.5, Air: 0.4 },
+  stuffing: { Fire: 0.1, Water: 0.2, Earth: 0.7, Air: 0.3 },
+  layering: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.4 },
+  resting: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.4 },
+  tempering: { Fire: 0.4, Water: 0.3, Earth: 0.4, Air: 0.3 },
+  emulsifying: { Fire: 0.2, Water: 0.5, Earth: 0.2, Air: 0.6 },
+};
+
 // Cuisine elemental modifiers
 const CUISINE_MODIFIERS: Record<string, ElementalProperties> = {
   italian: { Fire: 1.0, Water: 1.0, Earth: 1.2, Air: 1.0 },
@@ -314,6 +442,180 @@ function findIngredientElementals(ingredientName: string): ElementalProperties |
   }
 
   return null;
+}
+
+/**
+ * Find matching elemental properties for a cooking method
+ */
+function findMethodElementals(methodName: string): ElementalProperties | null {
+  const name = methodName.toLowerCase().trim();
+
+  // Direct match
+  if (METHOD_ELEMENTAL_MAP[name]) {
+    return METHOD_ELEMENTAL_MAP[name];
+  }
+
+  // Try with hyphen replacement
+  const hyphenated = name.replace(/\s+/g, "-");
+  if (METHOD_ELEMENTAL_MAP[hyphenated]) {
+    return METHOD_ELEMENTAL_MAP[hyphenated];
+  }
+
+  // Partial match
+  for (const [key, mapping] of Object.entries(METHOD_ELEMENTAL_MAP)) {
+    if (name.includes(key) || key.includes(name)) {
+      return mapping;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Normalize elemental properties to sum to 1.0
+ */
+function normalizeElementals(props: ElementalProperties): ElementalProperties {
+  const total = props.Fire + props.Water + props.Earth + props.Air;
+  if (total === 0) {
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  }
+  return {
+    Fire: Math.round((props.Fire / total) * 100) / 100,
+    Water: Math.round((props.Water / total) * 100) / 100,
+    Earth: Math.round((props.Earth / total) * 100) / 100,
+    Air: Math.round((props.Air / total) * 100) / 100,
+  };
+}
+
+/**
+ * Enrich individual ingredients in an ingredients array block
+ * Adds elementalProperties to each ingredient object
+ */
+function enrichIngredientsInBlock(block: string): { enrichedBlock: string; enrichedCount: number } {
+  let enrichedBlock = block;
+  let enrichedCount = 0;
+
+  // Find the ingredients array
+  const ingredientsMatch = block.match(/ingredients:\s*\[([\s\S]*?)\]/);
+  if (!ingredientsMatch) {
+    return { enrichedBlock, enrichedCount: 0 };
+  }
+
+  const ingredientsArrayContent = ingredientsMatch[1];
+  let newIngredientsContent = ingredientsArrayContent;
+
+  // Find each ingredient object and add elementalProperties if not present
+  const ingredientObjectPattern = /\{([^{}]*?name:\s*["']([^"']+)["'][^{}]*?)\}/g;
+  let ingredientMatch;
+  const replacements: Array<{ original: string; replacement: string }> = [];
+
+  while ((ingredientMatch = ingredientObjectPattern.exec(ingredientsArrayContent)) !== null) {
+    const fullMatch = ingredientMatch[0];
+    const ingredientContent = ingredientMatch[1];
+    const ingredientName = ingredientMatch[2];
+
+    // Skip if already has elementalProperties
+    if (ingredientContent.includes("elementalProperties")) {
+      continue;
+    }
+
+    const elementals = findIngredientElementals(ingredientName);
+    if (elementals) {
+      const normalized = normalizeElementals(elementals);
+      // Insert elementalProperties before the closing brace
+      const newContent = fullMatch.slice(0, -1).trimEnd();
+      const needsComma = !newContent.endsWith(",");
+      const replacement = `${newContent}${needsComma ? "," : ""}
+              elementalProperties: {
+                Fire: ${normalized.Fire},
+                Water: ${normalized.Water},
+                Earth: ${normalized.Earth},
+                Air: ${normalized.Air},
+              },
+            }`;
+      replacements.push({ original: fullMatch, replacement });
+      enrichedCount++;
+    }
+  }
+
+  // Apply replacements in reverse order to preserve indices
+  for (const { original, replacement } of replacements.reverse()) {
+    newIngredientsContent = newIngredientsContent.replace(original, replacement);
+  }
+
+  if (enrichedCount > 0) {
+    enrichedBlock = block.replace(ingredientsArrayContent, newIngredientsContent);
+  }
+
+  return { enrichedBlock, enrichedCount };
+}
+
+/**
+ * Enrich cooking methods in a cookingMethods array block
+ * Converts string methods to objects with elementalProperties
+ */
+function enrichCookingMethodsInBlock(block: string): { enrichedBlock: string; enrichedCount: number } {
+  let enrichedBlock = block;
+  let enrichedCount = 0;
+
+  // Find the cookingMethods array - handle both string arrays and object arrays
+  const methodsMatch = block.match(/cookingMethods:\s*\[([\s\S]*?)\]/);
+  if (!methodsMatch) {
+    return { enrichedBlock, enrichedCount: 0 };
+  }
+
+  const methodsArrayContent = methodsMatch[1];
+
+  // Check if methods are already objects (contain { and name:)
+  if (methodsArrayContent.includes("{") && methodsArrayContent.includes("name:")) {
+    // Already enriched as objects, skip
+    return { enrichedBlock, enrichedCount: 0 };
+  }
+
+  // Parse string methods
+  const methodStrings: string[] = [];
+  const stringMethodPattern = /["']([^"']+)["']/g;
+  let methodMatch;
+
+  while ((methodMatch = stringMethodPattern.exec(methodsArrayContent)) !== null) {
+    methodStrings.push(methodMatch[1]);
+  }
+
+  if (methodStrings.length === 0) {
+    return { enrichedBlock, enrichedCount: 0 };
+  }
+
+  // Build new methods array with objects
+  const enrichedMethods: string[] = [];
+
+  for (const methodName of methodStrings) {
+    const elementals = findMethodElementals(methodName);
+    if (elementals) {
+      const normalized = normalizeElementals(elementals);
+      enrichedMethods.push(`{
+            name: "${methodName}",
+            elementalProperties: {
+              Fire: ${normalized.Fire},
+              Water: ${normalized.Water},
+              Earth: ${normalized.Earth},
+              Air: ${normalized.Air},
+            },
+          }`);
+      enrichedCount++;
+    } else {
+      // Keep as string if no mapping found
+      enrichedMethods.push(`"${methodName}"`);
+    }
+  }
+
+  if (enrichedCount > 0) {
+    const newMethodsArray = `cookingMethods: [
+          ${enrichedMethods.join(",\n          ")}
+        ]`;
+    enrichedBlock = block.replace(/cookingMethods:\s*\[[^\]]*\]/, newMethodsArray);
+  }
+
+  return { enrichedBlock, enrichedCount };
 }
 
 /**
@@ -578,13 +880,24 @@ function addElementalPropertiesToBlock(block: string, elementals: ElementalPrope
 }
 
 /**
- * Process a cuisine file and enrich recipes
+ * Process a cuisine file and enrich recipes with deep enrichment
+ * - Recipe-level elemental properties
+ * - Individual ingredient elemental properties
+ * - Cooking method elemental properties (converts strings to objects)
  */
-function processCuisineFile(filePath: string, dryRun: boolean): { modified: boolean; enrichedCount: number; skippedCount: number } {
+function processCuisineFile(filePath: string, dryRun: boolean): {
+  modified: boolean;
+  enrichedCount: number;
+  skippedCount: number;
+  ingredientsEnriched: number;
+  methodsEnriched: number;
+} {
   const content = fs.readFileSync(filePath, "utf-8");
   let modifiedContent = content;
   let enrichedCount = 0;
   let skippedCount = 0;
+  let totalIngredientsEnriched = 0;
+  let totalMethodsEnriched = 0;
 
   const cuisineName = path.basename(filePath, ".ts");
   console.log(`\nProcessing: ${cuisineName}`);
@@ -669,25 +982,46 @@ function processCuisineFile(filePath: string, dryRun: boolean): { modified: bool
     }
 
     // Add elemental properties to the block
-    const enrichedBlock = addElementalPropertiesToBlock(dishBlock, elementals, planetaryInfluences);
+    let enrichedBlock = addElementalPropertiesToBlock(dishBlock, elementals, planetaryInfluences);
+
+    // DEEP ENRICHMENT: Enrich individual ingredients with elementalProperties
+    const ingredientEnrichmentResult = enrichIngredientsInBlock(enrichedBlock);
+    enrichedBlock = ingredientEnrichmentResult.enrichedBlock;
+    totalIngredientsEnriched += ingredientEnrichmentResult.enrichedCount;
+
+    // DEEP ENRICHMENT: Enrich cooking methods with elementalProperties
+    const methodEnrichmentResult = enrichCookingMethodsInBlock(enrichedBlock);
+    enrichedBlock = methodEnrichmentResult.enrichedBlock;
+    totalMethodsEnriched += methodEnrichmentResult.enrichedCount;
 
     if (enrichedBlock !== dishBlock) {
       modifiedContent = modifiedContent.substring(0, startIndex) + enrichedBlock + modifiedContent.substring(endIndex);
       console.log(`    Enriched: "${dishName}" -> Fire: ${elementals.Fire}, Water: ${elementals.Water}, Earth: ${elementals.Earth}, Air: ${elementals.Air}`);
+      if (ingredientEnrichmentResult.enrichedCount > 0) {
+        console.log(`      + ${ingredientEnrichmentResult.enrichedCount} ingredients enriched`);
+      }
+      if (methodEnrichmentResult.enrichedCount > 0) {
+        console.log(`      + ${methodEnrichmentResult.enrichedCount} cooking methods enriched`);
+      }
       enrichedCount++;
     }
   }
 
   // Write the modified content if not dry run
-  if (!dryRun && enrichedCount > 0) {
+  if (!dryRun && (enrichedCount > 0 || totalIngredientsEnriched > 0 || totalMethodsEnriched > 0)) {
     fs.writeFileSync(filePath, modifiedContent, "utf-8");
-    console.log(`  Wrote ${enrichedCount} enriched dishes to ${cuisineName}.ts`);
+    console.log(`  Wrote changes to ${cuisineName}.ts:`);
+    console.log(`    - ${enrichedCount} recipes enriched`);
+    console.log(`    - ${totalIngredientsEnriched} ingredients enriched (deep)`);
+    console.log(`    - ${totalMethodsEnriched} cooking methods enriched (deep)`);
   }
 
   return {
-    modified: enrichedCount > 0,
+    modified: enrichedCount > 0 || totalIngredientsEnriched > 0 || totalMethodsEnriched > 0,
     enrichedCount,
     skippedCount,
+    ingredientsEnriched: totalIngredientsEnriched,
+    methodsEnriched: totalMethodsEnriched,
   };
 }
 
@@ -731,6 +1065,8 @@ async function main(): Promise<void> {
   let totalEnriched = 0;
   let totalSkipped = 0;
   let filesModified = 0;
+  let totalIngredientsEnriched = 0;
+  let totalMethodsEnriched = 0;
 
   for (const file of cuisineFiles) {
     const filePath = path.join(cuisinesDir, file);
@@ -738,21 +1074,27 @@ async function main(): Promise<void> {
 
     totalEnriched += result.enrichedCount;
     totalSkipped += result.skippedCount;
+    totalIngredientsEnriched += result.ingredientsEnriched;
+    totalMethodsEnriched += result.methodsEnriched;
     if (result.modified) filesModified++;
   }
 
   console.log("\n" + "=".repeat(80));
-  console.log("ENRICHMENT SUMMARY");
+  console.log("DEEP ENRICHMENT SUMMARY");
   console.log("=".repeat(80));
   console.log(`Files processed: ${cuisineFiles.length}`);
   console.log(`Files modified: ${filesModified}`);
-  console.log(`Recipes enriched: ${totalEnriched}`);
-  console.log(`Recipes skipped: ${totalSkipped}`);
+  console.log(`\nRecipe-Level Enrichment:`);
+  console.log(`  Recipes enriched: ${totalEnriched}`);
+  console.log(`  Recipes skipped: ${totalSkipped}`);
+  console.log(`\nDeep Grain Enrichment:`);
+  console.log(`  Ingredients enriched: ${totalIngredientsEnriched}`);
+  console.log(`  Cooking methods enriched: ${totalMethodsEnriched}`);
 
   if (dryRun) {
     console.log("\nThis was a dry run. Run without --dry-run to write changes.");
-  } else if (totalEnriched > 0) {
-    console.log("\nEnrichment complete! Run 'yarn build' to verify no TypeScript errors.");
+  } else if (totalEnriched > 0 || totalIngredientsEnriched > 0 || totalMethodsEnriched > 0) {
+    console.log("\nDeep enrichment complete! Run 'yarn build' to verify no TypeScript errors.");
   }
 }
 

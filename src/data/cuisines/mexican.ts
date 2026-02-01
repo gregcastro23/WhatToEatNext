@@ -11,7 +11,35 @@ export const mexican = {
           description:
             "Fried eggs on tortillas with spicy tomato sauce and black beans",
           cuisine: "Mexican",
-          cookingMethods: ["frying", "simmering", "assembling"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "skillet",
             "spatula",
@@ -103,7 +131,35 @@ export const mexican = {
           name: "Chilaquiles Verdes",
           description: "Tortilla chips in salsa verde with eggs and cream",
           cuisine: "Mexican",
-          cookingMethods: ["frying", "simmering", "assembling"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "large skillet",
             "tongs",
@@ -279,7 +335,19 @@ export const mexican = {
           description:
             "Tortillas dipped in black bean sauce and filled with cheese",
           cuisine: "Mexican",
-          cookingMethods: ["blending", "dipping", "filling"],
+          cookingMethods: [
+          {
+            name: "blending",
+            elementalProperties: {
+              Fire: 0.1,
+              Water: 0.26,
+              Earth: 0.16,
+              Air: 0.48,
+            },
+          },
+          "dipping",
+          "filling"
+        ],
           tools: [
             "blender",
             "large skillet",
@@ -376,7 +444,35 @@ export const mexican = {
           description:
             "Eggs on tortillas with black beans, plantains, and salsa",
           cuisine: "Mexican (Yucatan)",
-          cookingMethods: ["frying", "assembling", "sautéing"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          },
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          }
+        ],
           tools: [
             "large skillet",
             "spatula",
@@ -476,7 +572,26 @@ export const mexican = {
           name: "Licuado de Frutas",
           description: "Fresh fruit smoothie with milk and honey",
           cuisine: "Mexican",
-          cookingMethods: ["blending", "mixing"],
+          cookingMethods: [
+          {
+            name: "blending",
+            elementalProperties: {
+              Fire: 0.1,
+              Water: 0.26,
+              Earth: 0.16,
+              Air: 0.48,
+            },
+          },
+          {
+            name: "mixing",
+            elementalProperties: {
+              Fire: 0.07,
+              Water: 0.21,
+              Earth: 0.21,
+              Air: 0.5,
+            },
+          }
+        ],
           tools: [
             "blender",
             "measuring cups",
@@ -701,7 +816,35 @@ export const mexican = {
           name: "Pozole Rojo",
           description: "Traditional hominy soup with pork and red chile sauce",
           cuisine: "Mexican",
-          cookingMethods: ["simmering", "stewing", "blending"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "blending",
+            elementalProperties: {
+              Fire: 0.1,
+              Water: 0.26,
+              Earth: 0.16,
+              Air: 0.48,
+            },
+          }
+        ],
           tools: [
             "large pot",
             "blender",
@@ -798,7 +941,35 @@ export const mexican = {
           description:
             "Complex sauce with chocolate and chilies served over turkey or chicken",
           cuisine: "Mexican (Puebla)",
-          cookingMethods: ["toasting", "blending", "simmering"],
+          cookingMethods: [
+          {
+            name: "toasting",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.06,
+              Earth: 0.25,
+              Air: 0.28,
+            },
+          },
+          {
+            name: "blending",
+            elementalProperties: {
+              Fire: 0.1,
+              Water: 0.26,
+              Earth: 0.16,
+              Air: 0.48,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: [
             "large pot",
             "blender",
@@ -827,6 +998,12 @@ export const mexican = {
               amount: "100",
               unit: "g",
               category: "chocolate",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.2,
+                Earth: 0.45,
+                Air: 0.1,
+              },
             },
             {
               name: "turkey",
@@ -879,7 +1056,35 @@ export const mexican = {
           name: "Chiles en Nogada",
           description: "Stuffed poblano chiles in walnut sauce",
           cuisine: "Mexican",
-          cookingMethods: ["roasting", "stuffing", "frying"],
+          cookingMethods: [
+          {
+            name: "roasting",
+            elementalProperties: {
+              Fire: 0.47,
+              Water: 0.06,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "stuffing",
+            elementalProperties: {
+              Fire: 0.08,
+              Water: 0.15,
+              Earth: 0.54,
+              Air: 0.23,
+            },
+          },
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          }
+        ],
           tools: [
             "large skillet",
             "blender",
@@ -1053,7 +1258,35 @@ export const mexican = {
           description:
             "Spicy braised meat stew traditionally made with goat or beef",
           cuisine: "Mexican (Jalisco)",
-          cookingMethods: ["braising", "stewing", "toasting"],
+          cookingMethods: [
+          {
+            name: "braising",
+            elementalProperties: {
+              Fire: 0.25,
+              Water: 0.35,
+              Earth: 0.3,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "toasting",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.06,
+              Earth: 0.25,
+              Air: 0.28,
+            },
+          }
+        ],
           tools: ["large pot", "blender", "strainer", "comal", "serving bowls"],
           preparationSteps: [
             "Toast and clean chiles",
@@ -1134,7 +1367,19 @@ export const mexican = {
           description:
             "Corn dough stuffed with pork in green sauce, steamed in corn husks",
           cuisine: "Mexican",
-          cookingMethods: ["steaming", "filling", "wrapping"],
+          cookingMethods: [
+          {
+            name: "steaming",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.56,
+              Earth: 0.13,
+              Air: 0.25,
+            },
+          },
+          "filling",
+          "wrapping"
+        ],
           tools: [
             "tamale steamer",
             "large bowl",
@@ -1277,7 +1522,14 @@ export const mexican = {
           description: "Classic Mexican caramel custard",
           cuisine: "Mexican",
           ingredients: [
-            { name: "eggs", amount: "6", unit: "large", category: "protein" },
+            { name: "eggs", amount: "6", unit: "large", category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
+            },
             {
               name: "milk",
               amount: "2",
@@ -1378,18 +1630,36 @@ export const mexican = {
               amount: "1/2",
               unit: "cup",
               category: "sweetener",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.2,
+              },
             },
             {
               name: "lime juice",
               amount: "2",
               unit: "tbsp",
               category: "citrus",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.2,
+              },
             },
             {
               name: "chili powder",
               amount: "1",
               unit: "tsp",
               category: "spice",
+              elementalProperties: {
+                Fire: 0.7,
+                Water: 0,
+                Earth: 0.1,
+                Air: 0.2,
+              },
             },
           ],
           nutrition: {
