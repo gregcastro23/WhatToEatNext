@@ -889,22 +889,30 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           },
         );
 
-        // NOTE: Currently returns empty array until recipe database is integrated
-        // The infrastructure is ready and will automatically populate when
-        // searchRecipesForDay() in recommendationBridge.ts is connected to the recipe API
         if (recommendations.length > 0) {
-          // Add recommended recipes to meal slots
+          // Add recommended recipes to meal slots (only fill empty slots)
           for (const recommendation of recommendations) {
-            await addMealToSlot(
-              dayOfWeek,
-              recommendation.mealType,
-              recommendation.recipe,
-              recommendation.score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
+            // Check if this slot already has a recipe
+            const existingSlot = currentMenu.meals.find(
+              (m) =>
+                m.dayOfWeek === dayOfWeek &&
+                m.mealType === recommendation.mealType &&
+                m.recipe,
             );
+
+            // Only add if slot is empty
+            if (!existingSlot) {
+              await addMealToSlot(
+                dayOfWeek,
+                recommendation.mealType,
+                recommendation.recipe,
+                recommendation.score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
+              );
+            }
           }
         } else {
           logger.info(
-            `No recommendations available yet - recipe database integration pending`,
+            `No matching recipes found for day ${dayOfWeek} with current filters`,
           );
         }
 
