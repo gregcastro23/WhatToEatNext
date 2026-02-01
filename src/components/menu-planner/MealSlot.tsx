@@ -11,6 +11,7 @@
  */
 
 import React, { useState } from "react";
+import Link from "next/link";
 import RecipeSelector from "./RecipeSelector";
 import RecipeNutritionQuickView from "@/components/nutrition/RecipeNutritionQuickView";
 import RecipeNutritionModal from "@/components/nutrition/RecipeNutritionModal";
@@ -282,23 +283,56 @@ function RecipeDisplay({
           {recipe.description && (
             <p className="mb-2 line-clamp-3">{recipe.description}</p>
           )}
+
+          {/* Ingredients */}
           {recipe.ingredients && recipe.ingredients.length > 0 && (
-            <div>
-              <p className="font-medium mb-1">Ingredients:</p>
-              <ul className="list-disc list-inside space-y-0.5 max-h-32 overflow-y-auto">
-                {recipe.ingredients.slice(0, 5).map((ing, idx) => (
-                  <li key={idx} className="truncate">
-                    {ing.amount * servings} {ing.unit} {ing.name}
+            <div className="mb-3">
+              <p className="font-medium mb-1 text-gray-700">Ingredients ({recipe.ingredients.length}):</p>
+              <ul className="list-none space-y-0.5 max-h-32 overflow-y-auto bg-gray-50 rounded p-2">
+                {recipe.ingredients.slice(0, 6).map((ing, idx) => (
+                  <li key={idx} className="flex items-center gap-1">
+                    <span className="text-purple-500">•</span>
+                    <span className="truncate">
+                      {ing.amount ? `${ing.amount * servings} ${ing.unit || ""} ` : ""}{ing.name}
+                    </span>
                   </li>
                 ))}
-                {recipe.ingredients.length > 5 && (
-                  <li className="text-gray-400">
-                    +{recipe.ingredients.length - 5} more...
+                {recipe.ingredients.length > 6 && (
+                  <li className="text-purple-600 font-medium">
+                    +{recipe.ingredients.length - 6} more ingredients...
                   </li>
                 )}
               </ul>
             </div>
           )}
+
+          {/* Instructions Preview */}
+          {recipe.instructions && recipe.instructions.length > 0 && (
+            <div className="mb-3">
+              <p className="font-medium mb-1 text-gray-700">Steps ({recipe.instructions.length}):</p>
+              <ol className="list-decimal list-inside space-y-0.5 bg-gray-50 rounded p-2">
+                {recipe.instructions.slice(0, 2).map((step, idx) => (
+                  <li key={idx} className="truncate text-gray-600">
+                    {step}
+                  </li>
+                ))}
+                {recipe.instructions.length > 2 && (
+                  <li className="text-purple-600 font-medium list-none">
+                    +{recipe.instructions.length - 2} more steps...
+                  </li>
+                )}
+              </ol>
+            </div>
+          )}
+
+          {/* View Full Recipe Link */}
+          <Link
+            href={`/recipes/${recipe.id || encodeURIComponent(recipe.name)}`}
+            className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-lg font-medium hover:bg-purple-200 transition-all"
+          >
+            <span>📖</span>
+            View Full Recipe
+          </Link>
         </div>
       )}
     </div>

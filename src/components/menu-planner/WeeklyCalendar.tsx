@@ -12,6 +12,7 @@
 import React, { useMemo, useState } from "react";
 import MealSlot from "./MealSlot";
 import CopyMealModal from "./CopyMealModal";
+import FocusedDayView from "./FocusedDayView";
 
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
@@ -42,6 +43,7 @@ function DayColumn({
   meals,
   onMealClick,
   onCopyMealClick,
+  onFocusDay,
   currentPlanetaryHour,
 }: {
   dayOfWeek: DayOfWeek;
@@ -49,6 +51,7 @@ function DayColumn({
   meals: MealSlotType[];
   onMealClick?: (mealSlot: MealSlotType) => void;
   onCopyMealClick?: (mealSlot: MealSlotType) => void;
+  onFocusDay?: () => void;
   currentPlanetaryHour?: string | null;
 }) {
   const {
@@ -136,6 +139,13 @@ function DayColumn({
         {/* Quick Actions */}
         <div className="flex gap-2 mt-2">
           <button
+            onClick={onFocusDay}
+            className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors font-medium"
+            title={`Focus on ${getDayName(dayOfWeek)} with suggestions`}
+          >
+            🔍 Focus
+          </button>
+          <button
             onClick={() => generateMealsForDay(dayOfWeek)}
             className="text-xs px-2 py-1 rounded bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors font-medium"
             title={`Generate meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
@@ -147,7 +157,7 @@ function DayColumn({
             className="text-xs px-2 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
             title="Clear all meals for this day"
           >
-            Clear Day
+            Clear
           </button>
         </div>
       </div>
@@ -196,6 +206,33 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
     isOpen: false,
     sourceMeal: null,
   });
+
+  // Focused day view state
+  const [focusedDayState, setFocusedDayState] = useState<{
+    isOpen: boolean;
+    dayOfWeek: DayOfWeek;
+  }>({
+    isOpen: false,
+    dayOfWeek: 0 as DayOfWeek,
+  });
+
+  // Handle opening focused day view
+  const handleOpenFocusedDay = (dayOfWeek: DayOfWeek) => {
+    setFocusedDayState({
+      isOpen: true,
+      dayOfWeek,
+    });
+  };
+
+  // Handle day change in focused view
+  const handleFocusedDayChange = (direction: "prev" | "next") => {
+    setFocusedDayState(prev => ({
+      ...prev,
+      dayOfWeek: (direction === "prev"
+        ? (prev.dayOfWeek - 1 + 7) % 7
+        : (prev.dayOfWeek + 1) % 7) as DayOfWeek,
+    }));
+  };
 
   // Group meals by day
   const mealsByDay = useMemo(() => {
@@ -371,6 +408,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
             meals={mealsByDay[day] || []}
             onMealClick={onMealClick}
             onCopyMealClick={handleCopyMealClick}
+            onFocusDay={() => handleOpenFocusedDay(day)}
             currentPlanetaryHour={currentPlanetaryHour}
           />
         ))}
@@ -387,6 +425,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
               meals={mealsByDay[day] || []}
               onMealClick={onMealClick}
               onCopyMealClick={handleCopyMealClick}
+              onFocusDay={() => handleOpenFocusedDay(day)}
               currentPlanetaryHour={currentPlanetaryHour}
             />
           ))}
@@ -400,6 +439,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
               meals={mealsByDay[day] || []}
               onMealClick={onMealClick}
               onCopyMealClick={handleCopyMealClick}
+              onFocusDay={() => handleOpenFocusedDay(day)}
               currentPlanetaryHour={currentPlanetaryHour}
             />
           ))}
@@ -416,6 +456,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
             meals={mealsByDay[day] || []}
             onMealClick={onMealClick}
             onCopyMealClick={handleCopyMealClick}
+            onFocusDay={() => handleOpenFocusedDay(day)}
             currentPlanetaryHour={currentPlanetaryHour}
           />
         ))}
@@ -440,6 +481,17 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
           allMeals={currentMenu?.meals || []}
           onCopy={handleCopy}
           onMove={handleMove}
+        />
+      )}
+
+      {/* Focused Day View Modal */}
+      {focusedDayState.isOpen && currentMenu && (
+        <FocusedDayView
+          dayOfWeek={focusedDayState.dayOfWeek}
+          date={weekDates[focusedDayState.dayOfWeek]}
+          meals={mealsByDay[focusedDayState.dayOfWeek] || []}
+          onClose={() => setFocusedDayState({ isOpen: false, dayOfWeek: 0 as DayOfWeek })}
+          onDayChange={handleFocusedDayChange}
         />
       )}
     </div>
