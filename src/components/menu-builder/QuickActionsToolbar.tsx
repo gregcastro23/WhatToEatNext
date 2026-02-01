@@ -88,35 +88,111 @@ export default function QuickActionsToolbar() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isBalancing, setIsBalancing] = useState(false);
   const [isDiversifying, setIsDiversifying] = useState(false);
+  const [currentGeneratingDay, setCurrentGeneratingDay] = useState<DayOfWeek | null>(null);
 
   /**
-   * Generate Full Week - fills all empty meal slots
+   * Get the next day that needs meals generated
    */
-  const handleGenerateFullWeek = async () => {
-    if (!currentMenu) return;
+  const getNextEmptyDay = (): DayOfWeek | null => {
+    if (!currentMenu) return null;
+
+    for (let day = 0; day < 7; day++) {
+      const dayMeals = currentMenu.meals.filter(
+        (m) => m.dayOfWeek === day && m.recipe
+      );
+      // If day has fewer than 3 main meals (breakfast, lunch, dinner), it needs generation
+      if (dayMeals.length < 3) {
+        return day as DayOfWeek;
+      }
+    }
+    return null; // All days are filled
+  };
+
+  const nextEmptyDay = getNextEmptyDay();
+  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  /**
+   * Generate Day - fills empty meal slots for the next day that needs it
+   */
+  const handleGenerateDay = async () => {
+    if (!currentMenu || nextEmptyDay === null) return;
     setIsGenerating(true);
+    setCurrentGeneratingDay(nextEmptyDay);
 
     try {
-      // Generate meals for each day
-      for (let day = 0; day < 7; day++) {
-        await generateMealsForDay(day as DayOfWeek, {
-          mealTypes: ["breakfast", "lunch", "dinner"],
-          useCurrentPlanetary: true,
-        });
+      // Generate meals for the next empty day
+      await generateMealsForDay(nextEmptyDay, {
+        mealTypes: ["breakfast", "lunch", "dinner"],
+        useCurrentPlanetary: true,
+      });
+
+      // If generateMealsForDay didn't fill slots, try UnifiedRecipeService fallback
+      const dayMeals = currentMenu.meals.filter(
+        (m) => m.dayOfWeek === nextEmptyDay && m.recipe
+      );
+      if (dayMeals.length === 0) {
+        await fillDayWithRecipeService(nextEmptyDay);
       }
 
-      // If generateMealsForDay didn't fill slots (recipe DB not connected),
-      // try using UnifiedRecipeService as fallback
-      const filledCount = currentMenu.meals.filter((m) => m.recipe).length;
-      if (filledCount === 0) {
-        await fillWithRecipeService();
-      }
-
-      logger.info("Generated full week menu");
+      logger.info(`Generated meals for ${dayNames[nextEmptyDay]}`);
     } catch (err) {
-      logger.error("Failed to generate full week:", err);
+      logger.error(`Failed to generate day ${nextEmptyDay}:`, err);
     } finally {
       setIsGenerating(false);
+      setCurrentGeneratingDay(null);
+    }
+  };
+
+  /**
+   * Fallback: fill a single day using UnifiedRecipeService
+   */
+  const fillDayWithRecipeService = async (day: DayOfWeek) => {
+    if (!currentMenu) return;
+
+    try {
+      const service = UnifiedRecipeService.getInstance();
+      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+
+      if (!allRecipes || allRecipes.length === 0) {
+        logger.info("No recipes available from UnifiedRecipeService");
+        return;
+      }
+
+      const usedRecipeIds = new Set(
+        currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id)
+      );
+      const mealTypes: MealType[] = ["breakfast", "lunch", "dinner"];
+
+      for (const mealType of mealTypes) {
+        // Check if slot already has a recipe
+        const existingSlot = currentMenu.meals.find(
+          (m) => m.dayOfWeek === day && m.mealType === mealType && m.recipe
+        );
+        if (existingSlot) continue;
+
+        // Find suitable recipe not yet used
+        const suitable = allRecipes.filter(
+          (r) => !usedRecipeIds.has(r.id) && isSuitableForMealType(r, mealType)
+        );
+
+        // If no meal-type-specific match, use any unused recipe
+        const candidates = suitable.length > 0
+          ? suitable
+          : allRecipes.filter((r) => !usedRecipeIds.has(r.id));
+
+        if (candidates.length > 0) {
+          // Sort by nutrition score
+          const scored = candidates
+            .map((r) => ({ recipe: r, score: calculateNutritionScore(r) }))
+            .sort((a, b) => b.score - a.score);
+
+          const best = scored[0].recipe;
+          await addMealToSlot(day, mealType, best);
+          usedRecipeIds.add(best.id);
+        }
+      }
+    } catch (err) {
+      logger.error("Failed to fill day with recipe service:", err);
     }
   };
 
@@ -340,12 +416,25 @@ export default function QuickActionsToolbar() {
 
   const isAnyLoading = isGenerating || isBalancing || isDiversifying;
   const loadingMessage = isGenerating
-    ? "Generating full week..."
+    ? currentGeneratingDay !== null
+      ? `Generating ${dayNames[currentGeneratingDay]}...`
+      : "Generating day..."
     : isBalancing
       ? "Balancing nutrition..."
       : isDiversifying
         ? "Diversifying recipes..."
         : "";
+
+  // Determine button text based on state
+  const getGenerateButtonText = () => {
+    if (isGenerating && currentGeneratingDay !== null) {
+      return `Generating ${dayNames[currentGeneratingDay]}...`;
+    }
+    if (nextEmptyDay === null) {
+      return "Week Complete!";
+    }
+    return `Generate ${dayNames[nextEmptyDay]}`;
+  };
 
   return (
     <>
@@ -370,12 +459,13 @@ export default function QuickActionsToolbar() {
 
         <div className="flex flex-wrap gap-3">
           <button
-            onClick={handleGenerateFullWeek}
-            disabled={isGenerating}
+            onClick={handleGenerateDay}
+            disabled={isGenerating || nextEmptyDay === null}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg hover:from-amber-700 hover:to-amber-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+            title={nextEmptyDay !== null ? `Generate meals for ${dayNames[nextEmptyDay]}` : "All days have meals"}
           >
             <span>✨</span>
-            {isGenerating ? "Generating..." : "Generate Full Week"}
+            {getGenerateButtonText()}
           </button>
 
           <button
