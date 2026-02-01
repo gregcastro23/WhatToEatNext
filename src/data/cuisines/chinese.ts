@@ -310,10 +310,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Fire: 0.33,
+            Fire: 0.27,
             Water: 0.06,
-            Earth: 0.42,
-            Air: 0.19,
+            Earth: 0.51,
+            Air: 0.16,
           },
           astrologicalInfluences: [
             "Jupiter - The expansive, rising quality",
@@ -370,8 +370,8 @@ export const chinese = {
           mealType: ["breakfast"],
           elementalProperties: {
             Fire: 0.12,
-            Water: 0.52,
-            Earth: 0.26,
+            Water: 0.43,
+            Earth: 0.36,
             Air: 0.1,
           },
           astrologicalInfluences: [
@@ -896,10 +896,10 @@ export const chinese = {
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.24,
-            Water: 0.33,
-            Earth: 0.32,
-            Air: 0.11,
+            Fire: 0.22,
+            Water: 0.26,
+            Earth: 0.39,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Venus - The rich, indulgent quality",
@@ -972,10 +972,10 @@ export const chinese = {
           season: ["winter", "lunar new year"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.15,
-            Water: 0.29,
+            Fire: 0.18,
+            Water: 0.28,
             Earth: 0.41,
-            Air: 0.15,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Jupiter - The abundance and prosperity symbolism",

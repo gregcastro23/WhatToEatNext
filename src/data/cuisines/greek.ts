@@ -375,10 +375,10 @@ export const greek: Cuisine = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Fire: 0.38,
-            Water: 0.16,
-            Earth: 0.23,
-            Air: 0.23,
+            Fire: 0.34,
+            Water: 0.15,
+            Earth: 0.3,
+            Air: 0.21,
           },
         },
         {
