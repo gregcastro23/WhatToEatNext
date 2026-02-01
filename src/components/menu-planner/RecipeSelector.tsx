@@ -209,10 +209,13 @@ export default function RecipeSelector({
         setIsLoading(true);
         const recipeService = UnifiedRecipeService.getInstance();
         const recipes = await recipeService.getAllRecipes();
+        logger.info(`RecipeSelector: Loaded ${recipes.length} recipes from service`);
+        if (recipes.length === 0) {
+          logger.warn("RecipeSelector: No recipes returned from service");
+        }
         setAllRecipes(recipes as unknown as Recipe[]);
-        logger.info(`Loaded ${recipes.length} recipes`);
       } catch (error) {
-        logger.error("Failed to load recipes:", error);
+        logger.error("RecipeSelector: Failed to load recipes:", error);
       } finally {
         setIsLoading(false);
       }
@@ -225,6 +228,9 @@ export default function RecipeSelector({
 
   // Apply search and filters
   const filteredRecipes = useMemo(() => {
+    // Log filter state for debugging
+    logger.debug(`RecipeSelector: Filtering ${allRecipes.length} recipes`);
+
     const options: RecipeSearchOptions = {
       query: searchQuery,
       cuisine: cuisineFilter.length > 0 ? cuisineFilter : undefined,
@@ -232,13 +238,16 @@ export default function RecipeSelector({
       isVegan: dietaryFilters.vegan || undefined,
       isGlutenFree: dietaryFilters.glutenFree || undefined,
       isDairyFree: dietaryFilters.dairyFree || undefined,
+      // Meal type is used for scoring only, not filtering - all recipes show for all meal types
       mealType: filters?.mealType ? [filters.mealType] : undefined,
       planetaryDay: filters?.dayOfWeek,
       prepTimeMax: maxPrepTime,
-      limit: 50,
+      limit: 100, // Show up to 100 recipes (increased from 50)
     };
 
-    return searchRecipes(allRecipes, options);
+    const results = searchRecipes(allRecipes, options);
+    logger.debug(`RecipeSelector: Found ${results.length} matching recipes`);
+    return results;
   }, [
     allRecipes,
     searchQuery,

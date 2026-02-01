@@ -1,5 +1,5 @@
 import type { Recipe, ElementalProperties } from "@/types/recipe";
-import Recipes from "../cuisines";
+import cuisinesMap from "@/data/cuisines/index";
 
 // Primary cuisines to use for recipe extraction (14 cuisines, avoids duplicates)
 // We use the capitalized keys from the cuisines map to avoid counting aliases
@@ -8,7 +8,8 @@ const PRIMARY_CUISINE_KEYS = [
   "Japanese", "Korean", "Mexican", "Middle Eastern", "Russian", "Thai", "Vietnamese"
 ] as const;
 
-export { Recipes };
+// Re-export for backward compatibility
+export const Recipes = cuisinesMap;
 
 // ============ INLINE RECIPE STANDARDIZATION ============
 // Apply standardization fixes at load time for consistent data
@@ -174,11 +175,11 @@ function standardizeRecipe(
 const flattenCuisineRecipes = () => {
   const allRecipes: Recipe[] = [];
   const seenIds = new Set<string>();
-  const cuisinesMap = Recipes as Record<string, any>;
+  const cuisines = cuisinesMap as Record<string, any>;
 
   // Iterate only through primary cuisine keys to avoid duplicates from aliases
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
-    const cuisine = cuisinesMap[cuisineName];
+    const cuisine = cuisines[cuisineName];
     if (cuisine && cuisine.dishes) {
       // Iterate through meal types
       Object.entries(cuisine.dishes).forEach(([mealType, mealTypeData]: [string, unknown]) => {
