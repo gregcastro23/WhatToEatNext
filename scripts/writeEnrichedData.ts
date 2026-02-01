@@ -151,6 +151,74 @@ const INGREDIENT_ELEMENTAL_MAP: Record<string, ElementalProperties> = {
   mango: { Fire: 0.25, Water: 0.5, Earth: 0.15, Air: 0.1 },
   papaya: { Fire: 0.2, Water: 0.55, Earth: 0.15, Air: 0.1 },
   pineapple: { Fire: 0.25, Water: 0.55, Earth: 0.1, Air: 0.1 },
+
+  // Thai/Southeast Asian ingredients
+  galangal: { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 },
+  pandan: { Fire: 0.1, Water: 0.3, Earth: 0.1, Air: 0.5 },
+  shallot: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
+  tamarind: { Fire: 0.15, Water: 0.5, Earth: 0.25, Air: 0.1 },
+  "nam prik pao": { Fire: 0.55, Water: 0.2, Earth: 0.15, Air: 0.1 },
+  "morning glory": { Fire: 0.1, Water: 0.35, Earth: 0.15, Air: 0.4 },
+  jackfruit: { Fire: 0.15, Water: 0.45, Earth: 0.3, Air: 0.1 },
+  "palm sugar": { Fire: 0.25, Water: 0.25, Earth: 0.4, Air: 0.1 },
+  "star anise": { Fire: 0.45, Water: 0.1, Earth: 0.3, Air: 0.15 },
+  "five spice": { Fire: 0.45, Water: 0.1, Earth: 0.3, Air: 0.15 },
+  cardamom: { Fire: 0.4, Water: 0.15, Earth: 0.25, Air: 0.2 },
+  kabocha: { Fire: 0.15, Water: 0.3, Earth: 0.45, Air: 0.1 },
+  pumpkin: { Fire: 0.15, Water: 0.3, Earth: 0.45, Air: 0.1 },
+  squash: { Fire: 0.15, Water: 0.3, Earth: 0.45, Air: 0.1 },
+
+  // French ingredients
+  shallots: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
+  "crème fraîche": { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
+  brioche: { Fire: 0.2, Water: 0.15, Earth: 0.5, Air: 0.15 },
+  baguette: { Fire: 0.2, Water: 0.1, Earth: 0.55, Air: 0.15 },
+  croissant: { Fire: 0.2, Water: 0.15, Earth: 0.5, Air: 0.15 },
+  anchovy: { Fire: 0.2, Water: 0.55, Earth: 0.2, Air: 0.05 },
+  anchovies: { Fire: 0.2, Water: 0.55, Earth: 0.2, Air: 0.05 },
+  cognac: { Fire: 0.35, Water: 0.4, Earth: 0.15, Air: 0.1 },
+  brandy: { Fire: 0.35, Water: 0.4, Earth: 0.15, Air: 0.1 },
+  sole: { Fire: 0.1, Water: 0.55, Earth: 0.25, Air: 0.1 },
+  "sea bass": { Fire: 0.1, Water: 0.55, Earth: 0.25, Air: 0.1 },
+  bacon: { Fire: 0.35, Water: 0.15, Earth: 0.45, Air: 0.05 },
+  pancetta: { Fire: 0.35, Water: 0.15, Earth: 0.45, Air: 0.05 },
+  lardons: { Fire: 0.35, Water: 0.15, Earth: 0.45, Air: 0.05 },
+  ham: { Fire: 0.2, Water: 0.25, Earth: 0.5, Air: 0.05 },
+  pastry: { Fire: 0.15, Water: 0.1, Earth: 0.55, Air: 0.2 },
+  "choux pastry": { Fire: 0.2, Water: 0.15, Earth: 0.5, Air: 0.15 },
+  "shortcrust": { Fire: 0.15, Water: 0.1, Earth: 0.6, Air: 0.15 },
+  "bay leaf": { Fire: 0.15, Water: 0.15, Earth: 0.2, Air: 0.5 },
+  "bouquet garni": { Fire: 0.15, Water: 0.15, Earth: 0.15, Air: 0.55 },
+  yeast: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.4 },
+
+  // Common seasonings
+  salt: { Fire: 0.1, Water: 0.1, Earth: 0.7, Air: 0.1 },
+  "sea salt": { Fire: 0.1, Water: 0.15, Earth: 0.65, Air: 0.1 },
+
+  // Ice/frozen ingredients
+  ice: { Fire: 0.0, Water: 0.85, Earth: 0.05, Air: 0.1 },
+  "shaved ice": { Fire: 0.0, Water: 0.85, Earth: 0.05, Air: 0.1 },
+  "crushed ice": { Fire: 0.0, Water: 0.85, Earth: 0.05, Air: 0.1 },
+
+  // Syrups and jellies
+  syrup: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
+  "grass jelly": { Fire: 0.05, Water: 0.55, Earth: 0.3, Air: 0.1 },
+
+  // Additional seafood
+  prawn: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  prawns: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  "tiger prawns": { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  crab: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  lobster: { Fire: 0.15, Water: 0.55, Earth: 0.2, Air: 0.1 },
+  mussel: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  mussels: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  clam: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  oyster: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+  scallop: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+
+  // Vinaigrettes and dressings
+  vinaigrette: { Fire: 0.2, Water: 0.5, Earth: 0.1, Air: 0.2 },
+  dressing: { Fire: 0.2, Water: 0.45, Earth: 0.2, Air: 0.15 },
 };
 
 // Cuisine elemental modifiers
@@ -630,10 +698,17 @@ async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
 
+  // Parse --cuisine flag to filter by single cuisine
+  const cuisineIndex = args.findIndex(a => a === "--cuisine");
+  const filterCuisine = cuisineIndex !== -1 && args[cuisineIndex + 1] ? args[cuisineIndex + 1] : null;
+
   console.log("=" .repeat(80));
   console.log("RECIPE DATA ENRICHMENT - WRITE SCRIPT");
   console.log("=".repeat(80));
   console.log(`Mode: ${dryRun ? "DRY RUN (no files will be modified)" : "WRITE MODE"}`);
+  if (filterCuisine) {
+    console.log(`Filtering to: ${filterCuisine} cuisine only`);
+  }
 
   const cuisinesDir = path.join(process.cwd(), "src", "data", "cuisines");
 
@@ -642,9 +717,14 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const cuisineFiles = fs.readdirSync(cuisinesDir).filter((f) =>
+  let cuisineFiles = fs.readdirSync(cuisinesDir).filter((f) =>
     f.endsWith(".ts") && f !== "index.ts" && f !== "template.ts" && f !== "culinaryTraditions.ts"
   );
+
+  // Filter to single cuisine if specified
+  if (filterCuisine) {
+    cuisineFiles = cuisineFiles.filter(f => f.toLowerCase().includes(filterCuisine.toLowerCase()));
+  }
 
   console.log(`\nFound ${cuisineFiles.length} cuisine files to process`);
 

@@ -1142,10 +1142,10 @@ export const indian = {
           season: ["summer"],
           
           elementalProperties: {
-            Fire: 0.11,
-            Water: 0.21,
-            Earth: 0.36,
-            Air: 0.31,
+            Fire: 0.13,
+            Water: 0.24,
+            Earth: 0.43,
+            Air: 0.21,
           },mealType: ["snack", "appetizer"],
         },
         {
@@ -1474,10 +1474,10 @@ export const indian = {
           season: ["all"],
           
           elementalProperties: {
-            Fire: 0.12,
-            Water: 0.61,
-            Earth: 0.15,
-            Air: 0.12,
+            Fire: 0.19,
+            Water: 0.51,
+            Earth: 0.17,
+            Air: 0.14,
           },mealType: ["dessert"],
         },
         {

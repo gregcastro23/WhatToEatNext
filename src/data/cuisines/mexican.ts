@@ -1209,7 +1209,13 @@ export const mexican = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all", "christmas"],
-          mealType: ["breakfast", "dinner", "celebration"],
+          
+          elementalProperties: {
+            Fire: 0.34,
+            Water: 0.18,
+            Earth: 0.43,
+            Air: 0.05,
+          },mealType: ["breakfast", "dinner", "celebration"],
         },
       ],
       winter: [

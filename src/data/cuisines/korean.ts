@@ -749,9 +749,9 @@ export const korean: Cuisine = {
           season: ["all"],
           
           elementalProperties: {
-            Fire: 0.23,
-            Water: 0.31,
-            Earth: 0.37,
+            Fire: 0.21,
+            Water: 0.38,
+            Earth: 0.32,
             Air: 0.09,
           },mealType: ["lunch", "dinner"],
         },
@@ -1299,9 +1299,9 @@ export const korean: Cuisine = {
           season: ["summer"],
           
           elementalProperties: {
-            Fire: 0.12,
-            Water: 0.39,
-            Earth: 0.39,
+            Fire: 0.08,
+            Water: 0.54,
+            Earth: 0.28,
             Air: 0.1,
           },mealType: ["dessert"],
         },

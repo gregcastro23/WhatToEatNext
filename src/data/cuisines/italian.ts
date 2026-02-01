@@ -274,7 +274,13 @@ export const italian: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["summer"],
-          mealType: ["breakfast"],
+          
+          elementalProperties: {
+            Fire: 0.18,
+            Water: 0.14,
+            Earth: 0.55,
+            Air: 0.14,
+          },mealType: ["breakfast"],
         },
         {
           name: "Ricotta e Fichi",

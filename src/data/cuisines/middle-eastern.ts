@@ -1156,10 +1156,10 @@ export const middleEastern: Cuisine = {
           season: ["winter"],
           mealType: ["dessert"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
-            Fire: 0.1,
+            Fire: 0.17,
+            Water: 0.07,
+            Earth: 0.59,
+            Air: 0.17,
           },
         },
 

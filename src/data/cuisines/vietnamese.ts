@@ -475,10 +475,10 @@ export const vietnamese: Cuisine = {
           season: ["all"],
           mealType: ["lunch"],
           elementalProperties: {
-            Earth: 0.3,
-            Air: 0.3,
-            Fire: 0.2,
-            Water: 0.2,
+            Fire: 0.27,
+            Water: 0.09,
+            Earth: 0.47,
+            Air: 0.17,
           },
         },
         {
@@ -566,10 +566,10 @@ export const vietnamese: Cuisine = {
           season: ["spring", "summer"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.43,
+            Fire: 0.22,
+            Water: 0.42,
             Earth: 0.18,
-            Air: 0.19,
+            Air: 0.18,
           },
         },
         {
@@ -965,10 +965,10 @@ export const vietnamese: Cuisine = {
           season: ["summer"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.15,
-            Water: 0.35,
-            Earth: 0.37,
-            Air: 0.13,
+            Fire: 0.1,
+            Water: 0.43,
+            Earth: 0.25,
+            Air: 0.22,
           },
         },
         {
@@ -1062,10 +1062,10 @@ export const vietnamese: Cuisine = {
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.19,
-            Water: 0.38,
-            Earth: 0.28,
-            Air: 0.15,
+            Fire: 0.16,
+            Water: 0.39,
+            Earth: 0.26,
+            Air: 0.19,
           },
         },
       ],
