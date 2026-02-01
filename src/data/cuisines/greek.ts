@@ -151,10 +151,10 @@ export const greek: Cuisine = {
           season: ["all"],
           mealType: ["breakfast", "dessert"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
             Fire: 0.1,
+            Water: 0.48,
+            Earth: 0.32,
+            Air: 0.11,
           },
         },
         {
@@ -239,10 +239,10 @@ export const greek: Cuisine = {
           season: ["summer", "autumn"],
           mealType: ["breakfast", "lunch"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Air: 0.2,
-            Water: 0.2,
+            Fire: 0.19,
+            Water: 0.29,
+            Earth: 0.42,
+            Air: 0.1,
           },
         },
       ],
@@ -375,10 +375,10 @@ export const greek: Cuisine = {
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Air: 0.2,
-            Water: 0.2,
+            Fire: 0.38,
+            Water: 0.16,
+            Earth: 0.23,
+            Air: 0.23,
           },
         },
         {
@@ -470,7 +470,13 @@ export const greek: Cuisine = {
             minerals: ["Calcium", "Potassium"],
           },
           season: ["summer"],
-          mealType: ["lunch", "dinner", "side"],
+          
+          elementalProperties: {
+            Fire: 0.27,
+            Water: 0.33,
+            Earth: 0.3,
+            Air: 0.11,
+          },mealType: ["lunch", "dinner", "side"],
         },
       ],
       summer: [
@@ -547,7 +553,13 @@ export const greek: Cuisine = {
             minerals: ["Potassium", "Iron"],
           },
           season: ["summer"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.28,
+            Water: 0.19,
+            Earth: 0.33,
+            Air: 0.2,
+          },mealType: ["lunch", "dinner"],
         },
       ],
     },
@@ -636,7 +648,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Calcium", "Zinc"],
           },
           season: ["all"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.33,
+            Water: 0.13,
+            Earth: 0.44,
+            Air: 0.1,
+          },mealType: ["dinner"],
         },
         {
           name: "Spanakopita",
@@ -800,7 +818,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Calcium", "Zinc"],
           },
           season: ["all"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.09,
+            Water: 0.2,
+            Earth: 0.61,
+            Air: 0.09,
+          },mealType: ["dinner"],
         },
         {
           name: "Dolmades",
@@ -865,7 +889,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Magnesium"],
           },
           season: ["spring", "summer"],
-          mealType: ["appetizer", "side"],
+          
+          elementalProperties: {
+            Fire: 0.19,
+            Water: 0.32,
+            Earth: 0.23,
+            Air: 0.25,
+          },mealType: ["appetizer", "side"],
         },
         {
           name: "Galaktoboureko",
@@ -936,7 +966,13 @@ export const greek: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.22,
+            Water: 0.29,
+            Earth: 0.36,
+            Air: 0.14,
+          },mealType: ["dessert"],
         },
         {
           name: "Fasolada",
@@ -1025,7 +1061,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Potassium", "Magnesium"],
           },
           season: ["autumn", "winter"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.28,
+            Water: 0.25,
+            Earth: 0.36,
+            Air: 0.11,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Youvetsi",
@@ -1104,7 +1146,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["autumn", "winter"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.31,
+            Water: 0.17,
+            Earth: 0.45,
+            Air: 0.08,
+          },mealType: ["dinner"],
         },
         {
           name: "Revithia",
@@ -1178,7 +1226,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Folate", "Magnesium"],
           },
           season: ["autumn", "winter"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.28,
+            Water: 0.23,
+            Earth: 0.29,
+            Air: 0.2,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Gigantes Plaki",
@@ -1259,7 +1313,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
-          mealType: ["main", "meze"],
+          
+          elementalProperties: {
+            Fire: 0.09,
+            Water: 0.18,
+            Earth: 0.64,
+            Air: 0.08,
+          },mealType: ["main", "meze"],
         },
         {
           name: "Keftedes",
@@ -1335,7 +1395,13 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["appetizer", "main"],
+          
+          elementalProperties: {
+            Fire: 0.33,
+            Water: 0.13,
+            Earth: 0.41,
+            Air: 0.13,
+          },mealType: ["appetizer", "main"],
         },
         {
           name: "Galatopita",
@@ -1399,7 +1465,13 @@ export const greek: Cuisine = {
             minerals: ["Calcium", "Iron"],
           },
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.26,
+            Earth: 0.41,
+            Air: 0.12,
+          },mealType: ["dessert"],
         },
         {
           name: "Skordalia",
@@ -1557,7 +1629,13 @@ export const greek: Cuisine = {
             minerals: ["Potassium", "Manganese"],
           },
           season: ["summer", "autumn"],
-          mealType: ["appetizer", "meze"],
+          
+          elementalProperties: {
+            Fire: 0.37,
+            Water: 0.16,
+            Earth: 0.26,
+            Air: 0.21,
+          },mealType: ["appetizer", "meze"],
         },
       ],
     },

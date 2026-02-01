@@ -91,7 +91,13 @@ export const mexican = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
-          mealType: ["breakfast", "brunch"],
+          
+          elementalProperties: {
+            Fire: 0.28,
+            Water: 0.22,
+            Earth: 0.41,
+            Air: 0.09,
+          },mealType: ["breakfast", "brunch"],
         },
         {
           name: "Chilaquiles Verdes",
@@ -183,7 +189,13 @@ export const mexican = {
             minerals: ["Calcium", "Iron"],
           },
           season: ["all"],
-          mealType: ["breakfast", "brunch"],
+          
+          elementalProperties: {
+            Fire: 0.28,
+            Water: 0.14,
+            Earth: 0.49,
+            Air: 0.09,
+          },mealType: ["breakfast", "brunch"],
         },
         {
           name: "Molletes",
@@ -351,7 +363,13 @@ export const mexican = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
-          mealType: ["breakfast", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.23,
+            Water: 0.17,
+            Earth: 0.51,
+            Air: 0.09,
+          },mealType: ["breakfast", "dinner"],
         },
         {
           name: "Huevos Motuleños",
@@ -444,7 +462,13 @@ export const mexican = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
-          mealType: ["breakfast", "brunch"],
+          
+          elementalProperties: {
+            Fire: 0.31,
+            Water: 0.18,
+            Earth: 0.42,
+            Air: 0.1,
+          },mealType: ["breakfast", "brunch"],
         },
       ],
       summer: [
@@ -518,7 +542,13 @@ export const mexican = {
             minerals: ["Calcium", "Potassium"],
           },
           season: ["summer"],
-          mealType: ["breakfast", "snack"],
+          
+          elementalProperties: {
+            Fire: 0.12,
+            Water: 0.55,
+            Earth: 0.23,
+            Air: 0.11,
+          },mealType: ["breakfast", "snack"],
         },
       ],
     },
@@ -657,7 +687,13 @@ export const mexican = {
           },
           timeToMake: "20 minutes",
           season: ["summer"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.13,
+            Water: 0.55,
+            Earth: 0.22,
+            Air: 0.1,
+          },mealType: ["lunch"],
         },
       ],
       winter: [
@@ -745,7 +781,13 @@ export const mexican = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["autumn", "winter"],
-          mealType: ["lunch", "dinner", "celebration"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.31,
+            Earth: 0.4,
+            Air: 0.08,
+          },mealType: ["lunch", "dinner", "celebration"],
         },
       ],
     },
@@ -825,7 +867,13 @@ export const mexican = {
             minerals: ["Iron", "Magnesium"],
           },
           season: ["all"],
-          mealType: ["dinner", "celebration", "special occasion"],
+          
+          elementalProperties: {
+            Fire: 0.31,
+            Water: 0.16,
+            Earth: 0.45,
+            Air: 0.08,
+          },mealType: ["dinner", "celebration", "special occasion"],
         },
         {
           name: "Chiles en Nogada",
@@ -906,7 +954,13 @@ export const mexican = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["late summer", "early fall"],
-          mealType: ["dinner", "celebration"],
+          
+          elementalProperties: {
+            Fire: 0.36,
+            Water: 0.13,
+            Earth: 0.42,
+            Air: 0.09,
+          },mealType: ["dinner", "celebration"],
         },
         {
           name: "Cochinita Pibil",
@@ -1067,7 +1121,13 @@ export const mexican = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner", "celebration"],
+          
+          elementalProperties: {
+            Fire: 0.14,
+            Water: 0.15,
+            Earth: 0.64,
+            Air: 0.07,
+          },mealType: ["lunch", "dinner", "celebration"],
         },
         {
           name: "Tamales Verdes",
@@ -1237,7 +1297,13 @@ export const mexican = {
           },
           timeToMake: "60 minutes",
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.18,
+            Water: 0.4,
+            Earth: 0.32,
+            Air: 0.09,
+          },mealType: ["dessert"],
           astrologicalProfile: {
             favorableZodiac: ["leo", "sagittarius"],
             rulingPlanets: ["sun", "jupiter"],
@@ -1280,7 +1346,13 @@ export const mexican = {
           },
           timeToMake: "45 minutes",
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.12,
+            Water: 0.08,
+            Earth: 0.62,
+            Air: 0.18,
+          },mealType: ["dessert"],
         },
       ],
       summer: [
@@ -1324,7 +1396,13 @@ export const mexican = {
           },
           timeToMake: "240 minutes",
           season: ["summer"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.46,
+            Water: 0.19,
+            Earth: 0.17,
+            Air: 0.18,
+          },mealType: ["dessert"],
         },
       ],
     },

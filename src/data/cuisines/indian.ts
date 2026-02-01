@@ -164,10 +164,10 @@ export const indian = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.5,
-            Fire: 0.3,
-            Water: 0.1,
-            Air: 0.1,
+            Fire: 0.12,
+            Water: 0.08,
+            Earth: 0.61,
+            Air: 0.19,
           },
         },
         {
@@ -243,10 +243,10 @@ export const indian = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Fire: 0.2,
-            Air: 0.1,
+            Fire: 0.06,
+            Water: 0.5,
+            Earth: 0.37,
+            Air: 0.08,
           },
         },
       ],
@@ -326,10 +326,10 @@ export const indian = {
           season: ["all"],
           mealType: ["breakfast", "snack"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.56,
+            Water: 0.08,
+            Earth: 0.25,
+            Air: 0.11,
           },
         },
       ],
@@ -420,7 +420,13 @@ export const indian = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.23,
+            Water: 0.23,
+            Earth: 0.43,
+            Air: 0.11,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Gujarati Kadhi",
@@ -501,7 +507,13 @@ export const indian = {
             minerals: ["Calcium", "Phosphorus"],
           },
           season: ["summer"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.51,
+            Earth: 0.3,
+            Air: 0.09,
+          },mealType: ["lunch"],
         },
       ],
       winter: [
@@ -594,7 +606,13 @@ export const indian = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.31,
+            Earth: 0.5,
+            Air: 0.09,
+          },mealType: ["lunch", "dinner"],
         },
       ],
     },
@@ -696,7 +714,13 @@ export const indian = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.24,
+            Water: 0.29,
+            Earth: 0.33,
+            Air: 0.14,
+          },mealType: ["dinner"],
         },
         {
           name: "Hyderabadi Biryani",
@@ -772,7 +796,13 @@ export const indian = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["dinner", "special occasion"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.24,
+            Earth: 0.45,
+            Air: 0.1,
+          },mealType: ["dinner", "special occasion"],
         },
         {
           name: "Palak Paneer",
@@ -863,7 +893,13 @@ export const indian = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.13,
+            Water: 0.26,
+            Earth: 0.22,
+            Air: 0.39,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Chole Bhature",
@@ -942,7 +978,13 @@ export const indian = {
             minerals: ["Iron", "Folate"],
           },
           season: ["winter"],
-          mealType: ["breakfast", "lunch"],
+          
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.22,
+            Earth: 0.35,
+            Air: 0.13,
+          },mealType: ["breakfast", "lunch"],
         },
         {
           name: "Malai Kofta",
@@ -1098,7 +1140,13 @@ export const indian = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["summer"],
-          mealType: ["snack", "appetizer"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.21,
+            Earth: 0.36,
+            Air: 0.31,
+          },mealType: ["snack", "appetizer"],
         },
         {
           name: "Baingan Bharta",
@@ -1192,10 +1240,10 @@ export const indian = {
           season: ["summer", "autumn"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.3,
-            Fire: 0.4,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.57,
+            Water: 0.11,
+            Earth: 0.23,
+            Air: 0.09,
           },
         },
       ],
@@ -1284,7 +1332,13 @@ export const indian = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.33,
+            Water: 0.22,
+            Earth: 0.39,
+            Air: 0.07,
+          },mealType: ["dinner"],
         },
       ],
     },
@@ -1353,7 +1407,13 @@ export const indian = {
             minerals: ["Calcium"],
           },
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.19,
+            Water: 0.43,
+            Earth: 0.25,
+            Air: 0.13,
+          },mealType: ["dessert"],
         },
         {
           name: "Rasmalai",
@@ -1412,7 +1472,13 @@ export const indian = {
             minerals: ["Calcium", "Potassium"],
           },
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.12,
+            Water: 0.61,
+            Earth: 0.15,
+            Air: 0.12,
+          },mealType: ["dessert"],
         },
         {
           name: "Kulfi",
