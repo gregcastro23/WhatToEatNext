@@ -15,7 +15,9 @@ interface UserInteraction {
     | "recipe_save"
     | "ingredient_select"
     | "cooking_method"
-    | "planetary_query";
+    | "planetary_query"
+    | "food_diary_entry"
+    | "food_rating";
   data: any;
   timestamp: number;
   context?: {
@@ -23,6 +25,7 @@ interface UserInteraction {
     timeOfDay?: string;
     season?: string;
     weather?: string;
+    mealType?: string;
   };
 }
 
@@ -217,6 +220,163 @@ class UserLearningSystem {
     };
 
     this.trackInteraction(userId, interaction);
+  }
+
+  /**
+   * Learn from food diary entry (tracks what foods user eats)
+   */
+  learnFromFoodDiaryEntry(
+    userId: string,
+    entryData: {
+      foodName: string;
+      category?: string;
+      mealType: string;
+      nutrition?: { calories?: number; protein?: number };
+      elementalProperties?: ElementalProperties;
+    },
+  ): void {
+    const interaction: UserInteraction = {
+      type: "food_diary_entry",
+      data: {
+        ...entryData,
+        weight: 2, // Food diary entries are strong signals
+      },
+      timestamp: Date.now(),
+      context: {
+        mealType: entryData.mealType,
+        timeOfDay: this.getCurrentContext().timeOfDay,
+      },
+    };
+
+    this.trackInteraction(userId, interaction);
+    void logger.debug("Food diary entry learned", {
+      userId,
+      food: entryData.foodName,
+      mealType: entryData.mealType,
+    });
+  }
+
+  /**
+   * Learn from food rating (strong signal of preference)
+   */
+  learnFromFoodRating(
+    userId: string,
+    ratingData: {
+      foodName: string;
+      rating: number; // 0-5
+      moodTags?: string[];
+      wouldEatAgain?: boolean;
+      category?: string;
+      elementalProperties?: ElementalProperties;
+    },
+  ): void {
+    // Ratings are strong signals - higher ratings mean stronger positive preference
+    const weight = ratingData.rating >= 4 ? 3 : ratingData.rating >= 3 ? 1 : ratingData.rating <= 2 ? -2 : 0;
+
+    const interaction: UserInteraction = {
+      type: "food_rating",
+      data: {
+        ...ratingData,
+        weight,
+        isPositive: ratingData.rating >= 3.5,
+        isNegative: ratingData.rating <= 2,
+      },
+      timestamp: Date.now(),
+      context: {
+        timeOfDay: this.getCurrentContext().timeOfDay,
+      },
+    };
+
+    this.trackInteraction(userId, interaction);
+    void logger.info("Food rating learned", {
+      userId,
+      food: ratingData.foodName,
+      rating: ratingData.rating,
+      weight,
+    });
+  }
+
+  /**
+   * Get food preferences learned from diary (for recommendations)
+   */
+  async getFoodPreferences(userId: string): Promise<{
+    highRatedFoods: string[];
+    lowRatedFoods: string[];
+    frequentFoods: string[];
+    mealPatterns: Record<string, string[]>;
+    averageRatings: Record<string, number>;
+  }> {
+    const interactions = this.interactions.get(userId) || [];
+    const foodRatings = interactions.filter(i => i.type === "food_rating");
+    const foodEntries = interactions.filter(i => i.type === "food_diary_entry");
+
+    // Calculate average ratings per food
+    const ratingsByFood: Record<string, number[]> = {};
+    for (const interaction of foodRatings) {
+      const food = interaction.data.foodName;
+      if (!ratingsByFood[food]) ratingsByFood[food] = [];
+      ratingsByFood[food].push(interaction.data.rating);
+    }
+
+    const averageRatings: Record<string, number> = {};
+    for (const [food, ratings] of Object.entries(ratingsByFood)) {
+      averageRatings[food] = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+    }
+
+    // High and low rated foods
+    const highRatedFoods = Object.entries(averageRatings)
+      .filter(([, rating]) => rating >= 4)
+      .map(([food]) => food);
+
+    const lowRatedFoods = Object.entries(averageRatings)
+      .filter(([, rating]) => rating <= 2)
+      .map(([food]) => food);
+
+    // Frequent foods from diary entries
+    const foodCounts: Record<string, number> = {};
+    for (const entry of foodEntries) {
+      const food = entry.data.foodName;
+      foodCounts[food] = (foodCounts[food] || 0) + 1;
+    }
+
+    const frequentFoods = Object.entries(foodCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 10)
+      .map(([food]) => food);
+
+    // Meal patterns (what foods are eaten at which meals)
+    const mealPatterns: Record<string, string[]> = {
+      breakfast: [],
+      lunch: [],
+      dinner: [],
+      snack: [],
+    };
+
+    const mealFoods: Record<string, Set<string>> = {
+      breakfast: new Set(),
+      lunch: new Set(),
+      dinner: new Set(),
+      snack: new Set(),
+    };
+
+    for (const entry of foodEntries) {
+      const mealType = entry.context?.mealType || entry.data.mealType;
+      if (mealType && mealFoods[mealType]) {
+        mealFoods[mealType].add(entry.data.foodName);
+      }
+    }
+
+    for (const [meal, foods] of Object.entries(mealFoods)) {
+      mealPatterns[meal] = Array.from(foods).slice(0, 10);
+    }
+
+    return {
+      highRatedFoods,
+      lowRatedFoods,
+      frequentFoods,
+      mealPatterns,
+      averageRatings,
+    };
   }
 
   /**
