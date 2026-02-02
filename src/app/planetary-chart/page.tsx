@@ -183,7 +183,7 @@ export default function PlanetaryChartPage() {
                         {position.degree.toFixed(0)}° {position.sign}
                       </div>
                       <div className="text-xs text-gray-500">
-                        Exact: {position.exactLongitude.toFixed(2)}°
+                        Exact: {(position.exactLongitude ?? 0).toFixed(2)}°
                       </div>
                     </div>
                   ))}

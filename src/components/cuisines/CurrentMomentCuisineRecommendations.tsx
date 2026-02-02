@@ -10,9 +10,9 @@
 
 import {
   AccordionRoot,
-  AccordionItem,
-  AccordionItemTrigger,
-  AccordionItemContent,
+  AccordionItem as _AccordionItem,
+  AccordionItemTrigger as _AccordionItemTrigger,
+  AccordionItemContent as _AccordionItemContent,
   AccordionItemIndicator,
   AlertRoot,
   AlertIndicator,
@@ -46,6 +46,9 @@ import {
 const Card = _Card as any;
 const Tooltip = _Tooltip as any;
 const Progress = _Progress as any;
+const AccordionItem = _AccordionItem as any;
+const AccordionItemTrigger = _AccordionItemTrigger as any;
+const AccordionItemContent = _AccordionItemContent as any;
 
 import React, { useCallback, useEffect, useState } from "react";
 import {

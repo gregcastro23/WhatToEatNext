@@ -106,7 +106,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
         FallbackComponent={ErrorFallback}
         onError={(error) => {
           logger.error("App error caught: ", error);
-          setLastError(error);
+          setLastError(error as Error);
         }}
       >
         {children}

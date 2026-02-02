@@ -304,7 +304,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
                     <div className="text-xs text-gray-600 mb-1">Taste:</div>
                     <div className="flex flex-wrap gap-1">
                       {Object.entries((ingredient as any).sensoryProfile.taste)
-                        .filter(([_, value]) => value > 0)
+                        .filter(([_, value]) => Number(value) > 0)
                         .map(([taste, value], idx) => (
                           <span key={idx} className="rounded-md bg-pink-100 px-2 py-1 text-xs text-pink-700">
                             {taste}: {(Number(value) * 100).toFixed(0)}%
@@ -320,7 +320,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
                     <div className="text-xs text-gray-600 mb-1">Aroma:</div>
                     <div className="flex flex-wrap gap-1">
                       {Object.entries((ingredient as any).sensoryProfile.aroma)
-                        .filter(([_, value]) => value > 0)
+                        .filter(([_, value]) => Number(value) > 0)
                         .map(([aroma, value], idx) => (
                           <span key={idx} className="rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700">
                             {aroma}: {(Number(value) * 100).toFixed(0)}%
@@ -336,7 +336,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
                     <div className="text-xs text-gray-600 mb-1">Texture:</div>
                     <div className="flex flex-wrap gap-1">
                       {Object.entries((ingredient as any).sensoryProfile.texture)
-                        .filter(([_, value]) => value > 0)
+                        .filter(([_, value]) => Number(value) > 0)
                         .map(([texture, value], idx) => (
                           <span key={idx} className="rounded-md bg-teal-100 px-2 py-1 text-xs text-teal-700">
                             {texture}: {(Number(value) * 100).toFixed(0)}%

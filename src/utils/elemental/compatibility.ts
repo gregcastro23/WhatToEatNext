@@ -61,7 +61,7 @@ export const CATEGORY_REFERENCE_INTENSITIES: Record<string, number> = {
  * const raw = convertNormalizedToRaw(normalized, 10);
  * // Result: { Fire: 4.5, Water: 3.0, Earth: 1.5, Air: 1.0 }
  */
-export function convertNormalizedToRaw(
+export function convertNormalizedToRawCompat(
   properties: ElementalProperties | NormalizedElementalProperties,
   referenceIntensity = CATEGORY_REFERENCE_INTENSITIES.default,
 ): RawElementalProperties {

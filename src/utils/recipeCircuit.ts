@@ -106,7 +106,7 @@ export function getCircuitBasedRecommendations(
 /**
  * Calculate kinetics compatibility for a recipe
  */
-function calculateKineticsCompatibility(
+export function calculateKineticsCompatibility(
   kinetics: KineticMetrics,
   recipe: Recipe,
 ): number {

@@ -23,9 +23,6 @@ export interface RecipeWithKinetics extends Recipe {
   /** Recipe's computed kinetic properties */
   kineticProperties: KineticMetrics;
 
-  /** Recipe's elemental properties */
-  elementalProperties?: ElementalProperties;
-
   /** Recipe's alchemical properties */
   alchemicalProperties?: AlchemicalProperties;
 }
@@ -125,7 +122,7 @@ export function rankRecipesByCircuitCompatibility(
   let filteredRecipes = recipes;
   if (mealType) {
     filteredRecipes = recipes.filter(
-      (r) => r.mealType && r.mealType.toLowerCase().includes(mealType.toLowerCase())
+      (r) => r.mealType && r.mealType.some(mt => mt.toLowerCase().includes(mealType.toLowerCase()))
     );
   }
 
@@ -237,7 +234,7 @@ function calculateServingAdjustment(
   userKinetics: KineticMetrics,
   desiredEnergyLevel: number,
 ): RankedRecipeResult["servingAdjustment"] {
-  const originalServings = recipe.servings || 4;
+  const originalServings = Number(recipe.servings) || 4;
   const recipePower = recipe.kineticProperties.power;
   const userPower = userKinetics.power;
 
@@ -466,7 +463,7 @@ export function generateCoursePairingRecommendations(
     candidates = availableCourses.filter(
       (recipe) =>
         recipe.mealType &&
-        recipe.mealType.toLowerCase().includes(targetCourseType)
+        recipe.mealType.some(mt => mt.toLowerCase().includes(targetCourseType))
     );
   }
 
