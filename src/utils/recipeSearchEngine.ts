@@ -754,6 +754,8 @@ export interface RecipeIssue {
  * - ingredients array with name, amount, unit
  * - instructions array
  * - nutrition object with calories, protein, carbs, fat, fiber
+ * - prepTime or timeToMake
+ * - description
  */
 export function auditRecipeCompleteness(recipes: Recipe[]): RecipeAuditResult {
   const stats = {
@@ -826,9 +828,9 @@ export function auditRecipeCompleteness(recipes: Recipe[]): RecipeAuditResult {
       }
     }
 
-    // Check prep time
-    if (!recipe.prepTime) {
-      issues.push("Missing prepTime");
+    // Check prep time (accepts prepTime or timeToMake)
+    if (!recipe.prepTime && !recipe.timeToMake) {
+      issues.push("Missing prepTime/timeToMake");
       stats.missingPrepTime++;
     }
 
@@ -880,7 +882,7 @@ export function formatAuditSummary(audit: RecipeAuditResult): string {
     `  - Carbs: ${audit.stats.missingCarbs}`,
     `  - Fat: ${audit.stats.missingFat}`,
     `  - Fiber: ${audit.stats.missingFiber}`,
-    `Prep Time: ${audit.stats.missingPrepTime}`,
+    `Time (prepTime/timeToMake): ${audit.stats.missingPrepTime}`,
     `Description: ${audit.stats.missingDescription}`,
   ];
 
