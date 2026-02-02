@@ -97,7 +97,7 @@ export class UnifiedRecipeService {
         }
 
         // Search in description
-        if (recipe.description?.toLowerCase().includes(searchTerm)) {
+        if (typeof recipe.description === "string" && recipe.description.toLowerCase().includes(searchTerm)) {
           return true;
         }
 

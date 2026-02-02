@@ -89,8 +89,8 @@ interface UseFoodDiaryReturn extends UseFoodDiaryState {
  * Custom hook for food diary management
  */
 export function useFoodDiary(): UseFoodDiaryReturn {
-  const { profile } = useUser();
-  const userId = profile?.userId || "guest";
+  const { currentUser } = useUser();
+  const userId = currentUser?.userId || "guest";
 
   // State
   const [state, setState] = useState<UseFoodDiaryState>({

@@ -201,7 +201,7 @@ module.exports = nextConfig;
       // Create backup
       fs.writeFileSync(
         `${existingConfig}.backup`,
-        fs.readFileSync(existingConfig),
+        fs.readFileSync(existingConfig, "utf-8"),
       );
       fs.writeFileSync(existingConfig, content);
       this.logger(`Updated ${existingConfig} (backup created)`);

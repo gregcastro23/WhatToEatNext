@@ -190,10 +190,10 @@ function SuggestionCarousel({
               {current.recipe.servingSize} servings
             </span>
           )}
-          {current.recipe.difficulty && (
+          {current.recipe.difficulty != null && (
             <span className="flex items-center gap-1 text-gray-600">
               <span>📊</span>
-              {current.recipe.difficulty}
+              {String(current.recipe.difficulty)}
             </span>
           )}
         </div>
