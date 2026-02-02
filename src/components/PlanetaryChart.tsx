@@ -8,7 +8,8 @@
 "use client";
 
 import React from "react";
-import type { PlanetPosition, PlanetaryAspect } from "@/types/celestial";
+import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
+type PlanetPosition = PlanetaryPosition;
 import {
   degreesToSVGCoords,
   getZodiacArcPath,

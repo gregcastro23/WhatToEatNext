@@ -6,7 +6,8 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import type { PlanetPosition, PlanetaryAspect } from "@/types/celestial";
+import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
+type PlanetPosition = PlanetaryPosition;
 import { calculateAspects } from "@/utils/astrologyUtils";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type { KineticMetrics } from "@/types/kinetics";
@@ -140,7 +141,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
 
       // Calculate aspects from positions
       const calculatedAspects = calculateAspects(planetPositions);
-      setAspects(calculatedAspects);
+      setAspects(calculatedAspects.aspects as PlanetaryAspect[]);
 
       // Fetch alchemical data from alchemize API
       // Pass the planetary positions we just fetched to avoid redundant calculation
@@ -153,7 +154,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
           latitude: location.latitude,
           longitude: location.longitude,
           zodiacSystem,
-          planetaryPositions,
+          planetaryPositions: planetPositions,
           ...(dateTime && {
             year: dateTime.getFullYear(),
             month: dateTime.getMonth() + 1,

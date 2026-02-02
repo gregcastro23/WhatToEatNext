@@ -202,8 +202,8 @@ function calculateKalchmResonance(
   cuisineThermo: ThermodynamicProperties,
   reasoning: string[],
 ): number {
-  const userKalchm = userThermo.kalchm;
-  const cuisineKalchm = cuisineThermo.kalchm;
+  const userKalchm = userThermo.kalchm ?? 1;
+  const cuisineKalchm = cuisineThermo.kalchm ?? 1;
 
   // Calculate ratio for logarithmic scaling
   const kalchmRatio = Math.min(userKalchm, cuisineKalchm) / Math.max(userKalchm, cuisineKalchm);
@@ -243,8 +243,8 @@ function calculateMonicaAlignment(
   cuisineThermo: ThermodynamicProperties,
   reasoning: string[],
 ): number {
-  const userMonica = userThermo.monica;
-  const cuisineMonica = cuisineThermo.monica;
+  const userMonica = userThermo.monica ?? 1;
+  const cuisineMonica = cuisineThermo.monica ?? 1;
 
   // Monica difference (smaller = better alignment)
   const monicaDiff = Math.abs(userMonica - cuisineMonica);
@@ -443,7 +443,7 @@ function determineTransformationPotential(
   userReactivityPref?: number,
 ): "low" | "moderate" | "high" | "exceptional" {
   const reactivity = thermo.reactivity;
-  const kalchm = thermo.kalchm;
+  const kalchm = thermo.kalchm ?? 1;
 
   // High reactivity + favorable Kalchm = high transformation potential
   const transformationScore = reactivity * 0.7 + Math.abs(Math.log(kalchm)) * 0.3;
@@ -527,8 +527,8 @@ export function aggregateCuisineThermodynamicProfile(
   const avgEntropy = recipeThermodynamics.reduce((sum, t) => sum + t.entropy, 0) / count;
   const avgReactivity = recipeThermodynamics.reduce((sum, t) => sum + t.reactivity, 0) / count;
   const avgGregsEnergy = recipeThermodynamics.reduce((sum, t) => sum + t.gregsEnergy, 0) / count;
-  const avgKalchm = recipeThermodynamics.reduce((sum, t) => sum + t.kalchm, 0) / count;
-  const avgMonica = recipeThermodynamics.reduce((sum, t) => sum + t.monica, 0) / count;
+  const avgKalchm = recipeThermodynamics.reduce((sum, t) => sum + (t.kalchm ?? 1), 0) / count;
+  const avgMonica = recipeThermodynamics.reduce((sum, t) => sum + (t.monica ?? 1), 0) / count;
 
   const averageThermodynamics: ThermodynamicProperties = {
     heat: avgHeat,
@@ -597,10 +597,10 @@ export function calculateMultiCuisineHarmony(
       const thermo2 = cuisineProfiles[j].averageThermodynamics;
 
       // Calculate Kalchm ratio
-      const kalchmRatio = Math.min(thermo1.kalchm, thermo2.kalchm) / Math.max(thermo1.kalchm, thermo2.kalchm);
+      const kalchmRatio = Math.min(thermo1.kalchm ?? 1, thermo2.kalchm ?? 1) / Math.max(thermo1.kalchm ?? 1, thermo2.kalchm ?? 1);
 
       // Calculate Monica difference
-      const monicaDiff = Math.abs(thermo1.monica - thermo2.monica);
+      const monicaDiff = Math.abs((thermo1.monica ?? 1) - (thermo2.monica ?? 1));
       const monicaHarmony = Math.max(0, 1 - monicaDiff / 10);
 
       // Calculate energy compatibility

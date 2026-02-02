@@ -128,7 +128,7 @@ export function computeGlobalAverages(
 
   const alchemicalMeans = Object.fromEntries(
     Object.entries(alchemicalSums).map(([key, sum]) => [key, sum / n]),
-  ) as AlchemicalProperties;
+  ) as unknown as AlchemicalProperties;
 
   const thermoMeans = Object.fromEntries(
     Object.entries(thermoSums).map(([key, sum]) => [key, sum / n]),
@@ -149,7 +149,7 @@ export function computeGlobalAverages(
       const variance = sqSum / n - mean * mean;
       return [key, Math.sqrt(Math.max(0, variance))];
     }),
-  ) as AlchemicalProperties;
+  ) as unknown as AlchemicalProperties;
 
   const thermoStdDev = Object.fromEntries(
     Object.entries(thermoSqSums).map(([key, sqSum]) => {
