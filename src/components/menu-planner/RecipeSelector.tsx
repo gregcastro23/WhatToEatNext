@@ -14,6 +14,7 @@ import type { MealType, DayOfWeek, PlanetarySnapshot } from "@/types/menuPlanner
 import { getMealTypeCharacteristics, getPlanetaryDayCharacteristics } from "@/types/menuPlanner";
 import {
   searchRecipes,
+  searchIngredients,
   type RecipeSearchOptions,
   type ScoredRecipe,
 } from "@/utils/recipeSearchEngine";
@@ -202,6 +203,12 @@ export default function RecipeSelector({
   });
   const [maxPrepTime, setMaxPrepTime] = useState<number | undefined>();
 
+  // Ingredient filter state
+  const [ingredientInput, setIngredientInput] = useState("");
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const [ingredientSuggestions, setIngredientSuggestions] = useState<string[]>([]);
+  const [showIngredientDropdown, setShowIngredientDropdown] = useState(false);
+
   // Load recipes on mount
   useEffect(() => {
     const loadRecipes = async () => {
@@ -226,6 +233,36 @@ export default function RecipeSelector({
     }
   }, [isOpen]);
 
+  // Update ingredient suggestions when typing
+  useEffect(() => {
+    if (ingredientInput.length >= 2 && allRecipes.length > 0) {
+      const suggestions = searchIngredients(allRecipes, ingredientInput, 8);
+      // Filter out already selected ingredients
+      const filtered = suggestions.filter(
+        (s) => !selectedIngredients.includes(s),
+      );
+      setIngredientSuggestions(filtered);
+      setShowIngredientDropdown(filtered.length > 0);
+    } else {
+      setIngredientSuggestions([]);
+      setShowIngredientDropdown(false);
+    }
+  }, [ingredientInput, allRecipes, selectedIngredients]);
+
+  // Add ingredient to filter
+  const addIngredient = (ingredient: string) => {
+    if (!selectedIngredients.includes(ingredient)) {
+      setSelectedIngredients((prev) => [...prev, ingredient]);
+    }
+    setIngredientInput("");
+    setShowIngredientDropdown(false);
+  };
+
+  // Remove ingredient from filter
+  const removeIngredient = (ingredient: string) => {
+    setSelectedIngredients((prev) => prev.filter((i) => i !== ingredient));
+  };
+
   // Apply search and filters
   const filteredRecipes = useMemo(() => {
     // Log filter state for debugging
@@ -242,6 +279,8 @@ export default function RecipeSelector({
       mealType: filters?.mealType ? [filters.mealType] : undefined,
       planetaryDay: filters?.dayOfWeek,
       prepTimeMax: maxPrepTime,
+      // Include ingredients filter
+      includeIngredients: selectedIngredients.length > 0 ? selectedIngredients : undefined,
       limit: 100, // Show up to 100 recipes (increased from 50)
     };
 
@@ -254,6 +293,7 @@ export default function RecipeSelector({
     cuisineFilter,
     dietaryFilters,
     maxPrepTime,
+    selectedIngredients,
     filters,
   ]);
 
@@ -300,6 +340,9 @@ export default function RecipeSelector({
       dairyFree: false,
     });
     setMaxPrepTime(undefined);
+    setIngredientInput("");
+    setSelectedIngredients([]);
+    setShowIngredientDropdown(false);
     onClose();
   };
 
@@ -430,12 +473,72 @@ export default function RecipeSelector({
                 <option value="90">1.5 hours</option>
               </select>
             </div>
+
+            {/* Ingredient Search Filter */}
+            <div className="flex-1 min-w-[250px] relative">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Search by Ingredients
+              </label>
+              <input
+                type="text"
+                value={ingredientInput}
+                onChange={(e) => setIngredientInput(e.target.value)}
+                onFocus={() => ingredientSuggestions.length > 0 && setShowIngredientDropdown(true)}
+                onBlur={() => setTimeout(() => setShowIngredientDropdown(false), 200)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && ingredientInput.trim()) {
+                    e.preventDefault();
+                    addIngredient(ingredientInput.trim().toLowerCase());
+                  }
+                }}
+                placeholder="Type an ingredient..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+              />
+              {/* Autocomplete Dropdown */}
+              {showIngredientDropdown && ingredientSuggestions.length > 0 && (
+                <div className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                  {ingredientSuggestions.map((suggestion) => (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        addIngredient(suggestion);
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-purple-50 hover:text-purple-700 capitalize"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {/* Selected Ingredients */}
+              {selectedIngredients.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {selectedIngredients.map((ing) => (
+                    <span
+                      key={ing}
+                      className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded flex items-center gap-1 capitalize"
+                    >
+                      {ing}
+                      <button
+                        onClick={() => removeIngredient(ing)}
+                        className="hover:text-amber-900"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Active Filters Display */}
           {(cuisineFilter.length > 0 ||
             Object.values(dietaryFilters).some((v) => v) ||
-            maxPrepTime) && (
+            maxPrepTime ||
+            selectedIngredients.length > 0) && (
             <div className="mt-3 flex flex-wrap gap-2">
               {cuisineFilter.map((cuisine) => (
                 <span
