@@ -491,6 +491,102 @@ export const chinese = {
             "taurus - The satisfying, grounding nature",
           ],
         },
+        {
+          name: "Jianbing",
+          description:
+            "Chinese savory crepe with egg, crispy wonton, scallions, and hoisin sauce",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "mung bean flour", amount: "1", unit: "cup", category: "grain" },
+            { name: "eggs", amount: "2", unit: "large", category: "protein" },
+            { name: "scallions", amount: "3", unit: "stalks", category: "vegetable" },
+            { name: "hoisin sauce", amount: "2", unit: "tbsp", category: "sauce" },
+            { name: "wonton crackers", amount: "2", unit: "pieces", category: "grain" },
+          ],
+          substitutions: {
+            "mung bean flour": ["wheat flour"],
+            "wonton crackers": ["crispy rice paper"],
+          },
+          servingSize: 2,
+          allergens: ["gluten", "eggs", "soy"],
+          prepTime: "10 minutes",
+          cookTime: "10 minutes",
+          nutrition: {
+            calories: 320,
+            protein: 14,
+            carbs: 42,
+            fat: 12,
+            fiber: 3,
+          },
+          timeToMake: "20 minutes",
+          season: ["all"],
+          mealType: ["breakfast"],
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.2,
+            Earth: 0.35,
+            Air: 0.15,
+          },
+        },
+        {
+          name: "Scallion Pancakes",
+          description:
+            "Crispy, flaky Chinese flatbread layered with scallions and sesame oil",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "flour", amount: "2", unit: "cups", category: "grain" },
+            { name: "scallions", amount: "6", unit: "stalks", category: "vegetable" },
+            { name: "sesame oil", amount: "3", unit: "tbsp", category: "oil" },
+            { name: "vegetable oil", amount: "1/4", unit: "cup", category: "oil" },
+            { name: "salt", amount: "1", unit: "tsp", category: "seasoning" },
+          ],
+          substitutions: {
+            "sesame oil": ["neutral oil"],
+            flour: ["gluten-free flour blend"],
+          },
+          servingSize: 4,
+          allergens: ["gluten", "sesame"],
+          prepTime: "30 minutes",
+          cookTime: "20 minutes",
+          nutrition: {
+            calories: 280,
+            protein: 6,
+            carbs: 38,
+            fat: 12,
+            fiber: 2,
+          },
+          timeToMake: "50 minutes",
+          season: ["all"],
+          mealType: ["breakfast", "snack"],
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.1,
+            Earth: 0.4,
+            Air: 0.15,
+          },
+        },
       ],
       spring: [],
       summer: [],
@@ -805,6 +901,113 @@ export const chinese = {
             "Mercury - The variety and choice within one meal",
           ],
         },
+        {
+          name: "Char Siu",
+          description:
+            "Cantonese BBQ pork with caramelized honey glaze and five-spice",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "roasting",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.08,
+                Earth: 0.23,
+                Air: 0.27,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "pork shoulder", amount: "1", unit: "kg", category: "protein" },
+            { name: "hoisin sauce", amount: "4", unit: "tbsp", category: "sauce" },
+            { name: "honey", amount: "3", unit: "tbsp", category: "sweetener" },
+            { name: "five-spice powder", amount: "1", unit: "tsp", category: "spice" },
+            { name: "soy sauce", amount: "3", unit: "tbsp", category: "condiment" },
+            { name: "red food coloring", amount: "1/2", unit: "tsp", category: "coloring", optional: true },
+          ],
+          substitutions: {
+            "pork shoulder": ["pork belly", "chicken thigh"],
+            hoisin: ["plum sauce"],
+          },
+          servingSize: 6,
+          allergens: ["soy"],
+          prepTime: "20 minutes",
+          cookTime: "45 minutes",
+          nutrition: {
+            calories: 380,
+            protein: 32,
+            carbs: 18,
+            fat: 22,
+            fiber: 1,
+          },
+          timeToMake: "65 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.4,
+            Water: 0.15,
+            Earth: 0.35,
+            Air: 0.1,
+          },
+        },
+        {
+          name: "Wonton Soup",
+          description:
+            "Silky pork and shrimp dumplings in clear chicken broth with bok choy",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
+            },
+            {
+              name: "folding",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.4,
+                Air: 0.3,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "wonton wrappers", amount: "30", unit: "pieces", category: "grain" },
+            { name: "ground pork", amount: "250", unit: "g", category: "protein" },
+            { name: "shrimp", amount: "150", unit: "g", category: "protein" },
+            { name: "chicken broth", amount: "6", unit: "cups", category: "liquid" },
+            { name: "bok choy", amount: "2", unit: "heads", category: "vegetable" },
+            { name: "sesame oil", amount: "1", unit: "tsp", category: "oil" },
+          ],
+          substitutions: {
+            shrimp: ["more pork"],
+            "bok choy": ["spinach", "napa cabbage"],
+          },
+          servingSize: 4,
+          allergens: ["gluten", "shellfish", "sesame"],
+          prepTime: "45 minutes",
+          cookTime: "15 minutes",
+          nutrition: {
+            calories: 320,
+            protein: 24,
+            carbs: 28,
+            fat: 14,
+            fiber: 2,
+          },
+          timeToMake: "60 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.15,
+            Water: 0.5,
+            Earth: 0.25,
+            Air: 0.1,
+          },
+        },
       ],
       spring: [],
       summer: [],
@@ -1115,6 +1318,113 @@ export const chinese = {
             "Neptune - The mysterious, hidden soup within",
             "cancer - The nurturing, comforting quality",
           ],
+        },
+        {
+          name: "Sweet and Sour Pork",
+          description:
+            "Crispy battered pork in tangy pineapple and bell pepper sauce, a Cantonese classic",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.09,
+                Earth: 0.14,
+                Air: 0.32,
+              },
+            },
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.48,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.35,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "pork loin", amount: "500", unit: "g", category: "protein" },
+            { name: "pineapple", amount: "1", unit: "cup", category: "fruit" },
+            { name: "bell peppers", amount: "2", unit: "medium", category: "vegetable" },
+            { name: "rice vinegar", amount: "3", unit: "tbsp", category: "vinegar" },
+            { name: "ketchup", amount: "4", unit: "tbsp", category: "condiment" },
+            { name: "cornstarch", amount: "1/2", unit: "cup", category: "starch" },
+          ],
+          substitutions: {
+            "pork loin": ["chicken breast", "tofu"],
+            pineapple: ["mango"],
+          },
+          servingSize: 4,
+          allergens: [],
+          prepTime: "25 minutes",
+          cookTime: "20 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 28,
+            carbs: 38,
+            fat: 18,
+            fiber: 2,
+          },
+          timeToMake: "45 minutes",
+          season: ["all"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.2,
+            Earth: 0.3,
+            Air: 0.15,
+          },
+        },
+        {
+          name: "Beef with Broccoli",
+          description:
+            "Tender sliced beef stir-fried with fresh broccoli in savory oyster sauce",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.48,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.35,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "beef sirloin", amount: "500", unit: "g", category: "protein" },
+            { name: "broccoli", amount: "4", unit: "cups", category: "vegetable" },
+            { name: "oyster sauce", amount: "3", unit: "tbsp", category: "sauce" },
+            { name: "soy sauce", amount: "2", unit: "tbsp", category: "condiment" },
+            { name: "garlic", amount: "4", unit: "cloves", category: "vegetable" },
+            { name: "ginger", amount: "1", unit: "inch", category: "spice" },
+          ],
+          substitutions: {
+            "beef sirloin": ["chicken", "tofu"],
+            broccoli: ["gai lan", "bok choy"],
+          },
+          servingSize: 4,
+          allergens: ["soy", "shellfish"],
+          prepTime: "15 minutes",
+          cookTime: "10 minutes",
+          nutrition: {
+            calories: 380,
+            protein: 35,
+            carbs: 15,
+            fat: 20,
+            fiber: 4,
+          },
+          timeToMake: "25 minutes",
+          season: ["all"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.4,
+            Water: 0.15,
+            Earth: 0.35,
+            Air: 0.1,
+          },
         },
       ],
       spring: [],
@@ -1442,6 +1752,101 @@ export const chinese = {
             "Moon - The cooling, refreshing quality",
             "Venus - The sweet, tropical indulgence",
           ],
+        },
+        {
+          name: "Sesame Balls",
+          description:
+            "Crispy fried glutinous rice balls filled with sweet red bean paste, coated in sesame seeds",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.09,
+                Earth: 0.14,
+                Air: 0.32,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "glutinous rice flour", amount: "2", unit: "cups", category: "grain" },
+            { name: "red bean paste", amount: "1", unit: "cup", category: "filling" },
+            { name: "sesame seeds", amount: "1/2", unit: "cup", category: "coating" },
+            { name: "sugar", amount: "1/2", unit: "cup", category: "sweetener" },
+            { name: "vegetable oil", amount: "4", unit: "cups", category: "oil" },
+          ],
+          substitutions: {
+            "red bean paste": ["lotus seed paste", "black sesame paste"],
+          },
+          servingSize: 12,
+          allergens: ["sesame"],
+          prepTime: "30 minutes",
+          cookTime: "20 minutes",
+          nutrition: {
+            calories: 180,
+            protein: 3,
+            carbs: 32,
+            fat: 6,
+            fiber: 2,
+          },
+          timeToMake: "50 minutes",
+          season: ["all"],
+          mealType: ["dessert", "snack"],
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.15,
+            Earth: 0.35,
+            Air: 0.15,
+          },
+        },
+        {
+          name: "Tangyuan",
+          description:
+            "Sweet glutinous rice balls in ginger syrup, traditionally eaten during Lantern Festival",
+          cuisine: "chinese",
+          cookingMethods: [
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.5,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "glutinous rice flour", amount: "2", unit: "cups", category: "grain" },
+            { name: "black sesame paste", amount: "1/2", unit: "cup", category: "filling" },
+            { name: "ginger", amount: "3", unit: "inches", category: "spice" },
+            { name: "rock sugar", amount: "1/2", unit: "cup", category: "sweetener" },
+            { name: "water", amount: "6", unit: "cups", category: "liquid" },
+          ],
+          substitutions: {
+            "black sesame paste": ["peanut butter", "red bean paste"],
+            "rock sugar": ["brown sugar"],
+          },
+          servingSize: 6,
+          allergens: ["sesame"],
+          prepTime: "40 minutes",
+          cookTime: "15 minutes",
+          nutrition: {
+            calories: 220,
+            protein: 4,
+            carbs: 42,
+            fat: 5,
+            fiber: 1,
+          },
+          timeToMake: "55 minutes",
+          season: ["winter"],
+          mealType: ["dessert"],
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.4,
+            Earth: 0.3,
+            Air: 0.1,
+          },
         },
       ],
       spring: [],

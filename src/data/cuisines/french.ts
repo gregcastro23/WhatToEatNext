@@ -680,6 +680,104 @@ export const french: Cuisine = {
           zodiacInfluences: ["Taurus", "Leo"],
           numberOfServings: 3,
         },
+        {
+          name: "Quiche Lorraine",
+          description:
+            "Classic French savory custard tart with bacon, Gruyère cheese, and cream in buttery pastry",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "pie crust", amount: "1", unit: "9-inch", category: "grain" },
+            { name: "bacon", amount: "200", unit: "g", category: "protein" },
+            { name: "Gruyère cheese", amount: "150", unit: "g", category: "dairy" },
+            { name: "heavy cream", amount: "1", unit: "cup", category: "dairy" },
+            { name: "eggs", amount: "4", unit: "large", category: "protein" },
+            { name: "nutmeg", amount: "1/4", unit: "tsp", category: "spice" },
+          ],
+          substitutions: {
+            bacon: ["ham", "mushrooms"],
+            "Gruyère": ["Swiss cheese", "Emmental"],
+          },
+          servingSize: 6,
+          allergens: ["gluten", "eggs", "dairy"],
+          prepTime: "20 minutes",
+          cookTime: "45 minutes",
+          nutrition: {
+            calories: 380,
+            protein: 18,
+            carbs: 22,
+            fat: 26,
+            fiber: 1,
+          },
+          timeToMake: "65 minutes",
+          season: ["all"],
+          mealType: ["breakfast", "brunch", "lunch"],
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.25,
+            Earth: 0.45,
+            Air: 0.1,
+          },
+        },
+        {
+          name: "Brioche Perdue",
+          description:
+            "French brioche bread pudding with vanilla custard and caramelized sugar",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "brioche", amount: "4", unit: "thick slices", category: "grain" },
+            { name: "eggs", amount: "3", unit: "large", category: "protein" },
+            { name: "heavy cream", amount: "1/2", unit: "cup", category: "dairy" },
+            { name: "vanilla extract", amount: "1", unit: "tsp", category: "flavoring" },
+            { name: "butter", amount: "3", unit: "tbsp", category: "fat" },
+            { name: "powdered sugar", amount: "2", unit: "tbsp", category: "sweetener" },
+          ],
+          substitutions: {
+            brioche: ["challah", "croissants"],
+            "heavy cream": ["milk"],
+          },
+          servingSize: 4,
+          allergens: ["gluten", "eggs", "dairy"],
+          prepTime: "10 minutes",
+          cookTime: "15 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 12,
+            carbs: 45,
+            fat: 22,
+            fiber: 1,
+          },
+          timeToMake: "25 minutes",
+          season: ["all"],
+          mealType: ["breakfast", "brunch"],
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.2,
+            Earth: 0.35,
+            Air: 0.15,
+          },
+        },
       ],
     },
     lunch: {
@@ -1233,6 +1331,103 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ["First Quarter", "Full Moon"],
           zodiacInfluences: ["Capricorn", "Cancer"],
           numberOfServings: 6,
+        },
+        {
+          name: "Salade Lyonnaise",
+          description:
+            "Classic Lyon-style salad with frisée, bacon lardons, poached egg, and warm vinaigrette",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "poaching",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.5,
+                Earth: 0.13,
+                Air: 0.19,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "frisée lettuce", amount: "2", unit: "heads", category: "vegetable" },
+            { name: "bacon lardons", amount: "150", unit: "g", category: "protein" },
+            { name: "eggs", amount: "4", unit: "large", category: "protein" },
+            { name: "shallots", amount: "2", unit: "medium", category: "vegetable" },
+            { name: "red wine vinegar", amount: "3", unit: "tbsp", category: "vinegar" },
+            { name: "Dijon mustard", amount: "1", unit: "tsp", category: "condiment" },
+          ],
+          substitutions: {
+            frisée: ["escarole", "mixed greens"],
+            "bacon lardons": ["pancetta"],
+          },
+          servingSize: 4,
+          allergens: ["eggs"],
+          prepTime: "15 minutes",
+          cookTime: "15 minutes",
+          nutrition: {
+            calories: 320,
+            protein: 18,
+            carbs: 8,
+            fat: 24,
+            fiber: 3,
+          },
+          timeToMake: "30 minutes",
+          season: ["all"],
+          mealType: ["lunch"],
+          elementalProperties: {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.3,
+            Air: 0.2,
+          },
+        },
+        {
+          name: "Crêpes Complètes",
+          description:
+            "Savory Breton buckwheat crêpes filled with ham, cheese, and a fried egg",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "buckwheat flour", amount: "1", unit: "cup", category: "grain" },
+            { name: "eggs", amount: "5", unit: "large", category: "protein" },
+            { name: "ham", amount: "200", unit: "g", category: "protein" },
+            { name: "Gruyère cheese", amount: "150", unit: "g", category: "dairy" },
+            { name: "butter", amount: "4", unit: "tbsp", category: "fat" },
+          ],
+          substitutions: {
+            "buckwheat flour": ["regular flour"],
+            ham: ["smoked salmon"],
+          },
+          servingSize: 4,
+          allergens: ["eggs", "dairy", "gluten"],
+          prepTime: "15 minutes",
+          cookTime: "20 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 25,
+            carbs: 28,
+            fat: 24,
+            fiber: 2,
+          },
+          timeToMake: "35 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.2,
+            Earth: 0.35,
+            Air: 0.15,
+          },
         },
       ],
     },
@@ -1900,6 +2095,104 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ["First Quarter", "Full Moon"],
           zodiacInfluences: ["Capricorn", "Scorpio"],
         },
+        {
+          name: "Duck Confit",
+          description:
+            "Traditional Gascon duck legs slowly cooked in their own fat until tender and crispy",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "confiting",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.2,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "duck legs", amount: "4", unit: "whole", category: "protein" },
+            { name: "duck fat", amount: "4", unit: "cups", category: "fat" },
+            { name: "kosher salt", amount: "1/4", unit: "cup", category: "seasoning" },
+            { name: "thyme", amount: "4", unit: "sprigs", category: "herb" },
+            { name: "garlic", amount: "6", unit: "cloves", category: "vegetable" },
+            { name: "bay leaves", amount: "2", unit: "pieces", category: "herb" },
+          ],
+          substitutions: {
+            "duck legs": ["chicken legs"],
+            "duck fat": ["olive oil"],
+          },
+          servingSize: 4,
+          allergens: [],
+          prepTime: "24 hours",
+          cookTime: "4 hours",
+          nutrition: {
+            calories: 520,
+            protein: 38,
+            carbs: 2,
+            fat: 42,
+            fiber: 0,
+          },
+          timeToMake: "28 hours",
+          season: ["autumn", "winter"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.2,
+            Earth: 0.5,
+            Air: 0.1,
+          },
+        },
+        {
+          name: "Cassoulet",
+          description:
+            "Rich slow-cooked casserole with white beans, duck confit, and sausage from Toulouse",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "white beans", amount: "500", unit: "g", category: "legume" },
+            { name: "duck confit", amount: "2", unit: "legs", category: "protein" },
+            { name: "Toulouse sausage", amount: "300", unit: "g", category: "protein" },
+            { name: "pork belly", amount: "200", unit: "g", category: "protein" },
+            { name: "tomatoes", amount: "2", unit: "medium", category: "vegetable" },
+            { name: "breadcrumbs", amount: "1", unit: "cup", category: "grain" },
+          ],
+          substitutions: {
+            "duck confit": ["chicken thighs"],
+            "Toulouse sausage": ["Italian sausage"],
+          },
+          servingSize: 8,
+          allergens: ["gluten"],
+          prepTime: "45 minutes",
+          cookTime: "4 hours",
+          nutrition: {
+            calories: 680,
+            protein: 48,
+            carbs: 42,
+            fat: 38,
+            fiber: 12,
+          },
+          timeToMake: "5 hours",
+          season: ["winter"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.25,
+            Earth: 0.45,
+            Air: 0.1,
+          },
+        },
       ],
     },
     dessert: {
@@ -2381,6 +2674,101 @@ export const french: Cuisine = {
             "Serve with warm chocolate sauce",
           ],
           numberOfServings: 6,
+        },
+        {
+          name: "Mousse au Chocolat",
+          description:
+            "Classic French chocolate mousse with rich dark chocolate and airy whipped texture",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "folding",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.4,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "dark chocolate", amount: "200", unit: "g", category: "sweetener" },
+            { name: "eggs", amount: "4", unit: "large", category: "protein" },
+            { name: "sugar", amount: "1/4", unit: "cup", category: "sweetener" },
+            { name: "heavy cream", amount: "1", unit: "cup", category: "dairy" },
+            { name: "butter", amount: "2", unit: "tbsp", category: "fat" },
+          ],
+          substitutions: {
+            "dark chocolate": ["milk chocolate"],
+            "heavy cream": ["coconut cream"],
+          },
+          servingSize: 6,
+          allergens: ["eggs", "dairy"],
+          prepTime: "30 minutes",
+          cookTime: "0 minutes",
+          nutrition: {
+            calories: 380,
+            protein: 8,
+            carbs: 32,
+            fat: 26,
+            fiber: 3,
+          },
+          timeToMake: "4 hours",
+          season: ["all"],
+          mealType: ["dessert"],
+          elementalProperties: {
+            Fire: 0.15,
+            Water: 0.2,
+            Earth: 0.3,
+            Air: 0.35,
+          },
+        },
+        {
+          name: "Mille-Feuille",
+          description:
+            "Thousand-layer pastry with flaky puff pastry, pastry cream, and fondant glaze",
+          cuisine: "french",
+          cookingMethods: [
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
+            }
+          ],
+          ingredients: [
+            { name: "puff pastry", amount: "500", unit: "g", category: "grain" },
+            { name: "pastry cream", amount: "2", unit: "cups", category: "filling" },
+            { name: "powdered sugar", amount: "1", unit: "cup", category: "sweetener" },
+            { name: "vanilla extract", amount: "1", unit: "tsp", category: "flavoring" },
+          ],
+          substitutions: {
+            "puff pastry": ["phyllo dough"],
+            "pastry cream": ["whipped cream"],
+          },
+          servingSize: 8,
+          allergens: ["gluten", "eggs", "dairy"],
+          prepTime: "45 minutes",
+          cookTime: "25 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 6,
+            carbs: 52,
+            fat: 22,
+            fiber: 1,
+          },
+          timeToMake: "2 hours",
+          season: ["all"],
+          mealType: ["dessert"],
+          elementalProperties: {
+            Fire: 0.25,
+            Water: 0.15,
+            Earth: 0.25,
+            Air: 0.35,
+          },
         },
       ],
     },
