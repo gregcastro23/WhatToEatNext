@@ -8,7 +8,7 @@
  * @created 2026-02-01
  */
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useRef, type TouchEvent as ReactTouchEvent } from "react";
 import type { MealSlot as MealSlotType, MealType, DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import { getDayName, getPlanetaryDayCharacteristics, formatDateForDisplay } from "@/types/menuPlanner";
@@ -37,7 +37,7 @@ interface MealSuggestion {
 
 /**
  * Suggestion Carousel Component
- * Allows swiping through recipe suggestions
+ * Allows swiping through recipe suggestions with mobile touch support
  */
 function SuggestionCarousel({
   suggestions,
@@ -52,6 +52,11 @@ function SuggestionCarousel({
   onSelect: (recipe: Recipe) => void;
   isLoading: boolean;
 }) {
+  // Touch handling state for swipe gestures
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 50; // Minimum distance for a swipe to register
+
   const handlePrev = () => {
     if (currentIndex > 0) {
       onIndexChange(currentIndex - 1);
@@ -62,6 +67,36 @@ function SuggestionCarousel({
     if (currentIndex < suggestions.length - 1) {
       onIndexChange(currentIndex + 1);
     }
+  };
+
+  // Touch event handlers for swipe navigation
+  const onTouchStart = (e: ReactTouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchEndX.current = null;
+  };
+
+  const onTouchMove = (e: ReactTouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      // Swipe left = go to next
+      handleNext();
+    } else if (isRightSwipe) {
+      // Swipe right = go to previous
+      handlePrev();
+    }
+
+    // Reset touch positions
+    touchStartX.current = null;
+    touchEndX.current = null;
   };
 
   if (isLoading) {
@@ -90,7 +125,12 @@ function SuggestionCarousel({
   if (!current) return null;
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {/* Navigation Arrows */}
       <button
         onClick={handlePrev}
@@ -232,6 +272,11 @@ function SuggestionCarousel({
       <div className="text-center text-sm text-gray-500 mt-2">
         {currentIndex + 1} of {suggestions.length} suggestions
       </div>
+
+      {/* Mobile swipe hint */}
+      <div className="text-center text-xs text-gray-400 mt-1 md:hidden">
+        Swipe left or right to browse
+      </div>
     </div>
   );
 }
@@ -339,11 +384,11 @@ function FocusedMealSlot({
   isLocked: boolean;
   onLock: () => void;
   onUnlock: () => void;
-  onSelectRecipe: (recipe: Recipe) => void;
-  onRemoveRecipe: () => void;
+  onSelectRecipe: (recipe: Recipe) => void | Promise<void>;
+  onRemoveRecipe: () => void | Promise<void>;
   suggestions: MealSuggestion[];
   isLoadingSuggestions: boolean;
-  onGenerateSuggestions: () => void;
+  onGenerateSuggestions: () => void | Promise<void>;
 }) {
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const hasRecipe = !!mealSlot.recipe;
@@ -455,8 +500,7 @@ export default function FocusedDayView({
   onClose,
   onDayChange,
 }: FocusedDayViewProps) {
-  const { addMealToSlot, removeMealFromSlot } = useMenuPlanner();
-  const [lockedMeals, setLockedMeals] = useState<Set<string>>(new Set());
+  const { addMealToSlot, removeMealFromSlot, lockMeal, unlockMeal } = useMenuPlanner();
   const [suggestions, setSuggestions] = useState<Record<MealType, MealSuggestion[]>>({
     breakfast: [],
     lunch: [],
@@ -556,18 +600,19 @@ export default function FocusedDayView({
     await addMealToSlot(dayOfWeek, mealType, recipe, 2);
   };
 
-  // Handle locking/unlocking
+  // Handle locking/unlocking - uses context for persistence
   const handleLock = (mealSlotId: string) => {
-    setLockedMeals(prev => new Set([...prev, mealSlotId]));
+    lockMeal(mealSlotId);
   };
 
   const handleUnlock = (mealSlotId: string) => {
-    setLockedMeals(prev => {
-      const next = new Set(prev);
-      next.delete(mealSlotId);
-      return next;
-    });
+    unlockMeal(mealSlotId);
   };
+
+  // Count locked meals for display
+  const lockedMealCount = useMemo(() => {
+    return meals.filter(m => m.isLocked).length;
+  }, [meals]);
 
   // Sort meals by type
   const mealTypes: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
@@ -643,7 +688,7 @@ export default function FocusedDayView({
             <FocusedMealSlot
               key={mealSlot.id}
               mealSlot={mealSlot}
-              isLocked={lockedMeals.has(mealSlot.id)}
+              isLocked={mealSlot.isLocked ?? false}
               onLock={() => handleLock(mealSlot.id)}
               onUnlock={() => handleUnlock(mealSlot.id)}
               onSelectRecipe={(recipe) => handleSelectRecipe(mealSlot.mealType, recipe)}
@@ -658,10 +703,10 @@ export default function FocusedDayView({
         {/* Footer */}
         <div className="border-t border-gray-200 p-4 bg-white flex items-center justify-between">
           <div className="text-sm text-gray-600">
-            {lockedMeals.size > 0 && (
+            {lockedMealCount > 0 && (
               <span className="flex items-center gap-1">
                 <span>🔒</span>
-                {lockedMeals.size} meal{lockedMeals.size !== 1 ? "s" : ""} locked
+                {lockedMealCount} meal{lockedMealCount !== 1 ? "s" : ""} locked
               </span>
             )}
           </div>

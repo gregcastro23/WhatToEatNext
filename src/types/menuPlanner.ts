@@ -60,6 +60,7 @@ export interface MealSlot {
   servings: number;
   planetarySnapshot: PlanetarySnapshot;
   notes?: string;
+  isLocked?: boolean;  // Whether this meal is locked from changes
   createdAt: Date;
   updatedAt: Date;
 }
