@@ -100,6 +100,7 @@ export async function calculateMomentChart(
       Uranus: planetaryPositionsRaw.Uranus?.sign as ZodiacSign,
       Neptune: planetaryPositionsRaw.Neptune?.sign as ZodiacSign,
       Pluto: planetaryPositionsRaw.Pluto?.sign as ZodiacSign,
+      Ascendant: (planetaryPositionsRaw.Ascendant?.sign as ZodiacSign) || "aries",
     };
 
     // Calculate elemental balance from zodiac positions
@@ -108,8 +109,8 @@ export async function calculateMomentChart(
     // Calculate alchemical properties from planets
     const alchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
 
-    // Determine dominant element
-    const dominantElement = getDominantElement(elementalBalance);
+    // Determine dominant element (cast keyof to Element type)
+    const dominantElement = getDominantElement(elementalBalance) as Element;
 
     const momentChart: MomentChart = {
       dateTime: targetDateTime.toISOString(),
@@ -342,10 +343,10 @@ export async function compareCharts(
   // Calculate moment chart if not provided
   const moment = momentChart || await calculateMomentChart();
 
-  // Calculate individual harmony scores
+  // Calculate individual harmony scores (cast to align ElementalProperties types)
   const elementalHarmony = calculateElementalHarmony(
-    natalChart.elementalBalance,
-    moment.elementalBalance,
+    natalChart.elementalBalance as ElementalProperties,
+    moment.elementalBalance as ElementalProperties,
   );
 
   const alchemicalAlignment = calculateAlchemicalAlignment(

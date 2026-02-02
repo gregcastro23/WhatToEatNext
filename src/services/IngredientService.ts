@@ -484,7 +484,7 @@ export class IngredientService implements IngredientServiceInterface {
           (ing1 as any).thermodynamicProperties,
           (ing2 as any).thermodynamicProperties,
         );
-        energeticCompatibility = thermoCompat;
+        energeticCompatibility = thermoCompat.overall;
       }
     } catch (error) {
       // Fallback to default if calculation fails

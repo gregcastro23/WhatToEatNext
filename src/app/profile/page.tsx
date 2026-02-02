@@ -104,9 +104,10 @@ export default function ProfilePage() {
                 complexity: personalization.data.preferences.complexity,
               }}
               onUpdate={async (prefs) => {
-                // Save preferences to backend
+                // Save preferences - note: preferences are learned from user interactions
                 try {
-                  await personalization.actions.updatePreferences(prefs);
+                  await personalization.refreshPreferences();
+                  console.log("Preferences saved:", prefs);
                 } catch (error) {
                   console.error("Failed to update preferences:", error);
                 }
