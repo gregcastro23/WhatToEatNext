@@ -2,9 +2,11 @@
  * FoodDiaryService
  * Central service for managing food diary entries, tracking nutrition,
  * and generating insights for personalized recommendations.
+ * Uses PostgreSQL for persistent storage with in-memory fallback.
  *
  * @file src/services/FoodDiaryService.ts
  * @created 2026-02-02
+ * @updated 2026-02-03 - Added PostgreSQL persistence
  */
 
 import { _logger } from "@/lib/logger";
@@ -33,6 +35,24 @@ import type { NutritionalSummary } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
 import type { MealType } from "@/types/menuPlanner";
 import { getNutritionTrackingService } from "./NutritionTrackingService";
+
+// Check if we should use database (only in server-side contexts with DB available)
+const isServerWithDB = (): boolean => {
+  return typeof window === 'undefined' && !!process.env.DATABASE_URL;
+};
+
+// Lazy-load database module to avoid build-time issues
+let dbModule: typeof import("@/lib/database") | null = null;
+const getDbModule = async () => {
+  if (!dbModule && isServerWithDB()) {
+    try {
+      dbModule = await import("@/lib/database");
+    } catch (error) {
+      _logger.warn("Database module not available, using in-memory storage");
+    }
+  }
+  return dbModule;
+};
 
 /**
  * Quick food presets for common snacks and simple foods
@@ -198,16 +218,27 @@ const QUICK_FOOD_PRESETS: QuickFoodPreset[] = [
 
 /**
  * FoodDiaryService - Main class for food tracking operations
+ * Uses PostgreSQL for persistent storage with in-memory fallback
  */
 class FoodDiaryService {
-  // In-memory storage (would be replaced with database calls)
+  // In-memory fallback storage
   private entries: Map<string, FoodDiaryEntry> = new Map();
   private userEntries: Map<string, Set<string>> = new Map(); // userId -> entryIds
   private favorites: Map<string, UserFoodFavorite[]> = new Map(); // userId -> favorites
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+  private initialized = false;
 
   constructor() {
-    this.loadFromStorage();
+    // Lazy initialization to avoid build-time issues
+  }
+
+  /**
+   * Ensure the service is initialized
+   */
+  private async ensureInitialized(): Promise<void> {
+    if (this.initialized) return;
+    this.initialized = true;
+    _logger.debug("FoodDiaryService initialized");
   }
 
   // ============================================================
@@ -218,6 +249,9 @@ class FoodDiaryService {
    * Create a new food diary entry
    */
   async createEntry(userId: string, input: CreateFoodDiaryEntryInput): Promise<FoodDiaryEntry> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
     const entryId = `entry_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     const now = new Date();
 
@@ -261,10 +295,46 @@ class FoodDiaryService {
       updatedAt: now,
     };
 
+    // Try PostgreSQL first
+    if (db) {
+      try {
+        await db.executeQuery(
+          `INSERT INTO food_diary_entries (
+            id, user_id, food_name, food_source, source_id, brand_name,
+            date, meal_type, time, serving_amount, serving_unit, serving_grams,
+            serving_description, quantity, calories, protein, carbs, fat, fiber,
+            sugar, sodium, nutrition_confidence, elemental_fire, elemental_water,
+            elemental_earth, elemental_air, notes, tags, is_favorite,
+            astrological_context, created_at, updated_at
+          ) VALUES (
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,
+            $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26,
+            $27, $28, $29, $30, $31, $32
+          )`,
+          [
+            entryId, userId, input.foodName, input.foodSource, input.sourceId || null,
+            input.brandName || null, input.date, input.mealType, input.time,
+            input.serving.amount, input.serving.unit, input.serving.grams || null,
+            input.serving.description || null, input.quantity,
+            nutrition.calories || null, nutrition.protein || null,
+            nutrition.carbs || null, nutrition.fat || null, nutrition.fiber || null,
+            nutrition.sugar || null, nutrition.sodium || null, nutritionConfidence,
+            input.elementalProperties?.Fire || null, input.elementalProperties?.Water || null,
+            input.elementalProperties?.Earth || null, input.elementalProperties?.Air || null,
+            input.notes || null, input.tags || [], false,
+            JSON.stringify(astrologicalContext), now, now
+          ]
+        );
+        _logger.info("Food diary entry created in PostgreSQL", { userId, entryId });
+      } catch (error) {
+        _logger.error("PostgreSQL entry creation failed, using in-memory:", error as any);
+      }
+    }
+
+    // Always update in-memory cache
     this.entries.set(entryId, entry);
     this.addToUserIndex(userId, entryId);
     this.invalidateCache(userId);
-    this.saveToStorage();
 
     _logger.info("Food diary entry created", { userId, entryId, food: input.foodName });
     return entry;
@@ -274,7 +344,77 @@ class FoodDiaryService {
    * Get a specific entry by ID
    */
   async getEntry(entryId: string): Promise<FoodDiaryEntry | null> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    // Try PostgreSQL first
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `SELECT * FROM food_diary_entries WHERE id = $1`,
+          [entryId]
+        );
+        if (result.rows.length > 0) {
+          return this.rowToFoodDiaryEntry(result.rows[0]);
+        }
+      } catch (error) {
+        _logger.warn("PostgreSQL query failed, using in-memory:", error as any);
+      }
+    }
+
+    // Fallback to in-memory
     return this.entries.get(entryId) || null;
+  }
+
+  /**
+   * Convert database row to FoodDiaryEntry
+   */
+  private rowToFoodDiaryEntry(row: any): FoodDiaryEntry {
+    return {
+      id: row.id,
+      userId: row.user_id,
+      foodName: row.food_name,
+      foodSource: row.food_source,
+      sourceId: row.source_id,
+      brandName: row.brand_name,
+      date: new Date(row.date),
+      mealType: row.meal_type,
+      time: row.time,
+      serving: {
+        amount: parseFloat(row.serving_amount) || 1,
+        unit: row.serving_unit,
+        grams: parseFloat(row.serving_grams) || 100,
+        description: row.serving_description,
+      },
+      quantity: parseFloat(row.quantity) || 1,
+      nutrition: {
+        calories: row.calories ? parseFloat(row.calories) : undefined,
+        protein: row.protein ? parseFloat(row.protein) : undefined,
+        carbs: row.carbs ? parseFloat(row.carbs) : undefined,
+        fat: row.fat ? parseFloat(row.fat) : undefined,
+        fiber: row.fiber ? parseFloat(row.fiber) : undefined,
+        sugar: row.sugar ? parseFloat(row.sugar) : undefined,
+        sodium: row.sodium ? parseFloat(row.sodium) : undefined,
+      },
+      nutritionConfidence: row.nutrition_confidence,
+      elementalProperties: row.elemental_fire ? {
+        Fire: parseFloat(row.elemental_fire),
+        Water: parseFloat(row.elemental_water),
+        Earth: parseFloat(row.elemental_earth),
+        Air: parseFloat(row.elemental_air),
+      } : undefined,
+      rating: row.rating ? parseFloat(row.rating) as FoodRating : undefined,
+      moodTags: row.mood_tags || [],
+      notes: row.notes,
+      wouldEatAgain: row.would_eat_again,
+      isFavorite: row.is_favorite,
+      tags: row.tags || [],
+      astrologicalContext: typeof row.astrological_context === 'string'
+        ? JSON.parse(row.astrological_context)
+        : row.astrological_context,
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at),
+    };
   }
 
   /**
@@ -355,6 +495,48 @@ class FoodDiaryService {
    * Get entries for a user with optional filters
    */
   async getEntries(userId: string, filters?: FoodDiaryFilters): Promise<FoodDiaryEntry[]> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    // Try PostgreSQL first
+    if (db) {
+      try {
+        let query = `SELECT * FROM food_diary_entries WHERE user_id = $1`;
+        const params: any[] = [userId];
+        let paramIndex = 2;
+
+        // Build filter conditions
+        if (filters?.startDate) {
+          query += ` AND date >= $${paramIndex++}`;
+          params.push(filters.startDate);
+        }
+        if (filters?.endDate) {
+          query += ` AND date <= $${paramIndex++}`;
+          params.push(filters.endDate);
+        }
+        if (filters?.mealTypes && filters.mealTypes.length > 0) {
+          query += ` AND meal_type = ANY($${paramIndex++})`;
+          params.push(filters.mealTypes);
+        }
+        if (filters?.isFavorite !== undefined) {
+          query += ` AND is_favorite = $${paramIndex++}`;
+          params.push(filters.isFavorite);
+        }
+        if (filters?.searchQuery) {
+          query += ` AND food_name ILIKE $${paramIndex++}`;
+          params.push(`%${filters.searchQuery}%`);
+        }
+
+        query += ` ORDER BY date DESC, time DESC`;
+
+        const result = await db.executeQuery(query, params);
+        return result.rows.map((row: any) => this.rowToFoodDiaryEntry(row));
+      } catch (error) {
+        _logger.warn("PostgreSQL query failed, using in-memory:", error as any);
+      }
+    }
+
+    // Fallback to in-memory
     const userEntryIds = this.userEntries.get(userId);
     if (!userEntryIds) return [];
 
