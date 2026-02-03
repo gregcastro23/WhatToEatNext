@@ -48,23 +48,51 @@ export default function ProfilePage() {
         <div className="alchm-card p-8 max-w-md mx-4">
           <div className="text-center">
             <h1 className="text-2xl font-bold alchm-gradient-text mb-4">
-              Profile Access Required
+              Welcome to Alchm Kitchen
             </h1>
             <p className="text-gray-600 mb-6">
-              Please log in to view and manage your profile.
+              Complete your profile setup to get personalized recommendations based on your unique alchemical and astrological profile.
             </p>
-            <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-orange-700 transition-all duration-200">
-              Log In
-            </button>
+            <a
+              href="/onboarding"
+              className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-orange-700 transition-all duration-200"
+            >
+              ✨ Get Started
+            </a>
           </div>
         </div>
       </div>
     );
   }
 
+  // Check if user has completed onboarding (has natal chart)
+  const hasCompletedOnboarding = !!(currentUser.birthData && currentUser.natalChart);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 to-blue-50 py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-6">
+        {/* Onboarding Banner - shown if user hasn't completed setup */}
+        {!hasCompletedOnboarding && (
+          <div className="bg-gradient-to-r from-purple-500 to-orange-500 rounded-xl p-6 text-white shadow-lg">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold mb-2">
+                  Complete Your Profile Setup
+                </h2>
+                <p className="text-purple-100">
+                  Add your birth data to unlock personalized recommendations based on your unique alchemical and astrological profile.
+                </p>
+              </div>
+              <a
+                href="/onboarding"
+                className="flex-shrink-0 px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-all duration-200 shadow-md"
+              >
+                ✨ Complete Setup
+              </a>
+            </div>
+          </div>
+        )}
+
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold alchm-gradient-text mb-2">
