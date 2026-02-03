@@ -2,18 +2,24 @@
 
 /**
  * Recipe Generator Page
- * Interactive recipe generation with planetary alignment and filtering options
+ * Interactive recipe generation with planetary alignment, user chart personalization,
+ * and nutritional tracking
  *
  * @file src/app/recipe-generator/page.tsx
  * @created 2026-02-01
+ * @updated 2026-02-03 - Added user chart personalization and nutritional integration
  */
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import type { Recipe, ElementalProperties } from "@/types/recipe";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
+import type { NatalChart, ChartComparison } from "@/types/natalChart";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import { useUser } from "@/contexts/UserContext";
+import { ChartComparisonService } from "@/services/ChartComparisonService";
+import { PersonalizedRecommendationService } from "@/services/PersonalizedRecommendationService";
 import {
   generateDayRecommendations,
   type RecommendedMeal,
@@ -25,8 +31,8 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const logger = createLogger("RecipeGenerator");
 
-// Tab types
-type TabId = "filters" | "preferences" | "planetary" | "results";
+// Tab types - added "personal" tab
+type TabId = "filters" | "preferences" | "planetary" | "personal" | "results";
 
 // Filter state interface
 interface GeneratorFilters {
@@ -43,6 +49,27 @@ interface PlanetaryPreferences {
   useCurrentPlanetary: boolean;
   selectedDay: DayOfWeek | "current";
   elementalFocus: keyof ElementalProperties | "balanced";
+}
+
+// Personalization preferences
+interface PersonalizationPreferences {
+  useNatalChart: boolean;
+  prioritizeHarmony: boolean;
+  showNutrition: boolean;
+}
+
+// Extended recipe with personalization data
+interface PersonalizedRecipeMeal extends RecommendedMeal {
+  personalizedScore?: number;
+  personalizationBoost?: number;
+  chartHarmony?: number;
+  nutritionSummary?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
 }
 
 // Available cuisines from the codebase
@@ -84,6 +111,22 @@ const DAY_NAMES: Record<DayOfWeek, string> = {
   6: "Saturday",
 };
 
+// Element icons helper
+const getElementIcon = (element: string) => {
+  switch (element) {
+    case "Fire":
+      return "🔥";
+    case "Water":
+      return "💧";
+    case "Earth":
+      return "🌍";
+    case "Air":
+      return "💨";
+    default:
+      return "⚡";
+  }
+};
+
 /**
  * Get planetary info for a given day
  */
@@ -92,28 +135,19 @@ function getPlanetaryInfo(day: DayOfWeek) {
 }
 
 /**
- * Calculate elemental score for display
+ * Extract nutrition summary from recipe
  */
-function calculateElementalScore(
-  recipe: Recipe,
-  targetElement?: keyof ElementalProperties
-): number {
-  if (!recipe.elementalProperties) return 50;
+function extractNutritionSummary(recipe: Recipe) {
+  const nutrition = recipe.nutrition;
+  if (!nutrition) return undefined;
 
-  if (targetElement && targetElement !== "balanced") {
-    return Math.round(recipe.elementalProperties[targetElement] * 100);
-  }
-
-  // Balanced score - how evenly distributed the elements are
-  const values = Object.values(recipe.elementalProperties).filter(
-    (v) => typeof v === "number"
-  ) as number[];
-  const avg = values.reduce((a, b) => a + b, 0) / values.length;
-  const variance =
-    values.reduce((sum, v) => sum + Math.pow(v - avg, 2), 0) / values.length;
-
-  // Lower variance = more balanced = higher score
-  return Math.round(Math.max(0, 100 - variance * 400));
+  return {
+    calories: nutrition.calories,
+    protein: nutrition.protein,
+    carbs: nutrition.carbs,
+    fat: nutrition.fat,
+    fiber: nutrition.fiber,
+  };
 }
 
 /**
@@ -121,14 +155,21 @@ function calculateElementalScore(
  */
 function RecipeGeneratorContent() {
   const astroState = useAstrologicalState();
+  const { currentUser } = useUser();
 
   const [activeTab, setActiveTab] = useState<TabId>("filters");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedRecipes, setGeneratedRecipes] = useState<RecommendedMeal[]>(
-    []
-  );
+  const [generatedRecipes, setGeneratedRecipes] = useState<
+    PersonalizedRecipeMeal[]
+  >([]);
   const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
   const [hasGenerated, setHasGenerated] = useState(false);
+
+  // User chart data
+  const [chartComparison, setChartComparison] =
+    useState<ChartComparison | null>(null);
+  const [isLoadingChart, setIsLoadingChart] = useState(false);
+  const [chartError, setChartError] = useState<string | null>(null);
 
   // Filter state
   const [filters, setFilters] = useState<GeneratorFilters>({
@@ -147,6 +188,19 @@ function RecipeGeneratorContent() {
     elementalFocus: "balanced",
   });
 
+  // Personalization preferences
+  const [personalPrefs, setPersonalPrefs] =
+    useState<PersonalizationPreferences>({
+      useNatalChart: true,
+      prioritizeHarmony: true,
+      showNutrition: true,
+    });
+
+  // Get user's natal chart
+  const natalChart: NatalChart | null = useMemo(() => {
+    return currentUser?.natalChart || null;
+  }, [currentUser?.natalChart]);
+
   // Load all recipes on mount
   useEffect(() => {
     const loadRecipes = async () => {
@@ -162,11 +216,37 @@ function RecipeGeneratorContent() {
     loadRecipes();
   }, []);
 
+  // Load chart comparison when natal chart is available
+  useEffect(() => {
+    const loadChartComparison = async () => {
+      if (!natalChart) {
+        setChartComparison(null);
+        return;
+      }
+
+      setIsLoadingChart(true);
+      setChartError(null);
+
+      try {
+        const chartService = ChartComparisonService.getInstance();
+        const comparison = await chartService.compareCharts(natalChart);
+        setChartComparison(comparison);
+        logger.info("Chart comparison loaded", {
+          harmony: comparison.overallHarmony,
+        });
+      } catch (err) {
+        logger.error("Failed to load chart comparison:", err);
+        setChartError("Could not calculate chart comparison");
+      } finally {
+        setIsLoadingChart(false);
+      }
+    };
+
+    loadChartComparison();
+  }, [natalChart]);
+
   // Current day of week
-  const currentDay = useMemo(
-    () => new Date().getDay() as DayOfWeek,
-    []
-  );
+  const currentDay = useMemo(() => new Date().getDay() as DayOfWeek, []);
 
   // Selected day for planetary calculations
   const selectedDay = useMemo(
@@ -200,7 +280,7 @@ function RecipeGeneratorContent() {
     [astroState]
   );
 
-  // Generate recipes based on filters
+  // Generate recipes based on filters with personalization
   const handleGenerate = useCallback(async () => {
     setIsGenerating(true);
     setHasGenerated(true);
@@ -217,7 +297,7 @@ function RecipeGeneratorContent() {
             d.toLowerCase()
           ),
           useCurrentPlanetary: planetaryPrefs.useCurrentPlanetary,
-          maxRecipesPerMeal: 10,
+          maxRecipesPerMeal: 15,
           preferredCuisines: filters.cuisines,
           excludeIngredients: filters.excludedIngredients,
         }
@@ -236,13 +316,86 @@ function RecipeGeneratorContent() {
         });
       }
 
-      // Sort by planetary alignment score
-      filtered.sort((a, b) => b.planetaryAlignment - a.planetaryAlignment);
+      // Apply personalization if natal chart is available
+      let personalizedResults: PersonalizedRecipeMeal[] = filtered.map(
+        (rec) => ({
+          ...rec,
+          nutritionSummary: extractNutritionSummary(rec.recipe),
+        })
+      );
 
-      setGeneratedRecipes(filtered);
+      if (
+        personalPrefs.useNatalChart &&
+        natalChart &&
+        chartComparison
+      ) {
+        try {
+          const personalizationService =
+            PersonalizedRecommendationService.getInstance();
+
+          // Convert recipes to recommendable items
+          const items = filtered.map((rec) => ({
+            id: rec.recipe.id,
+            name: rec.recipe.name,
+            elementalProperties: rec.recipe.elementalProperties || {
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
+              Air: 0.25,
+            },
+            alchemicalProperties: (rec.recipe as any).alchemicalProperties || {
+              Spirit: 0,
+              Essence: 0,
+              Matter: 0,
+              Substance: 0,
+            },
+            baseScore: rec.score,
+          }));
+
+          const personalized = await personalizationService.scoreItems(items, {
+            natalChart,
+            chartComparison,
+            includeReasons: true,
+          });
+
+          // Merge personalization data back into results
+          personalizedResults = filtered.map((rec) => {
+            const personalData = personalized.find((p) => p.id === rec.recipe.id);
+            return {
+              ...rec,
+              personalizedScore: personalData?.personalizedScore || rec.score,
+              personalizationBoost: personalData?.personalizationBoost || 1,
+              chartHarmony: chartComparison.overallHarmony,
+              nutritionSummary: extractNutritionSummary(rec.recipe),
+              reasons: [
+                ...rec.reasons,
+                ...(personalData?.reasons || []).slice(0, 2),
+              ],
+            };
+          });
+
+          // Sort by personalized score if prioritizing harmony
+          if (personalPrefs.prioritizeHarmony) {
+            personalizedResults.sort(
+              (a, b) =>
+                (b.personalizedScore || b.score) -
+                (a.personalizedScore || a.score)
+            );
+          }
+        } catch (err) {
+          logger.error("Personalization failed, using base scores:", err);
+        }
+      } else {
+        // Sort by planetary alignment score
+        personalizedResults.sort(
+          (a, b) => b.planetaryAlignment - a.planetaryAlignment
+        );
+      }
+
+      setGeneratedRecipes(personalizedResults);
       setActiveTab("results");
 
-      logger.info(`Generated ${filtered.length} recipe recommendations`);
+      logger.info(`Generated ${personalizedResults.length} recipe recommendations`);
     } catch (err) {
       logger.error("Failed to generate recipes:", err);
     } finally {
@@ -253,6 +406,10 @@ function RecipeGeneratorContent() {
     convertedAstroState,
     filters,
     planetaryPrefs.useCurrentPlanetary,
+    personalPrefs.useNatalChart,
+    personalPrefs.prioritizeHarmony,
+    natalChart,
+    chartComparison,
   ]);
 
   // Toggle meal type
@@ -300,15 +457,21 @@ function RecipeGeneratorContent() {
       selectedDay: "current",
       elementalFocus: "balanced",
     });
+    setPersonalPrefs({
+      useNatalChart: true,
+      prioritizeHarmony: true,
+      showNutrition: true,
+    });
     setGeneratedRecipes([]);
     setHasGenerated(false);
   };
 
-  // Tab definitions
+  // Tab definitions - added personal tab
   const tabs: { id: TabId; label: string; icon: string }[] = [
     { id: "filters", label: "Filters", icon: "🔍" },
     { id: "preferences", label: "Preferences", icon: "⚙️" },
     { id: "planetary", label: "Planetary", icon: "🌟" },
+    { id: "personal", label: "Personal", icon: "👤" },
     { id: "results", label: "Results", icon: "📋" },
   ];
 
@@ -323,8 +486,8 @@ function RecipeGeneratorContent() {
                 Recipe Generator
               </h1>
               <p className="text-lg text-gray-600 mt-2">
-                Generate recipes aligned with planetary energies and your
-                preferences
+                Generate recipes aligned with planetary energies
+                {natalChart && " and your birth chart"}
               </p>
             </div>
             <Link
@@ -335,11 +498,14 @@ function RecipeGeneratorContent() {
             </Link>
           </div>
 
-          {/* Planetary Status Bar */}
+          {/* Status Bar */}
           <div className="bg-white rounded-xl shadow-md p-4 mt-4">
             <div className="flex flex-wrap items-center gap-4">
+              {/* Planetary Day */}
               <div className="flex items-center gap-2">
-                <span className="text-2xl">{planetaryDayInfo.element === "Fire" ? "🔥" : planetaryDayInfo.element === "Water" ? "💧" : planetaryDayInfo.element === "Earth" ? "🌍" : "💨"}</span>
+                <span className="text-2xl">
+                  {getElementIcon(planetaryDayInfo.element)}
+                </span>
                 <div>
                   <p className="text-sm font-semibold text-gray-800">
                     {planetaryDayInfo.planet} Day
@@ -350,6 +516,7 @@ function RecipeGeneratorContent() {
                 </div>
               </div>
 
+              {/* Lunar Phase */}
               <div className="flex items-center gap-2 px-3 py-1 bg-purple-50 rounded-lg">
                 <span className="text-sm">🌙</span>
                 <span className="text-sm text-purple-700">
@@ -357,6 +524,7 @@ function RecipeGeneratorContent() {
                 </span>
               </div>
 
+              {/* Planetary Hour */}
               {astroState.currentPlanetaryHour && (
                 <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-lg">
                   <span className="text-sm">⏰</span>
@@ -366,6 +534,17 @@ function RecipeGeneratorContent() {
                 </div>
               )}
 
+              {/* Chart Harmony (if available) */}
+              {chartComparison && (
+                <div className="flex items-center gap-2 px-3 py-1 bg-green-50 rounded-lg">
+                  <span className="text-sm">✨</span>
+                  <span className="text-sm text-green-700">
+                    {Math.round(chartComparison.overallHarmony * 100)}% Harmony
+                  </span>
+                </div>
+              )}
+
+              {/* Recipe Count */}
               <div className="ml-auto">
                 <span className="text-xs text-gray-500">
                   {allRecipes.length} recipes available
@@ -378,12 +557,12 @@ function RecipeGeneratorContent() {
         {/* Main Content */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           {/* Tabs */}
-          <div className="flex border-b border-gray-200">
+          <div className="flex border-b border-gray-200 overflow-x-auto">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 px-6 py-4 text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
+                className={`flex-1 min-w-[80px] px-4 py-4 text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
                   activeTab === tab.id
                     ? "text-amber-700 border-b-2 border-amber-600 bg-amber-50"
                     : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
@@ -395,6 +574,9 @@ function RecipeGeneratorContent() {
                   <span className="ml-1 px-2 py-0.5 text-xs bg-amber-600 text-white rounded-full">
                     {generatedRecipes.length}
                   </span>
+                )}
+                {tab.id === "personal" && natalChart && (
+                  <span className="ml-1 w-2 h-2 bg-green-500 rounded-full" />
                 )}
               </button>
             ))}
@@ -609,6 +791,31 @@ function RecipeGeneratorContent() {
                     </div>
                   )}
                 </div>
+
+                {/* Show Nutrition Toggle */}
+                <div>
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={personalPrefs.showNutrition}
+                      onChange={(e) =>
+                        setPersonalPrefs((prev) => ({
+                          ...prev,
+                          showNutrition: e.target.checked,
+                        }))
+                      }
+                      className="w-5 h-5 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                    />
+                    <div>
+                      <p className="font-medium text-gray-800">
+                        Show Nutritional Information
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Display calories, protein, carbs for each recipe
+                      </p>
+                    </div>
+                  </label>
+                </div>
               </div>
             )}
 
@@ -785,6 +992,199 @@ function RecipeGeneratorContent() {
               </div>
             )}
 
+            {/* Personal Tab (NEW) */}
+            {activeTab === "personal" && (
+              <div className="space-y-6">
+                {!natalChart ? (
+                  <div className="text-center py-12 bg-gray-50 rounded-xl">
+                    <div className="text-5xl mb-4">🌟</div>
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                      Unlock Personalized Recommendations
+                    </h3>
+                    <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                      Complete your profile with birth data to get recipes
+                      aligned with your personal cosmic blueprint.
+                    </p>
+                    <Link
+                      href="/onboarding"
+                      className="inline-block px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all"
+                    >
+                      Complete Your Profile
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    {/* Chart Status */}
+                    {isLoadingChart ? (
+                      <div className="text-center py-8">
+                        <LoadingSpinner size="lg" message="Calculating cosmic alignment..." />
+                      </div>
+                    ) : chartError ? (
+                      <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                        {chartError}
+                      </div>
+                    ) : chartComparison ? (
+                      <>
+                        {/* Harmony Overview */}
+                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
+                          <div className="flex items-center justify-between mb-4">
+                            <h4 className="font-bold text-green-800 text-lg">
+                              Your Cosmic Harmony
+                            </h4>
+                            <div className="text-3xl font-bold text-green-600">
+                              {Math.round(chartComparison.overallHarmony * 100)}%
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-4 mb-4">
+                            <div className="text-center p-3 bg-white rounded-lg">
+                              <div className="text-lg font-semibold text-blue-600">
+                                {Math.round(chartComparison.elementalHarmony * 100)}%
+                              </div>
+                              <div className="text-xs text-gray-500">Elemental</div>
+                            </div>
+                            <div className="text-center p-3 bg-white rounded-lg">
+                              <div className="text-lg font-semibold text-purple-600">
+                                {Math.round(chartComparison.alchemicalAlignment * 100)}%
+                              </div>
+                              <div className="text-xs text-gray-500">Alchemical</div>
+                            </div>
+                            <div className="text-center p-3 bg-white rounded-lg">
+                              <div className="text-lg font-semibold text-amber-600">
+                                {Math.round(chartComparison.planetaryResonance * 100)}%
+                              </div>
+                              <div className="text-xs text-gray-500">Planetary</div>
+                            </div>
+                          </div>
+
+                          {/* Insights */}
+                          {chartComparison.insights && (
+                            <div className="space-y-3">
+                              {/* Favorable Elements */}
+                              <div>
+                                <p className="text-sm font-medium text-green-700 mb-1">
+                                  Favorable Elements Today
+                                </p>
+                                <div className="flex gap-2">
+                                  {chartComparison.insights.favorableElements.map(
+                                    (el) => (
+                                      <span
+                                        key={el}
+                                        className="px-3 py-1 bg-white text-green-700 rounded-lg text-sm flex items-center gap-1"
+                                      >
+                                        {getElementIcon(el)} {el}
+                                      </span>
+                                    )
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Harmonic Planets */}
+                              {chartComparison.insights.harmonicPlanets &&
+                                chartComparison.insights.harmonicPlanets.length >
+                                  0 && (
+                                  <div>
+                                    <p className="text-sm font-medium text-green-700 mb-1">
+                                      Harmonic Planets
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                      {chartComparison.insights.harmonicPlanets.map(
+                                        (planet) => (
+                                          <span
+                                            key={planet}
+                                            className="px-2 py-0.5 bg-white text-purple-600 rounded text-xs"
+                                          >
+                                            {planet}
+                                          </span>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Personalization Settings */}
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold text-gray-800">
+                            Personalization Settings
+                          </h3>
+
+                          <label className="flex items-center gap-3 cursor-pointer p-3 bg-gray-50 rounded-lg">
+                            <input
+                              type="checkbox"
+                              checked={personalPrefs.useNatalChart}
+                              onChange={(e) =>
+                                setPersonalPrefs((prev) => ({
+                                  ...prev,
+                                  useNatalChart: e.target.checked,
+                                }))
+                              }
+                              className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                            />
+                            <div>
+                              <p className="font-medium text-gray-800">
+                                Use My Birth Chart
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                Personalize recipes based on your natal chart
+                              </p>
+                            </div>
+                          </label>
+
+                          <label className="flex items-center gap-3 cursor-pointer p-3 bg-gray-50 rounded-lg">
+                            <input
+                              type="checkbox"
+                              checked={personalPrefs.prioritizeHarmony}
+                              onChange={(e) =>
+                                setPersonalPrefs((prev) => ({
+                                  ...prev,
+                                  prioritizeHarmony: e.target.checked,
+                                }))
+                              }
+                              className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                            />
+                            <div>
+                              <p className="font-medium text-gray-800">
+                                Prioritize Chart Harmony
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                Sort results by how well they match your chart
+                              </p>
+                            </div>
+                          </label>
+                        </div>
+
+                        {/* Recommended Based on Chart */}
+                        {chartComparison.insights?.recommendations &&
+                          chartComparison.insights.recommendations.length > 0 && (
+                            <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
+                              <h4 className="font-semibold text-purple-800 mb-2">
+                                Cosmic Insights
+                              </h4>
+                              <ul className="space-y-1">
+                                {chartComparison.insights.recommendations
+                                  .slice(0, 3)
+                                  .map((rec, i) => (
+                                    <li
+                                      key={i}
+                                      className="text-sm text-purple-700 flex items-start gap-2"
+                                    >
+                                      <span className="text-purple-400">✦</span>
+                                      {rec}
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          )}
+                      </>
+                    ) : null}
+                  </>
+                )}
+              </div>
+            )}
+
             {/* Results Tab */}
             {activeTab === "results" && (
               <div>
@@ -815,9 +1215,16 @@ function RecipeGeneratorContent() {
                 ) : (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between mb-4">
-                      <p className="text-sm text-gray-600">
-                        Found {generatedRecipes.length} recipes
-                      </p>
+                      <div>
+                        <p className="text-sm text-gray-600">
+                          Found {generatedRecipes.length} recipes
+                        </p>
+                        {natalChart && personalPrefs.useNatalChart && (
+                          <p className="text-xs text-purple-600">
+                            ✨ Personalized for your birth chart
+                          </p>
+                        )}
+                      </div>
                       <button
                         onClick={resetFilters}
                         className="text-sm text-amber-600 hover:text-amber-700"
@@ -850,6 +1257,16 @@ function RecipeGeneratorContent() {
                                   {rec.recipe.prepTime}
                                 </span>
                               )}
+                              {rec.personalizationBoost &&
+                                rec.personalizationBoost > 1.05 && (
+                                  <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">
+                                    ✨ +
+                                    {Math.round(
+                                      (rec.personalizationBoost - 1) * 100
+                                    )}
+                                    % personal match
+                                  </span>
+                                )}
                             </div>
                             {rec.recipe.description && (
                               <p className="text-sm text-gray-600 mt-2 line-clamp-2">
@@ -860,16 +1277,13 @@ function RecipeGeneratorContent() {
 
                           {/* Scores */}
                           <div className="flex flex-col items-end gap-2 ml-4">
-                            <div
-                              className="text-center"
-                              title="Overall Score"
-                            >
+                            <div className="text-center" title="Overall Score">
                               <div className="text-2xl font-bold text-amber-600">
-                                {Math.round(rec.score * 100)}
+                                {Math.round(
+                                  (rec.personalizedScore || rec.score) * 100
+                                )}
                               </div>
-                              <div className="text-xs text-gray-500">
-                                Score
-                              </div>
+                              <div className="text-xs text-gray-500">Score</div>
                             </div>
                             <div className="flex gap-2">
                               <div
@@ -898,6 +1312,59 @@ function RecipeGeneratorContent() {
                           </div>
                         </div>
 
+                        {/* Nutrition Summary */}
+                        {personalPrefs.showNutrition && rec.nutritionSummary && (
+                          <div className="mt-3 pt-3 border-t border-gray-100">
+                            <div className="flex flex-wrap gap-4 text-xs">
+                              {rec.nutritionSummary.calories !== undefined && (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-orange-500">🔥</span>
+                                  <span className="font-medium">
+                                    {rec.nutritionSummary.calories}
+                                  </span>
+                                  <span className="text-gray-400">kcal</span>
+                                </div>
+                              )}
+                              {rec.nutritionSummary.protein !== undefined && (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-red-500">💪</span>
+                                  <span className="font-medium">
+                                    {rec.nutritionSummary.protein}g
+                                  </span>
+                                  <span className="text-gray-400">protein</span>
+                                </div>
+                              )}
+                              {rec.nutritionSummary.carbs !== undefined && (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-amber-500">🌾</span>
+                                  <span className="font-medium">
+                                    {rec.nutritionSummary.carbs}g
+                                  </span>
+                                  <span className="text-gray-400">carbs</span>
+                                </div>
+                              )}
+                              {rec.nutritionSummary.fat !== undefined && (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-yellow-500">🧈</span>
+                                  <span className="font-medium">
+                                    {rec.nutritionSummary.fat}g
+                                  </span>
+                                  <span className="text-gray-400">fat</span>
+                                </div>
+                              )}
+                              {rec.nutritionSummary.fiber !== undefined && (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-green-500">🥬</span>
+                                  <span className="font-medium">
+                                    {rec.nutritionSummary.fiber}g
+                                  </span>
+                                  <span className="text-gray-400">fiber</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
                         {/* Reasons */}
                         {rec.reasons.length > 0 && (
                           <div className="mt-3 pt-3 border-t border-gray-100">
@@ -905,7 +1372,7 @@ function RecipeGeneratorContent() {
                               Why this recipe:
                             </p>
                             <ul className="text-xs text-gray-600 space-y-0.5">
-                              {rec.reasons.slice(0, 3).map((reason, i) => (
+                              {rec.reasons.slice(0, 4).map((reason, i) => (
                                 <li
                                   key={i}
                                   className="flex items-center gap-1"
@@ -927,11 +1394,10 @@ function RecipeGeneratorContent() {
                                   rec.recipe.elementalProperties
                                 ) as [keyof ElementalProperties, number][]
                               )
-                                .filter(
-                                  ([key]) =>
-                                    ["Fire", "Water", "Earth", "Air"].includes(
-                                      key as string
-                                    )
+                                .filter(([key]) =>
+                                  ["Fire", "Water", "Earth", "Air"].includes(
+                                    key as string
+                                  )
                                 )
                                 .map(([element, value]) => (
                                   <div
@@ -939,13 +1405,7 @@ function RecipeGeneratorContent() {
                                     className="flex items-center gap-1"
                                   >
                                     <span className="text-xs">
-                                      {element === "Fire"
-                                        ? "🔥"
-                                        : element === "Water"
-                                          ? "💧"
-                                          : element === "Earth"
-                                            ? "🌍"
-                                            : "💨"}
+                                      {getElementIcon(element as string)}
                                     </span>
                                     <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
                                       <div
@@ -1011,7 +1471,9 @@ function RecipeGeneratorContent() {
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>
             Recipes are generated based on planetary alignments, elemental
-            harmony, and your preferences
+            harmony
+            {natalChart && ", your birth chart,"}
+            {" "}and nutritional content
           </p>
         </div>
       </div>
