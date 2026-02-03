@@ -29,13 +29,16 @@ export async function GET(request: NextRequest) {
     const presets = foodDiaryService.getQuickFoodPresets(category || undefined);
 
     // Group by category for easier consumption
-    const grouped = presets.reduce((acc, preset) => {
-      if (!acc[preset.category]) {
-        acc[preset.category] = [];
-      }
-      acc[preset.category].push(preset);
-      return acc;
-    }, {} as Record<string, typeof presets>);
+    const grouped = presets.reduce(
+      (acc, preset) => {
+        if (!acc[preset.category]) {
+          acc[preset.category] = [];
+        }
+        acc[preset.category].push(preset);
+        return acc;
+      },
+      {} as Record<string, typeof presets>,
+    );
 
     return NextResponse.json({
       success: true,
@@ -48,7 +51,7 @@ export async function GET(request: NextRequest) {
     console.error("Get quick foods error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to get quick foods" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

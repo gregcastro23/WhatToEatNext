@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     if (!userId) {
       return NextResponse.json(
         { success: false, message: "userId is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -39,9 +39,9 @@ export async function GET(request: NextRequest) {
 
     // Group insights by priority and type
     const groupedInsights = {
-      high: insights.filter(i => i.priority === "high"),
-      medium: insights.filter(i => i.priority === "medium"),
-      low: insights.filter(i => i.priority === "low"),
+      high: insights.filter((i) => i.priority === "high"),
+      medium: insights.filter((i) => i.priority === "medium"),
+      low: insights.filter((i) => i.priority === "low"),
     };
 
     return NextResponse.json({
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
     console.error("Get insights error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to generate insights" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
