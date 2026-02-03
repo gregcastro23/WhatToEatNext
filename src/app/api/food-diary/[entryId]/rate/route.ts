@@ -15,9 +15,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 interface RouteParams {
-  params: {
-    entryId: string;
-  };
+  params: Promise<{ entryId: string }>;
 }
 
 /**
@@ -30,26 +28,23 @@ interface RouteParams {
  * - moodTags: string[] (optional)
  * - wouldEatAgain: boolean (optional)
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { entryId } = params;
+    const { entryId } = await params;
     const body = await request.json();
     const { userId, rating, moodTags, wouldEatAgain } = body;
 
     if (!userId) {
       return NextResponse.json(
         { success: false, message: "userId is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (rating === undefined || rating < 0 || rating > 5) {
       return NextResponse.json(
         { success: false, message: "rating must be between 0 and 5" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -57,7 +52,7 @@ export async function POST(
     if ((rating * 2) % 1 !== 0) {
       return NextResponse.json(
         { success: false, message: "rating must be in 0.5 increments" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -65,13 +60,13 @@ export async function POST(
       userId,
       entryId,
       rating as FoodRating,
-      moodTags as MoodTag[]
+      moodTags as MoodTag[],
     );
 
     if (!entry) {
       return NextResponse.json(
         { success: false, message: "Entry not found or not authorized" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -91,7 +86,7 @@ export async function POST(
     console.error("Rate food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to rate entry" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -17,28 +17,23 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 interface RouteParams {
-  params: {
-    entryId: string;
-  };
+  params: Promise<{ entryId: string }>;
 }
 
 /**
  * GET /api/food-diary/[entryId]
  * Get a specific food diary entry
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { entryId } = params;
+    const { entryId } = await params;
 
     const entry = await foodDiaryService.getEntry(entryId);
 
     if (!entry) {
       return NextResponse.json(
         { success: false, message: "Entry not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -50,7 +45,7 @@ export async function GET(
     console.error("Get food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to get entry" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -59,19 +54,16 @@ export async function GET(
  * PUT /api/food-diary/[entryId]
  * Update a food diary entry (rating, notes, quantity, etc.)
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const { entryId } = params;
+    const { entryId } = await params;
     const body = await request.json();
     const { userId, ...updateData } = body;
 
     if (!userId) {
       return NextResponse.json(
         { success: false, message: "userId is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -85,7 +77,7 @@ export async function PUT(
     if (!entry) {
       return NextResponse.json(
         { success: false, message: "Entry not found or not authorized" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -97,7 +89,7 @@ export async function PUT(
     console.error("Update food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to update entry" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -106,19 +98,16 @@ export async function PUT(
  * DELETE /api/food-diary/[entryId]
  * Delete a food diary entry
  */
-export async function DELETE(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { entryId } = params;
+    const { entryId } = await params;
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
 
     if (!userId) {
       return NextResponse.json(
         { success: false, message: "userId is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -127,7 +116,7 @@ export async function DELETE(
     if (!success) {
       return NextResponse.json(
         { success: false, message: "Entry not found or not authorized" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -139,7 +128,7 @@ export async function DELETE(
     console.error("Delete food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to delete entry" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

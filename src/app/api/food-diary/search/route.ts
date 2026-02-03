@@ -34,8 +34,11 @@ export async function GET(request: NextRequest) {
 
     if (!query || query.length < 2) {
       return NextResponse.json(
-        { success: false, message: "Search query must be at least 2 characters" },
-        { status: 400 }
+        {
+          success: false,
+          message: "Search query must be at least 2 characters",
+        },
+        { status: 400 },
       );
     }
 
@@ -43,7 +46,7 @@ export async function GET(request: NextRequest) {
 
     // Filter by category if specified
     const filteredResults = category
-      ? results.filter(r => r.category === category)
+      ? results.filter((r) => r.category === category)
       : results;
 
     return NextResponse.json({
@@ -55,7 +58,7 @@ export async function GET(request: NextRequest) {
     console.error("Food search error:", error);
     return NextResponse.json(
       { success: false, message: "Search failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

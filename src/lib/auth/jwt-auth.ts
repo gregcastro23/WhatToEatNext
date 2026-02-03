@@ -3,7 +3,7 @@
  * Implements secure token-based authentication with role-based access control
  */
 
-// import bcrypt from "bcryptjs"; // Commented out - bcryptjs not installed
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { logger } from "@/utils/logger";
 
@@ -94,26 +94,29 @@ export class JWTAuthService {
 
   /**
    * Initialize default users for development and testing
+   * Note: In production, users should be created through proper registration flow
    */
   private initializeDefaultUsers(): void {
+    // Use bcrypt.hashSync for synchronous initialization
+    // Cost factor of 10 provides good security/performance balance
     const defaultUsers: Array<Omit<User, "id">> = [
       {
         email: "admin@alchm.kitchen",
-        passwordHash: "DISABLED_bcrypt_not_installed", // bcrypt.hashSync("admin123", 10),
+        passwordHash: bcrypt.hashSync("admin123", 10),
         roles: [UserRole.ADMIN],
         isActive: true,
         createdAt: new Date(),
       },
       {
         email: "user@alchm.kitchen",
-        passwordHash: "DISABLED_bcrypt_not_installed", // bcrypt.hashSync("user123", 10),
+        passwordHash: bcrypt.hashSync("user123", 10),
         roles: [UserRole.USER],
         isActive: true,
         createdAt: new Date(),
       },
       {
         email: "service@alchm.kitchen",
-        passwordHash: "DISABLED_bcrypt_not_installed", // bcrypt.hashSync("service123", 10),
+        passwordHash: bcrypt.hashSync("service123", 10),
         roles: [UserRole.SERVICE],
         isActive: true,
         createdAt: new Date(),
@@ -148,13 +151,9 @@ export class JWTAuthService {
         return null;
       }
 
-      // const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
-      const isPasswordValid = false; // DISABLED - bcrypt not installed
+      const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
       if (!isPasswordValid) {
-        logger.warn(
-          "Authentication failed: invalid password (bcrypt disabled)",
-          { email },
-        );
+        logger.warn("Authentication failed: invalid password", { email });
         return null;
       }
 
@@ -350,8 +349,7 @@ export class JWTAuthService {
         return null;
       }
 
-      // const passwordHash = await bcrypt.hash(password, 10);
-      const passwordHash = "DISABLED_bcrypt_not_installed"; // bcrypt not available
+      const passwordHash = await bcrypt.hash(password, 10);
       const user: User = {
         id: `user_${Date.now()}`,
         email,
