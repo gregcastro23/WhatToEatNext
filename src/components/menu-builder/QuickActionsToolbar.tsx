@@ -3,16 +3,20 @@
 /**
  * Quick Actions Toolbar for Menu Builder
  * Provides one-click actions for generating and optimizing weekly menus
+ * Now with user chart personalization support
  *
  * @file src/components/menu-builder/QuickActionsToolbar.tsx
  * @created 2026-01-28
+ * @updated 2026-02-03 - Added personalization status display
  */
 
 import React, { useState } from "react";
+import Link from "next/link";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { useUser } from "@/contexts/UserContext";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { createLogger } from "@/utils/logger";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
@@ -85,23 +89,31 @@ export default function QuickActionsToolbar() {
     generateMealsForDay,
   } = useMenuPlanner();
 
+  // Get user context for personalization status
+  const { currentUser } = useUser();
+  const hasNatalChart = !!currentUser?.natalChart;
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [isBalancing, setIsBalancing] = useState(false);
   const [isDiversifying, setIsDiversifying] = useState(false);
 
   /**
    * Generate Full Week - fills all empty meal slots
+   * Uses user's natal chart for personalized recommendations if available
    */
   const handleGenerateFullWeek = async () => {
     if (!currentMenu) return;
     setIsGenerating(true);
 
     try {
-      // Generate meals for each day
+      logger.info("Generating full week", { personalized: hasNatalChart });
+
+      // Generate meals for each day with personalization
       for (let day = 0; day < 7; day++) {
         await generateMealsForDay(day as DayOfWeek, {
           mealTypes: ["breakfast", "lunch", "dinner"],
           useCurrentPlanetary: true,
+          usePersonalization: hasNatalChart,
         });
       }
 
@@ -340,7 +352,9 @@ export default function QuickActionsToolbar() {
 
   const isAnyLoading = isGenerating || isBalancing || isDiversifying;
   const loadingMessage = isGenerating
-    ? "Generating full week..."
+    ? hasNatalChart
+      ? "Generating personalized week..."
+      : "Generating full week..."
     : isBalancing
       ? "Balancing nutrition..."
       : isDiversifying
@@ -359,12 +373,33 @@ export default function QuickActionsToolbar() {
       )}
 
       <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-sm font-semibold text-gray-700">Quick Actions</span>
-          {totalMeals > 0 && (
-            <span className="text-xs text-gray-500">
-              ({totalMeals}/21 meals planned)
-            </span>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-700">Quick Actions</span>
+            {totalMeals > 0 && (
+              <span className="text-xs text-gray-500">
+                ({totalMeals}/21 meals planned)
+              </span>
+            )}
+          </div>
+
+          {/* Personalization Status */}
+          {hasNatalChart ? (
+            <div className="flex items-center gap-1.5 px-2 py-1 bg-purple-50 rounded-lg">
+              <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+              <span className="text-xs text-purple-700 font-medium">
+                Personalized for you
+              </span>
+            </div>
+          ) : (
+            <Link
+              href="/onboarding"
+              className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <span className="text-xs text-gray-600">
+                🌟 Add birth data for personalized recipes
+              </span>
+            </Link>
           )}
         </div>
 
@@ -372,10 +407,19 @@ export default function QuickActionsToolbar() {
           <button
             onClick={handleGenerateFullWeek}
             disabled={isGenerating}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg hover:from-amber-700 hover:to-amber-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+            className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              hasNatalChart
+                ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:ring-purple-500"
+                : "bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 focus:ring-amber-500"
+            }`}
+            title={hasNatalChart ? "Generate personalized recommendations based on your birth chart" : "Generate recommendations based on planetary day"}
           >
-            <span>✨</span>
-            {isGenerating ? "Generating..." : "Generate Full Week"}
+            <span>{hasNatalChart ? "🌟" : "✨"}</span>
+            {isGenerating
+              ? "Generating..."
+              : hasNatalChart
+                ? "Generate Personalized Week"
+                : "Generate Full Week"}
           </button>
 
           <button
