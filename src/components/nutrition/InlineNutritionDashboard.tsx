@@ -154,7 +154,21 @@ export default function InlineNutritionDashboard({
               <h3 className="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">
                 Daily Average Macros
               </h3>
-              <MacroSummary actual={dailyAvgActual} target={dailyAvgTarget} />
+              <MacroSummary
+                totals={dailyAvgActual}
+                goals={dailyAvgTarget}
+                percentages={{
+                  protein: dailyAvgTarget.protein
+                    ? (dailyAvgActual.protein / dailyAvgTarget.protein) * 100
+                    : 0,
+                  carbs: dailyAvgTarget.carbs
+                    ? (dailyAvgActual.carbs / dailyAvgTarget.carbs) * 100
+                    : 0,
+                  fat: dailyAvgTarget.fat
+                    ? (dailyAvgActual.fat / dailyAvgTarget.fat) * 100
+                    : 0,
+                }}
+              />
             </div>
 
             {/* Micronutrient Highlights */}

@@ -58,8 +58,21 @@ export default function DailyNutritionSummary({
       {isExpanded && (
         <div className="p-4 space-y-4">
           {/* Macro rings */}
-          <MacroSummary actual={result.totals} target={result.goals} />
-
+          <MacroSummary
+            totals={result.totals}
+            goals={result.goals}
+            percentages={{
+              protein: result.goals.protein
+                ? (result.totals.protein / result.goals.protein) * 100
+                : 0,
+              carbs: result.goals.carbs
+                ? (result.totals.carbs / result.goals.carbs) * 100
+                : 0,
+              fat: result.goals.fat
+                ? (result.totals.fat / result.goals.fat) * 100
+                : 0,
+            }}
+          />
           {/* Meal list */}
           {result.meals.length > 0 && (
             <div className="bg-gray-50 rounded-lg p-3">
