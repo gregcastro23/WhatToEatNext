@@ -85,7 +85,7 @@ export default function InlineNutritionDashboard({
           <ComplianceScore
             score={weeklyCompliance.overall}
             label="Weekly"
-            size="sm"
+            size="compact"
           />
 
           {/* Macro Pills */}

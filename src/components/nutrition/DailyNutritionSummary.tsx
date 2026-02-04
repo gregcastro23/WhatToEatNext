@@ -47,7 +47,7 @@ export default function DailyNutritionSummary({
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <ComplianceScore score={result.compliance.overall} size="sm" />
+          <ComplianceScore score={result.compliance.overall} size="compact" />
           <span className="text-gray-400 text-xs">
             {isExpanded ? "▼" : "▶"}
           </span>
