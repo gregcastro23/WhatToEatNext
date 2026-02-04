@@ -188,13 +188,28 @@ export default function FoodDiaryView({
         <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
           <div className="flex items-center justify-around">
             <NutritionRing
+              percentage={
+                dailySummary.nutritionGoals?.calories
+                  ? (dailySummary.totalNutrition.calories /
+                      dailySummary.nutritionGoals.calories) *
+                    100
+                  : 0
+              }
               value={dailySummary.totalNutrition.calories.toString()}
               max={dailySummary.nutritionGoals?.calories || 2000}
+              unit="kcal"
               label="Calories"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
+              percentage={
+                dailySummary.nutritionGoals?.protein
+                  ? (dailySummary.totalNutrition.protein /
+                      dailySummary.nutritionGoals.protein) *
+                    100
+                  : 0
+              }
               value={dailySummary.totalNutrition.protein.toString()}
               max={dailySummary.nutritionGoals?.protein || 50}
               label="Protein"
@@ -203,6 +218,13 @@ export default function FoodDiaryView({
               strokeWidth={6}
             />
             <NutritionRing
+              percentage={
+                dailySummary.nutritionGoals?.carbs
+                  ? (dailySummary.totalNutrition.carbs /
+                      dailySummary.nutritionGoals.carbs) *
+                    100
+                  : 0
+              }
               value={dailySummary.totalNutrition.carbs.toString()}
               max={dailySummary.nutritionGoals?.carbs || 275}
               label="Carbs"
@@ -211,6 +233,13 @@ export default function FoodDiaryView({
               strokeWidth={6}
             />
             <NutritionRing
+              percentage={
+                dailySummary.nutritionGoals?.fat
+                  ? (dailySummary.totalNutrition.fat /
+                      dailySummary.nutritionGoals.fat) *
+                    100
+                  : 0
+              }
               value={dailySummary.totalNutrition.fat.toString()}
               max={dailySummary.nutritionGoals?.fat || 78}
               label="Fat"
