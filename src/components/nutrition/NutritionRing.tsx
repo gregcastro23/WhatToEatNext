@@ -10,6 +10,7 @@ interface NutritionRingProps {
   strokeWidth?: number; // Width of the ring stroke
   label?: string; // Text label to display in the center
   value?: string; // Value to display in the center (e.g., "150g")
+  max?: number;
 }
 
 export function NutritionRing({
