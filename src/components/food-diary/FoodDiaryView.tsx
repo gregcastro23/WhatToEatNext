@@ -188,14 +188,14 @@ export default function FoodDiaryView({
         <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
           <div className="flex items-center justify-around">
             <NutritionRing
-              value={dailySummary.totalNutrition.calories}
+              value={dailySummary.totalNutrition.calories.toString()}
               max={dailySummary.nutritionGoals?.calories || 2000}
               label="Calories"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
-              value={dailySummary.totalNutrition.protein}
+              value={dailySummary.totalNutrition.protein.toString()}
               max={dailySummary.nutritionGoals?.protein || 50}
               label="Protein"
               unit="g"
@@ -203,7 +203,7 @@ export default function FoodDiaryView({
               strokeWidth={6}
             />
             <NutritionRing
-              value={dailySummary.totalNutrition.carbs}
+              value={dailySummary.totalNutrition.carbs.toString()}
               max={dailySummary.nutritionGoals?.carbs || 275}
               label="Carbs"
               unit="g"
@@ -211,7 +211,7 @@ export default function FoodDiaryView({
               strokeWidth={6}
             />
             <NutritionRing
-              value={dailySummary.totalNutrition.fat}
+              value={dailySummary.totalNutrition.fat.toString()}
               max={dailySummary.nutritionGoals?.fat || 78}
               label="Fat"
               unit="g"
