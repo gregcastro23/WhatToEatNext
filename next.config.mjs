@@ -35,7 +35,7 @@ const nextConfig = {
     // Webpack's 'externals' property can be a function that receives the Webpack context.
     // If it's already a function, we should wrap it. If it's an array or object, we merge.
     const originalExternals = config.externals;
-    config.externals = ({ context, request }, cb) => {
+    config.externals = ({ context, request }, callback) => {
       // List of modules to externalize
       const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs'];
 
