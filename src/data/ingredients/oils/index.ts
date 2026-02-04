@@ -1,32 +1,26 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
-// import { _, fixIngredientMappings } from "@/utils/elementalUtils";
-const _: any = null; // Commented out non-existent export
-const fixIngredientMappings: any = (x: any) => x; // Fallback
-// import { oils } from "./oils";
+import { oilsIngredients } from "./oils";
 
-// export { oils };
-
-// Process oils to add enhanced properties
-export const processedOils: Record<string, IngredientMapping> =
-  fixIngredientMappings({} as any); // oils
+// Re-export as 'oils' for consistency with other ingredient categories
+export const oils: Record<string, IngredientMapping> = oilsIngredients;
 
 // Export enhanced oils as default
-export default processedOils;
+export default oils;
 
 // Export specific oil categories
-export const _cookingOils = Object.entries(processedOils)
+export const _cookingOils = Object.entries(oils)
   .filter(([_, value]) => value.subCategory === "cooking")
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _finishingOils = Object.entries(processedOils)
+export const _finishingOils = Object.entries(oils)
   .filter(([_, value]) => value.subCategory === "finishing")
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _supplementOils = Object.entries(processedOils)
+export const _supplementOils = Object.entries(oils)
   .filter(([_, value]) => value.subCategory === "supplement")
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _specialtyOils = Object.entries(processedOils)
+export const _specialtyOils = Object.entries(oils)
   .filter(
     ([_, value]) =>
       !value.subCategory ||
@@ -37,7 +31,7 @@ export const _specialtyOils = Object.entries(processedOils)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 // Export by elemental properties
-export const _fireOils = Object.entries(processedOils)
+export const _fireOils = Object.entries(oils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Fire >= 0.4 ||
@@ -46,7 +40,7 @@ export const _fireOils = Object.entries(processedOils)
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _waterOils = Object.entries(processedOils)
+export const _waterOils = Object.entries(oils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Water >= 0.4 ||
@@ -55,7 +49,7 @@ export const _waterOils = Object.entries(processedOils)
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _earthOils = Object.entries(processedOils)
+export const _earthOils = Object.entries(oils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Earth >= 0.4 ||
@@ -64,7 +58,7 @@ export const _earthOils = Object.entries(processedOils)
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _airOils = Object.entries(processedOils)
+export const _airOils = Object.entries(oils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Air >= 0.4 ||
@@ -74,7 +68,7 @@ export const _airOils = Object.entries(processedOils)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 // Export by culinary applications
-export const _highHeatOils = Object.entries(processedOils)
+export const _highHeatOils = Object.entries(oils)
   .filter(
     ([_, value]) =>
       (typeof value.smokePoint === "object" &&
@@ -86,15 +80,15 @@ export const _highHeatOils = Object.entries(processedOils)
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _bakingOils = Object.entries(processedOils)
+export const _bakingOils = Object.entries(oils)
   .filter(([_, value]) => value.culinaryApplications?.baking)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _dressingOils = Object.entries(processedOils)
+export const _dressingOils = Object.entries(oils)
   .filter(([_, value]) => value.culinaryApplications?.dressings)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _nutOils = Object.entries(processedOils)
+export const _nutOils = Object.entries(oils)
   .filter(
     ([key, _]) =>
       key.includes("walnut") ||
@@ -105,4 +99,4 @@ export const _nutOils = Object.entries(processedOils)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 // For backward compatibility
-export const _allOils: Record<string, IngredientMapping> = processedOils;
+export const _allOils: Record<string, IngredientMapping> = oils;

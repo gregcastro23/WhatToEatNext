@@ -63,6 +63,12 @@ export const _dehydrating: CookingMethodData = {
     "Proper storage needed to prevent moisture reabsorption",
     "Insufficient drying can lead to mold growth",
   ],
+  thermodynamicProperties: {
+    heat: 0.35, // Low-moderate heat for drying
+    entropy: 0.8, // High structural change from moisture removal
+    reactivity: 0.5, // Moderate chemical changes during drying
+    gregsEnergy: -0.05, // heat - (entropy × reactivity)
+  } as any,
 };
 
 export const dehydrating = _dehydrating;

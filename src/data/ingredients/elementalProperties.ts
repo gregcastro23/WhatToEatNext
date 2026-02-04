@@ -28,7 +28,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   // Proteins
   {
     name: "Chicken",
-    category: "protein",
+    category: "proteins",
     elementalProperties: {
       fire: 0.3,
       water: 0.3,
@@ -50,7 +50,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Beef",
-    category: "protein",
+    category: "proteins",
     elementalProperties: {
       fire: 0.6,
       water: 0.1,
@@ -72,7 +72,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Salmon",
-    category: "protein",
+    category: "proteins",
     elementalProperties: {
       fire: 0.2,
       water: 0.6,
@@ -94,7 +94,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   // Vegetables
   {
     name: "Spinach",
-    category: "vegetable",
+    category: "vegetables",
     elementalProperties: {
       fire: 0.0,
       water: 0.3,
@@ -110,7 +110,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Tomato",
-    category: "vegetable",
+    category: "vegetables",
     elementalProperties: {
       fire: 0.4,
       water: 0.4,
@@ -126,7 +126,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Bell Pepper",
-    category: "vegetable",
+    category: "vegetables",
     elementalProperties: {
       fire: 0.3,
       water: 0.3,
@@ -143,7 +143,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   // Grains
   {
     name: "Rice",
-    category: "grain",
+    category: "grains",
     elementalProperties: {
       fire: 0.1,
       water: 0.3,
@@ -159,7 +159,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Quinoa",
-    category: "grain",
+    category: "grains",
     elementalProperties: {
       fire: 0.1,
       water: 0.2,
@@ -176,7 +176,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   // Herbs & Spices
   {
     name: "Basil",
-    category: "herb",
+    category: "herbs",
     elementalProperties: {
       fire: 0.2,
       water: 0.1,
@@ -192,7 +192,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Turmeric",
-    category: "spice",
+    category: "spices",
     elementalProperties: {
       fire: 0.5,
       water: 0.0,
@@ -208,7 +208,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Cinnamon",
-    category: "spice",
+    category: "spices",
     elementalProperties: {
       fire: 0.6,
       water: 0.0,
@@ -229,7 +229,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   // Fruits
   {
     name: "Apple",
-    category: "fruit",
+    category: "fruits",
     elementalProperties: {
       fire: 0.1,
       water: 0.3,
@@ -245,7 +245,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Lemon",
-    category: "fruit",
+    category: "fruits",
     elementalProperties: {
       fire: 0.2,
       water: 0.3,
@@ -301,7 +301,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   // Oils
   {
     name: "Olive Oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       fire: 0.2,
       water: 0.0,
@@ -321,7 +321,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   },
   {
     name: "Coconut Oil",
-    category: "oil",
+    category: "oils",
     elementalProperties: {
       fire: 0.3,
       water: 0.3,

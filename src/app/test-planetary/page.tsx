@@ -112,7 +112,7 @@ export default function TestPlanetaryPage() {
               <div>
                 <span className="text-gray-600">Planetary Hours:</span>
                 <span className="ml-2 font-medium">
-                  {kinetics.data.base.timing.planetaryHours.join(", ")}
+                  {kinetics?.data?.base?.timing?.planetaryHours?.join(", ") ?? "N/A"}
                 </span>
               </div>
             </div>

@@ -6,7 +6,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   atlantic_salmon: {
     name: "Salmon",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -261,7 +261,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   // Phase 2: Additional Seafood with Quantity Scaling
   tuna: {
     name: "Tuna",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -311,7 +311,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   shrimp: {
     name: "Shrimp",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -357,7 +357,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   cod: {
     name: "Cod",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -403,7 +403,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   halibut: {
     name: "Halibut",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -449,7 +449,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   scallops: {
     name: "Scallops",
-    category: "protein",
+    category: "proteins",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -491,6 +491,402 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
 
     healthBenefits: ["Lean protein", "Vitamin B12", "Low fat"],
+  },
+
+  tilapia: {
+    name: "Tilapia",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.5, Air: 0.25, Earth: 0.15, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Neptune"],
+      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
+      seasonalAffinity: ["all"],
+    },
+
+    quantityBase: { amount: 140, unit: "g" },
+    scaledElemental: { Water: 0.49, Air: 0.26, Earth: 0.15, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.175,
+      Essence: 0.37,
+      Matter: 0.15,
+      Substance: 0.1,
+    },
+    kineticsImpact: { thermalDirection: -0.03, forceMagnitude: 0.95 },
+
+    qualities: ["mild", "affordable", "versatile", "lean", "sustainable"],
+    origin: ["Africa", "Asia", "Americas"],
+
+    nutritionalProfile: {
+      serving_size: "5 oz (140g)",
+      calories: 145,
+      macros: { protein: 30, carbs: 0, fat: 3, fiber: 0 },
+      vitamins: { B12: 0.8, niacin: 0.3 },
+      minerals: { selenium: 0.4, phosphorus: 0.3 },
+      omega3: 0.2,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["bake", "pan-fry", "grill", "steam"],
+      washing: false,
+      notes: "Mild flavor, absorbs marinades well",
+    },
+
+    healthBenefits: ["Lean protein", "Low calorie", "Affordable"],
+  },
+
+  trout: {
+    name: "Trout",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.55, Earth: 0.2, Air: 0.15, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Neptune"],
+      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
+      seasonalAffinity: ["spring", "summer"],
+    },
+
+    quantityBase: { amount: 150, unit: "g" },
+    scaledElemental: { Water: 0.54, Earth: 0.21, Air: 0.15, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.125,
+      Essence: 0.375,
+      Matter: 0.21,
+      Substance: 0.105,
+    },
+    kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 1.0 },
+
+    qualities: ["delicate", "freshwater", "omega-rich", "flaky", "clean"],
+    origin: ["North America", "Europe", "New Zealand"],
+
+    nutritionalProfile: {
+      serving_size: "5 oz (150g)",
+      calories: 190,
+      macros: { protein: 26, carbs: 0, fat: 9, fiber: 0 },
+      vitamins: { B12: 1.3, D: 0.5 },
+      minerals: { selenium: 0.6, phosphorus: 0.3 },
+      omega3: 1.1,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["pan-fry", "bake", "grill", "smoke"],
+      washing: false,
+      notes: "Delicate flesh, cook skin-side first",
+    },
+
+    healthBenefits: ["Omega-3", "Vitamin D", "Heart health"],
+  },
+
+  sardines: {
+    name: "Sardines",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.5, Fire: 0.2, Earth: 0.2, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Mercury"],
+      favorableZodiac: ["Cancer", "Pisces", "Gemini"],
+      seasonalAffinity: ["all"],
+    },
+
+    quantityBase: { amount: 85, unit: "g" },
+    scaledElemental: { Water: 0.49, Fire: 0.2, Earth: 0.21, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.345,
+      Matter: 0.21,
+      Substance: 0.1,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.98 },
+
+    qualities: ["nutritious", "affordable", "sustainable", "briny", "bold"],
+    origin: ["Mediterranean", "Atlantic", "Pacific"],
+
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 177,
+      macros: { protein: 21, carbs: 0, fat: 10, fiber: 0 },
+      vitamins: { B12: 3.0, D: 0.7, niacin: 0.4 },
+      minerals: { selenium: 0.7, calcium: 0.35, phosphorus: 0.4 },
+      omega3: 1.4,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["grill", "pan-fry", "bake", "raw"],
+      washing: false,
+      notes: "Can be eaten whole including bones",
+    },
+
+    healthBenefits: ["Omega-3", "Calcium", "Vitamin B12", "Sustainable"],
+  },
+
+  mackerel: {
+    name: "Mackerel",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.45, Fire: 0.25, Earth: 0.15, Air: 0.15 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Mars"],
+      favorableZodiac: ["Cancer", "Scorpio", "Aries"],
+      seasonalAffinity: ["all"],
+    },
+
+    quantityBase: { amount: 140, unit: "g" },
+    scaledElemental: { Water: 0.44, Fire: 0.26, Earth: 0.15, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.205,
+      Essence: 0.305,
+      Matter: 0.15,
+      Substance: 0.15,
+    },
+    kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 1.08 },
+
+    qualities: ["oily", "bold", "omega-rich", "sustainable", "flavorful"],
+    origin: ["Atlantic", "Pacific", "Mediterranean"],
+
+    nutritionalProfile: {
+      serving_size: "5 oz (140g)",
+      calories: 262,
+      macros: { protein: 24, carbs: 0, fat: 18, fiber: 0 },
+      vitamins: { B12: 2.5, D: 0.9 },
+      minerals: { selenium: 0.8, phosphorus: 0.3 },
+      omega3: 2.5,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["grill", "smoke", "bake", "pan-sear"],
+      washing: false,
+      notes: "Strong flavor, pairs with bold ingredients",
+    },
+
+    healthBenefits: ["Highest omega-3", "Heart health", "Brain function"],
+  },
+
+  crab: {
+    name: "Crab",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.55, Earth: 0.2, Air: 0.15, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon"],
+      favorableZodiac: ["Cancer"],
+      seasonalAffinity: ["spring", "summer"],
+    },
+
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.54, Earth: 0.21, Air: 0.15, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.125,
+      Essence: 0.375,
+      Matter: 0.21,
+      Substance: 0.1,
+    },
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.98 },
+
+    qualities: ["sweet", "delicate", "luxurious", "briny", "tender"],
+    origin: ["Atlantic", "Pacific", "Alaska", "Maryland"],
+
+    nutritionalProfile: {
+      serving_size: "3.5 oz (100g)",
+      calories: 97,
+      macros: { protein: 19, carbs: 0, fat: 2, fiber: 0 },
+      vitamins: { B12: 1.8, niacin: 0.3 },
+      minerals: { selenium: 0.5, zinc: 0.4, copper: 0.5 },
+      omega3: 0.4,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["steam", "boil", "bake", "sauté"],
+      washing: true,
+      notes: "Clean thoroughly, extract meat carefully",
+    },
+
+    healthBenefits: ["Lean protein", "Zinc", "Vitamin B12"],
+  },
+
+  lobster: {
+    name: "Lobster",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.5, Fire: 0.2, Earth: 0.2, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Venus"],
+      favorableZodiac: ["Cancer", "Taurus", "Libra"],
+      seasonalAffinity: ["summer"],
+    },
+
+    quantityBase: { amount: 145, unit: "g" },
+    scaledElemental: { Water: 0.49, Fire: 0.2, Earth: 0.21, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.345,
+      Matter: 0.21,
+      Substance: 0.1,
+    },
+    kineticsImpact: { thermalDirection: 0.02, forceMagnitude: 1.02 },
+
+    qualities: ["luxurious", "sweet", "tender", "briny", "festive"],
+    origin: ["Maine", "Canada", "Europe"],
+
+    nutritionalProfile: {
+      serving_size: "5 oz (145g)",
+      calories: 129,
+      macros: { protein: 27, carbs: 0, fat: 1, fiber: 0 },
+      vitamins: { B12: 1.5, niacin: 0.2 },
+      minerals: { selenium: 0.9, zinc: 0.4, copper: 0.8 },
+      omega3: 0.3,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["boil", "steam", "grill", "bake"],
+      washing: true,
+      notes: "Cook live for freshness, avoid overcooking",
+    },
+
+    healthBenefits: ["Lean protein", "Selenium", "Low fat"],
+  },
+
+  mussels: {
+    name: "Mussels",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Neptune"],
+      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
+      seasonalAffinity: ["autumn", "winter"],
+    },
+
+    quantityBase: { amount: 150, unit: "g" },
+    scaledElemental: { Water: 0.59, Earth: 0.21, Air: 0.1, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.1,
+      Essence: 0.4,
+      Matter: 0.21,
+      Substance: 0.1,
+    },
+    kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 0.95 },
+
+    qualities: ["briny", "sustainable", "affordable", "tender", "flavorful"],
+    origin: ["Atlantic", "Mediterranean", "Pacific"],
+
+    nutritionalProfile: {
+      serving_size: "5 oz (150g)",
+      calories: 146,
+      macros: { protein: 20, carbs: 6, fat: 4, fiber: 0 },
+      vitamins: { B12: 4.0, niacin: 0.3 },
+      minerals: { selenium: 0.9, iron: 0.4, zinc: 0.3 },
+      omega3: 0.7,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["steam", "bake", "sauté"],
+      washing: true,
+      notes: "Discard any that don't open after cooking",
+    },
+
+    healthBenefits: ["Iron", "Vitamin B12", "Sustainable protein"],
+  },
+
+  squid: {
+    name: "Squid",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.5, Air: 0.25, Fire: 0.15, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Mercury"],
+      favorableZodiac: ["Cancer", "Pisces", "Gemini"],
+      seasonalAffinity: ["all"],
+    },
+
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.49, Air: 0.26, Fire: 0.15, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.205,
+      Essence: 0.345,
+      Matter: 0.1,
+      Substance: 0.15,
+    },
+    kineticsImpact: { thermalDirection: 0.03, forceMagnitude: 0.98 },
+
+    qualities: ["tender", "versatile", "mild", "quick-cooking", "affordable"],
+    origin: ["Mediterranean", "Pacific", "Atlantic"],
+
+    nutritionalProfile: {
+      serving_size: "3.5 oz (100g)",
+      calories: 92,
+      macros: { protein: 18, carbs: 3, fat: 1, fiber: 0 },
+      vitamins: { B12: 1.3, niacin: 0.2 },
+      minerals: { selenium: 0.6, phosphorus: 0.3, copper: 0.3 },
+      omega3: 0.2,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["fry", "grill", "sauté", "braise"],
+      washing: true,
+      notes: "Cook very briefly or very long - nothing in between",
+    },
+
+    healthBenefits: ["Lean protein", "Low calorie", "Selenium"],
+  },
+
+  anchovies: {
+    name: "Anchovies",
+    category: "proteins",
+    subCategory: "seafood",
+
+    elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Mars"],
+      favorableZodiac: ["Cancer", "Scorpio", "Aries"],
+      seasonalAffinity: ["all"],
+    },
+
+    quantityBase: { amount: 30, unit: "g" },
+    scaledElemental: { Water: 0.39, Fire: 0.31, Earth: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.205,
+      Essence: 0.29,
+      Matter: 0.2,
+      Substance: 0.1,
+    },
+    kineticsImpact: { thermalDirection: 0.1, forceMagnitude: 1.05 },
+
+    qualities: ["salty", "umami", "pungent", "bold", "intensifying"],
+    origin: ["Mediterranean", "Atlantic", "Pacific"],
+
+    nutritionalProfile: {
+      serving_size: "1 oz (30g)",
+      calories: 60,
+      macros: { protein: 8, carbs: 0, fat: 3, fiber: 0 },
+      vitamins: { B12: 0.6, niacin: 0.4 },
+      minerals: { selenium: 0.4, calcium: 0.1 },
+      omega3: 0.6,
+      source: "USDA FoodData Central",
+    },
+
+    preparation: {
+      methods: ["raw", "fry", "bake"],
+      washing: false,
+      notes: "Use as flavor enhancer, melt into sauces",
+    },
+
+    healthBenefits: ["Omega-3", "Calcium", "Umami source"],
   },
 };
 

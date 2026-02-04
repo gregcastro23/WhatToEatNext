@@ -3,6 +3,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
+import {
+  unifiedIngredients,
+  getUnifiedIngredientsByCategory
+} from "@/data/unified/ingredients";
+import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 
 interface IngredientRecommenderProps {
   initialCategory?: string | null;
@@ -55,50 +60,23 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
     });
   }, [selectedCategory, getRecommendations]);
 
-  // Create mock ingredient data from recommendations (since the hook returns recipes)
-  const mockIngredients = useMemo(() => {
-    if (!recommendations?.recommendations) return [];
-
-    // Extract unique "ingredients" from recipe tags
-    const ingredients: Array<{
-      id: string;
-      name: string;
-      category: string;
-      description: string;
-      score: number;
-      tags: string[];
-    }> = [];
-
-    recommendations.recommendations.forEach((rec, index) => {
-      rec.recipe.tags.forEach((tag) => {
-        if (!ingredients.find((i) => i.name === tag)) {
-          ingredients.push({
-            id: `ing-${index}-${tag}`,
-            name: tag.charAt(0).toUpperCase() + tag.slice(1),
-            category: selectedCategory || "general",
-            description: `${tag} ingredient aligned with current energies`,
-            score: rec.score * 0.9,
-            tags: [tag],
-          });
-        }
-      });
-    });
-
-    return ingredients;
-  }, [recommendations, selectedCategory]);
+  // Get all ingredients from the unified system
+  const allIngredients = useMemo(() => {
+    return Object.values(unifiedIngredients) as UnifiedIngredient[];
+  }, []);
 
   // Filter ingredients
   const filteredIngredients = useMemo(
     () =>
-      mockIngredients.filter((item) => {
+      allIngredients.filter((item) => {
         const matchesSearch =
           !searchQuery ||
           item.name.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory =
-          !selectedCategory || item.category === selectedCategory;
+          !selectedCategory || item.category.toLowerCase() === selectedCategory.toLowerCase();
         return matchesSearch && matchesCategory;
       }),
-    [mockIngredients, searchQuery, selectedCategory],
+    [allIngredients, searchQuery, selectedCategory],
   );
 
   // Handlers
@@ -155,47 +133,508 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
 
   // Render ingredient card
   const renderIngredientCard = (
-    ingredient: (typeof filteredIngredients)[0],
+    ingredient: UnifiedIngredient,
   ) => {
-    const isSelected = selectedIngredient === ingredient.id;
+    const isSelected = selectedIngredient === ingredient.name;
 
     return (
       <div
-        key={ingredient.id}
-        onClick={() => handleIngredientSelect(ingredient.id)}
+        key={ingredient.name}
+        onClick={() => handleIngredientSelect(ingredient.name)}
         className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
           isSelected
-            ? "border-indigo-500 bg-indigo-50 shadow-lg"
+            ? "border-indigo-500 bg-indigo-50 shadow-lg md:col-span-2 lg:col-span-3"
             : "border-gray-200 bg-white hover:border-indigo-300 hover:shadow-md"
         }`}
       >
         <div className="mb-2 flex items-start justify-between">
-          <h4 className="text-lg font-semibold text-gray-900">
-            {ingredient.name}
+          <h4 className="text-lg font-semibold text-gray-900 capitalize">
+            {ingredient.name.replace(/_/g, ' ')}
           </h4>
-          <div className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800">
-            {(ingredient.score * 100).toFixed(0)}%
-          </div>
         </div>
 
-        <div className="mb-2 text-xs text-gray-500">{ingredient.category}</div>
+        <div className="mb-2 flex items-center gap-2">
+          <span className="text-xs text-gray-500 capitalize">{ingredient.category}</span>
+          {ingredient.subcategory && (
+            <>
+              <span className="text-xs text-gray-400">•</span>
+              <span className="text-xs text-gray-500 capitalize">{ingredient.subcategory}</span>
+            </>
+          )}
+        </div>
 
-        {ingredient.tags && ingredient.tags.length > 0 && (
+        {/* Qualities - Always visible if available */}
+        {ingredient.qualities && ingredient.qualities.length > 0 && (
           <div className="mb-2 flex flex-wrap gap-1">
-            {ingredient.tags.map((tag, idx) => (
+            {ingredient.qualities.slice(0, isSelected ? undefined : 3).map((quality, idx) => (
               <span
                 key={idx}
                 className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600"
               >
-                {tag}
+                {quality}
               </span>
             ))}
+            {!isSelected && ingredient.qualities.length > 3 && (
+              <span className="text-xs text-gray-400">+{ingredient.qualities.length - 3} more</span>
+            )}
           </div>
         )}
 
-        {isSelected && ingredient.description && (
-          <div className="mt-3 border-t border-gray-200 pt-3">
-            <p className="text-sm text-gray-700">{ingredient.description}</p>
+        {/* Expanded details when selected */}
+        {isSelected && (
+          <div className="mt-3 space-y-3 border-t border-gray-200 pt-3">
+            {/* Origin */}
+            {ingredient.origin && ingredient.origin.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Origin</div>
+                <div className="flex flex-wrap gap-1">
+                  {ingredient.origin.map((origin, idx) => (
+                    <span key={idx} className="rounded-md bg-amber-100 px-2 py-1 text-xs text-amber-700">
+                      {origin}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Flavor Profile */}
+            {ingredient.flavorProfile && Object.keys(ingredient.flavorProfile).length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Flavor Profile</div>
+                <div className="flex flex-wrap gap-1">
+                  {Object.entries(ingredient.flavorProfile)
+                    .filter(([_, value]) => value > 0)
+                    .map(([flavor, value], idx) => (
+                      <span key={idx} className="rounded-md bg-rose-100 px-2 py-1 text-xs text-rose-700">
+                        {flavor}: {(Number(value) * 100).toFixed(0)}%
+                      </span>
+                    ))}
+                </div>
+              </div>
+            )}
+
+            {/* Description if available */}
+            {ingredient.description && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Description</div>
+                <p className="text-sm text-gray-700">{ingredient.description}</p>
+              </div>
+            )}
+
+            {/* Health Benefits */}
+            {ingredient.healthBenefits && ingredient.healthBenefits.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Health Benefits</div>
+                <ul className="list-disc list-inside space-y-1">
+                  {ingredient.healthBenefits.map((benefit, idx) => (
+                    <li key={idx} className="text-xs text-gray-700">{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Seasonality */}
+            {ingredient.seasonality && ingredient.seasonality.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Seasonality</div>
+                <div className="flex flex-wrap gap-1">
+                  {ingredient.seasonality.map((season, idx) => (
+                    <span key={idx} className="rounded-md bg-lime-100 px-2 py-1 text-xs text-lime-700 capitalize">
+                      {season}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Smoke Point (for oils) */}
+            {(ingredient as any).smokePoint && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Smoke Point</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded bg-orange-50 px-2 py-1">
+                    <span className="text-xs text-gray-600">Celsius:</span>
+                    <span className="ml-1 text-xs font-medium text-orange-700">
+                      {(ingredient as any).smokePoint.celsius}°C
+                    </span>
+                  </div>
+                  <div className="rounded bg-orange-50 px-2 py-1">
+                    <span className="text-xs text-gray-600">Fahrenheit:</span>
+                    <span className="ml-1 text-xs font-medium text-orange-700">
+                      {(ingredient as any).smokePoint.fahrenheit}°F
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Potency & Heat Level (for spices) */}
+            {((ingredient as any).potency !== undefined || (ingredient as any).heatLevel !== undefined) && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Intensity</div>
+                <div className="flex gap-2">
+                  {(ingredient as any).potency !== undefined && (
+                    <div className="rounded bg-red-50 px-2 py-1">
+                      <span className="text-xs text-gray-600">Potency:</span>
+                      <span className="ml-1 text-xs font-medium text-red-700">
+                        {(ingredient as any).potency}/10
+                      </span>
+                    </div>
+                  )}
+                  {(ingredient as any).heatLevel !== undefined && (
+                    <div className="rounded bg-red-50 px-2 py-1">
+                      <span className="text-xs text-gray-600">Heat Level:</span>
+                      <span className="ml-1 text-xs font-medium text-red-700">
+                        {(ingredient as any).heatLevel}/10
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Sensory Profile */}
+            {(ingredient as any).sensoryProfile && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-2">Sensory Profile</div>
+
+                {/* Taste */}
+                {(ingredient as any).sensoryProfile.taste && Object.keys((ingredient as any).sensoryProfile.taste).length > 0 && (
+                  <div className="mb-2">
+                    <div className="text-xs text-gray-600 mb-1">Taste:</div>
+                    <div className="flex flex-wrap gap-1">
+                      {Object.entries((ingredient as any).sensoryProfile.taste)
+                        .filter(([_, value]) => Number(value) > 0)
+                        .map(([taste, value], idx) => (
+                          <span key={idx} className="rounded-md bg-pink-100 px-2 py-1 text-xs text-pink-700">
+                            {taste}: {(Number(value) * 100).toFixed(0)}%
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Aroma */}
+                {(ingredient as any).sensoryProfile.aroma && Object.keys((ingredient as any).sensoryProfile.aroma).length > 0 && (
+                  <div className="mb-2">
+                    <div className="text-xs text-gray-600 mb-1">Aroma:</div>
+                    <div className="flex flex-wrap gap-1">
+                      {Object.entries((ingredient as any).sensoryProfile.aroma)
+                        .filter(([_, value]) => Number(value) > 0)
+                        .map(([aroma, value], idx) => (
+                          <span key={idx} className="rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700">
+                            {aroma}: {(Number(value) * 100).toFixed(0)}%
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Texture */}
+                {(ingredient as any).sensoryProfile.texture && Object.keys((ingredient as any).sensoryProfile.texture).length > 0 && (
+                  <div>
+                    <div className="text-xs text-gray-600 mb-1">Texture:</div>
+                    <div className="flex flex-wrap gap-1">
+                      {Object.entries((ingredient as any).sensoryProfile.texture)
+                        .filter(([_, value]) => Number(value) > 0)
+                        .map(([texture, value], idx) => (
+                          <span key={idx} className="rounded-md bg-teal-100 px-2 py-1 text-xs text-teal-700">
+                            {texture}: {(Number(value) * 100).toFixed(0)}%
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Storage Information */}
+            {(ingredient as any).storage && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Storage</div>
+                <div className="space-y-1 rounded bg-slate-50 px-2 py-2">
+                  {(ingredient as any).storage.duration && (
+                    <div className="text-xs">
+                      <span className="text-gray-600">Duration:</span>
+                      <span className="ml-1 text-gray-800">{(ingredient as any).storage.duration}</span>
+                    </div>
+                  )}
+                  {(ingredient as any).storage.container && (
+                    <div className="text-xs">
+                      <span className="text-gray-600">Container:</span>
+                      <span className="ml-1 text-gray-800">{(ingredient as any).storage.container}</span>
+                    </div>
+                  )}
+                  {(ingredient as any).storage.temperature && (
+                    <div className="text-xs">
+                      <span className="text-gray-600">Temperature:</span>
+                      <span className="ml-1 text-gray-800">
+                        {typeof (ingredient as any).storage.temperature === 'string'
+                          ? (ingredient as any).storage.temperature
+                          : `${(ingredient as any).storage.temperature.celsius}°C / ${(ingredient as any).storage.temperature.fahrenheit}°F`
+                        }
+                      </span>
+                    </div>
+                  )}
+                  {(ingredient as any).storage.notes && (
+                    <div className="text-xs">
+                      <span className="text-gray-600">Notes:</span>
+                      <span className="ml-1 text-gray-800">{(ingredient as any).storage.notes}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Preparation Methods */}
+            {(ingredient as any).preparation && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Preparation</div>
+                <div className="space-y-2">
+                  {(ingredient as any).preparation.fresh && (
+                    <div className="rounded bg-green-50 px-2 py-2">
+                      <div className="text-xs font-medium text-green-800 mb-1">Fresh:</div>
+                      <div className="text-xs text-gray-700 space-y-1">
+                        <div>Duration: {(ingredient as any).preparation.fresh.duration}</div>
+                        <div>Storage: {(ingredient as any).preparation.fresh.storage}</div>
+                        {(ingredient as any).preparation.fresh.tips && (
+                          <div>
+                            <div className="font-medium mt-1">Tips:</div>
+                            <ul className="list-disc list-inside ml-2">
+                              {(ingredient as any).preparation.fresh.tips.map((tip: string, idx: number) => (
+                                <li key={idx}>{tip}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {(ingredient as any).preparation.dried && (
+                    <div className="rounded bg-amber-50 px-2 py-2">
+                      <div className="text-xs font-medium text-amber-800 mb-1">Dried:</div>
+                      <div className="text-xs text-gray-700 space-y-1">
+                        <div>Duration: {(ingredient as any).preparation.dried.duration}</div>
+                        <div>Storage: {(ingredient as any).preparation.dried.storage}</div>
+                        {(ingredient as any).preparation.dried.tips && (
+                          <div>
+                            <div className="font-medium mt-1">Tips:</div>
+                            <ul className="list-disc list-inside ml-2">
+                              {(ingredient as any).preparation.dried.tips.map((tip: string, idx: number) => (
+                                <li key={idx}>{tip}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {(ingredient as any).preparation.methods && (ingredient as any).preparation.methods.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">Methods:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).preparation.methods.map((method: string, idx: number) => (
+                          <span key={idx} className="rounded-md bg-blue-100 px-2 py-1 text-xs text-blue-700">
+                            {method}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Pairing Recommendations */}
+            {(ingredient as any).pairingRecommendations && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Pairing Recommendations</div>
+                <div className="space-y-2">
+                  {(ingredient as any).pairingRecommendations.complementary &&
+                   (ingredient as any).pairingRecommendations.complementary.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">Complementary:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).pairingRecommendations.complementary.map((item: string, idx: number) => (
+                          <span key={idx} className="rounded-md bg-green-100 px-2 py-1 text-xs text-green-700">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {(ingredient as any).pairingRecommendations.contrasting &&
+                   (ingredient as any).pairingRecommendations.contrasting.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">Contrasting:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).pairingRecommendations.contrasting.map((item: string, idx: number) => (
+                          <span key={idx} className="rounded-md bg-yellow-100 px-2 py-1 text-xs text-yellow-700">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {(ingredient as any).pairingRecommendations.toAvoid &&
+                   (ingredient as any).pairingRecommendations.toAvoid.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">To Avoid:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).pairingRecommendations.toAvoid.map((item: string, idx: number) => (
+                          <span key={idx} className="rounded-md bg-red-100 px-2 py-1 text-xs text-red-700">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Recommended Cooking Methods */}
+            {(ingredient as any).recommendedCookingMethods &&
+             (ingredient as any).recommendedCookingMethods.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Recommended Cooking Methods</div>
+                <div className="space-y-2">
+                  {(ingredient as any).recommendedCookingMethods.map((method: any, idx: number) => (
+                    <div key={idx} className="rounded bg-indigo-50 px-2 py-2">
+                      <div className="text-xs font-medium text-indigo-800 mb-1">{method.name}</div>
+                      <div className="text-xs text-gray-700">
+                        <div>{method.description}</div>
+                        {method.cookingTime && (
+                          <div className="mt-1">
+                            Time: {method.cookingTime.min}-{method.cookingTime.max} {method.cookingTime.unit}
+                          </div>
+                        )}
+                        {method.temperatures && (
+                          <div>
+                            Temp: {method.temperatures.min}-{method.temperatures.max}°{method.temperatures.unit === 'celsius' ? 'C' : 'F'}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Culinary Properties (from enhanced ingredients) */}
+            {(ingredient as any).culinaryProperties && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Culinary Properties</div>
+                <div className="space-y-2">
+                  {(ingredient as any).culinaryProperties.cookingMethods &&
+                   (ingredient as any).culinaryProperties.cookingMethods.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">Cooking Methods:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).culinaryProperties.cookingMethods.map((method: any, idx: number) => (
+                          <span key={idx} className="rounded-md bg-sky-100 px-2 py-1 text-xs text-sky-700">
+                            {typeof method === 'string' ? method : method.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {(ingredient as any).culinaryProperties.pairings &&
+                   (ingredient as any).culinaryProperties.pairings.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">Pairings:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).culinaryProperties.pairings.map((pairing: string, idx: number) => (
+                          <span key={idx} className="rounded-md bg-emerald-100 px-2 py-1 text-xs text-emerald-700">
+                            {pairing}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {(ingredient as any).culinaryProperties.substitutions &&
+                   (ingredient as any).culinaryProperties.substitutions.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">Substitutions:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).culinaryProperties.substitutions.map((sub: string, idx: number) => (
+                          <span key={idx} className="rounded-md bg-violet-100 px-2 py-1 text-xs text-violet-700">
+                            {sub}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {(ingredient as any).culinaryProperties.preparationMethods &&
+                   (ingredient as any).culinaryProperties.preparationMethods.length > 0 && (
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1">Preparation Methods:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {(ingredient as any).culinaryProperties.preparationMethods.map((method: string, idx: number) => (
+                          <span key={idx} className="rounded-md bg-cyan-100 px-2 py-1 text-xs text-cyan-700">
+                            {method}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Varieties */}
+            {(ingredient as any).varieties && Object.keys((ingredient as any).varieties).length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Varieties</div>
+                <div className="space-y-2">
+                  {Object.entries((ingredient as any).varieties).map(([name, details]: [string, any], idx: number) => (
+                    <div key={idx} className="rounded bg-amber-50 px-2 py-2">
+                      <div className="text-xs font-medium text-amber-800 mb-1 capitalize">{name.replace(/_/g, ' ')}</div>
+                      <div className="text-xs text-gray-700 space-y-1">
+                        {details.appearance && <div><span className="font-medium">Appearance:</span> {details.appearance}</div>}
+                        {details.flavor && <div><span className="font-medium">Flavor:</span> {details.flavor}</div>}
+                        {details.texture && <div><span className="font-medium">Texture:</span> {details.texture}</div>}
+                        {details.uses && <div><span className="font-medium">Uses:</span> {details.uses}</div>}
+                        {details.characteristics && <div><span className="font-medium">Characteristics:</span> {details.characteristics}</div>}
+                        {details.season && <div><span className="font-medium">Season:</span> {details.season}</div>}
+                        {details.notes && <div><span className="font-medium">Notes:</span> {details.notes}</div>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Safety Thresholds */}
+            {(ingredient as any).safetyThresholds && (
+              <div>
+                <div className="text-xs font-semibold text-gray-700 mb-1">Safety Thresholds</div>
+                <div className="rounded bg-red-50 px-2 py-2 space-y-1">
+                  {(ingredient as any).safetyThresholds.minimum && (
+                    <div className="text-xs">
+                      <span className="text-gray-600">Minimum Safe Temp:</span>
+                      <span className="ml-1 text-gray-800">
+                        {(ingredient as any).safetyThresholds.minimum.celsius}°C / {(ingredient as any).safetyThresholds.minimum.fahrenheit}°F
+                      </span>
+                    </div>
+                  )}
+                  {(ingredient as any).safetyThresholds.maximum && (
+                    <div className="text-xs">
+                      <span className="text-gray-600">Maximum Safe Temp:</span>
+                      <span className="ml-1 text-gray-800">
+                        {(ingredient as any).safetyThresholds.maximum.celsius}°C / {(ingredient as any).safetyThresholds.maximum.fahrenheit}°F
+                      </span>
+                    </div>
+                  )}
+                  {(ingredient as any).safetyThresholds.notes && (
+                    <div className="text-xs">
+                      <span className="text-gray-600">Notes:</span>
+                      <span className="ml-1 text-gray-800">{(ingredient as any).safetyThresholds.notes}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

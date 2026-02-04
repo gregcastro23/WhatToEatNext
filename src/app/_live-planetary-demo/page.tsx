@@ -10,6 +10,7 @@ import React from "react";
  */
 
 import LivePlanetaryTracker from "@/components/LivePlanetaryTracker";
+import PlanetaryCalculationsDemo from "@/components/PlanetaryCalculationsDemo";
 
 export default function LivePlanetaryDemoPage() {
   return (
@@ -31,6 +32,11 @@ export default function LivePlanetaryDemoPage() {
         </div>
         {/* Live Planetary Tracker Component */}
         <LivePlanetaryTracker />
+
+        {/* Planetary Calculations Demo - All Calculated Quantities */}
+        <div className="mt-12">
+          <PlanetaryCalculationsDemo />
+        </div>
 
         {/* Feature Highlights */}
         <div className="mt-12 max-w-4xl mx-auto">

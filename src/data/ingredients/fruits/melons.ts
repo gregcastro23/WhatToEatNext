@@ -24,7 +24,7 @@ const rawMelons = {
     },
     season: ["summer"],
     qualities: ["hydrating", "sweet", "refreshing", "cooling"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 46,
@@ -165,7 +165,7 @@ const rawMelons = {
     },
     season: ["summer", "early fall"],
     qualities: ["sweet", "aromatic", "juicy", "musky"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 34,
@@ -269,7 +269,7 @@ const rawMelons = {
     },
     season: ["summer", "early fall"],
     qualities: ["refreshing", "crisp", "subtle sweetness", "delicate"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 36,
@@ -377,7 +377,7 @@ const rawMelons = {
     },
     season: ["summer", "fall"],
     qualities: ["mild", "subtle", "cucumber-like", "refreshing"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 28,
@@ -467,7 +467,7 @@ const rawMelons = {
     },
     season: ["summer", "early fall"],
     qualities: ["aromatic", "rich", "sweet", "complex"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 32,
@@ -548,7 +548,7 @@ const rawMelons = {
     },
     season: ["summer"],
     qualities: ["aromatic", "floral", "sweet", "juicy"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 34,
@@ -638,7 +638,7 @@ const rawMelons = {
     },
     season: ["winter", "fall"],
     qualities: ["mild", "cooling", "spongy", "savory"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 14,
@@ -738,7 +738,7 @@ const rawMelons = {
     },
     season: ["summer"],
     qualities: ["aromatic", "sweet", "complex", "fragrant"],
-    category: "fruit",
+    category: "fruits",
     subCategory: "melon",
     nutritionalProfile: {
       calories: 30,

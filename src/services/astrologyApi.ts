@@ -97,7 +97,7 @@ export const _getCurrentCelestialPositions =
       return await getCachedCelestialPositions();
     } catch (error) {
       _logger.error("Error fetching celestial positions: ", error);
-      return getFallbackPositions();
+      return await getFallbackPositions();
     }
   };
 
@@ -140,7 +140,7 @@ export const _getCelestialPositionsForDate = async (
     };
   } catch (error) {
     _logger.error("Error calculating positions for date: ", error);
-    return getFallbackPositions(date);
+    return await getFallbackPositions(date);
   }
 };
 
@@ -174,24 +174,32 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
     return cachedPositions;
   } catch (error) {
     _logger.error("Error calling AstrologicalService: ", error);
-    return getFallbackPositions();
+    return await getFallbackPositions();
   }
 };
 
-const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
+const getFallbackPositions = async (
+  date: Date = new Date(),
+): Promise<CelestialPosition> => {
   const timestamp = date.getTime();
   // Get fallback data from AstrologicalService for the specified date
   try {
     // Apply safe type casting for service method access
     const astroService = AstrologicalService as any;
-    const _fallbackStatePromise = astroService.getStateForDate
-      ? astroService.getStateForDate(date)
-      : astroService.getCurrentState?.(date);
-    // Since we can't await here (not an async function), we'll use a static fallback
+    const fallbackState = astroService.getStateForDate
+      ? await astroService.getStateForDate(date)
+      : await astroService.getCurrentState?.(date);
+
+    if (!fallbackState) {
+      throw new Error(
+        "AstrologicalService returned null/undefined state - cannot get fallback positions",
+      );
+    }
+
     return {
-      sunSign: getSunSignFromDate(date),
-      moonPhase: "full", // Default fallback
-      planetaryPositions: getStaticPlanetaryPositions(),
+      sunSign: fallbackState.currentZodiac,
+      moonPhase: fallbackState.moonPhase,
+      planetaryPositions: fallbackState.currentPlanetaryAlignment,
       time: {
         hours: date.getHours(),
         minutes: date.getMinutes(),
@@ -200,36 +208,11 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
     };
   } catch (error) {
     _logger.error("Error getting fallback positions: ", error);
-
-    // Ultimate fallback - use static calculations
-    return {
-      sunSign: calculateSunSign(date),
-      moonPhase: "full", // Default fallback
-      planetaryPositions: getStaticPlanetaryPositions(),
-      time: {
-        hours: date.getHours(),
-        minutes: date.getMinutes(),
-      },
-      timestamp,
-    };
+    throw new Error(
+      `Cannot get celestial positions for date ${date.toISOString()}: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
   }
 };
-
-// Helper function to get static planetary positions
-function getStaticPlanetaryPositions(): CelestialPosition["planetaryPositions"] {
-  return {
-    sun: { sign: "aries", degree: 14, minutes: 37 },
-    moon: { sign: "cancer", degree: 2, minutes: 40 },
-    mercury: { sign: "pisces", degree: 27, minutes: 19, isRetrograde: true },
-    venus: { sign: "pisces", degree: 26, minutes: 13, isRetrograde: true },
-    mars: { sign: "cancer", degree: 24, minutes: 39 },
-    jupiter: { sign: "gemini", degree: 16, minutes: 28 },
-    saturn: { sign: "pisces", degree: 24, minutes: 51 },
-    uranus: { sign: "taurus", degree: 24, minutes: 54 },
-    neptune: { sign: "aries", degree: 0, minutes: 10 },
-    pluto: { sign: "aquarius", degree: 3, minutes: 36 },
-  };
-}
 
 // Helper function to calculate sun sign from date
 function getSunSignFromDate(date: Date): string {

@@ -65,8 +65,7 @@ import { ingredientCategories } from "@/data/ingredientCategories";
 import { fruits } from "@/data/ingredients/fruits";
 import { grains } from "@/data/ingredients/grains";
 import { herbs } from "@/data/ingredients/herbs";
-// import { oils } from "@/data/ingredients/oils";
-const oils: any = {}; // Commented out non-existent export
+import { oils } from "@/data/ingredients/oils";
 import { _proteins as __proteins } from "@/data/ingredients/proteins";
 import { seasonings } from "@/data/ingredients/seasonings";
 import { spices } from "@/data/ingredients/spices";
@@ -2371,14 +2370,24 @@ function calculateMercuryInfluence(
     const ingredientData = ingredient as unknown as any;
     const elementalProperties =
       ingredientData.elementalProperties as ElementalProperties;
-    if (mercuryData.RetrogradeEffect && elementalProperties) {
+    if (
+      mercuryData.RetrogradeEffect &&
+      elementalProperties &&
+      typeof mercuryData.RetrogradeEffect === "object"
+    ) {
       // Shift toward Matter and away from Spirit during retrograde
-      if (elementalProperties.Earth) {
+      if (
+        elementalProperties.Earth &&
+        mercuryData.RetrogradeEffect.Matter !== undefined
+      ) {
         score +=
           elementalProperties.Earth *
           Math.abs(mercuryData.RetrogradeEffect.Matter);
       }
-      if (elementalProperties.Air) {
+      if (
+        elementalProperties.Air &&
+        mercuryData.RetrogradeEffect.Spirit !== undefined
+      ) {
         score -=
           elementalProperties.Air *
           Math.abs(mercuryData.RetrogradeEffect.Spirit);

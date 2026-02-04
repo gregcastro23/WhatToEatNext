@@ -62,4 +62,10 @@ export const infusing: CookingMethodData = {
     "Some infused products need refrigeration",
     "Some herbs and plants are toxic and should not be used for infusions",
   ],
+  thermodynamicProperties: {
+    heat: 0.3, // Low-moderate heat for extraction
+    entropy: 0.4, // Moderate flavor distribution
+    reactivity: 0.45, // Moderate chemical transfer
+    gregsEnergy: 0.12, // heat - (entropy × reactivity)
+  } as any,
 };

@@ -1,6 +1,9 @@
 // Export hooks for easy importing
 export { useIngredientMapping } from "./useIngredientMapping";
 
+// Food Diary hooks
+export { useFoodDiary, useQuickFoodEntry, useFoodDiaryInsights } from "./useFoodDiary";
+
 // ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========;
 
 // useElementalState (causing error in CuisineRecommender.tsx)

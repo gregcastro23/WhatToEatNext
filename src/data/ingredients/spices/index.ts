@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { groundSpices } from "./groundspices";
 import { spiceBlends } from "./spiceBlends";
 import { wholeSpices } from "./wholespices";
+import { enhancedSpicesIngredients } from "./enhancedSpices";
 import type { Ingredient } from "../types";
 
 // Normalize elemental properties to sum to 1
@@ -76,10 +77,12 @@ export const _addHeatLevels = (
   }, {});
 
 // Combine all spice categories with heat levels
+// Enhanced spices take precedence (spread first, then legacy data can override if needed)
 export const spices = fixIngredientMappings({
   ...wholeSpices,
   ...groundSpices,
   ...(spiceBlends as any),
+  ...enhancedSpicesIngredients, // Add our enhanced spices with full data
   cumin: {
     name: "cumin",
     elementalProperties: { Earth: 0.48, Fire: 0.27, Air: 0.17, Water: 0.08 },
@@ -96,7 +99,7 @@ export const spices = fixIngredientMappings({
       },
     },
     qualities: ["earthy", "warm", "aromatic"],
-    category: "spice",
+    category: "spices",
     varieties: {
       Indian: {
         origin: "India",
@@ -145,7 +148,7 @@ export const spices = fixIngredientMappings({
       },
     },
     qualities: ["warm", "sweet", "aromatic"],
-    category: "spice",
+    category: "spices",
     varieties: {
       Ceylon: {
         origin: "Sri Lanka",
@@ -195,7 +198,7 @@ export const spices = fixIngredientMappings({
       },
     },
     qualities: ["hot", "spicy", "stimulating"],
-    category: "spice",
+    category: "spices",
     varieties: {
       Red: {
         origin: "Global",
@@ -207,7 +210,7 @@ export const spices = fixIngredientMappings({
     elementalProperties: { Fire: 0.45, Earth: 0.3, Air: 0.15, Water: 0.1 },
     name: "paprika",
     qualities: ["earthy", "warm", "sweet"],
-    category: "spice",
+    category: "spices",
     varieties: {
       sweet: {
         flavor: "mild, fruity",
@@ -256,7 +259,7 @@ export const spices = fixIngredientMappings({
     elementalProperties: { Fire: 0.3, Earth: 0.5, Air: 0.1, Water: 0.1 },
     name: "turmeric",
     qualities: ["earthy", "bitter", "warm"],
-    category: "spice",
+    category: "spices",
     potency: 7,
     health_benefits: ["anti-inflammatory", "antioxidant"],
     pigment_strength: 9,

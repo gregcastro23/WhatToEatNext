@@ -13,6 +13,13 @@
 import { log } from "@/services/LoggingService";
 import { PlanetaryLocationService } from "../data/planets/locationService";
 import { getCurrentAlchemicalState } from "./RealAlchemizeService";
+import {
+  calculateThermodynamicCompatibility,
+  calculateKineticCompatibility,
+  calculateEnhancedElementalCompatibility,
+  type ThermodynamicState,
+  type KineticState,
+} from "@/utils/enhancedCompatibilityScoring";
 import type { GeographicCoordinates } from "../data/planets/locationService";
 import type { ElementalProperties } from "../types/alchemy";
 import type {
@@ -58,6 +65,7 @@ export interface ScoringBreakdown {
   aspectEffect: number;
   elementalCompatibility: number;
   thermalDynamicEffect: number;
+  kineticCompatibilityEffect: number;
   kalchmResonance: number;
   monicaOptimization: number;
   retrogradeEffect: number;
@@ -441,69 +449,129 @@ export function calculateAspectEffect(
 }
 
 /**
- * Calculate elemental compatibility
+ * Calculate elemental compatibility using enhanced non-linear scoring
+ * Uses exponential decay for better differentiation
  */
 export function calculateElementalCompatibility(
   _astroData: AstrologicalData,
   context: ScoringContext,
 ): number {
   if (!context.item.elementalProperties) return 0;
+
   // Get current elemental state from alchemical calculations
   const currentState = getCurrentAlchemicalState();
   const currentElemental = currentState.elementalProperties;
   const itemElemental = context.item.elementalProperties;
 
-  // Calculate compatibility (same elements reinforce each other)
-  let compatibility = 0;
-  for (const element of ["Fire", "Water", "Earth", "Air"] as const) {
-    const currentValue = currentElemental[element] || 0;
-    const itemValue = itemElemental[element] || 0;
+  // Use enhanced elemental compatibility calculator
+  const compatibility = calculateEnhancedElementalCompatibility(
+    currentElemental,
+    itemElemental
+  );
 
-    // Same element compatibility is positive
-    compatibility += currentValue * itemValue * 0.25;
-  }
-
-  return Math.max(0, Math.min(0.4, compatibility));
+  // Convert 0-1 compatibility to scoring range (0 to 0.4)
+  // Perfect match (1.0) → 0.4
+  // Medium match (0.5) → 0.2
+  // No match (0) → 0
+  return compatibility * 0.4;
 }
 
 /**
- * Calculate thermodynamic effects
+ * Calculate thermodynamic compatibility using enhanced scoring
+ * Uses non-linear functions to create better differentiation
  */
 export function calculateThermodynamicEffect(
   _astroData: AstrologicalData,
   context: ScoringContext,
 ): number {
   const currentState = getCurrentAlchemicalState();
-  const thermo = currentState.thermodynamicProperties;
 
-  let score = 0;
+  // Get user's thermodynamic state
+  const userThermo: ThermodynamicState = {
+    heat: currentState.thermodynamicProperties.heat,
+    entropy: currentState.thermodynamicProperties.entropy,
+    reactivity: currentState.thermodynamicProperties.reactivity,
+    gregsEnergy: currentState.thermodynamicProperties.gregsEnergy,
+    kalchm: currentState.kalchm,
+    monica: currentState.monica,
+  };
 
-  // High energy states favor active cooking methods and bold flavors
-  if (context.item.type === "cooking_method") {
-    if (
-      thermo.heat > 0.7 &&
-      (context.item.name.includes("grill") ||
-        context.item.name.includes("sear"))
-    ) {
-      score += 0.2;
+  // Get or calculate item's thermodynamic properties
+  // If item has alchemical properties, calculate thermodynamics
+  let itemThermo: ThermodynamicState;
+
+  if (context.item.alchemicalProperties && context.item.elementalProperties) {
+    // Calculate thermodynamic properties for the item
+    const alch = context.item.alchemicalProperties;
+    const elem = context.item.elementalProperties;
+
+    // Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
+    const heatNum = Math.pow(alch.Spirit || 0, 2) + Math.pow(elem.Fire || 0, 2);
+    const heatDen = Math.pow(
+      (alch.Substance || 0) + (alch.Essence || 0) + (alch.Matter || 0) +
+      (elem.Water || 0) + (elem.Air || 0) + (elem.Earth || 0),
+      2
+    );
+    const heat = heatNum / (heatDen || 1);
+
+    // Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
+    const entropyNum =
+      Math.pow(alch.Spirit || 0, 2) + Math.pow(alch.Substance || 0, 2) +
+      Math.pow(elem.Fire || 0, 2) + Math.pow(elem.Air || 0, 2);
+    const entropyDen = Math.pow(
+      (alch.Essence || 0) + (alch.Matter || 0) + (elem.Earth || 0) + (elem.Water || 0),
+      2
+    );
+    const entropy = entropyNum / (entropyDen || 1);
+
+    // Reactivity
+    const reactivityNum =
+      Math.pow(alch.Spirit || 0, 2) + Math.pow(alch.Substance || 0, 2) +
+      Math.pow(alch.Essence || 0, 2) + Math.pow(elem.Fire || 0, 2) +
+      Math.pow(elem.Air || 0, 2) + Math.pow(elem.Water || 0, 2);
+    const reactivityDen = Math.pow((alch.Matter || 0) + (elem.Earth || 0), 2);
+    const reactivity = reactivityNum / (reactivityDen || 1);
+
+    // Greg's Energy
+    const gregsEnergy = heat - entropy * reactivity;
+
+    // Kalchm
+    const kalchm = context.item.kalchmResonance ||
+      ((Math.pow(alch.Spirit || 1, alch.Spirit || 1) * Math.pow(alch.Essence || 1, alch.Essence || 1)) /
+       (Math.pow(alch.Matter || 1, alch.Matter || 1) * Math.pow(alch.Substance || 1, alch.Substance || 1)));
+
+    // Monica
+    let monica = context.item.monicaConstant || 1.0;
+    if (kalchm > 0 && !context.item.monicaConstant) {
+      const lnK = Math.log(kalchm);
+      if (lnK !== 0) {
+        monica = -gregsEnergy / (reactivity * lnK);
+      }
     }
-    if (thermo.reactivity > 0.7 && context.item.name.includes("ferment")) {
-      score += 0.15;
-    }
+
+    itemThermo = { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
+  } else {
+    // Fallback: Use average values for items without alchemical properties
+    itemThermo = {
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0,
+      kalchm: 1.0,
+      monica: 1.0,
+    };
   }
 
-  // High entropy favors complex recipes and varied ingredients
-  if (
-    thermo.entropy > 0.7 &&
-    (context.item.type === "recipe" || context.item.type === "ingredient")
-  ) {
-    const complexity = context.preferences?.complexityPreference;
-    if (complexity === "complex") {
-      score += 0.1;
-    }
-  }
+  // Calculate compatibility using enhanced algorithm
+  const compatibility = calculateThermodynamicCompatibility(userThermo, itemThermo);
 
-  return Math.max(-0.1, Math.min(0.2, score));
+  // Convert 0-1 compatibility to scoring range (-0.3 to 0.3)
+  // High compatibility (1.0) → +0.3
+  // Medium compatibility (0.5) → 0
+  // Low compatibility (0) → -0.3
+  const score = (compatibility.overall - 0.5) * 0.6;
+
+  return Math.max(-0.3, Math.min(0.3, score));
 }
 
 /**
@@ -544,6 +612,107 @@ export function calculateMonicaOptimization(
   }
 
   return 0;
+}
+
+/**
+ * Calculate kinetic compatibility using P=IV circuit model
+ * Uses power, current, voltage matching for temporal alignment
+ */
+export function calculateKineticCompatibilityEffect(
+  _astroData: AstrologicalData,
+  context: ScoringContext,
+): number {
+  const currentState = getCurrentAlchemicalState();
+
+  // Get user's kinetic state from current alchemical state
+  // Calculate using P=IV circuit model
+  const alch = currentState.esms;
+  const elem = currentState.elementalProperties;
+
+  // Charge: Q = Matter + Substance
+  const userCharge = alch.Matter + alch.Substance;
+
+  // Potential Difference: V = Greg's Energy / Q
+  const userVoltage = userCharge > 0
+    ? currentState.thermodynamicProperties.gregsEnergy / userCharge
+    : 0;
+
+  // Current Flow: I = Reactivity (simplified, full formula would use dQ/dt)
+  const userCurrent = currentState.thermodynamicProperties.reactivity;
+
+  // Power: P = I × V
+  const userPower = userCurrent * userVoltage;
+
+  const userKinetic: KineticState = {
+    power: userPower,
+    currentFlow: userCurrent,
+    potentialDifference: userVoltage,
+    charge: userCharge,
+  };
+
+  // Get or estimate item's kinetic properties
+  let itemKinetic: KineticState;
+
+  if (context.item.alchemicalProperties && context.item.elementalProperties) {
+    const itemAlch = context.item.alchemicalProperties;
+    const itemElem = context.item.elementalProperties;
+
+    // Calculate thermodynamics first (needed for kinetics)
+    const heatNum = Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemElem.Fire || 0, 2);
+    const heatDen = Math.pow(
+      (itemAlch.Substance || 0) + (itemAlch.Essence || 0) + (itemAlch.Matter || 0) +
+      (itemElem.Water || 0) + (itemElem.Air || 0) + (itemElem.Earth || 0),
+      2
+    );
+    const heat = heatNum / (heatDen || 1);
+
+    const entropyNum =
+      Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemAlch.Substance || 0, 2) +
+      Math.pow(itemElem.Fire || 0, 2) + Math.pow(itemElem.Air || 0, 2);
+    const entropyDen = Math.pow(
+      (itemAlch.Essence || 0) + (itemAlch.Matter || 0) + (itemElem.Earth || 0) + (itemElem.Water || 0),
+      2
+    );
+    const entropy = entropyNum / (entropyDen || 1);
+
+    const reactivityNum =
+      Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemAlch.Substance || 0, 2) +
+      Math.pow(itemAlch.Essence || 0, 2) + Math.pow(itemElem.Fire || 0, 2) +
+      Math.pow(itemElem.Air || 0, 2) + Math.pow(itemElem.Water || 0, 2);
+    const reactivityDen = Math.pow((itemAlch.Matter || 0) + (itemElem.Earth || 0), 2);
+    const reactivity = reactivityNum / (reactivityDen || 1);
+
+    const gregsEnergy = heat - entropy * reactivity;
+
+    // Kinetic properties
+    const itemCharge = (itemAlch.Matter || 0) + (itemAlch.Substance || 0);
+    const itemVoltage = itemCharge > 0 ? gregsEnergy / itemCharge : 0;
+    const itemCurrent = reactivity;
+    const itemPower = itemCurrent * itemVoltage;
+
+    itemKinetic = {
+      power: itemPower,
+      currentFlow: itemCurrent,
+      potentialDifference: itemVoltage,
+      charge: itemCharge,
+    };
+  } else {
+    // Fallback: neutral kinetic state
+    itemKinetic = {
+      power: 0.5,
+      currentFlow: 0.5,
+      potentialDifference: 1.0,
+      charge: 1.0,
+    };
+  }
+
+  // Calculate compatibility using enhanced algorithm
+  const compatibility = calculateKineticCompatibility(userKinetic, itemKinetic);
+
+  // Convert 0-1 compatibility to scoring range (-0.3 to 0.3)
+  const score = (compatibility.overall - 0.5) * 0.6;
+
+  return Math.max(-0.3, Math.min(0.3, score));
 }
 
 /**
@@ -612,6 +781,7 @@ export class UnifiedScoringService {
           context,
         ),
         thermalDynamicEffect: calculateThermodynamicEffect(astroData, context),
+        kineticCompatibilityEffect: calculateKineticCompatibilityEffect(astroData, context),
         kalchmResonance: calculateKalchmResonance(astroData, context),
         monicaOptimization: calculateMonicaOptimization(astroData, context),
         retrogradeEffect: calculateRetrogradeEffect(astroData, context),
@@ -808,20 +978,23 @@ export class UnifiedScoringService {
    */
   private aggregateScore(breakdown: ScoringBreakdown): number {
     // Default weights for each effect
+    // ENHANCED: Increased weights for thermodynamic and kinetic effects
+    // to create better score differentiation
     const weights = {
       base: 1.0,
-      transitEffect: 0.8,
-      dignityEffect: 0.7,
-      tarotEffect: 0.3,
-      seasonalEffect: 0.6,
-      locationEffect: 0.5,
-      lunarPhaseEffect: 0.4,
-      aspectEffect: 0.7,
-      elementalCompatibility: 0.9,
-      thermalDynamicEffect: 0.6,
-      kalchmResonance: 0.5,
-      monicaOptimization: 0.4,
-      retrogradeEffect: 0.6,
+      transitEffect: 0.7,
+      dignityEffect: 0.6,
+      tarotEffect: 0.25,
+      seasonalEffect: 0.5,
+      locationEffect: 0.4,
+      lunarPhaseEffect: 0.35,
+      aspectEffect: 0.65,
+      elementalCompatibility: 0.85,
+      thermalDynamicEffect: 1.2,        // INCREASED from 0.6 - more impact
+      kineticCompatibilityEffect: 1.1,  // NEW - significant weight
+      kalchmResonance: 0.4,
+      monicaOptimization: 0.3,
+      retrogradeEffect: 0.55,
     };
 
     let totalWeightedScore = 0;

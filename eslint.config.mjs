@@ -47,7 +47,7 @@ export default [
         },
         // Enable type-aware linting for enhanced TypeScript checks
         project: "./tsconfig.json",
-        tsconfigRootDir: ".",
+        tsconfigRootDir: import.meta.dirname,
       },
 
       globals: {

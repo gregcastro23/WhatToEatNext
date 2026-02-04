@@ -9,6 +9,8 @@ import type {
   Modality,
   SensoryProfile,
 } from "../../data/ingredients/types";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import type { KineticMetrics, ThermodynamicMetrics } from "@/utils/kineticCalculations";
 
 // Phase 10: Calculation Type Interfaces
 interface _CalculationData {
@@ -220,6 +222,7 @@ export interface IngredientRecommendation {
   kalchmScore?: number;
   monicaScore?: number;
   culturalScore?: number;
+  kineticScore?: number;
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
   pairingRecommendations?: {
@@ -767,15 +770,23 @@ export async function getIngredientRecommendations(
           _options,
         );
 
-        // Enhanced weighted calculation
+        // NEW: Kinetic scoring using P=IV circuit model
+        const kineticScore = calculateKineticScore(
+          ingredient,
+          _elementalProps,
+        );
+
+        // Enhanced weighted calculation with kinetics integration
+        // Adjusted weights to include kinetics (0.12) while maintaining balance
         const totalScore =
-          elementalScore * 0.2 +
-          seasonalScore * 0.15 +
-          modalityScore * 0.1 +
-          flavorScore * 0.25 +
-          kalchmScore * 0.15 +
-          monicaScore * 0.1 +
-          culturalScore * 0.05;
+          elementalScore * 0.18 +  // Elemental (reduced from 0.20)
+          seasonalScore * 0.13 +   // Seasonal (reduced from 0.15)
+          modalityScore * 0.08 +   // Modality (reduced from 0.10)
+          flavorScore * 0.22 +     // Flavor (reduced from 0.25)
+          kalchmScore * 0.13 +     // Kalchm (reduced from 0.15)
+          monicaScore * 0.09 +     // Monica (reduced from 0.10)
+          culturalScore * 0.05 +   // Cultural (same)
+          kineticScore * 0.12;     // Kinetic (NEW - P=IV circuit model)
 
         return {
           ...ingredient,
@@ -787,6 +798,7 @@ export async function getIngredientRecommendations(
           kalchmScore,
           monicaScore,
           culturalScore,
+          kineticScore,
           totalScore,
         } as IngredientRecommendation;
       } catch (error) {
@@ -805,6 +817,7 @@ export async function getIngredientRecommendations(
           kalchmScore: 0.5,
           monicaScore: 0.5,
           culturalScore: 0.5,
+          kineticScore: 0.5,
           totalScore: 0.5,
         } as IngredientRecommendation;
       }
@@ -894,24 +907,64 @@ export const _getTopIngredientMatches = async (
 
 // ===== UTILITY FUNCTIONS =====
 
+/**
+ * Enhanced elemental scoring using exponential compatibility
+ * Creates better differentiation than linear 1 - |diff|
+ */
 function calculateElementalScore(
   ingredientProps?: ElementalProperties,
   systemProps?: ElementalProperties,
 ): number {
   if (!ingredientProps || !systemProps) return 0.5;
-  let score = 0;
-  let totalWeight = 0;
-  Object.entries(ingredientProps).forEach(([element, value]) => {
-    const systemValue = systemProps[element as any] || 0;
-    const weight = systemValue;
-    // Higher compatibility for similar values (following elemental principles)
-    const compatibility =
-      1 - Math.abs((Number(value) || 0) - (Number(systemValue) || 0));
-    score += compatibility * weight;
-    totalWeight += weight;
-  });
 
-  return totalWeight > 0 ? score / totalWeight : 0.5;
+  // Use exponential compatibility for each element (better spread)
+  const fireCompat = exponentialElementalCompatibility(
+    ingredientProps.Fire || 0,
+    systemProps.Fire || 0,
+  );
+  const waterCompat = exponentialElementalCompatibility(
+    ingredientProps.Water || 0,
+    systemProps.Water || 0,
+  );
+  const earthCompat = exponentialElementalCompatibility(
+    ingredientProps.Earth || 0,
+    systemProps.Earth || 0,
+  );
+  const airCompat = exponentialElementalCompatibility(
+    ingredientProps.Air || 0,
+    systemProps.Air || 0,
+  );
+
+  // Weight by system's elemental emphasis
+  const totalSystemWeight =
+    (systemProps.Fire || 0) +
+    (systemProps.Water || 0) +
+    (systemProps.Earth || 0) +
+    (systemProps.Air || 0);
+
+  if (totalSystemWeight === 0) {
+    // If no weights, use simple average
+    return (fireCompat + waterCompat + earthCompat + airCompat) / 4;
+  }
+
+  // Weighted score based on system's elemental emphasis
+  const weightedScore =
+    fireCompat * (systemProps.Fire || 0) +
+    waterCompat * (systemProps.Water || 0) +
+    earthCompat * (systemProps.Earth || 0) +
+    airCompat * (systemProps.Air || 0);
+
+  return weightedScore / totalSystemWeight;
+}
+
+/**
+ * Exponential compatibility for elemental matching
+ * Creates better spread than linear approach
+ */
+function exponentialElementalCompatibility(value1: number, value2: number): number {
+  const diff = Math.abs(value1 - value2);
+  // Sensitivity of 2.5 for good differentiation
+  return Math.exp(-2.5 * diff);
 }
 
 async function calculateSeasonalScore(
@@ -967,21 +1020,70 @@ async function calculateModalityScore(
 
 function calculateUnifiedFlavorScore(
   ingredient: Partial<EnhancedIngredient> | Ingredient,
-  _elementalProps: ElementalProperties,
-  _options: RecommendationOptions,
+  elementalProps: ElementalProperties,
+  options: RecommendationOptions,
 ): number {
-  // Simple flavor scoring implementation
+  // Enhanced flavor scoring with better differentiation
   try {
-    // Base compatibility with elemental properties
     let score = 0.5;
 
     if ("flavorProfile" in ingredient && ingredient.flavorProfile) {
-      // Calculate basic flavor compatibility
-      const flavorWeight = 0.3;
-      score += flavorWeight;
+      const flavorProfile = ingredient.flavorProfile;
+
+      // Map elemental properties to flavor preferences
+      // Fire → spicy, bitter; Water → sweet, umami; Earth → salty, umami; Air → sour, bitter
+      let flavorAlignment = 0;
+      let flavorCount = 0;
+
+      const flavorMap: Record<string, number> = {
+        spicy: (elementalProps.Fire || 0) * 1.2,
+        bitter: ((elementalProps.Fire || 0) + (elementalProps.Air || 0)) / 2,
+        sweet: (elementalProps.Water || 0) * 1.1,
+        umami: ((elementalProps.Water || 0) + (elementalProps.Earth || 0)) / 2,
+        salty: (elementalProps.Earth || 0) * 1.0,
+        sour: (elementalProps.Air || 0) * 1.0,
+      };
+
+      // Calculate alignment between flavor profile and elemental preferences
+      Object.entries(flavorMap).forEach(([flavor, preference]) => {
+        const flavorValue = (flavorProfile as any)[flavor] || 0;
+        if (flavorValue > 0) {
+          // Use exponential compatibility for better spread
+          const alignment = exponentialElementalCompatibility(flavorValue, preference);
+          flavorAlignment += alignment;
+          flavorCount++;
+        }
+      });
+
+      if (flavorCount > 0) {
+        score = flavorAlignment / flavorCount;
+      } else {
+        score = 0.6; // Default if no flavors
+      }
+
+      // Bonus for flavor intensity matching preferences
+      if (options.flavorIntensityPreference) {
+        const totalIntensity = Object.values(flavorProfile as Record<string, number>).reduce(
+          (sum, val) => sum + val,
+          0,
+        );
+        const avgIntensity = totalIntensity / Object.keys(flavorProfile).length;
+
+        if (options.flavorIntensityPreference === "intense" && avgIntensity > 0.7) {
+          score *= 1.2;
+        } else if (options.flavorIntensityPreference === "mild" && avgIntensity < 0.4) {
+          score *= 1.2;
+        } else if (
+          options.flavorIntensityPreference === "moderate" &&
+          avgIntensity >= 0.4 &&
+          avgIntensity <= 0.7
+        ) {
+          score *= 1.1;
+        }
+      }
     }
 
-    return Math.min(1, score);
+    return Math.max(0.1, Math.min(1, score));
   } catch (error) {
     _logger.warn("Error calculating unified flavor score: ", error);
     return 0.5;
@@ -992,15 +1094,40 @@ function calculateKalchmResonance(
   ingredient: Partial<EnhancedIngredient> | Ingredient,
   elementalProps: ElementalProperties,
 ): number {
-  // Simple kalchm resonance implementation
+  // Proper Kalchm calculation using ESMS properties
+  // Kalchm = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
   try {
+    // For ingredients, we need to estimate ESMS from elemental properties
+    // This is a simplified approximation since ingredients don't have alchemical properties
     const { Fire, Water, Earth, Air } = elementalProps;
-    const numerator = Math.pow(Fire + Air, 2);
-    const denominator = Math.pow(Water + Earth, 2);
 
-    if (denominator === 0) return 0.5;
+    // Estimate ESMS from elements (simplified)
+    const Spirit = (Fire + Air) / 2; // Active elements
+    const Essence = Water; // Receptive element
+    const Matter = Earth; // Grounding element
+    const Substance = (Fire + Water) / 2; // Transformative elements
+
+    // Avoid zero values by using minimum 0.01
+    const s = Math.max(0.01, Spirit);
+    const e = Math.max(0.01, Essence);
+    const m = Math.max(0.01, Matter);
+    const sub = Math.max(0.01, Substance);
+
+    // Calculate Kalchm with proper formula
+    const numerator = Math.pow(s, s) * Math.pow(e, e);
+    const denominator = Math.pow(m, m) * Math.pow(sub, sub);
+
+    if (denominator === 0 || !isFinite(numerator) || !isFinite(denominator)) {
+      return 0.5;
+    }
+
     const kalchm = numerator / denominator;
-    return Math.max(0.1, Math.min(1, kalchm / 2));
+
+    // Normalize to 0-1 range using logarithmic scaling
+    // Higher Kalchm = higher transformation potential
+    const normalized = 1 / (1 + Math.exp(-Math.log(kalchm + 1)));
+
+    return Math.max(0.1, Math.min(1, normalized));
   } catch (error) {
     _logger.warn("Error calculating kalchm resonance: ", error);
     return 0.5;
@@ -1011,18 +1138,66 @@ function calculateMonicaOptimization(
   ingredient: Partial<EnhancedIngredient> | Ingredient,
   elementalProps: ElementalProperties,
 ): number {
-  // Simple monica optimization implementation
+  // Proper Monica calculation using thermodynamic formulas
+  // Monica = -GregsEnergy / (Reactivity × ln(Kalchm)) if Kalchm > 0, else 1.0
   try {
-    const { Fire, Water, Earth: _Earth, Air } = elementalProps;
-    const heat = Math.pow(Fire, 2) + Math.pow(Air, 2);
-    const entropy = Math.pow(Fire, 2) + Math.pow(Air, 2);
-    const reactivity = Math.pow(Fire + Water + Air, 2);
+    const { Fire, Water, Earth, Air } = elementalProps;
 
-    if (reactivity === 0) return 0.5;
+    // Estimate ESMS from elements (same as in Kalchm)
+    const Spirit = (Fire + Air) / 2;
+    const Essence = Water;
+    const Matter = Earth;
+    const Substance = (Fire + Water) / 2;
+
+    // Calculate thermodynamic properties using proper formulas
+    const elementSum = Substance + Essence + Matter + Water + Air + Earth;
+    const heat =
+      elementSum > 0
+        ? (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) / Math.pow(elementSum, 2)
+        : 0.5;
+
+    const entropyDenom = Essence + Matter + Earth + Water;
+    const entropy =
+      entropyDenom > 0
+        ? (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+          Math.pow(entropyDenom, 2)
+        : 0.5;
+
+    const reactivityDenom = Matter + Earth;
+    const reactivity =
+      reactivityDenom > 0
+        ? (Math.pow(Spirit, 2) +
+            Math.pow(Substance, 2) +
+            Math.pow(Essence, 2) +
+            Math.pow(Fire, 2) +
+            Math.pow(Air, 2) +
+            Math.pow(Water, 2)) /
+          Math.pow(reactivityDenom, 2)
+        : 0.5;
+
     const gregsEnergy = heat - entropy * reactivity;
-    const monica = Math.abs(gregsEnergy) / reactivity;
 
-    return Math.max(0.1, Math.min(1, monica));
+    // Calculate Kalchm for Monica formula
+    const s = Math.max(0.01, Spirit);
+    const e = Math.max(0.01, Essence);
+    const m = Math.max(0.01, Matter);
+    const sub = Math.max(0.01, Substance);
+
+    const kalchm = (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+
+    // Calculate Monica
+    let monica = 1.0;
+    if (kalchm > 0 && reactivity > 0) {
+      const lnKalchm = Math.log(kalchm);
+      if (lnKalchm !== 0 && isFinite(lnKalchm)) {
+        monica = -gregsEnergy / (reactivity * lnKalchm);
+      }
+    }
+
+    // Normalize to 0-1 range
+    const normalized = 1 / (1 + Math.exp(-monica));
+
+    return Math.max(0.1, Math.min(1, normalized));
   } catch (error) {
     _logger.warn("Error calculating monica optimization: ", error);
     return 0.5;
@@ -1048,6 +1223,109 @@ function calculateCulturalContextScore(
     return 0.6; // Default neutral score
   } catch (error) {
     _logger.warn("Error calculating cultural context score: ", error);
+    return 0.5;
+  }
+}
+
+/**
+ * Calculate kinetic score using P=IV circuit model
+ * Evaluates power, force, and temporal alignment
+ */
+function calculateKineticScore(
+  ingredient: Partial<EnhancedIngredient> | Ingredient,
+  elementalProps: ElementalProperties,
+): number {
+  try {
+    const { Fire, Water, Earth, Air } = elementalProps;
+
+    // Estimate ESMS from elements (same approach as other functions)
+    const Spirit = (Fire + Air) / 2; // Active elements
+    const Essence = Water; // Receptive element
+    const Matter = Earth; // Grounding element
+    const Substance = (Fire + Water) / 2; // Transformative elements
+
+    // Calculate thermodynamic properties
+    const elementSum = Substance + Essence + Matter + Water + Air + Earth;
+    const heat =
+      elementSum > 0
+        ? (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) / Math.pow(elementSum, 2)
+        : 0.08;
+
+    const entropyDenom = Essence + Matter + Earth + Water;
+    const entropy =
+      entropyDenom > 0
+        ? (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+          Math.pow(entropyDenom, 2)
+        : 0.15;
+
+    const reactivityDenom = Matter + Earth;
+    const reactivity =
+      reactivityDenom > 0
+        ? (Math.pow(Spirit, 2) +
+            Math.pow(Substance, 2) +
+            Math.pow(Essence, 2) +
+            Math.pow(Fire, 2) +
+            Math.pow(Air, 2) +
+            Math.pow(Water, 2)) /
+          Math.pow(reactivityDenom, 2)
+        : 0.45;
+
+    const gregsEnergy = heat - entropy * reactivity;
+
+    // Calculate Kalchm for thermodynamic completeness
+    const s = Math.max(0.01, Spirit);
+    const e = Math.max(0.01, Essence);
+    const m = Math.max(0.01, Matter);
+    const sub = Math.max(0.01, Substance);
+    const kalchm = (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+
+    // Calculate Monica
+    let monica = 1.0;
+    if (kalchm > 0 && reactivity > 0) {
+      const lnKalchm = Math.log(kalchm);
+      if (lnKalchm !== 0 && isFinite(lnKalchm)) {
+        monica = -gregsEnergy / (reactivity * lnKalchm);
+      }
+    }
+
+    const thermodynamics: ThermodynamicMetrics = {
+      heat,
+      entropy,
+      reactivity,
+      gregsEnergy,
+      kalchm,
+      monica,
+    };
+
+    // Calculate kinetic properties using P=IV circuit model
+    const kinetics = calculateKineticProperties(
+      { Spirit, Essence, Matter, Substance },
+      { Fire, Water, Earth, Air },
+      thermodynamics,
+    );
+
+    // Score based on kinetic properties
+    // Power level (P=IV) is the primary indicator of temporal energy
+    // Normalize power to 0-1 range (typical power range is -1 to 1)
+    const powerScore = 0.5 + kinetics.power / 2;
+
+    // Force magnitude indicates dynamic transformation potential
+    // Typical range is 0-10, normalize to 0-1
+    const forceScore = Math.min(1, kinetics.forceMagnitude / 10);
+
+    // Inertia indicates stability (higher = more grounded)
+    // Typical range is 1-20, normalize to 0-1
+    const inertiaScore = Math.min(1, (kinetics.inertia - 1) / 19);
+
+    // Combined kinetic score with weighted factors
+    const kineticScore =
+      powerScore * 0.5 + // Power is most important
+      forceScore * 0.3 + // Force indicates transformation
+      inertiaScore * 0.2; // Inertia provides stability context
+
+    return Math.max(0.1, Math.min(1, kineticScore));
+  } catch (error) {
+    _logger.warn("Error calculating kinetic score: ", error);
     return 0.5;
   }
 }

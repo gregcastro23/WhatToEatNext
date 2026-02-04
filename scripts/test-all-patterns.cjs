@@ -110,7 +110,7 @@ function runScript(scriptName, description) {
     log("Running dry-run...");
     const dryRunOutput = execSync(
       `node scripts/${scriptName} --file=${TEST_FILE}`,
-      { encoding: "utf8", cwd: "/Users/GregCastro/Desktop/WhatToEatNext" },
+      { encoding: "utf8", cwd: process.cwd() },
     );
     console.log(dryRunOutput);
 
@@ -118,7 +118,7 @@ function runScript(scriptName, description) {
     log("\nApplying changes...");
     const applyOutput = execSync(
       `node scripts/${scriptName} --apply --file=${TEST_FILE}`,
-      { encoding: "utf8", cwd: "/Users/GregCastro/Desktop/WhatToEatNext" },
+      { encoding: "utf8", cwd: process.cwd() },
     );
     console.log(applyOutput);
 

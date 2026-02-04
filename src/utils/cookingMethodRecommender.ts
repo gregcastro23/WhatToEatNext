@@ -440,13 +440,13 @@ function areSimilarMethods(method1: string, method2: string): boolean {
 }
 
 /**
- * Enhanced elemental compatibility calculation
+ * Enhanced elemental compatibility calculation using exponential decay
+ * Creates better differentiation than simple multiplication
  */
 function calculateEnhancedElementalCompatibility(
   methodProps: ElementalProperties,
   targetProps: ElementalProperties,
 ): number {
-  let compatibilityScore = 0;
   const elements: Array<keyof ElementalProperties> = [
     "Fire",
     "Water",
@@ -454,26 +454,60 @@ function calculateEnhancedElementalCompatibility(
     "Air",
   ];
 
-  // Calculate weighted element-by-element compatibility
+  // Use exponential compatibility for each element (better spread)
+  let totalCompatibility = 0;
+  let totalWeight = 0;
+
   elements.forEach((element) => {
-    // Get values (default to 0 if undefined)
     const methodValue = methodProps[element] || 0;
     const targetValue = targetProps[element] || 0;
 
-    // Basic compatibility - multiply the values
-    // This rewards matching high values and reduces impact of low values
-    const elementCompatibility = methodValue * targetValue;
+    // Exponential compatibility creates better differentiation
+    const diff = Math.abs(methodValue - targetValue);
+    const elementCompatibility = Math.exp(-2.5 * diff);
 
-    // Add to total score, weighting each element equally
-    compatibilityScore += elementCompatibility;
+    // Weight by target's elemental emphasis
+    const weight = targetValue > 0 ? targetValue : 0.25; // Minimum weight
+    totalCompatibility += elementCompatibility * weight;
+    totalWeight += weight;
   });
 
-  // Normalize to 0-1 range
-  // The theoretical maximum would be 4 (if all elements were 1.0 for both)
-  return Math.min(1, compatibilityScore / 2.5);
+  // Return weighted average
+  return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5;
 }
 
-// Add after line 205 (before calculateThermodynamicBaseScore function)
+/**
+ * Calculate thermodynamic compatibility between user state and cooking method
+ * Uses exponential decay for better differentiation
+ */
+function calculateThermodynamicCompatibility(
+  userElemental: ElementalProperties,
+  methodThermodynamics: BasicThermodynamicProperties,
+): number {
+  // Calculate user's thermodynamic state from elemental properties
+  const { Fire, Water, Earth, Air } = userElemental;
+
+  // Estimate user's thermodynamic properties
+  const userHeat = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / 4;
+  const userEntropy = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / 4;
+  const userReactivity = (Math.pow(Fire + Water + Air, 2)) / 10;
+
+  // Compare with method's thermodynamic properties using exponential compatibility
+  const heatDiff = Math.abs(userHeat - (methodThermodynamics.heat || 0.5));
+  const heatCompat = Math.exp(-3.0 * heatDiff); // High sensitivity for heat
+
+  const entropyDiff = Math.abs(userEntropy - (methodThermodynamics.entropy || 0.5));
+  const entropyCompat = Math.exp(-2.5 * entropyDiff);
+
+  const reactivityDiff = Math.abs(userReactivity - (methodThermodynamics.reactivity || 0.5));
+  const reactivityCompat = Math.exp(-2.5 * reactivityDiff);
+
+  // Weighted combination
+  const thermoScore = heatCompat * 0.4 + entropyCompat * 0.3 + reactivityCompat * 0.3;
+
+  return thermoScore;
+}
+
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */
@@ -877,7 +911,7 @@ export async function getRecommendedCookingMethods(
       ? getElementForSign(currentZodiac)
       : null;
 
-    // Enhanced Elemental compatibility calculation (40% of score)
+    // Enhanced Elemental compatibility calculation (30% of score - reduced from 40%)
     if (
       methodWithProps.elementalEffect ||
       methodWithProps.elementalProperties
@@ -895,6 +929,20 @@ export async function getRecommendedCookingMethods(
         elementalProps,
         elementalComposition,
       );
+    }
+
+    // NEW: Thermodynamic compatibility (10% of score - creates better differentiation)
+    let thermodynamicScore = 0;
+    try {
+      const methodThermodynamics = getMethodThermodynamics(
+        method as unknown as CookingMethodProfile,
+      );
+      thermodynamicScore = calculateThermodynamicCompatibility(
+        elementalComposition,
+        methodThermodynamics,
+      );
+    } catch (error) {
+      thermodynamicScore = 0.5; // Default if calculation fails
     }
 
     // Astrological compatibility (25% of score)
@@ -1476,9 +1524,10 @@ export async function getRecommendedCookingMethods(
       method.score += venusScore * 0.15;
     }
 
-    // Calculate final score with proper weighting
+    // Calculate final score with proper weighting (updated to include thermodynamic)
     score =
-      elementalScore * 0.4 +
+      elementalScore * 0.3 + // Reduced from 0.4
+      thermodynamicScore * 0.1 + // NEW: Thermodynamic compatibility
       astrologicalScore * 0.25 +
       seasonalScore * 0.15 +
       toolScore * 0.1 +
@@ -1491,7 +1540,8 @@ export async function getRecommendedCookingMethods(
     // Extract method data with safe property access
     const methodData = method as any;
     const scoreDetails = {
-      elemental: elementalScore * 0.4,
+      elemental: elementalScore * 0.3,
+      thermodynamic: thermodynamicScore * 0.1,
       astrological: astrologicalScore * 0.25,
       seasonal: seasonalScore * 0.15,
       tools: toolScore * 0.1,

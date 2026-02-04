@@ -211,8 +211,28 @@ export function calculateThermodynamicMetrics(
   alchemical: AlchemicalProperties,
   elemental: ElementalProperties,
 ): ThermodynamicMetrics {
-  const { Spirit, Essence, Matter, Substance } = alchemical;
-  const { Fire, Water, Air, Earth } = elemental;
+  // Defensive checks for undefined/null inputs
+  if (!alchemical || !elemental) {
+    return {
+      heat: 0.08,
+      entropy: 0.15,
+      reactivity: 0.45,
+      gregsEnergy: -0.02,
+      kalchm: 2.5,
+      monica: 1.0,
+    };
+  }
+
+  // Defensive extraction with fallback values
+  const Spirit = typeof alchemical.Spirit === 'number' && !isNaN(alchemical.Spirit) ? alchemical.Spirit : 4;
+  const Essence = typeof alchemical.Essence === 'number' && !isNaN(alchemical.Essence) ? alchemical.Essence : 4;
+  const Matter = typeof alchemical.Matter === 'number' && !isNaN(alchemical.Matter) ? alchemical.Matter : 4;
+  const Substance = typeof alchemical.Substance === 'number' && !isNaN(alchemical.Substance) ? alchemical.Substance : 2;
+
+  const Fire = typeof elemental.Fire === 'number' && !isNaN(elemental.Fire) ? elemental.Fire : 0.25;
+  const Water = typeof elemental.Water === 'number' && !isNaN(elemental.Water) ? elemental.Water : 0.25;
+  const Air = typeof elemental.Air === 'number' && !isNaN(elemental.Air) ? elemental.Air : 0.25;
+  const Earth = typeof elemental.Earth === 'number' && !isNaN(elemental.Earth) ? elemental.Earth : 0.25;
 
   const heat = calculateHeat(
     Spirit,

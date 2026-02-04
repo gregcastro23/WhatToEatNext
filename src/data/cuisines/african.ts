@@ -224,14 +224,46 @@ export const african: Cuisine = {
           description:
             "East African fried bread similar to doughnuts, lightly spiced with cardamom",
           cuisine: "african",
-          cookingMethods: ["frying", "dough-kneading"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "dough-kneading",
+            elementalProperties: {
+              Fire: 0.14,
+              Water: 0.14,
+              Earth: 0.43,
+              Air: 0.29,
+            },
+          }
+        ],
           ingredients: [
-            { name: "flour", amount: "2", unit: "cups", category: "grain" },
+            { name: "flour", amount: "2", unit: "cups", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
             {
               name: "sugar",
               amount: "1/4",
               unit: "cup",
               category: "sweetener",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.2,
+              },
             },
             {
               name: "coconut milk",
@@ -262,15 +294,16 @@ export const african: Cuisine = {
             protein: 6,
             carbs: 50,
             fat: 8,
+            fiber: 3,
           },
           timeToMake: "45 minutes",
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.25,
+            Water: 0.18,
+            Earth: 0.39,
+            Air: 0.18,
           },
           astrologicalInfluences: [
             "Venus - The sweetness and cardamom fragrance",
@@ -282,7 +315,26 @@ export const african: Cuisine = {
           description:
             "North African eggs poached in spiced tomato sauce with peppers and onions",
           cuisine: "african",
-          cookingMethods: ["poaching", "simmering"],
+          cookingMethods: [
+          {
+            name: "poaching",
+            elementalProperties: {
+              Fire: 0.19,
+              Water: 0.5,
+              Earth: 0.13,
+              Air: 0.19,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "eggs",
@@ -332,15 +384,16 @@ export const african: Cuisine = {
             protein: 22,
             carbs: 15,
             fat: 28,
+            fiber: 3,
           },
           timeToMake: "40 minutes",
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
-            Air: 0.1,
+            Fire: 0.16,
+            Water: 0.4,
+            Earth: 0.35,
+            Air: 0.08,
           },
           astrologicalInfluences: [
             "Mars - The bold, spicy tomato base",
@@ -352,7 +405,26 @@ export const african: Cuisine = {
           description:
             "Egyptian breakfast of stewed fava beans with olive oil, lemon, and herbs",
           cuisine: "african",
-          cookingMethods: ["stewing", "mashing"],
+          cookingMethods: [
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "mashing",
+            elementalProperties: {
+              Fire: 0.11,
+              Water: 0.21,
+              Earth: 0.5,
+              Air: 0.18,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "fava beans",
@@ -395,19 +467,194 @@ export const african: Cuisine = {
             protein: 18,
             carbs: 45,
             fat: 12,
+            fiber: 3,
           },
           timeToMake: "40 minutes",
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.5,
-            Water: 0.3,
-            Fire: 0.1,
-            Air: 0.1,
+            Fire: 0.11,
+            Water: 0.17,
+            Earth: 0.62,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Saturn - The grounding, sustaining energy of beans",
             "Mercury - The bright lemon and herb notes",
+          ],
+        },
+        {
+          name: "Injera with Firfir",
+          description:
+            "Ethiopian sourdough flatbread topped with spiced tomato sauce and berbere",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "fermenting",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.4,
+                Earth: 0.3,
+                Air: 0.2,
+              },
+            },
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "injera bread",
+              amount: "4",
+              unit: "pieces",
+              category: "grain",
+            },
+            {
+              name: "tomatoes",
+              amount: "3",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "berbere spice",
+              amount: "2",
+              unit: "tbsp",
+              category: "spice",
+            },
+            {
+              name: "onions",
+              amount: "2",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "niter kibbeh",
+              amount: "3",
+              unit: "tbsp",
+              category: "fat",
+              swaps: ["ghee", "butter"],
+            },
+          ],
+          substitutions: {
+            "injera bread": ["flatbread", "naan"],
+            "niter kibbeh": ["ghee", "clarified butter"],
+          },
+          servingSize: 4,
+          allergens: ["gluten"],
+          prepTime: "15 minutes",
+          cookTime: "20 minutes",
+          nutrition: {
+            calories: 280,
+            protein: 8,
+            carbs: 45,
+            fat: 10,
+            fiber: 4,
+          },
+          timeToMake: "35 minutes",
+          season: ["all"],
+          mealType: ["breakfast"],
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.2,
+            Earth: 0.4,
+            Air: 0.1,
+          },
+          astrologicalInfluences: [
+            "Mars - The bold berbere spice",
+            "Saturn - The fermented, earthy quality",
+          ],
+        },
+        {
+          name: "Akara",
+          description:
+            "Nigerian black-eyed pea fritters, crispy on the outside and fluffy inside",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
+            },
+            {
+              name: "blending",
+              elementalProperties: {
+                Fire: 0.15,
+                Water: 0.25,
+                Earth: 0.35,
+                Air: 0.25,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "black-eyed peas",
+              amount: "2",
+              unit: "cups",
+              category: "legume",
+            },
+            {
+              name: "onion",
+              amount: "1",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "scotch bonnet pepper",
+              amount: "1",
+              unit: "small",
+              category: "vegetable",
+              swaps: ["habanero", "jalapeño"],
+            },
+            {
+              name: "vegetable oil",
+              amount: "2",
+              unit: "cups",
+              category: "oil",
+            },
+            {
+              name: "salt",
+              amount: "1",
+              unit: "tsp",
+              category: "seasoning",
+            },
+          ],
+          substitutions: {
+            "black-eyed peas": ["cannellini beans"],
+            "scotch bonnet": ["habanero", "serrano pepper"],
+          },
+          servingSize: 6,
+          allergens: ["legumes"],
+          prepTime: "30 minutes",
+          cookTime: "20 minutes",
+          nutrition: {
+            calories: 220,
+            protein: 12,
+            carbs: 28,
+            fat: 8,
+            fiber: 6,
+          },
+          timeToMake: "50 minutes",
+          season: ["all"],
+          mealType: ["breakfast", "snack"],
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.15,
+            Earth: 0.35,
+            Air: 0.15,
+          },
+          astrologicalInfluences: [
+            "Jupiter - The protein-rich, nourishing quality",
+            "Mars - The crispy, fiery frying method",
           ],
         },
       ],
@@ -423,34 +670,83 @@ export const african: Cuisine = {
           description:
             "One-pot West African rice dish with tomatoes and spices - a celebratory staple",
           cuisine: "african",
-          cookingMethods: ["simmering", "one-pot cooking"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          "one-pot cooking"
+        ],
           ingredients: [
-            { name: "rice", amount: "2", unit: "cups", category: "grain" },
+            { name: "rice", amount: "2", unit: "cups", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            },
             {
               name: "tomato paste",
               amount: "1",
               unit: "can",
               category: "condiment",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.1,
+              },
             },
             {
               name: "onions",
               amount: "2",
               unit: "whole",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "bell peppers",
               amount: "1",
               unit: "whole",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.6,
+                Water: 0.1,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "garlic",
               amount: "3",
               unit: "cloves",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-            { name: "ginger", amount: "1", unit: "tbsp", category: "spice" },
+            { name: "ginger", amount: "1", unit: "tbsp", category: "spice",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.2,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
             {
               name: "chicken broth",
               amount: "4",
@@ -472,15 +768,16 @@ export const african: Cuisine = {
             protein: 15,
             carbs: 90,
             fat: 10,
+            fiber: 3,
           },
           timeToMake: "60 minutes",
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.5,
-            Earth: 0.3,
-            Water: 0.1,
-            Air: 0.1,
+            Fire: 0.37,
+            Water: 0.3,
+            Earth: 0.24,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Sun - The vibrant red color and celebratory nature",
@@ -492,7 +789,35 @@ export const african: Cuisine = {
           description:
             "Spicy Ethiopian chicken stew with berbere spice and boiled eggs",
           cuisine: "african",
-          cookingMethods: ["stewing", "sautéing", "simmering"],
+          cookingMethods: [
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "chicken legs",
@@ -544,15 +869,16 @@ export const african: Cuisine = {
             protein: 35,
             carbs: 15,
             fat: 28,
+            fiber: 3,
           },
           timeToMake: "120 minutes",
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.6,
-            Earth: 0.2,
-            Water: 0.1,
-            Air: 0.1,
+            Fire: 0.26,
+            Water: 0.26,
+            Earth: 0.35,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Mars - The intense heat of berbere spice",
@@ -564,7 +890,35 @@ export const african: Cuisine = {
           description:
             "Senegalese marinated chicken with caramelized onions and lemon",
           cuisine: "african",
-          cookingMethods: ["marinating", "grilling", "braising"],
+          cookingMethods: [
+          {
+            name: "marinating",
+            elementalProperties: {
+              Fire: 0.13,
+              Water: 0.44,
+              Earth: 0.19,
+              Air: 0.25,
+            },
+          },
+          {
+            name: "grilling",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.11,
+              Air: 0.33,
+            },
+          },
+          {
+            name: "braising",
+            elementalProperties: {
+              Fire: 0.25,
+              Water: 0.35,
+              Earth: 0.3,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "chicken",
@@ -612,19 +966,292 @@ export const african: Cuisine = {
             protein: 35,
             carbs: 25,
             fat: 22,
+            fiber: 3,
           },
           timeToMake: "90 minutes",
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Water: 0.3,
-            Air: 0.1,
+            Fire: 0.33,
+            Water: 0.21,
+            Earth: 0.34,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Mercury - The bright citrus notes",
             "Venus - The sweet caramelized onions",
+          ],
+        },
+        {
+          name: "Thieboudienne",
+          description:
+            "Senegalese national dish of fish and rice cooked in tomato sauce with vegetables",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "white fish",
+              amount: "1",
+              unit: "kg",
+              category: "protein",
+              swaps: ["grouper", "sea bass"],
+            },
+            {
+              name: "rice",
+              amount: "3",
+              unit: "cups",
+              category: "grain",
+            },
+            {
+              name: "tomato paste",
+              amount: "4",
+              unit: "tbsp",
+              category: "condiment",
+            },
+            {
+              name: "cabbage",
+              amount: "1/4",
+              unit: "head",
+              category: "vegetable",
+            },
+            {
+              name: "cassava",
+              amount: "200",
+              unit: "g",
+              category: "vegetable",
+            },
+            {
+              name: "eggplant",
+              amount: "1",
+              unit: "medium",
+              category: "vegetable",
+            },
+          ],
+          substitutions: {
+            "white fish": ["tilapia", "cod"],
+            cassava: ["potato", "yam"],
+          },
+          servingSize: 6,
+          allergens: ["fish"],
+          prepTime: "30 minutes",
+          cookTime: "60 minutes",
+          nutrition: {
+            calories: 480,
+            protein: 32,
+            carbs: 65,
+            fat: 12,
+            fiber: 5,
+          },
+          timeToMake: "90 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.25,
+            Water: 0.35,
+            Earth: 0.3,
+            Air: 0.1,
+          },
+          astrologicalInfluences: [
+            "Neptune - The oceanic fish essence",
+            "Jupiter - The abundant, celebratory nature",
+          ],
+        },
+        {
+          name: "Suya",
+          description:
+            "Nigerian spiced meat skewers grilled over open flame with ground peanut coating",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
+            },
+            {
+              name: "marinating",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.44,
+                Earth: 0.19,
+                Air: 0.25,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "beef sirloin",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+              swaps: ["chicken", "lamb"],
+            },
+            {
+              name: "suya spice",
+              amount: "4",
+              unit: "tbsp",
+              category: "spice",
+            },
+            {
+              name: "ground peanuts",
+              amount: "1/2",
+              unit: "cup",
+              category: "nut",
+            },
+            {
+              name: "vegetable oil",
+              amount: "3",
+              unit: "tbsp",
+              category: "oil",
+            },
+            {
+              name: "onion",
+              amount: "1",
+              unit: "large",
+              category: "vegetable",
+            },
+          ],
+          substitutions: {
+            "beef sirloin": ["chicken breast", "lamb leg"],
+            "ground peanuts": ["ground cashews"],
+          },
+          servingSize: 4,
+          allergens: ["peanuts"],
+          prepTime: "20 minutes",
+          cookTime: "15 minutes",
+          nutrition: {
+            calories: 380,
+            protein: 35,
+            carbs: 8,
+            fat: 24,
+            fiber: 2,
+          },
+          timeToMake: "35 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner", "snack"],
+          elementalProperties: {
+            Fire: 0.45,
+            Water: 0.1,
+            Earth: 0.3,
+            Air: 0.15,
+          },
+          astrologicalInfluences: [
+            "Mars - The intense grilling heat and spice",
+            "Sun - The smoky, primal energy",
+          ],
+        },
+        {
+          name: "Koshari",
+          description:
+            "Egyptian comfort food of rice, lentils, and pasta topped with spiced tomato sauce and crispy onions",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.5,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "rice",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
+            },
+            {
+              name: "brown lentils",
+              amount: "1",
+              unit: "cup",
+              category: "legume",
+            },
+            {
+              name: "elbow macaroni",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
+            },
+            {
+              name: "chickpeas",
+              amount: "1",
+              unit: "cup",
+              category: "legume",
+            },
+            {
+              name: "onions",
+              amount: "3",
+              unit: "large",
+              category: "vegetable",
+            },
+            {
+              name: "tomato sauce",
+              amount: "2",
+              unit: "cups",
+              category: "sauce",
+            },
+          ],
+          substitutions: {
+            "brown lentils": ["green lentils"],
+            "elbow macaroni": ["small shells", "ditalini"],
+          },
+          servingSize: 6,
+          allergens: ["gluten", "legumes"],
+          prepTime: "20 minutes",
+          cookTime: "40 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 18,
+            carbs: 75,
+            fat: 8,
+            fiber: 12,
+          },
+          timeToMake: "60 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.25,
+            Earth: 0.45,
+            Air: 0.1,
+          },
+          astrologicalInfluences: [
+            "Saturn - The grounding legumes and grains",
+            "Venus - The comforting, satisfying quality",
           ],
         },
       ],
@@ -640,7 +1267,26 @@ export const african: Cuisine = {
           description:
             "South African curried meatloaf with egg custard topping",
           cuisine: "african",
-          cookingMethods: ["baking", "sautéing"],
+          cookingMethods: [
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          },
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "ground lamb",
@@ -679,15 +1325,16 @@ export const african: Cuisine = {
             protein: 28,
             carbs: 25,
             fat: 20,
+            fiber: 3,
           },
           timeToMake: "90 minutes",
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
-            Air: 0.1,
+            Fire: 0.35,
+            Water: 0.13,
+            Earth: 0.43,
+            Air: 0.08,
           },
           astrologicalInfluences: [
             "Jupiter - The complex spices and cultural fusion",
@@ -736,6 +1383,7 @@ export const african: Cuisine = {
             protein: 42,
             carbs: 28,
             fat: 32,
+            fiber: 3,
           },
           timeToMake: "135 minutes",
           season: ["all"],
@@ -755,7 +1403,26 @@ export const african: Cuisine = {
           name: "Maafe",
           description: "West African peanut stew with meat and vegetables",
           cuisine: "african",
-          cookingMethods: ["stewing", "simmering"],
+          cookingMethods: [
+          {
+            name: "stewing",
+            elementalProperties: {
+              Fire: 0.22,
+              Water: 0.41,
+              Earth: 0.3,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           ingredients: [
             {
               name: "lamb",
@@ -802,19 +1469,294 @@ export const african: Cuisine = {
             protein: 38,
             carbs: 35,
             fat: 28,
+            fiber: 3,
           },
           timeToMake: "75 minutes",
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.5,
+            Fire: 0.31,
             Water: 0.2,
-            Fire: 0.2,
-            Air: 0.1,
+            Earth: 0.4,
+            Air: 0.09,
           },
           astrologicalInfluences: [
             "Jupiter - The richness and abundance",
             "Taurus - The earthy, satisfying quality",
+          ],
+        },
+        {
+          name: "Lamb Tagine with Couscous",
+          description:
+            "Moroccan slow-cooked lamb with apricots, almonds, and warm spices served over fluffy couscous",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.15,
+                Water: 0.55,
+                Earth: 0.15,
+                Air: 0.15,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "lamb shoulder",
+              amount: "1",
+              unit: "kg",
+              category: "protein",
+              swaps: ["beef chuck", "chicken thighs"],
+            },
+            {
+              name: "couscous",
+              amount: "2",
+              unit: "cups",
+              category: "grain",
+            },
+            {
+              name: "dried apricots",
+              amount: "1",
+              unit: "cup",
+              category: "fruit",
+            },
+            {
+              name: "almonds",
+              amount: "1/2",
+              unit: "cup",
+              category: "nut",
+            },
+            {
+              name: "ras el hanout",
+              amount: "2",
+              unit: "tbsp",
+              category: "spice",
+            },
+            {
+              name: "honey",
+              amount: "2",
+              unit: "tbsp",
+              category: "sweetener",
+            },
+          ],
+          substitutions: {
+            "lamb shoulder": ["beef chuck", "chicken thighs"],
+            couscous: ["rice", "quinoa"],
+          },
+          servingSize: 6,
+          allergens: ["gluten", "tree nuts"],
+          prepTime: "30 minutes",
+          cookTime: "120 minutes",
+          nutrition: {
+            calories: 580,
+            protein: 42,
+            carbs: 55,
+            fat: 22,
+            fiber: 6,
+          },
+          timeToMake: "150 minutes",
+          season: ["autumn", "winter"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.4,
+            Air: 0.1,
+          },
+          astrologicalInfluences: [
+            "Jupiter - The abundant, celebratory feast",
+            "Venus - The sweet fruit and honey notes",
+          ],
+        },
+        {
+          name: "Bunny Chow",
+          description:
+            "South African street food of hollowed bread loaf filled with spicy curry",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "stewing",
+              elementalProperties: {
+                Fire: 0.22,
+                Water: 0.41,
+                Earth: 0.3,
+                Air: 0.08,
+              },
+            },
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "bread loaf",
+              amount: "1",
+              unit: "whole",
+              category: "grain",
+            },
+            {
+              name: "chicken",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+              swaps: ["lamb", "beans"],
+            },
+            {
+              name: "curry powder",
+              amount: "3",
+              unit: "tbsp",
+              category: "spice",
+            },
+            {
+              name: "potatoes",
+              amount: "2",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "tomatoes",
+              amount: "3",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "garam masala",
+              amount: "1",
+              unit: "tbsp",
+              category: "spice",
+            },
+          ],
+          substitutions: {
+            chicken: ["lamb", "mutton", "beans"],
+            "bread loaf": ["rice"],
+          },
+          servingSize: 4,
+          allergens: ["gluten"],
+          prepTime: "20 minutes",
+          cookTime: "45 minutes",
+          nutrition: {
+            calories: 520,
+            protein: 35,
+            carbs: 58,
+            fat: 18,
+            fiber: 5,
+          },
+          timeToMake: "65 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.25,
+            Earth: 0.3,
+            Air: 0.1,
+          },
+          astrologicalInfluences: [
+            "Mars - The bold curry spices",
+            "Saturn - The substantial, filling bread bowl",
+          ],
+        },
+        {
+          name: "Kitfo",
+          description:
+            "Ethiopian minced raw beef seasoned with mitmita spice and niter kibbeh butter",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "raw preparation",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.35,
+                Earth: 0.45,
+                Air: 0.1,
+              },
+            },
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.15,
+                Water: 0.25,
+                Earth: 0.35,
+                Air: 0.25,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "beef tenderloin",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "mitmita spice",
+              amount: "2",
+              unit: "tbsp",
+              category: "spice",
+            },
+            {
+              name: "niter kibbeh",
+              amount: "4",
+              unit: "tbsp",
+              category: "fat",
+              swaps: ["ghee"],
+            },
+            {
+              name: "ayib cheese",
+              amount: "100",
+              unit: "g",
+              category: "dairy",
+              swaps: ["cottage cheese"],
+            },
+            {
+              name: "collard greens",
+              amount: "200",
+              unit: "g",
+              category: "vegetable",
+            },
+          ],
+          substitutions: {
+            "niter kibbeh": ["ghee", "clarified butter"],
+            "ayib cheese": ["cottage cheese", "ricotta"],
+          },
+          servingSize: 4,
+          allergens: ["dairy"],
+          prepTime: "15 minutes",
+          cookTime: "0 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 38,
+            carbs: 5,
+            fat: 28,
+            fiber: 2,
+          },
+          timeToMake: "15 minutes",
+          season: ["all"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.2,
+            Earth: 0.4,
+            Air: 0.1,
+          },
+          astrologicalInfluences: [
+            "Mars - The fiery mitmita spice",
+            "Pluto - The raw, primal energy",
           ],
         },
       ],
@@ -830,12 +1772,59 @@ export const african: Cuisine = {
           description:
             "Sweet and sticky South African baked dessert with a caramelized exterior",
           cuisine: "african",
-          cookingMethods: ["baking", "sauce-making"],
+          cookingMethods: [
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          },
+          {
+            name: "sauce-making",
+            elementalProperties: {
+              Fire: 0.27,
+              Water: 0.33,
+              Earth: 0.2,
+              Air: 0.2,
+            },
+          }
+        ],
           ingredients: [
-            { name: "flour", amount: "1", unit: "cup", category: "grain" },
-            { name: "sugar", amount: "1", unit: "cup", category: "sweetener" },
-            { name: "milk", amount: "1", unit: "cup", category: "dairy" },
-            { name: "eggs", amount: "2", unit: "whole", category: "protein" },
+            { name: "flour", amount: "1", unit: "cup", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
+            { name: "sugar", amount: "1", unit: "cup", category: "sweetener",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.2,
+              },
+            },
+            { name: "milk", amount: "1", unit: "cup", category: "dairy",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
+            { name: "eggs", amount: "2", unit: "whole", category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
+            },
             {
               name: "apricot jam",
               amount: "1/2",
@@ -866,15 +1855,16 @@ export const african: Cuisine = {
             protein: 8,
             carbs: 70,
             fat: 15,
+            fiber: 3,
           },
           timeToMake: "65 minutes",
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Water: 0.3,
-            Air: 0.1,
+            Fire: 0.22,
+            Water: 0.21,
+            Earth: 0.43,
+            Air: 0.13,
           },
           astrologicalInfluences: [
             "Venus - The sweet, indulgent nature",
@@ -885,9 +1875,27 @@ export const african: Cuisine = {
           name: "Coconut Chin Chin",
           description: "West African fried pastry snack with coconut",
           cuisine: "african",
-          cookingMethods: ["frying", "dough-making"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          "dough-making"
+        ],
           ingredients: [
-            { name: "flour", amount: "3", unit: "cups", category: "grain" },
+            { name: "flour", amount: "3", unit: "cups", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
             {
               name: "coconut",
               amount: "1",
@@ -923,19 +1931,111 @@ export const african: Cuisine = {
             protein: 6,
             carbs: 45,
             fat: 12,
+            fiber: 3,
           },
           timeToMake: "50 minutes",
           season: ["all"],
           mealType: ["dessert", "snack"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.16,
+            Water: 0.19,
+            Earth: 0.49,
+            Air: 0.16,
           },
           astrologicalInfluences: [
             "Venus - The sweet indulgence",
             "Mercury - The crisp texture and intricate shapes",
+          ],
+        },
+        {
+          name: "Koeksister",
+          description:
+            "South African braided doughnut soaked in cold sugar syrup, sticky and sweet",
+          cuisine: "african",
+          cookingMethods: [
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
+            },
+            {
+              name: "braiding",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.4,
+                Air: 0.3,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "flour",
+              amount: "4",
+              unit: "cups",
+              category: "grain",
+            },
+            {
+              name: "sugar",
+              amount: "3",
+              unit: "cups",
+              category: "sweetener",
+            },
+            {
+              name: "butter",
+              amount: "2",
+              unit: "tbsp",
+              category: "fat",
+            },
+            {
+              name: "eggs",
+              amount: "2",
+              unit: "large",
+              category: "protein",
+            },
+            {
+              name: "cinnamon",
+              amount: "1",
+              unit: "tsp",
+              category: "spice",
+            },
+            {
+              name: "ginger",
+              amount: "1/2",
+              unit: "tsp",
+              category: "spice",
+            },
+          ],
+          substitutions: {
+            butter: ["margarine", "coconut oil"],
+          },
+          servingSize: 12,
+          allergens: ["gluten", "eggs", "dairy"],
+          prepTime: "45 minutes",
+          cookTime: "30 minutes",
+          nutrition: {
+            calories: 280,
+            protein: 4,
+            carbs: 52,
+            fat: 8,
+            fiber: 1,
+          },
+          timeToMake: "75 minutes",
+          season: ["all"],
+          mealType: ["dessert", "snack"],
+          elementalProperties: {
+            Fire: 0.25,
+            Water: 0.2,
+            Earth: 0.35,
+            Air: 0.2,
+          },
+          astrologicalInfluences: [
+            "Venus - The sticky sweetness",
+            "Neptune - The syrup-soaked indulgence",
           ],
         },
       ],

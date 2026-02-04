@@ -1,6 +1,3 @@
-import * as fs from "fs";
-import * as path from "path";
-
 // ========== PHASE, 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 import {
   _DefaultAstrologicalState,
@@ -34,27 +31,6 @@ import { createLogger } from "../utils/logger";
 
 // Create a component-specific logger
 const logger = createLogger("AstrologicalService");
-
-// Set up path for ephemeris data
-const EPHE_PATH =
-  typeof window === "undefined"
-    ? path.join(process.cwd(), "public", "ephe")
-    : "/ephe";
-
-const _isEphemerisFileAvailable = (fileName: string): boolean => {
-  if (typeof window !== "undefined") {
-    // In browser, we can't synchronously check files, assume true if running client side
-    return true;
-  }
-
-  try {
-    const filePath = path.join(EPHE_PATH, fileName);
-    return fs.existsSync(filePath);
-  } catch (e) {
-    logger.warn(`Error checking ephemeris file ${fileName}:`, e);
-    return false;
-  }
-};
 
 // ========== PHASE, 3: STANDARDIZED RESPONSE TYPES ==========
 

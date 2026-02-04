@@ -46,29 +46,43 @@ export function validateElementalProperties(
 
 /**
  * Normalize elemental properties to ensure valid structure
+ * Throws error if properties are missing or invalid
  */
 export function normalizeElementalProperties(
   properties: Partial<ElementalProperties>,
 ): ElementalProperties {
+  if (!properties || typeof properties !== "object") {
+    throw new Error(
+      "Cannot normalize: elemental properties must be a valid object",
+    );
+  }
+
   const normalized: ElementalProperties = {
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
   };
 
+  let hasValidElement = false;
+
   // Apply provided values if valid
-  if (properties) {
-    Object.entries(properties).forEach(([element, value]) => {
-      if (
-        element in normalized &&
-        typeof value === "number" &&
-        value >= 0 &&
-        value <= 1
-      ) {
-        (normalized as any)[element] = value;
-      }
-    });
+  Object.entries(properties).forEach(([element, value]) => {
+    if (
+      element in normalized &&
+      typeof value === "number" &&
+      value >= 0 &&
+      value <= 1
+    ) {
+      (normalized as any)[element] = value;
+      hasValidElement = true;
+    }
+  });
+
+  if (!hasValidElement) {
+    throw new Error(
+      "Cannot normalize: no valid elemental properties found in input",
+    );
   }
 
   return normalized;
@@ -85,10 +99,9 @@ export function calculateElementalHarmony(
     !validateElementalProperties(source) ||
     !validateElementalProperties(target)
   ) {
-    logger.warn(
+    throw new Error(
       "Invalid elemental properties provided for harmony calculation",
     );
-    return 0.7; // Default good compatibility
   }
 
   let totalHarmony = 0;
@@ -132,8 +145,14 @@ export function calculateElementalHarmony(
     }
   }
 
-  // Ensure minimum compatibility of 0.7
-  return Math.max(0.7, weightedSum > 0 ? totalHarmony / weightedSum : 0.7);
+  if (weightedSum === 0) {
+    throw new Error(
+      "Cannot calculate harmony with zero weighted sum - check elemental properties",
+    );
+  }
+
+  // Ensure minimum compatibility of 0.7 (per project design: all combinations work)
+  return Math.max(0.7, totalHarmony / weightedSum);
 }
 
 /**

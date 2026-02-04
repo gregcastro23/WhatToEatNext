@@ -52,4 +52,10 @@ export const curing: CookingMethodData = {
     "Nitrates and nitrites used in some curing may form nitrosamines",
     "Proper technique is essential to prevent harmful bacterial growth",
   ],
+  thermodynamicProperties: {
+    heat: 0.2, // Low heat, mostly time-based transformation
+    entropy: 0.45, // Moderate preservation transformation
+    reactivity: 0.35, // Slow chemical changes
+    gregsEnergy: 0.0425, // heat - (entropy × reactivity)
+  } as any,
 };

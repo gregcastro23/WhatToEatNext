@@ -117,7 +117,7 @@ function getAllTsFiles() {
       'find src -type f \\( -name "*.ts" -o -name "*.tsx" \\)',
       {
         encoding: "utf8",
-        cwd: "/Users/GregCastro/Desktop/WhatToEatNext",
+        cwd: process.cwd(),
       },
     );
     return output
@@ -136,7 +136,7 @@ function main() {
   const errorsBefore = parseInt(
     execSync('yarn lint 2>&1 | grep "Parsing error" | wc -l', {
       encoding: "utf8",
-      cwd: "/Users/GregCastro/Desktop/WhatToEatNext",
+      cwd: process.cwd(),
     }).trim(),
   );
   log(`Parsing errors before: ${errorsBefore}`);
@@ -148,7 +148,7 @@ function main() {
   let filesModified = 0;
 
   for (const file of files) {
-    const filePath = path.join("/Users/GregCastro/Desktop/WhatToEatNext", file);
+    const filePath = path.join(process.cwd(), file);
     if (!fs.existsSync(filePath)) continue;
 
     const content = fs.readFileSync(filePath, "utf8");
@@ -178,7 +178,7 @@ function main() {
     const errorsAfter = parseInt(
       execSync('yarn lint 2>&1 | grep "Parsing error" | wc -l', {
         encoding: "utf8",
-        cwd: "/Users/GregCastro/Desktop/WhatToEatNext",
+        cwd: process.cwd(),
       }).trim(),
     );
     log(`Parsing errors after: ${errorsAfter}`);

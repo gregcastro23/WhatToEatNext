@@ -57,7 +57,9 @@ export function useIngredientRecommendations(
       !planetaryPositions ||
       Object.keys(planetaryPositions || {}).length === 0
     ) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      throw new Error(
+        "Cannot calculate elemental profile without planetary positions",
+      );
     }
 
     // Calculate elemental distribution from planetary positions
@@ -89,11 +91,17 @@ export function useIngredientRecommendations(
       0,
     );
 
+    if (total === 0) {
+      throw new Error(
+        "No valid planetary positions found to calculate elemental profile",
+      );
+    }
+
     return {
-      Fire: total > 0 ? elementCounts.Fire / total : 0.25,
-      Water: total > 0 ? elementCounts.Water / total : 0.25,
-      Earth: total > 0 ? elementCounts.Earth / total : 0.25,
-      Air: total > 0 ? elementCounts.Air / total : 0.25,
+      Fire: elementCounts.Fire / total,
+      Water: elementCounts.Water / total,
+      Earth: elementCounts.Earth / total,
+      Air: elementCounts.Air / total,
     };
   }, [planetaryPositions]);
 

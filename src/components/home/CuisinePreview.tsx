@@ -14,13 +14,45 @@ interface NestedRecipe {
   description: string;
   prep_time?: string;
   cook_time?: string;
+  servings?: number;
+  difficulty?: string;
+  ingredients: Array<{
+    name: string;
+    amount?: string;
+    unit?: string;
+    notes?: string;
+  }>;
+  instructions: string[];
   meal_type: string;
   seasonal_fit: string;
+
+  // Enhanced recipe guidance fields
+  tips?: string[];  // Expert cooking tips
+  substitutions?: Array<{
+    original: string;
+    alternatives: string[];
+    notes?: string;
+  }>;  // Ingredient substitutions
+  variations?: string[];  // Regional or dietary variations
+  pairing_suggestions?: {
+    sides?: string[];
+    drinks?: string[];
+    condiments?: string[];
+  };  // What pairs well with this dish
+  storage_info?: {
+    storage_method?: string;
+    storage_duration?: string;
+    reheating_instructions?: string;
+    freezer_friendly?: boolean;
+  };  // Storage and reheating guidance
+  common_mistakes?: string[];  // What to avoid
+  timing_tips?: string[];  // Do-ahead suggestions
 }
 
 interface SauceRecommendation {
   sauce_name: string;
   description: string;
+  key_ingredients?: string[];
   compatibility_score: number;
   reason: string;
 }
@@ -42,13 +74,24 @@ interface CuisineRecommendation {
   compatibility_reason: string;
 }
 
+function getTimeAgo(date: Date): string {
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (seconds < 60) return "just now";
+  if (seconds < 300) return `${Math.floor(seconds / 60)} minutes ago`;
+  return "recently";
+}
+
 export default function CuisinePreview() {
   const [cuisines, setCuisines] = useState<CuisineRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [expandedCuisine, setExpandedCuisine] = useState<string | null>(null);
+  const [expandedCuisines, setExpandedCuisines] = useState<Set<string>>(new Set());
+  const [expandedRecipes, setExpandedRecipes] = useState<Set<string>>(new Set());
+  const [showElemental, setShowElemental] = useState(false);
+  const [showAllCuisines, setShowAllCuisines] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  useEffect(() => {
+  const fetchRecommendations = React.useCallback(() => {
     fetch("/api/cuisines/recommend")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch cuisine recommendations");
@@ -56,6 +99,7 @@ export default function CuisinePreview() {
       })
       .then((data) => {
         setCuisines(data.cuisine_recommendations || []);
+        setLastUpdated(new Date());
         setLoading(false);
       })
       .catch((err) => {
@@ -64,8 +108,34 @@ export default function CuisinePreview() {
       });
   }, []);
 
+  useEffect(() => {
+    fetchRecommendations();
+    const interval = setInterval(fetchRecommendations, 15 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [fetchRecommendations]);
+
   const toggleCuisine = (cuisineId: string) => {
-    setExpandedCuisine(expandedCuisine === cuisineId ? null : cuisineId);
+    setExpandedCuisines(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(cuisineId)) {
+        newSet.delete(cuisineId);
+      } else {
+        newSet.add(cuisineId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleRecipe = (recipeId: string) => {
+    setExpandedRecipes(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(recipeId)) {
+        newSet.delete(recipeId);
+      } else {
+        newSet.add(recipeId);
+      }
+      return newSet;
+    });
   };
 
   if (loading) {
@@ -73,10 +143,10 @@ export default function CuisinePreview() {
       <div className="flex flex-col justify-center items-center py-12">
         <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mb-4" />
         <p className="text-lg font-medium text-gray-700">
-          Analyzing cosmic culinary influences...
+          Loading cuisine recommendations...
         </p>
         <p className="text-sm text-gray-500 mt-2">
-          Calculating astrological cuisine compatibility
+          Finding the best dishes for right now
         </p>
       </div>
     );
@@ -100,9 +170,20 @@ export default function CuisinePreview() {
     );
   }
 
+  const displayedCuisines = showAllCuisines ? cuisines : cuisines.slice(0, 5);
+
   return (
     <div className="space-y-4">
-      {cuisines.slice(0, 5).map((cuisine) => (
+      {/* Subtle live update indicator */}
+      <div className="flex items-center justify-end gap-2 text-sm text-gray-500 px-1">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+        </span>
+        <span>Updated {getTimeAgo(lastUpdated)}</span>
+      </div>
+
+      {displayedCuisines.map((cuisine) => (
         <div
           key={cuisine.cuisine_id}
           className="border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white"
@@ -140,123 +221,344 @@ export default function CuisinePreview() {
                   <span className="text-xs text-gray-500 mt-1">match</span>
                 </div>
                 <div className="text-3xl text-gray-400 font-light">
-                  {expandedCuisine === cuisine.cuisine_id ? "−" : "+"}
+                  {expandedCuisines.has(cuisine.cuisine_id) ? "−" : "+"}
                 </div>
               </div>
             </div>
           </div>
 
-          {expandedCuisine === cuisine.cuisine_id && (
+          {expandedCuisines.has(cuisine.cuisine_id) && (
             <div className="p-6 bg-gradient-to-br from-gray-50 to-white border-t border-gray-200">
-              {/* Elemental Properties */}
-              <div className="mb-6">
-                <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                  <span className="text-2xl">⚗️</span>
-                  <span>Elemental Balance</span>
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {Object.entries(cuisine.elemental_properties).map(
-                    ([element, value]) => (
-                      <div
-                        key={element}
-                        className="bg-white p-3 rounded-lg shadow-sm border border-gray-100"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-bold text-gray-800">
-                            {element}
-                          </span>
-                          <span
-                            className={`text-2xl ${
-                              element === "Fire"
-                                ? "🔥"
-                                : element === "Water"
-                                  ? "💧"
-                                  : element === "Earth"
-                                    ? "🌍"
-                                    : "💨"
-                            }`}
-                          >
-                            {element === "Fire"
-                              ? "🔥"
-                              : element === "Water"
-                                ? "💧"
-                                : element === "Earth"
-                                  ? "🌍"
-                                  : "💨"}
-                          </span>
-                        </div>
-                        <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full transition-all duration-500 ${
-                              element === "Fire"
-                                ? "bg-gradient-to-r from-red-400 to-orange-500"
-                                : element === "Water"
-                                  ? "bg-gradient-to-r from-blue-400 to-cyan-500"
-                                  : element === "Earth"
-                                    ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                                    : "bg-gradient-to-r from-purple-400 to-indigo-500"
-                            }`}
-                            style={{ width: `${value * 100}%` }}
-                          />
-                        </div>
-                        <div className="text-right mt-1">
-                          <span className="text-xs font-semibold text-gray-600">
-                            {(value * 100).toFixed(0)}%
-                          </span>
-                        </div>
-                      </div>
-                    ),
-                  )}
-                </div>
-              </div>
-
-              {/* Nested Recipes */}
+              {/* Nested Recipes - PRIMARY FOCUS */}
               {cuisine.nested_recipes && cuisine.nested_recipes.length > 0 && (
                 <div className="mb-6">
-                  <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <span className="text-2xl">🍲</span>
-                    <span>Featured Recipes</span>
+                  <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2 text-xl">
+                    <span className="text-3xl">🍲</span>
+                    <span>
+                      Featured Recipes ({cuisine.nested_recipes.length})
+                    </span>
                   </h4>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {cuisine.nested_recipes.slice(0, 3).map((recipe) => (
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {cuisine.nested_recipes.map((recipe) => (
                       <div
                         key={recipe.recipe_id}
-                        className="bg-gradient-to-br from-purple-50 to-indigo-50 p-4 rounded-lg border border-purple-100 hover:shadow-md transition-shadow"
+                        className="bg-white border-2 border-purple-100 rounded-xl overflow-hidden hover:shadow-lg transition-all"
                       >
-                        <div className="flex justify-between items-start mb-2">
-                          <div className="flex-1">
-                            <div className="font-bold text-gray-900 mb-1">
-                              {recipe.name}
-                            </div>
-                            <div className="text-xs text-gray-600 line-clamp-2">
-                              {recipe.description}
+                        <div
+                          className="p-4 cursor-pointer hover:bg-purple-50 transition-colors"
+                          onClick={() => toggleRecipe(recipe.recipe_id)}
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <div className="flex-1">
+                              <div className="font-bold text-gray-900 text-lg mb-1 flex items-center gap-2">
+                                {recipe.name}
+                                <span className="text-xl">
+                                  {expandedRecipes.has(recipe.recipe_id)
+                                    ? "−"
+                                    : "+"}
+                                </span>
+                              </div>
+                              <div className="text-sm text-gray-600 line-clamp-2">
+                                {recipe.description}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="flex items-center gap-2 mt-3">
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
-                            {recipe.seasonal_fit}
-                          </span>
-                          {recipe.meal_type && (
-                            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
-                              {recipe.meal_type}
+                          <div className="flex items-center gap-2 mt-3 flex-wrap">
+                            <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
+                              {recipe.seasonal_fit}
                             </span>
-                          )}
+                            {recipe.meal_type && (
+                              <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
+                                {recipe.meal_type}
+                              </span>
+                            )}
+                            {recipe.difficulty && (
+                              <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">
+                                {recipe.difficulty}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex gap-4 mt-3 text-sm text-gray-700 font-medium">
+                            {recipe.prep_time && (
+                              <div className="flex items-center gap-1">
+                                <span>⏱️</span>
+                                <span>{recipe.prep_time}</span>
+                              </div>
+                            )}
+                            {recipe.cook_time && (
+                              <div className="flex items-center gap-1">
+                                <span>🔥</span>
+                                <span>{recipe.cook_time}</span>
+                              </div>
+                            )}
+                            {recipe.servings && (
+                              <div className="flex items-center gap-1">
+                                <span>👥</span>
+                                <span>{recipe.servings} servings</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex gap-3 mt-2 text-xs text-gray-600 font-medium">
-                          {recipe.prep_time && (
-                            <div className="flex items-center gap-1">
-                              <span>⏱️</span>
-                              <span>{recipe.prep_time}</span>
+
+                        {/* Expanded Recipe Details */}
+                        {expandedRecipes.has(recipe.recipe_id) && (
+                          <div className="border-t border-purple-100 p-4 bg-gradient-to-br from-purple-50 to-white">
+                            {/* Ingredients */}
+                            <div className="mb-4">
+                              <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                <span>🥘</span>
+                                <span>
+                                  Ingredients ({recipe.ingredients.length})
+                                </span>
+                              </h5>
+                              <div className="grid grid-cols-1 gap-1">
+                                {recipe.ingredients.map((ing, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="text-sm text-gray-700 pl-4"
+                                  >
+                                    •{" "}
+                                    {ing.amount && ing.unit
+                                      ? `${ing.amount} ${ing.unit}`
+                                      : ""}{" "}
+                                    {ing.name}
+                                    {ing.notes && (
+                                      <span className="text-gray-500 italic">
+                                        {" "}
+                                        ({ing.notes})
+                                      </span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                          )}
-                          {recipe.cook_time && (
-                            <div className="flex items-center gap-1">
-                              <span>🔥</span>
-                              <span>{recipe.cook_time}</span>
-                            </div>
-                          )}
-                        </div>
+
+                            {/* Cooking Instructions */}
+                            {recipe.instructions &&
+                              recipe.instructions.length > 0 && (
+                                <div className="mb-4">
+                                  <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                    <span>📝</span>
+                                    <span>Cooking Instructions</span>
+                                  </h5>
+                                  <ol className="list-decimal list-inside space-y-2">
+                                    {recipe.instructions.map((step, idx) => (
+                                      <li
+                                        key={idx}
+                                        className="text-sm text-gray-700 pl-2"
+                                      >
+                                        {step}
+                                      </li>
+                                    ))}
+                                  </ol>
+                                </div>
+                              )}
+
+                            {/* Expert Tips */}
+                            {recipe.tips && recipe.tips.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>💡</span>
+                                  <span>Expert Tips</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.tips.map((tip, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-gray-700 pl-4"
+                                    >
+                                      • {tip}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Common Mistakes */}
+                            {recipe.common_mistakes && recipe.common_mistakes.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>⚠️</span>
+                                  <span>Common Mistakes to Avoid</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.common_mistakes.map((mistake, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-red-700 pl-4"
+                                    >
+                                      • {mistake}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Ingredient Substitutions */}
+                            {recipe.substitutions && recipe.substitutions.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>🔄</span>
+                                  <span>Ingredient Substitutions</span>
+                                </h5>
+                                <div className="space-y-2">
+                                  {recipe.substitutions.map((sub, idx) => (
+                                    <div
+                                      key={idx}
+                                      className="text-sm bg-yellow-50 p-2 rounded border border-yellow-200"
+                                    >
+                                      <span className="font-semibold text-gray-800">
+                                        {sub.original}:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {sub.alternatives.join(", ")}
+                                      </span>
+                                      {sub.notes && (
+                                        <span className="text-gray-600 italic block mt-1">
+                                          {sub.notes}
+                                        </span>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Recipe Variations */}
+                            {recipe.variations && recipe.variations.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>✨</span>
+                                  <span>Variations</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.variations.map((variation, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-gray-700 pl-4"
+                                    >
+                                      • {variation}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Pairing Suggestions */}
+                            {recipe.pairing_suggestions && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>🍷</span>
+                                  <span>Pairing Suggestions</span>
+                                </h5>
+                                <div className="grid grid-cols-1 gap-2">
+                                  {recipe.pairing_suggestions.sides && recipe.pairing_suggestions.sides.length > 0 && (
+                                    <div className="text-sm">
+                                      <span className="font-semibold text-gray-800">
+                                        Sides:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.pairing_suggestions.sides.join(", ")}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.pairing_suggestions.drinks && recipe.pairing_suggestions.drinks.length > 0 && (
+                                    <div className="text-sm">
+                                      <span className="font-semibold text-gray-800">
+                                        Drinks:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.pairing_suggestions.drinks.join(", ")}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.pairing_suggestions.condiments && recipe.pairing_suggestions.condiments.length > 0 && (
+                                    <div className="text-sm">
+                                      <span className="font-semibold text-gray-800">
+                                        Condiments:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.pairing_suggestions.condiments.join(", ")}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Storage & Reheating */}
+                            {recipe.storage_info && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>🥡</span>
+                                  <span>Storage & Reheating</span>
+                                </h5>
+                                <div className="text-sm bg-blue-50 p-3 rounded border border-blue-200 space-y-1">
+                                  {recipe.storage_info.storage_method && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Storage:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.storage_method}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.storage_info.storage_duration && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Duration:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.storage_duration}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.storage_info.reheating_instructions && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Reheating:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.reheating_instructions}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {recipe.storage_info.freezer_friendly !== undefined && (
+                                    <div>
+                                      <span className="font-semibold text-gray-800">
+                                        Freezer-Friendly:
+                                      </span>{" "}
+                                      <span className="text-gray-700">
+                                        {recipe.storage_info.freezer_friendly ? "Yes" : "No"}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Timing Tips */}
+                            {recipe.timing_tips && recipe.timing_tips.length > 0 && (
+                              <div className="mb-4">
+                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                  <span>⏰</span>
+                                  <span>Timing Tips</span>
+                                </h5>
+                                <ul className="space-y-1">
+                                  {recipe.timing_tips.map((tip, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-sm text-gray-700 pl-4"
+                                    >
+                                      • {tip}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -266,35 +568,50 @@ export default function CuisinePreview() {
               {/* Nested Sauces */}
               {cuisine.recommended_sauces &&
                 cuisine.recommended_sauces.length > 0 && (
-                  <div className="mb-4">
-                    <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                  <div className="mb-6">
+                    <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2 text-lg">
                       <span className="text-2xl">🥫</span>
                       <span>Complementary Sauces</span>
                     </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {cuisine.recommended_sauces
-                        .slice(0, 5)
-                        .map((sauce, idx) => (
-                          <div
-                            key={idx}
-                            className="group relative bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-indigo-900 px-4 py-2 rounded-full text-sm font-medium border border-indigo-200 transition-all cursor-help"
-                            title={sauce.reason}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span>{sauce.sauce_name}</span>
-                              <span className="bg-indigo-200 text-indigo-900 px-2 py-0.5 rounded-full text-xs font-bold">
-                                {(sauce.compatibility_score * 100).toFixed(0)}%
-                              </span>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {cuisine.recommended_sauces.map((sauce, idx) => (
+                        <div
+                          key={idx}
+                          className="bg-white border border-indigo-100 rounded-lg p-3 hover:shadow-md transition-all"
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <div className="font-bold text-indigo-900">
+                              {sauce.sauce_name}
                             </div>
+                            <span className="bg-indigo-100 text-indigo-900 px-2 py-0.5 rounded-full text-xs font-bold">
+                              {(sauce.compatibility_score * 100).toFixed(0)}%
+                            </span>
                           </div>
-                        ))}
+                          <p className="text-sm text-gray-600 mb-2">
+                            {sauce.description}
+                          </p>
+                          {sauce.key_ingredients &&
+                            sauce.key_ingredients.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {sauce.key_ingredients.map((ing, i) => (
+                                  <span
+                                    key={i}
+                                    className="text-xs bg-orange-50 text-orange-800 px-2 py-0.5 rounded-full"
+                                  >
+                                    {ing}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
 
               {/* Compatibility Reason */}
               {cuisine.compatibility_reason && (
-                <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border-l-4 border-blue-500">
+                <div className="mb-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border-l-4 border-blue-500">
                   <p className="text-sm text-blue-900">
                     <span className="font-bold text-blue-800">
                       🌟 Why recommended:
@@ -303,10 +620,95 @@ export default function CuisinePreview() {
                   </p>
                 </div>
               )}
+
+              {/* Elemental Properties - Collapsible, De-emphasized */}
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <button
+                  onClick={() => setShowElemental(!showElemental)}
+                  className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <span className="text-lg">⚗️</span>
+                  <span>
+                    {showElemental ? "Hide" : "Show"} Elemental Balance
+                  </span>
+                  <span className="text-lg">{showElemental ? "−" : "+"}</span>
+                </button>
+                {showElemental && (
+                  <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {Object.entries(cuisine.elemental_properties).map(
+                      ([element, value]) => {
+                        const numValue = typeof value === 'number' ? value : 0;
+                        return (
+                          <div
+                            key={element}
+                            className="bg-gray-50 p-2 rounded-lg border border-gray-100"
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs font-bold text-gray-700">
+                                {element}
+                              </span>
+                              <span className="text-sm">
+                                {element === "Fire"
+                                  ? "🔥"
+                                  : element === "Water"
+                                    ? "💧"
+                                    : element === "Earth"
+                                      ? "🌍"
+                                      : "💨"}
+                              </span>
+                            </div>
+                            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full transition-all duration-500 ${
+                                  element === "Fire"
+                                    ? "bg-gradient-to-r from-red-400 to-orange-500"
+                                    : element === "Water"
+                                      ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                                      : element === "Earth"
+                                        ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                                        : "bg-gradient-to-r from-purple-400 to-indigo-500"
+                                }`}
+                                style={{ width: `${numValue * 100}%` }}
+                              />
+                            </div>
+                            <div className="text-right mt-0.5">
+                              <span className="text-xs font-semibold text-gray-500">
+                                {(numValue * 100).toFixed(0)}%
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      },
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
       ))}
+
+      {/* Show All / Show Less Button */}
+      {cuisines.length > 5 && (
+        <div className="flex justify-center pt-4">
+          <button
+            onClick={() => setShowAllCuisines(!showAllCuisines)}
+            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 flex items-center gap-2"
+          >
+            {showAllCuisines ? (
+              <>
+                <span>Show Less</span>
+                <span className="text-xl">−</span>
+              </>
+            ) : (
+              <>
+                <span>Show All Cuisines ({cuisines.length})</span>
+                <span className="text-xl">+</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {cuisines.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl border-2 border-dashed border-purple-200">
@@ -315,7 +717,7 @@ export default function CuisinePreview() {
             No cuisine recommendations available
           </p>
           <p className="text-sm text-gray-500">
-            The stars are still aligning... Please check back soon.
+            Please check back soon for personalized recommendations.
           </p>
         </div>
       )}

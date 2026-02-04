@@ -4,7 +4,20 @@ import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 // Use local API endpoint instead of external
-const LOCAL_ASTROLOGIZE_API_URL = "/api/astrologize";
+// On server-side, we need an absolute URL since relative URLs don't work in Node.js
+const getAstrologizeApiUrl = () => {
+  // Check if running on server
+  if (typeof window === "undefined") {
+    // Server-side: use absolute URL with configured base
+    // Priority: NEXT_PUBLIC_BASE_URL > VERCEL_URL > localhost
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
+      || "http://localhost:3000";
+    return `${baseUrl}/api/astrologize`;
+  }
+  // Client-side: use relative URL
+  return "/api/astrologize";
+};
 
 // Interface for the local API request
 interface LocalAstrologizeRequest {
@@ -133,74 +146,74 @@ export async function fetchPlanetaryPositions(
     log.info("Using fallback planetary positions due to API failure");
     return {
       Sun: {
-        sign: "gemini",
-        degree: 13,
-        minute: 54,
-        exactLongitude: 73.9,
+        sign: "sagittarius",
+        degree: 2,
+        minute: 30,
+        exactLongitude: 242.5,
         isRetrograde: false,
       },
-      moon: {
-        sign: "virgo",
-        degree: 26,
-        minute: 31,
-        exactLongitude: 176.52,
+      Moon: {
+        sign: "cancer",
+        degree: 15,
+        minute: 20,
+        exactLongitude: 105.33,
         isRetrograde: false,
       },
       Mercury: {
-        sign: "gemini",
-        degree: 20,
-        minute: 11,
-        exactLongitude: 80.18,
+        sign: "sagittarius",
+        degree: 18,
+        minute: 45,
+        exactLongitude: 258.75,
         isRetrograde: false,
       },
       Venus: {
-        sign: "aries",
-        degree: 28,
-        minute: 6,
-        exactLongitude: 28.1,
+        sign: "capricorn",
+        degree: 10,
+        minute: 30,
+        exactLongitude: 280.5,
         isRetrograde: false,
       },
       Mars: {
         sign: "leo",
-        degree: 22,
-        minute: 48,
-        exactLongitude: 142.8,
+        degree: 25,
+        minute: 15,
+        exactLongitude: 145.25,
         isRetrograde: false,
       },
       Jupiter: {
         sign: "gemini",
-        degree: 28,
-        minute: 44,
-        exactLongitude: 88.73,
+        degree: 16,
+        minute: 40,
+        exactLongitude: 76.67,
         isRetrograde: false,
       },
       Saturn: {
-        sign: "aries",
-        degree: 0,
-        minute: 41,
-        exactLongitude: 0.68,
+        sign: "pisces",
+        degree: 14,
+        minute: 20,
+        exactLongitude: 344.33,
         isRetrograde: false,
       },
       Uranus: {
         sign: "taurus",
-        degree: 28,
-        minute: 17,
-        exactLongitude: 58.28,
-        isRetrograde: false,
+        degree: 22,
+        minute: 10,
+        exactLongitude: 52.17,
+        isRetrograde: true,
       },
       Neptune: {
-        sign: "aries",
-        degree: 1,
-        minute: 55,
-        exactLongitude: 1.92,
+        sign: "pisces",
+        degree: 27,
+        minute: 45,
+        exactLongitude: 357.75,
         isRetrograde: false,
       },
       Pluto: {
         sign: "aquarius",
-        degree: 3,
-        minute: 36,
-        exactLongitude: 303.6,
-        isRetrograde: true,
+        degree: 0,
+        minute: 15,
+        exactLongitude: 300.25,
+        isRetrograde: false,
       },
       Ascendant: {
         sign: "aries",
@@ -238,7 +251,7 @@ export async function fetchPlanetaryPositions(
       if (requestData.zodiacSystem)
         params.append("zodiacSystem", requestData.zodiacSystem);
 
-      const url = `${LOCAL_ASTROLOGIZE_API_URL}?${params.toString()}`;
+      const url = `${getAstrologizeApiUrl()}?${params.toString()}`;
       response = await fetch(url, {
         method: "GET",
         headers: {
@@ -248,7 +261,7 @@ export async function fetchPlanetaryPositions(
       });
     } else {
       // Use POST for custom date/time
-      response = await fetch(LOCAL_ASTROLOGIZE_API_URL, {
+      response = await fetch(getAstrologizeApiUrl(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

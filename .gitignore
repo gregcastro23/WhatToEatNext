@@ -15,6 +15,7 @@ npm-shrinkwrap.json
 /.next-backup/
 /.next*/
 /out/
+next-env.d.ts
 
 # production
 /build
@@ -30,6 +31,16 @@ npm-shrinkwrap.json
 .env*
 errors.log
 tsconfig.tsbuildinfo
+
+# Python/Backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
 
 # ESLint caches and reports
 .eslintcache
@@ -94,6 +105,11 @@ archive/
 # SWC binaries (large files)
 .yarn/unplugged/@next-swc-*
 node_modules/@next/swc-*
+
+# Yarn Berry cache (causes version mismatch issues on Vercel)
+.yarn/berry/cache/
+.yarn/cache/
+.yarn/install-state.gz
 
 # ESLint cache and performance files
 .eslintcache

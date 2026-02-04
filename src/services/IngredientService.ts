@@ -8,6 +8,9 @@ import type {
 } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
 import { logger } from "@/utils/logger";
+import { calculateFlavorMatch } from "@/data/unified/flavorCompatibilityLayer";
+import { calculateSeasonalCompatibility as calcSeasonalCompat } from "@/constants/seasonalCore";
+import { calculateThermodynamicCompatibility } from "@/utils/enhancedCompatibilityScoring";
 
 // Import the ingredient service interface
 import type {
@@ -257,10 +260,36 @@ export class IngredientService implements IngredientServiceInterface {
     flavorProfile: { [key: string]: number },
     minMatchScore = 0.5,
   ): UnifiedIngredient[] {
-    // For now, return all ingredients - full flavor matching would require
-    // more complex flavor analysis
-    // TODO: Implement proper flavor profile matching
-    return this.getAllIngredientsFlat().filter(() => true);
+    // Get all ingredients
+    const allIngredients = this.getAllIngredientsFlat();
+
+    // If no flavor profile provided, return all ingredients
+    if (!flavorProfile) {
+      return allIngredients;
+    }
+
+    try {
+      // Calculate flavor match score for each ingredient using imported function
+      const ingredientsWithScores = allIngredients
+        .map((ingredient) => {
+          if (!ingredient.flavorProfile) {
+            return { ingredient, score: 0.5 }; // Default score for ingredients without flavor profile
+          }
+
+          const score = calculateFlavorMatch(
+            flavorProfile,
+            ingredient.flavorProfile,
+          );
+          return { ingredient, score };
+        })
+        .filter((item) => item.score >= minMatchScore) // Use provided threshold
+        .sort((a, b) => b.score - a.score); // Sort by score descending
+
+      return ingredientsWithScores.map((item) => item.ingredient);
+    } catch (error) {
+      // Fallback to returning all ingredients if flavor matching fails
+      return allIngredients;
+    }
   }
 
   /**
@@ -401,11 +430,66 @@ export class IngredientService implements IngredientServiceInterface {
           )
         : 0;
 
-    // For now, use simplified calculations for other compatibility types
-    // TODO: Implement full compatibility calculations
-    const flavorCompatibility = 0.8; // Placeholder
-    const seasonalCompatibility = 0.7; // Placeholder
-    const energeticCompatibility = 0.6; // Placeholder
+    // Calculate flavor compatibility using available flavor profiles
+    let flavorCompatibility = 0.7; // Default value
+    try {
+      if (ing1.flavorProfile && ing2.flavorProfile) {
+        flavorCompatibility = calculateFlavorMatch(
+          ing1.flavorProfile,
+          ing2.flavorProfile,
+        );
+      }
+    } catch (error) {
+      // Fallback to default if calculation fails
+      flavorCompatibility = 0.7;
+    }
+
+    // Calculate seasonal compatibility
+    let seasonalCompatibility = 0.8; // Default value
+    try {
+      // If both ingredients have seasonal properties, calculate compatibility
+      if (
+        ing1.seasons &&
+        Array.isArray(ing1.seasons) &&
+        ing1.seasons.length > 0 &&
+        ing2.seasons &&
+        Array.isArray(ing2.seasons) &&
+        ing2.seasons.length > 0
+      ) {
+        // Average compatibility across all season combinations
+        let totalCompat = 0;
+        let count = 0;
+        for (const s1 of ing1.seasons) {
+          for (const s2 of ing2.seasons) {
+            totalCompat += calcSeasonalCompat(s1, s2);
+            count++;
+          }
+        }
+        seasonalCompatibility = count > 0 ? totalCompat / count : 0.8;
+      }
+    } catch (error) {
+      // Fallback to default if calculation fails
+      seasonalCompatibility = 0.8;
+    }
+
+    // Calculate energetic compatibility based on alchemical properties if available
+    let energeticCompatibility = 0.75; // Default value
+    try {
+      // Use thermodynamic properties if available for energetic compatibility
+      if (
+        (ing1 as any).thermodynamicProperties &&
+        (ing2 as any).thermodynamicProperties
+      ) {
+        const thermoCompat = calculateThermodynamicCompatibility(
+          (ing1 as any).thermodynamicProperties,
+          (ing2 as any).thermodynamicProperties,
+        );
+        energeticCompatibility = thermoCompat.overall;
+      }
+    } catch (error) {
+      // Fallback to default if calculation fails
+      energeticCompatibility = 0.75;
+    }
 
     const score =
       elementalCompatibility * 0.4 +

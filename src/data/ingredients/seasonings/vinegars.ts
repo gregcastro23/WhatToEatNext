@@ -74,7 +74,7 @@ const rawVinegars = {
     },
     qualities: ["mild", "sweet", "clean", "delicate", "balanced"],
     origin: ["China", "Japan", "Korea"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grain",
     varieties: {},
     culinaryApplications: {},
@@ -153,7 +153,7 @@ const rawVinegars = {
     },
     qualities: ["sweet", "complex", "rich", "syrupy", "aged"],
     origin: ["Italy", "Modena", "Reggio Emilia"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grape",
     varieties: {
       Commercial: {
@@ -241,7 +241,7 @@ const rawVinegars = {
     },
     qualities: ["nutty", "complex", "sharp"],
     origin: ["Spain"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     varieties: {
       Reserva: {
@@ -393,7 +393,7 @@ const rawVinegars = {
     },
     qualities: ["tangy", "fruity", "robust", "complex", "medicinal"],
     origin: ["United States", "Europe"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "fruit",
     varieties: {
       "Raw Unfiltered": {
@@ -460,7 +460,7 @@ const rawVinegars = {
     },
     qualities: ["robust", "fruity", "tangy"],
     origin: ["France", "Italy", "Spain"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     varieties: {
       Young: {
@@ -565,7 +565,7 @@ const rawVinegars = {
   white_wine_vinegar: createIngredientMapping("white_wine_vinegar", {
     qualities: ["bright", "clean", "crisp"],
     origin: ["France", "Germany", "Italy"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     varieties: {
       Champagne: {
@@ -627,7 +627,7 @@ const rawVinegars = {
   champagne_vinegar: createIngredientMapping("champagne_vinegar", {
     qualities: ["delicate", "floral", "elegant"],
     origin: ["France"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "wine",
     varieties: {},
     culinaryApplications: {
@@ -682,7 +682,7 @@ const rawVinegars = {
     },
     qualities: ["robust", "grainy", "complex"],
     origin: ["United Kingdom"],
-    category: "vinegar",
+    category: "vinegars",
     subCategory: "grain",
     varieties: {
       Distilled: {

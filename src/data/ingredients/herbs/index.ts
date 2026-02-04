@@ -108,7 +108,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   basil: createIngredientMapping("basil", {
     elementalProperties: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 },
     qualities: ["aromatic", "sweet", "peppery"],
-    category: "culinary_herb",
+    category: "herbs",
     varieties: {
       sweet_basil: {
         aroma: "clove-like, sweet",
@@ -175,7 +175,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   mint: createIngredientMapping("mint", {
     elementalProperties: { Water: 0.55, Air: 0.32, Earth: 0.08, Fire: 0.05 },
     qualities: ["cooling", "refreshing", "aromatic"],
-    category: "culinary_herb",
+    category: "herbs",
     varieties: {
       peppermint: {
         aroma: "strong, mentholated",
@@ -195,7 +195,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   rosemary: createIngredientMapping("rosemary", {
     elementalProperties: { Fire: 0.4, Earth: 0.35, Air: 0.2, Water: 0.05 },
     qualities: ["piney", "resinous", "aromatic"],
-    category: "culinary_herb",
+    category: "herbs",
     heat_resistance: 8, // Ability to withstand cooking heat
     extraction_efficiency: 6, // How easily flavors infuse into oils/liquids
     varieties: {
@@ -210,49 +210,11 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     },
   }) as Partial<IngredientMapping>,
 
-  preparation_methods: createIngredientMapping("preparation_methods", {
-    elementalProperties: { Earth: 0.25, Water: 0.25, Fire: 0.25, Air: 0.25 },
-    category: "preparation",
-    drying: {
-      air_drying: {
-        method: "bundle and hang",
-        conditions: "warm, dry, good airflow",
-        duration: "1-2 weeks",
-        best_for: ["woody herbs", "large leaf herbs"],
-      },
-      dehydrator: {
-        temperature: "95-115°F",
-        duration: "2-6 hours",
-        best_for: ["tender herbs", "flowers"],
-      },
-    },
-    storage: {
-      dried_herbs: {
-        container: "airtight, dark glass",
-        location: "cool, dark place",
-        duration: "6-12 months",
-        tips: [
-          "check for moisture",
-          "label with date",
-          "crush to release oils",
-        ],
-      },
-      fresh_herbs: {
-        methods: {
-          refrigerator: {
-            technique: "wrap in damp paper",
-            duration: "1-2 weeks",
-          },
-        },
-      },
-    },
-  }) as Partial<IngredientMapping>,
-
   // Additional specialty herbs
   curry_leaves: createIngredientMapping("curry_leaves", {
     elementalProperties: { Earth: 0.2, Water: 0.2, Fire: 0.4, Air: 0.2 },
     qualities: ["aromatic", "citrusy", "nutty"],
-    category: "culinary_herb",
+    category: "herbs",
     sustainabilityScore: 8,
     preparation: {
       fresh: {
@@ -284,7 +246,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   lemongrass: createIngredientMapping("lemongrass", {
     elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
     qualities: ["lemony", "citral", "grassy", "refreshing"],
-    category: "culinary_herb",
+    category: "herbs",
     sustainabilityScore: 9,
     preparation: {
       fresh: {
@@ -311,7 +273,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   shiso: createIngredientMapping("shiso", {
     elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
     qualities: ["minty", "basil-like", "anise", "citrusy"],
-    category: "culinary_herb",
+    category: "herbs",
     sustainabilityScore: 8,
     culinaryUses: [
       "sushi",

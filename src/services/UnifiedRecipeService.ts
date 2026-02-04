@@ -9,9 +9,14 @@ import type { Recipe } from "@/types/alchemy";
 // Add missing imports for TS2304 fixes
 import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 // Using local error handler implementation
+import { allRecipes } from "@/data/recipes/index";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("UnifiedRecipeService");
 
 export class UnifiedRecipeService {
   private static instance: UnifiedRecipeService;
+  private recipesCache: Recipe[] | null = null;
 
   private constructor() {}
 
@@ -23,29 +28,121 @@ export class UnifiedRecipeService {
   }
 
   /**
-   * Get all recipes
+   * Get all recipes from the data layer
    */
   async getAllRecipes(): Promise<Recipe[]> {
-    // TODO: Implement recipe fetching logic
-    return [];
+    try {
+      // Use cache if available
+      if (this.recipesCache) {
+        return this.recipesCache;
+      }
+
+      // Load recipes from data layer
+      const recipes = allRecipes as unknown as Recipe[];
+
+      // Cache for future requests
+      this.recipesCache = recipes;
+
+      logger.info(`Loaded ${recipes.length} recipes from data layer`);
+      return recipes;
+    } catch (error) {
+      ErrorHandler.log(error, {
+        context: "UnifiedRecipeService.getAllRecipes",
+      });
+      return [];
+    }
   }
 
   /**
    * Get recipe by ID
    */
   async getRecipeById(id: string): Promise<Recipe | null> {
-    // TODO: Implement recipe fetching by ID
-    void id; // Acknowledge unused parameter
-    return null;
+    try {
+      const recipes = await this.getAllRecipes();
+
+      // Find recipe by id
+      const recipe = recipes.find((r) => r.id === id);
+
+      if (!recipe) {
+        logger.warn(`Recipe not found with id: ${id}`);
+        return null;
+      }
+
+      return recipe;
+    } catch (error) {
+      ErrorHandler.log(error, {
+        context: `UnifiedRecipeService.getRecipeById (id: ${id})`,
+      });
+      return null;
+    }
   }
 
   /**
-   * Search recipes
+   * Search recipes by name, description, cuisine, or ingredients
    */
   async searchRecipes(query: string): Promise<Recipe[]> {
-    // TODO: Implement recipe search logic
-    void query; // Acknowledge unused parameter
-    return [];
+    try {
+      if (!query || query.trim().length === 0) {
+        return this.getAllRecipes();
+      }
+
+      const recipes = await this.getAllRecipes();
+      const searchTerm = query.toLowerCase().trim();
+
+      // Search across multiple fields
+      const matchedRecipes = recipes.filter((recipe) => {
+        // Search in name
+        if (recipe.name?.toLowerCase().includes(searchTerm)) {
+          return true;
+        }
+
+        // Search in description
+        if (typeof recipe.description === "string" && recipe.description.toLowerCase().includes(searchTerm)) {
+          return true;
+        }
+
+        // Search in cuisine
+        if (
+          typeof recipe.cuisine === "string" &&
+          recipe.cuisine.toLowerCase().includes(searchTerm)
+        ) {
+          return true;
+        }
+
+        // Search in ingredients
+        if (Array.isArray(recipe.ingredients)) {
+          const ingredientMatch = recipe.ingredients.some((ing: any) => {
+            const ingName = typeof ing === "string" ? ing : ing.name;
+            return ingName?.toLowerCase().includes(searchTerm);
+          });
+          if (ingredientMatch) {
+            return true;
+          }
+        }
+
+        // Search in tags
+        if (Array.isArray(recipe.tags)) {
+          const tagMatch = recipe.tags.some((tag: string) =>
+            tag.toLowerCase().includes(searchTerm)
+          );
+          if (tagMatch) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+
+      logger.info(
+        `Search for "${query}" returned ${matchedRecipes.length} recipes`
+      );
+      return matchedRecipes;
+    } catch (error) {
+      ErrorHandler.log(error, {
+        context: `UnifiedRecipeService.searchRecipes (query: ${query})`,
+      });
+      return [];
+    }
   }
   /**
    * Get recipes for a specific cuisine (Phase 11 addition)

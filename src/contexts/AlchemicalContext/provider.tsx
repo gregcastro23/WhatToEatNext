@@ -7,13 +7,14 @@
 
 "use client";
 
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import { _AlchemicalContext, defaultState } from "./context";
 import type {
   AlchemicalState,
   // AlchemicalAction,
   AlchemicalContextType,
 } from "./types";
+import { AstrologicalService } from "@/services/AstrologicalService";
 
 type AlchemicalAction = any; // Type not exported
 import type { ReactNode } from "react";
@@ -103,8 +104,12 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
   // Helper function to get dominant element
   const getDominantElement = (): string => {
-    const elementalProps = state.astrologicalState.elementalProperties;
+    const elementalProps = state.astrologicalState?.elementalProperties;
+    if (!elementalProps) return "Fire";
+
     const entries = (Object.entries as any)(elementalProps);
+    if (!entries || entries.length === 0) return "Fire";
+
     return entries.reduce(
       (max, [element, value]) =>
         (value as number) > max.value
@@ -116,12 +121,21 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
   // Helper function to get current elemental balance
   const getCurrentElementalBalance = () =>
-    state.astrologicalState.elementalProperties;
+    state.astrologicalState?.elementalProperties || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    };
 
   // Helper function to calculate alchemical harmony
   const getAlchemicalHarmony = (): number => {
-    const { elementalProperties } = state.astrologicalState;
+    const elementalProperties = state.astrologicalState?.elementalProperties;
+    if (!elementalProperties) return 0.5;
+
     const values = (Object.values as any)(elementalProperties);
+    if (!values || values.length === 0) return 0.5;
+
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
@@ -152,7 +166,12 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
   // Helper function to get thermodynamic state
   const getThermodynamicState = () =>
-    state.astrologicalState.thermodynamicProperties;
+    state.astrologicalState?.thermodynamicProperties || {
+      temperature: 20,
+      pressure: 1,
+      entropy: 0.5,
+      enthalpy: 0.5,
+    };
 
   // Update time-based values periodically
   useEffect(() => {
@@ -182,11 +201,10 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       const planetaryHour = planetaryHours[hour % 7];
       dispatch({ type: "UPDATE_PLANETARY_HOUR", payload: planetaryHour });
 
-      // Update current time
+      // Update timestamp only - don't spread entire state to avoid loops
       dispatch({
         type: "UPDATE_ASTROLOGICAL_STATE",
         payload: {
-          ...state.astrologicalState,
           timestamp: now.getTime(),
         },
       });
@@ -198,9 +216,14 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     // Update every 5 minutes
     const interval = setInterval(updateTimeBasedValues, 5 * 60 * 1000);
     return () => clearInterval(interval);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps intentional - we only want this to run once on mount
 
-  // Update seasonal values
+  // Planetary positions state
+  const [planetaryPositions, setPlanetaryPositions] = useState<any>({});
+  const [normalizedPositions, setNormalizedPositions] = useState<any>({});
+
+  // Update seasonal values and planetary positions
   useEffect(() => {
     const updateSeasonalValues = () => {
       const now = new Date();
@@ -217,12 +240,28 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       }
     };
 
-    updateSeasonalValues();
-  }, [state.currentSeason]);
+    const updatePlanetaryPositions = async () => {
+      try {
+        const astroService = AstrologicalService as any;
+        const astroState = await (astroService.getStateForDate
+          ? astroService.getStateForDate(new Date())
+          : astroService.getCurrentState?.(new Date()));
 
-  // Mock planetary positions for now
-  const planetaryPositions = {};
-  const normalizedPositions = {};
+        if (astroState && astroState.currentPlanetaryAlignment) {
+          setPlanetaryPositions(astroState.currentPlanetaryAlignment);
+          setNormalizedPositions(astroState.currentPlanetaryAlignment);
+        }
+      } catch (error) {
+        logger.error("Failed to load planetary positions:", error);
+        throw new Error(
+          "Cannot initialize AlchemicalContext without planetary positions",
+        );
+      }
+    };
+
+    updateSeasonalValues();
+    void updatePlanetaryPositions();
+  }, [state.currentSeason]);
 
   const contextValue: AlchemicalContextType = {
     state,

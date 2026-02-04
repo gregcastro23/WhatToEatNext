@@ -331,7 +331,7 @@ const rawMedicinalHerbs = {
       seasonalAffinity: ["spring", "summer"],
     },
     qualities: ["antiviral", "immune-supporting", "cooling"],
-    category: "medicinal_herb",
+    category: "herbs",
     parts_used: ["berries", "flowers"],
     preparations: {
       syrup: {
@@ -362,7 +362,7 @@ const rawMedicinalHerbs = {
       seasonalAffinity: ["summer"],
     },
     qualities: ["calming", "soothing", "cooling"],
-    category: "medicinal_herb",
+    category: "herbs",
     parts_used: ["flowers"],
     preparations: {
       tea: {

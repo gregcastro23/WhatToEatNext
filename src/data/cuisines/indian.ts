@@ -78,6 +78,7 @@ export const indian = {
             protein: 12,
             carbs: 85,
             fat: 8,
+            fiber: 3,
             vitamins: ["B12", "C", "D"],
             minerals: ["Iron", "Potassium"],
           },
@@ -94,7 +95,27 @@ export const indian = {
           name: "Aloo Paratha",
           description: "Whole wheat flatbread stuffed with spiced potatoes",
           cuisine: "Indian (North)",
-          cookingMethods: ["kneading", "stuffing", "griddle-cooking"],
+          cookingMethods: [
+          {
+            name: "kneading",
+            elementalProperties: {
+              Fire: 0.14,
+              Water: 0.14,
+              Earth: 0.43,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "stuffing",
+            elementalProperties: {
+              Fire: 0.08,
+              Water: 0.15,
+              Earth: 0.54,
+              Air: 0.23,
+            },
+          },
+          "griddle-cooking"
+        ],
           tools: [
             "rolling pin",
             "griddle",
@@ -158,23 +179,52 @@ export const indian = {
             protein: 10,
             carbs: 65,
             fat: 12,
+            fiber: 3,
             vitamins: ["B1", "C"],
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.5,
-            Fire: 0.3,
-            Water: 0.1,
-            Air: 0.1,
+            Fire: 0.12,
+            Water: 0.08,
+            Earth: 0.61,
+            Air: 0.19,
           },
         },
         {
           name: "Idli Sambar",
           description: "Steamed rice cakes with lentil soup",
           cuisine: "Indian (South)",
-          cookingMethods: ["fermenting", "steaming", "simmering"],
+          cookingMethods: [
+          {
+            name: "fermenting",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.33,
+              Earth: 0.39,
+              Air: 0.22,
+            },
+          },
+          {
+            name: "steaming",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.56,
+              Earth: 0.13,
+              Air: 0.25,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: [
             "idli steamer",
             "mixing bowls",
@@ -190,7 +240,14 @@ export const indian = {
             "Serve hot with accompaniments",
           ],
           ingredients: [
-            { name: "idli rice", amount: "300", unit: "g", category: "grain" },
+            { name: "idli rice", amount: "300", unit: "g", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            },
             { name: "urad dal", amount: "100", unit: "g", category: "legume" },
             { name: "toor dal", amount: "200", unit: "g", category: "legume" },
             {
@@ -210,6 +267,12 @@ export const indian = {
               amount: "100",
               unit: "g",
               category: "condiment",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.5,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
           ],
           substitutions: {
@@ -237,16 +300,17 @@ export const indian = {
             protein: 12,
             carbs: 58,
             fat: 6,
+            fiber: 3,
             vitamins: ["B12", "C"],
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Fire: 0.2,
-            Air: 0.1,
+            Fire: 0.06,
+            Water: 0.5,
+            Earth: 0.37,
+            Air: 0.08,
           },
         },
       ],
@@ -255,7 +319,26 @@ export const indian = {
           name: "Poha",
           description: "Flattened rice with peanuts and spices",
           cuisine: "Indian (Central)",
-          cookingMethods: ["stir-frying", "tempering"],
+          cookingMethods: [
+          {
+            name: "stir-frying",
+            elementalProperties: {
+              Fire: 0.44,
+              Water: 0.09,
+              Earth: 0.15,
+              Air: 0.32,
+            },
+          },
+          {
+            name: "tempering",
+            elementalProperties: {
+              Fire: 0.29,
+              Water: 0.21,
+              Earth: 0.29,
+              Air: 0.21,
+            },
+          }
+        ],
           tools: [
             "kadai or wok",
             "colander",
@@ -277,28 +360,73 @@ export const indian = {
               amount: "200",
               unit: "g",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
-            { name: "peanuts", amount: "50", unit: "g", category: "nuts" },
-            { name: "onions", amount: "100", unit: "g", category: "vegetable" },
+            { name: "peanuts", amount: "50", unit: "g", category: "nuts",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.1,
+                Earth: 0.5,
+                Air: 0.2,
+              },
+            },
+            { name: "onions", amount: "100", unit: "g", category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
             {
               name: "curry leaves",
               amount: "10",
               unit: "pieces",
               category: "herb",
+              elementalProperties: {
+                Fire: 0.55,
+                Water: 0.1,
+                Earth: 0.25,
+                Air: 0.1,
+              },
             },
             {
               name: "mustard seeds",
               amount: "1",
               unit: "tsp",
               category: "spice",
+              elementalProperties: {
+                Fire: 0.55,
+                Water: 0.1,
+                Earth: 0.25,
+                Air: 0.1,
+              },
             },
-            { name: "turmeric", amount: "1/2", unit: "tsp", category: "spice" },
+            { name: "turmeric", amount: "1/2", unit: "tsp", category: "spice",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.15,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
             {
               name: "green chilies",
               amount: "2",
               unit: "pieces",
               category: "spice",
               optional: true,
+              elementalProperties: {
+                Fire: 0.7,
+                Water: 0,
+                Earth: 0.1,
+                Air: 0.2,
+              },
             },
           ],
           substitutions: {
@@ -320,16 +448,17 @@ export const indian = {
             protein: 10,
             carbs: 52,
             fat: 12,
+            fiber: 3,
             vitamins: ["B1", "E"],
             minerals: ["Iron", "Magnesium"],
           },
           season: ["all"],
           mealType: ["breakfast", "snack"],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.56,
+            Water: 0.08,
+            Earth: 0.25,
+            Air: 0.11,
           },
         },
       ],
@@ -340,7 +469,35 @@ export const indian = {
           name: "Dal Tadka",
           description: "Yellow lentils with spice-infused oil",
           cuisine: "Indian (North)",
-          cookingMethods: ["boiling", "tempering", "simmering"],
+          cookingMethods: [
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          },
+          {
+            name: "tempering",
+            elementalProperties: {
+              Fire: 0.29,
+              Water: 0.21,
+              Earth: 0.29,
+              Air: 0.21,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: [
             "pressure cooker",
             "tempering pan",
@@ -362,6 +519,12 @@ export const indian = {
               amount: "200",
               unit: "g",
               category: "legume",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "ghee",
@@ -416,17 +579,52 @@ export const indian = {
             protein: 16,
             carbs: 42,
             fat: 8,
+            fiber: 3,
             vitamins: ["B1", "C"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.23,
+            Water: 0.23,
+            Earth: 0.43,
+            Air: 0.11,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Gujarati Kadhi",
           description: "Yogurt-based curry with gram flour",
           cuisine: "Indian (Gujarat)",
-          cookingMethods: ["simmering", "tempering", "whisking"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "tempering",
+            elementalProperties: {
+              Fire: 0.29,
+              Water: 0.21,
+              Earth: 0.29,
+              Air: 0.21,
+            },
+          },
+          {
+            name: "whisking",
+            elementalProperties: {
+              Fire: 0.07,
+              Water: 0.24,
+              Earth: 0.1,
+              Air: 0.59,
+            },
+          }
+        ],
           tools: [
             "heavy-bottomed pot",
             "whisk",
@@ -497,11 +695,18 @@ export const indian = {
             protein: 12,
             carbs: 28,
             fat: 8,
+            fiber: 3,
             vitamins: ["B12", "D"],
             minerals: ["Calcium", "Phosphorus"],
           },
           season: ["summer"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.51,
+            Earth: 0.3,
+            Air: 0.09,
+          },mealType: ["lunch"],
         },
       ],
       winter: [
@@ -509,7 +714,35 @@ export const indian = {
           name: "Dal Makhani",
           description: "Creamy black lentils simmered overnight",
           cuisine: "Indian (Punjab)",
-          cookingMethods: ["slow-cooking", "simmering", "tempering"],
+          cookingMethods: [
+          {
+            name: "slow-cooking",
+            elementalProperties: {
+              Fire: 0.19,
+              Water: 0.39,
+              Earth: 0.33,
+              Air: 0.08,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "tempering",
+            elementalProperties: {
+              Fire: 0.29,
+              Water: 0.21,
+              Earth: 0.29,
+              Air: 0.21,
+            },
+          }
+        ],
           tools: [
             "heavy-bottomed pot",
             "pressure cooker",
@@ -531,12 +764,24 @@ export const indian = {
               amount: "300",
               unit: "g",
               category: "legume",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "kidney beans",
               amount: "100",
               unit: "g",
               category: "legume",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "cream",
@@ -590,11 +835,18 @@ export const indian = {
             protein: 18,
             carbs: 45,
             fat: 22,
+            fiber: 3,
             vitamins: ["A", "K"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.11,
+            Water: 0.31,
+            Earth: 0.5,
+            Air: 0.09,
+          },mealType: ["lunch", "dinner"],
         },
       ],
     },
@@ -604,7 +856,27 @@ export const indian = {
           name: "Butter Chicken",
           description: "Tandoor-cooked chicken in rich tomato-cream sauce",
           cuisine: "Indian (North)",
-          cookingMethods: ["marinating", "tandoor-cooking", "simmering"],
+          cookingMethods: [
+          {
+            name: "marinating",
+            elementalProperties: {
+              Fire: 0.13,
+              Water: 0.44,
+              Earth: 0.19,
+              Air: 0.25,
+            },
+          },
+          "tandoor-cooking",
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: [
             "tandoor or oven",
             "heavy-bottomed pot",
@@ -692,17 +964,44 @@ export const indian = {
             protein: 35,
             carbs: 28,
             fat: 42,
+            fiber: 3,
             vitamins: ["A", "D", "B12"],
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.24,
+            Water: 0.29,
+            Earth: 0.33,
+            Air: 0.14,
+          },mealType: ["dinner"],
         },
         {
           name: "Hyderabadi Biryani",
           description: "Layered rice with spiced meat and aromatics",
           cuisine: "Indian (Hyderabad)",
-          cookingMethods: ["layering", "dum cooking", "marinating"],
+          cookingMethods: [
+          {
+            name: "layering",
+            elementalProperties: {
+              Fire: 0.08,
+              Water: 0.15,
+              Earth: 0.46,
+              Air: 0.31,
+            },
+          },
+          "dum cooking",
+          {
+            name: "marinating",
+            elementalProperties: {
+              Fire: 0.13,
+              Water: 0.44,
+              Earth: 0.19,
+              Air: 0.25,
+            },
+          }
+        ],
           tools: [
             "heavy-bottomed pot",
             "dum lid",
@@ -725,6 +1024,12 @@ export const indian = {
               amount: "500",
               unit: "g",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "lamb",
@@ -768,17 +1073,52 @@ export const indian = {
             protein: 42,
             carbs: 85,
             fat: 28,
+            fiber: 3,
             vitamins: ["B12", "B6"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          mealType: ["dinner", "special occasion"],
+          
+          elementalProperties: {
+            Fire: 0.21,
+            Water: 0.24,
+            Earth: 0.45,
+            Air: 0.1,
+          },mealType: ["dinner", "special occasion"],
         },
         {
           name: "Palak Paneer",
           description: "Fresh spinach curry with cottage cheese",
           cuisine: "Indian (North)",
-          cookingMethods: ["blanching", "pureeing", "tempering"],
+          cookingMethods: [
+          {
+            name: "blanching",
+            elementalProperties: {
+              Fire: 0.23,
+              Water: 0.55,
+              Earth: 0.1,
+              Air: 0.13,
+            },
+          },
+          {
+            name: "pureeing",
+            elementalProperties: {
+              Fire: 0.1,
+              Water: 0.33,
+              Earth: 0.27,
+              Air: 0.3,
+            },
+          },
+          {
+            name: "tempering",
+            elementalProperties: {
+              Fire: 0.29,
+              Water: 0.21,
+              Earth: 0.29,
+              Air: 0.21,
+            },
+          }
+        ],
           tools: [
             "heavy-bottomed pot",
             "blender",
@@ -800,6 +1140,12 @@ export const indian = {
               amount: "500",
               unit: "g",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.2,
+                Air: 0.4,
+              },
             },
             {
               name: "paneer",
@@ -859,17 +1205,44 @@ export const indian = {
             protein: 16,
             carbs: 12,
             fat: 20,
+            fiber: 3,
             vitamins: ["A", "K", "C"],
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.13,
+            Water: 0.26,
+            Earth: 0.22,
+            Air: 0.39,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Chole Bhature",
           description: "Spiced chickpeas with deep-fried bread",
           cuisine: "Indian (Punjab)",
-          cookingMethods: ["pressure-cooking", "deep-frying", "simmering"],
+          cookingMethods: [
+          "pressure-cooking",
+          {
+            name: "deep-frying",
+            elementalProperties: {
+              Fire: 0.45,
+              Water: 0.06,
+              Earth: 0.21,
+              Air: 0.27,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: [
             "pressure cooker",
             "deep fryer",
@@ -886,31 +1259,69 @@ export const indian = {
             "Deep fry bhature",
           ],
           ingredients: [
-            { name: "chickpeas", amount: "500", unit: "g", category: "legume" },
+            { name: "chickpeas", amount: "500", unit: "g", category: "legume",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
+            },
             {
               name: "all-purpose flour",
               amount: "300",
               unit: "g",
               category: "flour",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
             },
-            { name: "yogurt", amount: "100", unit: "ml", category: "dairy" },
+            { name: "yogurt", amount: "100", unit: "ml", category: "dairy",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.5,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
             {
               name: "tea bags",
               amount: "2",
               unit: "pieces",
               category: "other",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.2,
+              },
             },
             {
               name: "onions",
               amount: "3",
               unit: "large",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "tomatoes",
               amount: "4",
               unit: "medium",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.1,
+              },
             },
             {
               name: "chole masala",
@@ -938,11 +1349,18 @@ export const indian = {
             protein: 18,
             carbs: 82,
             fat: 16,
+            fiber: 3,
             vitamins: ["B6", "C"],
             minerals: ["Iron", "Folate"],
           },
           season: ["winter"],
-          mealType: ["breakfast", "lunch"],
+          
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.22,
+            Earth: 0.35,
+            Air: 0.13,
+          },mealType: ["breakfast", "lunch"],
         },
         {
           name: "Malai Kofta",
@@ -1019,6 +1437,7 @@ export const indian = {
             protein: 16,
             carbs: 32,
             fat: 34,
+            fiber: 3,
             vitamins: ["A", "D"],
             minerals: ["Calcium", "Iron"],
           },
@@ -1029,7 +1448,35 @@ export const indian = {
           name: "Pani Puri",
           description: "Crispy hollow spheres with spiced water and fillings",
           cuisine: "Indian (Street Food)",
-          cookingMethods: ["assembling", "mixing", "chilling"],
+          cookingMethods: [
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          },
+          {
+            name: "mixing",
+            elementalProperties: {
+              Fire: 0.07,
+              Water: 0.21,
+              Earth: 0.21,
+              Air: 0.5,
+            },
+          },
+          {
+            name: "chilling",
+            elementalProperties: {
+              Fire: 0,
+              Water: 0.54,
+              Earth: 0.15,
+              Air: 0.31,
+            },
+          }
+        ],
           tools: [
             "mixing bowls",
             "strainer",
@@ -1052,15 +1499,42 @@ export const indian = {
               unit: "pieces",
               category: "bread",
             },
-            { name: "mint leaves", amount: "100", unit: "g", category: "herb" },
+            { name: "mint leaves", amount: "100", unit: "g", category: "herb",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.1,
+                Air: 0.5,
+              },
+            },
             {
               name: "potatoes",
               amount: "200",
               unit: "g",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
-            { name: "tamarind", amount: "30", unit: "g", category: "fruit" },
-            { name: "black salt", amount: "1", unit: "tsp", category: "spice" },
+            { name: "tamarind", amount: "30", unit: "g", category: "fruit",
+              elementalProperties: {
+                Fire: 0.15,
+                Water: 0.5,
+                Earth: 0.25,
+                Air: 0.1,
+              },
+            },
+            { name: "black salt", amount: "1", unit: "tsp", category: "spice",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.7,
+                Air: 0.1,
+              },
+            },
             {
               name: "chaat masala",
               amount: "2",
@@ -1094,17 +1568,52 @@ export const indian = {
             protein: 6,
             carbs: 42,
             fat: 4,
+            fiber: 3,
             vitamins: ["C", "B6"],
             minerals: ["Iron", "Potassium"],
           },
           season: ["summer"],
-          mealType: ["snack", "appetizer"],
+          
+          elementalProperties: {
+            Fire: 0.13,
+            Water: 0.24,
+            Earth: 0.43,
+            Air: 0.21,
+          },mealType: ["snack", "appetizer"],
         },
         {
           name: "Baingan Bharta",
           description: "Smoky roasted eggplant mash with spices",
           cuisine: "Indian (North)",
-          cookingMethods: ["roasting", "sautéing", "mashing"],
+          cookingMethods: [
+          {
+            name: "roasting",
+            elementalProperties: {
+              Fire: 0.47,
+              Water: 0.06,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "mashing",
+            elementalProperties: {
+              Fire: 0.11,
+              Water: 0.21,
+              Earth: 0.5,
+              Air: 0.18,
+            },
+          }
+        ],
           tools: [
             "grill or stovetop",
             "heavy pan",
@@ -1126,31 +1635,68 @@ export const indian = {
               amount: "2",
               unit: "whole",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "onion",
               amount: "2",
               unit: "medium",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "tomatoes",
               amount: "3",
               unit: "medium",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.1,
+              },
             },
             {
               name: "garlic",
               amount: "6",
               unit: "cloves",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-            { name: "ginger", amount: "2", unit: "inches", category: "spice" },
+            { name: "ginger", amount: "2", unit: "inches", category: "spice",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.2,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
             {
               name: "cumin seeds",
               amount: "1",
               unit: "tsp",
               category: "spice",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "garam masala",
@@ -1158,13 +1704,26 @@ export const indian = {
               unit: "tsp",
               category: "spice",
             },
-            { name: "turmeric", amount: "1/2", unit: "tsp", category: "spice" },
+            { name: "turmeric", amount: "1/2", unit: "tsp", category: "spice",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.15,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
             {
               name: "green chilies",
               amount: "2",
               unit: "whole",
               category: "spice",
               optional: true,
+              elementalProperties: {
+                Fire: 0.7,
+                Water: 0,
+                Earth: 0.1,
+                Air: 0.2,
+              },
             },
           ],
           substitutions: {
@@ -1186,16 +1745,17 @@ export const indian = {
             protein: 4,
             carbs: 24,
             fat: 8,
+            fiber: 3,
             vitamins: ["C", "K", "B6"],
             minerals: ["Potassium", "Manganese"],
           },
           season: ["summer", "autumn"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.3,
-            Fire: 0.4,
-            Air: 0.2,
-            Water: 0.1,
+            Fire: 0.57,
+            Water: 0.11,
+            Earth: 0.23,
+            Air: 0.09,
           },
         },
       ],
@@ -1204,7 +1764,35 @@ export const indian = {
           name: "Rogan Josh",
           description: "Kashmiri lamb curry with yogurt base",
           cuisine: "Indian (Kashmir)",
-          cookingMethods: ["braising", "simmering", "tempering"],
+          cookingMethods: [
+          {
+            name: "braising",
+            elementalProperties: {
+              Fire: 0.25,
+              Water: 0.35,
+              Earth: 0.3,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "tempering",
+            elementalProperties: {
+              Fire: 0.29,
+              Water: 0.21,
+              Earth: 0.29,
+              Air: 0.21,
+            },
+          }
+        ],
           tools: [
             "heavy-bottomed pot",
             "spice grinder",
@@ -1280,11 +1868,18 @@ export const indian = {
             protein: 45,
             carbs: 12,
             fat: 38,
+            fiber: 3,
             vitamins: ["B12", "D"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.33,
+            Water: 0.22,
+            Earth: 0.39,
+            Air: 0.07,
+          },mealType: ["dinner"],
         },
       ],
     },
@@ -1294,7 +1889,18 @@ export const indian = {
           name: "Gulab Jamun",
           description: "Fried milk solids in sugar syrup",
           cuisine: "Indian",
-          cookingMethods: ["frying", "syrup-making"],
+          cookingMethods: [
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          "syrup-making"
+        ],
           tools: [
             "deep fryer",
             "saucepan",
@@ -1349,17 +1955,44 @@ export const indian = {
             protein: 6,
             carbs: 65,
             fat: 8,
+            fiber: 3,
             vitamins: ["D", "A"],
             minerals: ["Calcium"],
           },
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.19,
+            Water: 0.43,
+            Earth: 0.25,
+            Air: 0.13,
+          },mealType: ["dessert"],
         },
         {
           name: "Rasmalai",
           description: "Cheese dumplings in saffron milk",
           cuisine: "Indian (Bengal)",
-          cookingMethods: ["curdling", "poaching", "reducing"],
+          cookingMethods: [
+          "curdling",
+          {
+            name: "poaching",
+            elementalProperties: {
+              Fire: 0.19,
+              Water: 0.5,
+              Earth: 0.13,
+              Air: 0.19,
+            },
+          },
+          {
+            name: "reducing",
+            elementalProperties: {
+              Fire: 0.29,
+              Water: 0.34,
+              Earth: 0.17,
+              Air: 0.2,
+            },
+          }
+        ],
           tools: [
             "heavy-bottomed pot",
             "cheesecloth",
@@ -1376,9 +2009,30 @@ export const indian = {
             "Soak in flavored milk",
           ],
           ingredients: [
-            { name: "milk", amount: "2", unit: "L", category: "dairy" },
-            { name: "sugar", amount: "200", unit: "g", category: "sweetener" },
-            { name: "cardamom", amount: "6", unit: "pods", category: "spice" },
+            { name: "milk", amount: "2", unit: "L", category: "dairy",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
+            },
+            { name: "sugar", amount: "200", unit: "g", category: "sweetener",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.2,
+              },
+            },
+            { name: "cardamom", amount: "6", unit: "pods", category: "spice",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.15,
+                Earth: 0.25,
+                Air: 0.2,
+              },
+            },
             { name: "pistachios", amount: "50", unit: "g", category: "nuts" },
             { name: "saffron", amount: "1", unit: "pinch", category: "spice" },
             {
@@ -1387,6 +2041,12 @@ export const indian = {
               unit: "tsp",
               category: "flavoring",
               optional: true,
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.9,
+                Earth: 0,
+                Air: 0.1,
+              },
             },
           ],
           substitutions: {
@@ -1408,11 +2068,18 @@ export const indian = {
             protein: 12,
             carbs: 42,
             fat: 10,
+            fiber: 3,
             vitamins: ["D", "B12"],
             minerals: ["Calcium", "Potassium"],
           },
           season: ["all"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.19,
+            Water: 0.51,
+            Earth: 0.17,
+            Air: 0.14,
+          },mealType: ["dessert"],
         },
         {
           name: "Kulfi",
@@ -1468,6 +2135,7 @@ export const indian = {
             protein: 8,
             carbs: 32,
             fat: 12,
+            fiber: 3,
             vitamins: ["A", "D"],
             minerals: ["Calcium", "Phosphorus"],
           },
@@ -1497,12 +2165,80 @@ export const indian = {
             protein: 8,
             carbs: 32,
             fat: 12,
+            fiber: 3,
             vitamins: ["A", "D"],
             minerals: ["Calcium", "Phosphorus"],
           },
           timeToMake: "240 minutes",
           season: ["summer"],
           mealType: ["dessert"],
+        },
+
+        {
+          name: "Pani Puri",
+          description: "Crispy hollow puris filled with spiced potato and tangy tamarind water",
+          cuisine: "Indian (Street Food)",
+          cookingMethods: [
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.55,
+                Water: 0.05,
+                Earth: 0.10,
+                Air: 0.30,
+              },
+            },
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
+            },
+          ],
+          tools: ["deep fryer", "mixing bowls", "serving platter"],
+          preparationSteps: [
+            "Prepare puri dough and roll thin",
+            "Deep fry until puffed and crisp",
+            "Make spiced potato filling",
+            "Prepare tangy pani (flavored water)",
+            "Crack puri top and fill",
+            "Serve immediately",
+          ],
+          ingredients: [
+            { name: "semolina puris", amount: "24", unit: "pieces", category: "grain" },
+            { name: "boiled potatoes", amount: "2", unit: "medium", category: "vegetable" },
+            { name: "chickpeas", amount: "1/2", unit: "cup", category: "legume" },
+            { name: "tamarind paste", amount: "2", unit: "tbsp", category: "flavoring" },
+            { name: "mint leaves", amount: "1", unit: "bunch", category: "herb" },
+            { name: "cumin powder", amount: "1", unit: "tsp", category: "spice" },
+          ],
+          substitutions: {
+            "tamarind paste": ["lemon juice with jaggery"],
+            "chickpeas": ["sprouted moong"],
+          },
+          servingSize: 6,
+          allergens: ["gluten"],
+          prepTime: "30 minutes",
+          cookTime: "20 minutes",
+          culturalNotes: "India's most beloved street food, eating pani puri is a social experience best enjoyed standing at roadside stalls",
+          pairingSuggestions: ["dahi puri", "sev puri", "bhel puri"],
+          dietaryInfo: ["vegetarian", "vegan"],
+          spiceLevel: "medium",
+          nutrition: {
+            calories: 180,
+            protein: 4,
+            carbs: 28,
+            fat: 6,
+            fiber: 3,
+            vitamins: ["C", "A"],
+            minerals: ["Iron", "Potassium"],
+          },
+          timeToMake: "50 minutes",
+          season: ["all"],
+          mealType: ["snack", "appetizer"],
         },
       ],
     },

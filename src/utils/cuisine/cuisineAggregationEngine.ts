@@ -167,7 +167,14 @@ export function aggregateAlchemicalProperties(
   recipes: RecipeComputedProperties[],
   weights?: number[],
 ): AlchemicalProperties | undefined {
-  const recipesWithAlchemy = recipes.filter((r) => r.alchemicalProperties);
+  const recipesWithAlchemy = recipes.filter(
+    (r) =>
+      r.alchemicalProperties &&
+      typeof r.alchemicalProperties.Spirit === "number" &&
+      typeof r.alchemicalProperties.Essence === "number" &&
+      typeof r.alchemicalProperties.Matter === "number" &&
+      typeof r.alchemicalProperties.Substance === "number",
+  );
 
   if (recipesWithAlchemy.length === 0) {
     return undefined;
@@ -178,16 +185,16 @@ export function aggregateAlchemicalProperties(
     new Array(recipesWithAlchemy.length).fill(1 / recipesWithAlchemy.length);
 
   const spiritValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties.Spirit,
+    (r) => r.alchemicalProperties!.Spirit,
   );
   const essenceValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties.Essence,
+    (r) => r.alchemicalProperties!.Essence,
   );
   const matterValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties.Matter,
+    (r) => r.alchemicalProperties!.Matter,
   );
   const substanceValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties.Substance,
+    (r) => r.alchemicalProperties!.Substance,
   );
 
   return {

@@ -77,8 +77,12 @@ export interface CelestialPosition {
   degree?: number;
   exactLongitude?: number; // Used extensively in astronomy calculations
   isRetrograde?: boolean;
+  retrogradeSymbol?: string; // "℞" if retrograde, "" otherwise
   minutes?: number;
-  speed?: number;
+  speed?: number; // Deprecated: use longitudeSpeed or arcminutesPerDay
+  longitudeSpeed?: number; // Degrees per day (precise)
+  arcminutesPerDay?: number; // Arcminutes per day (more meaningful for slow planets)
+  speedDisplay?: string; // Human-readable speed string (e.g., "-8.1'/day" or "+1.02°/day")
   element?: Element;
   dignity?: DignityType;
 }
@@ -92,8 +96,12 @@ export interface PlanetaryPosition {
   element?: string;
   dignity?: string;
   isRetrograde?: boolean;
+  retrogradeSymbol?: string; // "℞" if retrograde, "" otherwise
   exactLongitude?: number; // Used extensively in astronomy calculations
-  speed?: number; // Optional planetary speed
+  speed?: number; // Deprecated: use longitudeSpeed or arcminutesPerDay
+  longitudeSpeed?: number; // Degrees per day (precise)
+  arcminutesPerDay?: number; // Arcminutes per day (more meaningful for slow planets)
+  speedDisplay?: string; // Human-readable speed string (e.g., "-8.1'/day" or "+1.02°/day")
   house?: number;
   longitude?: number;
   latitude?: number;

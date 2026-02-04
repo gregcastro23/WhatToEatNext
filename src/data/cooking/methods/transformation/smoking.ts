@@ -68,4 +68,10 @@ export const smoking = {
     "High consumption of smoked foods has been linked to increased cancer risk",
     "Often high in sodium",
   ],
+  thermodynamicProperties: {
+    heat: 0.65, // Moderate-high heat from smoking
+    entropy: 0.75, // High transformation with smoke infusion
+    reactivity: 0.8, // High chemical interaction with smoke compounds
+    gregsEnergy: 0.05, // heat - (entropy × reactivity)
+  } as any,
 } as unknown as CookingMethodData;

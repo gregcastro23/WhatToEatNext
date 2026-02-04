@@ -3,15 +3,18 @@ import type { Cuisine } from "@/types/cuisine";
 // Import all cuisines
 import { african } from "./african";
 import { american } from "./american";
-// Temporarily disabled problematic cuisines due to apostrophe syntax issues
-// TODO: Fix apostrophes and re-enable
-// import { greek } from './greek';
-// import { indian } from './indian';
-// import { italian } from './italian';
-// import { middleEastern } from './middle-eastern';
-// import { russian } from './russian';
-// import { thai } from './thai';
-// import { vietnamese } from './vietnamese';
+import { chinese } from "./chinese";
+import { french } from "./french";
+import { greek } from "./greek";
+import { indian } from "./indian";
+import { italian } from "./italian";
+import { japanese } from "./japanese";
+import { korean } from "./korean";
+import { mexican } from "./mexican";
+import { middleEastern } from "./middle-eastern";
+import { russian } from "./russian";
+import { thai } from "./thai";
+import { vietnamese } from "./vietnamese";
 
 // Create a base cuisine structure
 const baseCuisine: Cuisine = {
@@ -139,23 +142,49 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
   } as Cuisine; // Use type assertion to ensure the return type is Cuisine
 };
 
+// Pre-process all cuisines once for efficiency
+const processedCuisines = {
+  African: processCuisineRecipes(african as unknown as Partial<Cuisine>),
+  American: processCuisineRecipes(american as unknown as Partial<Cuisine>),
+  Chinese: processCuisineRecipes(chinese as unknown as Partial<Cuisine>),
+  French: processCuisineRecipes(french as unknown as Partial<Cuisine>),
+  Greek: processCuisineRecipes(greek as unknown as Partial<Cuisine>),
+  Indian: processCuisineRecipes(indian as unknown as Partial<Cuisine>),
+  Italian: processCuisineRecipes(italian as unknown as Partial<Cuisine>),
+  Japanese: processCuisineRecipes(japanese as unknown as Partial<Cuisine>),
+  Korean: processCuisineRecipes(korean as unknown as Partial<Cuisine>),
+  Mexican: processCuisineRecipes(mexican as unknown as Partial<Cuisine>),
+  "Middle Eastern": processCuisineRecipes(middleEastern as unknown as Partial<Cuisine>),
+  Russian: processCuisineRecipes(russian as unknown as Partial<Cuisine>),
+  Thai: processCuisineRecipes(thai as unknown as Partial<Cuisine>),
+  Vietnamese: processCuisineRecipes(vietnamese as unknown as Partial<Cuisine>),
+};
+
 // Create and export the cuisines map with validated structures
+// Includes both capitalized and lowercase keys for backward compatibility
+// but references the SAME processed objects to avoid duplication
 export const cuisinesMap = {
-  African: processCuisineRecipes(african as Partial<Cuisine>),
-  American: processCuisineRecipes(american as Partial<Cuisine>),
-  // Temporarily disabled problematic cuisines due to apostrophe syntax issues
-  // TODO: Fix apostrophes and re-enable
-  // Greek: processCuisineRecipes(greek as Partial<Cuisine>),
-  // Indian: processCuisineRecipes(indian as Partial<Cuisine>),
-  // Italian: processCuisineRecipes(italian as Partial<Cuisine>),
-  // 'Middle Eastern': processCuisineRecipes(middleEastern as Partial<Cuisine>),
-  // Russian: processCuisineRecipes(russian as Partial<Cuisine>),
-  // Thai: processCuisineRecipes(thai as Partial<Cuisine>),
-  // Vietnamese: processCuisineRecipes(vietnamese as Partial<Cuisine>),
-  // Add lowercase variants for problematic cuisines
-  african: processCuisineRecipes(african as Partial<Cuisine>),
-  american: processCuisineRecipes(american as Partial<Cuisine>),
+  // Primary entries (capitalized)
+  ...processedCuisines,
+  // Lowercase aliases pointing to same objects (backward compatibility)
+  african: processedCuisines.African,
+  american: processedCuisines.American,
+  chinese: processedCuisines.Chinese,
+  french: processedCuisines.French,
+  greek: processedCuisines.Greek,
+  indian: processedCuisines.Indian,
+  italian: processedCuisines.Italian,
+  japanese: processedCuisines.Japanese,
+  korean: processedCuisines.Korean,
+  mexican: processedCuisines.Mexican,
+  middleEastern: processedCuisines["Middle Eastern"],
+  russian: processedCuisines.Russian,
+  thai: processedCuisines.Thai,
+  vietnamese: processedCuisines.Vietnamese,
 } as const;
+
+// Export only primary cuisines for iteration (avoids duplicates)
+export const primaryCuisines = processedCuisines;
 
 export type CuisineName = keyof typeof cuisinesMap;
 export default cuisinesMap;

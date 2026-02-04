@@ -13,6 +13,12 @@ export * from "./core";
 // Elemental transformations and alchemical functions
 export * from "./transformations";
 
+// Normalization utilities (for display purposes only)
+export * from "./normalization";
+
+// Backwards compatibility utilities
+export * from "./compatibility";
+
 // Re-export commonly used functions for backward compatibility
 export {
   ELEMENTAL_COLORS,

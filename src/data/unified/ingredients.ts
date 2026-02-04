@@ -16,11 +16,11 @@ import { createElementalProperties } from "../../utils/elemental/elementalUtils"
 
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
+import { dairy } from "../ingredients/dairy";
 import { fruits } from "../ingredients/fruits";
 import { grains } from "../ingredients/grains";
 import { herbs } from "../ingredients/herbs";
-// import { oils } from "../ingredients/oils";
-const oils: any = {}; // Commented out non-existent export
+import { oils } from "../ingredients/oils";
 import { meats, plantBased, poultry, seafood } from "../ingredients/proteins";
 import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
@@ -93,10 +93,10 @@ function enhanceIngredient(
   // ✅ Pattern GG-6: Safe property access for alchemical properties
   const alchemicalData = ingredient.alchemicalProperties as unknown as any;
   const alchemicalProperties: AlchemicalProperties = {
-    Spirit: Number(alchemicalData.Spirit) || 0.25,
-    Essence: Number(alchemicalData.Essence) || 0.25,
-    Matter: Number(alchemicalData.Matter) || 0.25,
-    Substance: Number(alchemicalData.Substance) || 0.25,
+    Spirit: Number(alchemicalData?.Spirit) || 0.25,
+    Essence: Number(alchemicalData?.Essence) || 0.25,
+    Matter: Number(alchemicalData?.Matter) || 0.25,
+    Substance: Number(alchemicalData?.Substance) || 0.25,
   };
 
   // Calculate Kalchm value
@@ -117,9 +117,13 @@ function enhanceIngredient(
     thermodynamics as unknown as ThermodynamicProperties | ThermodynamicMetrics,
   );
 
-  // Create enhanced unified ingredient
+  // Create enhanced unified ingredient by spreading all original properties
+  // and then overriding with computed/normalized values
   return {
-    // ✅ Pattern GG-6: Safe property access for core ingredient properties
+    // Spread all original properties first to preserve culinary details
+    ...(ingredient as any),
+
+    // Override with normalized core properties
     name: String((ingredient as any).name || ""),
     category: String((ingredient as any).category || sourceCategory),
     subcategory: String((ingredient as any).subCategory || ""),
@@ -139,6 +143,11 @@ function enhanceIngredient(
     // New calculated values
     kalchm,
     monica,
+
+    // Add energy profile if thermodynamics exist
+    ...(thermodynamics && {
+      energyProfile: thermodynamics,
+    }),
 
     // Reference to original ingredient data,
     originalData: ingredient,
@@ -170,6 +179,10 @@ function createUnifiedCollection(
 }
 
 // ✅ Pattern MM-1: Safe Record type casting for createUnifiedCollection compatibility
+export const unifiedDairy = createUnifiedCollection(
+  dairy as { [key: string]: IngredientMapping },
+  "dairy",
+);
 export const unifiedFruits = createUnifiedCollection(
   fruits as { [key: string]: IngredientMapping },
   "fruits",
@@ -209,6 +222,7 @@ export const unifiedProteins = createUnifiedCollection(
 
 // Combine all unified collections
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
+  ...unifiedDairy,
   ...unifiedFruits,
   ...unifiedVegetables,
   ...unifiedHerbs,

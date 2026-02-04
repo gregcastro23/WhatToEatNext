@@ -47,7 +47,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["fermented", "nutty", "firm"],
     origin: ["Indonesia", "Java"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "3 oz",
@@ -236,7 +236,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["chewy", "versatile", "high-protein"],
     origin: ["China", "Buddhist Cuisine"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     preparation: {
       basic: {
@@ -379,7 +379,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["versatile", "neutral", "protein-rich"],
     origin: ["China", "East Asia"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       silken: {
@@ -554,7 +554,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
     },
     qualities: ["hearty", "versatile", "nutritious"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       chickpeas: {
@@ -832,7 +832,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       qualities: ["versatile", "meat-like", "protein-rich"],
       origin: ["United States", "Industrial Development"],
-      category: "protein",
+      category: "proteins",
       subCategory: "plant_based",
       varieties: {
         Granules: {
@@ -929,7 +929,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["fibrous", "meaty", "neutral"],
     origin: ["Southeast Asia"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       Canned: {
@@ -1047,7 +1047,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["complete protein", "fluffy", "versatile"],
     origin: ["Andean Region"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       White: {
@@ -1176,7 +1176,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
     },
     qualities: ["complete protein", "nutty", "sustainable"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       Seeds: {
@@ -1272,7 +1272,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["versatile", "neutral", "complete protein"],
     origin: ["Global"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       Isolate: {
@@ -1362,7 +1362,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["versatile", "nutty", "hearty"],
     origin: ["Mediterranean", "Middle East"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       Whole: {
@@ -1447,7 +1447,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["high-protein", "low-carb", "alkaline"],
     origin: ["Mediterranean", "Australia"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       Flour: {
@@ -1545,7 +1545,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["rich", "creamy", "versatile"],
     origin: ["Mediterranean", "Middle East"],
-    category: "protein",
+    category: "proteins",
     subCategory: "plant_based",
     varieties: {
       Whole_Beans: {

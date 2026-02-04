@@ -423,13 +423,29 @@ export class PlanetaryAgentsAdapter {
   }
 
   /**
-   * Transform group dynamics (placeholder for future implementation)
+   * Transform group dynamics
+   *
+   * TODO: PLACEHOLDER IMPLEMENTATION - Requires real user elemental property data
+   *
+   * To calculate real group harmony, this function needs:
+   * 1. Birth chart data for each user (planetary positions at birth)
+   * 2. Elemental properties calculated from each user's chart
+   * 3. Use calculateElementalHarmony() to compute pairwise harmony
+   * 4. Aggregate pairwise harmonies for overall group harmony
+   *
+   * Current implementation returns mock data and logs a warning.
    */
   async getGroupDynamics(
     userIds: string[],
     location: KineticsLocation,
   ): Promise<GroupDynamicsResponse> {
-    // For now, return a simple harmonized response
+    _logger.warn(
+      "PlanetaryAgentsAdapter.getGroupDynamics: Using placeholder implementation. " +
+        "Real group harmony calculation requires user birth chart data and elemental properties. " +
+        `Called for ${userIds.length} users at location ${JSON.stringify(location)}`
+    );
+
+    // PLACEHOLDER: Return mock data until user elemental properties are available
     const individualContributions: {
       [key: string]: { powerContribution: number; harmonyImpact: number };
     } = {};
@@ -444,7 +460,7 @@ export class PlanetaryAgentsAdapter {
     return {
       success: true,
       data: {
-        harmony: 0.75,
+        harmony: 0.75, // PLACEHOLDER: Should be calculated from group elemental properties
         powerAmplification: 1.2,
         momentumFlow: "sustained" as any,
         groupResonance: 0.8,

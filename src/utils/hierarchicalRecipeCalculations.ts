@@ -15,6 +15,7 @@ import { calculateKinetics } from "@/calculations/kinetics";
 import type {
   CookingMethod,
   ElementalProperties,
+  RawElementalProperties,
   RecipeIngredient,
 } from "@/types/alchemy";
 import type {
@@ -25,7 +26,7 @@ import type {
 import type {
   KineticMetrics /*, KineticsCalculationInput */,
 } from "@/types/kinetics";
-import { normalizeElementalProperties } from "./ingredientUtils";
+import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
 import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import {
   aggregateZodiacElementals,
@@ -175,17 +176,24 @@ export function scaleIngredientByQuantity(
 /**
  * Aggregate elemental properties from multiple ingredients
  *
+ * Returns RAW elemental values (not normalized).
+ * Values represent actual calculated intensity and can exceed 1.0.
+ * This preserves information about true energetic intensity of the recipe.
+ *
+ * For display purposes, use normalizeForDisplay() from @/utils/elemental/normalization
+ *
  * @param ingredients - List of recipe ingredients with quantities
- * @returns Aggregated and normalized elemental properties
+ * @returns Raw aggregated elemental properties (sum may be > 1.0)
  */
 export function aggregateIngredientElementals(
   ingredients: RecipeIngredient[],
-): ElementalProperties {
+): RawElementalProperties {
   if (!ingredients || ingredients.length === 0) {
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    // Return zero state for empty recipes - let caller decide default
+    return { ...ZERO_ELEMENTAL_PROPERTIES };
   }
 
-  const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const totals: RawElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   for (const ingredient of ingredients) {
     if (!ingredient.elementalProperties) continue;
@@ -197,15 +205,16 @@ export function aggregateIngredientElementals(
       ingredient.unit || "g",
     );
 
-    // Add to totals
+    // Add to totals (raw aggregation - no normalization)
     totals.Fire += scaled.scaled.Fire;
     totals.Water += scaled.scaled.Water;
     totals.Earth += scaled.scaled.Earth;
     totals.Air += scaled.scaled.Air;
   }
 
-  // Normalize to sum = 1.0
-  return normalizeElementalProperties(totals);
+  // Return raw totals without normalization
+  // This preserves true intensity information
+  return totals;
 }
 
 // ========== COOKING METHOD TRANSFORMATIONS ==========
@@ -214,16 +223,20 @@ export function aggregateIngredientElementals(
  * Apply cooking method transformations to elemental properties
  *
  * Methods are applied sequentially in the order provided.
+ * Transformations are multiplicative and preserve raw intensity information.
  *
- * @param baseElementals - Base elemental properties
+ * Note: Normalization has been removed. Raw values correctly scale with
+ * cooking method modifiers, preserving true intensity differences.
+ *
+ * @param baseElementals - Base elemental properties (raw or normalized)
  * @param methods - Array of cooking method names or objects
- * @returns Transformed elemental properties
+ * @returns Transformed elemental properties (raw values, not normalized)
  */
 export function applyCookingMethodTransforms(
-  baseElementals: ElementalProperties,
+  baseElementals: ElementalProperties | RawElementalProperties,
   methods: Array<string | CookingMethod>,
-): ElementalProperties {
-  let current = { ...baseElementals };
+): RawElementalProperties {
+  let current: RawElementalProperties = { ...baseElementals };
 
   for (const method of methods) {
     const methodName =
@@ -236,6 +249,7 @@ export function applyCookingMethodTransforms(
     }
 
     // Apply multiplicative modifiers
+    // Raw values scale correctly without normalization
     current = {
       Fire: current.Fire * (modifiers.Fire ?? 1.0),
       Water: current.Water * (modifiers.Water ?? 1.0),
@@ -243,8 +257,8 @@ export function applyCookingMethodTransforms(
       Air: current.Air * (modifiers.Air ?? 1.0),
     };
 
-    // Re-normalize after each transformation
-    current = normalizeElementalProperties(current);
+    // NOTE: Normalization removed - transformations preserve intensity
+    // For display, use normalizeForDisplay() from @/utils/elemental/normalization
   }
 
   return current;

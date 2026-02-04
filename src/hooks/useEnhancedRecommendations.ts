@@ -19,6 +19,7 @@ interface EnhancedRecommendationContext {
     spiceLevel: number;
   };
   useBackendInfluence?: boolean;
+  groupId?: string; // Optional group ID for group recommendations
 }
 
 interface Recipe {
@@ -38,6 +39,13 @@ interface RecommendationResult {
   reasons: string[];
   alchemicalCompatibility: number;
   astrologicalAlignment: number;
+  groupScore?: number; // For group recommendations
+  harmony?: number; // For group recommendations
+  memberScores?: Array<{
+    memberId: string;
+    memberName: string;
+    score: number;
+  }>; // Individual scores in group mode
 }
 
 interface EnhancedRecommendationsResponse {
@@ -49,77 +57,53 @@ interface EnhancedRecommendationsResponse {
     planetaryHour: string;
     lunarPhase: string;
   };
+  groupContext?: {
+    groupId: string;
+    groupName: string;
+    memberCount: number;
+    dominantElement: string;
+    harmony: number;
+  }; // Present when in group mode
 }
 
-// Mock backend client
-const kitchenBackendClient = {
-  getCuisineRecommendations: async (
-    payload: EnhancedRecommendationContext,
-  ): Promise<EnhancedRecommendationsResponse> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
+import { KitchenBackendClient } from "@/services/KitchenBackendClient";
 
-    // Mock response
-    const mockRecipes: Recipe[] = [
-      {
-        id: "1",
-        name: "Celestial Pasta Primavera",
-        cuisine: "italian",
-        description: "Fresh seasonal vegetables with cosmic elemental balance",
-        cookingTime: 25,
-        difficulty: "Medium",
-        rating: 4.8,
-        tags: ["vegetarian", "seasonal", "elemental-balance"],
-      },
-      {
-        id: "2",
-        name: "Planetary Spice Curry",
-        cuisine: "indian",
-        description: "Aromatic curry aligned with current planetary influences",
-        cookingTime: 45,
-        difficulty: "Hard",
-        rating: 4.9,
-        tags: ["vegan", "spicy", "planetary-aligned"],
-      },
-      {
-        id: "3",
-        name: "Lunar Phase Salad",
-        cuisine: "mediterranean",
-        description:
-          "Light, refreshing salad perfect for the current moon phase",
-        cookingTime: 15,
-        difficulty: "Easy",
-        rating: 4.6,
-        tags: ["raw", "lunar-aligned", "cleansing"],
-      },
-    ];
+// Real backend client
+const kitchenBackendClient = new KitchenBackendClient();
 
-    const recommendations: RecommendationResult[] = mockRecipes.map(
-      (recipe, index) => ({
-        recipe,
-        score: 0.9 - index * 0.1,
-        reasons: [
-          "Matches dietary preferences",
-          "Aligned with current planetary hour",
-          "Compatible with elemental balance",
-        ],
-        alchemicalCompatibility: 0.85 - index * 0.05,
-        astrologicalAlignment: 0.8 - index * 0.03,
-      }),
-    );
-
-    return {
-      recommendations,
-      totalCount: recommendations.length,
-      processingTime: 750,
-      astrologicalContext: {
-        dominantElement: "Fire",
-        planetaryHour: "Venus",
-        lunarPhase: "waxing crescent",
-      },
-    };
+// Fallback mock recipes only used if backend is not available
+const mockRecipes: Recipe[] = [
+  {
+    id: "1",
+    name: "Celestial Pasta Primavera",
+    cuisine: "italian",
+    description: "Fresh seasonal vegetables with cosmic elemental balance",
+    cookingTime: 25,
+    difficulty: "Medium",
+    rating: 4.8,
+    tags: ["vegetarian", "seasonal", "elemental-balance"],
   },
-};
+  {
+    id: "2",
+    name: "Planetary Spice Curry",
+    cuisine: "indian",
+    description: "Aromatic curry aligned with current planetary influences",
+    cookingTime: 45,
+    difficulty: "Hard",
+    rating: 4.9,
+    tags: ["vegan", "spicy", "planetary-aligned"],
+  },
+  {
+    id: "3",
+    name: "Lunar Phase Salad",
+    cuisine: "mediterranean",
+    description: "Light, refreshing salad perfect for the current moon phase",
+    cookingTime: 15,
+    difficulty: "Easy",
+    rating: 4.6,
+    tags: ["raw", "lunar-aligned", "cleansing"],
+  },
+];
 
 // Hook implementation
 export const useEnhancedRecommendations = () => {
@@ -148,8 +132,8 @@ export const useEnhancedRecommendations = () => {
         };
 
         const result =
-          await kitchenBackendClient.getCuisineRecommendations(payload);
-        setRecommendations(result);
+          await kitchenBackendClient.getCuisineRecommendations(payload as any);
+        setRecommendations(result as unknown as EnhancedRecommendationsResponse);
         return result;
       } catch (err) {
         const errorMessage =

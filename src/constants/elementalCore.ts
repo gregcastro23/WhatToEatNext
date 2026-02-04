@@ -1,4 +1,4 @@
-import type { Element, ElementalProperties } from "@/types/alchemy";
+import type { Element, ElementalProperties, NormalizedElementalProperties, RawElementalProperties } from "@/types/alchemy";
 
 /**
  * Core elemental constants - consolidated from multiple files
@@ -13,9 +13,33 @@ import type { Element, ElementalProperties } from "@/types/alchemy";
 export const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
 
 /**
- * Default balanced elemental properties (25% each)
+ * Zero state - no elemental properties
+ * Use this as the starting point for calculations where values should be accumulated.
+ */
+export const ZERO_ELEMENTAL_PROPERTIES: RawElementalProperties = {
+  Fire: 0,
+  Water: 0,
+  Earth: 0,
+  Air: 0,
+};
+
+/**
+ * Default balanced elemental properties
+ * Note: For raw calculations, use ZERO_ELEMENTAL_PROPERTIES as the starting point.
+ * This default is maintained for backwards compatibility with code expecting balanced values.
  */
 export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
+  Air: 0.25,
+};
+
+/**
+ * Legacy normalized defaults (for backwards compatibility only)
+ * Use normalizeForDisplay() for display purposes instead.
+ */
+export const NORMALIZED_DEFAULT_PROPERTIES: NormalizedElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -143,11 +167,18 @@ export const DECANS = {
 
 /**
  * Validation thresholds for elemental properties
+ *
+ * Note: With the denormalization update, MAXIMUM_ELEMENT is now Infinity
+ * to allow raw values to express true energetic intensity.
+ * Use LEGACY_MAXIMUM_ELEMENT for backward compatibility with normalized systems.
  */
 export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
-  MAXIMUM_ELEMENT: 1,
+  MAXIMUM_ELEMENT: Infinity, // Raw values have no upper bound
+  LEGACY_MAXIMUM_ELEMENT: 1, // For backward compatibility with normalized systems
   BALANCE_PRECISION: 0.01,
+  // For detecting if properties appear to be normalized (sum ≈ 1.0)
+  NORMALIZATION_SUM_TOLERANCE: 0.01,
 };
 
 /**
@@ -385,17 +416,20 @@ export function getDominantElement(properties: ElementalProperties): Element {
 
 /**
  * Normalize elemental properties to sum to 1
+ *
+ * @deprecated Use normalizeForDisplay() from @/utils/elemental/normalization
+ * for display purposes. For calculations, use raw values without normalization.
  */
 export function normalizeElementalProperties(
   properties: ElementalProperties,
-): ElementalProperties {
+): NormalizedElementalProperties {
   const total = Object.values(properties).reduce(
     (sum, val) => sum + (val || 0),
     0,
   );
 
   if (total === 0) {
-    return { ...DEFAULT_ELEMENTAL_PROPERTIES };
+    return { ...NORMALIZED_DEFAULT_PROPERTIES };
   }
 
   return {
@@ -404,6 +438,57 @@ export function normalizeElementalProperties(
     Earth: (properties.Earth || 0) / total,
     Air: (properties.Air || 0) / total,
   };
+}
+
+/**
+ * Normalize raw elemental properties to percentages (0.0-1.0) for display
+ * Used ONLY for UI display purposes, NOT for calculations
+ *
+ * @param properties - Raw elemental properties (may have values > 1.0)
+ * @returns Normalized elemental properties (sum = 1.0, each value 0.0-1.0)
+ */
+export function normalizeForDisplay(
+  properties: RawElementalProperties | ElementalProperties,
+): NormalizedElementalProperties {
+  const total = properties.Fire + properties.Water + properties.Earth + properties.Air;
+
+  if (total === 0) {
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  }
+
+  return {
+    Fire: properties.Fire / total,
+    Water: properties.Water / total,
+    Earth: properties.Earth / total,
+    Air: properties.Air / total,
+  };
+}
+
+/**
+ * Get total elemental intensity (sum of all elements)
+ * Useful for understanding the overall energetic magnitude of properties
+ *
+ * @param properties - Raw elemental properties
+ * @returns Total intensity (sum of Fire + Water + Earth + Air)
+ */
+export function getTotalIntensity(properties: RawElementalProperties | ElementalProperties): number {
+  return properties.Fire + properties.Water + properties.Earth + properties.Air;
+}
+
+/**
+ * Get dominant element by absolute value (not percentage)
+ * For raw values, this gives the element with the highest intensity
+ *
+ * @param properties - Raw or normalized elemental properties
+ * @returns The dominant element
+ */
+export function getDominantElementByIntensity(
+  properties: RawElementalProperties | ElementalProperties,
+): Element {
+  const entries = Object.entries(properties).filter(
+    ([key]) => ["Fire", "Water", "Earth", "Air"].includes(key)
+  ) as [Element, number][];
+  return entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
 }
 
 /**
@@ -436,26 +521,86 @@ export function calculateElementalCompatibility(
 }
 
 /**
- * Validate elemental properties
+ * Validate elemental properties (supports both raw and normalized values)
+ *
+ * With the denormalization update, this function now validates that:
+ * - All values are non-negative numbers
+ * - All required elements (Fire, Water, Earth, Air) are present
+ *
+ * Note: Sum validation is no longer enforced as raw values don't need to sum to 1.
+ * Use validateNormalizedProperties() if you need to validate normalized properties.
+ *
+ * @param properties - Elemental properties to validate
+ * @returns True if properties are valid, false otherwise
  */
 export function validateElementalProperties(
-  properties: ElementalProperties,
+  properties: ElementalProperties | RawElementalProperties,
 ): boolean {
-  const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
-  const isValidRange = Object.values(properties).every(
-    (val) =>
-      val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-      val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT,
-  );
-  const isValidSum =
-    Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;
+  if (!properties || typeof properties !== "object") {
+    return false;
+  }
 
-  return isValidRange && isValidSum;
+  const elements: Element[] = ["Fire", "Water", "Earth", "Air"];
+
+  // Check all elements are present and non-negative numbers
+  for (const element of elements) {
+    const value = properties[element];
+    if (typeof value !== "number" || value < VALIDATION_THRESHOLDS.MINIMUM_ELEMENT || !isFinite(value)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Validate that properties are normalized (sum ≈ 1.0, each value 0.0-1.0)
+ *
+ * @param properties - Properties to validate as normalized
+ * @returns True if properties appear to be properly normalized
+ */
+export function validateNormalizedProperties(
+  properties: NormalizedElementalProperties | ElementalProperties,
+): boolean {
+  if (!properties || typeof properties !== "object") {
+    return false;
+  }
+
+  const elements: Element[] = ["Fire", "Water", "Earth", "Air"];
+  let total = 0;
+
+  for (const element of elements) {
+    const value = properties[element];
+    if (typeof value !== "number" || value < 0 || value > VALIDATION_THRESHOLDS.LEGACY_MAXIMUM_ELEMENT) {
+      return false;
+    }
+    total += value;
+  }
+
+  // Check sum is approximately 1.0
+  return Math.abs(total - 1) <= VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE;
+}
+
+/**
+ * Check if properties appear to be normalized (sum ≈ 1.0)
+ * Useful for detecting legacy normalized data
+ *
+ * @param properties - Properties to check
+ * @returns True if properties appear to be normalized
+ */
+export function isNormalized(
+  properties: ElementalProperties | RawElementalProperties,
+): boolean {
+  const total = getTotalIntensity(properties);
+  return Math.abs(total - 1) <= VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE;
 }
 
 export default {
+  // Constants
   ELEMENTS,
   DEFAULT_ELEMENTAL_PROPERTIES,
+  ZERO_ELEMENTAL_PROPERTIES,
+  NORMALIZED_DEFAULT_PROPERTIES,
   ELEMENT_AFFINITIES,
   ELEMENT_COMBINATIONS,
   ZODIAC_ELEMENTS,
@@ -464,8 +609,14 @@ export default {
   ELEMENTAL_THRESHOLDS,
   ELEMENTAL_WEIGHTS,
   ELEMENTAL_CHARACTERISTICS,
+  // Functions
   getDominantElement,
+  getDominantElementByIntensity,
+  getTotalIntensity,
   normalizeElementalProperties,
+  normalizeForDisplay,
   calculateElementalCompatibility,
   validateElementalProperties,
+  validateNormalizedProperties,
+  isNormalized,
 };

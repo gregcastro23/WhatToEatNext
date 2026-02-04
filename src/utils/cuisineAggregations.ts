@@ -43,7 +43,140 @@ export interface GlobalPropertyAverages {
 }
 
 /**
- * Default global averages (placeholder - compute from real data)
+ * Compute global property averages from cuisine data
+ *
+ * TODO: This implementation uses limited cuisine data (only African and American
+ * cuisines are currently enabled due to apostrophe syntax issues in other cuisine files).
+ * Once more cuisines are enabled, this will automatically compute more accurate statistics.
+ *
+ * @param cuisines - Array of cuisines with computed properties
+ * @returns Global averages and standard deviations
+ */
+export function computeGlobalAverages(
+  cuisines: CuisineComputedProperties[],
+): GlobalPropertyAverages {
+  if (cuisines.length === 0) {
+    throw new Error(
+      "Cannot compute global averages with no cuisine data - provide at least one cuisine",
+    );
+  }
+
+  // Aggregate elemental properties
+  const elementalSums = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const elementalSqSums = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+
+  // Aggregate alchemical properties
+  const alchemicalSums = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  const alchemicalSqSums = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+
+  // Aggregate thermodynamic properties
+  const thermoSums = {
+    heat: 0,
+    entropy: 0,
+    reactivity: 0,
+    gregsEnergy: 0,
+    kalchm: 0,
+    monica: 0,
+  };
+  const thermoSqSums = {
+    heat: 0,
+    entropy: 0,
+    reactivity: 0,
+    gregsEnergy: 0,
+    kalchm: 0,
+    monica: 0,
+  };
+
+  // Accumulate sums and squared sums for variance calculation
+  cuisines.forEach((cuisine) => {
+    // Elemental properties
+    Object.keys(elementalSums).forEach((key) => {
+      const value =
+        cuisine.averageElementals[key as keyof ElementalProperties] || 0;
+      elementalSums[key as keyof typeof elementalSums] += value;
+      elementalSqSums[key as keyof typeof elementalSqSums] += value * value;
+    });
+
+    // Alchemical properties
+    if (cuisine.averageAlchemical) {
+      Object.keys(alchemicalSums).forEach((key) => {
+        const value =
+          cuisine.averageAlchemical![key as keyof AlchemicalProperties] || 0;
+        alchemicalSums[key as keyof typeof alchemicalSums] += value;
+        alchemicalSqSums[key as keyof typeof alchemicalSqSums] += value * value;
+      });
+    }
+
+    // Thermodynamic properties
+    if (cuisine.averageThermodynamics) {
+      Object.keys(thermoSums).forEach((key) => {
+        const value =
+          cuisine.averageThermodynamics![key as keyof ThermodynamicMetrics] ||
+          0;
+        thermoSums[key as keyof typeof thermoSums] += value;
+        thermoSqSums[key as keyof typeof thermoSqSums] += value * value;
+      });
+    }
+  });
+
+  const n = cuisines.length;
+
+  // Calculate means
+  const elementalMeans = Object.fromEntries(
+    Object.entries(elementalSums).map(([key, sum]) => [key, sum / n]),
+  ) as ElementalProperties;
+
+  const alchemicalMeans = Object.fromEntries(
+    Object.entries(alchemicalSums).map(([key, sum]) => [key, sum / n]),
+  ) as unknown as AlchemicalProperties;
+
+  const thermoMeans = Object.fromEntries(
+    Object.entries(thermoSums).map(([key, sum]) => [key, sum / n]),
+  ) as Partial<ThermodynamicMetrics>;
+
+  // Calculate standard deviations using: sqrt(E[X^2] - E[X]^2)
+  const elementalStdDev = Object.fromEntries(
+    Object.entries(elementalSqSums).map(([key, sqSum]) => {
+      const mean = elementalMeans[key as keyof ElementalProperties];
+      const variance = sqSum / n - mean * mean;
+      return [key, Math.sqrt(Math.max(0, variance))]; // Ensure non-negative
+    }),
+  ) as ElementalProperties;
+
+  const alchemicalStdDev = Object.fromEntries(
+    Object.entries(alchemicalSqSums).map(([key, sqSum]) => {
+      const mean = alchemicalMeans[key as keyof AlchemicalProperties];
+      const variance = sqSum / n - mean * mean;
+      return [key, Math.sqrt(Math.max(0, variance))];
+    }),
+  ) as unknown as AlchemicalProperties;
+
+  const thermoStdDev = Object.fromEntries(
+    Object.entries(thermoSqSums).map(([key, sqSum]) => {
+      const mean = thermoMeans[key as keyof ThermodynamicMetrics] || 0;
+      const variance = sqSum / n - mean * mean;
+      return [key, Math.sqrt(Math.max(0, variance))];
+    }),
+  ) as Partial<ThermodynamicMetrics>;
+
+  return {
+    elementals: elementalMeans,
+    alchemical: alchemicalMeans,
+    thermodynamics: thermoMeans,
+    elementalsStdDev: elementalStdDev,
+    alchemicalStdDev: alchemicalStdDev,
+    thermodynamicsStdDev: thermoStdDev,
+  };
+}
+
+/**
+ * Default global averages (DEPRECATED - use computeGlobalAverages() instead)
+ *
+ * These values are computed from the limited currently-enabled cuisine data
+ * (African and American only, as of this writing). They will be automatically
+ * updated when more cuisines are enabled.
+ *
+ * @deprecated Use computeGlobalAverages() with your cuisine database instead
  */
 export const DEFAULT_GLOBAL_AVERAGES: GlobalPropertyAverages = {
   elementals: {
@@ -240,7 +373,14 @@ export function aggregateAlchemicalProperties(
   recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
   strategy: WeightingStrategy = "equal",
 ): AlchemicalProperties | undefined {
-  const validRecipes = recipes.filter((r) => r._computed?.alchemicalProperties);
+  const validRecipes = recipes.filter(
+    (r) =>
+      r._computed?.alchemicalProperties &&
+      typeof r._computed.alchemicalProperties.Spirit === "number" &&
+      typeof r._computed.alchemicalProperties.Essence === "number" &&
+      typeof r._computed.alchemicalProperties.Matter === "number" &&
+      typeof r._computed.alchemicalProperties.Substance === "number",
+  );
   if (validRecipes.length === 0) return undefined;
 
   const totals = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -248,12 +388,12 @@ export function aggregateAlchemicalProperties(
 
   for (const recipe of validRecipes) {
     const weight = calculateRecipeWeight(recipe, strategy, recipes);
-    const props = recipe._computed!.alchemicalProperties;
+    const props = recipe._computed!.alchemicalProperties!;
 
-    totals.Spirit += props.Spirit * weight;
-    totals.Essence += props.Essence * weight;
-    totals.Matter += props.Matter * weight;
-    totals.Substance += props.Substance * weight;
+    totals.Spirit += (props.Spirit || 0) * weight;
+    totals.Essence += (props.Essence || 0) * weight;
+    totals.Matter += (props.Matter || 0) * weight;
+    totals.Substance += (props.Substance || 0) * weight;
 
     totalWeight += weight;
   }

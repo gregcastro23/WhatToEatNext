@@ -98,17 +98,25 @@ export function useRecipeValidation() {
     ingredients: Ingredient[],
   ): ElementalProperties => {
     if (ingredients.length === 0) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      throw new Error(
+        "Cannot calculate elemental balance with no ingredients",
+      );
     }
 
-    const total = ingredients.reduce(
+    // Filter ingredients that have valid elemental properties
+    const validIngredients = ingredients.filter(
+      (ing) => ing.elementalProperties !== undefined,
+    );
+
+    if (validIngredients.length === 0) {
+      throw new Error(
+        "No ingredients have elemental properties defined",
+      );
+    }
+
+    const total = validIngredients.reduce(
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.25,
-        };
+        const props = ingredient.elementalProperties!;
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
@@ -119,7 +127,7 @@ export function useRecipeValidation() {
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     );
 
-    const count = ingredients.length;
+    const count = validIngredients.length;
     return {
       Fire: total.Fire / count,
       Water: total.Water / count,

@@ -63,6 +63,12 @@ export const _marinating: CookingMethodData = {
     "Some marinades contain high amounts of sodium, sugar, or fat",
     "Proper refrigeration is essential for food safety",
   ],
+  thermodynamicProperties: {
+    heat: 0.1, // No heat, cold marination
+    entropy: 0.25, // Low structural change
+    reactivity: 0.5, // Moderate flavor penetration
+    gregsEnergy: -0.025, // heat - (entropy × reactivity)
+  } as any,
 };
 
 export const marinating = _marinating;

@@ -3,6 +3,9 @@ import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
 
 // Internal imports
 import { createLogger } from "@/utils/logger";
+import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import type { ThermodynamicMetrics } from "@/utils/kineticCalculations";
 
 // Logger
 const logger = createLogger("EnhancedCuisineRecommender");
@@ -47,6 +50,7 @@ interface EnhancedRecipeMatch {
   elementalScore: number;
   astrologicalScore: number;
   timeOfDayScore: number;
+  kineticScore: number;
   tags: string[];
   description: string;
   ingredients: unknown[];
@@ -178,15 +182,21 @@ export class EnhancedCuisineRecommender {
         astroState,
       );
       const timeOfDayScore = this.calculateTimeOfDayScore(recipe);
+      const kineticScore = this.calculateKineticScore(recipe, astroState);
 
-      // Calculate overall match percentage
-      const matchPercentage =
-        seasonalScore * 0.2 +
-        planetaryDayScore * 0.15 +
-        planetaryHourScore * 0.15 +
-        elementalScore * 0.25 +
-        astrologicalScore * 0.15 +
-        timeOfDayScore * 0.1;
+      // Calculate overall match score (0-1 range) with kinetics integration
+      // Adjusted weights to include kinetics (0.13) while maintaining balance
+      const overallScore =
+        seasonalScore * 0.17 +         // Seasonal (reduced from 0.20)
+        planetaryDayScore * 0.13 +     // Planetary day (reduced from 0.15)
+        planetaryHourScore * 0.12 +    // Planetary hour (reduced from 0.15)
+        elementalScore * 0.22 +        // Elemental (reduced from 0.25)
+        astrologicalScore * 0.13 +     // Astrological (reduced from 0.15)
+        timeOfDayScore * 0.10 +        // Time of day (same)
+        kineticScore * 0.13;           // Kinetic (NEW - P=IV circuit model)
+
+      // Convert to match percentage with enhanced differentiation
+      const matchPercentage = compatibilityToMatchPercentage(overallScore);
 
       return {
         cuisine: cuisineName,
@@ -199,6 +209,7 @@ export class EnhancedCuisineRecommender {
         elementalScore,
         astrologicalScore,
         timeOfDayScore,
+        kineticScore,
         tags: recipe.tags || [],
         description: recipe.description || "",
         ingredients: recipe.ingredients || [],
@@ -223,6 +234,7 @@ export class EnhancedCuisineRecommender {
         elementalScore: 0.5,
         astrologicalScore: 0.5,
         timeOfDayScore: 0.5,
+        kineticScore: 0.5,
         tags: recipe.tags || [],
         description: recipe.description || "",
         ingredients: recipe.ingredients || [],
@@ -290,5 +302,116 @@ export class EnhancedCuisineRecommender {
   private calculateTimeOfDayScore(recipe: RecipeData): number {
     // Simple implementation - can be expanded
     return 0.8;
+  }
+
+  /**
+   * Calculate kinetic compatibility score using P=IV circuit model
+   * Evaluates temporal power dynamics, force, and transformation potential
+   */
+  private calculateKineticScore(
+    recipe: RecipeData,
+    astroState: AstrologicalState,
+  ): number {
+    try {
+      // Extract elemental properties from recipe
+      const elementalProps = recipe.elementalProperties || {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      };
+
+      const Fire = typeof elementalProps.Fire === 'number' ? elementalProps.Fire : 0.25;
+      const Water = typeof elementalProps.Water === 'number' ? elementalProps.Water : 0.25;
+      const Earth = typeof elementalProps.Earth === 'number' ? elementalProps.Earth : 0.25;
+      const Air = typeof elementalProps.Air === 'number' ? elementalProps.Air : 0.25;
+
+      // Estimate ESMS from elements (same approach as ingredient recommender)
+      const Spirit = (Fire + Air) / 2;
+      const Essence = Water;
+      const Matter = Earth;
+      const Substance = (Fire + Water) / 2;
+
+      // Calculate thermodynamic properties
+      const elementSum = Substance + Essence + Matter + Water + Air + Earth;
+      const heat =
+        elementSum > 0
+          ? (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) / Math.pow(elementSum, 2)
+          : 0.08;
+
+      const entropyDenom = Essence + Matter + Earth + Water;
+      const entropy =
+        entropyDenom > 0
+          ? (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+            Math.pow(entropyDenom, 2)
+          : 0.15;
+
+      const reactivityDenom = Matter + Earth;
+      const reactivity =
+        reactivityDenom > 0
+          ? (Math.pow(Spirit, 2) +
+              Math.pow(Substance, 2) +
+              Math.pow(Essence, 2) +
+              Math.pow(Fire, 2) +
+              Math.pow(Air, 2) +
+              Math.pow(Water, 2)) /
+            Math.pow(reactivityDenom, 2)
+          : 0.45;
+
+      const gregsEnergy = heat - entropy * reactivity;
+
+      const s = Math.max(0.01, Spirit);
+      const e = Math.max(0.01, Essence);
+      const m = Math.max(0.01, Matter);
+      const sub = Math.max(0.01, Substance);
+      const kalchm = (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+
+      let monica = 1.0;
+      if (kalchm > 0 && reactivity > 0) {
+        const lnKalchm = Math.log(kalchm);
+        if (lnKalchm !== 0 && isFinite(lnKalchm)) {
+          monica = -gregsEnergy / (reactivity * lnKalchm);
+        }
+      }
+
+      const thermodynamics: ThermodynamicMetrics = {
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy,
+        kalchm,
+        monica,
+      };
+
+      // Calculate kinetic properties
+      const kinetics = calculateKineticProperties(
+        { Spirit, Essence, Matter, Substance },
+        { Fire, Water, Earth, Air },
+        thermodynamics,
+      );
+
+      // Score based on kinetic properties for cuisine/recipe matching
+      // Power (P=IV) indicates current energy level (normalized -1 to 1 → 0 to 1)
+      const powerScore = 0.5 + kinetics.power / 2;
+
+      // Force magnitude for transformation potential (0-10 → 0-1)
+      const forceScore = Math.min(1, kinetics.forceMagnitude / 10);
+
+      // Current flow indicates dynamic activity (typical 0-2 → 0-1)
+      const currentScore = Math.min(1, kinetics.currentFlow / 2);
+
+      // Combined kinetic score weighted for cuisine matching
+      const kineticScore =
+        powerScore * 0.4 +      // Power is primary indicator
+        forceScore * 0.35 +     // Force shows transformation
+        currentScore * 0.25;    // Current shows activity level
+
+      return Math.max(0.1, Math.min(1, kineticScore));
+    } catch (error) {
+      logger.warn("Error calculating kinetic score", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return 0.6; // Default neutral score
+    }
   }
 }

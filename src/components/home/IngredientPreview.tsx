@@ -2,11 +2,21 @@
 
 /**
  * Ingredient Preview Component
- * Shows top ingredients from real ingredient data by category
- * Uses actual ingredient database with elemental properties
+ * Shows top ingredients from real ingredient database by category
+ * Uses actual ingredient data with elemental properties
  */
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import {
+  getAllSpices,
+  getAllHerbs,
+  getAllVegetables,
+  getAllProteins,
+  getAllGrains,
+  allIngredients,
+} from "@/data/ingredients";
+import type { Ingredient } from "@/types";
+import { normalizeForDisplay } from "@/utils/elemental/normalization";
 
 interface IngredientData {
   name: string;
@@ -16,13 +26,18 @@ interface IngredientData {
     Earth: number;
     Air: number;
   };
+  culinaryUses?: string[];
+  flavorProfile?: string;
+  pairings?: string[];
+  seasonality?: string;
+  nutrition?: string[];
 }
 
 interface CategoryConfig {
   id: string;
   name: string;
   icon: string;
-  getData: () => IngredientData[];
+  getData: () => Ingredient[];
 }
 
 const categories: CategoryConfig[] = [
@@ -30,193 +45,63 @@ const categories: CategoryConfig[] = [
     id: "spices",
     name: "Spices",
     icon: "🌶️",
-    getData: () => [
-      {
-        name: "Turmeric",
-        elementalProperties: { Fire: 0.8, Water: 0.2, Earth: 0.6, Air: 0.4 },
-      },
-      {
-        name: "Cumin",
-        elementalProperties: { Fire: 0.9, Water: 0.1, Earth: 0.5, Air: 0.6 },
-      },
-      {
-        name: "Paprika",
-        elementalProperties: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.7 },
-      },
-      {
-        name: "Cinnamon",
-        elementalProperties: { Fire: 0.7, Water: 0.3, Earth: 0.5, Air: 0.5 },
-      },
-      {
-        name: "Black Pepper",
-        elementalProperties: { Fire: 0.95, Water: 0.05, Earth: 0.3, Air: 0.8 },
-      },
-      {
-        name: "Ginger",
-        elementalProperties: { Fire: 0.9, Water: 0.2, Earth: 0.4, Air: 0.6 },
-      },
-    ],
+    getData: getAllSpices,
   },
   {
     id: "herbs",
     name: "Herbs",
     icon: "🌿",
-    getData: () => [
-      {
-        name: "Basil",
-        elementalProperties: { Fire: 0.6, Water: 0.3, Earth: 0.4, Air: 0.9 },
-      },
-      {
-        name: "Rosemary",
-        elementalProperties: { Fire: 0.5, Water: 0.2, Earth: 0.7, Air: 0.8 },
-      },
-      {
-        name: "Thyme",
-        elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.6, Air: 0.9 },
-      },
-      {
-        name: "Oregano",
-        elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.5, Air: 0.8 },
-      },
-      {
-        name: "Cilantro",
-        elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.3, Air: 0.95 },
-      },
-      {
-        name: "Parsley",
-        elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.6, Air: 0.8 },
-      },
-    ],
+    getData: getAllHerbs,
   },
   {
     id: "vegetables",
     name: "Vegetables",
     icon: "🥬",
-    getData: () => [
-      {
-        name: "Kale",
-        elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.7, Air: 0.5 },
-      },
-      {
-        name: "Carrots",
-        elementalProperties: { Fire: 0.4, Water: 0.5, Earth: 0.8, Air: 0.3 },
-      },
-      {
-        name: "Spinach",
-        elementalProperties: { Fire: 0.2, Water: 0.7, Earth: 0.6, Air: 0.6 },
-      },
-      {
-        name: "Broccoli",
-        elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.7, Air: 0.6 },
-      },
-      {
-        name: "Bell Peppers",
-        elementalProperties: { Fire: 0.6, Water: 0.4, Earth: 0.5, Air: 0.6 },
-      },
-      {
-        name: "Sweet Potato",
-        elementalProperties: { Fire: 0.5, Water: 0.4, Earth: 0.9, Air: 0.2 },
-      },
-    ],
+    getData: getAllVegetables,
   },
   {
     id: "proteins",
     name: "Proteins",
     icon: "🍗",
-    getData: () => [
-      {
-        name: "Salmon",
-        elementalProperties: { Fire: 0.5, Water: 0.8, Earth: 0.4, Air: 0.3 },
-      },
-      {
-        name: "Chicken",
-        elementalProperties: { Fire: 0.6, Water: 0.4, Earth: 0.7, Air: 0.3 },
-      },
-      {
-        name: "Lentils",
-        elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.9, Air: 0.2 },
-      },
-      {
-        name: "Tofu",
-        elementalProperties: { Fire: 0.2, Water: 0.7, Earth: 0.6, Air: 0.4 },
-      },
-      {
-        name: "Eggs",
-        elementalProperties: { Fire: 0.4, Water: 0.6, Earth: 0.5, Air: 0.4 },
-      },
-      {
-        name: "Black Beans",
-        elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.9, Air: 0.3 },
-      },
-    ],
+    getData: getAllProteins,
   },
   {
     id: "fruits",
     name: "Fruits",
     icon: "🍎",
-    getData: () => [
-      {
-        name: "Apples",
-        elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.5, Air: 0.7 },
-      },
-      {
-        name: "Berries",
-        elementalProperties: { Fire: 0.4, Water: 0.7, Earth: 0.3, Air: 0.6 },
-      },
-      {
-        name: "Oranges",
-        elementalProperties: { Fire: 0.5, Water: 0.8, Earth: 0.3, Air: 0.5 },
-      },
-      {
-        name: "Bananas",
-        elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.8, Air: 0.4 },
-      },
-      {
-        name: "Mango",
-        elementalProperties: { Fire: 0.6, Water: 0.7, Earth: 0.4, Air: 0.5 },
-      },
-      {
-        name: "Pineapple",
-        elementalProperties: { Fire: 0.7, Water: 0.6, Earth: 0.3, Air: 0.6 },
-      },
-    ],
+    getData: () => Object.values(allIngredients).filter(
+      (ing) => ing.category === "fruit"
+    ),
   },
   {
     id: "grains",
     name: "Grains",
     icon: "🌾",
-    getData: () => [
-      {
-        name: "Quinoa",
-        elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.9, Air: 0.3 },
-      },
-      {
-        name: "Brown Rice",
-        elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.2 },
-      },
-      {
-        name: "Oats",
-        elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.8, Air: 0.3 },
-      },
-      {
-        name: "Barley",
-        elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.2 },
-      },
-      {
-        name: "Millet",
-        elementalProperties: { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 },
-      },
-      {
-        name: "Buckwheat",
-        elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.8, Air: 0.3 },
-      },
-    ],
+    getData: getAllGrains,
   },
 ];
 
-// Calculate a simple compatibility score based on current season
+// Convert Ingredient to IngredientData format
+function convertToIngredientData(ingredient: Ingredient): IngredientData {
+  return {
+    name: ingredient.name,
+    elementalProperties: ingredient.elementalProperties || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    },
+    culinaryUses: (ingredient as any).culinaryUses || (ingredient as any).uses,
+    flavorProfile: (ingredient as any).flavorProfile || (ingredient as any).flavor,
+    pairings: (ingredient as any).pairings || (ingredient as any).pairingRecommendations,
+    seasonality: (ingredient as any).seasonality,
+    nutrition: (ingredient as any).nutrition || (ingredient as any).nutritionalBenefits,
+  };
+}
+
+// Calculate a simple compatibility score based on elemental balance
 function calculateScore(
-  ingredients: IngredientData[],
+  ingredients: IngredientData[]
 ): Array<IngredientData & { score: number }> {
   return ingredients
     .map((ing) => ({
@@ -234,10 +119,30 @@ function calculateScore(
 
 export default function IngredientPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>("spices");
+  const [expandedIngredients, setExpandedIngredients] = useState<Set<string>>(new Set());
+
+  const currentIngredients = useMemo(() => {
+    const category = categories.find((cat) => cat.id === selectedCategory);
+    if (!category) return [];
+
+    const rawIngredients = category.getData();
+    const ingredientData = rawIngredients.map(convertToIngredientData);
+    return calculateScore(ingredientData).slice(0, 12); // Show top 12
+  }, [selectedCategory]);
 
   const category = categories.find((cat) => cat.id === selectedCategory);
-  const data = category ? category.getData() : [];
-  const currentIngredients = calculateScore(data);
+
+  const toggleIngredient = (ingredientName: string) => {
+    setExpandedIngredients((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(ingredientName)) {
+        newSet.delete(ingredientName);
+      } else {
+        newSet.add(ingredientName);
+      }
+      return newSet;
+    });
+  };
 
   // Get dominant element for selected category
   const getDominantElement = (): string => {
@@ -311,37 +216,31 @@ export default function IngredientPreview() {
         {currentIngredients.map((ingredient, index) => (
           <div
             key={index}
-            className="bg-white border-2 border-gray-100 rounded-xl p-5 hover:shadow-2xl hover:border-green-300 transition-all duration-300 transform hover:-translate-y-1"
+            className="bg-white border-2 border-gray-100 rounded-xl overflow-hidden hover:shadow-2xl hover:border-green-300 transition-all duration-300"
           >
-            <div className="flex justify-between items-start mb-4">
-              <h4 className="text-xl font-bold text-gray-900">
-                {ingredient.name}
-              </h4>
-              <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-md">
-                {(ingredient.score * 100).toFixed(0)}%
-              </div>
-            </div>
-
-            {/* Elemental Properties */}
-            <div className="space-y-2.5">
-              <div className="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wide">
-                Elemental Balance
-              </div>
-              {Object.entries(ingredient.elementalProperties).map(
-                ([element, value]) => (
-                  <div key={element} className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+            {/* Card Header - Clickable */}
+            <div
+              onClick={() => toggleIngredient(ingredient.name)}
+              className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 p-4 cursor-pointer hover:from-green-100 hover:via-emerald-100 hover:to-teal-100 transition-all duration-300"
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h4 className="text-lg font-bold text-gray-900 mb-1">
+                    {ingredient.name}
+                  </h4>
+                  {ingredient.flavorProfile && (
+                    <p className="text-xs text-gray-600 mb-2">
+                      {ingredient.flavorProfile}
+                    </p>
+                  )}
+                  <div className="flex gap-1">
+                    {Object.entries(ingredient.elementalProperties)
+                      .sort((a, b) => b[1] - a[1])
+                      .slice(0, 2)
+                      .map(([element, value]) => (
                         <span
-                          className={`text-lg ${
-                            element === "Fire"
-                              ? "🔥"
-                              : element === "Water"
-                                ? "💧"
-                                : element === "Earth"
-                                  ? "🌍"
-                                  : "💨"
-                          }`}
+                          key={element}
+                          className="text-xs bg-white bg-opacity-70 text-gray-700 px-2 py-1 rounded-full font-medium border border-gray-200"
                         >
                           {element === "Fire"
                             ? "🔥"
@@ -349,41 +248,151 @@ export default function IngredientPreview() {
                               ? "💧"
                               : element === "Earth"
                                 ? "🌍"
-                                : "💨"}
-                        </span>
-                        <span className="text-sm font-semibold text-gray-700">
+                                : "💨"}{" "}
                           {element}
                         </span>
-                      </div>
-                      <span className="text-xs font-bold text-gray-600">
-                        {(value * 100).toFixed(0)}%
-                      </span>
-                    </div>
-                    <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden shadow-inner">
-                      <div
-                        className={`h-full transition-all duration-500 ${
-                          element === "Fire"
-                            ? "bg-gradient-to-r from-red-400 to-orange-500"
-                            : element === "Water"
-                              ? "bg-gradient-to-r from-blue-400 to-cyan-500"
-                              : element === "Earth"
-                                ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                                : "bg-gradient-to-r from-purple-400 to-indigo-500"
-                        }`}
-                        style={{ width: `${value * 100}%` }}
-                      />
+                      ))}
+                  </div>
+                </div>
+                <div className="flex flex-col items-center gap-2 ml-4">
+                  <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                    {(ingredient.score * 100).toFixed(0)}%
+                  </div>
+                  <div className="text-2xl text-gray-400 font-light">
+                    {expandedIngredients.has(ingredient.name) ? "−" : "+"}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Expanded Content */}
+            {expandedIngredients.has(ingredient.name) && (
+              <div className="p-4 bg-gradient-to-br from-gray-50 to-white border-t-2 border-green-100 space-y-4">
+                {/* Elemental Properties */}
+                <div>
+                  <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    <span className="text-lg">⚗️</span>
+                    <span>Elemental Properties</span>
+                  </h5>
+                  <div className="space-y-2">
+                    {(() => {
+                      // Normalize raw elemental values for display
+                      const normalized = normalizeForDisplay(ingredient.elementalProperties);
+                      return Object.entries(normalized)
+                        .sort((a, b) => b[1] - a[1])
+                        .map(([element, value]) => (
+                          <div key={element} className="flex items-center gap-2">
+                            <span className="text-sm w-16">
+                              {element === "Fire"
+                                ? "🔥 Fire"
+                                : element === "Water"
+                                  ? "💧 Water"
+                                  : element === "Earth"
+                                    ? "🌍 Earth"
+                                    : "💨 Air"}
+                            </span>
+                            <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full ${
+                                  element === "Fire"
+                                    ? "bg-gradient-to-r from-red-400 to-orange-500"
+                                    : element === "Water"
+                                      ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                                      : element === "Earth"
+                                        ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                                        : "bg-gradient-to-r from-purple-400 to-indigo-500"
+                                }`}
+                                style={{ width: `${value * 100}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-500 w-12 text-right">
+                              {(value * 100).toFixed(0)}%
+                            </span>
+                          </div>
+                        ));
+                    })()}
+                  </div>
+                </div>
+
+                {/* Culinary Uses */}
+                {ingredient.culinaryUses && ingredient.culinaryUses.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                      <span className="text-lg">👨‍🍳</span>
+                      <span>Culinary Uses</span>
+                    </h5>
+                    <div className="flex flex-wrap gap-2">
+                      {ingredient.culinaryUses.slice(0, 6).map((use, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs bg-green-50 text-green-800 px-3 py-1.5 rounded-full border border-green-200"
+                        >
+                          {use}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                ),
-              )}
-            </div>
+                )}
+
+                {/* Pairings */}
+                {ingredient.pairings && ingredient.pairings.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                      <span className="text-lg">🤝</span>
+                      <span>Pairs Well With</span>
+                    </h5>
+                    <div className="space-y-1">
+                      {ingredient.pairings.slice(0, 4).map((pairing, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                          <span className="text-green-600">•</span>
+                          <span>{pairing}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Nutrition */}
+                {ingredient.nutrition && ingredient.nutrition.length > 0 && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                      <span className="text-lg">💊</span>
+                      <span>Nutritional Benefits</span>
+                    </h5>
+                    <div className="flex flex-wrap gap-2">
+                      {ingredient.nutrition.slice(0, 6).map((nutrient, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs bg-blue-50 text-blue-800 px-3 py-1.5 rounded-full border border-blue-200"
+                        >
+                          {nutrient}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Seasonality */}
+                {ingredient.seasonality && (
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                      <span className="text-lg">📅</span>
+                      <span>Seasonality</span>
+                    </h5>
+                    <p className="text-sm text-gray-700 bg-yellow-50 border-l-4 border-yellow-400 p-2 rounded">
+                      {ingredient.seasonality}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
 
       {currentIngredients.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-dashed border-green-200">
-          <div className="text-6xl mb-4">🌿</div>
+          <div className="text-6xl mb-4">🥗</div>
           <p className="text-xl font-semibold text-gray-700 mb-2">
             No ingredients available
           </p>

@@ -13,7 +13,27 @@ export const vietnamese: Cuisine = {
           name: "Phở Bò",
           description: "Traditional Vietnamese beef noodle soup",
           cuisine: "Vietnamese",
-          cookingMethods: ["simmering", "boiling", "garnishing"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          },
+          "garnishing"
+        ],
           tools: [
             "large stock pot",
             "strainer",
@@ -36,6 +56,12 @@ export const vietnamese: Cuisine = {
               amount: "2",
               unit: "kg",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "rice noodles",
@@ -120,23 +146,43 @@ export const vietnamese: Cuisine = {
             protein: 32,
             carbs: 58,
             fat: 16,
+            fiber: 3,
             vitamins: ["B12", "C", "A"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
           mealType: ["breakfast", "lunch"],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.2,
-            Earth: 0.2,
-            Air: 0.2,
+            Fire: 0.15,
+            Water: 0.43,
+            Earth: 0.32,
+            Air: 0.09,
           },
         },
         {
           name: "Cháo Gà",
           description: "Vietnamese chicken rice porridge",
           cuisine: "Vietnamese",
-          cookingMethods: ["simmering", "poaching"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "poaching",
+            elementalProperties: {
+              Fire: 0.19,
+              Water: 0.5,
+              Earth: 0.13,
+              Air: 0.19,
+            },
+          }
+        ],
           tools: [
             "large pot",
             "ladle",
@@ -158,6 +204,12 @@ export const vietnamese: Cuisine = {
               amount: "1",
               unit: "cup",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "chicken",
@@ -217,16 +269,17 @@ export const vietnamese: Cuisine = {
             protein: 28,
             carbs: 42,
             fat: 8,
+            fiber: 3,
             vitamins: ["B6", "B12"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.4,
+            Fire: 0.11,
+            Water: 0.48,
             Earth: 0.3,
-            Air: 0.2,
-            Fire: 0.1,
+            Air: 0.11,
           },
         },
         {
@@ -234,7 +287,27 @@ export const vietnamese: Cuisine = {
           description:
             "Steamed rice rolls filled with ground pork and mushrooms",
           cuisine: "Vietnamese",
-          cookingMethods: ["steaming", "filling", "assembling"],
+          cookingMethods: [
+          {
+            name: "steaming",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.56,
+              Earth: 0.13,
+              Air: 0.25,
+            },
+          },
+          "filling",
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "steamer",
             "non-stick pan",
@@ -251,7 +324,14 @@ export const vietnamese: Cuisine = {
             "Garnish and serve",
           ],
           ingredients: [
-            { name: "rice flour", amount: "300", unit: "g", category: "flour" },
+            { name: "rice flour", amount: "300", unit: "g", category: "flour",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            },
             {
               name: "tapioca starch",
               amount: "50",
@@ -319,16 +399,178 @@ export const vietnamese: Cuisine = {
             protein: 15,
             carbs: 45,
             fat: 6,
+            fiber: 3,
             vitamins: ["B1", "B6"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.3,
-            Earth: 0.3,
-            Air: 0.3,
-            Fire: 0.1,
+            Fire: 0.11,
+            Water: 0.45,
+            Earth: 0.33,
+            Air: 0.11,
+          },
+        },
+        {
+          name: "Xôi Xéo",
+          description:
+            "Vietnamese sticky rice with mung bean paste and fried shallots, a classic breakfast",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.15,
+                Water: 0.55,
+                Earth: 0.15,
+                Air: 0.15,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "glutinous rice",
+              amount: "2",
+              unit: "cups",
+              category: "grain",
+            },
+            {
+              name: "mung beans",
+              amount: "1",
+              unit: "cup",
+              category: "legume",
+            },
+            {
+              name: "shallots",
+              amount: "4",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "coconut milk",
+              amount: "1/2",
+              unit: "cup",
+              category: "liquid",
+            },
+            {
+              name: "sugar",
+              amount: "2",
+              unit: "tbsp",
+              category: "sweetener",
+            },
+          ],
+          substitutions: {
+            "glutinous rice": ["jasmine rice"],
+            "coconut milk": ["regular milk"],
+          },
+          servingSize: 4,
+          allergens: [],
+          prepTime: "30 minutes",
+          cookTime: "45 minutes",
+          nutrition: {
+            calories: 380,
+            protein: 12,
+            carbs: 68,
+            fat: 8,
+            fiber: 5,
+          },
+          timeToMake: "75 minutes",
+          season: ["all"],
+          mealType: ["breakfast"],
+          elementalProperties: {
+            Fire: 0.15,
+            Water: 0.35,
+            Earth: 0.4,
+            Air: 0.1,
+          },
+        },
+        {
+          name: "Bánh Mì Ốp La",
+          description:
+            "Vietnamese baguette with sunny-side up eggs, pâté, and fresh vegetables",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
+            },
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "baguette",
+              amount: "1",
+              unit: "whole",
+              category: "grain",
+            },
+            {
+              name: "eggs",
+              amount: "2",
+              unit: "large",
+              category: "protein",
+            },
+            {
+              name: "pâté",
+              amount: "2",
+              unit: "tbsp",
+              category: "protein",
+            },
+            {
+              name: "cucumber",
+              amount: "1/4",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "cilantro",
+              amount: "1/4",
+              unit: "cup",
+              category: "herb",
+            },
+            {
+              name: "soy sauce",
+              amount: "1",
+              unit: "tbsp",
+              category: "condiment",
+            },
+          ],
+          substitutions: {
+            pâté: ["butter", "mayo"],
+            baguette: ["ciabatta"],
+          },
+          servingSize: 1,
+          allergens: ["gluten", "eggs"],
+          prepTime: "5 minutes",
+          cookTime: "10 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 18,
+            carbs: 45,
+            fat: 20,
+            fiber: 2,
+          },
+          timeToMake: "15 minutes",
+          season: ["all"],
+          mealType: ["breakfast"],
+          elementalProperties: {
+            Fire: 0.3,
+            Water: 0.2,
+            Earth: 0.35,
+            Air: 0.15,
           },
         },
       ],
@@ -338,7 +580,14 @@ export const vietnamese: Cuisine = {
           description: "Vietnamese rice porridge with chicken",
           cuisine: "Vietnamese",
           ingredients: [
-            { name: "rice", amount: "1", unit: "cup", category: "grain" },
+            { name: "rice", amount: "1", unit: "cup", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
+            },
             {
               name: "chicken",
               amount: "200",
@@ -359,12 +608,19 @@ export const vietnamese: Cuisine = {
             protein: 25,
             carbs: 45,
             fat: 8,
+            fiber: 3,
             vitamins: ["B1", "B2"],
             minerals: ["Iron", "Zinc"],
           },
           timeToMake: "45 minutes",
           season: ["winter"],
-          mealType: ["breakfast"],
+          
+          elementalProperties: {
+            Fire: 0.17,
+            Water: 0.32,
+            Earth: 0.37,
+            Air: 0.13,
+          },mealType: ["breakfast"],
         },
       ],
     },
@@ -375,7 +631,35 @@ export const vietnamese: Cuisine = {
           description:
             "Vietnamese sandwich with grilled pork and pickled vegetables",
           cuisine: "Vietnamese",
-          cookingMethods: ["grilling", "pickling", "assembling"],
+          cookingMethods: [
+          {
+            name: "grilling",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.11,
+              Air: 0.33,
+            },
+          },
+          {
+            name: "pickling",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.44,
+              Earth: 0.31,
+              Air: 0.19,
+            },
+          },
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "grill or grill pan",
             "knife",
@@ -463,23 +747,43 @@ export const vietnamese: Cuisine = {
             protein: 28,
             carbs: 65,
             fat: 22,
+            fiber: 3,
             vitamins: ["A", "C"],
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
           mealType: ["lunch"],
           elementalProperties: {
-            Earth: 0.3,
-            Air: 0.3,
-            Fire: 0.2,
-            Water: 0.2,
+            Fire: 0.27,
+            Water: 0.09,
+            Earth: 0.47,
+            Air: 0.17,
           },
         },
         {
           name: "Bún Chả",
           description: "Grilled pork meatballs with rice noodles and herbs",
           cuisine: "Vietnamese",
-          cookingMethods: ["grilling", "boiling"],
+          cookingMethods: [
+          {
+            name: "grilling",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.11,
+              Air: 0.33,
+            },
+          },
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          }
+        ],
           tools: ["grill", "mixing bowls", "pot", "strainer", "serving bowls"],
           preparationSteps: [
             "Form meatballs",
@@ -495,45 +799,101 @@ export const vietnamese: Cuisine = {
               amount: "500",
               unit: "g",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "rice noodles",
               amount: "400",
               unit: "g",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "fish sauce",
               amount: "4",
               unit: "tbsp",
               category: "seasoning",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "garlic",
               amount: "6",
               unit: "cloves",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "shallots",
               amount: "4",
               unit: "pieces",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.35,
+                Water: 0.25,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "lettuce",
               amount: "1",
               unit: "head",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.05,
+                Water: 0.6,
+                Earth: 0.15,
+                Air: 0.2,
+              },
             },
-            { name: "herbs mix", amount: "2", unit: "cups", category: "herb" },
+            { name: "herbs mix", amount: "2", unit: "cups", category: "herb",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.2,
+                Air: 0.5,
+              },
+            },
             {
               name: "green papaya",
               amount: "200",
               unit: "g",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.55,
+                Earth: 0.15,
+                Air: 0.1,
+              },
             },
-            { name: "lime", amount: "2", unit: "pieces", category: "fruit" },
+            { name: "lime", amount: "2", unit: "pieces", category: "fruit",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.2,
+              },
+            },
           ],
           substitutions: {
             "ground pork": ["chicken", "turkey", "plant-based meat"],
@@ -554,23 +914,44 @@ export const vietnamese: Cuisine = {
             protein: 32,
             carbs: 55,
             fat: 18,
+            fiber: 3,
             vitamins: ["B12", "C"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["spring", "summer"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.3,
-            Air: 0.2,
-            Water: 0.2,
+            Fire: 0.22,
+            Water: 0.42,
+            Earth: 0.18,
+            Air: 0.18,
           },
         },
         {
           name: "Bún Bò Huế",
           description: "Spicy beef noodle soup from Hue",
           cuisine: "Vietnamese",
-          cookingMethods: ["simmering", "boiling", "spice preparation"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          },
+          "spice preparation"
+        ],
           tools: [
             "large stock pot",
             "strainer",
@@ -592,30 +973,60 @@ export const vietnamese: Cuisine = {
               amount: "500",
               unit: "g",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.2,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "pork knuckles",
               amount: "300",
               unit: "g",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "thick rice noodles",
               amount: "500",
               unit: "g",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "lemongrass",
               amount: "4",
               unit: "stalks",
               category: "herb",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.2,
+                Earth: 0.1,
+                Air: 0.5,
+              },
             },
             {
               name: "shrimp paste",
               amount: "2",
               unit: "tbsp",
               category: "seasoning",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "annatto seeds",
@@ -628,6 +1039,12 @@ export const vietnamese: Cuisine = {
               amount: "2",
               unit: "cups",
               category: "herb",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.2,
+                Air: 0.5,
+              },
             },
             {
               name: "banana flower",
@@ -635,6 +1052,12 @@ export const vietnamese: Cuisine = {
               unit: "whole",
               category: "vegetable",
               optional: true,
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.4,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
           ],
           substitutions: {
@@ -656,16 +1079,257 @@ export const vietnamese: Cuisine = {
             protein: 35,
             carbs: 65,
             fat: 18,
+            fiber: 3,
             vitamins: ["B12", "C"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
+            Fire: 0.11,
+            Water: 0.5,
+            Earth: 0.21,
+            Air: 0.18,
+          },
+        },
+        {
+          name: "Gỏi Cuốn",
+          description:
+            "Vietnamese fresh spring rolls with shrimp, pork, rice noodles, and herbs",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "rolling",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.35,
+                Air: 0.25,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "rice paper",
+              amount: "12",
+              unit: "sheets",
+              category: "grain",
+            },
+            {
+              name: "shrimp",
+              amount: "12",
+              unit: "medium",
+              category: "protein",
+            },
+            {
+              name: "pork belly",
+              amount: "200",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "rice vermicelli",
+              amount: "100",
+              unit: "g",
+              category: "grain",
+            },
+            {
+              name: "lettuce",
+              amount: "1",
+              unit: "head",
+              category: "vegetable",
+            },
+            {
+              name: "mint",
+              amount: "1",
+              unit: "bunch",
+              category: "herb",
+            },
+          ],
+          substitutions: {
+            shrimp: ["tofu", "chicken"],
+            "pork belly": ["chicken breast"],
+          },
+          servingSize: 4,
+          allergens: ["shellfish"],
+          prepTime: "30 minutes",
+          cookTime: "15 minutes",
+          nutrition: {
+            calories: 220,
+            protein: 18,
+            carbs: 25,
+            fat: 6,
+            fiber: 3,
+          },
+          timeToMake: "45 minutes",
+          season: ["spring", "summer"],
+          mealType: ["lunch", "appetizer"],
+          elementalProperties: {
+            Fire: 0.1,
+            Water: 0.35,
+            Earth: 0.3,
+            Air: 0.25,
+          },
+        },
+        {
+          name: "Cơm Gà Hội An",
+          description:
+            "Hội An chicken rice with turmeric-infused rice and tender poached chicken",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "poaching",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.5,
+                Earth: 0.13,
+                Air: 0.19,
+              },
+            },
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.15,
+                Water: 0.55,
+                Earth: 0.15,
+                Air: 0.15,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "chicken",
+              amount: "1",
+              unit: "whole",
+              category: "protein",
+            },
+            {
+              name: "jasmine rice",
+              amount: "2",
+              unit: "cups",
+              category: "grain",
+            },
+            {
+              name: "turmeric",
+              amount: "1",
+              unit: "tsp",
+              category: "spice",
+            },
+            {
+              name: "ginger",
+              amount: "2",
+              unit: "inches",
+              category: "spice",
+            },
+            {
+              name: "papaya salad",
+              amount: "200",
+              unit: "g",
+              category: "vegetable",
+            },
+          ],
+          substitutions: {
+            "whole chicken": ["chicken thighs"],
+            "papaya salad": ["cucumber salad"],
+          },
+          servingSize: 4,
+          allergens: [],
+          prepTime: "15 minutes",
+          cookTime: "45 minutes",
+          nutrition: {
+            calories: 480,
+            protein: 35,
+            carbs: 55,
+            fat: 12,
+            fiber: 2,
+          },
+          timeToMake: "60 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.35,
+            Earth: 0.35,
             Air: 0.1,
+          },
+        },
+        {
+          name: "Bánh Xèo",
+          description:
+            "Vietnamese sizzling crepes filled with pork, shrimp, and bean sprouts",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "rice flour",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
+            },
+            {
+              name: "turmeric powder",
+              amount: "1/2",
+              unit: "tsp",
+              category: "spice",
+            },
+            {
+              name: "coconut milk",
+              amount: "1/2",
+              unit: "cup",
+              category: "liquid",
+            },
+            {
+              name: "pork",
+              amount: "200",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "shrimp",
+              amount: "150",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "bean sprouts",
+              amount: "2",
+              unit: "cups",
+              category: "vegetable",
+            },
+          ],
+          substitutions: {
+            shrimp: ["tofu"],
+            pork: ["chicken", "mushrooms"],
+          },
+          servingSize: 4,
+          allergens: ["shellfish"],
+          prepTime: "20 minutes",
+          cookTime: "30 minutes",
+          nutrition: {
+            calories: 350,
+            protein: 22,
+            carbs: 35,
+            fat: 15,
+            fiber: 3,
+          },
+          timeToMake: "50 minutes",
+          season: ["all"],
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.2,
+            Earth: 0.3,
+            Air: 0.15,
           },
         },
       ],
@@ -676,7 +1340,26 @@ export const vietnamese: Cuisine = {
           name: "Cá Kho Tộ",
           description: "Caramelized fish in clay pot",
           cuisine: "Vietnamese",
-          cookingMethods: ["braising", "caramelizing"],
+          cookingMethods: [
+          {
+            name: "braising",
+            elementalProperties: {
+              Fire: 0.25,
+              Water: 0.35,
+              Earth: 0.3,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "caramelizing",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.25,
+              Air: 0.19,
+            },
+          }
+        ],
           tools: [
             "clay pot or heavy pot",
             "wooden spoon",
@@ -765,23 +1448,52 @@ export const vietnamese: Cuisine = {
             protein: 35,
             carbs: 15,
             fat: 25,
+            fiber: 3,
             vitamins: ["D", "B12"],
             minerals: ["Omega-3", "Iron"],
           },
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Water: 0.3,
-            Fire: 0.3,
-            Earth: 0.3,
-            Air: 0.1,
+            Fire: 0.09,
+            Water: 0.68,
+            Earth: 0.16,
+            Air: 0.08,
           },
         },
         {
           name: "Cơm Tấm",
           description: "Broken rice with grilled pork chop and egg",
           cuisine: "Vietnamese",
-          cookingMethods: ["grilling", "frying", "steaming"],
+          cookingMethods: [
+          {
+            name: "grilling",
+            elementalProperties: {
+              Fire: 0.5,
+              Water: 0.06,
+              Earth: 0.11,
+              Air: 0.33,
+            },
+          },
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          {
+            name: "steaming",
+            elementalProperties: {
+              Fire: 0.06,
+              Water: 0.56,
+              Earth: 0.13,
+              Air: 0.25,
+            },
+          }
+        ],
           tools: [
             "grill",
             "rice cooker",
@@ -803,19 +1515,44 @@ export const vietnamese: Cuisine = {
               amount: "2",
               unit: "cups",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "pork chops",
               amount: "4",
               unit: "pieces",
               category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
-            { name: "eggs", amount: "4", unit: "large", category: "protein" },
+            { name: "eggs", amount: "4", unit: "large", category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
+            },
             {
               name: "green onions",
               amount: "4",
               unit: "stalks",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.2,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
             {
               name: "pickled vegetables",
@@ -828,18 +1565,36 @@ export const vietnamese: Cuisine = {
               amount: "4",
               unit: "tbsp",
               category: "seasoning",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "lemongrass",
               amount: "2",
               unit: "stalks",
               category: "herb",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.2,
+                Earth: 0.1,
+                Air: 0.5,
+              },
             },
             {
               name: "garlic",
               amount: "6",
               unit: "cloves",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
           ],
           substitutions: {
@@ -861,16 +1616,257 @@ export const vietnamese: Cuisine = {
             protein: 45,
             carbs: 70,
             fat: 25,
+            fiber: 3,
             vitamins: ["B12", "D"],
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.4,
+            Fire: 0.32,
+            Water: 0.24,
+            Earth: 0.23,
+            Air: 0.21,
+          },
+        },
+        {
+          name: "Thịt Kho Tàu",
+          description:
+            "Vietnamese caramelized pork belly with hard-boiled eggs in coconut water",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
+            },
+            {
+              name: "caramelizing",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.19,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "pork belly",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "eggs",
+              amount: "6",
+              unit: "large",
+              category: "protein",
+            },
+            {
+              name: "coconut water",
+              amount: "2",
+              unit: "cups",
+              category: "liquid",
+            },
+            {
+              name: "fish sauce",
+              amount: "3",
+              unit: "tbsp",
+              category: "condiment",
+            },
+            {
+              name: "sugar",
+              amount: "4",
+              unit: "tbsp",
+              category: "sweetener",
+            },
+          ],
+          substitutions: {
+            "pork belly": ["pork shoulder"],
+            "coconut water": ["water with sugar"],
+          },
+          servingSize: 6,
+          allergens: ["eggs", "fish"],
+          prepTime: "15 minutes",
+          cookTime: "90 minutes",
+          nutrition: {
+            calories: 520,
+            protein: 28,
+            carbs: 15,
+            fat: 42,
+            fiber: 0,
+          },
+          timeToMake: "105 minutes",
+          season: ["all"],
+          mealType: ["dinner"],
+          elementalProperties: {
             Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+            Water: 0.3,
+            Earth: 0.3,
+            Air: 0.1,
+          },
+        },
+        {
+          name: "Lẩu Thái",
+          description:
+            "Vietnamese-Thai fusion hot pot with seafood, vegetables, and aromatic broth",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "shrimp",
+              amount: "300",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "squid",
+              amount: "200",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "fish balls",
+              amount: "200",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "lemongrass",
+              amount: "3",
+              unit: "stalks",
+              category: "herb",
+            },
+            {
+              name: "Thai chili",
+              amount: "5",
+              unit: "whole",
+              category: "vegetable",
+            },
+            {
+              name: "vegetables",
+              amount: "500",
+              unit: "g",
+              category: "vegetable",
+            },
+          ],
+          substitutions: {
+            shrimp: ["tofu", "chicken"],
+            squid: ["fish fillets"],
+          },
+          servingSize: 4,
+          allergens: ["shellfish", "fish"],
+          prepTime: "30 minutes",
+          cookTime: "30 minutes",
+          nutrition: {
+            calories: 380,
+            protein: 42,
+            carbs: 25,
+            fat: 12,
+            fiber: 6,
+          },
+          timeToMake: "60 minutes",
+          season: ["winter"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.4,
+            Earth: 0.15,
+            Air: 0.1,
+          },
+        },
+        {
+          name: "Bò Lúc Lắc",
+          description:
+            "Vietnamese shaking beef with cubed sirloin, garlic, and watercress",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.48,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.35,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "beef sirloin",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "garlic",
+              amount: "6",
+              unit: "cloves",
+              category: "vegetable",
+            },
+            {
+              name: "watercress",
+              amount: "2",
+              unit: "bunches",
+              category: "vegetable",
+            },
+            {
+              name: "tomatoes",
+              amount: "2",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "soy sauce",
+              amount: "2",
+              unit: "tbsp",
+              category: "condiment",
+            },
+            {
+              name: "oyster sauce",
+              amount: "1",
+              unit: "tbsp",
+              category: "condiment",
+            },
+          ],
+          substitutions: {
+            "beef sirloin": ["chicken breast", "tofu"],
+            watercress: ["arugula", "spinach"],
+          },
+          servingSize: 4,
+          allergens: ["soy"],
+          prepTime: "15 minutes",
+          cookTime: "10 minutes",
+          nutrition: {
+            calories: 420,
+            protein: 38,
+            carbs: 12,
+            fat: 24,
+            fiber: 2,
+          },
+          timeToMake: "25 minutes",
+          season: ["all"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Fire: 0.4,
+            Water: 0.15,
+            Earth: 0.3,
+            Air: 0.15,
           },
         },
       ],
@@ -882,7 +1878,18 @@ export const vietnamese: Cuisine = {
           description:
             "Three-color dessert with beans, jelly, and coconut milk",
           cuisine: "Vietnamese",
-          cookingMethods: ["cooking beans", "layering"],
+          cookingMethods: [
+          "cooking beans",
+          {
+            name: "layering",
+            elementalProperties: {
+              Fire: 0.08,
+              Water: 0.15,
+              Earth: 0.46,
+              Air: 0.31,
+            },
+          }
+        ],
           tools: [
             "saucepans",
             "strainer",
@@ -899,30 +1906,61 @@ export const vietnamese: Cuisine = {
             "Chill before serving",
           ],
           ingredients: [
-            { name: "red beans", amount: "200", unit: "g", category: "legume" },
+            { name: "red beans", amount: "200", unit: "g", category: "legume",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
+            },
             {
               name: "mung beans",
               amount: "200",
               unit: "g",
               category: "legume",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
             {
               name: "pandan jelly",
               amount: "200",
               unit: "g",
               category: "jelly",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.1,
+                Air: 0.5,
+              },
             },
             {
               name: "coconut milk",
               amount: "400",
               unit: "ml",
               category: "liquid",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "palm sugar",
               amount: "100",
               unit: "g",
               category: "sweetener",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.25,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "pandan leaves",
@@ -930,8 +1968,21 @@ export const vietnamese: Cuisine = {
               unit: "pieces",
               category: "herb",
               optional: true,
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.1,
+                Air: 0.5,
+              },
             },
-            { name: "crushed ice", amount: "2", unit: "cups", category: "ice" },
+            { name: "crushed ice", amount: "2", unit: "cups", category: "ice",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.85,
+                Earth: 0.05,
+                Air: 0.1,
+              },
+            },
           ],
           substitutions: {
             "palm sugar": ["brown sugar", "coconut sugar"],
@@ -953,23 +2004,43 @@ export const vietnamese: Cuisine = {
             protein: 8,
             carbs: 52,
             fat: 12,
+            fiber: 3,
             vitamins: ["B1", "E"],
             minerals: ["Iron", "Magnesium"],
           },
           season: ["summer"],
           mealType: ["dessert"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
             Fire: 0.1,
+            Water: 0.43,
+            Earth: 0.25,
+            Air: 0.22,
           },
         },
         {
           name: "Chè Chuối",
           description: "Sweet banana in coconut milk soup",
           cuisine: "Vietnamese",
-          cookingMethods: ["simmering", "cooking"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "cooking",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.33,
+              Earth: 0.29,
+              Air: 0.14,
+            },
+          }
+        ],
           tools: [
             "pot",
             "wooden spoon",
@@ -991,12 +2062,24 @@ export const vietnamese: Cuisine = {
               amount: "6",
               unit: "medium",
               category: "fruit",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.4,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "coconut milk",
               amount: "400",
               unit: "ml",
               category: "liquid",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.6,
+                Earth: 0.2,
+                Air: 0.1,
+              },
             },
             {
               name: "tapioca pearls",
@@ -1009,6 +2092,12 @@ export const vietnamese: Cuisine = {
               amount: "80",
               unit: "g",
               category: "sweetener",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.25,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "pandan leaves",
@@ -1016,12 +2105,24 @@ export const vietnamese: Cuisine = {
               unit: "pieces",
               category: "herb",
               optional: true,
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.1,
+                Air: 0.5,
+              },
             },
             {
               name: "sesame seeds",
               amount: "2",
               unit: "tbsp",
               category: "garnish",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.2,
+              },
             },
             {
               name: "crushed peanuts",
@@ -1029,6 +2130,12 @@ export const vietnamese: Cuisine = {
               unit: "cup",
               category: "garnish",
               optional: true,
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.1,
+                Earth: 0.5,
+                Air: 0.2,
+              },
             },
           ],
           substitutions: {
@@ -1050,16 +2157,105 @@ export const vietnamese: Cuisine = {
             protein: 4,
             carbs: 42,
             fat: 12,
+            fiber: 3,
             vitamins: ["B6", "C"],
             minerals: ["Potassium", "Magnesium"],
           },
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
-            Fire: 0.1,
+            Fire: 0.16,
+            Water: 0.39,
+            Earth: 0.26,
+            Air: 0.19,
+          },
+        },
+        {
+          name: "Bánh Flan",
+          description:
+            "Vietnamese caramel custard with coffee-infused caramel sauce, a French-Vietnamese fusion",
+          cuisine: "Vietnamese",
+          cookingMethods: [
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
+            },
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.15,
+                Water: 0.55,
+                Earth: 0.15,
+                Air: 0.15,
+              },
+            }
+          ],
+          ingredients: [
+            {
+              name: "eggs",
+              amount: "6",
+              unit: "large",
+              category: "protein",
+            },
+            {
+              name: "condensed milk",
+              amount: "1",
+              unit: "can",
+              category: "dairy",
+            },
+            {
+              name: "evaporated milk",
+              amount: "1",
+              unit: "can",
+              category: "dairy",
+            },
+            {
+              name: "sugar",
+              amount: "1",
+              unit: "cup",
+              category: "sweetener",
+            },
+            {
+              name: "Vietnamese coffee",
+              amount: "2",
+              unit: "tbsp",
+              category: "flavoring",
+            },
+            {
+              name: "vanilla extract",
+              amount: "1",
+              unit: "tsp",
+              category: "flavoring",
+            },
+          ],
+          substitutions: {
+            "Vietnamese coffee": ["espresso"],
+            "condensed milk": ["coconut condensed milk"],
+          },
+          servingSize: 8,
+          allergens: ["eggs", "dairy"],
+          prepTime: "20 minutes",
+          cookTime: "60 minutes",
+          nutrition: {
+            calories: 320,
+            protein: 8,
+            carbs: 45,
+            fat: 12,
+            fiber: 0,
+          },
+          timeToMake: "80 minutes",
+          season: ["all"],
+          mealType: ["dessert"],
+          elementalProperties: {
+            Fire: 0.2,
+            Water: 0.35,
+            Earth: 0.35,
+            Air: 0.1,
           },
         },
       ],

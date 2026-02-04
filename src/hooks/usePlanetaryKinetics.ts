@@ -225,20 +225,23 @@ export function usePlanetaryKinetics(
 
   // Computed values
   const currentPowerLevel = useMemo(() => {
-    if (!kinetics) return 0.5;
+    if (!kinetics?.data?.base?.power) return 0.5;
 
     const currentHour = new Date().getHours();
     const powerData = kinetics.data.base.power.find(
       (p) => p.hour === currentHour,
     );
-    return powerData?.power || 0.5;
+    return powerData?.power ?? 0.5;
   }, [kinetics]);
 
   const dominantElement = useMemo(() => {
-    if (!kinetics) return "Earth";
+    if (!kinetics?.data?.base?.elemental?.totals) return "Earth";
 
     const { totals } = kinetics.data.base.elemental;
-    return Object.entries(totals).sort(([, a], [, b]) => b - a)[0][0];
+    const entries = Object.entries(totals);
+    if (entries.length === 0) return "Earth";
+
+    return entries.sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))[0]?.[0] ?? "Earth";
   }, [kinetics]);
 
   const aspectPhase = useMemo(():
@@ -260,7 +263,7 @@ export function usePlanetaryKinetics(
   }, [kinetics, currentPowerLevel]);
 
   const seasonalInfluence = useMemo(
-    () => kinetics?.data.base.timing.seasonalInfluence || "Spring",
+    () => kinetics?.data?.base?.timing?.seasonalInfluence ?? "Spring",
     [kinetics],
   );
 
@@ -285,7 +288,7 @@ export function usePlanetaryKinetics(
     }, [kinetics]);
 
   const elementalRecommendations = useMemo((): string[] => {
-    if (!kinetics) return [];
+    if (!kinetics?.data?.base?.elemental?.totals) return [];
 
     try {
       return getElementalFoodRecommendations(

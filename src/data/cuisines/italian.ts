@@ -14,7 +14,26 @@ export const italian: Cuisine = {
           name: "Cornetto e Cappuccino",
           description: "Italian-style croissant served with frothy coffee",
           cuisine: "Italian",
-          cookingMethods: ["baking", "coffee-brewing"],
+          cookingMethods: [
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          },
+          {
+            name: "coffee-brewing",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.41,
+              Earth: 0.12,
+              Air: 0.24,
+            },
+          }
+        ],
           tools: ["oven", "espresso machine", "milk frother", "baking sheet"],
           preparationSteps: [
             "Bake cornetto until golden",
@@ -70,11 +89,18 @@ export const italian: Cuisine = {
             protein: 8,
             carbs: 42,
             fat: 12,
+            fiber: 3,
             vitamins: ["B12", "D"],
             minerals: ["Calcium"],
           },
           season: ["all"],
-          mealType: ["breakfast"],
+          
+          elementalProperties: {
+            Fire: 0.19,
+            Water: 0.15,
+            Earth: 0.58,
+            Air: 0.08,
+          },mealType: ["breakfast"],
           astrologicalAffinities: {
             planets: ["Venus", "Mercury"],
             signs: ["Taurus", "Libra"],
@@ -143,6 +169,7 @@ export const italian: Cuisine = {
             protein: 6,
             carbs: 45,
             fat: 18,
+            fiber: 3,
             vitamins: ["A", "D"],
             minerals: ["Calcium"],
           },
@@ -202,6 +229,7 @@ export const italian: Cuisine = {
             protein: 6,
             carbs: 45,
             fat: 10,
+            fiber: 3,
             vitamins: ["A", "D"],
             minerals: ["Iron"],
           },
@@ -214,7 +242,19 @@ export const italian: Cuisine = {
           name: "Granita con Brioche",
           description: "Sicilian ice granita with soft brioche",
           cuisine: "Italian",
-          cookingMethods: ["freezing", "scraping", "serving"],
+          cookingMethods: [
+          {
+            name: "freezing",
+            elementalProperties: {
+              Fire: 0,
+              Water: 0.64,
+              Earth: 0.21,
+              Air: 0.14,
+            },
+          },
+          "scraping",
+          "serving"
+        ],
           tools: ["shallow pan", "fork", "serving glass", "ice cream scoop"],
           preparationSteps: [
             "Freeze almond mixture",
@@ -264,11 +304,18 @@ export const italian: Cuisine = {
             protein: 9,
             carbs: 52,
             fat: 16,
+            fiber: 3,
             vitamins: ["A", "D", "E"],
             minerals: ["Calcium"],
           },
           season: ["summer"],
-          mealType: ["breakfast"],
+          
+          elementalProperties: {
+            Fire: 0.18,
+            Water: 0.14,
+            Earth: 0.55,
+            Air: 0.14,
+          },mealType: ["breakfast"],
         },
         {
           name: "Ricotta e Fichi",
@@ -318,6 +365,7 @@ export const italian: Cuisine = {
             protein: 18,
             carbs: 42,
             fat: 18,
+            fiber: 3,
             vitamins: ["A", "B12", "K"],
             minerals: ["Calcium", "Magnesium"],
           },
@@ -330,7 +378,26 @@ export const italian: Cuisine = {
           name: "Cioccolata Calda con Biscotti",
           description: "Thick Italian hot chocolate with cookies",
           cuisine: "Italian",
-          cookingMethods: ["heating", "whisking"],
+          cookingMethods: [
+          {
+            name: "heating",
+            elementalProperties: {
+              Fire: 0.36,
+              Water: 0.21,
+              Earth: 0.21,
+              Air: 0.21,
+            },
+          },
+          {
+            name: "whisking",
+            elementalProperties: {
+              Fire: 0.07,
+              Water: 0.24,
+              Earth: 0.1,
+              Air: 0.59,
+            },
+          }
+        ],
           tools: ["saucepan", "whisk", "measuring cups", "serving mug"],
           preparationSteps: [
             "Heat milk in saucepan",
@@ -345,6 +412,12 @@ export const italian: Cuisine = {
               amount: "100",
               unit: "g",
               category: "chocolate",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.2,
+                Earth: 0.45,
+                Air: 0.1,
+              },
             },
             {
               name: "whole milk",
@@ -385,11 +458,18 @@ export const italian: Cuisine = {
             protein: 12,
             carbs: 48,
             fat: 24,
+            fiber: 3,
             vitamins: ["D", "E"],
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          mealType: ["breakfast"],
+          
+          elementalProperties: {
+            Fire: 0.16,
+            Water: 0.38,
+            Earth: 0.37,
+            Air: 0.09,
+          },mealType: ["breakfast"],
         },
       ],
     },
@@ -448,6 +528,7 @@ export const italian: Cuisine = {
             protein: 12,
             carbs: 65,
             fat: 10,
+            fiber: 3,
             vitamins: ["A", "C"],
             minerals: ["Iron"],
           },
@@ -519,6 +600,7 @@ export const italian: Cuisine = {
             protein: 18,
             carbs: 8,
             fat: 24,
+            fiber: 3,
             vitamins: ["A", "C", "K"],
             minerals: ["Calcium", "Potassium"],
           },
@@ -529,7 +611,17 @@ export const italian: Cuisine = {
           name: "Panzanella",
           description: "Tuscan bread and tomato salad",
           cuisine: "Italian",
-          cookingMethods: ["assembling"],
+          cookingMethods: [
+          {
+            name: "assembling",
+            elementalProperties: {
+              Fire: 0.04,
+              Water: 0.16,
+              Earth: 0.4,
+              Air: 0.4,
+            },
+          }
+        ],
           tools: [
             "sharp knife",
             "serving bowl",
@@ -594,11 +686,18 @@ export const italian: Cuisine = {
             protein: 10,
             carbs: 58,
             fat: 16,
+            fiber: 3,
             vitamins: ["C", "A", "K"],
             minerals: ["Potassium", "Iron"],
           },
           season: ["summer"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.18,
+            Water: 0.09,
+            Earth: 0.55,
+            Air: 0.18,
+          },mealType: ["lunch"],
         },
       ],
       winter: [
@@ -606,7 +705,26 @@ export const italian: Cuisine = {
           name: "Ribollita",
           description: "Hearty Tuscan bread and vegetable soup",
           cuisine: "Italian",
-          cookingMethods: ["simmering", "sautéing"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          },
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          }
+        ],
           tools: ["large pot", "wooden spoon", "knife", "cutting board"],
           preparationSteps: [
             "Sauté vegetables and herbs",
@@ -667,17 +785,34 @@ export const italian: Cuisine = {
             protein: 15,
             carbs: 58,
             fat: 12,
+            fiber: 3,
             vitamins: ["A", "C", "K"],
             minerals: ["Iron", "Fiber"],
           },
           season: ["winter", "autumn"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.17,
+            Water: 0.11,
+            Earth: 0.54,
+            Air: 0.17,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Pasta e Fagioli",
           description: "Classic pasta and bean soup",
           cuisine: "Italian",
-          cookingMethods: ["simmering"],
+          cookingMethods: [
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: ["large pot", "wooden spoon", "knife", "cutting board"],
           preparationSteps: [
             "Sauté vegetables and herbs",
@@ -736,11 +871,18 @@ export const italian: Cuisine = {
             protein: 22,
             carbs: 68,
             fat: 12,
+            fiber: 3,
             vitamins: ["B1", "B12", "C"],
             minerals: ["Iron", "Potassium"],
           },
           season: ["winter"],
-          mealType: ["lunch"],
+          
+          elementalProperties: {
+            Fire: 0.08,
+            Water: 0.22,
+            Earth: 0.62,
+            Air: 0.08,
+          },mealType: ["lunch"],
         },
       ],
     },
@@ -805,6 +947,7 @@ export const italian: Cuisine = {
             protein: 35,
             carbs: 15,
             fat: 28,
+            fiber: 3,
             vitamins: ["B12", "A"],
             minerals: ["Iron", "Zinc"],
           },
@@ -815,7 +958,18 @@ export const italian: Cuisine = {
           name: "Risotto ai Funghi",
           description: "Creamy mushroom risotto",
           cuisine: "Italian",
-          cookingMethods: ["sautéing", "gradual-liquid-addition"],
+          cookingMethods: [
+          {
+            name: "sautéing",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          },
+          "gradual-liquid-addition"
+        ],
           tools: ["heavy-bottomed pan", "wooden spoon", "ladle", "saucepan"],
           preparationSteps: [
             "Prepare mushroom broth",
@@ -831,6 +985,12 @@ export const italian: Cuisine = {
               amount: "320",
               unit: "g",
               category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.3,
+                Earth: 0.5,
+                Air: 0.1,
+              },
             },
             {
               name: "porcini mushrooms",
@@ -867,18 +1027,44 @@ export const italian: Cuisine = {
             protein: 12,
             carbs: 65,
             fat: 18,
+            fiber: 3,
             vitamins: ["D", "B12"],
             minerals: ["Iron", "Calcium"],
           },
           season: ["autumn"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.09,
+            Water: 0.27,
+            Earth: 0.55,
+            Air: 0.09,
+          },mealType: ["dinner"],
         },
         {
           name: "Gnocchi alla Sorrentina",
           description:
             "Potato gnocchi baked with tomato sauce, mozzarella, and basil",
           cuisine: "Italian",
-          cookingMethods: ["boiling", "baking"],
+          cookingMethods: [
+          {
+            name: "boiling",
+            elementalProperties: {
+              Fire: 0.24,
+              Water: 0.59,
+              Earth: 0.12,
+              Air: 0.06,
+            },
+          },
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          }
+        ],
           tools: [
             "large pot",
             "baking dish",
@@ -900,14 +1086,40 @@ export const italian: Cuisine = {
               amount: "1",
               unit: "kg",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.2,
+                Earth: 0.6,
+                Air: 0.1,
+              },
             },
-            { name: "flour", amount: "300", unit: "g", category: "grain" },
-            { name: "egg", amount: "1", unit: "large", category: "protein" },
+            { name: "flour", amount: "300", unit: "g", category: "grain",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.1,
+                Earth: 0.6,
+                Air: 0.2,
+              },
+            },
+            { name: "egg", amount: "1", unit: "large", category: "protein",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
+            },
             {
               name: "tomato sauce",
               amount: "500",
               unit: "ml",
               category: "sauce",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.1,
+              },
             },
             { name: "mozzarella", amount: "250", unit: "g", category: "dairy" },
             {
@@ -915,14 +1127,33 @@ export const italian: Cuisine = {
               amount: "100",
               unit: "g",
               category: "dairy",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "fresh basil",
               amount: "1",
               unit: "bunch",
               category: "herb",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.2,
+                Earth: 0.1,
+                Air: 0.5,
+              },
             },
-            { name: "olive oil", amount: "3", unit: "tbsp", category: "oil" },
+            { name: "olive oil", amount: "3", unit: "tbsp", category: "oil",
+              elementalProperties: {
+                Fire: 0.4,
+                Water: 0.1,
+                Earth: 0.3,
+                Air: 0.2,
+              },
+            },
           ],
           substitutions: {
             mozzarella: ["plant-based mozzarella"],
@@ -947,16 +1178,17 @@ export const italian: Cuisine = {
             protein: 18,
             carbs: 65,
             fat: 15,
+            fiber: 3,
             vitamins: ["C", "A"],
             minerals: ["Potassium", "Calcium"],
           },
           season: ["all"],
           mealType: ["dinner"],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
+            Water: 0.24,
+            Earth: 0.4,
+            Air: 0.16,
           },
         },
       ],
@@ -965,7 +1197,26 @@ export const italian: Cuisine = {
           name: "Acqua Pazza",
           description: "Neapolitan style fish in 'crazy water'",
           cuisine: "Italian (Neapolitan)",
-          cookingMethods: ["poaching", "simmering"],
+          cookingMethods: [
+          {
+            name: "poaching",
+            elementalProperties: {
+              Fire: 0.19,
+              Water: 0.5,
+              Earth: 0.13,
+              Air: 0.19,
+            },
+          },
+          {
+            name: "simmering",
+            elementalProperties: {
+              Fire: 0.2,
+              Water: 0.53,
+              Earth: 0.17,
+              Air: 0.1,
+            },
+          }
+        ],
           tools: ["large skillet", "fish spatula", "knife", "cutting board"],
           preparationSteps: [
             "Clean and prepare fish",
@@ -1026,17 +1277,43 @@ export const italian: Cuisine = {
             protein: 42,
             carbs: 12,
             fat: 14,
+            fiber: 3,
             vitamins: ["D", "B12", "C"],
             minerals: ["Selenium", "Iodine", "Potassium"],
           },
           season: ["summer", "spring"],
-          mealType: ["lunch", "dinner"],
+          
+          elementalProperties: {
+            Fire: 0.05,
+            Water: 0.72,
+            Earth: 0.15,
+            Air: 0.07,
+          },mealType: ["lunch", "dinner"],
         },
         {
           name: "Melanzane alla Parmigiana",
           description: "Eggplant Parmesan with tomato sauce",
           cuisine: "Italian",
-          cookingMethods: ["baking", "frying"],
+          cookingMethods: [
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          },
+          {
+            name: "frying",
+            elementalProperties: {
+              Fire: 0.41,
+              Water: 0.12,
+              Earth: 0.18,
+              Air: 0.29,
+            },
+          }
+        ],
           tools: [
             "baking dish",
             "frying pan",
@@ -1059,12 +1336,24 @@ export const italian: Cuisine = {
               amount: "800",
               unit: "g",
               category: "vegetable",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.3,
+                Earth: 0.4,
+                Air: 0.1,
+              },
             },
             {
               name: "tomato sauce",
               amount: "500",
               unit: "ml",
               category: "sauce",
+              elementalProperties: {
+                Fire: 0.3,
+                Water: 0.5,
+                Earth: 0.1,
+                Air: 0.1,
+              },
             },
             {
               name: "mozzarella",
@@ -1101,11 +1390,18 @@ export const italian: Cuisine = {
             protein: 22,
             carbs: 28,
             fat: 26,
+            fiber: 3,
             vitamins: ["A", "C", "K"],
             minerals: ["Calcium", "Iron"],
           },
           season: ["summer"],
-          mealType: ["dinner"],
+          
+          elementalProperties: {
+            Fire: 0.35,
+            Water: 0.23,
+            Earth: 0.32,
+            Air: 0.1,
+          },mealType: ["dinner"],
         },
       ],
     },
@@ -1167,6 +1463,7 @@ export const italian: Cuisine = {
             protein: 8,
             carbs: 35,
             fat: 22,
+            fiber: 3,
             vitamins: ["A", "D"],
             minerals: ["Calcium"],
           },
@@ -1231,11 +1528,18 @@ export const italian: Cuisine = {
             protein: 6,
             carbs: 28,
             fat: 12,
+            fiber: 3,
             vitamins: ["A", "D"],
             minerals: ["Calcium"],
           },
           season: ["summer"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.1,
+            Water: 0.58,
+            Earth: 0.23,
+            Air: 0.1,
+          },mealType: ["dessert"],
         },
       ],
       winter: [
@@ -1243,7 +1547,27 @@ export const italian: Cuisine = {
           name: "Panettone",
           description: "Traditional Christmas sweet bread",
           cuisine: "Italian",
-          cookingMethods: ["kneading", "rising", "baking"],
+          cookingMethods: [
+          {
+            name: "kneading",
+            elementalProperties: {
+              Fire: 0.14,
+              Water: 0.14,
+              Earth: 0.43,
+              Air: 0.29,
+            },
+          },
+          "rising",
+          {
+            name: "baking",
+            elementalProperties: {
+              Fire: 0.32,
+              Water: 0.11,
+              Earth: 0.21,
+              Air: 0.37,
+            },
+          }
+        ],
           tools: ["mixing bowl", "stand mixer", "loaf pan", "oven"],
           preparationSteps: [
             "Knead dough with butter and sugar",
@@ -1298,11 +1622,18 @@ export const italian: Cuisine = {
             protein: 8,
             carbs: 52,
             fat: 16,
+            fiber: 3,
             vitamins: ["A", "D", "E"],
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          mealType: ["dessert"],
+          
+          elementalProperties: {
+            Fire: 0.09,
+            Water: 0.07,
+            Earth: 0.68,
+            Air: 0.16,
+          },mealType: ["dessert"],
         },
       ],
     },

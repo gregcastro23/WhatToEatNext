@@ -178,21 +178,22 @@ export function alchemize(
     Earth: 0,
   };
 
-  // Planetary alchemical properties
+  // Planetary alchemical properties (CANONICAL VALUES from CLAUDE.md)
+  // These MUST be 0 or 1 - no fractional values allowed
   const planetaryAlchemy: Record<
     string,
     { Spirit: number; Essence: number; Matter: number; Substance: number }
   > = {
-    Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
-    Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 },
-    Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 },
-    Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 },
-    Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 },
-    Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 },
-    Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 },
-    Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 },
-    Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
-    Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 },
+    Sun: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
+    Moon: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Mercury: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 },
+    Venus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Mars: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Jupiter: { Spirit: 1, Essence: 1, Matter: 0, Substance: 0 },
+    Saturn: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 },
+    Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
+    Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   };
 
   // Process each planet
@@ -201,8 +202,11 @@ export function alchemize(
     const alchemy = planetaryAlchemy[planet];
     if (alchemy) {
       // Apply dignity modifier
+      // Dignity ranges from -3 (fall) to +3 (exaltation)
+      // Base multiplier is 1.0, modified by ±0.15 per dignity level
+      // Minimum 0.5 to prevent negative or zero contributions
       const dignity = getPlanetaryDignity(planet, position.sign);
-      const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
+      const dignityMultiplier = Math.max(0.5, 1.0 + dignity * 0.15);
 
       totals.Spirit += alchemy.Spirit * dignityMultiplier;
       totals.Essence += alchemy.Essence * dignityMultiplier;

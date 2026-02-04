@@ -12,7 +12,7 @@ const rawSalts = {
     },
     qualities: ["delicate", "moist", "mineral"],
     origin: ["France", "Portugal"],
-    category: "seasoning",
+    category: "seasonings",
     subCategory: "salt",
     varieties: {
       Guérande: {
@@ -472,7 +472,7 @@ const rawSalts = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ["crisp", "clean", "flaky"],
     origin: ["United Kingdom"],
-    category: "seasoning",
+    category: "seasonings",
     subCategory: "salt",
     varieties: {
       Smoked: {
@@ -588,7 +588,7 @@ const rawSalts = {
     },
     qualities: ["delicate", "moist", "mineral"],
     origin: ["Various"],
-    category: "seasoning",
+    category: "seasonings",
     subCategory: "salt",
     varieties: {
       Smoked: {
@@ -965,7 +965,7 @@ const rawSalts = {
     elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },
     qualities: ["basic", "refined", "uniform"],
     origin: ["Global"],
-    category: "seasoning",
+    category: "seasonings",
     subCategory: "salt",
     culinaryApplications: {
       cooking: {
