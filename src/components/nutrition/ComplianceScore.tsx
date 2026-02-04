@@ -8,6 +8,7 @@ interface ComplianceScoreProps {
   score: number; // 0-100
   size?: ComplianceScoreSize;
   showLabel?: boolean;
+  label?: string;
 }
 
 const getSeverityClass = (score: number): string => {
@@ -22,6 +23,7 @@ export function ComplianceScore({
   score,
   size = "default",
   showLabel = false,
+  label, // Destructure the new label prop
 }: ComplianceScoreProps) {
   const normalizedScore = Math.max(0, Math.min(100, score)); // Ensure score is between 0 and 100
   const severityClass = getSeverityClass(normalizedScore);
@@ -48,7 +50,9 @@ export function ComplianceScore({
         ></circle>
       </svg>
       <div className={styles.scoreValue}>{normalizedScore.toFixed(0)}%</div>
-      {showLabel && <div className={styles.scoreLabel}>Compliance</div>}
+      {showLabel && (
+        <div className={styles.scoreLabel}>{label || "Compliance"}</div>
+      )}
     </div>
   );
 }
