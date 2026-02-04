@@ -37,7 +37,7 @@ const nextConfig = {
     const originalExternals = config.externals;
     config.externals = ({ context, request }, callback) => {
       // List of modules to externalize
-      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs'];
+      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs', 'async_hooks'];
 
       if (externalsToExternalize.includes(request)) {
         return callback(null, `commonjs ${request}`);
