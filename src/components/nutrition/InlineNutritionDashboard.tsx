@@ -9,9 +9,9 @@
 import React, { useState, useMemo } from "react";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
 import { getComplianceSeverity } from "@/types/nutrition";
-import ComplianceScore from "./ComplianceScore";
-import MacroSummary from "./MacroSummary";
-import MicronutrientHighlights from "./MicronutrientHighlights";
+import { ComplianceScore } from "../nutrition";
+import { MacroSummary } from "../nutrition";
+import { MicronutrientHighlights } from "../nutrition";
 import { findDeficiencies, findExcesses } from "@/utils/nutritionAggregation";
 import { multiplyNutrition } from "@/data/nutritional/rdaStandards";
 
@@ -135,7 +135,9 @@ export default function InlineNutritionDashboard({
             onClick={() => setIsExpanded(!isExpanded)}
             className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-green-600 to-teal-600 text-white hover:shadow-md transition-all"
             aria-expanded={isExpanded}
-            aria-label={isExpanded ? "Hide nutrition details" : "Show nutrition details"}
+            aria-label={
+              isExpanded ? "Hide nutrition details" : "Show nutrition details"
+            }
           >
             {isExpanded ? "Hide Details" : "Details"}
             <span className="ml-1">{isExpanded ? "\u25B2" : "\u25BC"}</span>
@@ -174,10 +176,22 @@ export default function InlineNutritionDashboard({
                 Dietary Variety
               </h3>
               <div className="bg-white rounded-xl p-4 border border-gray-200 space-y-3">
-                <VarietyStat label="Unique Recipes" value={variety.uniqueRecipes} />
-                <VarietyStat label="Unique Ingredients" value={variety.uniqueIngredients} />
-                <VarietyBar label="Cuisine Diversity" value={variety.cuisineDiversity} />
-                <VarietyBar label="Color Diversity" value={variety.colorDiversity} />
+                <VarietyStat
+                  label="Unique Recipes"
+                  value={variety.uniqueRecipes}
+                />
+                <VarietyStat
+                  label="Unique Ingredients"
+                  value={variety.uniqueIngredients}
+                />
+                <VarietyBar
+                  label="Cuisine Diversity"
+                  value={variety.cuisineDiversity}
+                />
+                <VarietyBar
+                  label="Color Diversity"
+                  value={variety.colorDiversity}
+                />
               </div>
             </div>
           </div>
@@ -190,11 +204,17 @@ export default function InlineNutritionDashboard({
               </h4>
               <ul className="space-y-1">
                 {weeklyCompliance.deficiencies.slice(0, 4).map((def, idx) => (
-                  <li key={idx} className="text-xs text-yellow-700 flex items-start gap-1">
+                  <li
+                    key={idx}
+                    className="text-xs text-yellow-700 flex items-start gap-1"
+                  >
                     <span className="font-bold">-</span>
                     <span>
-                      <strong>{formatNutrientName(String(def.nutrient))}</strong>:{" "}
-                      {Math.round(def.averageDaily)}/day (target: {Math.round(def.targetDaily)})
+                      <strong>
+                        {formatNutrientName(String(def.nutrient))}
+                      </strong>
+                      : {Math.round(def.averageDaily)}/day (target:{" "}
+                      {Math.round(def.targetDaily)})
                     </span>
                   </li>
                 ))}
@@ -220,11 +240,18 @@ function MacroPill({
   unit: string;
 }) {
   const pct = target > 0 ? Math.round((value / target) * 100) : 0;
-  const color = pct >= 85 && pct <= 115 ? "text-green-700" : pct < 85 ? "text-yellow-700" : "text-orange-700";
+  const color =
+    pct >= 85 && pct <= 115
+      ? "text-green-700"
+      : pct < 85
+        ? "text-yellow-700"
+        : "text-orange-700";
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg px-3 py-1.5 min-w-[90px]">
-      <p className="text-[10px] font-semibold text-gray-500 uppercase">{label}</p>
+      <p className="text-[10px] font-semibold text-gray-500 uppercase">
+        {label}
+      </p>
       <p className="text-sm font-bold text-gray-800">
         {value.toLocaleString()}
         <span className="text-xs text-gray-400 ml-0.5">
@@ -250,7 +277,9 @@ function VarietyBar({ label, value }: { label: string; value: number }) {
     <div>
       <div className="flex justify-between items-center mb-1">
         <span className="text-xs text-gray-600">{label}</span>
-        <span className="text-xs font-semibold text-gray-700">{Math.round(value * 100)}%</span>
+        <span className="text-xs font-semibold text-gray-700">
+          {Math.round(value * 100)}%
+        </span>
       </div>
       <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
         <div
@@ -264,10 +293,19 @@ function VarietyBar({ label, value }: { label: string; value: number }) {
 
 function formatNutrientName(nutrient: string): string {
   const map: Record<string, string> = {
-    vitaminA: "Vitamin A", vitaminC: "Vitamin C", vitaminD: "Vitamin D",
-    vitaminE: "Vitamin E", vitaminK: "Vitamin K", vitaminB6: "Vitamin B6",
-    vitaminB12: "Vitamin B12", thiamin: "Thiamin", riboflavin: "Riboflavin",
-    niacin: "Niacin", folate: "Folate", saturatedFat: "Sat. Fat", transFat: "Trans Fat",
+    vitaminA: "Vitamin A",
+    vitaminC: "Vitamin C",
+    vitaminD: "Vitamin D",
+    vitaminE: "Vitamin E",
+    vitaminK: "Vitamin K",
+    vitaminB6: "Vitamin B6",
+    vitaminB12: "Vitamin B12",
+    thiamin: "Thiamin",
+    riboflavin: "Riboflavin",
+    niacin: "Niacin",
+    folate: "Folate",
+    saturatedFat: "Sat. Fat",
+    transFat: "Trans Fat",
   };
   return map[nutrient] || nutrient.charAt(0).toUpperCase() + nutrient.slice(1);
 }
