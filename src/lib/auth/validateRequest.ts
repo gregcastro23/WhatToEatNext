@@ -18,6 +18,11 @@ function getJWTSecret(): string {
   if (_jwtSecret) return _jwtSecret;
   const secret = process.env.JWT_SECRET;
   if (!secret) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "JWT_SECRET environment variable is not set. This may cause authentication issues in development/preview environments.",
+      );
+    }
     throw new Error("JWT_SECRET environment variable is required");
   }
   _jwtSecret = secret;
