@@ -30,13 +30,29 @@ const nextConfig = {
 
     // Externalize Node.js core modules and 'pg' to prevent bundling them into the client-side
     // This is crucial for Vercel deployment where these modules are not available client-side
-    config.externals = {
-      ...config.externals,
-      dns: 'dns',
-      net: 'net',
-      tls: 'tls',
-      fs: 'fs',
-      pg: 'pg',
+    // Ensure Node.js core modules and 'pg' are externalized for server-side builds
+    // This prevents bundling them into the client-side, which is crucial for Vercel.
+    // Webpack's 'externals' property can be a function that receives the Webpack context.
+    // If it's already a function, we should wrap it. If it's an array or object, we merge.
+    const originalExternals = config.externals;
+    config.externals = (context, request, callback) => {
+      // List of modules to externalize
+      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs'];
+
+      if (externalsToExternalize.includes(request)) {
+        return callback(null, `commonjs ${request}`);
+      }
+
+      // If original externals is a function, call it
+      if (typeof originalExternals === 'function') {
+        return originalExternals(context, request, callback);
+      }
+      // If original externals is an object and contains the request
+      if (typeof originalExternals === 'object' && originalExternals !== null && originalExternals[request]) {
+        return callback(null, originalExternals[request]);
+      }
+      // If it's an array, or other cases, let Webpack handle it normally
+      callback();
     };
     return config;
   },
