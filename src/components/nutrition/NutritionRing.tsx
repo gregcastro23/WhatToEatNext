@@ -1,6 +1,6 @@
 // src/components/nutrition/NutritionRing.tsx
-import React from 'react';
-import styles from './NutritionRing.module.css';
+import React from "react";
+import styles from "./NutritionRing.module.css";
 
 interface NutritionRingProps {
   percentage: number; // 0-100
@@ -14,19 +14,22 @@ interface NutritionRingProps {
 
 export function NutritionRing({
   percentage,
-  color = '#20c997', // Default to a general "good" color
-  backgroundColor = '#e0e0e0',
+  color = "#20c997", // Default to a general "good" color
+  backgroundColor = "#e0e0e0",
   size = 60,
   strokeWidth = 6,
   label,
-  value
+  value,
 }: NutritionRingProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className={styles.nutritionRingContainer} style={{ width: size, height: size }}>
+    <div
+      className={styles.nutritionRingContainer}
+      style={{ width: size, height: size }}
+    >
       <svg
         className={styles.nutritionRingSvg}
         width={size}

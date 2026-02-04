@@ -1,8 +1,8 @@
 // src/components/nutrition/ComplianceScore.tsx
-import React from 'react';
-import styles from './ComplianceScore.module.css';
+import React from "react";
+import styles from "./ComplianceScore.module.css";
 
-export type ComplianceScoreSize = 'compact' | 'default' | 'large';
+export type ComplianceScoreSize = "compact" | "default" | "large";
 
 interface ComplianceScoreProps {
   score: number; // 0-100
@@ -11,19 +11,27 @@ interface ComplianceScoreProps {
 }
 
 const getSeverityClass = (score: number): string => {
-  if (score >= 90) return 'severity-excellent';
-  if (score >= 75) return 'severity-good';
-  if (score >= 50) return 'severity-fair';
-  if (score >= 25) return 'severity-poor';
-  return 'severity-critical';
+  if (score >= 90) return "severity-excellent";
+  if (score >= 75) return "severity-good";
+  if (score >= 50) return "severity-fair";
+  if (score >= 25) return "severity-poor";
+  return "severity-critical";
 };
 
-export function ComplianceScore({ score, size = 'default', showLabel = false }: ComplianceScoreProps) {
+export function ComplianceScore({
+  score,
+  size = "default",
+  showLabel = false,
+}: ComplianceScoreProps) {
   const normalizedScore = Math.max(0, Math.min(100, score)); // Ensure score is between 0 and 100
   const severityClass = getSeverityClass(normalizedScore);
 
   return (
-    <div className={`${styles.complianceScore} ${styles[size]} ${styles[severityClass]}`} role="status" aria-label={`Nutrition compliance score: ${normalizedScore.toFixed(0)}%`}>
+    <div
+      className={`${styles.complianceScore} ${styles[size]} ${styles[severityClass]}`}
+      role="status"
+      aria-label={`Nutrition compliance score: ${normalizedScore.toFixed(0)}%`}
+    >
       <svg className={styles.ringSvg} viewBox="0 0 36 36">
         <circle
           className={styles.ringBackground}
@@ -39,9 +47,7 @@ export function ComplianceScore({ score, size = 'default', showLabel = false }: 
           strokeDasharray={`${normalizedScore}, 100`}
         ></circle>
       </svg>
-      <div className={styles.scoreValue}>
-        {normalizedScore.toFixed(0)}%
-      </div>
+      <div className={styles.scoreValue}>{normalizedScore.toFixed(0)}%</div>
       {showLabel && <div className={styles.scoreLabel}>Compliance</div>}
     </div>
   );
