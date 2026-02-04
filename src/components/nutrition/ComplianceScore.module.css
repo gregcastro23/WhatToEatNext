@@ -1,0 +1,116 @@
+/* ============================================
+   COMPLIANCE SCORE STYLES
+   ============================================ */
+
+.complianceScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+.ringSvg {
+  transform: rotate(-90deg);
+}
+
+.ringBackground {
+  fill: none;
+  stroke: #e0e0e0;
+  stroke-width: 3;
+}
+
+.ringProgress {
+  fill: none;
+  stroke-width: 3;
+  transition: stroke-dasharray 0.5s ease-out, stroke 0.3s ease-in-out;
+}
+
+.scoreValue {
+  position: absolute;
+  font-weight: 700;
+  color: #343a40;
+}
+
+.scoreLabel {
+  position: absolute;
+  font-size: 8px;
+  font-weight: 500;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  bottom: 0; /* Adjust as needed for positioning */
+}
+
+/* Sizes */
+.complianceScore.compact .ringSvg {
+  width: 40px;
+  height: 40px;
+}
+.complianceScore.compact .scoreValue {
+  font-size: 14px;
+}
+.complianceScore.compact .scoreLabel {
+  display: none; /* Hide label in compact view */
+}
+
+.complianceScore.default .ringSvg {
+  width: 60px;
+  height: 60px;
+}
+.complianceScore.default .scoreValue {
+  font-size: 20px;
+}
+.complianceScore.default .scoreLabel {
+  font-size: 10px;
+  bottom: 8px;
+}
+
+.complianceScore.large .ringSvg {
+  width: 100px;
+  height: 100px;
+}
+.complianceScore.large .scoreValue {
+  font-size: 32px;
+}
+.complianceScore.large .scoreLabel {
+  font-size: 12px;
+  bottom: 12px;
+}
+
+/* Severity Colors */
+.severity-excellent .ringProgress {
+  stroke: #28a745;
+}
+.severity-excellent .scoreValue {
+  color: #28a745;
+}
+
+.severity-good .ringProgress {
+  stroke: #20c997;
+}
+.severity-good .scoreValue {
+  color: #20c997;
+}
+
+.severity-fair .ringProgress {
+  stroke: #ffc107;
+}
+.severity-fair .scoreValue {
+  color: #ffc107;
+}
+
+.severity-poor .ringProgress {
+  stroke: #fd7e14;
+}
+.severity-poor .scoreValue {
+  color: #fd7e14;
+}
+
+.severity-critical .ringProgress {
+  stroke: #dc3545;
+}
+.severity-critical .scoreValue {
+  color: #dc3545;
+}

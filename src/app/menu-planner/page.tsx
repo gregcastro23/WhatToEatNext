@@ -19,7 +19,8 @@ import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
 import WeekProgress from "@/components/menu-builder/WeekProgress";
-import { InlineNutritionDashboard, WeeklyNutritionDashboard as WeeklyNutritionDashboardModal } from "@/components/nutrition";
+import { InlineNutritionDashboard } from "@/components/nutrition";
+import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { useToast, Toast } from "@/components/common/Toast";
 import { MenuPlannerProvider, useMenuPlanner } from "@/contexts/MenuPlannerContext";
@@ -56,6 +57,7 @@ function MenuPlannerContent() {
   const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
+  const [isWeeklyDashboardExpanded, setIsWeeklyDashboardExpanded] = useState(false); // New state for sticky dashboard
 
   const { toast, showSuccess, showError, showInfo } = useToast();
 
@@ -138,7 +140,8 @@ function MenuPlannerContent() {
 
               <button
                 onClick={() => {
-                  setShowNutritionDashboard(true);
+                  setIsWeeklyDashboardExpanded(!isWeeklyDashboardExpanded);
+                  // setShowNutritionDashboard(true); // Old modal behavior
                 }}
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:shadow-lg transition-all font-medium"
               >
@@ -153,10 +156,18 @@ function MenuPlannerContent() {
               </button>
             </div>
           </div>
-        </div>
-
-        {/* Week Progress + Inline Nutrition */}
-        <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  </div>
+        
+                {/* Weekly Nutrition Dashboard (Sticky Top) */}
+                {weeklyNutrition && (
+                  <WeeklyNutritionDashboard
+                    weeklyData={weeklyNutrition}
+                    isExpanded={isWeeklyDashboardExpanded}
+                    onToggleExpand={() => setIsWeeklyDashboardExpanded(!isWeeklyDashboardExpanded)}
+                  />
+                )}
+        
+                {/* Week Progress + Inline Nutrition */}        <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-1">
             <WeekProgress
               weekPlan={currentMenu}
@@ -261,7 +272,8 @@ function MenuPlannerContent() {
           onClose={() => setShowNutritionDashboard(false)}
         />
 
-        {/* Detailed Weekly Nutrition Dashboard Modal */}
+        {/* Detailed Weekly Nutrition Dashboard Modal (COMMENTED OUT FOR NOW) */}
+        {/*
         {weeklyNutrition && (
           <WeeklyNutritionDashboardModal
             weeklyResult={weeklyNutrition}
@@ -269,6 +281,7 @@ function MenuPlannerContent() {
             onClose={() => setShowDetailedNutrition(false)}
           />
         )}
+        */}
 
         {/* Statistics Modal */}
         {showStats && weeklyStats && (

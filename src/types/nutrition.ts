@@ -236,7 +236,7 @@ export type NutritionGoal = 'maintain' | 'lose_weight' | 'gain_weight' | 'gain_m
 /**
  * Nutrient deficiency or excess entry
  */
-export interface NutrientDeviation {
+export interface ComplianceDeficiency {
   nutrient: keyof NutritionalSummary;
   actual: number;
   target: number;
@@ -259,8 +259,8 @@ export interface DailyNutritionResult {
   compliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: NutrientDeviation[];
-    excesses: NutrientDeviation[];
+    deficiencies: ComplianceDeficiency[];
+    excesses: ComplianceDeficiency[];
     suggestions: string[];
   };
 }
@@ -277,19 +277,8 @@ export interface WeeklyNutritionResult {
   weeklyCompliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: Array<{
-      nutrient: keyof NutritionalSummary;
-      averageDaily: number;
-      targetDaily: number;
-      daysDeficient: number;
-    }>;
-    excesses: Array<{
-      nutrient: keyof NutritionalSummary;
-      averageDaily: number;
-      targetDaily: number;
-      daysExceeded: number;
-    }>;
-  };
+    deficiencies: ComplianceDeficiency[];
+    excesses: ComplianceDeficiency[];
   variety: {
     uniqueIngredients: number;
     uniqueRecipes: number;
