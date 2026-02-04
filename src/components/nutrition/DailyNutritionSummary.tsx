@@ -99,8 +99,8 @@ export default function DailyNutritionSummary({
 
           {/* Micronutrient highlights */}
           <MicronutrientHighlights
-            actual={result.totals}
-            target={result.goals}
+            totals={result.totals}
+            goals={result.goals}
             deficiencies={result.compliance.deficiencies}
             excesses={result.compliance.excesses}
           />

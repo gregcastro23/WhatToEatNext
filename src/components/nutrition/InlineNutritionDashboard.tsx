@@ -177,7 +177,7 @@ export default function InlineNutritionDashboard({
                 Key Micronutrients
               </h3>
               <MicronutrientHighlights
-                actual={weeklyTotals}
+                totals={weeklyTotals}
                 target={weeklyGoals}
                 deficiencies={weeklyDeficiencies}
                 excesses={weeklyExcesses}
