@@ -26,6 +26,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 # Database imports
 from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation
+from alchm_kitchen.recipe_generator import get_astrological_recipes
+try:
+    import swisseph as swe
+except ImportError:
+    swe = None
 
 # External data imports for cuisine and sauce recommendations
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
@@ -410,6 +415,8 @@ class PlanetaryPositionsRequest(BaseModel):
     day: Optional[int] = None
     hour: Optional[int] = 0
     minute: Optional[int] = 0
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     zodiacSystem: Optional[str] = "tropical"
 
 @app.post("/api/planetary/positions")
@@ -805,6 +812,76 @@ async def get_personalized_cooking_plan(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create personalized cooking plan: {str(e)}")
+
+@app.post("/api/astrological/recipe-recommendations-by-chart")
+async def get_recipe_recommendations_by_chart(
+    request: PlanetaryPositionsRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    Get recipe recommendations based on Ascendant, Sun, and Moon signs.
+    """
+    try:
+        if not swe:
+            raise HTTPException(status_code=500, detail="Swiss Ephemeris not available")
+
+        # Calculate time
+        year = request.year or datetime.now().year
+        month = request.month or datetime.now().month
+        day = request.day or datetime.now().day
+        hour = request.hour or 0
+        minute = request.minute or 0
+
+        # Calculate Julian Day
+        jul_day = swe.julday(year, month, day, hour + minute / 60.0)
+
+        flags = swe.FLG_SWIEPH | swe.FLG_SPEED
+        if request.zodiacSystem == 'sidereal':
+            flags = swe.FLG_SIDEREAL | swe.FLG_SPEED
+            swe.set_sid_mode(swe.SIDM_LAHIRI)
+
+        # Calculate Sun and Moon
+        sun_res = swe.calc_ut(jul_day, swe.SUN, flags)
+        moon_res = swe.calc_ut(jul_day, swe.MOON, flags)
+
+        zodiac_signs = [
+            "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+            "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+        ]
+
+        sun_sign = zodiac_signs[int(sun_res[0][0] / 30)]
+        moon_sign = zodiac_signs[int(moon_res[0][0] / 30)]
+
+        # Calculate Ascendant
+        ascendant_sign = "unknown"
+        if request.latitude is not None and request.longitude is not None:
+            # swe.houses returns (cusps, ascmc)
+            # ascmc[0] is Ascendant
+            cusps, ascmc = swe.houses(jul_day, request.latitude, request.longitude, b'P')
+            ascendant_sign = zodiac_signs[int(ascmc[0] / 30)]
+
+        # Get Recipes
+        # Capitalize signs for DB matching if needed (depends on DB data, usually Title Case)
+        pass_ascendant = ascendant_sign.capitalize() if ascendant_sign != "unknown" else "Aries" # Default?
+
+        recommendations = get_astrological_recipes(
+            sun_sign.capitalize(),
+            moon_sign.capitalize(),
+            pass_ascendant,
+            db
+        )
+
+        return {
+            "chart_points": {
+                "Sun": sun_sign.capitalize(),
+                "Moon": moon_sign.capitalize(),
+                "Ascendant": ascendant_sign.capitalize()
+            },
+            "recommendations": recommendations
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get chart recommendations: {str(e)}")
 
 # Current Moment Cuisine Recommendations - Phase 6
 @app.get("/cuisines/recommend")
