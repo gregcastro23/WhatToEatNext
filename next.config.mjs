@@ -6,6 +6,7 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingRoot: __dirname,
   reactStrictMode: false,
   typescript: {
     ignoreBuildErrors: true,
@@ -14,17 +15,28 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   // Turbopack configuration (Next.js 16 default bundler)
-  turbopack: {
-    root: __dirname,
-    resolveAlias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
-  },
+  // turbopack: {
+  //   root: __dirname,
+  //   resolveAlias: {
+  //     '@': path.resolve(__dirname, 'src'),
+  //   },
+  // },
   // Webpack fallback configuration for path alias resolution
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, 'src'),
+    };
+
+    // Externalize Node.js core modules and 'pg' to prevent bundling them into the client-side
+    // This is crucial for Vercel deployment where these modules are not available client-side
+    config.externals = {
+      ...config.externals,
+      dns: 'dns',
+      net: 'net',
+      tls: 'tls',
+      fs: 'fs',
+      pg: 'pg',
     };
     return config;
   },

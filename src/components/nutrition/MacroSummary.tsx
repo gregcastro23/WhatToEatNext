@@ -1,76 +1,84 @@
-"use client";
-
-import React from "react";
-import type { NutritionalSummary } from "@/types/nutrition";
-import NutritionRing from "./NutritionRing";
+// src/components/nutrition/MacroSummary.tsx
+import React from 'react';
+import { NutritionRing } from './NutritionRing';
+import styles from './MacroSummary.module.css';
 
 interface MacroSummaryProps {
-  actual: NutritionalSummary;
-  target: NutritionalSummary;
+  totals: {
+    protein: number;
+    carbs: number;
+    fat: number;
+    calories: number;
+  };
+  goals: {
+    protein: number;
+    carbs: number;
+    fat: number;
+    calories: number;
+  };
+  percentages: {
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
 }
 
-/**
- * Displays macronutrient rings (calories, protein, carbs, fat, fiber)
- * with progress toward daily targets.
- */
-export default function MacroSummary({ actual, target }: MacroSummaryProps) {
-  const macros = [
-    { key: "calories" as const, label: "Calories", unit: "kcal", color: "#3b82f6" },
-    { key: "protein" as const, label: "Protein", unit: "g", color: "#ef4444" },
-    { key: "carbs" as const, label: "Carbs", unit: "g", color: "#eab308" },
-    { key: "fat" as const, label: "Fat", unit: "g", color: "#f97316" },
-    { key: "fiber" as const, label: "Fiber", unit: "g", color: "#22c55e" },
-  ];
-
+export function MacroSummary({ totals, goals, percentages }: MacroSummaryProps) {
   return (
-    <div className="bg-white rounded-xl p-4 border border-gray-200">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">Macronutrients</h3>
-      <div className="flex flex-wrap justify-center gap-4">
-        {macros.map((m) => (
+    <div className={styles.macroSummary}>
+      <div className={styles.macroRings}>
+        <div className={styles.ringItem}>
           <NutritionRing
-            key={m.key}
-            value={actual[m.key]}
-            max={target[m.key]}
-            label={m.label}
-            unit={m.unit}
-            color={m.color}
+            percentage={percentages.protein}
+            color="#007bff"
             size={80}
-            strokeWidth={6}
+            strokeWidth={8}
+            label="Protein"
+            value={`${Math.round(totals.protein)}g`}
           />
-        ))}
+          <div className={styles.macroDetails}>
+            <span className={styles.macroLabel}>Protein</span>
+            <span className={styles.macroValue}>{Math.round(totals.protein)}g</span>
+            <span className={styles.macroTarget}>/ {Math.round(goals.protein)}g</span>
+          </div>
+        </div>
+
+        <div className={styles.ringItem}>
+          <NutritionRing
+            percentage={percentages.carbs}
+            color="#28a745"
+            size={80}
+            strokeWidth={8}
+            label="Carbs"
+            value={`${Math.round(totals.carbs)}g`}
+          />
+          <div className={styles.macroDetails}>
+            <span className={styles.macroLabel}>Carbs</span>
+            <span className={styles.macroValue}>{Math.round(totals.carbs)}g</span>
+            <span className={styles.macroTarget}>/ {Math.round(goals.carbs)}g</span>
+          </div>
+        </div>
+
+        <div className={styles.ringItem}>
+          <NutritionRing
+            percentage={percentages.fat}
+            color="#ffc107"
+            size={80}
+            strokeWidth={8}
+            label="Fat"
+            value={`${Math.round(totals.fat)}g`}
+          />
+          <div className={styles.macroDetails}>
+            <span className={styles.macroLabel}>Fat</span>
+            <span className={styles.macroValue}>{Math.round(totals.fat)}g</span>
+            <span className={styles.macroTarget}>/ {Math.round(goals.fat)}g</span>
+          </div>
+        </div>
       </div>
-
-      {/* Macro percentage bar */}
-      <div className="mt-4">
-        <MacroPercentageBar protein={actual.protein} carbs={actual.carbs} fat={actual.fat} />
-      </div>
-    </div>
-  );
-}
-
-function MacroPercentageBar({ protein, carbs, fat }: { protein: number; carbs: number; fat: number }) {
-  const proteinCal = protein * 4;
-  const carbsCal = carbs * 4;
-  const fatCal = fat * 9;
-  const total = proteinCal + carbsCal + fatCal;
-
-  if (total === 0) return null;
-
-  const pPct = (proteinCal / total) * 100;
-  const cPct = (carbsCal / total) * 100;
-  const fPct = (fatCal / total) * 100;
-
-  return (
-    <div>
-      <div className="flex h-3 rounded-full overflow-hidden">
-        <div style={{ width: `${pPct}%`, backgroundColor: "#ef4444" }} title={`Protein: ${pPct.toFixed(0)}%`} />
-        <div style={{ width: `${cPct}%`, backgroundColor: "#eab308" }} title={`Carbs: ${cPct.toFixed(0)}%`} />
-        <div style={{ width: `${fPct}%`, backgroundColor: "#f97316" }} title={`Fat: ${fPct.toFixed(0)}%`} />
-      </div>
-      <div className="flex justify-between mt-1 text-xs text-gray-500">
-        <span>P: {pPct.toFixed(0)}%</span>
-        <span>C: {cPct.toFixed(0)}%</span>
-        <span>F: {fPct.toFixed(0)}%</span>
+      <div className={styles.caloriesOverview}>
+        <span className={styles.caloriesLabel}>Total Calories:</span>
+        <span className={styles.caloriesValue}>{Math.round(totals.calories)} kcal</span>
+        <span className={styles.caloriesTarget}>/ {Math.round(goals.calories)} kcal</span>
       </div>
     </div>
   );
