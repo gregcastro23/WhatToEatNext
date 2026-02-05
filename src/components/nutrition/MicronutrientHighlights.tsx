@@ -1,18 +1,11 @@
 // src/components/nutrition/MicronutrientHighlights.tsx
 import React from "react";
-import {
-  NutritionalSummary,
-  NutritionalTargets,
-  ComplianceDeficiency,
-  NutrientDeviation,
-} from "@/types/nutrition";
+import { NutritionalSummary, NutritionalTargets } from "@/types/nutrition";
 import styles from "./MicronutrientHighlights.module.css";
 
 interface MicronutrientHighlightsProps {
   totals: NutritionalSummary;
-  goals: NutritionalSummary; // Changed from NutritionalTargets
-  deficiencies: NutrientDeviation[];
-  excesses: NutrientDeviation[]; // Added
+  goals: NutritionalSummary;
 }
 
 // List of key micronutrients to display, in order of importance/common interest
@@ -67,19 +60,27 @@ const getNutrientUnit = (nutrient: string): string => {
 export function MicronutrientHighlights({
   totals,
   goals,
-  deficiencies,
 }: MicronutrientHighlightsProps) {
   const displayedMicros = KEY_MICRONUTRIENTS.map((key) => {
     const total = (totals as any)[key] || 0;
     const goal = (goals as any)[key] || 0; // Assuming goals also have these keys
-    const isDeficient = deficiencies.some((d) => d.nutrient === key);
+    const percentage = goal > 0 ? (total / goal) * 100 : 100;
+    const status =
+      percentage >= 90
+        ? "excellent"
+        : percentage >= 75
+          ? "good"
+          : percentage >= 50
+            ? "fair"
+            : "poor";
+
     return {
       name: formatNutrientName(key),
       total: Math.round(total),
       goal: Math.round(goal),
       unit: getNutrientUnit(key),
-      isDeficient: isDeficient,
-      percentage: goal > 0 ? (total / goal) * 100 : 100,
+      percentage: percentage,
+      status: status,
     };
   }).filter((micro) => micro.goal > 0); // Only show if there's a goal for it
 
@@ -94,13 +95,13 @@ export function MicronutrientHighlights({
           {displayedMicros.map((micro, index) => (
             <li
               key={index}
-              className={`${styles.micronutrientItem} ${micro.isDeficient ? styles.deficient : ""}`}
+              className={`${styles.micronutrientItem} ${styles[micro.status]}`}
             >
               <span className={styles.nutrientName}>{micro.name}</span>
               <div className={styles.nutrientProgress}>
                 <div className={styles.progressBar}>
                   <div
-                    className={styles.progressBarFill}
+                    className={`${styles.progressBarFill} ${styles[`progressBarFill-${micro.status}`]}`}
                     style={{ width: `${Math.min(100, micro.percentage)}%` }}
                   ></div>
                 </div>
@@ -113,14 +114,12 @@ export function MicronutrientHighlights({
                   </span>
                 </span>
               </div>
-              {micro.isDeficient && (
-                <span
-                  className={styles.deficiencyIndicator}
-                  title="Below target"
-                >
-                  ⚠️
-                </span>
-              )}
+              <span className={styles.statusIndicator}>
+                {micro.status === "excellent" && "✅"}
+                {micro.status === "good" && "👍"}
+                {micro.status === "fair" && "⚠️"}
+                {micro.status === "poor" && "🚨"}
+              </span>
             </li>
           ))}
         </ul>

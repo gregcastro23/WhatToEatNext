@@ -20,7 +20,6 @@ interface RecipeNutritionModalProps {
   servings?: number;
   isOpen: boolean;
   onClose: () => void;
-  weeklyResult?: WeeklyNutritionResult | null;
 }
 
 /** FDA Daily Values (2000 cal reference diet) */
@@ -161,7 +160,6 @@ export function RecipeNutritionModal({
   servings = 1,
   isOpen,
   onClose,
-  weeklyResult,
 }: RecipeNutritionModalProps) {
   const nutrition = useMemo(
     () => extractFullNutrition(recipe, servings),
@@ -323,73 +321,9 @@ export function RecipeNutritionModal({
                   </div>
                 </div>
               )}
-
-              {/* Weekly Compliance Impact */}
-              {weeklyResult && (
-                <ComplianceImpact
-                  nutrition={nutrition}
-                  weeklyResult={weeklyResult}
-                />
-              )}
             </>
           )}
         </div>
-      </div>
-    </div>
-  );
-}
-
-/** Shows how adding this recipe would impact weekly compliance */
-function ComplianceImpact({
-  nutrition,
-  weeklyResult,
-}: {
-  nutrition: NutritionalSummary;
-  weeklyResult: WeeklyNutritionResult;
-}) {
-  const deficiencies = weeklyResult.weeklyCompliance.deficiencies;
-  if (deficiencies.length === 0) return null;
-
-  const helpsWith = deficiencies
-    .filter((d) => {
-      const val = nutrition[d.nutrient];
-      return typeof val === "number" && val > 0;
-    })
-    .map((d) => {
-      const provided = nutrition[d.nutrient] as number;
-      const gap = d.targetDaily * 7 - d.averageDaily * 7;
-      const fillPct =
-        gap > 0 ? Math.min(100, Math.round((provided / gap) * 100)) : 0;
-      return { nutrient: d.nutrient, fillPct, provided };
-    })
-    .filter((h) => h.fillPct > 0)
-    .sort((a, b) => b.fillPct - a.fillPct)
-    .slice(0, 5);
-
-  if (helpsWith.length === 0) return null;
-
-  return (
-    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-      <h4 className="text-sm font-semibold text-green-800 mb-2">
-        Fills Nutritional Gaps
-      </h4>
-      <div className="space-y-1.5">
-        {helpsWith.map((h) => (
-          <div key={h.nutrient} className="flex items-center gap-2">
-            <span className="text-sm text-green-700 w-24 shrink-0">
-              {formatNutrientName(h.nutrient)}
-            </span>
-            <div className="flex-1 h-2 bg-green-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-green-500 rounded-full transition-all"
-                style={{ width: `${Math.min(100, h.fillPct)}%` }}
-              />
-            </div>
-            <span className="text-xs font-mono text-green-700 w-10 text-right">
-              {h.fillPct}%
-            </span>
-          </div>
-        ))}
       </div>
     </div>
   );

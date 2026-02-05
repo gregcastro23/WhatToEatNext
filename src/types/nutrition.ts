@@ -264,28 +264,6 @@ export type NutritionGoal =
   | "athletic_performance";
 
 /**
- * Nutrient deviation entry, used for tracking how far a nutrient is from its target.
- */
-export interface NutrientDeviation {
-  nutrient: keyof NutritionalSummary;
-  averageDaily: number;
-  targetDaily: number;
-  daysDeficient?: number;
-  daysExceeded?: number;
-}
-
-/**
- * Nutrient deficiency or excess entry
- */
-export interface ComplianceDeficiency {
-  nutrient: keyof NutritionalSummary;
-  actual: number;
-  target: number;
-  delta: number;
-  severity: "mild" | "moderate" | "severe";
-}
-
-/**
  * Daily nutrition result with compliance analysis
  */
 export interface DailyNutritionResult {
@@ -300,9 +278,6 @@ export interface DailyNutritionResult {
   compliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: ComplianceDeficiency[];
-    excesses: ComplianceDeficiency[];
-    suggestions: string[];
   };
 }
 
@@ -318,8 +293,6 @@ export interface WeeklyNutritionResult {
   weeklyCompliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: NutrientDeviation[];
-    excesses: NutrientDeviation[];
   };
   variety: {
     uniqueIngredients: number;

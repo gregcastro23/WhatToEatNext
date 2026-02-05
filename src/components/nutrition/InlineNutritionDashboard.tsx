@@ -12,7 +12,7 @@ import { getComplianceSeverity } from "@/types/nutrition";
 import { ComplianceScore } from "../nutrition";
 import { MacroSummary } from "../nutrition";
 import { MicronutrientHighlights } from "../nutrition";
-import { findDeficiencies, findExcesses } from "@/utils/nutritionAggregation";
+
 import { multiplyNutrition } from "@/data/nutritional/rdaStandards";
 
 interface InlineNutritionDashboardProps {
@@ -33,9 +33,6 @@ export function InlineNutritionDashboard({
 
   const severity = getComplianceSeverity(weeklyCompliance.overall);
 
-  const deficiencyCount = weeklyCompliance.deficiencies.length;
-  const excessCount = weeklyCompliance.excesses.length;
-
   // Daily averages for expanded macro view
   const dailyAvgActual = useMemo(
     () => multiplyNutrition(weeklyTotals, 1 / 7),
@@ -44,15 +41,6 @@ export function InlineNutritionDashboard({
   const dailyAvgTarget = useMemo(
     () => multiplyNutrition(weeklyGoals, 1 / 7),
     [weeklyGoals],
-  );
-
-  const weeklyDeficiencies = useMemo(
-    () => findDeficiencies(weeklyTotals, weeklyGoals),
-    [weeklyTotals, weeklyGoals],
-  );
-  const weeklyExcesses = useMemo(
-    () => findExcesses(weeklyTotals, weeklyGoals),
-    [weeklyTotals, weeklyGoals],
   );
 
   // Severity-based border color
@@ -118,18 +106,6 @@ export function InlineNutritionDashboard({
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Deficiency Alert */}
-          {deficiencyCount > 0 && (
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300">
-              {deficiencyCount} low
-            </span>
-          )}
-          {excessCount > 0 && (
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-100 text-orange-800 border border-orange-300">
-              {excessCount} high
-            </span>
-          )}
-
           {/* Expand/Collapse */}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
@@ -179,16 +155,6 @@ export function InlineNutritionDashboard({
               <MicronutrientHighlights
                 totals={weeklyTotals}
                 goals={weeklyGoals}
-                deficiencies={weeklyDeficiencies.map((d) => ({
-                  nutrient: d.nutrient,
-                  averageDaily: d.actual,
-                  targetDaily: d.target,
-                }))}
-                excesses={weeklyExcesses.map((e) => ({
-                  nutrient: e.nutrient,
-                  averageDaily: e.actual,
-                  targetDaily: e.target,
-                }))}
               />
             </div>
 
@@ -217,32 +183,6 @@ export function InlineNutritionDashboard({
               </div>
             </div>
           </div>
-
-          {/* Suggestions */}
-          {weeklyCompliance.deficiencies.length > 0 && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-              <h4 className="text-xs font-bold text-yellow-800 uppercase tracking-wide mb-2">
-                Recommendations
-              </h4>
-              <ul className="space-y-1">
-                {weeklyCompliance.deficiencies.slice(0, 4).map((def, idx) => (
-                  <li
-                    key={idx}
-                    className="text-xs text-yellow-700 flex items-start gap-1"
-                  >
-                    <span className="font-bold">-</span>
-                    <span>
-                      <strong>
-                        {formatNutrientName(String(def.nutrient))}
-                      </strong>
-                      : {Math.round(def.averageDaily)}/day (target:{" "}
-                      {Math.round(def.targetDaily)})
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       )}
     </div>

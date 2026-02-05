@@ -103,18 +103,6 @@ export function WeeklyNutritionDashboard({
         </div>
 
         <div className={styles.compactRight}>
-          {/* Top Deficiencies Alert */}
-          {weeklyCompliance.deficiencies.length > 0 && (
-            <div className={styles.deficiencyAlert}>
-              <span className={styles.alertIcon}>⚠️</span>
-              <span className={styles.alertText}>
-                {weeklyCompliance.deficiencies.length} nutrient
-                {weeklyCompliance.deficiencies.length > 1 ? "s" : ""} below
-                target
-              </span>
-            </div>
-          )}
-
           {/* Expand/Collapse Button */}
           <button
             className={styles.expandButton}
@@ -247,26 +235,6 @@ export function WeeklyNutritionDashboard({
               </div>
             </div>
           </div>
-
-          {/* Bottom: Suggestions */}
-          {weeklyCompliance.deficiencies.length > 0 && (
-            <div className={styles.suggestions}>
-              <h4 className={styles.suggestionsTitle}>
-                💡 Nutrition Recommendations
-              </h4>
-              <ul className={styles.suggestionsList}>
-                {weeklyCompliance.deficiencies.slice(0, 5).map((def, idx) => (
-                  <li key={idx} className={styles.suggestionItem}>
-                    <strong>{formatNutrientName(def.nutrient)}</strong>:
-                    Currently averaging {Math.round(def.averageDaily)}
-                    {getNutrientUnit(def.nutrient)}/day (target:{" "}
-                    {Math.round(def.targetDaily)}
-                    {getNutrientUnit(def.nutrient)})
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       )}
     </div>

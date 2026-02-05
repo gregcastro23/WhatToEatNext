@@ -114,90 +114,6 @@ export function calculateOverallCompliance(
 }
 
 /**
- * Find nutrient deficiencies (actual < 85% of target)
- */
-export function findDeficiencies(
-  actual: NutritionalSummary,
-  target: NutritionalSummary,
-): ComplianceDeficiency[] {
-  const deficiencies: ComplianceDeficiency[] = [];
-  for (const key of ALL_NUTRIENT_KEYS) {
-    const a = actual[key];
-    const t = target[key];
-    if (typeof a === "number" && typeof t === "number" && t > 0) {
-      const ratio = a / t;
-      if (ratio < 0.85) {
-        const severity =
-          ratio < 0.5 ? "severe" : ratio < 0.7 ? "moderate" : "mild";
-        deficiencies.push({
-          nutrient: key,
-          actual: a,
-          target: t,
-          delta: t - a,
-          severity,
-        });
-      }
-    }
-  }
-  return deficiencies.sort((x, y) => x.actual / x.target - y.actual / y.target);
-}
-
-/**
- * Find nutrient excesses (actual > 115% of target)
- */
-export function findExcesses(
-  actual: NutritionalSummary,
-  target: NutritionalSummary,
-): ComplianceDeficiency[] {
-  const excesses: ComplianceDeficiency[] = [];
-  for (const key of ALL_NUTRIENT_KEYS) {
-    const a = actual[key];
-    const t = target[key];
-    if (typeof a === "number" && typeof t === "number" && t > 0) {
-      const ratio = a / t;
-      if (ratio > 1.15) {
-        const severity =
-          ratio > 2.0 ? "severe" : ratio > 1.5 ? "moderate" : "mild";
-        excesses.push({
-          nutrient: key,
-          actual: a,
-          target: t,
-          delta: a - t,
-          severity,
-        });
-      }
-    }
-  }
-  return excesses.sort((x, y) => y.actual / y.target - x.actual / x.target);
-}
-
-/**
- * Generate human-readable suggestions based on deficiencies and excesses
- */
-export function generateSuggestions(
-  deficiencies: ComplianceDeficiency[],
-  excesses: ComplianceDeficiency[],
-): string[] {
-  const suggestions: string[] = [];
-
-  for (const d of deficiencies.slice(0, 3)) {
-    const pct = Math.round((1 - d.actual / d.target) * 100);
-    suggestions.push(
-      `Increase ${formatNutrientName(d.nutrient)} intake (${pct}% below target)`,
-    );
-  }
-
-  for (const e of excesses.slice(0, 3)) {
-    const pct = Math.round((e.actual / e.target - 1) * 100);
-    suggestions.push(
-      `Reduce ${formatNutrientName(e.nutrient)} intake (${pct}% above target)`,
-    );
-  }
-
-  return suggestions;
-}
-
-/**
  * Build a DailyNutritionResult from meal nutrition data
  */
 export function buildDailyResult(
@@ -211,8 +127,6 @@ export function buildDailyResult(
 ): DailyNutritionResult {
   const totals = aggregateNutrition(meals.map((m) => m.nutrition));
   const overall = calculateOverallCompliance(totals, goals);
-  const deficiencies = findDeficiencies(totals, goals);
-  const excesses = findExcesses(totals, goals);
 
   const byNutrient: Record<string, number> = {};
   for (const key of ALL_NUTRIENT_KEYS) {
@@ -231,9 +145,6 @@ export function buildDailyResult(
     compliance: {
       overall,
       byNutrient,
-      deficiencies,
-      excesses,
-      suggestions: generateSuggestions(deficiencies, excesses),
     },
   };
 }
@@ -261,38 +172,6 @@ export function buildWeeklyResult(
     }
   }
 
-  const deficiencies: WeeklyNutritionResult["weeklyCompliance"]["deficiencies"] =
-    [];
-  const excesses: WeeklyNutritionResult["weeklyCompliance"]["excesses"] = [];
-
-  for (const key of ALL_NUTRIENT_KEYS) {
-    const dailyTarget =
-      days.length > 0 ? ((weeklyGoals[key] as number) ?? 0) / 7 : 0;
-    if (dailyTarget <= 0) continue;
-
-    const dailyValues = days.map((d) => (d.totals[key] as number) ?? 0);
-    const avg = dailyValues.reduce((s, v) => s + v, 0) / (days.length || 1);
-    const daysBelow = dailyValues.filter((v) => v < dailyTarget * 0.85).length;
-    const daysAbove = dailyValues.filter((v) => v > dailyTarget * 1.15).length;
-
-    if (avg < dailyTarget * 0.85) {
-      deficiencies.push({
-        nutrient: key,
-        averageDaily: avg,
-        targetDaily: dailyTarget,
-        daysDeficient: daysBelow,
-      });
-    }
-    if (avg > dailyTarget * 1.15) {
-      excesses.push({
-        nutrient: key,
-        averageDaily: avg,
-        targetDaily: dailyTarget,
-        daysExceeded: daysAbove,
-      });
-    }
-  }
-
   const uniqueRecipes = new Set(
     days.flatMap((d) => d.meals.map((m) => m.recipeName)),
   ).size;
@@ -303,7 +182,7 @@ export function buildWeeklyResult(
     days,
     weeklyTotals,
     weeklyGoals,
-    weeklyCompliance: { overall, byNutrient, deficiencies, excesses },
+    weeklyCompliance: { overall, byNutrient },
     variety: {
       uniqueIngredients: 0, // Would require ingredient-level data
       uniqueRecipes,

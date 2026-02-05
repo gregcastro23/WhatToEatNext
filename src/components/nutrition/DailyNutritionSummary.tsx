@@ -101,37 +101,7 @@ export function DailyNutritionSummary({
           <MicronutrientHighlights
             totals={result.totals}
             goals={result.goals}
-            deficiencies={result.compliance.deficiencies.map((d) => ({
-              nutrient: d.nutrient,
-              averageDaily: d.actual,
-              targetDaily: d.target,
-            }))}
-            excesses={result.compliance.excesses.map((e) => ({
-              nutrient: e.nutrient,
-              averageDaily: e.actual,
-              targetDaily: e.target,
-            }))}
           />
-
-          {/* Suggestions */}
-          {result.compliance.suggestions.length > 0 && (
-            <div className="bg-blue-50 rounded-lg p-3">
-              <h4 className="text-xs font-medium text-blue-700 mb-1">
-                Suggestions
-              </h4>
-              <ul className="space-y-1">
-                {result.compliance.suggestions.map((s, i) => (
-                  <li
-                    key={i}
-                    className="text-xs text-blue-600 flex items-start gap-1"
-                  >
-                    <span>-</span>
-                    <span>{s}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       )}
     </div>
