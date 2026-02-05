@@ -15,7 +15,7 @@ interface DailyNutritionSummaryProps {
 /**
  * Displays a complete daily nutrition summary with macros, compliance, and micronutrient highlights.
  */
-export default function DailyNutritionSummary({
+export function DailyNutritionSummary({
   result,
   dayLabel,
   expanded = false,

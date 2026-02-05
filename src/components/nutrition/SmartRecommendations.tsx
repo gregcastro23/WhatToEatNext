@@ -8,7 +8,10 @@
 
 import React, { useState, useMemo } from "react";
 import type { Recipe } from "@/types/recipe";
-import type { WeeklyNutritionResult, NutritionalSummary } from "@/types/nutrition";
+import type {
+  WeeklyNutritionResult,
+  NutritionalSummary,
+} from "@/types/nutrition";
 import { formatNutrientName } from "@/utils/nutritionAggregation";
 import RecipeNutritionQuickView from "./RecipeNutritionQuickView";
 
@@ -48,9 +51,12 @@ function scoreRecipeForGaps(
 
     // Check top-level nutrition
     if (key === "calories") recipeProvides = n.calories ?? 0;
-    else if (key === "protein") recipeProvides = n.protein ?? n.macronutrients?.protein ?? 0;
-    else if (key === "carbs") recipeProvides = n.carbs ?? n.macronutrients?.carbs ?? 0;
-    else if (key === "fat") recipeProvides = n.fat ?? n.macronutrients?.fat ?? 0;
+    else if (key === "protein")
+      recipeProvides = n.protein ?? n.macronutrients?.protein ?? 0;
+    else if (key === "carbs")
+      recipeProvides = n.carbs ?? n.macronutrients?.carbs ?? 0;
+    else if (key === "fat")
+      recipeProvides = n.fat ?? n.macronutrients?.fat ?? 0;
     else if (key === "fiber") recipeProvides = n.macronutrients?.fiber ?? 0;
     // Check micronutrients
     else if (n.micronutrients?.vitamins?.[key] !== undefined)
@@ -83,12 +89,14 @@ function scoreRecipeForGaps(
   return {
     recipe,
     reason,
-    complianceImprovement: Math.round(totalImprovementScore / deficiencies.length),
+    complianceImprovement: Math.round(
+      totalImprovementScore / deficiencies.length,
+    ),
     nutrientBoosts: nutrientBoosts.slice(0, 4),
   };
 }
 
-export default function SmartRecommendations({
+export function SmartRecommendations({
   weeklyResult,
   availableRecipes,
   onAddToMenu,

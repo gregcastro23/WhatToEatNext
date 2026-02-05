@@ -24,7 +24,7 @@ interface InlineNutritionDashboardProps {
  * Compact view: compliance score, macro pills, deficiency count.
  * Expanded view: macro rings, micronutrient highlights, variety stats, suggestions.
  */
-export default function InlineNutritionDashboard({
+export function InlineNutritionDashboard({
   weeklyResult,
 }: InlineNutritionDashboardProps) {
   const [isExpanded, setIsExpanded] = useState(false);

@@ -17,7 +17,10 @@ interface RecipeNutritionQuickViewProps {
 }
 
 /** Thresholds for "good source" badges */
-const GOOD_SOURCE_THRESHOLDS: Record<string, { min: number; label: string; icon: string }> = {
+const GOOD_SOURCE_THRESHOLDS: Record<
+  string,
+  { min: number; label: string; icon: string }
+> = {
   fiber: { min: 5, label: "Fiber", icon: "🌾" },
   vitaminC: { min: 15, label: "Vit C", icon: "🍊" },
   calcium: { min: 130, label: "Calcium", icon: "🦴" },
@@ -37,11 +40,15 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
 
   const microValues: Record<string, number> = {};
   if (n.micronutrients?.vitamins) {
-    microValues.vitaminC = ((n.micronutrients.vitamins['vitaminC'] ?? n.micronutrients.vitamins['C'] ?? 0)) * servings;
+    microValues.vitaminC =
+      (n.micronutrients.vitamins["vitaminC"] ??
+        n.micronutrients.vitamins["C"] ??
+        0) * servings;
   }
   if (n.micronutrients?.minerals) {
-    microValues.calcium = ((n.micronutrients.minerals['calcium'] ?? 0)) * servings;
-    microValues.iron = ((n.micronutrients.minerals['iron'] ?? 0)) * servings;
+    microValues.calcium =
+      (n.micronutrients.minerals["calcium"] ?? 0) * servings;
+    microValues.iron = (n.micronutrients.minerals["iron"] ?? 0) * servings;
   }
   microValues.fiber = fiber;
   microValues.protein = protein;
@@ -49,7 +56,9 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
   return { calories, protein, carbs, fat, fiber, microValues };
 }
 
-function getGoodSourceBadges(microValues: Record<string, number>): Array<{ label: string; icon: string }> {
+function getGoodSourceBadges(
+  microValues: Record<string, number>,
+): Array<{ label: string; icon: string }> {
   const badges: Array<{ label: string; icon: string }> = [];
   for (const [key, threshold] of Object.entries(GOOD_SOURCE_THRESHOLDS)) {
     const val = microValues[key] ?? 0;
@@ -60,7 +69,7 @@ function getGoodSourceBadges(microValues: Record<string, number>): Array<{ label
   return badges;
 }
 
-export default function RecipeNutritionQuickView({
+export function RecipeNutritionQuickView({
   recipe,
   servings = 1,
   showServingInfo = false,
@@ -71,9 +80,7 @@ export default function RecipeNutritionQuickView({
 
   if (!data || data.calories === 0) {
     return (
-      <div className="text-xs text-gray-400 italic">
-        No nutrition data
-      </div>
+      <div className="text-xs text-gray-400 italic">No nutrition data</div>
     );
   }
 
@@ -101,9 +108,7 @@ export default function RecipeNutritionQuickView({
   return (
     <div className="space-y-1.5">
       {showServingInfo && servings > 1 && (
-        <p className="text-xs text-gray-500">
-          {servings} servings
-        </p>
+        <p className="text-xs text-gray-500">{servings} servings</p>
       )}
 
       {/* Calories + Macros */}
