@@ -283,8 +283,6 @@ export interface ComplianceDeficiency {
   target: number;
   delta: number;
   severity: "mild" | "moderate" | "severe";
-  averageDaily?: number;
-  targetDaily?: number;
 }
 
 /**
