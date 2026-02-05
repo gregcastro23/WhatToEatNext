@@ -13,7 +13,7 @@ import type {
   NutritionalSummary,
 } from "@/types/nutrition";
 import { formatNutrientName } from "@/utils/nutritionAggregation";
-import RecipeNutritionQuickView from "./RecipeNutritionQuickView";
+import { RecipeNutritionQuickView } from "./RecipeNutritionQuickView";
 
 interface SmartRecommendationsProps {
   weeklyResult: WeeklyNutritionResult;

@@ -13,8 +13,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import RecipeSelector from "./RecipeSelector";
-import RecipeNutritionQuickView from "@/components/nutrition/RecipeNutritionQuickView";
-import RecipeNutritionModal from "@/components/nutrition/RecipeNutritionModal";
+import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
+import { RecipeNutritionModal } from "@/components/nutrition/RecipeNutritionModal";
 
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
 import { getMealTypeCharacteristics } from "@/types/menuPlanner";
@@ -59,31 +59,29 @@ function getMealTypeColors(mealType: MealType): {
   border: string;
   text: string;
 } {
-  const colors: Record<
-    MealType,
-    { bg: string; border: string; text: string }
-  > = {
-    breakfast: {
-      bg: "bg-gradient-to-br from-orange-50 to-yellow-50",
-      border: "border-orange-300",
-      text: "text-orange-700",
-    },
-    lunch: {
-      bg: "bg-gradient-to-br from-blue-50 to-cyan-50",
-      border: "border-blue-300",
-      text: "text-blue-700",
-    },
-    dinner: {
-      bg: "bg-gradient-to-br from-purple-50 to-indigo-50",
-      border: "border-purple-300",
-      text: "text-purple-700",
-    },
-    snack: {
-      bg: "bg-gradient-to-br from-green-50 to-emerald-50",
-      border: "border-green-300",
-      text: "text-green-700",
-    },
-  };
+  const colors: Record<MealType, { bg: string; border: string; text: string }> =
+    {
+      breakfast: {
+        bg: "bg-gradient-to-br from-orange-50 to-yellow-50",
+        border: "border-orange-300",
+        text: "text-orange-700",
+      },
+      lunch: {
+        bg: "bg-gradient-to-br from-blue-50 to-cyan-50",
+        border: "border-blue-300",
+        text: "text-blue-700",
+      },
+      dinner: {
+        bg: "bg-gradient-to-br from-purple-50 to-indigo-50",
+        border: "border-purple-300",
+        text: "text-purple-700",
+      },
+      snack: {
+        bg: "bg-gradient-to-br from-green-50 to-emerald-50",
+        border: "border-green-300",
+        text: "text-green-700",
+      },
+    };
   return colors[mealType];
 }
 
@@ -104,7 +102,9 @@ function EmptyMealSlot({
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-4 text-center">
-      <div className="text-4xl mb-2 opacity-30">{getMealTypeIcon(mealType)}</div>
+      <div className="text-4xl mb-2 opacity-30">
+        {getMealTypeIcon(mealType)}
+      </div>
       <p className={`text-sm font-medium mb-1 ${colors.text}`}>
         Add {mealType}
       </p>
@@ -195,7 +195,9 @@ function RecipeDisplay({
           >
             −
           </button>
-          <span className="w-6 text-center text-sm font-medium">{servings}</span>
+          <span className="w-6 text-center text-sm font-medium">
+            {servings}
+          </span>
           <button
             onClick={() => onUpdateServings?.(servings + 1)}
             className="w-5 h-5 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xs"
@@ -287,13 +289,18 @@ function RecipeDisplay({
           {/* Ingredients */}
           {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div className="mb-3">
-              <p className="font-medium mb-1 text-gray-700">Ingredients ({recipe.ingredients.length}):</p>
+              <p className="font-medium mb-1 text-gray-700">
+                Ingredients ({recipe.ingredients.length}):
+              </p>
               <ul className="list-none space-y-0.5 max-h-32 overflow-y-auto bg-gray-50 rounded p-2">
                 {recipe.ingredients.slice(0, 6).map((ing, idx) => (
                   <li key={idx} className="flex items-center gap-1">
                     <span className="text-purple-500">•</span>
                     <span className="truncate">
-                      {ing.amount ? `${ing.amount * servings} ${ing.unit || ""} ` : ""}{ing.name}
+                      {ing.amount
+                        ? `${ing.amount * servings} ${ing.unit || ""} `
+                        : ""}
+                      {ing.name}
                     </span>
                   </li>
                 ))}
@@ -309,7 +316,9 @@ function RecipeDisplay({
           {/* Instructions Preview */}
           {recipe.instructions && recipe.instructions.length > 0 && (
             <div className="mb-3">
-              <p className="font-medium mb-1 text-gray-700">Steps ({recipe.instructions.length}):</p>
+              <p className="font-medium mb-1 text-gray-700">
+                Steps ({recipe.instructions.length}):
+              </p>
               <ol className="list-decimal list-inside space-y-0.5 bg-gray-50 rounded p-2">
                 {recipe.instructions.slice(0, 2).map((step, idx) => (
                   <li key={idx} className="truncate text-gray-600">
@@ -435,7 +444,9 @@ export default function MealSlot({
           onAddRecipe?.(data.recipe);
         } else {
           if (
-            confirm("This slot already has a recipe. Would you like to replace it?")
+            confirm(
+              "This slot already has a recipe. Would you like to replace it?",
+            )
           ) {
             onAddRecipe?.(data.recipe);
           }
