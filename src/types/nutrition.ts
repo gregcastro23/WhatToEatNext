@@ -320,8 +320,8 @@ export interface WeeklyNutritionResult {
   weeklyCompliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: ComplianceDeficiency[];
-    excesses: ComplianceDeficiency[];
+    deficiencies: NutrientDeviation[];
+    excesses: NutrientDeviation[];
   };
   variety: {
     uniqueIngredients: number;

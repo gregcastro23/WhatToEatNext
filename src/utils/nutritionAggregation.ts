@@ -6,6 +6,7 @@
 import type {
   NutritionalSummary,
   NutrientDeviation,
+  ComplianceDeficiency,
   DailyNutritionResult,
   WeeklyNutritionResult,
 } from "@/types/nutrition";
@@ -174,8 +175,8 @@ export function findExcesses(
  * Generate human-readable suggestions based on deficiencies and excesses
  */
 export function generateSuggestions(
-  deficiencies: NutrientDeviation[],
-  excesses: NutrientDeviation[],
+  deficiencies: ComplianceDeficiency[],
+  excesses: ComplianceDeficiency[],
 ): string[] {
   const suggestions: string[] = [];
 
