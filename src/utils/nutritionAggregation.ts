@@ -5,8 +5,6 @@
 
 import type {
   NutritionalSummary,
-  NutrientDeviation,
-  ComplianceDeficiency,
   DailyNutritionResult,
   WeeklyNutritionResult,
 } from "@/types/nutrition";

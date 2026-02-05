@@ -185,8 +185,6 @@ export function WeeklyNutritionDashboard({
               <MicronutrientHighlights
                 totals={weeklyTotals}
                 goals={weeklyGoals}
-                deficiencies={weeklyCompliance.deficiencies}
-                excesses={weeklyCompliance.excesses}
               />
             </div>
 
@@ -239,34 +237,4 @@ export function WeeklyNutritionDashboard({
       )}
     </div>
   );
-}
-
-// Helper functions
-function formatNutrientName(nutrient: string): string {
-  const nameMap: Record<string, string> = {
-    vitaminA: "Vitamin A",
-    vitaminC: "Vitamin C",
-    vitaminD: "Vitamin D",
-    // ... add more mappings
-  };
-  return (
-    nameMap[nutrient] || nutrient.charAt(0).toUpperCase() + nutrient.slice(1)
-  );
-}
-
-function getNutrientUnit(nutrient: string): string {
-  const unitMap: Record<string, string> = {
-    calories: "kcal",
-    protein: "g",
-    carbs: "g",
-    fat: "g",
-    fiber: "g",
-    sodium: "mg",
-    calcium: "mg",
-    iron: "mg",
-    vitaminC: "mg",
-    vitaminD: "μg",
-    // ... add more mappings
-  };
-  return unitMap[nutrient] || "";
 }

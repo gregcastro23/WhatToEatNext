@@ -233,9 +233,7 @@ function RecipeDisplay({
         servings={servings}
         isOpen={showNutritionModal}
         onClose={() => setShowNutritionModal(false)}
-        weeklyResult={weeklyNutrition}
       />
-
       {/* Elemental Properties */}
       {recipe.elementalProperties && (
         <div className="mb-2">

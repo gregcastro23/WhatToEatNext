@@ -8,7 +8,7 @@ export { InlineNutritionDashboard } from "./InlineNutritionDashboard";
 export { RecipeNutritionQuickView } from "./RecipeNutritionQuickView";
 export { RecipeNutritionModal } from "./RecipeNutritionModal";
 export { NutritionFilters } from "./NutritionFilters";
-export { SmartRecommendations } from "./SmartRecommendations";
+
 export { applyNutritionFilters, sortByNutrition } from "./NutritionFilters";
 export type {
   NutritionFilterValues,
