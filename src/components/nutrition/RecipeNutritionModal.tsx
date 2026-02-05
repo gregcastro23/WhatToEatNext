@@ -7,7 +7,7 @@
  */
 
 import React, { useMemo } from "react";
-import type { Recipe } from "@/types/recipe";
+import type { Recipe, IngredientMapping } from "@/types/recipe";
 import type {
   NutritionalSummary,
   WeeklyNutritionResult,
@@ -20,6 +20,7 @@ interface RecipeNutritionModalProps {
   servings?: number;
   isOpen: boolean;
   onClose: () => void;
+  ingredientMapping: IngredientMapping;
 }
 
 /** FDA Daily Values (2000 cal reference diet) */
@@ -160,6 +161,7 @@ export function RecipeNutritionModal({
   servings = 1,
   isOpen,
   onClose,
+  ingredientMapping,
 }: RecipeNutritionModalProps) {
   const nutrition = useMemo(
     () => extractFullNutrition(recipe, servings),
@@ -302,22 +304,58 @@ export function RecipeNutritionModal({
                     Ingredients ({recipe.ingredients.length})
                   </h4>
                   <div className="space-y-1 max-h-40 overflow-y-auto">
-                    {recipe.ingredients.map((ing, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2 text-sm text-gray-600"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                        <span>
-                          {ing.amount * servings} {ing.unit} {ing.name}
-                        </span>
-                        {ing.optional && (
-                          <span className="text-xs text-gray-400">
-                            (optional)
+                    {recipe.ingredients.map((ing, idx) => {
+                      const masterIngredient = ingredientMapping[ing.name];
+                      const ingredientNutrition =
+                        masterIngredient?.nutritionalProfile;
+                      const hasIngredientNutrition =
+                        ingredientNutrition &&
+                        (ingredientNutrition.protein > 0 ||
+                          ingredientNutrition.carbs > 0 ||
+                          ingredientNutrition.fat > 0 ||
+                          ingredientNutrition.calories > 0);
+
+                      const totalIngredientCalories = ingredientNutrition
+                        ? (ingredientNutrition.calories *
+                            ing.amount *
+                            servings) /
+                          (masterIngredient?.servingSize || 1)
+                        : 0;
+                      const totalIngredientProtein = ingredientNutrition
+                        ? (ingredientNutrition.protein *
+                            ing.amount *
+                            servings) /
+                          (masterIngredient?.servingSize || 1)
+                        : 0;
+                      const totalIngredientSodium = ingredientNutrition
+                        ? (ingredientNutrition.sodium * ing.amount * servings) /
+                          (masterIngredient?.servingSize || 1)
+                        : 0;
+
+                      return (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 text-sm text-gray-600"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                          <span>
+                            {ing.amount * servings} {ing.unit} {ing.name}
                           </span>
-                        )}
-                      </div>
-                    ))}
+                          {ing.optional && (
+                            <span className="text-xs text-gray-400">
+                              (optional)
+                            </span>
+                          )}
+                          {hasIngredientNutrition && (
+                            <span className="text-xs text-gray-500 ml-auto">
+                              ({Math.round(totalIngredientCalories)} kcal,{" "}
+                              {Math.round(totalIngredientProtein)}g P,{" "}
+                              {Math.round(totalIngredientSodium)}mg Na)
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
