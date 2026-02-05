@@ -179,8 +179,16 @@ export default function InlineNutritionDashboard({
               <MicronutrientHighlights
                 totals={weeklyTotals}
                 goals={weeklyGoals}
-                deficiencies={weeklyDeficiencies}
-                excesses={weeklyExcesses}
+                deficiencies={weeklyDeficiencies.map((d) => ({
+                  nutrient: d.nutrient,
+                  averageDaily: d.actual,
+                  targetDaily: d.target,
+                }))}
+                excesses={weeklyExcesses.map((e) => ({
+                  nutrient: e.nutrient,
+                  averageDaily: e.actual,
+                  targetDaily: e.target,
+                }))}
               />
             </div>
 

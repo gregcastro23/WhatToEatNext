@@ -101,8 +101,16 @@ export default function DailyNutritionSummary({
           <MicronutrientHighlights
             totals={result.totals}
             goals={result.goals}
-            deficiencies={result.compliance.deficiencies}
-            excesses={result.compliance.excesses}
+            deficiencies={result.compliance.deficiencies.map((d) => ({
+              nutrient: d.nutrient,
+              averageDaily: d.actual,
+              targetDaily: d.target,
+            }))}
+            excesses={result.compliance.excesses.map((e) => ({
+              nutrient: e.nutrient,
+              averageDaily: e.actual,
+              targetDaily: e.target,
+            }))}
           />
 
           {/* Suggestions */}

@@ -198,6 +198,7 @@ export function WeeklyNutritionDashboard({
                 totals={weeklyTotals}
                 goals={weeklyGoals}
                 deficiencies={weeklyCompliance.deficiencies}
+                excesses={weeklyCompliance.excesses}
               />
             </div>
 
