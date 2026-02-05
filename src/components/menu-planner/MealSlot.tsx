@@ -183,7 +183,6 @@ function RecipeDisplay({
           </button>
         </div>
       </div>
-
       {/* Servings Control */}
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs text-gray-600">Servings:</span>
@@ -206,7 +205,6 @@ function RecipeDisplay({
           </button>
         </div>
       </div>
-
       {/* Quick Info */}
       <div className="text-xs text-gray-600 space-y-1 mb-2">
         {recipe.prepTime && (
@@ -216,7 +214,6 @@ function RecipeDisplay({
           </div>
         )}
       </div>
-
       {/* Nutrition Quick View */}
       <div className="mb-2">
         <RecipeNutritionQuickView
@@ -226,14 +223,14 @@ function RecipeDisplay({
           onShowDetails={() => setShowNutritionModal(true)}
         />
       </div>
-
       {/* Nutrition Details Modal */}
       <RecipeNutritionModal
         recipe={recipe}
         servings={servings}
         isOpen={showNutritionModal}
         onClose={() => setShowNutritionModal(false)}
-      />
+        ingredientMapping={{}} // Placeholder
+      />{" "}
       {/* Elemental Properties */}
       {recipe.elementalProperties && (
         <div className="mb-2">
@@ -268,7 +265,6 @@ function RecipeDisplay({
           </div>
         </div>
       )}
-
       {/* Expand/Collapse Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
@@ -276,7 +272,6 @@ function RecipeDisplay({
       >
         {isExpanded ? "Show less ↑" : "Show more ↓"}
       </button>
-
       {/* Expanded Details */}
       {isExpanded && (
         <div className="mt-2 pt-2 border-t border-gray-200 text-xs text-gray-600">
