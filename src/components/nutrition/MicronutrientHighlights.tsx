@@ -10,7 +10,7 @@ import styles from "./MicronutrientHighlights.module.css";
 interface MicronutrientHighlightsProps {
   totals: NutritionalSummary;
   goals: NutritionalTargets;
-  deficiencies: ComplianceDeficiency[];
+  deficiencies: NutrientDeviation[];
 }
 
 // List of key micronutrients to display, in order of importance/common interest
