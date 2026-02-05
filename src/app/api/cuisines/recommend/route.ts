@@ -12,20 +12,24 @@ import { indian } from "@/data/cuisines/indian";
 import { korean } from "@/data/cuisines/korean";
 import { vietnamese } from "@/data/cuisines/vietnamese";
 import { greek } from "@/data/cuisines/greek";
-import type { ElementalProperties, AlchemicalProperties } from "@/types/alchemy";
+import type {
+  ElementalProperties,
+  AlchemicalProperties,
+} from "@/types/alchemy";
 import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import {
   calculateEnhancedCompatibility,
   compatibilityToMatchPercentage,
   type ThermodynamicState,
-  type KineticState
+  type KineticState,
 } from "@/utils/enhancedCompatibilityScoring";
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
 } from "@/utils/planetaryAlchemyMapping";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
+import { retryWithTimeout } from "@/utils/apiUtils"; // Import retryWithTimeout
 import type { Planet, ZodiacSign } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 
@@ -118,26 +122,26 @@ interface NestedRecipe {
   seasonal_fit: string;
 
   // Enhanced recipe guidance fields
-  tips?: string[];  // Expert cooking tips
+  tips?: string[]; // Expert cooking tips
   substitutions?: Array<{
     original: string;
     alternatives: string[];
     notes?: string;
-  }>;  // Ingredient substitutions
-  variations?: string[];  // Regional or dietary variations
+  }>; // Ingredient substitutions
+  variations?: string[]; // Regional or dietary variations
   pairing_suggestions?: {
     sides?: string[];
     drinks?: string[];
     condiments?: string[];
-  };  // What pairs well with this dish
+  }; // What pairs well with this dish
   storage_info?: {
     storage_method?: string;
     storage_duration?: string;
     reheating_instructions?: string;
     freezer_friendly?: boolean;
-  };  // Storage and reheating guidance
-  common_mistakes?: string[];  // What to avoid
-  timing_tips?: string[];  // Do-ahead suggestions
+  }; // Storage and reheating guidance
+  common_mistakes?: string[]; // What to avoid
+  timing_tips?: string[]; // Do-ahead suggestions
 }
 
 interface SauceRecommendation {
@@ -211,10 +215,16 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
   // Get actual planetary positions from backend (via astrologize API)
   try {
     const planetaryPositionsRaw: Record<string, PlanetPosition> =
-      await getPlanetaryPositionsForDateTime(now, {
-        latitude: 40.7498, // Default: New York
-        longitude: -73.7976,
-      });
+      await retryWithTimeout(
+        () =>
+          getPlanetaryPositionsForDateTime(now, {
+            latitude: 40.7498, // Default: New York
+            longitude: -73.7976,
+          }),
+        3, // retries
+        2000, // timeout in ms
+        500, // delay between retries in ms
+      );
 
     // Extract Sun's zodiac sign for backward compatibility
     const sunSign = planetaryPositionsRaw.Sun?.sign || "gemini";
@@ -223,7 +233,7 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
     logger.info("Current moment calculated from backend planetary positions", {
       zodiacSign,
       sunPosition: planetaryPositionsRaw.Sun,
-      source: "backend-pyswisseph"
+      source: "backend-pyswisseph",
     });
 
     return {
@@ -235,12 +245,25 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
       planetaryPositions: planetaryPositionsRaw,
     };
   } catch (error) {
-    logger.warn("Failed to get backend planetary positions, using date approximation", { error });
+    logger.warn(
+      "Failed to get backend planetary positions even after retries, using date approximation",
+      { error },
+    );
 
     // Fallback to date approximation if backend unavailable
     const zodiacSigns = [
-      "Capricorn", "Aquarius", "Pisces", "Aries", "Taurus", "Gemini",
-      "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
     ];
 
     const day = now.getDate();
@@ -272,7 +295,7 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
  */
 function calculateAlchemicalPropertiesFromPlanets(
   planetaryPositions: Record<string, PlanetPosition> | undefined,
-  fallbackZodiacSign?: string
+  fallbackZodiacSign?: string,
 ): AlchemicalProperties {
   if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
     // ✅ CORRECT: Use actual planetary positions
@@ -285,15 +308,18 @@ function calculateAlchemicalPropertiesFromPlanets(
     logger.debug("Calculated ESMS from planetary positions", {
       planets: Object.keys(planetSigns).length,
       alchemical,
-      source: "backend-planetary-positions"
+      source: "backend-planetary-positions",
     });
 
     return alchemical;
   } else if (fallbackZodiacSign) {
     // ❌ FALLBACK ONLY: Approximate from Sun sign (not ideal, but better than nothing)
-    logger.warn("Using zodiac fallback for ESMS calculation - backend unavailable", {
-      fallbackZodiacSign
-    });
+    logger.warn(
+      "Using zodiac fallback for ESMS calculation - backend unavailable",
+      {
+        fallbackZodiacSign,
+      },
+    );
 
     const alchemicalMap: Record<string, AlchemicalProperties> = {
       Aries: { Spirit: 5, Essence: 3, Matter: 2, Substance: 4 },
@@ -310,7 +336,14 @@ function calculateAlchemicalPropertiesFromPlanets(
       Pisces: { Spirit: 3, Essence: 7, Matter: 3, Substance: 1 },
     };
 
-    return alchemicalMap[fallbackZodiacSign] || { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+    return (
+      alchemicalMap[fallbackZodiacSign] || {
+        Spirit: 4,
+        Essence: 4,
+        Matter: 4,
+        Substance: 2,
+      }
+    );
   } else {
     // Default balanced state
     logger.error("No planetary positions or fallback zodiac sign available");
@@ -323,23 +356,130 @@ function calculateAlchemicalPropertiesFromPlanets(
  */
 function generateFlavorProfile(cuisineId: string): FlavorProfile {
   const profiles: Record<string, FlavorProfile> = {
-    italian: { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.5, spicy: 0.2 },
-    mexican: { sweet: 0.2, sour: 0.4, salty: 0.3, bitter: 0.2, umami: 0.4, spicy: 0.8 },
-    american: { sweet: 0.5, sour: 0.2, salty: 0.6, bitter: 0.1, umami: 0.5, spicy: 0.3 },
-    french: { sweet: 0.4, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.6, spicy: 0.2 },
-    chinese: { sweet: 0.4, sour: 0.5, salty: 0.5, bitter: 0.2, umami: 0.7, spicy: 0.6 },
-    japanese: { sweet: 0.3, sour: 0.2, salty: 0.4, bitter: 0.2, umami: 0.8, spicy: 0.1 },
-    thai: { sweet: 0.5, sour: 0.6, salty: 0.4, bitter: 0.3, umami: 0.5, spicy: 0.9 },
-    indian: { sweet: 0.3, sour: 0.3, salty: 0.3, bitter: 0.3, umami: 0.4, spicy: 0.9 },
-    korean: { sweet: 0.3, sour: 0.4, salty: 0.5, bitter: 0.2, umami: 0.6, spicy: 0.7 },
-    vietnamese: { sweet: 0.4, sour: 0.5, salty: 0.4, bitter: 0.2, umami: 0.5, spicy: 0.5 },
-    greek: { sweet: 0.2, sour: 0.4, salty: 0.5, bitter: 0.3, umami: 0.4, spicy: 0.2 },
-    middleEastern: { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.4, spicy: 0.5 },
-    african: { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.3, umami: 0.4, spicy: 0.6 },
-    russian: { sweet: 0.2, sour: 0.5, salty: 0.5, bitter: 0.2, umami: 0.4, spicy: 0.2 },
+    italian: {
+      sweet: 0.3,
+      sour: 0.3,
+      salty: 0.4,
+      bitter: 0.2,
+      umami: 0.5,
+      spicy: 0.2,
+    },
+    mexican: {
+      sweet: 0.2,
+      sour: 0.4,
+      salty: 0.3,
+      bitter: 0.2,
+      umami: 0.4,
+      spicy: 0.8,
+    },
+    american: {
+      sweet: 0.5,
+      sour: 0.2,
+      salty: 0.6,
+      bitter: 0.1,
+      umami: 0.5,
+      spicy: 0.3,
+    },
+    french: {
+      sweet: 0.4,
+      sour: 0.3,
+      salty: 0.4,
+      bitter: 0.2,
+      umami: 0.6,
+      spicy: 0.2,
+    },
+    chinese: {
+      sweet: 0.4,
+      sour: 0.5,
+      salty: 0.5,
+      bitter: 0.2,
+      umami: 0.7,
+      spicy: 0.6,
+    },
+    japanese: {
+      sweet: 0.3,
+      sour: 0.2,
+      salty: 0.4,
+      bitter: 0.2,
+      umami: 0.8,
+      spicy: 0.1,
+    },
+    thai: {
+      sweet: 0.5,
+      sour: 0.6,
+      salty: 0.4,
+      bitter: 0.3,
+      umami: 0.5,
+      spicy: 0.9,
+    },
+    indian: {
+      sweet: 0.3,
+      sour: 0.3,
+      salty: 0.3,
+      bitter: 0.3,
+      umami: 0.4,
+      spicy: 0.9,
+    },
+    korean: {
+      sweet: 0.3,
+      sour: 0.4,
+      salty: 0.5,
+      bitter: 0.2,
+      umami: 0.6,
+      spicy: 0.7,
+    },
+    vietnamese: {
+      sweet: 0.4,
+      sour: 0.5,
+      salty: 0.4,
+      bitter: 0.2,
+      umami: 0.5,
+      spicy: 0.5,
+    },
+    greek: {
+      sweet: 0.2,
+      sour: 0.4,
+      salty: 0.5,
+      bitter: 0.3,
+      umami: 0.4,
+      spicy: 0.2,
+    },
+    middleEastern: {
+      sweet: 0.3,
+      sour: 0.3,
+      salty: 0.4,
+      bitter: 0.2,
+      umami: 0.4,
+      spicy: 0.5,
+    },
+    african: {
+      sweet: 0.3,
+      sour: 0.3,
+      salty: 0.4,
+      bitter: 0.3,
+      umami: 0.4,
+      spicy: 0.6,
+    },
+    russian: {
+      sweet: 0.2,
+      sour: 0.5,
+      salty: 0.5,
+      bitter: 0.2,
+      umami: 0.4,
+      spicy: 0.2,
+    },
   };
 
-  return profiles[cuisineId] || { sweet: 0.3, sour: 0.3, salty: 0.4, bitter: 0.2, umami: 0.5, spicy: 0.3 };
+  return (
+    profiles[cuisineId] || {
+      sweet: 0.3,
+      sour: 0.3,
+      salty: 0.4,
+      bitter: 0.2,
+      umami: 0.5,
+      spicy: 0.3,
+    }
+  );
 }
 
 /**
@@ -405,17 +545,23 @@ function calculateFusionPairings(
 
     // Defensive check for required properties - more comprehensive
     if (!cuisine || !cuisine.elementalProps || !cuisine.thermodynamics) {
-      logger.debug(`Skipping fusion pairing for ${cuisine?.id || 'unknown'} - missing properties`);
+      logger.debug(
+        `Skipping fusion pairing for ${cuisine?.id || "unknown"} - missing properties`,
+      );
       return;
     }
 
     // Validate that thermodynamics has monica property
-    const currentMonica = typeof currentThermodynamics?.monica === 'number' && !isNaN(currentThermodynamics.monica)
-      ? currentThermodynamics.monica
-      : 1;
-    const cuisineMonica = typeof cuisine.thermodynamics?.monica === 'number' && !isNaN(cuisine.thermodynamics.monica)
-      ? cuisine.thermodynamics.monica
-      : 1;
+    const currentMonica =
+      typeof currentThermodynamics?.monica === "number" &&
+      !isNaN(currentThermodynamics.monica)
+        ? currentThermodynamics.monica
+        : 1;
+    const cuisineMonica =
+      typeof cuisine.thermodynamics?.monica === "number" &&
+      !isNaN(cuisine.thermodynamics.monica)
+        ? cuisine.thermodynamics.monica
+        : 1;
 
     // Calculate elemental compatibility with defensive checks
     try {
@@ -428,13 +574,19 @@ function calculateFusionPairings(
       const monicaDiff = Math.abs(currentMonica - cuisineMonica);
       const thermoHarmony = Math.max(0, 1 - monicaDiff / 2);
 
-      const compatibilityScore = elementalSimilarity * 0.6 + thermoHarmony * 0.4;
+      const compatibilityScore =
+        elementalSimilarity * 0.6 + thermoHarmony * 0.4;
 
       if (compatibilityScore > 0.6) {
         const sharedElements = Object.entries(currentElemental)
           .filter(([element, value]) => {
-            const otherValue = cuisine.elementalProps?.[element as keyof ElementalProperties];
-            return otherValue !== undefined && !isNaN(otherValue) && Math.abs(value - otherValue) < 0.2;
+            const otherValue =
+              cuisine.elementalProps?.[element as keyof ElementalProperties];
+            return (
+              otherValue !== undefined &&
+              !isNaN(otherValue) &&
+              Math.abs(value - otherValue) < 0.2
+            );
           })
           .map(([element]) => element);
 
@@ -443,19 +595,26 @@ function calculateFusionPairings(
           name: cuisine.name,
           compatibility_score: compatibilityScore,
           blend_ratio: 0.5 + (compatibilityScore - 0.6) * 0.5,
-          shared_elements: sharedElements.length > 0 ? sharedElements : ["balanced"],
+          shared_elements:
+            sharedElements.length > 0 ? sharedElements : ["balanced"],
           thermodynamic_harmony: thermoHarmony,
-          reason: sharedElements.length > 0
-            ? `Strong ${sharedElements.join(" and ")} alignment with ${(compatibilityScore * 100).toFixed(0)}% compatibility`
-            : `${(compatibilityScore * 100).toFixed(0)}% compatibility through balanced properties`,
+          reason:
+            sharedElements.length > 0
+              ? `Strong ${sharedElements.join(" and ")} alignment with ${(compatibilityScore * 100).toFixed(0)}% compatibility`
+              : `${(compatibilityScore * 100).toFixed(0)}% compatibility through balanced properties`,
         });
       }
     } catch (error) {
-      logger.error(`Error calculating fusion pairing for ${cuisine.id}:`, error);
+      logger.error(
+        `Error calculating fusion pairing for ${cuisine.id}:`,
+        error,
+      );
     }
   });
 
-  return pairings.sort((a, b) => b.compatibility_score - a.compatibility_score).slice(0, 3);
+  return pairings
+    .sort((a, b) => b.compatibility_score - a.compatibility_score)
+    .slice(0, 3);
 }
 
 /**
@@ -490,7 +649,11 @@ function getRecipesForCuisine(
     return [];
   }
 
-  const season = moment.season.toLowerCase() as "spring" | "summer" | "autumn" | "winter";
+  const season = moment.season.toLowerCase() as
+    | "spring"
+    | "summer"
+    | "autumn"
+    | "winter";
   const mealType = moment.meal_type?.toLowerCase() || "dinner";
 
   let recipes: any[] = [];
@@ -518,23 +681,35 @@ function getRecipesForCuisine(
   return recipes.slice(0, maxRecipes).map((recipe, idx) => {
     // Convert existing substitutions to enhanced format
     const enhancedSubstitutions = recipe.substitutions
-      ? Object.entries(recipe.substitutions).map(([original, alternatives]: [string, any]) => ({
-          original,
-          alternatives: Array.isArray(alternatives) ? alternatives : [alternatives],
-          notes: `${alternatives.length} alternative${alternatives.length > 1 ? 's' : ''} available`
-        }))
+      ? Object.entries(recipe.substitutions).map(
+          ([original, alternatives]: [string, any]) => ({
+            original,
+            alternatives: Array.isArray(alternatives)
+              ? alternatives
+              : [alternatives],
+            notes: `${alternatives.length} alternative${alternatives.length > 1 ? "s" : ""} available`,
+          }),
+        )
       : undefined;
 
     // Convert pairing suggestions to enhanced format
     const enhancedPairings = recipe.pairingSuggestions
       ? {
           sides: Array.isArray(recipe.pairingSuggestions)
-            ? recipe.pairingSuggestions.filter((s: string) => !s.toLowerCase().includes('wine') && !s.toLowerCase().includes('juice'))
+            ? recipe.pairingSuggestions.filter(
+                (s: string) =>
+                  !s.toLowerCase().includes("wine") &&
+                  !s.toLowerCase().includes("juice"),
+              )
             : [],
           drinks: Array.isArray(recipe.pairingSuggestions)
-            ? recipe.pairingSuggestions.filter((s: string) => s.toLowerCase().includes('wine') || s.toLowerCase().includes('juice'))
+            ? recipe.pairingSuggestions.filter(
+                (s: string) =>
+                  s.toLowerCase().includes("wine") ||
+                  s.toLowerCase().includes("juice"),
+              )
             : [],
-          condiments: []
+          condiments: [],
         }
       : undefined;
 
@@ -542,14 +717,14 @@ function getRecipesForCuisine(
     const cookingTips = recipe.cookingMethods
       ? recipe.cookingMethods.map((method: string) => {
           const tipMap: Record<string, string> = {
-            'baking': 'Preheat oven thoroughly and use center rack for even heat',
-            'sauteing': 'Heat pan before adding ingredients for best browning',
-            'boiling': 'Use plenty of salted water for even cooking',
-            'grilling': 'Let grill reach proper temperature before cooking',
-            'roasting': 'Pat ingredients dry for better caramelization',
-            'simmering': 'Maintain gentle bubbles, not a rolling boil',
-            'steaming': 'Keep lid on to maintain consistent steam',
-            'frying': 'Ensure oil is hot enough to prevent sogginess',
+            baking: "Preheat oven thoroughly and use center rack for even heat",
+            sauteing: "Heat pan before adding ingredients for best browning",
+            boiling: "Use plenty of salted water for even cooking",
+            grilling: "Let grill reach proper temperature before cooking",
+            roasting: "Pat ingredients dry for better caramelization",
+            simmering: "Maintain gentle bubbles, not a rolling boil",
+            steaming: "Keep lid on to maintain consistent steam",
+            frying: "Ensure oil is hot enough to prevent sogginess",
           };
           return tipMap[method] || `Follow ${method} technique carefully`;
         })
@@ -557,36 +732,52 @@ function getRecipesForCuisine(
 
     // Generate storage info based on ingredients
     const hasProtein = recipe.ingredients?.some((ing: any) =>
-      ['meat', 'fish', 'seafood', 'dairy', 'eggs'].includes(ing.category?.toLowerCase())
+      ["meat", "fish", "seafood", "dairy", "eggs"].includes(
+        ing.category?.toLowerCase(),
+      ),
     );
 
     const storageInfo = {
       storage_method: "Store in airtight container in refrigerator",
       storage_duration: hasProtein ? "2-3 days" : "3-5 days",
-      reheating_instructions: recipe.cookingMethods?.includes('baking') || recipe.cookingMethods?.includes('roasting')
-        ? "Reheat in oven at 350°F for best texture"
-        : "Reheat gently on stovetop or in microwave",
+      reheating_instructions:
+        recipe.cookingMethods?.includes("baking") ||
+        recipe.cookingMethods?.includes("roasting")
+          ? "Reheat in oven at 350°F for best texture"
+          : "Reheat gently on stovetop or in microwave",
       freezer_friendly: !recipe.ingredients?.some((ing: any) =>
-        ['cream', 'fresh herbs', 'salad'].some(term => ing.name?.toLowerCase().includes(term))
-      )
+        ["cream", "fresh herbs", "salad"].some((term) =>
+          ing.name?.toLowerCase().includes(term),
+        ),
+      ),
     };
 
     // Generate common mistakes based on allergens and cooking methods
     const commonMistakes: string[] = [];
-    if (recipe.cookingMethods?.includes('sauteing') || recipe.cookingMethods?.includes('frying')) {
-      commonMistakes.push("Not heating the pan sufficiently before adding ingredients");
+    if (
+      recipe.cookingMethods?.includes("sauteing") ||
+      recipe.cookingMethods?.includes("frying")
+    ) {
+      commonMistakes.push(
+        "Not heating the pan sufficiently before adding ingredients",
+      );
     }
-    if (recipe.allergens?.includes('gluten') && recipe.cookingMethods?.includes('baking')) {
+    if (
+      recipe.allergens?.includes("gluten") &&
+      recipe.cookingMethods?.includes("baking")
+    ) {
       commonMistakes.push("Overmixing dough can make it tough");
     }
-    if (recipe.ingredients?.some((ing: any) => ing.category === 'protein')) {
+    if (recipe.ingredients?.some((ing: any) => ing.category === "protein")) {
       commonMistakes.push("Overcooking protein makes it dry and tough");
     }
 
     // Generate timing tips based on prep/cook time
     const timingTips: string[] = [];
     if (recipe.prepTime && parseInt(recipe.prepTime) > 15) {
-      timingTips.push("Prep all ingredients (mise en place) before starting to cook");
+      timingTips.push(
+        "Prep all ingredients (mise en place) before starting to cook",
+      );
     }
     if (recipe.cookTime && parseInt(recipe.cookTime) > 30) {
       timingTips.push("This dish benefits from being made ahead and reheated");
@@ -595,13 +786,20 @@ function getRecipesForCuisine(
 
     // Generate variations based on dietary info and cuisine
     const variations: string[] = [];
-    if (!recipe.dietaryInfo?.includes('vegan')) {
-      variations.push("Vegan: Replace animal products with plant-based alternatives");
+    if (!recipe.dietaryInfo?.includes("vegan")) {
+      variations.push(
+        "Vegan: Replace animal products with plant-based alternatives",
+      );
     }
-    if (!recipe.dietaryInfo?.includes('gluten-free') && recipe.allergens?.includes('gluten')) {
-      variations.push("Gluten-free: Use gluten-free flour or pasta alternatives");
+    if (
+      !recipe.dietaryInfo?.includes("gluten-free") &&
+      recipe.allergens?.includes("gluten")
+    ) {
+      variations.push(
+        "Gluten-free: Use gluten-free flour or pasta alternatives",
+      );
     }
-    if (recipe.spiceLevel === 'none' || recipe.spiceLevel === 'mild') {
+    if (recipe.spiceLevel === "none" || recipe.spiceLevel === "mild") {
       variations.push("Spicy: Add chili flakes, hot sauce, or fresh chilies");
     }
 
@@ -621,30 +819,40 @@ function getRecipesForCuisine(
       })),
       instructions: recipe.instructions || recipe.preparationSteps || [],
       meal_type: recipe.mealType ? recipe.mealType.join(", ") : mealType,
-      seasonal_fit: recipe.season?.includes("all") ? "Available year-round" : `Best in ${season}`,
+      seasonal_fit: recipe.season?.includes("all")
+        ? "Available year-round"
+        : `Best in ${season}`,
 
       // Enhanced recipe guidance - now intelligently generated for ALL recipes
-      tips: cookingTips && cookingTips.length > 0 ? cookingTips : [
-        "Read through entire recipe before starting",
-        "Taste and adjust seasoning as you cook"
-      ],
+      tips:
+        cookingTips && cookingTips.length > 0
+          ? cookingTips
+          : [
+              "Read through entire recipe before starting",
+              "Taste and adjust seasoning as you cook",
+            ],
 
       substitutions: enhancedSubstitutions || undefined,
 
       variations: variations.length > 0 ? variations : undefined,
 
       pairing_suggestions: enhancedPairings || {
-        sides: recipe.culturalNotes ? [`Traditional ${cuisineName} accompaniments`] : [],
+        sides: recipe.culturalNotes
+          ? [`Traditional ${cuisineName} accompaniments`]
+          : [],
         drinks: [],
-        condiments: []
+        condiments: [],
       },
 
       storage_info: storageInfo,
 
-      common_mistakes: commonMistakes.length > 0 ? commonMistakes : [
-        "Not reading recipe completely before starting",
-        "Rushing the cooking process"
-      ],
+      common_mistakes:
+        commonMistakes.length > 0
+          ? commonMistakes
+          : [
+              "Not reading recipe completely before starting",
+              "Rushing the cooking process",
+            ],
 
       timing_tips: timingTips.length > 0 ? timingTips : undefined,
     };
@@ -654,7 +862,11 @@ function getRecipesForCuisine(
 /**
  * Get sauces from cuisine data
  */
-function getSaucesForCuisine(cuisineData: any, cuisineName: string, maxSauces: number = 5): SauceRecommendation[] {
+function getSaucesForCuisine(
+  cuisineData: any,
+  cuisineName: string,
+  maxSauces: number = 5,
+): SauceRecommendation[] {
   const sauces: SauceRecommendation[] = [];
 
   // Return empty array if no cuisine data
@@ -663,29 +875,39 @@ function getSaucesForCuisine(cuisineData: any, cuisineName: string, maxSauces: n
   }
 
   if (cuisineData.motherSauces) {
-    Object.entries(cuisineData.motherSauces).forEach(([name, sauce]: [string, any]) => {
-      sauces.push({
-        sauce_name: name,
-        description: sauce.description || `Classic ${cuisineName} sauce`,
-        key_ingredients: sauce.ingredients?.slice(0, 5).map((ing: any) => ing.name) || [],
-        elemental_properties: sauce.elementalProperties,
-        compatibility_score: 0.85 + Math.random() * 0.15,
-        reason: sauce.culturalNotes || `Traditional sauce that enhances ${cuisineName} dishes`,
-      });
-    });
+    Object.entries(cuisineData.motherSauces).forEach(
+      ([name, sauce]: [string, any]) => {
+        sauces.push({
+          sauce_name: name,
+          description: sauce.description || `Classic ${cuisineName} sauce`,
+          key_ingredients:
+            sauce.ingredients?.slice(0, 5).map((ing: any) => ing.name) || [],
+          elemental_properties: sauce.elementalProperties,
+          compatibility_score: 0.85 + Math.random() * 0.15,
+          reason:
+            sauce.culturalNotes ||
+            `Traditional sauce that enhances ${cuisineName} dishes`,
+        });
+      },
+    );
   }
 
   if (cuisineData.traditionalSauces) {
-    Object.entries(cuisineData.traditionalSauces).forEach(([name, sauce]: [string, any]) => {
-      sauces.push({
-        sauce_name: name,
-        description: sauce.description || `Traditional ${cuisineName} sauce`,
-        key_ingredients: sauce.ingredients?.slice(0, 5).map((ing: any) => ing.name) || [],
-        elemental_properties: sauce.elementalProperties,
-        compatibility_score: 0.80 + Math.random() * 0.20,
-        reason: sauce.pairingNotes || `Versatile sauce from ${cuisineName} tradition`,
-      });
-    });
+    Object.entries(cuisineData.traditionalSauces).forEach(
+      ([name, sauce]: [string, any]) => {
+        sauces.push({
+          sauce_name: name,
+          description: sauce.description || `Traditional ${cuisineName} sauce`,
+          key_ingredients:
+            sauce.ingredients?.slice(0, 5).map((ing: any) => ing.name) || [],
+          elemental_properties: sauce.elementalProperties,
+          compatibility_score: 0.8 + Math.random() * 0.2,
+          reason:
+            sauce.pairingNotes ||
+            `Versatile sauce from ${cuisineName} tradition`,
+        });
+      },
+    );
   }
 
   return sauces.slice(0, maxSauces);
@@ -696,10 +918,18 @@ function getSaucesForCuisine(cuisineData: any, cuisineName: string, maxSauces: n
  */
 function getZodiacElement(zodiacSign: string): string {
   const elements: Record<string, string> = {
-    Aries: "Fire", Leo: "Fire", Sagittarius: "Fire",
-    Taurus: "Earth", Virgo: "Earth", Capricorn: "Earth",
-    Gemini: "Air", Libra: "Air", Aquarius: "Air",
-    Cancer: "Water", Scorpio: "Water", Pisces: "Water",
+    Aries: "Fire",
+    Leo: "Fire",
+    Sagittarius: "Fire",
+    Taurus: "Earth",
+    Virgo: "Earth",
+    Capricorn: "Earth",
+    Gemini: "Air",
+    Libra: "Air",
+    Aquarius: "Air",
+    Cancer: "Water",
+    Scorpio: "Water",
+    Pisces: "Water",
   };
   return elements[zodiacSign] || "balanced";
 }
@@ -718,7 +948,7 @@ function calculateUserState(moment: CurrentMoment): {
   // Calculate alchemical properties from planetary positions (or fallback to zodiac)
   const alchemical = calculateAlchemicalPropertiesFromPlanets(
     moment.planetaryPositions,
-    moment.zodiac_sign
+    moment.zodiac_sign,
   );
 
   // Calculate elemental properties based on zodiac sign
@@ -731,7 +961,10 @@ function calculateUserState(moment: CurrentMoment): {
   };
 
   // Calculate thermodynamic state
-  const thermodynamics = calculateThermodynamicMetrics(alchemical, elementalProps);
+  const thermodynamics = calculateThermodynamicMetrics(
+    alchemical,
+    elementalProps,
+  );
 
   // Calculate kinetic state
   const kinetics = calculateKineticProperties(
@@ -788,96 +1021,104 @@ function generateEnhancedRecommendations(
   // Calculate alchemical properties for current moment from planetary positions
   const currentAlchemical = calculateAlchemicalPropertiesFromPlanets(
     moment.planetaryPositions,
-    moment.zodiac_sign
+    moment.zodiac_sign,
   );
 
   // Process all cuisines with defensive checks
-  const processedCuisines = Object.entries(CUISINES).map(([id, cuisineInfo]) => {
-    // Defensive check for cuisine info
-    if (!cuisineInfo || !cuisineInfo.elementalProperties) {
-      logger.error(`Missing cuisine data for ${id}`);
-      return null;
-    }
-
-    const elementalProps = cuisineInfo.elementalProperties;
-
-    // Ensure elemental properties are complete
-    const safeElementalProps = {
-      Fire: elementalProps.Fire ?? 0.25,
-      Water: elementalProps.Water ?? 0.25,
-      Earth: elementalProps.Earth ?? 0.25,
-      Air: elementalProps.Air ?? 0.25,
-    };
-
-    // Ensure alchemical properties are defined with all required fields
-    const safeAlchemical: AlchemicalProperties = {
-      Spirit: currentAlchemical?.Spirit ?? 4,
-      Essence: currentAlchemical?.Essence ?? 4,
-      Matter: currentAlchemical?.Matter ?? 4,
-      Substance: currentAlchemical?.Substance ?? 2,
-    };
-
-    // Calculate thermodynamic metrics with error handling
-    let thermodynamics: ThermodynamicMetrics;
-    try {
-      thermodynamics = calculateThermodynamicMetrics(
-        safeAlchemical,
-        safeElementalProps,
-      );
-
-      // Validate thermodynamics result
-      if (!thermodynamics || typeof thermodynamics.heat !== 'number') {
-        throw new Error('Invalid thermodynamics result');
+  const processedCuisines = Object.entries(CUISINES)
+    .map(([id, cuisineInfo]) => {
+      // Defensive check for cuisine info
+      if (!cuisineInfo || !cuisineInfo.elementalProperties) {
+        logger.error(`Missing cuisine data for ${id}`);
+        return null;
       }
-    } catch (error) {
-      logger.error(`Error calculating thermodynamics for ${cuisineInfo.name}:`, error);
-      thermodynamics = {
-        heat: 0.08,
-        entropy: 0.15,
-        reactivity: 0.45,
-        gregsEnergy: -0.02,
-        kalchm: 2.5,
-        monica: 1.0,
-      };
-    }
 
-    // Calculate kinetic properties with error handling
-    let kinetics;
-    try {
-      kinetics = calculateKineticProperties(
-        safeAlchemical,
-        safeElementalProps,
+      const elementalProps = cuisineInfo.elementalProperties;
+
+      // Ensure elemental properties are complete
+      const safeElementalProps = {
+        Fire: elementalProps.Fire ?? 0.25,
+        Water: elementalProps.Water ?? 0.25,
+        Earth: elementalProps.Earth ?? 0.25,
+        Air: elementalProps.Air ?? 0.25,
+      };
+
+      // Ensure alchemical properties are defined with all required fields
+      const safeAlchemical: AlchemicalProperties = {
+        Spirit: currentAlchemical?.Spirit ?? 4,
+        Essence: currentAlchemical?.Essence ?? 4,
+        Matter: currentAlchemical?.Matter ?? 4,
+        Substance: currentAlchemical?.Substance ?? 2,
+      };
+
+      // Calculate thermodynamic metrics with error handling
+      let thermodynamics: ThermodynamicMetrics;
+      try {
+        thermodynamics = calculateThermodynamicMetrics(
+          safeAlchemical,
+          safeElementalProps,
+        );
+
+        // Validate thermodynamics result
+        if (!thermodynamics || typeof thermodynamics.heat !== "number") {
+          throw new Error("Invalid thermodynamics result");
+        }
+      } catch (error) {
+        logger.error(
+          `Error calculating thermodynamics for ${cuisineInfo.name}:`,
+          error,
+        );
+        thermodynamics = {
+          heat: 0.08,
+          entropy: 0.15,
+          reactivity: 0.45,
+          gregsEnergy: -0.02,
+          kalchm: 2.5,
+          monica: 1.0,
+        };
+      }
+
+      // Calculate kinetic properties with error handling
+      let kinetics;
+      try {
+        kinetics = calculateKineticProperties(
+          safeAlchemical,
+          safeElementalProps,
+          thermodynamics,
+        );
+
+        // Validate kinetics result
+        if (!kinetics || typeof kinetics.charge !== "number") {
+          throw new Error("Invalid kinetics result");
+        }
+      } catch (error) {
+        logger.error(
+          `Error calculating kinetics for ${cuisineInfo.name}:`,
+          error,
+        );
+        kinetics = {
+          velocity: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+          momentum: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+          charge: 0,
+          potentialDifference: 0,
+          currentFlow: 0,
+          power: 0,
+          inertia: 1,
+          forceMagnitude: 0,
+          forceClassification: "balanced",
+        };
+      }
+
+      return {
+        id,
+        name: cuisineInfo.name,
+        elementalProps: safeElementalProps,
+        alchemical: safeAlchemical,
         thermodynamics,
-      );
-
-      // Validate kinetics result
-      if (!kinetics || typeof kinetics.charge !== 'number') {
-        throw new Error('Invalid kinetics result');
-      }
-    } catch (error) {
-      logger.error(`Error calculating kinetics for ${cuisineInfo.name}:`, error);
-      kinetics = {
-        velocity: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-        momentum: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-        charge: 0,
-        potentialDifference: 0,
-        currentFlow: 0,
-        power: 0,
-        inertia: 1,
-        forceMagnitude: 0,
-        forceClassification: "balanced",
+        kinetics,
       };
-    }
-
-    return {
-      id,
-      name: cuisineInfo.name,
-      elementalProps: safeElementalProps,
-      alchemical: safeAlchemical,
-      thermodynamics,
-      kinetics,
-    };
-  }).filter((c): c is NonNullable<typeof c> => c !== null);
+    })
+    .filter((c): c is NonNullable<typeof c> => c !== null);
 
   // Calculate user's current state for compatibility scoring
   const userState = calculateUserState(moment);
@@ -906,8 +1147,13 @@ function generateEnhancedRecommendations(
     };
 
     // Calculate enhanced compatibility score
-    const compatibility = calculateEnhancedCompatibility(userState, cuisineState);
-    const matchPercentage = compatibilityToMatchPercentage(compatibility.overallScore);
+    const compatibility = calculateEnhancedCompatibility(
+      userState,
+      cuisineState,
+    );
+    const matchPercentage = compatibilityToMatchPercentage(
+      compatibility.overallScore,
+    );
 
     return {
       ...cuisine,
@@ -917,14 +1163,20 @@ function generateEnhancedRecommendations(
   });
 
   // Sort all cuisines by compatibility score (return all 14, not just top 8)
-  const topCuisines = cuisinesWithScores
-    .sort((a, b) => b.matchPercentage - a.matchPercentage);
+  const topCuisines = cuisinesWithScores.sort(
+    (a, b) => b.matchPercentage - a.matchPercentage,
+  );
 
   // Generate recommendations for top cuisines
-  const recommendations: EnhancedCuisineRecommendation[] = topCuisines
-    .map((cuisine) => {
+  const recommendations: EnhancedCuisineRecommendation[] = topCuisines.map(
+    (cuisine) => {
       const cuisineData = cuisineDataMap[cuisine.id] || {};
-      const recipes = getRecipesForCuisine(cuisineData, cuisine.name, moment, 5);
+      const recipes = getRecipesForCuisine(
+        cuisineData,
+        cuisine.name,
+        moment,
+        5,
+      );
       const sauces = getSaucesForCuisine(cuisineData, cuisine.name, 5);
       const flavorProfile = generateFlavorProfile(cuisine.id);
       const signatures = identifyCulturalSignatures(
@@ -944,40 +1196,57 @@ function generateEnhancedRecommendations(
 
       // Ensure alchemical properties are always valid with comprehensive checks
       const validAlchemical: AlchemicalProperties = {
-        Spirit: typeof cuisine.alchemical?.Spirit === 'number' && !isNaN(cuisine.alchemical.Spirit)
-          ? cuisine.alchemical.Spirit
-          : 4,
-        Essence: typeof cuisine.alchemical?.Essence === 'number' && !isNaN(cuisine.alchemical.Essence)
-          ? cuisine.alchemical.Essence
-          : 4,
-        Matter: typeof cuisine.alchemical?.Matter === 'number' && !isNaN(cuisine.alchemical.Matter)
-          ? cuisine.alchemical.Matter
-          : 4,
-        Substance: typeof cuisine.alchemical?.Substance === 'number' && !isNaN(cuisine.alchemical.Substance)
-          ? cuisine.alchemical.Substance
-          : 2,
+        Spirit:
+          typeof cuisine.alchemical?.Spirit === "number" &&
+          !isNaN(cuisine.alchemical.Spirit)
+            ? cuisine.alchemical.Spirit
+            : 4,
+        Essence:
+          typeof cuisine.alchemical?.Essence === "number" &&
+          !isNaN(cuisine.alchemical.Essence)
+            ? cuisine.alchemical.Essence
+            : 4,
+        Matter:
+          typeof cuisine.alchemical?.Matter === "number" &&
+          !isNaN(cuisine.alchemical.Matter)
+            ? cuisine.alchemical.Matter
+            : 4,
+        Substance:
+          typeof cuisine.alchemical?.Substance === "number" &&
+          !isNaN(cuisine.alchemical.Substance)
+            ? cuisine.alchemical.Substance
+            : 2,
       };
 
       // Validate elemental properties
       const validElementalProps: ElementalProperties = {
-        Fire: typeof cuisine.elementalProps?.Fire === 'number' && !isNaN(cuisine.elementalProps.Fire)
-          ? cuisine.elementalProps.Fire
-          : 0.25,
-        Water: typeof cuisine.elementalProps?.Water === 'number' && !isNaN(cuisine.elementalProps.Water)
-          ? cuisine.elementalProps.Water
-          : 0.25,
-        Earth: typeof cuisine.elementalProps?.Earth === 'number' && !isNaN(cuisine.elementalProps.Earth)
-          ? cuisine.elementalProps.Earth
-          : 0.25,
-        Air: typeof cuisine.elementalProps?.Air === 'number' && !isNaN(cuisine.elementalProps.Air)
-          ? cuisine.elementalProps.Air
-          : 0.25,
+        Fire:
+          typeof cuisine.elementalProps?.Fire === "number" &&
+          !isNaN(cuisine.elementalProps.Fire)
+            ? cuisine.elementalProps.Fire
+            : 0.25,
+        Water:
+          typeof cuisine.elementalProps?.Water === "number" &&
+          !isNaN(cuisine.elementalProps.Water)
+            ? cuisine.elementalProps.Water
+            : 0.25,
+        Earth:
+          typeof cuisine.elementalProps?.Earth === "number" &&
+          !isNaN(cuisine.elementalProps.Earth)
+            ? cuisine.elementalProps.Earth
+            : 0.25,
+        Air:
+          typeof cuisine.elementalProps?.Air === "number" &&
+          !isNaN(cuisine.elementalProps.Air)
+            ? cuisine.elementalProps.Air
+            : 0.25,
       };
 
       // Generate compatibility reason based on strongest factors
       const zodiacElement = getZodiacElement(moment.zodiac_sign);
-      const dominantElement = Object.entries(cuisine.elementalProps)
-        .sort((a, b) => b[1] - a[1])[0][0];
+      const dominantElement = Object.entries(cuisine.elementalProps).sort(
+        (a, b) => b[1] - a[1],
+      )[0][0];
 
       let compatibilityReason = `Strong compatibility (${(astroScore * 100).toFixed(0)}%) `;
       if (dominantElement === zodiacElement) {
@@ -997,7 +1266,8 @@ function generateEnhancedRecommendations(
       return {
         cuisine_id: cuisine.id,
         name: cuisine.name,
-        description: cuisineData.description || `Authentic ${cuisine.name} cuisine`,
+        description:
+          cuisineData.description || `Authentic ${cuisine.name} cuisine`,
 
         elemental_properties: validElementalProps,
         alchemical_properties: validAlchemical,
@@ -1014,7 +1284,8 @@ function generateEnhancedRecommendations(
         astrological_score: astroScore,
         compatibility_reason: compatibilityReason,
       };
-    });
+    },
+  );
 
   // Already sorted by compatibility score, no need to re-sort
   return recommendations;
@@ -1027,7 +1298,9 @@ function generateEnhancedRecommendations(
  */
 export async function GET(request: Request) {
   try {
-    logger.info("Enhanced Cuisine recommendations API called (using backend planetary positions)");
+    logger.info(
+      "Enhanced Cuisine recommendations API called (using backend planetary positions)",
+    );
 
     const currentMoment = await getCurrentMoment();
     const recommendations = generateEnhancedRecommendations(currentMoment);
@@ -1054,7 +1327,9 @@ export async function GET(request: Request) {
       },
     };
 
-    logger.info(`Returning ${recommendations.length} enhanced cuisine recommendations`);
+    logger.info(
+      `Returning ${recommendations.length} enhanced cuisine recommendations`,
+    );
 
     return NextResponse.json(response);
   } catch (error) {
@@ -1080,7 +1355,10 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    logger.info("Enhanced Cuisine recommendations API called with custom parameters (using backend)", body);
+    logger.info(
+      "Enhanced Cuisine recommendations API called with custom parameters (using backend)",
+      body,
+    );
 
     const currentMoment = await getCurrentMoment();
     const recommendations = generateEnhancedRecommendations(currentMoment);

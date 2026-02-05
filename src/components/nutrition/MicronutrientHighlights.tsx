@@ -1,95 +1,127 @@
-"use client";
-
+// src/components/nutrition/MicronutrientHighlights.tsx
 import React from "react";
-import type { NutritionalSummary, NutrientDeviation } from "@/types/nutrition";
-import { formatNutrientName } from "@/utils/nutritionAggregation";
-import { getNutrientUnit } from "@/data/nutritional/rdaStandards";
+import {
+  NutritionalSummary,
+  NutritionalTargets,
+  ComplianceDeficiency,
+} from "@/types/nutrition";
+import styles from "./MicronutrientHighlights.module.css";
 
 interface MicronutrientHighlightsProps {
-  actual: NutritionalSummary;
-  target: NutritionalSummary;
-  deficiencies: NutrientDeviation[];
-  excesses: NutrientDeviation[];
+  totals: NutritionalSummary;
+  goals: NutritionalTargets;
+  deficiencies: ComplianceDeficiency[];
 }
 
-/**
- * Shows top micronutrient deficiencies and excesses as a compact highlight list.
- */
-export default function MicronutrientHighlights({
-  actual,
-  target,
-  deficiencies,
-  excesses,
-}: MicronutrientHighlightsProps) {
-  const topDeficiencies = deficiencies.slice(0, 5);
-  const topExcesses = excesses.slice(0, 3);
+// List of key micronutrients to display, in order of importance/common interest
+const KEY_MICRONUTRIENTS = [
+  "vitaminC",
+  "vitaminD",
+  "calcium",
+  "iron",
+  "magnesium",
+  "potassium",
+  "zinc",
+  "folate",
+];
 
-  if (topDeficiencies.length === 0 && topExcesses.length === 0) {
-    return (
-      <div className="bg-green-50 rounded-xl p-4 border border-green-200">
-        <p className="text-green-700 text-sm font-medium">
-          All micronutrients are within target ranges.
-        </p>
-      </div>
-    );
-  }
+// Helper to format nutrient names for display
+const formatNutrientName = (nutrient: string): string => {
+  const nameMap: Record<string, string> = {
+    vitaminC: "Vitamin C",
+    vitaminD: "Vitamin D",
+    calcium: "Calcium",
+    iron: "Iron",
+    magnesium: "Magnesium",
+    potassium: "Potassium",
+    zinc: "Zinc",
+    folate: "Folate (B9)",
+    // Add more as needed
+  };
+  return (
+    nameMap[nutrient] ||
+    nutrient
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase())
+  );
+};
+
+// Helper to get nutrient unit
+const getNutrientUnit = (nutrient: string): string => {
+  const unitMap: Record<string, string> = {
+    vitaminC: "mg",
+    vitaminD: "mcg", // Micrograms
+    calcium: "mg",
+    iron: "mg",
+    magnesium: "mg",
+    potassium: "mg",
+    zinc: "mg",
+    folate: "mcg",
+    // Add more as needed
+  };
+  return unitMap[nutrient] || "unit";
+};
+
+export function MicronutrientHighlights({
+  totals,
+  goals,
+  deficiencies,
+}: MicronutrientHighlightsProps) {
+  const displayedMicros = KEY_MICRONUTRIENTS.map((key) => {
+    const total = (totals as any)[key] || 0;
+    const goal = (goals as any)[key] || 0; // Assuming goals also have these keys
+    const isDeficient = deficiencies.some((d) => d.nutrient === key);
+    return {
+      name: formatNutrientName(key),
+      total: Math.round(total),
+      goal: Math.round(goal),
+      unit: getNutrientUnit(key),
+      isDeficient: isDeficient,
+      percentage: goal > 0 ? (total / goal) * 100 : 100,
+    };
+  }).filter((micro) => micro.goal > 0); // Only show if there's a goal for it
 
   return (
-    <div className="bg-white rounded-xl p-4 border border-gray-200">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">Micronutrient Highlights</h3>
-
-      {topDeficiencies.length > 0 && (
-        <div className="mb-3">
-          <h4 className="text-xs font-medium text-red-600 mb-1 uppercase tracking-wide">Below Target</h4>
-          <div className="space-y-1">
-            {topDeficiencies.map((d) => {
-              const pct = Math.round((d.actual / d.target) * 100);
-              const unit = getNutrientUnit(d.nutrient);
-              return (
-                <div key={d.nutrient} className="flex items-center justify-between text-xs">
-                  <span className="text-gray-700">{formatNutrientName(d.nutrient)}</span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-16 bg-gray-200 rounded-full h-1.5">
-                      <div
-                        className="h-1.5 rounded-full"
-                        style={{
-                          width: `${Math.min(pct, 100)}%`,
-                          backgroundColor: d.severity === 'severe' ? '#ef4444' : d.severity === 'moderate' ? '#f97316' : '#eab308',
-                        }}
-                      />
-                    </div>
-                    <span className="text-gray-500 w-20 text-right">
-                      {Math.round(d.actual)}/{Math.round(d.target)} {unit}
-                    </span>
-                  </div>
+    <div className={styles.micronutrientHighlights}>
+      {displayedMicros.length === 0 ? (
+        <p className={styles.noData}>
+          No key micronutrient data available or goals set.
+        </p>
+      ) : (
+        <ul className={styles.micronutrientList}>
+          {displayedMicros.map((micro, index) => (
+            <li
+              key={index}
+              className={`${styles.micronutrientItem} ${micro.isDeficient ? styles.deficient : ""}`}
+            >
+              <span className={styles.nutrientName}>{micro.name}</span>
+              <div className={styles.nutrientProgress}>
+                <div className={styles.progressBar}>
+                  <div
+                    className={styles.progressBarFill}
+                    style={{ width: `${Math.min(100, micro.percentage)}%` }}
+                  ></div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {topExcesses.length > 0 && (
-        <div>
-          <h4 className="text-xs font-medium text-orange-600 mb-1 uppercase tracking-wide">Above Target</h4>
-          <div className="space-y-1">
-            {topExcesses.map((e) => {
-              const pct = Math.round((e.actual / e.target) * 100);
-              const unit = getNutrientUnit(e.nutrient);
-              return (
-                <div key={e.nutrient} className="flex items-center justify-between text-xs">
-                  <span className="text-gray-700">{formatNutrientName(e.nutrient)}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-orange-600 font-medium">{pct}%</span>
-                    <span className="text-gray-500">
-                      {Math.round(e.actual)}/{Math.round(e.target)} {unit}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+                <span className={styles.nutrientValue}>
+                  {micro.total}
+                  {micro.unit}{" "}
+                  <span className={styles.nutrientTarget}>
+                    / {micro.goal}
+                    {micro.unit}
+                  </span>
+                </span>
+              </div>
+              {micro.isDeficient && (
+                <span
+                  className={styles.deficiencyIndicator}
+                  title="Below target"
+                >
+                  ⚠️
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

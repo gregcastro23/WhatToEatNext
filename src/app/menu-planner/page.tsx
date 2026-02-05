@@ -19,11 +19,18 @@ import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
 import WeekProgress from "@/components/menu-builder/WeekProgress";
-import { InlineNutritionDashboard, WeeklyNutritionDashboard as WeeklyNutritionDashboardModal } from "@/components/nutrition";
+import { InlineNutritionDashboard } from "@/components/nutrition";
+import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { useToast, Toast } from "@/components/common/Toast";
-import { MenuPlannerProvider, useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { RecipeQueueProvider, useRecipeQueue } from "@/contexts/RecipeQueueContext";
+import {
+  MenuPlannerProvider,
+  useMenuPlanner,
+} from "@/contexts/MenuPlannerContext";
+import {
+  RecipeQueueProvider,
+  useRecipeQueue,
+} from "@/contexts/RecipeQueueContext";
 import type { Recipe } from "@/types/recipe";
 
 /**
@@ -56,6 +63,8 @@ function MenuPlannerContent() {
   const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
+  const [isWeeklyDashboardExpanded, setIsWeeklyDashboardExpanded] =
+    useState(false); // New state for sticky dashboard
 
   const { toast, showSuccess, showError, showInfo } = useToast();
 
@@ -138,7 +147,8 @@ function MenuPlannerContent() {
 
               <button
                 onClick={() => {
-                  setShowNutritionDashboard(true);
+                  setIsWeeklyDashboardExpanded(!isWeeklyDashboardExpanded);
+                  // setShowNutritionDashboard(true); // Old modal behavior
                 }}
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:shadow-lg transition-all font-medium"
               >
@@ -154,8 +164,17 @@ function MenuPlannerContent() {
             </div>
           </div>
         </div>
-
-        {/* Week Progress + Inline Nutrition */}
+        {/* Weekly Nutrition Dashboard (Sticky Top) */}
+        {weeklyNutrition && (
+          <WeeklyNutritionDashboard
+            weeklyData={weeklyNutrition}
+            isExpanded={isWeeklyDashboardExpanded}
+            onToggleExpand={() =>
+              setIsWeeklyDashboardExpanded(!isWeeklyDashboardExpanded)
+            }
+          />
+        )}
+        {/* Week Progress + Inline Nutrition */}{" "}
         <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-1">
             <WeekProgress
@@ -169,19 +188,19 @@ function MenuPlannerContent() {
             )}
           </div>
         </div>
-
         {/* Recipe Browser Panel (collapsible) */}
         {showRecipeBrowser && (
           <div className="mb-6" style={{ maxHeight: "500px" }}>
             <RecipeBrowserPanel
               onSelectRecipe={(recipe) => {
-                showInfo(`Selected "${recipe.name}" - drag from queue or use Recipe Selector to add to a meal slot`);
+                showInfo(
+                  `Selected "${recipe.name}" - drag from queue or use Recipe Selector to add to a meal slot`,
+                );
               }}
               onViewRecipeDetail={(recipe) => setDetailRecipe(recipe)}
             />
           </div>
         )}
-
         {/* Main Content - Calendar, Queue, and Smart Suggestions */}
         <div className="flex gap-6">
           {/* Calendar */}
@@ -195,7 +214,9 @@ function MenuPlannerContent() {
               <RecipeQueue
                 onSelectRecipe={(queuedRecipe) => {
                   console.log("Selected from queue:", queuedRecipe.recipe.name);
-                  showInfo("Drag recipes from the queue to meal slots on the calendar!");
+                  showInfo(
+                    "Drag recipes from the queue to meal slots on the calendar!",
+                  );
                 }}
               />
             </div>
@@ -211,7 +232,6 @@ function MenuPlannerContent() {
             />
           </div>
         </div>
-
         {/* Mobile: Suggestions Bottom Sheet */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
           <button
@@ -235,7 +255,6 @@ function MenuPlannerContent() {
             </div>
           )}
         </div>
-
         {/* Recipe Detail Modal */}
         {detailRecipe && (
           <RecipeDetailModal
@@ -243,25 +262,25 @@ function MenuPlannerContent() {
             isOpen={true}
             onClose={() => setDetailRecipe(null)}
             onAddToMeal={(recipe) => {
-              showInfo(`"${recipe.name}" ready to add - use the calendar meal slots`);
+              showInfo(
+                `"${recipe.name}" ready to add - use the calendar meal slots`,
+              );
               setDetailRecipe(null);
             }}
           />
         )}
-
         {/* Enhanced Grocery List Modal (Phase 3) */}
         <GroceryListModal
           isOpen={showGroceryList}
           onClose={() => setShowGroceryList(false)}
         />
-
         {/* Nutritional Dashboard - Alchemical Metrics (Phase 3) */}
         <NutritionalDashboard
           isOpen={showNutritionDashboard}
           onClose={() => setShowNutritionDashboard(false)}
         />
-
-        {/* Detailed Weekly Nutrition Dashboard Modal */}
+        {/* Detailed Weekly Nutrition Dashboard Modal (COMMENTED OUT FOR NOW) */}
+        {/*
         {weeklyNutrition && (
           <WeeklyNutritionDashboardModal
             weeklyResult={weeklyNutrition}
@@ -269,7 +288,7 @@ function MenuPlannerContent() {
             onClose={() => setShowDetailedNutrition(false)}
           />
         )}
-
+        */}
         {/* Statistics Modal */}
         {showStats && weeklyStats && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -332,7 +351,6 @@ function MenuPlannerContent() {
             </div>
           </div>
         )}
-
         {/* Save Template Modal */}
         {showSaveTemplate && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -373,14 +391,14 @@ function MenuPlannerContent() {
             </div>
           </div>
         )}
-
         {/* Footer Info */}
         <div className="mt-12 mb-16 lg:mb-0 text-center text-sm text-gray-500">
           <p className="mb-2">
             Powered by alchemical harmony and real-time planetary calculations
           </p>
           <p>
-            Drag recipes between slots • Copy/move meals • Generate planetary-aligned suggestions
+            Drag recipes between slots • Copy/move meals • Generate
+            planetary-aligned suggestions
           </p>
         </div>
       </div>

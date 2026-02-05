@@ -1,7 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(_request: NextRequest) {
+export function middleware(request: NextRequest) {
+  // Check for sensitive file patterns and block them
+  const sensitivePaths = ["/.env", "/.git"];
+  for (const path of sensitivePaths) {
+    if (request.nextUrl.pathname.startsWith(path)) {
+      console.warn(
+        `Attempted access to sensitive path: ${request.nextUrl.pathname}`,
+      );
+      return new NextResponse("Access Denied", { status: 403 });
+    }
+  }
+
   // Create a response object from the request
   const response = NextResponse.next();
 
