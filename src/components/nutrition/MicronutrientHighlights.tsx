@@ -4,6 +4,7 @@ import {
   NutritionalSummary,
   NutritionalTargets,
   ComplianceDeficiency,
+  NutrientDeviation,
 } from "@/types/nutrition";
 import styles from "./MicronutrientHighlights.module.css";
 
