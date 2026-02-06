@@ -29,6 +29,8 @@ from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, E
 
 # Lunar Engine import
 from ..utils.lunar_engine import get_current_lunar_phase, get_lunar_modifier
+# Seasonal Engine import
+from ..utils.seasonal_engine import get_seasonal_modifiers
 
 # External data imports for cuisine and sauce recommendations
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
@@ -1151,85 +1153,129 @@ async def get_recipe_recommendations_by_chart(
 
         positions = chart_data["positions"]
         
-        # 2. Get lunar data if requested
-        lunar_phase_data = None
-        if request.include_lunar_data:
-            lunar_phase_data = get_current_lunar_phase()
-
-        # 3. Build a query to get recipes based on zodiac affinities of their ingredients
-        zodiac_signs_in_chart = {pos["sign"] for pos in positions.values()}
+                # 2. Get lunar data if requested and seasonal data
+                lunar_phase_data = None
+                if request.include_lunar_data:
+                    lunar_phase_data = get_current_lunar_phase()
         
-        query = """
-            SELECT 
-                r.id, 
-                r.name, 
-                r.description, 
-                r.cuisine,
-                i.name as ingredient_name,
-                i.category as ingredient_category,
-                za.zodiac_sign,
-                za.affinity_strength
-            FROM recipes r
-            JOIN recipe_ingredients ri ON r.id = ri.recipe_id
-            JOIN ingredients i ON ri.ingredient_id = i.id
-            JOIN zodiac_affinities za ON za.entity_id = i.id
-            WHERE za.entity_type = 'ingredient'
-            AND za.zodiac_sign IN :zodiac_signs
-            AND r.is_public = true
-        """
-
-        results = db.execute(text(query), {"zodiac_signs": tuple(zodiac_signs_in_chart)}).fetchall()
+                seasonal_modifiers_data = get_seasonal_modifiers()
+                current_seasonal_zodiac = seasonal_modifiers_data['current_zodiac']
+                fire_boost_ingredients = seasonal_modifiers_data['fire']
+                earth_boost_ingredients = seasonal_modifiers_data['earth']
+                air_boost_ingredients = seasonal_modifiers_data['air']
+                water_boost_ingredients = seasonal_modifiers_data['water']
         
-        # 4. Process the results and apply lunar modifiers
-        recipe_scores = {}
+                # 3. Build a query to get recipes based on zodiac affinities of their ingredients
+                zodiac_signs_in_chart = {pos["sign"] for pos in positions.values()}
         
-        for row in results:
-            recipe_id, name, description, cuisine, ingredient_name, ingredient_category, zodiac_sign, affinity_strength = row
-            if recipe_id not in recipe_scores:
-                recipe_scores[recipe_id] = {
-                    "name": name,
-                    "description": description,
-                    "cuisine": cuisine,
-                    "score": 0,
-                    "matching_ingredients": []
+                query = """
+                    SELECT
+                        r.id,
+                        r.name,
+                        r.description,
+                        r.cuisine,
+                        i.name as ingredient_name,
+                        i.category as ingredient_category,
+                        za.zodiac_sign,
+                        za.affinity_strength
+                    FROM recipes r
+                    JOIN recipe_ingredients ri ON r.id = ri.recipe_id
+                    JOIN ingredients i ON ri.ingredient_id = i.id
+                    JOIN zodiac_affinities za ON za.entity_id = i.id
+                    WHERE za.entity_type = 'ingredient'
+                    AND za.zodiac_sign IN :zodiac_signs
+                    AND r.is_public = true
+                """
+        
+                results = db.execute(text(query), {"zodiac_signs": tuple(zodiac_signs_in_chart)}).fetchall()
+        
+                # 4. Process the results and apply lunar and seasonal modifiers
+                recipe_scores = {}
+        
+                for row in results:
+                    recipe_id, name, description, cuisine, ingredient_name, ingredient_category, zodiac_sign, affinity_strength = row
+                    if recipe_id not in recipe_scores:
+                        recipe_scores[recipe_id] = {
+                            "name": name,
+                            "description": description,
+                            "cuisine": cuisine,
+                            "weighted_environmental_score": 0,
+                            "matching_ingredients": []
+                        }
+        
+                    base_score = affinity_strength
+                    lunar_modifier = 1.0
+        
+                    if request.include_lunar_data and lunar_phase_data:
+                        lunar_modifier = get_lunar_modifier(lunar_phase_data["phase_name"], ingredient_category)
+        
+                    seasonal_modifier = 1.0
+                    # Apply seasonal boosts based on ingredient category/name
+                    # This is a simplified approach, a more robust system might map categories to elemental types
+                    ingredient_lower = ingredient_name.lower()
+        
+                    if any(boost in ingredient_lower for boost in fire_boost_ingredients):
+                        if current_seasonal_zodiac in ['Aries', 'Leo', 'Sagittarius']:
+                            seasonal_modifier *= 1.2 # Boost for Fire signs
+                        else:
+                            seasonal_modifier *= 0.9 # Slight penalty for non-fire seasons
+                    elif any(boost in ingredient_lower for boost in earth_boost_ingredients):
+                        if current_seasonal_zodiac in ['Taurus', 'Virgo', 'Capricorn']:
+                            seasonal_modifier *= 1.2
+                        else:
+                            seasonal_modifier *= 0.9
+                    elif any(boost in ingredient_lower for boost in air_boost_ingredients):
+                        if current_seasonal_zodiac in ['Gemini', 'Libra', 'Aquarius']:
+                            seasonal_modifier *= 1.2
+                        else:
+                            seasonal_modifier *= 0.9
+                    elif any(boost in ingredient_lower for boost in water_boost_ingredients):
+                        if current_seasonal_zodiac in ['Cancer', 'Scorpio', 'Pisces']:
+                            seasonal_modifier *= 1.2
+                        else:
+                            seasonal_modifier *= 0.9
+        
+        
+                    weighted_environmental_score = base_score * lunar_modifier * seasonal_modifier
+                    recipe_scores[recipe_id]["weighted_environmental_score"] += weighted_environmental_score
+                    recipe_scores[recipe_id]["matching_ingredients"].append({
+                        "ingredient": ingredient_name,
+                        "sign": zodiac_sign,
+                        "base_affinity": affinity_strength,
+                        "lunar_modifier": lunar_modifier,
+                        "seasonal_modifier": seasonal_modifier,
+                        "weighted_environmental_score": weighted_environmental_score
+                    })
+        
+                # 5. Sort and format the response
+                sorted_recipes = sorted(recipe_scores.items(), key=lambda item: item[1]["weighted_environmental_score"], reverse=True)
+        
+                        recommendations = []
+                        for recipe_id, data in sorted_recipes[:10]: # Return top 10
+                            is_match = data["weighted_environmental_score"] > 1.0
+                            details = ""
+                            if is_match:
+                                details = f"Aligns with current environmental energies! Current: {lunar_phase_data['phase_name']} + {current_seasonal_zodiac} Season"
+                
+                            recommendations.append({
+                                "recipe_id": str(recipe_id),
+                                "name": data["name"],
+                                "weighted_environmental_score": data["weighted_environmental_score"],
+                                "matching_ingredients": data["matching_ingredients"],
+                                "isEnvironmentalMatch": is_match,
+                                "environmentalMatchDetails": details
+                            })        
+                response_data = {
+                    "request_params": request.model_dump(),
+                    "lunar_phase": lunar_phase_data,
+                    "seasonal_context": {
+                        "current_zodiac_season": current_seasonal_zodiac,
+                        "boosted_ingredients": seasonal_modifiers_data
+                    },
+                    "recommendations": recommendations,
                 }
-            
-            base_score = affinity_strength
-            lunar_modifier = 1.0
-            
-            if request.include_lunar_data and lunar_phase_data:
-                lunar_modifier = get_lunar_modifier(lunar_phase_data["phase_name"], ingredient_category)
-            
-            final_score = base_score * lunar_modifier
-            recipe_scores[recipe_id]["score"] += final_score
-            recipe_scores[recipe_id]["matching_ingredients"].append({
-                "ingredient": ingredient_name,
-                "sign": zodiac_sign,
-                "base_affinity": affinity_strength,
-                "lunar_modifier": lunar_modifier,
-                "final_score": final_score
-            })
-
-        # 5. Sort and format the response
-        sorted_recipes = sorted(recipe_scores.items(), key=lambda item: item[1]["score"], reverse=True)
         
-        recommendations = []
-        for recipe_id, data in sorted_recipes[:10]: # Return top 10
-            recommendations.append({
-                "recipe_id": str(recipe_id),
-                "name": data["name"],
-                "score": data["score"],
-                "matching_ingredients": data["matching_ingredients"]
-            })
-            
-        response_data = {
-            "request_params": request.model_dump(),
-            "lunar_phase": lunar_phase_data,
-            "recommendations": recommendations,
-        }
-        
-        return response_data
-
+                return response_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get recipe recommendations: {str(e)}")
 

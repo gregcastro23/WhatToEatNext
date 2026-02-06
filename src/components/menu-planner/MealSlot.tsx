@@ -214,6 +214,14 @@ function RecipeDisplay({
           </div>
         )}
       </div>
+      {/* Environmental Match Indicator */}
+      {recipe.isEnvironmentalMatch && (
+        <div className="flex items-center gap-1 text-xs text-green-700 mb-2"
+             title={recipe.environmentalMatchDetails || "This recipe aligns with current environmental energies!"}>
+          <span>🌍✨</span>
+          <span className="font-medium">Environmental Match!</span>
+        </div>
+      )}
       {/* Nutrition Quick View */}
       <div className="mb-2">
         <RecipeNutritionQuickView

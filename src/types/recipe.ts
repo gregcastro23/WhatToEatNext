@@ -210,6 +210,8 @@ export interface Recipe {
     _planetaryScore: number;
     _seasonalScore: number;
   };
+  isEnvironmentalMatch?: boolean;
+  environmentalMatchDetails?: string;
 
   // Allow additional dynamic properties for extensibility
   [key: string]: unknown;
