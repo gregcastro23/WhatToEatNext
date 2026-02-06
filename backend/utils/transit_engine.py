@@ -4,6 +4,7 @@ try:
     import swisseph as swe
     from astral.sun import sun
     from astral import LocationInfo
+from backend.config import FOREST_HILLS_COORDINATES
 except ImportError:
     swe = None
     sun = None
@@ -14,15 +15,15 @@ PLANETARY_ELEMENTS = {
     "Sun": "Fire", "Venus": "Earth", "Mercury": "Air", "Moon": "Water",
     "Saturn": "Earth", "Jupiter": "Fire", "Mars": "Fire"
 }
-# User's birth data (from src/components/CosmicRecipeWidget.tsx)
+# User's birth data (from src/components/CosmicRecipeWidget.tsx, but now using centralized config)
 BIRTH_DATA = {
-    "year": 1992,
-    "month": 8,
-    "day": 12,
+    "year": 1990, # Original birth year from prompt
+    "month": 10, # Original birth month from prompt
+    "day": 15,   # Original birth day from prompt
     "hour": 7,
     "minute": 15,
-    "latitude": 34.0522,
-    "longitude": -118.2437,
+    "latitude": FOREST_HILLS_COORDINATES["latitude"],
+    "longitude": FOREST_HILLS_COORDINATES["longitude"],
 }
 
 def get_planetary_hour(latitude, longitude):
@@ -30,12 +31,12 @@ def get_planetary_hour(latitude, longitude):
     if not sun or not LocationInfo:
         return None
 
-    city = LocationInfo("Forest Hills", "USA", "America/New_York", latitude, longitude)
+    city = LocationInfo("Forest Hills", "USA", FOREST_HILLS_COORDINATES["timezone"], latitude, longitude)
     s = sun(city.observer, date=datetime.datetime.now())
     sunrise = s["sunrise"]
     sunset = s["sunset"]
 
-    now = datetime.datetime.now(sunrise.tzinfo)
+    now = datetime.datetime.now(sunrise.tzinfo) # Use timezone-aware datetime
 
     if sunrise < now < sunset:
         # Daytime

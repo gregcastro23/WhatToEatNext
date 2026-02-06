@@ -11,7 +11,9 @@ interface CelestialEquilibriumProps {
   } | null;
 }
 
-export default function CelestialEquilibrium({ alchemicalQuantities }: CelestialEquilibriumProps) {
+export default function CelestialEquilibrium({
+  alchemicalQuantities,
+}: CelestialEquilibriumProps) {
   if (!alchemicalQuantities) {
     return (
       <div className="text-gray-500 text-sm text-center py-4">
@@ -42,12 +44,19 @@ export default function CelestialEquilibrium({ alchemicalQuantities }: Celestial
     };
   };
 
-  const points = data.map((item, i) => getCoordinates(item.value, i, data.length));
+  const points = data.map((item, i) =>
+    getCoordinates(item.value, i, data.length),
+  );
   const polygonPoints = points.map((p) => `${p.x},${p.y}`).join(" ");
 
   return (
     <div className="w-full flex justify-center py-4">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform scale-y-[-1]">
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="transform scale-y-[-1]"
+      >
         {/* Radar grid lines */}
         {[0.25, 0.5, 0.75, 1.0].map((level) => {
           const r = level * spokeLength;
@@ -81,7 +90,12 @@ export default function CelestialEquilibrium({ alchemicalQuantities }: Celestial
         })}
 
         {/* Data polygon */}
-        <polygon points={polygonPoints} fill="rgba(139, 92, 246, 0.4)" stroke="#8B5CF6" strokeWidth="1.5" />
+        <polygon
+          points={polygonPoints}
+          fill="rgba(139, 92, 246, 0.4)"
+          stroke="#8B5CF6"
+          strokeWidth="1.5"
+        />
 
         {/* Data points */}
         {points.map((p, i) => (

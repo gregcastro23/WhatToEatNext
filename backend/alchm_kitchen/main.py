@@ -37,6 +37,12 @@ from ..utils.transit_engine import get_transit_details, get_cooking_ritual, calc
 from ..utils.lunar_oracle import get_optimal_cooking_windows
 # Alchemical Quantities import
 from ..utils.alchemical_quantities import calculate_alchemical_quantities
+# Wellness Analytics import
+from ..utils.wellness_analytics import analyze_alchemical_balance
+# Transmutation Oracle import
+from ..utils.transmutation_oracle import get_transmutation_recommendation
+# Centralized celestial config
+from ..config.celestial_config import FOREST_HILLS_COORDINATES, USER_BIRTH_DATA
 
 # External data imports for cuisine and sauce recommendations
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
@@ -1037,7 +1043,7 @@ async def get_nested_recipes_for_cuisine(cuisine_id: str, season: str,
         for recipe in recipes:
             try:
                 # Get recipe ingredients
-                ingredients_result = db.execute(sql_text("""
+                ingredients_result = db.execute(text("""
                     SELECT i.name, ri.amount, ri.unit, ri.notes
                     FROM recipe_ingredients ri
                     JOIN ingredients i ON ri.ingredient_id = i.id
@@ -1499,7 +1505,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                # Get planetary hour
+                                                        # Get planetary hour
         
                 
         
@@ -1511,7 +1517,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                # Using hardcoded coordinates for Forest Hills, Queens
+                                                
         
                 
         
@@ -1523,7 +1529,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                latitude = 40.7193
+                                                        # Using hardcoded coordinates for Forest Hills, Queens
         
                 
         
@@ -1535,7 +1541,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                longitude = -73.8448
+                                                
         
                 
         
@@ -1547,7 +1553,55 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                planetary_hour_ruler = get_planetary_hour(latitude, longitude)
+                                                        latitude = FOREST_HILLS_COORDINATES["latitude"]
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                        longitude = FOREST_HILLS_COORDINATES["longitude"]
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                        planetary_hour_ruler = get_planetary_hour(latitude, longitude)
         
                 
         
@@ -1945,52 +1999,3 @@ async def get_recipe_recommendations_by_chart(
         
                             except Exception as e:
         
-                
-        
-                
-        
-                                raise HTTPException(status_code=500, detail=str(e))
-        
-                
-        
-                
-        
-                @app.get("/health")
-        
-                async def health_check(db: Session = Depends(get_db)):
-        
-                    """Health check with database connectivity and statistics"""
-        
-                    try:
-        # Test database connectivity
-        result = db.execute(text("SELECT 1 as test")).fetchone()
-
-        # Get recipe and ingredient counts
-        recipe_count = db.query(Recipe).filter(Recipe.is_public == True).count()
-        ingredient_count = db.query(Ingredient).filter(Ingredient.is_active == True).count()
-
-        # Get recent recommendations count
-        recent_recommendations = db.query(Recommendation).filter(
-            Recommendation.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        ).count()
-
-        return {
-            "status": "healthy",
-            "service": "kitchen-intelligence",
-            "database": "connected",
-            "public_recipes": recipe_count,
-            "active_ingredients": ingredient_count,
-            "recommendations_today": recent_recommendations,
-            "timestamp": datetime.now().isoformat()
-        }
-    except Exception as e:
-        return {
-            "status": "unhealthy",
-            "service": "kitchen-intelligence",
-            "database": f"error: {str(e)}",
-            "timestamp": datetime.now().isoformat()
-        }
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)

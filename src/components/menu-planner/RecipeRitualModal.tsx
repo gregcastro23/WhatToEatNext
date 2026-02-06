@@ -84,7 +84,9 @@ export default function RecipeRitualModal({
         {/* Alchemical Quantities Display */}
         {alchemicalQuantities && (
           <div className="mb-4">
-            <h3 className={`text-lg font-semibold mb-2 ${isDarkBg ? "text-white" : "text-gray-800"}`}>
+            <h3
+              className={`text-lg font-semibold mb-2 ${isDarkBg ? "text-white" : "text-gray-800"}`}
+            >
               Alchemical Balance
             </h3>
             <CelestialEquilibrium alchemicalQuantities={alchemicalQuantities} />
@@ -94,7 +96,9 @@ export default function RecipeRitualModal({
         {/* Potency Meter */}
         {totalPotencyScore !== null && (
           <div className="mb-6">
-            <h3 className={`text-lg font-semibold mb-2 ${isDarkBg ? "text-white" : "text-gray-800"}`}>
+            <h3
+              className={`text-lg font-semibold mb-2 ${isDarkBg ? "text-white" : "text-gray-800"}`}
+            >
               Total Potency Score
             </h3>
             <div className="w-full bg-gray-200 rounded-full h-4">
@@ -103,7 +107,9 @@ export default function RecipeRitualModal({
                 style={{ width: `${totalPotencyScore * 100}%` }}
               ></div>
             </div>
-            <div className={`text-right text-sm mt-1 ${isDarkBg ? "text-gray-300" : "text-gray-500"}`}>
+            <div
+              className={`text-right text-sm mt-1 ${isDarkBg ? "text-gray-300" : "text-gray-500"}`}
+            >
               {Math.round(totalPotencyScore * 100)}%
             </div>
           </div>

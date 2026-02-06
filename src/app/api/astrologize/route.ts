@@ -6,6 +6,7 @@ import { log } from "@/services/LoggingService";
 import type { ZodiacSign } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
+import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
 const logger = createLogger("AstrologizeAPI");
 
@@ -26,8 +27,8 @@ interface AstrologizeRequest {
 
 // Default location (New York City)
 const DEFAULT_LOCATION = {
-  latitude: 40.7498,
-  longitude: -73.7976,
+  latitude: FOREST_HILLS_COORDINATES.latitude,
+  longitude: FOREST_HILLS_COORDINATES.longitude,
 };
 
 /**
