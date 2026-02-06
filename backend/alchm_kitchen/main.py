@@ -33,6 +33,8 @@ from ..utils.lunar_engine import get_current_lunar_phase, get_lunar_modifier
 from ..utils.seasonal_engine import get_seasonal_modifiers
 # Transit Engine import
 from ..utils.transit_engine import get_transit_details, get_cooking_ritual
+# Lunar Oracle import
+from ..utils.lunar_oracle import get_optimal_cooking_windows
 
 # External data imports for cuisine and sauce recommendations
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
@@ -1252,9 +1254,12 @@ async def get_recipe_recommendations_by_chart(
                         "weighted_environmental_score": weighted_environmental_score
                     })
         
-                # 5. Sort and format the response
-                sorted_recipes = sorted(recipe_scores.items(), key=lambda item: item[1]["weighted_environmental_score"], reverse=True)
-        
+                        # 5. Sort and format the response
+                        sorted_recipes = sorted(recipe_scores.items(), key=lambda item: item[1]["weighted_environmental_score"], reverse=True)
+                
+                        # Get optimal cooking windows for the next 24 hours
+                        optimal_windows = get_optimal_cooking_windows(days=1)
+                
                         recommendations = []
                         for recipe_id, data in sorted_recipes[:10]: # Return top 10
                             is_match = data["weighted_environmental_score"] > 1.0
@@ -1262,15 +1267,29 @@ async def get_recipe_recommendations_by_chart(
                             if is_match:
                                 details = f"Aligns with current environmental energies! Current: {lunar_phase_data['phase_name']} + {current_seasonal_zodiac} Season"
                 
+                            # Check for optimal cooking window
+                            optimal_window = None
+                            if not "error" in optimal_windows:
+                                for window in optimal_windows:
+                                    for ingredient in data["matching_ingredients"]:
+                                        # This is a simplification. A more robust implementation would
+                                        # map ingredient categories to food types.
+                                        if window["food_type"].lower() in ingredient["ingredient"].lower():
+                                            optimal_window = window
+                                            break
+                                    if optimal_window:
+                                        break
+                            
                             recommendations.append({
                                 "recipe_id": str(recipe_id),
                                 "name": data["name"],
                                 "weighted_environmental_score": data["weighted_environmental_score"],
                                 "matching_ingredients": data["matching_ingredients"],
                                 "isEnvironmentalMatch": is_match,
-                                "environmentalMatchDetails": details
-                            })        
-                response_data = {
+                                "environmentalMatchDetails": details,
+                                "optimal_cooking_window": optimal_window,
+                            })
+                                response_data = {
                     "request_params": request.model_dump(),
                     "lunar_phase": lunar_phase_data,
                     "seasonal_context": {
@@ -1400,7 +1419,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                ritual = get_cooking_ritual(recipe, dominant_transit)
+                                        ritual = get_cooking_ritual(recipe, dominant_transit)
         
                 
         
@@ -1412,7 +1431,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                        
+                                
         
                 
         
@@ -1424,7 +1443,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                # Log the generated ritual
+                                        # Get optimal cooking window
         
                 
         
@@ -1436,7 +1455,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                new_ritual_log = TransitHistory(
+                                        optimal_windows = get_optimal_cooking_windows(days=1)
         
                 
         
@@ -1448,7 +1467,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                    recipe_id=request.recipe_id,
+                                        suggested_timestamp = None
         
                 
         
@@ -1460,7 +1479,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                    dominant_transit=dominant_transit,
+                                        if not "error" in optimal_windows:
         
                 
         
@@ -1472,7 +1491,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                    ritual_instruction=ritual,
+                                            for window in optimal_windows:
         
                 
         
@@ -1484,7 +1503,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                )
+                                                if window["food_type"].lower() in recipe.category.lower():
         
                 
         
@@ -1496,7 +1515,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                db.add(new_ritual_log)
+                                                    suggested_timestamp = f"{window['date']}T{window['start_time']}:00"
         
                 
         
@@ -1508,7 +1527,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                db.commit()
+                                                    break
         
                 
         
@@ -1520,7 +1539,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                        
+                                
         
                 
         
@@ -1532,7 +1551,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                return {
+                                        # Log the generated ritual
         
                 
         
@@ -1544,7 +1563,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                    "recipe_id": request.recipe_id,
+                                        new_ritual_log = TransitHistory(
         
                 
         
@@ -1556,7 +1575,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                    "dominant_transit": dominant_transit,
+                                            recipe_id=request.recipe_id,
         
                 
         
@@ -1568,7 +1587,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                    "ritual_instruction": ritual,
+                                            dominant_transit=dominant_transit,
         
                 
         
@@ -1580,7 +1599,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                }
+                                            ritual_instruction=ritual,
         
                 
         
@@ -1592,7 +1611,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                            except Exception as e:
+                                        )
         
                 
         
@@ -1604,7 +1623,127 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                raise HTTPException(status_code=500, detail=str(e))
+                                        db.add(new_ritual_log)
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                        db.commit()
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                        return {
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                            "recipe_id": request.recipe_id,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                            "dominant_transit": dominant_transit,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                            "ritual_instruction": ritual,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                            "suggested_timestamp": suggested_timestamp,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                        }
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                    except Exception as e:
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                        raise HTTPException(status_code=500, detail=str(e))
         
                 
         

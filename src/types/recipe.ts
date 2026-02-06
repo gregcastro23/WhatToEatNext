@@ -212,9 +212,17 @@ export interface Recipe {
   };
   isEnvironmentalMatch?: boolean;
   environmentalMatchDetails?: string;
+  optimal_cooking_window?: OptimalCookingWindow;
 
   // Allow additional dynamic properties for extensibility
   [key: string]: unknown;
+}
+
+export interface OptimalCookingWindow {
+  date: string;
+  mansion: string;
+  food_type: string;
+  start_time: string;
 }
 
 // Legacy interface for backward compatibility - now extends unified Recipe
