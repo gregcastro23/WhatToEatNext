@@ -10,6 +10,10 @@ interface DailyNutritionSummaryProps {
   result: DailyNutritionResult;
   dayLabel?: string;
   expanded?: boolean;
+  lunarPhase?: {
+    phase_name: string;
+    illumination_fraction: number;
+  };
 }
 
 /**
@@ -19,6 +23,7 @@ export function DailyNutritionSummary({
   result,
   dayLabel,
   expanded = false,
+  lunarPhase,
 }: DailyNutritionSummaryProps) {
   const [isExpanded, setIsExpanded] = React.useState(expanded);
 
@@ -39,6 +44,11 @@ export function DailyNutritionSummary({
       >
         <div className="flex items-center gap-3">
           <span className="font-semibold text-gray-800 text-sm">{dateStr}</span>
+          {lunarPhase && (
+            <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+              {lunarPhase.phase_name}
+            </span>
+          )}
           <span className="text-xs text-gray-500">
             {Math.round(result.totals.calories)} kcal
           </span>

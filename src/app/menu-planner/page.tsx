@@ -45,6 +45,8 @@ function MenuPlannerContent() {
     clearWeek,
     saveAsTemplate,
     refreshStats,
+    syncWithLunarCycle,
+    toggleSyncWithLunarCycle,
   } = useMenuPlanner();
 
   const { queueSize } = useRecipeQueue();
@@ -160,6 +162,17 @@ function MenuPlannerContent() {
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:shadow-lg transition-all font-medium"
               >
                 💾 Save as Template
+              </button>
+              <button
+                onClick={toggleSyncWithLunarCycle}
+                className={`px-4 py-2 rounded-lg transition-all font-medium flex items-center gap-2 ${
+                  syncWithLunarCycle
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                <span>{syncWithLunarCycle ? "🌕" : "🌑"}</span>
+                <span>Sync with Lunar Cycle</span>
               </button>
             </div>
           </div>
