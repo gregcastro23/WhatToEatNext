@@ -237,12 +237,16 @@ def get_transit_details():
     sun_longitude = current_transits["Sun"]
     sun_sign, sun_element = get_zodiac_sign_and_element(sun_longitude)
 
+    # 5. Calculate current elemental balance from transits
+    current_elemental_balance = calculate_current_elemental_balance(current_transits)
+
     return {
         "birth_chart": birth_chart,
         "current_transits": current_transits,
         "dominant_transit": dominant_transit,
         "sun_sign": sun_sign,
         "sun_element": sun_element,
+        "current_elemental_balance": current_elemental_balance,
     }
 
 if __name__ == "__main__":

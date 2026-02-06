@@ -449,6 +449,10 @@ class TransitHistory(Base):
     potency_score: Mapped[Optional[float]] = mapped_column(Float)
     kinetic_rating: Mapped[Optional[float]] = mapped_column(Float)
     thermo_rating: Mapped[Optional[float]] = mapped_column(Float)
+    spirit_score: Mapped[Optional[float]] = mapped_column(Float)
+    essence_score: Mapped[Optional[float]] = mapped_column(Float)
+    matter_score: Mapped[Optional[float]] = mapped_column(Float)
+    substance_score: Mapped[Optional[float]] = mapped_column(Float)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (

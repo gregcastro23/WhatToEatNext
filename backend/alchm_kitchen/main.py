@@ -35,6 +35,8 @@ from ..utils.seasonal_engine import get_seasonal_modifiers
 from ..utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
 # Lunar Oracle import
 from ..utils.lunar_oracle import get_optimal_cooking_windows
+# Alchemical Quantities import
+from ..utils.alchemical_quantities import calculate_alchemical_quantities
 
 # External data imports for cuisine and sauce recommendations
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
@@ -221,7 +223,7 @@ def calculate_planetary_positions_swisseph(
         for planet_name, planet_id in planets.items():
             try:
                 # Calculate position with speed
-                # swe.calc_ut returns ((longitude, latitude, distance, longitude_speed, ...), flags)
+                # swe.calc_ut returns ((longitude, latitude, distance, long_speed, ...), flags)
                 # FLG_SPEED is required to get velocity data
                 if zodiac_system.lower() == "sidereal":
                     result = swe.calc_ut(julian_day, planet_id, swe.FLG_SIDEREAL | swe.FLG_SPEED)
@@ -254,7 +256,7 @@ def calculate_planetary_positions_swisseph(
                 positions[planet_name] = {
                     "sign": zodiac_signs[sign_index],
                     "degree": degree,
-                    "minute": minute_in_sign,
+                    "minute": minute_in_in_sign,
                     "exactLongitude": longitude,
                     "isRetrograde": is_retrograde,
                     "retrogradeSymbol": retrograde_symbol,
@@ -396,7 +398,7 @@ def calculate_planetary_positions_pyephem(
                 positions[planet_name] = {
                     "sign": zodiac_signs[sign_index],
                     "degree": degree,
-                    "minute": minute_in_sign,
+                    "minute": minute_in_in_sign,
                     "exactLongitude": longitude,
                     "isRetrograde": is_retrograde
                 }
@@ -715,8 +717,8 @@ async def get_seasonal_recipes(
         """, {"season": season, "limit": limit}).fetchall()
 
         recommendations = []
-        for row in seasonal_recipes:
-            recipe_id, name, description, cuisine, avg_score, seasonal_ingredients = row
+        for row in recipes_with_affinity:
+            recipe_id, name, description, cuisine, avg_affinity, ingredient_matches = row
 
             recommendations.append({
                 "recipe_id": str(recipe_id),
@@ -740,7 +742,7 @@ async def get_seasonal_recipes(
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get seasonal recipe recommendations: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get zodiac recipe recommendations: {str(e)}")
 
 @app.get("/astrological/personalized-cooking")
 async def get_personalized_cooking_plan(
@@ -1713,7 +1715,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                        new_ritual_log = TransitHistory(
+                                                new_ritual_log = TransitHistory(
         
                 
         
@@ -1725,7 +1727,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            recipe_id=request.recipe_id,
+                                                    recipe_id=request.recipe_id,
         
                 
         
@@ -1737,7 +1739,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            dominant_transit=dominant_transit,
+                                                    dominant_transit=dominant_transit,
         
                 
         
@@ -1749,7 +1751,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            ritual_instruction=ritual,
+                                                    ritual_instruction=ritual,
         
                 
         
@@ -1761,7 +1763,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            potency_score=potency_scores["total_potency_score"],
+                                                    potency_score=potency_scores["total_potency_score"],
         
                 
         
@@ -1773,7 +1775,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            kinetic_rating=potency_scores["kinetic_rating"],
+                                                    kinetic_rating=potency_scores["kinetic_rating"],
         
                 
         
@@ -1785,7 +1787,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            thermo_rating=potency_scores["thermo_rating"],
+                                                    thermo_rating=potency_scores["thermo_rating"],
         
                 
         
@@ -1797,7 +1799,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                        )
+                                                )
         
                 
         
@@ -1809,7 +1811,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                        db.add(new_ritual_log)
+                                                db.add(new_ritual_log)
         
                 
         
@@ -1821,7 +1823,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                        db.commit()
+                                                db.commit()
         
                 
         
@@ -1833,7 +1835,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                
+                                        
         
                 
         
@@ -1845,7 +1847,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                        return {
+                                                return {
         
                 
         
@@ -1857,7 +1859,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            "recipe_id": request.recipe_id,
+                                                    "recipe_id": request.recipe_id,
         
                 
         
@@ -1869,7 +1871,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            "dominant_transit": dominant_transit,
+                                                    "dominant_transit": dominant_transit,
         
                 
         
@@ -1881,7 +1883,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            "ritual_instruction": ritual,
+                                                    "ritual_instruction": ritual,
         
                 
         
@@ -1893,7 +1895,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            "suggested_timestamp": suggested_timestamp,
+                                                    "suggested_timestamp": suggested_timestamp,
         
                 
         
@@ -1905,7 +1907,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                            "total_potency_score": potency_scores["total_potency_score"],
+                                                    "total_potency_score": potency_scores["total_potency_score"],
         
                 
         
@@ -1917,7 +1919,25 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                        }
+                                                    "current_elemental_balance": transit_info.get("current_elemental_balance"),
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                }
+        
+                
+        
+                
+        
+                        
         
                 
         

@@ -2,6 +2,7 @@
 
 import React from "react";
 import type { ElementalProperties } from "@/types/recipe";
+import CelestialEquilibrium from "@/components/CelestialEquilibrium";
 
 interface RecipeRitualModalProps {
   isOpen: boolean;
@@ -11,6 +12,12 @@ interface RecipeRitualModalProps {
   dominantTransit: string | null;
   totalPotencyScore: number | null;
   elementalProperties: ElementalProperties | null;
+  alchemicalQuantities: {
+    spirit_score: number;
+    essence_score: number;
+    matter_score: number;
+    substance_score: number;
+  } | null;
 }
 
 export default function RecipeRitualModal({
@@ -21,6 +28,7 @@ export default function RecipeRitualModal({
   dominantTransit,
   totalPotencyScore,
   elementalProperties,
+  alchemicalQuantities,
 }: RecipeRitualModalProps) {
   if (!isOpen) return null;
 
@@ -73,41 +81,13 @@ export default function RecipeRitualModal({
           {ritualInstruction}
         </p>
 
-        {/* Elemental Balance */}
-        {elementalProperties && (
+        {/* Alchemical Quantities Display */}
+        {alchemicalQuantities && (
           <div className="mb-4">
             <h3 className={`text-lg font-semibold mb-2 ${isDarkBg ? "text-white" : "text-gray-800"}`}>
-              Elemental Balance
+              Alchemical Balance
             </h3>
-            <div className="flex gap-1">
-              {Object.entries(elementalProperties).map(
-                ([element, value]) => {
-                  if (typeof value !== "number") return null;
-                  const width = Math.round(value * 100);
-                  const elementColors: Record<
-                    string,
-                    { bg: string; text: string }
-                  > = {
-                    Fire: { bg: "bg-orange-400", text: "text-orange-700" },
-                    Water: { bg: "bg-blue-400", text: "text-blue-700" },
-                    Earth: { bg: "bg-amber-400", text: "text-amber-700" },
-                    Air: { bg: "bg-sky-400", text: "text-sky-700" },
-                  };
-                  const color = elementColors[element] || {
-                    bg: "bg-gray-400",
-                    text: "text-gray-700",
-                  };
-                  return (
-                    <div
-                      key={element}
-                      className={`h-2 rounded-full ${color.bg}`}
-                      style={{ width: `${width}%` }}
-                      title={`${element}: ${Math.round(value * 100)}%`}
-                    />
-                  );
-                },
-              )}
-            </div>
+            <CelestialEquilibrium alchemicalQuantities={alchemicalQuantities} />
           </div>
         )}
 
@@ -115,7 +95,7 @@ export default function RecipeRitualModal({
         {totalPotencyScore !== null && (
           <div className="mb-6">
             <h3 className={`text-lg font-semibold mb-2 ${isDarkBg ? "text-white" : "text-gray-800"}`}>
-              Potency Score
+              Total Potency Score
             </h3>
             <div className="w-full bg-gray-200 rounded-full h-4">
               <div
