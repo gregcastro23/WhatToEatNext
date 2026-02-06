@@ -437,3 +437,19 @@ class SystemMetric(Base):
         Index('idx_metrics_timestamp', 'timestamp'),
         Index('idx_metrics_tags', 'tags', postgresql_using='gin'),
     )
+
+class TransitHistory(Base):
+    """Historical log of generated transit-based cooking rituals."""
+    __tablename__ = 'transit_history'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    recipe_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    dominant_transit: Mapped[Optional[str]] = mapped_column(String(255))
+    ritual_instruction: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (
+        Index('idx_transit_history_recipe_id', 'recipe_id'),
+        Index('idx_transit_history_dominant_transit', 'dominant_transit'),
+        Index('idx_transit_history_created_at', 'created_at'),
+    )

@@ -13,6 +13,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import RecipeSelector from "./RecipeSelector";
+import RecipeRitualModal from "./RecipeRitualModal";
 import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
 import { RecipeNutritionModal } from "@/components/nutrition/RecipeNutritionModal";
 
@@ -152,7 +153,36 @@ function RecipeDisplay({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showNutritionModal, setShowNutritionModal] = useState(false);
+  const [isRitualModalOpen, setIsRitualModalOpen] = useState(false);
+  const [ritualInstruction, setRitualInstruction] = useState("");
+  const [dominantTransit, setDominantTransit] = useState<string | null>(null);
   const colors = getMealTypeColors(mealType);
+
+  const handleEnvironmentalMatchClick = async () => {
+    if (!recipe.id) return;
+    try {
+      const response = await fetch('/api/rituals/generate-cooking-instruction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ recipe_id: recipe.id }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch ritual instruction');
+      }
+      const data = await response.json();
+      setRitualInstruction(data.ritual_instruction);
+      setDominantTransit(data.dominant_transit);
+      setIsRitualModalOpen(true);
+    } catch (error) {
+      console.error(error);
+      // Handle error, e.g., show a default message
+      setRitualInstruction("Cook with mindfulness and enjoy the moment.");
+      setDominantTransit(null);
+      setIsRitualModalOpen(true);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -213,32 +243,42 @@ function RecipeDisplay({
             <span>{recipe.prepTime}</span>
           </div>
         )}
-      </div>
-      {/* Environmental Match Indicator */}
-      {recipe.isEnvironmentalMatch && (
-        <div className="flex items-center gap-1 text-xs text-green-700 mb-2"
-             title={recipe.environmentalMatchDetails || "This recipe aligns with current environmental energies!"}>
-          <span>🌍✨</span>
-          <span className="font-medium">Environmental Match!</span>
-        </div>
-      )}
-      {/* Nutrition Quick View */}
-      <div className="mb-2">
-        <RecipeNutritionQuickView
-          recipe={recipe}
-          servings={servings}
-          compact
-          onShowDetails={() => setShowNutritionModal(true)}
-        />
-      </div>
-      {/* Nutrition Details Modal */}
-      <RecipeNutritionModal
-        recipe={recipe}
-        servings={servings}
-        isOpen={showNutritionModal}
-        onClose={() => setShowNutritionModal(false)}
-        ingredientMapping={{}} // Placeholder
-      />{" "}
+            </div>
+            {/* Environmental Match Indicator */}
+            {recipe.isEnvironmentalMatch && (
+              <div
+                className="flex items-center gap-1 text-xs text-green-700 mb-2 cursor-pointer"
+                title={recipe.environmentalMatchDetails || "This recipe aligns with current environmental energies!"}
+                onClick={handleEnvironmentalMatchClick}
+              >
+                <span>🌍✨</span>
+                <span className="font-medium">Environmental Match!</span>
+              </div>
+            )}
+            {/* Nutrition Quick View */}
+            <div className="mb-2">
+              <RecipeNutritionQuickView
+                recipe={recipe}
+                servings={servings}
+                compact
+                onShowDetails={() => setShowNutritionModal(true)}
+              />
+            </div>
+            {/* Nutrition Details Modal */}
+            <RecipeNutritionModal
+              recipe={recipe}
+              servings={servings}
+              isOpen={showNutritionModal}
+              onClose={() => setShowNutritionModal(false)}
+              ingredientMapping={{}} // Placeholder
+            />
+            <RecipeRitualModal
+              isOpen={isRitualModalOpen}
+              onClose={() => setIsRitualModalOpen(false)}
+              recipeId={recipe.id}
+              ritualInstruction={ritualInstruction}
+              dominantTransit={dominantTransit}
+            />
       {/* Elemental Properties */}
       {recipe.elementalProperties && (
         <div className="mb-2">

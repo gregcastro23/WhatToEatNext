@@ -25,12 +25,14 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 # Database imports
-from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation
+from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation, TransitHistory
 
 # Lunar Engine import
 from ..utils.lunar_engine import get_current_lunar_phase, get_lunar_modifier
 # Seasonal Engine import
 from ..utils.seasonal_engine import get_seasonal_modifiers
+# Transit Engine import
+from ..utils.transit_engine import get_transit_details, get_cooking_ritual
 
 # External data imports for cuisine and sauce recommendations
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
@@ -1133,6 +1135,9 @@ class RecipeRecommendationRequest(BaseModel):
     longitude: float
     include_lunar_data: bool = False
 
+class RitualRequest(BaseModel):
+    recipe_id: str
+
 @app.post("/api/astrological/recipe-recommendations-by-chart")
 async def get_recipe_recommendations_by_chart(
     request: RecipeRecommendationRequest,
@@ -1275,15 +1280,343 @@ async def get_recipe_recommendations_by_chart(
                     "recommendations": recommendations,
                 }
         
-                return response_data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get recipe recommendations: {str(e)}")
-
-
-@app.get("/health")
-async def health_check(db: Session = Depends(get_db)):
-    """Health check with database connectivity and statistics"""
-    try:
+                        return response_data
+        
+                
+        
+                    except Exception as e:
+        
+                        raise HTTPException(status_code=500, detail=f"Failed to get recipe recommendations: {str(e)}")
+        
+                
+        
+                
+        
+                @app.post("/api/rituals/generate-cooking-instruction")
+        
+                
+        
+                
+        
+                async def generate_cooking_instruction(request: RitualRequest, db: Session = Depends(get_db)):
+        
+                
+        
+                
+        
+                    """
+        
+                
+        
+                
+        
+                    Generates a custom cooking ritual based on the user's current
+        
+                
+        
+                
+        
+                    most influential transit.
+        
+                
+        
+                
+        
+                    """
+        
+                
+        
+                
+        
+                    try:
+        
+                
+        
+                
+        
+                        # Get recipe details
+        
+                
+        
+                
+        
+                        recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
+        
+                
+        
+                
+        
+                        if not recipe:
+        
+                
+        
+                
+        
+                            raise HTTPException(status_code=404, detail="Recipe not found")
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                        transit_info = get_transit_details()
+        
+                
+        
+                
+        
+                        if "error" in transit_info:
+        
+                
+        
+                
+        
+                            raise HTTPException(status_code=500, detail=transit_info["error"])
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                dominant_transit = transit_info.get("dominant_transit")
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                ritual = get_cooking_ritual(recipe, dominant_transit)
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                # Log the generated ritual
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                new_ritual_log = TransitHistory(
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                    recipe_id=request.recipe_id,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                    dominant_transit=dominant_transit,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                    ritual_instruction=ritual,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                )
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                db.add(new_ritual_log)
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                db.commit()
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                return {
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                    "recipe_id": request.recipe_id,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                    "dominant_transit": dominant_transit,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                    "ritual_instruction": ritual,
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                }
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                            except Exception as e:
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                
+        
+                                raise HTTPException(status_code=500, detail=str(e))
+        
+                
+        
+                
+        
+                @app.get("/health")
+        
+                async def health_check(db: Session = Depends(get_db)):
+        
+                    """Health check with database connectivity and statistics"""
+        
+                    try:
         # Test database connectivity
         result = db.execute(text("SELECT 1 as test")).fetchone()
 
