@@ -446,6 +446,9 @@ class TransitHistory(Base):
     recipe_id: Mapped[str] = mapped_column(String(255), nullable=False)
     dominant_transit: Mapped[Optional[str]] = mapped_column(String(255))
     ritual_instruction: Mapped[str] = mapped_column(Text, nullable=False)
+    potency_score: Mapped[Optional[float]] = mapped_column(Float)
+    kinetic_rating: Mapped[Optional[float]] = mapped_column(Float)
+    thermo_rating: Mapped[Optional[float]] = mapped_column(Float)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (

@@ -2,9 +2,18 @@
 import datetime
 try:
     import swisseph as swe
+    from astral.sun import sun
+    from astral import LocationInfo
 except ImportError:
     swe = None
+    sun = None
+    LocationInfo = None
 
+CHALDEAN_ORDER = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"]
+PLANETARY_ELEMENTS = {
+    "Sun": "Fire", "Venus": "Earth", "Mercury": "Air", "Moon": "Water",
+    "Saturn": "Earth", "Jupiter": "Fire", "Mars": "Fire"
+}
 # User's birth data (from src/components/CosmicRecipeWidget.tsx)
 BIRTH_DATA = {
     "year": 1992,
@@ -16,6 +25,60 @@ BIRTH_DATA = {
     "longitude": -118.2437,
 }
 
+def get_planetary_hour(latitude, longitude):
+    """Calculates the current planetary hour."""
+    if not sun or not LocationInfo:
+        return None
+
+    city = LocationInfo("Forest Hills", "USA", "America/New_York", latitude, longitude)
+    s = sun(city.observer, date=datetime.datetime.now())
+    sunrise = s["sunrise"]
+    sunset = s["sunset"]
+
+    now = datetime.datetime.now(sunrise.tzinfo)
+
+    if sunrise < now < sunset:
+        # Daytime
+        hour_length = (sunset - sunrise) / 12
+        hour_index = int((now - sunrise) / hour_length)
+        day_of_week = now.weekday()
+        # Monday is 0 in weekday(), but we need Sunday = 0 for Chaldean order
+        day_of_week = (day_of_week + 1) % 7
+        
+        # Get the ruler of the day
+        day_ruler = CHALDEAN_ORDER[day_of_week]
+        day_ruler_index = CHALDEAN_ORDER.index(day_ruler)
+
+        hour_ruler_index = (day_ruler_index + hour_index) % 7
+        return CHALDEAN_ORDER[hour_ruler_index]
+    else:
+        # Nighttime
+        # Find previous sunset
+        yesterday = now - datetime.timedelta(days=1)
+        s_yesterday = sun(city.observer, date=yesterday)
+        prev_sunset = s_yesterday["sunset"]
+
+        if now < sunrise: # Before sunrise
+            hour_length = (sunrise - prev_sunset) / 12
+            hour_index = int((now - prev_sunset) / hour_length)
+        else: # After sunset
+            tomorrow = now + datetime.timedelta(days=1)
+            s_tomorrow = sun(city.observer, date=tomorrow)
+            next_sunrise = s_tomorrow["sunrise"]
+            hour_length = (next_sunrise - sunset) / 12
+            hour_index = int((now - sunset) / hour_length)
+
+        day_of_week = now.weekday()
+        day_of_week = (day_of_week + 1) % 7
+        
+        # Get the ruler of the day
+        day_ruler = CHALDEAN_ORDER[day_of_week]
+        day_ruler_index = CHALDEAN_ORDER.index(day_ruler)
+
+        # The first hour of the night is ruled by the planet that is 3 places after the day ruler
+        hour_ruler_index = (day_ruler_index + 12 + hour_index) % 7
+        return CHALDEAN_ORDER[hour_ruler_index]
+
 def get_julian_day(year, month, day, hour, minute):
     """Calculates the Julian day."""
     return swe.julday(year, month, day, hour + minute / 60.0)
@@ -23,6 +86,7 @@ def get_julian_day(year, month, day, hour, minute):
 def get_planetary_positions(julian_day):
     """Gets the positions of the planets."""
     planets = {
+        "Sun": swe.SUN,
         "Mars": swe.MARS,
         "Venus": swe.VENUS,
         "Saturn": swe.SATURN,
@@ -73,6 +137,80 @@ def get_cooking_ritual(recipe, dominant_transit):
     else:
         return f"For '{recipe.name}', simply cook with mindfulness and enjoy the moment."
 
+def get_dominant_element(elemental_properties):
+    """Gets the dominant element from a recipe's elemental properties."""
+    if not elemental_properties:
+        return None
+    return max(elemental_properties, key=elemental_properties.get)
+
+def calculate_total_potency_score(recipe, dominant_transit, sun_sign_element, planetary_hour_ruler):
+    """
+    Calculates the Total Potency Score for a recipe.
+    """
+    # 1. Planetary Alignment
+    planetary_alignment = 1.0 if dominant_transit else 0.5
+
+    # 2. Elemental Match
+    recipe_element = get_dominant_element(recipe.elementalProperties)
+    elemental_match = 1.0 if sun_sign_element == recipe_element else 0.5
+
+    # 3. Thermodynamic Parity (simplified)
+    thermodynamic_parity = 0.5
+    if recipe_element == "Fire":
+        thermodynamic_parity = 1.0
+    elif recipe_element == "Air":
+        thermodynamic_parity = 0.7
+    elif recipe_element == "Earth":
+        thermodynamic_parity = 0.5
+    elif recipe_element == "Water":
+        thermodynamic_parity = 0.3
+    
+    # 4. Planetary Hour Bonus
+    planetary_hour_bonus = 0.0
+    if planetary_hour_ruler and PLANETARY_ELEMENTS.get(planetary_hour_ruler) == recipe_element:
+        planetary_hour_bonus = 0.25
+
+    total_potency_score = (planetary_alignment * 0.4) + (elemental_match * 0.3) + (thermodynamic_parity * 0.3) + planetary_hour_bonus
+
+    # 5. Kinetic Rating
+    kinetic_rating = 0.5
+    if dominant_transit == "Mars":
+        kinetic_rating = 1.0
+    elif dominant_transit == "Venus":
+        kinetic_rating = 0.3
+    elif dominant_transit == "Saturn":
+        kinetic_rating = 0.1
+
+    # 6. "Steam" modifier for elemental conflicts
+    if planetary_hour_ruler:
+        hour_element = PLANETARY_ELEMENTS.get(planetary_hour_ruler)
+        if (sun_sign_element == "Fire" and hour_element == "Water") or \
+           (sun_sign_element == "Water" and hour_element == "Fire") or \
+           (sun_sign_element == "Air" and hour_element == "Earth") or \
+           (sun_sign_element == "Earth" and hour_element == "Air"):
+            kinetic_rating *= 1.5 # Boost kinetic rating for "Steam"
+
+    # 7. Thermo Rating
+    thermo_rating = thermodynamic_parity
+
+    return {
+        "total_potency_score": total_potency_score,
+        "kinetic_rating": kinetic_rating,
+        "thermo_rating": thermo_rating,
+    }
+
+
+def get_zodiac_sign_and_element(longitude):
+    """Gets the zodiac sign and element from a longitude."""
+    zodiac_signs = [
+        ("Aries", "Fire"), ("Taurus", "Earth"), ("Gemini", "Air"),
+        ("Cancer", "Water"), ("Leo", "Fire"), ("Virgo", "Earth"),
+        ("Libra", "Air"), ("Scorpio", "Water"), ("Sagittarius", "Fire"),
+        ("Capricorn", "Earth"), ("Aquarius", "Air"), ("Pisces", "Water")
+    ]
+    sign_index = int(longitude / 30)
+    return zodiac_signs[sign_index]
+
 def get_transit_details():
     """
     Main function to get transit details.
@@ -95,10 +233,16 @@ def get_transit_details():
     # 3. Determine dominant transit
     dominant_transit = get_dominant_transit(birth_chart, current_transits)
 
+    # 4. Get Sun sign and element
+    sun_longitude = current_transits["Sun"]
+    sun_sign, sun_element = get_zodiac_sign_and_element(sun_longitude)
+
     return {
         "birth_chart": birth_chart,
         "current_transits": current_transits,
         "dominant_transit": dominant_transit,
+        "sun_sign": sun_sign,
+        "sun_element": sun_element,
     }
 
 if __name__ == "__main__":

@@ -32,7 +32,7 @@ from ..utils.lunar_engine import get_current_lunar_phase, get_lunar_modifier
 # Seasonal Engine import
 from ..utils.seasonal_engine import get_seasonal_modifiers
 # Transit Engine import
-from ..utils.transit_engine import get_transit_details, get_cooking_ritual
+from ..utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
 # Lunar Oracle import
 from ..utils.lunar_oracle import get_optimal_cooking_windows
 
@@ -1280,6 +1280,12 @@ async def get_recipe_recommendations_by_chart(
                                     if optimal_window:
                                         break
                             
+                            # Get elemental properties for the recipe
+                            elemental_properties = db.query(ElementalProperties).filter(
+                                ElementalProperties.entity_type == 'recipe',
+                                ElementalProperties.entity_id == recipe_id
+                            ).first()
+                            
                             recommendations.append({
                                 "recipe_id": str(recipe_id),
                                 "name": data["name"],
@@ -1288,6 +1294,12 @@ async def get_recipe_recommendations_by_chart(
                                 "isEnvironmentalMatch": is_match,
                                 "environmentalMatchDetails": details,
                                 "optimal_cooking_window": optimal_window,
+                                "elementalProperties": {
+                                    "Fire": elemental_properties.fire,
+                                    "Water": elemental_properties.water,
+                                    "Earth": elemental_properties.earth,
+                                    "Air": elemental_properties.air,
+                                } if elemental_properties else None,
                             })
                                 response_data = {
                     "request_params": request.model_dump(),
@@ -1353,127 +1365,265 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                        # Get recipe details
+                                # Get recipe details
         
                 
         
                 
         
-                        recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
+                                recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
         
                 
         
                 
         
-                        if not recipe:
+                                if not recipe:
         
                 
         
                 
         
-                            raise HTTPException(status_code=404, detail="Recipe not found")
+                                    raise HTTPException(status_code=404, detail="Recipe not found")
         
                 
         
                 
         
-                
+                        
         
                 
         
                 
         
-                        transit_info = get_transit_details()
+                                recipe.elementalProperties = db.query(ElementalProperties).filter(
         
                 
         
                 
         
-                        if "error" in transit_info:
+                                    ElementalProperties.entity_type == 'recipe',
         
                 
         
                 
         
-                            raise HTTPException(status_code=500, detail=transit_info["error"])
+                                    ElementalProperties.entity_id == request.recipe_id
         
                 
         
                 
         
-                
+                                ).first()
         
                 
         
                 
         
-                                dominant_transit = transit_info.get("dominant_transit")
+                        
         
                 
         
                 
         
-                
+                                transit_info = get_transit_details()
         
                 
         
                 
         
-                                        ritual = get_cooking_ritual(recipe, dominant_transit)
+                                if "error" in transit_info:
         
                 
         
                 
         
-                
+                                    raise HTTPException(status_code=500, detail=transit_info["error"])
         
                 
         
                 
         
-                                
+                        
         
                 
         
                 
         
-                
+                                        dominant_transit = transit_info.get("dominant_transit")
         
                 
         
                 
         
-                                        # Get optimal cooking window
+                        
         
                 
         
                 
         
-                
+                                                sun_element = transit_info.get("sun_element")
         
                 
         
                 
         
-                                        optimal_windows = get_optimal_cooking_windows(days=1)
+                        
         
                 
         
                 
         
-                
+                                                ritual = get_cooking_ritual(recipe, dominant_transit)
         
                 
         
                 
         
-                                        suggested_timestamp = None
+                        
         
                 
         
                 
         
+                                                
+        
                 
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                # Get planetary hour
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                # Using hardcoded coordinates for Forest Hills, Queens
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                latitude = 40.7193
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                longitude = -73.8448
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                planetary_hour_ruler = get_planetary_hour(latitude, longitude)
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                potency_scores = calculate_total_potency_score(recipe, dominant_transit, sun_element, planetary_hour_ruler)
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                        
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                # Get optimal cooking window
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                optimal_windows = get_optimal_cooking_windows(days=1)
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                suggested_timestamp = None
+        
+                
+        
+                
+        
+                        
         
                 
         
@@ -1485,7 +1635,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1497,7 +1647,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1509,7 +1659,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1521,7 +1671,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1533,7 +1683,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1545,7 +1695,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1557,7 +1707,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1569,7 +1719,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1581,7 +1731,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1593,7 +1743,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1605,7 +1755,43 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
+                        
+        
                 
+        
+                
+        
+                                            potency_score=potency_scores["total_potency_score"],
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                            kinetic_rating=potency_scores["kinetic_rating"],
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                            thermo_rating=potency_scores["thermo_rating"],
+        
+                
+        
+                
+        
+                        
         
                 
         
@@ -1617,7 +1803,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1629,7 +1815,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1641,7 +1827,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1653,7 +1839,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1665,7 +1851,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1677,7 +1863,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1689,7 +1875,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1701,7 +1887,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                        
         
                 
         
@@ -1713,7 +1899,19 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
+                        
+        
                 
+        
+                
+        
+                                            "total_potency_score": potency_scores["total_potency_score"],
+        
+                
+        
+                
+        
+                        
         
                 
         
@@ -1725,25 +1923,13 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                
+                            except Exception as e:
         
                 
         
                 
         
-                                    except Exception as e:
-        
-                
-        
-                
-        
-                
-        
-                
-        
-                
-        
-                                        raise HTTPException(status_code=500, detail=str(e))
+                                raise HTTPException(status_code=500, detail=str(e))
         
                 
         

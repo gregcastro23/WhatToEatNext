@@ -156,6 +156,7 @@ function RecipeDisplay({
   const [isRitualModalOpen, setIsRitualModalOpen] = useState(false);
   const [ritualInstruction, setRitualInstruction] = useState("");
   const [dominantTransit, setDominantTransit] = useState<string | null>(null);
+  const [totalPotencyScore, setTotalPotencyScore] = useState<number | null>(null);
   const colors = getMealTypeColors(mealType);
 
   const handleEnvironmentalMatchClick = async () => {
@@ -177,12 +178,14 @@ function RecipeDisplay({
       const data = await response.json();
       setRitualInstruction(data.ritual_instruction);
       setDominantTransit(data.dominant_transit);
+      setTotalPotencyScore(data.total_potency_score);
       setIsRitualModalOpen(true);
     } catch (error) {
       console.error(error);
       // Handle error, e.g., show a default message
       setRitualInstruction("Cook with mindfulness and enjoy the moment.");
       setDominantTransit(null);
+      setTotalPotencyScore(null);
       setIsRitualModalOpen(true);
     }
   };
@@ -294,6 +297,8 @@ function RecipeDisplay({
         recipeId={recipe.id}
         ritualInstruction={ritualInstruction}
         dominantTransit={dominantTransit}
+        totalPotencyScore={totalPotencyScore}
+        elementalProperties={recipe.elementalProperties}
       />
       {/* Elemental Properties */}
       {recipe.elementalProperties && (
