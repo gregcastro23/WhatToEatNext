@@ -1,11 +1,27 @@
 import datetime
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session # For potential DB interaction
+from pydantic import BaseModel # New import for Pydantic model
 from ..utils.alchemical_quantities import calculate_alchemical_quantities # To get SMES
-from ..utils.transit_engine import get_transit_details, calculate_total_potency_score, get_planetary_hour # For current transits, etc.
+from ..utils.transit_engine import get_transit_details, calculate_total_potency_score, get_planetary_hour, get_zodiac_sign_and_element # Added get_zodiac_sign_and_element
 from ..config.celestial_config import FOREST_HILLS_COORDINATES # For common location
 from backend.database import Recipe, ElementalProperties # For fetching recipes and their properties
 from fastapi import HTTPException # For consistency with other backend errors
+from backend.alchm_kitchen.main import calculate_planetary_positions_swisseph # New import for planetary positions
+
+class ChartData(BaseModel):
+    year: int
+    month: int
+    day: int
+    hour: int
+    minute: int
+    latitude: float
+    longitude: float
+    timezone_str: str # Use timezone string for consistency
+    # Optional unique identifier for the user/chart
+    user_id: Optional[str] = None
+    chart_id: Optional[str] = None
+
 
 class CollectiveSynastryEngine:
     def __init__(self, db_session: Session):
@@ -14,27 +30,32 @@ class CollectiveSynastryEngine:
         self.longitude = FOREST_HILLS_COORDINATES["longitude"]
         self.timezone_str = FOREST_HILLS_COORDINATES["timezone"]
 
-    async def _get_individual_elemental_snapshot(self, participant_birth_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _get_individual_elemental_snapshot(self, participant_chart_data: ChartData) -> Dict[str, Any]:
         """
-        Calculates the current elemental and alchemical snapshot for a single participant.
-        This reuses much of the logic from recipe-recommendations-by-chart endpoint.
+        Calculates the current elemental and alchemical snapshot for a single participant
+        based on their birth chart and current transits.
         """
-        # For simplicity, we'll use current transits against their birth chart for a dynamic snapshot
-        # A true synastry engine would compare two birth charts directly, but the prompt implies
-        # balancing current elemental deficits based on individual states.
-
-        # Get current transit details
+        # Get current transit details (these are global for the current moment)
         transit_info = get_transit_details()
         if "error" in transit_info:
             raise HTTPException(status_code=500, detail=f"Failed to get transit details for individual snapshot: {transit_info['error']}")
+        
+        # Get current planetary hour for the participant's *current* location
+        # (Assuming participant_chart_data.latitude/longitude is their current location, or using Forest Hills)
+        current_latitude = participant_chart_data.latitude if participant_chart_data.latitude else self.latitude
+        current_longitude = participant_chart_data.longitude if participant_chart_data.longitude else self.longitude
+        planetary_hour_ruler = get_planetary_hour(current_latitude, current_longitude)
 
-        # Get current planetary hour
-        planetary_hour_ruler = get_planetary_hour(self.latitude, self.longitude)
+        # Determine the participant's natal Sun Sign Element
+        # We need their natal Sun longitude. Reusing calculate_planetary_positions_swisseph
+        natal_planetary_positions = calculate_planetary_positions_swisseph(
+            participant_chart_data.year, participant_chart_data.month, participant_chart_data.day,
+            participant_chart_data.hour, participant_chart_data.minute
+        )
+        natal_sun_longitude = natal_planetary_positions["positions"]["Sun"]["exactLongitude"]
+        _, natal_sun_element = get_zodiac_sign_and_element(natal_sun_longitude)
 
         # For the purpose of getting individual SMES, we need a "dummy recipe" to pass
-        # This is a simplification; a person's inherent elemental state isn't a recipe.
-        # We'll simulate a neutral recipe's elemental properties.
-        # Note: ElementalProperties is expected to be an object with .fire, .water, etc.
         class DummyElementalProperties:
             fire = 0.25
             water = 0.25
@@ -45,44 +66,42 @@ class CollectiveSynastryEngine:
             id = "dummy_id"
             name = "Neutral Elemental Profile"
             elementalProperties = DummyElementalProperties()
-            # Add other attributes expected by calculate_total_potency_score
-            # For calculate_total_potency_score, it needs a recipe object with elementalProperties
-            # and possibly a name or description, but those are not used for SMES calculation.
 
         dummy_recipe = DummyRecipe()
         
-        # Calculate initial potency and kinetic/thermo for a neutral profile
+        # Calculate initial potency and kinetic/thermo for a neutral profile,
+        # considering the individual's natal Sun Element and current transits
         potency_and_physics = calculate_total_potency_score(
-            dummy_recipe, # Using dummy recipe
-            transit_info.get("dominant_transit"),
-            transit_info.get("sun_element"),
-            planetary_hour_ruler
+            dummy_recipe,
+            transit_info.get("dominant_transit"), # Current dominant transit
+            natal_sun_element, # Participant's natal Sun Element
+            planetary_hour_ruler # Current planetary hour ruler for participant's location
         )
 
-        # Calculate SMES for the individual based on this neutral profile and transits
+        # Calculate SMES for the individual based on this neutral profile and current transits
         smes_quantities = calculate_alchemical_quantities(
-            dummy_recipe, # Using dummy recipe
+            dummy_recipe,
             potency_and_physics["kinetic_rating"],
             planetary_hour_ruler,
             potency_and_physics["thermo_rating"]
         )
 
         return {
-            "birth_data": participant_birth_data, # Original birth data
+            "chart_data": participant_chart_data.model_dump(), # Original birth data
             "current_transit_info": transit_info,
             "planetary_hour_ruler": planetary_hour_ruler,
+            "natal_sun_element": natal_sun_element,
             "potency_and_physics": potency_and_physics,
             "smes_scores": smes_quantities
         }
 
-    async def calculate_collective_elemental_deficits(self, participant_birth_charts: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def calculate_collective_elemental_deficits(self, participant_charts: List[ChartData]) -> Dict[str, Any]:
         """
         Aggregates individual elemental states to find a collective imbalance.
         """
-        if not participant_birth_charts:
+        if not participant_charts:
             return {"error": "No participant charts provided."}
 
-        # Aggregate SMES scores and Kinetic/Thermo ratings
         collective_smes = {
             "spirit_score": 0.0,
             "matter_score": 0.0,
@@ -91,33 +110,24 @@ class CollectiveSynastryEngine:
             "kinetic_val": 0.0,
             "thermo_val": 0.0,
         }
-        num_participants = len(participant_birth_charts)
+        num_participants = len(participant_charts)
 
-        # NOTE: This is a placeholder. A full Synastry Engine would involve
-        # comparing aspects and influences between charts, not just averaging.
-        # The prompt implies a simpler aggregation of "elemental deficits".
-
-        for chart_data in participant_birth_charts:
+        for chart_data in participant_charts:
             snapshot = await self._get_individual_elemental_snapshot(chart_data)
             smes = snapshot["smes_scores"]
-            physics = snapshot["potency_and_physics"] # Contains kinetic_rating and thermo_rating
 
             collective_smes["spirit_score"] += smes.get("spirit_score", 0)
             collective_smes["matter_score"] += smes.get("matter_score", 0)
             collective_smes["essence_score"] += smes.get("essence_score", 0)
             collective_smes["substance_score"] += smes.get("substance_score", 0)
-            collective_smes["kinetic_val"] += smes.get("kinetic_val", 0) # Use smes.get for consistency
-            collective_smes["thermo_val"] += smes.get("thermo_val", 0) # Use smes.get for consistency
+            collective_smes["kinetic_val"] += smes.get("kinetic_val", 0)
+            collective_smes["thermo_val"] += smes.get("thermo_val", 0)
 
-        # Average the collective scores
         for key in collective_smes:
             collective_smes[key] /= num_participants
 
-        # Determine collective deficits (simplified for now)
         collective_deficit_analysis = {}
 
-        # Example: If collective Matter is high and Spirit is low
-        # Using simplified thresholds, can be refined.
         if collective_smes["matter_score"] > 0.6 and collective_smes["spirit_score"] < 0.4:
             collective_deficit_analysis["imbalance_type"] = "Collective Matter Stagnation"
             collective_deficit_analysis["harmonizing_profile"] = "Spirit-boosting (Kinetic)"
@@ -171,15 +181,15 @@ if __name__ == "__main__":
     with TestSessionLocal() as db_session:
         engine = CollectiveSynastryEngine(db_session)
 
-        # Example birth charts (simplified)
-        participant1_chart = {
-            "year": 1990, "month": 5, "day": 20, "hour": 10, "minute": 30,
-            "latitude": 40.7128, "longitude": -74.0060, "timezone": "America/New_York"
-        }
-        participant2_chart = {
-            "year": 1985, "month": 11, "day": 1, "hour": 18, "minute": 45,
-            "latitude": 34.0522, "longitude": -118.2437, "timezone": "America/Los_Angeles"
-        }
+        # Example birth charts (using ChartData model)
+        participant1_chart = ChartData(
+            year=1990, month=5, day=20, hour=10, minute=30,
+            latitude=40.7128, longitude=-74.0060, timezone_str="America/New_York"
+        )
+        participant2_chart = ChartData(
+            year=1985, month=11, day=1, hour=18, minute=45,
+            latitude=34.0522, longitude=-118.2437, timezone_str="America/Los_Angeles"
+        )
         
         # NOTE: For get_transit_details and get_planetary_hour to work in a real scenario,
         # pyswisseph must be installed and ephemeris files must be set up correctly.

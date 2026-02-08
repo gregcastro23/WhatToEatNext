@@ -41,6 +41,8 @@ from ..utils.alchemical_quantities import calculate_alchemical_quantities
 from ..utils.wellness_analytics import analyze_alchemical_balance
 # Transmutation Oracle import
 from ..utils.transmutation_oracle import get_transmutation_recommendation
+# Collective Synastry Engine import
+from ..utils.collective_engine import ChartData, CollectiveSynastryEngine # New imports
 # Centralized celestial config
 from ..config.celestial_config import FOREST_HILLS_COORDINATES, USER_BIRTH_DATA
 
@@ -1144,9 +1146,12 @@ class RecipeRecommendationRequest(BaseModel):
     latitude: float
     longitude: float
     include_lunar_data: bool = False
+    secondary_chart_ids: Optional[List[str]] = None # New field
 
 class RitualRequest(BaseModel):
     recipe_id: str
+    secondary_chart_ids: Optional[List[str]] = None
+    collective_smes_scores: Optional[Dict[str, float]] = None # Aggregated scores for collective rituals
 
 @app.post("/api/astrological/recipe-recommendations-by-chart")
 async def get_recipe_recommendations_by_chart(
@@ -1279,6 +1284,59 @@ async def get_recipe_recommendations_by_chart(
                         common_sun_element = common_transit_info.get("sun_element")
                         common_planetary_hour_ruler = get_planetary_hour(current_latitude, current_longitude)
                         # --- End common data acquisition ---
+
+                        # --- Collective Synastry Logic (if secondary charts are provided) ---
+                        collective_potency_modifier = 1.0 # Base modifier
+                        if request.secondary_chart_ids:
+                            synastry_engine = CollectiveSynastryEngine(db)
+
+                            # Construct ChartData for the primary user
+                            primary_chart_data = ChartData(
+                                year=request.year, month=request.month, day=request.day,
+                                hour=request.hour, minute=request.minute,
+                                latitude=request.latitude, longitude=request.longitude,
+                                timezone_str=FOREST_HILLS_COORDINATES["timezone"] # Assuming primary user in Forest Hills TZ
+                            )
+                            participant_charts = [primary_chart_data]
+
+                            # Fetch and add secondary charts
+                            for chart_id in request.secondary_chart_ids:
+                                saved_chart = db.query(SavedChart).filter(SavedChart.id == chart_id).first()
+                                if saved_chart:
+                                    participant_charts.append(ChartData(
+                                        year=saved_chart.birth_date.year,
+                                        month=saved_chart.birth_date.month,
+                                        day=saved_chart.birth_date.day,
+                                        hour=int(saved_chart.birth_time.split(':')[0]), # Assuming 'HH:MM' format
+                                        minute=int(saved_chart.birth_time.split(':')[1]),
+                                        latitude=saved_chart.birth_latitude,
+                                        longitude=saved_chart.birth_longitude,
+                                        timezone_str=saved_chart.timezone_str
+                                    ))
+                                else:
+                                    print(f"WARNING: Secondary chart with ID {chart_id} not found.")
+                            
+                            if len(participant_charts) > 1: # Only calculate collective if more than one participant
+                                collective_deficits_analysis = await synastry_engine.calculate_collective_elemental_deficits(participant_charts)
+                                collective_profile = collective_deficits_analysis["collective_deficit_analysis"]["harmonizing_profile"]
+                                
+                                # Adjust potency based on collective needs vs. planetary hour
+                                # This is a simplified weighting, can be refined.
+                                if common_planetary_hour_ruler:
+                                    # Map planetary hour ruler to its element
+                                    PLANETARY_ELEMENTS_MAP = {
+                                        "Sun": "Fire", "Venus": "Earth", "Mercury": "Air", "Moon": "Water",
+                                        "Saturn": "Earth", "Jupiter": "Fire", "Mars": "Fire"
+                                    } # Duplicated from transit_engine.py, could be centralized
+
+                                    hour_element = PLANETARY_ELEMENTS_MAP.get(common_planetary_hour_ruler)
+                                    
+                                    if collective_profile == "Spirit-boosting (Kinetic)" and hour_element == "Fire":
+                                        collective_potency_modifier *= 1.2
+                                    elif collective_profile == "Matter-grounding (Stabilizing)" and hour_element == "Earth":
+                                        collective_potency_modifier *= 1.2
+                                    # More complex rules can be added here
+                        # --- End Collective Synastry Logic ---
                 
                         recommendations = []
                         for recipe_id, data in sorted_recipes[:10]: # Return top 10
@@ -1327,6 +1385,8 @@ async def get_recipe_recommendations_by_chart(
                                 common_sun_element,
                                 common_planetary_hour_ruler
                             )
+                            # Apply collective potency modifier
+                            potency_scores_and_physics["total_potency_score"] *= collective_potency_modifier
 
                             # Calculate SMES scores using the updated alchemical_quantities function
                             smes_quantities = calculate_alchemical_quantities(
@@ -1357,7 +1417,8 @@ async def get_recipe_recommendations_by_chart(
                                 "substance_score": smes_quantities["substance_score"],
                                 "kinetic_val": smes_quantities["kinetic_val"],
                                 "thermo_val": smes_quantities["thermo_val"],
-                                "total_potency_score": potency_scores_and_physics["total_potency_score"], # Added this line
+                                "total_potency_score": potency_scores_and_physics["total_potency_score"],
+                                "collective_potency_modifier_applied": collective_potency_modifier, # Indicate if modifier was applied
                                 # --- End New Quantities ---
                             })
                                 response_data = {
@@ -1820,7 +1881,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                new_ritual_log = TransitHistory(
+                                                                                                is_collective_ritual = bool(request.secondary_chart_ids)
         
                 
         
@@ -1832,7 +1893,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                    recipe_id=request.recipe_id,
+                                                                                                num_participants = (len(request.secondary_chart_ids) + 1) if is_collective_ritual else 1
         
                 
         
@@ -1844,7 +1905,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                    dominant_transit=dominant_transit,
+                                                
         
                 
         
@@ -1856,7 +1917,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                    ritual_instruction=ritual,
+                                                                                                # Use collective scores if provided, otherwise use individual recipe scores
         
                 
         
@@ -1868,7 +1929,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                    potency_score=potency_scores["total_potency_score"],
+                                                                                                spirit_score_to_log = request.collective_smes_scores.get("spirit_score", 0.0) if request.collective_smes_scores else potency_scores["spirit_score"]
         
                 
         
@@ -1880,7 +1941,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                    kinetic_rating=potency_scores["kinetic_rating"],
+                                                                                                essence_score_to_log = request.collective_smes_scores.get("essence_score", 0.0) if request.collective_smes_scores else potency_scores["essence_score"]
         
                 
         
@@ -1892,7 +1953,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                    thermo_rating=potency_scores["thermo_rating"],
+                                                                                                matter_score_to_log = request.collective_smes_scores.get("matter_score", 0.0) if request.collective_smes_scores else potency_scores["matter_score"]
         
                 
         
@@ -1904,7 +1965,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                )
+                                                                                                substance_score_to_log = request.collective_smes_scores.get("substance_score", 0.0) if request.collective_smes_scores else potency_scores["substance_score"]
         
                 
         
@@ -1916,7 +1977,7 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                db.add(new_ritual_log)
+                                                
         
                 
         
@@ -1928,7 +1989,247 @@ async def get_recipe_recommendations_by_chart(
         
                 
         
-                                                db.commit()
+                                                                                                # Potency scores already include kinetic_rating and thermo_rating, so these are individual
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                # For now, we log the recipe's inherent kinetic/thermo from potency_scores
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                kinetic_rating_to_log = potency_scores["kinetic_rating"]
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                thermo_rating_to_log = potency_scores["thermo_rating"]
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                new_ritual_log = TransitHistory(
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    recipe_id=request.recipe_id,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    dominant_transit=dominant_transit,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    ritual_instruction=ritual,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    potency_score=potency_scores["total_potency_score"],
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    kinetic_rating=kinetic_rating_to_log,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    thermo_rating=thermo_rating_to_log,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    spirit_score=spirit_score_to_log,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    essence_score=essence_score_to_log,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    matter_score=matter_score_to_log,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    substance_score=substance_score_to_log,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    is_collective=is_collective_ritual,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                    participant_count=num_participants,
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                )
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                db.add(new_ritual_log)
+        
+                
+        
+                
+        
+                        
+        
+                
+        
+                
+        
+                                                                                                db.commit()
         
                 
         
