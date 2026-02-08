@@ -4,6 +4,8 @@ import math
 import pytz # For robust timezone handling
 from typing import List, Dict, Any, Optional
 import os
+from ..utils.transit_engine import get_transit_details, PLANETARY_ELEMENTS # Import these
+from ..utils.seasonal_engine import get_seasonal_modifiers # Import for current zodiac
 
 # Assuming project root is accessible or ephemeris path is configured globally
 # Set the path to the Swiss Ephemeris data files.
@@ -178,6 +180,14 @@ class TransmutationOracle:
         favorable_planets = PLANETARY_INFLUENCES[imbalance_type]["favorable"]
         recommendation_type = PLANETARY_INFLUENCES[imbalance_type]["recommendation_type"]
 
+        # --- Get common astrological context for Steam synergy calculation ---
+        transit_info = get_transit_details()
+        common_sun_element = transit_info.get("sun_element")
+
+        seasonal_modifiers = get_seasonal_modifiers()
+        current_zodiac_season = seasonal_modifiers.get('current_zodiac')
+        # --- End common astrological context ---
+
         for i in range(num_days_forecast):
             target_date = (now_local + datetime.timedelta(days=i)).date()
             daily_hours = self.get_daily_planetary_hours(target_date)
@@ -198,26 +208,52 @@ class TransmutationOracle:
                                     f"{ph['start_time'].strftime('%A')} at {ph['start_time'].strftime('%I:%M %p')} "
                                     f"is an optimal window for a {recommendation_type}."
                                 ),
-                                "total_potency_score_multiplier": self._calculate_potency_multiplier(ph["ruling_planet"], imbalance_type)
+                                "total_potency_score_multiplier": self._calculate_potency_multiplier(
+                                    ph["ruling_planet"],
+                                    imbalance_type,
+                                    common_sun_element, # Pass sun_element
+                                    current_zodiac_season # Pass current_zodiac_season
+                                )
                             })
         return recommendations
 
-    def _calculate_potency_multiplier(self, ruling_planet: str, imbalance_type: str) -> float:
+    def _calculate_potency_multiplier(self, ruling_planet: str, imbalance_type: str, 
+                                      sun_element: Optional[str], current_zodiac_season: Optional[str]) -> float:
         """
-        Calculates a hypothetical potency multiplier based on the ruling planet and imbalance.
-        This is a placeholder and can be made more complex based on alchemical rules.
+        Calculates a hypothetical potency multiplier based on the ruling planet, imbalance,
+        and "Steam" synergy for Fire/Water conflicts.
         """
         # Base multiplier
         multiplier = 1.0
 
-        # Boost for favorable planets
+        # Boost for favorable planets (general affinity)
         if ruling_planet in PLANETARY_INFLUENCES[imbalance_type]["favorable"]:
             multiplier *= 1.5 # 50% boost for favorable planet
 
-        # Further refinement can be added here, e.g.,
-        # - Stronger boost if the planet is exalted, in its domicile, etc. (requires more advanced astrological calculation)
-        # - Penalty if the planet is in detriment or fall
-        # - Consideration of other active transits (requires full astrological chart calculations)
+        # --- Apply "Steam" modifier for elemental conflicts ---
+        # This part requires the planetary element map
+        hour_element = PLANETARY_ELEMENTS.get(ruling_planet)
+        
+        # Determine current solar season element from current_zodiac_season
+        solar_season_element = None
+        if current_zodiac_season:
+            # Simplified mapping: Aries, Leo, Sagittarius (Fire), Taurus, Virgo, Capricorn (Earth), etc.
+            if current_zodiac_season in ['Aries', 'Leo', 'Sagittarius']:
+                solar_season_element = "Fire"
+            elif current_zodiac_season in ['Taurus', 'Virgo', 'Capricorn']:
+                solar_season_element = "Earth"
+            elif current_zodiac_season in ['Gemini', 'Libra', 'Aquarius']:
+                solar_season_element = "Air"
+            elif current_zodiac_season in ['Cancer', 'Scorpio', 'Pisces']:
+                solar_season_element = "Water"
+
+        if solar_season_element and hour_element:
+            # Check for "Steam" conflict conditions (Fire/Water or Air/Earth opposition)
+            if (solar_season_element == "Fire" and hour_element == "Water") or \
+               (solar_season_element == "Water" and hour_element == "Fire") or \
+               (solar_season_element == "Air" and hour_element == "Earth") or \
+               (solar_season_element == "Earth" and hour_element == "Air"):
+                multiplier *= 1.5 # Additional 50% boost for "Steam" synergy
 
         return round(multiplier, 2)
 
