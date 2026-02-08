@@ -24,9 +24,14 @@ interface CelestialEquilibriumProps {
 export default function CelestialEquilibrium({
   alchemicalQuantities,
 }: CelestialEquilibriumProps) {
-  const [recommendations, setRecommendations] = useState<TransmutationRecommendation[]>([]);
-  const [loadingRecommendations, setLoadingRecommendations] = useState<boolean>(true);
-  const [errorRecommendations, setErrorRecommendations] = useState<string | null>(null);
+  const [recommendations, setRecommendations] = useState<
+    TransmutationRecommendation[]
+  >([]);
+  const [loadingRecommendations, setLoadingRecommendations] =
+    useState<boolean>(true);
+  const [errorRecommendations, setErrorRecommendations] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -59,7 +64,6 @@ export default function CelestialEquilibrium({
       setLoadingRecommendations(false); // No data, so no recommendations to fetch
     }
   }, [alchemicalQuantities]); // Re-fetch if alchemicalQuantities changes
-
 
   if (!alchemicalQuantities) {
     return (
@@ -97,7 +101,9 @@ export default function CelestialEquilibrium({
   const polygonPoints = points.map((p) => `${p.x},${p.y}`).join(" ");
 
   return (
-    <div className="w-full flex flex-col items-center py-4"> {/* Changed to flex-col for stacking */}
+    <div className="w-full flex flex-col items-center py-4">
+      {" "}
+      {/* Changed to flex-col for stacking */}
       {/* Existing SVG radar chart */}
       <svg
         width={size}
@@ -150,20 +156,24 @@ export default function CelestialEquilibrium({
           <circle key={`point-${i}`} cx={p.x} cy={p.y} r="3" fill="#8B5CF6" />
         ))}
       </svg>
-
       {/* New: Oracle's Path Section */}
       <div className="mt-8 w-full max-w-md">
         <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
           Oracle's Path: Predictive Transmutation Windows
         </h3>
         {loadingRecommendations && (
-          <p className="text-gray-600 text-center">Loading recommendations...</p>
+          <p className="text-gray-600 text-center">
+            Loading recommendations...
+          </p>
         )}
         {errorRecommendations && (
-          <p className="text-red-500 text-center">Error: {errorRecommendations}</p>
+          <p className="text-red-500 text-center">
+            Error: {errorRecommendations}
+          </p>
         )}
-        {!loadingRecommendations && !errorRecommendations && (
-          recommendations.length > 0 ? (
+        {!loadingRecommendations &&
+          !errorRecommendations &&
+          (recommendations.length > 0 ? (
             <div className="space-y-4">
               {recommendations.map((rec, index) => (
                 <div
@@ -171,7 +181,10 @@ export default function CelestialEquilibrium({
                   className="bg-purple-50 p-4 rounded-lg shadow-md border border-purple-200"
                 >
                   <p className="font-medium text-gray-800">
-                    <span className="text-purple-700">{rec.ruling_planet} Hour:</span> {rec.time_range}
+                    <span className="text-purple-700">
+                      {rec.ruling_planet} Hour:
+                    </span>{" "}
+                    {rec.time_range}
                   </p>
                   <p className="text-sm text-gray-700 mt-1">
                     {rec.recommendation_text}
@@ -189,8 +202,7 @@ export default function CelestialEquilibrium({
             <p className="text-gray-600 text-center">
               No specific transmutation windows found for the next 3 days.
             </p>
-          )
-        )}
+          ))}
       </div>
     </div>
   );

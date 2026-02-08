@@ -53,4 +53,6 @@ def calculate_alchemical_quantities(
         "essence_score": essence_score,
         "matter_score": matter_score,
         "substance_score": substance_score,
+        "kinetic_val": kinetic_rating, # Include kinetic_rating in the return
+        "thermo_val": thermo_rating,   # Include thermo_rating in the return
     }

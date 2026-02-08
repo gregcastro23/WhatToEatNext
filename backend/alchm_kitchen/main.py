@@ -1267,6 +1267,18 @@ async def get_recipe_recommendations_by_chart(
                 
                         # Get optimal cooking windows for the next 24 hours
                         optimal_windows = get_optimal_cooking_windows(days=1)
+
+                        # --- Get common transit and planetary hour data once before the loop ---
+                        current_latitude = FOREST_HILLS_COORDINATES["latitude"]
+                        current_longitude = FOREST_HILLS_COORDINATES["longitude"]
+                        
+                        common_transit_info = get_transit_details()
+                        if "error" in common_transit_info:
+                            raise HTTPException(status_code=500, detail=common_transit_info["error"])
+                        common_dominant_transit = common_transit_info.get("dominant_transit")
+                        common_sun_element = common_transit_info.get("sun_element")
+                        common_planetary_hour_ruler = get_planetary_hour(current_latitude, current_longitude)
+                        # --- End common data acquisition ---
                 
                         recommendations = []
                         for recipe_id, data in sorted_recipes[:10]: # Return top 10
@@ -1293,6 +1305,36 @@ async def get_recipe_recommendations_by_chart(
                                 ElementalProperties.entity_type == 'recipe',
                                 ElementalProperties.entity_id == recipe_id
                             ).first()
+
+                            # Fetch full recipe object for calculations
+                            full_recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
+                            if not full_recipe:
+                                continue # Skip if recipe not found
+
+                            # Temporarily assign elemental properties for calculation context
+                            # In a real system, this would be passed explicitly or the recipe object would already have it
+                            full_recipe.elementalProperties = {
+                                "Fire": elemental_properties.fire,
+                                "Water": elemental_properties.water,
+                                "Earth": elemental_properties.earth,
+                                "Air": elemental_properties.air,
+                            } if elemental_properties else None
+                            
+                            # Calculate Total Potency Score and Kinetic/Thermo ratings
+                            potency_scores_and_physics = calculate_total_potency_score(
+                                full_recipe,
+                                common_dominant_transit,
+                                common_sun_element,
+                                common_planetary_hour_ruler
+                            )
+
+                            # Calculate SMES scores using the updated alchemical_quantities function
+                            smes_quantities = calculate_alchemical_quantities(
+                                full_recipe,
+                                potency_scores_and_physics["kinetic_rating"],
+                                common_planetary_hour_ruler,
+                                potency_scores_and_physics["thermo_rating"]
+                            )
                             
                             recommendations.append({
                                 "recipe_id": str(recipe_id),
@@ -1308,6 +1350,15 @@ async def get_recipe_recommendations_by_chart(
                                     "Earth": elemental_properties.earth,
                                     "Air": elemental_properties.air,
                                 } if elemental_properties else None,
+                                # --- New SMES and Physical Quantities ---
+                                "spirit_score": smes_quantities["spirit_score"],
+                                "matter_score": smes_quantities["matter_score"],
+                                "essence_score": smes_quantities["essence_score"],
+                                "substance_score": smes_quantities["substance_score"],
+                                "kinetic_val": smes_quantities["kinetic_val"],
+                                "thermo_val": smes_quantities["thermo_val"],
+                                "total_potency_score": potency_scores_and_physics["total_potency_score"], # Added this line
+                                # --- End New Quantities ---
                             })
                                 response_data = {
                     "request_params": request.model_dump(),
