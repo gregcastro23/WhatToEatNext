@@ -6,7 +6,7 @@
  * @created 2026-02-03
  */
 
-import { jwtVerify, JWTPayload } from "jose";
+import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
 import { TextEncoder } from "util";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
@@ -14,8 +14,8 @@ import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
 
 // JWT Secret - lazy initialization
-let _jwtSecret: string | null = null;
-function getJWTSecret(): string {
+let _jwtSecret: Uint8Array | null = null;
+function getJWTSecret(): Uint8Array {
   if (_jwtSecret) return _jwtSecret;
   const secret = process.env.JWT_SECRET;
   if (!secret) {
@@ -26,8 +26,9 @@ function getJWTSecret(): string {
     }
     throw new Error("JWT_SECRET environment variable is required");
   }
-  _jwtSecret = secret;
-  return secret;
+  // jose expects a Uint8Array for the secret
+  _jwtSecret = new TextEncoder().encode(secret);
+  return _jwtSecret;
 }
 
 /**
@@ -79,7 +80,12 @@ export function extractToken(request: NextRequest): string | null {
  */
 export async function validateToken(token: string): Promise<ValidationResult> {
   try {
-    const decoded = jwt.verify(token, getJWTSecret()) as TokenPayload;
+    const { payload } = await jwtVerify(token, getJWTSecret(), {
+      algorithms: ["HS256"], // Specify the algorithm if known, e.g., HS256
+    });
+
+    // Ensure payload matches TokenPayload interface
+    const decoded = payload as unknown as TokenPayload;
 
     // Verify user still exists and is active
     const user = await userDatabase.getUserById(decoded.userId);
@@ -96,20 +102,25 @@ export async function validateToken(token: string): Promise<ValidationResult> {
       user: decoded,
     };
   } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
+    // Handle JOSE specific errors
+    if (error instanceof JOSEerrors.JWTExpired) {
       return {
         valid: false,
         error: "Token has expired",
         statusCode: 401,
       };
     }
-    if (error instanceof jwt.JsonWebTokenError) {
+    if (
+      error instanceof JOSEerrors.JWSInvalid ||
+      error instanceof JOSEerrors.JWTInvalid
+    ) {
       return {
         valid: false,
         error: "Invalid token",
         statusCode: 401,
       };
     }
+    console.error("Token validation failed with unknown error:", error); // Log unexpected errors
     return {
       valid: false,
       error: "Token validation failed",

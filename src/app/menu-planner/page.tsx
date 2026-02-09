@@ -8,7 +8,7 @@
  * @created 2026-01-10
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";

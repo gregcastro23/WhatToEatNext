@@ -135,9 +135,6 @@ export default function NutritionDashboard({
                           100
                         : 0
                     }
-                    value={dailySummary.totalNutrition.calories.toString()}
-                    max={dailySummary.nutritionGoals?.calories || 2000}
-                    unit="kcal"
                     label="Calories"
                     size={90}
                     strokeWidth={8}
@@ -151,10 +148,7 @@ export default function NutritionDashboard({
                           100
                         : 0
                     }
-                    value={dailySummary.totalNutrition.protein.toString()}
-                    max={dailySummary.nutritionGoals?.protein || 50}
                     label="Protein"
-                    unit="g"
                     size={90}
                     strokeWidth={8}
                     color="#ef4444"
@@ -167,10 +161,7 @@ export default function NutritionDashboard({
                           100
                         : 0
                     }
-                    value={dailySummary.totalNutrition.carbs.toString()}
-                    max={dailySummary.nutritionGoals?.carbs || 275}
                     label="Carbs"
-                    unit="g"
                     size={90}
                     strokeWidth={8}
                     color="#3b82f6"
@@ -183,10 +174,7 @@ export default function NutritionDashboard({
                           100
                         : 0
                     }
-                    value={dailySummary.totalNutrition.fat.toString()}
-                    max={dailySummary.nutritionGoals?.fat || 78}
                     label="Fat"
-                    unit="g"
                     size={90}
                     strokeWidth={8}
                     color="#8b5cf6"
