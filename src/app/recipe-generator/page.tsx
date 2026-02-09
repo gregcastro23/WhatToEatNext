@@ -14,12 +14,14 @@ import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import type { Recipe, ElementalProperties } from "@/types/recipe";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
-import type { NatalChart, ChartComparison } from "@/types/natalChart";
+import type { NatalChart } from "@/types/natalChart";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useUser } from "@/contexts/UserContext";
-import { ChartComparisonService } from "@/services/ChartComparisonService";
-import { PersonalizedRecommendationService } from "@/services/PersonalizedRecommendationService";
+import ChartComparisonService, {
+  type ChartComparison,
+} from "@/services/ChartComparisonService";
+import { personalizedRecommendationService } from "@/services/PersonalizedRecommendationService";
 import {
   generateDayRecommendations,
   type RecommendedMeal,
@@ -228,8 +230,7 @@ function RecipeGeneratorContent() {
       setChartError(null);
 
       try {
-        const chartService = ChartComparisonService.getInstance();
-        const comparison = await chartService.compareCharts(natalChart);
+        const comparison = await ChartComparisonService.compareCharts(natalChart);
         setChartComparison(comparison);
         logger.info("Chart comparison loaded", {
           harmony: comparison.overallHarmony,
@@ -330,8 +331,6 @@ function RecipeGeneratorContent() {
         chartComparison
       ) {
         try {
-          const personalizationService =
-            PersonalizedRecommendationService.getInstance();
 
           // Convert recipes to recommendable items
           const items = filtered.map((rec) => ({
@@ -352,7 +351,7 @@ function RecipeGeneratorContent() {
             baseScore: rec.score,
           }));
 
-          const personalized = await personalizationService.scoreItems(items, {
+          const personalized = await personalizedRecommendationService.scoreItems(items, {
             natalChart,
             chartComparison,
             includeReasons: true,

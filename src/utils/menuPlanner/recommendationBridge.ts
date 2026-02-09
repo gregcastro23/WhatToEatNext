@@ -11,7 +11,8 @@
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe, ElementalProperties } from "@/types/recipe";
 import type { AstrologyHookData } from "@/hooks/useAstrologicalState";
-import type { NatalChart, ChartComparison } from "@/types/natalChart";
+import type { NatalChart } from "@/types/natalChart";
+import type { ChartComparison } from "@/services/ChartComparisonService";
 import {
   getPlanetaryDayCharacteristics,
   calculateDayFoodCompatibility,
