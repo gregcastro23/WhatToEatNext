@@ -230,7 +230,8 @@ function RecipeGeneratorContent() {
       setChartError(null);
 
       try {
-        const comparison = await ChartComparisonService.compareCharts(natalChart);
+        const comparison =
+          await ChartComparisonService.compareCharts(natalChart);
         setChartComparison(comparison);
         logger.info("Chart comparison loaded", {
           harmony: comparison.overallHarmony,
@@ -255,13 +256,13 @@ function RecipeGeneratorContent() {
       planetaryPrefs.selectedDay === "current"
         ? currentDay
         : planetaryPrefs.selectedDay,
-    [planetaryPrefs.selectedDay, currentDay]
+    [planetaryPrefs.selectedDay, currentDay],
   );
 
   // Planetary day characteristics
   const planetaryDayInfo = useMemo(
     () => getPlanetaryInfo(selectedDay),
-    [selectedDay]
+    [selectedDay],
   );
 
   // Convert hook data to AstrologicalState for recommendation bridge
@@ -278,7 +279,7 @@ function RecipeGeneratorContent() {
       },
       currentPlanetaryHour: astroState.currentPlanetaryHour || undefined,
     }),
-    [astroState]
+    [astroState],
   );
 
   // Generate recipes based on filters with personalization
@@ -295,13 +296,13 @@ function RecipeGeneratorContent() {
           mealTypes:
             filters.mealTypes.length > 0 ? filters.mealTypes : ["dinner"],
           dietaryRestrictions: filters.dietaryRestrictions.map((d) =>
-            d.toLowerCase()
+            d.toLowerCase(),
           ),
           useCurrentPlanetary: planetaryPrefs.useCurrentPlanetary,
           maxRecipesPerMeal: 15,
           preferredCuisines: filters.cuisines,
           excludeIngredients: filters.excludedIngredients,
-        }
+        },
       );
 
       // Apply additional filtering (prep time, skill level)
@@ -322,16 +323,11 @@ function RecipeGeneratorContent() {
         (rec) => ({
           ...rec,
           nutritionSummary: extractNutritionSummary(rec.recipe),
-        })
+        }),
       );
 
-      if (
-        personalPrefs.useNatalChart &&
-        natalChart &&
-        chartComparison
-      ) {
+      if (personalPrefs.useNatalChart && natalChart && chartComparison) {
         try {
-
           // Convert recipes to recommendable items
           const items = filtered.map((rec) => ({
             id: rec.recipe.id,
@@ -351,15 +347,18 @@ function RecipeGeneratorContent() {
             baseScore: rec.score,
           }));
 
-          const personalized = await personalizedRecommendationService.scoreItems(items, {
-            natalChart,
-            chartComparison,
-            includeReasons: true,
-          });
+          const personalized =
+            await personalizedRecommendationService.scoreItems(items, {
+              natalChart,
+              chartComparison,
+              includeReasons: true,
+            });
 
           // Merge personalization data back into results
           personalizedResults = filtered.map((rec) => {
-            const personalData = personalized.find((p) => p.id === rec.recipe.id);
+            const personalData = personalized.find(
+              (p) => p.id === rec.recipe.id,
+            );
             return {
               ...rec,
               personalizedScore: personalData?.personalizedScore || rec.score,
@@ -378,7 +377,7 @@ function RecipeGeneratorContent() {
             personalizedResults.sort(
               (a, b) =>
                 (b.personalizedScore || b.score) -
-                (a.personalizedScore || a.score)
+                (a.personalizedScore || a.score),
             );
           }
         } catch (err) {
@@ -387,14 +386,16 @@ function RecipeGeneratorContent() {
       } else {
         // Sort by planetary alignment score
         personalizedResults.sort(
-          (a, b) => b.planetaryAlignment - a.planetaryAlignment
+          (a, b) => b.planetaryAlignment - a.planetaryAlignment,
         );
       }
 
       setGeneratedRecipes(personalizedResults);
       setActiveTab("results");
 
-      logger.info(`Generated ${personalizedResults.length} recipe recommendations`);
+      logger.info(
+        `Generated ${personalizedResults.length} recipe recommendations`,
+      );
     } catch (err) {
       logger.error("Failed to generate recipes:", err);
     } finally {
@@ -777,7 +778,7 @@ function RecipeGeneratorContent() {
                                 ...prev,
                                 excludedIngredients:
                                   prev.excludedIngredients.filter(
-                                    (i) => i !== ing
+                                    (i) => i !== ing,
                                   ),
                               }))
                             }
@@ -974,8 +975,8 @@ function RecipeGeneratorContent() {
                         Element & Energy
                       </p>
                       <p className="text-sm text-indigo-600">
-                        {planetaryDayInfo.element} -{" "}
-                        {planetaryDayInfo.element} Element, {planetaryDayInfo.energy} Energy
+                        {planetaryDayInfo.element} - {planetaryDayInfo.element}{" "}
+                        Element, {planetaryDayInfo.energy} Energy
                       </p>
                     </div>
                     <div>
@@ -1016,7 +1017,10 @@ function RecipeGeneratorContent() {
                     {/* Chart Status */}
                     {isLoadingChart ? (
                       <div className="text-center py-8">
-                        <LoadingSpinner size="lg" message="Calculating cosmic alignment..." />
+                        <LoadingSpinner
+                          size="lg"
+                          message="Calculating cosmic alignment..."
+                        />
                       </div>
                     ) : chartError ? (
                       <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
@@ -1031,28 +1035,44 @@ function RecipeGeneratorContent() {
                               Your Cosmic Harmony
                             </h4>
                             <div className="text-3xl font-bold text-green-600">
-                              {Math.round(chartComparison.overallHarmony * 100)}%
+                              {Math.round(chartComparison.overallHarmony * 100)}
+                              %
                             </div>
                           </div>
 
                           <div className="grid grid-cols-3 gap-4 mb-4">
                             <div className="text-center p-3 bg-white rounded-lg">
                               <div className="text-lg font-semibold text-blue-600">
-                                {Math.round(chartComparison.elementalHarmony * 100)}%
+                                {Math.round(
+                                  chartComparison.elementalHarmony * 100,
+                                )}
+                                %
                               </div>
-                              <div className="text-xs text-gray-500">Elemental</div>
+                              <div className="text-xs text-gray-500">
+                                Elemental
+                              </div>
                             </div>
                             <div className="text-center p-3 bg-white rounded-lg">
                               <div className="text-lg font-semibold text-purple-600">
-                                {Math.round(chartComparison.alchemicalAlignment * 100)}%
+                                {Math.round(
+                                  chartComparison.alchemicalAlignment * 100,
+                                )}
+                                %
                               </div>
-                              <div className="text-xs text-gray-500">Alchemical</div>
+                              <div className="text-xs text-gray-500">
+                                Alchemical
+                              </div>
                             </div>
                             <div className="text-center p-3 bg-white rounded-lg">
                               <div className="text-lg font-semibold text-amber-600">
-                                {Math.round(chartComparison.planetaryResonance * 100)}%
+                                {Math.round(
+                                  chartComparison.planetaryResonance * 100,
+                                )}
+                                %
                               </div>
-                              <div className="text-xs text-gray-500">Planetary</div>
+                              <div className="text-xs text-gray-500">
+                                Planetary
+                              </div>
                             </div>
                           </div>
 
@@ -1073,15 +1093,15 @@ function RecipeGeneratorContent() {
                                       >
                                         {getElementIcon(el)} {el}
                                       </span>
-                                    )
+                                    ),
                                   )}
                                 </div>
                               </div>
 
                               {/* Harmonic Planets */}
                               {chartComparison.insights.harmonicPlanets &&
-                                chartComparison.insights.harmonicPlanets.length >
-                                  0 && (
+                                chartComparison.insights.harmonicPlanets
+                                  .length > 0 && (
                                   <div>
                                     <p className="text-sm font-medium text-green-700 mb-1">
                                       Harmonic Planets
@@ -1095,7 +1115,7 @@ function RecipeGeneratorContent() {
                                           >
                                             {planet}
                                           </span>
-                                        )
+                                        ),
                                       )}
                                     </div>
                                   </div>
@@ -1157,7 +1177,8 @@ function RecipeGeneratorContent() {
 
                         {/* Recommended Based on Chart */}
                         {chartComparison.insights?.recommendations &&
-                          chartComparison.insights.recommendations.length > 0 && (
+                          chartComparison.insights.recommendations.length >
+                            0 && (
                             <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
                               <h4 className="font-semibold text-purple-800 mb-2">
                                 Cosmic Insights
@@ -1261,7 +1282,7 @@ function RecipeGeneratorContent() {
                                   <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">
                                     ✨ +
                                     {Math.round(
-                                      (rec.personalizationBoost - 1) * 100
+                                      (rec.personalizationBoost - 1) * 100,
                                     )}
                                     % personal match
                                   </span>
@@ -1279,7 +1300,7 @@ function RecipeGeneratorContent() {
                             <div className="text-center" title="Overall Score">
                               <div className="text-2xl font-bold text-amber-600">
                                 {Math.round(
-                                  (rec.personalizedScore || rec.score) * 100
+                                  (rec.personalizedScore || rec.score) * 100,
                                 )}
                               </div>
                               <div className="text-xs text-gray-500">Score</div>
@@ -1312,57 +1333,61 @@ function RecipeGeneratorContent() {
                         </div>
 
                         {/* Nutrition Summary */}
-                        {personalPrefs.showNutrition && rec.nutritionSummary && (
-                          <div className="mt-3 pt-3 border-t border-gray-100">
-                            <div className="flex flex-wrap gap-4 text-xs">
-                              {rec.nutritionSummary.calories !== undefined && (
-                                <div className="flex items-center gap-1">
-                                  <span className="text-orange-500">🔥</span>
-                                  <span className="font-medium">
-                                    {rec.nutritionSummary.calories}
-                                  </span>
-                                  <span className="text-gray-400">kcal</span>
-                                </div>
-                              )}
-                              {rec.nutritionSummary.protein !== undefined && (
-                                <div className="flex items-center gap-1">
-                                  <span className="text-red-500">💪</span>
-                                  <span className="font-medium">
-                                    {rec.nutritionSummary.protein}g
-                                  </span>
-                                  <span className="text-gray-400">protein</span>
-                                </div>
-                              )}
-                              {rec.nutritionSummary.carbs !== undefined && (
-                                <div className="flex items-center gap-1">
-                                  <span className="text-amber-500">🌾</span>
-                                  <span className="font-medium">
-                                    {rec.nutritionSummary.carbs}g
-                                  </span>
-                                  <span className="text-gray-400">carbs</span>
-                                </div>
-                              )}
-                              {rec.nutritionSummary.fat !== undefined && (
-                                <div className="flex items-center gap-1">
-                                  <span className="text-yellow-500">🧈</span>
-                                  <span className="font-medium">
-                                    {rec.nutritionSummary.fat}g
-                                  </span>
-                                  <span className="text-gray-400">fat</span>
-                                </div>
-                              )}
-                              {rec.nutritionSummary.fiber !== undefined && (
-                                <div className="flex items-center gap-1">
-                                  <span className="text-green-500">🥬</span>
-                                  <span className="font-medium">
-                                    {rec.nutritionSummary.fiber}g
-                                  </span>
-                                  <span className="text-gray-400">fiber</span>
-                                </div>
-                              )}
+                        {personalPrefs.showNutrition &&
+                          rec.nutritionSummary && (
+                            <div className="mt-3 pt-3 border-t border-gray-100">
+                              <div className="flex flex-wrap gap-4 text-xs">
+                                {rec.nutritionSummary.calories !==
+                                  undefined && (
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-orange-500">🔥</span>
+                                    <span className="font-medium">
+                                      {rec.nutritionSummary.calories}
+                                    </span>
+                                    <span className="text-gray-400">kcal</span>
+                                  </div>
+                                )}
+                                {rec.nutritionSummary.protein !== undefined && (
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-red-500">💪</span>
+                                    <span className="font-medium">
+                                      {rec.nutritionSummary.protein}g
+                                    </span>
+                                    <span className="text-gray-400">
+                                      protein
+                                    </span>
+                                  </div>
+                                )}
+                                {rec.nutritionSummary.carbs !== undefined && (
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-amber-500">🌾</span>
+                                    <span className="font-medium">
+                                      {rec.nutritionSummary.carbs}g
+                                    </span>
+                                    <span className="text-gray-400">carbs</span>
+                                  </div>
+                                )}
+                                {rec.nutritionSummary.fat !== undefined && (
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-yellow-500">🧈</span>
+                                    <span className="font-medium">
+                                      {rec.nutritionSummary.fat}g
+                                    </span>
+                                    <span className="text-gray-400">fat</span>
+                                  </div>
+                                )}
+                                {rec.nutritionSummary.fiber !== undefined && (
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-green-500">🥬</span>
+                                    <span className="font-medium">
+                                      {rec.nutritionSummary.fiber}g
+                                    </span>
+                                    <span className="text-gray-400">fiber</span>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
 
                         {/* Reasons */}
                         {rec.reasons.length > 0 && (
@@ -1372,10 +1397,7 @@ function RecipeGeneratorContent() {
                             </p>
                             <ul className="text-xs text-gray-600 space-y-0.5">
                               {rec.reasons.slice(0, 4).map((reason, i) => (
-                                <li
-                                  key={i}
-                                  className="flex items-center gap-1"
-                                >
+                                <li key={i} className="flex items-center gap-1">
                                   <span className="text-green-500">✓</span>
                                   {reason}
                                 </li>
@@ -1390,13 +1412,13 @@ function RecipeGeneratorContent() {
                             <div className="flex items-center gap-4">
                               {(
                                 Object.entries(
-                                  rec.recipe.elementalProperties
+                                  rec.recipe.elementalProperties,
                                 ) as [keyof ElementalProperties, number][]
                               )
                                 .filter(([key]) =>
                                   ["Fire", "Water", "Earth", "Air"].includes(
-                                    key as string
-                                  )
+                                    key as string,
+                                  ),
                                 )
                                 .map(([element, value]) => (
                                   <div
@@ -1471,8 +1493,7 @@ function RecipeGeneratorContent() {
           <p>
             Recipes are generated based on planetary alignments, elemental
             harmony
-            {natalChart && ", your birth chart,"}
-            {" "}and nutritional content
+            {natalChart && ", your birth chart,"} and nutritional content
           </p>
         </div>
       </div>

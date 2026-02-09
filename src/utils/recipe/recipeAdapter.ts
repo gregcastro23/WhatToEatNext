@@ -356,6 +356,7 @@ function applyNutrition(
   newNutrition.carbs = Number(inputNutrition.carbs ?? 0);
   newNutrition.fat = Number(inputNutrition.fat ?? 0);
   newNutrition.fiber = Number(inputNutrition.macronutrients?.fiber ?? 0);
+  newNutrition.sodium = Number(inputNutrition.sodium ?? 0);
 
   // Other specific fields from NutritionalSummary (e.g., sodium, specific vitamins/minerals)
   // are not directly available in the current RecipeNutrition.

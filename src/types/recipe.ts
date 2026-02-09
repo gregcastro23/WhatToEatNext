@@ -557,6 +557,7 @@ export interface RecipeNutrition {
   protein?: number;
   carbs?: number;
   fat?: number;
+  sodium?: number;
   vitamins?: string[];
   minerals?: string[];
   macronutrients?: {

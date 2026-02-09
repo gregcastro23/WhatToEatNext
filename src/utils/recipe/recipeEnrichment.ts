@@ -1,6 +1,7 @@
 import type { ElementalProperties, Recipe } from "@/types/recipe";
 import { isNonEmptyArray } from "../common/arrayUtils";
 import { createLogger } from "../logger";
+
 import {
   createEmptyNutritionalSummary,
   type NutritionalSummary,

@@ -19,10 +19,17 @@ interface CelestialEquilibriumProps {
     matter_score: number;
     substance_score: number;
   } | null;
+  guestAlchemicalQuantities?: { // New prop for guest data
+    spirit_score: number;
+    essence_score: number;
+    matter_score: number;
+    substance_score: number;
+  } | null;
 }
 
 export default function CelestialEquilibrium({
   alchemicalQuantities,
+  guestAlchemicalQuantities,
 }: CelestialEquilibriumProps) {
   const [recommendations, setRecommendations] = useState<
     TransmutationRecommendation[]
@@ -100,10 +107,21 @@ export default function CelestialEquilibrium({
   );
   const polygonPoints = points.map((p) => `${p.x},${p.y}`).join(" ");
 
+  // Guest chart data
+  const guestData = guestAlchemicalQuantities ? [
+    { name: "Spirit", value: guestAlchemicalQuantities.spirit_score },
+    { name: "Essence", value: guestAlchemicalQuantities.essence_score },
+    { name: "Matter", value: guestAlchemicalQuantities.matter_score },
+    { name: "Substance", value: guestAlchemicalQuantities.substance_score },
+  ] : null;
+
+  const guestPoints = guestData ? guestData.map((item, i) =>
+    getCoordinates(item.value, i, guestData.length),
+  ) : null;
+  const guestPolygonPoints = guestPoints ? guestPoints.map((p) => `${p.x},${p.y}`).join(" ") : null;
+
   return (
     <div className="w-full flex flex-col items-center py-4">
-      {" "}
-      {/* Changed to flex-col for stacking */}
       {/* Existing SVG radar chart */}
       <svg
         width={size}
@@ -143,7 +161,7 @@ export default function CelestialEquilibrium({
           );
         })}
 
-        {/* Data polygon */}
+        {/* Data polygon (Primary User) */}
         <polygon
           points={polygonPoints}
           fill="rgba(139, 92, 246, 0.4)"
@@ -151,11 +169,39 @@ export default function CelestialEquilibrium({
           strokeWidth="1.5"
         />
 
-        {/* Data points */}
+        {/* Data points (Primary User) */}
         {points.map((p, i) => (
           <circle key={`point-${i}`} cx={p.x} cy={p.y} r="3" fill="#8B5CF6" />
         ))}
+
+        {/* Guest Chart Overlay */}
+        {guestPolygonPoints && guestPoints && (
+          <>
+            <polygon
+              points={guestPolygonPoints}
+              fill="rgba(34, 197, 94, 0.4)" // Green for guest
+              stroke="#16a34a"
+              strokeWidth="1.5"
+            />
+            {guestPoints.map((p, i) => (
+              <circle key={`guest-point-${i}`} cx={p.x} cy={p.y} r="3" fill="#16a34a" />
+            ))}
+          </>
+        )}
       </svg>
+      {/* Legend */}
+      <div className="flex space-x-4 mt-2">
+        <div className="flex items-center">
+          <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+          <span className="text-xs">Primary User</span>
+        </div>
+        {guestAlchemicalQuantities && (
+          <div className="flex items-center">
+            <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+            <span className="text-xs">Guest</span>
+          </div>
+        )}
+      </div>
       {/* New: Oracle's Path Section */}
       <div className="mt-8 w-full max-w-md">
         <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">

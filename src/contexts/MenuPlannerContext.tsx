@@ -63,7 +63,9 @@ import {
 } from "@/utils/menuPlanner/recommendationBridge";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useUser } from "@/contexts/UserContext";
-import ChartComparisonService, { type ChartComparison } from "@/services/ChartComparisonService";
+import ChartComparisonService, {
+  type ChartComparison,
+} from "@/services/ChartComparisonService";
 
 /**
  * Context type definition
@@ -945,7 +947,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         return;
       }
       try {
-        const comparison = await ChartComparisonService.compareCharts(natalChart);
+        const comparison =
+          await ChartComparisonService.compareCharts(natalChart);
         setChartComparison(comparison);
       } catch (err) {
         logger.error("Failed to calculate chart comparison:", err);
