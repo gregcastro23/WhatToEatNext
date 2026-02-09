@@ -100,13 +100,6 @@ export default function RootLayout({
                   >
                     👤 Profile
                   </Link>
-                  <Link
-                    href="/onboarding"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-pink-100 text-pink-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-pink-200"
-                    aria-label="Complete onboarding"
-                  >
-                    ✨ Get Started
-                  </Link>
                 </nav>
               </div>
             </div>
@@ -159,11 +152,6 @@ export default function RootLayout({
                     <li>
                       <Link href="/profile" className="text-gray-300 hover:text-blue-300 transition-colors">
                         👤 Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/onboarding" className="text-gray-300 hover:text-pink-300 transition-colors">
-                        ✨ Get Started
                       </Link>
                     </li>
                   </ul>

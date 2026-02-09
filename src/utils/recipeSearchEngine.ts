@@ -233,7 +233,7 @@ function calculateRecipeScore(
     timeMatch: 0,
   };
 
-  // 1. Name match (0-100 points)
+  // 1. Name match (0-100 points) - also searches description and ingredients
   if (options.query) {
     const query = options.query.toLowerCase();
     const name = recipe.name.toLowerCase();
@@ -243,7 +243,21 @@ function calculateRecipeScore(
     } else if (name.includes(query)) {
       details.nameMatch = 50 + (query.length / name.length) * 50;
     } else {
-      details.nameMatch = calculateTextSimilarity(name, query) * 30;
+      // Check description for query match
+      const description = recipe.description?.toLowerCase() || "";
+      if (description.includes(query)) {
+        details.nameMatch = 35;
+      } else {
+        // Check if any ingredient names contain the query
+        const ingredientMatch = recipe.ingredients?.some((ing) =>
+          ing.name.toLowerCase().includes(query),
+        );
+        if (ingredientMatch) {
+          details.nameMatch = 40; // Good match - query found in ingredient list
+        } else {
+          details.nameMatch = calculateTextSimilarity(name, query) * 30;
+        }
+      }
     }
   }
 
@@ -562,4 +576,323 @@ export function getRecipesByDiet(
   }
 
   return searchRecipes(recipes, options);
+}
+
+/**
+ * Search recipes by ingredients
+ * Returns recipes that contain any of the specified ingredients
+ * Results are scored by how many matching ingredients they have
+ */
+export function searchRecipesByIngredients(
+  recipes: Recipe[],
+  ingredients: string[],
+  options: {
+    matchAll?: boolean; // If true, recipe must contain all ingredients
+    excludeIngredients?: string[];
+    limit?: number;
+  } = {},
+): ScoredRecipe[] {
+  if (ingredients.length === 0) {
+    return [];
+  }
+
+  const { matchAll = false, excludeIngredients = [], limit = 20 } = options;
+  const ingredientsLower = ingredients.map((i) => i.toLowerCase().trim());
+  const excludeLower = excludeIngredients.map((i) => i.toLowerCase().trim());
+
+  // Filter recipes by ingredient match
+  const filteredRecipes = recipes.filter((recipe) => {
+    if (!recipe.ingredients || recipe.ingredients.length === 0) return false;
+
+    // Check excluded ingredients first
+    if (excludeLower.length > 0) {
+      const hasExcluded = recipe.ingredients.some((ing) =>
+        excludeLower.some((ex) => ing.name.toLowerCase().includes(ex)),
+      );
+      if (hasExcluded) return false;
+    }
+
+    const recipeIngredients = recipe.ingredients.map((ing) =>
+      ing.name.toLowerCase(),
+    );
+
+    if (matchAll) {
+      // All search ingredients must be in recipe
+      return ingredientsLower.every((searchIng) =>
+        recipeIngredients.some((recipeIng) => recipeIng.includes(searchIng)),
+      );
+    } else {
+      // At least one search ingredient must be in recipe
+      return ingredientsLower.some((searchIng) =>
+        recipeIngredients.some((recipeIng) => recipeIng.includes(searchIng)),
+      );
+    }
+  });
+
+  // Score recipes by number of matching ingredients
+  const scoredRecipes: ScoredRecipe[] = filteredRecipes.map((recipe) => {
+    let matchCount = 0;
+    const matchedIngredients: string[] = [];
+
+    recipe.ingredients?.forEach((ing) => {
+      const ingLower = ing.name.toLowerCase();
+      ingredientsLower.forEach((searchIng) => {
+        if (ingLower.includes(searchIng) && !matchedIngredients.includes(searchIng)) {
+          matchCount++;
+          matchedIngredients.push(searchIng);
+        }
+      });
+    });
+
+    // Calculate score: higher score for more matched ingredients
+    const matchRatio = matchCount / ingredientsLower.length;
+    const ingredientScore = matchRatio * 80; // Max 80 points for ingredient match
+
+    return {
+      ...recipe,
+      searchScore: ingredientScore,
+      matchDetails: {
+        nameMatch: 0,
+        ingredientMatch: ingredientScore,
+        cuisineMatch: 0,
+        mealTypeMatch: 0,
+        elementalMatch: 0,
+        planetaryMatch: 0,
+        dietaryMatch: 0,
+        timeMatch: 0,
+      },
+    };
+  });
+
+  // Sort by score descending
+  scoredRecipes.sort((a, b) => b.searchScore - a.searchScore);
+
+  // Apply limit
+  return scoredRecipes.slice(0, limit);
+}
+
+/**
+ * Get all unique ingredients from recipes
+ * Useful for autocomplete/suggestions
+ */
+export function getAllUniqueIngredients(recipes: Recipe[]): string[] {
+  const ingredientSet = new Set<string>();
+
+  recipes.forEach((recipe) => {
+    recipe.ingredients?.forEach((ing) => {
+      // Normalize ingredient name (lowercase, trim)
+      const normalized = ing.name.toLowerCase().trim();
+      if (normalized.length > 0) {
+        ingredientSet.add(normalized);
+      }
+    });
+  });
+
+  // Sort alphabetically
+  return Array.from(ingredientSet).sort();
+}
+
+/**
+ * Search ingredients for autocomplete
+ */
+export function searchIngredients(
+  recipes: Recipe[],
+  query: string,
+  limit: number = 10,
+): string[] {
+  if (!query || query.length < 2) return [];
+
+  const allIngredients = getAllUniqueIngredients(recipes);
+  const queryLower = query.toLowerCase();
+
+  // Filter ingredients that start with or contain the query
+  const matches = allIngredients.filter((ing) => ing.includes(queryLower));
+
+  // Sort: prioritize ingredients that start with query
+  matches.sort((a, b) => {
+    const aStarts = a.startsWith(queryLower) ? 0 : 1;
+    const bStarts = b.startsWith(queryLower) ? 0 : 1;
+    if (aStarts !== bStarts) return aStarts - bStarts;
+    return a.localeCompare(b);
+  });
+
+  return matches.slice(0, limit);
+}
+
+/**
+ * Recipe Completeness Audit
+ * Checks recipes for required fields and data quality
+ */
+export interface RecipeAuditResult {
+  totalRecipes: number;
+  completeRecipes: number;
+  incompleteRecipes: RecipeIssue[];
+  stats: {
+    missingIngredients: number;
+    missingInstructions: number;
+    missingNutrition: number;
+    missingCalories: number;
+    missingProtein: number;
+    missingCarbs: number;
+    missingFat: number;
+    missingFiber: number;
+    missingPrepTime: number;
+    missingDescription: number;
+  };
+}
+
+export interface RecipeIssue {
+  recipeId: string;
+  recipeName: string;
+  cuisine?: string;
+  issues: string[];
+}
+
+/**
+ * Audit recipes for data completeness
+ * Checks for:
+ * - ingredients array with name, amount, unit
+ * - instructions array
+ * - nutrition object with calories, protein, carbs, fat, fiber
+ * - prepTime or timeToMake
+ * - description
+ */
+export function auditRecipeCompleteness(recipes: Recipe[]): RecipeAuditResult {
+  const stats = {
+    missingIngredients: 0,
+    missingInstructions: 0,
+    missingNutrition: 0,
+    missingCalories: 0,
+    missingProtein: 0,
+    missingCarbs: 0,
+    missingFat: 0,
+    missingFiber: 0,
+    missingPrepTime: 0,
+    missingDescription: 0,
+  };
+
+  const incompleteRecipes: RecipeIssue[] = [];
+
+  for (const recipe of recipes) {
+    const issues: string[] = [];
+
+    // Check ingredients
+    if (!recipe.ingredients || recipe.ingredients.length === 0) {
+      issues.push("Missing ingredients array");
+      stats.missingIngredients++;
+    } else {
+      // Check if ingredients have required fields
+      const hasIncompleteIngredients = recipe.ingredients.some(
+        (ing) => !ing.name || (!ing.amount && ing.amount !== 0) || !ing.unit,
+      );
+      if (hasIncompleteIngredients) {
+        issues.push("Some ingredients missing name/amount/unit");
+      }
+    }
+
+    // Check instructions
+    if (!recipe.instructions || recipe.instructions.length === 0) {
+      issues.push("Missing instructions array");
+      stats.missingInstructions++;
+    }
+
+    // Check nutrition
+    if (!recipe.nutrition) {
+      issues.push("Missing nutrition object");
+      stats.missingNutrition++;
+      stats.missingCalories++;
+      stats.missingProtein++;
+      stats.missingCarbs++;
+      stats.missingFat++;
+      stats.missingFiber++;
+    } else {
+      if (recipe.nutrition.calories === undefined) {
+        issues.push("Missing calories");
+        stats.missingCalories++;
+      }
+      if (recipe.nutrition.protein === undefined) {
+        issues.push("Missing protein");
+        stats.missingProtein++;
+      }
+      if (recipe.nutrition.carbs === undefined) {
+        issues.push("Missing carbs");
+        stats.missingCarbs++;
+      }
+      if (recipe.nutrition.fat === undefined) {
+        issues.push("Missing fat");
+        stats.missingFat++;
+      }
+      if (recipe.nutrition.fiber === undefined) {
+        issues.push("Missing fiber");
+        stats.missingFiber++;
+      }
+    }
+
+    // Check prep time (accepts prepTime or timeToMake)
+    if (!recipe.prepTime && !recipe.timeToMake) {
+      issues.push("Missing prepTime/timeToMake");
+      stats.missingPrepTime++;
+    }
+
+    // Check description
+    if (!recipe.description) {
+      issues.push("Missing description");
+      stats.missingDescription++;
+    }
+
+    if (issues.length > 0) {
+      incompleteRecipes.push({
+        recipeId: recipe.id || "unknown",
+        recipeName: recipe.name || "Unnamed recipe",
+        cuisine: recipe.cuisine,
+        issues,
+      });
+    }
+  }
+
+  return {
+    totalRecipes: recipes.length,
+    completeRecipes: recipes.length - incompleteRecipes.length,
+    incompleteRecipes,
+    stats,
+  };
+}
+
+/**
+ * Get audit summary as formatted string
+ */
+export function formatAuditSummary(audit: RecipeAuditResult): string {
+  const completionRate = (
+    (audit.completeRecipes / audit.totalRecipes) *
+    100
+  ).toFixed(1);
+
+  const lines = [
+    "=== Recipe Completeness Audit ===",
+    `Total Recipes: ${audit.totalRecipes}`,
+    `Complete Recipes: ${audit.completeRecipes} (${completionRate}%)`,
+    `Incomplete Recipes: ${audit.incompleteRecipes.length}`,
+    "",
+    "--- Missing Data Stats ---",
+    `Ingredients: ${audit.stats.missingIngredients}`,
+    `Instructions: ${audit.stats.missingInstructions}`,
+    `Nutrition: ${audit.stats.missingNutrition}`,
+    `  - Calories: ${audit.stats.missingCalories}`,
+    `  - Protein: ${audit.stats.missingProtein}`,
+    `  - Carbs: ${audit.stats.missingCarbs}`,
+    `  - Fat: ${audit.stats.missingFat}`,
+    `  - Fiber: ${audit.stats.missingFiber}`,
+    `Time (prepTime/timeToMake): ${audit.stats.missingPrepTime}`,
+    `Description: ${audit.stats.missingDescription}`,
+  ];
+
+  if (audit.incompleteRecipes.length > 0 && audit.incompleteRecipes.length <= 20) {
+    lines.push("", "--- Incomplete Recipes (first 20) ---");
+    audit.incompleteRecipes.slice(0, 20).forEach((r, i) => {
+      lines.push(`${i + 1}. ${r.recipeName} (${r.cuisine || "no cuisine"})`);
+      lines.push(`   Issues: ${r.issues.join(", ")}`);
+    });
+  }
+
+  return lines.join("\n");
 }

@@ -1,0 +1,352 @@
+/* ============================================
+   WEEKLY NUTRITION DASHBOARD STYLES
+   ============================================ */
+
+.dashboard {
+  position: sticky;
+  top: 80px; /* Below main navigation */
+  z-index: 100;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Compliance Severity Color Coding */
+.dashboard.severity-excellent {
+  border-color: #28a745;
+  background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+}
+
+.dashboard.severity-good {
+  border-color: #20c997;
+  background: linear-gradient(135deg, #e6fcf5 0%, #ffffff 100%);
+}
+
+.dashboard.severity-fair {
+  border-color: #ffc107;
+  background: linear-gradient(135deg, #fffbea 0%, #ffffff 100%);
+}
+
+.dashboard.severity-poor {
+  border-color: #fd7e14;
+  background: linear-gradient(135deg, #fff4e6 0%, #ffffff 100%);
+}
+
+.dashboard.severity-critical {
+  border-color: #dc3545;
+  background: linear-gradient(135deg, #fff1f0 0%, #ffffff 100%);
+}
+
+/* Expanded/Collapsed States */
+.dashboard.expanded {
+  padding-bottom: 32px;
+}
+
+.dashboard.collapsed {
+  padding-bottom: 20px;
+}
+
+/* ============================================
+   COMPACT VIEW (Always Visible)
+   ============================================ */
+
+.compactView {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.compactLeft {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.compactRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Macro Pills */
+.macroPills {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  min-width: 100px;
+  transition: all 0.2s ease;
+}
+
+.pill:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pillLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.pillValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #212529;
+  font-family: 'Fira Code', monospace;
+}
+
+.pillTarget {
+  font-size: 12px;
+  font-weight: 400;
+  color: #868e96;
+  margin-left: 4px;
+}
+
+/* Deficiency Alert */
+.deficiencyAlert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 193, 7, 0.15);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  border-radius: 8px;
+}
+
+.alertIcon {
+  font-size: 18px;
+}
+
+.alertText {
+  font-size: 13px;
+  font-weight: 600;
+  color: #856404;
+}
+
+/* Expand/Collapse Button */
+.expandButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.expandButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #A0522D 0%, #CD853F 100%);
+}
+
+.expandButton .chevron {
+  width: 16px;
+  height: 16px;
+  stroke: white;
+  stroke-width: 2.5;
+  transition: transform 0.3s ease;
+}
+
+.expandButton[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+/* ============================================
+   EXPANDED VIEW (Conditional)
+   ============================================ */
+
+.expandedView {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e9ecef;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.expandedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.expandedSection {
+  background: #fdfefe;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+/* Variety Stats */
+.varietyStats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.varietyStat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed #e9ecef;
+}
+
+.varietyStat:last-child {
+  border-bottom: none;
+}
+
+.varietyLabel {
+  font-size: 14px;
+  color: #495057;
+  font-weight: 500;
+}
+
+.varietyValue {
+  font-size: 15px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.varietyBar {
+  flex-grow: 1;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  margin: 0 10px;
+  overflow: hidden;
+}
+
+.varietyBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #20c997, #17a2b8);
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}
+
+.varietyPercent {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+  min-width: 40px;
+  text-align: right;
+}
+
+
+/* Suggestions */
+.suggestions {
+  margin-top: 32px;
+  background: #eaf7f9;
+  border: 1px solid #a8dadc;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.suggestionsTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a535c;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.suggestionsList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestionItem {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #344e52;
+  margin-bottom: 8px;
+  background: #f8fcfc;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #e0f2f4;
+}
+
+.suggestionItem:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   MEDIA QUERIES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .compactView {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .compactLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .macroPills {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .pill {
+    min-width: unset;
+    flex: 1 1 auto;
+  }
+
+  .compactRight {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+  .expandedGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -144,20 +144,20 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
 
 // Pre-process all cuisines once for efficiency
 const processedCuisines = {
-  African: processCuisineRecipes(african as Partial<Cuisine>),
-  American: processCuisineRecipes(american as Partial<Cuisine>),
-  Chinese: processCuisineRecipes(chinese as Partial<Cuisine>),
-  French: processCuisineRecipes(french as Partial<Cuisine>),
-  Greek: processCuisineRecipes(greek as Partial<Cuisine>),
-  Indian: processCuisineRecipes(indian as Partial<Cuisine>),
-  Italian: processCuisineRecipes(italian as Partial<Cuisine>),
-  Japanese: processCuisineRecipes(japanese as Partial<Cuisine>),
-  Korean: processCuisineRecipes(korean as Partial<Cuisine>),
-  Mexican: processCuisineRecipes(mexican as Partial<Cuisine>),
-  "Middle Eastern": processCuisineRecipes(middleEastern as Partial<Cuisine>),
-  Russian: processCuisineRecipes(russian as Partial<Cuisine>),
-  Thai: processCuisineRecipes(thai as Partial<Cuisine>),
-  Vietnamese: processCuisineRecipes(vietnamese as Partial<Cuisine>),
+  African: processCuisineRecipes(african as unknown as Partial<Cuisine>),
+  American: processCuisineRecipes(american as unknown as Partial<Cuisine>),
+  Chinese: processCuisineRecipes(chinese as unknown as Partial<Cuisine>),
+  French: processCuisineRecipes(french as unknown as Partial<Cuisine>),
+  Greek: processCuisineRecipes(greek as unknown as Partial<Cuisine>),
+  Indian: processCuisineRecipes(indian as unknown as Partial<Cuisine>),
+  Italian: processCuisineRecipes(italian as unknown as Partial<Cuisine>),
+  Japanese: processCuisineRecipes(japanese as unknown as Partial<Cuisine>),
+  Korean: processCuisineRecipes(korean as unknown as Partial<Cuisine>),
+  Mexican: processCuisineRecipes(mexican as unknown as Partial<Cuisine>),
+  "Middle Eastern": processCuisineRecipes(middleEastern as unknown as Partial<Cuisine>),
+  Russian: processCuisineRecipes(russian as unknown as Partial<Cuisine>),
+  Thai: processCuisineRecipes(thai as unknown as Partial<Cuisine>),
+  Vietnamese: processCuisineRecipes(vietnamese as unknown as Partial<Cuisine>),
 };
 
 // Create and export the cuisines map with validated structures

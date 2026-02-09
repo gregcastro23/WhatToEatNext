@@ -46,44 +46,33 @@ export const CATEGORY_REFERENCE_INTENSITIES: Record<string, number> = {
   default: 4.0,     // Default reference for unknown categories
 };
 
+// Re-export convertNormalizedToRaw from normalization for backwards compatibility
+import { convertNormalizedToRaw } from "./normalization";
+export { convertNormalizedToRaw };
+
 /**
- * Convert normalized properties to raw values
+ * Convert normalized properties to raw values with category-aware reference intensities
  *
  * If the properties appear to be normalized (sum ≈ 1.0), they are scaled
  * by the reference intensity. Otherwise, they are returned as-is.
  *
  * @param properties - Properties that may be normalized or raw
- * @param referenceIntensity - Target total intensity (default: 4.0)
+ * @param referenceIntensity - Target total intensity (default: 4.0 from category lookup)
  * @returns Raw elemental properties
  *
  * @example
  * const normalized = { Fire: 0.45, Water: 0.30, Earth: 0.15, Air: 0.10 };
- * const raw = convertNormalizedToRaw(normalized, 10);
- * // Result: { Fire: 4.5, Water: 3.0, Earth: 1.5, Air: 1.0 }
+ * const raw = convertNormalizedToRawWithCategory(normalized, 'spice');
+ * // Result: { Fire: 3.6, Water: 2.4, Earth: 1.2, Air: 0.8 } (using spice ref intensity of 8.0)
  */
-export function convertNormalizedToRaw(
+export function convertNormalizedToRawWithCategory(
   properties: ElementalProperties | NormalizedElementalProperties,
-  referenceIntensity = CATEGORY_REFERENCE_INTENSITIES.default,
+  category?: string,
 ): RawElementalProperties {
-  const sum = getTotalIntensity(properties);
-
-  // If sum ≈ 1.0, assume normalized and scale
-  if (Math.abs(sum - 1.0) < VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE) {
-    return {
-      Fire: properties.Fire * referenceIntensity,
-      Water: properties.Water * referenceIntensity,
-      Earth: properties.Earth * referenceIntensity,
-      Air: properties.Air * referenceIntensity,
-    };
-  }
-
-  // Otherwise, assume already raw and return as-is
-  return {
-    Fire: properties.Fire,
-    Water: properties.Water,
-    Earth: properties.Earth,
-    Air: properties.Air,
-  };
+  const referenceIntensity =
+    CATEGORY_REFERENCE_INTENSITIES[category?.toLowerCase() ?? ""] ||
+    CATEGORY_REFERENCE_INTENSITIES.default;
+  return convertNormalizedToRaw(properties, referenceIntensity);
 }
 
 /**

@@ -108,14 +108,11 @@ export function calculateDailyTotals(
 
     // Alchemical properties (ESMS)
     if (recipe.alchemicalProperties) {
-      alchemicalAccumulator.Spirit +=
-        recipe.alchemicalProperties.Spirit * servings;
-      alchemicalAccumulator.Essence +=
-        recipe.alchemicalProperties.Essence * servings;
-      alchemicalAccumulator.Matter +=
-        recipe.alchemicalProperties.Matter * servings;
-      alchemicalAccumulator.Substance +=
-        recipe.alchemicalProperties.Substance * servings;
+      const alchem = recipe.alchemicalProperties as AlchemicalProperties;
+      alchemicalAccumulator.Spirit += (alchem.Spirit || 0) * servings;
+      alchemicalAccumulator.Essence += (alchem.Essence || 0) * servings;
+      alchemicalAccumulator.Matter += (alchem.Matter || 0) * servings;
+      alchemicalAccumulator.Substance += (alchem.Substance || 0) * servings;
     }
   });
 

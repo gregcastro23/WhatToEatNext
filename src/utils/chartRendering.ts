@@ -5,7 +5,7 @@
  * Converts astronomical coordinates to SVG coordinates.
  */
 
-import type { Planet, ZodiacSign, PlanetaryAspect } from "@/types/celestial";
+import type { Planet, ZodiacSign, PlanetaryAspect, AspectType } from "@/types/celestial";
 
 /**
  * Convert ecliptic longitude (0-360°) to SVG coordinates
@@ -62,8 +62,8 @@ export function calculateAbsoluteLongitude(sign: ZodiacSign, degree: number): nu
  * @param type - Aspect type
  * @returns CSS color string
  */
-export function getAspectColor(type: PlanetaryAspect["type"]): string {
-  const colors: Record<PlanetaryAspect["type"], string> = {
+export function getAspectColor(type: AspectType | undefined): string {
+  const colors: Record<AspectType, string> = {
     conjunction: "#FF6B6B", // Red - powerful
     opposition: "#4ECDC4",  // Teal - tension
     trine: "#45B7D1",       // Blue - harmony
@@ -71,7 +71,7 @@ export function getAspectColor(type: PlanetaryAspect["type"]): string {
     sextile: "#98D8C8",     // Green - opportunity
   };
 
-  return colors[type] || "#888888";
+  return type ? colors[type] || "#888888" : "#888888";
 }
 
 /**
@@ -79,8 +79,8 @@ export function getAspectColor(type: PlanetaryAspect["type"]): string {
  * @param type - Aspect type
  * @returns Dasharray pattern
  */
-export function getAspectLineStyle(type: PlanetaryAspect["type"]): string {
-  const styles: Record<PlanetaryAspect["type"], string> = {
+export function getAspectLineStyle(type: AspectType | undefined): string {
+  const styles: Record<AspectType, string> = {
     conjunction: "none",      // Solid
     opposition: "5,5",        // Dashed
     trine: "none",           // Solid
@@ -88,7 +88,7 @@ export function getAspectLineStyle(type: PlanetaryAspect["type"]): string {
     sextile: "2,2",          // Dotted
   };
 
-  return styles[type] || "none";
+  return type ? styles[type] || "none" : "none";
 }
 
 /**

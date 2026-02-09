@@ -26,6 +26,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 # Database imports
 from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation
+from alchm_kitchen.recipe_generator import get_astrological_recipes
+try:
+    import swisseph as swe
+except ImportError:
+    swe = None
 
 # External data imports for cuisine and sauce recommendations
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
@@ -410,6 +415,8 @@ class PlanetaryPositionsRequest(BaseModel):
     day: Optional[int] = None
     hour: Optional[int] = 0
     minute: Optional[int] = 0
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     zodiacSystem: Optional[str] = "tropical"
 
 @app.post("/api/planetary/positions")
@@ -478,6 +485,20 @@ class ElementalProperties(BaseModel):
     Water: float
     Earth: float
     Air: float
+
+class RecipeGeneratorRequest(BaseModel):
+    birthDate: str # YYYY-MM-DD
+    birthTime: str # HH:MM
+
+class ChartSummary(BaseModel):
+    sunSign: str
+    moonSign: str
+    ascendant: str
+    celestialBodies: Dict[str, Any] # Detailed planetary positions
+
+class RecipeGeneratorResponse(BaseModel):
+    chart: ChartSummary
+    recommendations: List[str]
 
 class RecommendationRequest(BaseModel):
     current_time: str
@@ -805,6 +826,76 @@ async def get_personalized_cooking_plan(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create personalized cooking plan: {str(e)}")
+
+@app.post("/api/astrological/recipe-recommendations-by-chart")
+async def get_recipe_recommendations_by_chart(
+    request: PlanetaryPositionsRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    Get recipe recommendations based on Ascendant, Sun, and Moon signs.
+    """
+    try:
+        if not swe:
+            raise HTTPException(status_code=500, detail="Swiss Ephemeris not available")
+
+        # Calculate time
+        year = request.year or datetime.now().year
+        month = request.month or datetime.now().month
+        day = request.day or datetime.now().day
+        hour = request.hour or 0
+        minute = request.minute or 0
+
+        # Calculate Julian Day
+        jul_day = swe.julday(year, month, day, hour + minute / 60.0)
+
+        flags = swe.FLG_SWIEPH | swe.FLG_SPEED
+        if request.zodiacSystem == 'sidereal':
+            flags = swe.FLG_SIDEREAL | swe.FLG_SPEED
+            swe.set_sid_mode(swe.SIDM_LAHIRI)
+
+        # Calculate Sun and Moon
+        sun_res = swe.calc_ut(jul_day, swe.SUN, flags)
+        moon_res = swe.calc_ut(jul_day, swe.MOON, flags)
+
+        zodiac_signs = [
+            "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+            "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+        ]
+
+        sun_sign = zodiac_signs[int(sun_res[0][0] / 30)]
+        moon_sign = zodiac_signs[int(moon_res[0][0] / 30)]
+
+        # Calculate Ascendant
+        ascendant_sign = "unknown"
+        if request.latitude is not None and request.longitude is not None:
+            # swe.houses returns (cusps, ascmc)
+            # ascmc[0] is Ascendant
+            cusps, ascmc = swe.houses(jul_day, request.latitude, request.longitude, b'P')
+            ascendant_sign = zodiac_signs[int(ascmc[0] / 30)]
+
+        # Get Recipes
+        # Capitalize signs for DB matching if needed (depends on DB data, usually Title Case)
+        pass_ascendant = ascendant_sign.capitalize() if ascendant_sign != "unknown" else "Aries" # Default?
+
+        recommendations = get_astrological_recipes(
+            sun_sign.capitalize(),
+            moon_sign.capitalize(),
+            pass_ascendant,
+            db
+        )
+
+        return {
+            "chart_points": {
+                "Sun": sun_sign.capitalize(),
+                "Moon": moon_sign.capitalize(),
+                "Ascendant": ascendant_sign.capitalize()
+            },
+            "recommendations": recommendations
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get chart recommendations: {str(e)}")
 
 # Current Moment Cuisine Recommendations - Phase 6
 @app.get("/cuisines/recommend")
@@ -1149,6 +1240,95 @@ async def health_check(db: Session = Depends(get_db)):
             "database": f"error: {str(e)}",
             "timestamp": datetime.now().isoformat()
         }
+
+
+
+
+@app.post("/api/recipe-generator", response_model=RecipeGeneratorResponse)
+async def generate_personalized_recipe(request: RecipeGeneratorRequest, db: Session = Depends(get_db)):
+    """
+    Generate personalized recipe recommendations based on user's birth chart.
+    """
+    try:
+        birth_date_obj = datetime.strptime(request.birthDate, "%Y-%m-%d")
+        birth_time_obj = datetime.strptime(request.birthTime, "%H:%M")
+
+        year = birth_date_obj.year
+        month = birth_date_obj.month
+        day = birth_date_obj.day
+        hour = birth_time_obj.hour
+        minute = birth_time_obj.minute
+
+        # For simplicity, using a fixed location. In a real app, this would come from user input.
+        latitude = 34.0522  # Example: Los Angeles
+        longitude = -118.2437 # Example: Los Angeles
+
+        # 1. Calculate Planetary Positions
+        # This function provides positions for planets and nodes
+        planetary_positions_data = calculate_planetary_positions_swisseph(
+            year, month, day, hour, minute
+        )
+        celestial_bodies = planetary_positions_data["positions"]
+
+        # 2. Calculate Ascendant and House Cusps for Tropical Zodiac
+        # This requires geographical coordinates and exact time for house system calculation
+        import swisseph as swe
+        swe.set_ephe_path('') # Use built-in ephemeris
+
+        # Calculate Julian day for the birth moment
+        julian_day = swe.julday(year, month, day, hour + minute / 60.0)
+
+        # Get the sidereal time at Greenwich (GST)
+        # GST is needed for house calculation
+        # swe.swe_get_house_pos outputs (house_cusps, ascmc)
+        # ascmc[0] is Ascendant, ascmc[1] is Midheaven
+        house_cusps_tropical, ascmc_tropical = swe.houses(
+            julian_day, latitude, longitude, b'P' # 'P' for Placidus house system
+        )
+
+        # Calculate Ascendant sign
+        ascendant_longitude = ascmc_tropical[0] # Ascendant is the first element
+        ascendant_sign_index = int(ascendant_longitude / 30)
+        zodiac_signs_list = [ # Ensure this list matches the one in calculate_planetary_positions_swisseph
+            "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+            "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+        ]
+        ascendant_sign = zodiac_signs_list[ascendant_sign_index]
+
+        # Determine Sun and Moon signs directly from celestial_bodies
+        sun_sign = celestial_bodies.get("Sun", {}).get("sign", "Unknown")
+        moon_sign = celestial_bodies.get("Moon", {}).get("sign", "Unknown")
+
+        chart_summary = ChartSummary(
+            sunSign=sun_sign.capitalize(),
+            moonSign=moon_sign.capitalize(),
+            ascendant=ascendant_sign.capitalize(),
+            celestialBodies=celestial_bodies # Contains all planetary positions
+        )
+
+        # 3. Generate Food Recommendations based on the chart
+        # For a simplified first version, we can use the Sun Sign for recommendations.
+        # We also need a 'db' session for get_zodiac_based_recipes,
+        # but this endpoint doesn't directly depend on the database for chart generation,
+        # only for recommendations.
+
+        zodiac_recommendations_response = await get_zodiac_based_recipes(
+            zodiac_sign=sun_sign.capitalize(),
+            limit=5,
+            db=db
+        )
+        food_recommendations = [rec["name"] for rec in zodiac_recommendations_response.get("recipe_recommendations", [])]
+
+
+        return RecipeGeneratorResponse(
+            chart=chart_summary,
+            recommendations=food_recommendations
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate personalized recipe: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn

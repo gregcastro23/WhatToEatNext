@@ -162,13 +162,33 @@ export interface NutritionalSummary {
  */
 export function createEmptyNutritionalSummary(): NutritionalSummary {
   return {
-    calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0,
-    saturatedFat: 0, transFat: 0, cholesterol: 0,
-    vitaminA: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0,
-    vitaminC: 0, thiamin: 0, riboflavin: 0, niacin: 0,
-    vitaminB6: 0, folate: 0, vitaminB12: 0,
-    calcium: 0, phosphorus: 0, magnesium: 0, sodium: 0, potassium: 0,
-    iron: 0, zinc: 0,
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+    fiber: 0,
+    sugar: 0,
+    saturatedFat: 0,
+    transFat: 0,
+    cholesterol: 0,
+    vitaminA: 0,
+    vitaminD: 0,
+    vitaminE: 0,
+    vitaminK: 0,
+    vitaminC: 0,
+    thiamin: 0,
+    riboflavin: 0,
+    niacin: 0,
+    vitaminB6: 0,
+    folate: 0,
+    vitaminB12: 0,
+    calcium: 0,
+    phosphorus: 0,
+    magnesium: 0,
+    sodium: 0,
+    potassium: 0,
+    iron: 0,
+    zinc: 0,
   };
 }
 
@@ -199,7 +219,7 @@ export interface NutrientPriority {
   nutrient: keyof NutritionalSummary;
   importance: NutrientImportance;
   reason?: string;
-  targetDirection?: 'increase' | 'decrease' | 'maintain';
+  targetDirection?: "increase" | "decrease" | "maintain";
 }
 
 /**
@@ -207,7 +227,7 @@ export interface NutrientPriority {
  */
 export interface UserNutritionProfile {
   age: number;
-  sex: 'male' | 'female' | 'other';
+  sex: "male" | "female" | "other";
   weight: number;
   height: number;
   activityLevel: ActivityLevel;
@@ -226,22 +246,32 @@ export interface UserNutritionProfile {
 
 export interface HealthCondition {
   condition: string;
-  severity?: 'mild' | 'moderate' | 'severe';
+  severity?: "mild" | "moderate" | "severe";
   managementApproach?: string;
 }
 
-export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
-export type NutritionGoal = 'maintain' | 'lose_weight' | 'gain_weight' | 'gain_muscle' | 'athletic_performance';
+export type ActivityLevel =
+  | "sedentary"
+  | "light"
+  | "moderate"
+  | "active"
+  | "very_active";
+export type NutritionGoal =
+  | "maintain"
+  | "lose_weight"
+  | "gain_weight"
+  | "gain_muscle"
+  | "athletic_performance";
 
 /**
  * Nutrient deficiency or excess entry
  */
-export interface NutrientDeviation {
+export interface ComplianceDeficiency {
   nutrient: keyof NutritionalSummary;
   actual: number;
   target: number;
   delta: number;
-  severity: 'mild' | 'moderate' | 'severe';
+  severity: "mild" | "moderate" | "severe";
 }
 
 /**
@@ -251,7 +281,7 @@ export interface DailyNutritionResult {
   date: Date;
   meals: Array<{
     recipeName: string;
-    mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+    mealType: "breakfast" | "lunch" | "dinner" | "snack";
     nutrition: NutritionalSummary;
   }>;
   totals: NutritionalSummary;
@@ -259,8 +289,8 @@ export interface DailyNutritionResult {
   compliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: NutrientDeviation[];
-    excesses: NutrientDeviation[];
+    deficiencies: ComplianceDeficiency[];
+    excesses: ComplianceDeficiency[];
     suggestions: string[];
   };
 }
@@ -277,18 +307,8 @@ export interface WeeklyNutritionResult {
   weeklyCompliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: Array<{
-      nutrient: keyof NutritionalSummary;
-      averageDaily: number;
-      targetDaily: number;
-      daysDeficient: number;
-    }>;
-    excesses: Array<{
-      nutrient: keyof NutritionalSummary;
-      averageDaily: number;
-      targetDaily: number;
-      daysExceeded: number;
-    }>;
+    deficiencies: ComplianceDeficiency[];
+    excesses: ComplianceDeficiency[];
   };
   variety: {
     uniqueIngredients: number;
@@ -301,28 +321,33 @@ export interface WeeklyNutritionResult {
 /**
  * Compliance severity levels
  */
-export type ComplianceSeverity = 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+export type ComplianceSeverity =
+  | "excellent"
+  | "good"
+  | "fair"
+  | "poor"
+  | "critical";
 
 export function getComplianceSeverity(score: number): ComplianceSeverity {
-  if (score >= 0.90) return 'excellent';
-  if (score >= 0.75) return 'good';
-  if (score >= 0.60) return 'fair';
-  if (score >= 0.40) return 'poor';
-  return 'critical';
+  if (score >= 0.9) return "excellent";
+  if (score >= 0.75) return "good";
+  if (score >= 0.6) return "fair";
+  if (score >= 0.4) return "poor";
+  return "critical";
 }
 
-export type NutrientImportance = 'critical' | 'high' | 'medium' | 'low';
+export type NutrientImportance = "critical" | "high" | "medium" | "low";
 
 export enum DietaryRestriction {
-  VEGETARIAN = 'Vegetarian',
-  VEGAN = 'Vegan',
-  GLUTEN_FREE = 'Gluten Free',
-  DAIRY_FREE = 'Dairy Free',
-  KETO = 'Keto',
-  PALEO = 'Paleo',
-  LOW_CARB = 'Low Carb',
-  LOW_SODIUM = 'Low Sodium',
-  LOW_SUGAR = 'Low Sugar',
-  KOSHER = 'Kosher',
-  HALAL = 'Halal',
+  VEGETARIAN = "Vegetarian",
+  VEGAN = "Vegan",
+  GLUTEN_FREE = "Gluten Free",
+  DAIRY_FREE = "Dairy Free",
+  KETO = "Keto",
+  PALEO = "Paleo",
+  LOW_CARB = "Low Carb",
+  LOW_SODIUM = "Low Sodium",
+  LOW_SUGAR = "Low Sugar",
+  KOSHER = "Kosher",
+  HALAL = "Halal",
 }

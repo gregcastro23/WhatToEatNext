@@ -326,6 +326,80 @@ export default function NutritionalDashboard({
     setExpandedSection(expandedSection === section ? null : section);
   };
 
+  // Calculate nutrient density score (nutrients per calorie)
+  const calculateNutrientDensity = (totals: WeeklyNutritionTotals): number => {
+    if (totals.totalCalories === 0) return 0;
+
+    // Calculate nutrient score based on protein, fiber, and macros
+    const proteinScore = (totals.totalProtein / totals.totalCalories) * 100;
+    const fiberScore = (totals.totalFiber / totals.totalCalories) * 500;
+
+    // Higher protein and fiber per calorie = better density
+    const score = Math.min(100, (proteinScore * 2 + fiberScore * 3) / 5 * 100);
+    return Math.round(score);
+  };
+
+  // Calculate meal type percentage of total calories
+  const getMealTypePercentage = (mealType: string): number => {
+    if (!currentMenu || weeklyTotals.totalCalories === 0) return 0;
+
+    let mealTypeCalories = 0;
+    currentMenu.meals.forEach((meal) => {
+      if (meal.mealType === mealType && meal.recipe) {
+        const nutrition = (meal.recipe as any).nutritionalProfile || meal.recipe.nutrition;
+        if (nutrition?.calories) {
+          mealTypeCalories += nutrition.calories * (meal.servings || 1);
+        }
+      }
+    });
+
+    return Math.round((mealTypeCalories / weeklyTotals.totalCalories) * 100);
+  };
+
+  // Calculate unique ingredient count
+  const calculateIngredientVariety = (): number => {
+    if (!currentMenu) return 0;
+
+    const uniqueIngredients = new Set<string>();
+    currentMenu.meals.forEach((meal) => {
+      if (meal.recipe?.ingredients) {
+        meal.recipe.ingredients.forEach((ing) => {
+          uniqueIngredients.add(ing.name.toLowerCase());
+        });
+      }
+    });
+
+    return uniqueIngredients.size;
+  };
+
+  // Calculate overall holistic nutrition score
+  const calculateHolisticScore = (): number => {
+    const densityScore = calculateNutrientDensity(weeklyTotals);
+    const varietyScore = Math.min(100, (calculateIngredientVariety() / 30) * 100);
+    const fiberScore = Math.min(100, ((weeklyTotals.totalFiber / 7) / 30) * 100);
+
+    // Meal balance score - closer to ideal distribution is better
+    const breakfastPct = getMealTypePercentage("breakfast");
+    const lunchPct = getMealTypePercentage("lunch");
+    const dinnerPct = getMealTypePercentage("dinner");
+
+    const balanceScore = 100 - (
+      Math.abs(breakfastPct - 25) +
+      Math.abs(lunchPct - 35) +
+      Math.abs(dinnerPct - 40)
+    );
+
+    // Weighted average
+    const score = (
+      densityScore * 0.3 +
+      varietyScore * 0.25 +
+      fiberScore * 0.2 +
+      Math.max(0, balanceScore) * 0.25
+    );
+
+    return Math.round(score);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -577,6 +651,135 @@ export default function NutritionalDashboard({
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+          </section>
+
+          {/* Holistic Nutrition Section */}
+          <section className="mb-6">
+            <button
+              onClick={() => toggleSection("holistic")}
+              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <h3 className="text-lg font-bold text-gray-800">
+                🌿 Holistic Nutrition Score
+              </h3>
+              <span className="text-gray-600">
+                {expandedSection === "holistic" ? "▼" : "▶"}
+              </span>
+            </button>
+
+            {expandedSection === "holistic" && (
+              <div className="mt-4 space-y-4">
+                {/* Nutrient Density */}
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-semibold text-gray-700">Nutrient Density</h4>
+                    <span className="text-lg font-bold text-green-600">
+                      {calculateNutrientDensity(weeklyTotals)}%
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Measures nutrients per calorie - higher is better
+                  </p>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div
+                      className="h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 transition-all"
+                      style={{ width: `${Math.min(100, calculateNutrientDensity(weeklyTotals))}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Meal Balance */}
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <h4 className="font-semibold text-gray-700 mb-3">Meal Balance</h4>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl mb-1">🌅</div>
+                      <p className="text-xs text-gray-600">Breakfast</p>
+                      <p className="font-bold text-orange-600">
+                        {getMealTypePercentage("breakfast")}%
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl mb-1">☀️</div>
+                      <p className="text-xs text-gray-600">Lunch</p>
+                      <p className="font-bold text-blue-600">
+                        {getMealTypePercentage("lunch")}%
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl mb-1">🌙</div>
+                      <p className="text-xs text-gray-600">Dinner</p>
+                      <p className="font-bold text-purple-600">
+                        {getMealTypePercentage("dinner")}%
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-3 text-center">
+                    Ideal: 25% breakfast, 35% lunch, 40% dinner
+                  </p>
+                </div>
+
+                {/* Ingredient Variety */}
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-semibold text-gray-700">Ingredient Variety</h4>
+                    <span className="text-lg font-bold text-blue-600">
+                      {calculateIngredientVariety()} unique
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Diverse ingredients provide broader nutrition
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-gray-200 rounded-full h-3">
+                      <div
+                        className="h-3 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 transition-all"
+                        style={{ width: `${Math.min(100, (calculateIngredientVariety() / 30) * 100)}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-gray-500">Goal: 30+</span>
+                  </div>
+                </div>
+
+                {/* Fiber Intake */}
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-semibold text-gray-700">Fiber Intake</h4>
+                    <span className="text-lg font-bold text-amber-600">
+                      {Math.round(weeklyTotals.totalFiber / 7)}g/day
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Daily fiber supports gut health and satiety
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-gray-200 rounded-full h-3">
+                      <div
+                        className="h-3 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 transition-all"
+                        style={{ width: `${Math.min(100, ((weeklyTotals.totalFiber / 7) / 30) * 100)}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-gray-500">Goal: 30g</span>
+                  </div>
+                </div>
+
+                {/* Overall Holistic Score */}
+                <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg p-4 border border-purple-300">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-bold text-purple-800">Overall Holistic Score</h4>
+                      <p className="text-sm text-purple-600">
+                        Based on variety, balance, and nutrient density
+                      </p>
+                    </div>
+                    <div className="text-4xl font-bold text-purple-700">
+                      {calculateHolisticScore()}
+                      <span className="text-xl text-purple-500">/100</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </section>

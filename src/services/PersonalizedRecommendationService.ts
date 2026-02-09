@@ -15,7 +15,7 @@ import {
 } from "@/services/ChartComparisonService";
 import type { ChartComparison, MomentChart } from "@/services/ChartComparisonService";
 import type { NatalChart } from "@/types/natalChart";
-import type { ElementalProperties, AlchemicalProperties } from "@/types/alchemy";
+import type { ElementalProperties, AlchemicalProperties, Element } from "@/types/alchemy";
 import { _logger } from "@/lib/logger";
 
 /**
@@ -208,7 +208,7 @@ class PersonalizedRecommendationService {
 
     // Elemental harmony
     const favorableElements = chartComparison.insights.favorableElements;
-    const itemDominantElement = this.getDominantElement(item.elementalProperties);
+    const itemDominantElement = this.getDominantElement(item.elementalProperties) as Element;
 
     if (favorableElements.includes(itemDominantElement)) {
       reasons.push(

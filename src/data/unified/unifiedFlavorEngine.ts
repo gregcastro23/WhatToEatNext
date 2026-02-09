@@ -423,7 +423,7 @@ export class UnifiedFlavorEngine {
     // Manage cache size (LRU eviction)
     if (this.compatibilityCache.size > 2000) {
       const firstKey = this.compatibilityCache.keys().next().value;
-      this.compatibilityCache.delete(firstKey);
+      if (firstKey) this.compatibilityCache.delete(firstKey);
     }
 
     return result;

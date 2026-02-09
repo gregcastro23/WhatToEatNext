@@ -119,6 +119,11 @@ interface MenuPlannerContextType {
     },
   ) => Promise<void>;
 
+  // Meal lock operations
+  lockMeal: (mealSlotId: string) => void;
+  unlockMeal: (mealSlotId: string) => void;
+  isMealLocked: (mealSlotId: string) => boolean;
+
   // Grocery list
   groceryList: GroceryItem[];
   updateGroceryItem: (itemId: string, updates: Partial<GroceryItem>) => void;
@@ -813,6 +818,78 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   }, [currentMenu]);
 
   /**
+   * Lock a meal to prevent changes
+   */
+  const lockMeal = useCallback(
+    (mealSlotId: string) => {
+      if (!currentMenu) return;
+
+      const updatedMeals = currentMenu.meals.map((meal) => {
+        if (meal.id === mealSlotId) {
+          return {
+            ...meal,
+            isLocked: true,
+            updatedAt: new Date(),
+          };
+        }
+        return meal;
+      });
+
+      const updatedMenu = {
+        ...currentMenu,
+        meals: updatedMeals,
+        updatedAt: new Date(),
+      };
+
+      setCurrentMenu(updatedMenu);
+      logger.info(`Locked meal ${mealSlotId}`);
+    },
+    [currentMenu]
+  );
+
+  /**
+   * Unlock a meal to allow changes
+   */
+  const unlockMeal = useCallback(
+    (mealSlotId: string) => {
+      if (!currentMenu) return;
+
+      const updatedMeals = currentMenu.meals.map((meal) => {
+        if (meal.id === mealSlotId) {
+          return {
+            ...meal,
+            isLocked: false,
+            updatedAt: new Date(),
+          };
+        }
+        return meal;
+      });
+
+      const updatedMenu = {
+        ...currentMenu,
+        meals: updatedMeals,
+        updatedAt: new Date(),
+      };
+
+      setCurrentMenu(updatedMenu);
+      logger.info(`Unlocked meal ${mealSlotId}`);
+    },
+    [currentMenu]
+  );
+
+  /**
+   * Check if a meal is locked
+   */
+  const isMealLocked = useCallback(
+    (mealSlotId: string): boolean => {
+      if (!currentMenu) return false;
+      const meal = currentMenu.meals.find((m) => m.id === mealSlotId);
+      return meal?.isLocked ?? false;
+    },
+    [currentMenu]
+  );
+
+  /**
    * Regenerate day with new recommendations
    * TODO: Implement actual recommendation logic in Phase 3
    */
@@ -1370,6 +1447,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       clearWeek,
       regenerateDay,
       generateMealsForDay,
+      lockMeal,
+      unlockMeal,
+      isMealLocked,
       groceryList,
       updateGroceryItem,
       regenerateGroceryList,
@@ -1406,6 +1486,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       clearWeek,
       regenerateDay,
       generateMealsForDay,
+      lockMeal,
+      unlockMeal,
+      isMealLocked,
       groceryList,
       updateGroceryItem,
       regenerateGroceryList,
