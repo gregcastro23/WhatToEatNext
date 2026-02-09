@@ -12,9 +12,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
   // Turbopack configuration (Next.js 16 default bundler)
   // turbopack: {
   //   root: __dirname,
@@ -23,14 +21,16 @@ const nextConfig = {
   //   },
   // },
   // Webpack fallback configuration for path alias resolution
-  webpack: (config) => {
+  webpack: (config, { isServer, webpack }) => {
+    if (config.name === 'edge-server') {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'next/dist/experimental/testmode/server-edge.js': false,
+      };
+    }
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, 'src'),
-    };
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      async_hooks: false,
     };
 
     // Externalize Node.js core modules and 'pg' to prevent bundling them into the client-side
