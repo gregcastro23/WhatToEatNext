@@ -8,6 +8,7 @@ import { _createAstrologicalBridge } from "@/types/bridges/astrologicalBridge";
 import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
+import { createEmptyNutritionalSummary, type NutritionalSummary } from "@/types/nutrition";
 
 // Define a more specific type for dish objects
 interface RawDish {
@@ -682,16 +683,21 @@ export class LocalRecipeService {
       }
 
       // Process nutrition information
-      const nutrition = dish.nutrition
-        ? {
-            calories: dish.nutrition.calories,
-            protein: dish.nutrition.protein,
-            carbs: dish.nutrition.carbs,
-            fat: dish.nutrition.fat,
-            vitamins: dish.nutrition.vitamins || [],
-            minerals: dish.nutrition.minerals || [],
-          }
-        : undefined;
+      let nutrition: NutritionalSummary | undefined;
+      if (dish.nutrition) {
+        const baseNutrition = createEmptyNutritionalSummary();
+        baseNutrition.calories = dish.nutrition.calories ?? 0;
+        baseNutrition.protein = dish.nutrition.protein ?? 0;
+        baseNutrition.carbs = dish.nutrition.carbs ?? 0;
+        baseNutrition.fat = dish.nutrition.fat ?? 0;
+        // The raw dish might have generic vitamins/minerals arrays which are not part of NutritionalSummary
+        // For now, we only map the main macros
+        // If dish.nutrition had specific vitaminA, sodium, etc, they would be mapped here.
+        // Assuming RawDish.nutrition is a simpler type that only has these few properties.
+        nutrition = baseNutrition;
+      } else {
+        nutrition = undefined;
+      }
 
       // Process substitutions
       let substitutions: Array<{ original: string; alternatives: string[] }> =

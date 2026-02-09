@@ -236,10 +236,10 @@ export class UnifiedRecommendationService {
 
     const n = recipe.nutrition;
     check(n.calories, goals.targetCalories, 15);
-    check(n.protein ?? n.macronutrients?.protein, goals.targetProtein, 12);
-    check(n.carbs ?? n.macronutrients?.carbs, goals.targetCarbs, 10);
-    check(n.fat ?? n.macronutrients?.fat, goals.targetFat, 8);
-    check(n.fiber ?? n.macronutrients?.fiber, goals.targetFiber, 5);
+    check(n.protein, goals.targetProtein, 12);
+    check(n.carbs, goals.targetCarbs, 10);
+    check(n.fat, goals.targetFat, 8);
+    check(n.fiber, goals.targetFiber, 5);
 
     if (factors === 0) return 50;
     return Math.max(0, Math.min(100, Math.round(score)));

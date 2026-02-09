@@ -5,6 +5,7 @@ import cuisinesMap from "@/data/cuisines";
 import type { Season, ElementalProperties } from "@/types/alchemy";
 import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
+import { createEmptyNutritionalSummary, type NutritionalSummary } from "@/types/nutrition";
 
 export interface CuisineRecipe {
   id: string;
@@ -320,14 +321,15 @@ export class RecipeCuisineConnector {
       })),
       instructions:
         cuisineRecipe.instructions || cuisineRecipe.preparationSteps || [],
-      nutrition: cuisineRecipe.nutrition || {
-        calories: 0,
-        protein: 0,
-        carbs: 0,
-        fat: 0,
-        vitamins: [],
-        minerals: [],
-      },
+      nutrition: cuisineRecipe.nutrition
+        ? {
+            ...createEmptyNutritionalSummary(),
+            calories: cuisineRecipe.nutrition.calories,
+            protein: cuisineRecipe.nutrition.protein,
+            carbs: cuisineRecipe.nutrition.carbs,
+            fat: cuisineRecipe.nutrition.fat,
+          }
+        : undefined,
       timeToMake: this.formatTimeToMake(
         cuisineRecipe.prepTime,
         cuisineRecipe.cookTime,

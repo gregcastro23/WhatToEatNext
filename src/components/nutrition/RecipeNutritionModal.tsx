@@ -107,36 +107,41 @@ function extractFullNutrition(
   if (!n) return base;
 
   base.calories = (n.calories ?? 0) * servings;
-  base.protein = (n.protein ?? n.macronutrients?.protein ?? 0) * servings;
-  base.carbs = (n.carbs ?? n.macronutrients?.carbs ?? 0) * servings;
-  base.fat = (n.fat ?? n.macronutrients?.fat ?? 0) * servings;
-  base.fiber = (n.macronutrients?.fiber ?? 0) * servings;
+  base.protein = (n.protein ?? 0) * servings;
+  base.carbs = (n.carbs ?? 0) * servings;
+  base.fat = (n.fat ?? 0) * servings;
+  base.fiber = (n.fiber ?? 0) * servings;
 
-  if (n.micronutrients?.vitamins) {
-    const v = n.micronutrients.vitamins;
-    base.vitaminA = (v["vitaminA"] ?? v["A"] ?? 0) * servings;
-    base.vitaminC = (v["vitaminC"] ?? v["C"] ?? 0) * servings;
-    base.vitaminD = (v["vitaminD"] ?? v["D"] ?? 0) * servings;
-    base.vitaminE = (v["vitaminE"] ?? v["E"] ?? 0) * servings;
-    base.vitaminK = (v["vitaminK"] ?? v["K"] ?? 0) * servings;
-    base.thiamin = (v["thiamin"] ?? v["B1"] ?? 0) * servings;
-    base.riboflavin = (v["riboflavin"] ?? v["B2"] ?? 0) * servings;
-    base.niacin = (v["niacin"] ?? v["B3"] ?? 0) * servings;
-    base.vitaminB6 = (v["vitaminB6"] ?? v["B6"] ?? 0) * servings;
-    base.folate = (v["folate"] ?? 0) * servings;
-    base.vitaminB12 = (v["vitaminB12"] ?? v["B12"] ?? 0) * servings;
-  }
+    base.vitaminA = (n.vitaminA ?? 0) * servings;
+    base.vitaminD = (n.vitaminD ?? 0) * servings;
+    base.vitaminE = (n.vitaminE ?? 0) * servings;
+    base.vitaminK = (n.vitaminK ?? 0) * servings;
+    base.vitaminC = (n.vitaminC ?? 0) * servings;
+    base.thiamin = (n.thiamin ?? 0) * servings;
+    base.riboflavin = (n.riboflavin ?? 0) * servings;
+    base.niacin = (n.niacin ?? 0) * servings;
+    base.pantothenicAcid = (n.pantothenicAcid ?? 0) * servings;
+    base.vitaminB6 = (n.vitaminB6 ?? 0) * servings;
+    base.biotin = (n.biotin ?? 0) * servings;
+    base.folate = (n.folate ?? 0) * servings;
+    base.vitaminB12 = (n.vitaminB12 ?? 0) * servings;
+    base.choline = (n.choline ?? 0) * servings;
 
-  if (n.micronutrients?.minerals) {
-    const m = n.micronutrients.minerals;
-    base.calcium = (m["calcium"] ?? 0) * servings;
-    base.iron = (m["iron"] ?? 0) * servings;
-    base.magnesium = (m["magnesium"] ?? 0) * servings;
-    base.phosphorus = (m["phosphorus"] ?? 0) * servings;
-    base.potassium = (m["potassium"] ?? 0) * servings;
-    base.sodium = (m["sodium"] ?? 0) * servings;
-    base.zinc = (m["zinc"] ?? 0) * servings;
-  }
+    base.calcium = (n.calcium ?? 0) * servings;
+    base.phosphorus = (n.phosphorus ?? 0) * servings;
+    base.magnesium = (n.magnesium ?? 0) * servings;
+    base.sodium = (n.sodium ?? 0) * servings;
+    base.potassium = (n.potassium ?? 0) * servings;
+    base.iron = (n.iron ?? 0) * servings;
+    base.zinc = (n.zinc ?? 0) * servings;
+    base.chloride = (n.chloride ?? 0) * servings;
+    base.copper = (n.copper ?? 0) * servings;
+    base.manganese = (n.manganese ?? 0) * servings;
+    base.selenium = (n.selenium ?? 0) * servings;
+    base.iodine = (n.iodine ?? 0) * servings;
+    base.chromium = (n.chromium ?? 0) * servings;
+    base.molybdenum = (n.molybdenum ?? 0) * servings;
+    base.fluoride = (n.fluoride ?? 0) * servings;
 
   return base;
 }
@@ -218,9 +223,9 @@ export function RecipeNutritionModal({
                     {servings} servings
                   </p>
                 )}
-                {recipe.nutrition?.servingSize && (
+                {recipe.servingSize && (
                   <p className="text-sm text-gray-600">
-                    Serving size: {recipe.nutrition.servingSize}
+                    Serving size: {recipe.servingSize}
                   </p>
                 )}
 

@@ -137,26 +137,7 @@ export interface Recipe {
   };
 
   // Nutritional information
-  nutrition?: {
-    calories?: number;
-    servingSize?: string;
-    protein?: number;
-    carbs?: number;
-    fat?: number;
-    fiber?: number;
-    macronutrients?: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
-    };
-    micronutrients?: {
-      vitamins: Record<string, number>;
-      minerals: Record<string, number>;
-    };
-    vitamins?: string[];
-    minerals?: string[];
-  };
+  nutrition?: NutritionalSummary;
 
   // Chef's notes and guidance
   preparationNotes?: string;
@@ -210,6 +191,12 @@ export interface Recipe {
     _planetaryScore: number;
     _seasonalScore: number;
   };
+
+  // 6-Metric SMES Grid
+  spirit?: number;
+  essence?: number;
+  matter?: number;
+  substance?: number;
   isEnvironmentalMatch?: boolean;
   environmentalMatchDetails?: string;
   optimal_cooking_window?: OptimalCookingWindow;
@@ -576,6 +563,7 @@ export interface RecipeNutrition {
     protein?: number;
     carbs?: number;
     fat?: number;
+    fiber?: number;
   };
   micronutrients?: {
     vitamins?: Record<string, number>;

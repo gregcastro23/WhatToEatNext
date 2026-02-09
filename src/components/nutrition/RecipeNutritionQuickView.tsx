@@ -33,23 +33,15 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
   if (!n) return null;
 
   const calories = (n.calories ?? 0) * servings;
-  const protein = (n.protein ?? n.macronutrients?.protein ?? 0) * servings;
-  const carbs = (n.carbs ?? n.macronutrients?.carbs ?? 0) * servings;
-  const fat = (n.fat ?? n.macronutrients?.fat ?? 0) * servings;
-  const fiber = (n.macronutrients?.fiber ?? 0) * servings;
+  const protein = (n.protein ?? 0) * servings;
+  const carbs = (n.carbs ?? 0) * servings;
+  const fat = (n.fat ?? 0) * servings;
+  const fiber = (n.fiber ?? 0) * servings;
 
   const microValues: Record<string, number> = {};
-  if (n.micronutrients?.vitamins) {
-    microValues.vitaminC =
-      (n.micronutrients.vitamins["vitaminC"] ??
-        n.micronutrients.vitamins["C"] ??
-        0) * servings;
-  }
-  if (n.micronutrients?.minerals) {
-    microValues.calcium =
-      (n.micronutrients.minerals["calcium"] ?? 0) * servings;
-    microValues.iron = (n.micronutrients.minerals["iron"] ?? 0) * servings;
-  }
+    microValues.vitaminC = (n.vitaminC ?? 0) * servings;
+    microValues.calcium = (n.calcium ?? 0) * servings;
+    microValues.iron = (n.iron ?? 0) * servings;
   microValues.fiber = fiber;
   microValues.protein = protein;
 
