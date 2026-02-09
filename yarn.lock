@@ -2211,14 +2211,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-android-arm64@npm:13.2.4":
-  version: 13.2.4
-  resolution: "@next/swc-android-arm64@npm:13.2.4"
-  checksum: 8d5ae41ad3211baffefe08ac26002641941fa739fd7b63b8ed5386221d3a84cc4dae2c073d694a2873e0d7cfd41ff401604b01dac498ddaab74ea5e3f67e8970
-  conditions: os=android & cpu=arm64
-  languageName: node
-  linkType: hard
-
 "@next/swc-darwin-arm64@npm:15.5.7":
   version: 15.5.7
   resolution: "@next/swc-darwin-arm64@npm:15.5.7"
@@ -11867,11 +11859,11 @@ __metadata:
   linkType: hard
 
 "ssri@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "ssri@npm:13.0.0"
+  version: 13.0.1
+  resolution: "ssri@npm:13.0.1"
   dependencies:
     minipass: ^7.0.3
-  checksum: 9705dff9e686b11f3035fb4c3d44ce690359a15a54adcd6a18951f2763f670877321178dc72c37a2b804dba3287ecaa48726dbd0cff79b2715b1cc24521b3af3
+  checksum: 42acbdbd485e9a5a198de2198b6fd474d1e84bff6bea5d95aa0a8aa26ea78ce44f2097ac481e767f0406de7ceccfa4669584116d4fcf2d4e2dba7034d7c34930
   languageName: node
   linkType: hard
 
@@ -12881,7 +12873,6 @@ __metadata:
     "@hookform/resolvers": ^5.2.2
     "@mui/icons-material": ^5.11.16
     "@mui/material": ^5.13.6
-    "@next/swc-android-arm64": 13.2.4
     "@radix-ui/react-tabs": ^1.1.12
     "@tailwindcss/line-clamp": ^0.4.4
     "@testing-library/dom": ^10.4.0

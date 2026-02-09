@@ -26,6 +26,7 @@ const GOOD_SOURCE_THRESHOLDS: Record<
   calcium: { min: 130, label: "Calcium", icon: "🦴" },
   iron: { min: 2, label: "Iron", icon: "🔩" },
   protein: { min: 20, label: "Protein", icon: "💪" },
+  sodium: { min: 480, label: "Sodium", icon: "🧂" },
 };
 
 function extractNutritionValues(recipe: Recipe, servings: number) {
@@ -37,6 +38,7 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
   const carbs = (n.carbs ?? 0) * servings;
   const fat = (n.fat ?? 0) * servings;
   const fiber = (n.fiber ?? 0) * servings;
+  const sodium = (n.sodium ?? 0) * servings;
 
   const microValues: Record<string, number> = {};
   microValues.vitaminC = (n.vitaminC ?? 0) * servings;
@@ -44,8 +46,9 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
   microValues.iron = (n.iron ?? 0) * servings;
   microValues.fiber = fiber;
   microValues.protein = protein;
+  microValues.sodium = sodium;
 
-  return { calories, protein, carbs, fat, fiber, microValues };
+  return { calories, protein, carbs, fat, fiber, sodium, microValues };
 }
 
 function getGoodSourceBadges(

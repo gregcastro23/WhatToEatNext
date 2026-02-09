@@ -28,6 +28,10 @@ const nextConfig = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, 'src'),
     };
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      async_hooks: false,
+    };
 
     // Externalize Node.js core modules and 'pg' to prevent bundling them into the client-side
     // This is crucial for Vercel deployment where these modules are not available client-side
