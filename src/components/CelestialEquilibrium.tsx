@@ -19,7 +19,8 @@ interface CelestialEquilibriumProps {
     matter_score: number;
     substance_score: number;
   } | null;
-  guestAlchemicalQuantities?: { // New prop for guest data
+  guestAlchemicalQuantities?: {
+    // New prop for guest data
     spirit_score: number;
     essence_score: number;
     matter_score: number;
@@ -108,17 +109,23 @@ export default function CelestialEquilibrium({
   const polygonPoints = points.map((p) => `${p.x},${p.y}`).join(" ");
 
   // Guest chart data
-  const guestData = guestAlchemicalQuantities ? [
-    { name: "Spirit", value: guestAlchemicalQuantities.spirit_score },
-    { name: "Essence", value: guestAlchemicalQuantities.essence_score },
-    { name: "Matter", value: guestAlchemicalQuantities.matter_score },
-    { name: "Substance", value: guestAlchemicalQuantities.substance_score },
-  ] : null;
+  const guestData = guestAlchemicalQuantities
+    ? [
+        { name: "Spirit", value: guestAlchemicalQuantities.spirit_score },
+        { name: "Essence", value: guestAlchemicalQuantities.essence_score },
+        { name: "Matter", value: guestAlchemicalQuantities.matter_score },
+        { name: "Substance", value: guestAlchemicalQuantities.substance_score },
+      ]
+    : null;
 
-  const guestPoints = guestData ? guestData.map((item, i) =>
-    getCoordinates(item.value, i, guestData.length),
-  ) : null;
-  const guestPolygonPoints = guestPoints ? guestPoints.map((p) => `${p.x},${p.y}`).join(" ") : null;
+  const guestPoints = guestData
+    ? guestData.map((item, i) =>
+        getCoordinates(item.value, i, guestData.length),
+      )
+    : null;
+  const guestPolygonPoints = guestPoints
+    ? guestPoints.map((p) => `${p.x},${p.y}`).join(" ")
+    : null;
 
   return (
     <div className="w-full flex flex-col items-center py-4">
@@ -184,7 +191,13 @@ export default function CelestialEquilibrium({
               strokeWidth="1.5"
             />
             {guestPoints.map((p, i) => (
-              <circle key={`guest-point-${i}`} cx={p.x} cy={p.y} r="3" fill="#16a34a" />
+              <circle
+                key={`guest-point-${i}`}
+                cx={p.x}
+                cy={p.y}
+                r="3"
+                fill="#16a34a"
+              />
             ))}
           </>
         )}

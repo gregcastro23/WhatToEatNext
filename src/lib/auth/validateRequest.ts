@@ -7,7 +7,7 @@
  */
 
 import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
-import { TextEncoder } from "util";
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";

@@ -137,6 +137,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.6",
+    "@next/swc-android-arm64": "13.2.4",
     "@radix-ui/react-tabs": "^1.1.12",
     "@types/jsonwebtoken": "^9.0.10",
     "astronomy-engine": "^2.1.17",
