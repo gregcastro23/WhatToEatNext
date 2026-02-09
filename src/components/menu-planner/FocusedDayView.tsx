@@ -8,15 +8,29 @@
  * @created 2026-02-01
  */
 
-import React, { useState, useCallback, useMemo, useRef, type TouchEvent as ReactTouchEvent } from "react";
-import type { MealSlot as MealSlotType, MealType, DayOfWeek } from "@/types/menuPlanner";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+  type TouchEvent as ReactTouchEvent,
+} from "react";
+import type {
+  MealSlot as MealSlotType,
+  MealType,
+  DayOfWeek,
+} from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
-import { getDayName, getPlanetaryDayCharacteristics, formatDateForDisplay } from "@/types/menuPlanner";
+import {
+  getDayName,
+  getPlanetaryDayCharacteristics,
+  formatDateForDisplay,
+} from "@/types/menuPlanner";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { searchRecipes, type ScoredRecipe } from "@/utils/recipeSearchEngine";
 import { createLogger } from "@/utils/logger";
-import RecipeNutritionQuickView from "@/components/nutrition/RecipeNutritionQuickView";
+import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
 import Link from "next/link";
 
 const logger = createLogger("FocusedDayView");
@@ -115,7 +129,9 @@ function SuggestionCarousel({
       <div className="flex items-center justify-center h-64 bg-gray-50 rounded-xl">
         <div className="text-center text-gray-500">
           <p>No suggestions available</p>
-          <p className="text-sm mt-1">Try generating suggestions or search manually</p>
+          <p className="text-sm mt-1">
+            Try generating suggestions or search manually
+          </p>
         </div>
       </div>
     );
@@ -136,7 +152,9 @@ function SuggestionCarousel({
         onClick={handlePrev}
         disabled={currentIndex === 0}
         className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
-          currentIndex === 0 ? "opacity-30 cursor-not-allowed" : "hover:bg-gray-100 hover:scale-110"
+          currentIndex === 0
+            ? "opacity-30 cursor-not-allowed"
+            : "hover:bg-gray-100 hover:scale-110"
         }`}
       >
         ←
@@ -146,7 +164,9 @@ function SuggestionCarousel({
         onClick={handleNext}
         disabled={currentIndex === suggestions.length - 1}
         className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
-          currentIndex === suggestions.length - 1 ? "opacity-30 cursor-not-allowed" : "hover:bg-gray-100 hover:scale-110"
+          currentIndex === suggestions.length - 1
+            ? "opacity-30 cursor-not-allowed"
+            : "hover:bg-gray-100 hover:scale-110"
         }`}
       >
         →
@@ -157,7 +177,9 @@ function SuggestionCarousel({
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h4 className="text-xl font-bold text-gray-800">{current.recipe.name}</h4>
+            <h4 className="text-xl font-bold text-gray-800">
+              {current.recipe.name}
+            </h4>
             {current.recipe.cuisine && (
               <span className="inline-block mt-1 px-2 py-0.5 bg-blue-100 text-blue-700 text-sm rounded">
                 {current.recipe.cuisine}
@@ -173,7 +195,9 @@ function SuggestionCarousel({
 
         {/* Description */}
         {current.recipe.description && (
-          <p className="text-gray-600 mb-4 line-clamp-2">{current.recipe.description}</p>
+          <p className="text-gray-600 mb-4 line-clamp-2">
+            {current.recipe.description}
+          </p>
         )}
 
         {/* Quick Info */}
@@ -200,32 +224,44 @@ function SuggestionCarousel({
 
         {/* Nutrition Quick View */}
         <div className="mb-4">
-          <RecipeNutritionQuickView recipe={current.recipe} servings={2} compact={false} />
+          <RecipeNutritionQuickView
+            recipe={current.recipe}
+            servings={2}
+            compact={false}
+          />
         </div>
 
         {/* Ingredients Preview */}
-        {current.recipe.ingredients && current.recipe.ingredients.length > 0 && (
-          <div className="mb-4">
-            <h5 className="font-semibold text-gray-700 mb-2">Key Ingredients:</h5>
-            <div className="flex flex-wrap gap-2">
-              {current.recipe.ingredients.slice(0, 6).map((ing, idx) => (
-                <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">
-                  {ing.name}
-                </span>
-              ))}
-              {current.recipe.ingredients.length > 6 && (
-                <span className="px-2 py-1 bg-gray-100 text-gray-500 text-sm rounded">
-                  +{current.recipe.ingredients.length - 6} more
-                </span>
-              )}
+        {current.recipe.ingredients &&
+          current.recipe.ingredients.length > 0 && (
+            <div className="mb-4">
+              <h5 className="font-semibold text-gray-700 mb-2">
+                Key Ingredients:
+              </h5>
+              <div className="flex flex-wrap gap-2">
+                {current.recipe.ingredients.slice(0, 6).map((ing, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded"
+                  >
+                    {ing.name}
+                  </span>
+                ))}
+                {current.recipe.ingredients.length > 6 && (
+                  <span className="px-2 py-1 bg-gray-100 text-gray-500 text-sm rounded">
+                    +{current.recipe.ingredients.length - 6} more
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* Why this recipe */}
         {current.reasons.length > 0 && (
           <div className="mb-4 p-3 bg-purple-50 rounded-lg">
-            <h5 className="font-semibold text-purple-700 mb-1 text-sm">Why this recipe?</h5>
+            <h5 className="font-semibold text-purple-700 mb-1 text-sm">
+              Why this recipe?
+            </h5>
             <ul className="text-sm text-purple-600 space-y-0.5">
               {current.reasons.slice(0, 3).map((reason, idx) => (
                 <li key={idx} className="flex items-center gap-1">
@@ -262,7 +298,9 @@ function SuggestionCarousel({
             key={idx}
             onClick={() => onIndexChange(idx)}
             className={`w-2 h-2 rounded-full transition-all ${
-              idx === currentIndex ? "bg-purple-500 w-4" : "bg-gray-300 hover:bg-gray-400"
+              idx === currentIndex
+                ? "bg-purple-500 w-4"
+                : "bg-gray-300 hover:bg-gray-400"
             }`}
           />
         ))}
@@ -400,11 +438,30 @@ function FocusedMealSlot({
     snack: "🍎",
   };
 
-  const mealTypeColors: Record<MealType, { bg: string; border: string; text: string }> = {
-    breakfast: { bg: "bg-orange-50", border: "border-orange-300", text: "text-orange-700" },
-    lunch: { bg: "bg-blue-50", border: "border-blue-300", text: "text-blue-700" },
-    dinner: { bg: "bg-purple-50", border: "border-purple-300", text: "text-purple-700" },
-    snack: { bg: "bg-green-50", border: "border-green-300", text: "text-green-700" },
+  const mealTypeColors: Record<
+    MealType,
+    { bg: string; border: string; text: string }
+  > = {
+    breakfast: {
+      bg: "bg-orange-50",
+      border: "border-orange-300",
+      text: "text-orange-700",
+    },
+    lunch: {
+      bg: "bg-blue-50",
+      border: "border-blue-300",
+      text: "text-blue-700",
+    },
+    dinner: {
+      bg: "bg-purple-50",
+      border: "border-purple-300",
+      text: "text-purple-700",
+    },
+    snack: {
+      bg: "bg-green-50",
+      border: "border-green-300",
+      text: "text-green-700",
+    },
   };
 
   const colors = mealTypeColors[mealSlot.mealType];
@@ -449,14 +506,24 @@ function FocusedMealSlot({
       ) : hasRecipe ? (
         <div className="bg-white rounded-lg p-4 border border-gray-200">
           <div className="flex items-start justify-between mb-2">
-            <h4 className="font-semibold text-gray-800">{mealSlot.recipe!.name}</h4>
-            <span className="text-sm text-gray-500">Servings: {mealSlot.servings}</span>
+            <h4 className="font-semibold text-gray-800">
+              {mealSlot.recipe!.name}
+            </h4>
+            <span className="text-sm text-gray-500">
+              Servings: {mealSlot.servings}
+            </span>
           </div>
           {mealSlot.recipe!.description && (
-            <p className="text-sm text-gray-600 line-clamp-2">{mealSlot.recipe!.description}</p>
+            <p className="text-sm text-gray-600 line-clamp-2">
+              {mealSlot.recipe!.description}
+            </p>
           )}
           <div className="mt-3 pt-3 border-t border-gray-100">
-            <RecipeNutritionQuickView recipe={mealSlot.recipe!} servings={mealSlot.servings} compact />
+            <RecipeNutritionQuickView
+              recipe={mealSlot.recipe!}
+              servings={mealSlot.servings}
+              compact
+            />
           </div>
         </div>
       ) : (
@@ -464,7 +531,9 @@ function FocusedMealSlot({
           {/* Generate Suggestions Button */}
           {suggestions.length === 0 && !isLoadingSuggestions && (
             <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">No recipe selected for this meal</p>
+              <p className="text-gray-500 mb-4">
+                No recipe selected for this meal
+              </p>
               <button
                 onClick={onGenerateSuggestions}
                 className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
@@ -500,8 +569,11 @@ export default function FocusedDayView({
   onClose,
   onDayChange,
 }: FocusedDayViewProps) {
-  const { addMealToSlot, removeMealFromSlot, lockMeal, unlockMeal } = useMenuPlanner();
-  const [suggestions, setSuggestions] = useState<Record<MealType, MealSuggestion[]>>({
+  const { addMealToSlot, removeMealFromSlot, lockMeal, unlockMeal } =
+    useMenuPlanner();
+  const [suggestions, setSuggestions] = useState<
+    Record<MealType, MealSuggestion[]>
+  >({
     breakfast: [],
     lunch: [],
     dinner: [],
@@ -512,48 +584,60 @@ export default function FocusedDayView({
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);
 
   // Generate suggestions for a specific meal type
-  const generateSuggestions = useCallback(async (mealType: MealType) => {
-    setLoadingMealType(mealType);
+  const generateSuggestions = useCallback(
+    async (mealType: MealType) => {
+      setLoadingMealType(mealType);
 
-    try {
-      const service = UnifiedRecipeService.getInstance();
-      const allRecipes = await service.getAllRecipes() as unknown as Recipe[];
+      try {
+        const service = UnifiedRecipeService.getInstance();
+        const allRecipes =
+          (await service.getAllRecipes()) as unknown as Recipe[];
 
-      // Search for recipes matching this meal type and day
-      const results = searchRecipes(allRecipes, {
-        mealType: [mealType],
-        planetaryDay: dayOfWeek,
-        limit: 10,
-      });
+        // Search for recipes matching this meal type and day
+        const results = searchRecipes(allRecipes, {
+          mealType: [mealType],
+          planetaryDay: dayOfWeek,
+          limit: 10,
+        });
 
-      // Map to suggestions with reasons
-      const mealSuggestions: MealSuggestion[] = results.map((recipe) => ({
-        recipe,
-        score: recipe.searchScore / 100,
-        reasons: generateReasons(recipe, mealType, dayOfWeek),
-      }));
+        // Map to suggestions with reasons
+        const mealSuggestions: MealSuggestion[] = results.map((recipe) => ({
+          recipe,
+          score: recipe.searchScore / 100,
+          reasons: generateReasons(recipe, mealType, dayOfWeek),
+        }));
 
-      setSuggestions(prev => ({
-        ...prev,
-        [mealType]: mealSuggestions,
-      }));
+        setSuggestions((prev) => ({
+          ...prev,
+          [mealType]: mealSuggestions,
+        }));
 
-      logger.info(`Generated ${mealSuggestions.length} suggestions for ${mealType}`);
-    } catch (err) {
-      logger.error(`Failed to generate suggestions for ${mealType}:`, err);
-    } finally {
-      setLoadingMealType(null);
-    }
-  }, [dayOfWeek]);
+        logger.info(
+          `Generated ${mealSuggestions.length} suggestions for ${mealType}`,
+        );
+      } catch (err) {
+        logger.error(`Failed to generate suggestions for ${mealType}:`, err);
+      } finally {
+        setLoadingMealType(null);
+      }
+    },
+    [dayOfWeek],
+  );
 
   // Generate reasons for why a recipe was suggested
-  const generateReasons = (recipe: ScoredRecipe, mealType: MealType, day: DayOfWeek): string[] => {
+  const generateReasons = (
+    recipe: ScoredRecipe,
+    mealType: MealType,
+    day: DayOfWeek,
+  ): string[] => {
     const reasons: string[] = [];
 
     // Meal type alignment
     if (recipe.mealType) {
-      const types = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
-      if (types.map(t => t.toLowerCase()).includes(mealType)) {
+      const types = Array.isArray(recipe.mealType)
+        ? recipe.mealType
+        : [recipe.mealType];
+      if (types.map((t) => t.toLowerCase()).includes(mealType)) {
         reasons.push(`Perfect for ${mealType}`);
       }
     }
@@ -571,7 +655,11 @@ export default function FocusedDayView({
 
     // Nutritional reasons
     if (recipe.nutrition) {
-      if (mealType === "breakfast" && recipe.nutrition.calories && recipe.nutrition.calories < 400) {
+      if (
+        mealType === "breakfast" &&
+        recipe.nutrition.calories &&
+        recipe.nutrition.calories < 400
+      ) {
         reasons.push("Light and energizing start");
       }
       if (recipe.nutrition.protein && recipe.nutrition.protein > 20) {
@@ -611,14 +699,14 @@ export default function FocusedDayView({
 
   // Count locked meals for display
   const lockedMealCount = useMemo(() => {
-    return meals.filter(m => m.isLocked).length;
+    return meals.filter((m) => m.isLocked).length;
   }, [meals]);
 
   // Sort meals by type
   const mealTypes: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
-  const sortedMeals = mealTypes.map(type =>
-    meals.find(m => m.mealType === type)
-  ).filter((m): m is MealSlotType => !!m);
+  const sortedMeals = mealTypes
+    .map((type) => meals.find((m) => m.mealType === type))
+    .filter((m): m is MealSlotType => !!m);
 
   // Planetary symbols
   const planetSymbols: Record<string, string> = {
@@ -648,10 +736,16 @@ export default function FocusedDayView({
 
               <div>
                 <div className="flex items-center gap-3">
-                  <span className="text-3xl">{planetSymbols[characteristics.planet]}</span>
+                  <span className="text-3xl">
+                    {planetSymbols[characteristics.planet]}
+                  </span>
                   <div>
-                    <h2 className="text-2xl font-bold">{getDayName(dayOfWeek)}</h2>
-                    <p className="text-purple-200">{formatDateForDisplay(date)}</p>
+                    <h2 className="text-2xl font-bold">
+                      {getDayName(dayOfWeek)}
+                    </h2>
+                    <p className="text-purple-200">
+                      {formatDateForDisplay(date)}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -676,7 +770,9 @@ export default function FocusedDayView({
           {/* Planetary Guidance */}
           <div className="mt-4 p-3 bg-white bg-opacity-10 rounded-lg">
             <p className="text-sm">
-              <span className="font-semibold">{characteristics.planet} Day:</span>{" "}
+              <span className="font-semibold">
+                {characteristics.planet} Day:
+              </span>{" "}
               {characteristics.mealGuidance}
             </p>
           </div>
@@ -691,11 +787,15 @@ export default function FocusedDayView({
               isLocked={mealSlot.isLocked ?? false}
               onLock={() => handleLock(mealSlot.id)}
               onUnlock={() => handleUnlock(mealSlot.id)}
-              onSelectRecipe={(recipe) => handleSelectRecipe(mealSlot.mealType, recipe)}
+              onSelectRecipe={(recipe) =>
+                handleSelectRecipe(mealSlot.mealType, recipe)
+              }
               onRemoveRecipe={() => removeMealFromSlot(mealSlot.id)}
               suggestions={suggestions[mealSlot.mealType]}
               isLoadingSuggestions={loadingMealType === mealSlot.mealType}
-              onGenerateSuggestions={() => generateSuggestions(mealSlot.mealType)}
+              onGenerateSuggestions={() =>
+                generateSuggestions(mealSlot.mealType)
+              }
             />
           ))}
         </div>

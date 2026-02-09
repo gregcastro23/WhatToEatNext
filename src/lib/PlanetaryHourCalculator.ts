@@ -1,6 +1,7 @@
 import SunCalc from "suncalc";
 import { _logger } from "@/lib/logger";
 import type { Planet } from "@/types/celestial";
+import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
 export class PlanetaryHourCalculator {
   // Planetary hour configuration according to traditional planetary rulers
@@ -57,8 +58,8 @@ export class PlanetaryHourCalculator {
   ];
 
   private coordinates = {
-    latitude: 40.7128, // Default to New York,
-    longitude: -74.006,
+    latitude: FOREST_HILLS_COORDINATES.latitude,
+    longitude: FOREST_HILLS_COORDINATES.longitude,
   };
 
   constructor(latitude?: number, longitude?: number) {

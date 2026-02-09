@@ -87,17 +87,6 @@ export interface ExtendedRecipe extends Recipe {
     condiments?: string[];
   };
 
-  nutrition?: {
-    calories?: number;
-    servingSize?: string;
-    macronutrients?: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
-    };
-  };
-
   seasonalIngredients?: string[];
   chefNotes?: string[];
   commonMistakes?: string[];

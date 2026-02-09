@@ -13,8 +13,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import RecipeSelector from "./RecipeSelector";
-import RecipeNutritionQuickView from "@/components/nutrition/RecipeNutritionQuickView";
-import RecipeNutritionModal from "@/components/nutrition/RecipeNutritionModal";
+import RecipeRitualModal from "./RecipeRitualModal";
+import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
+import { RecipeNutritionModal } from "@/components/nutrition/RecipeNutritionModal";
 
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
 import { getMealTypeCharacteristics } from "@/types/menuPlanner";
@@ -59,31 +60,29 @@ function getMealTypeColors(mealType: MealType): {
   border: string;
   text: string;
 } {
-  const colors: Record<
-    MealType,
-    { bg: string; border: string; text: string }
-  > = {
-    breakfast: {
-      bg: "bg-gradient-to-br from-orange-50 to-yellow-50",
-      border: "border-orange-300",
-      text: "text-orange-700",
-    },
-    lunch: {
-      bg: "bg-gradient-to-br from-blue-50 to-cyan-50",
-      border: "border-blue-300",
-      text: "text-blue-700",
-    },
-    dinner: {
-      bg: "bg-gradient-to-br from-purple-50 to-indigo-50",
-      border: "border-purple-300",
-      text: "text-purple-700",
-    },
-    snack: {
-      bg: "bg-gradient-to-br from-green-50 to-emerald-50",
-      border: "border-green-300",
-      text: "text-green-700",
-    },
-  };
+  const colors: Record<MealType, { bg: string; border: string; text: string }> =
+    {
+      breakfast: {
+        bg: "bg-gradient-to-br from-orange-50 to-yellow-50",
+        border: "border-orange-300",
+        text: "text-orange-700",
+      },
+      lunch: {
+        bg: "bg-gradient-to-br from-blue-50 to-cyan-50",
+        border: "border-blue-300",
+        text: "text-blue-700",
+      },
+      dinner: {
+        bg: "bg-gradient-to-br from-purple-50 to-indigo-50",
+        border: "border-purple-300",
+        text: "text-purple-700",
+      },
+      snack: {
+        bg: "bg-gradient-to-br from-green-50 to-emerald-50",
+        border: "border-green-300",
+        text: "text-green-700",
+      },
+    };
   return colors[mealType];
 }
 
@@ -104,7 +103,9 @@ function EmptyMealSlot({
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-4 text-center">
-      <div className="text-4xl mb-2 opacity-30">{getMealTypeIcon(mealType)}</div>
+      <div className="text-4xl mb-2 opacity-30">
+        {getMealTypeIcon(mealType)}
+      </div>
       <p className={`text-sm font-medium mb-1 ${colors.text}`}>
         Add {mealType}
       </p>
@@ -152,7 +153,47 @@ function RecipeDisplay({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showNutritionModal, setShowNutritionModal] = useState(false);
+  const [isRitualModalOpen, setIsRitualModalOpen] = useState(false);
+  const [ritualInstruction, setRitualInstruction] = useState("");
+  const [dominantTransit, setDominantTransit] = useState<string | null>(null);
+  const [totalPotencyScore, setTotalPotencyScore] = useState<number | null>(
+    null,
+  );
+  const [alchemicalQuantities, setAlchemicalQuantities] = useState<any>(null); // TODO: Define proper type
   const colors = getMealTypeColors(mealType);
+
+  const handleEnvironmentalMatchClick = async () => {
+    if (!recipe.id) return;
+    try {
+      const response = await fetch(
+        "/api/rituals/generate-cooking-instruction",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ recipe_id: recipe.id }),
+        },
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch ritual instruction");
+      }
+      const data = await response.json();
+      setRitualInstruction(data.ritual_instruction);
+      setDominantTransit(data.dominant_transit);
+      setTotalPotencyScore(data.total_potency_score);
+      setAlchemicalQuantities(data.alchemical_quantities);
+      setIsRitualModalOpen(true);
+    } catch (error) {
+      console.error(error);
+      // Handle error, e.g., show a default message
+      setRitualInstruction("Cook with mindfulness and enjoy the moment.");
+      setDominantTransit(null);
+      setTotalPotencyScore(null);
+      setAlchemicalQuantities(null);
+      setIsRitualModalOpen(true);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -183,7 +224,6 @@ function RecipeDisplay({
           </button>
         </div>
       </div>
-
       {/* Servings Control */}
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs text-gray-600">Servings:</span>
@@ -195,7 +235,9 @@ function RecipeDisplay({
           >
             −
           </button>
-          <span className="w-6 text-center text-sm font-medium">{servings}</span>
+          <span className="w-6 text-center text-sm font-medium">
+            {servings}
+          </span>
           <button
             onClick={() => onUpdateServings?.(servings + 1)}
             className="w-5 h-5 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xs"
@@ -204,7 +246,6 @@ function RecipeDisplay({
           </button>
         </div>
       </div>
-
       {/* Quick Info */}
       <div className="text-xs text-gray-600 space-y-1 mb-2">
         {recipe.prepTime && (
@@ -214,7 +255,30 @@ function RecipeDisplay({
           </div>
         )}
       </div>
-
+      {/* Environmental Match Indicator */}
+      {recipe.isEnvironmentalMatch && (
+        <div
+          className="flex items-center gap-1 text-xs text-green-700 mb-2 cursor-pointer"
+          title={
+            recipe.environmentalMatchDetails ||
+            "This recipe aligns with current environmental energies!"
+          }
+          onClick={handleEnvironmentalMatchClick}
+        >
+          <span>🌍✨</span>
+          <span className="font-medium">Environmental Match!</span>
+        </div>
+      )}
+      {/* Lunar Oracle Badge */}
+      {recipe.optimal_cooking_window && (
+        <div
+          className="flex items-center gap-1 text-xs text-blue-700 mb-2"
+          title={`Best cooked between ${recipe.optimal_cooking_window.start_time} - ${parseInt(recipe.optimal_cooking_window.start_time) + 3}:00 for maximum Lunar affinity.`}
+        >
+          <span>🌕</span>
+          <span className="font-medium">Optimal Cooking Window!</span>
+        </div>
+      )}
       {/* Nutrition Quick View */}
       <div className="mb-2">
         <RecipeNutritionQuickView
@@ -224,16 +288,24 @@ function RecipeDisplay({
           onShowDetails={() => setShowNutritionModal(true)}
         />
       </div>
-
       {/* Nutrition Details Modal */}
       <RecipeNutritionModal
         recipe={recipe}
         servings={servings}
         isOpen={showNutritionModal}
         onClose={() => setShowNutritionModal(false)}
-        weeklyResult={weeklyNutrition}
+        ingredientMapping={{}} // Placeholder
       />
-
+      <RecipeRitualModal
+        isOpen={isRitualModalOpen}
+        onClose={() => setIsRitualModalOpen(false)}
+        recipeId={recipe.id}
+        ritualInstruction={ritualInstruction}
+        dominantTransit={dominantTransit}
+        totalPotencyScore={totalPotencyScore}
+        elementalProperties={recipe.elementalProperties}
+        alchemicalQuantities={alchemicalQuantities}
+      />
       {/* Elemental Properties */}
       {recipe.elementalProperties && (
         <div className="mb-2">
@@ -268,7 +340,6 @@ function RecipeDisplay({
           </div>
         </div>
       )}
-
       {/* Expand/Collapse Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
@@ -276,7 +347,6 @@ function RecipeDisplay({
       >
         {isExpanded ? "Show less ↑" : "Show more ↓"}
       </button>
-
       {/* Expanded Details */}
       {isExpanded && (
         <div className="mt-2 pt-2 border-t border-gray-200 text-xs text-gray-600">
@@ -287,13 +357,18 @@ function RecipeDisplay({
           {/* Ingredients */}
           {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div className="mb-3">
-              <p className="font-medium mb-1 text-gray-700">Ingredients ({recipe.ingredients.length}):</p>
+              <p className="font-medium mb-1 text-gray-700">
+                Ingredients ({recipe.ingredients.length}):
+              </p>
               <ul className="list-none space-y-0.5 max-h-32 overflow-y-auto bg-gray-50 rounded p-2">
                 {recipe.ingredients.slice(0, 6).map((ing, idx) => (
                   <li key={idx} className="flex items-center gap-1">
                     <span className="text-purple-500">•</span>
                     <span className="truncate">
-                      {ing.amount ? `${ing.amount * servings} ${ing.unit || ""} ` : ""}{ing.name}
+                      {ing.amount
+                        ? `${ing.amount * servings} ${ing.unit || ""} `
+                        : ""}
+                      {ing.name}
                     </span>
                   </li>
                 ))}
@@ -309,7 +384,9 @@ function RecipeDisplay({
           {/* Instructions Preview */}
           {recipe.instructions && recipe.instructions.length > 0 && (
             <div className="mb-3">
-              <p className="font-medium mb-1 text-gray-700">Steps ({recipe.instructions.length}):</p>
+              <p className="font-medium mb-1 text-gray-700">
+                Steps ({recipe.instructions.length}):
+              </p>
               <ol className="list-decimal list-inside space-y-0.5 bg-gray-50 rounded p-2">
                 {recipe.instructions.slice(0, 2).map((step, idx) => (
                   <li key={idx} className="truncate text-gray-600">
@@ -435,7 +512,9 @@ export default function MealSlot({
           onAddRecipe?.(data.recipe);
         } else {
           if (
-            confirm("This slot already has a recipe. Would you like to replace it?")
+            confirm(
+              "This slot already has a recipe. Would you like to replace it?",
+            )
           ) {
             onAddRecipe?.(data.recipe);
           }

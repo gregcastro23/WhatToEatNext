@@ -11,6 +11,51 @@
 import React, { useState, useMemo } from "react";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
+import type { NutritionalSummary } from "@/types/nutrition";
+
+// Define constant keys for vitamins and minerals based on NutritionalSummary
+const VITAMIN_KEYS: Array<keyof NutritionalSummary> = [
+  "vitaminA",
+  "vitaminD",
+  "vitaminE",
+  "vitaminK",
+  "vitaminC",
+  "thiamin",
+  "riboflavin",
+  "niacin",
+  "pantothenicAcid",
+  "vitaminB6",
+  "biotin",
+  "folate",
+  "vitaminB12",
+  "choline",
+];
+
+const MINERAL_KEYS: Array<keyof NutritionalSummary> = [
+  "calcium",
+  "phosphorus",
+  "magnesium",
+  "sodium",
+  "potassium",
+  "chloride",
+  "iron",
+  "zinc",
+  "copper",
+  "manganese",
+  "selenium",
+  "iodine",
+  "chromium",
+  "molybdenum",
+  "fluoride",
+];
+
+// Helper to format nutrient keys into readable labels
+function formatNutrientLabel(key: keyof NutritionalSummary): string {
+  // Add spaces before capital letters and capitalize the first letter
+  return key
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (str) => str.toUpperCase());
+}
 
 interface RecipeDetailModalProps {
   recipe: Recipe;
@@ -124,7 +169,8 @@ export default function RecipeDetailModal({
   const cookMins = parseTimeToMinutes(recipe.cookTime);
   const totalMins =
     parseTimeToMinutes(recipe.totalTime) ||
-    (prepMins || 0) + (cookMins || 0) || null;
+    (prepMins || 0) + (cookMins || 0) ||
+    null;
 
   const rating = getRecipeRating(recipe.id);
 
@@ -430,25 +476,19 @@ export default function RecipeDetailModal({
                       },
                       {
                         label: "Protein",
-                        value:
-                          recipe.nutrition.protein ||
-                          recipe.nutrition.macronutrients?.protein,
+                        value: recipe.nutrition.protein,
                         unit: "g",
                         color: "bg-blue-50 text-blue-700 border-blue-200",
                       },
                       {
                         label: "Carbs",
-                        value:
-                          recipe.nutrition.carbs ||
-                          recipe.nutrition.macronutrients?.carbs,
+                        value: recipe.nutrition.carbs,
                         unit: "g",
                         color: "bg-yellow-50 text-yellow-700 border-yellow-200",
                       },
                       {
                         label: "Fat",
-                        value:
-                          recipe.nutrition.fat ||
-                          recipe.nutrition.macronutrients?.fat,
+                        value: recipe.nutrition.fat,
                         unit: "g",
                         color: "bg-green-50 text-green-700 border-green-200",
                       },
@@ -475,51 +515,75 @@ export default function RecipeDetailModal({
                   {recipe.nutrition.fiber != null && (
                     <div className="text-sm text-gray-600">
                       Fiber:{" "}
-                      {Math.round(
-                        recipe.nutrition.fiber * servingMultiplier,
-                      )}
-                      g per serving
+                      {Math.round(recipe.nutrition.fiber * servingMultiplier)}g
+                      per serving
                     </div>
                   )}
 
                   {/* Vitamins & Minerals */}
-                  {recipe.nutrition.vitamins &&
-                    recipe.nutrition.vitamins.length > 0 && (
-                      <div>
-                        <h4 className="font-medium text-sm text-gray-700 mb-2">
-                          Vitamins
-                        </h4>
-                        <div className="flex flex-wrap gap-1">
-                          {recipe.nutrition.vitamins.map((v, idx) => (
-                            <span
-                              key={idx}
-                              className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs"
-                            >
-                              {v}
-                            </span>
-                          ))}
+                  {/* Vitamins & Minerals */}
+                  {(VITAMIN_KEYS.some(
+                    (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                  ) ||
+                    MINERAL_KEYS.some(
+                      (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                    )) && (
+                    <>
+                      {VITAMIN_KEYS.some(
+                        (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                      ) && (
+                        <div>
+                          <h4 className="font-medium text-sm text-gray-700 mb-2">
+                            Vitamins
+                          </h4>
+                          <div className="flex flex-wrap gap-1">
+                            {VITAMIN_KEYS.map((key) => {
+                              const value = recipe.nutrition?.[key];
+                              if (value != null && value > 0) {
+                                return (
+                                  <span
+                                    key={key}
+                                    className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs"
+                                  >
+                                    {formatNutrientLabel(key)}:{" "}
+                                    {Math.round(value * servingMultiplier)}
+                                  </span>
+                                );
+                              }
+                              return null;
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                  {recipe.nutrition.minerals &&
-                    recipe.nutrition.minerals.length > 0 && (
-                      <div>
-                        <h4 className="font-medium text-sm text-gray-700 mb-2">
-                          Minerals
-                        </h4>
-                        <div className="flex flex-wrap gap-1">
-                          {recipe.nutrition.minerals.map((m, idx) => (
-                            <span
-                              key={idx}
-                              className="px-2 py-0.5 bg-teal-100 text-teal-700 rounded text-xs"
-                            >
-                              {m}
-                            </span>
-                          ))}
+                      {MINERAL_KEYS.some(
+                        (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                      ) && (
+                        <div>
+                          <h4 className="font-medium text-sm text-gray-700 mb-2">
+                            Minerals
+                          </h4>
+                          <div className="flex flex-wrap gap-1">
+                            {MINERAL_KEYS.map((key) => {
+                              const value = recipe.nutrition?.[key];
+                              if (value != null && value > 0) {
+                                return (
+                                  <span
+                                    key={key}
+                                    className="px-2 py-0.5 bg-teal-100 text-teal-700 rounded text-xs"
+                                  >
+                                    {formatNutrientLabel(key)}:{" "}
+                                    {Math.round(value * servingMultiplier)}
+                                  </span>
+                                );
+                              }
+                              return null;
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </>
+                  )}
 
                   <p className="text-xs text-gray-400">
                     Values shown per {scaledServings} serving

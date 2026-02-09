@@ -264,17 +264,6 @@ export type NutritionGoal =
   | "athletic_performance";
 
 /**
- * Nutrient deficiency or excess entry
- */
-export interface ComplianceDeficiency {
-  nutrient: keyof NutritionalSummary;
-  actual: number;
-  target: number;
-  delta: number;
-  severity: "mild" | "moderate" | "severe";
-}
-
-/**
  * Daily nutrition result with compliance analysis
  */
 export interface DailyNutritionResult {
@@ -289,9 +278,6 @@ export interface DailyNutritionResult {
   compliance: {
     overall: number;
     byNutrient: Record<string, number>;
-    deficiencies: ComplianceDeficiency[];
-    excesses: ComplianceDeficiency[];
-    suggestions: string[];
   };
 }
 
@@ -306,9 +292,7 @@ export interface WeeklyNutritionResult {
   weeklyGoals: NutritionalSummary;
   weeklyCompliance: {
     overall: number;
-    byNutrient: Record<string, number>;
-    deficiencies: ComplianceDeficiency[];
-    excesses: ComplianceDeficiency[];
+    byNutrient: ComplianceDeficiency; // Changed to use new type
   };
   variety: {
     uniqueIngredients: number;
@@ -317,6 +301,13 @@ export interface WeeklyNutritionResult {
     colorDiversity: number;
   };
 }
+
+/**
+ * Represents a detailed breakdown of nutrient compliance or deficiency.
+ * Replaces previous concepts like NutrientDeviation.
+ * Keys are nutrient names (e.g., "sodium"), values are compliance/deficiency scores.
+ */
+export type ComplianceDeficiency = Record<string, number>;
 
 /**
  * Compliance severity levels

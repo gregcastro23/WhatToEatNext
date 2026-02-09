@@ -975,7 +975,7 @@ function RecipeGeneratorContent() {
                       </p>
                       <p className="text-sm text-indigo-600">
                         {planetaryDayInfo.element} -{" "}
-                        {planetaryDayInfo.characteristics}
+                        {planetaryDayInfo.element} Element, {planetaryDayInfo.energy} Energy
                       </p>
                     </div>
                     <div>

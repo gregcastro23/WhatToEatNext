@@ -10,6 +10,10 @@ import type {
   ScoredRecipe,
   // Season,
 } from "@/types/recipe";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 import { createElementalProperties } from "../elemental/elementalUtils";
 // import { isNonEmptyArray } from "../typeGuards";
 const isNonEmptyArray = (arr: any): boolean =>
@@ -337,24 +341,25 @@ function applyTags(recipe: Recipe, tags: string[]): void {
   }
 }
 
-function applyNutrition(recipe: Recipe, nutrition?: RecipeNutrition): void {
-  if (!nutrition) {
+function applyNutrition(
+  recipe: Recipe,
+  inputNutrition?: RecipeNutrition,
+): void {
+  if (!inputNutrition) {
     return;
   }
 
-  const macronutrients = (nutrition.macronutrients ??
-    {}) as RecipeNutrition["macronutrients"];
-  const vitamins =
-    nutrition.vitamins ?? Object.keys(nutrition.micronutrients?.vitamins ?? {});
-  const minerals =
-    nutrition.minerals ?? Object.keys(nutrition.micronutrients?.minerals ?? {});
+  const newNutrition = createEmptyNutritionalSummary();
 
-  recipe.nutrition = {
-    calories: Number(nutrition.calories ?? 0),
-    protein: Number(nutrition.protein ?? macronutrients?.protein ?? 0),
-    carbs: Number(nutrition.carbs ?? macronutrients?.carbs ?? 0),
-    fat: Number(nutrition.fat ?? macronutrients?.fat ?? 0),
-    vitamins,
-    minerals,
-  };
+  newNutrition.calories = Number(inputNutrition.calories ?? 0);
+  newNutrition.protein = Number(inputNutrition.protein ?? 0);
+  newNutrition.carbs = Number(inputNutrition.carbs ?? 0);
+  newNutrition.fat = Number(inputNutrition.fat ?? 0);
+  newNutrition.fiber = Number(inputNutrition.macronutrients?.fiber ?? 0);
+
+  // Other specific fields from NutritionalSummary (e.g., sodium, specific vitamins/minerals)
+  // are not directly available in the current RecipeNutrition.
+  // If RecipeNutrition had these, they would be mapped here.
+
+  recipe.nutrition = newNutrition;
 }

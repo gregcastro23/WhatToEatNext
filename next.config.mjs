@@ -6,6 +6,10 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    cpus: 1,
+    workerThreads: false,
+  },
   outputFileTracingRoot: __dirname,
   reactStrictMode: false,
   typescript: {
@@ -37,7 +41,7 @@ const nextConfig = {
     const originalExternals = config.externals;
     config.externals = ({ context, request }, callback) => {
       // List of modules to externalize
-      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs', 'async_hooks'];
+      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs'];
 
       if (externalsToExternalize.includes(request)) {
         return callback(null, `commonjs ${request}`);
