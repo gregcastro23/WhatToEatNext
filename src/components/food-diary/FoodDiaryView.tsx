@@ -357,30 +357,36 @@ function FoodEntryCard({
       {isExpanded && (
         <div className="px-3 pb-3 border-t border-gray-200">
           {/* Nutrition Details */}
-          <div className="grid grid-cols-4 gap-2 py-3">
+          <div className="grid grid-cols-5 gap-2 py-3">
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900">
+              <div className="text-base font-semibold text-gray-900">
                 {Math.round(entry.nutrition.protein || 0)}g
               </div>
               <div className="text-xs text-gray-500">Protein</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900">
+              <div className="text-base font-semibold text-gray-900">
                 {Math.round(entry.nutrition.carbs || 0)}g
               </div>
               <div className="text-xs text-gray-500">Carbs</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900">
+              <div className="text-base font-semibold text-gray-900">
                 {Math.round(entry.nutrition.fat || 0)}g
               </div>
               <div className="text-xs text-gray-500">Fat</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900">
+              <div className="text-base font-semibold text-gray-900">
                 {Math.round(entry.nutrition.fiber || 0)}g
               </div>
               <div className="text-xs text-gray-500">Fiber</div>
+            </div>
+            <div className="text-center">
+              <div className="text-base font-semibold text-gray-900">
+                {Math.round(entry.nutrition.sodium || 0)}
+              </div>
+              <div className="text-xs text-gray-500">Sodium</div>
             </div>
           </div>
 

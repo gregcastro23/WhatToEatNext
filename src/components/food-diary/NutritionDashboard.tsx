@@ -110,13 +110,13 @@ export default function NutritionDashboard({
               {/* Macro Summary */}
               <div className="mb-6">
                 <h4 className="text-sm font-medium text-gray-700 mb-3">Daily Progress</h4>
-                <div className="flex items-center justify-around">
+                <div className="flex items-center justify-around flex-wrap gap-2">
                   <NutritionRing
                     value={dailySummary.totalNutrition.calories}
                     max={dailySummary.nutritionGoals?.calories || 2000}
                     label="Calories"
-                    size={90}
-                    strokeWidth={8}
+                    size={80}
+                    strokeWidth={7}
                     color="#f59e0b"
                   />
                   <NutritionRing
@@ -124,8 +124,8 @@ export default function NutritionDashboard({
                     max={dailySummary.nutritionGoals?.protein || 50}
                     label="Protein"
                     unit="g"
-                    size={90}
-                    strokeWidth={8}
+                    size={80}
+                    strokeWidth={7}
                     color="#ef4444"
                   />
                   <NutritionRing
@@ -133,8 +133,8 @@ export default function NutritionDashboard({
                     max={dailySummary.nutritionGoals?.carbs || 275}
                     label="Carbs"
                     unit="g"
-                    size={90}
-                    strokeWidth={8}
+                    size={80}
+                    strokeWidth={7}
                     color="#3b82f6"
                   />
                   <NutritionRing
@@ -142,9 +142,18 @@ export default function NutritionDashboard({
                     max={dailySummary.nutritionGoals?.fat || 78}
                     label="Fat"
                     unit="g"
-                    size={90}
-                    strokeWidth={8}
+                    size={80}
+                    strokeWidth={7}
                     color="#8b5cf6"
+                  />
+                  <NutritionRing
+                    value={dailySummary.totalNutrition.sodium}
+                    max={dailySummary.nutritionGoals?.sodium || 2300}
+                    label="Sodium"
+                    unit="mg"
+                    size={80}
+                    strokeWidth={7}
+                    color="#6b7280"
                   />
                 </div>
               </div>
@@ -201,19 +210,18 @@ export default function NutritionDashboard({
                     inverse
                   />
                   <NutrientBar
-                    label="Sodium"
-                    value={dailySummary.totalNutrition.sodium}
-                    max={dailySummary.nutritionGoals?.sodium || 2300}
-                    unit="mg"
-                    color="#6b7280"
-                    inverse
-                  />
-                  <NutrientBar
                     label="Vitamin C"
                     value={dailySummary.totalNutrition.vitaminC}
                     max={90}
                     unit="mg"
                     color="#f97316"
+                  />
+                  <NutrientBar
+                    label="Potassium"
+                    value={dailySummary.totalNutrition.potassium}
+                    max={dailySummary.nutritionGoals?.potassium || 4700}
+                    unit="mg"
+                    color="#a855f7"
                   />
                 </div>
               </div>
@@ -259,30 +267,42 @@ export default function NutritionDashboard({
           ) : (
             <>
               {/* Weekly Stats */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="text-xl font-bold text-gray-900">
                     {weeklySummary.totalEntries}
                   </div>
-                  <div className="text-sm text-gray-500">Total Entries</div>
+                  <div className="text-xs text-gray-500">Total Entries</div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="text-xl font-bold text-gray-900">
                     {Math.round(weeklySummary.averageDailyNutrition.calories)}
                   </div>
-                  <div className="text-sm text-gray-500">Avg Calories/Day</div>
+                  <div className="text-xs text-gray-500">Avg Cal/Day</div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="text-xl font-bold text-gray-900">
                     {Math.round(weeklySummary.averageDailyNutrition.protein)}g
                   </div>
-                  <div className="text-sm text-gray-500">Avg Protein/Day</div>
+                  <div className="text-xs text-gray-500">Avg Protein</div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-amber-600">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="text-xl font-bold text-gray-900">
+                    {Math.round(weeklySummary.averageDailyNutrition.sodium)}mg
+                  </div>
+                  <div className="text-xs text-gray-500">Avg Sodium</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="text-xl font-bold text-gray-900">
+                    {Math.round(weeklySummary.averageDailyNutrition.fiber)}g
+                  </div>
+                  <div className="text-xs text-gray-500">Avg Fiber</div>
+                </div>
+                <div className="bg-amber-50 rounded-lg p-3">
+                  <div className="text-xl font-bold text-amber-600">
                     {weeklySummary.goalCompliance.overall}%
                   </div>
-                  <div className="text-sm text-gray-500">Goal Compliance</div>
+                  <div className="text-xs text-gray-500">Goal Match</div>
                 </div>
               </div>
 
