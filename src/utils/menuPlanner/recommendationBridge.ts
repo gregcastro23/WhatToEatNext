@@ -1,14 +1,18 @@
 /**
  * Recommendation Bridge
  * Connects planetary day recommendations with existing recipe/ingredient recommenders
+ * Now includes user chart personalization for tailored recommendations
  *
  * @file src/utils/menuPlanner/recommendationBridge.ts
  * @created 2026-01-11 (Phase 3)
+ * @updated 2026-02-03 - Added user chart personalization support
  */
 
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe, ElementalProperties } from "@/types/recipe";
 import type { AstrologyHookData } from "@/hooks/useAstrologicalState";
+import type { NatalChart } from "@/types/natalChart";
+import type { ChartComparison } from "@/services/ChartComparisonService";
 import {
   getPlanetaryDayCharacteristics,
   calculateDayFoodCompatibility,
@@ -32,6 +36,15 @@ export interface AstrologicalState {
 }
 
 /**
+ * User personalization context for recommendations
+ */
+export interface UserPersonalizationContext {
+  natalChart: NatalChart;
+  chartComparison?: ChartComparison;
+  prioritizeHarmony?: boolean;
+}
+
+/**
  * Day recommendation options
  */
 export interface DayRecommendationOptions {
@@ -41,6 +54,8 @@ export interface DayRecommendationOptions {
   maxRecipesPerMeal?: number;
   preferredCuisines?: string[];
   excludeIngredients?: string[];
+  /** User personalization context for chart-based recommendations */
+  userContext?: UserPersonalizationContext;
 }
 
 /**
@@ -53,6 +68,12 @@ export interface RecommendedMeal {
   reasons: string[];
   dayAlignment: number;
   planetaryAlignment: number;
+  /** Personalized score after applying user chart boost */
+  personalizedScore?: number;
+  /** Personalization boost multiplier (0.7-1.3) */
+  personalizationBoost?: number;
+  /** Whether recommendation was personalized for user */
+  isPersonalized?: boolean;
 }
 
 /**
@@ -60,7 +81,7 @@ export interface RecommendedMeal {
  *
  * @param dayOfWeek - Day of week
  * @param astroState - Current astrological state
- * @param options - Recommendation options
+ * @param options - Recommendation options (including optional user personalization)
  * @returns Array of recommended meals
  */
 export async function generateDayRecommendations(
@@ -75,13 +96,16 @@ export async function generateDayRecommendations(
       dietaryRestrictions = [],
       preferredCuisines = [],
       excludeIngredients = [],
+      userContext,
     } = options;
 
     const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
+    const hasPersonalization = !!userContext?.natalChart;
 
     logger.info(`Generating recommendations for ${dayChar.planet} day`, {
       dayOfWeek,
       mealTypes,
+      personalized: hasPersonalization,
     });
 
     const recommendations: RecommendedMeal[] = [];
@@ -104,13 +128,144 @@ export async function generateDayRecommendations(
       recommendations.push(...mealRecs);
     }
 
-    logger.info(`Generated ${recommendations.length} recommendations`);
+    // Apply personalization if user context is provided
+    if (hasPersonalization) {
+      const personalizedRecs = applyUserPersonalization(
+        recommendations,
+        userContext,
+      );
 
+      logger.info(`Generated ${personalizedRecs.length} personalized recommendations`);
+      return personalizedRecs;
+    }
+
+    logger.info(`Generated ${recommendations.length} recommendations`);
     return recommendations;
   } catch (error) {
     logger.error("Failed to generate day recommendations:", error);
     return [];
   }
+}
+
+/**
+ * Apply user chart personalization to recommendations
+ *
+ * @param recommendations - Base recommendations
+ * @param userContext - User personalization context
+ * @returns Personalized recommendations sorted by personalized score
+ */
+function applyUserPersonalization(
+  recommendations: RecommendedMeal[],
+  userContext: UserPersonalizationContext,
+): RecommendedMeal[] {
+  const { natalChart, chartComparison, prioritizeHarmony = true } = userContext;
+
+  const personalized = recommendations.map((rec) => {
+    // Calculate personalization boost based on elemental alignment with user's chart
+    const boost = calculatePersonalizationBoost(
+      rec.recipe,
+      natalChart,
+      chartComparison,
+    );
+
+    const personalizedScore = rec.score * boost;
+    const reasons = [...rec.reasons];
+
+    // Add personalization reasons
+    if (boost > 1.05) {
+      reasons.push(`Aligned with your ${natalChart.dominantElement} dominant element`);
+    }
+    if (boost > 1.15) {
+      reasons.push("Strong cosmic harmony with your birth chart");
+    }
+
+    return {
+      ...rec,
+      personalizedScore,
+      personalizationBoost: boost,
+      isPersonalized: true,
+      reasons,
+    };
+  });
+
+  // Sort by personalized score if prioritizing harmony
+  if (prioritizeHarmony) {
+    personalized.sort((a, b) =>
+      (b.personalizedScore || b.score) - (a.personalizedScore || a.score)
+    );
+  }
+
+  return personalized;
+}
+
+/**
+ * Calculate personalization boost based on user's natal chart
+ *
+ * @param recipe - Recipe to evaluate
+ * @param natalChart - User's natal chart
+ * @param chartComparison - Optional chart comparison with current moment
+ * @returns Boost multiplier (0.7 to 1.3)
+ */
+function calculatePersonalizationBoost(
+  recipe: Recipe,
+  natalChart: NatalChart,
+  chartComparison?: ChartComparison,
+): number {
+  let boost = 1.0;
+
+  // 1. Elemental alignment with user's dominant element (±15%)
+  if (recipe.elementalProperties && natalChart.elementalBalance) {
+    const dominantElement = natalChart.dominantElement;
+    const recipeElementValue = recipe.elementalProperties[dominantElement] || 0;
+
+    // Higher recipe value for user's dominant element = higher boost
+    boost += (recipeElementValue - 0.25) * 0.6; // -0.15 to +0.45 range compressed to ±0.15
+  }
+
+  // 2. Chart comparison harmony (if available) (±10%)
+  if (chartComparison) {
+    const harmonyBoost = (chartComparison.overallHarmony - 0.5) * 0.2;
+    boost += harmonyBoost;
+
+    // Extra boost for favorable elements
+    if (chartComparison.insights?.favorableElements && recipe.elementalProperties) {
+      const favorableMatch = chartComparison.insights.favorableElements.some(
+        (el) => {
+          const elementKey = el as keyof ElementalProperties;
+          return (recipe.elementalProperties?.[elementKey] || 0) > 0.3;
+        }
+      );
+      if (favorableMatch) {
+        boost += 0.05;
+      }
+    }
+  }
+
+  // 3. Alchemical property alignment (±5%)
+  if (natalChart.alchemicalProperties && (recipe as any).alchemicalProperties) {
+    const recipeAlch = (recipe as any).alchemicalProperties;
+    const userAlch = natalChart.alchemicalProperties;
+
+    // Simple dot product similarity for alchemical properties
+    let similarity = 0;
+    const props = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
+    let userTotal = 0;
+    let recipeTotal = 0;
+
+    for (const prop of props) {
+      similarity += (userAlch[prop] || 0) * (recipeAlch[prop] || 0);
+      userTotal += (userAlch[prop] || 0) ** 2;
+      recipeTotal += (recipeAlch[prop] || 0) ** 2;
+    }
+
+    if (userTotal > 0 && recipeTotal > 0) {
+      const cosineSim = similarity / (Math.sqrt(userTotal) * Math.sqrt(recipeTotal));
+      boost += (cosineSim - 0.5) * 0.1; // ±0.05
+    }
+  }
+
+  // Clamp to valid range
+  return Math.max(0.7, Math.min(1.3, boost));
 }
 
 /**

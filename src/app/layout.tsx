@@ -71,6 +71,13 @@ export default function RootLayout({
                     📅 Menu Planner
                   </Link>
                   <Link
+                    href="/recipe-generator"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-amber-100 text-amber-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-200"
+                    aria-label="Generate recipes with planetary alignment"
+                  >
+                    ✨ Recipe Generator
+                  </Link>
+                  <Link
                     href="/quantities"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-indigo-100 text-indigo-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-indigo-200"
                     aria-label="View alchm quantities"
@@ -135,6 +142,11 @@ export default function RootLayout({
                     <li>
                       <Link href="/menu-planner" className="text-gray-300 hover:text-purple-300 transition-colors">
                         📅 Menu Planner
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/recipe-generator" className="text-gray-300 hover:text-amber-300 transition-colors">
+                        ✨ Recipe Generator
                       </Link>
                     </li>
                     <li>
