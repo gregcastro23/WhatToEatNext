@@ -292,7 +292,7 @@ export interface WeeklyNutritionResult {
   weeklyGoals: NutritionalSummary;
   weeklyCompliance: {
     overall: number;
-    byNutrient: Record<string, number>;
+    byNutrient: ComplianceDeficiency; // Changed to use new type
   };
   variety: {
     uniqueIngredients: number;
@@ -301,6 +301,13 @@ export interface WeeklyNutritionResult {
     colorDiversity: number;
   };
 }
+
+/**
+ * Represents a detailed breakdown of nutrient compliance or deficiency.
+ * Replaces previous concepts like NutrientDeviation.
+ * Keys are nutrient names (e.g., "sodium"), values are compliance/deficiency scores.
+ */
+export type ComplianceDeficiency = Record<string, number>;
 
 /**
  * Compliance severity levels

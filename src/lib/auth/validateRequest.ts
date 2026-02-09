@@ -6,7 +6,8 @@
  * @created 2026-02-03
  */
 
-import jwt from "jsonwebtoken";
+import { jwtVerify, JWTPayload } from "jose";
+import { TextEncoder } from "util";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";

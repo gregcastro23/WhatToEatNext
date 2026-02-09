@@ -81,7 +81,8 @@ function MenuPlannerContent() {
 
   const { toast, showSuccess, showError, showInfo } = useToast();
 
-  const [showParticipantSelection, setShowParticipantSelection] = useState(false);
+  const [showParticipantSelection, setShowParticipantSelection] =
+    useState(false);
   const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]); // Assuming SavedChart type
   const [selectedParticipantCharts, setSelectedParticipantCharts] = useState<
     string[]
@@ -109,11 +110,11 @@ function MenuPlannerContent() {
       }
     };
 
-    if (showParticipantSelection) { // Only fetch when the selection UI is active
+    if (showParticipantSelection) {
+      // Only fetch when the selection UI is active
       fetchSavedCharts();
     }
   }, [showParticipantSelection]); // Re-fetch when UI visibility changes
-
 
   const handleSaveTemplate = async () => {
     if (!templateName.trim()) {
@@ -153,12 +154,13 @@ function MenuPlannerContent() {
               ← Back to Home
             </Link>
           </div>
-          
+
           {/* New: Collective Meal Active Indicator */}
           {selectedParticipantCharts.length > 0 && (
             <div className="mb-4 p-3 bg-purple-100 border border-purple-300 text-purple-800 rounded-lg flex items-center justify-between">
               <span className="font-medium">
-                ✨ Collective Meal Active with {selectedParticipantCharts.length} guest(s)!
+                ✨ Collective Meal Active with{" "}
+                {selectedParticipantCharts.length} guest(s)!
               </span>
               <button
                 onClick={() => setSelectedParticipantCharts([])}
@@ -236,7 +238,9 @@ function MenuPlannerContent() {
               </button>
               {/* New: Add Participant Toggle */}
               <button
-                onClick={() => setShowParticipantSelection(!showParticipantSelection)}
+                onClick={() =>
+                  setShowParticipantSelection(!showParticipantSelection)
+                }
                 className={`px-4 py-2 rounded-lg transition-all font-medium flex items-center gap-2 ${
                   showParticipantSelection
                     ? "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:shadow-lg"
@@ -364,7 +368,6 @@ function MenuPlannerContent() {
           isOpen={showNutritionDashboard}
           onClose={() => setShowNutritionDashboard(false)}
         />
-
         {/* New: Participant Selection Modal */}
         {showParticipantSelection && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -381,26 +384,39 @@ function MenuPlannerContent() {
                     ×
                   </button>
                 </div>
-                <p className="text-gray-600 mt-1">Select saved charts to include in collective planning.</p>
+                <p className="text-gray-600 mt-1">
+                  Select saved charts to include in collective planning.
+                </p>
               </div>
 
               <div className="p-6 overflow-y-auto max-h-[60vh]">
                 {loadingSavedCharts && <p>Loading saved charts...</p>}
-                {errorSavedCharts && <p className="text-red-500">Error: {errorSavedCharts}</p>}
-                {!loadingSavedCharts && !errorSavedCharts && (
-                  savedCharts.length > 0 ? (
+                {errorSavedCharts && (
+                  <p className="text-red-500">Error: {errorSavedCharts}</p>
+                )}
+                {!loadingSavedCharts &&
+                  !errorSavedCharts &&
+                  (savedCharts.length > 0 ? (
                     <div className="space-y-3">
                       {savedCharts.map((chart) => (
-                        <label key={chart.id} className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                        <label
+                          key={chart.id}
+                          className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"
+                        >
                           <input
                             type="checkbox"
-                            checked={selectedParticipantCharts.includes(chart.id)}
+                            checked={selectedParticipantCharts.includes(
+                              chart.id,
+                            )}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setSelectedParticipantCharts((prev) => [...prev, chart.id]);
+                                setSelectedParticipantCharts((prev) => [
+                                  ...prev,
+                                  chart.id,
+                                ]);
                               } else {
                                 setSelectedParticipantCharts((prev) =>
-                                  prev.filter((id) => id !== chart.id)
+                                  prev.filter((id) => id !== chart.id),
                                 );
                               }
                             }}
@@ -416,9 +432,10 @@ function MenuPlannerContent() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-gray-600">No saved charts found. Add charts from your profile.</p>
-                  )
-                )}
+                    <p className="text-gray-600">
+                      No saved charts found. Add charts from your profile.
+                    </p>
+                  ))}
               </div>
 
               <div className="p-6 border-t border-gray-200 bg-gray-50 flex justify-end gap-3">
