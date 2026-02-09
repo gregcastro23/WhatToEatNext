@@ -6,10 +6,7 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    cpus: 1,
-    workerThreads: false,
-  },
+
   outputFileTracingRoot: __dirname,
   reactStrictMode: false,
   typescript: {
