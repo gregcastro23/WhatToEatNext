@@ -10,7 +10,10 @@ import type {
   ScoredRecipe,
   // Season,
 } from "@/types/recipe";
-import { createEmptyNutritionalSummary, type NutritionalSummary } from "@/types/nutrition";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 import { createElementalProperties } from "../elemental/elementalUtils";
 // import { isNonEmptyArray } from "../typeGuards";
 const isNonEmptyArray = (arr: any): boolean =>
@@ -338,7 +341,10 @@ function applyTags(recipe: Recipe, tags: string[]): void {
   }
 }
 
-function applyNutrition(recipe: Recipe, inputNutrition?: RecipeNutrition): void {
+function applyNutrition(
+  recipe: Recipe,
+  inputNutrition?: RecipeNutrition,
+): void {
   if (!inputNutrition) {
     return;
   }

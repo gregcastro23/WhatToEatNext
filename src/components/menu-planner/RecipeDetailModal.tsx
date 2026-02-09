@@ -13,23 +13,48 @@ import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import type { NutritionalSummary } from "@/types/nutrition";
 
-
 // Define constant keys for vitamins and minerals based on NutritionalSummary
 const VITAMIN_KEYS: Array<keyof NutritionalSummary> = [
-  "vitaminA", "vitaminD", "vitaminE", "vitaminK",
-  "vitaminC", "thiamin", "riboflavin", "niacin",
-  "pantothenicAcid", "vitaminB6", "biotin", "folate", "vitaminB12", "choline"
+  "vitaminA",
+  "vitaminD",
+  "vitaminE",
+  "vitaminK",
+  "vitaminC",
+  "thiamin",
+  "riboflavin",
+  "niacin",
+  "pantothenicAcid",
+  "vitaminB6",
+  "biotin",
+  "folate",
+  "vitaminB12",
+  "choline",
 ];
 
 const MINERAL_KEYS: Array<keyof NutritionalSummary> = [
-  "calcium", "phosphorus", "magnesium", "sodium", "potassium", "chloride",
-  "iron", "zinc", "copper", "manganese", "selenium", "iodine", "chromium", "molybdenum", "fluoride"
+  "calcium",
+  "phosphorus",
+  "magnesium",
+  "sodium",
+  "potassium",
+  "chloride",
+  "iron",
+  "zinc",
+  "copper",
+  "manganese",
+  "selenium",
+  "iodine",
+  "chromium",
+  "molybdenum",
+  "fluoride",
 ];
 
 // Helper to format nutrient keys into readable labels
 function formatNutrientLabel(key: keyof NutritionalSummary): string {
   // Add spaces before capital letters and capitalize the first letter
-  return key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+  return key
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (str) => str.toUpperCase());
 }
 
 interface RecipeDetailModalProps {
@@ -144,7 +169,8 @@ export default function RecipeDetailModal({
   const cookMins = parseTimeToMinutes(recipe.cookTime);
   const totalMins =
     parseTimeToMinutes(recipe.totalTime) ||
-    (prepMins || 0) + (cookMins || 0) || null;
+    (prepMins || 0) + (cookMins || 0) ||
+    null;
 
   const rating = getRecipeRating(recipe.id);
 
@@ -489,18 +515,23 @@ export default function RecipeDetailModal({
                   {recipe.nutrition.fiber != null && (
                     <div className="text-sm text-gray-600">
                       Fiber:{" "}
-                      {Math.round(
-                        recipe.nutrition.fiber * servingMultiplier,
-                      )}
-                      g per serving
+                      {Math.round(recipe.nutrition.fiber * servingMultiplier)}g
+                      per serving
                     </div>
                   )}
 
                   {/* Vitamins & Minerals */}
                   {/* Vitamins & Minerals */}
-                  {(VITAMIN_KEYS.some(key => (recipe.nutrition?.[key] ?? 0) > 0) || MINERAL_KEYS.some(key => (recipe.nutrition?.[key] ?? 0) > 0)) && (
+                  {(VITAMIN_KEYS.some(
+                    (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                  ) ||
+                    MINERAL_KEYS.some(
+                      (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                    )) && (
                     <>
-                      {VITAMIN_KEYS.some(key => (recipe.nutrition?.[key] ?? 0) > 0) && (
+                      {VITAMIN_KEYS.some(
+                        (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                      ) && (
                         <div>
                           <h4 className="font-medium text-sm text-gray-700 mb-2">
                             Vitamins
@@ -514,7 +545,8 @@ export default function RecipeDetailModal({
                                     key={key}
                                     className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs"
                                   >
-                                    {formatNutrientLabel(key)}: {Math.round(value * servingMultiplier)}
+                                    {formatNutrientLabel(key)}:{" "}
+                                    {Math.round(value * servingMultiplier)}
                                   </span>
                                 );
                               }
@@ -524,7 +556,9 @@ export default function RecipeDetailModal({
                         </div>
                       )}
 
-                      {MINERAL_KEYS.some(key => (recipe.nutrition?.[key] ?? 0) > 0) && (
+                      {MINERAL_KEYS.some(
+                        (key) => (recipe.nutrition?.[key] ?? 0) > 0,
+                      ) && (
                         <div>
                           <h4 className="font-medium text-sm text-gray-700 mb-2">
                             Minerals
@@ -538,7 +572,8 @@ export default function RecipeDetailModal({
                                     key={key}
                                     className="px-2 py-0.5 bg-teal-100 text-teal-700 rounded text-xs"
                                   >
-                                    {formatNutrientLabel(key)}: {Math.round(value * servingMultiplier)}
+                                    {formatNutrientLabel(key)}:{" "}
+                                    {Math.round(value * servingMultiplier)}
                                   </span>
                                 );
                               }

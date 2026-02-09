@@ -17,7 +17,10 @@ import {
   getComplianceSeverity,
 } from "@/types/nutrition";
 import type { MealSlot, DayOfWeek } from "@/types/menuPlanner";
-import { calculatePersonalizedRDA, multiplyNutrition } from "@/data/nutritional/rdaStandards";
+import {
+  calculatePersonalizedRDA,
+  multiplyNutrition,
+} from "@/data/nutritional/rdaStandards";
 import {
   buildDailyResult,
   buildWeeklyResult,
@@ -29,14 +32,33 @@ import {
  * Default daily targets (FDA 2000 kcal reference diet) used when no profile is set
  */
 const DEFAULT_DAILY_TARGETS: NutritionalSummary = {
-  calories: 2000, protein: 50, carbs: 275, fat: 78, fiber: 28, sugar: 50,
-  saturatedFat: 20, transFat: 0, cholesterol: 300,
-  vitaminA: 900, vitaminD: 20, vitaminE: 15, vitaminK: 120,
-  vitaminC: 90, thiamin: 1.2, riboflavin: 1.3, niacin: 16,
-  vitaminB6: 1.7, folate: 400, vitaminB12: 2.4,
-  calcium: 1300, phosphorus: 1250, magnesium: 420,
-  sodium: 2300, potassium: 4700,
-  iron: 18, zinc: 11,
+  calories: 2000,
+  protein: 50,
+  carbs: 275,
+  fat: 78,
+  fiber: 28,
+  sugar: 50,
+  saturatedFat: 20,
+  transFat: 0,
+  cholesterol: 300,
+  vitaminA: 900,
+  vitaminD: 20,
+  vitaminE: 15,
+  vitaminK: 120,
+  vitaminC: 90,
+  thiamin: 1.2,
+  riboflavin: 1.3,
+  niacin: 16,
+  vitaminB6: 1.7,
+  folate: 400,
+  vitaminB12: 2.4,
+  calcium: 1300,
+  phosphorus: 1250,
+  magnesium: 420,
+  sodium: 2300,
+  potassium: 4700,
+  iron: 18,
+  zinc: 11,
 };
 
 export class NutritionTrackingService {
@@ -53,9 +75,21 @@ export class NutritionTrackingService {
         weekly: multiplyNutrition(DEFAULT_DAILY_TARGETS, 7),
         ranges: {},
         priorities: [
-          { nutrient: 'calories', importance: 'critical', targetDirection: 'maintain' },
-          { nutrient: 'protein', importance: 'high', targetDirection: 'maintain' },
-          { nutrient: 'fiber', importance: 'high', targetDirection: 'increase' },
+          {
+            nutrient: "calories",
+            importance: "critical",
+            targetDirection: "maintain",
+          },
+          {
+            nutrient: "protein",
+            importance: "high",
+            targetDirection: "maintain",
+          },
+          {
+            nutrient: "fiber",
+            importance: "high",
+            targetDirection: "increase",
+          },
         ],
       };
     }
@@ -193,11 +227,16 @@ export class NutritionTrackingService {
   getComplianceColor(score: number): string {
     const severity = getComplianceSeverity(score);
     switch (severity) {
-      case 'excellent': return '#22c55e';
-      case 'good': return '#84cc16';
-      case 'fair': return '#eab308';
-      case 'poor': return '#f97316';
-      case 'critical': return '#ef4444';
+      case "excellent":
+        return "#22c55e";
+      case "good":
+        return "#84cc16";
+      case "fair":
+        return "#eab308";
+      case "poor":
+        return "#f97316";
+      case "critical":
+        return "#ef4444";
     }
   }
 
@@ -221,7 +260,9 @@ export function getNutritionTrackingService(): NutritionTrackingService {
   return defaultInstance;
 }
 
-export function setNutritionTrackingProfile(profile: UserNutritionProfile): void {
+export function setNutritionTrackingProfile(
+  profile: UserNutritionProfile,
+): void {
   const service = getNutritionTrackingService();
   service.updateProfile(profile);
 }

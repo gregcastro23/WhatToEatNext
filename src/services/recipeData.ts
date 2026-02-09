@@ -28,7 +28,10 @@ import { ErrorHandler } from "./errorHandler";
 import { recipeElementalService } from "./RecipeElementalService";
 import type { Recipe } from "../types/recipe";
 import type { RecipeIngredient } from "../types/recipeIngredient";
-import { createEmptyNutritionalSummary, type NutritionalSummary } from "@/types/nutrition";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 
 // Use singleton error handler instance
 const errorHandler = ErrorHandler;
@@ -287,7 +290,8 @@ function validateAstrologicalInfluences(
 
 function validateAndNormalizeNutrition(
   nutrition: NutritionData,
-): NutritionalSummary { // Changed return type
+): NutritionalSummary {
+  // Changed return type
   const validatedNutrition = createEmptyNutritionalSummary(); // Start with a complete summary
 
   if (!nutrition || typeof nutrition !== "object") {
@@ -295,9 +299,12 @@ function validateAndNormalizeNutrition(
   }
 
   // Populate numeric fields
-  if (typeof nutrition.calories === "number") validatedNutrition.calories = nutrition.calories;
-  if (typeof nutrition.protein === "number") validatedNutrition.protein = nutrition.protein;
-  if (typeof nutrition.carbs === "number") validatedNutrition.carbs = nutrition.carbs;
+  if (typeof nutrition.calories === "number")
+    validatedNutrition.calories = nutrition.calories;
+  if (typeof nutrition.protein === "number")
+    validatedNutrition.protein = nutrition.protein;
+  if (typeof nutrition.carbs === "number")
+    validatedNutrition.carbs = nutrition.carbs;
   if (typeof nutrition.fat === "number") validatedNutrition.fat = nutrition.fat;
 
   // For vitamins and minerals, NutritionData has string arrays, while NutritionalSummary has specific numeric properties.

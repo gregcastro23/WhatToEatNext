@@ -8,10 +8,14 @@
  *   Planetary: 30% | Nutrition: 30% | Preferences: 20% | Seasonal: 10% | Meal Timing: 10%
  */
 
-import type { Recipe } from '@/types/recipe';
-import type { Planet } from '@/types/celestial';
-import { PlanetaryScoringService, type BirthChart, type PlanetaryScoringResult } from './planetaryScoring';
-import { MealTypeService, type MealType } from './mealTypeService';
+import type { Recipe } from "@/types/recipe";
+import type { Planet } from "@/types/celestial";
+import {
+  PlanetaryScoringService,
+  type BirthChart,
+  type PlanetaryScoringResult,
+} from "./planetaryScoring";
+import { MealTypeService, type MealType } from "./mealTypeService";
 
 // --- Public interfaces ---
 
@@ -30,7 +34,7 @@ export interface UserPreferences {
   favoriteCuisines?: string[];
   excludeCuisines?: string[];
   maxCookTimeMinutes?: number;
-  skillLevel?: 'beginner' | 'intermediate' | 'advanced';
+  skillLevel?: "beginner" | "intermediate" | "advanced";
   preferredIngredients?: string[];
   excludedIngredients?: string[];
 }
@@ -70,11 +74,11 @@ export interface ScoredRecommendation {
 // --- Scoring weights ---
 
 const WEIGHTS = {
-  planetary: 0.30,
-  nutrition: 0.30,
-  preferences: 0.20,
-  seasonal: 0.10,
-  mealTiming: 0.10,
+  planetary: 0.3,
+  nutrition: 0.3,
+  preferences: 0.2,
+  seasonal: 0.1,
+  mealTiming: 0.1,
 } as const;
 
 // --- Season data ---
@@ -107,7 +111,9 @@ export class UnifiedRecommendationService {
   /**
    * Get ranked recipe recommendations.
    */
-  async getRecommendations(request: RecommendationRequest): Promise<ScoredRecommendation[]> {
+  async getRecommendations(
+    request: RecommendationRequest,
+  ): Promise<ScoredRecommendation[]> {
     const {
       recipes,
       mealType,
@@ -118,7 +124,8 @@ export class UnifiedRecommendationService {
       limit = 10,
     } = request;
 
-    const effectiveMealType = mealType ?? this.mealTypeService.getCurrentMealType();
+    const effectiveMealType =
+      mealType ?? this.mealTypeService.getCurrentMealType();
     const effectiveSeason = currentSeason ?? this.getCurrentSeason();
 
     // Filter out recipes that violate hard constraints
@@ -128,16 +135,25 @@ export class UnifiedRecommendationService {
     const scored: ScoredRecommendation[] = [];
 
     for (const recipe of eligible) {
-      const planetaryResult = await this.planetaryService.scoreRecipe(recipe, birthChart);
+      const planetaryResult = await this.planetaryService.scoreRecipe(
+        recipe,
+        birthChart,
+      );
       const planetaryScore = planetaryResult.overallScore;
       const nutritionScore = this.scoreNutrition(recipe, nutritionGoals);
       const preferencesScore = this.scorePreferences(recipe, userPreferences);
       const seasonalScore = this.scoreSeasonal(recipe, effectiveSeason);
-      const mealTimingScore = this.mealTypeService.scoreMealTypeFit(recipe, effectiveMealType);
+      const mealTimingScore = this.mealTypeService.scoreMealTypeFit(
+        recipe,
+        effectiveMealType,
+      );
 
       // Planetary hour bonus for matching ruling planet
       const rulingPlanet = planetaryResult.rulingPlanet;
-      const planetFavored = this.mealTypeService.isPlanetFavoredForMeal(rulingPlanet, effectiveMealType);
+      const planetFavored = this.mealTypeService.isPlanetFavoredForMeal(
+        rulingPlanet,
+        effectiveMealType,
+      );
 
       const breakdown = {
         planetary: planetaryScore,
@@ -149,13 +165,18 @@ export class UnifiedRecommendationService {
 
       const totalScore = Math.round(
         breakdown.planetary * WEIGHTS.planetary +
-        breakdown.nutrition * WEIGHTS.nutrition +
-        breakdown.preferences * WEIGHTS.preferences +
-        breakdown.seasonal * WEIGHTS.seasonal +
-        breakdown.mealTiming * WEIGHTS.mealTiming,
+          breakdown.nutrition * WEIGHTS.nutrition +
+          breakdown.preferences * WEIGHTS.preferences +
+          breakdown.seasonal * WEIGHTS.seasonal +
+          breakdown.mealTiming * WEIGHTS.mealTiming,
       );
 
-      const reasons = this.collectReasons(breakdown, planetaryResult, effectiveMealType, effectiveSeason);
+      const reasons = this.collectReasons(
+        breakdown,
+        planetaryResult,
+        effectiveMealType,
+        effectiveSeason,
+      );
 
       scored.push({ recipe, totalScore, breakdown, planetaryResult, reasons });
     }
@@ -167,7 +188,10 @@ export class UnifiedRecommendationService {
 
   // --- Hard filters (pass/fail) ---
 
-  private applyHardFilters(recipes: Recipe[], prefs?: UserPreferences): Recipe[] {
+  private applyHardFilters(
+    recipes: Recipe[],
+    prefs?: UserPreferences,
+  ): Recipe[] {
     if (!prefs) return recipes;
 
     return recipes.filter((r) => {
@@ -183,14 +207,20 @@ export class UnifiedRecommendationService {
       // Allergens
       if (prefs.allergies?.length && r.allergens?.length) {
         const recipeAllergens = r.allergens.map((a) => a.toLowerCase());
-        if (prefs.allergies.some((a) => recipeAllergens.includes(a.toLowerCase()))) {
+        if (
+          prefs.allergies.some((a) => recipeAllergens.includes(a.toLowerCase()))
+        ) {
           return false;
         }
       }
 
       // Excluded cuisines
       if (prefs.excludeCuisines?.length && r.cuisine) {
-        if (prefs.excludeCuisines.some((c) => c.toLowerCase() === r.cuisine!.toLowerCase())) {
+        if (
+          prefs.excludeCuisines.some(
+            (c) => c.toLowerCase() === r.cuisine!.toLowerCase(),
+          )
+        ) {
           return false;
         }
       }
@@ -198,16 +228,20 @@ export class UnifiedRecommendationService {
       // Excluded ingredients
       if (prefs.excludedIngredients?.length && r.ingredients) {
         const ingredientNames = r.ingredients.map((i) => i.name.toLowerCase());
-        if (prefs.excludedIngredients.some((ex) =>
-          ingredientNames.some((n) => n.includes(ex.toLowerCase())),
-        )) {
+        if (
+          prefs.excludedIngredients.some((ex) =>
+            ingredientNames.some((n) => n.includes(ex.toLowerCase())),
+          )
+        ) {
           return false;
         }
       }
 
       // Max cook time
       if (prefs.maxCookTimeMinutes) {
-        const totalMin = this.parseTimeToMinutes(r.totalTime ?? r.cookTime ?? r.timeToMake);
+        const totalMin = this.parseTimeToMinutes(
+          r.totalTime ?? r.cookTime ?? r.timeToMake,
+        );
         if (totalMin !== null && totalMin > prefs.maxCookTimeMinutes) {
           return false;
         }
@@ -225,7 +259,11 @@ export class UnifiedRecommendationService {
     let score = 50;
     let factors = 0;
 
-    const check = (actual: number | undefined, target: number | undefined, weight: number) => {
+    const check = (
+      actual: number | undefined,
+      target: number | undefined,
+      weight: number,
+    ) => {
       if (actual == null || target == null) return;
       factors++;
       const ratio = actual / target;
@@ -251,14 +289,20 @@ export class UnifiedRecommendationService {
 
     // Favorite cuisines bonus
     if (prefs.favoriteCuisines?.length && recipe.cuisine) {
-      if (prefs.favoriteCuisines.some((c) => c.toLowerCase() === recipe.cuisine!.toLowerCase())) {
+      if (
+        prefs.favoriteCuisines.some(
+          (c) => c.toLowerCase() === recipe.cuisine!.toLowerCase(),
+        )
+      ) {
         score += 25;
       }
     }
 
     // Preferred ingredients bonus
     if (prefs.preferredIngredients?.length && recipe.ingredients) {
-      const ingredientNames = recipe.ingredients.map((i) => i.name.toLowerCase());
+      const ingredientNames = recipe.ingredients.map((i) =>
+        i.name.toLowerCase(),
+      );
       const matches = prefs.preferredIngredients.filter((p) =>
         ingredientNames.some((n) => n.includes(p.toLowerCase())),
       ).length;
@@ -267,9 +311,11 @@ export class UnifiedRecommendationService {
 
     // Skill level match
     if (prefs.skillLevel && recipe.skillsRequired?.length) {
-      const levels = ['beginner', 'intermediate', 'advanced'];
+      const levels = ["beginner", "intermediate", "advanced"];
       const userLevel = levels.indexOf(prefs.skillLevel);
-      const hasAdvanced = recipe.skillsRequired.some((s) => s.toLowerCase().includes('advanced'));
+      const hasAdvanced = recipe.skillsRequired.some((s) =>
+        s.toLowerCase().includes("advanced"),
+      );
       if (hasAdvanced && userLevel < 2) score -= 15;
     }
 
@@ -282,11 +328,16 @@ export class UnifiedRecommendationService {
     // Check recipe season field
     const recipeSeason = recipe.season;
     if (recipeSeason) {
-      const seasons = Array.isArray(recipeSeason) ? recipeSeason : [recipeSeason];
+      const seasons = Array.isArray(recipeSeason)
+        ? recipeSeason
+        : [recipeSeason];
       const normalized = seasons.map((s) => s.toLowerCase());
       if (normalized.includes(season.toLowerCase())) {
         score += 30;
-      } else if (normalized.includes('all') || normalized.includes('year-round')) {
+      } else if (
+        normalized.includes("all") ||
+        normalized.includes("year-round")
+      ) {
         score += 10;
       }
     }
@@ -302,7 +353,7 @@ export class UnifiedRecommendationService {
   // --- Reason collection ---
 
   private collectReasons(
-    breakdown: ScoredRecommendation['breakdown'],
+    breakdown: ScoredRecommendation["breakdown"],
     planetaryResult: PlanetaryScoringResult,
     mealType: MealType,
     season: string,
@@ -313,10 +364,10 @@ export class UnifiedRecommendationService {
       reasons.push(planetaryResult.planetaryReason);
     }
     if (breakdown.nutrition >= 70) {
-      reasons.push('Aligns well with your nutrition goals');
+      reasons.push("Aligns well with your nutrition goals");
     }
     if (breakdown.preferences >= 70) {
-      reasons.push('Matches your cuisine and ingredient preferences');
+      reasons.push("Matches your cuisine and ingredient preferences");
     }
     if (breakdown.seasonal >= 70) {
       reasons.push(`Great choice for ${season}`);
@@ -325,12 +376,12 @@ export class UnifiedRecommendationService {
       reasons.push(`Well-suited for ${mealType}`);
     }
 
-    if (planetaryResult.recommendedTiming !== 'Favorable any time today') {
+    if (planetaryResult.recommendedTiming !== "Favorable any time today") {
       reasons.push(planetaryResult.recommendedTiming);
     }
 
     if (reasons.length === 0) {
-      reasons.push('A solid choice based on current conditions');
+      reasons.push("A solid choice based on current conditions");
     }
 
     return reasons;
@@ -340,10 +391,10 @@ export class UnifiedRecommendationService {
 
   private getCurrentSeason(): string {
     const month = new Date().getMonth() + 1;
-    if ([3, 4, 5].includes(month)) return 'spring';
-    if ([6, 7, 8].includes(month)) return 'summer';
-    if ([9, 10, 11].includes(month)) return 'autumn';
-    return 'winter';
+    if ([3, 4, 5].includes(month)) return "spring";
+    if ([6, 7, 8].includes(month)) return "summer";
+    if ([9, 10, 11].includes(month)) return "autumn";
+    return "winter";
   }
 
   private parseTimeToMinutes(time?: string): number | null {

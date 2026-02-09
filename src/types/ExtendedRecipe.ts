@@ -87,8 +87,6 @@ export interface ExtendedRecipe extends Recipe {
     condiments?: string[];
   };
 
-
-
   seasonalIngredients?: string[];
   chefNotes?: string[];
   commonMistakes?: string[];

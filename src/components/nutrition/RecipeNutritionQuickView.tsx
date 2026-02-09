@@ -39,9 +39,9 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
   const fiber = (n.fiber ?? 0) * servings;
 
   const microValues: Record<string, number> = {};
-    microValues.vitaminC = (n.vitaminC ?? 0) * servings;
-    microValues.calcium = (n.calcium ?? 0) * servings;
-    microValues.iron = (n.iron ?? 0) * servings;
+  microValues.vitaminC = (n.vitaminC ?? 0) * servings;
+  microValues.calcium = (n.calcium ?? 0) * servings;
+  microValues.iron = (n.iron ?? 0) * servings;
   microValues.fiber = fiber;
   microValues.protein = protein;
 

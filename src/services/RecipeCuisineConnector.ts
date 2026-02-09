@@ -5,7 +5,10 @@ import cuisinesMap from "@/data/cuisines";
 import type { Season, ElementalProperties } from "@/types/alchemy";
 import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
-import { createEmptyNutritionalSummary, type NutritionalSummary } from "@/types/nutrition";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 
 export interface CuisineRecipe {
   id: string;

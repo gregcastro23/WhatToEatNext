@@ -1,7 +1,10 @@
 import type { ElementalProperties, Recipe } from "@/types/recipe";
 import { isNonEmptyArray } from "../common/arrayUtils";
 import { createLogger } from "../logger";
-import { createEmptyNutritionalSummary, type NutritionalSummary } from "@/types/nutrition";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 
 const _logger = createLogger("RecipeEnrichment");
 
@@ -495,7 +498,8 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   }
 
   // Simple nutritional estimation based on ingredients
-  const estimatedNutrition: NutritionalSummary = createEmptyNutritionalSummary();
+  const estimatedNutrition: NutritionalSummary =
+    createEmptyNutritionalSummary();
 
   // Basic nutritional estimation based on ingredients
   if (isNonEmptyArray(recipe.ingredients)) {
@@ -589,8 +593,12 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   if (servings > 1) {
     // Only divide the explicitly mapped fields.
     // Other NutritionalSummary fields remain 0.
-    estimatedNutrition.calories = Math.round(estimatedNutrition.calories / servings);
-    estimatedNutrition.protein = Math.round(estimatedNutrition.protein / servings);
+    estimatedNutrition.calories = Math.round(
+      estimatedNutrition.calories / servings,
+    );
+    estimatedNutrition.protein = Math.round(
+      estimatedNutrition.protein / servings,
+    );
     estimatedNutrition.carbs = Math.round(estimatedNutrition.carbs / servings);
     estimatedNutrition.fat = Math.round(estimatedNutrition.fat / servings);
     estimatedNutrition.fiber = Math.round(estimatedNutrition.fiber / servings);
