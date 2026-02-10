@@ -1,192 +1,303 @@
-"use client";
-
-import React, { useMemo } from "react";
-import type { WeeklyNutritionResult } from "@/types/nutrition";
-import MacroSummary from "./MacroSummary";
-import ComplianceScore from "./ComplianceScore";
-import DailyNutritionSummary from "./DailyNutritionSummary";
-import MicronutrientHighlights from "./MicronutrientHighlights";
-import { findDeficiencies, findExcesses } from "@/utils/nutritionAggregation";
-import { multiplyNutrition } from "@/data/nutritional/rdaStandards";
+import React, { useState } from "react";
+import {
+  WeeklyNutritionResult,
+  ComplianceSeverity,
+  getComplianceSeverity,
+} from "@/types/nutrition";
+import { NutritionRing } from "./NutritionRing";
+import { MacroSummary } from "./MacroSummary";
+import { MicronutrientHighlights } from "./MicronutrientHighlights";
+import { ComplianceScore } from "./ComplianceScore";
+import styles from "./WeeklyNutritionDashboard.module.css";
 
 interface WeeklyNutritionDashboardProps {
-  weeklyResult: WeeklyNutritionResult;
-  isOpen: boolean;
-  onClose: () => void;
+  weeklyData: WeeklyNutritionResult;
+  isExpanded?: boolean;
+  onToggleExpand?: () => void;
 }
 
-/**
- * Full-page weekly nutrition dashboard showing:
- * - Overall weekly compliance
- * - Weekly macro totals vs targets
- * - Daily breakdowns (expandable)
- * - Weekly micronutrient highlights
- * - Variety metrics
- */
-export default function WeeklyNutritionDashboard({
-  weeklyResult,
-  isOpen,
-  onClose,
+export function WeeklyNutritionDashboard({
+  weeklyData,
+  isExpanded = false,
+  onToggleExpand,
 }: WeeklyNutritionDashboardProps) {
-  if (!isOpen) return null;
+  const { weeklyTotals, weeklyGoals, weeklyCompliance, variety } = weeklyData;
 
-  const dailyAvgTarget = useMemo(() => {
-    return multiplyNutrition(weeklyResult.weeklyGoals, 1 / 7);
-  }, [weeklyResult.weeklyGoals]);
+  // Get compliance severity for visual styling
+  const severity = getComplianceSeverity(weeklyCompliance.overall / 100);
 
-  const dailyAvgActual = useMemo(() => {
-    return multiplyNutrition(weeklyResult.weeklyTotals, 1 / 7);
-  }, [weeklyResult.weeklyTotals]);
+  // Calculate macro percentages
+  const totalMacroCalories =
+    weeklyTotals.protein * 4 + weeklyTotals.carbs * 4 + weeklyTotals.fat * 9;
 
-  const weeklyDeficiencies = useMemo(
-    () => findDeficiencies(weeklyResult.weeklyTotals, weeklyResult.weeklyGoals),
-    [weeklyResult],
-  );
-
-  const weeklyExcesses = useMemo(
-    () => findExcesses(weeklyResult.weeklyTotals, weeklyResult.weeklyGoals),
-    [weeklyResult],
-  );
-
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const macroPercentages = {
+    protein:
+      totalMacroCalories > 0
+        ? ((weeklyTotals.protein * 4) / totalMacroCalories) * 100
+        : 33,
+    carbs:
+      totalMacroCalories > 0
+        ? ((weeklyTotals.carbs * 4) / totalMacroCalories) * 100
+        : 33,
+    fat:
+      totalMacroCalories > 0
+        ? ((weeklyTotals.fat * 9) / totalMacroCalories) * 100
+        : 33,
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-green-600 to-teal-600 text-white p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold">Weekly Nutrition Dashboard</h2>
-              <p className="text-green-100 text-sm mt-1">
-                {weeklyResult.weekStartDate.toLocaleDateString()} - {weeklyResult.weekEndDate.toLocaleDateString()}
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              className="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition-colors"
-              aria-label="Close"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)] space-y-6">
-          {/* Top row: Compliance + Average Macros */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <ComplianceScore
-              score={weeklyResult.weeklyCompliance.overall}
-              label="Weekly Compliance"
-              size="lg"
-            />
-
-            <div className="md:col-span-2">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">Daily Averages vs Targets</h3>
-              <MacroSummary actual={dailyAvgActual} target={dailyAvgTarget} />
-            </div>
-          </div>
-
-          {/* Weekly summary cards */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-            <SummaryCard
-              label="Total Calories"
-              value={Math.round(weeklyResult.weeklyTotals.calories)}
-              target={Math.round(weeklyResult.weeklyGoals.calories)}
-              unit="kcal"
-            />
-            <SummaryCard
-              label="Total Protein"
-              value={Math.round(weeklyResult.weeklyTotals.protein)}
-              target={Math.round(weeklyResult.weeklyGoals.protein)}
-              unit="g"
-            />
-            <SummaryCard
-              label="Total Carbs"
-              value={Math.round(weeklyResult.weeklyTotals.carbs)}
-              target={Math.round(weeklyResult.weeklyGoals.carbs)}
-              unit="g"
-            />
-            <SummaryCard
-              label="Total Fat"
-              value={Math.round(weeklyResult.weeklyTotals.fat)}
-              target={Math.round(weeklyResult.weeklyGoals.fat)}
-              unit="g"
-            />
-            <SummaryCard
-              label="Unique Recipes"
-              value={weeklyResult.variety.uniqueRecipes}
-              unit=""
-            />
-          </div>
-
-          {/* Micronutrient highlights */}
-          <MicronutrientHighlights
-            actual={weeklyResult.weeklyTotals}
-            target={weeklyResult.weeklyGoals}
-            deficiencies={weeklyDeficiencies}
-            excesses={weeklyExcesses}
+    <div
+      className={`${styles.dashboard} ${styles[`severity-${severity}`]} ${isExpanded ? styles.expanded : styles.collapsed}`}
+      role="region"
+      aria-label="Weekly Nutrition Dashboard"
+    >
+      {/* Compact View (Always Visible) */}
+      <div className={styles.compactView}>
+        <div className={styles.compactLeft}>
+          {/* Overall Compliance Ring */}
+          <ComplianceScore
+            score={weeklyCompliance.overall}
+            size="compact"
+            showLabel={true}
           />
 
-          {/* Daily breakdowns */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Daily Breakdowns</h3>
-            <div className="space-y-2">
-              {weeklyResult.days.map((day, i) => (
-                <DailyNutritionSummary
-                  key={i}
-                  result={day}
-                  dayLabel={dayNames[i]}
-                />
-              ))}
+          {/* Macro Pills */}
+          <div className={styles.macroPills}>
+            <div className={styles.pill}>
+              <span className={styles.pillLabel}>Calories</span>
+              <span className={styles.pillValue}>
+                {Math.round(weeklyTotals.calories)}
+                <span className={styles.pillTarget}>
+                  / {Math.round(weeklyGoals.calories)}
+                </span>
+              </span>
+            </div>
+            <div className={styles.pill}>
+              <span className={styles.pillLabel}>Protein</span>
+              <span className={styles.pillValue}>
+                {Math.round(weeklyTotals.protein)}g
+                <span className={styles.pillTarget}>
+                  / {Math.round(weeklyGoals.protein)}g
+                </span>
+              </span>
+            </div>
+            <div className={styles.pill}>
+              <span className={styles.pillLabel}>Carbs</span>
+              <span className={styles.pillValue}>
+                {Math.round(weeklyTotals.carbs)}g
+                <span className={styles.pillTarget}>
+                  / {Math.round(weeklyGoals.carbs)}g
+                </span>
+              </span>
+            </div>
+            <div className={styles.pill}>
+              <span className={styles.pillLabel}>Fat</span>
+              <span className={styles.pillValue}>
+                {Math.round(weeklyTotals.fat)}g
+                <span className={styles.pillTarget}>
+                  / {Math.round(weeklyGoals.fat)}g
+                </span>
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-gray-200 p-4 bg-gray-50">
-          <div className="flex justify-end">
-            <button
-              onClick={onClose}
-              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
-            >
-              Close
-            </button>
-          </div>
+        <div className={styles.compactRight}>
+          {/* Top Deficiencies Alert */}
+          {weeklyCompliance.deficiencies.length > 0 && (
+            <div className={styles.deficiencyAlert}>
+              <span className={styles.alertIcon}>⚠️</span>
+              <span className={styles.alertText}>
+                {weeklyCompliance.deficiencies.length} nutrient
+                {weeklyCompliance.deficiencies.length > 1 ? "s" : ""} below
+                target
+              </span>
+            </div>
+          )}
+
+          {/* Expand/Collapse Button */}
+          <button
+            className={styles.expandButton}
+            onClick={onToggleExpand}
+            aria-expanded={isExpanded}
+            aria-label={
+              isExpanded
+                ? "Collapse nutrition details"
+                : "Expand nutrition details"
+            }
+          >
+            {isExpanded ? (
+              <>
+                <span>Hide Details</span>
+                <svg
+                  className={styles.chevron}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 15l7-7 7 7"
+                  />
+                </svg>
+              </>
+            ) : (
+              <>
+                <span>Show Details</span>
+                <svg
+                  className={styles.chevron}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </>
+            )}
+          </button>
         </div>
       </div>
-    </div>
-  );
-}
 
-function SummaryCard({
-  label,
-  value,
-  target,
-  unit,
-}: {
-  label: string;
-  value: number;
-  target?: number;
-  unit: string;
-}) {
-  const pct = target && target > 0 ? Math.round((value / target) * 100) : null;
+      {/* Expanded View (Conditional) */}
+      {isExpanded && (
+        <div className={styles.expandedView}>
+          <div className={styles.expandedGrid}>
+            {/* Left Column: Macro Breakdown */}
+            <div className={styles.expandedSection}>
+              <h3 className={styles.sectionTitle}>
+                Macronutrient Distribution
+              </h3>
+              <MacroSummary
+                totals={{
+                  protein: weeklyTotals.protein,
+                  carbs: weeklyTotals.carbs,
+                  fat: weeklyTotals.fat,
+                  calories: weeklyTotals.calories,
+                }}
+                goals={{
+                  protein: weeklyGoals.protein,
+                  carbs: weeklyGoals.carbs,
+                  fat: weeklyGoals.fat,
+                  calories: weeklyGoals.calories,
+                }}
+                percentages={macroPercentages}
+              />
+            </div>
 
-  return (
-    <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className="text-lg font-bold text-gray-800">
-        {value.toLocaleString()} {unit}
-      </p>
-      {target !== undefined && (
-        <p className="text-xs text-gray-400">
-          / {target.toLocaleString()} {unit}
-          {pct !== null && <span className="ml-1">({pct}%)</span>}
-        </p>
+            {/* Middle Column: Micronutrient Highlights */}
+            <div className={styles.expandedSection}>
+              <h3 className={styles.sectionTitle}>Key Micronutrients</h3>
+              <MicronutrientHighlights
+                totals={weeklyTotals}
+                goals={weeklyGoals}
+                deficiencies={weeklyCompliance.deficiencies}
+              />
+            </div>
+
+            {/* Right Column: Variety & Compliance */}
+            <div className={styles.expandedSection}>
+              <h3 className={styles.sectionTitle}>Dietary Variety</h3>
+              <div className={styles.varietyStats}>
+                <div className={styles.varietyStat}>
+                  <span className={styles.varietyLabel}>
+                    Unique Ingredients
+                  </span>
+                  <span className={styles.varietyValue}>
+                    {variety.uniqueIngredients}
+                  </span>
+                </div>
+                <div className={styles.varietyStat}>
+                  <span className={styles.varietyLabel}>Unique Recipes</span>
+                  <span className={styles.varietyValue}>
+                    {variety.uniqueRecipes}
+                  </span>
+                </div>
+                <div className={styles.varietyStat}>
+                  <span className={styles.varietyLabel}>Cuisine Diversity</span>
+                  <div className={styles.varietyBar}>
+                    <div
+                      className={styles.varietyBarFill}
+                      style={{ width: `${variety.cuisineDiversity * 100}%` }}
+                    />
+                  </div>
+                  <span className={styles.varietyPercent}>
+                    {Math.round(variety.cuisineDiversity * 100)}%
+                  </span>
+                </div>
+                <div className={styles.varietyStat}>
+                  <span className={styles.varietyLabel}>Color Diversity</span>
+                  <div className={styles.varietyBar}>
+                    <div
+                      className={styles.varietyBarFill}
+                      style={{ width: `${variety.colorDiversity * 100}%` }}
+                    />
+                  </div>
+                  <span className={styles.varietyPercent}>
+                    {Math.round(variety.colorDiversity * 100)}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom: Suggestions */}
+          {weeklyCompliance.deficiencies.length > 0 && (
+            <div className={styles.suggestions}>
+              <h4 className={styles.suggestionsTitle}>
+                💡 Nutrition Recommendations
+              </h4>
+              <ul className={styles.suggestionsList}>
+                {weeklyCompliance.deficiencies.slice(0, 5).map((def, idx) => (
+                  <li key={idx} className={styles.suggestionItem}>
+                    <strong>{formatNutrientName(def.nutrient)}</strong>:
+                    Currently averaging {Math.round(def.averageDaily)}
+                    {getNutrientUnit(def.nutrient)}/day (target:{" "}
+                    {Math.round(def.targetDaily)}
+                    {getNutrientUnit(def.nutrient)})
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
+}
+
+// Helper functions
+function formatNutrientName(nutrient: string): string {
+  const nameMap: Record<string, string> = {
+    vitaminA: "Vitamin A",
+    vitaminC: "Vitamin C",
+    vitaminD: "Vitamin D",
+    // ... add more mappings
+  };
+  return (
+    nameMap[nutrient] || nutrient.charAt(0).toUpperCase() + nutrient.slice(1)
+  );
+}
+
+function getNutrientUnit(nutrient: string): string {
+  const unitMap: Record<string, string> = {
+    calories: "kcal",
+    protein: "g",
+    carbs: "g",
+    fat: "g",
+    fiber: "g",
+    sodium: "mg",
+    calcium: "mg",
+    iron: "mg",
+    vitaminC: "mg",
+    vitaminD: "μg",
+    // ... add more mappings
+  };
+  return unitMap[nutrient] || "";
 }

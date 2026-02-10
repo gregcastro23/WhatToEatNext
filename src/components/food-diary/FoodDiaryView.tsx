@@ -17,7 +17,7 @@ import type {
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
 import FoodRating, { StarDisplay } from "./FoodRating";
-import NutritionRing from "../nutrition/NutritionRing";
+import { NutritionRing } from "../nutrition/NutritionRing";
 
 interface FoodDiaryViewProps {
   entries: FoodDiaryEntry[];
@@ -153,33 +153,30 @@ export default function FoodDiaryView({
         <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
           <div className="flex items-center justify-around">
             <NutritionRing
-              value={dailySummary.totalNutrition.calories}
-              max={dailySummary.nutritionGoals?.calories || 2000}
+              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.calories / (dailySummary.nutritionGoals?.calories || 2000)) * 100))}
+              value={`${Math.round(dailySummary.totalNutrition.calories)}`}
               label="Calories"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
-              value={dailySummary.totalNutrition.protein}
-              max={dailySummary.nutritionGoals?.protein || 50}
+              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.protein / (dailySummary.nutritionGoals?.protein || 50)) * 100))}
+              value={`${Math.round(dailySummary.totalNutrition.protein)}g`}
               label="Protein"
-              unit="g"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
-              value={dailySummary.totalNutrition.carbs}
-              max={dailySummary.nutritionGoals?.carbs || 275}
+              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.carbs / (dailySummary.nutritionGoals?.carbs || 275)) * 100))}
+              value={`${Math.round(dailySummary.totalNutrition.carbs)}g`}
               label="Carbs"
-              unit="g"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
-              value={dailySummary.totalNutrition.fat}
-              max={dailySummary.nutritionGoals?.fat || 78}
+              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.fat / (dailySummary.nutritionGoals?.fat || 78)) * 100))}
+              value={`${Math.round(dailySummary.totalNutrition.fat)}g`}
               label="Fat"
-              unit="g"
               size={70}
               strokeWidth={6}
             />

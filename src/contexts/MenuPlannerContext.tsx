@@ -50,9 +50,15 @@ import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
 import { calculateDayCircuit, getMealsForDay } from "@/utils/dayCircuitCalculations";
 import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
 import { findCircuitBottlenecks, generateCircuitSuggestions } from "@/utils/circuitOptimization";
-import { generateDayRecommendations } from "@/utils/menuPlanner/recommendationBridge";
-import type { AstrologicalState } from "@/utils/menuPlanner/recommendationBridge";
+import {
+  generateDayRecommendations,
+  type AstrologicalState,
+  type UserPersonalizationContext,
+} from "@/utils/menuPlanner/recommendationBridge";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import { useUser } from "@/contexts/UserContext";
+import { ChartComparisonService } from "@/services/ChartComparisonService";
+import type { ChartComparison } from "@/types/natalChart";
 
 /**
  * Context type definition
@@ -108,6 +114,8 @@ interface MenuPlannerContextType {
       mealTypes?: MealType[];
       dietaryRestrictions?: string[];
       useCurrentPlanetary?: boolean;
+      /** Use user's natal chart for personalized recommendations */
+      usePersonalization?: boolean;
     },
   ) => Promise<void>;
 
@@ -902,9 +910,34 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     [currentMenu, clearDay],
   );
 
+  // Get user context for personalization
+  const { currentUser } = useUser();
+  const natalChart = currentUser?.natalChart;
+
+  // Memoize chart comparison to avoid recalculating on every render
+  const [chartComparison, setChartComparison] = useState<ChartComparison | null>(null);
+
+  // Update chart comparison when natal chart changes
+  useEffect(() => {
+    const updateChartComparison = async () => {
+      if (!natalChart) {
+        setChartComparison(null);
+        return;
+      }
+      try {
+        const service = ChartComparisonService.getInstance();
+        const comparison = await service.compareCharts(natalChart);
+        setChartComparison(comparison);
+      } catch (err) {
+        logger.error("Failed to calculate chart comparison:", err);
+      }
+    };
+    updateChartComparison();
+  }, [natalChart]);
+
   /**
    * Generate meals for a specific day using planetary recommendations
-   * Phase 3: Smart recommendation feature
+   * Phase 3: Smart recommendation feature with user personalization
    */
   const generateMealsForDay = useCallback(
     async (
@@ -913,6 +946,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         mealTypes?: MealType[];
         dietaryRestrictions?: string[];
         useCurrentPlanetary?: boolean;
+        usePersonalization?: boolean;
       } = {},
     ) => {
       if (!currentMenu) return;
@@ -922,11 +956,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           mealTypes = ["breakfast", "lunch", "dinner"],
           dietaryRestrictions = [],
           useCurrentPlanetary = true,
+          usePersonalization = true,
         } = options;
+
+        const hasPersonalization = usePersonalization && !!natalChart;
 
         logger.info(`Generating meals for day ${dayOfWeek}`, {
           mealTypes,
           dietaryRestrictions,
+          personalized: hasPersonalization,
         });
 
         // Build astrological state for recommendations
@@ -943,7 +981,17 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           currentPlanetaryHour: astrologicalState.currentPlanetaryHour || undefined,
         };
 
-        // Generate recommendations using planetary intelligence
+        // Build user context for personalization
+        const userContext: UserPersonalizationContext | undefined =
+          hasPersonalization && natalChart
+            ? {
+                natalChart,
+                chartComparison: chartComparison || undefined,
+                prioritizeHarmony: true,
+              }
+            : undefined;
+
+        // Generate recommendations using planetary intelligence + user personalization
         const recommendations = await generateDayRecommendations(
           dayOfWeek,
           astroState,
@@ -952,16 +1000,19 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             dietaryRestrictions,
             useCurrentPlanetary: useCurrentPlanetary,
             maxRecipesPerMeal: 1, // Take top recommendation per meal
+            userContext,
           },
         );
 
         logger.info(
           `Generated ${recommendations.length} meal recommendations for day ${dayOfWeek}`,
           {
+            personalized: hasPersonalization,
             recommendations: recommendations.map((r) => ({
               mealType: r.mealType,
-              score: r.score,
+              score: r.personalizedScore || r.score,
               recipeName: r.recipe?.name || "N/A",
+              isPersonalized: r.isPersonalized,
             })),
           },
         );
@@ -979,11 +1030,12 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
             // Only add if slot is empty
             if (!existingSlot) {
+              const score = recommendation.personalizedScore || recommendation.score;
               await addMealToSlot(
                 dayOfWeek,
                 recommendation.mealType,
                 recommendation.recipe,
-                recommendation.score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
+                score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
               );
             }
           }
@@ -999,7 +1051,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         throw err;
       }
     },
-    [currentMenu, astrologicalState, addMealToSlot],
+    [currentMenu, astrologicalState, addMealToSlot, natalChart, chartComparison],
   );
 
   /**

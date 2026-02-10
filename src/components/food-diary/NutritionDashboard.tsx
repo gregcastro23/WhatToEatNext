@@ -16,7 +16,7 @@ import type {
   FoodDiaryStats,
 } from "@/types/foodDiary";
 import type { NutritionalSummary } from "@/types/nutrition";
-import NutritionRing from "../nutrition/NutritionRing";
+import { NutritionRing } from "../nutrition/NutritionRing";
 
 interface NutritionDashboardProps {
   dailySummary: DailyFoodDiarySummary | null;
@@ -112,45 +112,41 @@ export default function NutritionDashboard({
                 <h4 className="text-sm font-medium text-gray-700 mb-3">Daily Progress</h4>
                 <div className="flex items-center justify-around flex-wrap gap-2">
                   <NutritionRing
-                    value={dailySummary.totalNutrition.calories}
-                    max={dailySummary.nutritionGoals?.calories || 2000}
+                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.calories / (dailySummary.nutritionGoals?.calories || 2000)) * 100))}
+                    value={`${Math.round(dailySummary.totalNutrition.calories)} cal`}
                     label="Calories"
                     size={80}
                     strokeWidth={7}
                     color="#f59e0b"
                   />
                   <NutritionRing
-                    value={dailySummary.totalNutrition.protein}
-                    max={dailySummary.nutritionGoals?.protein || 50}
+                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.protein / (dailySummary.nutritionGoals?.protein || 50)) * 100))}
+                    value={`${Math.round(dailySummary.totalNutrition.protein)}g`}
                     label="Protein"
-                    unit="g"
                     size={80}
                     strokeWidth={7}
                     color="#ef4444"
                   />
                   <NutritionRing
-                    value={dailySummary.totalNutrition.carbs}
-                    max={dailySummary.nutritionGoals?.carbs || 275}
+                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.carbs / (dailySummary.nutritionGoals?.carbs || 275)) * 100))}
+                    value={`${Math.round(dailySummary.totalNutrition.carbs)}g`}
                     label="Carbs"
-                    unit="g"
                     size={80}
                     strokeWidth={7}
                     color="#3b82f6"
                   />
                   <NutritionRing
-                    value={dailySummary.totalNutrition.fat}
-                    max={dailySummary.nutritionGoals?.fat || 78}
+                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.fat / (dailySummary.nutritionGoals?.fat || 78)) * 100))}
+                    value={`${Math.round(dailySummary.totalNutrition.fat)}g`}
                     label="Fat"
-                    unit="g"
                     size={80}
                     strokeWidth={7}
                     color="#8b5cf6"
                   />
                   <NutritionRing
-                    value={dailySummary.totalNutrition.sodium}
-                    max={dailySummary.nutritionGoals?.sodium || 2300}
+                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.sodium / (dailySummary.nutritionGoals?.sodium || 2300)) * 100))}
+                    value={`${Math.round(dailySummary.totalNutrition.sodium)}mg`}
                     label="Sodium"
-                    unit="mg"
                     size={80}
                     strokeWidth={7}
                     color="#6b7280"

@@ -2,9 +2,9 @@
 
 import React from "react";
 import type { DailyNutritionResult } from "@/types/nutrition";
-import MacroSummary from "./MacroSummary";
-import ComplianceScore from "./ComplianceScore";
-import MicronutrientHighlights from "./MicronutrientHighlights";
+import { MacroSummary } from "./MacroSummary";
+import { ComplianceScore } from "./ComplianceScore";
+import { MicronutrientHighlights } from "./MicronutrientHighlights";
 
 interface DailyNutritionSummaryProps {
   result: DailyNutritionResult;
