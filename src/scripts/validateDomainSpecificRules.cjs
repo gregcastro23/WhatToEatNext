@@ -1060,7 +1060,7 @@ class DomainSpecificRuleValidator {
       // Check existing config files for proper rule application
       const configFiles = [
         "next.config.js",
-        "tailwind.config.js",
+        "tailwind.config.cjs",
         "jest.config.js",
       ];
 
