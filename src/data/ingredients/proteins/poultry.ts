@@ -53,6 +53,14 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       preparationTips: ["Brine for moisture", "Don't overcook - use thermometer"],
     },
     season: ["year-round"],
+    nutritionalProfile: {
+      serving_size: "6 oz (170g)",
+      calories: 153,
+      macros: { protein: 29, carbs: 0, fat: 3.2, fiber: 0, saturatedFat: 1.0, sugar: 0, potassium: 298, sodium: 65 },
+      vitamins: { B6: 0.4, niacin: 0.6, B12: 0.5 },
+      minerals: { selenium: 0.5, phosphorus: 0.3, zinc: 0.2 },
+      source: "USDA FoodData Central",
+    },
     preparation: {
       methods: ["roast", "grill", "smoke", "braise"],
       timing: "varies by cut",
@@ -111,6 +119,14 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       preparationTips: ["Score the skin", "Render the fat", "Rest before carving"],
     },
     season: ["autumn", "winter"],
+    nutritionalProfile: {
+      serving_size: "5 oz (150g)",
+      calories: 337,
+      macros: { protein: 19, carbs: 0, fat: 28, fiber: 0, saturatedFat: 9.7, sugar: 0, potassium: 209, sodium: 59 },
+      vitamins: { B6: 0.2, niacin: 0.4, B12: 0.3 },
+      minerals: { selenium: 0.4, iron: 0.3, zinc: 0.2 },
+      source: "USDA FoodData Central",
+    },
     preparation: {
       methods: ["roast", "confit", "pan-sear", "smoke"],
       timing: "medium-rare to medium for breast",
@@ -197,6 +213,14 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       preparationTips: ["Use as needed", "Season to taste"],
     },
     season: ["year-round"],
+    nutritionalProfile: {
+      serving_size: "5 oz (150g)",
+      calories: 165,
+      macros: { protein: 31, carbs: 0, fat: 3.6, fiber: 0, saturatedFat: 1.0, sugar: 0, potassium: 256, sodium: 74 },
+      vitamins: { B6: 0.5, niacin: 0.7, B12: 0.3 },
+      minerals: { selenium: 0.4, phosphorus: 0.3, zinc: 0.1 },
+      source: "USDA FoodData Central",
+    },
     preparation: {
       methods: ["standard preparation"],
       timing: "as needed",

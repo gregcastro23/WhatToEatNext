@@ -144,6 +144,8 @@ export class NutritionTrackingService {
     base.carbs = (nutrition.carbs ?? 0) * servings;
     base.fat = (nutrition.fat ?? 0) * servings;
     base.fiber = (nutrition.fiber ?? 0) * servings;
+    base.sugar = (nutrition.sugar ?? 0) * servings;
+    base.saturatedFat = (nutrition.saturatedFat ?? 0) * servings;
 
     // Map micronutrients if available
     base.vitaminA = (nutrition.vitaminA ?? 0) * servings;

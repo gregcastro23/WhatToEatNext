@@ -62,7 +62,7 @@ export default function CookingMethodPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (params.method) {
+    if (params?.method) {
       const methodId = Array.isArray(params.method)
         ? params.method[0]
         : params.method;
