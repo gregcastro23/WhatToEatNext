@@ -259,6 +259,22 @@ export default function NutritionDashboard({
                     unit="mg"
                     color="#a855f7"
                   />
+                  <NutrientBar
+                    label="Sat. Fat"
+                    value={dailySummary.totalNutrition.saturatedFat}
+                    max={20}
+                    unit="g"
+                    color="#f43f5e"
+                    inverse
+                  />
+                  <NutrientBar
+                    label="Sodium"
+                    value={dailySummary.totalNutrition.sodium}
+                    max={dailySummary.nutritionGoals?.sodium || 2300}
+                    unit="mg"
+                    color="#6b7280"
+                    inverse
+                  />
                 </div>
               </div>
 

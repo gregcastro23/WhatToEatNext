@@ -25,6 +25,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 4.8,
         fat: 0.2,
         fiber: 1.5,
+        saturatedFat: 0,
+        sugar: 3.2,
+        potassium: 292,
+        sodium: 6,
       },
       vitamins: {
         C: 0.28, // 28% RDA
@@ -172,6 +176,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 10.3,
         fat: 0.1,
         fiber: 1.9,
+        saturatedFat: 0,
+        sugar: 4.7,
+        potassium: 325,
+        sodium: 4,
       },
       vitamins: {
         C: 0.13, // 13% RDA
@@ -317,6 +325,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 3.0,
         fat: 0.0,
         fiber: 0.2,
+        saturatedFat: 0,
+        sugar: 2.0,
+        potassium: 147,
+        sodium: 2,
       },
       vitamins: {
         C: 0.05,
@@ -461,6 +473,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 6.0,
         fat: 0.2,
         fiber: 2.0,
+        saturatedFat: 0,
+        sugar: 2.5,
+        potassium: 305,
+        sodium: 30,
       },
       vitamins: {
         C: 1.69, // 169% RDA - one of the richest sources!
@@ -606,6 +622,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 6.0,
         fat: 0.1,
         fiber: 1.7,
+        saturatedFat: 0,
+        sugar: 2.3,
+        potassium: 222,
+        sodium: 16,
       },
       vitamins: {
         A: 2.04, // 204% RDA - one of the richest sources!
@@ -752,6 +772,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 6.0,
         fat: 0.3,
         fiber: 2.4,
+        saturatedFat: 0.1,
+        sugar: 1.7,
+        potassium: 316,
+        sodium: 33,
       },
       vitamins: {
         C: 1.35, // 135% RDA
@@ -899,6 +923,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 1.1,
         fat: 0.1,
         fiber: 0.7,
+        saturatedFat: 0,
+        sugar: 0.4,
+        potassium: 170,
+        sodium: 3,
       },
       vitamins: {
         K: 1.81, // 181% RDA - extremely high!
@@ -1048,6 +1076,10 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         carbs: 5.2,
         fat: 0.2,
         fiber: 2.8,
+        saturatedFat: 0,
+        sugar: 0.8,
+        potassium: 271,
+        sodium: 25,
       },
       vitamins: {
         K: 0.70, // 70% RDA

@@ -102,6 +102,12 @@ export function InlineNutritionDashboard({
               target={Math.round(weeklyGoals.fat)}
               unit="g"
             />
+            <MacroPill
+              label="Sodium"
+              value={Math.round(weeklyTotals.sodium)}
+              target={Math.round(weeklyGoals.sodium)}
+              unit="mg"
+            />
           </div>
         </div>
 
