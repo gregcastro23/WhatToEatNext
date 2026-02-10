@@ -1,0 +1,28 @@
+[2025-10-30T04:15:42.326Z] ===== PATTERN 1: MISSING OPENING PARENTHESIS IN FUNCTIONS =====
+[2025-10-30T04:15:42.329Z] Mode: APPLY CHANGES
+[2025-10-30T04:15:42.329Z] Log file: /Users/GregCastro/Desktop/WhatToEatNext/fix-log-pattern-1-1761797742326.txt
+[2025-10-30T04:15:42.329Z] Processing single file: /tmp/parsing-fix-test/comprehensive-test.ts
+[2025-10-30T04:15:42.329Z] Found 1 files to scan
+[2025-10-30T04:15:42.329Z] 
+--- Processing: /tmp/parsing-fix-test/comprehensive-test.ts ---
+[2025-10-30T04:15:49.207Z]   Parsing errors before: 245
+[2025-10-30T04:15:49.209Z]   Line 4: Found function calculateSomething with missing opening paren
+[2025-10-30T04:15:49.209Z]     Before: export function calculateSomething()
+[2025-10-30T04:15:49.209Z]     After:  export function calculateSomething(
+[2025-10-30T04:15:49.209Z]   Line 11: Found function anotherFunction with missing opening paren
+[2025-10-30T04:15:49.209Z]     Before: export const anotherFunction = ()
+[2025-10-30T04:15:49.210Z]     After:  export const anotherFunction = (
+[2025-10-30T04:15:49.210Z]   Line 62: Found function complexFunction with missing opening paren
+[2025-10-30T04:15:49.210Z]     Before: export function complexFunction()
+[2025-10-30T04:15:49.210Z]     After:  export function complexFunction(
+[2025-10-30T04:15:49.210Z] ✓ Backup created: /tmp/parsing-fix-test/comprehensive-test.ts.backup-1761797749210
+[2025-10-30T04:15:49.210Z]   ✓ File written
+[2025-10-30T04:15:56.716Z]   Parsing errors after: 245
+[2025-10-30T04:15:56.716Z]   ✅ Success! Errors: 245 → 245 (Fixed 3 instances)
+[2025-10-30T04:15:56.717Z] 
+===== SUMMARY =====
+[2025-10-30T04:15:56.717Z] Successful fixes: 1
+[2025-10-30T04:15:56.717Z] Failed fixes: 0
+[2025-10-30T04:15:56.717Z] Skipped (no changes): 0
+[2025-10-30T04:15:56.717Z] Total files processed: 1
+[2025-10-30T04:15:56.717Z] Mode: CHANGES APPLIED

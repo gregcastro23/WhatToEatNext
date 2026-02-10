@@ -8,51 +8,57 @@
  * @created 2026-01-10
  */
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  useRef,
-  type ReactNode,
-} from "react";
+import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import { alchemicalApi } from "@/services/AlchemicalApiClient";
 import type {
-  WeeklyMenu,
-  MealSlot,
-  DayOfWeek,
-  MealType,
-  GroceryItem,
-  DailyNutritionTotals,
-  PlanetarySnapshot,
-  MenuTemplate,
-  WeeklyMenuStats,
-  CalendarNavigation,
-} from "@/types/menuPlanner";
-import type {
-  WeeklyMenuCircuitMetrics,
-  DayCircuitMetrics,
-  MealCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
-  CircuitOptimizationGoal,
+  DayCircuitMetrics,
+  MealCircuitMetrics,
+  WeeklyMenuCircuitMetrics,
 } from "@/types/kinetics";
+import type {
+  CalendarNavigation,
+  DailyNutritionTotals,
+  DayOfWeek,
+  GroceryItem,
+  MealSlot,
+  MealType,
+  MenuTemplate,
+  PlanetarySnapshot,
+  WeeklyMenu,
+  WeeklyMenuStats,
+} from "@/types/menuPlanner";
 import {
-  getWeekStartDate,
-  getWeekEndDate,
   PLANETARY_DAY_RULERS,
+  getWeekEndDate,
+  getWeekStartDate,
 } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
-import { logger } from "@/utils/logger";
+import {
+  findCircuitBottlenecks,
+  generateCircuitSuggestions,
+} from "@/utils/circuitOptimization";
+import {
+  calculateDayCircuit,
+  getMealsForDay,
+} from "@/utils/dayCircuitCalculations";
 import { generateGroceryList } from "@/utils/groceryListGenerator";
+import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
-import { calculateDayCircuit, getMealsForDay } from "@/utils/dayCircuitCalculations";
-import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
-import { findCircuitBottlenecks, generateCircuitSuggestions } from "@/utils/circuitOptimization";
-import { generateDayRecommendations } from "@/utils/menuPlanner/recommendationBridge";
 import type { AstrologicalState } from "@/utils/menuPlanner/recommendationBridge";
-import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import { generateDayRecommendations } from "@/utils/menuPlanner/recommendationBridge";
+import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 /**
  * Context type definition
@@ -67,6 +73,11 @@ interface MenuPlannerContextType {
   weeklyCircuitMetrics: WeeklyMenuCircuitMetrics | null;
   dayCircuitMetrics: Record<DayOfWeek, DayCircuitMetrics | null>;
   mealCircuitMetrics: Record<string, MealCircuitMetrics | null>; // keyed by mealSlotId
+
+  // Collective Synastry (NEW - Phase 7/8)
+  participants: Participant[];
+  addParticipant: (participant: Participant) => void;
+  removeParticipant: (participantId: string) => void;
 
   // Calendar navigation
   navigation: CalendarNavigation;
@@ -85,7 +96,10 @@ interface MenuPlannerContextType {
     targetDay: DayOfWeek,
     targetMealType: MealType,
   ) => Promise<void>;
-  moveMeal: (sourceMealSlotId: string, targetMealSlotId: string) => Promise<void>;
+  moveMeal: (
+    sourceMealSlotId: string,
+    targetMealSlotId: string,
+  ) => Promise<void>;
   swapMeals: (mealSlotId1: string, mealSlotId2: string) => Promise<void>;
   copyMealToSlots: (
     sourceMealSlotId: string,
@@ -130,8 +144,12 @@ interface MenuPlannerContextType {
   refreshStats: () => void;
 
   // Circuit operations (NEW - Phase 3A)
-  calculateMealCircuit: (mealSlotId: string) => Promise<MealCircuitMetrics | null>;
-  calculateDayCircuit: (dayOfWeek: DayOfWeek) => Promise<DayCircuitMetrics | null>;
+  calculateMealCircuit: (
+    mealSlotId: string,
+  ) => Promise<MealCircuitMetrics | null>;
+  calculateDayCircuit: (
+    dayOfWeek: DayOfWeek,
+  ) => Promise<DayCircuitMetrics | null>;
   calculateWeeklyCircuit: () => Promise<WeeklyMenuCircuitMetrics | null>;
   refreshCircuitMetrics: () => Promise<void>;
   findBottlenecks: () => CircuitBottleneck[];
@@ -155,9 +173,7 @@ const MenuPlannerContext = createContext<MenuPlannerContextType | undefined>(
 export function useMenuPlanner(): MenuPlannerContextType {
   const context = useContext(MenuPlannerContext);
   if (!context) {
-    throw new Error(
-      "useMenuPlanner must be used within a MenuPlannerProvider",
-    );
+    throw new Error("useMenuPlanner must be used within a MenuPlannerProvider");
   }
   return context;
 }
@@ -257,6 +273,19 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     Record<string, MealCircuitMetrics | null>
   >({});
 
+  // Collective Synastry State (NEW - Phase 7/8)
+  const [participants, setParticipants] = useState<Participant[]>([]);
+
+  const addParticipant = useCallback((participant: Participant) => {
+    setParticipants((prev) => [...prev, participant]);
+    logger.info(`Added participant: ${participant.name}`);
+  }, []);
+
+  const removeParticipant = useCallback((participantId: string) => {
+    setParticipants((prev) => prev.filter((p) => p.id !== participantId));
+    logger.info(`Removed participant: ${participantId}`);
+  }, []);
+
   // Astrological state for planetary recommendations (Phase 3)
   const astrologicalState = useAstrologicalState();
 
@@ -297,9 +326,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         }
       } catch (err) {
         const error =
-          err instanceof Error
-            ? err
-            : new Error("Failed to initialize menu");
+          err instanceof Error ? err : new Error("Failed to initialize menu");
         logger.error("Menu initialization error:", err);
         if (isMountedRef.current) {
           setError(error);
@@ -572,7 +599,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         };
 
         setCurrentMenu(updatedMenu);
-        logger.info(`Moved meal from ${sourceMealSlotId} to ${targetMealSlotId}`);
+        logger.info(
+          `Moved meal from ${sourceMealSlotId} to ${targetMealSlotId}`,
+        );
       } catch (err) {
         logger.error("Failed to move meal:", err);
         throw err;
@@ -836,7 +865,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       setCurrentMenu(updatedMenu);
       logger.info(`Locked meal ${mealSlotId}`);
     },
-    [currentMenu]
+    [currentMenu],
   );
 
   /**
@@ -866,7 +895,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       setCurrentMenu(updatedMenu);
       logger.info(`Unlocked meal ${mealSlotId}`);
     },
-    [currentMenu]
+    [currentMenu],
   );
 
   /**
@@ -878,7 +907,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       const meal = currentMenu.meals.find((m) => m.id === mealSlotId);
       return meal?.isLocked ?? false;
     },
-    [currentMenu]
+    [currentMenu],
   );
 
   /**
@@ -930,6 +959,43 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         });
 
         // Build astrological state for recommendations
+        // Phase 7: Synastry Integration
+        let collectiveSynastry: AstrologicalState["collectiveSynastry"] =
+          undefined;
+
+        if (participants.length > 0) {
+          try {
+            logger.info(
+              "Fetching collective synastry data for meal generation...",
+            );
+            const synastryResponse = await alchemicalApi.getPlanetaryPositions({
+              secondary_charts: participants.map((p) => ({
+                user_id: p.id,
+                birth_date: p.birthDate,
+                birth_time: p.birthTime,
+                latitude: p.birthLocation?.latitude,
+                longitude: p.birthLocation?.longitude,
+              })),
+            });
+
+            if (
+              synastryResponse.is_collective &&
+              synastryResponse.collective_synastry
+            ) {
+              collectiveSynastry = synastryResponse.collective_synastry;
+              logger.info(
+                "Collective synastry data applied to recommendations",
+                {
+                  deficits: collectiveSynastry?.elemental_deficits,
+                },
+              );
+            }
+          } catch (error) {
+            logger.error("Failed to fetch collective synastry data", error);
+            // Fallback to individual recommendations on error
+          }
+        }
+
         const astroState: AstrologicalState = {
           currentZodiac: astrologicalState.currentZodiac || "",
           lunarPhase: astrologicalState.lunarPhase || "waxing crescent",
@@ -940,7 +1006,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             Earth: 0,
             Air: 0,
           },
-          currentPlanetaryHour: astrologicalState.currentPlanetaryHour || undefined,
+          currentPlanetaryHour:
+            astrologicalState.currentPlanetaryHour || undefined,
+          collectiveSynastry, // Pass collective data to bridge
         };
 
         // Generate recommendations using planetary intelligence
@@ -1008,7 +1076,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const updateGroceryItem = useCallback(
     (itemId: string, updates: Partial<GroceryItem>) => {
       setGroceryList((prev) =>
-        prev.map((item) => (item.id === itemId ? { ...item, ...updates } : item)),
+        prev.map((item) =>
+          item.id === itemId ? { ...item, ...updates } : item,
+        ),
       );
     },
     [],
@@ -1100,8 +1170,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           ...m,
           id: `${m.dayOfWeek}-${m.mealType}-${Date.now()}-${index}`,
           planetarySnapshot: newMenu.meals.find(
-            (nm) =>
-              nm.dayOfWeek === m.dayOfWeek && nm.mealType === m.mealType,
+            (nm) => nm.dayOfWeek === m.dayOfWeek && nm.mealType === m.mealType,
           )!.planetarySnapshot,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -1203,7 +1272,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       try {
         const metrics = calculateMealCircuit(
           mealSlot,
-          mealSlot.planetarySnapshot.planetaryPositions
+          mealSlot.planetarySnapshot.planetaryPositions,
         );
 
         if (metrics) {
@@ -1216,11 +1285,14 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
         return metrics;
       } catch (err) {
-        logger.error(`Failed to calculate meal circuit for ${mealSlotId}:`, err);
+        logger.error(
+          `Failed to calculate meal circuit for ${mealSlotId}:`,
+          err,
+        );
         return null;
       }
     },
-    [currentMenu]
+    [currentMenu],
   );
 
   /**
@@ -1235,7 +1307,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         const metrics = calculateDayCircuit(
           dayMeals,
           dayOfWeek,
-          dayMeals[0]?.planetarySnapshot.planetaryPositions
+          dayMeals[0]?.planetarySnapshot.planetaryPositions,
         );
 
         // Update state
@@ -1246,24 +1318,27 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
         return metrics;
       } catch (err) {
-        logger.error(`Failed to calculate day circuit for day ${dayOfWeek}:`, err);
+        logger.error(
+          `Failed to calculate day circuit for day ${dayOfWeek}:`,
+          err,
+        );
         return null;
       }
     },
-    [currentMenu]
+    [currentMenu],
   );
 
   /**
    * Calculate circuit metrics for the entire weekly menu
    */
-  const calculateWeeklyCircuitMetrics = useCallback(
-    async (): Promise<WeeklyMenuCircuitMetrics | null> => {
+  const calculateWeeklyCircuitMetrics =
+    useCallback(async (): Promise<WeeklyMenuCircuitMetrics | null> => {
       if (!currentMenu) return null;
 
       try {
         const metrics = calculateWeeklyCircuit(
           currentMenu,
-          currentMenu.meals[0]?.planetarySnapshot.planetaryPositions
+          currentMenu.meals[0]?.planetarySnapshot.planetaryPositions,
         );
 
         // Update state
@@ -1287,9 +1362,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         logger.error("Failed to calculate weekly circuit:", err);
         return null;
       }
-    },
-    [currentMenu]
-  );
+    }, [currentMenu]);
 
   /**
    * Refresh all circuit metrics
@@ -1314,7 +1387,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
     // Filter out null day circuits
     const validDayCircuits = Object.values(dayCircuitMetrics).filter(
-      (d): d is DayCircuitMetrics => d !== null
+      (d): d is DayCircuitMetrics => d !== null,
     );
 
     // Need all 7 days to analyze bottlenecks
@@ -1323,7 +1396,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     try {
       return findCircuitBottlenecks(
         dayCircuitMetrics as Record<DayOfWeek, DayCircuitMetrics>,
-        currentMenu
+        currentMenu,
       );
     } catch (err) {
       logger.error("Failed to find bottlenecks:", err);
@@ -1339,7 +1412,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
     // Filter out null day circuits
     const validDayCircuits = Object.values(dayCircuitMetrics).filter(
-      (d): d is DayCircuitMetrics => d !== null
+      (d): d is DayCircuitMetrics => d !== null,
     );
 
     // Need all 7 days to generate suggestions
@@ -1349,7 +1422,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       return generateCircuitSuggestions(
         dayCircuitMetrics as Record<DayOfWeek, DayCircuitMetrics>,
         currentMenu,
-        currentMenu.meals[0]?.planetarySnapshot.planetaryPositions
+        currentMenu.meals[0]?.planetarySnapshot.planetaryPositions,
       );
     } catch (err) {
       logger.error("Failed to generate suggestions:", err);
@@ -1413,6 +1486,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       getSuggestions,
       saveMenu,
       loadMenu,
+      participants,
+      addParticipant,
+      removeParticipant,
     }),
     [
       currentMenu,
@@ -1452,6 +1528,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       getSuggestions,
       saveMenu,
       loadMenu,
+      participants,
+      addParticipant,
+      removeParticipant,
     ],
   );
 

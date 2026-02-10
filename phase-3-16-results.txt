@@ -1,0 +1,14 @@
+=== Phase 3.16 Baseline ===
+BEFORE Phase 3.16:
+879
+Error breakdown by type:
+🏷️  Errors grouped by type:
+ 328 TS2339
+ 121 TS2352
+ 118 TS2345
+ 101 TS2322
+  48 TS2304
+  26 TS2349
+  19 TS2362
+  17 TS2554
+  12 TS2724

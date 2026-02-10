@@ -10,9 +10,10 @@ const getAstrologizeApiUrl = () => {
   if (typeof window === "undefined") {
     // Server-side: use absolute URL with configured base
     // Priority: NEXT_PUBLIC_BASE_URL > VERCEL_URL > localhost
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
-      || "http://localhost:3000";
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+      "http://localhost:3000";
     return `${baseUrl}/api/astrologize`;
   }
   // Client-side: use relative URL
@@ -386,11 +387,68 @@ export async function testAstrologizeApi(): Promise<boolean> {
 }
 
 /**
- * Get current chart data (alias for getCurrentPlanetaryPositions)
+ * Get the URL for the recipe recommendations API
+ * Direct connection to Mac Mini backend
  */
-export async function getCurrentChart(
-  location?: { latitude: number; longitude: number },
-  zodiacSystem: "tropical" | "sidereal" = "tropical",
-): Promise<Record<string, PlanetPosition>> {
-  return await getCurrentPlanetaryPositions(location, zodiacSystem);
+export const getRecipeRecommendationsApiUrl = () => {
+  return "http://192.168.0.129:8001/api/astrological/recipe-recommendations-by-chart";
+};
+
+/**
+ * Interface for planetary positions request
+ * Strictly typed for Swisseph calculations
+ */
+export interface PlanetaryPositionsRequest {
+  year?: number;
+  month?: number;
+  day?: number;
+  hour?: number;
+  minute?: number;
+  latitude: number; // Required float
+  longitude: number; // Required float
+  zodiacSystem?: "tropical" | "sidereal";
+}
+
+/**
+ * Fetch astrological recipes using the circuit breaker
+ */
+export async function fetchAstrologicalRecipes(
+  criteria: PlanetaryPositionsRequest,
+): Promise<any> {
+  return astrologizeApiCircuitBreaker.call(
+    async () => {
+      const url = getRecipeRecommendationsApiUrl();
+
+      log.info("Fetching astrological recipes from:", url);
+      log.info("Criteria:", criteria);
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(criteria),
+        // 10 second timeout for heavy Swiss Ephemeris calculations
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Recipe API request failed: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      return data;
+    },
+    () => {
+      // Fallback if circuit breaker is open or request fails
+      log.warn("Using fallback recipe recommendations due to API failure");
+      return {
+        recommendations: [],
+        error: "Service temporarily unavailable. Please try again later.",
+        fallback: true,
+      };
+    },
+  );
 }

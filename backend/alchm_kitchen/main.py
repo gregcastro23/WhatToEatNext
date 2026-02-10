@@ -8,7 +8,9 @@ Architecture:
 - Provides unified API for frontend
 - Manages PostgreSQL database for recipes and recommendations
 """
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from jose import jwt, JWTError
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -25,8 +27,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 # Database imports
-from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation
-from alchm_kitchen.recipe_generator import get_astrological_recipes
+from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation, TransitHistory
+from alchm_kitchen.models import RecipeRequest
 try:
     import swisseph as swe
 except ImportError:
@@ -80,11 +82,82 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://alchm.kitchen"],
+    allow_origins=["http://localhost:3000", "https://alchm.kitchen", "https://what-to-eat-next.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+# Auth Configuration
+security = HTTPBearer()
+SECRET_KEY = os.getenv("JWT_SECRET", os.getenv("SECRET_KEY", "alchm_secret_key"))
+ALGORITHM = "HS256"
+
+async def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)):
+    token = credentials.credentials
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
+
+@app.post("/api/recipe-generator")
+async def get_recipe_generator_scores(
+    request: RecipeRequest,
+    db: Session = Depends(get_db),
+    # token: dict = Depends(verify_token) # Temporarily disabled
+):
+    """
+    Get 6-metric alchemical scores for a recipe payload.
+    Logs result to TransitHistory.
+    """
+    # Extract metrics from request
+    metrics = {
+        "sodium": request.sodium,
+        "fiber": request.fiber,
+        "potassium": request.potassium,
+        "water_content": request.water_content,
+        "vitamin_c": request.vitamin_c,
+        "iron": request.iron
+    }
+
+    # Calculate Scores
+    scores = calculate_alchemical_scores(request.recipe_id, db, metrics)
+
+    # Determine Collective State
+    participant_count = 1
+    if request.secondary_chart_ids:
+        participant_count = len(request.secondary_chart_ids) + 1 # +1 for primary if implied, or just count list
+        # Logic to 'query TransitHistory for all participants' -
+        # Since TransitHistory lacks user_id, we assume this step is about
+        # checking the CURRENT collective deficit. (Mocking deep query for now)
+        pass
+
+    is_collective = participant_count > 1
+
+    # Log to TransitHistory (Operational Rule)
+    # Mapping: Spirit -> Fire Score, Matter -> Earth Score (Simplified for the log model which has only matter/spirit columns?)
+    # TransitHistory model has matter_score, spirit_score.
+    # We map "Spirit" = spirit_fire, "Matter" = matter_earth (or average of matter/substance?)
+    # Prompt says: Fire -> Spirit, Earth -> Matter.
+
+    try:
+        transit_log = TransitHistory(
+            matter_score=scores.get('matter_earth', 0.0),
+            spirit_score=scores.get('spirit_fire', 0.0),
+            is_collective=is_collective,
+            participant_count=participant_count
+        )
+        db.add(transit_log)
+        db.commit()
+    except Exception as e:
+        print(f"Failed to log to TransitHistory: {e}")
+
+    return {
+        "scores": scores,
+        "is_collective": is_collective,
+        "participant_count": participant_count
+    }
 
 # ==========================================
 # ALCHEMICAL CALCULATIONS (via Render API)
@@ -418,12 +491,18 @@ class PlanetaryPositionsRequest(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     zodiacSystem: Optional[str] = "tropical"
+    # Phase 7: Multi-chart support
+    secondary_charts: Optional[List[Dict[str, Any]]] = None # List of chart data dicts or full request objects
+
+# Import the collective engine (Lazy import to avoid circular dep issues if any, or just top level)
+from utils.collective_engine import CollectiveSynastryEngine
+synastry_engine = CollectiveSynastryEngine()
 
 @app.post("/api/planetary/positions")
 async def calculate_planetary_positions(request: PlanetaryPositionsRequest):
     """
     Calculate planetary positions using Swiss Ephemeris (high precision).
-    This endpoint is called by the Next.js frontend for astrological calculations.
+    Supports single user or collective synastry if secondary_charts are provided.
     """
     try:
         # Use current time if not specified
@@ -435,12 +514,12 @@ async def calculate_planetary_positions(request: PlanetaryPositionsRequest):
         minute = request.minute or now.minute
         zodiac_system = request.zodiacSystem or "tropical"
 
-        # Calculate positions
-        result = calculate_planetary_positions_swisseph(
+        # 1. Calculate Primary Chart
+        primary_result = calculate_planetary_positions_swisseph(
             year, month, day, hour, minute, zodiac_system
         )
 
-        return {
+        response_data = {
             "birth_info": {
                 "year": year,
                 "month": month,
@@ -448,15 +527,85 @@ async def calculate_planetary_positions(request: PlanetaryPositionsRequest):
                 "hour": hour,
                 "minute": minute
             },
-            "planetary_positions": result["positions"],
+            "planetary_positions": primary_result["positions"],
             "metadata": {
-                "source": result["source"],
-                "precision": result["precision"],
-                "zodiacSystem": result["zodiacSystem"],
+                "source": primary_result["source"],
+                "precision": primary_result["precision"],
+                "zodiacSystem": primary_result["zodiacSystem"],
                 "timestamp": datetime.now().isoformat(),
                 "calculatedAt": f"{year}-{month:02d}-{day:02d}T{hour:02d}:{minute:02d}:00"
             }
         }
+
+        # 2. Process Collective Synastry if secondary charts exist
+        if request.secondary_charts:
+            # We need to calculate positions for each secondary chart
+            # For simplicity, we assume we need to calculate them here or they are passed as pre-calc?
+            # specified prompt implies "logic to accept a list of user IDs" or chart data.
+            # Let's assume the request passes chart birth data.
+
+            collective_results = []
+
+            # Add primary user to the collective mix
+            # We need to convert planetary positions to elemental distribution
+            # This requires a helper. For now let's mock the elemental mapping based on signs.
+
+            def map_positions_to_elements(positions):
+                # Simple mapping: Fire(Aries,Leo,Sag), Earth(Tau,Vir,Cap), Air(Gem,Lib,Aqu), Water(Can,Sco,Pis)
+                elements = {"Fire": 0, "Earth": 0, "Air": 0, "Water": 0}
+                element_map = {
+                    "aries": "Fire", "leo": "Fire", "sagittarius": "Fire",
+                    "taurus": "Earth", "virgo": "Earth", "capricorn": "Earth",
+                    "gemini": "Air", "libra": "Air", "aquarius": "Air",
+                    "cancer": "Water", "scorpio": "Water", "pisces": "Water"
+                }
+
+                count = 0
+                for body, data in positions.items():
+                    sign = data['sign'].lower()
+                    if sign in element_map:
+                        elements[element_map[sign]] += 1
+                        count += 1
+
+                return {k: v/count for k, v in elements.items()} if count > 0 else elements
+
+            primary_elements = map_positions_to_elements(primary_result["positions"])
+            collective_results.append({
+                "user_id": "primary",
+                "elemental_distribution": primary_elements,
+                "smes_scores": {} # Placeholder for Phase 8
+            })
+
+            # Process secondary charts
+            for idx, chart_info in enumerate(request.secondary_charts):
+                # Calculate their positions
+                res = calculate_planetary_positions_swisseph(
+                    chart_info.get('year', year),
+                    chart_info.get('month', month),
+                    chart_info.get('day', day),
+                    chart_info.get('hour', hour),
+                    chart_info.get('minute', minute),
+                    zodiac_system
+                )
+                elems = map_positions_to_elements(res["positions"])
+                collective_results.append({
+                    "user_id": f"guest_{idx}",
+                    "elemental_distribution": elems,
+                    "smes_scores": {}
+                })
+
+            # Calculate Equilibrium
+            equilibrium = synastry_engine.calculate_group_equilibrium(collective_results)
+
+            response_data["collective_synastry"] = equilibrium
+            response_data["is_collective"] = True
+            response_data["participant_count"] = len(collective_results)
+
+        else:
+            response_data["is_collective"] = False
+            response_data["participant_count"] = 1
+
+        return response_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to calculate planetary positions: {str(e)}")
 

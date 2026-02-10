@@ -1,6 +1,80 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
+from database.models import Ingredient, Recipe
+
+def calculate_alchemical_scores(recipe_id: Optional[str], db: Session, metrics: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+    """
+    Calculate the 6-metric alchemical scores based on nutritional metrics.
+    If metrics are provided, use them. Otherwise, aggregate from recipe ingredients.
+    """
+    # Initialize values
+    sodium_val = 0.0
+    fiber_val = 0.0
+    potassium_val = 0.0
+    water_content_val = 0.0
+    vitamin_c_val = 0.0
+    iron_val = 0.0
+
+    if metrics:
+        sodium_val = metrics.get('sodium', 0.0)
+        fiber_val = metrics.get('fiber', 0.0)
+        potassium_val = metrics.get('potassium', 0.0)
+        water_content_val = metrics.get('water_content', 0.0)
+        vitamin_c_val = metrics.get('vitamin_c', 0.0)
+        iron_val = metrics.get('iron', 0.0)
+    elif recipe_id:
+        recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
+        if not recipe or not recipe.ingredients:
+            return {}
+
+        for ri in recipe.ingredients:
+            ing = ri.ingredient
+            qty = ri.quantity  # primitive weighting by quantity if needed, but for now just summing or using profiles
+            # Assuming 100g base for nutritional maps if simple sum, otherwise we need unit conversion logic.
+            # For this task, we'll assume linear accumulation from ingredient profiles if available.
+
+            # Helper to get val
+            def get_val(key):
+                if ing.nutritional_profile and key in ing.nutritional_profile:
+                    return float(ing.nutritional_profile[key])
+                return 0.0
+
+            sodium_val += get_val('sodium')
+            fiber_val += (float(ing.fiber) if ing.fiber else 0.0)
+            potassium_val += get_val('potassium')
+            water_content_val += get_val('water_content')
+            vitamin_c_val += get_val('vitamin_c')
+            iron_val += get_val('iron')
+
+    # Mapping Logic (Elemental Synthesis)
+    # Fire (Spirit) - Metabolic Heat / Blood Vitality
+    spirit_fire = (vitamin_c_val * 0.1) + (iron_val * 2.0)  # Weights arbitrated for now
+
+    # Water (Essence) - Hydration / Aqueous Balance
+    essence_water = (water_content_val * 0.05) + (potassium_val * 0.02)
+
+    # Earth (Matter) - Structural Density
+    matter_earth = fiber_val * 2.0
+
+    # Earth/Water (Substance) - Retention / Physical Presence
+    substance_earth_water = sodium_val * 0.05
+
+    return {
+        "spirit_fire": spirit_fire,
+        "essence_water": essence_water,
+        "matter_earth": matter_earth,
+        "substance_earth_water": substance_earth_water,
+        "raw_metrics": {
+            "sodium": sodium_val,
+            "fiber": fiber_val,
+            "potassium": potassium_val,
+            "water_content": water_content_val,
+            "vitamin_c": vitamin_c_val,
+            "iron": iron_val
+        }
+    }
+
 
 def get_recipes_by_sign_affinity(sign: str, db: Session, limit: int = 5) -> List[Dict[str, Any]]:
     """

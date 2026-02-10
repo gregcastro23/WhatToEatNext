@@ -1,0 +1,61 @@
+[2025-09-09T21:23:37.475Z] 🚀 Starting Safe ESLint Reduction Campaign
+[2025-09-09T21:24:37.485Z] Error getting issue count: spawnSync /bin/sh ETIMEDOUT
+[2025-09-09T21:24:37.486Z] Initial ESLint issues: -1
+[2025-09-09T21:24:37.487Z] Applying ESLint auto-fix for safe rules...
+[2025-09-09T21:24:37.487Z] Fixing rule: import/order
+[2025-09-09T21:25:21.072Z] ⚠️ import/order fixes completed with warnings
+[2025-09-09T21:25:21.073Z] Fixing rule: @typescript-eslint/prefer-optional-chain
+[2025-09-09T21:25:22.427Z] ⚠️ @typescript-eslint/prefer-optional-chain fixes completed with warnings
+[2025-09-09T21:25:22.427Z] Validating build...
+[2025-09-09T21:25:27.574Z] ❌ Build validation failed: Command failed: yarn build
+Failed to compile.
+
+./src/services/LocalRecipeService.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/services/LocalRecipeService.ts[0m:465:1]
+ [2m462[0m |             null,
+ [2m463[0m |             2,
+ [2m464[0m |           ),
+ [2m465[0m |         );
+     : [35;1m        ^[0m
+ [2m466[0m | 
+ [2m467[0m |         // Check if the dishes property might be nested incorrectly
+ [2m468[0m |         if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/services/LocalRecipeService.ts
+./src/utils/recipeMatching.ts
+./src/services/ingredientMappingService.ts
+./src/services/index.ts
+./src/hooks/useServices.ts
+./src/app/test/migrated-components/cuisine-section/page.tsx
+
+./src/services/LocalRecipeService.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/services/LocalRecipeService.ts[0m:465:1]
+ [2m462[0m |             null,
+ [2m463[0m |             2,
+ [2m464[0m |           ),
+ [2m465[0m |         );
+     : [35;1m        ^[0m
+ [2m466[0m | 
+ [2m467[0m |         // Check if the dishes property might be nested incorrectly
+ [2m468[0m |         if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/services/LocalRecipeService.ts
+./src/data/recipes.ts
+./src/pages/cuisines/[id].tsx
+
+
+> Build failed because of webpack errors
+
+[2025-09-09T21:25:27.575Z] ❌ Campaign failed: Build failed after auto-fix

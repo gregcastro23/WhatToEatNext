@@ -1,0 +1,486 @@
+[2025-10-30T04:44:32.720Z] ===== QUICK FIX - PATTERN 1: MISSING OPENING PAREN IN FUNCTIONS =====
+[2025-10-30T04:44:32.722Z] Mode: APPLY CHANGES
+[2025-10-30T04:44:39.534Z] Parsing errors before: 245
+[2025-10-30T04:44:39.550Z] Scanning 799 TypeScript files...
+[2025-10-30T04:44:39.561Z]   Line 359: applySeasonalModifier - removed closing paren
+[2025-10-30T04:44:39.561Z] src/constants/seasonalCore.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.561Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/constants/seasonalCore.ts.backup-1761799479561
+[2025-10-30T04:44:39.562Z]   Line 474: getPlanetaryAlchemicalEffect - removed closing paren
+[2025-10-30T04:44:39.562Z]   Line 1240: calculatePillarGregsEnergy - removed closing paren
+[2025-10-30T04:44:39.562Z]   Line 1256: calculatePillarMonica - removed closing paren
+[2025-10-30T04:44:39.563Z]   Line 1326: calculateOptimalCookingConditions - removed closing paren
+[2025-10-30T04:44:39.563Z]   Line 1395: calculatePlanetaryAlignment - removed closing paren
+[2025-10-30T04:44:39.563Z]   Line 1419: calculateLunarPhaseBonus - removed closing paren
+[2025-10-30T04:44:39.563Z] src/constants/alchemicalPillars.ts: Found 6 missing opening parens
+[2025-10-30T04:44:39.564Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/constants/alchemicalPillars.ts.backup-1761799479563
+[2025-10-30T04:44:39.564Z]   Line 35: determineIngredientModality - removed closing paren
+[2025-10-30T04:44:39.564Z]   Line 267: mergeElementalProperties - removed closing paren
+[2025-10-30T04:44:39.564Z]   Line 339: ingredientToRecipeIngredient - removed closing paren
+[2025-10-30T04:44:39.564Z] src/utils/ingredientUtils.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.565Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientUtils.ts.backup-1761799479564
+[2025-10-30T04:44:39.565Z]   Line 13: createElementalProperties - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 198: getMethodThermodynamics - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 284: calculateThermodynamicBaseScore - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 328: calculateEnhancedElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 354: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 382: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 418: getRecommendedCookingMethods - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 552: _calculateAspectMethodAffinity - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 596: calculateMethodScore - removed closing paren
+[2025-10-30T04:44:39.565Z]   Line 645: createElementalProfileFromAstroState - removed closing paren
+[2025-10-30T04:44:39.566Z]   Line 666: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.566Z]   Line 688: getCookingMethodRecommendations - removed closing paren
+[2025-10-30T04:44:39.566Z]   Line 750: getHolisticCookingRecommendations - removed closing paren
+[2025-10-30T04:44:39.566Z]   Line 811: getRecommendedCookingMethodsForIngredient - removed closing paren
+[2025-10-30T04:44:39.566Z] src/utils/recommendation/methodRecommendation.ts: Found 14 missing opening parens
+[2025-10-30T04:44:39.566Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/methodRecommendation.ts.backup-1761799479566
+[2025-10-30T04:44:39.566Z]   Line 79: generateEnhancedCuisineRecommendations - removed closing paren
+[2025-10-30T04:44:39.566Z]   Line 163: generateCuisineRecommendation - removed closing paren
+[2025-10-30T04:44:39.566Z]   Line 180: generateBasicCuisineRecommendations - removed closing paren
+[2025-10-30T04:44:39.567Z]   Line 459: calculateElementalContributionsFromPlanets - removed closing paren
+[2025-10-30T04:44:39.567Z] src/utils/recommendation/cuisineRecommendation.ts: Found 4 missing opening parens
+[2025-10-30T04:44:39.567Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/cuisineRecommendation.ts.backup-1761799479567
+[2025-10-30T04:44:39.567Z]   Line 50: calculateRecommendationScore - removed closing paren
+[2025-10-30T04:44:39.567Z]   Line 97: getRecommendedRecipes - removed closing paren
+[2025-10-30T04:44:39.567Z]   Line 117: explainRecommendation - removed closing paren
+[2025-10-30T04:44:39.567Z]   Line 324: getDetailedRecipeRecommendations - removed closing paren
+[2025-10-30T04:44:39.567Z]   Line 389: calculateElementalMatch - removed closing paren
+[2025-10-30T04:44:39.567Z]   Line 460: calculateRecipeMatchScore - removed closing paren
+[2025-10-30T04:44:39.567Z] src/utils/recommendation/foodRecommendation.ts: Found 6 missing opening parens
+[2025-10-30T04:44:39.568Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/foodRecommendation.ts.backup-1761799479567
+[2025-10-30T04:44:39.568Z]   Line 881: calculateUnifiedFlavorScore - removed closing paren
+[2025-10-30T04:44:39.568Z]   Line 904: calculateKalchmResonance - removed closing paren
+[2025-10-30T04:44:39.568Z]   Line 923: calculateMonicaOptimization - removed closing paren
+[2025-10-30T04:44:39.568Z]   Line 945: calculateCulturalContextScore - removed closing paren
+[2025-10-30T04:44:39.568Z]   Line 1035: calculateElementalInfluences - removed closing paren
+[2025-10-30T04:44:39.568Z] src/utils/recommendation/ingredientRecommendation.ts: Found 5 missing opening parens
+[2025-10-30T04:44:39.568Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/ingredientRecommendation.ts.backup-1761799479568
+[2025-10-30T04:44:39.569Z]   Line 6: convertToLunarPhase - removed closing paren
+[2025-10-30T04:44:39.569Z] src/utils/lunarUtils.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.569Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/lunarUtils.ts.backup-1761799479569
+[2025-10-30T04:44:39.569Z]   Line 248: getMethodThermodynamics - removed closing paren
+[2025-10-30T04:44:39.569Z]   Line 413: calculateEnhancedElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.569Z]   Line 464: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:44:39.569Z]   Line 506: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:44:39.570Z]   Line 1430: calculateMethodScore - removed closing paren
+[2025-10-30T04:44:39.570Z]   Line 1491: getAstrologicalElementalProfile - removed closing paren
+[2025-10-30T04:44:39.570Z]   Line 1523: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.570Z]   Line 1553: getCookingMethodRecommendations - removed closing paren
+[2025-10-30T04:44:39.570Z] src/utils/cookingMethodRecommender.ts: Found 8 missing opening parens
+[2025-10-30T04:44:39.570Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cookingMethodRecommender.ts.backup-1761799479570
+[2025-10-30T04:44:39.570Z]   Line 63: createEnhancedError - removed closing paren
+[2025-10-30T04:44:39.571Z] src/utils/errorHandling.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.571Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/errorHandling.ts.backup-1761799479571
+[2025-10-30T04:44:39.571Z]   Line 177: validatePlanetTransitDates - removed closing paren
+[2025-10-30T04:44:39.572Z]   Line 842: generateValidationSummary - removed closing paren
+[2025-10-30T04:44:39.572Z] src/utils/planetaryValidation.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.572Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetaryValidation.ts.backup-1761799479572
+[2025-10-30T04:44:39.572Z]   Line 156: calculatePlanetaryAspects - removed closing paren
+[2025-10-30T04:44:39.572Z] src/utils/safeAstrology.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.573Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/safeAstrology.ts.backup-1761799479572
+[2025-10-30T04:44:39.573Z]   Line 153: calculateElementalSimilarity - removed closing paren
+[2025-10-30T04:44:39.573Z]   Line 345: classifySignatureStrength - removed closing paren
+[2025-10-30T04:44:39.573Z] src/utils/cuisineAggregations.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.574Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisineAggregations.ts.backup-1761799479573
+[2025-10-30T04:44:39.574Z]   Line 104: getPlanetaryDignity - removed closing paren
+[2025-10-30T04:44:39.574Z]   Line 527: _calculatePlanetPosition - removed closing paren
+[2025-10-30T04:44:39.574Z]   Line 888: calculateEnhancedStelliumEffects - removed closing paren
+[2025-10-30T04:44:39.574Z]   Line 1098: calculateJoyEffects - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 1181: calculateCompleteAstrologicalEffects - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 1295: getPlanetaryDignityInfo - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 1407: calculateAspects - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2303: calculateDominantElement - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2353: calculateElementalProfile - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2403: transformItemsWithPlanetaryPositions - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2527: calculateCurrentElementalInfluence - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2596: calculateItemCompatibilityScore - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2667: calculateAlchemicalProperties - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2748: calculateThermodynamicProperties - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2770: calculateElementalTransformations - removed closing paren
+[2025-10-30T04:44:39.575Z]   Line 2856: calculateOverallAlchemicalScore - removed closing paren
+[2025-10-30T04:44:39.575Z] src/utils/astrologyUtils.ts: Found 16 missing opening parens
+[2025-10-30T04:44:39.576Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts.backup-1761799479575
+[2025-10-30T04:44:39.576Z]   Line 670: analyzePerformanceTrend - removed closing paren
+[2025-10-30T04:44:39.576Z]   Line 952: calculateOverallQualityScore - removed closing paren
+[2025-10-30T04:44:39.577Z]   Line 1045: generateOptimizationRecommendations - removed closing paren
+[2025-10-30T04:44:39.577Z] src/utils/buildQualityMonitor.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.577Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/buildQualityMonitor.ts.backup-1761799479577
+[2025-10-30T04:44:39.577Z]   Line 36: calculateComprehensiveAspects - removed closing paren
+[2025-10-30T04:44:39.578Z] src/utils/aspectCalculator.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.578Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/aspectCalculator.ts.backup-1761799479578
+[2025-10-30T04:44:39.579Z]   Line 70: isCuisineCompatibleWithIngredient - removed closing paren
+[2025-10-30T04:44:39.579Z]   Line 84: getSharedIngredients - removed closing paren
+[2025-10-30T04:44:39.579Z] src/utils/cuisine/cuisineUtils.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.579Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisine/cuisineUtils.ts.backup-1761799479579
+[2025-10-30T04:44:39.579Z]   Line 32: calculateZScore - removed closing paren
+[2025-10-30T04:44:39.579Z]   Line 70: calculateSignatureConfidence - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 172: identifyElementalSignatures - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 211: identifyAlchemicalSignatures - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 259: identifyThermodynamicSignatures - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 304: generateElementalSignatureDescription - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 326: generateAlchemicalSignatureDescription - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 348: generateThermodynamicSignatureDescription - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 382: identifyCuisineSignatures - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 452: filterSignaturesByStrength - removed closing paren
+[2025-10-30T04:44:39.580Z] src/utils/cuisine/signatureIdentificationEngine.ts: Found 10 missing opening parens
+[2025-10-30T04:44:39.580Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisine/signatureIdentificationEngine.ts.backup-1761799479580
+[2025-10-30T04:44:39.580Z]   Line 121: aggregateElementalProperties - removed closing paren
+[2025-10-30T04:44:39.580Z]   Line 151: aggregateAlchemicalProperties - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 183: aggregateThermodynamicProperties - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 221: calculateElementalVariance - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 249: calculateAlchemicalVariance - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 306: computeCuisineProperties - removed closing paren
+[2025-10-30T04:44:39.581Z] src/utils/cuisine/cuisineAggregationEngine.ts: Found 6 missing opening parens
+[2025-10-30T04:44:39.581Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisine/cuisineAggregationEngine.ts.backup-1761799479581
+[2025-10-30T04:44:39.581Z]   Line 98: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 128: calculateAlchemicalCompatibility - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 159: calculateCulturalAlignment - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 201: calculateSeasonalRelevance - removed closing paren
+[2025-10-30T04:44:39.581Z]   Line 223: calculateSignatureMatch - removed closing paren
+[2025-10-30T04:44:39.582Z]   Line 411: createAdvancedUserProfile - removed closing paren
+[2025-10-30T04:44:39.582Z] src/utils/cuisine/cuisineRecommendationEngine.ts: Found 6 missing opening parens
+[2025-10-30T04:44:39.582Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisine/cuisineRecommendationEngine.ts.backup-1761799479582
+[2025-10-30T04:44:39.582Z]   Line 183: getCulturalSignificance - removed closing paren
+[2025-10-30T04:44:39.582Z]   Line 360: findRecipesWithPlanetaryPattern - removed closing paren
+[2025-10-30T04:44:39.582Z] src/utils/cuisine/planetaryPatternAnalysis.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.583Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisine/planetaryPatternAnalysis.ts.backup-1761799479582
+[2025-10-30T04:44:39.583Z]   Line 14: getSunPosition - removed closing paren
+[2025-10-30T04:44:39.583Z] src/utils/solarPositions.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.584Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/solarPositions.ts.backup-1761799479583
+[2025-10-30T04:44:39.584Z]   Line 157: validateElementalProperties - removed closing paren
+[2025-10-30T04:44:39.584Z]   Line 197: validateCookingMethods - removed closing paren
+[2025-10-30T04:44:39.584Z]   Line 223: validateAstrologicalTiming - removed closing paren
+[2025-10-30T04:44:39.584Z]   Line 246: validateComputationIntegrity - removed closing paren
+[2025-10-30T04:44:39.584Z]   Line 299: calculateQualityMetrics - removed closing paren
+[2025-10-30T04:44:39.584Z]   Line 410: validateRecipes - removed closing paren
+[2025-10-30T04:44:39.584Z]   Line 420: getValidationStatistics - removed closing paren
+[2025-10-30T04:44:39.584Z] src/utils/recipe/recipeValidation.ts: Found 7 missing opening parens
+[2025-10-30T04:44:39.585Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeValidation.ts.backup-1761799479584
+[2025-10-30T04:44:39.585Z]   Line 374: isRecipeDietaryCompatible - removed closing paren
+[2025-10-30T04:44:39.585Z] src/utils/recipe/recipeUtils.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.585Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeUtils.ts.backup-1761799479585
+[2025-10-30T04:44:39.585Z]   Line 65: getCacheKey - removed closing paren
+[2025-10-30T04:44:39.586Z]   Line 467: calculateRecipeEnergyMatch - removed closing paren
+[2025-10-30T04:44:39.586Z]   Line 490: calculateElementalAlignment - removed closing paren
+[2025-10-30T04:44:39.586Z]   Line 524: calculateNutritionalMatch - removed closing paren
+[2025-10-30T04:44:39.586Z]   Line 603: calculateComplexityMatch - removed closing paren
+[2025-10-30T04:44:39.586Z] src/utils/recipe/recipeMatching.ts: Found 5 missing opening parens
+[2025-10-30T04:44:39.586Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeMatching.ts.backup-1761799479586
+[2025-10-30T04:44:39.587Z]   Line 188: normalizeElementalProperties - removed closing paren
+[2025-10-30T04:44:39.587Z]   Line 198: applyEnergyProfile - removed closing paren
+[2025-10-30T04:44:39.587Z]   Line 240: normalizePlanetaryInfluences - removed closing paren
+[2025-10-30T04:44:39.587Z] src/utils/recipe/recipeAdapter.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.587Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeAdapter.ts.backup-1761799479587
+[2025-10-30T04:44:39.587Z]   Line 101: calculateElementalMatch - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 224: getRecommendedRecipes - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 254: describePlanetaryInfluences - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 303: getRecipeDominantElement - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 311: describeElementalPresence - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 319: scoreRecipe - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 465: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 570: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 696: extractElementalSnapshot - removed closing paren
+[2025-10-30T04:44:39.588Z]   Line 707: extractContextElements - removed closing paren
+[2025-10-30T04:44:39.588Z] src/utils/recipe/recipeCore.ts: Found 10 missing opening parens
+[2025-10-30T04:44:39.588Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeCore.ts.backup-1761799479588
+[2025-10-30T04:44:39.589Z]   Line 116: validateImportStatement - removed closing paren
+[2025-10-30T04:44:39.589Z]   Line 300: autoFixDependencyIssues - removed closing paren
+[2025-10-30T04:44:39.589Z] src/utils/dependencyValidation.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.589Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/dependencyValidation.ts.backup-1761799479589
+[2025-10-30T04:44:39.590Z]   Line 77: calculatePillarCompatibility - removed closing paren
+[2025-10-30T04:44:39.590Z]   Line 119: applyPillarTransformation - removed closing paren
+[2025-10-30T04:44:39.590Z]   Line 291: applyPlanetaryInfluence - removed closing paren
+[2025-10-30T04:44:39.590Z]   Line 422: transformIngredient - removed closing paren
+[2025-10-30T04:44:39.590Z]   Line 841: getEnhancedCookingRecommendations - removed closing paren
+[2025-10-30T04:44:39.590Z]   Line 1013: generateRecommendationReason - removed closing paren
+[2025-10-30T04:44:39.590Z] src/utils/alchemicalPillarUtils.ts: Found 6 missing opening parens
+[2025-10-30T04:44:39.591Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/alchemicalPillarUtils.ts.backup-1761799479590
+[2025-10-30T04:44:39.591Z]   Line 11: calculateMoonTimes - removed closing paren
+[2025-10-30T04:44:39.591Z]   Line 58: getMoonPosition - removed closing paren
+[2025-10-30T04:44:39.591Z] src/utils/moonTimes.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.591Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/moonTimes.ts.backup-1761799479591
+[2025-10-30T04:44:39.592Z]   Line 562: filterRecipesByIngredientMappings - removed closing paren
+[2025-10-30T04:44:39.592Z] src/utils/recipeFilters.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.592Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeFilters.ts.backup-1761799479592
+[2025-10-30T04:44:39.593Z]   Line 258: alchemize - removed closing paren
+[2025-10-30T04:44:39.593Z] src/utils/alchemicalCalculations.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.594Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/alchemicalCalculations.ts.backup-1761799479593
+[2025-10-30T04:44:39.594Z]   Line 41: getTemporalFoodRecommendations - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 67: getElementalFoodRecommendations - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 124: getAspectEnhancedRecommendations - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 145: calculateKineticAlignment - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 239: generateRecommendationNote - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 289: calculateElementalAlignment - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 322: getKineticsEnhancedRecommendations - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 379: getForceDrivenCookingMethods - removed closing paren
+[2025-10-30T04:44:39.594Z]   Line 408: calculateKineticsFoodAlignment - removed closing paren
+[2025-10-30T04:44:39.594Z] src/utils/kineticsFoodMatcher.ts: Found 9 missing opening parens
+[2025-10-30T04:44:39.595Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/kineticsFoodMatcher.ts.backup-1761799479594
+[2025-10-30T04:44:39.595Z]   Line 200: calculateEnhancedPlanetaryInfluence - removed closing paren
+[2025-10-30T04:44:39.595Z]   Line 768: calculateEnhancedPlanetaryScore - removed closing paren
+[2025-10-30T04:44:39.595Z]   Line 833: calculateElementalInfluences - removed closing paren
+[2025-10-30T04:44:39.595Z]   Line 903: getChakraBasedRecommendations - removed closing paren
+[2025-10-30T04:44:39.595Z]   Line 1132: calculateVenusInfluence - removed closing paren
+[2025-10-30T04:44:39.595Z]   Line 1668: _enhanceVenusIngredientScoring - removed closing paren
+[2025-10-30T04:44:39.595Z]   Line 1695: enhanceVenusIngredientBatch - removed closing paren
+[2025-10-30T04:44:39.595Z]   Line 1737: calculateMarsInfluence - removed closing paren
+[2025-10-30T04:44:39.596Z]   Line 1862: enhanceMarsIngredientScoring - removed closing paren
+[2025-10-30T04:44:39.596Z]   Line 2013: calculateMercuryInfluence - removed closing paren
+[2025-10-30T04:44:39.596Z]   Line 2188: enhanceMercuryIngredientScoring - removed closing paren
+[2025-10-30T04:44:39.596Z]   Line 2243: determineIngredientModality - removed closing paren
+[2025-10-30T04:44:39.596Z]   Line 2587: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:44:39.596Z]   Line 2678: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:44:39.596Z]   Line 3014: generateRecommendationsForIngredient - removed closing paren
+[2025-10-30T04:44:39.596Z] src/utils/ingredientRecommender.ts: Found 15 missing opening parens
+[2025-10-30T04:44:39.596Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientRecommender.ts.backup-1761799479596
+[2025-10-30T04:44:39.597Z]   Line 187: getMissingElements - removed closing paren
+[2025-10-30T04:44:39.597Z]   Line 479: _calculateUniqueness - removed closing paren
+[2025-10-30T04:44:39.597Z]   Line 493: transformItemsWithPlanetaryPositions - removed closing paren
+[2025-10-30T04:44:39.597Z]   Line 674: normalizeElementalValues - removed closing paren
+[2025-10-30T04:44:39.597Z]   Line 739: getElementalRelationship - removed closing paren
+[2025-10-30T04:44:39.597Z]   Line 796: enhanceVegetableTransformations - removed closing paren
+[2025-10-30T04:44:39.597Z]   Line 1135: enhanceOilProperties - removed closing paren
+[2025-10-30T04:44:39.597Z]   Line 1455: fixRawIngredientMappings - removed closing paren
+[2025-10-30T04:44:39.598Z] src/utils/elementalUtils.ts: Found 8 missing opening parens
+[2025-10-30T04:44:39.598Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/elementalUtils.ts.backup-1761799479598
+[2025-10-30T04:44:39.598Z]   Line 162: calculateHouseEffect - removed closing paren
+[2025-10-30T04:44:39.598Z]   Line 226: calculateAllHouseEffects - removed closing paren
+[2025-10-30T04:44:39.598Z] src/utils/houseEffects.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.599Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/houseEffects.ts.backup-1761799479598
+[2025-10-30T04:44:39.599Z]   Line 191: validateIngredientElementalProperties - removed closing paren
+[2025-10-30T04:44:39.599Z]   Line 291: calculateElementalPropertiesCompatibility - removed closing paren
+[2025-10-30T04:44:39.599Z]   Line 459: validateAlchemicalConsistency - removed closing paren
+[2025-10-30T04:44:39.599Z]   Line 939: generateIngredientValidationSummary - removed closing paren
+[2025-10-30T04:44:39.599Z] src/utils/ingredientValidation.ts: Found 4 missing opening parens
+[2025-10-30T04:44:39.600Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientValidation.ts.backup-1761799479599
+[2025-10-30T04:44:39.600Z]   Line 347: _calculateSeasonalScores - removed closing paren
+[2025-10-30T04:44:39.600Z]   Line 508: applySeasonalInfluence - removed closing paren
+[2025-10-30T04:44:39.600Z]   Line 539: calculateLunarPhaseCompatibility - removed closing paren
+[2025-10-30T04:44:39.600Z] src/utils/seasonalCalculations.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.601Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/seasonalCalculations.ts.backup-1761799479600
+[2025-10-30T04:44:39.601Z]   Line 215: calculateTokenValue - removed closing paren
+[2025-10-30T04:44:39.601Z] src/utils/planetaryCycles.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.601Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetaryCycles.ts.backup-1761799479601
+[2025-10-30T04:44:39.601Z]   Line 161: calculateDominantElement - removed closing paren
+[2025-10-30T04:44:39.601Z]   Line 182: getElementalColor - removed closing paren
+[2025-10-30T04:44:39.601Z]   Line 215: getElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 294: getComplementaryElement - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 318: combineElementalProperties - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 362: calculateElementalStateFromIngredients - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 465: calculateComplementaryScore - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 478: calculateBalanceScore - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 496: generateCompatibilityRecommendation - removed closing paren
+[2025-10-30T04:44:39.602Z] src/utils/elemental/core.ts: Found 9 missing opening parens
+[2025-10-30T04:44:39.602Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/elemental/core.ts.backup-1761799479602
+[2025-10-30T04:44:39.602Z]   Line 109: transformIngredients - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 122: transformCookingMethods - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 135: transformCuisines - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 148: transformSingleItem - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 200: applyPlanetaryInfluence - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 272: sortByAlchemicalCompatibility - removed closing paren
+[2025-10-30T04:44:39.602Z]   Line 300: filterByAlchemicalCompatibility - removed closing paren
+[2025-10-30T04:44:39.603Z]   Line 424: applyElementalTransformations - removed closing paren
+[2025-10-30T04:44:39.603Z]   Line 466: calculateAlchemicalProperties - removed closing paren
+[2025-10-30T04:44:39.603Z]   Line 518: calculateUniquenessScore - removed closing paren
+[2025-10-30T04:44:39.603Z]   Line 542: calculateTransformationScore - removed closing paren
+[2025-10-30T04:44:39.603Z]   Line 552: calculateCompatibilityScore - removed closing paren
+[2025-10-30T04:44:39.603Z] src/utils/elemental/transformations.ts: Found 12 missing opening parens
+[2025-10-30T04:44:39.603Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/elemental/transformations.ts.backup-1761799479603
+[2025-10-30T04:44:39.603Z]   Line 132: calculateRecommendationScore - removed closing paren
+[2025-10-30T04:44:39.603Z]   Line 184: getRecommendedRecipes - removed closing paren
+[2025-10-30T04:44:39.604Z]   Line 204: explainRecommendation - removed closing paren
+[2025-10-30T04:44:39.604Z] src/utils/recommendationEngine.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.604Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendationEngine.ts.backup-1761799479604
+[2025-10-30T04:44:39.604Z]   Line 617: calculateModalityScore - removed closing paren
+[2025-10-30T04:44:39.604Z]   Line 748: getCacheKey - removed closing paren
+[2025-10-30T04:44:39.605Z]   Line 1040: _calculateNutritionalMatch - removed closing paren
+[2025-10-30T04:44:39.605Z]   Line 1119: _calculateAstrologicalMatch - removed closing paren
+[2025-10-30T04:44:39.605Z]   Line 1393: _calculateComplexityMatch - removed closing paren
+[2025-10-30T04:44:39.605Z] src/utils/recipeMatching.ts: Found 5 missing opening parens
+[2025-10-30T04:44:39.605Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeMatching.ts.backup-1761799479605
+[2025-10-30T04:44:39.606Z]   Line 7: normalizeVitamins - removed closing paren
+[2025-10-30T04:44:39.606Z]   Line 35: normalizeMinerals - removed closing paren
+[2025-10-30T04:44:39.606Z]   Line 150: normalizeCulinaryApplications - removed closing paren
+[2025-10-30T04:44:39.606Z]   Line 292: normalizePreparation - removed closing paren
+[2025-10-30T04:44:39.606Z]   Line 318: normalizeIngredientData - removed closing paren
+[2025-10-30T04:44:39.606Z]   Line 374: safeGetNutritionalData - removed closing paren
+[2025-10-30T04:44:39.606Z] src/utils/ingredientDataNormalizer.ts: Found 6 missing opening parens
+[2025-10-30T04:44:39.606Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientDataNormalizer.ts.backup-1761799479606
+[2025-10-30T04:44:39.606Z]   Line 31: validateRecipeCircuit - removed closing paren
+[2025-10-30T04:44:39.607Z]   Line 67: getCircuitBasedRecommendations - removed closing paren
+[2025-10-30T04:44:39.607Z]   Line 130: recommendCookingMethod - removed closing paren
+[2025-10-30T04:44:39.607Z]   Line 166: generatePowerFlowDescription - removed closing paren
+[2025-10-30T04:44:39.607Z]   Line 205: validateMultiRecipeCircuit - removed closing paren
+[2025-10-30T04:44:39.607Z] src/utils/recipeCircuit.ts: Found 5 missing opening parens
+[2025-10-30T04:44:39.607Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeCircuit.ts.backup-1761799479607
+[2025-10-30T04:44:39.607Z]   Line 68: calculateQuantityFactor - removed closing paren
+[2025-10-30T04:44:39.607Z]   Line 92: scaleElementalProperties - removed closing paren
+[2025-10-30T04:44:39.607Z]   Line 156: scaleAlchemicalProperties - removed closing paren
+[2025-10-30T04:44:39.607Z]   Line 205: createQuantityScaledProperties - removed closing paren
+[2025-10-30T04:44:39.608Z] src/utils/quantityScaling.ts: Found 4 missing opening parens
+[2025-10-30T04:44:39.608Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/quantityScaling.ts.backup-1761799479608
+[2025-10-30T04:44:39.608Z]   Line 29: generateTopSauceRecommendations - removed closing paren
+[2025-10-30T04:44:39.608Z]   Line 152: getCuisineRecommendations - removed closing paren
+[2025-10-30T04:44:39.608Z]   Line 239: calculateElementalMatch - removed closing paren
+[2025-10-30T04:44:39.608Z]   Line 263: calculateElementalContributionsFromPlanets - removed closing paren
+[2025-10-30T04:44:39.608Z] src/utils/cuisineRecommender.ts: Found 4 missing opening parens
+[2025-10-30T04:44:39.609Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisineRecommender.ts.backup-1761799479608
+[2025-10-30T04:44:39.610Z]   Line 56: adaptPlanetaryPositions - removed closing paren
+[2025-10-30T04:44:39.611Z]   Line 95: isPlanetaryPositionsMap - removed closing paren
+[2025-10-30T04:44:39.611Z] src/utils/signVectorAdapters.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.611Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/signVectorAdapters.ts.backup-1761799479611
+[2025-10-30T04:44:39.611Z]   Line 41: standardizeElementalAffinity - removed closing paren
+[2025-10-30T04:44:39.611Z]   Line 273: cleanupIngredientsDatabase - removed closing paren
+[2025-10-30T04:44:39.611Z]   Line 322: mergeElementalProperties - removed closing paren
+[2025-10-30T04:44:39.611Z] src/utils/data/processing.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.612Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/data/processing.ts.backup-1761799479611
+[2025-10-30T04:44:39.612Z]   Line 217: isHistoricalCuisine - removed closing paren
+[2025-10-30T04:44:39.612Z]   Line 238: isStreetFoodCuisine - removed closing paren
+[2025-10-30T04:44:39.612Z]   Line 263: calculateCuisineCompatibility - removed closing paren
+[2025-10-30T04:44:39.612Z]   Line 504: getCuisineCompatibilityRecommendations - removed closing paren
+[2025-10-30T04:44:39.612Z]   Line 527: getCompatibilityFactors - removed closing paren
+[2025-10-30T04:44:39.612Z]   Line 562: getCommonIngredients - removed closing paren
+[2025-10-30T04:44:39.612Z]   Line 584: getRegionalVariations - removed closing paren
+[2025-10-30T04:44:39.612Z]   Line 636: groupCuisinesByCategory - removed closing paren
+[2025-10-30T04:44:39.612Z] src/utils/cuisineTypes.ts: Found 8 missing opening parens
+[2025-10-30T04:44:39.612Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisineTypes.ts.backup-1761799479612
+[2025-10-30T04:44:39.613Z]   Line 468: enhancedSearch - removed closing paren
+[2025-10-30T04:44:39.613Z]   Line 641: processQueryWithKinetics - removed closing paren
+[2025-10-30T04:44:39.613Z]   Line 692: generateKineticsFilters - removed closing paren
+[2025-10-30T04:44:39.613Z]   Line 740: filterItemsWithKinetics - removed closing paren
+[2025-10-30T04:44:39.613Z]   Line 861: scoreItemWithKinetics - removed closing paren
+[2025-10-30T04:44:39.613Z] src/utils/naturalLanguageProcessor.ts: Found 5 missing opening parens
+[2025-10-30T04:44:39.613Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/naturalLanguageProcessor.ts.backup-1761799479613
+[2025-10-30T04:44:39.614Z]   Line 118: generateDefaultLunarPhaseModifiers - removed closing paren
+[2025-10-30T04:44:39.614Z]   Line 475: getLunarPhaseWithKinetics - removed closing paren
+[2025-10-30T04:44:39.614Z]   Line 516: getKineticsEnhancedLunarModifiers - removed closing paren
+[2025-10-30T04:44:39.614Z]   Line 575: calculateLunarKineticsMetrics - removed closing paren
+[2025-10-30T04:44:39.614Z] src/utils/lunarPhaseUtils.ts: Found 4 missing opening parens
+[2025-10-30T04:44:39.614Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/lunarPhaseUtils.ts.backup-1761799479614
+[2025-10-30T04:44:39.615Z]   Line 495: getCurrentTransitSign - removed closing paren
+[2025-10-30T04:44:39.615Z]   Line 535: validatePlanetaryPositions - removed closing paren
+[2025-10-30T04:44:39.616Z] src/utils/astrology/validation.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.616Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/validation.ts.backup-1761799479616
+[2025-10-30T04:44:39.616Z]   Line 51: validatePlanetaryPositions - removed closing paren
+[2025-10-30T04:44:39.616Z]   Line 147: validateSinglePlanetaryPosition - removed closing paren
+[2025-10-30T04:44:39.616Z]   Line 286: validateAstrologicalElementalProperties - removed closing paren
+[2025-10-30T04:44:39.616Z]   Line 477: quickValidate - removed closing paren
+[2025-10-30T04:44:39.616Z] src/utils/astrology/astrologicalValidation.ts: Found 4 missing opening parens
+[2025-10-30T04:44:39.617Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/astrologicalValidation.ts.backup-1761799479616
+[2025-10-30T04:44:39.617Z]   Line 52: normalizePlanetaryPositions - removed closing paren
+[2025-10-30T04:44:39.617Z] src/utils/astrology/core.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.617Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/core.ts.backup-1761799479617
+[2025-10-30T04:44:39.617Z]   Line 29: validateTransitDate - removed closing paren
+[2025-10-30T04:44:39.618Z]   Line 74: getCurrentTransitSign - removed closing paren
+[2025-10-30T04:44:39.618Z]   Line 98: validateRetrogradePhase - removed closing paren
+[2025-10-30T04:44:39.618Z] src/utils/astrology/transitValidation.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.618Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/transitValidation.ts.backup-1761799479618
+[2025-10-30T04:44:39.618Z]   Line 14: validateElementalProperties - removed closing paren
+[2025-10-30T04:44:39.618Z]   Line 50: normalizeElementalProperties - removed closing paren
+[2025-10-30T04:44:39.618Z]   Line 75: calculateElementalHarmony - removed closing paren
+[2025-10-30T04:44:39.618Z]   Line 129: getElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.618Z]   Line 178: createElementalProperties - removed closing paren
+[2025-10-30T04:44:39.618Z] src/utils/astrology/elementalValidation.ts: Found 5 missing opening parens
+[2025-10-30T04:44:39.619Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/elementalValidation.ts.backup-1761799479618
+[2025-10-30T04:44:39.619Z]   Line 1361: getModalityElementalAffinity - removed closing paren
+[2025-10-30T04:44:39.619Z] src/utils/foodRecommender.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.620Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/foodRecommender.ts.backup-1761799479620
+[2025-10-30T04:44:39.620Z]   Line 226: generateBalancingMeals - removed closing paren
+[2025-10-30T04:44:39.620Z] src/utils/chakraFoodUtils.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.621Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/utils/chakraFoodUtils.ts.backup-1761799479620
+[2025-10-30T04:44:39.623Z]   Line 26: _createCelestialPosition - removed closing paren
+[2025-10-30T04:44:39.624Z] src/hooks/useAstrologicalState.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.624Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrologicalState.ts.backup-1761799479624
+[2025-10-30T04:44:39.626Z]   Line 112: applyEditsToFile - removed closing paren
+[2025-10-30T04:44:39.626Z] src/scripts/unused-vars/batchEliminateUnused.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.627Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/scripts/unused-vars/batchEliminateUnused.ts.backup-1761799479626
+[2025-10-30T04:44:39.627Z]   Line 72: decidePreservation - removed closing paren
+[2025-10-30T04:44:39.627Z] src/scripts/unused-vars/domainPreservation.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.627Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/scripts/unused-vars/domainPreservation.ts.backup-1761799479627
+[2025-10-30T04:44:39.630Z]   Line 188: analyzeElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.630Z] src/calculations/core/elementalCalculations.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.630Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/calculations/core/elementalCalculations.ts.backup-1761799479630
+[2025-10-30T04:44:39.631Z]   Line 31: calculateRecipeCompatibility - removed closing paren
+[2025-10-30T04:44:39.631Z]   Line 214: calculateMonicaAlignment - removed closing paren
+[2025-10-30T04:44:39.631Z]   Line 367: generateEnhancedRecipeRecommendations - removed closing paren
+[2025-10-30T04:44:39.631Z] src/calculations/culinary/recipeMatching.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.631Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/calculations/culinary/recipeMatching.ts.backup-1761799479631
+[2025-10-30T04:44:39.632Z]   Line 126: calculateCuisineCompatibility - removed closing paren
+[2025-10-30T04:44:39.632Z] src/calculations/culinary/cuisineRecommendations.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.632Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/calculations/culinary/cuisineRecommendations.ts.backup-1761799479632
+[2025-10-30T04:44:39.633Z]   Line 16: getCurrentDecan - removed closing paren
+[2025-10-30T04:44:39.633Z] src/lib/tarotCalculations.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.634Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/lib/tarotCalculations.ts.backup-1761799479633
+[2025-10-30T04:44:39.637Z]   Line 181: getCookingMethodsByTemperature - removed closing paren
+[2025-10-30T04:44:39.637Z] src/data/cooking/index.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.637Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/cooking/index.ts.backup-1761799479637
+[2025-10-30T04:44:39.639Z]   Line 131: setGlobalState - removed closing paren
+[2025-10-30T04:44:39.639Z]   Line 1019: calculateFlavorCompatibility - removed closing paren
+[2025-10-30T04:44:39.639Z]   Line 1030: findCompatibleProfiles - removed closing paren
+[2025-10-30T04:44:39.639Z] src/data/unified/unifiedFlavorEngine.ts: Found 3 missing opening parens
+[2025-10-30T04:44:39.640Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/unifiedFlavorEngine.ts.backup-1761799479639
+[2025-10-30T04:44:39.640Z]   Line 921: getMigratedProfilesByCategory - removed closing paren
+[2025-10-30T04:44:39.640Z] src/data/unified/flavorProfileMigration.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.641Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/flavorProfileMigration.ts.backup-1761799479640
+[2025-10-30T04:44:39.641Z]   Line 2078: getCuisineCompatibility - removed closing paren
+[2025-10-30T04:44:39.641Z] src/data/unified/cuisineIntegrations.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.642Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/cuisineIntegrations.ts.backup-1761799479641
+[2025-10-30T04:44:39.642Z]   Line 1889: generateMonicaOptimizedRecipe - removed closing paren
+[2025-10-30T04:44:39.642Z]   Line 1895: adaptRecipeForSeason - removed closing paren
+[2025-10-30T04:44:39.642Z]   Line 1902: generateFusionRecipe - removed closing paren
+[2025-10-30T04:44:39.642Z]   Line 1912: generatePlanetaryRecipeRecommendation - removed closing paren
+[2025-10-30T04:44:39.642Z] src/data/unified/recipeBuilding.ts: Found 4 missing opening parens
+[2025-10-30T04:44:39.643Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/recipeBuilding.ts.backup-1761799479643
+[2025-10-30T04:44:39.645Z]   Line 23: getIngredientsForCuisine - removed closing paren
+[2025-10-30T04:44:39.645Z] src/data/integrations/cuisineMatrix.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.645Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/integrations/cuisineMatrix.ts.backup-1761799479645
+[2025-10-30T04:44:39.651Z]   Line 68: createIngredientMapping - removed closing paren
+[2025-10-30T04:44:39.651Z] src/data/ingredients/herbs/index.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.651Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/herbs/index.ts.backup-1761799479651
+[2025-10-30T04:44:39.654Z]   Line 5: createIngredientMapping - removed closing paren
+[2025-10-30T04:44:39.654Z] src/data/ingredients/proteins/plantBased.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.655Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/proteins/plantBased.ts.backup-1761799479655
+[2025-10-30T04:44:39.660Z]   Line 99: analyzePropertyBalance - removed closing paren
+[2025-10-30T04:44:39.660Z]   Line 118: findComplementaryDishes - removed closing paren
+[2025-10-30T04:44:39.660Z] src/data/foodTypes.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.661Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/foodTypes.ts.backup-1761799479660
+[2025-10-30T04:44:39.661Z]   Line 746: getRecipesForCuisineMatch - removed closing paren
+[2025-10-30T04:44:39.661Z] src/data/cuisineFlavorProfiles.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.661Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/data/cuisineFlavorProfiles.ts.backup-1761799479661
+[2025-10-30T04:44:39.663Z]   Line 289: validateType - removed closing paren
+[2025-10-30T04:44:39.663Z]   Line 323: handlePropertyAccessError - removed closing paren
+[2025-10-30T04:44:39.663Z] src/services/errorHandler.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.664Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/services/errorHandler.ts.backup-1761799479663
+[2025-10-30T04:44:39.665Z]   Line 123: validateAndNormalizeIngredients - removed closing paren
+[2025-10-30T04:44:39.665Z] src/services/recipeData.ts: Found 1 missing opening parens
+[2025-10-30T04:44:39.665Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/services/recipeData.ts.backup-1761799479665
+[2025-10-30T04:44:39.666Z]   Line 168: calculateTransitEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 197: calculateDignityEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 216: calculateTarotEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 238: calculateSeasonalEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 272: calculateLocationEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 297: calculateLunarPhaseEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 402: calculateAspectEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 442: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 468: calculateThermodynamicEffect - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 507: calculateKalchmResonance - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 527: calculateMonicaOptimization - removed closing paren
+[2025-10-30T04:44:39.666Z]   Line 547: calculateRetrogradeEffect - removed closing paren
+[2025-10-30T04:44:39.667Z] src/services/UnifiedScoringService.ts: Found 12 missing opening parens
+[2025-10-30T04:44:39.667Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/services/UnifiedScoringService.ts.backup-1761799479667
+[2025-10-30T04:44:39.671Z]   Line 167: alchemize - removed closing paren
+[2025-10-30T04:44:39.671Z]   Line 368: calculateAlchemicalProperties - removed closing paren
+[2025-10-30T04:44:39.671Z] src/services/RealAlchemizeService.ts: Found 2 missing opening parens
+[2025-10-30T04:44:39.671Z]   ✓ Fixed and backed up to /Users/GregCastro/Desktop/WhatToEatNext/src/services/RealAlchemizeService.ts.backup-1761799479671
+[2025-10-30T04:44:39.673Z] 
+===== SUMMARY =====
+[2025-10-30T04:44:39.673Z] Files with missing opening parens: 80
+[2025-10-30T04:44:39.673Z] Total instances found: 310
+[2025-10-30T04:44:39.674Z] 
+Verifying changes...
+[2025-10-30T04:44:46.812Z] Parsing errors after: 245
+[2025-10-30T04:44:46.813Z] Error reduction: 245 → 245 (0 fixed)
+[2025-10-30T04:44:46.813Z] ✅ Success! Errors decreased or stayed the same.
+[2025-10-30T04:44:46.813Z] 
+Mode: CHANGES APPLIED
+[2025-10-30T04:44:46.813Z] Log file: /Users/GregCastro/Desktop/WhatToEatNext/fix-log-quick-pattern-1-1761799472720.txt
