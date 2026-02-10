@@ -5,18 +5,27 @@ import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 // Use local API endpoint instead of external
 // On server-side, we need an absolute URL since relative URLs don't work in Node.js
-const getAstrologizeApiUrl = () => {
-  // Check if running on server
+const getBackendBaseUrl = () => {
   if (typeof window === "undefined") {
-    // Server-side: use absolute URL with configured base
-    // Priority: NEXT_PUBLIC_BASE_URL > VERCEL_URL > localhost
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
-      || "http://localhost:3000";
-    return `${baseUrl}/api/astrologize`;
+    // Server-side: use absolute URL from environment variables
+    return (
+      process.env.NEXT_PUBLIC_BACKEND_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+      "http://localhost:8001"
+    ); // Fallback to local Docker port
   }
-  // Client-side: use relative URL
-  return "/api/astrologize";
+  // Client-side: use relative URL if backend is proxied, or absolute if explicitly set
+  return process.env.NEXT_PUBLIC_BACKEND_URL || "";
+};
+
+const getAstrologizeApiUrl = () => {
+  const baseUrl = getBackendBaseUrl();
+  return `${baseUrl}/api/planetary/positions`; // Existing endpoint for planetary positions
+};
+
+const getRecipeRecommendationsApiUrl = () => {
+  const baseUrl = getBackendBaseUrl();
+  return `${baseUrl}/api/astrological/recipe-recommendations-by-chart`; // New endpoint
 };
 
 // Interface for the local API request
@@ -383,6 +392,43 @@ export async function testAstrologizeApi(): Promise<boolean> {
     _logger.error("Astrologize API test failed: ", error);
     return false;
   }
+}
+
+/**
+ * Fetch astrological recipe recommendations based on birth data.
+ */
+export async function fetchAstrologicalRecipes(birthData: {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  latitude: number;
+  longitude: number;
+}): Promise<any> {
+  // TODO: Define a proper interface for recipe recommendations
+  return astrologizeApiCircuitBreaker.call(async () => {
+    log.info("Fetching astrological recipe recommendations with: ", birthData);
+
+    const response = await fetch(getRecipeRecommendationsApiUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(birthData),
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Recipe recommendations API request failed: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+    log.info("Successfully fetched astrological recipe recommendations.");
+    return data;
+  });
 }
 
 /**

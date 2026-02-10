@@ -36,7 +36,7 @@ interface NutritionFiltersProps {
   filteredCount?: number;
 }
 
-export default function NutritionFilters({
+export function NutritionFilters({
   filters,
   onFiltersChange,
   sortBy,
@@ -48,7 +48,10 @@ export default function NutritionFilters({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const updateFilter = useCallback(
-    <K extends keyof NutritionFilterValues>(key: K, value: NutritionFilterValues[K]) => {
+    <K extends keyof NutritionFilterValues>(
+      key: K,
+      value: NutritionFilterValues[K],
+    ) => {
       onFiltersChange({ ...filters, [key]: value });
     },
     [filters, onFiltersChange],
@@ -120,9 +123,21 @@ export default function NutritionFilters({
       {/* Quick toggles (always visible) */}
       <div className="flex flex-wrap gap-1.5 mb-2">
         {[
-          { key: "highProtein" as const, label: "High Protein", active: filters.highProtein },
-          { key: "highFiber" as const, label: "High Fiber", active: filters.highFiber },
-          { key: "lowSodium" as const, label: "Low Sodium", active: filters.lowSodium },
+          {
+            key: "highProtein" as const,
+            label: "High Protein",
+            active: filters.highProtein,
+          },
+          {
+            key: "highFiber" as const,
+            label: "High Fiber",
+            active: filters.highFiber,
+          },
+          {
+            key: "lowSodium" as const,
+            label: "Low Sodium",
+            active: filters.lowSodium,
+          },
         ].map(({ key, label, active }) => (
           <button
             key={key}
@@ -143,14 +158,18 @@ export default function NutritionFilters({
         <div className="space-y-3 pt-2 border-t border-gray-100">
           {/* Calorie Range */}
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Calorie Range</label>
+            <label className="text-xs font-medium text-gray-600 block mb-1">
+              Calorie Range
+            </label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
                 placeholder="Min"
                 value={filters.calorieRange?.[0] ?? ""}
                 onChange={(e) => {
-                  const min = e.target.value ? Number(e.target.value) : undefined;
+                  const min = e.target.value
+                    ? Number(e.target.value)
+                    : undefined;
                   const max = filters.calorieRange?.[1];
                   if (min !== undefined || max !== undefined) {
                     updateFilter("calorieRange", [min ?? 0, max ?? 9999]);
@@ -166,7 +185,9 @@ export default function NutritionFilters({
                 placeholder="Max"
                 value={filters.calorieRange?.[1] ?? ""}
                 onChange={(e) => {
-                  const max = e.target.value ? Number(e.target.value) : undefined;
+                  const max = e.target.value
+                    ? Number(e.target.value)
+                    : undefined;
                   const min = filters.calorieRange?.[0];
                   if (min !== undefined || max !== undefined) {
                     updateFilter("calorieRange", [min ?? 0, max ?? 9999]);
@@ -182,36 +203,57 @@ export default function NutritionFilters({
 
           {/* Min Protein */}
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Min Protein (g)</label>
+            <label className="text-xs font-medium text-gray-600 block mb-1">
+              Min Protein (g)
+            </label>
             <input
               type="number"
               placeholder="e.g. 20"
               value={filters.minProtein ?? ""}
-              onChange={(e) => updateFilter("minProtein", e.target.value ? Number(e.target.value) : undefined)}
+              onChange={(e) =>
+                updateFilter(
+                  "minProtein",
+                  e.target.value ? Number(e.target.value) : undefined,
+                )
+              }
               className="w-24 text-xs border border-gray-300 rounded px-2 py-1"
             />
           </div>
 
           {/* Max Carbs */}
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Max Carbs (g)</label>
+            <label className="text-xs font-medium text-gray-600 block mb-1">
+              Max Carbs (g)
+            </label>
             <input
               type="number"
               placeholder="e.g. 50"
               value={filters.maxCarbs ?? ""}
-              onChange={(e) => updateFilter("maxCarbs", e.target.value ? Number(e.target.value) : undefined)}
+              onChange={(e) =>
+                updateFilter(
+                  "maxCarbs",
+                  e.target.value ? Number(e.target.value) : undefined,
+                )
+              }
               className="w-24 text-xs border border-gray-300 rounded px-2 py-1"
             />
           </div>
 
           {/* Max Fat */}
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Max Fat (g)</label>
+            <label className="text-xs font-medium text-gray-600 block mb-1">
+              Max Fat (g)
+            </label>
             <input
               type="number"
               placeholder="e.g. 30"
               value={filters.maxFat ?? ""}
-              onChange={(e) => updateFilter("maxFat", e.target.value ? Number(e.target.value) : undefined)}
+              onChange={(e) =>
+                updateFilter(
+                  "maxFat",
+                  e.target.value ? Number(e.target.value) : undefined,
+                )
+              }
               className="w-24 text-xs border border-gray-300 rounded px-2 py-1"
             />
           </div>
@@ -219,7 +261,9 @@ export default function NutritionFilters({
           {/* Deficiency Fillers */}
           {deficientNutrients.length > 0 && (
             <div>
-              <label className="text-xs font-medium text-gray-600 block mb-1">Fill Deficiency</label>
+              <label className="text-xs font-medium text-gray-600 block mb-1">
+                Fill Deficiency
+              </label>
               <div className="flex flex-wrap gap-1">
                 {deficientNutrients.map((nutrient) => {
                   const isActive = filters.fillsDeficiency?.includes(nutrient);
@@ -231,7 +275,10 @@ export default function NutritionFilters({
                         const updated = isActive
                           ? current.filter((n) => n !== nutrient)
                           : [...current, nutrient];
-                        updateFilter("fillsDeficiency", updated.length > 0 ? updated : undefined);
+                        updateFilter(
+                          "fillsDeficiency",
+                          updated.length > 0 ? updated : undefined,
+                        );
                       }}
                       className={`px-2 py-0.5 rounded text-xs border transition-colors ${
                         isActive
@@ -257,7 +304,22 @@ export default function NutritionFilters({
  * Exported utility for use by parent components.
  */
 export function applyNutritionFilters(
-  recipes: Array<{ nutrition?: { calories?: number; protein?: number; carbs?: number; fat?: number; fiber?: number; macronutrients?: { protein?: number; carbs?: number; fat?: number; fiber?: number } }; [key: string]: unknown }>,
+  recipes: Array<{
+    nutrition?: {
+      calories?: number;
+      protein?: number;
+      carbs?: number;
+      fat?: number;
+      fiber?: number;
+      macronutrients?: {
+        protein?: number;
+        carbs?: number;
+        fat?: number;
+        fiber?: number;
+      };
+    };
+    [key: string]: unknown;
+  }>,
   filters: NutritionFilterValues,
 ): typeof recipes {
   return recipes.filter((recipe) => {
@@ -271,10 +333,13 @@ export function applyNutritionFilters(
     const fiber = n.macronutrients?.fiber ?? 0;
 
     if (filters.calorieRange) {
-      if (cal < filters.calorieRange[0] || cal > filters.calorieRange[1]) return false;
+      if (cal < filters.calorieRange[0] || cal > filters.calorieRange[1])
+        return false;
     }
-    if (filters.minProtein !== undefined && protein < filters.minProtein) return false;
-    if (filters.maxCarbs !== undefined && carbs > filters.maxCarbs) return false;
+    if (filters.minProtein !== undefined && protein < filters.minProtein)
+      return false;
+    if (filters.maxCarbs !== undefined && carbs > filters.maxCarbs)
+      return false;
     if (filters.maxFat !== undefined && fat > filters.maxFat) return false;
     if (filters.highProtein && protein < 20) return false;
     if (filters.highFiber && fiber < 5) return false;
@@ -302,23 +367,37 @@ function hasAnyFilter(filters: NutritionFilterValues): boolean {
  * Sort recipes by nutrition criteria
  */
 export function sortByNutrition(
-  recipes: Array<{ nutrition?: { calories?: number; protein?: number; macronutrients?: { protein?: number; fiber?: number } }; [key: string]: unknown }>,
+  recipes: Array<{
+    nutrition?: {
+      calories?: number;
+      protein?: number;
+      macronutrients?: { protein?: number; fiber?: number };
+    };
+    [key: string]: unknown;
+  }>,
   sortBy: NutritionSortOption,
 ): typeof recipes {
   const sorted = [...recipes];
   switch (sortBy) {
     case "calories-asc":
-      return sorted.sort((a, b) => (a.nutrition?.calories ?? 0) - (b.nutrition?.calories ?? 0));
+      return sorted.sort(
+        (a, b) => (a.nutrition?.calories ?? 0) - (b.nutrition?.calories ?? 0),
+      );
     case "calories-desc":
-      return sorted.sort((a, b) => (b.nutrition?.calories ?? 0) - (a.nutrition?.calories ?? 0));
+      return sorted.sort(
+        (a, b) => (b.nutrition?.calories ?? 0) - (a.nutrition?.calories ?? 0),
+      );
     case "protein-desc":
-      return sorted.sort((a, b) =>
-        (b.nutrition?.protein ?? b.nutrition?.macronutrients?.protein ?? 0) -
-        (a.nutrition?.protein ?? a.nutrition?.macronutrients?.protein ?? 0),
+      return sorted.sort(
+        (a, b) =>
+          (b.nutrition?.protein ?? b.nutrition?.macronutrients?.protein ?? 0) -
+          (a.nutrition?.protein ?? a.nutrition?.macronutrients?.protein ?? 0),
       );
     case "fiber-desc":
-      return sorted.sort((a, b) =>
-        (b.nutrition?.macronutrients?.fiber ?? 0) - (a.nutrition?.macronutrients?.fiber ?? 0),
+      return sorted.sort(
+        (a, b) =>
+          (b.nutrition?.macronutrients?.fiber ?? 0) -
+          (a.nutrition?.macronutrients?.fiber ?? 0),
       );
     default:
       return sorted;

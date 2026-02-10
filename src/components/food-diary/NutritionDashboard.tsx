@@ -16,7 +16,7 @@ import type {
   FoodDiaryStats,
 } from "@/types/foodDiary";
 import type { NutritionalSummary } from "@/types/nutrition";
-import { NutritionRing } from "../nutrition/NutritionRing";
+import { NutritionRing } from "../nutrition";
 
 interface NutritionDashboardProps {
   dailySummary: DailyFoodDiarySummary | null;
@@ -26,7 +26,12 @@ interface NutritionDashboardProps {
   onRefreshInsights?: () => void;
 }
 
-const NUTRIENT_LABELS: Partial<Record<keyof NutritionalSummary, { label: string; unit: string; color: string }>> = {
+const NUTRIENT_LABELS: Partial<
+  Record<
+    keyof NutritionalSummary,
+    { label: string; unit: string; color: string }
+  >
+> = {
   calories: { label: "Calories", unit: "", color: "#f59e0b" },
   protein: { label: "Protein", unit: "g", color: "#ef4444" },
   carbs: { label: "Carbs", unit: "g", color: "#3b82f6" },
@@ -46,7 +51,9 @@ export default function NutritionDashboard({
   insights,
   onRefreshInsights,
 }: NutritionDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"today" | "week" | "insights">("today");
+  const [activeTab, setActiveTab] = useState<"today" | "week" | "insights">(
+    "today",
+  );
 
   const macroPercentages = useMemo(() => {
     if (!dailySummary) return null;
@@ -55,14 +62,14 @@ export default function NutritionDashboard({
     if (total === 0) return null;
 
     return {
-      protein: Math.round(((protein || 0) * 4 / total) * 100),
-      carbs: Math.round(((carbs || 0) * 4 / total) * 100),
-      fat: Math.round(((fat || 0) * 9 / total) * 100),
+      protein: Math.round((((protein || 0) * 4) / total) * 100),
+      carbs: Math.round((((carbs || 0) * 4) / total) * 100),
+      fat: Math.round((((fat || 0) * 9) / total) * 100),
     };
   }, [dailySummary]);
 
   const priorityInsights = useMemo(() => {
-    return insights.filter(i => i.priority === "high").slice(0, 3);
+    return insights.filter((i) => i.priority === "high").slice(0, 3);
   }, [insights]);
 
   return (
@@ -73,7 +80,7 @@ export default function NutritionDashboard({
           { id: "today", label: "Today" },
           { id: "week", label: "This Week" },
           { id: "insights", label: "Insights" },
-        ].map(tab => (
+        ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as typeof activeTab)}
@@ -94,7 +101,12 @@ export default function NutritionDashboard({
           {!dailySummary || dailySummary.entries.length === 0 ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-8 h-8 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -103,52 +115,76 @@ export default function NutritionDashboard({
                   />
                 </svg>
               </div>
-              <p className="text-gray-500">Log some food to see your nutrition stats</p>
+              <p className="text-gray-500">
+                Log some food to see your nutrition stats
+              </p>
             </div>
           ) : (
             <>
               {/* Macro Summary */}
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Daily Progress</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">
+                  Daily Progress
+                </h4>
                 <div className="flex items-center justify-around flex-wrap gap-2">
                   <NutritionRing
-                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.calories / (dailySummary.nutritionGoals?.calories || 2000)) * 100))}
-                    value={`${Math.round(dailySummary.totalNutrition.calories)} cal`}
+                    percentage={
+                      dailySummary.nutritionGoals?.calories
+                        ? Math.min(100, (dailySummary.totalNutrition.calories /
+                            dailySummary.nutritionGoals.calories) * 100)
+                        : 0
+                    }
                     label="Calories"
-                    size={80}
-                    strokeWidth={7}
+                    size={70}
+                    strokeWidth={6}
                     color="#f59e0b"
                   />
                   <NutritionRing
-                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.protein / (dailySummary.nutritionGoals?.protein || 50)) * 100))}
-                    value={`${Math.round(dailySummary.totalNutrition.protein)}g`}
+                    percentage={
+                      dailySummary.nutritionGoals?.protein
+                        ? Math.min(100, (dailySummary.totalNutrition.protein /
+                            dailySummary.nutritionGoals.protein) * 100)
+                        : 0
+                    }
                     label="Protein"
-                    size={80}
-                    strokeWidth={7}
+                    size={70}
+                    strokeWidth={6}
                     color="#ef4444"
                   />
                   <NutritionRing
-                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.carbs / (dailySummary.nutritionGoals?.carbs || 275)) * 100))}
-                    value={`${Math.round(dailySummary.totalNutrition.carbs)}g`}
+                    percentage={
+                      dailySummary.nutritionGoals?.carbs
+                        ? Math.min(100, (dailySummary.totalNutrition.carbs /
+                            dailySummary.nutritionGoals.carbs) * 100)
+                        : 0
+                    }
                     label="Carbs"
-                    size={80}
-                    strokeWidth={7}
+                    size={70}
+                    strokeWidth={6}
                     color="#3b82f6"
                   />
                   <NutritionRing
-                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.fat / (dailySummary.nutritionGoals?.fat || 78)) * 100))}
-                    value={`${Math.round(dailySummary.totalNutrition.fat)}g`}
+                    percentage={
+                      dailySummary.nutritionGoals?.fat
+                        ? Math.min(100, (dailySummary.totalNutrition.fat /
+                            dailySummary.nutritionGoals.fat) * 100)
+                        : 0
+                    }
                     label="Fat"
-                    size={80}
-                    strokeWidth={7}
+                    size={70}
+                    strokeWidth={6}
                     color="#8b5cf6"
                   />
                   <NutritionRing
-                    percentage={Math.min(100, Math.round((dailySummary.totalNutrition.sodium / (dailySummary.nutritionGoals?.sodium || 2300)) * 100))}
-                    value={`${Math.round(dailySummary.totalNutrition.sodium)}mg`}
+                    percentage={
+                      dailySummary.nutritionGoals?.sodium
+                        ? Math.min(100, (dailySummary.totalNutrition.sodium /
+                            dailySummary.nutritionGoals.sodium) * 100)
+                        : 0
+                    }
                     label="Sodium"
-                    size={80}
-                    strokeWidth={7}
+                    size={70}
+                    strokeWidth={6}
                     color="#6b7280"
                   />
                 </div>
@@ -157,7 +193,9 @@ export default function NutritionDashboard({
               {/* Macro Distribution Bar */}
               {macroPercentages && (
                 <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Macro Distribution</h4>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">
+                    Macro Distribution
+                  </h4>
                   <div className="h-6 rounded-full overflow-hidden flex">
                     <div
                       className="bg-red-500 flex items-center justify-center text-xs text-white font-medium"
@@ -188,7 +226,9 @@ export default function NutritionDashboard({
 
               {/* Micronutrients */}
               <div className="mb-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Other Nutrients</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">
+                  Other Nutrients
+                </h4>
                 <div className="grid grid-cols-2 gap-3">
                   <NutrientBar
                     label="Fiber"
@@ -224,28 +264,41 @@ export default function NutritionDashboard({
 
               {/* Meal Breakdown */}
               <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Calories by Meal</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">
+                  Calories by Meal
+                </h4>
                 <div className="space-y-2">
-                  {(["breakfast", "lunch", "dinner", "snack"] as const).map(meal => {
-                    const mealEntries = dailySummary.mealBreakdown[meal];
-                    const mealCalories = mealEntries.reduce((sum, e) => sum + (e.nutrition.calories || 0), 0);
-                    const percentage = dailySummary.nutritionGoals?.calories
-                      ? (mealCalories / dailySummary.nutritionGoals.calories) * 100
-                      : 0;
+                  {(["breakfast", "lunch", "dinner", "snack"] as const).map(
+                    (meal) => {
+                      const mealEntries = dailySummary.mealBreakdown[meal];
+                      const mealCalories = mealEntries.reduce(
+                        (sum, e) => sum + (e.nutrition.calories || 0),
+                        0,
+                      );
+                      const percentage = dailySummary.nutritionGoals?.calories
+                        ? (mealCalories /
+                            dailySummary.nutritionGoals.calories) *
+                          100
+                        : 0;
 
-                    return (
-                      <div key={meal} className="flex items-center gap-3">
-                        <span className="w-20 text-sm text-gray-600 capitalize">{meal}</span>
-                        <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-amber-500 rounded-full transition-all"
-                            style={{ width: `${Math.min(percentage, 100)}%` }}
-                          />
+                      return (
+                        <div key={meal} className="flex items-center gap-3">
+                          <span className="w-20 text-sm text-gray-600 capitalize">
+                            {meal}
+                          </span>
+                          <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-amber-500 rounded-full transition-all"
+                              style={{ width: `${Math.min(percentage, 100)}%` }}
+                            />
+                          </div>
+                          <span className="w-16 text-sm text-gray-600 text-right">
+                            {Math.round(mealCalories)}
+                          </span>
                         </div>
-                        <span className="w-16 text-sm text-gray-600 text-right">{Math.round(mealCalories)}</span>
-                      </div>
-                    );
-                  })}
+                      );
+                    },
+                  )}
                 </div>
               </div>
             </>
@@ -304,30 +357,49 @@ export default function NutritionDashboard({
 
               {/* Daily Breakdown Chart */}
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Daily Calories</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">
+                  Daily Calories
+                </h4>
                 <div className="flex items-end gap-2 h-32">
                   {weeklySummary.dailySummaries.map((day, index) => {
                     const maxCal = Math.max(
-                      ...weeklySummary.dailySummaries.map(d => d.totalNutrition.calories),
-                      1
+                      ...weeklySummary.dailySummaries.map(
+                        (d) => d.totalNutrition.calories,
+                      ),
+                      1,
                     );
                     const height = (day.totalNutrition.calories / maxCal) * 100;
-                    const dayName = new Date(day.date).toLocaleDateString("en-US", { weekday: "short" });
-                    const isToday = new Date(day.date).toDateString() === new Date().toDateString();
+                    const dayName = new Date(day.date).toLocaleDateString(
+                      "en-US",
+                      { weekday: "short" },
+                    );
+                    const isToday =
+                      new Date(day.date).toDateString() ===
+                      new Date().toDateString();
 
                     return (
-                      <div key={index} className="flex-1 flex flex-col items-center">
+                      <div
+                        key={index}
+                        className="flex-1 flex flex-col items-center"
+                      >
                         <div
                           className={`w-full rounded-t transition-all ${
                             isToday ? "bg-amber-500" : "bg-amber-300"
                           }`}
-                          style={{ height: `${height}%`, minHeight: day.entries.length > 0 ? 4 : 0 }}
+                          style={{
+                            height: `${height}%`,
+                            minHeight: day.entries.length > 0 ? 4 : 0,
+                          }}
                         />
-                        <div className={`text-xs mt-1 ${isToday ? "font-bold text-amber-600" : "text-gray-500"}`}>
+                        <div
+                          className={`text-xs mt-1 ${isToday ? "font-bold text-amber-600" : "text-gray-500"}`}
+                        >
                           {dayName}
                         </div>
                         <div className="text-xs text-gray-400">
-                          {day.entries.length > 0 ? Math.round(day.totalNutrition.calories) : "-"}
+                          {day.entries.length > 0
+                            ? Math.round(day.totalNutrition.calories)
+                            : "-"}
                         </div>
                       </div>
                     );
@@ -338,24 +410,37 @@ export default function NutritionDashboard({
               {/* Top Foods */}
               {weeklySummary.patterns.topFoods.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Most Eaten Foods</h4>
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">
+                    Most Eaten Foods
+                  </h4>
                   <div className="space-y-2">
-                    {weeklySummary.patterns.topFoods.slice(0, 5).map((food, index) => (
-                      <div key={food.name} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-medium">
-                            {index + 1}
-                          </span>
-                          <span className="text-sm text-gray-900">{food.name}</span>
+                    {weeklySummary.patterns.topFoods
+                      .slice(0, 5)
+                      .map((food, index) => (
+                        <div
+                          key={food.name}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-medium">
+                              {index + 1}
+                            </span>
+                            <span className="text-sm text-gray-900">
+                              {food.name}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-500">
+                              {food.count}x
+                            </span>
+                            {food.averageRating && (
+                              <span className="text-sm text-amber-600">
+                                {food.averageRating.toFixed(1)} stars
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-500">{food.count}x</span>
-                          {food.averageRating && (
-                            <span className="text-sm text-amber-600">{food.averageRating.toFixed(1)} stars</span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               )}
@@ -370,7 +455,12 @@ export default function NutritionDashboard({
           {insights.length === 0 ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-8 h-8 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -379,7 +469,9 @@ export default function NutritionDashboard({
                   />
                 </svg>
               </div>
-              <p className="text-gray-500 mb-4">Track more meals to get personalized insights</p>
+              <p className="text-gray-500 mb-4">
+                Track more meals to get personalized insights
+              </p>
               {onRefreshInsights && (
                 <button
                   onClick={onRefreshInsights}
@@ -391,7 +483,7 @@ export default function NutritionDashboard({
             </div>
           ) : (
             <div className="space-y-4">
-              {insights.map(insight => (
+              {insights.map((insight) => (
                 <InsightCard key={insight.id} insight={insight} />
               ))}
             </div>
@@ -400,22 +492,32 @@ export default function NutritionDashboard({
           {/* Streak Stats */}
           {stats && (
             <div className="mt-6 pt-4 border-t border-gray-100">
-              <h4 className="text-sm font-medium text-gray-700 mb-3">Your Tracking</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">
+                Your Tracking
+              </h4>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-amber-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-amber-600">{stats.trackingStreak}</div>
+                  <div className="text-2xl font-bold text-amber-600">
+                    {stats.trackingStreak}
+                  </div>
                   <div className="text-xs text-amber-800">Day Streak</div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-gray-900">{stats.longestStreak}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {stats.longestStreak}
+                  </div>
                   <div className="text-xs text-gray-500">Best Streak</div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-gray-900">{stats.totalDaysTracked}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {stats.totalDaysTracked}
+                  </div>
                   <div className="text-xs text-gray-500">Days Tracked</div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-gray-900">{stats.averageRating.toFixed(1)}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {stats.averageRating.toFixed(1)}
+                  </div>
                   <div className="text-xs text-gray-500">Avg Rating</div>
                 </div>
               </div>
@@ -452,8 +554,14 @@ function NutrientBar({
     <div>
       <div className="flex justify-between text-sm mb-1">
         <span className="text-gray-600">{label}</span>
-        <span className={isOver && inverse ? "text-red-600 font-medium" : "text-gray-900"}>
-          {Math.round(value)}{unit} / {max}{unit}
+        <span
+          className={
+            isOver && inverse ? "text-red-600 font-medium" : "text-gray-900"
+          }
+        >
+          {Math.round(value)}
+          {unit} / {max}
+          {unit}
         </span>
       </div>
       <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -486,11 +594,18 @@ function InsightCard({ insight }: { insight: FoodInsight }) {
   };
 
   return (
-    <div className={`rounded-lg border p-4 ${priorityColors[insight.priority]}`}>
+    <div
+      className={`rounded-lg border p-4 ${priorityColors[insight.priority]}`}
+    >
       <div className="flex items-start gap-3">
         <div className={`flex-shrink-0 ${priorityIcons[insight.priority]}`}>
           {insight.type === "nutrition_gap" && (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -500,7 +615,12 @@ function InsightCard({ insight }: { insight: FoodInsight }) {
             </svg>
           )}
           {insight.type === "positive_pattern" && (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -509,8 +629,14 @@ function InsightCard({ insight }: { insight: FoodInsight }) {
               />
             </svg>
           )}
-          {(insight.type === "excess_warning" || insight.type === "improvement_opportunity") && (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {(insight.type === "excess_warning" ||
+            insight.type === "improvement_opportunity") && (
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -524,7 +650,9 @@ function InsightCard({ insight }: { insight: FoodInsight }) {
           <h5 className="font-medium text-gray-900">{insight.title}</h5>
           <p className="text-sm text-gray-600 mt-1">{insight.description}</p>
           {insight.recommendation && (
-            <p className="text-sm text-gray-700 mt-2 font-medium">{insight.recommendation}</p>
+            <p className="text-sm text-gray-700 mt-2 font-medium">
+              {insight.recommendation}
+            </p>
           )}
         </div>
       </div>

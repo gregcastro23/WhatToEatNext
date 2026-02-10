@@ -17,7 +17,7 @@ import type {
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
 import FoodRating, { StarDisplay } from "./FoodRating";
-import { NutritionRing } from "../nutrition/NutritionRing";
+import { NutritionRing } from "../nutrition";
 
 interface FoodDiaryViewProps {
   entries: FoodDiaryEntry[];
@@ -27,7 +27,11 @@ interface FoodDiaryViewProps {
   onNextDay: () => void;
   onGoToToday: () => void;
   onSetDate: (date: Date) => void;
-  onRateEntry: (entryId: string, rating: FoodRatingType, moodTags?: MoodTag[]) => Promise<boolean>;
+  onRateEntry: (
+    entryId: string,
+    rating: FoodRatingType,
+    moodTags?: MoodTag[],
+  ) => Promise<boolean>;
   onDeleteEntry: (entryId: string) => Promise<boolean>;
   onToggleFavorite: (entryId: string) => Promise<boolean>;
   isLoading?: boolean;
@@ -35,7 +39,10 @@ interface FoodDiaryViewProps {
 
 const MEAL_TYPE_ORDER: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
 
-const MEAL_TYPE_LABELS: Record<MealType, { label: string; icon: string; timeRange: string }> = {
+const MEAL_TYPE_LABELS: Record<
+  MealType,
+  { label: string; icon: string; timeRange: string }
+> = {
   breakfast: { label: "Breakfast", icon: "sunrise", timeRange: "6am - 11am" },
   lunch: { label: "Lunch", icon: "sun", timeRange: "11am - 3pm" },
   dinner: { label: "Dinner", icon: "moon", timeRange: "5pm - 9pm" },
@@ -64,10 +71,12 @@ export default function FoodDiaryView({
   // Group entries by meal type
   const entriesByMeal = MEAL_TYPE_ORDER.reduce(
     (acc, mealType) => {
-      acc[mealType] = entries.filter(e => e.mealType === mealType).sort((a, b) => a.time.localeCompare(b.time));
+      acc[mealType] = entries
+        .filter((e) => e.mealType === mealType)
+        .sort((a, b) => a.time.localeCompare(b.time));
       return acc;
     },
-    {} as Record<MealType, FoodDiaryEntry[]>
+    {} as Record<MealType, FoodDiaryEntry[]>,
   );
 
   return (
@@ -81,8 +90,18 @@ export default function FoodDiaryView({
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               aria-label="Previous day"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
 
@@ -100,7 +119,11 @@ export default function FoodDiaryView({
                 {selectedDate.toLocaleDateString("en-US", { weekday: "long" })}
               </div>
               <div className="text-sm text-gray-500">
-                {selectedDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                {selectedDate.toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </div>
             </button>
 
@@ -110,8 +133,18 @@ export default function FoodDiaryView({
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
               aria-label="Next day"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="w-5 h-5 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -138,7 +171,9 @@ export default function FoodDiaryView({
               <button
                 onClick={() => setViewMode("timeline")}
                 className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                  viewMode === "timeline" ? "bg-white shadow-sm" : "text-gray-600"
+                  viewMode === "timeline"
+                    ? "bg-white shadow-sm"
+                    : "text-gray-600"
                 }`}
               >
                 Timeline
@@ -153,29 +188,49 @@ export default function FoodDiaryView({
         <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
           <div className="flex items-center justify-around">
             <NutritionRing
-              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.calories / (dailySummary.nutritionGoals?.calories || 2000)) * 100))}
-              value={`${Math.round(dailySummary.totalNutrition.calories)}`}
+              percentage={
+                dailySummary.nutritionGoals?.calories
+                  ? (dailySummary.totalNutrition.calories /
+                      dailySummary.nutritionGoals.calories) *
+                    100
+                  : 0
+              }
               label="Calories"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
-              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.protein / (dailySummary.nutritionGoals?.protein || 50)) * 100))}
-              value={`${Math.round(dailySummary.totalNutrition.protein)}g`}
+              percentage={
+                dailySummary.nutritionGoals?.protein
+                  ? (dailySummary.totalNutrition.protein /
+                      dailySummary.nutritionGoals.protein) *
+                    100
+                  : 0
+              }
               label="Protein"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
-              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.carbs / (dailySummary.nutritionGoals?.carbs || 275)) * 100))}
-              value={`${Math.round(dailySummary.totalNutrition.carbs)}g`}
+              percentage={
+                dailySummary.nutritionGoals?.carbs
+                  ? (dailySummary.totalNutrition.carbs /
+                      dailySummary.nutritionGoals.carbs) *
+                    100
+                  : 0
+              }
               label="Carbs"
               size={70}
               strokeWidth={6}
             />
             <NutritionRing
-              percentage={Math.min(100, Math.round((dailySummary.totalNutrition.fat / (dailySummary.nutritionGoals?.fat || 78)) * 100))}
-              value={`${Math.round(dailySummary.totalNutrition.fat)}g`}
+              percentage={
+                dailySummary.nutritionGoals?.fat
+                  ? (dailySummary.totalNutrition.fat /
+                      dailySummary.nutritionGoals.fat) *
+                    100
+                  : 0
+              }
               label="Fat"
               size={70}
               strokeWidth={6}
@@ -196,7 +251,12 @@ export default function FoodDiaryView({
       {!isLoading && entries.length === 0 && (
         <div className="px-4 py-12 text-center">
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-8 h-8 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -205,40 +265,59 @@ export default function FoodDiaryView({
               />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-1">No entries yet</h3>
-          <p className="text-gray-500 mb-4">Start tracking what you eat to see your nutrition summary</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-1">
+            No entries yet
+          </h3>
+          <p className="text-gray-500 mb-4">
+            Start tracking what you eat to see your nutrition summary
+          </p>
         </div>
       )}
 
       {/* Meal View */}
       {!isLoading && viewMode === "meals" && entries.length > 0 && (
         <div className="divide-y divide-gray-100">
-          {MEAL_TYPE_ORDER.map(mealType => {
+          {MEAL_TYPE_ORDER.map((mealType) => {
             const mealEntries = entriesByMeal[mealType];
             const mealInfo = MEAL_TYPE_LABELS[mealType];
-            const mealCalories = mealEntries.reduce((sum, e) => sum + (e.nutrition.calories || 0), 0);
+            const mealCalories = mealEntries.reduce(
+              (sum, e) => sum + (e.nutrition.calories || 0),
+              0,
+            );
 
             return (
               <div key={mealType} className="px-4 py-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-900">{mealInfo.label}</span>
-                    <span className="text-xs text-gray-400">{mealInfo.timeRange}</span>
+                    <span className="font-medium text-gray-900">
+                      {mealInfo.label}
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {mealInfo.timeRange}
+                    </span>
                   </div>
-                  <span className="text-sm text-gray-500">{Math.round(mealCalories)} cal</span>
+                  <span className="text-sm text-gray-500">
+                    {Math.round(mealCalories)} cal
+                  </span>
                 </div>
 
                 {mealEntries.length === 0 ? (
                   <p className="text-sm text-gray-400 italic">No entries</p>
                 ) : (
                   <div className="space-y-2">
-                    {mealEntries.map(entry => (
+                    {mealEntries.map((entry) => (
                       <FoodEntryCard
                         key={entry.id}
                         entry={entry}
                         isExpanded={expandedEntry === entry.id}
-                        onToggleExpand={() => setExpandedEntry(expandedEntry === entry.id ? null : entry.id)}
-                        onRate={(rating, moods) => onRateEntry(entry.id, rating, moods)}
+                        onToggleExpand={() =>
+                          setExpandedEntry(
+                            expandedEntry === entry.id ? null : entry.id,
+                          )
+                        }
+                        onRate={(rating, moods) =>
+                          onRateEntry(entry.id, rating, moods)
+                        }
                         onDelete={() => onDeleteEntry(entry.id)}
                         onToggleFavorite={() => onToggleFavorite(entry.id)}
                       />
@@ -261,17 +340,25 @@ export default function FoodDiaryView({
             <div className="space-y-4">
               {entries
                 .sort((a, b) => a.time.localeCompare(b.time))
-                .map(entry => (
+                .map((entry) => (
                   <div key={entry.id} className="relative pl-10">
                     {/* Timeline dot */}
                     <div className="absolute left-2.5 top-2 w-3 h-3 bg-amber-500 rounded-full ring-4 ring-white" />
 
-                    <div className="text-xs text-gray-400 mb-1">{entry.time}</div>
+                    <div className="text-xs text-gray-400 mb-1">
+                      {entry.time}
+                    </div>
                     <FoodEntryCard
                       entry={entry}
                       isExpanded={expandedEntry === entry.id}
-                      onToggleExpand={() => setExpandedEntry(expandedEntry === entry.id ? null : entry.id)}
-                      onRate={(rating, moods) => onRateEntry(entry.id, rating, moods)}
+                      onToggleExpand={() =>
+                        setExpandedEntry(
+                          expandedEntry === entry.id ? null : entry.id,
+                        )
+                      }
+                      onRate={(rating, moods) =>
+                        onRateEntry(entry.id, rating, moods)
+                      }
                       onDelete={() => onDeleteEntry(entry.id)}
                       onToggleFavorite={() => onToggleFavorite(entry.id)}
                     />
@@ -316,7 +403,9 @@ function FoodEntryCard({
   };
 
   return (
-    <div className={`bg-gray-50 rounded-lg overflow-hidden transition-all ${isExpanded ? "ring-2 ring-amber-200" : ""}`}>
+    <div
+      className={`bg-gray-50 rounded-lg overflow-hidden transition-all ${isExpanded ? "ring-2 ring-amber-200" : ""}`}
+    >
       {/* Main row */}
       <button
         onClick={onToggleExpand}
@@ -332,11 +421,11 @@ function FoodEntryCard({
         </div>
 
         <div className="flex items-center gap-3">
-          {entry.rating && (
-            <StarDisplay rating={entry.rating} size="sm" />
-          )}
+          {entry.rating && <StarDisplay rating={entry.rating} size="sm" />}
           <div className="text-right">
-            <div className="font-medium text-gray-900">{Math.round(entry.nutrition.calories || 0)}</div>
+            <div className="font-medium text-gray-900">
+              {Math.round(entry.nutrition.calories || 0)}
+            </div>
             <div className="text-xs text-gray-500">cal</div>
           </div>
           <svg
@@ -345,7 +434,12 @@ function FoodEntryCard({
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </div>
       </button>
@@ -354,36 +448,30 @@ function FoodEntryCard({
       {isExpanded && (
         <div className="px-3 pb-3 border-t border-gray-200">
           {/* Nutrition Details */}
-          <div className="grid grid-cols-5 gap-2 py-3">
+          <div className="grid grid-cols-4 gap-2 py-3">
             <div className="text-center">
-              <div className="text-base font-semibold text-gray-900">
+              <div className="text-lg font-semibold text-gray-900">
                 {Math.round(entry.nutrition.protein || 0)}g
               </div>
               <div className="text-xs text-gray-500">Protein</div>
             </div>
             <div className="text-center">
-              <div className="text-base font-semibold text-gray-900">
+              <div className="text-lg font-semibold text-gray-900">
                 {Math.round(entry.nutrition.carbs || 0)}g
               </div>
               <div className="text-xs text-gray-500">Carbs</div>
             </div>
             <div className="text-center">
-              <div className="text-base font-semibold text-gray-900">
+              <div className="text-lg font-semibold text-gray-900">
                 {Math.round(entry.nutrition.fat || 0)}g
               </div>
               <div className="text-xs text-gray-500">Fat</div>
             </div>
             <div className="text-center">
-              <div className="text-base font-semibold text-gray-900">
+              <div className="text-lg font-semibold text-gray-900">
                 {Math.round(entry.nutrition.fiber || 0)}g
               </div>
               <div className="text-xs text-gray-500">Fiber</div>
-            </div>
-            <div className="text-center">
-              <div className="text-base font-semibold text-gray-900">
-                {Math.round(entry.nutrition.sodium || 0)}
-              </div>
-              <div className="text-xs text-gray-500">Sodium</div>
             </div>
           </div>
 
@@ -427,7 +515,9 @@ function FoodEntryCard({
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 />
               </svg>
-              <span className="text-sm">{entry.isFavorite ? "Favorited" : "Favorite"}</span>
+              <span className="text-sm">
+                {entry.isFavorite ? "Favorited" : "Favorite"}
+              </span>
             </button>
 
             <button
@@ -435,7 +525,12 @@ function FoodEntryCard({
               disabled={isDeleting}
               className="flex items-center gap-1 px-3 py-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -443,7 +538,9 @@ function FoodEntryCard({
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                 />
               </svg>
-              <span className="text-sm">{isDeleting ? "Deleting..." : "Delete"}</span>
+              <span className="text-sm">
+                {isDeleting ? "Deleting..." : "Delete"}
+              </span>
             </button>
           </div>
         </div>

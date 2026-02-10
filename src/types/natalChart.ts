@@ -28,6 +28,8 @@ export interface BirthData {
  * Contains planetary positions and derived properties
  */
 export interface NatalChart {
+  id?: string;
+  name?: string;
   birthData: BirthData;
   planetaryPositions: Record<Planet, ZodiacSign>;
   dominantElement: Element;

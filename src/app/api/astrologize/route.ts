@@ -6,11 +6,15 @@ import { log } from "@/services/LoggingService";
 import type { ZodiacSign } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
+import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
 const logger = createLogger("AstrologizeAPI");
 
 // Backend URL configuration
-const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+const BACKEND_URL =
+  process.env.BACKEND_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "http://localhost:8000";
 
 // Interface for the API request
 interface AstrologizeRequest {
@@ -26,8 +30,8 @@ interface AstrologizeRequest {
 
 // Default location (New York City)
 const DEFAULT_LOCATION = {
-  latitude: 40.7498,
-  longitude: -73.7976,
+  latitude: FOREST_HILLS_COORDINATES.latitude,
+  longitude: FOREST_HILLS_COORDINATES.longitude,
 };
 
 /**
@@ -93,7 +97,9 @@ async function calculatePlanetaryPositionsBackend(
     const positions: Record<string, PlanetPosition> = {};
 
     // Transform backend response to match our PlanetPosition interface
-    for (const [planetName, position] of Object.entries(data.planetary_positions || {})) {
+    for (const [planetName, position] of Object.entries(
+      data.planetary_positions || {},
+    )) {
       const pos = position as any;
       positions[planetName] = {
         sign: pos.sign as ZodiacSign,
@@ -105,7 +111,7 @@ async function calculatePlanetaryPositionsBackend(
     }
 
     logger.info(
-      `Calculated ${Object.keys(positions).length} planetary positions using backend (${data.metadata?.source || 'unknown'})`,
+      `Calculated ${Object.keys(positions).length} planetary positions using backend (${data.metadata?.source || "unknown"})`,
     );
 
     return positions;
@@ -164,14 +170,21 @@ async function calculatePlanetaryPositions(
   // Try backend first for high-precision Swiss Ephemeris calculations
   const backendAvailable = await isBackendAvailable();
   if (backendAvailable) {
-    const backendPositions = await calculatePlanetaryPositionsBackend(date, zodiacSystem);
+    const backendPositions = await calculatePlanetaryPositionsBackend(
+      date,
+      zodiacSystem,
+    );
     if (backendPositions && Object.keys(backendPositions).length > 0) {
-      logger.info("Using backend Swiss Ephemeris for planetary calculations (high precision)");
+      logger.info(
+        "Using backend Swiss Ephemeris for planetary calculations (high precision)",
+      );
       return backendPositions;
     }
   }
 
-  logger.info("Backend not available, using astronomy-engine fallback (moderate precision)");
+  logger.info(
+    "Backend not available, using astronomy-engine fallback (moderate precision)",
+  );
 
   // Fallback to astronomy-engine
   const positions: Record<string, PlanetPosition> = {};
@@ -270,10 +283,15 @@ export async function POST(request: Request) {
     // Create date object (month is 1-indexed in request, 0-indexed in Date constructor)
     const targetDate = new Date(year, month - 1, date, hour, minute);
 
-    logger.info(`Calculating positions for ${targetDate.toISOString()} (${zodiacSystem} zodiac)`);
+    logger.info(
+      `Calculating positions for ${targetDate.toISOString()} (${zodiacSystem} zodiac)`,
+    );
 
     // Calculate planetary positions using backend or astronomy-engine fallback
-    const planetaryPositions = await calculatePlanetaryPositions(targetDate, zodiacSystem);
+    const planetaryPositions = await calculatePlanetaryPositions(
+      targetDate,
+      zodiacSystem,
+    );
 
     // Validate planetary positions
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {

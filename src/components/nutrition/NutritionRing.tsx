@@ -9,7 +9,6 @@ interface NutritionRingProps {
   size?: number; // Diameter of the ring in pixels
   strokeWidth?: number; // Width of the ring stroke
   label?: string; // Text label to display in the center
-  value?: string; // Value to display in the center (e.g., "150g")
 }
 
 export function NutritionRing({
@@ -19,11 +18,11 @@ export function NutritionRing({
   size = 60,
   strokeWidth = 6,
   label,
-  value,
 }: NutritionRingProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (percentage / 100) * circumference;
+  const clampedPercentage = Math.max(0, Math.min(100, percentage));
+  const offset = circumference - (clampedPercentage / 100) * circumference;
 
   return (
     <div
@@ -60,7 +59,9 @@ export function NutritionRing({
         ></circle>
       </svg>
       <div className={styles.content}>
-        {value && <span className={styles.value}>{value}</span>}
+        <span
+          className={styles.value}
+        >{`${Math.round(clampedPercentage)}%`}</span>
         {label && <span className={styles.label}>{label}</span>}
       </div>
     </div>

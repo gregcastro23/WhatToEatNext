@@ -18,7 +18,8 @@ from .connection import Base
 # ENUM TYPES
 # ==========================================
 
-user_role_enum = ENUM('admin', 'user', 'guest', 'service', name='user_role')
+# Modified user_role_enum
+user_role_enum = ENUM('ALCHEMIST', 'GRAND_MASTER', name='user_role', create_type=False) # create_type=False because we'll handle creation via migration
 planet_type_enum = ENUM('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', name='planet_type')
 zodiac_sign_enum = ENUM('Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces', name='zodiac_sign')
 lunar_phase_enum = ENUM('New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent', name='lunar_phase')
@@ -37,7 +38,8 @@ class User(Base):
     id: Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, server_default=func.uuid_generate_v4())
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    roles: Mapped[List[str]] = mapped_column(ARRAY(String), nullable=False, default=['user'])
+    # Modified from 'roles' ARRAY(String) to 'role' ENUM
+    role: Mapped[str] = mapped_column(user_role_enum, nullable=False, server_default='ALCHEMIST')
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     email_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     profile: Mapped[Dict[str, Any]] = mapped_column(JSONB, default=dict)
@@ -51,6 +53,9 @@ class User(Base):
     api_keys: Mapped[List["ApiKey"]] = relationship("ApiKey", back_populates="user")
     calculations: Mapped[List["UserCalculation"]] = relationship("UserCalculation", back_populates="user")
     recommendations: Mapped[List["Recommendation"]] = relationship("Recommendation", back_populates="user")
+    # Add relationship for SavedChart
+    saved_charts: Mapped[List["SavedChart"]] = relationship("SavedChart", back_populates="user")
+
 
 class ApiKey(Base):
     """API keys for external integrations."""
@@ -62,7 +67,7 @@ class ApiKey(Base):
     key_hash: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
     scopes: Mapped[List[str]] = mapped_column(ARRAY(String), default=[])
     rate_limit_tier: Mapped[str] = mapped_column(String(20), default='authenticated')
-    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     expires_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     last_used_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     usage_count: Mapped[int] = mapped_column(Integer, default=0)
@@ -436,4 +441,51 @@ class SystemMetric(Base):
         Index('idx_metrics_name', 'metric_name'),
         Index('idx_metrics_timestamp', 'timestamp'),
         Index('idx_metrics_tags', 'tags', postgresql_using='gin'),
+    )
+
+class TransitHistory(Base):
+    """Historical log of generated transit-based cooking rituals."""
+    __tablename__ = 'transit_history'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    recipe_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    dominant_transit: Mapped[Optional[str]] = mapped_column(String(255))
+    ritual_instruction: Mapped[str] = mapped_column(Text, nullable=False)
+    potency_score: Mapped[Optional[float]] = mapped_column(Float)
+    kinetic_rating: Mapped[Optional[float]] = mapped_column(Float)
+    thermo_rating: Mapped[Optional[float]] = mapped_column(Float)
+    spirit_score: Mapped[Optional[float]] = mapped_column(Float)
+    essence_score: Mapped[Optional[float]] = mapped_column(Float)
+    matter_score: Mapped[Optional[float]] = mapped_column(Float)
+    substance_score: Mapped[Optional[float]] = mapped_column(Float)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (
+        Index('idx_transit_history_recipe_id', 'recipe_id'),
+        Index('idx_transit_history_dominant_transit', 'dominant_transit'),
+        Index('idx_transit_history_created_at', 'created_at'),
+    )
+
+class SavedChart(Base):
+    """User's saved birth chart data for personalized astrological calculations."""
+    __tablename__ = 'saved_charts'
+
+    id: Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, server_default=func.uuid_generate_v4())
+    user_id: Mapped[str] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    chart_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    birth_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    birth_time: Mapped[str] = mapped_column(String(50), nullable=False) # Encrypted: Use backend/utils/security.py for encryption/decryption
+    birth_latitude: Mapped[float] = mapped_column(Float(precision=6), nullable=False) # Encrypted: Use backend/utils/security.py for encryption/decryption
+    birth_longitude: Mapped[float] = mapped_column(Float(precision=6), nullable=False) # Encrypted: Use backend/utils/security.py for encryption/decryption
+    timezone_str: Mapped[str] = mapped_column(String(100), nullable=False) # e.g., "America/New_York"
+    is_primary: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    user: Mapped["User"] = relationship("User", back_populates="saved_charts")
+
+    __table_args__ = (
+        Index('idx_saved_charts_user', 'user_id'),
+        UniqueConstraint('user_id', 'chart_name', name='uq_user_chart_name'),
+        UniqueConstraint('user_id', 'is_primary', name='uq_user_primary_chart', postgresql_where=is_primary == True)
     )

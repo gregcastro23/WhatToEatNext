@@ -1,6 +1,7 @@
 // Note: Validator imports removed to avoid circular dependency with ./validators
 // Validators are now only imported where they're actually used
 import type { LunarPhase } from "./alchemy";
+import type { NutritionalSummary } from "./nutrition";
 
 // Primary elemental properties interface - used throughout the application
 export interface ElementalProperties {
@@ -136,26 +137,7 @@ export interface Recipe {
   };
 
   // Nutritional information
-  nutrition?: {
-    calories?: number;
-    servingSize?: string;
-    protein?: number;
-    carbs?: number;
-    fat?: number;
-    fiber?: number;
-    macronutrients?: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
-    };
-    micronutrients?: {
-      vitamins: Record<string, number>;
-      minerals: Record<string, number>;
-    };
-    vitamins?: string[];
-    minerals?: string[];
-  };
+  nutrition?: NutritionalSummary;
 
   // Chef's notes and guidance
   preparationNotes?: string;
@@ -210,8 +192,24 @@ export interface Recipe {
     _seasonalScore: number;
   };
 
+  // 6-Metric SMES Grid
+  spirit?: number;
+  essence?: number;
+  matter?: number;
+  substance?: number;
+  isEnvironmentalMatch?: boolean;
+  environmentalMatchDetails?: string;
+  optimal_cooking_window?: OptimalCookingWindow;
+
   // Allow additional dynamic properties for extensibility
   [key: string]: unknown;
+}
+
+export interface OptimalCookingWindow {
+  date: string;
+  mansion: string;
+  food_type: string;
+  start_time: string;
 }
 
 // Legacy interface for backward compatibility - now extends unified Recipe
@@ -499,7 +497,8 @@ export interface ingredient {
   id: string;
   name: string;
   category: string;
-  nutritionalProfile?: unknown;
+  nutritionalProfile?: NutritionalSummary;
+  servingSize?: number;
   elementalProperties?: ElementalProperties;
 }
 
@@ -558,12 +557,14 @@ export interface RecipeNutrition {
   protein?: number;
   carbs?: number;
   fat?: number;
+  sodium?: number;
   vitamins?: string[];
   minerals?: string[];
   macronutrients?: {
     protein?: number;
     carbs?: number;
     fat?: number;
+    fiber?: number;
   };
   micronutrients?: {
     vitamins?: Record<string, number>;

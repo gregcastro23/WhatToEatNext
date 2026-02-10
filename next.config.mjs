@@ -6,14 +6,15 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  turbopack: {},
+
   outputFileTracingRoot: __dirname,
   reactStrictMode: false,
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
+
   // Turbopack configuration (Next.js 16 default bundler)
   // turbopack: {
   //   root: __dirname,
@@ -22,7 +23,13 @@ const nextConfig = {
   //   },
   // },
   // Webpack fallback configuration for path alias resolution
-  webpack: (config) => {
+  webpack: (config, { isServer, webpack }) => {
+    if (config.name === 'edge-server') {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'next/dist/experimental/testmode/server-edge.js': false,
+      };
+    }
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, 'src'),
@@ -37,7 +44,7 @@ const nextConfig = {
     const originalExternals = config.externals;
     config.externals = ({ context, request }, callback) => {
       // List of modules to externalize
-      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs', 'async_hooks'];
+      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs'];
 
       if (externalsToExternalize.includes(request)) {
         return callback(null, `commonjs ${request}`);

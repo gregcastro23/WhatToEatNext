@@ -8,7 +8,7 @@
  * @created 2026-01-10
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
@@ -33,6 +33,17 @@ import {
 } from "@/contexts/RecipeQueueContext";
 import type { Recipe } from "@/types/recipe";
 
+interface SavedChart {
+  id: string;
+  chart_name: string;
+  birth_date: string; // ISO format or similar
+  birth_time: string;
+  birth_latitude: number;
+  birth_longitude: number;
+  timezone_str: string;
+  is_primary: boolean;
+}
+
 /**
  * Menu Planner Content (inner component with context access)
  */
@@ -45,6 +56,8 @@ function MenuPlannerContent() {
     clearWeek,
     saveAsTemplate,
     refreshStats,
+    syncWithLunarCycle,
+    toggleSyncWithLunarCycle,
   } = useMenuPlanner();
 
   const { queueSize } = useRecipeQueue();
@@ -67,6 +80,41 @@ function MenuPlannerContent() {
     useState(false); // New state for sticky dashboard
 
   const { toast, showSuccess, showError, showInfo } = useToast();
+
+  const [showParticipantSelection, setShowParticipantSelection] =
+    useState(false);
+  const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]); // Assuming SavedChart type
+  const [selectedParticipantCharts, setSelectedParticipantCharts] = useState<
+    string[]
+  >([]); // Stores savedChart.id's of selected participants
+  const [loadingSavedCharts, setLoadingSavedCharts] = useState(true);
+  const [errorSavedCharts, setErrorSavedCharts] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSavedCharts = async () => {
+      try {
+        setLoadingSavedCharts(true);
+        setErrorSavedCharts(null);
+        // Assuming there's an API endpoint to fetch a user's saved charts
+        const response = await fetch("/api/user/saved-charts"); // TODO: Implement this API endpoint
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data: SavedChart[] = await response.json();
+        setSavedCharts(data);
+      } catch (error: any) {
+        setErrorSavedCharts(error.message);
+        console.error("Failed to fetch saved charts:", error);
+      } finally {
+        setLoadingSavedCharts(false);
+      }
+    };
+
+    if (showParticipantSelection) {
+      // Only fetch when the selection UI is active
+      fetchSavedCharts();
+    }
+  }, [showParticipantSelection]); // Re-fetch when UI visibility changes
 
   const handleSaveTemplate = async () => {
     if (!templateName.trim()) {
@@ -106,6 +154,22 @@ function MenuPlannerContent() {
               ← Back to Home
             </Link>
           </div>
+
+          {/* New: Collective Meal Active Indicator */}
+          {selectedParticipantCharts.length > 0 && (
+            <div className="mb-4 p-3 bg-purple-100 border border-purple-300 text-purple-800 rounded-lg flex items-center justify-between">
+              <span className="font-medium">
+                ✨ Collective Meal Active with{" "}
+                {selectedParticipantCharts.length} guest(s)!
+              </span>
+              <button
+                onClick={() => setSelectedParticipantCharts([])}
+                className="text-purple-600 hover:text-purple-900 text-sm font-semibold"
+              >
+                Clear Guests
+              </button>
+            </div>
+          )}
 
           {/* Quick Actions Toolbar - Generate, Balance, Variety, Clear */}
           <QuickActionsToolbar />
@@ -160,6 +224,31 @@ function MenuPlannerContent() {
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:shadow-lg transition-all font-medium"
               >
                 💾 Save as Template
+              </button>
+              <button
+                onClick={toggleSyncWithLunarCycle}
+                className={`px-4 py-2 rounded-lg transition-all font-medium flex items-center gap-2 ${
+                  syncWithLunarCycle
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                <span>{syncWithLunarCycle ? "🌕" : "🌑"}</span>
+                <span>Sync with Lunar Cycle</span>
+              </button>
+              {/* New: Add Participant Toggle */}
+              <button
+                onClick={() =>
+                  setShowParticipantSelection(!showParticipantSelection)
+                }
+                className={`px-4 py-2 rounded-lg transition-all font-medium flex items-center gap-2 ${
+                  showParticipantSelection
+                    ? "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:shadow-lg"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                <span>👥</span>
+                <span>Add Participant</span>
               </button>
             </div>
           </div>
@@ -279,6 +368,87 @@ function MenuPlannerContent() {
           isOpen={showNutritionDashboard}
           onClose={() => setShowNutritionDashboard(false)}
         />
+        {/* New: Participant Selection Modal */}
+        {showParticipantSelection && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+              <div className="p-6 border-b border-gray-200">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    Add Guest Alchemists
+                  </h2>
+                  <button
+                    onClick={() => setShowParticipantSelection(false)}
+                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                  >
+                    ×
+                  </button>
+                </div>
+                <p className="text-gray-600 mt-1">
+                  Select saved charts to include in collective planning.
+                </p>
+              </div>
+
+              <div className="p-6 overflow-y-auto max-h-[60vh]">
+                {loadingSavedCharts && <p>Loading saved charts...</p>}
+                {errorSavedCharts && (
+                  <p className="text-red-500">Error: {errorSavedCharts}</p>
+                )}
+                {!loadingSavedCharts &&
+                  !errorSavedCharts &&
+                  (savedCharts.length > 0 ? (
+                    <div className="space-y-3">
+                      {savedCharts.map((chart) => (
+                        <label
+                          key={chart.id}
+                          className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedParticipantCharts.includes(
+                              chart.id,
+                            )}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedParticipantCharts((prev) => [
+                                  ...prev,
+                                  chart.id,
+                                ]);
+                              } else {
+                                setSelectedParticipantCharts((prev) =>
+                                  prev.filter((id) => id !== chart.id),
+                                );
+                              }
+                            }}
+                            className="form-checkbox h-5 w-5 text-purple-600"
+                          />
+                          <span className="ml-3 text-gray-800 font-medium">
+                            {chart.chart_name} (Born: {chart.birth_date})
+                          </span>
+                          <span className="ml-auto text-sm text-gray-500">
+                            {chart.is_primary ? "Primary" : ""}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-600">
+                      No saved charts found. Add charts from your profile.
+                    </p>
+                  ))}
+              </div>
+
+              <div className="p-6 border-t border-gray-200 bg-gray-50 flex justify-end gap-3">
+                <button
+                  onClick={() => setShowParticipantSelection(false)}
+                  className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         {/* Detailed Weekly Nutrition Dashboard Modal (COMMENTED OUT FOR NOW) */}
         {/*
         {weeklyNutrition && (

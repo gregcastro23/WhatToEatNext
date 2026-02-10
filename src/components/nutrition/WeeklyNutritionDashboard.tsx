@@ -103,18 +103,6 @@ export function WeeklyNutritionDashboard({
         </div>
 
         <div className={styles.compactRight}>
-          {/* Top Deficiencies Alert */}
-          {weeklyCompliance.deficiencies.length > 0 && (
-            <div className={styles.deficiencyAlert}>
-              <span className={styles.alertIcon}>⚠️</span>
-              <span className={styles.alertText}>
-                {weeklyCompliance.deficiencies.length} nutrient
-                {weeklyCompliance.deficiencies.length > 1 ? "s" : ""} below
-                target
-              </span>
-            </div>
-          )}
-
           {/* Expand/Collapse Button */}
           <button
             className={styles.expandButton}
@@ -197,7 +185,6 @@ export function WeeklyNutritionDashboard({
               <MicronutrientHighlights
                 totals={weeklyTotals}
                 goals={weeklyGoals}
-                deficiencies={weeklyCompliance.deficiencies}
               />
             </div>
 
@@ -246,58 +233,8 @@ export function WeeklyNutritionDashboard({
               </div>
             </div>
           </div>
-
-          {/* Bottom: Suggestions */}
-          {weeklyCompliance.deficiencies.length > 0 && (
-            <div className={styles.suggestions}>
-              <h4 className={styles.suggestionsTitle}>
-                💡 Nutrition Recommendations
-              </h4>
-              <ul className={styles.suggestionsList}>
-                {weeklyCompliance.deficiencies.slice(0, 5).map((def, idx) => (
-                  <li key={idx} className={styles.suggestionItem}>
-                    <strong>{formatNutrientName(def.nutrient)}</strong>:
-                    Currently averaging {Math.round(def.averageDaily)}
-                    {getNutrientUnit(def.nutrient)}/day (target:{" "}
-                    {Math.round(def.targetDaily)}
-                    {getNutrientUnit(def.nutrient)})
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       )}
     </div>
   );
-}
-
-// Helper functions
-function formatNutrientName(nutrient: string): string {
-  const nameMap: Record<string, string> = {
-    vitaminA: "Vitamin A",
-    vitaminC: "Vitamin C",
-    vitaminD: "Vitamin D",
-    // ... add more mappings
-  };
-  return (
-    nameMap[nutrient] || nutrient.charAt(0).toUpperCase() + nutrient.slice(1)
-  );
-}
-
-function getNutrientUnit(nutrient: string): string {
-  const unitMap: Record<string, string> = {
-    calories: "kcal",
-    protein: "g",
-    carbs: "g",
-    fat: "g",
-    fiber: "g",
-    sodium: "mg",
-    calcium: "mg",
-    iron: "mg",
-    vitaminC: "mg",
-    vitaminD: "μg",
-    // ... add more mappings
-  };
-  return unitMap[nutrient] || "";
 }
