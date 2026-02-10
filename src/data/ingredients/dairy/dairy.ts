@@ -104,6 +104,22 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Libra"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (244g)",
+      calories: 149,
+      macros: {
+        protein: 8,
+        carbs: 12,
+        fat: 8,
+        fiber: 0,
+        saturatedFat: 4.6,
+        sugar: 12,
+        potassium: 322,
+        sodium: 105,
+      },
+      vitamins: { D: 0.24, B12: 0.46, riboflavin: 0.26, A: 0.13, B6: 0.05 },
+      minerals: { calcium: 0.21, phosphorus: 0.21, selenium: 0.11, zinc: 0.07, magnesium: 0.06 },
+    },
   },
 
   buttermilk: {
@@ -361,6 +377,22 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["Leo", "Sagittarius", "Pisces"],
       seasonalAffinity: ["summer", "all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (240ml)",
+      calories: 552,
+      macros: {
+        protein: 5,
+        carbs: 13,
+        fat: 57,
+        fiber: 5,
+        saturatedFat: 51,
+        sugar: 8,
+        potassium: 631,
+        sodium: 36,
+      },
+      vitamins: { C: 0.04, B6: 0.04, niacin: 0.01 },
+      minerals: { manganese: 0.91, iron: 0.44, magnesium: 0.22, phosphorus: 0.24, zinc: 0.09 },
     },
   },
 
