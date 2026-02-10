@@ -14,6 +14,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
+
   // Turbopack configuration (Next.js 16 default bundler)
   // turbopack: {
   //   root: __dirname,

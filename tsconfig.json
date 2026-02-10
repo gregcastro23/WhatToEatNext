@@ -73,7 +73,7 @@
         "./src/calculations/*"
       ]
     },
-    "types": ["node", "jest", "jose"],
+    "types": ["node", "jose"],
     "plugins": [
       {
         "name": "next"
