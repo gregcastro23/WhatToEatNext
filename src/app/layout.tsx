@@ -6,6 +6,11 @@ import "./globals.css";
 import Providers from "./providers";
 import PayPalButton from "@/components/PayPalButton";
 
+// Force dynamic rendering for all pages - the app relies on runtime
+// context providers (Chakra, Theme, User, Alchemical) that require
+// a client-side React environment during rendering.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "What to Eat Next",
   description:

@@ -47,6 +47,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         carbs: 0,
         fat: 12,
         fiber: 0,
+        saturatedFat: 2.5,
+        sugar: 0,
+        potassium: 326,
+        sodium: 50,
       },
       vitamins: {
         B12: 1.17, // Values as percentage of RDA
