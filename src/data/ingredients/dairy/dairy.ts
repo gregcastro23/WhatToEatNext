@@ -45,6 +45,22 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Pisces"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (244g)",
+      calories: 102,
+      macros: {
+        protein: 8,
+        carbs: 12,
+        fat: 2.4,
+        fiber: 0,
+        saturatedFat: 1.5,
+        sugar: 12,
+        potassium: 366,
+        sodium: 115,
+      },
+      vitamins: { D: 0.29, B12: 0.46, riboflavin: 0.26, A: 0.10, B6: 0.05 },
+      minerals: { calcium: 0.23, phosphorus: 0.20, selenium: 0.11, zinc: 0.07, magnesium: 0.06 },
+    },
   },
 
   whole_milk: {

@@ -29,6 +29,34 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.22,
     }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: 0.25, forceMagnitude: 1.18 }, // Strong warming, high force
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 213,
+      macros: {
+        protein: 22,
+        carbs: 0,
+        fat: 13,
+        fiber: 0,
+        saturatedFat: 5,
+        sugar: 0,
+        potassium: 270,
+        sodium: 60,
+      },
+      vitamins: {
+        B12: 1.04,
+        B6: 0.29,
+        niacin: 0.36,
+        riboflavin: 0.12,
+        thiamin: 0.05,
+      },
+      minerals: {
+        zinc: 0.47,
+        iron: 0.14,
+        phosphorus: 0.18,
+        selenium: 0.33,
+        magnesium: 0.05,
+      },
+    },
     sensoryProfile: {
       taste: ["Mild", "Balanced", "Natural"],
       aroma: ["Fresh", "Clean", "Subtle"],
@@ -76,6 +104,34 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.1,
     }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.98 }, // Mild warming, balanced force
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 140,
+      macros: {
+        protein: 26,
+        carbs: 0,
+        fat: 3,
+        fiber: 0,
+        saturatedFat: 0.9,
+        sugar: 0,
+        potassium: 220,
+        sodium: 63,
+      },
+      vitamins: {
+        B6: 0.46,
+        niacin: 0.59,
+        B12: 0.13,
+        riboflavin: 0.06,
+        pantothenic_acid: 0.13,
+      },
+      minerals: {
+        selenium: 0.37,
+        phosphorus: 0.17,
+        zinc: 0.06,
+        iron: 0.04,
+        magnesium: 0.06,
+      },
+    },
     sensoryProfile: {
       taste: ["Mild", "Balanced", "Natural"],
       aroma: ["Fresh", "Clean", "Subtle"],
@@ -121,11 +177,34 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.1,
     }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: 0.18, forceMagnitude: 1.08 }, // Moderate warming, moderate force
-    // Removed excessive sensoryProfile nesting
-    // Removed nested content
-    // Removed nested content
-    // Removed nested content
-    // Removed nested content
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 206,
+      macros: {
+        protein: 23,
+        carbs: 0,
+        fat: 12,
+        fiber: 0,
+        saturatedFat: 4.4,
+        sugar: 0,
+        potassium: 292,
+        sodium: 48,
+      },
+      vitamins: {
+        thiamin: 0.54,
+        B6: 0.21,
+        niacin: 0.28,
+        B12: 0.25,
+        riboflavin: 0.15,
+      },
+      minerals: {
+        selenium: 0.47,
+        zinc: 0.15,
+        phosphorus: 0.19,
+        iron: 0.05,
+        potassium: 0.08,
+      },
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ["savory", "umami"],
@@ -162,7 +241,34 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.31,
     }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: 0.22, forceMagnitude: 1.15 }, // Strong warming, high force
-
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 175,
+      macros: {
+        protein: 24,
+        carbs: 0,
+        fat: 8,
+        fiber: 0,
+        saturatedFat: 3,
+        sugar: 0,
+        potassium: 264,
+        sodium: 56,
+      },
+      vitamins: {
+        B12: 0.93,
+        niacin: 0.34,
+        B6: 0.07,
+        riboflavin: 0.13,
+        pantothenic_acid: 0.08,
+      },
+      minerals: {
+        zinc: 0.30,
+        selenium: 0.37,
+        phosphorus: 0.16,
+        iron: 0.10,
+        copper: 0.06,
+      },
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ["gamy", "earthy"],
