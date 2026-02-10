@@ -513,6 +513,7 @@ export default [
       "tests/",
       "__tests__/",
       "src/server/",
+      "src/__tests__/",
       "src/scripts/",
       "src/types/utils.d.ts",
 
