@@ -6,7 +6,11 @@
  * @created 2026-01-28
  */
 
-import type { Recipe, RecipeIngredient, ElementalProperties } from "@/types/recipe";
+import type {
+  Recipe,
+  RecipeIngredient,
+  ElementalProperties,
+} from "@/types/recipe";
 
 // ============ VALIDATION TYPES ============
 
@@ -60,11 +64,7 @@ export interface DuplicateReport {
 // ============ FIELD DEFINITIONS ============
 
 // Required fields that MUST be present
-const REQUIRED_FIELDS = [
-  "name",
-  "ingredients",
-  "instructions",
-] as const;
+const REQUIRED_FIELDS = ["name", "ingredients", "instructions"] as const;
 
 // Recommended fields for high-quality recipes
 const RECOMMENDED_FIELDS = [
@@ -99,10 +99,31 @@ const OPTIONAL_FIELDS = [
 ] as const;
 
 // Valid values for categorical fields
-const VALID_SEASONS = ["spring", "summer", "autumn", "winter", "fall", "all"] as const;
-const VALID_MEAL_TYPES = ["breakfast", "lunch", "dinner", "snack", "dessert", "brunch", "appetizer"] as const;
+const VALID_SEASONS = [
+  "spring",
+  "summer",
+  "autumn",
+  "winter",
+  "fall",
+  "all",
+] as const;
+const VALID_MEAL_TYPES = [
+  "breakfast",
+  "lunch",
+  "dinner",
+  "snack",
+  "dessert",
+  "brunch",
+  "appetizer",
+] as const;
 const VALID_ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
-const VALID_SPICE_LEVELS = ["none", "mild", "medium", "hot", "very hot"] as const;
+const VALID_SPICE_LEVELS = [
+  "none",
+  "mild",
+  "medium",
+  "hot",
+  "very hot",
+] as const;
 
 // ============ VALIDATION FUNCTIONS ============
 
@@ -110,7 +131,8 @@ const VALID_SPICE_LEVELS = ["none", "mild", "medium", "hot", "very hot"] as cons
  * Generate a standardized ID from recipe name and cuisine
  */
 export function generateRecipeId(name: string, cuisine?: string): string {
-  const baseName = name.toLowerCase()
+  const baseName = name
+    .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
@@ -139,7 +161,7 @@ export function isValidTimeFormat(time: unknown): boolean {
     /^\d+:\d{2}$/,
   ];
 
-  return timePatterns.some(pattern => pattern.test(time.trim()));
+  return timePatterns.some((pattern) => pattern.test(time.trim()));
 }
 
 /**
@@ -179,7 +201,10 @@ export function validateElementalProperties(props: unknown): {
   normalized?: ElementalProperties;
 } {
   if (!props || typeof props !== "object") {
-    return { isValid: false, issues: ["Elemental properties missing or invalid"] };
+    return {
+      isValid: false,
+      issues: ["Elemental properties missing or invalid"],
+    };
   }
 
   const elemental = props as Record<string, unknown>;
@@ -224,7 +249,10 @@ export function validateElementalProperties(props: unknown): {
 /**
  * Validate a single ingredient
  */
-export function validateIngredient(ingredient: unknown, index: number): ValidationIssue[] {
+export function validateIngredient(
+  ingredient: unknown,
+  index: number,
+): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
 
   if (!ingredient || typeof ingredient !== "object") {
@@ -289,7 +317,10 @@ export function validateIngredient(ingredient: unknown, index: number): Validati
 /**
  * Validate a single recipe
  */
-export function validateRecipe(recipe: unknown, index?: number): RecipeValidationResult {
+export function validateRecipe(
+  recipe: unknown,
+  index?: number,
+): RecipeValidationResult {
   const issues: ValidationIssue[] = [];
   const prefix = index !== undefined ? `recipes[${index}]` : "";
 
@@ -298,13 +329,15 @@ export function validateRecipe(recipe: unknown, index?: number): RecipeValidatio
       recipeId: "unknown",
       recipeName: "unknown",
       isValid: false,
-      issues: [{
-        field: prefix || "recipe",
-        severity: "error",
-        message: "Recipe is not a valid object",
-        currentValue: recipe,
-        autoFixable: false,
-      }],
+      issues: [
+        {
+          field: prefix || "recipe",
+          severity: "error",
+          message: "Recipe is not a valid object",
+          currentValue: recipe,
+          autoFixable: false,
+        },
+      ],
       fieldCoverage: 0,
       qualityScore: 0,
     };
@@ -312,7 +345,10 @@ export function validateRecipe(recipe: unknown, index?: number): RecipeValidatio
 
   const r = recipe as Record<string, unknown>;
   const recipeName = typeof r.name === "string" ? r.name : "unnamed";
-  const recipeId = typeof r.id === "string" ? r.id : generateRecipeId(recipeName, r.cuisine as string | undefined);
+  const recipeId =
+    typeof r.id === "string"
+      ? r.id
+      : generateRecipeId(recipeName, r.cuisine as string | undefined);
 
   // ============ REQUIRED FIELD VALIDATION ============
 
@@ -491,7 +527,9 @@ export function validateRecipe(recipe: unknown, index?: number): RecipeValidatio
   } else {
     const seasons = Array.isArray(r.season) ? r.season : [r.season];
     const invalidSeasons = seasons.filter(
-      s => typeof s !== "string" || !VALID_SEASONS.includes(s.toLowerCase() as any)
+      (s) =>
+        typeof s !== "string" ||
+        !VALID_SEASONS.includes(s.toLowerCase() as any),
     );
     if (invalidSeasons.length > 0) {
       issues.push({
@@ -517,7 +555,9 @@ export function validateRecipe(recipe: unknown, index?: number): RecipeValidatio
   } else {
     const mealTypes = Array.isArray(r.mealType) ? r.mealType : [r.mealType];
     const invalidTypes = mealTypes.filter(
-      t => typeof t !== "string" || !VALID_MEAL_TYPES.includes(t.toLowerCase() as any)
+      (t) =>
+        typeof t !== "string" ||
+        !VALID_MEAL_TYPES.includes(t.toLowerCase() as any),
     );
     if (invalidTypes.length > 0) {
       issues.push({
@@ -606,19 +646,20 @@ export function validateRecipe(recipe: unknown, index?: number): RecipeValidatio
 
   // Calculate field coverage
   const allRecommendedFields = [...REQUIRED_FIELDS, ...RECOMMENDED_FIELDS];
-  const presentFields = allRecommendedFields.filter(field => {
+  const presentFields = allRecommendedFields.filter((field) => {
     const value = r[field];
     if (value === undefined || value === null) return false;
     if (Array.isArray(value) && value.length === 0) return false;
     if (typeof value === "string" && value.trim() === "") return false;
     return true;
   });
-  const fieldCoverage = (presentFields.length / allRecommendedFields.length) * 100;
+  const fieldCoverage =
+    (presentFields.length / allRecommendedFields.length) * 100;
 
   // Calculate quality score
-  const errorCount = issues.filter(i => i.severity === "error").length;
-  const warningCount = issues.filter(i => i.severity === "warning").length;
-  const infoCount = issues.filter(i => i.severity === "info").length;
+  const errorCount = issues.filter((i) => i.severity === "error").length;
+  const warningCount = issues.filter((i) => i.severity === "warning").length;
+  const infoCount = issues.filter((i) => i.severity === "info").length;
 
   let qualityScore = 100;
   qualityScore -= errorCount * 20;
@@ -627,7 +668,7 @@ export function validateRecipe(recipe: unknown, index?: number): RecipeValidatio
   qualityScore = Math.max(0, Math.min(100, qualityScore));
 
   // Boost for good field coverage
-  qualityScore = (qualityScore * 0.6) + (fieldCoverage * 0.4);
+  qualityScore = qualityScore * 0.6 + fieldCoverage * 0.4;
 
   return {
     recipeId,
@@ -657,7 +698,9 @@ export function validateAllRecipes(recipes: unknown[]): ValidationReport {
     };
   }
 
-  const recipeResults = recipes.map((recipe, index) => validateRecipe(recipe, index));
+  const recipeResults = recipes.map((recipe, index) =>
+    validateRecipe(recipe, index),
+  );
 
   // Aggregate statistics
   const issuesByType: Record<string, number> = {};
@@ -668,17 +711,23 @@ export function validateAllRecipes(recipes: unknown[]): ValidationReport {
   };
   let autoFixableIssues = 0;
 
-  recipeResults.forEach(result => {
-    result.issues.forEach(issue => {
+  recipeResults.forEach((result) => {
+    result.issues.forEach((issue) => {
       issuesByType[issue.field] = (issuesByType[issue.field] || 0) + 1;
       issuesBySeverity[issue.severity]++;
       if (issue.autoFixable) autoFixableIssues++;
     });
   });
 
-  const validRecipes = recipeResults.filter(r => r.isValid).length;
-  const totalFieldCoverage = recipeResults.reduce((sum, r) => sum + r.fieldCoverage, 0);
-  const totalQualityScore = recipeResults.reduce((sum, r) => sum + r.qualityScore, 0);
+  const validRecipes = recipeResults.filter((r) => r.isValid).length;
+  const totalFieldCoverage = recipeResults.reduce(
+    (sum, r) => sum + r.fieldCoverage,
+    0,
+  );
+  const totalQualityScore = recipeResults.reduce(
+    (sum, r) => sum + r.qualityScore,
+    0,
+  );
 
   return {
     totalRecipes: recipes.length,
@@ -686,8 +735,14 @@ export function validateAllRecipes(recipes: unknown[]): ValidationReport {
     invalidRecipes: recipes.length - validRecipes,
     issuesByType,
     issuesBySeverity,
-    averageFieldCoverage: recipes.length > 0 ? Math.round((totalFieldCoverage / recipes.length) * 100) / 100 : 0,
-    averageQualityScore: recipes.length > 0 ? Math.round((totalQualityScore / recipes.length) * 100) / 100 : 0,
+    averageFieldCoverage:
+      recipes.length > 0
+        ? Math.round((totalFieldCoverage / recipes.length) * 100) / 100
+        : 0,
+    averageQualityScore:
+      recipes.length > 0
+        ? Math.round((totalQualityScore / recipes.length) * 100) / 100
+        : 0,
     autoFixableIssues,
     recipeResults,
   };
@@ -701,7 +756,9 @@ export function validateAllRecipes(recipes: unknown[]): ValidationReport {
 function levenshteinDistance(str1: string, str2: string): number {
   const m = str1.length;
   const n = str2.length;
-  const dp: number[][] = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+  const dp: number[][] = Array(m + 1)
+    .fill(null)
+    .map(() => Array(n + 1).fill(0));
 
   for (let i = 0; i <= m; i++) dp[i][0] = i;
   for (let j = 0; j <= n; j++) dp[0][j] = j;
@@ -732,13 +789,16 @@ function calculateNameSimilarity(name1: string, name2: string): number {
   if (maxLen === 0) return 1;
 
   const distance = levenshteinDistance(s1, s2);
-  return 1 - (distance / maxLen);
+  return 1 - distance / maxLen;
 }
 
 /**
  * Calculate similarity between two recipes
  */
-function calculateRecipeSimilarity(recipe1: Record<string, unknown>, recipe2: Record<string, unknown>): number {
+function calculateRecipeSimilarity(
+  recipe1: Record<string, unknown>,
+  recipe2: Record<string, unknown>,
+): number {
   let totalWeight = 0;
   let weightedSimilarity = 0;
 
@@ -769,7 +829,7 @@ function calculateRecipeSimilarity(recipe1: Record<string, unknown>, recipe2: Re
   if (ingredients1.length > 0 && ingredients2.length > 0) {
     const set1 = new Set(ingredients1);
     const set2 = new Set(ingredients2);
-    const intersection = ingredients1.filter(i => set2.has(i)).length;
+    const intersection = ingredients1.filter((i) => set2.has(i)).length;
     const union = new Set([...ingredients1, ...ingredients2]).size;
     const ingredientSimilarity = union > 0 ? intersection / union : 0;
     weightedSimilarity += ingredientSimilarity * 0.3;
@@ -778,18 +838,19 @@ function calculateRecipeSimilarity(recipe1: Record<string, unknown>, recipe2: Re
 
   // Cooking method match (weight: 0.1)
   const methods1 = Array.isArray(recipe1.cookingMethods)
-    ? recipe1.cookingMethods.map(m => String(m).toLowerCase())
+    ? recipe1.cookingMethods.map((m) => String(m).toLowerCase())
     : [];
   const methods2 = Array.isArray(recipe2.cookingMethods)
-    ? recipe2.cookingMethods.map(m => String(m).toLowerCase())
+    ? recipe2.cookingMethods.map((m) => String(m).toLowerCase())
     : [];
 
   if (methods1.length > 0 && methods2.length > 0) {
     const methodSet1 = new Set(methods1);
     const methodSet2 = new Set(methods2);
-    const methodIntersection = methods1.filter(m => methodSet2.has(m)).length;
+    const methodIntersection = methods1.filter((m) => methodSet2.has(m)).length;
     const methodUnion = new Set([...methods1, ...methods2]).size;
-    const methodSimilarity = methodUnion > 0 ? methodIntersection / methodUnion : 0;
+    const methodSimilarity =
+      methodUnion > 0 ? methodIntersection / methodUnion : 0;
     weightedSimilarity += methodSimilarity * 0.1;
     totalWeight += 0.1;
   }
@@ -800,7 +861,10 @@ function calculateRecipeSimilarity(recipe1: Record<string, unknown>, recipe2: Re
 /**
  * Detect duplicate recipes
  */
-export function detectDuplicates(recipes: unknown[], similarityThreshold = 0.8): DuplicateReport {
+export function detectDuplicates(
+  recipes: unknown[],
+  similarityThreshold = 0.8,
+): DuplicateReport {
   if (!Array.isArray(recipes) || recipes.length < 2) {
     return {
       totalDuplicateGroups: 0,
@@ -816,12 +880,14 @@ export function detectDuplicates(recipes: unknown[], similarityThreshold = 0.8):
     if (processedIndices.has(i)) continue;
 
     const recipe1 = recipes[i] as Record<string, unknown>;
-    const group: DuplicateGroup["recipes"] = [{
-      id: String(recipe1.id || `recipe-${i}`),
-      name: String(recipe1.name || "unknown"),
-      cuisine: recipe1.cuisine as string | undefined,
-      similarity: 1,
-    }];
+    const group: DuplicateGroup["recipes"] = [
+      {
+        id: String(recipe1.id || `recipe-${i}`),
+        name: String(recipe1.name || "unknown"),
+        cuisine: recipe1.cuisine as string | undefined,
+        similarity: 1,
+      },
+    ];
 
     for (let j = i + 1; j < recipes.length; j++) {
       if (processedIndices.has(j)) continue;
@@ -851,15 +917,21 @@ export function detectDuplicates(recipes: unknown[], similarityThreshold = 0.8):
       }));
 
       // Score recipes by completeness
-      const scores = recipeObjects.map(r => {
+      const scores = recipeObjects.map((r) => {
         let score = 0;
         if (r.recipe) {
           if (r.recipe.id) score += 10;
           if (r.recipe.description) score += 5;
-          if (Array.isArray(r.recipe.ingredients) && r.recipe.ingredients.length > 0) {
+          if (
+            Array.isArray(r.recipe.ingredients) &&
+            r.recipe.ingredients.length > 0
+          ) {
             score += r.recipe.ingredients.length;
           }
-          if (Array.isArray(r.recipe.instructions) && r.recipe.instructions.length > 0) {
+          if (
+            Array.isArray(r.recipe.instructions) &&
+            r.recipe.instructions.length > 0
+          ) {
             score += r.recipe.instructions.length;
           }
           if (r.recipe.nutrition) score += 5;
@@ -880,7 +952,7 @@ export function detectDuplicates(recipes: unknown[], similarityThreshold = 0.8):
 
   const totalDuplicateRecipes = duplicateGroups.reduce(
     (sum, group) => sum + group.recipes.length - 1, // -1 because we keep one
-    0
+    0,
   );
 
   return {

@@ -15,7 +15,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "nightshade_fruit",
 
     // Juicy, balanced, slightly acidic
-    elementalProperties: { Water: 0.50, Fire: 0.25, Earth: 0.15, Air: 0.10 },
+    elementalProperties: { Water: 0.5, Fire: 0.25, Earth: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 medium (123g)",
@@ -33,7 +33,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
       vitamins: {
         C: 0.28, // 28% RDA
         K: 0.12,
-        A: 0.20, // 20% RDA - beta-carotene
+        A: 0.2, // 20% RDA - beta-carotene
         folate: 0.05,
         B6: 0.04,
       },
@@ -166,7 +166,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "allium_bulb",
 
     // Pungent, tear-inducing, transformative
-    elementalProperties: { Earth: 0.40, Fire: 0.30, Water: 0.20, Air: 0.10 },
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 medium (110g)",
@@ -315,7 +315,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "allium_bulb",
 
     // Pungent, powerful, transformative
-    elementalProperties: { Fire: 0.45, Earth: 0.30, Air: 0.15, Water: 0.10 },
+    elementalProperties: { Fire: 0.45, Earth: 0.3, Air: 0.15, Water: 0.1 },
 
     nutritionalProfile: {
       serving_size: "3 cloves (9g)",
@@ -463,7 +463,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "nightshade_fruit",
 
     // Sweet, crisp, vibrant
-    elementalProperties: { Fire: 0.30, Water: 0.35, Earth: 0.20, Air: 0.15 },
+    elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
 
     nutritionalProfile: {
       serving_size: "1 medium (119g)",
@@ -481,7 +481,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
       vitamins: {
         C: 1.69, // 169% RDA - one of the richest sources!
         A: 0.11,
-        B6: 0.20, // 20% RDA
+        B6: 0.2, // 20% RDA
         folate: 0.12,
         K: 0.07,
       },
@@ -612,7 +612,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "root_vegetable",
 
     // Sweet, earthy, grounding
-    elementalProperties: { Earth: 0.50, Water: 0.25, Fire: 0.15, Air: 0.10 },
+    elementalProperties: { Earth: 0.5, Water: 0.25, Fire: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 medium (61g)",
@@ -762,7 +762,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "cruciferous",
 
     // Slightly bitter, nutritious, complex
-    elementalProperties: { Earth: 0.40, Air: 0.30, Water: 0.20, Fire: 0.10 },
+    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 cup chopped (91g)",
@@ -786,7 +786,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
       },
       minerals: {
         potassium: 0.09,
-        manganese: 0.10,
+        manganese: 0.1,
         iron: 0.04,
       },
       antioxidants: {
@@ -913,7 +913,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "leafy_green",
 
     // Mineral-rich, slightly bitter, nourishing
-    elementalProperties: { Water: 0.45, Earth: 0.30, Air: 0.15, Fire: 0.10 },
+    elementalProperties: { Water: 0.45, Earth: 0.3, Air: 0.15, Fire: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 cup raw (30g)",
@@ -938,12 +938,13 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
       minerals: {
         iron: 0.15, // Note: non-heme, less absorbable
         calcium: 0.03,
-        magnesium: 0.20,
+        magnesium: 0.2,
         potassium: 0.05,
         manganese: 0.45,
       },
       antioxidants: {
-        lutein_zeaxanthin: "very high - eye health, macular degeneration prevention",
+        lutein_zeaxanthin:
+          "very high - eye health, macular degeneration prevention",
         kaempferol: "high - anti-inflammatory and anti-cancer",
         quercetin: "moderate - antioxidant",
       },
@@ -1066,7 +1067,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "shoot",
 
     // Delicate, slightly bitter, refined
-    elementalProperties: { Water: 0.40, Air: 0.30, Earth: 0.20, Fire: 0.10 },
+    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 cup (134g)",
@@ -1082,7 +1083,7 @@ const rawEnhancedVegetables: Record<string, Partial<IngredientMapping>> = {
         sodium: 25,
       },
       vitamins: {
-        K: 0.70, // 70% RDA
+        K: 0.7, // 70% RDA
         folate: 0.34, // 34% RDA
         A: 0.18,
         C: 0.12,

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
 export default function PayPalButton() {
   return (
@@ -31,11 +31,13 @@ export default function PayPalButton() {
         }}
         onMouseOver={(e) => {
           e.currentTarget.style.transform = "translateY(-2px)";
-          e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 209, 64, 0.4)";
+          e.currentTarget.style.boxShadow =
+            "0 8px 20px rgba(255, 209, 64, 0.4)";
         }}
         onMouseOut={(e) => {
           e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow = "0 4px 12px rgba(255, 209, 64, 0.3)";
+          e.currentTarget.style.boxShadow =
+            "0 4px 12px rgba(255, 209, 64, 0.3)";
         }}
       />
     </form>

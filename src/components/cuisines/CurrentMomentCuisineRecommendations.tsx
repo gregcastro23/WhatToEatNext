@@ -225,7 +225,7 @@ const ELEMENT_COLORS = {
   Air: "cyan",
 };
 
-export const CurrentMomentCuisineRecommendations: React.FC = () => {
+const CurrentMomentCuisineRecommendations: React.FC = () => {
   const [data, setData] = useState<CuisineResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");

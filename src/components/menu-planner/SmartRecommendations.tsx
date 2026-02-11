@@ -14,7 +14,11 @@
 import React, { useMemo, useState, useCallback } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { Recipe } from "@/types/recipe";
-import type { MealType, DayOfWeek, NutritionalGoals } from "@/types/menuPlanner";
+import type {
+  MealType,
+  DayOfWeek,
+  NutritionalGoals,
+} from "@/types/menuPlanner";
 
 // ============================================================================
 // Types
@@ -92,9 +96,10 @@ const DEFAULT_GOALS: ExtendedNutritionalGoals = {
 
 function calculateNutritionGaps(
   currentTotals: NutritionGaps,
-  goals: ExtendedNutritionalGoals
+  goals: ExtendedNutritionalGoals,
 ): NutritionGaps {
-  const weeklyCalories = goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7;
+  const weeklyCalories =
+    goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7;
   const weeklyProtein = goals.weeklyProtein ?? (goals.dailyProtein ?? 50) * 7;
   const weeklyCarbs = goals.weeklyCarbs ?? (goals.dailyCarbs ?? 250) * 7;
   const weeklyFat = goals.weeklyFat ?? (goals.dailyFat ?? 65) * 7;
@@ -111,7 +116,7 @@ function calculateNutritionGaps(
 
 function calculateElementalGaps(
   currentBalance: ElementalGaps,
-  targetBalance: ElementalGaps = { Fire: 7, Water: 7, Earth: 7, Air: 7 }
+  targetBalance: ElementalGaps = { Fire: 7, Water: 7, Earth: 7, Air: 7 },
 ): ElementalGaps {
   return {
     Fire: Math.max(0, targetBalance.Fire - currentBalance.Fire),
@@ -121,17 +126,27 @@ function calculateElementalGaps(
   };
 }
 
-function getDominantElement(elementals: { Fire: number; Water: number; Earth: number; Air: number }): string {
+function getDominantElement(elementals: {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+}): string {
   return Object.entries(elementals).reduce(
     (max, [key, value]) => (value > max[1] ? [key, value] : max),
-    ["Fire", 0]
+    ["Fire", 0],
   )[0] as string;
 }
 
-function getWeakestElement(elementals: { Fire: number; Water: number; Earth: number; Air: number }): string {
+function getWeakestElement(elementals: {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+}): string {
   return Object.entries(elementals).reduce(
     (min, [key, value]) => (value < min[1] ? [key, value] : min),
-    ["Fire", Infinity]
+    ["Fire", Infinity],
   )[0] as string;
 }
 
@@ -141,12 +156,18 @@ function getWeakestElement(elementals: { Fire: number; Water: number; Earth: num
 
 function scoreRecipeForNutrition(
   recipe: Recipe,
-  gaps: NutritionGaps
+  gaps: NutritionGaps,
 ): { score: number; reasons: RecommendationReason[] } {
   const reasons: RecommendationReason[] = [];
   let score = 0;
 
-  const nutrition = recipe.nutrition || { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
+  const nutrition = recipe.nutrition || {
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+    fiber: 0,
+  };
   const proteinVal = nutrition.protein ?? 0;
   const fiberVal = nutrition.fiber ?? 0;
   const calorieVal = nutrition.calories ?? 0;
@@ -201,12 +222,17 @@ function scoreRecipeForNutrition(
 
 function scoreRecipeForElementalBalance(
   recipe: Recipe,
-  gaps: ElementalGaps
+  gaps: ElementalGaps,
 ): { score: number; reasons: RecommendationReason[] } {
   const reasons: RecommendationReason[] = [];
   let score = 0;
 
-  const elementals = recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const elementals = recipe.elementalProperties || {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  };
   const dominantElement = getDominantElement(elementals);
   const weakestNeededElement = getWeakestElement({
     Fire: -gaps.Fire,
@@ -216,7 +242,10 @@ function scoreRecipeForElementalBalance(
   });
 
   // If recipe's dominant element matches what we need most
-  if (dominantElement === weakestNeededElement && (gaps as any)[dominantElement] > 1) {
+  if (
+    dominantElement === weakestNeededElement &&
+    (gaps as any)[dominantElement] > 1
+  ) {
     score += 25;
     reasons.push({
       type: "elemental",
@@ -226,7 +255,9 @@ function scoreRecipeForElementalBalance(
   }
 
   // Check for well-balanced recipes
-  const isBalanced = Object.values(elementals).every((v) => v >= 0.15 && v <= 0.35);
+  const isBalanced = Object.values(elementals).every(
+    (v) => v >= 0.15 && v <= 0.35,
+  );
   if (isBalanced) {
     score += 10;
     reasons.push({
@@ -242,7 +273,7 @@ function scoreRecipeForElementalBalance(
 function scoreRecipeForVariety(
   recipe: Recipe,
   existingCuisines: Set<string>,
-  existingRecipeIds: Set<string>
+  existingRecipeIds: Set<string>,
 ): { score: number; reasons: RecommendationReason[] } {
   const reasons: RecommendationReason[] = [];
   let score = 0;
@@ -268,7 +299,7 @@ function scoreRecipeForVariety(
 
 function scoreRecipeForSeason(
   recipe: Recipe,
-  currentSeason: string
+  currentSeason: string,
 ): { score: number; reasons: RecommendationReason[] } {
   const reasons: RecommendationReason[] = [];
   let score = 0;
@@ -298,7 +329,7 @@ function scoreRecipe(
   existingCuisines: Set<string>,
   existingRecipeIds: Set<string>,
   currentSeason: string,
-  emptySlots: Array<{ day: DayOfWeek; mealType: MealType }>
+  emptySlots: Array<{ day: DayOfWeek; mealType: MealType }>,
 ): ScoredRecipe {
   const allReasons: RecommendationReason[] = [];
   let totalScore = 0;
@@ -314,7 +345,11 @@ function scoreRecipe(
   allReasons.push(...elementalScore.reasons);
 
   // Score for variety
-  const varietyScore = scoreRecipeForVariety(recipe, existingCuisines, existingRecipeIds);
+  const varietyScore = scoreRecipeForVariety(
+    recipe,
+    existingCuisines,
+    existingRecipeIds,
+  );
   totalScore += varietyScore.score;
   allReasons.push(...varietyScore.reasons);
 
@@ -374,7 +409,15 @@ function RecommendationCard({
     }
   }, [onSelect, recipe, suggestedDay, suggestedMealType]);
 
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-4">
@@ -385,7 +428,9 @@ function RecommendationCard({
             {recipe.name}
           </h4>
           <p className="text-xs text-gray-500 mt-0.5">
-            {recipe.cuisine} {recipe.nutrition?.calories && `| ${recipe.nutrition.calories} kcal`}
+            {recipe.cuisine}{" "}
+            {recipe.nutrition?.calories &&
+              `| ${recipe.nutrition.calories} kcal`}
           </p>
         </div>
         {suggestedDay !== undefined && suggestedMealType && (
@@ -399,18 +444,28 @@ function RecommendationCard({
       <div className="mt-3 space-y-1.5">
         {reasons.map((reason, idx) => (
           <div key={idx} className="flex items-start gap-2 text-xs">
-            <span className={`shrink-0 ${
-              reason.type === "nutrition" ? "text-purple-500" :
-              reason.type === "elemental" ? "text-blue-500" :
-              reason.type === "variety" ? "text-green-500" :
-              reason.type === "seasonal" ? "text-orange-500" :
-              "text-pink-500"
-            }`}>
-              {reason.type === "nutrition" ? "🍎" :
-               reason.type === "elemental" ? "🔮" :
-               reason.type === "variety" ? "🌈" :
-               reason.type === "seasonal" ? "📅" :
-               "🌟"}
+            <span
+              className={`shrink-0 ${
+                reason.type === "nutrition"
+                  ? "text-purple-500"
+                  : reason.type === "elemental"
+                    ? "text-blue-500"
+                    : reason.type === "variety"
+                      ? "text-green-500"
+                      : reason.type === "seasonal"
+                        ? "text-orange-500"
+                        : "text-pink-500"
+              }`}
+            >
+              {reason.type === "nutrition"
+                ? "🍎"
+                : reason.type === "elemental"
+                  ? "🔮"
+                  : reason.type === "variety"
+                    ? "🌈"
+                    : reason.type === "seasonal"
+                      ? "📅"
+                      : "🌟"}
             </span>
             <span className="text-gray-600">{reason.description}</span>
           </div>
@@ -442,12 +497,25 @@ export default function SmartRecommendations({
   className = "",
 }: SmartRecommendationsProps) {
   const { currentMenu } = useMenuPlanner();
-  const [activeFilter, setActiveFilter] = useState<"all" | "nutrition" | "elemental" | "variety">("all");
+  const [activeFilter, setActiveFilter] = useState<
+    "all" | "nutrition" | "elemental" | "variety"
+  >("all");
 
   // Calculate current menu state
   const menuAnalysis = useMemo(() => {
-    const nutritionTotals: NutritionGaps = { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
-    const elementalTotals: ElementalGaps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const nutritionTotals: NutritionGaps = {
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      fiber: 0,
+    };
+    const elementalTotals: ElementalGaps = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
     const existingCuisines = new Set<string>();
     const existingRecipeIds = new Set<string>();
     const emptySlots: Array<{ day: DayOfWeek; mealType: MealType }> = [];
@@ -460,7 +528,13 @@ export default function SmartRecommendations({
           emptySlots.push({ day: day as DayOfWeek, mealType });
         }
       }
-      return { nutritionTotals, elementalTotals, existingCuisines, existingRecipeIds, emptySlots };
+      return {
+        nutritionTotals,
+        elementalTotals,
+        existingCuisines,
+        existingRecipeIds,
+        emptySlots,
+      };
     }
 
     for (const meal of currentMenu.meals) {
@@ -469,19 +543,27 @@ export default function SmartRecommendations({
 
         // Aggregate nutrition
         if (meal.recipe.nutrition) {
-          nutritionTotals.calories += (meal.recipe.nutrition.calories || 0) * servings;
-          nutritionTotals.protein += (meal.recipe.nutrition.protein || 0) * servings;
-          nutritionTotals.carbs += (meal.recipe.nutrition.carbs || 0) * servings;
+          nutritionTotals.calories +=
+            (meal.recipe.nutrition.calories || 0) * servings;
+          nutritionTotals.protein +=
+            (meal.recipe.nutrition.protein || 0) * servings;
+          nutritionTotals.carbs +=
+            (meal.recipe.nutrition.carbs || 0) * servings;
           nutritionTotals.fat += (meal.recipe.nutrition.fat || 0) * servings;
-          nutritionTotals.fiber += (meal.recipe.nutrition.fiber || 0) * servings;
+          nutritionTotals.fiber +=
+            (meal.recipe.nutrition.fiber || 0) * servings;
         }
 
         // Aggregate elementals
         if (meal.recipe.elementalProperties) {
-          elementalTotals.Fire += (meal.recipe.elementalProperties.Fire || 0) * servings;
-          elementalTotals.Water += (meal.recipe.elementalProperties.Water || 0) * servings;
-          elementalTotals.Earth += (meal.recipe.elementalProperties.Earth || 0) * servings;
-          elementalTotals.Air += (meal.recipe.elementalProperties.Air || 0) * servings;
+          elementalTotals.Fire +=
+            (meal.recipe.elementalProperties.Fire || 0) * servings;
+          elementalTotals.Water +=
+            (meal.recipe.elementalProperties.Water || 0) * servings;
+          elementalTotals.Earth +=
+            (meal.recipe.elementalProperties.Earth || 0) * servings;
+          elementalTotals.Air +=
+            (meal.recipe.elementalProperties.Air || 0) * servings;
         }
 
         // Track variety
@@ -495,18 +577,24 @@ export default function SmartRecommendations({
       }
     }
 
-    return { nutritionTotals, elementalTotals, existingCuisines, existingRecipeIds, emptySlots };
+    return {
+      nutritionTotals,
+      elementalTotals,
+      existingCuisines,
+      existingRecipeIds,
+      emptySlots,
+    };
   }, [currentMenu]);
 
   // Calculate gaps
   const nutritionGaps = useMemo(
     () => calculateNutritionGaps(menuAnalysis.nutritionTotals, goals),
-    [menuAnalysis.nutritionTotals, goals]
+    [menuAnalysis.nutritionTotals, goals],
   );
 
   const elementalGaps = useMemo(
     () => calculateElementalGaps(menuAnalysis.elementalTotals),
-    [menuAnalysis.elementalTotals]
+    [menuAnalysis.elementalTotals],
   );
 
   // Determine current season
@@ -528,15 +616,15 @@ export default function SmartRecommendations({
         menuAnalysis.existingCuisines,
         menuAnalysis.existingRecipeIds,
         currentSeason,
-        menuAnalysis.emptySlots
-      )
+        menuAnalysis.emptySlots,
+      ),
     );
 
     // Filter based on active filter
     let filtered = scored;
     if (activeFilter !== "all") {
       filtered = scored.filter((sr) =>
-        sr.reasons.some((r) => r.type === activeFilter)
+        sr.reasons.some((r) => r.type === activeFilter),
       );
     }
 
@@ -560,7 +648,8 @@ export default function SmartRecommendations({
     const gaps: string[] = [];
     const weeklyProtein = goals.weeklyProtein ?? (goals.dailyProtein ?? 50) * 7;
     const weeklyFiber = goals.weeklyFiber ?? (goals.dailyFiber ?? 28) * 7;
-    const weeklyCalories = goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7;
+    const weeklyCalories =
+      goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7;
 
     if (nutritionGaps.protein > weeklyProtein * 0.3) {
       gaps.push(`${Math.round(nutritionGaps.protein)}g protein`);
@@ -590,7 +679,9 @@ export default function SmartRecommendations({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-sm font-bold text-gray-800">Smart Recommendations</h3>
+          <h3 className="text-sm font-bold text-gray-800">
+            Smart Recommendations
+          </h3>
           {gapSummary.length > 0 && (
             <p className="text-xs text-gray-500 mt-0.5">
               Need more: {gapSummary.slice(0, 3).join(", ")}
@@ -604,22 +695,27 @@ export default function SmartRecommendations({
 
       {/* Filters */}
       <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
-        {(["all", "nutrition", "elemental", "variety"] as const).map((filter) => (
-          <button
-            key={filter}
-            onClick={() => setActiveFilter(filter)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors shrink-0 ${
-              activeFilter === filter
-                ? "bg-purple-600 text-white"
-                : "bg-white text-gray-600 hover:bg-gray-100"
-            }`}
-          >
-            {filter === "all" ? "All" :
-             filter === "nutrition" ? "🍎 Nutrition" :
-             filter === "elemental" ? "🔮 Elemental" :
-             "🌈 Variety"}
-          </button>
-        ))}
+        {(["all", "nutrition", "elemental", "variety"] as const).map(
+          (filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors shrink-0 ${
+                activeFilter === filter
+                  ? "bg-purple-600 text-white"
+                  : "bg-white text-gray-600 hover:bg-gray-100"
+              }`}
+            >
+              {filter === "all"
+                ? "All"
+                : filter === "nutrition"
+                  ? "🍎 Nutrition"
+                  : filter === "elemental"
+                    ? "🔮 Elemental"
+                    : "🌈 Variety"}
+            </button>
+          ),
+        )}
       </div>
 
       {/* Recommendations grid */}
@@ -636,7 +732,9 @@ export default function SmartRecommendations({
       ) : (
         <div className="text-center py-8 text-gray-500">
           <p className="text-sm">No recommendations available</p>
-          <p className="text-xs mt-1">Add some recipes to get personalized suggestions</p>
+          <p className="text-xs mt-1">
+            Add some recipes to get personalized suggestions
+          </p>
         </div>
       )}
 
@@ -644,8 +742,10 @@ export default function SmartRecommendations({
       {menuAnalysis.emptySlots.length > 0 && (
         <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
           <p className="text-xs text-yellow-700">
-            <span className="font-medium">{menuAnalysis.emptySlots.length} empty meal slots</span>
-            {" "}remaining this week. Add recipes to complete your meal plan!
+            <span className="font-medium">
+              {menuAnalysis.emptySlots.length} empty meal slots
+            </span>{" "}
+            remaining this week. Add recipes to complete your meal plan!
           </p>
         </div>
       )}
@@ -678,7 +778,7 @@ export function QuickSuggestionBar({
 
     // Quick scoring based on missing nutrition
     const existingIds = new Set(
-      currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id)
+      currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
     );
 
     return availableRecipes
@@ -689,7 +789,9 @@ export function QuickSuggestionBar({
   if (suggestions.length === 0) return null;
 
   return (
-    <div className={`flex items-center gap-2 overflow-x-auto py-2 ${className}`}>
+    <div
+      className={`flex items-center gap-2 overflow-x-auto py-2 ${className}`}
+    >
       <span className="text-xs text-gray-500 shrink-0">Quick add:</span>
       {suggestions.map((recipe) => (
         <button

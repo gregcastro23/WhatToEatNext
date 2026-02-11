@@ -6,7 +6,9 @@ interface ErrorProps {
 
 function Error({ statusCode }: ErrorProps) {
   return (
-    <div style={{ padding: "20px", textAlign: "center", fontFamily: "sans-serif" }}>
+    <div
+      style={{ padding: "20px", textAlign: "center", fontFamily: "sans-serif" }}
+    >
       <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>
         {statusCode ? `${statusCode} - Server Error` : "An error occurred"}
       </h1>
@@ -15,7 +17,15 @@ function Error({ statusCode }: ErrorProps) {
           ? "The page you are looking for does not exist."
           : "An unexpected error has occurred."}
       </p>
-      <a href="/" style={{ color: "#6b46c1", textDecoration: "underline", marginTop: "1rem", display: "inline-block" }}>
+      <a
+        href="/"
+        style={{
+          color: "#6b46c1",
+          textDecoration: "underline",
+          marginTop: "1rem",
+          display: "inline-block",
+        }}
+      >
         Return Home
       </a>
     </div>

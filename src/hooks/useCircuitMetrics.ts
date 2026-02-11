@@ -58,9 +58,7 @@ type CircuitMetricsResult =
 /**
  * Hook for accessing meal circuit metrics
  */
-export function useMealCircuitMetrics(
-  mealSlotId: string
-): MealCircuitResult {
+export function useMealCircuitMetrics(mealSlotId: string): MealCircuitResult {
   const { mealCircuitMetrics, isLoading } = useMenuPlanner();
 
   const metrics = useMemo(() => {
@@ -77,9 +75,7 @@ export function useMealCircuitMetrics(
 /**
  * Hook for accessing day circuit metrics
  */
-export function useDayCircuitMetrics(
-  dayOfWeek: DayOfWeek
-): DayCircuitResult {
+export function useDayCircuitMetrics(dayOfWeek: DayOfWeek): DayCircuitResult {
   const { dayCircuitMetrics, isLoading } = useMenuPlanner();
 
   const metrics = useMemo(() => {
@@ -110,23 +106,22 @@ export function useWeeklyCircuitMetrics(): WeekCircuitResult {
  * Universal circuit metrics hook (flexible scope)
  * Use type guards to narrow the return type based on scope
  */
-export function useCircuitMetrics(
-  scope: "meal",
-  id: string
-): MealCircuitResult;
+export function useCircuitMetrics(scope: "meal", id: string): MealCircuitResult;
 export function useCircuitMetrics(
   scope: "day",
-  id: DayOfWeek
+  id: DayOfWeek,
 ): DayCircuitResult;
-export function useCircuitMetrics(
-  scope: "week"
-): WeekCircuitResult;
+export function useCircuitMetrics(scope: "week"): WeekCircuitResult;
 export function useCircuitMetrics(
   scope: CircuitScope,
-  id?: string | DayOfWeek
+  id?: string | DayOfWeek,
 ): CircuitMetricsResult {
-  const { mealCircuitMetrics, dayCircuitMetrics, weeklyCircuitMetrics, isLoading } =
-    useMenuPlanner();
+  const {
+    mealCircuitMetrics,
+    dayCircuitMetrics,
+    weeklyCircuitMetrics,
+    isLoading,
+  } = useMenuPlanner();
 
   return useMemo(() => {
     if (scope === "meal" && typeof id === "string") {
@@ -159,13 +154,22 @@ export function useCircuitMetrics(
       metrics: null,
       isLoading,
     } as CircuitMetricsResult;
-  }, [scope, id, mealCircuitMetrics, dayCircuitMetrics, weeklyCircuitMetrics, isLoading]);
+  }, [
+    scope,
+    id,
+    mealCircuitMetrics,
+    dayCircuitMetrics,
+    weeklyCircuitMetrics,
+    isLoading,
+  ]);
 }
 
 /**
  * Helper: Check if metrics indicate a bottleneck
  */
-export function isBottleneck(metrics: MealCircuitMetrics | DayCircuitMetrics | null): boolean {
+export function isBottleneck(
+  metrics: MealCircuitMetrics | DayCircuitMetrics | null,
+): boolean {
   if (!metrics) return false;
 
   if ("efficiency" in metrics) {

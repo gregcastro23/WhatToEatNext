@@ -109,9 +109,8 @@ export class AlchemicalService {
       );
 
       // Import astrologizeApi to get positions for date/time
-      const { getPlanetaryPositionsForDateTime } = await import(
-        "./astrologizeApi"
-      );
+      const { getPlanetaryPositionsForDateTime } =
+        await import("./astrologizeApi");
 
       const defaultLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
       const planetaryPositions = await getPlanetaryPositionsForDateTime(

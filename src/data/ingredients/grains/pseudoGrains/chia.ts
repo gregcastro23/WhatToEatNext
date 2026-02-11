@@ -61,9 +61,26 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "2 tbsp (28g)",
       calories: 138,
-      macros: { protein: 4.7, carbs: 12, fat: 8.7, fiber: 9.8, saturatedFat: 0.9, sugar: 0, potassium: 115, sodium: 5 },
+      macros: {
+        protein: 4.7,
+        carbs: 12,
+        fat: 8.7,
+        fiber: 9.8,
+        saturatedFat: 0.9,
+        sugar: 0,
+        potassium: 115,
+        sodium: 5,
+      },
       vitamins: { thiamin: 0.11, niacin: 0.16 },
-      minerals: { manganese: 0.42, phosphorus: 0.27, calcium: 0.14, iron: 0.12, magnesium: 0.23, zinc: 0.09, copper: 0.03 },
+      minerals: {
+        manganese: 0.42,
+        phosphorus: 0.27,
+        calcium: 0.14,
+        iron: 0.12,
+        magnesium: 0.23,
+        zinc: 0.09,
+        copper: 0.03,
+      },
     },
   },
 };

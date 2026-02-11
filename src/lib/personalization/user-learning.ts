@@ -271,7 +271,14 @@ class UserLearningSystem {
     },
   ): void {
     // Ratings are strong signals - higher ratings mean stronger positive preference
-    const weight = ratingData.rating >= 4 ? 3 : ratingData.rating >= 3 ? 1 : ratingData.rating <= 2 ? -2 : 0;
+    const weight =
+      ratingData.rating >= 4
+        ? 3
+        : ratingData.rating >= 3
+          ? 1
+          : ratingData.rating <= 2
+            ? -2
+            : 0;
 
     const interaction: UserInteraction = {
       type: "food_rating",
@@ -307,8 +314,10 @@ class UserLearningSystem {
     averageRatings: Record<string, number>;
   }> {
     const interactions = this.interactions.get(userId) || [];
-    const foodRatings = interactions.filter(i => i.type === "food_rating");
-    const foodEntries = interactions.filter(i => i.type === "food_diary_entry");
+    const foodRatings = interactions.filter((i) => i.type === "food_rating");
+    const foodEntries = interactions.filter(
+      (i) => i.type === "food_diary_entry",
+    );
 
     // Calculate average ratings per food
     const ratingsByFood: Record<string, number[]> = {};
@@ -320,7 +329,8 @@ class UserLearningSystem {
 
     const averageRatings: Record<string, number> = {};
     for (const [food, ratings] of Object.entries(ratingsByFood)) {
-      averageRatings[food] = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+      averageRatings[food] =
+        ratings.reduce((a, b) => a + b, 0) / ratings.length;
     }
 
     // High and low rated foods

@@ -135,7 +135,7 @@ export class PlanetaryKineticsClient {
     logger.warn(
       "PlanetaryKineticsClient.getGroupDynamics: Using placeholder implementation. " +
         "Real group dynamics calculation requires user birth chart data and elemental properties. " +
-        `Called for ${userIds.length} users at location ${JSON.stringify(location)}`
+        `Called for ${userIds.length} users at location ${JSON.stringify(location)}`,
     );
 
     // PLACEHOLDER: Return mock data until user elemental properties are available

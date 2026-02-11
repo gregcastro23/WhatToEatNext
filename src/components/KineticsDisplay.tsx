@@ -36,7 +36,12 @@ export const KineticsDisplay: React.FC<KineticsDisplayProps> = ({
   }
 
   // Enhanced defensive checks for kinetics and all required properties
-  if (!kinetics || !kinetics.velocity || !kinetics.momentum || !kinetics.power) {
+  if (
+    !kinetics ||
+    !kinetics.velocity ||
+    !kinetics.momentum ||
+    !kinetics.power
+  ) {
     return (
       <div className="p-6 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 rounded-lg border border-cyan-500/30">
         <p className="text-gray-400 italic">No kinetic data available</p>
@@ -75,7 +80,9 @@ export const KineticsDisplay: React.FC<KineticsDisplayProps> = ({
     <div className="space-y-6 p-6 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 rounded-lg border border-cyan-500/30">
       {/* Header */}
       <div>
-        <h3 className="text-2xl font-bold text-cyan-300 mb-2">Planetary Kinetics</h3>
+        <h3 className="text-2xl font-bold text-cyan-300 mb-2">
+          Planetary Kinetics
+        </h3>
         <p className="text-sm text-gray-400">
           P=IV Circuit Model •{" "}
           <span className="text-cyan-300 font-semibold capitalize">
@@ -213,7 +220,9 @@ export const KineticsDisplay: React.FC<KineticsDisplayProps> = ({
             className="p-3 bg-cyan-900/20 border rounded-lg"
             style={{ borderColor: `${forceClassificationColor}40` }}
           >
-            <div className="text-xs text-gray-400 mb-1">Force Classification</div>
+            <div className="text-xs text-gray-400 mb-1">
+              Force Classification
+            </div>
             <div
               className="text-lg font-bold capitalize"
               style={{ color: forceClassificationColor }}

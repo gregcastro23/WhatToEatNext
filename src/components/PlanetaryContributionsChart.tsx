@@ -7,7 +7,14 @@ import {
   formatTransitionTime,
   capitalizeFirstLetter,
 } from "@/utils/planetaryTransitions";
-import { Flame, Droplets, Mountain, Wind, ArrowRight, RotateCcw } from "lucide-react";
+import {
+  Flame,
+  Droplets,
+  Mountain,
+  Wind,
+  ArrowRight,
+  RotateCcw,
+} from "lucide-react";
 
 type PlanetPosition = {
   sign: string;
@@ -97,7 +104,9 @@ export default function PlanetaryContributionsChart() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-indigo-300">Planetary Contributions</h3>
+        <h3 className="text-lg font-semibold text-indigo-300">
+          Planetary Contributions
+        </h3>
         <div className="text-xs text-gray-400">
           Last Updated: {new Date(data.timestamp).toLocaleTimeString()}
         </div>
@@ -160,19 +169,25 @@ export default function PlanetaryContributionsChart() {
               {planet.esms.Spirit > 0 && (
                 <div className="flex flex-col items-center p-2 bg-red-900/20 rounded border border-red-500/20">
                   <Flame className="h-4 w-4 text-red-400 mb-1" />
-                  <span className="text-sm font-bold text-red-300">{planet.esms.Spirit}</span>
+                  <span className="text-sm font-bold text-red-300">
+                    {planet.esms.Spirit}
+                  </span>
                 </div>
               )}
               {planet.esms.Essence > 0 && (
                 <div className="flex flex-col items-center p-2 bg-blue-900/20 rounded border border-blue-500/20">
                   <Droplets className="h-4 w-4 text-blue-400 mb-1" />
-                  <span className="text-sm font-bold text-blue-300">{planet.esms.Essence}</span>
+                  <span className="text-sm font-bold text-blue-300">
+                    {planet.esms.Essence}
+                  </span>
                 </div>
               )}
               {planet.esms.Matter > 0 && (
                 <div className="flex flex-col items-center p-2 bg-green-900/20 rounded border border-green-500/20">
                   <Mountain className="h-4 w-4 text-green-400 mb-1" />
-                  <span className="text-sm font-bold text-green-300">{planet.esms.Matter}</span>
+                  <span className="text-sm font-bold text-green-300">
+                    {planet.esms.Matter}
+                  </span>
                 </div>
               )}
               {planet.esms.Substance > 0 && (
@@ -189,22 +204,27 @@ export default function PlanetaryContributionsChart() {
             <div className="text-xs text-gray-400 flex items-center gap-2">
               <ArrowRight className="h-3 w-3 text-indigo-400" />
               <span>
-                Enters <span className="font-semibold text-indigo-300">
+                Enters{" "}
+                <span className="font-semibold text-indigo-300">
                   {capitalizeFirstLetter(planet.transition.nextSign)}
-                </span> in{" "}
+                </span>{" "}
+                in{" "}
                 <span className="font-semibold text-indigo-300">
                   {formatTransitionTime(planet.transition.daysUntil)}
                 </span>
               </span>
             </div>
             <div className="text-xs text-gray-500 mt-1 ml-5">
-              {new Date(planet.transition.estimatedDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+              {new Date(planet.transition.estimatedDate).toLocaleDateString(
+                "en-US",
+                {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              )}
             </div>
           </div>
         ))}

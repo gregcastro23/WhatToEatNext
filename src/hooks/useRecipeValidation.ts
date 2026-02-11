@@ -98,9 +98,7 @@ export function useRecipeValidation() {
     ingredients: Ingredient[],
   ): ElementalProperties => {
     if (ingredients.length === 0) {
-      throw new Error(
-        "Cannot calculate elemental balance with no ingredients",
-      );
+      throw new Error("Cannot calculate elemental balance with no ingredients");
     }
 
     // Filter ingredients that have valid elemental properties
@@ -109,9 +107,7 @@ export function useRecipeValidation() {
     );
 
     if (validIngredients.length === 0) {
-      throw new Error(
-        "No ingredients have elemental properties defined",
-      );
+      throw new Error("No ingredients have elemental properties defined");
     }
 
     const total = validIngredients.reduce(

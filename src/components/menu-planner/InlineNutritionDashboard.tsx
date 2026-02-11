@@ -13,10 +13,7 @@
 
 import React, { useMemo } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import type {
-  DayOfWeek,
-  NutritionalGoals,
-} from "@/types/menuPlanner";
+import type { DayOfWeek, NutritionalGoals } from "@/types/menuPlanner";
 
 // ============================================================================
 // Types
@@ -102,8 +99,12 @@ function ProgressBar({
       <div className="flex justify-between items-center text-xs">
         <span className="font-medium text-gray-600">{label}</span>
         {showValue && (
-          <span className={`${isOver ? "text-orange-600 font-semibold" : "text-gray-500"}`}>
-            {Math.round(current)}{unit} / {goal}{unit}
+          <span
+            className={`${isOver ? "text-orange-600 font-semibold" : "text-gray-500"}`}
+          >
+            {Math.round(current)}
+            {unit} / {goal}
+            {unit}
           </span>
         )}
       </div>
@@ -177,7 +178,8 @@ interface InsightsProps {
 function NutritionalInsights({ progress, goals, dayCount }: InsightsProps) {
   const insights: string[] = [];
 
-  const weeklyCalories = goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7;
+  const weeklyCalories =
+    goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7;
   const weeklyProtein = goals.weeklyProtein ?? (goals.dailyProtein ?? 50) * 7;
   const weeklyFiber = goals.weeklyFiber ?? (goals.dailyFiber ?? 28) * 7;
 
@@ -256,10 +258,14 @@ export default function InlineNutritionDashboard({
 
         // Add elemental properties
         if (meal.recipe.elementalProperties) {
-          elementalTotals.Fire += (meal.recipe.elementalProperties.Fire || 0) * servings;
-          elementalTotals.Water += (meal.recipe.elementalProperties.Water || 0) * servings;
-          elementalTotals.Earth += (meal.recipe.elementalProperties.Earth || 0) * servings;
-          elementalTotals.Air += (meal.recipe.elementalProperties.Air || 0) * servings;
+          elementalTotals.Fire +=
+            (meal.recipe.elementalProperties.Fire || 0) * servings;
+          elementalTotals.Water +=
+            (meal.recipe.elementalProperties.Water || 0) * servings;
+          elementalTotals.Earth +=
+            (meal.recipe.elementalProperties.Earth || 0) * servings;
+          elementalTotals.Air +=
+            (meal.recipe.elementalProperties.Air || 0) * servings;
         }
       }
     }
@@ -272,13 +278,16 @@ export default function InlineNutritionDashboard({
   }, [currentMenu]);
 
   // Calculate weekly goals from daily (with fallbacks)
-  const weeklyGoals = useMemo(() => ({
-    calories: goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7,
-    protein: goals.weeklyProtein ?? (goals.dailyProtein ?? 50) * 7,
-    carbs: goals.weeklyCarbs ?? (goals.dailyCarbs ?? 250) * 7,
-    fat: goals.weeklyFat ?? (goals.dailyFat ?? 65) * 7,
-    fiber: goals.weeklyFiber ?? (goals.dailyFiber ?? 28) * 7,
-  }), [goals]);
+  const weeklyGoals = useMemo(
+    () => ({
+      calories: goals.weeklyCalories ?? (goals.dailyCalories ?? 2000) * 7,
+      protein: goals.weeklyProtein ?? (goals.dailyProtein ?? 50) * 7,
+      carbs: goals.weeklyCarbs ?? (goals.dailyCarbs ?? 250) * 7,
+      fat: goals.weeklyFat ?? (goals.dailyFat ?? 65) * 7,
+      fiber: goals.weeklyFiber ?? (goals.dailyFiber ?? 28) * 7,
+    }),
+    [goals],
+  );
 
   // Calculate completion percentage
   const completion = useMemo(() => {
@@ -288,10 +297,16 @@ export default function InlineNutritionDashboard({
 
   if (compact) {
     return (
-      <div className={`bg-white rounded-lg p-3 shadow-sm border border-gray-200 ${className}`}>
+      <div
+        className={`bg-white rounded-lg p-3 shadow-sm border border-gray-200 ${className}`}
+      >
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700">Weekly Progress</span>
-          <span className="text-xs text-purple-600 font-semibold">{completion}%</span>
+          <span className="text-sm font-medium text-gray-700">
+            Weekly Progress
+          </span>
+          <span className="text-xs text-purple-600 font-semibold">
+            {completion}%
+          </span>
         </div>
 
         {/* Compact progress indicator */}
@@ -304,7 +319,9 @@ export default function InlineNutritionDashboard({
 
         {/* Compact stats */}
         <div className="flex justify-between text-xs text-gray-500">
-          <span>{Math.round(nutrition.calories)} / {weeklyGoals.calories} kcal</span>
+          <span>
+            {Math.round(nutrition.calories)} / {weeklyGoals.calories} kcal
+          </span>
           <span>{nutrition.protein}g protein</span>
         </div>
 
@@ -319,17 +336,25 @@ export default function InlineNutritionDashboard({
   }
 
   return (
-    <div className={`bg-white rounded-xl p-4 shadow-md border border-gray-200 ${className}`}>
+    <div
+      className={`bg-white rounded-xl p-4 shadow-md border border-gray-200 ${className}`}
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-bold text-gray-800">Weekly Nutrition</h3>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500">{dayCount}/7 days planned</span>
-          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-            completion >= 80 ? "bg-green-100 text-green-700" :
-            completion >= 50 ? "bg-yellow-100 text-yellow-700" :
-            "bg-gray-100 text-gray-600"
-          }`}>
+          <span className="text-xs text-gray-500">
+            {dayCount}/7 days planned
+          </span>
+          <span
+            className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+              completion >= 80
+                ? "bg-green-100 text-green-700"
+                : completion >= 50
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-gray-100 text-gray-600"
+            }`}
+          >
             {completion}%
           </span>
         </div>
@@ -378,7 +403,9 @@ export default function InlineNutritionDashboard({
       {showElemental && (
         <div className="mt-4 pt-3 border-t border-gray-100">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-gray-600">Elemental Balance</span>
+            <span className="text-xs font-medium text-gray-600">
+              Elemental Balance
+            </span>
           </div>
           <ElementalIndicator balance={elemental} />
         </div>
@@ -403,7 +430,10 @@ interface DailyNutritionSummaryProps {
   className?: string;
 }
 
-export function DailyNutritionSummary({ dayOfWeek, className = "" }: DailyNutritionSummaryProps) {
+export function DailyNutritionSummary({
+  dayOfWeek,
+  className = "",
+}: DailyNutritionSummaryProps) {
   const { currentMenu } = useMenuPlanner();
 
   const dayNutrition = useMemo(() => {
@@ -431,7 +461,9 @@ export function DailyNutritionSummary({ dayOfWeek, className = "" }: DailyNutrit
   }
 
   return (
-    <div className={`text-xs text-gray-500 px-2 py-1 bg-gray-50 rounded ${className}`}>
+    <div
+      className={`text-xs text-gray-500 px-2 py-1 bg-gray-50 rounded ${className}`}
+    >
       <div className="flex items-center gap-2 justify-center">
         <span title="Calories">{Math.round(dayNutrition.calories)} kcal</span>
         <span className="text-gray-300">|</span>

@@ -130,8 +130,12 @@ export default function NutritionDashboard({
                   <NutritionRing
                     percentage={
                       dailySummary.nutritionGoals?.calories
-                        ? Math.min(100, (dailySummary.totalNutrition.calories /
-                            dailySummary.nutritionGoals.calories) * 100)
+                        ? Math.min(
+                            100,
+                            (dailySummary.totalNutrition.calories /
+                              dailySummary.nutritionGoals.calories) *
+                              100,
+                          )
                         : 0
                     }
                     label="Calories"
@@ -142,8 +146,12 @@ export default function NutritionDashboard({
                   <NutritionRing
                     percentage={
                       dailySummary.nutritionGoals?.protein
-                        ? Math.min(100, (dailySummary.totalNutrition.protein /
-                            dailySummary.nutritionGoals.protein) * 100)
+                        ? Math.min(
+                            100,
+                            (dailySummary.totalNutrition.protein /
+                              dailySummary.nutritionGoals.protein) *
+                              100,
+                          )
                         : 0
                     }
                     label="Protein"
@@ -154,8 +162,12 @@ export default function NutritionDashboard({
                   <NutritionRing
                     percentage={
                       dailySummary.nutritionGoals?.carbs
-                        ? Math.min(100, (dailySummary.totalNutrition.carbs /
-                            dailySummary.nutritionGoals.carbs) * 100)
+                        ? Math.min(
+                            100,
+                            (dailySummary.totalNutrition.carbs /
+                              dailySummary.nutritionGoals.carbs) *
+                              100,
+                          )
                         : 0
                     }
                     label="Carbs"
@@ -166,8 +178,12 @@ export default function NutritionDashboard({
                   <NutritionRing
                     percentage={
                       dailySummary.nutritionGoals?.fat
-                        ? Math.min(100, (dailySummary.totalNutrition.fat /
-                            dailySummary.nutritionGoals.fat) * 100)
+                        ? Math.min(
+                            100,
+                            (dailySummary.totalNutrition.fat /
+                              dailySummary.nutritionGoals.fat) *
+                              100,
+                          )
                         : 0
                     }
                     label="Fat"
@@ -178,8 +194,12 @@ export default function NutritionDashboard({
                   <NutritionRing
                     percentage={
                       dailySummary.nutritionGoals?.sodium
-                        ? Math.min(100, (dailySummary.totalNutrition.sodium /
-                            dailySummary.nutritionGoals.sodium) * 100)
+                        ? Math.min(
+                            100,
+                            (dailySummary.totalNutrition.sodium /
+                              dailySummary.nutritionGoals.sodium) *
+                              100,
+                          )
                         : 0
                     }
                     label="Sodium"

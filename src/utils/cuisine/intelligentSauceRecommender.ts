@@ -7,7 +7,10 @@
  * Part of the enhanced cuisine recommender system.
  */
 
-import type { ElementalProperties, AlchemicalProperties } from "@/types/hierarchy";
+import type {
+  ElementalProperties,
+  AlchemicalProperties,
+} from "@/types/hierarchy";
 import type { KineticMetrics } from "@/types/kinetics";
 import type { ThermodynamicProperties } from "@/types/alchemy";
 import { calculateElementalCompatibility } from "@/utils/cuisine/cuisineRecommendationEngine";
@@ -200,7 +203,7 @@ export function recommendSauces(
       // Calculate overall compatibility score
       const weights = {
         elemental: 0.35,
-        alchemical: alchemicalScore !== undefined ? 0.20 : 0,
+        alchemical: alchemicalScore !== undefined ? 0.2 : 0,
         thermodynamic: thermodynamicScore !== undefined ? 0.15 : 0,
         kinetic: kineticScore !== undefined ? 0.15 : 0,
         circuit: circuitOptimizationScore !== undefined ? 0.15 : 0,
@@ -285,7 +288,9 @@ function calculateElementalSauceCompatibility(
     // For complement, prefer similar elemental profiles
     adjustedScore = baseSimilarity;
     if (baseSimilarity > 0.8) {
-      reasoning.push("✓ Elemental properties closely aligned - excellent complement");
+      reasoning.push(
+        "✓ Elemental properties closely aligned - excellent complement",
+      );
     } else if (baseSimilarity > 0.6) {
       reasoning.push("✓ Good elemental harmony");
     }
@@ -371,7 +376,9 @@ function calculateThermodynamicSauceCompatibility(
   // Compare Heat, Entropy, Reactivity
   const heatDiff = Math.abs(targetThermo.heat - sauceThermo.heat);
   const entropyDiff = Math.abs(targetThermo.entropy - sauceThermo.entropy);
-  const reactivityDiff = Math.abs(targetThermo.reactivity - sauceThermo.reactivity);
+  const reactivityDiff = Math.abs(
+    targetThermo.reactivity - sauceThermo.reactivity,
+  );
 
   let score = 0;
 
@@ -404,7 +411,9 @@ function calculateKineticSauceCompatibility(
 ): number {
   // Compare force classification
   let forceScore = 0;
-  if (targetKinetics.forceClassification === sauceKinetics.forceClassification) {
+  if (
+    targetKinetics.forceClassification === sauceKinetics.forceClassification
+  ) {
     forceScore = 1.0;
   } else if (
     (targetKinetics.forceClassification === "accelerating" &&
@@ -435,7 +444,9 @@ function calculateKineticSauceCompatibility(
   } else {
     // Prefer same thermal direction for complement/enhance
     thermalScore =
-      targetKinetics.thermalDirection === sauceKinetics.thermalDirection ? 1.0 : 0.5;
+      targetKinetics.thermalDirection === sauceKinetics.thermalDirection
+        ? 1.0
+        : 0.5;
   }
 
   // Compare power levels (sauces should generally be lower power)
@@ -465,7 +476,9 @@ function calculateCircuitOptimization(
 
   if (powerBoostRatio > 0.1 && powerBoostRatio < 0.25) {
     optimizationScore = 1.0;
-    reasoning.push("⚡ Optimal power boost (10-25%) improves circuit efficiency");
+    reasoning.push(
+      "⚡ Optimal power boost (10-25%) improves circuit efficiency",
+    );
   } else if (powerBoostRatio > 0.05 && powerBoostRatio < 0.35) {
     optimizationScore = 0.8;
     reasoning.push("✓ Moderate power boost enhances dish");
@@ -501,7 +514,7 @@ function applyUserPreferences(
   // Check preferred flavor profiles
   if (preferences.preferredFlavorProfiles && sauce.flavorTags) {
     const hasPreferred = preferences.preferredFlavorProfiles.some((pref) =>
-      sauce.flavorTags!.includes(pref)
+      sauce.flavorTags!.includes(pref),
     );
     if (hasPreferred) {
       score *= 1.2;
@@ -512,7 +525,7 @@ function applyUserPreferences(
   // Check avoided flavor profiles
   if (preferences.avoidFlavorProfiles && sauce.flavorTags) {
     const hasAvoided = preferences.avoidFlavorProfiles.some((avoid) =>
-      sauce.flavorTags!.includes(avoid)
+      sauce.flavorTags!.includes(avoid),
     );
     if (hasAvoided) {
       score *= 0.3;
@@ -522,7 +535,8 @@ function applyUserPreferences(
 
   // Check spice tolerance
   if (preferences.spiceTolerance && sauce.flavorTags) {
-    const isSpicy = sauce.flavorTags.includes("spicy") || sauce.flavorTags.includes("hot");
+    const isSpicy =
+      sauce.flavorTags.includes("spicy") || sauce.flavorTags.includes("hot");
     if (isSpicy && preferences.spiceTolerance === "low") {
       score *= 0.5;
       reasoning.push("⚠️ Spice level may exceed your tolerance");
@@ -540,8 +554,15 @@ function applyUserPreferences(
 /**
  * Get dominant element from elemental properties
  */
-function getDominantElement(elementals: ElementalProperties): keyof ElementalProperties {
-  const elements: Array<keyof ElementalProperties> = ["Fire", "Water", "Earth", "Air"];
+function getDominantElement(
+  elementals: ElementalProperties,
+): keyof ElementalProperties {
+  const elements: Array<keyof ElementalProperties> = [
+    "Fire",
+    "Water",
+    "Earth",
+    "Air",
+  ];
   let maxElement: keyof ElementalProperties = "Fire";
   let maxValue = 0;
 
@@ -558,8 +579,15 @@ function getDominantElement(elementals: ElementalProperties): keyof ElementalPro
 /**
  * Get weakest element from elemental properties
  */
-function getWeakestElement(elementals: ElementalProperties): keyof ElementalProperties {
-  const elements: Array<keyof ElementalProperties> = ["Fire", "Water", "Earth", "Air"];
+function getWeakestElement(
+  elementals: ElementalProperties,
+): keyof ElementalProperties {
+  const elements: Array<keyof ElementalProperties> = [
+    "Fire",
+    "Water",
+    "Earth",
+    "Air",
+  ];
   let minElement: keyof ElementalProperties = "Fire";
   let minValue = 1;
 

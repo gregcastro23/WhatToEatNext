@@ -42,25 +42,53 @@ function isSuitableForMealType(recipe: Recipe, mealType: MealType): boolean {
 
   if (mealType === "breakfast") {
     const breakfastKeywords = [
-      "egg", "oat", "pancake", "waffle", "smoothie", "cereal",
-      "toast", "breakfast", "muffin", "granola", "yogurt",
+      "egg",
+      "oat",
+      "pancake",
+      "waffle",
+      "smoothie",
+      "cereal",
+      "toast",
+      "breakfast",
+      "muffin",
+      "granola",
+      "yogurt",
     ];
-    return breakfastKeywords.some((k) => name.includes(k) || tags.some((t) => t.includes(k)));
+    return breakfastKeywords.some(
+      (k) => name.includes(k) || tags.some((t) => t.includes(k)),
+    );
   }
 
   if (mealType === "lunch") {
     const lunchKeywords = [
-      "sandwich", "salad", "soup", "wrap", "bowl", "lunch",
+      "sandwich",
+      "salad",
+      "soup",
+      "wrap",
+      "bowl",
+      "lunch",
     ];
-    return lunchKeywords.some((k) => name.includes(k) || tags.some((t) => t.includes(k)));
+    return lunchKeywords.some(
+      (k) => name.includes(k) || tags.some((t) => t.includes(k)),
+    );
   }
 
   if (mealType === "dinner") {
     const dinnerKeywords = [
-      "pasta", "steak", "roast", "stir-fry", "curry", "stew",
-      "dinner", "casserole", "grill", "bake",
+      "pasta",
+      "steak",
+      "roast",
+      "stir-fry",
+      "curry",
+      "stew",
+      "dinner",
+      "casserole",
+      "grill",
+      "bake",
     ];
-    return dinnerKeywords.some((k) => name.includes(k) || tags.some((t) => t.includes(k)));
+    return dinnerKeywords.some(
+      (k) => name.includes(k) || tags.some((t) => t.includes(k)),
+    );
   }
 
   return true; // snacks - anything works
@@ -76,18 +104,19 @@ function calculateNutritionScore(recipe: Recipe): number {
 
   if (nutrition.protein && nutrition.protein > 15) score += 20;
   if (nutrition.fiber && nutrition.fiber > 5) score += 15;
-  if (nutrition.calories && nutrition.calories > 200 && nutrition.calories < 800) score += 15;
+  if (
+    nutrition.calories &&
+    nutrition.calories > 200 &&
+    nutrition.calories < 800
+  )
+    score += 15;
 
   return Math.min(100, score + 50);
 }
 
 export default function QuickActionsToolbar() {
-  const {
-    currentMenu,
-    addMealToSlot,
-    clearWeek,
-    generateMealsForDay,
-  } = useMenuPlanner();
+  const { currentMenu, addMealToSlot, clearWeek, generateMealsForDay } =
+    useMenuPlanner();
 
   // Get user context for personalization status
   const { currentUser } = useUser();
@@ -96,7 +125,8 @@ export default function QuickActionsToolbar() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isBalancing, setIsBalancing] = useState(false);
   const [isDiversifying, setIsDiversifying] = useState(false);
-  const [currentGeneratingDay, setCurrentGeneratingDay] = useState<DayOfWeek | null>(null);
+  const [currentGeneratingDay, setCurrentGeneratingDay] =
+    useState<DayOfWeek | null>(null);
 
   /**
    * Get the next day that needs meals generated
@@ -106,7 +136,7 @@ export default function QuickActionsToolbar() {
 
     for (let day = 0; day < 7; day++) {
       const dayMeals = currentMenu.meals.filter(
-        (m) => m.dayOfWeek === day && m.recipe
+        (m) => m.dayOfWeek === day && m.recipe,
       );
       // If day has fewer than 3 main meals (breakfast, lunch, dinner), it needs generation
       if (dayMeals.length < 3) {
@@ -117,7 +147,15 @@ export default function QuickActionsToolbar() {
   };
 
   const nextEmptyDay = getNextEmptyDay();
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   /**
    * Generate Day - fills empty meal slots for the next day that needs it
@@ -129,7 +167,9 @@ export default function QuickActionsToolbar() {
     setCurrentGeneratingDay(nextEmptyDay);
 
     try {
-      logger.info(`Generating meals for ${dayNames[nextEmptyDay]}`, { personalized: hasNatalChart });
+      logger.info(`Generating meals for ${dayNames[nextEmptyDay]}`, {
+        personalized: hasNatalChart,
+      });
 
       // Generate meals for the next empty day with personalization
       await generateMealsForDay(nextEmptyDay, {
@@ -140,7 +180,7 @@ export default function QuickActionsToolbar() {
 
       // If generateMealsForDay didn't fill slots, try UnifiedRecipeService fallback
       const dayMeals = currentMenu.meals.filter(
-        (m) => m.dayOfWeek === nextEmptyDay && m.recipe
+        (m) => m.dayOfWeek === nextEmptyDay && m.recipe,
       );
       if (dayMeals.length === 0) {
         await fillDayWithRecipeService(nextEmptyDay);
@@ -171,26 +211,27 @@ export default function QuickActionsToolbar() {
       }
 
       const usedRecipeIds = new Set(
-        currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id)
+        currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
       );
       const mealTypes: MealType[] = ["breakfast", "lunch", "dinner"];
 
       for (const mealType of mealTypes) {
         // Check if slot already has a recipe
         const existingSlot = currentMenu.meals.find(
-          (m) => m.dayOfWeek === day && m.mealType === mealType && m.recipe
+          (m) => m.dayOfWeek === day && m.mealType === mealType && m.recipe,
         );
         if (existingSlot) continue;
 
         // Find suitable recipe not yet used
         const suitable = allRecipes.filter(
-          (r) => !usedRecipeIds.has(r.id) && isSuitableForMealType(r, mealType)
+          (r) => !usedRecipeIds.has(r.id) && isSuitableForMealType(r, mealType),
         );
 
         // If no meal-type-specific match, use any unused recipe
-        const candidates = suitable.length > 0
-          ? suitable
-          : allRecipes.filter((r) => !usedRecipeIds.has(r.id));
+        const candidates =
+          suitable.length > 0
+            ? suitable
+            : allRecipes.filter((r) => !usedRecipeIds.has(r.id));
 
         if (candidates.length > 0) {
           // Sort by nutrition score
@@ -230,21 +271,21 @@ export default function QuickActionsToolbar() {
         for (const mealType of mealTypes) {
           // Check if slot already has a recipe
           const existingSlot = currentMenu.meals.find(
-            (m) => m.dayOfWeek === day && m.mealType === mealType && m.recipe
+            (m) => m.dayOfWeek === day && m.mealType === mealType && m.recipe,
           );
           if (existingSlot) continue;
 
           // Find suitable recipe not yet used
           const suitable = allRecipes.filter(
             (r) =>
-              !usedRecipeIds.has(r.id) &&
-              isSuitableForMealType(r, mealType)
+              !usedRecipeIds.has(r.id) && isSuitableForMealType(r, mealType),
           );
 
           // If no meal-type-specific match, use any unused recipe
-          const candidates = suitable.length > 0 ? suitable : allRecipes.filter(
-            (r) => !usedRecipeIds.has(r.id)
-          );
+          const candidates =
+            suitable.length > 0
+              ? suitable
+              : allRecipes.filter((r) => !usedRecipeIds.has(r.id));
 
           if (candidates.length > 0) {
             // Sort by nutrition score
@@ -291,9 +332,7 @@ export default function QuickActionsToolbar() {
 
       // Replace bottom 3-5 with higher scoring alternatives
       const usedIds = new Set(
-        currentMenu.meals
-          .filter((m) => m.recipe)
-          .map((m) => m.recipe!.id)
+        currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
       );
 
       const swapCount = Math.min(5, Math.floor(filledMeals.length / 2));
@@ -307,9 +346,11 @@ export default function QuickActionsToolbar() {
             (r) =>
               !usedIds.has(r.id) &&
               isSuitableForMealType(r, meal.slot.mealType) &&
-              calculateNutritionScore(r) > meal.score
+              calculateNutritionScore(r) > meal.score,
           )
-          .sort((a, b) => calculateNutritionScore(b) - calculateNutritionScore(a));
+          .sort(
+            (a, b) => calculateNutritionScore(b) - calculateNutritionScore(a),
+          );
 
         if (betterRecipes.length > 0) {
           const replacement = betterRecipes[0];
@@ -318,7 +359,7 @@ export default function QuickActionsToolbar() {
           await addMealToSlot(
             meal.slot.dayOfWeek,
             meal.slot.mealType,
-            replacement
+            replacement,
           );
         }
       }
@@ -370,16 +411,14 @@ export default function QuickActionsToolbar() {
           const ings = recipeIngredients.get(m.recipe!.id) || new Set();
           const repetitionScore = Array.from(ings).reduce(
             (sum, ing) => sum + (ingredientCounts.get(ing) || 0),
-            0
+            0,
           );
           return { slot: m, repetitionScore };
         })
         .sort((a, b) => b.repetitionScore - a.repetitionScore);
 
       const usedIds = new Set(
-        currentMenu.meals
-          .filter((m) => m.recipe)
-          .map((m) => m.recipe!.id)
+        currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
       );
 
       // Replace top 3 most repetitive recipes
@@ -395,10 +434,10 @@ export default function QuickActionsToolbar() {
           .filter((r) => !usedIds.has(r.id))
           .map((r) => {
             const recipeIngs = (r.ingredients || []).map((ing) =>
-              ing.name.toLowerCase()
+              ing.name.toLowerCase(),
             );
             const newIngCount = recipeIngs.filter(
-              (ing) => !currentIngs.has(ing)
+              (ing) => !currentIngs.has(ing),
             ).length;
             return { recipe: r, newIngCount };
           })
@@ -411,7 +450,7 @@ export default function QuickActionsToolbar() {
           await addMealToSlot(
             meal.slot.dayOfWeek,
             meal.slot.mealType,
-            replacement
+            replacement,
           );
         }
       }
@@ -470,7 +509,9 @@ export default function QuickActionsToolbar() {
       <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700">Quick Actions</span>
+            <span className="text-sm font-semibold text-gray-700">
+              Quick Actions
+            </span>
             {totalMeals > 0 && (
               <span className="text-xs text-gray-500">
                 ({totalMeals}/21 meals planned)
@@ -523,7 +564,11 @@ export default function QuickActionsToolbar() {
             onClick={handleBalanceNutrition}
             disabled={isBalancing || totalMeals < 3}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-            title={totalMeals < 3 ? "Add at least 3 meals first" : "Swap recipes to fix nutritional gaps"}
+            title={
+              totalMeals < 3
+                ? "Add at least 3 meals first"
+                : "Swap recipes to fix nutritional gaps"
+            }
           >
             <span>⚖️</span>
             {isBalancing ? "Balancing..." : "Balance Nutrition"}
@@ -533,7 +578,11 @@ export default function QuickActionsToolbar() {
             onClick={handleMaximizeVariety}
             disabled={isDiversifying || totalMeals < 3}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-            title={totalMeals < 3 ? "Add at least 3 meals first" : "Replace repetitive recipes"}
+            title={
+              totalMeals < 3
+                ? "Add at least 3 meals first"
+                : "Replace repetitive recipes"
+            }
           >
             <span>🌈</span>
             {isDiversifying ? "Diversifying..." : "Maximize Variety"}
@@ -541,11 +590,7 @@ export default function QuickActionsToolbar() {
 
           <button
             onClick={() => {
-              if (
-                confirm(
-                  "Clear entire week? This cannot be undone."
-                )
-              ) {
+              if (confirm("Clear entire week? This cannot be undone.")) {
                 clearWeek();
               }
             }}

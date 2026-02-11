@@ -10,8 +10,15 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import type { Recipe } from "@/types/recipe";
-import type { MealType, DayOfWeek, PlanetarySnapshot } from "@/types/menuPlanner";
-import { getMealTypeCharacteristics, getPlanetaryDayCharacteristics } from "@/types/menuPlanner";
+import type {
+  MealType,
+  DayOfWeek,
+  PlanetarySnapshot,
+} from "@/types/menuPlanner";
+import {
+  getMealTypeCharacteristics,
+  getPlanetaryDayCharacteristics,
+} from "@/types/menuPlanner";
 import {
   searchRecipes,
   searchIngredients,
@@ -52,7 +59,7 @@ function RecipeCard({
   // Get elemental properties
   const elements = recipe.elementalProperties
     ? Object.entries(recipe.elementalProperties).filter(
-        ([_, value]) => typeof value === "number"
+        ([_, value]) => typeof value === "number",
       )
     : [];
 
@@ -206,7 +213,9 @@ export default function RecipeSelector({
   // Ingredient filter state
   const [ingredientInput, setIngredientInput] = useState("");
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-  const [ingredientSuggestions, setIngredientSuggestions] = useState<string[]>([]);
+  const [ingredientSuggestions, setIngredientSuggestions] = useState<string[]>(
+    [],
+  );
   const [showIngredientDropdown, setShowIngredientDropdown] = useState(false);
 
   // Load recipes on mount
@@ -216,7 +225,9 @@ export default function RecipeSelector({
         setIsLoading(true);
         const recipeService = UnifiedRecipeService.getInstance();
         const recipes = await recipeService.getAllRecipes();
-        logger.info(`RecipeSelector: Loaded ${recipes.length} recipes from service`);
+        logger.info(
+          `RecipeSelector: Loaded ${recipes.length} recipes from service`,
+        );
         if (recipes.length === 0) {
           logger.warn("RecipeSelector: No recipes returned from service");
         }
@@ -280,7 +291,8 @@ export default function RecipeSelector({
       planetaryDay: filters?.dayOfWeek,
       prepTimeMax: maxPrepTime,
       // Include ingredients filter
-      includeIngredients: selectedIngredients.length > 0 ? selectedIngredients : undefined,
+      includeIngredients:
+        selectedIngredients.length > 0 ? selectedIngredients : undefined,
       limit: 100, // Show up to 100 recipes (increased from 50)
     };
 
@@ -321,7 +333,8 @@ export default function RecipeSelector({
     if (selectedRecipe) {
       addToQueue(selectedRecipe, {
         suggestedMealTypes: filters?.mealType ? [filters.mealType] : undefined,
-        suggestedDays: filters?.dayOfWeek !== undefined ? [filters.dayOfWeek] : undefined,
+        suggestedDays:
+          filters?.dayOfWeek !== undefined ? [filters.dayOfWeek] : undefined,
       });
       logger.info(`Added "${selectedRecipe.name}" to queue`);
       setSelectedRecipe(null); // Clear selection after adding
@@ -483,8 +496,13 @@ export default function RecipeSelector({
                 type="text"
                 value={ingredientInput}
                 onChange={(e) => setIngredientInput(e.target.value)}
-                onFocus={() => ingredientSuggestions.length > 0 && setShowIngredientDropdown(true)}
-                onBlur={() => setTimeout(() => setShowIngredientDropdown(false), 200)}
+                onFocus={() =>
+                  ingredientSuggestions.length > 0 &&
+                  setShowIngredientDropdown(true)
+                }
+                onBlur={() =>
+                  setTimeout(() => setShowIngredientDropdown(false), 200)
+                }
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && ingredientInput.trim()) {
                     e.preventDefault();
@@ -630,7 +648,8 @@ export default function RecipeSelector({
         {/* Footer */}
         <div className="p-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
           <div className="text-sm text-gray-600">
-            {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? "s" : ""} found
+            {filteredRecipes.length} recipe
+            {filteredRecipes.length !== 1 ? "s" : ""} found
             {selectedRecipe && (
               <>
                 {" • Selected: "}

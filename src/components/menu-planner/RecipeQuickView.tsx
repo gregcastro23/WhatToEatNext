@@ -39,14 +39,21 @@ interface ElementalBadgeProps {
 // ============================================================================
 
 function ElementalBadge({ element, value }: ElementalBadgeProps) {
-  const config: Record<string, { emoji: string; color: string; bgColor: string }> = {
+  const config: Record<
+    string,
+    { emoji: string; color: string; bgColor: string }
+  > = {
     Fire: { emoji: "🔥", color: "text-red-700", bgColor: "bg-red-50" },
     Water: { emoji: "💧", color: "text-blue-700", bgColor: "bg-blue-50" },
     Earth: { emoji: "🌿", color: "text-green-700", bgColor: "bg-green-50" },
     Air: { emoji: "💨", color: "text-purple-700", bgColor: "bg-purple-50" },
   };
 
-  const { emoji, color, bgColor } = config[element] || { emoji: "?", color: "text-gray-700", bgColor: "bg-gray-50" };
+  const { emoji, color, bgColor } = config[element] || {
+    emoji: "?",
+    color: "text-gray-700",
+    bgColor: "bg-gray-50",
+  };
   const percentage = Math.round(value * 100);
 
   return (
@@ -73,19 +80,27 @@ function NutritionSnippet({ recipe }: { recipe: Recipe }) {
   return (
     <div className="flex items-center gap-3 text-xs">
       <div className="flex items-center gap-1">
-        <span className="text-purple-600 font-medium">{nutrition.calories || 0}</span>
+        <span className="text-purple-600 font-medium">
+          {nutrition.calories || 0}
+        </span>
         <span className="text-gray-400">kcal</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="text-red-600 font-medium">{nutrition.protein || 0}g</span>
+        <span className="text-red-600 font-medium">
+          {nutrition.protein || 0}g
+        </span>
         <span className="text-gray-400">P</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="text-yellow-600 font-medium">{nutrition.carbs || 0}g</span>
+        <span className="text-yellow-600 font-medium">
+          {nutrition.carbs || 0}g
+        </span>
         <span className="text-gray-400">C</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="text-green-600 font-medium">{nutrition.fat || 0}g</span>
+        <span className="text-green-600 font-medium">
+          {nutrition.fat || 0}g
+        </span>
         <span className="text-gray-400">F</span>
       </div>
     </div>
@@ -129,10 +144,15 @@ function MealTypeBadge({ mealType }: { mealType: string }) {
     dessert: { color: "bg-pink-100 text-pink-700", icon: "🍰" },
   };
 
-  const config = typeConfig[mealType.toLowerCase()] || { color: "bg-gray-100 text-gray-700", icon: "🍽️" };
+  const config = typeConfig[mealType.toLowerCase()] || {
+    color: "bg-gray-100 text-gray-700",
+    icon: "🍽️",
+  };
 
   return (
-    <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${config.color}`}>
+    <span
+      className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${config.color}`}
+    >
       <span>{config.icon}</span>
       <span className="capitalize">{mealType}</span>
     </span>
@@ -187,10 +207,13 @@ export default function RecipeQuickView({
     onSelect?.(recipe);
   }, [onSelect, recipe]);
 
-  const handleViewDetails = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    onViewDetails?.(recipe);
-  }, [onViewDetails, recipe]);
+  const handleViewDetails = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onViewDetails?.(recipe);
+    },
+    [onViewDetails, recipe],
+  );
 
   const elementalProperties = recipe.elementalProperties || {
     Fire: 0.25,
@@ -202,7 +225,7 @@ export default function RecipeQuickView({
   // Get dominant element
   const dominantElement = Object.entries(elementalProperties).reduce(
     (max, [key, value]) => (value > max[1] ? [key, value] : max),
-    ["Fire", 0]
+    ["Fire", 0],
   )[0] as string;
 
   const dominantConfig: Record<string, string> = {
@@ -308,9 +331,11 @@ export default function RecipeQuickView({
         {/* Tags row */}
         <div className="flex flex-wrap items-center gap-1.5 mt-2">
           {recipe.cuisine && <CuisineBadge cuisine={recipe.cuisine} />}
-          {recipe.mealType && Array.isArray(recipe.mealType) && recipe.mealType.length > 0 && (
-            <MealTypeBadge mealType={recipe.mealType[0]} />
-          )}
+          {recipe.mealType &&
+            Array.isArray(recipe.mealType) &&
+            recipe.mealType.length > 0 && (
+              <MealTypeBadge mealType={recipe.mealType[0]} />
+            )}
           <SeasonBadge seasons={recipe.season as string[]} />
         </div>
       </div>
@@ -350,7 +375,9 @@ export default function RecipeQuickView({
             )}
             {recipe.spiceLevel !== undefined && (
               <span title={`Spice level: ${recipe.spiceLevel}`}>
-                {"🌶️".repeat(Math.min(3, Math.ceil(Number(recipe.spiceLevel) / 3)))}
+                {"🌶️".repeat(
+                  Math.min(3, Math.ceil(Number(recipe.spiceLevel) / 3)),
+                )}
               </span>
             )}
           </div>
@@ -450,7 +477,11 @@ interface MiniRecipeCardProps {
   className?: string;
 }
 
-export function MiniRecipeCard({ recipe, onClick, className = "" }: MiniRecipeCardProps) {
+export function MiniRecipeCard({
+  recipe,
+  onClick,
+  className = "",
+}: MiniRecipeCardProps) {
   const handleClick = useCallback(() => {
     onClick?.(recipe);
   }, [onClick, recipe]);
@@ -487,7 +518,12 @@ export function MiniRecipeCard({ recipe, onClick, className = "" }: MiniRecipeCa
 }
 
 // Helper function
-function getElementalColor(elementalProperties: { Fire?: number; Water?: number; Earth?: number; Air?: number }): string {
+function getElementalColor(elementalProperties: {
+  Fire?: number;
+  Water?: number;
+  Earth?: number;
+  Air?: number;
+}): string {
   const colors = {
     Fire: "#ef4444",
     Water: "#3b82f6",
@@ -495,9 +531,14 @@ function getElementalColor(elementalProperties: { Fire?: number; Water?: number;
     Air: "#a855f7",
   };
 
-  const entries = Object.entries(elementalProperties) as [keyof typeof colors, number][];
+  const entries = Object.entries(elementalProperties) as [
+    keyof typeof colors,
+    number,
+  ][];
   if (entries.length === 0) return "#6b7280";
 
-  const dominant = entries.reduce((max, curr) => (curr[1] > max[1] ? curr : max));
+  const dominant = entries.reduce((max, curr) =>
+    curr[1] > max[1] ? curr : max,
+  );
   return colors[dominant[0]] || "#6b7280";
 }

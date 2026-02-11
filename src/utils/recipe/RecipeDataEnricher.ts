@@ -13,7 +13,11 @@
  * @created 2026-01-29
  */
 
-import type { ElementalProperties, Recipe, RecipeIngredient } from "@/types/recipe";
+import type {
+  ElementalProperties,
+  Recipe,
+  RecipeIngredient,
+} from "@/types/recipe";
 import { COOKING_METHOD_MODIFIERS } from "@/utils/hierarchicalRecipeCalculations";
 import { createLogger } from "../logger";
 
@@ -71,7 +75,10 @@ export interface EnrichmentMetadata {
  * Comprehensive ingredient-to-element mapping based on culinary alchemy principles
  * Each ingredient category has primary and secondary elemental associations
  */
-const INGREDIENT_ELEMENTAL_MAP: Record<string, { Fire: number; Water: number; Earth: number; Air: number }> = {
+const INGREDIENT_ELEMENTAL_MAP: Record<
+  string,
+  { Fire: number; Water: number; Earth: number; Air: number }
+> = {
   // Spicy/Hot ingredients - Fire dominant
   chili: { Fire: 0.7, Water: 0.0, Earth: 0.1, Air: 0.2 },
   pepper: { Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 },
@@ -228,7 +235,10 @@ const INGREDIENT_ELEMENTAL_MAP: Record<string, { Fire: number; Water: number; Ea
  * Cuisine-based elemental adjustments
  * These modifiers enhance certain elements based on cuisine characteristics
  */
-const CUISINE_ELEMENTAL_MODIFIERS: Record<string, { Fire: number; Water: number; Earth: number; Air: number }> = {
+const CUISINE_ELEMENTAL_MODIFIERS: Record<
+  string,
+  { Fire: number; Water: number; Earth: number; Air: number }
+> = {
   thai: { Fire: 1.3, Water: 1.0, Earth: 0.9, Air: 1.1 },
   indian: { Fire: 1.3, Water: 0.9, Earth: 1.1, Air: 1.0 },
   mexican: { Fire: 1.25, Water: 0.9, Earth: 1.1, Air: 0.95 },
@@ -252,34 +262,127 @@ const CUISINE_ELEMENTAL_MODIFIERS: Record<string, { Fire: number; Water: number;
 /**
  * Recipe characteristics mapped to planetary influences
  */
-const PLANETARY_CHARACTERISTICS: Record<string, { keywords: string[]; characteristics: string[] }> = {
+const PLANETARY_CHARACTERISTICS: Record<
+  string,
+  { keywords: string[]; characteristics: string[] }
+> = {
   Sun: {
-    keywords: ["bright", "vital", "energizing", "golden", "citrus", "saffron", "honey"],
-    characteristics: ["breakfast", "energizing", "vitality", "warm", "golden color"],
+    keywords: [
+      "bright",
+      "vital",
+      "energizing",
+      "golden",
+      "citrus",
+      "saffron",
+      "honey",
+    ],
+    characteristics: [
+      "breakfast",
+      "energizing",
+      "vitality",
+      "warm",
+      "golden color",
+    ],
   },
   Moon: {
-    keywords: ["comfort", "nurturing", "mild", "soft", "cream", "milk", "dairy", "soup", "porridge"],
-    characteristics: ["comfort food", "soothing", "hydrating", "emotional", "nighttime"],
+    keywords: [
+      "comfort",
+      "nurturing",
+      "mild",
+      "soft",
+      "cream",
+      "milk",
+      "dairy",
+      "soup",
+      "porridge",
+    ],
+    characteristics: [
+      "comfort food",
+      "soothing",
+      "hydrating",
+      "emotional",
+      "nighttime",
+    ],
   },
   Mercury: {
     keywords: ["quick", "light", "varied", "diverse", "snack", "appetizer"],
-    characteristics: ["quick meals", "diverse ingredients", "appetizers", "finger food"],
+    characteristics: [
+      "quick meals",
+      "diverse ingredients",
+      "appetizers",
+      "finger food",
+    ],
   },
   Venus: {
-    keywords: ["elegant", "sweet", "beautiful", "dessert", "romantic", "chocolate", "fruit"],
-    characteristics: ["elegant presentation", "sweet", "romantic", "indulgent", "aesthetic"],
+    keywords: [
+      "elegant",
+      "sweet",
+      "beautiful",
+      "dessert",
+      "romantic",
+      "chocolate",
+      "fruit",
+    ],
+    characteristics: [
+      "elegant presentation",
+      "sweet",
+      "romantic",
+      "indulgent",
+      "aesthetic",
+    ],
   },
   Mars: {
-    keywords: ["spicy", "bold", "hot", "pepper", "chili", "grilled", "red", "meat"],
-    characteristics: ["spicy", "bold flavors", "high protein", "energizing", "red colored"],
+    keywords: [
+      "spicy",
+      "bold",
+      "hot",
+      "pepper",
+      "chili",
+      "grilled",
+      "red",
+      "meat",
+    ],
+    characteristics: [
+      "spicy",
+      "bold flavors",
+      "high protein",
+      "energizing",
+      "red colored",
+    ],
   },
   Jupiter: {
-    keywords: ["feast", "abundant", "rich", "celebration", "holiday", "traditional"],
-    characteristics: ["generous portions", "festive", "celebratory", "rich", "traditional"],
+    keywords: [
+      "feast",
+      "abundant",
+      "rich",
+      "celebration",
+      "holiday",
+      "traditional",
+    ],
+    characteristics: [
+      "generous portions",
+      "festive",
+      "celebratory",
+      "rich",
+      "traditional",
+    ],
   },
   Saturn: {
-    keywords: ["traditional", "slow", "aged", "fermented", "preserved", "cured", "patience"],
-    characteristics: ["slow-cooked", "traditional recipes", "aged ingredients", "disciplined"],
+    keywords: [
+      "traditional",
+      "slow",
+      "aged",
+      "fermented",
+      "preserved",
+      "cured",
+      "patience",
+    ],
+    characteristics: [
+      "slow-cooked",
+      "traditional recipes",
+      "aged ingredients",
+      "disciplined",
+    ],
   },
 };
 
@@ -289,20 +392,69 @@ const PLANETARY_CHARACTERISTICS: Record<string, { keywords: string[]; characteri
 
 const SEASONAL_INGREDIENTS: Record<string, string[]> = {
   spring: [
-    "asparagus", "pea", "artichoke", "fava", "ramp", "morel", "radish", "spinach",
-    "arugula", "mint", "chive", "lamb", "strawberry", "rhubarb", "apricot",
+    "asparagus",
+    "pea",
+    "artichoke",
+    "fava",
+    "ramp",
+    "morel",
+    "radish",
+    "spinach",
+    "arugula",
+    "mint",
+    "chive",
+    "lamb",
+    "strawberry",
+    "rhubarb",
+    "apricot",
   ],
   summer: [
-    "tomato", "corn", "zucchini", "eggplant", "pepper", "cucumber", "basil",
-    "watermelon", "berry", "peach", "plum", "fig", "melon", "squash",
+    "tomato",
+    "corn",
+    "zucchini",
+    "eggplant",
+    "pepper",
+    "cucumber",
+    "basil",
+    "watermelon",
+    "berry",
+    "peach",
+    "plum",
+    "fig",
+    "melon",
+    "squash",
   ],
   autumn: [
-    "pumpkin", "squash", "apple", "pear", "grape", "mushroom", "cranberry",
-    "sweet potato", "brussels", "cabbage", "beet", "parsnip", "sage", "thyme",
+    "pumpkin",
+    "squash",
+    "apple",
+    "pear",
+    "grape",
+    "mushroom",
+    "cranberry",
+    "sweet potato",
+    "brussels",
+    "cabbage",
+    "beet",
+    "parsnip",
+    "sage",
+    "thyme",
   ],
   winter: [
-    "potato", "carrot", "turnip", "rutabaga", "citrus", "kale", "collard",
-    "cabbage", "leek", "onion", "garlic", "root", "nut", "dried fruit",
+    "potato",
+    "carrot",
+    "turnip",
+    "rutabaga",
+    "citrus",
+    "kale",
+    "collard",
+    "cabbage",
+    "leek",
+    "onion",
+    "garlic",
+    "root",
+    "nut",
+    "dried fruit",
   ],
 };
 
@@ -334,13 +486,13 @@ export class RecipeDataEnricher {
     const elementalProperties = this.calculateElementalProperties(
       ingredients,
       cookingMethods,
-      cuisine
+      cuisine,
     );
 
     // Determine planetary influences
     const planetaryInfluences = this.determinePlanetaryInfluences(
       recipe,
-      elementalProperties
+      elementalProperties,
     );
 
     // Calculate seasonal alignment
@@ -350,7 +502,10 @@ export class RecipeDataEnricher {
     const flavorProfile = this.generateFlavorProfile(recipe, ingredients);
 
     // Estimate nutrition
-    const nutritionEstimate = this.estimateNutrition(ingredients, recipe.numberOfServings || 4);
+    const nutritionEstimate = this.estimateNutrition(
+      ingredients,
+      recipe.numberOfServings || 4,
+    );
 
     // Determine meal types
     const mealTypes = this.determineMealTypes(recipe, elementalProperties);
@@ -359,7 +514,7 @@ export class RecipeDataEnricher {
     const confidenceScore = this.calculateConfidenceScore(
       ingredients.length,
       cookingMethods.length,
-      !!cuisine
+      !!cuisine,
     );
 
     return {
@@ -385,13 +540,16 @@ export class RecipeDataEnricher {
   public calculateElementalProperties(
     ingredients: RecipeIngredient[],
     cookingMethods: string[],
-    cuisine: string
+    cuisine: string,
   ): ElementalProperties {
     // Start with base elemental properties from ingredients
     const baseElementals = this.aggregateIngredientElementals(ingredients);
 
     // Apply cooking method modifiers
-    const afterMethods = this.applyCookingMethodModifiers(baseElementals, cookingMethods);
+    const afterMethods = this.applyCookingMethodModifiers(
+      baseElementals,
+      cookingMethods,
+    );
 
     // Apply cuisine modifiers
     const afterCuisine = this.applyCuisineModifiers(afterMethods, cuisine);
@@ -403,7 +561,9 @@ export class RecipeDataEnricher {
   /**
    * Aggregate elemental properties from all ingredients
    */
-  private aggregateIngredientElementals(ingredients: RecipeIngredient[]): ElementalProperties {
+  private aggregateIngredientElementals(
+    ingredients: RecipeIngredient[],
+  ): ElementalProperties {
     if (!ingredients || ingredients.length === 0) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -418,7 +578,8 @@ export class RecipeDataEnricher {
       const mapping = this.findIngredientMapping(name);
       if (mapping) {
         // Weight by amount (simple heuristic)
-        const amount = typeof ingredient.amount === "number" ? ingredient.amount : 1;
+        const amount =
+          typeof ingredient.amount === "number" ? ingredient.amount : 1;
         const weight = Math.log(1 + amount / 10); // Logarithmic scaling
 
         totals.Fire += mapping.Fire * weight;
@@ -440,7 +601,9 @@ export class RecipeDataEnricher {
   /**
    * Find the best matching elemental mapping for an ingredient
    */
-  private findIngredientMapping(ingredientName: string): { Fire: number; Water: number; Earth: number; Air: number } | null {
+  private findIngredientMapping(
+    ingredientName: string,
+  ): { Fire: number; Water: number; Earth: number; Air: number } | null {
     // Direct match
     if (INGREDIENT_ELEMENTAL_MAP[ingredientName]) {
       return INGREDIENT_ELEMENTAL_MAP[ingredientName];
@@ -454,7 +617,10 @@ export class RecipeDataEnricher {
     }
 
     // Category-based fallback
-    const categories: Record<string, { Fire: number; Water: number; Earth: number; Air: number }> = {
+    const categories: Record<
+      string,
+      { Fire: number; Water: number; Earth: number; Air: number }
+    > = {
       protein: { Fire: 0.25, Water: 0.25, Earth: 0.4, Air: 0.1 },
       vegetable: { Fire: 0.15, Water: 0.35, Earth: 0.3, Air: 0.2 },
       grain: { Fire: 0.1, Water: 0.2, Earth: 0.55, Air: 0.15 },
@@ -474,13 +640,15 @@ export class RecipeDataEnricher {
    */
   private applyCookingMethodModifiers(
     elementals: ElementalProperties,
-    cookingMethods: string[]
+    cookingMethods: string[],
   ): ElementalProperties {
     let result = { ...elementals };
 
     for (const method of cookingMethods) {
       const methodKey = method.toLowerCase().replace(/\s+/g, "-");
-      const modifier = COOKING_METHOD_MODIFIERS[methodKey] || COOKING_METHOD_MODIFIERS[method.toLowerCase()];
+      const modifier =
+        COOKING_METHOD_MODIFIERS[methodKey] ||
+        COOKING_METHOD_MODIFIERS[method.toLowerCase()];
 
       if (modifier) {
         result = {
@@ -500,10 +668,12 @@ export class RecipeDataEnricher {
    */
   private applyCuisineModifiers(
     elementals: ElementalProperties,
-    cuisine: string
+    cuisine: string,
   ): ElementalProperties {
     const cuisineKey = cuisine.toLowerCase().replace(/\s+/g, "-");
-    const modifier = CUISINE_ELEMENTAL_MODIFIERS[cuisineKey] || CUISINE_ELEMENTAL_MODIFIERS[cuisine.toLowerCase()];
+    const modifier =
+      CUISINE_ELEMENTAL_MODIFIERS[cuisineKey] ||
+      CUISINE_ELEMENTAL_MODIFIERS[cuisine.toLowerCase()];
 
     if (!modifier) {
       return elementals;
@@ -520,8 +690,11 @@ export class RecipeDataEnricher {
   /**
    * Normalize elemental properties to sum to 1.0
    */
-  private normalizeElementals(elementals: ElementalProperties): ElementalProperties {
-    const total = elementals.Fire + elementals.Water + elementals.Earth + elementals.Air;
+  private normalizeElementals(
+    elementals: ElementalProperties,
+  ): ElementalProperties {
+    const total =
+      elementals.Fire + elementals.Water + elementals.Earth + elementals.Air;
 
     if (total === 0) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -540,13 +713,15 @@ export class RecipeDataEnricher {
    */
   public determinePlanetaryInfluences(
     recipe: Partial<Recipe>,
-    elementals: ElementalProperties
+    elementals: ElementalProperties,
   ): string[] {
     const influences: Set<string> = new Set();
     const recipeName = recipe.name?.toLowerCase() || "";
     const recipeDesc = recipe.description?.toLowerCase() || "";
     const ingredients = recipe.ingredients || [];
-    const ingredientNames = ingredients.map((i) => i.name.toLowerCase()).join(" ");
+    const ingredientNames = ingredients
+      .map((i) => i.name.toLowerCase())
+      .join(" ");
     const combinedText = `${recipeName} ${recipeDesc} ${ingredientNames}`;
 
     // Check each planet's keywords
@@ -610,7 +785,9 @@ export class RecipeDataEnricher {
     for (const ingredient of ingredients) {
       const name = ingredient.name.toLowerCase();
 
-      for (const [season, seasonalItems] of Object.entries(SEASONAL_INGREDIENTS)) {
+      for (const [season, seasonalItems] of Object.entries(
+        SEASONAL_INGREDIENTS,
+      )) {
         for (const item of seasonalItems) {
           if (name.includes(item) || item.includes(name)) {
             seasonScores[season]++;
@@ -635,7 +812,7 @@ export class RecipeDataEnricher {
    */
   public generateFlavorProfile(
     recipe: Partial<Recipe>,
-    ingredients: RecipeIngredient[]
+    ingredients: RecipeIngredient[],
   ): FlavorProfile {
     const tasteBalance = {
       sweet: 0,
@@ -654,38 +831,69 @@ export class RecipeDataEnricher {
       const name = ingredient.name.toLowerCase();
 
       // Sweet indicators
-      if (name.includes("sugar") || name.includes("honey") || name.includes("sweet") || name.includes("maple")) {
+      if (
+        name.includes("sugar") ||
+        name.includes("honey") ||
+        name.includes("sweet") ||
+        name.includes("maple")
+      ) {
         tasteBalance.sweet += 2;
         primary.add("sweet");
       }
 
       // Savory indicators
-      if (name.includes("salt") || name.includes("soy") || name.includes("broth") || name.includes("stock")) {
+      if (
+        name.includes("salt") ||
+        name.includes("soy") ||
+        name.includes("broth") ||
+        name.includes("stock")
+      ) {
         tasteBalance.savory += 2;
         primary.add("savory");
       }
 
       // Spicy indicators
-      if (name.includes("chili") || name.includes("pepper") || name.includes("hot") || name.includes("cayenne")) {
+      if (
+        name.includes("chili") ||
+        name.includes("pepper") ||
+        name.includes("hot") ||
+        name.includes("cayenne")
+      ) {
         tasteBalance.spicy += 2;
         primary.add("spicy");
         accent.add("heat");
       }
 
       // Sour indicators
-      if (name.includes("lemon") || name.includes("lime") || name.includes("vinegar") || name.includes("tamarind")) {
+      if (
+        name.includes("lemon") ||
+        name.includes("lime") ||
+        name.includes("vinegar") ||
+        name.includes("tamarind")
+      ) {
         tasteBalance.sour += 2;
         primary.add("tangy");
       }
 
       // Bitter indicators
-      if (name.includes("coffee") || name.includes("dark chocolate") || name.includes("arugula") || name.includes("radicchio")) {
+      if (
+        name.includes("coffee") ||
+        name.includes("dark chocolate") ||
+        name.includes("arugula") ||
+        name.includes("radicchio")
+      ) {
         tasteBalance.bitter += 1;
         accent.add("bitter notes");
       }
 
       // Umami indicators
-      if (name.includes("mushroom") || name.includes("miso") || name.includes("fish sauce") || name.includes("parmesan") || name.includes("tomato")) {
+      if (
+        name.includes("mushroom") ||
+        name.includes("miso") ||
+        name.includes("fish sauce") ||
+        name.includes("parmesan") ||
+        name.includes("tomato")
+      ) {
         tasteBalance.umami += 2;
         primary.add("umami");
         accent.add("depth");
@@ -700,7 +908,9 @@ export class RecipeDataEnricher {
     }
 
     // Normalize taste balance (0-10 scale)
-    for (const key of Object.keys(tasteBalance) as (keyof typeof tasteBalance)[]) {
+    for (const key of Object.keys(
+      tasteBalance,
+    ) as (keyof typeof tasteBalance)[]) {
       tasteBalance[key] = Math.min(10, tasteBalance[key]);
     }
 
@@ -719,7 +929,10 @@ export class RecipeDataEnricher {
   /**
    * Estimate nutrition from ingredients
    */
-  public estimateNutrition(ingredients: RecipeIngredient[], servings: number): NutritionEstimate {
+  public estimateNutrition(
+    ingredients: RecipeIngredient[],
+    servings: number,
+  ): NutritionEstimate {
     const totals = {
       calories: 0,
       protein: 0,
@@ -728,7 +941,16 @@ export class RecipeDataEnricher {
       fiber: 0,
     };
 
-    const NUTRITION_ESTIMATES: Record<string, { calories: number; protein: number; carbs: number; fat: number; fiber: number }> = {
+    const NUTRITION_ESTIMATES: Record<
+      string,
+      {
+        calories: number;
+        protein: number;
+        carbs: number;
+        fat: number;
+        fiber: number;
+      }
+    > = {
       // Proteins
       protein: { calories: 200, protein: 25, carbs: 0, fat: 10, fiber: 0 },
       chicken: { calories: 180, protein: 27, carbs: 0, fat: 8, fiber: 0 },
@@ -783,7 +1005,8 @@ export class RecipeDataEnricher {
       }
 
       // Apply amount scaling (simple heuristic)
-      const amount = typeof ingredient.amount === "number" ? ingredient.amount : 1;
+      const amount =
+        typeof ingredient.amount === "number" ? ingredient.amount : 1;
       const scale = amount > 100 ? amount / 100 : amount > 10 ? amount / 50 : 1;
 
       totals.calories += nutrition.calories * scale;
@@ -807,7 +1030,10 @@ export class RecipeDataEnricher {
     let confidence: "low" | "medium" | "high" = "low";
     if (matchCount >= ingredients.length * 0.8 && ingredients.length >= 5) {
       confidence = "high";
-    } else if (matchCount >= ingredients.length * 0.5 && ingredients.length >= 3) {
+    } else if (
+      matchCount >= ingredients.length * 0.5 &&
+      ingredients.length >= 3
+    ) {
       confidence = "medium";
     }
 
@@ -822,18 +1048,55 @@ export class RecipeDataEnricher {
    */
   public determineMealTypes(
     recipe: Partial<Recipe>,
-    elementals: ElementalProperties
+    elementals: ElementalProperties,
   ): string[] {
     const mealTypes: Set<string> = new Set();
     const recipeName = recipe.name?.toLowerCase() || "";
     const recipeDesc = recipe.description?.toLowerCase() || "";
 
     // Check name and description for meal type indicators
-    const breakfastKeywords = ["breakfast", "morning", "brunch", "egg", "pancake", "oatmeal", "porridge", "cereal"];
-    const lunchKeywords = ["lunch", "sandwich", "salad", "soup", "wrap", "light"];
-    const dinnerKeywords = ["dinner", "entree", "main course", "roast", "steak", "feast"];
-    const snackKeywords = ["snack", "appetizer", "small", "bite", "finger food"];
-    const dessertKeywords = ["dessert", "sweet", "cake", "pie", "cookie", "pudding", "ice cream"];
+    const breakfastKeywords = [
+      "breakfast",
+      "morning",
+      "brunch",
+      "egg",
+      "pancake",
+      "oatmeal",
+      "porridge",
+      "cereal",
+    ];
+    const lunchKeywords = [
+      "lunch",
+      "sandwich",
+      "salad",
+      "soup",
+      "wrap",
+      "light",
+    ];
+    const dinnerKeywords = [
+      "dinner",
+      "entree",
+      "main course",
+      "roast",
+      "steak",
+      "feast",
+    ];
+    const snackKeywords = [
+      "snack",
+      "appetizer",
+      "small",
+      "bite",
+      "finger food",
+    ];
+    const dessertKeywords = [
+      "dessert",
+      "sweet",
+      "cake",
+      "pie",
+      "cookie",
+      "pudding",
+      "ice cream",
+    ];
 
     const combinedText = `${recipeName} ${recipeDesc}`;
 
@@ -888,7 +1151,7 @@ export class RecipeDataEnricher {
   private calculateConfidenceScore(
     ingredientCount: number,
     cookingMethodCount: number,
-    hasCuisine: boolean
+    hasCuisine: boolean,
   ): number {
     let score = 0;
 
@@ -911,7 +1174,9 @@ export class RecipeDataEnricher {
   /**
    * Batch enrich multiple recipes
    */
-  public enrichRecipes(recipes: Partial<Recipe>[]): Map<string, EnrichmentResult> {
+  public enrichRecipes(
+    recipes: Partial<Recipe>[],
+  ): Map<string, EnrichmentResult> {
     const results = new Map<string, EnrichmentResult>();
 
     for (const recipe of recipes) {
@@ -945,7 +1210,11 @@ export class RecipeDataEnricher {
     // Check for missing data
     if (!recipe.mealType || recipe.mealType.length === 0) return true;
     if (!recipe.season || recipe.season.length === 0) return true;
-    if (!recipe.astrologicalInfluences || recipe.astrologicalInfluences.length === 0) return true;
+    if (
+      !recipe.astrologicalInfluences ||
+      recipe.astrologicalInfluences.length === 0
+    )
+      return true;
 
     return false;
   }
@@ -953,7 +1222,10 @@ export class RecipeDataEnricher {
   /**
    * Apply enrichment to a recipe
    */
-  public applyEnrichment(recipe: Partial<Recipe>, enrichment: EnrichmentResult): Recipe {
+  public applyEnrichment(
+    recipe: Partial<Recipe>,
+    enrichment: EnrichmentResult,
+  ): Recipe {
     return {
       ...recipe,
       elementalProperties: enrichment.elementalProperties,
@@ -985,5 +1257,7 @@ export const enrichRecipes = (recipes: Partial<Recipe>[]) =>
 export const needsEnrichment = (recipe: Partial<Recipe>) =>
   recipeDataEnricher.needsEnrichment(recipe);
 
-export const applyEnrichment = (recipe: Partial<Recipe>, enrichment: EnrichmentResult) =>
-  recipeDataEnricher.applyEnrichment(recipe, enrichment);
+export const applyEnrichment = (
+  recipe: Partial<Recipe>,
+  enrichment: EnrichmentResult,
+) => recipeDataEnricher.applyEnrichment(recipe, enrichment);

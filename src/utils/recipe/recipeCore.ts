@@ -75,8 +75,10 @@ export interface RecommendationExplanation {
   explanation: string;
 }
 
-export interface RecipeMatchContext
-  extends Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air"> {
+export interface RecipeMatchContext extends Pick<
+  ElementalProperties,
+  "Fire" | "Water" | "Earth" | "Air"
+> {
   timeOfDay: TimeOfDay | string;
   season: Season | string;
   currentSeason?: RecipeSeason | string;

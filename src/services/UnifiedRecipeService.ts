@@ -97,7 +97,10 @@ export class UnifiedRecipeService {
         }
 
         // Search in description
-        if (typeof recipe.description === "string" && recipe.description.toLowerCase().includes(searchTerm)) {
+        if (
+          typeof recipe.description === "string" &&
+          recipe.description.toLowerCase().includes(searchTerm)
+        ) {
           return true;
         }
 
@@ -123,7 +126,7 @@ export class UnifiedRecipeService {
         // Search in tags
         if (Array.isArray(recipe.tags)) {
           const tagMatch = recipe.tags.some((tag: string) =>
-            tag.toLowerCase().includes(searchTerm)
+            tag.toLowerCase().includes(searchTerm),
           );
           if (tagMatch) {
             return true;
@@ -134,7 +137,7 @@ export class UnifiedRecipeService {
       });
 
       logger.info(
-        `Search for "${query}" returned ${matchedRecipes.length} recipes`
+        `Search for "${query}" returned ${matchedRecipes.length} recipes`,
       );
       return matchedRecipes;
     } catch (error) {

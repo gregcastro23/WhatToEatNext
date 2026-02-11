@@ -6,7 +6,11 @@
  * @created 2026-01-28
  */
 
-import type { Recipe, RecipeIngredient, ElementalProperties } from "@/types/recipe";
+import type {
+  Recipe,
+  RecipeIngredient,
+  ElementalProperties,
+} from "@/types/recipe";
 import {
   generateRecipeId,
   normalizeTimeToMinutes,
@@ -38,7 +42,11 @@ export interface BatchFixResult {
   totalFixes: number;
   fixesByType: Record<string, number>;
   fixedRecipes: RecipeFixResult[];
-  unfixedRecipes: Array<{ id: string; name: string; issues: ValidationIssue[] }>;
+  unfixedRecipes: Array<{
+    id: string;
+    name: string;
+    issues: ValidationIssue[];
+  }>;
 }
 
 export interface FixOptions {
@@ -123,7 +131,9 @@ function fixTimeFormat(value: unknown, field: string): FixResult | null {
 /**
  * Add default elemental properties
  */
-function fixElementalProperties(recipe: Record<string, unknown>): FixResult | null {
+function fixElementalProperties(
+  recipe: Record<string, unknown>,
+): FixResult | null {
   if (recipe.elementalProperties) {
     // Validate and potentially normalize existing properties
     const props = recipe.elementalProperties as Record<string, unknown>;
@@ -179,7 +189,10 @@ function fixServingSize(recipe: Record<string, unknown>): FixResult | null {
   }
 
   // Try to get from numberOfServings
-  if (typeof recipe.numberOfServings === "number" && recipe.numberOfServings > 0) {
+  if (
+    typeof recipe.numberOfServings === "number" &&
+    recipe.numberOfServings > 0
+  ) {
     return {
       field: "servingSize",
       originalValue: recipe.servingSize,
@@ -215,7 +228,9 @@ function fixServingSize(recipe: Record<string, unknown>): FixResult | null {
 function fixArrayField(value: unknown, field: string): FixResult | null {
   if (Array.isArray(value)) {
     // Filter out empty strings and nulls
-    const cleaned = value.filter(v => v !== null && v !== undefined && v !== "");
+    const cleaned = value.filter(
+      (v) => v !== null && v !== undefined && v !== "",
+    );
     if (cleaned.length === value.length) return null;
 
     return {
@@ -252,10 +267,12 @@ function fixSeasons(recipe: Record<string, unknown>): FixResult | null {
   }
 
   const validSeasons = ["spring", "summer", "autumn", "winter", "fall", "all"];
-  const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+  const seasons = Array.isArray(recipe.season)
+    ? recipe.season
+    : [recipe.season];
 
   const normalized = seasons
-    .map(s => {
+    .map((s) => {
       if (typeof s !== "string") return "all";
       const lower = s.toLowerCase().trim();
       // Map "fall" to "autumn"
@@ -270,7 +287,9 @@ function fixSeasons(recipe: Record<string, unknown>): FixResult | null {
   }
 
   // Check if changed
-  const original = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+  const original = Array.isArray(recipe.season)
+    ? recipe.season
+    : [recipe.season];
   if (JSON.stringify(normalized) === JSON.stringify(original)) return null;
 
   return {
@@ -294,11 +313,21 @@ function fixMealTypes(recipe: Record<string, unknown>): FixResult | null {
     };
   }
 
-  const validMealTypes = ["breakfast", "lunch", "dinner", "snack", "dessert", "brunch", "appetizer"];
-  const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
+  const validMealTypes = [
+    "breakfast",
+    "lunch",
+    "dinner",
+    "snack",
+    "dessert",
+    "brunch",
+    "appetizer",
+  ];
+  const mealTypes = Array.isArray(recipe.mealType)
+    ? recipe.mealType
+    : [recipe.mealType];
 
   const normalized = mealTypes
-    .map(m => {
+    .map((m) => {
       if (typeof m !== "string") return "dinner";
       const lower = m.toLowerCase().trim();
       if (validMealTypes.includes(lower)) return lower;
@@ -314,7 +343,9 @@ function fixMealTypes(recipe: Record<string, unknown>): FixResult | null {
     normalized.push("dinner");
   }
 
-  const original = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
+  const original = Array.isArray(recipe.mealType)
+    ? recipe.mealType
+    : [recipe.mealType];
   if (JSON.stringify(normalized) === JSON.stringify(original)) return null;
 
   return {
@@ -348,12 +379,12 @@ function fixSpiceLevel(recipe: Record<string, unknown>): FixResult | null {
   if (typeof spiceLevel === "string") {
     const lower = spiceLevel.toLowerCase().trim();
     const validLevels: Record<string, string | number> = {
-      "none": 0,
-      "mild": 1,
-      "medium": 2,
-      "hot": 3,
+      none: 0,
+      mild: 1,
+      medium: 2,
+      hot: 3,
       "very hot": 4,
-      "extreme": 5,
+      extreme: 5,
     };
 
     if (validLevels[lower] !== undefined) {
@@ -399,7 +430,7 @@ function fixIngredients(recipe: Record<string, unknown>): FixResult | null {
   const fixedIngredients = recipe.ingredients.map((ing: unknown) => {
     if (!ing || typeof ing !== "object") return ing;
 
-    const ingredient = { ...ing as Record<string, unknown> };
+    const ingredient = { ...(ing as Record<string, unknown>) };
 
     // Ensure amount is a number
     if (ingredient.amount !== undefined) {
@@ -451,7 +482,10 @@ function fixInstructions(recipe: Record<string, unknown>): FixResult | null {
     return null;
   }
 
-  if (Array.isArray(recipe.preparationSteps) && recipe.preparationSteps.length > 0) {
+  if (
+    Array.isArray(recipe.preparationSteps) &&
+    recipe.preparationSteps.length > 0
+  ) {
     return {
       field: "instructions",
       originalValue: recipe.instructions,
@@ -470,7 +504,7 @@ function fixInstructions(recipe: Record<string, unknown>): FixResult | null {
  */
 export function fixRecipe(
   recipe: unknown,
-  options: FixOptions = DEFAULT_FIX_OPTIONS
+  options: FixOptions = DEFAULT_FIX_OPTIONS,
 ): RecipeFixResult {
   if (!recipe || typeof recipe !== "object") {
     return {
@@ -478,17 +512,19 @@ export function fixRecipe(
       recipeName: "unknown",
       fixes: [],
       fixedRecipe: recipe as Record<string, unknown>,
-      remainingIssues: [{
-        field: "recipe",
-        severity: "error",
-        message: "Recipe is not a valid object",
-        currentValue: recipe,
-        autoFixable: false,
-      }],
+      remainingIssues: [
+        {
+          field: "recipe",
+          severity: "error",
+          message: "Recipe is not a valid object",
+          currentValue: recipe,
+          autoFixable: false,
+        },
+      ],
     };
   }
 
-  const recipeObj = { ...recipe as Record<string, unknown> };
+  const recipeObj = { ...(recipe as Record<string, unknown>) };
   const fixes: FixResult[] = [];
 
   // Apply fixes in order
@@ -571,7 +607,13 @@ export function fixRecipe(
   }
 
   if (options.normalizeArrayFields) {
-    const arrayFields = ["cookingMethods", "tools", "allergens", "dietaryInfo", "tags"];
+    const arrayFields = [
+      "cookingMethods",
+      "tools",
+      "allergens",
+      "dietaryInfo",
+      "tags",
+    ];
     for (const field of arrayFields) {
       if (recipeObj[field]) {
         const fix = fixArrayField(recipeObj[field], field);
@@ -585,7 +627,7 @@ export function fixRecipe(
 
   // Validate remaining issues
   const validationResult = validateRecipe(recipeObj);
-  const remainingIssues = validationResult.issues.filter(i => !i.autoFixable);
+  const remainingIssues = validationResult.issues.filter((i) => !i.autoFixable);
 
   return {
     recipeId: String(recipeObj.id || "unknown"),
@@ -601,7 +643,7 @@ export function fixRecipe(
  */
 export function fixAllRecipes(
   recipes: unknown[],
-  options: FixOptions = DEFAULT_FIX_OPTIONS
+  options: FixOptions = DEFAULT_FIX_OPTIONS,
 ): BatchFixResult {
   if (!Array.isArray(recipes)) {
     return {
@@ -616,7 +658,11 @@ export function fixAllRecipes(
   }
 
   const fixedRecipes: RecipeFixResult[] = [];
-  const unfixedRecipes: Array<{ id: string; name: string; issues: ValidationIssue[] }> = [];
+  const unfixedRecipes: Array<{
+    id: string;
+    name: string;
+    issues: ValidationIssue[];
+  }> = [];
   const fixesByType: Record<string, number> = {};
   let totalFixes = 0;
   let recipesFixed = 0;
@@ -657,8 +703,10 @@ export function fixAllRecipes(
 /**
  * Get the fixed recipe data from a batch result
  */
-export function extractFixedRecipes(batchResult: BatchFixResult): Record<string, unknown>[] {
-  return batchResult.fixedRecipes.map(r => r.fixedRecipe);
+export function extractFixedRecipes(
+  batchResult: BatchFixResult,
+): Record<string, unknown>[] {
+  return batchResult.fixedRecipes.map((r) => r.fixedRecipe);
 }
 
 // ============ EXPORTS ============

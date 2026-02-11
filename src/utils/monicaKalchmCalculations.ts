@@ -224,15 +224,39 @@ export function calculateThermodynamicMetrics(
   }
 
   // Defensive extraction with fallback values
-  const Spirit = typeof alchemical.Spirit === 'number' && !isNaN(alchemical.Spirit) ? alchemical.Spirit : 4;
-  const Essence = typeof alchemical.Essence === 'number' && !isNaN(alchemical.Essence) ? alchemical.Essence : 4;
-  const Matter = typeof alchemical.Matter === 'number' && !isNaN(alchemical.Matter) ? alchemical.Matter : 4;
-  const Substance = typeof alchemical.Substance === 'number' && !isNaN(alchemical.Substance) ? alchemical.Substance : 2;
+  const Spirit =
+    typeof alchemical.Spirit === "number" && !isNaN(alchemical.Spirit)
+      ? alchemical.Spirit
+      : 4;
+  const Essence =
+    typeof alchemical.Essence === "number" && !isNaN(alchemical.Essence)
+      ? alchemical.Essence
+      : 4;
+  const Matter =
+    typeof alchemical.Matter === "number" && !isNaN(alchemical.Matter)
+      ? alchemical.Matter
+      : 4;
+  const Substance =
+    typeof alchemical.Substance === "number" && !isNaN(alchemical.Substance)
+      ? alchemical.Substance
+      : 2;
 
-  const Fire = typeof elemental.Fire === 'number' && !isNaN(elemental.Fire) ? elemental.Fire : 0.25;
-  const Water = typeof elemental.Water === 'number' && !isNaN(elemental.Water) ? elemental.Water : 0.25;
-  const Air = typeof elemental.Air === 'number' && !isNaN(elemental.Air) ? elemental.Air : 0.25;
-  const Earth = typeof elemental.Earth === 'number' && !isNaN(elemental.Earth) ? elemental.Earth : 0.25;
+  const Fire =
+    typeof elemental.Fire === "number" && !isNaN(elemental.Fire)
+      ? elemental.Fire
+      : 0.25;
+  const Water =
+    typeof elemental.Water === "number" && !isNaN(elemental.Water)
+      ? elemental.Water
+      : 0.25;
+  const Air =
+    typeof elemental.Air === "number" && !isNaN(elemental.Air)
+      ? elemental.Air
+      : 0.25;
+  const Earth =
+    typeof elemental.Earth === "number" && !isNaN(elemental.Earth)
+      ? elemental.Earth
+      : 0.25;
 
   const heat = calculateHeat(
     Spirit,

@@ -67,9 +67,24 @@ const rawFlaxseed = {
     nutritionalProfile: {
       serving_size: "1 tbsp ground (7g)",
       calories: 37,
-      macros: { protein: 1.3, carbs: 2, fat: 3, fiber: 1.9, saturatedFat: 0.3, sugar: 0.1, potassium: 57, sodium: 2 },
+      macros: {
+        protein: 1.3,
+        carbs: 2,
+        fat: 3,
+        fiber: 1.9,
+        saturatedFat: 0.3,
+        sugar: 0.1,
+        potassium: 57,
+        sodium: 2,
+      },
       vitamins: { thiamin: 0.11, B6: 0.03 },
-      minerals: { manganese: 0.09, magnesium: 0.07, phosphorus: 0.05, copper: 0.04, selenium: 0.04 },
+      minerals: {
+        manganese: 0.09,
+        magnesium: 0.07,
+        phosphorus: 0.05,
+        copper: 0.04,
+        selenium: 0.04,
+      },
     },
   },
 };

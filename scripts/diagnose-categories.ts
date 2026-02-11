@@ -42,12 +42,17 @@ console.log("Expected Categories from UI:", EXPECTED_CATEGORIES.join(", "));
 console.log("\n--- Category Counts ---\n");
 
 // Sort categories by count
-const sortedCategories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
+const sortedCategories = Object.entries(categoryCounts).sort(
+  (a, b) => b[1] - a[1],
+);
 
 sortedCategories.forEach(([category, count]) => {
   const status = EXPECTED_CATEGORIES.includes(category) ? "✓" : "⚠";
-  const level = count === 0 ? "EMPTY" : count < 5 ? "LOW" : count < 50 ? "MEDIUM" : "HIGH";
-  console.log(`${status} ${category.padEnd(20)} ${count.toString().padStart(4)} ingredients [${level}]`);
+  const level =
+    count === 0 ? "EMPTY" : count < 5 ? "LOW" : count < 50 ? "MEDIUM" : "HIGH";
+  console.log(
+    `${status} ${category.padEnd(20)} ${count.toString().padStart(4)} ingredients [${level}]`,
+  );
 });
 
 console.log("\n--- Missing Expected Categories ---\n");
@@ -62,7 +67,9 @@ console.log("\n--- Unexpected Categories ---\n");
 
 Object.keys(categoryCounts).forEach((category) => {
   if (!EXPECTED_CATEGORIES.includes(category)) {
-    console.log(`⚠ ${category} - ${categoryCounts[category]} ingredients (not in UI list)`);
+    console.log(
+      `⚠ ${category} - ${categoryCounts[category]} ingredients (not in UI list)`,
+    );
   }
 });
 
@@ -74,7 +81,9 @@ EXPECTED_CATEGORIES.forEach((category) => {
   if (ingredients.length === 0) {
     console.log("  (no ingredients)");
   } else {
-    console.log(`  ${ingredients.slice(0, 5).join(", ")}${ingredients.length > 5 ? "..." : ""}`);
+    console.log(
+      `  ${ingredients.slice(0, 5).join(", ")}${ingredients.length > 5 ? "..." : ""}`,
+    );
   }
   console.log();
 });

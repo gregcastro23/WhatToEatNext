@@ -27,7 +27,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       serving_size: "1 cup sliced (165g)",
       calories: 99,
       macros: { protein: 1.4, carbs: 24.7, fat: 0.6, fiber: 2.6 },
-      vitamins: { C: 1.00, A: 0.25, B6: 0.12 },
+      vitamins: { C: 1.0, A: 0.25, B6: 0.12 },
       minerals: { copper: 0.11, potassium: 0.06 },
       source: "USDA FoodData Central",
     },
@@ -426,7 +426,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 125,
       macros: { protein: 1.6, carbs: 31.4, fat: 0.8, fiber: 2.5 },
       vitamins: { C: 1.36, B6: 0.05 },
-      minerals: { copper: 0.15, potassium: 0.10 },
+      minerals: { copper: 0.15, potassium: 0.1 },
       source: "USDA FoodData Central",
     },
     sensoryProfile: {
@@ -674,7 +674,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 118,
       macros: { protein: 1.0, carbs: 31.2, fat: 0.3, fiber: 6.0 },
       vitamins: { A: 0.55, C: 0.21 },
-      minerals: { manganese: 0.30, potassium: 0.09 },
+      minerals: { manganese: 0.3, potassium: 0.09 },
       source: "USDA FoodData Central",
     },
     sensoryProfile: {
@@ -961,7 +961,9 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
         "rum",
       ],
       contrasting: ["citrus", "spicy foods"],
-      toAvoid: ["for those with tree nut allergies (though botanically a fruit)"],
+      toAvoid: [
+        "for those with tree nut allergies (though botanically a fruit)",
+      ],
     },
     cookingMethods: ["raw", "toasted", "milk", "cream", "oil"],
     storage: {

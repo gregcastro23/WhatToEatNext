@@ -13,7 +13,10 @@ import type {
   GroupScoringStrategy,
   CompositeNatalChart,
 } from "@/types/natalChart";
-import type { ElementalProperties, AlchemicalProperties } from "@/types/celestial";
+import type {
+  ElementalProperties,
+  AlchemicalProperties,
+} from "@/types/celestial";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 
 /**
@@ -262,7 +265,9 @@ export function calculateGroupRecommendationScore(
 
       if (consensusRatio >= 0.7) {
         // Good consensus
-        groupScore = memberScores.reduce((sum, ms) => sum + ms.score, 0) / memberScores.length;
+        groupScore =
+          memberScores.reduce((sum, ms) => sum + ms.score, 0) /
+          memberScores.length;
         groupCompatibility =
           memberScores.reduce((sum, ms) => sum + ms.compatibility, 0) /
           memberScores.length;

@@ -23,7 +23,7 @@ describe("Recipe Auto-Fixer", () => {
       };
 
       const result = fixRecipe(recipe, { generateIds: true });
-      expect(result.fixes.some(f => f.field === "id")).toBe(true);
+      expect(result.fixes.some((f) => f.field === "id")).toBe(true);
       expect(result.fixedRecipe.id).toBe("italian-pasta-carbonara");
     });
 
@@ -36,7 +36,7 @@ describe("Recipe Auto-Fixer", () => {
       };
 
       const result = fixRecipe(recipe, { generateIds: true });
-      expect(result.fixes.some(f => f.field === "id")).toBe(false);
+      expect(result.fixes.some((f) => f.field === "id")).toBe(false);
       expect(result.fixedRecipe.id).toBe("my-custom-id");
     });
 
@@ -62,7 +62,9 @@ describe("Recipe Auto-Fixer", () => {
       };
 
       const result = fixRecipe(recipe, { addDefaultElemental: true });
-      expect(result.fixes.some(f => f.field === "elementalProperties")).toBe(true);
+      expect(result.fixes.some((f) => f.field === "elementalProperties")).toBe(
+        true,
+      );
       const props = result.fixedRecipe.elementalProperties as any;
       expect(props.Fire).toBe(0.25);
       expect(props.Water).toBe(0.25);
@@ -231,7 +233,7 @@ describe("Recipe Auto-Fixer", () => {
 
       const result = fixRecipe(recipe);
       expect(result.fixes.length).toBeGreaterThan(0);
-      expect(result.fixes.every(f => f.field && f.description)).toBe(true);
+      expect(result.fixes.every((f) => f.field && f.description)).toBe(true);
     });
 
     it("returns remaining issues", () => {
@@ -257,10 +259,7 @@ describe("Recipe Auto-Fixer", () => {
     });
 
     it("tracks total fixes by type", () => {
-      const recipes = [
-        { name: "Recipe 1" },
-        { name: "Recipe 2" },
-      ];
+      const recipes = [{ name: "Recipe 1" }, { name: "Recipe 2" }];
 
       const result = fixAllRecipes(recipes);
       expect(result.totalFixes).toBeGreaterThan(0);

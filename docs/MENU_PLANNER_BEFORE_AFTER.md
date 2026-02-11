@@ -34,6 +34,7 @@
 ```
 
 ### Problems:
+
 - ❌ **28 bottleneck warnings** on empty calendar
 - ❌ **Technical jargon** without explanation
 - ❌ **Zeros everywhere** (0.0%, < 0.01 W)
@@ -71,6 +72,7 @@
 ```
 
 ### Benefits:
+
 - ✅ **Zero warnings** on empty calendar
 - ✅ **Clear CTAs**: "Generate" and "Search"
 - ✅ **Encouraging message**: "Your Weekly Menu Awaits"
@@ -102,6 +104,7 @@
 ```
 
 ### Benefits:
+
 - ✅ **Positive reinforcement**: "Great start!"
 - ✅ **Visual progress**: Bar shows 3/6
 - ✅ **Clear goal**: "Add 3 more"
@@ -134,6 +137,7 @@
 ```
 
 ### Benefits:
+
 - ✅ **Meaningful data** (real power values)
 - ✅ **Tooltips (ⓘ)** explain metrics
 - ✅ **Color coding** (green/yellow/red)
@@ -172,6 +176,7 @@
 ```
 
 ### Benefits:
+
 - ✅ **Smart bottleneck detection**:
   - Only 3 warnings (not 16 for empty slots)
   - Only flags disruptive empty slots
@@ -184,16 +189,16 @@
 
 ## 📊 Comparison Summary
 
-| Metric | Before | After |
-|--------|--------|-------|
-| **Warnings on empty calendar** | 28 | 0 |
-| **Meaningful metrics at start** | 0 | Progressive (6+ meals) |
-| **User confusion** | High | Low |
-| **Onboarding guidance** | None | Clear CTAs |
-| **Tooltips explaining P=IV** | None | Yes (ⓘ) |
-| **Progress indicators** | None | Visual (0/6 → 6/6) |
-| **Smart bottleneck detection** | No (flags all empties) | Yes (10+ meals, adjacency) |
-| **User retention** | ❌ Overwhelming | ✅ Encouraging |
+| Metric                          | Before                 | After                      |
+| ------------------------------- | ---------------------- | -------------------------- |
+| **Warnings on empty calendar**  | 28                     | 0                          |
+| **Meaningful metrics at start** | 0                      | Progressive (6+ meals)     |
+| **User confusion**              | High                   | Low                        |
+| **Onboarding guidance**         | None                   | Clear CTAs                 |
+| **Tooltips explaining P=IV**    | None                   | Yes (ⓘ)                    |
+| **Progress indicators**         | None                   | Visual (0/6 → 6/6)         |
+| **Smart bottleneck detection**  | No (flags all empties) | Yes (10+ meals, adjacency) |
+| **User retention**              | ❌ Overwhelming        | ✅ Encouraging             |
 
 ---
 

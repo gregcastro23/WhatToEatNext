@@ -12,34 +12,34 @@ export const mexican = {
             "Fried eggs on tortillas with spicy tomato sauce and black beans",
           cuisine: "Mexican",
           cookingMethods: [
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "skillet",
             "spatula",
@@ -120,47 +120,48 @@ export const mexican = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.28,
             Water: 0.22,
             Earth: 0.41,
             Air: 0.09,
-          },mealType: ["breakfast", "brunch"],
+          },
+          mealType: ["breakfast", "brunch"],
         },
         {
           name: "Chilaquiles Verdes",
           description: "Tortilla chips in salsa verde with eggs and cream",
           cuisine: "Mexican",
           cookingMethods: [
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large skillet",
             "tongs",
@@ -247,13 +248,14 @@ export const mexican = {
             minerals: ["Calcium", "Iron"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.28,
             Water: 0.14,
             Earth: 0.49,
             Air: 0.09,
-          },mealType: ["breakfast", "brunch"],
+          },
+          mealType: ["breakfast", "brunch"],
         },
         {
           name: "Molletes",
@@ -339,18 +341,18 @@ export const mexican = {
             "Tortillas dipped in black bean sauce and filled with cheese",
           cuisine: "Mexican",
           cookingMethods: [
-          {
-            name: "blending",
-            elementalProperties: {
-              Fire: 0.1,
-              Water: 0.26,
-              Earth: 0.16,
-              Air: 0.48,
+            {
+              name: "blending",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.26,
+                Earth: 0.16,
+                Air: 0.48,
+              },
             },
-          },
-          "dipping",
-          "filling"
-        ],
+            "dipping",
+            "filling",
+          ],
           tools: [
             "blender",
             "large skillet",
@@ -435,13 +437,14 @@ export const mexican = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.23,
             Water: 0.17,
             Earth: 0.51,
             Air: 0.09,
-          },mealType: ["breakfast", "dinner"],
+          },
+          mealType: ["breakfast", "dinner"],
         },
         {
           name: "Huevos Motuleños",
@@ -449,34 +452,34 @@ export const mexican = {
             "Eggs on tortillas with black beans, plantains, and salsa",
           cuisine: "Mexican (Yucatan)",
           cookingMethods: [
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large skillet",
             "spatula",
@@ -563,13 +566,14 @@ export const mexican = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.31,
             Water: 0.18,
             Earth: 0.42,
             Air: 0.1,
-          },mealType: ["breakfast", "brunch"],
+          },
+          mealType: ["breakfast", "brunch"],
         },
       ],
       summer: [
@@ -578,25 +582,25 @@ export const mexican = {
           description: "Fresh fruit smoothie with milk and honey",
           cuisine: "Mexican",
           cookingMethods: [
-          {
-            name: "blending",
-            elementalProperties: {
-              Fire: 0.1,
-              Water: 0.26,
-              Earth: 0.16,
-              Air: 0.48,
+            {
+              name: "blending",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.26,
+                Earth: 0.16,
+                Air: 0.48,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "blender",
             "measuring cups",
@@ -663,13 +667,14 @@ export const mexican = {
             minerals: ["Calcium", "Potassium"],
           },
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.12,
             Water: 0.55,
             Earth: 0.23,
             Air: 0.11,
-          },mealType: ["breakfast", "snack"],
+          },
+          mealType: ["breakfast", "snack"],
         },
       ],
     },
@@ -810,13 +815,14 @@ export const mexican = {
           },
           timeToMake: "20 minutes",
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.13,
             Water: 0.55,
             Earth: 0.22,
             Air: 0.1,
-          },mealType: ["lunch"],
+          },
+          mealType: ["lunch"],
         },
       ],
       winter: [
@@ -825,34 +831,34 @@ export const mexican = {
           description: "Traditional hominy soup with pork and red chile sauce",
           cuisine: "Mexican",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "stewing",
-            elementalProperties: {
-              Fire: 0.22,
-              Water: 0.41,
-              Earth: 0.3,
-              Air: 0.08,
+            {
+              name: "stewing",
+              elementalProperties: {
+                Fire: 0.22,
+                Water: 0.41,
+                Earth: 0.3,
+                Air: 0.08,
+              },
             },
-          },
-          {
-            name: "blending",
-            elementalProperties: {
-              Fire: 0.1,
-              Water: 0.26,
-              Earth: 0.16,
-              Air: 0.48,
+            {
+              name: "blending",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.26,
+                Earth: 0.16,
+                Air: 0.48,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "blender",
@@ -933,13 +939,14 @@ export const mexican = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["autumn", "winter"],
-          
+
           elementalProperties: {
             Fire: 0.21,
             Water: 0.31,
             Earth: 0.4,
             Air: 0.08,
-          },mealType: ["lunch", "dinner", "celebration"],
+          },
+          mealType: ["lunch", "dinner", "celebration"],
         },
       ],
     },
@@ -951,34 +958,34 @@ export const mexican = {
             "Complex sauce with chocolate and chilies served over turkey or chicken",
           cuisine: "Mexican (Puebla)",
           cookingMethods: [
-          {
-            name: "toasting",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.28,
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
             },
-          },
-          {
-            name: "blending",
-            elementalProperties: {
-              Fire: 0.1,
-              Water: 0.26,
-              Earth: 0.16,
-              Air: 0.48,
+            {
+              name: "blending",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.26,
+                Earth: 0.16,
+                Air: 0.48,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "blender",
@@ -1054,47 +1061,48 @@ export const mexican = {
             minerals: ["Iron", "Magnesium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.31,
             Water: 0.16,
             Earth: 0.45,
             Air: 0.08,
-          },mealType: ["dinner", "celebration", "special occasion"],
+          },
+          mealType: ["dinner", "celebration", "special occasion"],
         },
         {
           name: "Chiles en Nogada",
           description: "Stuffed poblano chiles in walnut sauce",
           cuisine: "Mexican",
           cookingMethods: [
-          {
-            name: "roasting",
-            elementalProperties: {
-              Fire: 0.47,
-              Water: 0.06,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "roasting",
+              elementalProperties: {
+                Fire: 0.47,
+                Water: 0.06,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "stuffing",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.54,
-              Air: 0.23,
+            {
+              name: "stuffing",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.54,
+                Air: 0.23,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large skillet",
             "blender",
@@ -1170,13 +1178,14 @@ export const mexican = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["late summer", "early fall"],
-          
+
           elementalProperties: {
             Fire: 0.36,
             Water: 0.13,
             Earth: 0.42,
             Air: 0.09,
-          },mealType: ["dinner", "celebration"],
+          },
+          mealType: ["dinner", "celebration"],
         },
         {
           name: "Cochinita Pibil",
@@ -1271,34 +1280,34 @@ export const mexican = {
             "Spicy braised meat stew traditionally made with goat or beef",
           cuisine: "Mexican (Jalisco)",
           cookingMethods: [
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "stewing",
-            elementalProperties: {
-              Fire: 0.22,
-              Water: 0.41,
-              Earth: 0.3,
-              Air: 0.08,
+            {
+              name: "stewing",
+              elementalProperties: {
+                Fire: 0.22,
+                Water: 0.41,
+                Earth: 0.3,
+                Air: 0.08,
+              },
             },
-          },
-          {
-            name: "toasting",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.28,
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
             },
-          }
-        ],
+          ],
           tools: ["large pot", "blender", "strainer", "comal", "serving bowls"],
           preparationSteps: [
             "Toast and clean chiles",
@@ -1367,13 +1376,14 @@ export const mexican = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.14,
             Water: 0.15,
             Earth: 0.64,
             Air: 0.07,
-          },mealType: ["lunch", "dinner", "celebration"],
+          },
+          mealType: ["lunch", "dinner", "celebration"],
         },
         {
           name: "Tamales Verdes",
@@ -1381,18 +1391,18 @@ export const mexican = {
             "Corn dough stuffed with pork in green sauce, steamed in corn husks",
           cuisine: "Mexican",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          "filling",
-          "wrapping"
-        ],
+            "filling",
+            "wrapping",
+          ],
           tools: [
             "tamale steamer",
             "large bowl",
@@ -1468,13 +1478,14 @@ export const mexican = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all", "christmas"],
-          
+
           elementalProperties: {
             Fire: 0.34,
             Water: 0.18,
             Earth: 0.43,
             Air: 0.05,
-          },mealType: ["breakfast", "dinner", "celebration"],
+          },
+          mealType: ["breakfast", "dinner", "celebration"],
         },
       ],
       winter: [
@@ -1537,7 +1548,11 @@ export const mexican = {
           description: "Classic Mexican caramel custard",
           cuisine: "Mexican",
           ingredients: [
-            { name: "eggs", amount: "6", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "6",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1571,13 +1586,14 @@ export const mexican = {
           },
           timeToMake: "60 minutes",
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.18,
             Water: 0.4,
             Earth: 0.32,
             Air: 0.09,
-          },mealType: ["dessert"],
+          },
+          mealType: ["dessert"],
           astrologicalProfile: {
             favorableZodiac: ["leo", "sagittarius"],
             rulingPlanets: ["sun", "jupiter"],
@@ -1621,13 +1637,14 @@ export const mexican = {
           },
           timeToMake: "45 minutes",
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.12,
             Water: 0.08,
             Earth: 0.62,
             Air: 0.18,
-          },mealType: ["dessert"],
+          },
+          mealType: ["dessert"],
         },
       ],
       summer: [
@@ -1690,13 +1707,14 @@ export const mexican = {
           },
           timeToMake: "240 minutes",
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.46,
             Water: 0.19,
             Earth: 0.17,
             Air: 0.18,
-          },mealType: ["dessert"],
+          },
+          mealType: ["dessert"],
         },
       ],
     },
@@ -1776,7 +1794,7 @@ export const mexican = {
           protein: 28,
           carbs: 32,
           fat: 12,
-            fiber: 3,
+          fiber: 3,
           vitamins: ["A", "C", "B6"],
           minerals: ["Iron", "Potassium"],
         },
@@ -1791,7 +1809,7 @@ export const mexican = {
           {
             name: "grilling",
             elementalProperties: {
-              Fire: 0.50,
+              Fire: 0.5,
               Water: 0.06,
               Earth: 0.11,
               Air: 0.33,
@@ -1808,22 +1826,38 @@ export const mexican = {
           "Serve immediately",
         ],
         ingredients: [
-          { name: "corn on the cob", amount: "6", unit: "ears", category: "vegetable" },
-          { name: "mayonnaise", amount: "1/2", unit: "cup", category: "condiment" },
-          { name: "cotija cheese", amount: "1/2", unit: "cup", category: "dairy" },
+          {
+            name: "corn on the cob",
+            amount: "6",
+            unit: "ears",
+            category: "vegetable",
+          },
+          {
+            name: "mayonnaise",
+            amount: "1/2",
+            unit: "cup",
+            category: "condiment",
+          },
+          {
+            name: "cotija cheese",
+            amount: "1/2",
+            unit: "cup",
+            category: "dairy",
+          },
           { name: "chili powder", amount: "2", unit: "tsp", category: "spice" },
           { name: "lime", amount: "2", unit: "whole", category: "fruit" },
           { name: "cilantro", amount: "1/4", unit: "cup", category: "herb" },
         ],
         substitutions: {
           "cotija cheese": ["feta cheese", "parmesan"],
-          "mayonnaise": ["crema"],
+          mayonnaise: ["crema"],
         },
         servingSize: 6,
         allergens: ["dairy", "eggs"],
         prepTime: "10 minutes",
         cookTime: "15 minutes",
-        culturalNotes: "A quintessential Mexican street food, sold by eloteros from wheeled carts throughout Mexico",
+        culturalNotes:
+          "A quintessential Mexican street food, sold by eloteros from wheeled carts throughout Mexico",
         pairingSuggestions: ["esquites", "agua fresca", "michelada"],
         dietaryInfo: ["vegetarian"],
         spiceLevel: "mild",
@@ -1842,8 +1876,8 @@ export const mexican = {
         elementalProperties: {
           Fire: 0.35,
           Water: 0.15,
-          Earth: 0.30,
-          Air: 0.20,
+          Earth: 0.3,
+          Air: 0.2,
         },
       },
     ],

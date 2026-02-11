@@ -246,8 +246,8 @@ export default function ProfilePage() {
             {/* Privacy Notice */}
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
               <p className="text-xs text-gray-600 text-center">
-                🔒 Your data is securely stored and used only to personalize your
-                experience. We respect your privacy.
+                🔒 Your data is securely stored and used only to personalize
+                your experience. We respect your privacy.
               </p>
             </div>
           </div>
@@ -257,7 +257,9 @@ export default function ProfilePage() {
   }
 
   // Check if user has completed onboarding (has natal chart)
-  const hasCompletedOnboarding = !!(currentUser.birthData && currentUser.natalChart);
+  const hasCompletedOnboarding = !!(
+    currentUser.birthData && currentUser.natalChart
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 to-blue-50 py-8 px-4">
@@ -271,7 +273,8 @@ export default function ProfilePage() {
                   Complete Your Profile Setup
                 </h2>
                 <p className="text-purple-100">
-                  Add your birth data to unlock personalized recommendations based on your unique alchemical and astrological profile.
+                  Add your birth data to unlock personalized recommendations
+                  based on your unique alchemical and astrological profile.
                 </p>
               </div>
               <a

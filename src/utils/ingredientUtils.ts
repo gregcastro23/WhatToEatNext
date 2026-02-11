@@ -162,12 +162,12 @@ export function isFullIngredient(
   const ingredientData = ingredient as any;
   return Boolean(
     ingredient &&
-      typeof ingredientData.name === "string" &&
-      typeof ingredientData.category === "string" &&
-      ingredientData.elementalProperties &&
-      Array.isArray(ingredientData.qualities) &&
-      ingredientData.storage &&
-      typeof ingredientData.storage === "object",
+    typeof ingredientData.name === "string" &&
+    typeof ingredientData.category === "string" &&
+    ingredientData.elementalProperties &&
+    Array.isArray(ingredientData.qualities) &&
+    ingredientData.storage &&
+    typeof ingredientData.storage === "object",
   );
 }
 

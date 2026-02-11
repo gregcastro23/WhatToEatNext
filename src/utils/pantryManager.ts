@@ -239,9 +239,7 @@ export function hasItem(name: string): boolean {
  */
 export function getItem(name: string): PantryItem | undefined {
   const pantry = getPantry();
-  return pantry.find(
-    (item) => item.name.toLowerCase() === name.toLowerCase(),
-  );
+  return pantry.find((item) => item.name.toLowerCase() === name.toLowerCase());
 }
 
 /**

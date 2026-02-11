@@ -87,7 +87,9 @@ export default function AlchmKinetics() {
               <span className="text-gray-300">{quantity}</span>
               <span
                 className={`font-mono ${
-                  kinetics.velocity[quantity] > 0 ? "text-green-400" : "text-red-400"
+                  kinetics.velocity[quantity] > 0
+                    ? "text-green-400"
+                    : "text-red-400"
                 }`}
               >
                 {kinetics.velocity[quantity] > 0 ? "+" : ""}
@@ -101,7 +103,9 @@ export default function AlchmKinetics() {
                     ? "bg-gradient-to-r from-green-500 to-emerald-500"
                     : "bg-gradient-to-r from-red-500 to-orange-500"
                 }`}
-                style={{ width: `${Math.abs(kinetics.velocity[quantity]) * 100}%` }}
+                style={{
+                  width: `${Math.abs(kinetics.velocity[quantity]) * 100}%`,
+                }}
               />
             </div>
           </div>
@@ -120,7 +124,9 @@ export default function AlchmKinetics() {
               <span className="text-gray-300">{quantity}</span>
               <span
                 className={`font-mono ${
-                  kinetics.acceleration[quantity] > 0 ? "text-green-400" : "text-red-400"
+                  kinetics.acceleration[quantity] > 0
+                    ? "text-green-400"
+                    : "text-red-400"
                 }`}
               >
                 {kinetics.acceleration[quantity] > 0 ? "+" : ""}
@@ -134,7 +140,9 @@ export default function AlchmKinetics() {
                     ? "bg-gradient-to-r from-green-500 to-emerald-500"
                     : "bg-gradient-to-r from-red-500 to-orange-500"
                 }`}
-                style={{ width: `${Math.abs(kinetics.acceleration[quantity]) * 200}%` }}
+                style={{
+                  width: `${Math.abs(kinetics.acceleration[quantity]) * 200}%`,
+                }}
               />
             </div>
           </div>
@@ -153,7 +161,9 @@ export default function AlchmKinetics() {
               <span className="text-gray-300">{quantity}</span>
               <span
                 className={`font-mono ${
-                  kinetics.momentum[quantity] > 0 ? "text-green-400" : "text-red-400"
+                  kinetics.momentum[quantity] > 0
+                    ? "text-green-400"
+                    : "text-red-400"
                 }`}
               >
                 {kinetics.momentum[quantity] > 0 ? "+" : ""}
@@ -167,7 +177,9 @@ export default function AlchmKinetics() {
                     ? "bg-gradient-to-r from-green-500 to-emerald-500"
                     : "bg-gradient-to-r from-red-500 to-orange-500"
                 }`}
-                style={{ width: `${Math.abs(kinetics.momentum[quantity]) * 10}%` }}
+                style={{
+                  width: `${Math.abs(kinetics.momentum[quantity]) * 10}%`,
+                }}
               />
             </div>
           </div>
@@ -175,7 +187,8 @@ export default function AlchmKinetics() {
       </div>
 
       <div className="text-xs text-gray-400">
-        Kinetic analysis shows the motion and change rates of alchemical quantities.
+        Kinetic analysis shows the motion and change rates of alchemical
+        quantities.
       </div>
     </div>
   );

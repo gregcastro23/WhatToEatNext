@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .ringSvg {
@@ -24,7 +24,9 @@
 .ringProgress {
   fill: none;
   stroke-width: 3;
-  transition: stroke-dasharray 0.5s ease-out, stroke 0.3s ease-in-out;
+  transition:
+    stroke-dasharray 0.5s ease-out,
+    stroke 0.3s ease-in-out;
 }
 
 .scoreValue {

@@ -15,7 +15,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "peppercorn",
 
     // Unique elemental properties - pungent, warming, penetrating
-    elementalProperties: { Fire: 0.55, Air: 0.30, Earth: 0.10, Water: 0.05 },
+    elementalProperties: { Fire: 0.55, Air: 0.3, Earth: 0.1, Water: 0.05 },
 
     // Nutritional profile (per 1 tsp / 2.3g ground)
     nutritionalProfile: {
@@ -38,7 +38,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         calcium: 0.01,
       },
       antioxidants: {
-        piperine: "high - responsible for pungency and bioavailability enhancement",
+        piperine:
+          "high - responsible for pungency and bioavailability enhancement",
         phenolics: "moderate",
       },
       source: "USDA FoodData Central",
@@ -164,7 +165,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "bark",
 
     // Sweet, warming, aromatic
-    elementalProperties: { Fire: 0.40, Air: 0.35, Earth: 0.15, Water: 0.10 },
+    elementalProperties: { Fire: 0.4, Air: 0.35, Earth: 0.15, Water: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon ground (2.6g)",
@@ -185,7 +186,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         manganese: 0.22, // 22% RDA - excellent source
       },
       antioxidants: {
-        cinnamaldehyde: "very high - responsible for flavor and medicinal properties",
+        cinnamaldehyde:
+          "very high - responsible for flavor and medicinal properties",
         polyphenols: "extremely high - more than most herbs/spices",
       },
       source: "USDA FoodData Central",
@@ -307,7 +309,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "seed",
 
     // Earthy, warming, grounding
-    elementalProperties: { Earth: 0.45, Fire: 0.30, Air: 0.20, Water: 0.05 },
+    elementalProperties: { Earth: 0.45, Fire: 0.3, Air: 0.2, Water: 0.05 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon seeds (2.1g)",
@@ -453,7 +455,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "rhizome",
 
     // Earthy, bitter, warm
-    elementalProperties: { Earth: 0.50, Fire: 0.25, Water: 0.15, Air: 0.10 },
+    elementalProperties: { Earth: 0.5, Fire: 0.25, Water: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon ground (3g)",
@@ -596,7 +598,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "rhizome",
 
     // Pungent, warming, sharp
-    elementalProperties: { Fire: 0.50, Air: 0.25, Earth: 0.15, Water: 0.10 },
+    elementalProperties: { Fire: 0.5, Air: 0.25, Earth: 0.15, Water: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 tablespoon fresh grated (6g)",
@@ -742,7 +744,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "ground pepper",
 
     // Sweet, mild, earthy
-    elementalProperties: { Fire: 0.35, Air: 0.30, Earth: 0.25, Water: 0.10 },
+    elementalProperties: { Fire: 0.35, Air: 0.3, Earth: 0.25, Water: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon (2.3g)",
@@ -877,7 +879,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "pod",
 
     // Aromatic, sweet, complex
-    elementalProperties: { Air: 0.45, Fire: 0.30, Water: 0.15, Earth: 0.10 },
+    elementalProperties: { Air: 0.45, Fire: 0.3, Water: 0.15, Earth: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon ground (2g)",
@@ -984,12 +986,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     description:
       "Cardamom is the seed pod of a plant in the ginger family, considered the 'Queen of Spices'. Green cardamom is floral and sweet with notes of eucalyptus and mint. Black cardamom is smokier and more robust. Essential in chai, Indian sweets, and Scandinavian baking, cardamom is one of the world's most expensive spices after saffron and vanilla.",
 
-    origin: [
-      "India (Western Ghats)",
-      "Guatemala",
-      "Sri Lanka",
-      "Tanzania",
-    ],
+    origin: ["India (Western Ghats)", "Guatemala", "Sri Lanka", "Tanzania"],
 
     qualities: [
       "aromatic",
@@ -1024,7 +1021,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "seed",
 
     // Sweet, citrusy, warm
-    elementalProperties: { Air: 0.40, Fire: 0.25, Earth: 0.20, Water: 0.15 },
+    elementalProperties: { Air: 0.4, Fire: 0.25, Earth: 0.2, Water: 0.15 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon seeds (1.8g)",
@@ -1167,7 +1164,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "seed",
 
     // Warm, sweet, aromatic
-    elementalProperties: { Fire: 0.35, Air: 0.35, Earth: 0.20, Water: 0.10 },
+    elementalProperties: { Fire: 0.35, Air: 0.35, Earth: 0.2, Water: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon ground (2.2g)",
@@ -1274,12 +1271,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     description:
       "Nutmeg is the seed of Myristica fragrans, encased in mace (another spice). It has a warm, sweet, slightly hallucinogenic aroma that's essential in baking, cream sauces, and eggnogs. Widely used in both sweet and savory applications across European, Middle Eastern, and Caribbean cuisines. The complex flavor comes from myristicin and eugenol in its essential oils.",
 
-    origin: [
-      "Indonesia (Banda Islands)",
-      "Grenada",
-      "India",
-      "Sri Lanka",
-    ],
+    origin: ["Indonesia (Banda Islands)", "Grenada", "India", "Sri Lanka"],
 
     qualities: [
       "warming",
@@ -1314,7 +1306,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "blend",
 
     // Hot, earthy, complex
-    elementalProperties: { Fire: 0.60, Air: 0.20, Earth: 0.15, Water: 0.05 },
+    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.15, Water: 0.05 },
 
     nutritionalProfile: {
       serving_size: "1 teaspoon (2.6g)",
@@ -1450,7 +1442,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     subcategory: "stigma",
 
     // Delicate, floral, complex
-    elementalProperties: { Air: 0.50, Fire: 0.25, Water: 0.15, Earth: 0.10 },
+    elementalProperties: { Air: 0.5, Fire: 0.25, Water: 0.15, Earth: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 pinch / 0.02g (typical serving)",

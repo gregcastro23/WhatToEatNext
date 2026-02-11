@@ -75,18 +75,27 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
               <span className="text-lg">{icon}</span>
               <h3 className="font-semibold text-gray-900">{cuisine.cuisine}</h3>
               {cuisine.isRetrograde && (
-                <span className="text-xs text-amber-600" title={`${cuisine.planet} retrograde`}>
+                <span
+                  className="text-xs text-amber-600"
+                  title={`${cuisine.planet} retrograde`}
+                >
                   Rx
                 </span>
               )}
             </div>
-            <div className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-xs font-bold`}>
+            <div
+              className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-xs font-bold`}
+            >
               {cuisine.score}%
             </div>
           </div>
-          <p className="text-xs text-gray-600 line-clamp-2">{cuisine.reasoning}</p>
+          <p className="text-xs text-gray-600 line-clamp-2">
+            {cuisine.reasoning}
+          </p>
           <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
-            {cuisine.recipeCount > 0 && <span>{cuisine.recipeCount} recipes</span>}
+            {cuisine.recipeCount > 0 && (
+              <span>{cuisine.recipeCount} recipes</span>
+            )}
             <span>{cuisine.optimalTiming}</span>
           </div>
         </div>
@@ -147,7 +156,10 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
                 </span>
               </div>
               {cuisine.isRetrograde && (
-                <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full" title={`${cuisine.planet} is retrograde`}>
+                <span
+                  className="inline-flex items-center px-2 py-1 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full"
+                  title={`${cuisine.planet} is retrograde`}
+                >
                   Rx
                 </span>
               )}
@@ -176,9 +188,7 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
           {/* Hover Preview */}
           {showPreview && cuisine.topRecipes.length > 0 && (
             <div className="absolute inset-0 bg-white bg-opacity-95 backdrop-blur-sm p-5 flex flex-col justify-center rounded-xl">
-              <h4 className="font-semibold text-gray-900 mb-3">
-                Top Recipes:
-              </h4>
+              <h4 className="font-semibold text-gray-900 mb-3">Top Recipes:</h4>
               <div className="space-y-2">
                 {cuisine.topRecipes.map((recipe, idx) => (
                   <div

@@ -239,7 +239,7 @@ const INGREDIENT_ELEMENTAL_MAP: Record<string, ElementalProperties> = {
   ham: { Fire: 0.2, Water: 0.25, Earth: 0.5, Air: 0.05 },
   pastry: { Fire: 0.15, Water: 0.1, Earth: 0.55, Air: 0.2 },
   "choux pastry": { Fire: 0.2, Water: 0.15, Earth: 0.5, Air: 0.15 },
-  "shortcrust": { Fire: 0.15, Water: 0.1, Earth: 0.6, Air: 0.15 },
+  shortcrust: { Fire: 0.15, Water: 0.1, Earth: 0.6, Air: 0.15 },
   "bay leaf": { Fire: 0.15, Water: 0.15, Earth: 0.2, Air: 0.5 },
   "bouquet garni": { Fire: 0.15, Water: 0.15, Earth: 0.15, Air: 0.55 },
   yeast: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.4 },
@@ -313,27 +313,106 @@ const COOKING_METHOD_MODIFIERS: Record<string, ElementalProperties> = {
 
 // Planetary influence mappings
 const PLANETARY_KEYWORDS: Record<string, string[]> = {
-  Sun: ["bright", "vital", "energizing", "golden", "citrus", "saffron", "honey", "breakfast"],
-  Moon: ["comfort", "nurturing", "mild", "soft", "cream", "milk", "dairy", "soup", "porridge"],
+  Sun: [
+    "bright",
+    "vital",
+    "energizing",
+    "golden",
+    "citrus",
+    "saffron",
+    "honey",
+    "breakfast",
+  ],
+  Moon: [
+    "comfort",
+    "nurturing",
+    "mild",
+    "soft",
+    "cream",
+    "milk",
+    "dairy",
+    "soup",
+    "porridge",
+  ],
   Mercury: ["quick", "light", "varied", "diverse", "snack", "appetizer"],
-  Venus: ["elegant", "sweet", "beautiful", "dessert", "romantic", "chocolate", "fruit"],
+  Venus: [
+    "elegant",
+    "sweet",
+    "beautiful",
+    "dessert",
+    "romantic",
+    "chocolate",
+    "fruit",
+  ],
   Mars: ["spicy", "bold", "hot", "pepper", "chili", "grilled", "red", "meat"],
-  Jupiter: ["feast", "abundant", "rich", "celebration", "holiday", "traditional"],
+  Jupiter: [
+    "feast",
+    "abundant",
+    "rich",
+    "celebration",
+    "holiday",
+    "traditional",
+  ],
   Saturn: ["traditional", "slow", "aged", "fermented", "preserved", "cured"],
 };
 
 // Seasonal ingredient mappings
 const SEASONAL_INGREDIENTS: Record<string, string[]> = {
-  spring: ["asparagus", "pea", "artichoke", "ramp", "radish", "spinach", "arugula", "mint", "lamb", "strawberry"],
-  summer: ["tomato", "corn", "zucchini", "eggplant", "pepper", "cucumber", "basil", "watermelon", "berry", "peach"],
-  autumn: ["pumpkin", "squash", "apple", "pear", "mushroom", "cranberry", "sweet potato", "brussels", "sage"],
-  winter: ["potato", "carrot", "turnip", "citrus", "kale", "cabbage", "leek", "onion", "garlic", "nut"],
+  spring: [
+    "asparagus",
+    "pea",
+    "artichoke",
+    "ramp",
+    "radish",
+    "spinach",
+    "arugula",
+    "mint",
+    "lamb",
+    "strawberry",
+  ],
+  summer: [
+    "tomato",
+    "corn",
+    "zucchini",
+    "eggplant",
+    "pepper",
+    "cucumber",
+    "basil",
+    "watermelon",
+    "berry",
+    "peach",
+  ],
+  autumn: [
+    "pumpkin",
+    "squash",
+    "apple",
+    "pear",
+    "mushroom",
+    "cranberry",
+    "sweet potato",
+    "brussels",
+    "sage",
+  ],
+  winter: [
+    "potato",
+    "carrot",
+    "turnip",
+    "citrus",
+    "kale",
+    "cabbage",
+    "leek",
+    "onion",
+    "garlic",
+    "nut",
+  ],
 };
 
 /**
  * Find matching elemental properties for an ingredient
  */
-function findIngredientElementals(ingredientName: string): ElementalProperties | null {
+function findIngredientElementals(
+  ingredientName: string,
+): ElementalProperties | null {
   const name = ingredientName.toLowerCase();
 
   // Direct match
@@ -357,7 +436,7 @@ function findIngredientElementals(ingredientName: string): ElementalProperties |
 function calculateElementals(
   ingredients: RecipeIngredient[],
   cookingMethods: string[] = [],
-  cuisine: string = ""
+  cuisine: string = "",
 ): ElementalProperties {
   if (!ingredients || ingredients.length === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -369,7 +448,8 @@ function calculateElementals(
   for (const ingredient of ingredients) {
     const mapping = findIngredientElementals(ingredient.name);
     if (mapping) {
-      const amount = typeof ingredient.amount === "number" ? ingredient.amount : 1;
+      const amount =
+        typeof ingredient.amount === "number" ? ingredient.amount : 1;
       const weight = Math.log(1 + amount / 10);
 
       totals.Fire += mapping.Fire * weight;
@@ -386,7 +466,8 @@ function calculateElementals(
 
   // Apply cooking method modifiers
   for (const method of cookingMethods) {
-    const modifier = COOKING_METHOD_MODIFIERS[method.toLowerCase().replace(/\s+/g, "-")];
+    const modifier =
+      COOKING_METHOD_MODIFIERS[method.toLowerCase().replace(/\s+/g, "-")];
     if (modifier) {
       totals.Fire *= modifier.Fire;
       totals.Water *= modifier.Water;
@@ -448,7 +529,12 @@ function determinePlanetaryInfluences(dish: DishData): string[] {
  * Calculate seasonal alignment
  */
 function calculateSeasonalAlignment(ingredients: RecipeIngredient[]): string[] {
-  const scores: Record<string, number> = { spring: 0, summer: 0, autumn: 0, winter: 0 };
+  const scores: Record<string, number> = {
+    spring: 0,
+    summer: 0,
+    autumn: 0,
+    winter: 0,
+  };
 
   for (const ingredient of ingredients) {
     const name = ingredient.name.toLowerCase();
@@ -473,8 +559,14 @@ function calculateSeasonalAlignment(ingredients: RecipeIngredient[]): string[] {
 /**
  * Estimate nutrition
  */
-function estimateNutrition(ingredients: RecipeIngredient[], servings: number = 4): Record<string, number> {
-  const NUTRITION_BASE: Record<string, { calories: number; protein: number; carbs: number; fat: number }> = {
+function estimateNutrition(
+  ingredients: RecipeIngredient[],
+  servings: number = 4,
+): Record<string, number> {
+  const NUTRITION_BASE: Record<
+    string,
+    { calories: number; protein: number; carbs: number; fat: number }
+  > = {
     protein: { calories: 200, protein: 25, carbs: 0, fat: 10 },
     chicken: { calories: 180, protein: 27, carbs: 0, fat: 8 },
     beef: { calories: 250, protein: 26, carbs: 0, fat: 17 },
@@ -503,7 +595,8 @@ function estimateNutrition(ingredients: RecipeIngredient[], servings: number = 4
       }
     }
 
-    const amount = typeof ingredient.amount === "number" ? ingredient.amount : 1;
+    const amount =
+      typeof ingredient.amount === "number" ? ingredient.amount : 1;
     const scale = amount > 100 ? amount / 100 : amount > 10 ? amount / 50 : 1;
 
     totals.calories += nutrition.calories * scale;
@@ -525,7 +618,12 @@ function estimateNutrition(ingredients: RecipeIngredient[], servings: number = 4
  */
 function isDefaultElementals(props: ElementalProperties | undefined): boolean {
   if (!props) return true;
-  return props.Fire === 0.25 && props.Water === 0.25 && props.Earth === 0.25 && props.Air === 0.25;
+  return (
+    props.Fire === 0.25 &&
+    props.Water === 0.25 &&
+    props.Earth === 0.25 &&
+    props.Air === 0.25
+  );
 }
 
 /**
@@ -535,7 +633,11 @@ function enrichDish(dish: DishData, cuisineName: string): DishData {
   const ingredients = dish.ingredients || [];
   const cookingMethods = dish.cookingMethods || [];
 
-  const elementalProperties = calculateElementals(ingredients, cookingMethods, cuisineName);
+  const elementalProperties = calculateElementals(
+    ingredients,
+    cookingMethods,
+    cuisineName,
+  );
   const planetaryInfluences = determinePlanetaryInfluences(dish);
   const seasonalAlignment = calculateSeasonalAlignment(ingredients);
   const nutrition = estimateNutrition(ingredients, dish.servingSize || 4);
@@ -557,7 +659,15 @@ function enrichDish(dish: DishData, cuisineName: string): DishData {
  */
 function analyzeCuisines(cuisinesDir: string): AnalysisResult[] {
   const results: AnalysisResult[] = [];
-  const cuisineFiles = fs.readdirSync(cuisinesDir).filter((f) => f.endsWith(".ts") && f !== "index.ts" && f !== "template.ts" && f !== "culinaryTraditions.ts");
+  const cuisineFiles = fs
+    .readdirSync(cuisinesDir)
+    .filter(
+      (f) =>
+        f.endsWith(".ts") &&
+        f !== "index.ts" &&
+        f !== "template.ts" &&
+        f !== "culinaryTraditions.ts",
+    );
 
   console.log(`\nAnalyzing ${cuisineFiles.length} cuisine files...`);
 
@@ -567,15 +677,21 @@ function analyzeCuisines(cuisinesDir: string): AnalysisResult[] {
     const cuisineName = file.replace(".ts", "");
 
     // Parse dishes from file content (simplified parsing)
-    const dishMatches = content.matchAll(/{\s*(?:id:\s*["']([^"']+)["'],?\s*)?name:\s*["']([^"']+)["']/g);
+    const dishMatches = content.matchAll(
+      /{\s*(?:id:\s*["']([^"']+)["'],?\s*)?name:\s*["']([^"']+)["']/g,
+    );
 
     for (const match of dishMatches) {
       const dishName = match[2];
 
       // Check for elemental properties
-      const hasElementals = content.includes(`elementalProperties:`) && content.includes(dishName);
-      const hasDefaultElementals = content.includes(`Fire: 0.25`) && content.includes(`Water: 0.25`);
-      const hasPlanetary = content.includes(`astrologicalInfluences`) || content.includes(`planetary`);
+      const hasElementals =
+        content.includes(`elementalProperties:`) && content.includes(dishName);
+      const hasDefaultElementals =
+        content.includes(`Fire: 0.25`) && content.includes(`Water: 0.25`);
+      const hasPlanetary =
+        content.includes(`astrologicalInfluences`) ||
+        content.includes(`planetary`);
       const hasSeason = content.includes(`season:`);
       const hasNutrition = content.includes(`nutrition:`);
 
@@ -598,7 +714,8 @@ function analyzeCuisines(cuisinesDir: string): AnalysisResult[] {
         hasPlanetaryInfluences: hasPlanetary,
         hasSeasonData: hasSeason,
         hasNutrition: hasNutrition,
-        needsEnrichment: !hasElementals || hasDefaultElementals || !hasPlanetary,
+        needsEnrichment:
+          !hasElementals || hasDefaultElementals || !hasPlanetary,
         ingredientCount: 0,
       });
     }
@@ -621,7 +738,9 @@ function generateReport(results: AnalysisResult[]): void {
   console.log("=".repeat(80));
 
   console.log(`\nTotal Recipes Found: ${results.length}`);
-  console.log(`Needs Enrichment: ${needsEnrichment.length} (${((needsEnrichment.length / results.length) * 100).toFixed(1)}%)`);
+  console.log(
+    `Needs Enrichment: ${needsEnrichment.length} (${((needsEnrichment.length / results.length) * 100).toFixed(1)}%)`,
+  );
   console.log(`Has Default Elementals: ${hasDefaults.length}`);
   console.log(`Missing Elemental Properties: ${missingElementals.length}`);
   console.log(`Missing Planetary Influences: ${missingPlanetary.length}`);
@@ -630,7 +749,8 @@ function generateReport(results: AnalysisResult[]): void {
   console.log("By Cuisine:");
   console.log("-".repeat(40));
 
-  const byCuisine: Record<string, { total: number; needsEnrichment: number }> = {};
+  const byCuisine: Record<string, { total: number; needsEnrichment: number }> =
+    {};
   for (const result of results) {
     if (!byCuisine[result.cuisine]) {
       byCuisine[result.cuisine] = { total: 0, needsEnrichment: 0 };
@@ -641,8 +761,12 @@ function generateReport(results: AnalysisResult[]): void {
     }
   }
 
-  for (const [cuisine, stats] of Object.entries(byCuisine).sort((a, b) => b[1].needsEnrichment - a[1].needsEnrichment)) {
-    console.log(`  ${cuisine.padEnd(20)} ${stats.needsEnrichment}/${stats.total} need enrichment`);
+  for (const [cuisine, stats] of Object.entries(byCuisine).sort(
+    (a, b) => b[1].needsEnrichment - a[1].needsEnrichment,
+  )) {
+    console.log(
+      `  ${cuisine.padEnd(20)} ${stats.needsEnrichment}/${stats.total} need enrichment`,
+    );
   }
 
   console.log("\n" + "=".repeat(80));
@@ -650,7 +774,9 @@ function generateReport(results: AnalysisResult[]): void {
   console.log("=".repeat(80));
 
   if (needsEnrichment.length > 0) {
-    console.log(`\nRun 'npx ts-node scripts/enrichRecipeData.ts --write' to enrich ${needsEnrichment.length} recipes.`);
+    console.log(
+      `\nRun 'npx ts-node scripts/enrichRecipeData.ts --write' to enrich ${needsEnrichment.length} recipes.`,
+    );
   } else {
     console.log("\nAll recipes have been enriched!");
   }
@@ -678,7 +804,9 @@ async function main(): Promise<void> {
   generateReport(results);
 
   if (mode === "--enrich" || mode === "--write") {
-    console.log("\nNote: Full enrichment with file writing requires running the writeEnrichedData.ts script.");
+    console.log(
+      "\nNote: Full enrichment with file writing requires running the writeEnrichedData.ts script.",
+    );
     console.log("This script provides analysis only. Run:");
     console.log("  npx ts-node scripts/writeEnrichedData.ts");
   }

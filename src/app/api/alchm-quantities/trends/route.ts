@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { calculatePlanetaryPositions, getFallbackPlanetaryPositions } from "@/utils/serverPlanetaryCalculations";
+import {
+  calculatePlanetaryPositions,
+  getFallbackPlanetaryPositions,
+} from "@/utils/serverPlanetaryCalculations";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 
@@ -40,7 +43,10 @@ export async function GET() {
         try {
           planetaryPositions = await calculatePlanetaryPositions(timePoint);
         } catch (calcError) {
-          logger.warn(`Failed to calculate positions for ${timePoint.toISOString()}, using fallback:`, calcError);
+          logger.warn(
+            `Failed to calculate positions for ${timePoint.toISOString()}, using fallback:`,
+            calcError,
+          );
           planetaryPositions = getFallbackPlanetaryPositions();
         }
 
@@ -68,13 +74,18 @@ export async function GET() {
           Substance: alchemicalResult.esms.Substance,
         });
       } catch (error) {
-        logger.error(`Failed to calculate quantities for ${timePoint.toISOString()}:`, error as any);
+        logger.error(
+          `Failed to calculate quantities for ${timePoint.toISOString()}:`,
+          error as any,
+        );
         // Skip this data point on error
         continue;
       }
     }
 
-    logger.info(`Successfully calculated ${trends.length} trend data points over ${daysToShow} days`);
+    logger.info(
+      `Successfully calculated ${trends.length} trend data points over ${daysToShow} days`,
+    );
 
     return NextResponse.json(
       { trends },
@@ -82,19 +93,22 @@ export async function GET() {
         headers: {
           "Cache-Control": "public, max-age=3600, s-maxage=3600", // Cache for 1 hour (longer for historical data)
         },
-      }
+      },
     );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
-    logger.error("API Error generating Alchm quantity trends:", { error: errorMessage, stack: errorStack });
+    logger.error("API Error generating Alchm quantity trends:", {
+      error: errorMessage,
+      stack: errorStack,
+    });
     return NextResponse.json(
       {
         error: "Failed to calculate trends",
         details: errorMessage,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

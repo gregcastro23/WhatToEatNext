@@ -121,7 +121,9 @@ export const ProfileHeader: React.FC = () => {
                 </button>
               </div>
               <p className="text-gray-600 mb-1">{currentUser.email}</p>
-              <p className="text-sm text-gray-500">User ID: {currentUser.userId}</p>
+              <p className="text-sm text-gray-500">
+                User ID: {currentUser.userId}
+              </p>
             </div>
           )}
         </div>

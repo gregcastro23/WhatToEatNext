@@ -66,7 +66,10 @@ export const useFoodRecommendations = (
           (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
         currentPlanetaryAlignment:
           state.astrologicalState?.currentPlanetaryAlignment || {},
-        activePlanets: state.astrologicalState?.activePlanets || ["sun", "moon"],
+        activePlanets: state.astrologicalState?.activePlanets || [
+          "sun",
+          "moon",
+        ],
         planetaryPositions: (planetaryPositions || {}) as Record<
           string,
           CelestialPosition

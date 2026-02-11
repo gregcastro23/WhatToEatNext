@@ -45,8 +45,9 @@ function formatBatchResult(result: BatchFixResult): string {
 
   // Fixes by Type
   output += formatSubsectionHeader("Fixes by Field");
-  const sortedFixes = Object.entries(result.fixesByType)
-    .sort((a, b) => b[1] - a[1]);
+  const sortedFixes = Object.entries(result.fixesByType).sort(
+    (a, b) => b[1] - a[1],
+  );
 
   for (const [field, count] of sortedFixes) {
     output += `  ${field.padEnd(25)} ${count.toString().padStart(5)} fixes\n`;
@@ -87,7 +88,10 @@ function formatBatchResult(result: BatchFixResult): string {
   return output;
 }
 
-function compareReports(before: ValidationReport, after: ValidationReport): string {
+function compareReports(
+  before: ValidationReport,
+  after: ValidationReport,
+): string {
   let output = "";
 
   output += formatSectionHeader("BEFORE/AFTER COMPARISON");
@@ -108,10 +112,14 @@ function compareReports(before: ValidationReport, after: ValidationReport): stri
   output += `Avg Quality Score:  ${before.averageQualityScore.toFixed(1)}% -> ${after.averageQualityScore.toFixed(1)}%\n`;
 
   // Calculate improvements
-  const qualityImprovement = after.averageQualityScore - before.averageQualityScore;
-  const coverageImprovement = after.averageFieldCoverage - before.averageFieldCoverage;
-  const errorReduction = before.issuesBySeverity.error - after.issuesBySeverity.error;
-  const warningReduction = before.issuesBySeverity.warning - after.issuesBySeverity.warning;
+  const qualityImprovement =
+    after.averageQualityScore - before.averageQualityScore;
+  const coverageImprovement =
+    after.averageFieldCoverage - before.averageFieldCoverage;
+  const errorReduction =
+    before.issuesBySeverity.error - after.issuesBySeverity.error;
+  const warningReduction =
+    before.issuesBySeverity.warning - after.issuesBySeverity.warning;
 
   output += formatSubsectionHeader("Improvements");
   output += `Quality Score:  +${qualityImprovement.toFixed(1)} points\n`;
@@ -154,9 +162,13 @@ async function main() {
 
   // Validate AFTER fixes
   console.log("Running validation AFTER fixes...");
-  const fixedRecipes = fixResult.fixedRecipes.map(r => r.fixedRecipe);
-  const unchangedRecipes = recipes.filter((_, idx) =>
-    !fixResult.fixedRecipes.some(fr => fr.recipeId === String((recipes[idx] as any)?.id || `recipe-${idx}`))
+  const fixedRecipes = fixResult.fixedRecipes.map((r) => r.fixedRecipe);
+  const unchangedRecipes = recipes.filter(
+    (_, idx) =>
+      !fixResult.fixedRecipes.some(
+        (fr) =>
+          fr.recipeId === String((recipes[idx] as any)?.id || `recipe-${idx}`),
+      ),
   );
   const allFixedRecipes = [...fixedRecipes, ...unchangedRecipes];
   const afterReport = validateAllRecipes(allFixedRecipes);
@@ -167,11 +179,17 @@ async function main() {
 
   // Summary
   console.log(formatSectionHeader("SUMMARY"));
-  console.log(`Successfully applied ${fixResult.totalFixes} fixes to ${fixResult.recipesFixed} recipes.`);
-  console.log(`Quality Score improved from ${beforeReport.averageQualityScore.toFixed(1)}% to ${afterReport.averageQualityScore.toFixed(1)}%`);
+  console.log(
+    `Successfully applied ${fixResult.totalFixes} fixes to ${fixResult.recipesFixed} recipes.`,
+  );
+  console.log(
+    `Quality Score improved from ${beforeReport.averageQualityScore.toFixed(1)}% to ${afterReport.averageQualityScore.toFixed(1)}%`,
+  );
 
   if (fixResult.unfixedRecipes.length > 0) {
-    console.log(`\nNote: ${fixResult.unfixedRecipes.length} recipes still have issues that require manual attention.`);
+    console.log(
+      `\nNote: ${fixResult.unfixedRecipes.length} recipes still have issues that require manual attention.`,
+    );
   }
 
   // Return fixed recipes for use by other scripts

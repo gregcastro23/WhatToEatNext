@@ -149,8 +149,7 @@ export interface KineticMetrics {
   thermalDirection: "heating" | "cooling" | "stable";
 }
 
-export interface KineticsEnhancedRecommendation
-  extends TemporalFoodRecommendation {
+export interface KineticsEnhancedRecommendation extends TemporalFoodRecommendation {
   aspectPhase?: AspectPhase;
   groupHarmony?: number;
   portionModifier: number;

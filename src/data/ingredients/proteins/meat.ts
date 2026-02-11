@@ -262,10 +262,10 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         pantothenic_acid: 0.08,
       },
       minerals: {
-        zinc: 0.30,
+        zinc: 0.3,
         selenium: 0.37,
         phosphorus: 0.16,
-        iron: 0.10,
+        iron: 0.1,
         copper: 0.06,
       },
     },

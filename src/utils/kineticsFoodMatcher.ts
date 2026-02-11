@@ -213,7 +213,9 @@ export function getAspectEnhancedRecommendations(
       currentPower,
       kinetics.data.agentOptimization?.powerAmplification,
     ),
-    seasonalTags: getSeasonalTags(kinetics.data.base.timing?.seasonalInfluence ?? "Spring"),
+    seasonalTags: getSeasonalTags(
+      kinetics.data.base.timing?.seasonalInfluence ?? "Spring",
+    ),
   };
 }
 

@@ -20,17 +20,40 @@ const logger = createLogger("GroceryListModal");
 /**
  * Category display names and icons
  */
-const CATEGORY_INFO: Record<GroceryCategory, { name: string; icon: string; color: string }> = {
+const CATEGORY_INFO: Record<
+  GroceryCategory,
+  { name: string; icon: string; color: string }
+> = {
   produce: { name: "Produce", icon: "🥬", color: "bg-green-50 text-green-700" },
   proteins: { name: "Proteins", icon: "🥩", color: "bg-red-50 text-red-700" },
   dairy: { name: "Dairy", icon: "🥛", color: "bg-blue-50 text-blue-700" },
-  grains: { name: "Grains & Breads", icon: "🌾", color: "bg-yellow-50 text-yellow-700" },
-  spices: { name: "Spices & Herbs", icon: "🌿", color: "bg-purple-50 text-purple-700" },
-  condiments: { name: "Condiments & Sauces", icon: "🍯", color: "bg-orange-50 text-orange-700" },
-  canned: { name: "Canned & Packaged", icon: "🥫", color: "bg-gray-50 text-gray-700" },
+  grains: {
+    name: "Grains & Breads",
+    icon: "🌾",
+    color: "bg-yellow-50 text-yellow-700",
+  },
+  spices: {
+    name: "Spices & Herbs",
+    icon: "🌿",
+    color: "bg-purple-50 text-purple-700",
+  },
+  condiments: {
+    name: "Condiments & Sauces",
+    icon: "🍯",
+    color: "bg-orange-50 text-orange-700",
+  },
+  canned: {
+    name: "Canned & Packaged",
+    icon: "🥫",
+    color: "bg-gray-50 text-gray-700",
+  },
   frozen: { name: "Frozen", icon: "❄️", color: "bg-cyan-50 text-cyan-700" },
   bakery: { name: "Bakery", icon: "🥐", color: "bg-pink-50 text-pink-700" },
-  beverages: { name: "Beverages", icon: "☕", color: "bg-brown-50 text-brown-700" },
+  beverages: {
+    name: "Beverages",
+    icon: "☕",
+    color: "bg-brown-50 text-brown-700",
+  },
   other: { name: "Other", icon: "📦", color: "bg-gray-50 text-gray-700" },
 };
 
@@ -43,7 +66,9 @@ async function exportGroceryList(
 ): Promise<void> {
   try {
     // Filter out purchased and in-pantry items
-    const activeItems = items.filter(item => !item.purchased && !item.inPantry);
+    const activeItems = items.filter(
+      (item) => !item.purchased && !item.inPantry,
+    );
 
     const text = formatGroceryListAsText(activeItems);
 
@@ -179,11 +204,17 @@ interface GroceryListModalProps {
   onClose: () => void;
 }
 
-export default function GroceryListModal({ isOpen, onClose }: GroceryListModalProps) {
-  const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu } = useMenuPlanner();
+export default function GroceryListModal({
+  isOpen,
+  onClose,
+}: GroceryListModalProps) {
+  const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu } =
+    useMenuPlanner();
 
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
-  const [expandedCategories, setExpandedCategories] = useState<Record<GroceryCategory, boolean>>({
+  const [expandedCategories, setExpandedCategories] = useState<
+    Record<GroceryCategory, boolean>
+  >({
     produce: true,
     proteins: true,
     dairy: true,
@@ -200,13 +231,16 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
   const [showPantryModal, setShowPantryModal] = useState(false);
 
   // Group items by category
-  const groupedItems = useMemo(() => getGroupedGroceryList(groceryList), [groceryList]);
+  const groupedItems = useMemo(
+    () => getGroupedGroceryList(groceryList),
+    [groceryList],
+  );
 
   // Calculate stats
   const stats = useMemo(() => {
     const total = groceryList.length;
-    const purchased = groceryList.filter(item => item.purchased).length;
-    const inPantry = groceryList.filter(item => item.inPantry).length;
+    const purchased = groceryList.filter((item) => item.purchased).length;
+    const inPantry = groceryList.filter((item) => item.inPantry).length;
     const remaining = total - purchased - inPantry;
 
     return { total, purchased, inPantry, remaining };
@@ -214,12 +248,12 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
 
   // Toggle category expansion
   const toggleCategory = (category: GroceryCategory) => {
-    setExpandedCategories(prev => ({ ...prev, [category]: !prev[category] }));
+    setExpandedCategories((prev) => ({ ...prev, [category]: !prev[category] }));
   };
 
   // Mark all in category as purchased
   const markCategoryPurchased = (category: GroceryCategory) => {
-    groupedItems[category].forEach(item => {
+    groupedItems[category].forEach((item) => {
       if (!item.inPantry) {
         updateGroceryItem(item.id, { purchased: true });
       }
@@ -323,7 +357,9 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
           </button>
           <select
             value={groupBy}
-            onChange={(e) => setGroupBy(e.target.value as "category" | "recipe")}
+            onChange={(e) =>
+              setGroupBy(e.target.value as "category" | "recipe")
+            }
             className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500"
           >
             <option value="category">Group by Aisle</option>
@@ -342,7 +378,12 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
           {groupBy === "category" ? (
             // GROUP BY AISLE (default)
             <>
-              {(Object.entries(groupedItems) as [GroceryCategory, GroceryItem[]][]).map(([category, items]) => {
+              {(
+                Object.entries(groupedItems) as [
+                  GroceryCategory,
+                  GroceryItem[],
+                ][]
+              ).map(([category, items]) => {
                 if (items.length === 0) return null;
 
                 const categoryKey = category as GroceryCategory;
@@ -370,14 +411,17 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
                         >
                           ✓ Mark All
                         </button>
-                        <span className="text-xl">{isExpanded ? "▼" : "▶"}</span>
+                        <span className="text-xl">
+                          {isExpanded ? "▼" : "▶"}
+                        </span>
                       </div>
                     </div>
 
                     {isExpanded && (
                       <div className="mt-2 space-y-2">
                         {items.map((item) => {
-                          const isInPantry = item.inPantry || checkPantryStatus(item.ingredient);
+                          const isInPantry =
+                            item.inPantry || checkPantryStatus(item.ingredient);
 
                           return (
                             <GroceryItemRow
@@ -412,7 +456,9 @@ export default function GroceryListModal({ isOpen, onClose }: GroceryListModalPr
             <div className="text-center text-gray-500 py-12">
               <div className="text-4xl mb-2">🛒</div>
               <p>No items in grocery list yet.</p>
-              <p className="text-sm mt-2">Add recipes to your weekly menu to generate a grocery list.</p>
+              <p className="text-sm mt-2">
+                Add recipes to your weekly menu to generate a grocery list.
+              </p>
             </div>
           )}
         </div>
@@ -446,8 +492,8 @@ function GroceryItemRow({
         item.purchased
           ? "opacity-50 border-green-300 bg-green-50"
           : isInPantry
-          ? "border-orange-300 bg-orange-50"
-          : "border-gray-200"
+            ? "border-orange-300 bg-orange-50"
+            : "border-gray-200"
       }`}
     >
       <div className="flex items-center justify-between">
@@ -555,11 +601,14 @@ function RecipeGroupedView({
             <div className="bg-purple-50 text-purple-700 rounded-lg p-3 flex items-center gap-2 font-bold">
               <span className="text-lg">🍽️</span>
               <span>{recipeName}</span>
-              <span className="text-sm font-normal">({items.length} items)</span>
+              <span className="text-sm font-normal">
+                ({items.length} items)
+              </span>
             </div>
             <div className="mt-2 space-y-2">
               {items.map((item) => {
-                const isInPantry = item.inPantry || checkPantryStatus(item.ingredient);
+                const isInPantry =
+                  item.inPantry || checkPantryStatus(item.ingredient);
                 return (
                   <GroceryItemRow
                     key={`${recipeId}-${item.id}`}

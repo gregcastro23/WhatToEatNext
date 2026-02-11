@@ -329,9 +329,7 @@ export function RecipeQueueProvider({
 export function useRecipeQueue(): RecipeQueueContextType {
   const context = useContext(RecipeQueueContext);
   if (!context) {
-    throw new Error(
-      "useRecipeQueue must be used within a RecipeQueueProvider",
-    );
+    throw new Error("useRecipeQueue must be used within a RecipeQueueProvider");
   }
   return context;
 }

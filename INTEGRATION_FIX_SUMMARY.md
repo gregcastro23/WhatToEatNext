@@ -17,6 +17,7 @@ The `/api/cuisines/recommend` endpoint was using hardcoded zodiac sign approxima
 ### 1. Updated Imports (`/src/app/api/cuisines/recommend/route.ts`)
 
 **Added:**
+
 ```typescript
 import {
   calculateAlchemicalFromPlanets,
@@ -30,6 +31,7 @@ import type { PlanetPosition } from "@/utils/astrologyUtils";
 ### 2. Updated `CurrentMoment` Interface
 
 **Before:**
+
 ```typescript
 interface CurrentMoment {
   zodiac_sign: string;
@@ -40,6 +42,7 @@ interface CurrentMoment {
 ```
 
 **After:**
+
 ```typescript
 interface CurrentMoment {
   zodiac_sign: string;
@@ -53,6 +56,7 @@ interface CurrentMoment {
 ### 3. Replaced `getCurrentMoment()` Function
 
 **Before (❌ WRONG):**
+
 ```typescript
 function getCurrentMoment(): CurrentMoment {
   // Calculated zodiac from calendar date
@@ -71,6 +75,7 @@ function getCurrentMoment(): CurrentMoment {
 ```
 
 **After (✅ CORRECT):**
+
 ```typescript
 async function getCurrentMoment(): Promise<CurrentMoment> {
   const now = new Date();
@@ -89,7 +94,7 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
     logger.info("Current moment calculated from backend planetary positions", {
       zodiacSign,
       sunPosition: planetaryPositionsRaw.Sun,
-      source: "backend-pyswisseph"
+      source: "backend-pyswisseph",
     });
 
     return {
@@ -100,7 +105,10 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
       planetaryPositions: planetaryPositionsRaw, // Include for downstream use
     };
   } catch (error) {
-    logger.warn("Failed to get backend planetary positions, using date approximation", { error });
+    logger.warn(
+      "Failed to get backend planetary positions, using date approximation",
+      { error },
+    );
     // Fallback to date approximation if backend unavailable
     // ... fallback logic
   }
@@ -108,6 +116,7 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
 ```
 
 **Key Improvements:**
+
 - ✅ Now calls backend via `getPlanetaryPositionsForDateTime()`
 - ✅ Gets real astronomical positions from Swiss Ephemeris (NASA JPL DE precision)
 - ✅ Includes planetary positions in response for downstream use
@@ -117,22 +126,33 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
 ### 4. Replaced `calculateAlchemicalProperties()` Function
 
 **Before (❌ WRONG):**
+
 ```typescript
-function calculateAlchemicalProperties(zodiacSign: string): AlchemicalProperties {
+function calculateAlchemicalProperties(
+  zodiacSign: string,
+): AlchemicalProperties {
   const alchemicalMap: Record<string, AlchemicalProperties> = {
     Aries: { Spirit: 5, Essence: 3, Matter: 2, Substance: 4 },
     Taurus: { Spirit: 2, Essence: 4, Matter: 6, Substance: 2 },
     // ... hardcoded mappings
   };
-  return alchemicalMap[zodiacSign] || { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+  return (
+    alchemicalMap[zodiacSign] || {
+      Spirit: 4,
+      Essence: 4,
+      Matter: 4,
+      Substance: 2,
+    }
+  );
 }
 ```
 
 **After (✅ CORRECT):**
+
 ```typescript
 function calculateAlchemicalPropertiesFromPlanets(
   planetaryPositions: Record<string, PlanetPosition> | undefined,
-  fallbackZodiacSign?: string
+  fallbackZodiacSign?: string,
 ): AlchemicalProperties {
   if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
     // ✅ CORRECT: Use actual planetary positions
@@ -145,19 +165,22 @@ function calculateAlchemicalPropertiesFromPlanets(
     logger.debug("Calculated ESMS from planetary positions", {
       planets: Object.keys(planetSigns).length,
       alchemical,
-      source: "backend-planetary-positions"
+      source: "backend-planetary-positions",
     });
 
     return alchemical;
   } else if (fallbackZodiacSign) {
     // ❌ FALLBACK ONLY: Approximate from Sun sign
-    logger.warn("Using zodiac fallback for ESMS calculation - backend unavailable");
+    logger.warn(
+      "Using zodiac fallback for ESMS calculation - backend unavailable",
+    );
     // ... fallback to hardcoded map
   }
 }
 ```
 
 **Key Improvements:**
+
 - ✅ Uses authoritative `calculateAlchemicalFromPlanets()` from `planetaryAlchemyMapping.ts`
 - ✅ Calculates ESMS from ALL planetary positions (Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto)
 - ✅ Per CLAUDE.md: "ESMS ONLY from planetary positions, NOT elemental approximations"
@@ -167,6 +190,7 @@ function calculateAlchemicalPropertiesFromPlanets(
 ### 5. Updated `calculateUserState()` Function
 
 **Before:**
+
 ```typescript
 function calculateUserState(moment: CurrentMoment) {
   const alchemical = calculateAlchemicalProperties(moment.zodiac_sign);
@@ -175,12 +199,13 @@ function calculateUserState(moment: CurrentMoment) {
 ```
 
 **After:**
+
 ```typescript
 function calculateUserState(moment: CurrentMoment) {
   // Now uses planetary positions from backend
   const alchemical = calculateAlchemicalPropertiesFromPlanets(
     moment.planetaryPositions,
-    moment.zodiac_sign
+    moment.zodiac_sign,
   );
   // ...
 }
@@ -189,6 +214,7 @@ function calculateUserState(moment: CurrentMoment) {
 ### 6. Updated `generateEnhancedRecommendations()` Function
 
 **Before:**
+
 ```typescript
 function generateEnhancedRecommendations(moment: CurrentMoment) {
   const currentAlchemical = calculateAlchemicalProperties(moment.zodiac_sign);
@@ -197,12 +223,13 @@ function generateEnhancedRecommendations(moment: CurrentMoment) {
 ```
 
 **After:**
+
 ```typescript
 function generateEnhancedRecommendations(moment: CurrentMoment) {
   // Now uses planetary positions from backend
   const currentAlchemical = calculateAlchemicalPropertiesFromPlanets(
     moment.planetaryPositions,
-    moment.zodiac_sign
+    moment.zodiac_sign,
   );
   // ...
 }
@@ -211,6 +238,7 @@ function generateEnhancedRecommendations(moment: CurrentMoment) {
 ### 7. Updated GET and POST Handlers
 
 **Before:**
+
 ```typescript
 export async function GET(request: Request) {
   const currentMoment = getCurrentMoment(); // Sync function
@@ -220,6 +248,7 @@ export async function GET(request: Request) {
 ```
 
 **After:**
+
 ```typescript
 export async function GET(request: Request) {
   const currentMoment = await getCurrentMoment(); // Now async, calls backend
@@ -293,10 +322,10 @@ Response with metadata:
 
 ### Code Changes Summary
 
-| File | Lines Changed | Status |
-|------|---------------|--------|
-| `/src/app/api/cuisines/recommend/route.ts` | ~100 lines | ✅ Updated |
-| Total files modified | 1 | ✅ Complete |
+| File                                       | Lines Changed | Status      |
+| ------------------------------------------ | ------------- | ----------- |
+| `/src/app/api/cuisines/recommend/route.ts` | ~100 lines    | ✅ Updated  |
+| Total files modified                       | 1             | ✅ Complete |
 
 ### TypeScript Errors
 
@@ -307,12 +336,14 @@ Response with metadata:
 ### Functionality Verification
 
 **When backend is running:**
+
 - ✅ `/api/cuisines/recommend` calls backend for planetary positions
 - ✅ ESMS calculated from all 10 planetary positions (not just Sun sign)
 - ✅ Metadata shows `"source": "backend-pyswisseph"`
 - ✅ Precision: NASA JPL DE (sub-arcsecond)
 
 **When backend is unavailable:**
+
 - ✅ Graceful fallback to date-based zodiac approximation
 - ✅ Logs warning about using fallback method
 - ✅ API continues to function (degraded precision)
@@ -408,6 +439,7 @@ curl http://localhost:3000/api/cuisines/recommend
 ## Benefits Realized
 
 ### ✅ Before Fix
+
 - ❌ Cuisine recommendations based on zodiac date calculations
 - ❌ ESMS from hardcoded zodiac → ESMS mappings
 - ❌ Same recommendations for all users on same calendar date
@@ -415,6 +447,7 @@ curl http://localhost:3000/api/cuisines/recommend
 - ❌ Swiss Ephemeris backend NOT being used for recommendations
 
 ### ✅ After Fix
+
 - ✅ Cuisine recommendations based on real astronomical positions
 - ✅ ESMS calculated from all 10 planetary positions using authoritative method
 - ✅ Recommendations change based on actual planetary movements
@@ -428,18 +461,21 @@ curl http://localhost:3000/api/cuisines/recommend
 ## Impact Assessment
 
 ### User Experience
+
 - ✅ **More accurate recommendations** - Based on real astronomical data
 - ✅ **Personalized timing** - Same date/time in different locations = different positions
 - ✅ **Dynamic updates** - Recommendations reflect actual planetary movements
 - ✅ **No breaking changes** - API interface unchanged
 
 ### Technical
+
 - ✅ **Consistent ESMS calculation** - All systems now use `calculateAlchemicalFromPlanets()`
 - ✅ **Proper data flow** - Backend → Astrologize API → Recommendations
 - ✅ **Maintainability** - Single source of truth for ESMS calculation
 - ✅ **Resilience** - Fallback mechanism for backend unavailability
 
 ### Business
+
 - ✅ **Swiss Ephemeris investment realized** - Backend precision now used
 - ✅ **Competitive advantage** - Sub-arcsecond precision in recommendations
 - ✅ **Scalability** - Backend can handle caching, rate limiting, etc.
@@ -472,6 +508,7 @@ curl http://localhost:3000/api/cuisines/recommend
 The `/api/cuisines/recommend` endpoint now properly uses backend planetary positions for ESMS calculations instead of hardcoded zodiac approximations. This ensures users receive cuisine recommendations based on real-time, high-precision astronomical data from Swiss Ephemeris (NASA JPL DE).
 
 **All recommendation systems now use the correct ESMS calculation method:**
+
 - ✅ Cuisine recommendations: `calculateAlchemicalFromPlanets()`
 - ✅ User personalization: `calculateAlchemicalFromPlanets()`
 - ✅ Moment charts: `calculateAlchemicalFromPlanets()`

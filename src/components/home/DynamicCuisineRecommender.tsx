@@ -10,16 +10,40 @@ import type { DynamicCuisineRecommendation } from "./CuisineCard";
 const CUISINE_DEFINITIONS = [
   { name: "Italian", planet: "Venus", tags: ["pasta", "comfort", "indulgent"] },
   { name: "Thai", planet: "Mars", tags: ["spicy", "bold", "aromatic"] },
-  { name: "Japanese", planet: "Mercury", tags: ["light", "balanced", "precise"] },
+  {
+    name: "Japanese",
+    planet: "Mercury",
+    tags: ["light", "balanced", "precise"],
+  },
   { name: "Mexican", planet: "Mars", tags: ["spicy", "vibrant", "festive"] },
   { name: "French", planet: "Venus", tags: ["elegant", "refined", "rich"] },
-  { name: "Indian", planet: "Jupiter", tags: ["abundant", "complex", "aromatic"] },
-  { name: "Mediterranean", planet: "Sun", tags: ["healthy", "fresh", "bright"] },
-  { name: "Chinese", planet: "Jupiter", tags: ["varied", "abundant", "balanced"] },
-  { name: "Middle-Eastern", planet: "Saturn", tags: ["traditional", "grounding", "wholesome"] },
+  {
+    name: "Indian",
+    planet: "Jupiter",
+    tags: ["abundant", "complex", "aromatic"],
+  },
+  {
+    name: "Mediterranean",
+    planet: "Sun",
+    tags: ["healthy", "fresh", "bright"],
+  },
+  {
+    name: "Chinese",
+    planet: "Jupiter",
+    tags: ["varied", "abundant", "balanced"],
+  },
+  {
+    name: "Middle-Eastern",
+    planet: "Saturn",
+    tags: ["traditional", "grounding", "wholesome"],
+  },
   { name: "Greek", planet: "Sun", tags: ["fresh", "light", "citrus"] },
   { name: "Korean", planet: "Mars", tags: ["fermented", "bold", "umami"] },
-  { name: "Ethiopian", planet: "Jupiter", tags: ["spiced", "communal", "aromatic"] },
+  {
+    name: "Ethiopian",
+    planet: "Jupiter",
+    tags: ["spiced", "communal", "aromatic"],
+  },
   { name: "Vietnamese", planet: "Mercury", tags: ["fresh", "herbal", "light"] },
   { name: "Spanish", planet: "Sun", tags: ["vibrant", "tapas", "olive oil"] },
 ];
@@ -51,15 +75,16 @@ const OPTIMAL_TIMINGS: Record<string, string> = {
   Saturn: "Best 6-8 AM",
 };
 
-const DIGNITIES: Record<string, { domicile: string[]; exaltation: string[] }> = {
-  Sun: { domicile: ["leo"], exaltation: ["aries"] },
-  Moon: { domicile: ["cancer"], exaltation: ["taurus"] },
-  Mercury: { domicile: ["gemini", "virgo"], exaltation: ["virgo"] },
-  Venus: { domicile: ["taurus", "libra"], exaltation: ["pisces"] },
-  Mars: { domicile: ["aries", "scorpio"], exaltation: ["capricorn"] },
-  Jupiter: { domicile: ["sagittarius", "pisces"], exaltation: ["cancer"] },
-  Saturn: { domicile: ["capricorn", "aquarius"], exaltation: ["libra"] },
-};
+const DIGNITIES: Record<string, { domicile: string[]; exaltation: string[] }> =
+  {
+    Sun: { domicile: ["leo"], exaltation: ["aries"] },
+    Moon: { domicile: ["cancer"], exaltation: ["taurus"] },
+    Mercury: { domicile: ["gemini", "virgo"], exaltation: ["virgo"] },
+    Venus: { domicile: ["taurus", "libra"], exaltation: ["pisces"] },
+    Mars: { domicile: ["aries", "scorpio"], exaltation: ["capricorn"] },
+    Jupiter: { domicile: ["sagittarius", "pisces"], exaltation: ["cancer"] },
+    Saturn: { domicile: ["capricorn", "aquarius"], exaltation: ["libra"] },
+  };
 
 function calculateDignity(planet: string, sign: string): number {
   const dignity = DIGNITIES[planet];
@@ -72,7 +97,13 @@ function calculateDignity(planet: string, sign: string): number {
 
 function getTimingScore(cuisine: string, hour: number): number {
   const lightCuisines = ["Japanese", "Mediterranean", "Greek", "Vietnamese"];
-  const heartyCuisines = ["Italian", "Indian", "Mexican", "French", "Ethiopian"];
+  const heartyCuisines = [
+    "Italian",
+    "Indian",
+    "Mexican",
+    "French",
+    "Ethiopian",
+  ];
 
   if (hour >= 6 && hour < 10) {
     return lightCuisines.includes(cuisine) ? 1.0 : 0.5;
@@ -113,7 +144,9 @@ function getTimeAgo(date: Date): string {
 }
 
 export default function DynamicCuisineRecommender() {
-  const [recommendations, setRecommendations] = useState<DynamicCuisineRecommendation[]>([]);
+  const [recommendations, setRecommendations] = useState<
+    DynamicCuisineRecommendation[]
+  >([]);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState(true);
   const [showAllCuisines, setShowAllCuisines] = useState(false);
@@ -129,8 +162,24 @@ export default function DynamicCuisineRecommender() {
       const now = new Date();
       const hour = now.getHours();
       const dayOfWeek = now.getDay();
-      const dayRulers = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
-      const chaldeanOrder = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"];
+      const dayRulers = [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+      ];
+      const chaldeanOrder = [
+        "Saturn",
+        "Jupiter",
+        "Mars",
+        "Sun",
+        "Venus",
+        "Mercury",
+        "Moon",
+      ];
       const dayRuler = dayRulers[dayOfWeek];
       const rulerIdx = chaldeanOrder.indexOf(dayRuler);
       const hourIdx = (rulerIdx + hour) % 7;
@@ -158,7 +207,11 @@ export default function DynamicCuisineRecommender() {
 
         const totalScore = Math.round(
           Math.min(
-            (dignityScore * 0.6 + timingScore * 0.2 + hourBonus * 0.2 + retrogradeModifier) * 100,
+            (dignityScore * 0.6 +
+              timingScore * 0.2 +
+              hourBonus * 0.2 +
+              retrogradeModifier) *
+              100,
             99,
           ),
         );
@@ -176,7 +229,9 @@ export default function DynamicCuisineRecommender() {
         let recipeCount = 0;
         let topRecipes: Array<{ name: string; matchScore: number }> = [];
         try {
-          const cuisineRecipes = await recipeService.getRecipesForCuisine(cuisine.name.toLowerCase());
+          const cuisineRecipes = await recipeService.getRecipesForCuisine(
+            cuisine.name.toLowerCase(),
+          );
           recipeCount = cuisineRecipes.length;
           topRecipes = cuisineRecipes.slice(0, 3).map((r) => ({
             name: r.name || "Unknown",
@@ -234,7 +289,10 @@ export default function DynamicCuisineRecommender() {
     <div>
       {/* Section Header */}
       <div className="text-center mb-8">
-        <h2 id="dynamic-cuisine-heading" className="text-3xl font-bold text-gray-900 mb-3">
+        <h2
+          id="dynamic-cuisine-heading"
+          className="text-3xl font-bold text-gray-900 mb-3"
+        >
           Cuisines Aligned with the Cosmos
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -265,7 +323,11 @@ export default function DynamicCuisineRecommender() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topCuisines.map((cuisine, index) => (
-              <CuisineCard key={cuisine.cuisine} cuisine={cuisine} rank={index + 1} />
+              <CuisineCard
+                key={cuisine.cuisine}
+                cuisine={cuisine}
+                rank={index + 1}
+              />
             ))}
           </div>
 
@@ -276,8 +338,12 @@ export default function DynamicCuisineRecommender() {
                 onClick={() => setShowAllCuisines(!showAllCuisines)}
                 className="mx-auto flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
               >
-                {showAllCuisines ? "Show fewer" : `Show ${remainingCuisines.length} more cuisines`}
-                <span className={`transition-transform duration-200 ${showAllCuisines ? "rotate-180" : ""}`}>
+                {showAllCuisines
+                  ? "Show fewer"
+                  : `Show ${remainingCuisines.length} more cuisines`}
+                <span
+                  className={`transition-transform duration-200 ${showAllCuisines ? "rotate-180" : ""}`}
+                >
                   &#9660;
                 </span>
               </button>

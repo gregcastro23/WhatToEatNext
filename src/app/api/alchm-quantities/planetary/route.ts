@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { calculatePlanetaryPositions, getFallbackPlanetaryPositions } from "@/utils/serverPlanetaryCalculations";
+import {
+  calculatePlanetaryPositions,
+  getFallbackPlanetaryPositions,
+} from "@/utils/serverPlanetaryCalculations";
 import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
 import { calculateNextSignTransition } from "@/utils/planetaryTransitions";
 import { createLogger } from "@/utils/logger";
@@ -37,15 +40,31 @@ export async function GET() {
     try {
       logger.info("Attempting to calculate planetary positions...");
       planetaryPositions = await calculatePlanetaryPositions();
-      logger.info(`Got ${Object.keys(planetaryPositions).length} planetary positions`);
+      logger.info(
+        `Got ${Object.keys(planetaryPositions).length} planetary positions`,
+      );
     } catch (calcError) {
-      const errorMessage = calcError instanceof Error ? calcError.message : String(calcError);
-      logger.warn("Failed to calculate planetary positions, using fallback:", { error: errorMessage });
+      const errorMessage =
+        calcError instanceof Error ? calcError.message : String(calcError);
+      logger.warn("Failed to calculate planetary positions, using fallback:", {
+        error: errorMessage,
+      });
       planetaryPositions = getFallbackPlanetaryPositions();
     }
 
     // Process each planet
-    const planetNames = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+    const planetNames = [
+      "Sun",
+      "Moon",
+      "Mercury",
+      "Venus",
+      "Mars",
+      "Jupiter",
+      "Saturn",
+      "Uranus",
+      "Neptune",
+      "Pluto",
+    ];
     const planets: PlanetaryData[] = [];
 
     for (const planetName of planetNames) {
@@ -57,7 +76,8 @@ export async function GET() {
       }
 
       // Get ESMS contributions from PLANETARY_ALCHEMY
-      const alchemyData = PLANETARY_ALCHEMY[planetName as keyof typeof PLANETARY_ALCHEMY];
+      const alchemyData =
+        PLANETARY_ALCHEMY[planetName as keyof typeof PLANETARY_ALCHEMY];
 
       if (!alchemyData) {
         logger.warn(`No alchemy data for ${planetName}`);
@@ -95,14 +115,17 @@ export async function GET() {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
-    logger.error("API Error generating planetary contributions:", { error: errorMessage, stack: errorStack });
+    logger.error("API Error generating planetary contributions:", {
+      error: errorMessage,
+      stack: errorStack,
+    });
     return NextResponse.json(
       {
         error: "Failed to calculate planetary contributions",
         details: errorMessage,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

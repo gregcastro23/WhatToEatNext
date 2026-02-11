@@ -4,8 +4,20 @@ import cuisinesMap from "@/data/cuisines/index";
 // Primary cuisines to use for recipe extraction (14 cuisines, avoids duplicates)
 // We use the capitalized keys from the cuisines map to avoid counting aliases
 const PRIMARY_CUISINE_KEYS = [
-  "African", "American", "Chinese", "French", "Greek", "Indian", "Italian",
-  "Japanese", "Korean", "Mexican", "Middle Eastern", "Russian", "Thai", "Vietnamese"
+  "African",
+  "American",
+  "Chinese",
+  "French",
+  "Greek",
+  "Indian",
+  "Italian",
+  "Japanese",
+  "Korean",
+  "Mexican",
+  "Middle Eastern",
+  "Russian",
+  "Thai",
+  "Vietnamese",
 ] as const;
 
 // Re-export for backward compatibility
@@ -17,7 +29,12 @@ export const Recipes = cuisinesMap;
 /**
  * Generate a standardized ID from recipe name and cuisine
  */
-function generateRecipeId(name: string, cuisine?: string, mealType?: string, season?: string): string {
+function generateRecipeId(
+  name: string,
+  cuisine?: string,
+  mealType?: string,
+  season?: string,
+): string {
   const parts: string[] = [];
 
   if (cuisine) {
@@ -28,7 +45,8 @@ function generateRecipeId(name: string, cuisine?: string, mealType?: string, sea
     parts.push(mealType.toLowerCase().replace(/[^a-z0-9]/g, ""));
   }
 
-  const baseName = name.toLowerCase()
+  const baseName = name
+    .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
@@ -46,7 +64,7 @@ function standardizeRecipe(
   recipe: any,
   cuisineName: string,
   mealType: string,
-  season: string
+  season: string,
 ): Recipe {
   // Ensure the recipe is an object
   if (!recipe || typeof recipe !== "object") {
@@ -58,10 +76,10 @@ function standardizeRecipe(
   // 1. Generate ID if missing
   if (!standardized.id) {
     standardized.id = generateRecipeId(
-      standardized.name as string || "unnamed",
+      (standardized.name as string) || "unnamed",
       cuisineName,
       mealType,
-      season
+      season,
     );
   }
 
@@ -79,7 +97,8 @@ function standardizeRecipe(
 
   // 4. Ensure season is an array
   if (!standardized.season) {
-    standardized.season = season === "all" ? ["spring", "summer", "autumn", "winter"] : [season];
+    standardized.season =
+      season === "all" ? ["spring", "summer", "autumn", "winter"] : [season];
   } else if (!Array.isArray(standardized.season)) {
     standardized.season = [standardized.season];
   }
@@ -115,15 +134,23 @@ function standardizeRecipe(
   }
 
   // 6. Ensure servingSize is a number
-  if (standardized.servingSize === undefined || standardized.servingSize === null) {
+  if (
+    standardized.servingSize === undefined ||
+    standardized.servingSize === null
+  ) {
     standardized.servingSize = standardized.numberOfServings || 4;
   } else if (typeof standardized.servingSize === "string") {
     standardized.servingSize = parseInt(standardized.servingSize, 10) || 4;
   }
 
   // 7. Copy instructions from preparationSteps if missing
-  if ((!standardized.instructions || !Array.isArray(standardized.instructions) || standardized.instructions.length === 0)
-      && Array.isArray(standardized.preparationSteps) && standardized.preparationSteps.length > 0) {
+  if (
+    (!standardized.instructions ||
+      !Array.isArray(standardized.instructions) ||
+      standardized.instructions.length === 0) &&
+    Array.isArray(standardized.preparationSteps) &&
+    standardized.preparationSteps.length > 0
+  ) {
     standardized.instructions = standardized.preparationSteps;
   }
 
@@ -145,16 +172,26 @@ function standardizeRecipe(
 
       return {
         ...ing,
-        amount: typeof ing.amount === "number" ? ing.amount :
-                typeof ing.amount === "string" ? parseFloat(ing.amount) || 1 : 1,
+        amount:
+          typeof ing.amount === "number"
+            ? ing.amount
+            : typeof ing.amount === "string"
+              ? parseFloat(ing.amount) || 1
+              : 1,
         unit: ing.unit || "piece",
-        name: typeof ing.name === "string" ? ing.name.toLowerCase() : String(ing.name || ""),
+        name:
+          typeof ing.name === "string"
+            ? ing.name.toLowerCase()
+            : String(ing.name || ""),
       };
     });
   }
 
   // 10. Ensure cookingMethods is an array
-  if (standardized.cookingMethods && !Array.isArray(standardized.cookingMethods)) {
+  if (
+    standardized.cookingMethods &&
+    !Array.isArray(standardized.cookingMethods)
+  ) {
     standardized.cookingMethods = [standardized.cookingMethods];
   }
 
@@ -182,27 +219,36 @@ const flattenCuisineRecipes = () => {
     const cuisine = cuisines[cuisineName];
     if (cuisine && cuisine.dishes) {
       // Iterate through meal types
-      Object.entries(cuisine.dishes).forEach(([mealType, mealTypeData]: [string, unknown]) => {
-        // Guard against null/undefined mealType before calling Object.entries
-        if (mealTypeData && typeof mealTypeData === "object") {
-          // Iterate through seasons
-          Object.entries(mealTypeData as Record<string, unknown>).forEach(([season, recipes]: [string, unknown]) => {
-            if (Array.isArray(recipes)) {
-              recipes.forEach((recipe: any) => {
-                // Standardize the recipe
-                const standardized = standardizeRecipe(recipe, cuisineName, mealType, season);
+      Object.entries(cuisine.dishes).forEach(
+        ([mealType, mealTypeData]: [string, unknown]) => {
+          // Guard against null/undefined mealType before calling Object.entries
+          if (mealTypeData && typeof mealTypeData === "object") {
+            // Iterate through seasons
+            Object.entries(mealTypeData as Record<string, unknown>).forEach(
+              ([season, recipes]: [string, unknown]) => {
+                if (Array.isArray(recipes)) {
+                  recipes.forEach((recipe: any) => {
+                    // Standardize the recipe
+                    const standardized = standardizeRecipe(
+                      recipe,
+                      cuisineName,
+                      mealType,
+                      season,
+                    );
 
-                // Avoid duplicates by ID
-                const id = standardized.id as string;
-                if (!seenIds.has(id)) {
-                  seenIds.add(id);
-                  allRecipes.push(standardized);
+                    // Avoid duplicates by ID
+                    const id = standardized.id as string;
+                    if (!seenIds.has(id)) {
+                      seenIds.add(id);
+                      allRecipes.push(standardized);
+                    }
+                  });
                 }
-              });
-            }
-          });
-        }
-      });
+              },
+            );
+          }
+        },
+      );
     }
   });
 

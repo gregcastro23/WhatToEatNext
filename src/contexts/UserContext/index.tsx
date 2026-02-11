@@ -1,5 +1,11 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { _logger } from "@/lib/logger";
 import type { ReactNode } from "react";
 
@@ -61,7 +67,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         try {
           const profile = JSON.parse(storedProfile) as UserProfile;
           setCurrentUser(profile);
-          _logger.info("Profile loaded from localStorage", { userId: profile.userId });
+          _logger.info("Profile loaded from localStorage", {
+            userId: profile.userId,
+          });
         } catch (parseError) {
           _logger.error("Failed to parse stored profile", parseError as any);
           localStorage.removeItem(STORAGE_KEY);
@@ -93,7 +101,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               setCurrentUser(profile);
               // Save to localStorage for future use
               localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-              _logger.info("Profile loaded from server", { userId: profile.userId });
+              _logger.info("Profile loaded from server", {
+                userId: profile.userId,
+              });
             }
           }
         } catch (fetchError) {
@@ -123,7 +133,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         const data = await response.json();
         if (data.success && data.profile) {
           const profile: UserProfile = {
-            userId: data.profile.userId || data.profile.id || currentUser.userId,
+            userId:
+              data.profile.userId || data.profile.id || currentUser.userId,
             name: data.profile.name,
             email: data.profile.email,
             preferences: data.profile.preferences,
@@ -175,7 +186,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           if (result.success && result.profile) {
             // Use server response as source of truth
             const serverProfile: UserProfile = {
-              userId: result.profile.userId || result.profile.id || currentUser.userId,
+              userId:
+                result.profile.userId ||
+                result.profile.id ||
+                currentUser.userId,
               name: result.profile.name,
               email: result.profile.email,
               preferences: result.profile.preferences,
@@ -186,7 +200,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             };
             setCurrentUser(serverProfile);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(serverProfile));
-            _logger.info("Profile updated on server", { userId: serverProfile.userId });
+            _logger.info("Profile updated on server", {
+              userId: serverProfile.userId,
+            });
             return serverProfile;
           }
         }
@@ -200,7 +216,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
       }
 
-      _logger.info("Profile updated locally", { userId: updatedProfile.userId });
+      _logger.info("Profile updated locally", {
+        userId: updatedProfile.userId,
+      });
       return updatedProfile;
     } catch (err) {
       setError("Failed to update profile");

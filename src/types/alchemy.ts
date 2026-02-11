@@ -190,10 +190,10 @@ export type Element = "Fire" | "Water" | "Earth" | "Air";
  * - Any calculation where relative magnitudes matter
  */
 export interface RawElementalProperties {
-  Fire: number;   // >= 0, no upper bound
-  Water: number;  // >= 0, no upper bound
-  Earth: number;  // >= 0, no upper bound
-  Air: number;    // >= 0, no upper bound
+  Fire: number; // >= 0, no upper bound
+  Water: number; // >= 0, no upper bound
+  Earth: number; // >= 0, no upper bound
+  Air: number; // >= 0, no upper bound
   [key: string]: number; // Allow indexing with string
 }
 
@@ -207,10 +207,10 @@ export interface RawElementalProperties {
  * - Legacy compatibility with normalized-only systems
  */
 export interface NormalizedElementalProperties {
-  Fire: number;   // 0.0-1.0
-  Water: number;  // 0.0-1.0
-  Earth: number;  // 0.0-1.0
-  Air: number;    // 0.0-1.0
+  Fire: number; // 0.0-1.0
+  Water: number; // 0.0-1.0
+  Earth: number; // 0.0-1.0
+  Air: number; // 0.0-1.0
   [key: string]: number; // Allow indexing with string
 }
 

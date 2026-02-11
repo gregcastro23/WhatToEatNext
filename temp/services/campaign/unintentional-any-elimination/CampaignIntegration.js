@@ -14,7 +14,9 @@ const UnintentionalAnyEliminationCampaign_1 = require("./UnintentionalAnyElimina
 /**
  * Extended Campaign Controller with Unintentional Any Elimination support
  */
-class UnintentionalAnyCampaignController extends CampaignController_1.CampaignController {
+class UnintentionalAnyCampaignController
+  extends CampaignController_1.CampaignController
+{
   constructor(config, unintentionalAnyConfig) {
     super(config);
     // Default configuration for unintentional any elimination
