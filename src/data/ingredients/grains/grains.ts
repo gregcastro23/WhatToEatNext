@@ -13,6 +13,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (125g)",
+      calories: 455,
+      macros: { protein: 13, carbs: 95, fat: 1.2, fiber: 3.4, saturatedFat: 0.2, sugar: 0.3, potassium: 134, sodium: 3 },
+      vitamins: { thiamin: 0.59, niacin: 0.37, riboflavin: 0.24, folate: 0.46, iron: 0.32 },
+      minerals: { selenium: 0.48, manganese: 0.38, phosphorus: 0.14, copper: 0.08 },
+    },
   },
   rice: {
     name: "rice",
@@ -23,6 +30,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (158g)",
+      calories: 206,
+      macros: { protein: 4.3, carbs: 45, fat: 0.4, fiber: 0.6, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      vitamins: { thiamin: 0.17, niacin: 0.15, B6: 0.09 },
+      minerals: { manganese: 0.37, selenium: 0.17, phosphorus: 0.05 },
     },
   },
   all_purpose_flour: {
@@ -35,6 +49,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (125g)",
+      calories: 455,
+      macros: { protein: 13, carbs: 95, fat: 1.2, fiber: 3.4, saturatedFat: 0.2, sugar: 0.3, potassium: 134, sodium: 3 },
+      vitamins: { thiamin: 0.59, niacin: 0.37, folate: 0.46 },
+      minerals: { selenium: 0.48, manganese: 0.38, phosphorus: 0.14 },
+    },
   },
   whole_grain_bread: {
     name: "whole grain bread",
@@ -46,6 +67,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 slice (43g)",
+      calories: 110,
+      macros: { protein: 5, carbs: 20, fat: 1.5, fiber: 3, saturatedFat: 0.3, sugar: 3, potassium: 120, sodium: 170 },
+      vitamins: { thiamin: 0.10, niacin: 0.10, folate: 0.06 },
+      minerals: { manganese: 0.30, selenium: 0.16, phosphorus: 0.08 },
+    },
   },
   steel_cut_oats: {
     name: "steel-cut oats",
@@ -56,6 +84,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1/4 cup dry (40g)",
+      calories: 150,
+      macros: { protein: 5, carbs: 27, fat: 2.5, fiber: 4, saturatedFat: 0.5, sugar: 1, potassium: 140, sodium: 0 },
+      vitamins: { thiamin: 0.17, B6: 0.04 },
+      minerals: { manganese: 0.63, phosphorus: 0.15, iron: 0.10, magnesium: 0.10, zinc: 0.10 },
     },
   },
   breadcrumbs: {
@@ -166,6 +201,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (163g)",
+      calories: 210,
+      macros: { protein: 4.4, carbs: 46, fat: 0.5, fiber: 0.7, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      vitamins: { thiamin: 0.17, niacin: 0.15 },
+      minerals: { manganese: 0.37, selenium: 0.17 },
     },
   },
   steamed_rice: {

@@ -17,12 +17,19 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   thyme: {
     name: "thyme",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    qualities: ["aromatic", "earthy", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["Gemini", "Virgo", "Libra"],
       seasonalAffinity: ["spring", "summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp dried (1g)",
+      calories: 3,
+      macros: { protein: 0.1, carbs: 0.6, fat: 0.1, fiber: 0.4, saturatedFat: 0, sugar: 0, potassium: 11, sodium: 1 },
+      vitamins: { K: 0.05, C: 0.01 },
+      minerals: { iron: 0.10, manganese: 0.04 },
     },
   },
   fresh_thyme: {
@@ -94,23 +101,37 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   oregano: {
     name: "oregano",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    qualities: ["aromatic", "peppery", "Mediterranean"],
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["Gemini", "Virgo", "Libra"],
       seasonalAffinity: ["spring", "summer"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tsp dried (1g)",
+      calories: 3,
+      macros: { protein: 0.1, carbs: 0.7, fat: 0, fiber: 0.4, saturatedFat: 0, sugar: 0, potassium: 13, sodium: 0 },
+      vitamins: { K: 0.09 },
+      minerals: { iron: 0.04, manganese: 0.03, calcium: 0.02 },
+    },
   },
   parsley: {
     name: "parsley",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    qualities: ["fresh", "bright", "versatile"],
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["Gemini", "Virgo", "Libra"],
       seasonalAffinity: ["spring", "summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "1/4 cup chopped (15g)",
+      calories: 5,
+      macros: { protein: 0.4, carbs: 0.9, fat: 0.1, fiber: 0.5, saturatedFat: 0, sugar: 0.1, potassium: 83, sodium: 8 },
+      vitamins: { K: 2.05, C: 0.33, A: 0.13 },
+      minerals: { iron: 0.06, potassium: 0.02 },
     },
   },
   mint: {
@@ -149,12 +170,19 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   rosemary: {
     name: "rosemary",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    qualities: ["aromatic", "piney", "robust"],
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["Gemini", "Virgo", "Libra"],
       seasonalAffinity: ["spring", "summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp dried (1.2g)",
+      calories: 4,
+      macros: { protein: 0.1, carbs: 0.8, fat: 0.2, fiber: 0.5, saturatedFat: 0.1, sugar: 0, potassium: 11, sodium: 1 },
+      vitamins: { A: 0.01, C: 0.01 },
+      minerals: { iron: 0.04, calcium: 0.02, manganese: 0.02 },
     },
   },
   mint_leaves: {
@@ -171,23 +199,37 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   fresh_basil: {
     name: "fresh basil",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    qualities: ["aromatic", "sweet", "Italian"],
+    category: "herbs",
+    astrologicalProfile: {
+      rulingPlanets: ["Mercury", "Venus"],
+      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      seasonalAffinity: ["summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "2 tbsp chopped (5g)",
+      calories: 1,
+      macros: { protein: 0.2, carbs: 0.1, fat: 0, fiber: 0.1, saturatedFat: 0, sugar: 0, potassium: 15, sodium: 0 },
+      vitamins: { K: 0.22, A: 0.03, C: 0.02 },
+      minerals: { manganese: 0.02 },
+    },
+  },
+  cilantro: {
+    name: "cilantro",
+    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
+    qualities: ["aromatic", "citrusy", "fresh"],
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["Gemini", "Virgo", "Libra"],
       seasonalAffinity: ["spring", "summer"],
     },
-  },
-  cilantro: {
-    name: "cilantro",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
-    astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+    nutritionalProfile: {
+      serving_size: "1/4 cup (4g)",
+      calories: 1,
+      macros: { protein: 0.1, carbs: 0.1, fat: 0, fiber: 0.1, saturatedFat: 0, sugar: 0, potassium: 21, sodium: 2 },
+      vitamins: { K: 0.12, A: 0.03, C: 0.02 },
+      minerals: {},
     },
   },
 };
