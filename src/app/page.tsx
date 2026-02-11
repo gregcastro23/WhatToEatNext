@@ -13,7 +13,7 @@ export default function Home() {
         </h1>
         <CosmicRecipeWidget />
 
-        <section className="mt-12">
+        {/* <section className="mt-12">
           <h2 className="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-cyan-300 to-blue-400 py-2">
             Cuisine Recommendations
           </h2>
@@ -39,7 +39,7 @@ export default function Home() {
             Cooking Method Recommender
           </h2>
           <EnhancedCookingMethodRecommender />
-        </section>
+        </section> */}
       </div>
     </main>
   );
