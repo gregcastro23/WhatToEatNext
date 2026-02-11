@@ -284,9 +284,11 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
   // Categorize cuisines into tiers based on compatibility score
   const categorizeCuisines = (cuisines: CuisineRecommendation[]) => {
-    const topMatches = cuisines.filter(c => c.astrological_score >= 0.7);
-    const goodMatches = cuisines.filter(c => c.astrological_score >= 0.5 && c.astrological_score < 0.7);
-    const otherOptions = cuisines.filter(c => c.astrological_score < 0.5);
+    const topMatches = cuisines.filter((c) => c.astrological_score >= 0.7);
+    const goodMatches = cuisines.filter(
+      (c) => c.astrological_score >= 0.5 && c.astrological_score < 0.7,
+    );
+    const otherOptions = cuisines.filter((c) => c.astrological_score < 0.5);
     return { topMatches, goodMatches, otherOptions };
   };
 
@@ -294,11 +296,26 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
   const getTierInfo = (tier: "top" | "good" | "other") => {
     switch (tier) {
       case "top":
-        return { label: "Top Matches", color: "green", icon: FaStar, description: "Excellent astrological alignment (70%+)" };
+        return {
+          label: "Top Matches",
+          color: "green",
+          icon: FaStar,
+          description: "Excellent astrological alignment (70%+)",
+        };
       case "good":
-        return { label: "Good Matches", color: "purple", icon: FaMagic, description: "Favorable compatibility (50-70%)" };
+        return {
+          label: "Good Matches",
+          color: "purple",
+          icon: FaMagic,
+          description: "Favorable compatibility (50-70%)",
+        };
       case "other":
-        return { label: "Other Options", color: "orange", icon: FaUtensils, description: "Available alternatives" };
+        return {
+          label: "Other Options",
+          color: "orange",
+          icon: FaUtensils,
+          description: "Available alternatives",
+        };
     }
   };
 
@@ -350,12 +367,17 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
           <Badge
             key={flavor}
             colorScheme={
-              flavor === "sweet" ? "pink" :
-              flavor === "sour" ? "yellow" :
-              flavor === "salty" ? "blue" :
-              flavor === "bitter" ? "purple" :
-              flavor === "umami" ? "green" :
-              "red"
+              flavor === "sweet"
+                ? "pink"
+                : flavor === "sour"
+                  ? "yellow"
+                  : flavor === "salty"
+                    ? "blue"
+                    : flavor === "bitter"
+                      ? "purple"
+                      : flavor === "umami"
+                        ? "green"
+                        : "red"
             }
             fontSize="xs"
           >
@@ -366,14 +388,21 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     );
   };
 
-  const renderRecipeCard = (recipe: NestedRecipe) => {
-    if (!recipe) return null; // Defensive check
-    return (
-      <Card key={recipe.recipe_id} size="sm" bg={cardBg} shadow="md" borderWidth="2px" borderColor="purple.100">
+  const renderRecipeCard = (recipe: NestedRecipe) => (
+    <Card
+      key={recipe.recipe_id}
+      size="sm"
+      bg={cardBg}
+      shadow="md"
+      borderWidth="2px"
+      borderColor="purple.100"
+    >
       <CardHeader pb={2}>
         <Flex justify="space-between" align="start">
           <Box>
-            <Heading size="md" color="purple.700">{recipe.name}</Heading>
+            <Heading size="md" color="purple.700">
+              {recipe.name}
+            </Heading>
             <Text fontSize="sm" color="gray.700" mt={2} fontWeight="medium">
               {recipe.description}
             </Text>
@@ -474,14 +503,21 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     </Card>
   );
 
-  const renderSauceCard = (sauce: SauceRecommendation) => {
-    if (!sauce) return null; // Defensive check
-    return (
-      <Card key={sauce.sauce_name} size="sm" bg={cardBg} shadow="md" borderWidth="1px" borderColor="orange.100">
+  const renderSauceCard = (sauce: SauceRecommendation) => (
+    <Card
+      key={sauce.sauce_name}
+      size="sm"
+      bg={cardBg}
+      shadow="md"
+      borderWidth="1px"
+      borderColor="orange.100"
+    >
       <CardBody>
         <VStack {...({ align: "start", spacing: 3 } as any)}>
           <Flex justify="space-between" width="100%" align="start">
-            <Heading size="sm" color="orange.700">{sauce.sauce_name}</Heading>
+            <Heading size="sm" color="orange.700">
+              {sauce.sauce_name}
+            </Heading>
             <Badge colorScheme="purple" size="sm" fontSize="xs">
               {(sauce.compatibility_score * 100).toFixed(0)}%
             </Badge>
@@ -508,7 +544,14 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
             </Box>
           )}
 
-          <Text fontSize="sm" fontStyle="italic" color="purple.700" borderLeftWidth="3px" borderLeftColor="purple.300" pl={3}>
+          <Text
+            fontSize="sm"
+            fontStyle="italic"
+            color="purple.700"
+            borderLeftWidth="3px"
+            borderLeftColor="purple.300"
+            pl={3}
+          >
             {sauce.reason}
           </Text>
         </VStack>
@@ -646,7 +689,8 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
               Your Astrologically Aligned Cuisines
             </Heading>
             <Text fontSize="md" color="gray.600" textAlign="center">
-              Showing all {data.cuisine_recommendations.length} cuisines ranked by compatibility
+              Showing all {data.cuisine_recommendations.length} cuisines ranked
+              by compatibility
             </Text>
           </VStack>
 
@@ -657,7 +701,8 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
               ? data.cuisine_recommendations.filter(Boolean) // Filter out any null/undefined items
               : [];
 
-            const { topMatches, goodMatches, otherOptions } = categorizeCuisines(validCuisines);
+            const { topMatches, goodMatches, otherOptions } =
+              categorizeCuisines(validCuisines);
             const topTier = getTierInfo("top");
             const goodTier = getTierInfo("good");
             const otherTier = getTierInfo("other");
@@ -668,7 +713,11 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                 {topMatches.length > 0 && (
                   <Box width="100%">
                     <Flex align="center" gap={2} mb={4}>
-                      <Icon as={topTier.icon} color={`${topTier.color}.500`} boxSize={5} />
+                      <Icon
+                        as={topTier.icon}
+                        color={`${topTier.color}.500`}
+                        boxSize={5}
+                      />
                       <Heading size="md" color={`${topTier.color}.600`}>
                         {topTier.label} ({topMatches.length})
                       </Heading>
@@ -678,416 +727,846 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                     </Flex>
                     <VStack {...({ spacing: 6 } as any)}>
                       {topMatches.map((cuisine) => (
-              <Card
-                key={cuisine.cuisine_id}
-                {...({ bg: cardBg, shadow: "lg", size: "lg" } as any)}
-              >
-                <CardHeader>
-                  <Flex justify="space-between" align="start" wrap="wrap" gap={4}>
-                    <Box flex="1" minW="0">
-                      <Flex align="center" gap={3} mb={2}>
-                        <Heading size="md">{cuisine.name}</Heading>
-                        <Badge
-                          colorScheme={getScoreColor(cuisine.astrological_score)}
-                          fontSize="lg"
-                          px={3}
-                          py={1}
+                        <Card
+                          key={cuisine.cuisine_id}
+                          {...({ bg: cardBg, shadow: "lg", size: "lg" } as any)}
                         >
-                          {(cuisine.astrological_score * 100).toFixed(0)}%
-                        </Badge>
-                      </Flex>
-                      <Text color="gray.600" mt={1}>
-                        {cuisine.description}
-                      </Text>
-                      {renderFlavorProfileCompact(cuisine.flavor_profile)}
-                      <Text
-                        fontSize="sm"
-                        color="purple.600"
-                        mt={2}
-                        fontStyle="italic"
-                      >
-                        {cuisine.compatibility_reason}
-                      </Text>
-                    </Box>
-
-                    <VStack {...({ align: "end", spacing: 2, minW: "120px" } as any)}>
-                      <Box textAlign="center">
-                        <Progress
-                          value={cuisine.astrological_score * 100}
-                          size="md"
-                          colorScheme={getScoreColor(cuisine.astrological_score)}
-                          borderRadius="full"
-                          mb={1}
-                        />
-                        <Text fontSize="xs" color="gray.500">
-                          Match Quality
-                        </Text>
-                      </Box>
-                      <Text fontSize="sm" color="gray.500" textAlign="right">
-                        {cuisine.seasonal_context}
-                      </Text>
-                    </VStack>
-                  </Flex>
-                </CardHeader>
-
-                <CardBody>
-                  <VStack {...({ spacing: 6, align: "stretch" } as any)}>
-                    {/* Accordion for Recipes and Sauces - PRIMARY FOCUS */}
-                    <AccordionRoot collapsible multiple defaultValue={["recipes"]}>
-                      {/* Nested Recipes */}
-                      <AccordionItem value="recipes">
-                        <AccordionItemTrigger>
-                          <Box flex="1" textAlign="left">
-                            <HStack>
-                              <Icon as={FaUtensils} color="green.500" />
-                              <Text fontWeight="medium">
-                                Featured Recipes (
-                                {cuisine.nested_recipes.length})
-                              </Text>
-                            </HStack>
-                          </Box>
-                          <AccordionItemIndicator />
-                        </AccordionItemTrigger>
-                        <AccordionItemContent pb={4}>
-                          <SimpleGrid
-                            {...({
-                              columns: { base: 1, lg: 2 },
-                              spacing: 4,
-                            } as any)}
-                          >
-                            {cuisine.nested_recipes.map(renderRecipeCard)}
-                          </SimpleGrid>
-                        </AccordionItemContent>
-                      </AccordionItem>
-
-                      {/* Recommended Sauces */}
-                      <AccordionItem value="sauces">
-                        <AccordionItemTrigger>
-                          <Box flex="1" textAlign="left">
-                            <HStack>
-                              <Icon as={FaPepperHot} color="red.500" />
-                              <Text fontWeight="medium">
-                                Recommended Sauces (
-                                {cuisine.recommended_sauces.length})
-                              </Text>
-                            </HStack>
-                          </Box>
-                          <AccordionItemIndicator />
-                        </AccordionItemTrigger>
-                        <AccordionItemContent pb={4}>
-                          <SimpleGrid
-                            {...({
-                              columns: { base: 1, md: 2, lg: 3 },
-                              spacing: 4,
-                            } as any)}
-                          >
-                            {cuisine.recommended_sauces.map(renderSauceCard)}
-                          </SimpleGrid>
-                        </AccordionItemContent>
-                      </AccordionItem>
-
-                      {/* Thermodynamic Metrics - NEW */}
-                      {cuisine.thermodynamic_metrics && (
-                        <AccordionItem value="thermodynamics">
-                          <AccordionItemTrigger>
-                            <Box flex="1" textAlign="left">
-                              <HStack>
-                                <Icon as={FaFire} color="orange.500" />
-                                <Text fontWeight="medium">
-                                  Thermodynamic Profile
+                          <CardHeader>
+                            <Flex
+                              justify="space-between"
+                              align="start"
+                              wrap="wrap"
+                              gap={4}
+                            >
+                              <Box flex="1" minW="0">
+                                <Flex align="center" gap={3} mb={2}>
+                                  <Heading size="md">{cuisine.name}</Heading>
+                                  <Badge
+                                    colorScheme={getScoreColor(
+                                      cuisine.astrological_score,
+                                    )}
+                                    fontSize="lg"
+                                    px={3}
+                                    py={1}
+                                  >
+                                    {(cuisine.astrological_score * 100).toFixed(
+                                      0,
+                                    )}
+                                    %
+                                  </Badge>
+                                </Flex>
+                                <Text color="gray.600" mt={1}>
+                                  {cuisine.description}
                                 </Text>
-                              </HStack>
-                            </Box>
-                            <AccordionItemIndicator />
-                          </AccordionItemTrigger>
-                          <AccordionItemContent pb={4}>
-                            <SimpleGrid {...({ columns: { base: 2, md: 3 }, spacing: 3 } as any)}>
-                              <Box bg="orange.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Heat</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="orange.700">
-                                  {cuisine.thermodynamic_metrics?.heat?.toFixed(3) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="purple.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Entropy</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="purple.700">
-                                  {cuisine.thermodynamic_metrics?.entropy?.toFixed(3) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="red.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Reactivity</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="red.700">
-                                  {cuisine.thermodynamic_metrics?.reactivity?.toFixed(3) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="green.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Greg's Energy</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="green.700">
-                                  {cuisine.thermodynamic_metrics?.gregsEnergy?.toFixed(4) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="blue.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Kalchm</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="blue.700">
-                                  {cuisine.thermodynamic_metrics?.kalchm?.toFixed(3) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="pink.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Monica Constant</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="pink.700">
-                                  {cuisine.thermodynamic_metrics?.monica?.toFixed(3) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                            </SimpleGrid>
-                          </AccordionItemContent>
-                        </AccordionItem>
-                      )}
-
-                      {/* Kinetic Properties - NEW */}
-                      {cuisine.kinetic_properties && (
-                        <AccordionItem value="kinetics">
-                          <AccordionItemTrigger>
-                            <Box flex="1" textAlign="left">
-                              <HStack>
-                                <Icon as={FaStar} color="cyan.500" />
-                                <Text fontWeight="medium">
-                                  Kinetic Properties (P=IV Model)
-                                </Text>
-                              </HStack>
-                            </Box>
-                            <AccordionItemIndicator />
-                          </AccordionItemTrigger>
-                          <AccordionItemContent pb={4}>
-                            <SimpleGrid {...({ columns: { base: 2, md: 4 }, spacing: 3 } as any)}>
-                              <Box bg="cyan.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Charge (Q)</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="cyan.700">
-                                  {cuisine.kinetic_properties?.charge?.toFixed(2) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="blue.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Potential (V)</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="blue.700">
-                                  {cuisine.kinetic_properties?.potentialDifference?.toFixed(4) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="purple.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Current (I)</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="purple.700">
-                                  {cuisine.kinetic_properties?.currentFlow?.toFixed(4) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="pink.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Power (P)</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="pink.700">
-                                  {cuisine.kinetic_properties?.power?.toFixed(6) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="orange.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Force Magnitude</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="orange.700">
-                                  {cuisine.kinetic_properties?.forceMagnitude?.toFixed(4) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="green.50" p={3} borderRadius="md">
-                                <Text fontSize="xs" color="gray.600" mb={1}>Inertia</Text>
-                                <Text fontSize="lg" fontWeight="bold" color="green.700">
-                                  {cuisine.kinetic_properties?.inertia?.toFixed(2) ?? 'N/A'}
-                                </Text>
-                              </Box>
-                              <Box bg="gray.100" p={3} borderRadius="md" {...({ gridColumn: { base: "span 2", md: "span 2" } } as any)}>
-                                <Text fontSize="xs" color="gray.600" mb={1}>Force Classification</Text>
-                                <Badge colorScheme={cuisine.kinetic_properties?.forceClassification === "accelerating" ? "green" : cuisine.kinetic_properties?.forceClassification === "decelerating" ? "red" : "yellow"} fontSize="md">
-                                  {cuisine.kinetic_properties?.forceClassification ?? 'balanced'}
-                                </Badge>
-                              </Box>
-                            </SimpleGrid>
-                          </AccordionItemContent>
-                        </AccordionItem>
-                      )}
-
-                      {/* Flavor Profile - NEW */}
-                      {cuisine.flavor_profile && (
-                        <AccordionItem value="flavor">
-                          <AccordionItemTrigger>
-                            <Box flex="1" textAlign="left">
-                              <HStack>
-                                <Icon as={FaPepperHot} color="orange.500" />
-                                <Text fontWeight="medium">
-                                  Flavor Profile
-                                </Text>
-                              </HStack>
-                            </Box>
-                            <AccordionItemIndicator />
-                          </AccordionItemTrigger>
-                          <AccordionItemContent pb={4}>
-                            <VStack {...({ align: "stretch", spacing: 2 } as any)}>
-                              {Object.entries(cuisine.flavor_profile).map(([flavor, value]) => (
-                                <Box key={flavor}>
-                                  <Flex justify="space-between" mb={1}>
-                                    <Text fontSize="sm" fontWeight="medium" textTransform="capitalize">
-                                      {flavor}
-                                    </Text>
-                                    <Text fontSize="sm" color="gray.600">
-                                      {(value * 100).toFixed(0)}%
-                                    </Text>
-                                  </Flex>
-                                  <Progress
-                                    value={value * 100}
-                                    size="sm"
-                                    colorScheme={
-                                      flavor === "sweet" ? "pink" :
-                                      flavor === "sour" ? "yellow" :
-                                      flavor === "salty" ? "blue" :
-                                      flavor === "bitter" ? "purple" :
-                                      flavor === "umami" ? "green" :
-                                      "red"
-                                    }
-                                  />
-                                </Box>
-                              ))}
-                            </VStack>
-                          </AccordionItemContent>
-                        </AccordionItem>
-                      )}
-
-                      {/* Cultural Signatures - NEW */}
-                      {cuisine.cultural_signatures && cuisine.cultural_signatures.length > 0 && (
-                        <AccordionItem value="signatures">
-                          <AccordionItemTrigger>
-                            <Box flex="1" textAlign="left">
-                              <HStack>
-                                <Icon as={FaStar} color="yellow.500" />
-                                <Text fontWeight="medium">
-                                  Cultural Signatures ({cuisine.cultural_signatures.length})
-                                </Text>
-                              </HStack>
-                            </Box>
-                            <AccordionItemIndicator />
-                          </AccordionItemTrigger>
-                          <AccordionItemContent pb={4}>
-                            <VStack {...({ align: "stretch", spacing: 2 } as any)}>
-                              {cuisine.cultural_signatures.map((sig, idx) => (
-                                <Box
-                                  key={idx}
-                                  bg={sig.significance === "high" ? "yellow.50" : "gray.50"}
-                                  p={3}
-                                  borderRadius="md"
-                                  borderLeft="4px solid"
-                                  borderLeftColor={sig.significance === "high" ? "yellow.400" : "gray.300"}
+                                {renderFlavorProfileCompact(
+                                  cuisine.flavor_profile,
+                                )}
+                                <Text
+                                  fontSize="sm"
+                                  color="purple.600"
+                                  mt={2}
+                                  fontStyle="italic"
                                 >
-                                  <Flex justify="space-between" align="start">
-                                    <Box>
-                                      <Text fontSize="sm" fontWeight="bold">
-                                        {sig.property}
-                                      </Text>
-                                      <Text fontSize="xs" color="gray.600">
-                                        Z-score: {sig.zScore.toFixed(2)} • Value: {sig.value.toFixed(2)}
-                                      </Text>
-                                    </Box>
-                                    <Badge colorScheme={sig.significance === "high" ? "yellow" : "gray"}>
-                                      {sig.significance}
-                                    </Badge>
-                                  </Flex>
-                                </Box>
-                              ))}
-                            </VStack>
-                          </AccordionItemContent>
-                        </AccordionItem>
-                      )}
-
-                      {/* Fusion Pairings - NEW */}
-                      {cuisine.fusion_pairings && cuisine.fusion_pairings.length > 0 && (
-                        <AccordionItem value="fusion">
-                          <AccordionItemTrigger>
-                            <Box flex="1" textAlign="left">
-                              <HStack>
-                                <Icon as={FaMagic} color="purple.500" />
-                                <Text fontWeight="medium">
-                                  Fusion Pairing Recommendations ({cuisine.fusion_pairings.length})
+                                  {cuisine.compatibility_reason}
                                 </Text>
-                              </HStack>
-                            </Box>
-                            <AccordionItemIndicator />
-                          </AccordionItemTrigger>
-                          <AccordionItemContent pb={4}>
-                            <VStack {...({ align: "stretch", spacing: 3 } as any)}>
-                              {cuisine.fusion_pairings.map((pairing, idx) => (
-                                <Card key={idx} size="sm" bg="purple.50" borderWidth="1px" borderColor="purple.200">
-                                  <CardBody>
-                                    <Flex justify="space-between" align="start" mb={2}>
-                                      <Heading size="sm" color="purple.800">
-                                        {cuisine.name} + {pairing.name}
-                                      </Heading>
-                                      <Badge colorScheme="purple" fontSize="sm">
-                                        {(pairing.compatibility_score * 100).toFixed(0)}%
-                                      </Badge>
-                                    </Flex>
-                                    <Text fontSize="sm" color="gray.700" mb={2}>
-                                      {pairing.reason}
-                                    </Text>
-                                    <SimpleGrid {...({ columns: 3, spacing: 2, fontSize: "xs" } as any)}>
-                                      <Box>
-                                        <Text color="gray.600">Blend Ratio</Text>
-                                        <Text fontWeight="bold">{(pairing.blend_ratio * 100).toFixed(0)}%</Text>
-                                      </Box>
-                                      <Box>
-                                        <Text color="gray.600">Harmony</Text>
-                                        <Text fontWeight="bold">{(pairing.thermodynamic_harmony * 100).toFixed(0)}%</Text>
-                                      </Box>
-                                      <Box>
-                                        <Text color="gray.600">Shared Elements</Text>
-                                        <Wrap {...({ spacing: 1 } as any)}>
-                                          {pairing.shared_elements.map((el, i) => (
-                                            <WrapItem key={i}>
-                                              <TagRoot size="sm" variant="subtle" colorScheme="purple">
-                                                <TagLabel fontSize="xs">{el}</TagLabel>
-                                              </TagRoot>
-                                            </WrapItem>
-                                          ))}
-                                        </Wrap>
-                                      </Box>
+                              </Box>
+
+                              <VStack
+                                {...({
+                                  align: "end",
+                                  spacing: 2,
+                                  minW: "120px",
+                                } as any)}
+                              >
+                                <Box textAlign="center">
+                                  <Progress
+                                    value={cuisine.astrological_score * 100}
+                                    size="md"
+                                    colorScheme={getScoreColor(
+                                      cuisine.astrological_score,
+                                    )}
+                                    borderRadius="full"
+                                    mb={1}
+                                  />
+                                  <Text fontSize="xs" color="gray.500">
+                                    Match Quality
+                                  </Text>
+                                </Box>
+                                <Text
+                                  fontSize="sm"
+                                  color="gray.500"
+                                  textAlign="right"
+                                >
+                                  {cuisine.seasonal_context}
+                                </Text>
+                              </VStack>
+                            </Flex>
+                          </CardHeader>
+
+                          <CardBody>
+                            <VStack
+                              {...({ spacing: 6, align: "stretch" } as any)}
+                            >
+                              {/* Accordion for Recipes and Sauces - PRIMARY FOCUS */}
+                              <AccordionRoot
+                                collapsible
+                                multiple
+                                defaultValue={["recipes"]}
+                              >
+                                {/* Nested Recipes */}
+                                <AccordionItem value="recipes">
+                                  <AccordionItemTrigger>
+                                    <Box flex="1" textAlign="left">
+                                      <HStack>
+                                        <Icon
+                                          as={FaUtensils}
+                                          color="green.500"
+                                        />
+                                        <Text fontWeight="medium">
+                                          Featured Recipes (
+                                          {cuisine.nested_recipes.length})
+                                        </Text>
+                                      </HStack>
+                                    </Box>
+                                    <AccordionItemIndicator />
+                                  </AccordionItemTrigger>
+                                  <AccordionItemContent pb={4}>
+                                    <SimpleGrid
+                                      {...({
+                                        columns: { base: 1, lg: 2 },
+                                        spacing: 4,
+                                      } as any)}
+                                    >
+                                      {cuisine.nested_recipes.map((recipe) =>
+                                        recipe
+                                          ? renderRecipeCard(recipe)
+                                          : null,
+                                      )}
                                     </SimpleGrid>
-                                  </CardBody>
-                                </Card>
-                              ))}
+                                  </AccordionItemContent>
+                                </AccordionItem>
+
+                                {/* Recommended Sauces */}
+                                <AccordionItem value="sauces">
+                                  <AccordionItemTrigger>
+                                    <Box flex="1" textAlign="left">
+                                      <HStack>
+                                        <Icon
+                                          as={FaPepperHot}
+                                          color="red.500"
+                                        />
+                                        <Text fontWeight="medium">
+                                          Recommended Sauces (
+                                          {cuisine.recommended_sauces.length})
+                                        </Text>
+                                      </HStack>
+                                    </Box>
+                                    <AccordionItemIndicator />
+                                  </AccordionItemTrigger>
+                                  <AccordionItemContent pb={4}>
+                                    <SimpleGrid
+                                      {...({
+                                        columns: { base: 1, md: 2, lg: 3 },
+                                        spacing: 4,
+                                      } as any)}
+                                    >
+                                      {cuisine.recommended_sauces.map(
+                                        (sauce) =>
+                                          sauce ? renderSauceCard(sauce) : null,
+                                      )}
+                                    </SimpleGrid>
+                                  </AccordionItemContent>
+                                </AccordionItem>
+
+                                {/* Thermodynamic Metrics - NEW */}
+                                {cuisine.thermodynamic_metrics && (
+                                  <AccordionItem value="thermodynamics">
+                                    <AccordionItemTrigger>
+                                      <Box flex="1" textAlign="left">
+                                        <HStack>
+                                          <Icon
+                                            as={FaFire}
+                                            color="orange.500"
+                                          />
+                                          <Text fontWeight="medium">
+                                            Thermodynamic Profile
+                                          </Text>
+                                        </HStack>
+                                      </Box>
+                                      <AccordionItemIndicator />
+                                    </AccordionItemTrigger>
+                                    <AccordionItemContent pb={4}>
+                                      <SimpleGrid
+                                        {...({
+                                          columns: { base: 2, md: 3 },
+                                          spacing: 3,
+                                        } as any)}
+                                      >
+                                        <Box
+                                          bg="orange.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Heat
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="orange.700"
+                                          >
+                                            {cuisine.thermodynamic_metrics?.heat?.toFixed(
+                                              3,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="purple.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Entropy
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="purple.700"
+                                          >
+                                            {cuisine.thermodynamic_metrics?.entropy?.toFixed(
+                                              3,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="red.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Reactivity
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="red.700"
+                                          >
+                                            {cuisine.thermodynamic_metrics?.reactivity?.toFixed(
+                                              3,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="green.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Greg's Energy
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="green.700"
+                                          >
+                                            {cuisine.thermodynamic_metrics?.gregsEnergy?.toFixed(
+                                              4,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="blue.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Kalchm
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="blue.700"
+                                          >
+                                            {cuisine.thermodynamic_metrics?.kalchm?.toFixed(
+                                              3,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="pink.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Monica Constant
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="pink.700"
+                                          >
+                                            {cuisine.thermodynamic_metrics?.monica?.toFixed(
+                                              3,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                      </SimpleGrid>
+                                    </AccordionItemContent>
+                                  </AccordionItem>
+                                )}
+
+                                {/* Kinetic Properties - NEW */}
+                                {cuisine.kinetic_properties && (
+                                  <AccordionItem value="kinetics">
+                                    <AccordionItemTrigger>
+                                      <Box flex="1" textAlign="left">
+                                        <HStack>
+                                          <Icon as={FaStar} color="cyan.500" />
+                                          <Text fontWeight="medium">
+                                            Kinetic Properties (P=IV Model)
+                                          </Text>
+                                        </HStack>
+                                      </Box>
+                                      <AccordionItemIndicator />
+                                    </AccordionItemTrigger>
+                                    <AccordionItemContent pb={4}>
+                                      <SimpleGrid
+                                        {...({
+                                          columns: { base: 2, md: 4 },
+                                          spacing: 3,
+                                        } as any)}
+                                      >
+                                        <Box
+                                          bg="cyan.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Charge (Q)
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="cyan.700"
+                                          >
+                                            {cuisine.kinetic_properties?.charge?.toFixed(
+                                              2,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="blue.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Potential (V)
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="blue.700"
+                                          >
+                                            {cuisine.kinetic_properties?.potentialDifference?.toFixed(
+                                              4,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="purple.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Current (I)
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="purple.700"
+                                          >
+                                            {cuisine.kinetic_properties?.currentFlow?.toFixed(
+                                              4,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="pink.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Power (P)
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="pink.700"
+                                          >
+                                            {cuisine.kinetic_properties?.power?.toFixed(
+                                              6,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="orange.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Force Magnitude
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="orange.700"
+                                          >
+                                            {cuisine.kinetic_properties?.forceMagnitude?.toFixed(
+                                              4,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="green.50"
+                                          p={3}
+                                          borderRadius="md"
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Inertia
+                                          </Text>
+                                          <Text
+                                            fontSize="lg"
+                                            fontWeight="bold"
+                                            color="green.700"
+                                          >
+                                            {cuisine.kinetic_properties?.inertia?.toFixed(
+                                              2,
+                                            ) ?? "N/A"}
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          bg="gray.100"
+                                          p={3}
+                                          borderRadius="md"
+                                          {...({
+                                            gridColumn: {
+                                              base: "span 2",
+                                              md: "span 2",
+                                            },
+                                          } as any)}
+                                        >
+                                          <Text
+                                            fontSize="xs"
+                                            color="gray.600"
+                                            mb={1}
+                                          >
+                                            Force Classification
+                                          </Text>
+                                          <Badge
+                                            colorScheme={
+                                              cuisine.kinetic_properties
+                                                ?.forceClassification ===
+                                              "accelerating"
+                                                ? "green"
+                                                : cuisine.kinetic_properties
+                                                      ?.forceClassification ===
+                                                    "decelerating"
+                                                  ? "red"
+                                                  : "yellow"
+                                            }
+                                            fontSize="md"
+                                          >
+                                            {cuisine.kinetic_properties
+                                              ?.forceClassification ??
+                                              "balanced"}
+                                          </Badge>
+                                        </Box>
+                                      </SimpleGrid>
+                                    </AccordionItemContent>
+                                  </AccordionItem>
+                                )}
+
+                                {/* Flavor Profile - NEW */}
+                                {cuisine.flavor_profile && (
+                                  <AccordionItem value="flavor">
+                                    <AccordionItemTrigger>
+                                      <Box flex="1" textAlign="left">
+                                        <HStack>
+                                          <Icon
+                                            as={FaPepperHot}
+                                            color="orange.500"
+                                          />
+                                          <Text fontWeight="medium">
+                                            Flavor Profile
+                                          </Text>
+                                        </HStack>
+                                      </Box>
+                                      <AccordionItemIndicator />
+                                    </AccordionItemTrigger>
+                                    <AccordionItemContent pb={4}>
+                                      <VStack
+                                        {...({
+                                          align: "stretch",
+                                          spacing: 2,
+                                        } as any)}
+                                      >
+                                        {Object.entries(
+                                          cuisine.flavor_profile,
+                                        ).map(([flavor, value]) => (
+                                          <Box key={flavor}>
+                                            <Flex
+                                              justify="space-between"
+                                              mb={1}
+                                            >
+                                              <Text
+                                                fontSize="sm"
+                                                fontWeight="medium"
+                                                textTransform="capitalize"
+                                              >
+                                                {flavor}
+                                              </Text>
+                                              <Text
+                                                fontSize="sm"
+                                                color="gray.600"
+                                              >
+                                                {(value * 100).toFixed(0)}%
+                                              </Text>
+                                            </Flex>
+                                            <Progress
+                                              value={value * 100}
+                                              size="sm"
+                                              colorScheme={
+                                                flavor === "sweet"
+                                                  ? "pink"
+                                                  : flavor === "sour"
+                                                    ? "yellow"
+                                                    : flavor === "salty"
+                                                      ? "blue"
+                                                      : flavor === "bitter"
+                                                        ? "purple"
+                                                        : flavor === "umami"
+                                                          ? "green"
+                                                          : "red"
+                                              }
+                                            />
+                                          </Box>
+                                        ))}
+                                      </VStack>
+                                    </AccordionItemContent>
+                                  </AccordionItem>
+                                )}
+
+                                {/* Cultural Signatures - NEW */}
+                                {cuisine.cultural_signatures &&
+                                  cuisine.cultural_signatures.length > 0 && (
+                                    <AccordionItem value="signatures">
+                                      <AccordionItemTrigger>
+                                        <Box flex="1" textAlign="left">
+                                          <HStack>
+                                            <Icon
+                                              as={FaStar}
+                                              color="yellow.500"
+                                            />
+                                            <Text fontWeight="medium">
+                                              Cultural Signatures (
+                                              {
+                                                cuisine.cultural_signatures
+                                                  .length
+                                              }
+                                              )
+                                            </Text>
+                                          </HStack>
+                                        </Box>
+                                        <AccordionItemIndicator />
+                                      </AccordionItemTrigger>
+                                      <AccordionItemContent pb={4}>
+                                        <VStack
+                                          {...({
+                                            align: "stretch",
+                                            spacing: 2,
+                                          } as any)}
+                                        >
+                                          {cuisine.cultural_signatures.map(
+                                            (sig, idx) => (
+                                              <Box
+                                                key={idx}
+                                                bg={
+                                                  sig.significance === "high"
+                                                    ? "yellow.50"
+                                                    : "gray.50"
+                                                }
+                                                p={3}
+                                                borderRadius="md"
+                                                borderLeft="4px solid"
+                                                borderLeftColor={
+                                                  sig.significance === "high"
+                                                    ? "yellow.400"
+                                                    : "gray.300"
+                                                }
+                                              >
+                                                <Flex
+                                                  justify="space-between"
+                                                  align="start"
+                                                >
+                                                  <Box>
+                                                    <Text
+                                                      fontSize="sm"
+                                                      fontWeight="bold"
+                                                    >
+                                                      {sig.property}
+                                                    </Text>
+                                                    <Text
+                                                      fontSize="xs"
+                                                      color="gray.600"
+                                                    >
+                                                      Z-score:{" "}
+                                                      {sig.zScore.toFixed(2)} •
+                                                      Value:{" "}
+                                                      {sig.value.toFixed(2)}
+                                                    </Text>
+                                                  </Box>
+                                                  <Badge
+                                                    colorScheme={
+                                                      sig.significance ===
+                                                      "high"
+                                                        ? "yellow"
+                                                        : "gray"
+                                                    }
+                                                  >
+                                                    {sig.significance}
+                                                  </Badge>
+                                                </Flex>
+                                              </Box>
+                                            ),
+                                          )}
+                                        </VStack>
+                                      </AccordionItemContent>
+                                    </AccordionItem>
+                                  )}
+
+                                {/* Fusion Pairings - NEW */}
+                                {cuisine.fusion_pairings &&
+                                  cuisine.fusion_pairings.length > 0 && (
+                                    <AccordionItem value="fusion">
+                                      <AccordionItemTrigger>
+                                        <Box flex="1" textAlign="left">
+                                          <HStack>
+                                            <Icon
+                                              as={FaMagic}
+                                              color="purple.500"
+                                            />
+                                            <Text fontWeight="medium">
+                                              Fusion Pairing Recommendations (
+                                              {cuisine.fusion_pairings.length})
+                                            </Text>
+                                          </HStack>
+                                        </Box>
+                                        <AccordionItemIndicator />
+                                      </AccordionItemTrigger>
+                                      <AccordionItemContent pb={4}>
+                                        <VStack
+                                          {...({
+                                            align: "stretch",
+                                            spacing: 3,
+                                          } as any)}
+                                        >
+                                          {cuisine.fusion_pairings.map(
+                                            (pairing, idx) => (
+                                              <Card
+                                                key={idx}
+                                                size="sm"
+                                                bg="purple.50"
+                                                borderWidth="1px"
+                                                borderColor="purple.200"
+                                              >
+                                                <CardBody>
+                                                  <Flex
+                                                    justify="space-between"
+                                                    align="start"
+                                                    mb={2}
+                                                  >
+                                                    <Heading
+                                                      size="sm"
+                                                      color="purple.800"
+                                                    >
+                                                      {cuisine.name} +{" "}
+                                                      {pairing.name}
+                                                    </Heading>
+                                                    <Badge
+                                                      colorScheme="purple"
+                                                      fontSize="sm"
+                                                    >
+                                                      {(
+                                                        pairing.compatibility_score *
+                                                        100
+                                                      ).toFixed(0)}
+                                                      %
+                                                    </Badge>
+                                                  </Flex>
+                                                  <Text
+                                                    fontSize="sm"
+                                                    color="gray.700"
+                                                    mb={2}
+                                                  >
+                                                    {pairing.reason}
+                                                  </Text>
+                                                  <SimpleGrid
+                                                    {...({
+                                                      columns: 3,
+                                                      spacing: 2,
+                                                      fontSize: "xs",
+                                                    } as any)}
+                                                  >
+                                                    <Box>
+                                                      <Text color="gray.600">
+                                                        Blend Ratio
+                                                      </Text>
+                                                      <Text fontWeight="bold">
+                                                        {(
+                                                          pairing.blend_ratio *
+                                                          100
+                                                        ).toFixed(0)}
+                                                        %
+                                                      </Text>
+                                                    </Box>
+                                                    <Box>
+                                                      <Text color="gray.600">
+                                                        Harmony
+                                                      </Text>
+                                                      <Text fontWeight="bold">
+                                                        {(
+                                                          pairing.thermodynamic_harmony *
+                                                          100
+                                                        ).toFixed(0)}
+                                                        %
+                                                      </Text>
+                                                    </Box>
+                                                    <Box>
+                                                      <Text color="gray.600">
+                                                        Shared Elements
+                                                      </Text>
+                                                      <Wrap
+                                                        {...({
+                                                          spacing: 1,
+                                                        } as any)}
+                                                      >
+                                                        {pairing.shared_elements.map(
+                                                          (el, i) => (
+                                                            <WrapItem key={i}>
+                                                              <TagRoot
+                                                                size="sm"
+                                                                variant="subtle"
+                                                                colorScheme="purple"
+                                                              >
+                                                                <TagLabel fontSize="xs">
+                                                                  {el}
+                                                                </TagLabel>
+                                                              </TagRoot>
+                                                            </WrapItem>
+                                                          ),
+                                                        )}
+                                                      </Wrap>
+                                                    </Box>
+                                                  </SimpleGrid>
+                                                </CardBody>
+                                              </Card>
+                                            ),
+                                          )}
+                                        </VStack>
+                                      </AccordionItemContent>
+                                    </AccordionItem>
+                                  )}
+
+                                {/* Elemental Properties - De-emphasized, collapsible */}
+                                <AccordionItem value="elemental">
+                                  <AccordionItemTrigger>
+                                    <Box flex="1" textAlign="left">
+                                      <HStack>
+                                        <Icon as={FaMagic} color="purple.500" />
+                                        <Text
+                                          fontWeight="medium"
+                                          fontSize="sm"
+                                          color="gray.600"
+                                        >
+                                          Elemental Balance
+                                        </Text>
+                                      </HStack>
+                                    </Box>
+                                    <AccordionItemIndicator />
+                                  </AccordionItemTrigger>
+                                  <AccordionItemContent pb={4}>
+                                    <Box>
+                                      <Text
+                                        fontSize="xs"
+                                        color="gray.500"
+                                        mb={3}
+                                      >
+                                        Traditional alchemical properties
+                                      </Text>
+                                      {renderElementalProperties(
+                                        cuisine.elemental_properties,
+                                      )}
+                                    </Box>
+                                  </AccordionItemContent>
+                                </AccordionItem>
+                              </AccordionRoot>
                             </VStack>
-                          </AccordionItemContent>
-                        </AccordionItem>
-                      )}
+                          </CardBody>
 
-                      {/* Elemental Properties - De-emphasized, collapsible */}
-                      <AccordionItem value="elemental">
-                        <AccordionItemTrigger>
-                          <Box flex="1" textAlign="left">
-                            <HStack>
-                              <Icon as={FaMagic} color="purple.500" />
-                              <Text fontWeight="medium" fontSize="sm" color="gray.600">
-                                Elemental Balance
-                              </Text>
-                            </HStack>
-                          </Box>
-                          <AccordionItemIndicator />
-                        </AccordionItemTrigger>
-                        <AccordionItemContent pb={4}>
-                          <Box>
-                            <Text fontSize="xs" color="gray.500" mb={3}>
-                              Traditional alchemical properties
-                            </Text>
-                            {renderElementalProperties(cuisine.elemental_properties)}
-                          </Box>
-                        </AccordionItemContent>
-                      </AccordionItem>
-                    </AccordionRoot>
-                  </VStack>
-                </CardBody>
-
-                <CardFooter>
-                  <Button colorScheme="purple" size="sm">
-                    Explore {cuisine.name} Recipes →
-                  </Button>
-                </CardFooter>
-              </Card>
+                          <CardFooter>
+                            <Button colorScheme="purple" size="sm">
+                              Explore {cuisine.name} Recipes →
+                            </Button>
+                          </CardFooter>
+                        </Card>
                       ))}
                     </VStack>
                   </Box>
@@ -1097,7 +1576,11 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                 {goodMatches.length > 0 && (
                   <Box width="100%">
                     <Flex align="center" gap={2} mb={4}>
-                      <Icon as={goodTier.icon} color={`${goodTier.color}.500`} boxSize={5} />
+                      <Icon
+                        as={goodTier.icon}
+                        color={`${goodTier.color}.500`}
+                        boxSize={5}
+                      />
                       <Heading size="md" color={`${goodTier.color}.600`}>
                         {goodTier.label} ({goodMatches.length})
                       </Heading>
@@ -1107,193 +1590,291 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                     </Flex>
                     <VStack {...({ spacing: 4 } as any)}>
                       {goodMatches.map((cuisine) => (
-                      <Card
-                        key={cuisine.cuisine_id}
-                        bg={cardBg}
-                        shadow="md"
-                        size="md"
-                        width="100%"
-                        borderWidth="2px"
-                        borderColor="purple.100"
-                      >
-                        <CardBody>
-                          <Flex justify="space-between" align="start" gap={4} wrap="wrap">
-                            {/* Left side - Main info */}
-                            <Box flex="1" minW="300px">
-                              <Flex align="center" gap={2} mb={2}>
-                                <Heading size="sm">{cuisine.name}</Heading>
-                                <Badge
-                                  colorScheme={getScoreColor(cuisine.astrological_score)}
-                                  fontSize="md"
-                                  px={2}
-                                  py={1}
-                                >
-                                  {(cuisine.astrological_score * 100).toFixed(0)}%
-                                </Badge>
-                              </Flex>
-                              <Text fontSize="sm" color="gray.600" mb={2}>
-                                {cuisine.description}
-                              </Text>
-                              {renderFlavorProfileCompact(cuisine.flavor_profile)}
-                            </Box>
-
-                            {/* Right side - Quick stats */}
-                            <VStack {...({ align: "stretch", spacing: 2, minW: "200px" } as any)}>
-                              <Box>
-                                <Text fontSize="xs" color="gray.600" mb={1}>
-                                  Match Quality
-                                </Text>
-                                <Progress
-                                  value={cuisine.astrological_score * 100}
-                                  size="sm"
-                                  colorScheme={getScoreColor(cuisine.astrological_score)}
-                                  borderRadius="full"
-                                />
-                              </Box>
-                              <HStack {...({ spacing: 2, fontSize: "xs" } as any)}>
-                                <Icon as={FaUtensils} color="green.500" boxSize={3} />
-                                <Text>
-                                  {cuisine.nested_recipes.length} recipes
-                                </Text>
-                              </HStack>
-                              <HStack {...({ spacing: 2, fontSize: "xs" } as any)}>
-                                <Icon as={FaPepperHot} color="red.500" boxSize={3} />
-                                <Text>
-                                  {cuisine.recommended_sauces.length} sauces
-                                </Text>
-                              </HStack>
-                            </VStack>
-                          </Flex>
-
-                          {/* Expandable details */}
-                          <AccordionRoot collapsible mt={4}>
-                            <AccordionItem value="details">
-                              <AccordionItemTrigger>
-                                <Box flex="1" textAlign="left">
-                                  <Text fontSize="sm" fontWeight="medium">
-                                    View Full Details
-                                  </Text>
-                                </Box>
-                                <AccordionItemIndicator />
-                              </AccordionItemTrigger>
-                              <AccordionItemContent pb={4}>
-                                <VStack {...({ spacing: 4, align: "stretch" } as any)}>
-                                  <Text
-                                    fontSize="sm"
-                                    color="purple.600"
-                                    fontStyle="italic"
-                                    borderLeftWidth="3px"
-                                    borderLeftColor="purple.300"
-                                    pl={3}
+                        <Card
+                          key={cuisine.cuisine_id}
+                          bg={cardBg}
+                          shadow="md"
+                          size="md"
+                          width="100%"
+                          borderWidth="2px"
+                          borderColor="purple.100"
+                        >
+                          <CardBody>
+                            <Flex
+                              justify="space-between"
+                              align="start"
+                              gap={4}
+                              wrap="wrap"
+                            >
+                              {/* Left side - Main info */}
+                              <Box flex="1" minW="300px">
+                                <Flex align="center" gap={2} mb={2}>
+                                  <Heading size="sm">{cuisine.name}</Heading>
+                                  <Badge
+                                    colorScheme={getScoreColor(
+                                      cuisine.astrological_score,
+                                    )}
+                                    fontSize="md"
+                                    px={2}
+                                    py={1}
                                   >
-                                    {cuisine.compatibility_reason}
+                                    {(cuisine.astrological_score * 100).toFixed(
+                                      0,
+                                    )}
+                                    %
+                                  </Badge>
+                                </Flex>
+                                <Text fontSize="sm" color="gray.600" mb={2}>
+                                  {cuisine.description}
+                                </Text>
+                                {renderFlavorProfileCompact(
+                                  cuisine.flavor_profile,
+                                )}
+                              </Box>
+
+                              {/* Right side - Quick stats */}
+                              <VStack
+                                {...({
+                                  align: "stretch",
+                                  spacing: 2,
+                                  minW: "200px",
+                                } as any)}
+                              >
+                                <Box>
+                                  <Text fontSize="xs" color="gray.600" mb={1}>
+                                    Match Quality
                                   </Text>
-                                  <Text fontSize="sm" color="gray.500">
-                                    {cuisine.seasonal_context}
+                                  <Progress
+                                    value={cuisine.astrological_score * 100}
+                                    size="sm"
+                                    colorScheme={getScoreColor(
+                                      cuisine.astrological_score,
+                                    )}
+                                    borderRadius="full"
+                                  />
+                                </Box>
+                                <HStack
+                                  {...({ spacing: 2, fontSize: "xs" } as any)}
+                                >
+                                  <Icon
+                                    as={FaUtensils}
+                                    color="green.500"
+                                    boxSize={3}
+                                  />
+                                  <Text>
+                                    {cuisine.nested_recipes.length} recipes
                                   </Text>
+                                </HStack>
+                                <HStack
+                                  {...({ spacing: 2, fontSize: "xs" } as any)}
+                                >
+                                  <Icon
+                                    as={FaPepperHot}
+                                    color="red.500"
+                                    boxSize={3}
+                                  />
+                                  <Text>
+                                    {cuisine.recommended_sauces.length} sauces
+                                  </Text>
+                                </HStack>
+                              </VStack>
+                            </Flex>
 
-                                  {/* Nested accordions for all details */}
-                                  <AccordionRoot collapsible multiple>
-                                    {/* Recipes */}
-                                    <AccordionItem value="recipes">
-                                      <AccordionItemTrigger>
-                                        <Box flex="1" textAlign="left">
-                                          <HStack {...({ spacing: 2 } as any)}>
-                                            <Icon as={FaUtensils} color="green.500" boxSize={4} />
-                                            <Text fontSize="sm">
-                                              Featured Recipes ({cuisine.nested_recipes.length})
-                                            </Text>
-                                          </HStack>
-                                        </Box>
-                                        <AccordionItemIndicator />
-                                      </AccordionItemTrigger>
-                                      <AccordionItemContent pb={4}>
-                                        <SimpleGrid
-                                          {...({
-                                            columns: { base: 1, lg: 2 },
-                                            spacing: 3,
-                                          } as any)}
-                                        >
-                                          {cuisine.nested_recipes.map(renderRecipeCard)}
-                                        </SimpleGrid>
-                                      </AccordionItemContent>
-                                    </AccordionItem>
+                            {/* Expandable details */}
+                            <AccordionRoot collapsible mt={4}>
+                              <AccordionItem value="details">
+                                <AccordionItemTrigger>
+                                  <Box flex="1" textAlign="left">
+                                    <Text fontSize="sm" fontWeight="medium">
+                                      View Full Details
+                                    </Text>
+                                  </Box>
+                                  <AccordionItemIndicator />
+                                </AccordionItemTrigger>
+                                <AccordionItemContent pb={4}>
+                                  <VStack
+                                    {...({
+                                      spacing: 4,
+                                      align: "stretch",
+                                    } as any)}
+                                  >
+                                    <Text
+                                      fontSize="sm"
+                                      color="purple.600"
+                                      fontStyle="italic"
+                                      borderLeftWidth="3px"
+                                      borderLeftColor="purple.300"
+                                      pl={3}
+                                    >
+                                      {cuisine.compatibility_reason}
+                                    </Text>
+                                    <Text fontSize="sm" color="gray.500">
+                                      {cuisine.seasonal_context}
+                                    </Text>
 
-                                    {/* Sauces */}
-                                    <AccordionItem value="sauces">
-                                      <AccordionItemTrigger>
-                                        <Box flex="1" textAlign="left">
-                                          <HStack {...({ spacing: 2 } as any)}>
-                                            <Icon as={FaPepperHot} color="red.500" boxSize={4} />
-                                            <Text fontSize="sm">
-                                              Recommended Sauces ({cuisine.recommended_sauces.length})
-                                            </Text>
-                                          </HStack>
-                                        </Box>
-                                        <AccordionItemIndicator />
-                                      </AccordionItemTrigger>
-                                      <AccordionItemContent pb={4}>
-                                        <SimpleGrid
-                                          {...({
-                                            columns: { base: 1, md: 2 },
-                                            spacing: 3,
-                                          } as any)}
-                                        >
-                                          {cuisine.recommended_sauces.map(renderSauceCard)}
-                                        </SimpleGrid>
-                                      </AccordionItemContent>
-                                    </AccordionItem>
-
-                                    {/* Flavor Profile - Full Detail */}
-                                    {cuisine.flavor_profile && (
-                                      <AccordionItem value="flavor-detail">
+                                    {/* Nested accordions for all details */}
+                                    <AccordionRoot collapsible multiple>
+                                      {/* Recipes */}
+                                      <AccordionItem value="recipes">
                                         <AccordionItemTrigger>
                                           <Box flex="1" textAlign="left">
-                                            <HStack {...({ spacing: 2 } as any)}>
-                                              <Icon as={FaPepperHot} color="orange.500" boxSize={4} />
-                                              <Text fontSize="sm">Full Flavor Profile</Text>
+                                            <HStack
+                                              {...({ spacing: 2 } as any)}
+                                            >
+                                              <Icon
+                                                as={FaUtensils}
+                                                color="green.500"
+                                                boxSize={4}
+                                              />
+                                              <Text fontSize="sm">
+                                                Featured Recipes (
+                                                {cuisine.nested_recipes.length})
+                                              </Text>
                                             </HStack>
                                           </Box>
                                           <AccordionItemIndicator />
                                         </AccordionItemTrigger>
                                         <AccordionItemContent pb={4}>
-                                          <VStack {...({ align: "stretch", spacing: 2 } as any)}>
-                                            {Object.entries(cuisine.flavor_profile).map(([flavor, value]) => (
-                                              <Box key={flavor}>
-                                                <Flex justify="space-between" mb={1}>
-                                                  <Text fontSize="sm" fontWeight="medium" textTransform="capitalize">
-                                                    {flavor}
-                                                  </Text>
-                                                  <Text fontSize="sm" color="gray.600">
-                                                    {(value * 100).toFixed(0)}%
-                                                  </Text>
-                                                </Flex>
-                                                <Progress
-                                                  value={value * 100}
-                                                  size="sm"
-                                                  colorScheme={
-                                                    flavor === "sweet" ? "pink" :
-                                                    flavor === "sour" ? "yellow" :
-                                                    flavor === "salty" ? "blue" :
-                                                    flavor === "bitter" ? "purple" :
-                                                    flavor === "umami" ? "green" :
-                                                    "red"
-                                                  }
-                                                />
-                                              </Box>
-                                            ))}
-                                          </VStack>
+                                          <SimpleGrid
+                                            {...({
+                                              columns: { base: 1, lg: 2 },
+                                              spacing: 3,
+                                            } as any)}
+                                          >
+                                            {cuisine.nested_recipes.map(
+                                              (recipe) =>
+                                                recipe
+                                                  ? renderRecipeCard(recipe)
+                                                  : null,
+                                            )}
+                                          </SimpleGrid>
                                         </AccordionItemContent>
                                       </AccordionItem>
-                                    )}
-                                  </AccordionRoot>
-                                </VStack>
-                              </AccordionItemContent>
-                            </AccordionItem>
-                          </AccordionRoot>
-                        </CardBody>
-                      </Card>
-                    ))}
+
+                                      {/* Sauces */}
+                                      <AccordionItem value="sauces">
+                                        <AccordionItemTrigger>
+                                          <Box flex="1" textAlign="left">
+                                            <HStack
+                                              {...({ spacing: 2 } as any)}
+                                            >
+                                              <Icon
+                                                as={FaPepperHot}
+                                                color="red.500"
+                                                boxSize={4}
+                                              />
+                                              <Text fontSize="sm">
+                                                Recommended Sauces (
+                                                {
+                                                  cuisine.recommended_sauces
+                                                    .length
+                                                }
+                                                )
+                                              </Text>
+                                            </HStack>
+                                          </Box>
+                                          <AccordionItemIndicator />
+                                        </AccordionItemTrigger>
+                                        <AccordionItemContent pb={4}>
+                                          <SimpleGrid
+                                            {...({
+                                              columns: { base: 1, md: 2 },
+                                              spacing: 3,
+                                            } as any)}
+                                          >
+                                            {cuisine.recommended_sauces.map(
+                                              (sauce) =>
+                                                sauce
+                                                  ? renderSauceCard(sauce)
+                                                  : null,
+                                            )}
+                                          </SimpleGrid>
+                                        </AccordionItemContent>
+                                      </AccordionItem>
+
+                                      {/* Flavor Profile - Full Detail */}
+                                      {cuisine.flavor_profile && (
+                                        <AccordionItem value="flavor-detail">
+                                          <AccordionItemTrigger>
+                                            <Box flex="1" textAlign="left">
+                                              <HStack
+                                                {...({ spacing: 2 } as any)}
+                                              >
+                                                <Icon
+                                                  as={FaPepperHot}
+                                                  color="orange.500"
+                                                  boxSize={4}
+                                                />
+                                                <Text fontSize="sm">
+                                                  Full Flavor Profile
+                                                </Text>
+                                              </HStack>
+                                            </Box>
+                                            <AccordionItemIndicator />
+                                          </AccordionItemTrigger>
+                                          <AccordionItemContent pb={4}>
+                                            <VStack
+                                              {...({
+                                                align: "stretch",
+                                                spacing: 2,
+                                              } as any)}
+                                            >
+                                              {Object.entries(
+                                                cuisine.flavor_profile,
+                                              ).map(([flavor, value]) => (
+                                                <Box key={flavor}>
+                                                  <Flex
+                                                    justify="space-between"
+                                                    mb={1}
+                                                  >
+                                                    <Text
+                                                      fontSize="sm"
+                                                      fontWeight="medium"
+                                                      textTransform="capitalize"
+                                                    >
+                                                      {flavor}
+                                                    </Text>
+                                                    <Text
+                                                      fontSize="sm"
+                                                      color="gray.600"
+                                                    >
+                                                      {(value * 100).toFixed(0)}
+                                                      %
+                                                    </Text>
+                                                  </Flex>
+                                                  <Progress
+                                                    value={value * 100}
+                                                    size="sm"
+                                                    colorScheme={
+                                                      flavor === "sweet"
+                                                        ? "pink"
+                                                        : flavor === "sour"
+                                                          ? "yellow"
+                                                          : flavor === "salty"
+                                                            ? "blue"
+                                                            : flavor ===
+                                                                "bitter"
+                                                              ? "purple"
+                                                              : flavor ===
+                                                                  "umami"
+                                                                ? "green"
+                                                                : "red"
+                                                    }
+                                                  />
+                                                </Box>
+                                              ))}
+                                            </VStack>
+                                          </AccordionItemContent>
+                                        </AccordionItem>
+                                      )}
+                                    </AccordionRoot>
+                                  </VStack>
+                                </AccordionItemContent>
+                              </AccordionItem>
+                            </AccordionRoot>
+                          </CardBody>
+                        </Card>
+                      ))}
                     </VStack>
                   </Box>
                 )}
@@ -1302,7 +1883,11 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                 {otherOptions.length > 0 && (
                   <Box width="100%">
                     <Flex align="center" gap={2} mb={4}>
-                      <Icon as={otherTier.icon} color={`${otherTier.color}.500`} boxSize={5} />
+                      <Icon
+                        as={otherTier.icon}
+                        color={`${otherTier.color}.500`}
+                        boxSize={5}
+                      />
                       <Heading size="md" color={`${otherTier.color}.600`}>
                         {otherTier.label} ({otherOptions.length})
                       </Heading>
@@ -1312,63 +1897,95 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                     </Flex>
                     <VStack {...({ spacing: 4 } as any)}>
                       {otherOptions.map((cuisine) => (
-                      <Card
-                        key={cuisine.cuisine_id}
-                        bg={cardBg}
-                        shadow="sm"
-                        size="md"
-                        width="100%"
-                        borderWidth="1px"
-                        borderColor="orange.100"
-                        opacity={0.9}
-                      >
-                        <CardBody>
-                          <Flex justify="space-between" align="start" gap={4} wrap="wrap">
-                            <Box flex="1" minW="300px">
-                              <Flex align="center" gap={2} mb={2}>
-                                <Heading size="sm">{cuisine.name}</Heading>
-                                <Badge
-                                  colorScheme={getScoreColor(cuisine.astrological_score)}
-                                  fontSize="md"
-                                  px={2}
-                                  py={1}
-                                >
-                                  {(cuisine.astrological_score * 100).toFixed(0)}%
-                                </Badge>
-                              </Flex>
-                              <Text fontSize="sm" color="gray.600" mb={2}>
-                                {cuisine.description}
-                              </Text>
-                              {renderFlavorProfileCompact(cuisine.flavor_profile)}
-                            </Box>
-                            <VStack {...({ align: "stretch", spacing: 2, minW: "200px" } as any)}>
-                              <Box>
-                                <Text fontSize="xs" color="gray.600" mb={1}>
-                                  Match Quality
+                        <Card
+                          key={cuisine.cuisine_id}
+                          bg={cardBg}
+                          shadow="sm"
+                          size="md"
+                          width="100%"
+                          borderWidth="1px"
+                          borderColor="orange.100"
+                          opacity={0.9}
+                        >
+                          <CardBody>
+                            <Flex
+                              justify="space-between"
+                              align="start"
+                              gap={4}
+                              wrap="wrap"
+                            >
+                              <Box flex="1" minW="300px">
+                                <Flex align="center" gap={2} mb={2}>
+                                  <Heading size="sm">{cuisine.name}</Heading>
+                                  <Badge
+                                    colorScheme={getScoreColor(
+                                      cuisine.astrological_score,
+                                    )}
+                                    fontSize="md"
+                                    px={2}
+                                    py={1}
+                                  >
+                                    {(cuisine.astrological_score * 100).toFixed(
+                                      0,
+                                    )}
+                                    %
+                                  </Badge>
+                                </Flex>
+                                <Text fontSize="sm" color="gray.600" mb={2}>
+                                  {cuisine.description}
                                 </Text>
-                                <Progress
-                                  value={cuisine.astrological_score * 100}
-                                  size="sm"
-                                  colorScheme={getScoreColor(cuisine.astrological_score)}
-                                  borderRadius="full"
-                                />
+                                {renderFlavorProfileCompact(
+                                  cuisine.flavor_profile,
+                                )}
                               </Box>
-                              <HStack {...({ spacing: 2, fontSize: "xs" } as any)}>
-                                <Icon as={FaUtensils} color="green.500" boxSize={3} />
-                                <Text>
-                                  {cuisine.nested_recipes.length} recipes
-                                </Text>
-                              </HStack>
-                              <HStack {...({ spacing: 2, fontSize: "xs" } as any)}>
-                                <Icon as={FaPepperHot} color="red.500" boxSize={3} />
-                                <Text>
-                                  {cuisine.recommended_sauces.length} sauces
-                                </Text>
-                              </HStack>
-                            </VStack>
-                          </Flex>
-                        </CardBody>
-                      </Card>
+                              <VStack
+                                {...({
+                                  align: "stretch",
+                                  spacing: 2,
+                                  minW: "200px",
+                                } as any)}
+                              >
+                                <Box>
+                                  <Text fontSize="xs" color="gray.600" mb={1}>
+                                    Match Quality
+                                  </Text>
+                                  <Progress
+                                    value={cuisine.astrological_score * 100}
+                                    size="sm"
+                                    colorScheme={getScoreColor(
+                                      cuisine.astrological_score,
+                                    )}
+                                    borderRadius="full"
+                                  />
+                                </Box>
+                                <HStack
+                                  {...({ spacing: 2, fontSize: "xs" } as any)}
+                                >
+                                  <Icon
+                                    as={FaUtensils}
+                                    color="green.500"
+                                    boxSize={3}
+                                  />
+                                  <Text>
+                                    {cuisine.nested_recipes.length} recipes
+                                  </Text>
+                                </HStack>
+                                <HStack
+                                  {...({ spacing: 2, fontSize: "xs" } as any)}
+                                >
+                                  <Icon
+                                    as={FaPepperHot}
+                                    color="red.500"
+                                    boxSize={3}
+                                  />
+                                  <Text>
+                                    {cuisine.recommended_sauces.length} sauces
+                                  </Text>
+                                </HStack>
+                              </VStack>
+                            </Flex>
+                          </CardBody>
+                        </Card>
                       ))}
                     </VStack>
                   </Box>
