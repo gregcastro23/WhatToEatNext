@@ -5,6 +5,13 @@ const rawPeppers = {
   black_pepper: {
     name: "Black Pepper",
     elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 13,
+      macros: { protein: 0.5, carbs: 3.2, fat: 0.2, fiber: 1.3 },
+      vitamins: { K: 0.083 },
+      minerals: { manganese: 0.65, iron: 0.49, calcium: 22 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo"],
@@ -100,6 +107,13 @@ const rawPeppers = {
   white_pepper: {
     name: "White Pepper",
     elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 15,
+      macros: { protein: 0.5, carbs: 3.4, fat: 0.1, fiber: 1.3 },
+      vitamins: { C: 1.1, B6: 0.01 },
+      minerals: { manganese: 0.23, iron: 0.72, calcium: 22 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Mars"],
       favorableZodiac: ["gemini", "virgo"],
@@ -161,6 +175,13 @@ const rawPeppers = {
   pink_peppercorn: {
     name: "Pink Peppercorn",
     elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 14,
+      macros: { protein: 0.3, carbs: 3.1, fat: 0.3, fiber: 0.9 },
+      vitamins: {},
+      minerals: { calcium: 20, iron: 0.35 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mars"],
       favorableZodiac: ["libra", "taurus"],
@@ -213,6 +234,13 @@ const rawPeppers = {
   szechuan_peppercorn: {
     name: "Szechuan Peppercorn",
     elementalProperties: { Fire: 0.56, Water: 0, Earth: 0.11, Air: 0.33 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 13,
+      macros: { protein: 0.5, carbs: 2.5, fat: 0.2, fiber: 1.2 },
+      vitamins: { A: 0.003 },
+      minerals: { potassium: 55, calcium: 18, iron: 0.45 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Uranus"],
       favorableZodiac: ["gemini", "aquarius"],
@@ -253,6 +281,13 @@ const rawPeppers = {
   long_pepper: {
     name: "Long Pepper",
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 14,
+      macros: { protein: 0.5, carbs: 3, fat: 0.2, fiber: 1.3 },
+      vitamins: {},
+      minerals: { iron: 0.6, calcium: 20, potassium: 60 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "capricorn"],

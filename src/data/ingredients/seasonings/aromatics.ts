@@ -5,6 +5,13 @@ const rawAromatics = {
   onion: {
     name: "Onion",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 40,
+      macros: { protein: 1.1, carbs: 9.3, fat: 0.1, fiber: 1.7 },
+      vitamins: { C: 7.4, B6: 0.12, B9: 0.019 },
+      minerals: { potassium: 146, phosphorus: 29, calcium: 23 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "capricorn"],
@@ -46,6 +53,13 @@ const rawAromatics = {
   garlic: {
     name: "Garlic",
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 149,
+      macros: { protein: 6.4, carbs: 33.1, fat: 0.5, fiber: 2.1 },
+      vitamins: { C: 31.2, B6: 1.24, B1: 0.2 },
+      minerals: { manganese: 1.67, phosphorus: 153, calcium: 181, selenium: 14.2 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
       favorableZodiac: ["aries", "scorpio"],
@@ -87,6 +101,13 @@ const rawAromatics = {
   ginger: {
     name: "Ginger",
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 80,
+      macros: { protein: 1.8, carbs: 17.8, fat: 0.8, fiber: 2 },
+      vitamins: { C: 5, B6: 0.16, B3: 0.75 },
+      minerals: { potassium: 415, magnesium: 43, phosphorus: 34, manganese: 0.23 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo"],
@@ -147,6 +168,13 @@ const rawAromatics = {
   lemongrass: {
     name: "Lemongrass",
     elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 99,
+      macros: { protein: 1.8, carbs: 25.3, fat: 0.5, fiber: 0 },
+      vitamins: { C: 2.6, A: 0.006, B9: 0.075 },
+      minerals: { potassium: 723, manganese: 5.22, iron: 8.17, zinc: 2.23 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["gemini", "libra"],
@@ -192,6 +220,13 @@ const rawAromatics = {
   shallot: {
     name: "Shallot",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 72,
+      macros: { protein: 2.5, carbs: 16.8, fat: 0.1, fiber: 3.2 },
+      vitamins: { C: 8, B6: 0.35, A: 0.004, B9: 0.034 },
+      minerals: { potassium: 334, iron: 1.2, manganese: 0.29, phosphorus: 60 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["virgo", "taurus"],
@@ -227,6 +262,13 @@ const rawAromatics = {
   scallion: {
     name: "Scallion",
     elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 32,
+      macros: { protein: 1.8, carbs: 7.3, fat: 0.2, fiber: 2.6 },
+      vitamins: { C: 18.8, K: 0.207, A: 0.997, B9: 0.064 },
+      minerals: { potassium: 276, calcium: 72, iron: 1.48, manganese: 0.16 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
       favorableZodiac: ["gemini", "cancer"],
@@ -262,6 +304,13 @@ const rawAromatics = {
   saffron: {
     name: "Saffron",
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
+    nutritionalProfile: {
+      serving_size: "1g",
+      calories: 3.1,
+      macros: { protein: 0.11, carbs: 0.65, fat: 0.06, fiber: 0.04 },
+      vitamins: { C: 0.81, B6: 0.01 },
+      minerals: { manganese: 0.28, iron: 0.11, magnesium: 2.6, potassium: 17.2 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
       favorableZodiac: ["gemini", "libra"],

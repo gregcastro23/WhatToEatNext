@@ -6,6 +6,13 @@ const rawRefinedGrains = {
   white_rice: {
     name: "White Rice",
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 130,
+      macros: { protein: 2.7, carbs: 28, fat: 0.3, fiber: 0.4 },
+      vitamins: { B1: 0.02, B3: 0.4, B6: 0.05 },
+      minerals: { iron: 0.2, magnesium: 12, phosphorus: 43, potassium: 35 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
       favorableZodiac: ["cancer", "virgo"] as any[],
@@ -82,6 +89,13 @@ const rawRefinedGrains = {
   semolina: {
     name: "Semolina",
     elementalProperties: { Fire: 0.18, Water: 0.09, Earth: 0.37, Air: 0.36 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 360,
+      macros: { protein: 12.7, carbs: 72.8, fat: 1.1, fiber: 3.9 },
+      vitamins: { B1: 0.28, B3: 3.3, B9: 0.072 },
+      minerals: { iron: 1.2, magnesium: 47, phosphorus: 136, potassium: 186 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
       favorableZodiac: ["virgo", "capricorn"] as any[],
@@ -157,6 +171,13 @@ const rawRefinedGrains = {
   pearl_barley: {
     name: "Pearl Barley",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 352,
+      macros: { protein: 9.9, carbs: 77.7, fat: 1.2, fiber: 15.6 },
+      vitamins: { B1: 0.19, B3: 4.6, B6: 0.26 },
+      minerals: { iron: 2.5, magnesium: 79, phosphorus: 221, potassium: 280, selenium: 37.7 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["cancer", "capricorn"] as any[],
@@ -231,6 +252,13 @@ const rawRefinedGrains = {
   polished_farro: {
     name: "Polished Farro",
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 340,
+      macros: { protein: 14, carbs: 72, fat: 2, fiber: 7 },
+      vitamins: { B1: 0.4, B3: 6.7, B6: 0.2 },
+      minerals: { iron: 3.7, magnesium: 140, phosphorus: 290, potassium: 340, zinc: 3.5 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo"] as any[],
@@ -306,6 +334,13 @@ const rawRefinedGrains = {
   white_cornmeal: {
     name: "White Cornmeal",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 362,
+      macros: { protein: 8.1, carbs: 76.9, fat: 1.6, fiber: 7.3 },
+      vitamins: { B1: 0.25, B3: 1.9, B6: 0.3 },
+      minerals: { iron: 1.5, magnesium: 32, phosphorus: 99, potassium: 142 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
       favorableZodiac: ["leo", "sagittarius"] as any[],
@@ -375,6 +410,13 @@ const rawRefinedGrains = {
   all_purpose_flour: {
     name: "All-Purpose Flour",
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 364,
+      macros: { protein: 10.3, carbs: 76.3, fat: 1, fiber: 2.7 },
+      vitamins: { B1: 0.12, B3: 1.3, B9: 0.036 },
+      minerals: { iron: 1.2, magnesium: 22, phosphorus: 108, potassium: 107 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["virgo", "libra"] as any[],
