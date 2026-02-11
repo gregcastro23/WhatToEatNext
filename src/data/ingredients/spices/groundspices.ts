@@ -6,6 +6,13 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
   ground_cinnamon: {
     name: "Ground Cinnamon",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 13,
+      macros: { protein: 0.2, carbs: 4, fat: 0.06, fiber: 2.6 },
+      vitamins: { K: 0.016 },
+      minerals: { manganese: 0.91, calcium: 52, iron: 0.42 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
       favorableZodiac: ["leo", "sagittarius"],

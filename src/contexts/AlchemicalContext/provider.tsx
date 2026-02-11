@@ -253,9 +253,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         }
       } catch (error) {
         logger.error("Failed to load planetary positions:", error);
-        throw new Error(
-          "Cannot initialize AlchemicalContext without planetary positions",
-        );
+        // Don't throw - components will use fallback/default values
       }
     };
 

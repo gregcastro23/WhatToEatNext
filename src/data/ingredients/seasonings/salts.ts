@@ -5,6 +5,13 @@ const rawSalts = {
   fleur_de_sel: {
     name: "Fleur De Sel",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 0,
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: { sodium: 1880, magnesium: 30, calcium: 15 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
       favorableZodiac: ["Virgo", "Gemini", "Cancer"],
@@ -470,6 +477,13 @@ const rawSalts = {
   maldon_salt: {
     name: "Maldon Salt",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 0,
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: { sodium: 1940 },
+    },
     qualities: ["crisp", "clean", "flaky"],
     origin: ["United Kingdom"],
     category: "seasonings",
@@ -564,6 +578,13 @@ const rawSalts = {
   sea_salt: {
     name: "Sea Salt",
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 0,
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: { sodium: 1870, magnesium: 20, calcium: 10, potassium: 8 },
+    },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
       favorableZodiac: ["cancer", "pisces"],
@@ -631,6 +652,13 @@ const rawSalts = {
   himalayan_salt: {
     name: "Himalayan Salt",
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 0,
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: { sodium: 1680, iron: 0.2, potassium: 12, magnesium: 6, calcium: 8 },
+    },
     astrologicalProfile: {
       planetaryRuler: "Mars",
       zodiacRuler: "Aries",
@@ -905,6 +933,13 @@ const rawSalts = {
   kosher_salt: {
     name: "Kosher Salt",
     elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 0,
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: { sodium: 1920 },
+    },
     qualities: ["clean", "consistent", "pure"],
     origin: ["Various"],
     category: "salt",
@@ -963,6 +998,13 @@ const rawSalts = {
   table_salt: {
     name: "Table Salt",
     elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },
+    nutritionalProfile: {
+      serving_size: "5g",
+      calories: 0,
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: { sodium: 1950, iodine: 0.045 },
+    },
     qualities: ["basic", "refined", "uniform"],
     origin: ["Global"],
     category: "seasonings",
