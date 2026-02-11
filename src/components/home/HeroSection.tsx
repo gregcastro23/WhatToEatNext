@@ -57,11 +57,19 @@ function getCurrentSeason(): string {
 }
 
 interface HeroSectionProps {
-  planetaryHour: Planet | null;
-  timeOfDay: TimeOfDay;
+  planetaryHour?: Planet | null;
+  timeOfDay?: TimeOfDay;
+}
+
+function getDefaultTimeOfDay(): TimeOfDay {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 17) return "afternoon";
+  return "evening";
 }
 
 export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
+  if (!timeOfDay) timeOfDay = getDefaultTimeOfDay();
   const planet = planetaryHour || "Sun";
   const tagline = PLANET_TAGLINES[planet] || PLANET_TAGLINES.Sun;
   const cta = TIME_CTA[timeOfDay];
