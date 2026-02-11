@@ -14,6 +14,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Virgo", "Gemini"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tsp (4g)",
+      calories: 16,
+      macros: { protein: 0, carbs: 4.2, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: {},
+      source: "USDA FoodData Central",
+    },
   },
   maple_syrup: {
     name: "maple syrup",
@@ -26,6 +34,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Virgo", "Gemini"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (20g)",
+      calories: 52,
+      macros: { protein: 0, carbs: 13.4, fat: 0.01, fiber: 0 },
+      vitamins: { B2: 0.02 },
+      minerals: { manganese: 0.33, zinc: 0.03, calcium: 0.02, potassium: 0.01 },
+      source: "USDA FoodData Central",
+    },
   },
   baking_powder: {
     name: "baking powder",
@@ -37,6 +53,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Virgo", "Gemini"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tsp (5g)",
+      calories: 2,
+      macros: { protein: 0, carbs: 1.3, fat: 0, fiber: 0 },
+      vitamins: {},
+      minerals: { calcium: 0.04, sodium: 0.19 },
+      source: "USDA FoodData Central",
+    },
   },
   microgreens: {
     name: "microgreens",
@@ -47,6 +71,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["Virgo", "Gemini"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (25g)",
+      calories: 5,
+      macros: { protein: 0.5, carbs: 0.6, fat: 0.1, fiber: 0.3 },
+      vitamins: { C: 0.2, K: 0.3, E: 0.1, A: 0.15 },
+      minerals: { iron: 0.03, potassium: 0.02 },
+      source: "USDA FoodData Central",
     },
   },
   fresh_herbs: {
@@ -82,6 +114,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["Virgo", "Gemini"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (21g)",
+      calories: 64,
+      macros: { protein: 0.1, carbs: 17.3, fat: 0, fiber: 0 },
+      vitamins: { C: 0.01, B6: 0.01 },
+      minerals: { iron: 0.01, potassium: 0.01 },
+      source: "USDA FoodData Central",
     },
   },
   granola: {
