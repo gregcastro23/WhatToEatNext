@@ -28,30 +28,31 @@ The ingredient recommender was showing 0 ingredients in some categories due to i
 
 ### Category Name Standardization (130+ fixes)
 
-| Incorrect Form | Correct Form | Count Fixed |
-|----------------|--------------|-------------|
-| "spice" | "spices" | 30 |
-| "herb" | "herbs" | 32 |
-| "vegetable" | "vegetables" | 41 |
-| "vinegar" | "vinegars" | 27 |
-| "oil" | "oils" | 37 |
-| "fruit" | "fruits" | 32 |
-| "protein" | "proteins" | 25 |
-| "culinary_herb" | "herbs" | 10 |
-| "medicinal_herb" | "herbs" | 2 |
-| "refined_grain" | "grains" | 6 |
-| "whole_grain" | "grains" | 10 |
-| "pseudo_grain" | "grains" | 5 |
-| "grain" | "grains" | 2 |
-| "seasoning" | "seasonings" | 5 |
-| "legume" | "proteins" | 4 |
-| "aromatic" | "seasonings" | 6 |
-| "pepper" | "spices" | 5 |
-| "egg" | "dairy" | 3 |
+| Incorrect Form   | Correct Form | Count Fixed |
+| ---------------- | ------------ | ----------- |
+| "spice"          | "spices"     | 30          |
+| "herb"           | "herbs"      | 32          |
+| "vegetable"      | "vegetables" | 41          |
+| "vinegar"        | "vinegars"   | 27          |
+| "oil"            | "oils"       | 37          |
+| "fruit"          | "fruits"     | 32          |
+| "protein"        | "proteins"   | 25          |
+| "culinary_herb"  | "herbs"      | 10          |
+| "medicinal_herb" | "herbs"      | 2           |
+| "refined_grain"  | "grains"     | 6           |
+| "whole_grain"    | "grains"     | 10          |
+| "pseudo_grain"   | "grains"     | 5           |
+| "grain"          | "grains"     | 2           |
+| "seasoning"      | "seasonings" | 5           |
+| "legume"         | "proteins"   | 4           |
+| "aromatic"       | "seasonings" | 6           |
+| "pepper"         | "spices"     | 5           |
+| "egg"            | "dairy"      | 3           |
 
 ### Misc Category Recategorization (124 items)
 
 All 124 items from the "misc" category were intelligently recategorized into appropriate standard categories:
+
 - Sweeteners (sugar, honey, maple syrup) → seasonings
 - Baking ingredients (baking powder, yeast) → seasonings
 - Fresh herbs → herbs
@@ -61,18 +62,18 @@ All 124 items from the "misc" category were intelligently recategorized into app
 
 ## Final Category Distribution
 
-| Category | Ingredient Count | Status |
-|----------|-----------------|--------|
-| vegetables | 161 | ✅ Populated |
-| seasonings | 134 | ✅ Populated |
-| spices | 86 | ✅ Populated |
-| grains | 84 | ✅ Populated |
-| herbs | 78 | ✅ Populated |
-| proteins | 73 | ✅ Populated |
-| fruits | 59 | ✅ Populated |
-| dairy | 52 | ✅ Populated |
-| oils | 39 | ✅ Populated |
-| vinegars | 27 | ✅ Populated |
+| Category   | Ingredient Count | Status       |
+| ---------- | ---------------- | ------------ |
+| vegetables | 161              | ✅ Populated |
+| seasonings | 134              | ✅ Populated |
+| spices     | 86               | ✅ Populated |
+| grains     | 84               | ✅ Populated |
+| herbs      | 78               | ✅ Populated |
+| proteins   | 73               | ✅ Populated |
+| fruits     | 59               | ✅ Populated |
+| dairy      | 52               | ✅ Populated |
+| oils       | 39               | ✅ Populated |
+| vinegars   | 27               | ✅ Populated |
 
 **Total Ingredients:** 793
 **All categories populated:** ✅ YES
@@ -82,6 +83,7 @@ All 124 items from the "misc" category were intelligently recategorized into app
 ## Files Modified
 
 ### Direct Category Fixes
+
 - `src/data/ingredients/spices/spiceBlends.ts`
 - `src/data/ingredients/spices/wholespices.ts`
 - `src/data/ingredients/spices/groundspices.ts`
@@ -100,14 +102,17 @@ All 124 items from the "misc" category were intelligently recategorized into app
 - `src/data/ingredients/seasonings/` (multiple files)
 
 ### Misc Recategorization
+
 - `src/data/ingredients/misc/misc.ts` - All 124 items recategorized
 
 ### New Diagnostic Tool
+
 - `scripts/diagnose-categories.ts` - Created for future category auditing
 
 ## Data Flow Verification
 
 ### Source → Unified System
+
 1. ✅ Ingredient data files use plural category names
 2. ✅ `src/data/unified/ingredients.ts` creates unified collections with plural categories
 3. ✅ `IngredientService.getAllIngredientsFlat()` returns all ingredients with correct categories
@@ -123,11 +128,13 @@ All 124 items from the "misc" category were intelligently recategorized into app
 ## Expected User Impact
 
 ### Before Fix
+
 - Some categories showed "0 ingredients"
 - Users couldn't explore certain ingredient types
 - Incomplete recommendation functionality
 
 ### After Fix
+
 - All 10 categories show 25+ ingredients minimum
 - Full ingredient exploration capability
 - Enhanced recommendation accuracy
@@ -136,20 +143,26 @@ All 124 items from the "misc" category were intelligently recategorized into app
 ## Technical Notes
 
 ### Unified Ingredient System
+
 The project uses a unified ingredient system (`src/data/unified/ingredients.ts`) that:
+
 1. Imports ingredients from various source files
 2. Enhances them with alchemical properties (kalchm, monica)
 3. Exports them as `unifiedIngredients` object
 4. Category names are set during enhancement (lines 184-221)
 
 ### IngredientService Loading
+
 The `IngredientService` loads from `unifiedIngredients` and:
+
 1. Creates a flat cache of all ingredients
 2. Filters by category using the `category` property
 3. Returns results to the UI
 
 ### Category Consistency Critical Path
+
 For categories to work correctly:
+
 1. Source data files must use plural forms
 2. Unified system must preserve category names
 3. IngredientService must filter correctly
@@ -195,6 +208,7 @@ npx tsx scripts/diagnose-categories.ts
 ## Conclusion
 
 Successfully resolved incomplete ingredient categories by:
+
 1. Identifying 130+ singular/plural naming mismatches
 2. Standardizing all categories to plural forms
 3. Recategorizing 124 "misc" items into proper categories

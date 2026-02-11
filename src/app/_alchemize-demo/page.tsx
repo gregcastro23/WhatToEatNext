@@ -8,27 +8,53 @@
 
 import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { calculateAlchemicalFromPlanets, PLANETARY_ALCHEMY, ZODIAC_ELEMENTS, type ZodiacSign as ZodiacSignType } from "@/utils/planetaryAlchemyMapping";
+import {
+  calculateAlchemicalFromPlanets,
+  PLANETARY_ALCHEMY,
+  ZODIAC_ELEMENTS,
+  type ZodiacSign as ZodiacSignType,
+} from "@/utils/planetaryAlchemyMapping";
 import { calculateKalchmResults } from "@/calculations/core/kalchmEngine";
 import { calculateKinetics } from "@/calculations/kinetics";
 import { DefaultPlanetaryPositions } from "@/constants/typeDefaults";
 
 // Zodiac signs array for dropdowns
 const ZODIAC_SIGNS: ZodiacSignType[] = [
-  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
-  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+  "Aries",
+  "Taurus",
+  "Gemini",
+  "Cancer",
+  "Leo",
+  "Virgo",
+  "Libra",
+  "Scorpio",
+  "Sagittarius",
+  "Capricorn",
+  "Aquarius",
+  "Pisces",
 ];
 
 // Planet names array
-const PLANETS = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"] as const;
-type PlanetName = typeof PLANETS[number];
+const PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+] as const;
+type PlanetName = (typeof PLANETS)[number];
 
 // Example scenarios
 const EXAMPLE_SCENARIOS = {
   default: {
     name: "Default (Mixed Signs)",
     positions: DefaultPlanetaryPositions,
-    description: "Balanced distribution across elements"
+    description: "Balanced distribution across elements",
   },
   highFire: {
     name: "High Fire Energy",
@@ -44,7 +70,7 @@ const EXAMPLE_SCENARIOS = {
       Neptune: "Aries",
       Pluto: "Sagittarius",
     },
-    description: "Maximum Fire element concentration"
+    description: "Maximum Fire element concentration",
   },
   balancedEarth: {
     name: "Balanced Earth",
@@ -60,7 +86,7 @@ const EXAMPLE_SCENARIOS = {
       Neptune: "Capricorn",
       Pluto: "Taurus",
     },
-    description: "Grounded, stable Earth energy"
+    description: "Grounded, stable Earth energy",
   },
   spiritualAlignment: {
     name: "Spiritual Alignment",
@@ -76,16 +102,18 @@ const EXAMPLE_SCENARIOS = {
       Neptune: "Pisces",
       Pluto: "Sagittarius",
     },
-    description: "High Spirit and Essence combination"
+    description: "High Spirit and Essence combination",
   },
 };
 
 export default function AlchemicalKineticsDemo() {
   // State for planetary positions
-  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(
-    DefaultPlanetaryPositions as Record<string, string>
+  const [planetaryPositions, setPlanetaryPositions] = useState<
+    Record<string, string>
+  >(DefaultPlanetaryPositions as Record<string, string>);
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set(),
   );
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
   const [selectedScenario, setSelectedScenario] = useState<string>("default");
 
   // Calculate ESMS from planetary positions
@@ -111,7 +139,8 @@ export default function AlchemicalKineticsDemo() {
     const total = Object.values(totals).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
       Object.keys(totals).forEach((key) => {
-        totals[key as keyof typeof totals] = totals[key as keyof typeof totals] / total;
+        totals[key as keyof typeof totals] =
+          totals[key as keyof typeof totals] / total;
       });
     }
     return totals;
@@ -172,7 +201,8 @@ export default function AlchemicalKineticsDemo() {
 
   // Load example scenario
   const loadScenario = useCallback((scenarioKey: string) => {
-    const scenario = EXAMPLE_SCENARIOS[scenarioKey as keyof typeof EXAMPLE_SCENARIOS];
+    const scenario =
+      EXAMPLE_SCENARIOS[scenarioKey as keyof typeof EXAMPLE_SCENARIOS];
     if (scenario) {
       setPlanetaryPositions(scenario.positions as Record<string, string>);
       setSelectedScenario(scenarioKey);
@@ -228,7 +258,9 @@ export default function AlchemicalKineticsDemo() {
                     : "border-gray-200 hover:border-green-300 hover:shadow-md"
                 }`}
               >
-                <h3 className="font-bold text-gray-800 mb-2">{scenario.name}</h3>
+                <h3 className="font-bold text-gray-800 mb-2">
+                  {scenario.name}
+                </h3>
                 <p className="text-sm text-gray-600">{scenario.description}</p>
               </button>
             ))}
@@ -290,34 +322,43 @@ export default function AlchemicalKineticsDemo() {
             </button>
           </div>
           <p className="text-gray-700 mb-4">
-            Spirit, Essence, Matter, and Substance calculated from planetary alchemy values.
+            Spirit, Essence, Matter, and Substance calculated from planetary
+            alchemy values.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => (
-              <div key={prop} className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
-                <div className="text-sm font-semibold text-gray-600 mb-2">
-                  {prop}
+            {(["Spirit", "Essence", "Matter", "Substance"] as const).map(
+              (prop) => (
+                <div
+                  key={prop}
+                  className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200"
+                >
+                  <div className="text-sm font-semibold text-gray-600 mb-2">
+                    {prop}
+                  </div>
+                  <div className="text-3xl font-bold text-green-600 mb-2">
+                    {esms[prop]}
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div
+                      className="bg-green-500 h-3 rounded-full transition-all duration-500"
+                      style={{ width: `${getPercentage(esms[prop])}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="text-3xl font-bold text-green-600 mb-2">
-                  {esms[prop]}
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div
-                    className="bg-green-500 h-3 rounded-full transition-all duration-500"
-                    style={{ width: `${getPercentage(esms[prop])}%` }}
-                  />
-                </div>
-              </div>
-            ))}
+              ),
+            )}
           </div>
 
           {expandedSections.has("esms") && (
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-              <h3 className="font-bold text-gray-800 mb-3">How ESMS is Calculated</h3>
+              <h3 className="font-bold text-gray-800 mb-3">
+                How ESMS is Calculated
+              </h3>
               <div className="space-y-2 text-sm">
                 <p className="text-gray-700">
-                  Each planet contributes specific ESMS values based on its inherent alchemical nature:
+                  Each planet contributes specific ESMS values based on its
+                  inherent alchemical nature:
                 </p>
                 <ul className="space-y-1 ml-4">
                   <li className="text-gray-600">
@@ -327,7 +368,8 @@ export default function AlchemicalKineticsDemo() {
                     <strong>Moon:</strong> Essence + Matter (emotion, substance)
                   </li>
                   <li className="text-gray-600">
-                    <strong>Mercury:</strong> Spirit + Substance (intellect, communication)
+                    <strong>Mercury:</strong> Spirit + Substance (intellect,
+                    communication)
                   </li>
                   <li className="text-gray-600">
                     <strong>Venus:</strong> Essence + Matter (beauty, harmony)
@@ -336,23 +378,29 @@ export default function AlchemicalKineticsDemo() {
                     <strong>Mars:</strong> Essence + Matter (action, energy)
                   </li>
                   <li className="text-gray-600">
-                    <strong>Jupiter:</strong> Spirit + Essence (expansion, wisdom)
+                    <strong>Jupiter:</strong> Spirit + Essence (expansion,
+                    wisdom)
                   </li>
                   <li className="text-gray-600">
-                    <strong>Saturn:</strong> Spirit + Matter (structure, discipline)
+                    <strong>Saturn:</strong> Spirit + Matter (structure,
+                    discipline)
                   </li>
                   <li className="text-gray-600">
-                    <strong>Uranus:</strong> Essence + Matter (innovation, change)
+                    <strong>Uranus:</strong> Essence + Matter (innovation,
+                    change)
                   </li>
                   <li className="text-gray-600">
-                    <strong>Neptune:</strong> Essence + Substance (intuition, dissolution)
+                    <strong>Neptune:</strong> Essence + Substance (intuition,
+                    dissolution)
                   </li>
                   <li className="text-gray-600">
-                    <strong>Pluto:</strong> Essence + Matter (transformation, power)
+                    <strong>Pluto:</strong> Essence + Matter (transformation,
+                    power)
                   </li>
                 </ul>
                 <p className="text-gray-700 mt-3">
-                  The total for each ESMS property is the sum of contributions from all 10 planets.
+                  The total for each ESMS property is the sum of contributions
+                  from all 10 planets.
                 </p>
               </div>
             </div>
@@ -365,12 +413,16 @@ export default function AlchemicalKineticsDemo() {
             Elemental Properties
           </h2>
           <p className="text-gray-700 mb-4">
-            Derived from zodiac signs of planetary positions. Each sign contributes its element.
+            Derived from zodiac signs of planetary positions. Each sign
+            contributes its element.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
-              <div key={element} className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-4 border border-orange-200">
+              <div
+                key={element}
+                className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-4 border border-orange-200"
+              >
                 <div className="text-sm font-semibold text-gray-600 mb-2">
                   {element}
                 </div>
@@ -398,11 +450,14 @@ export default function AlchemicalKineticsDemo() {
               onClick={() => toggleSection("thermo")}
               className="text-green-600 hover:text-green-700 font-semibold"
             >
-              {expandedSections.has("thermo") ? "Hide Formulas" : "Show Formulas"}
+              {expandedSections.has("thermo")
+                ? "Hide Formulas"
+                : "Show Formulas"}
             </button>
           </div>
           <p className="text-gray-700 mb-6">
-            Advanced thermodynamic properties derived from ESMS and elemental values.
+            Advanced thermodynamic properties derived from ESMS and elemental
+            values.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -423,7 +478,8 @@ export default function AlchemicalKineticsDemo() {
               </div>
               {expandedSections.has("thermo") && (
                 <div className="mt-3 text-xs text-gray-600 bg-white p-2 rounded">
-                  Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
+                  Heat = (Spirit² + Fire²) / (Substance + Essence + Matter +
+                  Water + Air + Earth)²
                 </div>
               )}
             </div>
@@ -440,12 +496,15 @@ export default function AlchemicalKineticsDemo() {
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className="bg-blue-500 h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${getPercentage(thermodynamics.entropy, 1)}%` }}
+                  style={{
+                    width: `${getPercentage(thermodynamics.entropy, 1)}%`,
+                  }}
                 />
               </div>
               {expandedSections.has("thermo") && (
                 <div className="mt-3 text-xs text-gray-600 bg-white p-2 rounded">
-                  Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
+                  Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence +
+                  Matter + Earth + Water)²
                 </div>
               )}
             </div>
@@ -462,12 +521,15 @@ export default function AlchemicalKineticsDemo() {
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className="bg-purple-500 h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${getPercentage(thermodynamics.reactivity, 2)}%` }}
+                  style={{
+                    width: `${getPercentage(thermodynamics.reactivity, 2)}%`,
+                  }}
                 />
               </div>
               {expandedSections.has("thermo") && (
                 <div className="mt-3 text-xs text-gray-600 bg-white p-2 rounded">
-                  Reactivity = (Spirit² + Substance² + Essence² + Fire² + Air² + Water²) / (Matter + Earth)²
+                  Reactivity = (Spirit² + Substance² + Essence² + Fire² + Air² +
+                  Water²) / (Matter + Earth)²
                 </div>
               )}
             </div>
@@ -484,11 +546,14 @@ export default function AlchemicalKineticsDemo() {
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className={`h-3 rounded-full transition-all duration-500 ${
-                    thermodynamics.gregsEnergy >= 0 ? "bg-green-500" : "bg-red-500"
+                    thermodynamics.gregsEnergy >= 0
+                      ? "bg-green-500"
+                      : "bg-red-500"
                   }`}
                   style={{
                     width: `${getPercentage(Math.abs(thermodynamics.gregsEnergy), 1)}%`,
-                    marginLeft: thermodynamics.gregsEnergy < 0 ? "0" : undefined
+                    marginLeft:
+                      thermodynamics.gregsEnergy < 0 ? "0" : undefined,
                   }}
                 />
               </div>
@@ -511,12 +576,15 @@ export default function AlchemicalKineticsDemo() {
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className="bg-yellow-500 h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${getPercentage(thermodynamics.kalchm, 10)}%` }}
+                  style={{
+                    width: `${getPercentage(thermodynamics.kalchm, 10)}%`,
+                  }}
                 />
               </div>
               {expandedSections.has("thermo") && (
                 <div className="mt-3 text-xs text-gray-600 bg-white p-2 rounded">
-                  K_alchm = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
+                  K_alchm = (Spirit^Spirit × Essence^Essence) / (Matter^Matter ×
+                  Substance^Substance)
                 </div>
               )}
             </div>
@@ -533,7 +601,9 @@ export default function AlchemicalKineticsDemo() {
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className="bg-indigo-500 h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${getPercentage(Math.abs(thermodynamics.monicaConstant), 5)}%` }}
+                  style={{
+                    width: `${getPercentage(Math.abs(thermodynamics.monicaConstant), 5)}%`,
+                  }}
                 />
               </div>
               {expandedSections.has("thermo") && (
@@ -556,16 +626,21 @@ export default function AlchemicalKineticsDemo() {
                 onClick={() => toggleSection("kinetics")}
                 className="text-green-600 hover:text-green-700 font-semibold"
               >
-                {expandedSections.has("kinetics") ? "Hide Details" : "Show Details"}
+                {expandedSections.has("kinetics")
+                  ? "Hide Details"
+                  : "Show Details"}
               </button>
             </div>
             <p className="text-gray-700 mb-6">
-              The alchemical system modeled as an electrical circuit using Power = Current × Voltage (P=IV).
+              The alchemical system modeled as an electrical circuit using Power
+              = Current × Voltage (P=IV).
             </p>
 
             {/* Circuit Diagram Visual */}
             <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 mb-6 border-2 border-gray-300">
-              <h3 className="font-bold text-gray-800 mb-4 text-center">Circuit Model</h3>
+              <h3 className="font-bold text-gray-800 mb-4 text-center">
+                Circuit Model
+              </h3>
               <div className="flex flex-col md:flex-row items-center justify-around gap-6">
                 <div className="flex flex-col items-center">
                   <div className="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg border-4 border-yellow-600">
@@ -576,7 +651,9 @@ export default function AlchemicalKineticsDemo() {
                     <div className="text-2xl text-yellow-600 font-bold">
                       {formatNumber(kinetics.charge, 2)}
                     </div>
-                    <div className="text-xs text-gray-600">Matter + Substance</div>
+                    <div className="text-xs text-gray-600">
+                      Matter + Substance
+                    </div>
                   </div>
                 </div>
 
@@ -602,7 +679,9 @@ export default function AlchemicalKineticsDemo() {
                     <div className="text-2xl text-green-600 font-bold">
                       {formatNumber(kinetics.currentFlow, 4)}
                     </div>
-                    <div className="text-xs text-gray-600">Reactivity × dQ/dt</div>
+                    <div className="text-xs text-gray-600">
+                      Reactivity × dQ/dt
+                    </div>
                   </div>
                 </div>
 
@@ -634,7 +713,9 @@ export default function AlchemicalKineticsDemo() {
               </div>
 
               <div className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl p-4 border border-gray-200">
-                <h3 className="font-bold text-gray-800 mb-2">Force Classification</h3>
+                <h3 className="font-bold text-gray-800 mb-2">
+                  Force Classification
+                </h3>
                 <div className="text-xl font-bold text-gray-700 capitalize">
                   {kinetics.forceClassification}
                 </div>
@@ -644,7 +725,9 @@ export default function AlchemicalKineticsDemo() {
               </div>
 
               <div className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl p-4 border border-gray-200">
-                <h3 className="font-bold text-gray-800 mb-2">Thermal Direction</h3>
+                <h3 className="font-bold text-gray-800 mb-2">
+                  Thermal Direction
+                </h3>
                 <div className="text-xl font-bold text-gray-700 capitalize">
                   {kinetics.thermalDirection}
                 </div>
@@ -656,20 +739,26 @@ export default function AlchemicalKineticsDemo() {
 
             {expandedSections.has("kinetics") && (
               <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                <h3 className="font-bold text-gray-800 mb-3">Per-Element Kinetic Properties</h3>
+                <h3 className="font-bold text-gray-800 mb-3">
+                  Per-Element Kinetic Properties
+                </h3>
 
                 {/* Velocity */}
                 <div className="mb-4">
-                  <h4 className="font-semibold text-gray-700 mb-2">Velocity (d/dt)</h4>
+                  <h4 className="font-semibold text-gray-700 mb-2">
+                    Velocity (d/dt)
+                  </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
-                      <div key={element} className="bg-white p-2 rounded">
-                        <div className="text-xs text-gray-600">{element}</div>
-                        <div className="font-bold text-gray-800">
-                          {formatNumber(kinetics.velocity[element], 6)}
+                    {(["Fire", "Water", "Earth", "Air"] as const).map(
+                      (element) => (
+                        <div key={element} className="bg-white p-2 rounded">
+                          <div className="text-xs text-gray-600">{element}</div>
+                          <div className="font-bold text-gray-800">
+                            {formatNumber(kinetics.velocity[element], 6)}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
 
@@ -677,14 +766,16 @@ export default function AlchemicalKineticsDemo() {
                 <div className="mb-4">
                   <h4 className="font-semibold text-gray-700 mb-2">Momentum</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
-                      <div key={element} className="bg-white p-2 rounded">
-                        <div className="text-xs text-gray-600">{element}</div>
-                        <div className="font-bold text-gray-800">
-                          {formatNumber(kinetics.momentum[element], 6)}
+                    {(["Fire", "Water", "Earth", "Air"] as const).map(
+                      (element) => (
+                        <div key={element} className="bg-white p-2 rounded">
+                          <div className="text-xs text-gray-600">{element}</div>
+                          <div className="font-bold text-gray-800">
+                            {formatNumber(kinetics.momentum[element], 6)}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
 
@@ -692,14 +783,16 @@ export default function AlchemicalKineticsDemo() {
                 <div>
                   <h4 className="font-semibold text-gray-700 mb-2">Force</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
-                      <div key={element} className="bg-white p-2 rounded">
-                        <div className="text-xs text-gray-600">{element}</div>
-                        <div className="font-bold text-gray-800">
-                          {formatNumber(kinetics.force[element], 6)}
+                    {(["Fire", "Water", "Earth", "Air"] as const).map(
+                      (element) => (
+                        <div key={element} className="bg-white p-2 rounded">
+                          <div className="text-xs text-gray-600">{element}</div>
+                          <div className="font-bold text-gray-800">
+                            {formatNumber(kinetics.force[element], 6)}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
               </div>
@@ -714,17 +807,22 @@ export default function AlchemicalKineticsDemo() {
           </h2>
           <div className="space-y-4 text-gray-700">
             <div>
-              <h3 className="font-bold text-gray-800 mb-2">Three-Tier Architecture</h3>
+              <h3 className="font-bold text-gray-800 mb-2">
+                Three-Tier Architecture
+              </h3>
               <ol className="list-decimal ml-5 space-y-1">
                 <li>
-                  <strong>Tier 1 - Ingredients:</strong> Store only elemental properties (Fire, Water, Earth, Air)
+                  <strong>Tier 1 - Ingredients:</strong> Store only elemental
+                  properties (Fire, Water, Earth, Air)
                 </li>
                 <li>
-                  <strong>Tier 2 - Recipes:</strong> Compute full alchemical properties from planetary positions,
-                  combine with elemental properties, calculate thermodynamics and kinetics
+                  <strong>Tier 2 - Recipes:</strong> Compute full alchemical
+                  properties from planetary positions, combine with elemental
+                  properties, calculate thermodynamics and kinetics
                 </li>
                 <li>
-                  <strong>Tier 3 - Cuisines:</strong> Aggregate statistical properties across recipes
+                  <strong>Tier 3 - Cuisines:</strong> Aggregate statistical
+                  properties across recipes
                 </li>
               </ol>
             </div>
@@ -732,21 +830,32 @@ export default function AlchemicalKineticsDemo() {
             <div>
               <h3 className="font-bold text-gray-800 mb-2">Key Principles</h3>
               <ul className="list-disc ml-5 space-y-1">
-                <li>ESMS values MUST be calculated from planetary positions, never from elementals</li>
-                <li>Elements don&apos;t oppose each other - they reinforce themselves</li>
-                <li>The P=IV circuit model treats recipes as electrical systems</li>
+                <li>
+                  ESMS values MUST be calculated from planetary positions, never
+                  from elementals
+                </li>
+                <li>
+                  Elements don&apos;t oppose each other - they reinforce
+                  themselves
+                </li>
+                <li>
+                  The P=IV circuit model treats recipes as electrical systems
+                </li>
                 <li>All formulas are deterministic and reproducible</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-bold text-gray-800 mb-2">Real-World Application</h3>
+              <h3 className="font-bold text-gray-800 mb-2">
+                Real-World Application
+              </h3>
               <p>
-                This system is used throughout the WhatToEatNext application to recommend
-                cuisines, ingredients, and cooking methods that align with current celestial
-                energies. By understanding the alchemical and kinetic properties of food,
-                we can create meals that are not just nutritious, but energetically harmonious
-                with the present moment.
+                This system is used throughout the WhatToEatNext application to
+                recommend cuisines, ingredients, and cooking methods that align
+                with current celestial energies. By understanding the alchemical
+                and kinetic properties of food, we can create meals that are not
+                just nutritious, but energetically harmonious with the present
+                moment.
               </p>
             </div>
           </div>
@@ -754,7 +863,10 @@ export default function AlchemicalKineticsDemo() {
 
         {/* Footer */}
         <div className="text-center text-gray-600 mt-8">
-          <Link href="/" className="text-green-600 hover:text-green-700 font-semibold">
+          <Link
+            href="/"
+            className="text-green-600 hover:text-green-700 font-semibold"
+          >
             ← Return to Home
           </Link>
         </div>

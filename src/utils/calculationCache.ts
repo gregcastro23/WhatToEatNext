@@ -17,17 +17,22 @@ import { log } from "@/services/LoggingService";
 const DEFAULT_CACHE_TTL = 60 * 1000;
 
 // In-memory cache for browser environment
-const browserCache = new Map<string, { data: any; timestamp: number; inputHash: string }>();
+const browserCache = new Map<
+  string,
+  { data: any; timestamp: number; inputHash: string }
+>();
 
 // Lazy-load database service (only on server)
 let CacheService: any = null;
-if (typeof window === 'undefined') {
+if (typeof window === "undefined") {
   // Only import database on server-side
-  import("@/lib/database").then(mod => {
-    CacheService = mod.CacheService;
-  }).catch(err => {
-    log.warn("Database not available, using memory-only cache");
-  });
+  import("@/lib/database")
+    .then((mod) => {
+      CacheService = mod.CacheService;
+    })
+    .catch((err) => {
+      log.warn("Database not available, using memory-only cache");
+    });
 }
 
 /**
@@ -50,11 +55,17 @@ export async function getCachedCalculation<T>(
   const now = Date.now();
 
   // Browser environment - use in-memory cache
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const cached = browserCache.get(cacheKey);
 
-    if (cached && cached.inputHash === inputHash && (now - cached.timestamp) < ttl) {
-      log.info(`🔄 Browser cache hit for ${cacheKey} (age: ${Math.round((now - cached.timestamp) / 1000)}s)`);
+    if (
+      cached &&
+      cached.inputHash === inputHash &&
+      now - cached.timestamp < ttl
+    ) {
+      log.info(
+        `🔄 Browser cache hit for ${cacheKey} (age: ${Math.round((now - cached.timestamp) / 1000)}s)`,
+      );
       return cached.data;
     }
 
@@ -116,7 +127,7 @@ export async function getCachedCalculation<T>(
  */
 export async function clearCalculationCache(cacheKey?: string): Promise<void> {
   // Browser environment - clear in-memory cache
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     if (cacheKey) {
       browserCache.delete(cacheKey);
       log.info(`Browser cache cleared for ${cacheKey}`);
@@ -153,7 +164,7 @@ export async function getCacheStats(): Promise<{
   expiredEntries: number;
 }> {
   // Browser environment - return in-memory cache stats
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const totalEntries = browserCache.size;
     return {
       totalEntries,

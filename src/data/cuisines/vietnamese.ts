@@ -14,26 +14,26 @@ export const vietnamese: Cuisine = {
           description: "Traditional Vietnamese beef noodle soup",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          "garnishing"
-        ],
+            "garnishing",
+          ],
           tools: [
             "large stock pot",
             "strainer",
@@ -164,25 +164,25 @@ export const vietnamese: Cuisine = {
           description: "Vietnamese chicken rice porridge",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "poaching",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.5,
-              Earth: 0.13,
-              Air: 0.19,
+            {
+              name: "poaching",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.5,
+                Earth: 0.13,
+                Air: 0.19,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "ladle",
@@ -288,26 +288,26 @@ export const vietnamese: Cuisine = {
             "Steamed rice rolls filled with ground pork and mushrooms",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          "filling",
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            "filling",
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "steamer",
             "non-stick pan",
@@ -324,7 +324,11 @@ export const vietnamese: Cuisine = {
             "Garnish and serve",
           ],
           ingredients: [
-            { name: "rice flour", amount: "300", unit: "g", category: "flour",
+            {
+              name: "rice flour",
+              amount: "300",
+              unit: "g",
+              category: "flour",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -426,7 +430,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.15,
                 Air: 0.15,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -508,7 +512,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.25,
                 Air: 0.28,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -580,7 +584,11 @@ export const vietnamese: Cuisine = {
           description: "Vietnamese rice porridge with chicken",
           cuisine: "Vietnamese",
           ingredients: [
-            { name: "rice", amount: "1", unit: "cup", category: "grain",
+            {
+              name: "rice",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -614,13 +622,14 @@ export const vietnamese: Cuisine = {
           },
           timeToMake: "45 minutes",
           season: ["winter"],
-          
+
           elementalProperties: {
             Fire: 0.17,
             Water: 0.32,
             Earth: 0.37,
             Air: 0.13,
-          },mealType: ["breakfast"],
+          },
+          mealType: ["breakfast"],
         },
       ],
     },
@@ -632,34 +641,34 @@ export const vietnamese: Cuisine = {
             "Vietnamese sandwich with grilled pork and pickled vegetables",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "pickling",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.44,
-              Earth: 0.31,
-              Air: 0.19,
+            {
+              name: "pickling",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.44,
+                Earth: 0.31,
+                Air: 0.19,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "grill or grill pan",
             "knife",
@@ -765,25 +774,25 @@ export const vietnamese: Cuisine = {
           description: "Grilled pork meatballs with rice noodles and herbs",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: ["grill", "mixing bowls", "pot", "strainer", "serving bowls"],
           preparationSteps: [
             "Form meatballs",
@@ -866,7 +875,11 @@ export const vietnamese: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "herbs mix", amount: "2", unit: "cups", category: "herb",
+            {
+              name: "herbs mix",
+              amount: "2",
+              unit: "cups",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -886,7 +899,11 @@ export const vietnamese: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "lime", amount: "2", unit: "pieces", category: "fruit",
+            {
+              name: "lime",
+              amount: "2",
+              unit: "pieces",
+              category: "fruit",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.5,
@@ -932,26 +949,26 @@ export const vietnamese: Cuisine = {
           description: "Spicy beef noodle soup from Hue",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          "spice preparation"
-        ],
+            "spice preparation",
+          ],
           tools: [
             "large stock pot",
             "strainer",
@@ -1106,7 +1123,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.35,
                 Air: 0.25,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -1194,7 +1211,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.15,
                 Air: 0.15,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -1267,7 +1284,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.21,
                 Air: 0.27,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -1341,25 +1358,25 @@ export const vietnamese: Cuisine = {
           description: "Caramelized fish in clay pot",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "caramelizing",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.19,
+            {
+              name: "caramelizing",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.19,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "clay pot or heavy pot",
             "wooden spoon",
@@ -1466,34 +1483,34 @@ export const vietnamese: Cuisine = {
           description: "Broken rice with grilled pork chop and egg",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "grill",
             "rice cooker",
@@ -1534,7 +1551,11 @@ export const vietnamese: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "eggs", amount: "4", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "4",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1652,7 +1673,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.25,
                 Air: 0.19,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -1725,7 +1746,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.17,
                 Air: 0.1,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -1804,7 +1825,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.11,
                 Air: 0.35,
               },
-            }
+            },
           ],
           ingredients: [
             {
@@ -1879,17 +1900,17 @@ export const vietnamese: Cuisine = {
             "Three-color dessert with beans, jelly, and coconut milk",
           cuisine: "Vietnamese",
           cookingMethods: [
-          "cooking beans",
-          {
-            name: "layering",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.46,
-              Air: 0.31,
+            "cooking beans",
+            {
+              name: "layering",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "saucepans",
             "strainer",
@@ -1906,7 +1927,11 @@ export const vietnamese: Cuisine = {
             "Chill before serving",
           ],
           ingredients: [
-            { name: "red beans", amount: "200", unit: "g", category: "legume",
+            {
+              name: "red beans",
+              amount: "200",
+              unit: "g",
+              category: "legume",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -1975,7 +2000,11 @@ export const vietnamese: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "crushed ice", amount: "2", unit: "cups", category: "ice",
+            {
+              name: "crushed ice",
+              amount: "2",
+              unit: "cups",
+              category: "ice",
               elementalProperties: {
                 Fire: 0,
                 Water: 0.85,
@@ -2022,25 +2051,25 @@ export const vietnamese: Cuisine = {
           description: "Sweet banana in coconut milk soup",
           cuisine: "Vietnamese",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "cooking",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.33,
-              Earth: 0.29,
-              Air: 0.14,
+            {
+              name: "cooking",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.33,
+                Earth: 0.29,
+                Air: 0.14,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "pot",
             "wooden spoon",
@@ -2193,7 +2222,7 @@ export const vietnamese: Cuisine = {
                 Earth: 0.15,
                 Air: 0.15,
               },
-            }
+            },
           ],
           ingredients: [
             {

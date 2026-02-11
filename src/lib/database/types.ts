@@ -308,14 +308,14 @@ export interface SystemMetric {
 // QUERY RESULT TYPES
 // ==========================================
 
-export interface ActiveUser
-  extends Pick<
-    User,
-    "id" | "email" | "roles" | "created_at" | "last_login_at" | "login_count"
-  > {}
+export interface ActiveUser extends Pick<
+  User,
+  "id" | "email" | "roles" | "created_at" | "last_login_at" | "login_count"
+> {}
 
 export interface RecipeSearch
-  extends Pick<
+  extends
+    Pick<
       Recipe,
       | "id"
       | "name"

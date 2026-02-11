@@ -442,8 +442,8 @@ export const authService = new Proxy({} as JWTAuthService, {
   get(target, prop) {
     const service = getAuthService();
     const value = (service as any)[prop];
-    return typeof value === 'function' ? value.bind(service) : value;
-  }
+    return typeof value === "function" ? value.bind(service) : value;
+  },
 });
 
 export default authService;

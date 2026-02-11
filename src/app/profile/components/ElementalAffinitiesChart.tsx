@@ -2,7 +2,10 @@
 
 import React from "react";
 import type { ElementalProperties } from "@/types/alchemy";
-import { normalizeForDisplay, getTotalIntensity } from "@/utils/elemental/normalization";
+import {
+  normalizeForDisplay,
+  getTotalIntensity,
+} from "@/utils/elemental/normalization";
 
 interface ElementalAffinitiesChartProps {
   affinities: ElementalProperties;

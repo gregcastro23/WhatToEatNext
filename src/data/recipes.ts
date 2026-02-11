@@ -651,9 +651,8 @@ export const getBestRecipeMatches = async (
     // First try to use getRecipesForCuisineMatch from cuisineFlavorProfiles
     // which has enhanced functionality including LocalRecipeService integration
     try {
-      const { getRecipesForCuisineMatch } = await import(
-        "./cuisineFlavorProfiles"
-      );
+      const { getRecipesForCuisineMatch } =
+        await import("./cuisineFlavorProfiles");
       const matchedCuisineRecipes = getRecipesForCuisineMatch(
         criteria.cuisine,
         [], // Empty array triggers direct LocalRecipeService use
@@ -768,9 +767,8 @@ export const getBestRecipeMatches = async (
     if (candidateRecipes.length === 0 || candidateRecipes === allRecipes) {
       try {
         // Import and use LocalRecipeService directly
-        const { LocalRecipeService } = await import(
-          "../services/LocalRecipeService"
-        );
+        const { LocalRecipeService } =
+          await import("../services/LocalRecipeService");
 
         // Get local recipes directly
         const localRecipeResults = LocalRecipeService.getRecipesByCuisine(
@@ -964,7 +962,8 @@ async function applyAdditionalFilters(
         ...recipe,
         // Add matchPercentage if it doesn't exist with enhanced differentiation
         matchPercentage:
-          recipe.matchPercentage || compatibilityToMatchPercentage(recipe.matchScore),
+          recipe.matchPercentage ||
+          compatibilityToMatchPercentage(recipe.matchScore),
       };
     }
 

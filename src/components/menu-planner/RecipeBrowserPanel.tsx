@@ -8,7 +8,13 @@
  * @created 2026-01-28 (Session 7)
  */
 
-import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import type { Recipe } from "@/types/recipe";
 import type { ScoredRecipe } from "@/utils/recipeSearchEngine";
 import {
@@ -180,9 +186,7 @@ export default function RecipeBrowserPanel({
     // Sort
     switch (sortBy) {
       case "match-score":
-        results.sort(
-          (a, b) => (b.searchScore || 0) - (a.searchScore || 0),
-        );
+        results.sort((a, b) => (b.searchScore || 0) - (a.searchScore || 0));
         break;
       case "cook-time":
         results.sort(
@@ -386,9 +390,7 @@ export default function RecipeBrowserPanel({
                     setFilters((prev) => ({
                       ...prev,
                       maxCookTime:
-                        prev.maxCookTime === opt.value
-                          ? undefined
-                          : opt.value,
+                        prev.maxCookTime === opt.value ? undefined : opt.value,
                     }))
                   }
                   className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${

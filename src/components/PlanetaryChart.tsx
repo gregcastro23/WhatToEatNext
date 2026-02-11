@@ -35,9 +35,18 @@ export interface PlanetaryChartProps {
 }
 
 const ZODIAC_SIGNS = [
-  "aries", "taurus", "gemini", "cancer",
-  "leo", "virgo", "libra", "scorpio",
-  "sagittarius", "capricorn", "aquarius", "pisces"
+  "aries",
+  "taurus",
+  "gemini",
+  "cancer",
+  "leo",
+  "virgo",
+  "libra",
+  "scorpio",
+  "sagittarius",
+  "capricorn",
+  "aquarius",
+  "pisces",
 ] as const;
 
 const ZODIAC_ELEMENTS = {
@@ -75,12 +84,23 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
     return ZODIAC_SIGNS.map((sign, index) => {
       const element = ZODIAC_ELEMENTS[sign];
       const color = getElementColor(element);
-      const path = getZodiacArcPath(index, innerRadius, outerRadius, centerX, centerY);
+      const path = getZodiacArcPath(
+        index,
+        innerRadius,
+        outerRadius,
+        centerX,
+        centerY,
+      );
 
       // Calculate position for zodiac glyph
       const angle = index * 30 + 15 - 90; // Center of sign
       const glyphRadius = (innerRadius + outerRadius) / 2;
-      const glyphPos = degreesToSVGCoords(angle + 90, glyphRadius, centerX, centerY);
+      const glyphPos = degreesToSVGCoords(
+        angle + 90,
+        glyphRadius,
+        centerX,
+        centerY,
+      );
 
       return (
         <g key={sign}>
@@ -109,12 +129,17 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
           {/* Degree markers */}
           {[0, 10, 20, 30].map((deg) => {
             const markerAngle = index * 30 + deg - 90;
-            const markerStart = degreesToSVGCoords(markerAngle + 90, innerRadius, centerX, centerY);
+            const markerStart = degreesToSVGCoords(
+              markerAngle + 90,
+              innerRadius,
+              centerX,
+              centerY,
+            );
             const markerEnd = degreesToSVGCoords(
               markerAngle + 90,
               deg === 0 || deg === 30 ? innerRadius - 8 : innerRadius - 4,
               centerX,
-              centerY
+              centerY,
             );
 
             return (
@@ -144,11 +169,27 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
 
       if (!planet1Pos || !planet2Pos) return null;
 
-      const long1 = calculateAbsoluteLongitude(planet1Pos.sign, planet1Pos.degree);
-      const long2 = calculateAbsoluteLongitude(planet2Pos.sign, planet2Pos.degree);
+      const long1 = calculateAbsoluteLongitude(
+        planet1Pos.sign,
+        planet1Pos.degree,
+      );
+      const long2 = calculateAbsoluteLongitude(
+        planet2Pos.sign,
+        planet2Pos.degree,
+      );
 
-      const pos1 = degreesToSVGCoords(long1, planetRadius * 0.85, centerX, centerY);
-      const pos2 = degreesToSVGCoords(long2, planetRadius * 0.85, centerX, centerY);
+      const pos1 = degreesToSVGCoords(
+        long1,
+        planetRadius * 0.85,
+        centerX,
+        centerY,
+      );
+      const pos2 = degreesToSVGCoords(
+        long2,
+        planetRadius * 0.85,
+        centerX,
+        centerY,
+      );
 
       const color = getAspectColor(aspect.type);
       const dashArray = getAspectLineStyle(aspect.type);
@@ -172,7 +213,10 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
   // Render planets
   const renderPlanets = () => {
     return Object.entries(positions).map(([planet, position]) => {
-      const longitude = calculateAbsoluteLongitude(position.sign, position.degree);
+      const longitude = calculateAbsoluteLongitude(
+        position.sign,
+        position.degree,
+      );
       const pos = degreesToSVGCoords(longitude, planetRadius, centerX, centerY);
 
       const color = getPlanetColor(planet);
@@ -230,7 +274,11 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
               fontSize={size * 0.02}
               fill="#666"
             >
-              {formatDegreeString(position.sign, position.degree, position.minute)}
+              {formatDegreeString(
+                position.sign,
+                position.degree,
+                position.minute,
+              )}
             </text>
           )}
         </g>
@@ -284,12 +332,7 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
       {renderPlanets()}
 
       {/* Center point */}
-      <circle
-        cx={centerX}
-        cy={centerY}
-        r={3}
-        fill="#FFD700"
-      />
+      <circle cx={centerX} cy={centerY} r={3} fill="#FFD700" />
     </svg>
   );
 };

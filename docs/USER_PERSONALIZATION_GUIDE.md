@@ -91,16 +91,17 @@ interface ChartComparison {
 **Usage Example:**
 
 ```typescript
-import { personalizedRecommendationService } from '@/services/PersonalizedRecommendationService';
+import { personalizedRecommendationService } from "@/services/PersonalizedRecommendationService";
 
-const recommendations = await personalizedRecommendationService.getTopRecommendations(
-  cuisineItems,
-  {
-    natalChart: user.profile.natalChart,
-    includeReasons: true
-  },
-  10 // limit
-);
+const recommendations =
+  await personalizedRecommendationService.getTopRecommendations(
+    cuisineItems,
+    {
+      natalChart: user.profile.natalChart,
+      includeReasons: true,
+    },
+    10, // limit
+  );
 ```
 
 ### 3. User Chart Helpers
@@ -120,7 +121,7 @@ const comparison = await getUserChartComparison(userId);
 const recommendations = await getPersonalizedRecommendationsForUser(
   userId,
   items,
-  10
+  10,
 );
 
 // Get user's favorable elements
@@ -147,8 +148,8 @@ Get personalized recommendations for a user.
   // OR
   "email": "user@example.com",
 
-  "includeChartAnalysis": true,  // optional, default true
-  "datetime": "2025-11-23T12:00:00Z"  // optional, default current time
+  "includeChartAnalysis": true, // optional, default true
+  "datetime": "2025-11-23T12:00:00Z" // optional, default current time
 }
 ```
 
@@ -194,6 +195,7 @@ Get personalized recommendations for a user.
 **Endpoint:** POST `/api/onboarding`
 
 **Required Fields:**
+
 - Email
 - Name
 - Birth data:
@@ -205,25 +207,26 @@ Get personalized recommendations for a user.
 **Example:**
 
 ```typescript
-const response = await fetch('/api/onboarding', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/onboarding", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    email: 'user@example.com',
-    name: 'John Doe',
+    email: "user@example.com",
+    name: "John Doe",
     birthData: {
-      dateTime: '1990-05-15T14:30:00Z',
+      dateTime: "1990-05-15T14:30:00Z",
       latitude: 40.7128,
-      longitude: -74.0060,
-      timezone: 'America/New_York'
-    }
-  })
+      longitude: -74.006,
+      timezone: "America/New_York",
+    },
+  }),
 });
 ```
 
 ### 2. Natal Chart Calculation
 
 The onboarding API automatically:
+
 1. Calculates planetary positions for birth date/time/location
 2. Derives elemental balance from zodiac signs
 3. Calculates alchemical properties from planets
@@ -290,6 +293,7 @@ harmony = (similarity + 1) / 2  // Normalize to 0-1
 ### Planetary Resonance Calculation
 
 For each planet, score based on sign relationship:
+
 - **Same sign:** 1.0 (perfect)
 - **Same element:** 0.8 (strong)
 - **Compatible elements:** 0.6 (moderate)
@@ -302,6 +306,7 @@ Average across all planets for final resonance score.
 ### Overall Harmony
 
 Weighted composite:
+
 ```
 overallHarmony = (
   elementalHarmony × 0.4 +
@@ -315,16 +320,16 @@ overallHarmony = (
 ### Example 1: Basic Personalized Recommendations
 
 ```typescript
-import { getPersonalizedRecommendationsForUser } from '@/utils/userChartHelpers';
+import { getPersonalizedRecommendationsForUser } from "@/utils/userChartHelpers";
 
 async function getRecommendations(userId: string) {
   const items = [
     {
-      id: 'italian-001',
-      name: 'Italian Cuisine',
+      id: "italian-001",
+      name: "Italian Cuisine",
       elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
       alchemicalProperties: { Spirit: 2, Essence: 5, Matter: 7, Substance: 3 },
-      baseScore: 0.7
+      baseScore: 0.7,
     },
     // ... more items
   ];
@@ -332,8 +337,8 @@ async function getRecommendations(userId: string) {
   const recommendations = await getPersonalizedRecommendationsForUser(
     userId,
     items,
-    5,  // top 5
-    true  // include reasons
+    5, // top 5
+    true, // include reasons
   );
 
   return recommendations;
@@ -343,7 +348,7 @@ async function getRecommendations(userId: string) {
 ### Example 2: Check User Compatibility
 
 ```typescript
-import { calculateUserItemCompatibility } from '@/utils/userChartHelpers';
+import { calculateUserItemCompatibility } from "@/utils/userChartHelpers";
 
 async function checkCompatibility(userId: string, recipeId: string) {
   const recipe = await getRecipe(recipeId);
@@ -352,15 +357,15 @@ async function checkCompatibility(userId: string, recipeId: string) {
     id: recipe.id,
     name: recipe.name,
     elementalProperties: recipe.elementalProperties,
-    alchemicalProperties: recipe.alchemicalProperties
+    alchemicalProperties: recipe.alchemicalProperties,
   });
 
   if (compatibility > 0.7) {
-    return 'Highly compatible!';
+    return "Highly compatible!";
   } else if (compatibility > 0.5) {
-    return 'Good match';
+    return "Good match";
   } else {
-    return 'Consider alternatives';
+    return "Consider alternatives";
   }
 }
 ```
@@ -368,21 +373,21 @@ async function checkCompatibility(userId: string, recipeId: string) {
 ### Example 3: Display User Insights
 
 ```typescript
-import { getUserPersonalizedInsights } from '@/utils/userChartHelpers';
+import { getUserPersonalizedInsights } from "@/utils/userChartHelpers";
 
 async function displayDailyInsights(userId: string) {
   const insights = await getUserPersonalizedInsights(userId);
 
   if (!insights) {
-    return 'Please complete onboarding';
+    return "Please complete onboarding";
   }
 
   return {
-    cosmicWeather: insights.overallHarmony > 0.7 ? 'Excellent' : 'Good',
-    focus: insights.favorableElements.join(', '),
-    avoid: insights.challengingElements.join(', '),
-    supportivePlanets: insights.harmonicPlanets.join(', '),
-    advice: insights.recommendations
+    cosmicWeather: insights.overallHarmony > 0.7 ? "Excellent" : "Good",
+    focus: insights.favorableElements.join(", "),
+    avoid: insights.challengingElements.join(", "),
+    supportivePlanets: insights.harmonicPlanets.join(", "),
+    advice: insights.recommendations,
   };
 }
 ```
@@ -422,28 +427,28 @@ Cache automatically removes expired entries to prevent memory bloat.
 ```typescript
 // Sample user with natal chart
 const testUser = {
-  id: 'test_user_001',
+  id: "test_user_001",
   profile: {
     natalChart: {
       planetaryPositions: {
-        Sun: 'gemini',
-        Moon: 'leo',
-        Mercury: 'taurus',
+        Sun: "gemini",
+        Moon: "leo",
+        Mercury: "taurus",
         // ...
       },
       elementalBalance: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
-      alchemicalProperties: { Spirit: 4, Essence: 6, Matter: 6, Substance: 2 }
-    }
-  }
+      alchemicalProperties: { Spirit: 4, Essence: 6, Matter: 6, Substance: 2 },
+    },
+  },
 };
 
 // Sample item
 const testItem = {
-  id: 'test_item_001',
-  name: 'Test Cuisine',
+  id: "test_item_001",
+  name: "Test Cuisine",
   elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 },
   alchemicalProperties: { Spirit: 3, Essence: 5, Matter: 7, Substance: 2 },
-  baseScore: 0.6
+  baseScore: 0.6,
 };
 ```
 
@@ -452,6 +457,7 @@ const testItem = {
 ### Issue: User has no recommendations
 
 **Solution:** Check if user completed onboarding:
+
 ```typescript
 const hasChart = await userHasNatalChart(userId);
 if (!hasChart) {
@@ -462,9 +468,10 @@ if (!hasChart) {
 ### Issue: All scores are the same
 
 **Solution:** Check item properties are properly set:
+
 ```typescript
 // Ensure items have elemental and alchemical properties
-items.forEach(item => {
+items.forEach((item) => {
   console.log(item.elementalProperties, item.alchemicalProperties);
 });
 ```
@@ -472,6 +479,7 @@ items.forEach(item => {
 ### Issue: Personalization boost not applied
 
 **Solution:** Verify natal chart exists and has valid data:
+
 ```typescript
 const chart = await getUserNatalChart(userId);
 console.log(chart?.planetaryPositions);

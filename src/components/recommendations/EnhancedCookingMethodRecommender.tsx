@@ -129,7 +129,9 @@ function extractZodiacSign(position: unknown): string {
     const posObj = position as Record<string, unknown>;
     if (typeof posObj.sign === "string") {
       // Capitalize first letter for consistency
-      return posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase();
+      return (
+        posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase()
+      );
     }
   }
   return "Aries";
@@ -137,17 +139,29 @@ function extractZodiacSign(position: unknown): string {
 
 // Convert context planetary positions to simple zodiac sign format
 function normalizePlanetaryPositions(
-  contextPositions: Record<string, unknown> | undefined
+  contextPositions: Record<string, unknown> | undefined,
 ): Record<string, string> {
   if (!contextPositions || Object.keys(contextPositions).length === 0) {
     return DEFAULT_PLANETARY_POSITIONS;
   }
 
   const normalized: Record<string, string> = {};
-  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+  const planets = [
+    "Sun",
+    "Moon",
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",
+  ];
 
   for (const planet of planets) {
-    const position = contextPositions[planet] || contextPositions[planet.toLowerCase()];
+    const position =
+      contextPositions[planet] || contextPositions[planet.toLowerCase()];
     normalized[planet] = extractZodiacSign(position);
   }
 
@@ -289,8 +303,12 @@ export default function EnhancedCookingMethodRecommender() {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [showPillarsGuide, setShowPillarsGuide] = useState(false);
-  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
-  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
+  const [planetaryPositions, setPlanetaryPositions] = useState<
+    Record<string, string>
+  >(DEFAULT_PLANETARY_POSITIONS);
+  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">(
+    "fallback",
+  );
 
   // Get planetary positions from AlchemicalContext
   let alchemicalContext: ReturnType<typeof useAlchemical> | null = null;
@@ -303,22 +321,29 @@ export default function EnhancedCookingMethodRecommender() {
   // Update planetary positions from context
   useEffect(() => {
     if (alchemicalContext?.planetaryPositions) {
-      const normalized = normalizePlanetaryPositions(alchemicalContext.planetaryPositions);
+      const normalized = normalizePlanetaryPositions(
+        alchemicalContext.planetaryPositions,
+      );
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
 
     // Also try to refresh positions from backend
     if (alchemicalContext?.refreshPlanetaryPositions) {
-      alchemicalContext.refreshPlanetaryPositions().then((positions) => {
-        if (positions && Object.keys(positions).length > 0) {
-          const normalized = normalizePlanetaryPositions(positions as Record<string, unknown>);
-          setPlanetaryPositions(normalized);
-          setPositionsSource("real");
-        }
-      }).catch(() => {
-        // Silently fail, use existing positions
-      });
+      alchemicalContext
+        .refreshPlanetaryPositions()
+        .then((positions) => {
+          if (positions && Object.keys(positions).length > 0) {
+            const normalized = normalizePlanetaryPositions(
+              positions as Record<string, unknown>,
+            );
+            setPlanetaryPositions(normalized);
+            setPositionsSource("real");
+          }
+        })
+        .catch(() => {
+          // Silently fail, use existing positions
+        });
     }
   }, [alchemicalContext?.planetaryPositions]);
 
@@ -328,9 +353,8 @@ export default function EnhancedCookingMethodRecommender() {
 
     // Calculate BASE alchemical properties from real planetary positions (ESMS)
     // This is calculated once and then transformed per-method by pillar effects
-    const baseAlchemicalProperties = calculateAlchemicalFromPlanets(
-      planetaryPositions,
-    );
+    const baseAlchemicalProperties =
+      calculateAlchemicalFromPlanets(planetaryPositions);
 
     return Object.entries(category.methods)
       .map(([id, method]) => {
@@ -357,7 +381,7 @@ export default function EnhancedCookingMethodRecommender() {
 
         // Use method's thermodynamic properties if available, otherwise calculate from pillar
         // This ensures each method gets unique thermodynamic values based on its pillar
-        const methodThermo = method.thermodynamicProperties || 
+        const methodThermo = method.thermodynamicProperties ||
           getCookingMethodThermodynamics(id) || {
             heat: 0.5,
             entropy: 0.5,
@@ -541,7 +565,8 @@ export default function EnhancedCookingMethodRecommender() {
               No alchemical properties available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              This method may not have planetary associations or ESMS calculations defined.
+              This method may not have planetary associations or ESMS
+              calculations defined.
             </p>
           </div>
         </div>
@@ -648,7 +673,8 @@ export default function EnhancedCookingMethodRecommender() {
               No thermodynamic data available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Heat, Entropy, and Reactivity calculations are not defined for this method.
+              Heat, Entropy, and Reactivity calculations are not defined for
+              this method.
             </p>
           </div>
         </div>
@@ -784,7 +810,8 @@ export default function EnhancedCookingMethodRecommender() {
               No kinetic data available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Power, Force, Velocity, and Momentum calculations require alchemical properties.
+              Power, Force, Velocity, and Momentum calculations require
+              alchemical properties.
             </p>
           </div>
         </div>
@@ -938,7 +965,8 @@ export default function EnhancedCookingMethodRecommender() {
               No optimal conditions calculated for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Temperature, timing, and planetary recommendations require thermodynamic and Monica constant data.
+              Temperature, timing, and planetary recommendations require
+              thermodynamic and Monica constant data.
             </p>
           </div>
         </div>
@@ -1037,14 +1065,20 @@ export default function EnhancedCookingMethodRecommender() {
                   {((monicaModifiers as any)?.temperatureAdjustment ?? 0) >= 0
                     ? "+"
                     : ""}
-                  {((monicaModifiers as any)?.temperatureAdjustment ?? 0).toFixed(0)}°F
+                  {(
+                    (monicaModifiers as any)?.temperatureAdjustment ?? 0
+                  ).toFixed(0)}
+                  °F
                 </span>
               </div>
               <div>
                 <span className="text-gray-600">Time Adjust:</span>{" "}
                 <span className="font-bold text-blue-700">
-                  {((monicaModifiers as any)?.timingAdjustment ?? 0) >= 0 ? "+" : ""}
-                  {((monicaModifiers as any)?.timingAdjustment ?? 0).toFixed(0)} min
+                  {((monicaModifiers as any)?.timingAdjustment ?? 0) >= 0
+                    ? "+"
+                    : ""}
+                  {((monicaModifiers as any)?.timingAdjustment ?? 0).toFixed(0)}{" "}
+                  min
                 </span>
               </div>
               <div>
@@ -1073,7 +1107,8 @@ export default function EnhancedCookingMethodRecommender() {
               No elemental flow data available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Velocity, Momentum, and Force calculations require kinetic properties.
+              Velocity, Momentum, and Force calculations require kinetic
+              properties.
             </p>
           </div>
         </div>
@@ -1283,6 +1318,7 @@ export default function EnhancedCookingMethodRecommender() {
       {/* Methods Grid */}
       <div className="grid grid-cols-1 gap-6">
         {currentMethods.map((method) => {
+          if (!method) return null; // Defensive check
           const isExpanded = expandedMethod === method.id;
 
           return (

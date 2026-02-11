@@ -11,7 +11,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";
-import { compareCharts, calculateMomentChart } from "@/services/ChartComparisonService";
+import {
+  compareCharts,
+  calculateMomentChart,
+} from "@/services/ChartComparisonService";
 import type { ChartComparison } from "@/services/ChartComparisonService";
 import type { NatalChart } from "@/types/natalChart";
 
@@ -153,11 +156,10 @@ export async function POST(request: NextRequest) {
     const favorableElements = chartComparison.insights.favorableElements.map(
       (e) => e.toString(),
     );
-    const challengingElements = chartComparison.insights.challengingElements.map(
-      (e) => e.toString(),
-    );
-    const harmonicPlanets = chartComparison.insights.harmonicPlanets.map(
-      (p) => p.toString(),
+    const challengingElements =
+      chartComparison.insights.challengingElements.map((e) => e.toString());
+    const harmonicPlanets = chartComparison.insights.harmonicPlanets.map((p) =>
+      p.toString(),
     );
 
     const suggestedCuisines = getElementCuisines(favorableElements);

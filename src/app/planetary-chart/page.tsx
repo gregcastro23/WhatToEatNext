@@ -20,7 +20,9 @@ export default function PlanetaryChartPage() {
     latitude: 40.7128,
     longitude: -74.006,
   });
-  const [zodiacSystem, setZodiacSystem] = useState<"tropical" | "sidereal">("tropical");
+  const [zodiacSystem, setZodiacSystem] = useState<"tropical" | "sidereal">(
+    "tropical",
+  );
   const [showAspects, setShowAspects] = useState(true);
   const [showDegrees, setShowDegrees] = useState(true);
 
@@ -32,7 +34,16 @@ export default function PlanetaryChartPage() {
     refreshInterval: 60000, // 1 minute
   });
 
-  const { positions, aspects, alchemical, kinetics, timestamp, isLoading, error, refetch } = chartData;
+  const {
+    positions,
+    aspects,
+    alchemical,
+    kinetics,
+    timestamp,
+    isLoading,
+    error,
+    refetch,
+  } = chartData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 py-8 px-4">
@@ -43,7 +54,8 @@ export default function PlanetaryChartPage() {
             Planetary Chart
           </h1>
           <p className="text-gray-300 text-lg">
-            Real-time astronomical positions with alchemical and kinetic analysis
+            Real-time astronomical positions with alchemical and kinetic
+            analysis
           </p>
           {timestamp && (
             <p className="text-sm text-gray-400 mt-2">
@@ -78,7 +90,9 @@ export default function PlanetaryChartPage() {
 
             {/* Chart Options */}
             <div className="p-4 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-lg border border-blue-500/30">
-              <h3 className="text-lg font-semibold text-blue-300 mb-3">Chart Options</h3>
+              <h3 className="text-lg font-semibold text-blue-300 mb-3">
+                Chart Options
+              </h3>
 
               <div className="space-y-2">
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -116,10 +130,8 @@ export default function PlanetaryChartPage() {
                       key={index}
                       className="text-xs text-gray-300 py-1 px-2 bg-green-900/20 rounded"
                     >
-                      <span className="font-semibold">{aspect.planet1}</span>
-                      {" "}
-                      <span className="text-green-400">{aspect.type}</span>
-                      {" "}
+                      <span className="font-semibold">{aspect.planet1}</span>{" "}
+                      <span className="text-green-400">{aspect.type}</span>{" "}
                       <span className="font-semibold">{aspect.planet2}</span>
                       {aspect.orb !== undefined && (
                         <span className="text-gray-500 ml-2">
@@ -140,7 +152,9 @@ export default function PlanetaryChartPage() {
                 <div className="flex items-center justify-center h-96">
                   <div className="text-center">
                     <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
-                    <p className="text-gray-300">Calculating planetary positions...</p>
+                    <p className="text-gray-300">
+                      Calculating planetary positions...
+                    </p>
                   </div>
                 </div>
               ) : positions ? (
@@ -155,7 +169,9 @@ export default function PlanetaryChartPage() {
                 </div>
               ) : (
                 <div className="flex items-center justify-center h-96">
-                  <p className="text-gray-400 italic">No chart data available</p>
+                  <p className="text-gray-400 italic">
+                    No chart data available
+                  </p>
                 </div>
               )}
             </div>
@@ -174,9 +190,13 @@ export default function PlanetaryChartPage() {
                       className="p-3 bg-cyan-900/20 border border-cyan-500/30 rounded-lg"
                     >
                       <div className="flex justify-between items-center">
-                        <span className="font-semibold text-cyan-300">{planet}</span>
+                        <span className="font-semibold text-cyan-300">
+                          {planet}
+                        </span>
                         {position.isRetrograde && (
-                          <span className="text-xs text-red-400 font-bold">℞</span>
+                          <span className="text-xs text-red-400 font-bold">
+                            ℞
+                          </span>
                         )}
                       </div>
                       <div className="text-sm text-gray-300 capitalize">
@@ -201,48 +221,64 @@ export default function PlanetaryChartPage() {
 
         {/* Info Footer */}
         <div className="mt-8 p-6 bg-gradient-to-br from-gray-800/40 to-gray-900/40 rounded-lg border border-gray-700/50">
-          <h3 className="text-lg font-semibold text-gray-300 mb-3">About This Chart</h3>
+          <h3 className="text-lg font-semibold text-gray-300 mb-3">
+            About This Chart
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-400">
             <div>
-              <h4 className="font-semibold text-gray-300 mb-2">Planetary Positions</h4>
+              <h4 className="font-semibold text-gray-300 mb-2">
+                Planetary Positions
+              </h4>
               <p>
-                Calculated using the astronomy-engine library with real-time astronomical data.
-                Positions are accurate to within 0.01 degrees.
+                Calculated using the astronomy-engine library with real-time
+                astronomical data. Positions are accurate to within 0.01
+                degrees.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-300 mb-2">Alchemical Properties</h4>
+              <h4 className="font-semibold text-gray-300 mb-2">
+                Alchemical Properties
+              </h4>
               <p>
-                ESMS (Spirit, Essence, Matter, Substance) values are calculated from planetary
-                positions using the authoritative planetary alchemy mapping system.
+                ESMS (Spirit, Essence, Matter, Substance) values are calculated
+                from planetary positions using the authoritative planetary
+                alchemy mapping system.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-300 mb-2">Planetary Kinetics</h4>
+              <h4 className="font-semibold text-gray-300 mb-2">
+                Planetary Kinetics
+              </h4>
               <p>
-                P=IV circuit model calculates Power, Current, and Voltage from alchemical and
-                elemental properties. Includes velocity, momentum, and force dynamics.
+                P=IV circuit model calculates Power, Current, and Voltage from
+                alchemical and elemental properties. Includes velocity,
+                momentum, and force dynamics.
               </p>
             </div>
             <div>
               <h4 className="font-semibold text-gray-300 mb-2">Aspects</h4>
               <p>
-                Aspects represent geometric relationships between planets. Major aspects include
-                conjunction (0°), sextile (60°), square (90°), trine (120°), and opposition (180°).
+                Aspects represent geometric relationships between planets. Major
+                aspects include conjunction (0°), sextile (60°), square (90°),
+                trine (120°), and opposition (180°).
               </p>
             </div>
             <div>
               <h4 className="font-semibold text-gray-300 mb-2">Live Updates</h4>
               <p>
-                When using &quot;current moment&quot; mode, the chart automatically refreshes every minute
-                to reflect the latest planetary positions.
+                When using &quot;current moment&quot; mode, the chart
+                automatically refreshes every minute to reflect the latest
+                planetary positions.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-300 mb-2">Force Classification</h4>
+              <h4 className="font-semibold text-gray-300 mb-2">
+                Force Classification
+              </h4>
               <p>
-                Kinetic force is classified as accelerating, balanced, or decelerating based on
-                magnitude. Thermal direction indicates heating, cooling, or stable states.
+                Kinetic force is classified as accelerating, balanced, or
+                decelerating based on magnitude. Thermal direction indicates
+                heating, cooling, or stable states.
               </p>
             </div>
           </div>

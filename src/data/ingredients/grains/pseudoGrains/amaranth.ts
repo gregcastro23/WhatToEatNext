@@ -60,9 +60,26 @@ const rawAmaranth = {
     nutritionalProfile: {
       serving_size: "1 cup cooked (246g)",
       calories: 251,
-      macros: { protein: 9.4, carbs: 46, fat: 3.9, fiber: 5.2, saturatedFat: 1, sugar: 0, potassium: 332, sodium: 15 },
+      macros: {
+        protein: 9.4,
+        carbs: 46,
+        fat: 3.9,
+        fiber: 5.2,
+        saturatedFat: 1,
+        sugar: 0,
+        potassium: 332,
+        sodium: 15,
+      },
       vitamins: { B6: 0.14, folate: 0.14, riboflavin: 0.02, niacin: 0.04 },
-      minerals: { manganese: 1.05, iron: 0.29, phosphorus: 0.36, magnesium: 0.38, selenium: 0.19, copper: 0.18, zinc: 0.14 },
+      minerals: {
+        manganese: 1.05,
+        iron: 0.29,
+        phosphorus: 0.36,
+        magnesium: 0.38,
+        selenium: 0.19,
+        copper: 0.18,
+        zinc: 0.14,
+      },
     },
   },
 };

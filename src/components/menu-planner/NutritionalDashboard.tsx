@@ -266,7 +266,9 @@ export default function NutritionalDashboard({
   goals,
 }: NutritionalDashboardProps) {
   const { currentMenu } = useMenuPlanner();
-  const [expandedSection, setExpandedSection] = useState<string | null>("overview");
+  const [expandedSection, setExpandedSection] = useState<string | null>(
+    "overview",
+  );
 
   // Group meals by day
   const mealsByDay = useMemo(() => {
@@ -335,7 +337,10 @@ export default function NutritionalDashboard({
     const fiberScore = (totals.totalFiber / totals.totalCalories) * 500;
 
     // Higher protein and fiber per calorie = better density
-    const score = Math.min(100, (proteinScore * 2 + fiberScore * 3) / 5 * 100);
+    const score = Math.min(
+      100,
+      ((proteinScore * 2 + fiberScore * 3) / 5) * 100,
+    );
     return Math.round(score);
   };
 
@@ -346,7 +351,8 @@ export default function NutritionalDashboard({
     let mealTypeCalories = 0;
     currentMenu.meals.forEach((meal) => {
       if (meal.mealType === mealType && meal.recipe) {
-        const nutrition = (meal.recipe as any).nutritionalProfile || meal.recipe.nutrition;
+        const nutrition =
+          (meal.recipe as any).nutritionalProfile || meal.recipe.nutrition;
         if (nutrition?.calories) {
           mealTypeCalories += nutrition.calories * (meal.servings || 1);
         }
@@ -375,27 +381,29 @@ export default function NutritionalDashboard({
   // Calculate overall holistic nutrition score
   const calculateHolisticScore = (): number => {
     const densityScore = calculateNutrientDensity(weeklyTotals);
-    const varietyScore = Math.min(100, (calculateIngredientVariety() / 30) * 100);
-    const fiberScore = Math.min(100, ((weeklyTotals.totalFiber / 7) / 30) * 100);
+    const varietyScore = Math.min(
+      100,
+      (calculateIngredientVariety() / 30) * 100,
+    );
+    const fiberScore = Math.min(100, (weeklyTotals.totalFiber / 7 / 30) * 100);
 
     // Meal balance score - closer to ideal distribution is better
     const breakfastPct = getMealTypePercentage("breakfast");
     const lunchPct = getMealTypePercentage("lunch");
     const dinnerPct = getMealTypePercentage("dinner");
 
-    const balanceScore = 100 - (
-      Math.abs(breakfastPct - 25) +
-      Math.abs(lunchPct - 35) +
-      Math.abs(dinnerPct - 40)
-    );
+    const balanceScore =
+      100 -
+      (Math.abs(breakfastPct - 25) +
+        Math.abs(lunchPct - 35) +
+        Math.abs(dinnerPct - 40));
 
     // Weighted average
-    const score = (
+    const score =
       densityScore * 0.3 +
       varietyScore * 0.25 +
       fiberScore * 0.2 +
-      Math.max(0, balanceScore) * 0.25
-    );
+      Math.max(0, balanceScore) * 0.25;
 
     return Math.round(score);
   };
@@ -674,7 +682,9 @@ export default function NutritionalDashboard({
                 {/* Nutrient Density */}
                 <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">Nutrient Density</h4>
+                    <h4 className="font-semibold text-gray-700">
+                      Nutrient Density
+                    </h4>
                     <span className="text-lg font-bold text-green-600">
                       {calculateNutrientDensity(weeklyTotals)}%
                     </span>
@@ -685,14 +695,18 @@ export default function NutritionalDashboard({
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
                       className="h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 transition-all"
-                      style={{ width: `${Math.min(100, calculateNutrientDensity(weeklyTotals))}%` }}
+                      style={{
+                        width: `${Math.min(100, calculateNutrientDensity(weeklyTotals))}%`,
+                      }}
                     />
                   </div>
                 </div>
 
                 {/* Meal Balance */}
                 <div className="bg-white rounded-lg p-4 border border-gray-200">
-                  <h4 className="font-semibold text-gray-700 mb-3">Meal Balance</h4>
+                  <h4 className="font-semibold text-gray-700 mb-3">
+                    Meal Balance
+                  </h4>
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center">
                       <div className="text-2xl mb-1">🌅</div>
@@ -724,7 +738,9 @@ export default function NutritionalDashboard({
                 {/* Ingredient Variety */}
                 <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">Ingredient Variety</h4>
+                    <h4 className="font-semibold text-gray-700">
+                      Ingredient Variety
+                    </h4>
                     <span className="text-lg font-bold text-blue-600">
                       {calculateIngredientVariety()} unique
                     </span>
@@ -736,7 +752,9 @@ export default function NutritionalDashboard({
                     <div className="flex-1 bg-gray-200 rounded-full h-3">
                       <div
                         className="h-3 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 transition-all"
-                        style={{ width: `${Math.min(100, (calculateIngredientVariety() / 30) * 100)}%` }}
+                        style={{
+                          width: `${Math.min(100, (calculateIngredientVariety() / 30) * 100)}%`,
+                        }}
                       />
                     </div>
                     <span className="text-xs text-gray-500">Goal: 30+</span>
@@ -746,7 +764,9 @@ export default function NutritionalDashboard({
                 {/* Fiber Intake */}
                 <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">Fiber Intake</h4>
+                    <h4 className="font-semibold text-gray-700">
+                      Fiber Intake
+                    </h4>
                     <span className="text-lg font-bold text-amber-600">
                       {Math.round(weeklyTotals.totalFiber / 7)}g/day
                     </span>
@@ -758,7 +778,9 @@ export default function NutritionalDashboard({
                     <div className="flex-1 bg-gray-200 rounded-full h-3">
                       <div
                         className="h-3 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 transition-all"
-                        style={{ width: `${Math.min(100, ((weeklyTotals.totalFiber / 7) / 30) * 100)}%` }}
+                        style={{
+                          width: `${Math.min(100, (weeklyTotals.totalFiber / 7 / 30) * 100)}%`,
+                        }}
                       />
                     </div>
                     <span className="text-xs text-gray-500">Goal: 30g</span>
@@ -769,7 +791,9 @@ export default function NutritionalDashboard({
                 <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg p-4 border border-purple-300">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-bold text-purple-800">Overall Holistic Score</h4>
+                      <h4 className="font-bold text-purple-800">
+                        Overall Holistic Score
+                      </h4>
                       <p className="text-sm text-purple-600">
                         Based on variety, balance, and nutrient density
                       </p>

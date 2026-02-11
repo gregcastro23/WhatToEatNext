@@ -105,27 +105,19 @@ interface SolarPositionsModule {
 // Module map for type-safe imports
 const MODULE_MAP = {
   "@/utils/astrologyUtils": () =>
-    import(
-      "@/utils/astrologyUtils"
-    ) as unknown as Promise<AstrologyUtilsModule>,
+    import("@/utils/astrologyUtils") as unknown as Promise<AstrologyUtilsModule>,
   "@/utils/accurateAstronomy": () =>
-    import(
-      "@/utils/accurateAstronomy"
-    ) as unknown as Promise<AccurateAstronomyModule>,
+    import("@/utils/accurateAstronomy") as unknown as Promise<AccurateAstronomyModule>,
   "@/utils/safeAstrology": () =>
     import("@/utils/safeAstrology") as unknown as Promise<SafeAstrologyModule>,
   "@/utils/moonTimes": () =>
     import("@/utils/moonTimes") as unknown as Promise<MoonTimesModule>,
   "@/lib/cuisineCalculations": () =>
-    import(
-      "@/lib/cuisineCalculations"
-    ) as unknown as Promise<CuisineCalculationsModule>,
+    import("@/lib/cuisineCalculations") as unknown as Promise<CuisineCalculationsModule>,
   // "@/utils/sunTimes": () =>
   //   import("@/utils/sunTimes") as unknown as Promise<SunTimesModule>,
   "@/utils/solarPositions": () =>
-    import(
-      "@/utils/solarPositions"
-    ) as unknown as Promise<SolarPositionsModule>,
+    import("@/utils/solarPositions") as unknown as Promise<SolarPositionsModule>,
   "@/calculations/alchemicalCalculations": () =>
     import("@/calculations/alchemicalCalculations"),
   "@/calculations/gregsEnergy": () => import("@/calculations/gregsEnergy"),

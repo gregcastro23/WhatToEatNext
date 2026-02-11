@@ -106,8 +106,8 @@ describe("Recipe Schema Validator", () => {
         Water: 0.5,
       });
       expect(result.isValid).toBe(false);
-      expect(result.issues.some(i => i.includes("Earth"))).toBe(true);
-      expect(result.issues.some(i => i.includes("Air"))).toBe(true);
+      expect(result.issues.some((i) => i.includes("Earth"))).toBe(true);
+      expect(result.issues.some((i) => i.includes("Air"))).toBe(true);
     });
 
     it("detects sum not equal to 1", () => {
@@ -118,7 +118,7 @@ describe("Recipe Schema Validator", () => {
         Air: 0.5,
       });
       expect(result.isValid).toBe(false);
-      expect(result.issues.some(i => i.includes("sum"))).toBe(true);
+      expect(result.issues.some((i) => i.includes("sum"))).toBe(true);
     });
 
     it("normalizes properties", () => {
@@ -139,36 +139,50 @@ describe("Recipe Schema Validator", () => {
 
   describe("validateIngredient", () => {
     it("validates correct ingredient", () => {
-      const issues = validateIngredient({
-        name: "flour",
-        amount: 2,
-        unit: "cups",
-      }, 0);
-      expect(issues.filter(i => i.severity === "error")).toHaveLength(0);
+      const issues = validateIngredient(
+        {
+          name: "flour",
+          amount: 2,
+          unit: "cups",
+        },
+        0,
+      );
+      expect(issues.filter((i) => i.severity === "error")).toHaveLength(0);
     });
 
     it("detects missing name", () => {
-      const issues = validateIngredient({
-        amount: 2,
-        unit: "cups",
-      }, 0);
-      expect(issues.some(i => i.field.includes("name") && i.severity === "error")).toBe(true);
+      const issues = validateIngredient(
+        {
+          amount: 2,
+          unit: "cups",
+        },
+        0,
+      );
+      expect(
+        issues.some((i) => i.field.includes("name") && i.severity === "error"),
+      ).toBe(true);
     });
 
     it("detects missing amount", () => {
-      const issues = validateIngredient({
-        name: "flour",
-        unit: "cups",
-      }, 0);
-      expect(issues.some(i => i.field.includes("amount"))).toBe(true);
+      const issues = validateIngredient(
+        {
+          name: "flour",
+          unit: "cups",
+        },
+        0,
+      );
+      expect(issues.some((i) => i.field.includes("amount"))).toBe(true);
     });
 
     it("detects missing unit", () => {
-      const issues = validateIngredient({
-        name: "flour",
-        amount: 2,
-      }, 0);
-      expect(issues.some(i => i.field.includes("unit"))).toBe(true);
+      const issues = validateIngredient(
+        {
+          name: "flour",
+          amount: 2,
+        },
+        0,
+      );
+      expect(issues.some((i) => i.field.includes("unit"))).toBe(true);
     });
   });
 
@@ -198,34 +212,52 @@ describe("Recipe Schema Validator", () => {
     it("validates a complete recipe", () => {
       const result = validateRecipe(validRecipe);
       expect(result.isValid).toBe(true);
-      expect(result.issues.filter(i => i.severity === "error")).toHaveLength(0);
+      expect(result.issues.filter((i) => i.severity === "error")).toHaveLength(
+        0,
+      );
     });
 
     it("detects missing name", () => {
       const recipe = { ...validRecipe, name: undefined };
       const result = validateRecipe(recipe);
       expect(result.isValid).toBe(false);
-      expect(result.issues.some(i => i.field === "name" && i.severity === "error")).toBe(true);
+      expect(
+        result.issues.some((i) => i.field === "name" && i.severity === "error"),
+      ).toBe(true);
     });
 
     it("detects missing ingredients", () => {
       const recipe = { ...validRecipe, ingredients: undefined };
       const result = validateRecipe(recipe);
       expect(result.isValid).toBe(false);
-      expect(result.issues.some(i => i.field === "ingredients" && i.severity === "error")).toBe(true);
+      expect(
+        result.issues.some(
+          (i) => i.field === "ingredients" && i.severity === "error",
+        ),
+      ).toBe(true);
     });
 
     it("detects missing instructions", () => {
-      const recipe = { ...validRecipe, instructions: undefined, preparationSteps: undefined };
+      const recipe = {
+        ...validRecipe,
+        instructions: undefined,
+        preparationSteps: undefined,
+      };
       const result = validateRecipe(recipe);
       expect(result.isValid).toBe(false);
-      expect(result.issues.some(i => i.field === "instructions" && i.severity === "error")).toBe(true);
+      expect(
+        result.issues.some(
+          (i) => i.field === "instructions" && i.severity === "error",
+        ),
+      ).toBe(true);
     });
 
     it("warns about missing ID", () => {
       const recipe = { ...validRecipe, id: undefined };
       const result = validateRecipe(recipe);
-      expect(result.issues.some(i => i.field === "id" && i.severity === "warning")).toBe(true);
+      expect(
+        result.issues.some((i) => i.field === "id" && i.severity === "warning"),
+      ).toBe(true);
     });
 
     it("calculates quality score", () => {
@@ -268,7 +300,12 @@ describe("Recipe Schema Validator", () => {
           cuisine: "Italian",
           ingredients: [{ name: "item", amount: 1, unit: "piece" }],
           instructions: ["Step 1"],
-          elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          elementalProperties: {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25,
+          },
         },
       ];
 
@@ -290,8 +327,18 @@ describe("Recipe Schema Validator", () => {
   describe("detectDuplicates", () => {
     it("detects recipes with similar names", () => {
       const recipes = [
-        { id: "1", name: "Pasta Carbonara", cuisine: "Italian", ingredients: [] },
-        { id: "2", name: "Pasta Carbonara", cuisine: "Italian", ingredients: [] },
+        {
+          id: "1",
+          name: "Pasta Carbonara",
+          cuisine: "Italian",
+          ingredients: [],
+        },
+        {
+          id: "2",
+          name: "Pasta Carbonara",
+          cuisine: "Italian",
+          ingredients: [],
+        },
       ];
 
       const report = detectDuplicates(recipes, 0.8);
@@ -301,7 +348,12 @@ describe("Recipe Schema Validator", () => {
 
     it("does not flag different recipes", () => {
       const recipes = [
-        { id: "1", name: "Pasta Carbonara", cuisine: "Italian", ingredients: [] },
+        {
+          id: "1",
+          name: "Pasta Carbonara",
+          cuisine: "Italian",
+          ingredients: [],
+        },
         { id: "2", name: "Pad Thai", cuisine: "Thai", ingredients: [] },
       ];
 

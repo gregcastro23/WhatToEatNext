@@ -71,13 +71,16 @@ export interface ChartData {
 export function useChartData(options: ChartDataOptions = {}): ChartData {
   const {
     dateTime,
-    location = { latitude: 40.7128, longitude: -74.0060 }, // Default: NYC
+    location = { latitude: 40.7128, longitude: -74.006 }, // Default: NYC
     zodiacSystem = "tropical",
     autoRefresh = false,
     refreshInterval = 60000, // 1 minute default
   } = options;
 
-  const [positions, setPositions] = useState<Record<string, PlanetPosition> | null>(null);
+  const [positions, setPositions] = useState<Record<
+    string,
+    PlanetPosition
+  > | null>(null);
   const [aspects, setAspects] = useState<PlanetaryAspect[]>([]);
   const [alchemical, setAlchemical] = useState<AlchemicalResult | null>(null);
   const [kinetics, setKinetics] = useState<KineticMetrics | null>(null);
@@ -110,7 +113,9 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       const astrologizeResponse = await fetch(`/api/astrologize?${params}`);
 
       if (!astrologizeResponse.ok) {
-        throw new Error(`Astrologize API error: ${astrologizeResponse.statusText}`);
+        throw new Error(
+          `Astrologize API error: ${astrologizeResponse.statusText}`,
+        );
       }
 
       const astrologizeData = await astrologizeResponse.json();
@@ -119,25 +124,29 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       const planetPositions: Record<string, PlanetPosition> = {};
 
       if (astrologizeData._celestialBodies) {
-        Object.entries(astrologizeData._celestialBodies).forEach(([key, data]: [string, any]) => {
-          if (key === "all") return; // Skip the 'all' array
+        Object.entries(astrologizeData._celestialBodies).forEach(
+          ([key, data]: [string, any]) => {
+            if (key === "all") return; // Skip the 'all' array
 
-          const planetName = key.charAt(0).toUpperCase() + key.slice(1);
+            const planetName = key.charAt(0).toUpperCase() + key.slice(1);
 
-          if (data && data.Sign && data.ChartPosition) {
-            planetPositions[planetName] = {
-              sign: data.Sign.key.toLowerCase(),
-              degree: data.ChartPosition.Ecliptic.ArcDegrees.degrees,
-              minute: data.ChartPosition.Ecliptic.ArcDegrees.minutes,
-              exactLongitude: data.ChartPosition.Ecliptic.DecimalDegrees,
-              isRetrograde: data.isRetrograde || false,
-            };
-          }
-        });
+            if (data && data.Sign && data.ChartPosition) {
+              planetPositions[planetName] = {
+                sign: data.Sign.key.toLowerCase(),
+                degree: data.ChartPosition.Ecliptic.ArcDegrees.degrees,
+                minute: data.ChartPosition.Ecliptic.ArcDegrees.minutes,
+                exactLongitude: data.ChartPosition.Ecliptic.DecimalDegrees,
+                isRetrograde: data.isRetrograde || false,
+              };
+            }
+          },
+        );
       }
 
       setPositions(planetPositions);
-      setTimestamp(astrologizeData.metadata?.timestamp || new Date().toISOString());
+      setTimestamp(
+        astrologizeData.metadata?.timestamp || new Date().toISOString(),
+      );
 
       // Calculate aspects from positions
       const calculatedAspects = calculateAspects(planetPositions);
@@ -199,12 +208,15 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
             );
             setKinetics(kineticMetrics);
           } else {
-            console.warn("Incomplete alchemical data for kinetics calculation:", {
-              hasAlchemicalResult: !!alchemicalResult,
-              hasEsms: !!alchemicalResult?.esms,
-              hasElemental: !!alchemicalResult?.elementalProperties,
-              hasThermodynamics: !!alchemicalResult?.thermodynamicProperties,
-            });
+            console.warn(
+              "Incomplete alchemical data for kinetics calculation:",
+              {
+                hasAlchemicalResult: !!alchemicalResult,
+                hasEsms: !!alchemicalResult?.esms,
+                hasElemental: !!alchemicalResult?.elementalProperties,
+                hasThermodynamics: !!alchemicalResult?.thermodynamicProperties,
+              },
+            );
             setKinetics(null);
           }
         } catch (kineticError) {
@@ -214,7 +226,8 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         }
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
+      const errorMessage =
+        err instanceof Error ? err.message : "Unknown error occurred";
       setError(errorMessage);
       console.error("Chart data fetch error:", err);
     } finally {

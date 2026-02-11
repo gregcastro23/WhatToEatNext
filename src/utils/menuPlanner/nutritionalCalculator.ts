@@ -58,9 +58,7 @@ export const EMPTY_DAILY_TOTALS: DailyNutritionTotals = {
  * @param meals - Array of meal slots for the day
  * @returns Daily nutrition totals
  */
-export function calculateDailyTotals(
-  meals: MealSlot[],
-): DailyNutritionTotals {
+export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
   if (meals.length === 0) return { ...EMPTY_DAILY_TOTALS };
 
   let totalCalories = 0;
@@ -503,9 +501,7 @@ export function getNutritionalInsights(
 
   // Average daily calories
   const avgDailyCalories = weekly.totalCalories / 7;
-  insights.push(
-    `Average daily calories: ${Math.round(avgDailyCalories)} kcal`,
-  );
+  insights.push(`Average daily calories: ${Math.round(avgDailyCalories)} kcal`);
 
   // Macronutrient balance
   const macros = calculateMacroBreakdown(
@@ -515,19 +511,27 @@ export function getNutritionalInsights(
   );
 
   if (macros.proteinPercentage < 15) {
-    insights.push("⚠️ Protein intake is low. Consider adding more protein-rich foods.");
+    insights.push(
+      "⚠️ Protein intake is low. Consider adding more protein-rich foods.",
+    );
   } else if (macros.proteinPercentage > 35) {
     insights.push("ℹ️ Protein intake is high. Ensure adequate hydration.");
   }
 
   if (macros.carbsPercentage < 30) {
-    insights.push("⚠️ Carbohydrate intake is low. Consider adding more whole grains and fruits.");
+    insights.push(
+      "⚠️ Carbohydrate intake is low. Consider adding more whole grains and fruits.",
+    );
   }
 
   if (macros.fatPercentage < 20) {
-    insights.push("⚠️ Fat intake is low. Include healthy fats like nuts, avocado, and olive oil.");
+    insights.push(
+      "⚠️ Fat intake is low. Include healthy fats like nuts, avocado, and olive oil.",
+    );
   } else if (macros.fatPercentage > 40) {
-    insights.push("ℹ️ Fat intake is high. Balance with more vegetables and lean proteins.");
+    insights.push(
+      "ℹ️ Fat intake is high. Balance with more vegetables and lean proteins.",
+    );
   }
 
   // Greg's Energy analysis
@@ -561,9 +565,13 @@ export function getNutritionalInsights(
   if (goals?.dailyCalories) {
     const avgProgress = (avgDailyCalories / goals.dailyCalories) * 100;
     if (avgProgress < 85) {
-      insights.push(`📉 Below calorie target by ${Math.round(100 - avgProgress)}%`);
+      insights.push(
+        `📉 Below calorie target by ${Math.round(100 - avgProgress)}%`,
+      );
     } else if (avgProgress > 115) {
-      insights.push(`📈 Above calorie target by ${Math.round(avgProgress - 100)}%`);
+      insights.push(
+        `📈 Above calorie target by ${Math.round(avgProgress - 100)}%`,
+      );
     } else {
       insights.push("✅ Calorie intake is on track with your goals!");
     }

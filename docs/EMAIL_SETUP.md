@@ -131,30 +131,30 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 Create a test script at `scripts/test-email.js`:
 
 ```javascript
-const emailService = require('../src/services/emailService').default;
+const emailService = require("../src/services/emailService").default;
 
 async function testEmail() {
-  console.log('Testing email configuration...');
+  console.log("Testing email configuration...");
 
   const verified = await emailService.verifyConnection();
 
   if (verified) {
-    console.log('✅ SMTP connection verified!');
+    console.log("✅ SMTP connection verified!");
 
     // Send test email
     const sent = await emailService.sendWelcomeEmail(
-      'test@example.com',
-      'Test User',
-      'Fire'
+      "test@example.com",
+      "Test User",
+      "Fire",
     );
 
     if (sent) {
-      console.log('✅ Test email sent successfully!');
+      console.log("✅ Test email sent successfully!");
     } else {
-      console.log('❌ Failed to send test email');
+      console.log("❌ Failed to send test email");
     }
   } else {
-    console.log('❌ SMTP connection failed');
+    console.log("❌ SMTP connection failed");
   }
 }
 
@@ -170,11 +170,13 @@ node scripts/test-email.js
 ### 2. Test via Onboarding
 
 1. Start the development server:
+
    ```bash
    yarn dev
    ```
 
 2. Navigate to the onboarding page:
+
    ```
    http://localhost:3000/onboarding
    ```
@@ -200,6 +202,7 @@ The welcome email includes:
 ### Email Not Sending
 
 **Check console logs:**
+
 ```bash
 # Development server logs will show:
 "Email service not configured - skipping welcome email"
@@ -349,6 +352,7 @@ If you encounter issues:
 5. Check if your email provider requires additional security settings
 
 For Gmail specifically, ensure:
+
 - 2FA is enabled
 - App Password is generated and used
 - "Less secure app access" is NOT needed (App Passwords bypass this)

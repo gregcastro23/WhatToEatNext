@@ -17,7 +17,10 @@ import type {
 } from "@/types/kinetics";
 import type { PlanetaryPositions } from "@/types/astrology";
 import type { Element } from "@/types/celestial";
-import { calculateAllDayCircuits, getMealsForDay } from "./dayCircuitCalculations";
+import {
+  calculateAllDayCircuits,
+  getMealsForDay,
+} from "./dayCircuitCalculations";
 import { getWeekEndDate } from "@/types/menuPlanner";
 
 /**
@@ -31,7 +34,7 @@ function sum(numbers: number[]): number {
  * Aggregate elemental vectors across all days
  */
 function aggregateWeeklyElements(
-  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>
+  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
 ): Record<Element, number> {
   const result: Record<Element, number> = {
     Fire: 0,
@@ -55,7 +58,7 @@ function aggregateWeeklyElements(
  * Higher score = more balanced elemental distribution
  */
 function calculateElementalHarmony(
-  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>
+  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
 ): number {
   const weekly = aggregateWeeklyElements(dayCircuits);
 
@@ -87,7 +90,7 @@ function calculateElementalHarmony(
  * Aggregate weekly momentum
  */
 function aggregateWeeklyMomentum(
-  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>
+  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
 ): Record<Element, number> {
   return aggregateWeeklyElements(dayCircuits);
 }
@@ -96,7 +99,7 @@ function aggregateWeeklyMomentum(
  * Aggregate weekly force
  */
 function aggregateWeeklyForce(
-  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>
+  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
 ): Record<Element, number> {
   const result: Record<Element, number> = {
     Fire: 0,
@@ -119,7 +122,7 @@ function aggregateWeeklyForce(
  * Determine weekly thermal direction
  */
 function aggregateThermalDirection(
-  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>
+  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
 ): "heating" | "cooling" | "stable" {
   const thermalCounts = {
     heating: 0,
@@ -153,7 +156,7 @@ function calculateNetworkComplexity(currentMenu: WeeklyMenu): number {
   const fillRatio = filledSlots / totalSlots;
 
   const uniqueRecipes = new Set(
-    currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id)
+    currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
   ).size;
 
   const varietyScore = filledSlots > 0 ? uniqueRecipes / filledSlots : 0;
@@ -169,7 +172,7 @@ function calculateNetworkComplexity(currentMenu: WeeklyMenu): number {
  * KVL (Voltage Law): Sum of voltages in a loop = 0
  */
 function validateWeeklyCircuitLaws(
-  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>
+  dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
 ): {
   isValid: boolean;
   kclViolations: number;
@@ -190,7 +193,9 @@ function validateWeeklyCircuitLaws(
 
   // For a complete week, check if total input = total output + losses
   const totalInput = sum(Object.values(dayCircuits).map((d) => d.inputEnergy));
-  const totalOutput = sum(Object.values(dayCircuits).map((d) => d.outputEnergy));
+  const totalOutput = sum(
+    Object.values(dayCircuits).map((d) => d.outputEnergy),
+  );
   const totalLosses = sum(Object.values(dayCircuits).map((d) => d.totalLosses));
 
   const expectedOutput = totalInput - totalLosses;
@@ -213,7 +218,7 @@ function validateWeeklyCircuitLaws(
  */
 function findWeeklyBottlenecks(
   dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
-  currentMenu: WeeklyMenu
+  currentMenu: WeeklyMenu,
 ): CircuitBottleneck[] {
   const bottlenecks: CircuitBottleneck[] = [];
 
@@ -249,7 +254,7 @@ function findWeeklyBottlenecks(
 function generateWeeklySuggestions(
   dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
   currentMenu: WeeklyMenu,
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): CircuitImprovementSuggestion[] {
   const suggestions: CircuitImprovementSuggestion[] = [];
 
@@ -282,33 +287,41 @@ function generateWeeklySuggestions(
  */
 export function calculateWeeklyCircuit(
   currentMenu: WeeklyMenu,
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): WeeklyMenuCircuitMetrics {
   // 1. Calculate day circuits for all 7 days
   const dayCircuits = calculateAllDayCircuits(
     currentMenu.meals,
-    planetaryPositions
+    planetaryPositions,
   );
 
   // 2. Weekly aggregates
-  const totalWeekCharge = sum(Object.values(dayCircuits).map((d) => d.totalCharge));
-  const totalWeekPower = sum(Object.values(dayCircuits).map((d) => d.totalPower));
-  const totalWeekLosses = sum(Object.values(dayCircuits).map((d) => d.totalLosses));
+  const totalWeekCharge = sum(
+    Object.values(dayCircuits).map((d) => d.totalCharge),
+  );
+  const totalWeekPower = sum(
+    Object.values(dayCircuits).map((d) => d.totalPower),
+  );
+  const totalWeekLosses = sum(
+    Object.values(dayCircuits).map((d) => d.totalLosses),
+  );
   const weekEfficiency =
-    totalWeekPower > 0 ? (totalWeekPower - totalWeekLosses) / totalWeekPower : 0;
+    totalWeekPower > 0
+      ? (totalWeekPower - totalWeekLosses) / totalWeekPower
+      : 0;
 
   // 3. Power distribution analysis
   const breakfastPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.breakfast?.power || 0)
+    Object.values(dayCircuits).map((d) => d.meals.breakfast?.power || 0),
   );
   const lunchPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.lunch?.power || 0)
+    Object.values(dayCircuits).map((d) => d.meals.lunch?.power || 0),
   );
   const dinnerPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.dinner?.power || 0)
+    Object.values(dayCircuits).map((d) => d.meals.dinner?.power || 0),
   );
   const snackPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.snack?.power || 0)
+    Object.values(dayCircuits).map((d) => d.meals.snack?.power || 0),
   );
   const totalMealPower = breakfastPower + lunchPower + dinnerPower + snackPower;
 
@@ -338,7 +351,7 @@ export function calculateWeeklyCircuit(
   const improvementSuggestions = generateWeeklySuggestions(
     dayCircuits,
     currentMenu,
-    planetaryPositions
+    planetaryPositions,
   );
 
   // 8. Validation

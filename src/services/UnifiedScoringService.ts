@@ -466,7 +466,7 @@ export function calculateElementalCompatibility(
   // Use enhanced elemental compatibility calculator
   const compatibility = calculateEnhancedElementalCompatibility(
     currentElemental,
-    itemElemental
+    itemElemental,
   );
 
   // Convert 0-1 compatibility to scoring range (0 to 0.4)
@@ -508,27 +508,39 @@ export function calculateThermodynamicEffect(
     // Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
     const heatNum = Math.pow(alch.Spirit || 0, 2) + Math.pow(elem.Fire || 0, 2);
     const heatDen = Math.pow(
-      (alch.Substance || 0) + (alch.Essence || 0) + (alch.Matter || 0) +
-      (elem.Water || 0) + (elem.Air || 0) + (elem.Earth || 0),
-      2
+      (alch.Substance || 0) +
+        (alch.Essence || 0) +
+        (alch.Matter || 0) +
+        (elem.Water || 0) +
+        (elem.Air || 0) +
+        (elem.Earth || 0),
+      2,
     );
     const heat = heatNum / (heatDen || 1);
 
     // Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
     const entropyNum =
-      Math.pow(alch.Spirit || 0, 2) + Math.pow(alch.Substance || 0, 2) +
-      Math.pow(elem.Fire || 0, 2) + Math.pow(elem.Air || 0, 2);
+      Math.pow(alch.Spirit || 0, 2) +
+      Math.pow(alch.Substance || 0, 2) +
+      Math.pow(elem.Fire || 0, 2) +
+      Math.pow(elem.Air || 0, 2);
     const entropyDen = Math.pow(
-      (alch.Essence || 0) + (alch.Matter || 0) + (elem.Earth || 0) + (elem.Water || 0),
-      2
+      (alch.Essence || 0) +
+        (alch.Matter || 0) +
+        (elem.Earth || 0) +
+        (elem.Water || 0),
+      2,
     );
     const entropy = entropyNum / (entropyDen || 1);
 
     // Reactivity
     const reactivityNum =
-      Math.pow(alch.Spirit || 0, 2) + Math.pow(alch.Substance || 0, 2) +
-      Math.pow(alch.Essence || 0, 2) + Math.pow(elem.Fire || 0, 2) +
-      Math.pow(elem.Air || 0, 2) + Math.pow(elem.Water || 0, 2);
+      Math.pow(alch.Spirit || 0, 2) +
+      Math.pow(alch.Substance || 0, 2) +
+      Math.pow(alch.Essence || 0, 2) +
+      Math.pow(elem.Fire || 0, 2) +
+      Math.pow(elem.Air || 0, 2) +
+      Math.pow(elem.Water || 0, 2);
     const reactivityDen = Math.pow((alch.Matter || 0) + (elem.Earth || 0), 2);
     const reactivity = reactivityNum / (reactivityDen || 1);
 
@@ -536,9 +548,12 @@ export function calculateThermodynamicEffect(
     const gregsEnergy = heat - entropy * reactivity;
 
     // Kalchm
-    const kalchm = context.item.kalchmResonance ||
-      ((Math.pow(alch.Spirit || 1, alch.Spirit || 1) * Math.pow(alch.Essence || 1, alch.Essence || 1)) /
-       (Math.pow(alch.Matter || 1, alch.Matter || 1) * Math.pow(alch.Substance || 1, alch.Substance || 1)));
+    const kalchm =
+      context.item.kalchmResonance ||
+      (Math.pow(alch.Spirit || 1, alch.Spirit || 1) *
+        Math.pow(alch.Essence || 1, alch.Essence || 1)) /
+        (Math.pow(alch.Matter || 1, alch.Matter || 1) *
+          Math.pow(alch.Substance || 1, alch.Substance || 1));
 
     // Monica
     let monica = context.item.monicaConstant || 1.0;
@@ -563,7 +578,10 @@ export function calculateThermodynamicEffect(
   }
 
   // Calculate compatibility using enhanced algorithm
-  const compatibility = calculateThermodynamicCompatibility(userThermo, itemThermo);
+  const compatibility = calculateThermodynamicCompatibility(
+    userThermo,
+    itemThermo,
+  );
 
   // Convert 0-1 compatibility to scoring range (-0.3 to 0.3)
   // High compatibility (1.0) → +0.3
@@ -633,9 +651,10 @@ export function calculateKineticCompatibilityEffect(
   const userCharge = alch.Matter + alch.Substance;
 
   // Potential Difference: V = Greg's Energy / Q
-  const userVoltage = userCharge > 0
-    ? currentState.thermodynamicProperties.gregsEnergy / userCharge
-    : 0;
+  const userVoltage =
+    userCharge > 0
+      ? currentState.thermodynamicProperties.gregsEnergy / userCharge
+      : 0;
 
   // Current Flow: I = Reactivity (simplified, full formula would use dQ/dt)
   const userCurrent = currentState.thermodynamicProperties.reactivity;
@@ -658,28 +677,44 @@ export function calculateKineticCompatibilityEffect(
     const itemElem = context.item.elementalProperties;
 
     // Calculate thermodynamics first (needed for kinetics)
-    const heatNum = Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemElem.Fire || 0, 2);
+    const heatNum =
+      Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemElem.Fire || 0, 2);
     const heatDen = Math.pow(
-      (itemAlch.Substance || 0) + (itemAlch.Essence || 0) + (itemAlch.Matter || 0) +
-      (itemElem.Water || 0) + (itemElem.Air || 0) + (itemElem.Earth || 0),
-      2
+      (itemAlch.Substance || 0) +
+        (itemAlch.Essence || 0) +
+        (itemAlch.Matter || 0) +
+        (itemElem.Water || 0) +
+        (itemElem.Air || 0) +
+        (itemElem.Earth || 0),
+      2,
     );
     const heat = heatNum / (heatDen || 1);
 
     const entropyNum =
-      Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemAlch.Substance || 0, 2) +
-      Math.pow(itemElem.Fire || 0, 2) + Math.pow(itemElem.Air || 0, 2);
+      Math.pow(itemAlch.Spirit || 0, 2) +
+      Math.pow(itemAlch.Substance || 0, 2) +
+      Math.pow(itemElem.Fire || 0, 2) +
+      Math.pow(itemElem.Air || 0, 2);
     const entropyDen = Math.pow(
-      (itemAlch.Essence || 0) + (itemAlch.Matter || 0) + (itemElem.Earth || 0) + (itemElem.Water || 0),
-      2
+      (itemAlch.Essence || 0) +
+        (itemAlch.Matter || 0) +
+        (itemElem.Earth || 0) +
+        (itemElem.Water || 0),
+      2,
     );
     const entropy = entropyNum / (entropyDen || 1);
 
     const reactivityNum =
-      Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemAlch.Substance || 0, 2) +
-      Math.pow(itemAlch.Essence || 0, 2) + Math.pow(itemElem.Fire || 0, 2) +
-      Math.pow(itemElem.Air || 0, 2) + Math.pow(itemElem.Water || 0, 2);
-    const reactivityDen = Math.pow((itemAlch.Matter || 0) + (itemElem.Earth || 0), 2);
+      Math.pow(itemAlch.Spirit || 0, 2) +
+      Math.pow(itemAlch.Substance || 0, 2) +
+      Math.pow(itemAlch.Essence || 0, 2) +
+      Math.pow(itemElem.Fire || 0, 2) +
+      Math.pow(itemElem.Air || 0, 2) +
+      Math.pow(itemElem.Water || 0, 2);
+    const reactivityDen = Math.pow(
+      (itemAlch.Matter || 0) + (itemElem.Earth || 0),
+      2,
+    );
     const reactivity = reactivityNum / (reactivityDen || 1);
 
     const gregsEnergy = heat - entropy * reactivity;
@@ -781,7 +816,10 @@ export class UnifiedScoringService {
           context,
         ),
         thermalDynamicEffect: calculateThermodynamicEffect(astroData, context),
-        kineticCompatibilityEffect: calculateKineticCompatibilityEffect(astroData, context),
+        kineticCompatibilityEffect: calculateKineticCompatibilityEffect(
+          astroData,
+          context,
+        ),
         kalchmResonance: calculateKalchmResonance(astroData, context),
         monicaOptimization: calculateMonicaOptimization(astroData, context),
         retrogradeEffect: calculateRetrogradeEffect(astroData, context),
@@ -990,8 +1028,8 @@ export class UnifiedScoringService {
       lunarPhaseEffect: 0.35,
       aspectEffect: 0.65,
       elementalCompatibility: 0.85,
-      thermalDynamicEffect: 1.2,        // INCREASED from 0.6 - more impact
-      kineticCompatibilityEffect: 1.1,  // NEW - significant weight
+      thermalDynamicEffect: 1.2, // INCREASED from 0.6 - more impact
+      kineticCompatibilityEffect: 1.1, // NEW - significant weight
       kalchmResonance: 0.4,
       monicaOptimization: 0.3,
       retrogradeEffect: 0.55,

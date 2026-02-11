@@ -83,24 +83,19 @@ export default function WeekProgress({
       ? weekPlan.meals
           .filter((m) => m.recipe)
           .flatMap((m) =>
-            (m.recipe!.ingredients || []).map((i) => i.name.toLowerCase())
+            (m.recipe!.ingredients || []).map((i) => i.name.toLowerCase()),
           )
       : [];
     const uniqueIngredients = new Set(ingredients).size;
 
-    const compliance =
-      weeklyNutrition?.weeklyCompliance?.overall ?? 0;
+    const compliance = weeklyNutrition?.weeklyCompliance?.overall ?? 0;
 
     return { plannedMeals, uniqueIngredients, compliance };
   }, [weekPlan, weeklyNutrition]);
 
   const compliancePct = Math.round(stats.compliance * 100);
   const complianceColor =
-    compliancePct > 80
-      ? "#10b981"
-      : compliancePct > 60
-        ? "#f59e0b"
-        : "#ef4444";
+    compliancePct > 80 ? "#10b981" : compliancePct > 60 ? "#f59e0b" : "#ef4444";
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4">

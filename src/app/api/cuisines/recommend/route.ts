@@ -27,6 +27,7 @@ import {
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
+  PLANETARY_ALCHEMY, // Import PLANETARY_ALCHEMY
 } from "@/utils/planetaryAlchemyMapping";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { retryWithTimeout } from "@/utils/apiUtils"; // Import retryWithTimeout
@@ -301,7 +302,10 @@ function calculateAlchemicalPropertiesFromPlanets(
     // ✅ CORRECT: Use actual planetary positions
     const planetSigns: Record<string, string> = {};
     for (const [planet, position] of Object.entries(planetaryPositions)) {
-      planetSigns[planet] = position.sign;
+      // Only include actual planets for alchemical calculation
+      if (planet in PLANETARY_ALCHEMY) {
+        planetSigns[planet] = position.sign;
+      }
     }
 
     const alchemical = calculateAlchemicalFromPlanets(planetSigns);

@@ -12,6 +12,7 @@ This project has been upgraded to use **Swiss Ephemeris v2** (`swisseph-v2`) for
 ### 1. Package Dependencies
 
 **Added** to `package.json`:
+
 ```json
 "swisseph-v2": "^1.0.4"
 ```
@@ -19,6 +20,7 @@ This project has been upgraded to use **Swiss Ephemeris v2** (`swisseph-v2`) for
 ### 2. New Files Created
 
 #### Type Definitions
+
 - **`src/types/swisseph-v2.d.ts`** - Comprehensive TypeScript definitions for swisseph-v2 API
   - Planetary constants (SE_SUN, SE_MOON, etc.)
   - Calculation flags (SEFLG_SWIEPH, SEFLG_SPEED, etc.)
@@ -27,6 +29,7 @@ This project has been upgraded to use **Swiss Ephemeris v2** (`swisseph-v2`) for
   - Full API interface with CalcResult, UtcTime, etc.
 
 #### Utility Module
+
 - **`src/utils/swissephCalculations.ts`** - Swiss Ephemeris calculation wrapper
   - `calculatePlanetaryPositionsSwissEph()` - High-precision planetary positions
   - `calculateHouses()` - House calculations for any location
@@ -38,6 +41,7 @@ This project has been upgraded to use **Swiss Ephemeris v2** (`swisseph-v2`) for
 ### 3. Modified Files
 
 #### Astrologize API (`src/app/api/astrologize/route.ts`)
+
 - **Intelligent Fallback System**:
   - Tries Swiss Ephemeris first (if installed)
   - Falls back to astronomy-engine if unavailable
@@ -69,12 +73,14 @@ This will install the `swisseph-v2` package and enable high-precision calculatio
 ## Accuracy Improvements
 
 ### Before (astronomy-engine)
+
 - ❌ Mercury retrograde: `Math.random() < 0.2` (random!)
 - ⚠️ Retrograde detection: Compare positions 1 day apart (imprecise)
 - ⚠️ Basic linear approximations for planetary motion
 - ⚠️ Less accurate for historical dates or future predictions
 
 ### After (swisseph-v2)
+
 - ✅ NASA JPL DE data (gold standard)
 - ✅ Sub-arcsecond accuracy for all planets
 - ✅ Proper retrograde detection using velocity calculations
@@ -122,15 +128,15 @@ This will install the `swisseph-v2` package and enable high-precision calculatio
 ```typescript
 import {
   calculatePlanetaryPositionsSwissEph,
-  isSwissEphemerisAvailable
-} from '@/utils/swissephCalculations';
+  isSwissEphemerisAvailable,
+} from "@/utils/swissephCalculations";
 
 // Check if Swiss Ephemeris is installed
 if (isSwissEphemerisAvailable()) {
   // Calculate positions
   const positions = calculatePlanetaryPositionsSwissEph(
     new Date(),
-    'tropical' // or 'sidereal'
+    "tropical", // or 'sidereal'
   );
 
   console.log(positions.Sun);
@@ -145,8 +151,8 @@ The ESMS (Spirit, Essence, Matter, Substance) calculations depend on accurate pl
 ```typescript
 // src/utils/planetaryAlchemyMapping.ts
 const alchemical = calculateAlchemicalFromPlanets({
-  Sun: "Gemini",    // ← Now from Swiss Ephemeris
-  Moon: "Leo",      // ← Higher precision
+  Sun: "Gemini", // ← Now from Swiss Ephemeris
+  Moon: "Leo", // ← Higher precision
   Mercury: "Taurus", // ← Accurate retrograde detection
   // ... other planets
 });
@@ -154,6 +160,7 @@ const alchemical = calculateAlchemicalFromPlanets({
 ```
 
 **Benefits**:
+
 - More accurate ESMS values
 - Reliable retrograde detection (affects alchemical properties)
 - Consistent results across different time periods
@@ -198,6 +205,7 @@ curl http://localhost:3000/api/astrologize | jq .metadata
 **Symptom**: Logs show "astronomy-engine-fallback" instead of "swiss-ephemeris-v2"
 
 **Solutions**:
+
 1. Verify installation: `ls node_modules/swisseph-v2`
 2. Reinstall: `yarn install` or `make install`
 3. Check build: `make build` should complete without errors
@@ -207,6 +215,7 @@ curl http://localhost:3000/api/astrologize | jq .metadata
 **Issue**: Native module compilation errors
 
 **Solution**:
+
 - Ensure Node.js 16+ is installed
 - Install build tools: `apt-get install build-essential` (Linux) or Xcode (Mac)
 - Run: `yarn install --force`
@@ -214,16 +223,19 @@ curl http://localhost:3000/api/astrologize | jq .metadata
 ## Performance Considerations
 
 ### Calculation Speed
+
 - **Swiss Ephemeris**: ~5-10ms per planetary position
 - **astronomy-engine**: ~1-3ms per planetary position
 
 **Impact**: Negligible for typical usage (10 planets = ~50-100ms vs ~10-30ms)
 
 ### Memory Usage
+
 - **Swiss Ephemeris**: ~14.6 MB package size
 - **Runtime**: Minimal additional memory overhead
 
 ### Caching
+
 The astrologize API already implements 1-minute caching for current positions, minimizing calculation frequency.
 
 ## Future Enhancements

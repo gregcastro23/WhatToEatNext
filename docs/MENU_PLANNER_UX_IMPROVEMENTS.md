@@ -9,6 +9,7 @@
 ## 🎯 Objective
 
 Transform the menu planner page from "technical metrics dump" into "progressive enhancement experience" by:
+
 1. Hiding overwhelming circuit metrics when calendar is empty
 2. Providing clear onboarding guidance for new users
 3. Smart bottleneck detection that doesn't flag all empty slots
@@ -23,10 +24,12 @@ Transform the menu planner page from "technical metrics dump" into "progressive 
 **Before**: Flagged ALL 28 empty slots as bottlenecks (0.5 impact each) on empty calendar
 
 **After**: Smart detection that only flags empty slots when:
+
 - User has planned 10+ meals (indicating active planning), AND
 - Empty slot disrupts flow on its day (has adjacent filled meals)
 
 **Code Changes**:
+
 ```typescript
 // Calculate total filled meal count (for smart empty slot detection)
 const totalFilledMeals = currentMenu.meals.filter((m) => m.recipe).length;
@@ -36,7 +39,7 @@ const isActivelyPlanning = totalFilledMeals >= 10;
 if (isActivelyPlanning) {
   // Check if this empty slot disrupts flow on its day
   const hasAdjacentMeals = dayMeals.some(
-    (m) => m.recipe && m.id !== mealSlot.id
+    (m) => m.recipe && m.id !== mealSlot.id,
   );
 
   if (hasAdjacentMeals) {
@@ -58,16 +61,19 @@ if (isActivelyPlanning) {
 **Before**: Always displayed full metrics panel with "0.0%" and "< 0.01 W" values
 
 **After**: Progressive disclosure based on meal count:
+
 - **0-5 meals**: Shows encouraging empty state with progress indicator
 - **6+ meals**: Shows full circuit metrics analysis
 
 **New Features**:
+
 - **Empty State Component**: Friendly message explaining what circuit metrics are
 - **Progress Tracking**: Shows "X / 6 meals planned (Y more to unlock)"
 - **Contextual Tips**: Guides users to click "✨ Generate" or search recipes
 - **Tooltips**: Hover hints explaining P=IV model, efficiency ranges, etc.
 
 **Code Changes**:
+
 ```typescript
 const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
 const hasEnoughMeals = totalMeals >= 6;
@@ -80,6 +86,7 @@ const hasEnoughMeals = totalMeals >= 6;
 ```
 
 **New Tooltip System**:
+
 - Total Power: "Sum of all meal energies calculated using P=IV..."
 - Efficiency: "70%+ is excellent, 40-70% is good, <40% needs optimization"
 - Total Charge: "Sum of alchemical current (Spirit + Essence)..."
@@ -94,6 +101,7 @@ const hasEnoughMeals = totalMeals >= 6;
 **After**: Contextual banners based on progress:
 
 #### **Empty Calendar (0 meals)**:
+
 ```
 ╔═══════════════════════════════════════════════╗
 ║            🍽️                                 ║
@@ -108,6 +116,7 @@ const hasEnoughMeals = totalMeals >= 6;
 ```
 
 #### **Partial Planning (1-5 meals)**:
+
 ```
 ╔═══════════════════════════════════════════════╗
 ║  📅 Great start! 3 meals planned              ║
@@ -118,9 +127,11 @@ const hasEnoughMeals = totalMeals >= 6;
 ```
 
 #### **6+ Meals**:
+
 No banner shown - circuit metrics panel takes over.
 
 **Code Changes**:
+
 ```typescript
 const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
 
@@ -138,12 +149,14 @@ const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
 ### 4. **Updated Page Messaging** (`src/app/menu-planner/page.tsx`)
 
 **Before**:
+
 ```
 ✨ Phase 2 In Progress - Recipe search, queue management...
 Coming next: Drag-and-drop, copy/move operations...
 ```
 
 **After**:
+
 ```
 ⚡ Powered by alchemical circuit optimization (P=IV model)
    and real-time planetary calculations
@@ -153,6 +166,7 @@ Generate planetary-aligned suggestions
 ```
 
 **Updated TODO Comment**:
+
 ```typescript
 // Before:
 // TODO: Show meal slot selector when clicking "Use Recipe"
@@ -168,12 +182,14 @@ Generate planetary-aligned suggestions
 ### **Stage 1: First-Time User (0 meals)**
 
 **What User Sees**:
+
 1. Clean 7-day calendar with planetary rulers
 2. Banner: "Your Weekly Menu Awaits" with clear CTAs
 3. Circuit Metrics Panel (collapsed): "Add 6 meals to unlock"
 4. "✨ Generate" buttons visible on each day
 
 **What User DOESN'T See**:
+
 - ❌ 28 bottleneck warnings
 - ❌ "0.0% efficiency" metrics
 - ❌ "< 0.01 W" power values
@@ -186,12 +202,14 @@ Generate planetary-aligned suggestions
 ### **Stage 2: Early Planning (1-5 meals)**
 
 **What User Sees**:
+
 1. Calendar with some filled slots
 2. Banner: "Great start! 3 meals planned" + progress bar
 3. Circuit Metrics Panel: "Add 3 more meals to unlock"
 4. NO bottleneck warnings (< 10 meals threshold)
 
 **What User DOESN'T See**:
+
 - ❌ Empty slot bottleneck warnings
 - ❌ Circuit optimization suggestions
 - ❌ Full metrics breakdown
@@ -203,6 +221,7 @@ Generate planetary-aligned suggestions
 ### **Stage 3: Unlocking Insights (6+ meals)**
 
 **What User Sees**:
+
 1. Calendar with substantial planning
 2. Circuit Metrics Panel EXPANDS automatically
 3. Weekly overview with tooltips (hover ⓘ for help)
@@ -210,6 +229,7 @@ Generate planetary-aligned suggestions
 5. NO bottleneck warnings yet (< 10 meals)
 
 **What User SEES**:
+
 - ✅ Total Power, Efficiency, Charge, Losses
 - ✅ Power distribution by meal type
 - ✅ Elemental balance visualization
@@ -222,6 +242,7 @@ Generate planetary-aligned suggestions
 ### **Stage 4: Active Optimization (10+ meals)**
 
 **What User Sees**:
+
 1. Full calendar with most slots filled
 2. Complete circuit metrics panel
 3. **SMART bottleneck detection**:
@@ -232,6 +253,7 @@ Generate planetary-aligned suggestions
 4. Improvement suggestions (top 3)
 
 **What User SEES**:
+
 - ✅ Actionable bottlenecks (not all 28 empty slots)
 - ✅ Specific suggestions: "Move Wed dinner to Thu"
 - ✅ Expected efficiency improvements
@@ -243,22 +265,26 @@ Generate planetary-aligned suggestions
 ## 🎨 Visual Design Improvements
 
 ### **Tooltips**
+
 - Clean hover tooltips with dark background
 - Positioned above metric cards
 - Explain technical terms in plain language
 - Small "ⓘ" indicator next to metric labels
 
 ### **Color Coding**
+
 - **Green (70%+)**: Excellent harmony
 - **Yellow (40-70%)**: Good balance
 - **Red (<40%)**: Needs optimization
 
 ### **Progress Indicators**
+
 - Visual bar chart showing 0/6 → 6/6 progress
 - Color-coded bars (purple for filled, gray for empty)
 - Real-time count display
 
 ### **Empty State Design**
+
 - Friendly emoji icons (🍽️, ⚡, 📅)
 - Gradient backgrounds (purple → pink → blue)
 - Clear action-oriented language
@@ -269,6 +295,7 @@ Generate planetary-aligned suggestions
 ## 📈 Success Metrics
 
 ### **UX Checklist** ✅
+
 - [x] First-time user sees clean calendar with clear guidance
 - [x] Circuit metrics hidden until 6+ meals planned
 - [x] Bottlenecks only show when calendar has adjacent meals (not all empty slots)
@@ -278,6 +305,7 @@ Generate planetary-aligned suggestions
 - [x] No TODO comments or placeholder text visible to users
 
 ### **Technical Checklist** ✅
+
 - [x] Zero TypeScript compilation errors (maintained)
 - [x] All existing tests pass (no breaking changes)
 - [x] Circuit calculations still run correctly (just hidden when not useful)
@@ -286,6 +314,7 @@ Generate planetary-aligned suggestions
 - [x] Circuit panel expand/collapse is smooth (CSS transitions)
 
 ### **Code Quality Checklist** ✅
+
 - [x] No console.log() debugging statements
 - [x] Proper TypeScript types for all new components
 - [x] CSS follows existing naming conventions (kebab-case)
@@ -297,6 +326,7 @@ Generate planetary-aligned suggestions
 ## 📝 Files Modified
 
 ### **Primary Changes**:
+
 1. `src/utils/circuitOptimization.ts` (lines 30-140)
    - Added smart empty slot detection
    - Only flag bottlenecks when 10+ meals planned
@@ -319,6 +349,7 @@ Generate planetary-aligned suggestions
    - Improved TODO comment clarity
 
 ### **Lines Changed**:
+
 - Added: ~180 lines
 - Modified: ~60 lines
 - Deleted: ~15 lines
@@ -329,7 +360,9 @@ Generate planetary-aligned suggestions
 ## 🚀 Deployment Readiness
 
 ### **Pre-Existing Errors** (Not Introduced by Changes)
+
 The following TypeScript errors exist but are **NOT** related to menu planner changes:
+
 - `alchm-app-integration/` - External integration files (4 errors)
 - `src/app/profile/page.tsx` - Profile page (1 error)
 - `src/calculations/alchemicalTransformation.ts` - Calculations (2 errors)
@@ -373,23 +406,27 @@ Based on this work, consider these follow-up improvements:
 ## 📚 Testing Scenarios
 
 ### **Scenario 1: First-Time User** ✅
+
 1. Clear localStorage: `localStorage.removeItem('alchm_weekly_menu')`
 2. Refresh page
 3. **Expected**: Clean calendar, encouraging empty state, NO circuit metrics visible
 4. **Expected**: "✨ Generate" buttons prominent on each day
 
 ### **Scenario 2: Adding First Meal** ✅
+
 1. Add one recipe to Monday breakfast
 2. **Expected**: Calendar updates, circuit metrics still hidden (< 6 meals)
 3. **Expected**: Progress banner shows "1 meal planned, add 5 more to unlock"
 
 ### **Scenario 3: Reaching Threshold** ✅
+
 1. Add recipes until 6 total meals
 2. **Expected**: Circuit metrics panel expands automatically
 3. **Expected**: Shows useful data (no "0.0%" everywhere)
 4. **Expected**: NO bottleneck warnings (< 10 meals)
 
 ### **Scenario 4: Full Week** ✅
+
 1. Fill all 28 slots with recipes
 2. **Expected**: Circuit metrics show rich analysis
 3. **Expected**: Bottlenecks detect actual inefficiencies (not just empty slots)

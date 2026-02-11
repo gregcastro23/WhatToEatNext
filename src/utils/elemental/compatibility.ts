@@ -35,15 +35,15 @@ import { getTotalIntensity, isNormalized } from "./normalization";
  * Used when converting normalized values back to raw
  */
 export const CATEGORY_REFERENCE_INTENSITIES: Record<string, number> = {
-  spice: 8.0,       // Spices have high elemental intensity
-  herb: 6.0,        // Herbs have moderate-high intensity
-  vegetable: 4.0,   // Vegetables have moderate intensity
-  fruit: 3.5,       // Fruits have moderate intensity
-  grain: 3.0,       // Grains have lower intensity
-  protein: 4.5,     // Proteins have moderate intensity
-  dairy: 3.0,       // Dairy has moderate-low intensity
-  fat: 2.5,         // Fats/oils have lower intensity
-  default: 4.0,     // Default reference for unknown categories
+  spice: 8.0, // Spices have high elemental intensity
+  herb: 6.0, // Herbs have moderate-high intensity
+  vegetable: 4.0, // Vegetables have moderate intensity
+  fruit: 3.5, // Fruits have moderate intensity
+  grain: 3.0, // Grains have lower intensity
+  protein: 4.5, // Proteins have moderate intensity
+  dairy: 3.0, // Dairy has moderate-low intensity
+  fat: 2.5, // Fats/oils have lower intensity
+  default: 4.0, // Default reference for unknown categories
 };
 
 // Re-export convertNormalizedToRaw from normalization for backwards compatibility

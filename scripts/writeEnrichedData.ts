@@ -186,7 +186,7 @@ const INGREDIENT_ELEMENTAL_MAP: Record<string, ElementalProperties> = {
   ham: { Fire: 0.2, Water: 0.25, Earth: 0.5, Air: 0.05 },
   pastry: { Fire: 0.15, Water: 0.1, Earth: 0.55, Air: 0.2 },
   "choux pastry": { Fire: 0.2, Water: 0.15, Earth: 0.5, Air: 0.15 },
-  "shortcrust": { Fire: 0.15, Water: 0.1, Earth: 0.6, Air: 0.15 },
+  shortcrust: { Fire: 0.15, Water: 0.1, Earth: 0.6, Air: 0.15 },
   "bay leaf": { Fire: 0.15, Water: 0.15, Earth: 0.2, Air: 0.5 },
   "bouquet garni": { Fire: 0.15, Water: 0.15, Earth: 0.15, Air: 0.55 },
   yeast: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.4 },
@@ -406,27 +406,142 @@ const COOKING_METHOD_MODIFIERS: Record<string, ElementalProperties> = {
 
 // Planetary keywords
 const PLANETARY_KEYWORDS: Record<string, string[]> = {
-  Sun: ["bright", "vital", "energizing", "golden", "citrus", "saffron", "honey", "breakfast", "morning"],
-  Moon: ["comfort", "nurturing", "mild", "soft", "cream", "milk", "dairy", "soup", "porridge", "soothing"],
-  Mercury: ["quick", "light", "varied", "diverse", "snack", "appetizer", "small"],
-  Venus: ["elegant", "sweet", "beautiful", "dessert", "romantic", "chocolate", "fruit", "cake", "pastry"],
-  Mars: ["spicy", "bold", "hot", "pepper", "chili", "grilled", "red", "meat", "steak", "bbq"],
-  Jupiter: ["feast", "abundant", "rich", "celebration", "holiday", "traditional", "hearty"],
-  Saturn: ["traditional", "slow", "aged", "fermented", "preserved", "cured", "classic"],
+  Sun: [
+    "bright",
+    "vital",
+    "energizing",
+    "golden",
+    "citrus",
+    "saffron",
+    "honey",
+    "breakfast",
+    "morning",
+  ],
+  Moon: [
+    "comfort",
+    "nurturing",
+    "mild",
+    "soft",
+    "cream",
+    "milk",
+    "dairy",
+    "soup",
+    "porridge",
+    "soothing",
+  ],
+  Mercury: [
+    "quick",
+    "light",
+    "varied",
+    "diverse",
+    "snack",
+    "appetizer",
+    "small",
+  ],
+  Venus: [
+    "elegant",
+    "sweet",
+    "beautiful",
+    "dessert",
+    "romantic",
+    "chocolate",
+    "fruit",
+    "cake",
+    "pastry",
+  ],
+  Mars: [
+    "spicy",
+    "bold",
+    "hot",
+    "pepper",
+    "chili",
+    "grilled",
+    "red",
+    "meat",
+    "steak",
+    "bbq",
+  ],
+  Jupiter: [
+    "feast",
+    "abundant",
+    "rich",
+    "celebration",
+    "holiday",
+    "traditional",
+    "hearty",
+  ],
+  Saturn: [
+    "traditional",
+    "slow",
+    "aged",
+    "fermented",
+    "preserved",
+    "cured",
+    "classic",
+  ],
 };
 
 // Seasonal ingredients
 const SEASONAL_INGREDIENTS: Record<string, string[]> = {
-  spring: ["asparagus", "pea", "artichoke", "ramp", "radish", "spinach", "arugula", "mint", "lamb", "strawberry", "rhubarb"],
-  summer: ["tomato", "corn", "zucchini", "eggplant", "pepper", "cucumber", "basil", "watermelon", "berry", "peach", "melon"],
-  autumn: ["pumpkin", "squash", "apple", "pear", "mushroom", "cranberry", "sweet potato", "brussels", "sage", "cinnamon"],
-  winter: ["potato", "carrot", "turnip", "citrus", "kale", "cabbage", "leek", "onion", "garlic", "nut", "root"],
+  spring: [
+    "asparagus",
+    "pea",
+    "artichoke",
+    "ramp",
+    "radish",
+    "spinach",
+    "arugula",
+    "mint",
+    "lamb",
+    "strawberry",
+    "rhubarb",
+  ],
+  summer: [
+    "tomato",
+    "corn",
+    "zucchini",
+    "eggplant",
+    "pepper",
+    "cucumber",
+    "basil",
+    "watermelon",
+    "berry",
+    "peach",
+    "melon",
+  ],
+  autumn: [
+    "pumpkin",
+    "squash",
+    "apple",
+    "pear",
+    "mushroom",
+    "cranberry",
+    "sweet potato",
+    "brussels",
+    "sage",
+    "cinnamon",
+  ],
+  winter: [
+    "potato",
+    "carrot",
+    "turnip",
+    "citrus",
+    "kale",
+    "cabbage",
+    "leek",
+    "onion",
+    "garlic",
+    "nut",
+    "root",
+  ],
 };
 
 /**
  * Find matching elemental properties for an ingredient
  */
-function findIngredientElementals(ingredientName: string): ElementalProperties | null {
+function findIngredientElementals(
+  ingredientName: string,
+): ElementalProperties | null {
   const name = ingredientName.toLowerCase();
 
   // Direct match
@@ -491,7 +606,10 @@ function normalizeElementals(props: ElementalProperties): ElementalProperties {
  * Enrich individual ingredients in an ingredients array block
  * Adds elementalProperties to each ingredient object
  */
-function enrichIngredientsInBlock(block: string): { enrichedBlock: string; enrichedCount: number } {
+function enrichIngredientsInBlock(block: string): {
+  enrichedBlock: string;
+  enrichedCount: number;
+} {
   let enrichedBlock = block;
   let enrichedCount = 0;
 
@@ -505,11 +623,16 @@ function enrichIngredientsInBlock(block: string): { enrichedBlock: string; enric
   let newIngredientsContent = ingredientsArrayContent;
 
   // Find each ingredient object and add elementalProperties if not present
-  const ingredientObjectPattern = /\{([^{}]*?name:\s*["']([^"']+)["'][^{}]*?)\}/g;
+  const ingredientObjectPattern =
+    /\{([^{}]*?name:\s*["']([^"']+)["'][^{}]*?)\}/g;
   let ingredientMatch;
   const replacements: Array<{ original: string; replacement: string }> = [];
 
-  while ((ingredientMatch = ingredientObjectPattern.exec(ingredientsArrayContent)) !== null) {
+  while (
+    (ingredientMatch = ingredientObjectPattern.exec(
+      ingredientsArrayContent,
+    )) !== null
+  ) {
     const fullMatch = ingredientMatch[0];
     const ingredientContent = ingredientMatch[1];
     const ingredientName = ingredientMatch[2];
@@ -540,11 +663,17 @@ function enrichIngredientsInBlock(block: string): { enrichedBlock: string; enric
 
   // Apply replacements in reverse order to preserve indices
   for (const { original, replacement } of replacements.reverse()) {
-    newIngredientsContent = newIngredientsContent.replace(original, replacement);
+    newIngredientsContent = newIngredientsContent.replace(
+      original,
+      replacement,
+    );
   }
 
   if (enrichedCount > 0) {
-    enrichedBlock = block.replace(ingredientsArrayContent, newIngredientsContent);
+    enrichedBlock = block.replace(
+      ingredientsArrayContent,
+      newIngredientsContent,
+    );
   }
 
   return { enrichedBlock, enrichedCount };
@@ -554,7 +683,10 @@ function enrichIngredientsInBlock(block: string): { enrichedBlock: string; enric
  * Enrich cooking methods in a cookingMethods array block
  * Converts string methods to objects with elementalProperties
  */
-function enrichCookingMethodsInBlock(block: string): { enrichedBlock: string; enrichedCount: number } {
+function enrichCookingMethodsInBlock(block: string): {
+  enrichedBlock: string;
+  enrichedCount: number;
+} {
   let enrichedBlock = block;
   let enrichedCount = 0;
 
@@ -567,7 +699,10 @@ function enrichCookingMethodsInBlock(block: string): { enrichedBlock: string; en
   const methodsArrayContent = methodsMatch[1];
 
   // Check if methods are already objects (contain { and name:)
-  if (methodsArrayContent.includes("{") && methodsArrayContent.includes("name:")) {
+  if (
+    methodsArrayContent.includes("{") &&
+    methodsArrayContent.includes("name:")
+  ) {
     // Already enriched as objects, skip
     return { enrichedBlock, enrichedCount: 0 };
   }
@@ -577,7 +712,9 @@ function enrichCookingMethodsInBlock(block: string): { enrichedBlock: string; en
   const stringMethodPattern = /["']([^"']+)["']/g;
   let methodMatch;
 
-  while ((methodMatch = stringMethodPattern.exec(methodsArrayContent)) !== null) {
+  while (
+    (methodMatch = stringMethodPattern.exec(methodsArrayContent)) !== null
+  ) {
     methodStrings.push(methodMatch[1]);
   }
 
@@ -612,7 +749,10 @@ function enrichCookingMethodsInBlock(block: string): { enrichedBlock: string; en
     const newMethodsArray = `cookingMethods: [
           ${enrichedMethods.join(",\n          ")}
         ]`;
-    enrichedBlock = block.replace(/cookingMethods:\s*\[[^\]]*\]/, newMethodsArray);
+    enrichedBlock = block.replace(
+      /cookingMethods:\s*\[[^\]]*\]/,
+      newMethodsArray,
+    );
   }
 
   return { enrichedBlock, enrichedCount };
@@ -624,7 +764,7 @@ function enrichCookingMethodsInBlock(block: string): { enrichedBlock: string; en
 function calculateElementals(
   ingredients: RecipeIngredient[],
   cookingMethods: string[] = [],
-  cuisine: string = ""
+  cuisine: string = "",
 ): ElementalProperties {
   if (!ingredients || ingredients.length === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -636,7 +776,10 @@ function calculateElementals(
   for (const ingredient of ingredients) {
     const mapping = findIngredientElementals(ingredient.name);
     if (mapping) {
-      const amount = typeof ingredient.amount === "number" ? ingredient.amount : parseFloat(String(ingredient.amount)) || 1;
+      const amount =
+        typeof ingredient.amount === "number"
+          ? ingredient.amount
+          : parseFloat(String(ingredient.amount)) || 1;
       const weight = Math.log(1 + amount / 10);
 
       totals.Fire += mapping.Fire * weight;
@@ -654,7 +797,9 @@ function calculateElementals(
   // Apply cooking method modifiers
   for (const method of cookingMethods) {
     const methodKey = method.toLowerCase().replace(/\s+/g, "-");
-    const modifier = COOKING_METHOD_MODIFIERS[methodKey] || COOKING_METHOD_MODIFIERS[method.toLowerCase()];
+    const modifier =
+      COOKING_METHOD_MODIFIERS[methodKey] ||
+      COOKING_METHOD_MODIFIERS[method.toLowerCase()];
     if (modifier) {
       totals.Fire *= modifier.Fire;
       totals.Water *= modifier.Water;
@@ -690,9 +835,14 @@ function calculateElementals(
 /**
  * Determine planetary influences from dish text
  */
-function determinePlanetaryInfluences(name: string, description: string, ingredients: RecipeIngredient[]): string[] {
+function determinePlanetaryInfluences(
+  name: string,
+  description: string,
+  ingredients: RecipeIngredient[],
+): string[] {
   const influences: Set<string> = new Set();
-  const combinedText = `${name} ${description || ""} ${ingredients?.map((i) => i.name).join(" ") || ""}`.toLowerCase();
+  const combinedText =
+    `${name} ${description || ""} ${ingredients?.map((i) => i.name).join(" ") || ""}`.toLowerCase();
 
   for (const [planet, keywords] of Object.entries(PLANETARY_KEYWORDS)) {
     for (const keyword of keywords) {
@@ -714,7 +864,12 @@ function determinePlanetaryInfluences(name: string, description: string, ingredi
  * Calculate seasonal alignment
  */
 function calculateSeasonalAlignment(ingredients: RecipeIngredient[]): string[] {
-  const scores: Record<string, number> = { spring: 0, summer: 0, autumn: 0, winter: 0 };
+  const scores: Record<string, number> = {
+    spring: 0,
+    summer: 0,
+    autumn: 0,
+    winter: 0,
+  };
 
   for (const ingredient of ingredients) {
     const name = ingredient.name.toLowerCase();
@@ -739,9 +894,15 @@ function calculateSeasonalAlignment(ingredients: RecipeIngredient[]): string[] {
 /**
  * Check if a dish already has good elemental properties (not default)
  */
-function hasGoodElementalProperties(content: string, dishName: string): boolean {
+function hasGoodElementalProperties(
+  content: string,
+  dishName: string,
+): boolean {
   // Find the dish block
-  const dishPattern = new RegExp(`name:\\s*["']${escapeRegex(dishName)}["'][^}]*elementalProperties:\\s*{([^}]+)}`, "s");
+  const dishPattern = new RegExp(
+    `name:\\s*["']${escapeRegex(dishName)}["'][^}]*elementalProperties:\\s*{([^}]+)}`,
+    "s",
+  );
   const match = content.match(dishPattern);
 
   if (!match) return false;
@@ -782,7 +943,8 @@ function parseIngredientsFromBlock(block: string): RecipeIngredient[] {
   if (!ingredientsMatch) return ingredients;
 
   // Parse individual ingredient objects
-  const ingredientPattern = /{\s*name:\s*["']([^"']+)["'][^}]*?(?:amount:\s*["']?([^"',}]+)["']?)?[^}]*?(?:unit:\s*["']([^"']+)["'])?/g;
+  const ingredientPattern =
+    /{\s*name:\s*["']([^"']+)["'][^}]*?(?:amount:\s*["']?([^"',}]+)["']?)?[^}]*?(?:unit:\s*["']([^"']+)["'])?/g;
   let match;
 
   while ((match = ingredientPattern.exec(ingredientsMatch[1])) !== null) {
@@ -817,7 +979,11 @@ function parseCookingMethodsFromBlock(block: string): string[] {
 /**
  * Add elemental properties to a dish block
  */
-function addElementalPropertiesToBlock(block: string, elementals: ElementalProperties, planetaryInfluences: string[]): string {
+function addElementalPropertiesToBlock(
+  block: string,
+  elementals: ElementalProperties,
+  planetaryInfluences: string[],
+): string {
   // Check if elementalProperties already exists
   if (block.includes("elementalProperties:")) {
     // Replace existing elemental properties
@@ -828,7 +994,7 @@ function addElementalPropertiesToBlock(block: string, elementals: ElementalPrope
             Water: ${elementals.Water},
             Earth: ${elementals.Earth},
             Air: ${elementals.Air},
-          }`
+          }`,
     );
   }
 
@@ -885,7 +1051,10 @@ function addElementalPropertiesToBlock(block: string, elementals: ElementalPrope
  * - Individual ingredient elemental properties
  * - Cooking method elemental properties (converts strings to objects)
  */
-function processCuisineFile(filePath: string, dryRun: boolean): {
+function processCuisineFile(
+  filePath: string,
+  dryRun: boolean,
+): {
   modified: boolean;
   enrichedCount: number;
   skippedCount: number;
@@ -904,7 +1073,8 @@ function processCuisineFile(filePath: string, dryRun: boolean): {
 
   // Find all dish objects (looking for objects with a 'name' property)
   // We need to be careful to match complete dish objects
-  const dishPattern = /{\s*(?:id:\s*["'][^"']+["'],?\s*)?name:\s*["']([^"']+)["'][^]*?(?={\s*(?:id:\s*["'][^"']+["'],?\s*)?name:|$|]\s*,?\s*})/g;
+  const dishPattern =
+    /{\s*(?:id:\s*["'][^"']+["'],?\s*)?name:\s*["']([^"']+)["'][^]*?(?={\s*(?:id:\s*["'][^"']+["'],?\s*)?name:|$|]\s*,?\s*})/g;
 
   // Alternative approach: find dishes by searching for name patterns and extracting blocks
   const namePattern = /name:\s*["']([^"']+)["']/g;
@@ -913,8 +1083,12 @@ function processCuisineFile(filePath: string, dryRun: boolean): {
 
   while ((nameMatch = namePattern.exec(content)) !== null) {
     // Skip if it's the cuisine name definition
-    if (content.substring(nameMatch.index - 50, nameMatch.index).includes("export const") ||
-        content.substring(nameMatch.index - 20, nameMatch.index).includes("id:")) {
+    if (
+      content
+        .substring(nameMatch.index - 50, nameMatch.index)
+        .includes("export const") ||
+      content.substring(nameMatch.index - 20, nameMatch.index).includes("id:")
+    ) {
       // This might be the main cuisine object, check if name is capitalized (cuisine name)
       const name = nameMatch[1];
       if (name[0] === name[0].toUpperCase() && name.length < 20) {
@@ -940,7 +1114,10 @@ function processCuisineFile(filePath: string, dryRun: boolean): {
 
     // Find the dish block - look for the complete object containing this dish name
     const escapedName = escapeRegex(dishName);
-    const blockStartPattern = new RegExp(`{[^{}]*name:\\s*["']${escapedName}["']`, "g");
+    const blockStartPattern = new RegExp(
+      `{[^{}]*name:\\s*["']${escapedName}["']`,
+      "g",
+    );
     const blockMatch = blockStartPattern.exec(modifiedContent);
 
     if (!blockMatch) continue;
@@ -971,18 +1148,37 @@ function processCuisineFile(filePath: string, dryRun: boolean): {
     }
 
     // Calculate elemental properties
-    const elementals = calculateElementals(ingredients, cookingMethods, cuisineName);
-    const planetaryInfluences = determinePlanetaryInfluences(dishName, "", ingredients);
+    const elementals = calculateElementals(
+      ingredients,
+      cookingMethods,
+      cuisineName,
+    );
+    const planetaryInfluences = determinePlanetaryInfluences(
+      dishName,
+      "",
+      ingredients,
+    );
 
     // Check if this produces non-default values
-    if (elementals.Fire === 0.25 && elementals.Water === 0.25 && elementals.Earth === 0.25 && elementals.Air === 0.25) {
-      console.log(`    Skipping "${dishName}" - calculated values are default (no ingredient matches)`);
+    if (
+      elementals.Fire === 0.25 &&
+      elementals.Water === 0.25 &&
+      elementals.Earth === 0.25 &&
+      elementals.Air === 0.25
+    ) {
+      console.log(
+        `    Skipping "${dishName}" - calculated values are default (no ingredient matches)`,
+      );
       skippedCount++;
       continue;
     }
 
     // Add elemental properties to the block
-    let enrichedBlock = addElementalPropertiesToBlock(dishBlock, elementals, planetaryInfluences);
+    let enrichedBlock = addElementalPropertiesToBlock(
+      dishBlock,
+      elementals,
+      planetaryInfluences,
+    );
 
     // DEEP ENRICHMENT: Enrich individual ingredients with elementalProperties
     const ingredientEnrichmentResult = enrichIngredientsInBlock(enrichedBlock);
@@ -995,29 +1191,50 @@ function processCuisineFile(filePath: string, dryRun: boolean): {
     totalMethodsEnriched += methodEnrichmentResult.enrichedCount;
 
     if (enrichedBlock !== dishBlock) {
-      modifiedContent = modifiedContent.substring(0, startIndex) + enrichedBlock + modifiedContent.substring(endIndex);
-      console.log(`    Enriched: "${dishName}" -> Fire: ${elementals.Fire}, Water: ${elementals.Water}, Earth: ${elementals.Earth}, Air: ${elementals.Air}`);
+      modifiedContent =
+        modifiedContent.substring(0, startIndex) +
+        enrichedBlock +
+        modifiedContent.substring(endIndex);
+      console.log(
+        `    Enriched: "${dishName}" -> Fire: ${elementals.Fire}, Water: ${elementals.Water}, Earth: ${elementals.Earth}, Air: ${elementals.Air}`,
+      );
       if (ingredientEnrichmentResult.enrichedCount > 0) {
-        console.log(`      + ${ingredientEnrichmentResult.enrichedCount} ingredients enriched`);
+        console.log(
+          `      + ${ingredientEnrichmentResult.enrichedCount} ingredients enriched`,
+        );
       }
       if (methodEnrichmentResult.enrichedCount > 0) {
-        console.log(`      + ${methodEnrichmentResult.enrichedCount} cooking methods enriched`);
+        console.log(
+          `      + ${methodEnrichmentResult.enrichedCount} cooking methods enriched`,
+        );
       }
       enrichedCount++;
     }
   }
 
   // Write the modified content if not dry run
-  if (!dryRun && (enrichedCount > 0 || totalIngredientsEnriched > 0 || totalMethodsEnriched > 0)) {
+  if (
+    !dryRun &&
+    (enrichedCount > 0 ||
+      totalIngredientsEnriched > 0 ||
+      totalMethodsEnriched > 0)
+  ) {
     fs.writeFileSync(filePath, modifiedContent, "utf-8");
     console.log(`  Wrote changes to ${cuisineName}.ts:`);
     console.log(`    - ${enrichedCount} recipes enriched`);
-    console.log(`    - ${totalIngredientsEnriched} ingredients enriched (deep)`);
-    console.log(`    - ${totalMethodsEnriched} cooking methods enriched (deep)`);
+    console.log(
+      `    - ${totalIngredientsEnriched} ingredients enriched (deep)`,
+    );
+    console.log(
+      `    - ${totalMethodsEnriched} cooking methods enriched (deep)`,
+    );
   }
 
   return {
-    modified: enrichedCount > 0 || totalIngredientsEnriched > 0 || totalMethodsEnriched > 0,
+    modified:
+      enrichedCount > 0 ||
+      totalIngredientsEnriched > 0 ||
+      totalMethodsEnriched > 0,
     enrichedCount,
     skippedCount,
     ingredientsEnriched: totalIngredientsEnriched,
@@ -1033,13 +1250,18 @@ async function main(): Promise<void> {
   const dryRun = args.includes("--dry-run");
 
   // Parse --cuisine flag to filter by single cuisine
-  const cuisineIndex = args.findIndex(a => a === "--cuisine");
-  const filterCuisine = cuisineIndex !== -1 && args[cuisineIndex + 1] ? args[cuisineIndex + 1] : null;
+  const cuisineIndex = args.findIndex((a) => a === "--cuisine");
+  const filterCuisine =
+    cuisineIndex !== -1 && args[cuisineIndex + 1]
+      ? args[cuisineIndex + 1]
+      : null;
 
-  console.log("=" .repeat(80));
+  console.log("=".repeat(80));
   console.log("RECIPE DATA ENRICHMENT - WRITE SCRIPT");
   console.log("=".repeat(80));
-  console.log(`Mode: ${dryRun ? "DRY RUN (no files will be modified)" : "WRITE MODE"}`);
+  console.log(
+    `Mode: ${dryRun ? "DRY RUN (no files will be modified)" : "WRITE MODE"}`,
+  );
   if (filterCuisine) {
     console.log(`Filtering to: ${filterCuisine} cuisine only`);
   }
@@ -1051,13 +1273,21 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  let cuisineFiles = fs.readdirSync(cuisinesDir).filter((f) =>
-    f.endsWith(".ts") && f !== "index.ts" && f !== "template.ts" && f !== "culinaryTraditions.ts"
-  );
+  let cuisineFiles = fs
+    .readdirSync(cuisinesDir)
+    .filter(
+      (f) =>
+        f.endsWith(".ts") &&
+        f !== "index.ts" &&
+        f !== "template.ts" &&
+        f !== "culinaryTraditions.ts",
+    );
 
   // Filter to single cuisine if specified
   if (filterCuisine) {
-    cuisineFiles = cuisineFiles.filter(f => f.toLowerCase().includes(filterCuisine.toLowerCase()));
+    cuisineFiles = cuisineFiles.filter((f) =>
+      f.toLowerCase().includes(filterCuisine.toLowerCase()),
+    );
   }
 
   console.log(`\nFound ${cuisineFiles.length} cuisine files to process`);
@@ -1092,9 +1322,17 @@ async function main(): Promise<void> {
   console.log(`  Cooking methods enriched: ${totalMethodsEnriched}`);
 
   if (dryRun) {
-    console.log("\nThis was a dry run. Run without --dry-run to write changes.");
-  } else if (totalEnriched > 0 || totalIngredientsEnriched > 0 || totalMethodsEnriched > 0) {
-    console.log("\nDeep enrichment complete! Run 'yarn build' to verify no TypeScript errors.");
+    console.log(
+      "\nThis was a dry run. Run without --dry-run to write changes.",
+    );
+  } else if (
+    totalEnriched > 0 ||
+    totalIngredientsEnriched > 0 ||
+    totalMethodsEnriched > 0
+  ) {
+    console.log(
+      "\nDeep enrichment complete! Run 'yarn build' to verify no TypeScript errors.",
+    );
   }
 }
 

@@ -193,7 +193,12 @@ export function aggregateIngredientElementals(
     return { ...ZERO_ELEMENTAL_PROPERTIES };
   }
 
-  const totals: RawElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const totals: RawElementalProperties = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+  };
 
   for (const ingredient of ingredients) {
     if (!ingredient.elementalProperties) continue;

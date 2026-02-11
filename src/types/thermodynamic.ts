@@ -27,8 +27,7 @@ export interface BasicThermodynamicProperties {
 /**
  * Extended thermodynamic properties with additional metrics
  */
-export interface ExtendedThermodynamicProperties
-  extends ThermodynamicProperties {
+export interface ExtendedThermodynamicProperties extends ThermodynamicProperties {
   resonance: number; // Energy alignment/harmony (0-1)
   potential: number; // Stored energetic potential (0-1)
   _stability: number; // Resistance to transformation (0-1)

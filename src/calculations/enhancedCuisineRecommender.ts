@@ -187,13 +187,13 @@ export class EnhancedCuisineRecommender {
       // Calculate overall match score (0-1 range) with kinetics integration
       // Adjusted weights to include kinetics (0.13) while maintaining balance
       const overallScore =
-        seasonalScore * 0.17 +         // Seasonal (reduced from 0.20)
-        planetaryDayScore * 0.13 +     // Planetary day (reduced from 0.15)
-        planetaryHourScore * 0.12 +    // Planetary hour (reduced from 0.15)
-        elementalScore * 0.22 +        // Elemental (reduced from 0.25)
-        astrologicalScore * 0.13 +     // Astrological (reduced from 0.15)
-        timeOfDayScore * 0.10 +        // Time of day (same)
-        kineticScore * 0.13;           // Kinetic (NEW - P=IV circuit model)
+        seasonalScore * 0.17 + // Seasonal (reduced from 0.20)
+        planetaryDayScore * 0.13 + // Planetary day (reduced from 0.15)
+        planetaryHourScore * 0.12 + // Planetary hour (reduced from 0.15)
+        elementalScore * 0.22 + // Elemental (reduced from 0.25)
+        astrologicalScore * 0.13 + // Astrological (reduced from 0.15)
+        timeOfDayScore * 0.1 + // Time of day (same)
+        kineticScore * 0.13; // Kinetic (NEW - P=IV circuit model)
 
       // Convert to match percentage with enhanced differentiation
       const matchPercentage = compatibilityToMatchPercentage(overallScore);
@@ -321,10 +321,14 @@ export class EnhancedCuisineRecommender {
         Air: 0.25,
       };
 
-      const Fire = typeof elementalProps.Fire === 'number' ? elementalProps.Fire : 0.25;
-      const Water = typeof elementalProps.Water === 'number' ? elementalProps.Water : 0.25;
-      const Earth = typeof elementalProps.Earth === 'number' ? elementalProps.Earth : 0.25;
-      const Air = typeof elementalProps.Air === 'number' ? elementalProps.Air : 0.25;
+      const Fire =
+        typeof elementalProps.Fire === "number" ? elementalProps.Fire : 0.25;
+      const Water =
+        typeof elementalProps.Water === "number" ? elementalProps.Water : 0.25;
+      const Earth =
+        typeof elementalProps.Earth === "number" ? elementalProps.Earth : 0.25;
+      const Air =
+        typeof elementalProps.Air === "number" ? elementalProps.Air : 0.25;
 
       // Estimate ESMS from elements (same approach as ingredient recommender)
       const Spirit = (Fire + Air) / 2;
@@ -342,7 +346,10 @@ export class EnhancedCuisineRecommender {
       const entropyDenom = Essence + Matter + Earth + Water;
       const entropy =
         entropyDenom > 0
-          ? (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+          ? (Math.pow(Spirit, 2) +
+              Math.pow(Substance, 2) +
+              Math.pow(Fire, 2) +
+              Math.pow(Air, 2)) /
             Math.pow(entropyDenom, 2)
           : 0.15;
 
@@ -364,7 +371,9 @@ export class EnhancedCuisineRecommender {
       const e = Math.max(0.01, Essence);
       const m = Math.max(0.01, Matter);
       const sub = Math.max(0.01, Substance);
-      const kalchm = (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+      const kalchm =
+        (Math.pow(s, s) * Math.pow(e, e)) /
+        (Math.pow(m, m) * Math.pow(sub, sub));
 
       let monica = 1.0;
       if (kalchm > 0 && reactivity > 0) {
@@ -402,9 +411,9 @@ export class EnhancedCuisineRecommender {
 
       // Combined kinetic score weighted for cuisine matching
       const kineticScore =
-        powerScore * 0.4 +      // Power is primary indicator
-        forceScore * 0.35 +     // Force shows transformation
-        currentScore * 0.25;    // Current shows activity level
+        powerScore * 0.4 + // Power is primary indicator
+        forceScore * 0.35 + // Force shows transformation
+        currentScore * 0.25; // Current shows activity level
 
       return Math.max(0.1, Math.min(1, kineticScore));
     } catch (error) {

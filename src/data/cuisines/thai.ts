@@ -15,25 +15,25 @@ export const thai: Cuisine = {
             "Comforting rice porridge with ginger, ground pork, and soft-boiled egg",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "wooden spoon",
@@ -62,7 +62,11 @@ export const thai: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "ginger", amount: "2", unit: "tbsp", category: "spice",
+            {
+              name: "ginger",
+              amount: "2",
+              unit: "tbsp",
+              category: "spice",
               elementalProperties: {
                 Fire: 0.5,
                 Water: 0.2,
@@ -157,25 +161,25 @@ export const thai: Cuisine = {
           description: "Light rice soup with shrimp, ginger, and herbs",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: ["large pot", "strainer", "ladle", "knife", "cutting board"],
           preparationSteps: [
             "Rinse rice until water runs clear",
@@ -275,17 +279,17 @@ export const thai: Cuisine = {
           description: "Thai-style fried dough served with pandan custard dip",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "deep-frying",
-            elementalProperties: {
-              Fire: 0.45,
-              Water: 0.06,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.06,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          "custard-making"
-        ],
+            "custard-making",
+          ],
           tools: [
             "deep fryer",
             "mixing bowls",
@@ -369,25 +373,25 @@ export const thai: Cuisine = {
           description: "Thai-style omelet with rice and sriracha sauce",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "whisking",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.24,
-              Earth: 0.1,
-              Air: 0.59,
+            {
+              name: "whisking",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.24,
+                Earth: 0.1,
+                Air: 0.59,
+              },
             },
-          }
-        ],
+          ],
           tools: ["wok", "spatula", "mixing bowl", "whisk", "rice cooker"],
           preparationSteps: [
             "Beat eggs with seasonings",
@@ -478,25 +482,25 @@ export const thai: Cuisine = {
           description: "Rice soup with minced pork and ginger",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "ladle",
@@ -606,17 +610,17 @@ export const thai: Cuisine = {
           description: "Stir-fried holy basil with minced meat",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "stir-frying",
-            elementalProperties: {
-              Fire: 0.44,
-              Water: 0.09,
-              Earth: 0.15,
-              Air: 0.32,
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.44,
+                Water: 0.09,
+                Earth: 0.15,
+                Air: 0.32,
+              },
             },
-          },
-          "pounding"
-        ],
+            "pounding",
+          ],
           tools: [
             "wok",
             "mortar and pestle",
@@ -798,17 +802,17 @@ export const thai: Cuisine = {
           description: "Spicy green papaya salad",
           cuisine: "Thai",
           cookingMethods: [
-          "pounding",
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            "pounding",
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mortar and pestle",
             "grater",
@@ -932,25 +936,25 @@ export const thai: Cuisine = {
           description: "Spicy and sour shrimp soup",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "infusing",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.37,
-              Earth: 0.19,
-              Air: 0.31,
+            {
+              name: "infusing",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.37,
+                Earth: 0.19,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           tools: ["soup pot", "ladle", "strainer", "knife", "cutting board"],
           preparationSteps: [
             "Prepare lemongrass and herbs",
@@ -1478,25 +1482,25 @@ export const thai: Cuisine = {
           description: "Stir-fried rice noodles with tamarind sauce",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "stir-frying",
-            elementalProperties: {
-              Fire: 0.44,
-              Water: 0.09,
-              Earth: 0.15,
-              Air: 0.32,
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.44,
+                Water: 0.09,
+                Earth: 0.15,
+                Air: 0.32,
+              },
             },
-          },
-          {
-            name: "soaking",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.75,
-              Earth: 0.17,
-              Air: 0.08,
+            {
+              name: "soaking",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.75,
+                Earth: 0.17,
+                Air: 0.08,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "wok",
             "spatula",
@@ -1687,25 +1691,25 @@ export const thai: Cuisine = {
           description: "Steamed fish with lime and chili sauce",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "sauce making",
-            elementalProperties: {
-              Fire: 0.27,
-              Water: 0.33,
-              Earth: 0.2,
-              Air: 0.2,
+            {
+              name: "sauce making",
+              elementalProperties: {
+                Fire: 0.27,
+                Water: 0.33,
+                Earth: 0.2,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "steamer",
             "mortar and pestle",
@@ -1971,25 +1975,25 @@ export const thai: Cuisine = {
           description: "Massaman curry with beef and potatoes",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "wooden spoon",
@@ -2100,25 +2104,25 @@ export const thai: Cuisine = {
           description: "Creamy spicy and sour shrimp soup with mushrooms",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "infusing",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.37,
-              Earth: 0.19,
-              Air: 0.31,
+            {
+              name: "infusing",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.37,
+                Earth: 0.19,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           tools: ["soup pot", "strainer", "ladle", "knife", "cutting board"],
           preparationSteps: [
             "Prepare aromatics",
@@ -2223,25 +2227,25 @@ export const thai: Cuisine = {
           description: "Thick, rich panang curry with tender beef",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "stir-frying",
-            elementalProperties: {
-              Fire: 0.44,
-              Water: 0.09,
-              Earth: 0.15,
-              Air: 0.32,
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.44,
+                Water: 0.09,
+                Earth: 0.15,
+                Air: 0.32,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "wok or large pot",
             "wooden spoon",
@@ -2343,34 +2347,34 @@ export const thai: Cuisine = {
           description: "Northern Thai curry noodle soup with chicken",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: ["large pot", "wok", "strainer", "ladle", "spider skimmer"],
           preparationSteps: [
             "Prepare curry broth",
@@ -2475,25 +2479,25 @@ export const thai: Cuisine = {
           description: "Sweet sticky rice with fresh mango and coconut cream",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "sticky rice steamer",
             "pot",
@@ -2599,25 +2603,25 @@ export const thai: Cuisine = {
           description: "Water chestnut rubies in coconut milk",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "chilling",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.54,
-              Earth: 0.15,
-              Air: 0.31,
+            {
+              name: "chilling",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.54,
+                Earth: 0.15,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "sharp knife",
             "saucepan",
@@ -2702,7 +2706,11 @@ export const thai: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "crushed ice", amount: "2", unit: "cups", category: "ice",
+            {
+              name: "crushed ice",
+              amount: "2",
+              unit: "cups",
+              category: "ice",
               elementalProperties: {
                 Fire: 0,
                 Water: 0.85,
@@ -2749,26 +2757,26 @@ export const thai: Cuisine = {
           description: "Rice flour dumplings in warm coconut milk",
           cuisine: "Thai",
           cookingMethods: [
-          "rolling",
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            "rolling",
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowls",
             "saucepan",
@@ -2834,7 +2842,11 @@ export const thai: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "salt", amount: "1/4", unit: "tsp", category: "seasoning",
+            {
+              name: "salt",
+              amount: "1/4",
+              unit: "tsp",
+              category: "seasoning",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.1,
@@ -2893,25 +2905,25 @@ export const thai: Cuisine = {
           description: "Thai pumpkin custard",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "steamer",
             "mixing bowls",
@@ -2940,7 +2952,11 @@ export const thai: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "eggs", amount: "4", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "4",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -2985,7 +3001,11 @@ export const thai: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "salt", amount: "1/4", unit: "tsp", category: "seasoning",
+            {
+              name: "salt",
+              amount: "1/4",
+              unit: "tsp",
+              category: "seasoning",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.1,
@@ -3120,17 +3140,17 @@ export const thai: Cuisine = {
           description: "Crispy fried banana fritters",
           cuisine: "Thai",
           cookingMethods: [
-          {
-            name: "deep-frying",
-            elementalProperties: {
-              Fire: 0.45,
-              Water: 0.06,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.06,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          "battering"
-        ],
+            "battering",
+          ],
           tools: [
             "deep fryer or wok",
             "mixing bowls",
@@ -3159,7 +3179,11 @@ export const thai: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "rice flour", amount: "200", unit: "g", category: "flour",
+            {
+              name: "rice flour",
+              amount: "200",
+              unit: "g",
+              category: "flour",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -3191,7 +3215,11 @@ export const thai: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "sugar", amount: "2", unit: "tbsp", category: "sweetener",
+            {
+              name: "sugar",
+              amount: "2",
+              unit: "tbsp",
+              category: "sweetener",
               elementalProperties: {
                 Fire: 0.3,
                 Water: 0.2,
@@ -3199,7 +3227,11 @@ export const thai: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "salt", amount: "1/4", unit: "tsp", category: "seasoning",
+            {
+              name: "salt",
+              amount: "1/4",
+              unit: "tsp",
+              category: "seasoning",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.1,

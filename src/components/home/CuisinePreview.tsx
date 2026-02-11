@@ -27,26 +27,26 @@ interface NestedRecipe {
   seasonal_fit: string;
 
   // Enhanced recipe guidance fields
-  tips?: string[];  // Expert cooking tips
+  tips?: string[]; // Expert cooking tips
   substitutions?: Array<{
     original: string;
     alternatives: string[];
     notes?: string;
-  }>;  // Ingredient substitutions
-  variations?: string[];  // Regional or dietary variations
+  }>; // Ingredient substitutions
+  variations?: string[]; // Regional or dietary variations
   pairing_suggestions?: {
     sides?: string[];
     drinks?: string[];
     condiments?: string[];
-  };  // What pairs well with this dish
+  }; // What pairs well with this dish
   storage_info?: {
     storage_method?: string;
     storage_duration?: string;
     reheating_instructions?: string;
     freezer_friendly?: boolean;
-  };  // Storage and reheating guidance
-  common_mistakes?: string[];  // What to avoid
-  timing_tips?: string[];  // Do-ahead suggestions
+  }; // Storage and reheating guidance
+  common_mistakes?: string[]; // What to avoid
+  timing_tips?: string[]; // Do-ahead suggestions
 }
 
 interface SauceRecommendation {
@@ -85,8 +85,12 @@ export default function CuisinePreview() {
   const [cuisines, setCuisines] = useState<CuisineRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [expandedCuisines, setExpandedCuisines] = useState<Set<string>>(new Set());
-  const [expandedRecipes, setExpandedRecipes] = useState<Set<string>>(new Set());
+  const [expandedCuisines, setExpandedCuisines] = useState<Set<string>>(
+    new Set(),
+  );
+  const [expandedRecipes, setExpandedRecipes] = useState<Set<string>>(
+    new Set(),
+  );
   const [showElemental, setShowElemental] = useState(false);
   const [showAllCuisines, setShowAllCuisines] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
@@ -115,7 +119,7 @@ export default function CuisinePreview() {
   }, [fetchRecommendations]);
 
   const toggleCuisine = (cuisineId: string) => {
-    setExpandedCuisines(prev => {
+    setExpandedCuisines((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(cuisineId)) {
         newSet.delete(cuisineId);
@@ -127,7 +131,7 @@ export default function CuisinePreview() {
   };
 
   const toggleRecipe = (recipeId: string) => {
-    setExpandedRecipes(prev => {
+    setExpandedRecipes((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(recipeId)) {
         newSet.delete(recipeId);
@@ -375,74 +379,79 @@ export default function CuisinePreview() {
                             )}
 
                             {/* Common Mistakes */}
-                            {recipe.common_mistakes && recipe.common_mistakes.length > 0 && (
-                              <div className="mb-4">
-                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
-                                  <span>⚠️</span>
-                                  <span>Common Mistakes to Avoid</span>
-                                </h5>
-                                <ul className="space-y-1">
-                                  {recipe.common_mistakes.map((mistake, idx) => (
-                                    <li
-                                      key={idx}
-                                      className="text-sm text-red-700 pl-4"
-                                    >
-                                      • {mistake}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
+                            {recipe.common_mistakes &&
+                              recipe.common_mistakes.length > 0 && (
+                                <div className="mb-4">
+                                  <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                    <span>⚠️</span>
+                                    <span>Common Mistakes to Avoid</span>
+                                  </h5>
+                                  <ul className="space-y-1">
+                                    {recipe.common_mistakes.map(
+                                      (mistake, idx) => (
+                                        <li
+                                          key={idx}
+                                          className="text-sm text-red-700 pl-4"
+                                        >
+                                          • {mistake}
+                                        </li>
+                                      ),
+                                    )}
+                                  </ul>
+                                </div>
+                              )}
 
                             {/* Ingredient Substitutions */}
-                            {recipe.substitutions && recipe.substitutions.length > 0 && (
-                              <div className="mb-4">
-                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
-                                  <span>🔄</span>
-                                  <span>Ingredient Substitutions</span>
-                                </h5>
-                                <div className="space-y-2">
-                                  {recipe.substitutions.map((sub, idx) => (
-                                    <div
-                                      key={idx}
-                                      className="text-sm bg-yellow-50 p-2 rounded border border-yellow-200"
-                                    >
-                                      <span className="font-semibold text-gray-800">
-                                        {sub.original}:
-                                      </span>{" "}
-                                      <span className="text-gray-700">
-                                        {sub.alternatives.join(", ")}
-                                      </span>
-                                      {sub.notes && (
-                                        <span className="text-gray-600 italic block mt-1">
-                                          {sub.notes}
+                            {recipe.substitutions &&
+                              recipe.substitutions.length > 0 && (
+                                <div className="mb-4">
+                                  <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                    <span>🔄</span>
+                                    <span>Ingredient Substitutions</span>
+                                  </h5>
+                                  <div className="space-y-2">
+                                    {recipe.substitutions.map((sub, idx) => (
+                                      <div
+                                        key={idx}
+                                        className="text-sm bg-yellow-50 p-2 rounded border border-yellow-200"
+                                      >
+                                        <span className="font-semibold text-gray-800">
+                                          {sub.original}:
+                                        </span>{" "}
+                                        <span className="text-gray-700">
+                                          {sub.alternatives.join(", ")}
                                         </span>
-                                      )}
-                                    </div>
-                                  ))}
+                                        {sub.notes && (
+                                          <span className="text-gray-600 italic block mt-1">
+                                            {sub.notes}
+                                          </span>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
 
                             {/* Recipe Variations */}
-                            {recipe.variations && recipe.variations.length > 0 && (
-                              <div className="mb-4">
-                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
-                                  <span>✨</span>
-                                  <span>Variations</span>
-                                </h5>
-                                <ul className="space-y-1">
-                                  {recipe.variations.map((variation, idx) => (
-                                    <li
-                                      key={idx}
-                                      className="text-sm text-gray-700 pl-4"
-                                    >
-                                      • {variation}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
+                            {recipe.variations &&
+                              recipe.variations.length > 0 && (
+                                <div className="mb-4">
+                                  <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                    <span>✨</span>
+                                    <span>Variations</span>
+                                  </h5>
+                                  <ul className="space-y-1">
+                                    {recipe.variations.map((variation, idx) => (
+                                      <li
+                                        key={idx}
+                                        className="text-sm text-gray-700 pl-4"
+                                      >
+                                        • {variation}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
 
                             {/* Pairing Suggestions */}
                             {recipe.pairing_suggestions && (
@@ -452,36 +461,48 @@ export default function CuisinePreview() {
                                   <span>Pairing Suggestions</span>
                                 </h5>
                                 <div className="grid grid-cols-1 gap-2">
-                                  {recipe.pairing_suggestions.sides && recipe.pairing_suggestions.sides.length > 0 && (
-                                    <div className="text-sm">
-                                      <span className="font-semibold text-gray-800">
-                                        Sides:
-                                      </span>{" "}
-                                      <span className="text-gray-700">
-                                        {recipe.pairing_suggestions.sides.join(", ")}
-                                      </span>
-                                    </div>
-                                  )}
-                                  {recipe.pairing_suggestions.drinks && recipe.pairing_suggestions.drinks.length > 0 && (
-                                    <div className="text-sm">
-                                      <span className="font-semibold text-gray-800">
-                                        Drinks:
-                                      </span>{" "}
-                                      <span className="text-gray-700">
-                                        {recipe.pairing_suggestions.drinks.join(", ")}
-                                      </span>
-                                    </div>
-                                  )}
-                                  {recipe.pairing_suggestions.condiments && recipe.pairing_suggestions.condiments.length > 0 && (
-                                    <div className="text-sm">
-                                      <span className="font-semibold text-gray-800">
-                                        Condiments:
-                                      </span>{" "}
-                                      <span className="text-gray-700">
-                                        {recipe.pairing_suggestions.condiments.join(", ")}
-                                      </span>
-                                    </div>
-                                  )}
+                                  {recipe.pairing_suggestions.sides &&
+                                    recipe.pairing_suggestions.sides.length >
+                                      0 && (
+                                      <div className="text-sm">
+                                        <span className="font-semibold text-gray-800">
+                                          Sides:
+                                        </span>{" "}
+                                        <span className="text-gray-700">
+                                          {recipe.pairing_suggestions.sides.join(
+                                            ", ",
+                                          )}
+                                        </span>
+                                      </div>
+                                    )}
+                                  {recipe.pairing_suggestions.drinks &&
+                                    recipe.pairing_suggestions.drinks.length >
+                                      0 && (
+                                      <div className="text-sm">
+                                        <span className="font-semibold text-gray-800">
+                                          Drinks:
+                                        </span>{" "}
+                                        <span className="text-gray-700">
+                                          {recipe.pairing_suggestions.drinks.join(
+                                            ", ",
+                                          )}
+                                        </span>
+                                      </div>
+                                    )}
+                                  {recipe.pairing_suggestions.condiments &&
+                                    recipe.pairing_suggestions.condiments
+                                      .length > 0 && (
+                                      <div className="text-sm">
+                                        <span className="font-semibold text-gray-800">
+                                          Condiments:
+                                        </span>{" "}
+                                        <span className="text-gray-700">
+                                          {recipe.pairing_suggestions.condiments.join(
+                                            ", ",
+                                          )}
+                                        </span>
+                                      </div>
+                                    )}
                                 </div>
                               </div>
                             )}
@@ -514,23 +535,30 @@ export default function CuisinePreview() {
                                       </span>
                                     </div>
                                   )}
-                                  {recipe.storage_info.reheating_instructions && (
+                                  {recipe.storage_info
+                                    .reheating_instructions && (
                                     <div>
                                       <span className="font-semibold text-gray-800">
                                         Reheating:
                                       </span>{" "}
                                       <span className="text-gray-700">
-                                        {recipe.storage_info.reheating_instructions}
+                                        {
+                                          recipe.storage_info
+                                            .reheating_instructions
+                                        }
                                       </span>
                                     </div>
                                   )}
-                                  {recipe.storage_info.freezer_friendly !== undefined && (
+                                  {recipe.storage_info.freezer_friendly !==
+                                    undefined && (
                                     <div>
                                       <span className="font-semibold text-gray-800">
                                         Freezer-Friendly:
                                       </span>{" "}
                                       <span className="text-gray-700">
-                                        {recipe.storage_info.freezer_friendly ? "Yes" : "No"}
+                                        {recipe.storage_info.freezer_friendly
+                                          ? "Yes"
+                                          : "No"}
                                       </span>
                                     </div>
                                   )}
@@ -539,24 +567,25 @@ export default function CuisinePreview() {
                             )}
 
                             {/* Timing Tips */}
-                            {recipe.timing_tips && recipe.timing_tips.length > 0 && (
-                              <div className="mb-4">
-                                <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
-                                  <span>⏰</span>
-                                  <span>Timing Tips</span>
-                                </h5>
-                                <ul className="space-y-1">
-                                  {recipe.timing_tips.map((tip, idx) => (
-                                    <li
-                                      key={idx}
-                                      className="text-sm text-gray-700 pl-4"
-                                    >
-                                      • {tip}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
+                            {recipe.timing_tips &&
+                              recipe.timing_tips.length > 0 && (
+                                <div className="mb-4">
+                                  <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-1">
+                                    <span>⏰</span>
+                                    <span>Timing Tips</span>
+                                  </h5>
+                                  <ul className="space-y-1">
+                                    {recipe.timing_tips.map((tip, idx) => (
+                                      <li
+                                        key={idx}
+                                        className="text-sm text-gray-700 pl-4"
+                                      >
+                                        • {tip}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
                           </div>
                         )}
                       </div>
@@ -637,7 +666,7 @@ export default function CuisinePreview() {
                   <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-2">
                     {Object.entries(cuisine.elemental_properties).map(
                       ([element, value]) => {
-                        const numValue = typeof value === 'number' ? value : 0;
+                        const numValue = typeof value === "number" ? value : 0;
                         return (
                           <div
                             key={element}

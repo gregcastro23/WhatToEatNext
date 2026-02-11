@@ -11,7 +11,10 @@
 import type { MealSlot } from "@/types/menuPlanner";
 import type { MealCircuitMetrics, KineticMetrics } from "@/types/kinetics";
 import type { PlanetaryPositions } from "@/types/astrology";
-import type { AlchemicalProperties, ElementalProperties } from "@/types/alchemy";
+import type {
+  AlchemicalProperties,
+  ElementalProperties,
+} from "@/types/alchemy";
 import { calculateKineticProperties } from "./kineticCalculations";
 import {
   calculateGregsEnergy,
@@ -24,7 +27,7 @@ import { validateRecipeCircuit } from "./recipeCircuit";
  */
 function countElementalAlchemical(
   elemental: ElementalProperties,
-  alchemical: AlchemicalProperties
+  alchemical: AlchemicalProperties,
 ): ElementalAlchemicalCounts {
   return {
     Spirit: alchemical.Spirit || 0,
@@ -52,7 +55,7 @@ function countElementalAlchemical(
  */
 export function calculateMealCircuit(
   mealSlot: MealSlot,
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): MealCircuitMetrics | null {
   // Empty slot check
   if (!mealSlot.recipe) {
@@ -63,7 +66,9 @@ export function calculateMealCircuit(
 
   // Ensure we have required properties
   if (!recipe.alchemicalProperties || !recipe.elementalProperties) {
-    console.warn(`Recipe ${recipe.id} missing alchemical or elemental properties`);
+    console.warn(
+      `Recipe ${recipe.id} missing alchemical or elemental properties`,
+    );
     return null;
   }
 
@@ -75,7 +80,7 @@ export function calculateMealCircuit(
     // 1. Calculate thermodynamic metrics (heat, entropy, reactivity, Greg's Energy)
     const elementalAlchemicalCounts = countElementalAlchemical(
       elementalProps,
-      alchemicalProps
+      alchemicalProps,
     );
 
     const thermodynamics = calculateGregsEnergy(elementalAlchemicalCounts);
@@ -84,7 +89,7 @@ export function calculateMealCircuit(
     const kinetics: KineticMetrics = calculateKineticProperties(
       alchemicalProps,
       elementalProps,
-      thermodynamics as any
+      thermodynamics as any,
     );
 
     // 3. Extract circuit properties from kinetics
@@ -130,7 +135,10 @@ export function calculateMealCircuit(
 
     return mealCircuit;
   } catch (error) {
-    console.error(`Error calculating meal circuit for slot ${mealSlot.id}:`, error);
+    console.error(
+      `Error calculating meal circuit for slot ${mealSlot.id}:`,
+      error,
+    );
     return null;
   }
 }
@@ -144,7 +152,7 @@ export function calculateMealCircuit(
  */
 export function calculateMealCircuits(
   mealSlots: MealSlot[],
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): Record<string, MealCircuitMetrics | null> {
   const circuits: Record<string, MealCircuitMetrics | null> = {};
 

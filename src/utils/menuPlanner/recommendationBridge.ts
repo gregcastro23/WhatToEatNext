@@ -135,7 +135,9 @@ export async function generateDayRecommendations(
         userContext,
       );
 
-      logger.info(`Generated ${personalizedRecs.length} personalized recommendations`);
+      logger.info(
+        `Generated ${personalizedRecs.length} personalized recommendations`,
+      );
       return personalizedRecs;
     }
 
@@ -173,7 +175,9 @@ function applyUserPersonalization(
 
     // Add personalization reasons
     if (boost > 1.05) {
-      reasons.push(`Aligned with your ${natalChart.dominantElement} dominant element`);
+      reasons.push(
+        `Aligned with your ${natalChart.dominantElement} dominant element`,
+      );
     }
     if (boost > 1.15) {
       reasons.push("Strong cosmic harmony with your birth chart");
@@ -190,8 +194,9 @@ function applyUserPersonalization(
 
   // Sort by personalized score if prioritizing harmony
   if (prioritizeHarmony) {
-    personalized.sort((a, b) =>
-      (b.personalizedScore || b.score) - (a.personalizedScore || a.score)
+    personalized.sort(
+      (a, b) =>
+        (b.personalizedScore || b.score) - (a.personalizedScore || a.score),
     );
   }
 
@@ -228,12 +233,15 @@ function calculatePersonalizationBoost(
     boost += harmonyBoost;
 
     // Extra boost for favorable elements
-    if (chartComparison.insights?.favorableElements && recipe.elementalProperties) {
+    if (
+      chartComparison.insights?.favorableElements &&
+      recipe.elementalProperties
+    ) {
       const favorableMatch = chartComparison.insights.favorableElements.some(
         (el) => {
           const elementKey = el as keyof ElementalProperties;
           return (recipe.elementalProperties?.[elementKey] || 0) > 0.3;
-        }
+        },
       );
       if (favorableMatch) {
         boost += 0.05;
@@ -248,7 +256,7 @@ function calculatePersonalizationBoost(
 
     // Simple dot product similarity for alchemical properties
     let similarity = 0;
-    const props = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
+    const props = ["Spirit", "Essence", "Matter", "Substance"] as const;
     let userTotal = 0;
     let recipeTotal = 0;
 
@@ -259,7 +267,8 @@ function calculatePersonalizationBoost(
     }
 
     if (userTotal > 0 && recipeTotal > 0) {
-      const cosineSim = similarity / (Math.sqrt(userTotal) * Math.sqrt(recipeTotal));
+      const cosineSim =
+        similarity / (Math.sqrt(userTotal) * Math.sqrt(recipeTotal));
       boost += (cosineSim - 0.5) * 0.1; // ±0.05
     }
   }
@@ -300,12 +309,8 @@ async function generateMealRecommendations(
 
     // Score each recipe
     const scoredRecipes = candidateRecipes.map((recipe) => {
-      const { score, reasons, dayAlignment, planetaryAlignment } = scoreRecipeForDay(
-        recipe,
-        dayChar,
-        mealType,
-        astroState,
-      );
+      const { score, reasons, dayAlignment, planetaryAlignment } =
+        scoreRecipeForDay(recipe, dayChar, mealType, astroState);
 
       return {
         mealType,
@@ -391,7 +396,9 @@ async function searchRecipesForDay(
 
     // If no filtered recipes, return a broader set
     if (filteredRecipes.length === 0) {
-      logger.info("No exact matches found, returning general recipes for meal type");
+      logger.info(
+        "No exact matches found, returning general recipes for meal type",
+      );
       return recipes
         .filter((r) => isMealTypeSuitable(r, mealType))
         .slice(0, 20);
@@ -699,8 +706,7 @@ function calculateCookingMethodScore(
   const targetLower = targetMethods.map((m) => m.toLowerCase());
   const methodMatches = recipeMethods.filter((m) =>
     targetLower.some(
-      (tm) =>
-        m.toLowerCase().includes(tm) || tm.includes(m.toLowerCase()),
+      (tm) => m.toLowerCase().includes(tm) || tm.includes(m.toLowerCase()),
     ),
   ).length;
 
@@ -757,7 +763,9 @@ function scoreRecipeForDay(
     );
     if (cuisineMatch) {
       score += weights.cuisine;
-      reasons.push(`${recipe.cuisine} cuisine aligned with ${dayChar.planet} day`);
+      reasons.push(
+        `${recipe.cuisine} cuisine aligned with ${dayChar.planet} day`,
+      );
     }
   }
 
@@ -779,9 +787,15 @@ function scoreRecipeForDay(
   // 5. Planetary hour alignment (if available)
   let planetaryScore = 0.5; // Default neutral score
   if (astroState.currentPlanetaryHour) {
-    planetaryScore = astroState.currentPlanetaryHour.toLowerCase() === dayChar.planet.toLowerCase() ? 1.0 : 0.3;
+    planetaryScore =
+      astroState.currentPlanetaryHour.toLowerCase() ===
+      dayChar.planet.toLowerCase()
+        ? 1.0
+        : 0.3;
     if (planetaryScore > 0.7) {
-      reasons.push(`Perfect timing with ${astroState.currentPlanetaryHour} planetary hour`);
+      reasons.push(
+        `Perfect timing with ${astroState.currentPlanetaryHour} planetary hour`,
+      );
     }
   }
   score += planetaryScore * weights.planetary;
@@ -792,7 +806,12 @@ function scoreRecipeForDay(
   return {
     score: normalizedScore,
     reasons,
-    dayAlignment: score / (weights.elemental + weights.cuisine + weights.nutritional + weights.mealType),
+    dayAlignment:
+      score /
+      (weights.elemental +
+        weights.cuisine +
+        weights.nutritional +
+        weights.mealType),
     planetaryAlignment: planetaryScore,
   };
 }
@@ -828,7 +847,7 @@ function scoreNutritionalAlignment(
     case "carbs":
       return carbsRatio > 0.45 ? 1.0 : carbsRatio / 0.45;
     case "fats":
-      return fatRatio > 0.30 ? 1.0 : fatRatio / 0.30;
+      return fatRatio > 0.3 ? 1.0 : fatRatio / 0.3;
     case "balanced":
       // Check if ratios are reasonably balanced (none too high or too low)
       const balance =
@@ -863,9 +882,10 @@ function scoreMealTypeAppropriate(
   }
 
   // Fallback: Use prep time as a heuristic
-  const prepTime = typeof recipe.prepTime === "string"
-    ? parseInt(recipe.prepTime.match(/\d+/)?.[0] || "30", 10)
-    : (recipe.prepTime || 30);
+  const prepTime =
+    typeof recipe.prepTime === "string"
+      ? parseInt(recipe.prepTime.match(/\d+/)?.[0] || "30", 10)
+      : recipe.prepTime || 30;
 
   switch (mealType) {
     case "breakfast":
@@ -943,7 +963,12 @@ export function getDailyCookingMethods(
   // Filter methods appropriate for meal type
   const breakfastMethods = ["steaming", "poaching", "baking", "quick-cooking"];
   const lunchMethods = ["grilling", "roasting", "stir-frying", "searing"];
-  const dinnerMethods = ["slow-cooking", "braising", "roasting", "multi-course"];
+  const dinnerMethods = [
+    "slow-cooking",
+    "braising",
+    "roasting",
+    "multi-course",
+  ];
   const snackMethods = ["assembly", "raw preparations"];
 
   let appropriateMethods: string[] = [];
@@ -965,6 +990,8 @@ export function getDailyCookingMethods(
 
   // Return methods that appear in both day recommendations and meal-appropriate methods
   return dayChar.cookingMethods.filter((method) =>
-    appropriateMethods.some((am) => method.toLowerCase().includes(am.toLowerCase())),
+    appropriateMethods.some((am) =>
+      method.toLowerCase().includes(am.toLowerCase()),
+    ),
   );
 }

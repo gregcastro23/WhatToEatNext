@@ -41,7 +41,9 @@ export function initializeSwissEphemeris(ephePath: string | null = null): void {
 
       ephemerisInitialized = true;
       logger.info("Swiss Ephemeris initialized successfully");
-      logger.info(`Ephemeris mode: ${ephePath ? "Swiss Ephemeris files" : "Moshier (built-in)"}`);
+      logger.info(
+        `Ephemeris mode: ${ephePath ? "Swiss Ephemeris files" : "Moshier (built-in)"}`,
+      );
       logger.info(`Version: ${swisseph.swe_version()}`);
     }
   } catch (error) {

@@ -154,7 +154,9 @@ const processedCuisines = {
   Japanese: processCuisineRecipes(japanese as unknown as Partial<Cuisine>),
   Korean: processCuisineRecipes(korean as unknown as Partial<Cuisine>),
   Mexican: processCuisineRecipes(mexican as unknown as Partial<Cuisine>),
-  "Middle Eastern": processCuisineRecipes(middleEastern as unknown as Partial<Cuisine>),
+  "Middle Eastern": processCuisineRecipes(
+    middleEastern as unknown as Partial<Cuisine>,
+  ),
   Russian: processCuisineRecipes(russian as unknown as Partial<Cuisine>),
   Thai: processCuisineRecipes(thai as unknown as Partial<Cuisine>),
   Vietnamese: processCuisineRecipes(vietnamese as unknown as Partial<Cuisine>),

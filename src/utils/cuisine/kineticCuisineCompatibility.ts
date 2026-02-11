@@ -98,8 +98,8 @@ export function calculateKineticCompatibility(
 ): KineticCompatibilityResult {
   // Default weights
   const weights = {
-    powerLevel: options.weightPowerLevel ?? 0.20,
-    forceClassification: options.weightForceClassification ?? 0.20,
+    powerLevel: options.weightPowerLevel ?? 0.2,
+    forceClassification: options.weightForceClassification ?? 0.2,
     currentFlow: options.weightCurrentFlow ?? 0.15,
     thermalDirection: options.weightThermalDirection ?? 0.15,
     circuitEfficiency: options.weightCircuitEfficiency ?? 0.15,
@@ -202,7 +202,9 @@ function calculatePowerLevelCompatibility(
   const normalizedCuisinePower = Math.min(cuisinePower / 100, 1.0);
 
   // Calculate match considering user's energy preference
-  const powerDifference = Math.abs(normalizedUserPower - normalizedCuisinePower);
+  const powerDifference = Math.abs(
+    normalizedUserPower - normalizedCuisinePower,
+  );
 
   // Apply non-linear scaling to amplify differences (power function)
   let compatibility = Math.pow(1 - powerDifference, 1.5);
@@ -210,10 +212,14 @@ function calculatePowerLevelCompatibility(
   // If user has low energy preference, penalize high-power cuisines (stronger penalty)
   if (userEnergyPref < 0.4 && normalizedCuisinePower > 0.7) {
     compatibility *= 0.4; // 60% penalty for high-energy cuisine when user prefers low energy
-    reasoning.push("Cuisine has higher energy requirements than your current preference");
+    reasoning.push(
+      "Cuisine has higher energy requirements than your current preference",
+    );
   } else if (userEnergyPref > 0.7 && normalizedCuisinePower > 0.6) {
     compatibility *= 1.5; // 50% bonus for high-energy match
-    reasoning.push("Strong power level alignment with your high-energy preference");
+    reasoning.push(
+      "Strong power level alignment with your high-energy preference",
+    );
   }
 
   return Math.max(0, Math.min(1, compatibility));
@@ -230,10 +236,12 @@ function calculateForceClassificationMatch(
   cuisineProfile: CuisineKineticProfile,
   reasoning: string[],
 ): number {
-  const userForce = userProfile.preferredForceClassification ||
-                    userProfile.kineticMetrics.forceClassification;
-  const cuisineForce = cuisineProfile.dominantForceClassification ||
-                       cuisineProfile.averageKinetics.forceClassification;
+  const userForce =
+    userProfile.preferredForceClassification ||
+    userProfile.kineticMetrics.forceClassification;
+  const cuisineForce =
+    cuisineProfile.dominantForceClassification ||
+    cuisineProfile.averageKinetics.forceClassification;
 
   // Exact match
   if (userForce === cuisineForce) {
@@ -243,12 +251,16 @@ function calculateForceClassificationMatch(
 
   // Partial matches - reduced scores for better discrimination
   if (userForce === "balanced") {
-    reasoning.push("Balanced force preference allows flexibility with this cuisine");
+    reasoning.push(
+      "Balanced force preference allows flexibility with this cuisine",
+    );
     return 0.7; // Reduced from 0.8 - balanced matches reasonably with anything
   }
 
   if (cuisineForce === "balanced") {
-    reasoning.push("Cuisine's balanced force pattern adapts well to your preference");
+    reasoning.push(
+      "Cuisine's balanced force pattern adapts well to your preference",
+    );
     return 0.65; // Reduced from 0.75
   }
 
@@ -257,7 +269,9 @@ function calculateForceClassificationMatch(
     (userForce === "accelerating" && cuisineForce === "decelerating") ||
     (userForce === "decelerating" && cuisineForce === "accelerating")
   ) {
-    reasoning.push("Force classification opposes your preference - may feel energetically challenging");
+    reasoning.push(
+      "Force classification opposes your preference - may feel energetically challenging",
+    );
     return 0.15; // Reduced from 0.3 - opposing forces should be heavily penalized
   }
 
@@ -282,15 +296,21 @@ function calculateCurrentFlowAlignment(
   const normalizedUserCurrent = Math.min(userCurrent / 10, 1.0);
   const normalizedCuisineCurrent = Math.min(cuisineCurrent / 10, 1.0);
 
-  const currentDifference = Math.abs(normalizedUserCurrent - normalizedCuisineCurrent);
+  const currentDifference = Math.abs(
+    normalizedUserCurrent - normalizedCuisineCurrent,
+  );
 
   // Apply power function to amplify differences
   const alignment = Math.pow(1 - currentDifference, 1.5);
 
   if (alignment > 0.8) {
-    reasoning.push("Excellent current flow alignment - recipes will feel natural to prepare");
+    reasoning.push(
+      "Excellent current flow alignment - recipes will feel natural to prepare",
+    );
   } else if (alignment < 0.5) {
-    reasoning.push("Current flow mismatch - cooking style may require adjustment");
+    reasoning.push(
+      "Current flow mismatch - cooking style may require adjustment",
+    );
   }
 
   return alignment;
@@ -307,8 +327,9 @@ function calculateThermalDirectionHarmony(
   cuisineProfile: CuisineKineticProfile,
   reasoning: string[],
 ): number {
-  const userThermal = userProfile.thermalPreference ||
-                      userProfile.kineticMetrics.thermalDirection;
+  const userThermal =
+    userProfile.thermalPreference ||
+    userProfile.kineticMetrics.thermalDirection;
   const cuisineThermal = cuisineProfile.averageKinetics.thermalDirection;
 
   // Exact match
@@ -327,7 +348,9 @@ function calculateThermalDirectionHarmony(
     (userThermal === "heating" && cuisineThermal === "cooling") ||
     (userThermal === "cooling" && cuisineThermal === "heating")
   ) {
-    reasoning.push("Thermal direction opposes your preference - seasonal timing adjustment strongly recommended");
+    reasoning.push(
+      "Thermal direction opposes your preference - seasonal timing adjustment strongly recommended",
+    );
     return 0.25; // Reduced from 0.4 - opposing thermal directions should be more penalized
   }
 
@@ -360,13 +383,19 @@ function calculateCircuitEfficiencyMatch(
   // Extra penalty for low absolute efficiency (< 0.5)
   if (cuisineEfficiency < 0.5) {
     match *= 0.5; // 50% penalty for low-efficiency cuisines
-    reasoning.push("Low circuit efficiency - significant power losses expected");
+    reasoning.push(
+      "Low circuit efficiency - significant power losses expected",
+    );
   }
 
   if (match > 0.85) {
-    reasoning.push("Exceptional circuit efficiency match - optimal power transfer");
+    reasoning.push(
+      "Exceptional circuit efficiency match - optimal power transfer",
+    );
   } else if (match < 0.5) {
-    reasoning.push("Circuit efficiency mismatch - portion adjustments strongly recommended");
+    reasoning.push(
+      "Circuit efficiency mismatch - portion adjustments strongly recommended",
+    );
   }
 
   return match;
@@ -393,7 +422,9 @@ function calculateAspectPhaseAlignment(
 
   // Exact match
   if (userPhase.type === cuisinePhase.type) {
-    reasoning.push(`Aspect phase synchronized: ${userPhase.type} - ${userPhase.description}`);
+    reasoning.push(
+      `Aspect phase synchronized: ${userPhase.type} - ${userPhase.description}`,
+    );
     return 1.0;
   }
 
@@ -411,7 +442,9 @@ function calculateAspectPhaseAlignment(
     (userPhase.type === "applying" && cuisinePhase.type === "separating") ||
     (userPhase.type === "separating" && cuisinePhase.type === "applying")
   ) {
-    reasoning.push("Aspect phase contrast - timing optimization strongly recommended");
+    reasoning.push(
+      "Aspect phase contrast - timing optimization strongly recommended",
+    );
     return 0.2;
   }
 
@@ -442,11 +475,13 @@ function calculatePowerOptimization(
   // Multi-course recommendation
   let multiCourseRecommendation: string | undefined;
   if (cuisinePower * 3 <= powerCapacity) {
-    multiCourseRecommendation = "Power capacity supports full 3-course meal from this cuisine";
+    multiCourseRecommendation =
+      "Power capacity supports full 3-course meal from this cuisine";
   } else if (cuisinePower * 2 <= powerCapacity) {
     multiCourseRecommendation = "Power capacity optimal for 2-course meal";
   } else {
-    multiCourseRecommendation = "Single course recommended to avoid power circuit overload";
+    multiCourseRecommendation =
+      "Single course recommended to avoid power circuit overload";
   }
 
   return {
@@ -497,10 +532,19 @@ export function aggregateCuisineKineticProfile(
 
   // Calculate averages
   const totalPower = recipeKinetics.reduce((sum, k) => sum + k.power, 0);
-  const totalCurrentFlow = recipeKinetics.reduce((sum, k) => sum + k.currentFlow, 0);
-  const totalForceMagnitude = recipeKinetics.reduce((sum, k) => sum + k.forceMagnitude, 0);
+  const totalCurrentFlow = recipeKinetics.reduce(
+    (sum, k) => sum + k.currentFlow,
+    0,
+  );
+  const totalForceMagnitude = recipeKinetics.reduce(
+    (sum, k) => sum + k.forceMagnitude,
+    0,
+  );
   const totalCharge = recipeKinetics.reduce((sum, k) => sum + k.charge, 0);
-  const totalPotentialDiff = recipeKinetics.reduce((sum, k) => sum + k.potentialDifference, 0);
+  const totalPotentialDiff = recipeKinetics.reduce(
+    (sum, k) => sum + k.potentialDifference,
+    0,
+  );
   const totalInertia = recipeKinetics.reduce((sum, k) => sum + k.inertia, 0);
 
   const count = recipeKinetics.length;
@@ -533,11 +577,16 @@ export function aggregateCuisineKineticProfile(
 
   // Calculate variances
   const powerVariance = calculateVariance(recipeKinetics.map((k) => k.power));
-  const forceMagnitudeVariance = calculateVariance(recipeKinetics.map((k) => k.forceMagnitude));
-  const currentFlowVariance = calculateVariance(recipeKinetics.map((k) => k.currentFlow));
+  const forceMagnitudeVariance = calculateVariance(
+    recipeKinetics.map((k) => k.forceMagnitude),
+  );
+  const currentFlowVariance = calculateVariance(
+    recipeKinetics.map((k) => k.currentFlow),
+  );
 
   // Calculate average circuit efficiency
-  const averageCircuitEfficiency = calculateAverageCircuitEfficiency(recipeKinetics);
+  const averageCircuitEfficiency =
+    calculateAverageCircuitEfficiency(recipeKinetics);
 
   return {
     averageKinetics,
@@ -567,9 +616,15 @@ function determineDominantForceClassification(
     counts[k.forceClassification]++;
   });
 
-  if (counts.accelerating > counts.decelerating && counts.accelerating > counts.balanced) {
+  if (
+    counts.accelerating > counts.decelerating &&
+    counts.accelerating > counts.balanced
+  ) {
     return "accelerating";
-  } else if (counts.decelerating > counts.accelerating && counts.decelerating > counts.balanced) {
+  } else if (
+    counts.decelerating > counts.accelerating &&
+    counts.decelerating > counts.balanced
+  ) {
     return "decelerating";
   } else {
     return "balanced";
@@ -594,7 +649,10 @@ function determineDominantThermalDirection(
 
   if (counts.heating > counts.cooling && counts.heating > counts.stable) {
     return "heating";
-  } else if (counts.cooling > counts.heating && counts.cooling > counts.stable) {
+  } else if (
+    counts.cooling > counts.heating &&
+    counts.cooling > counts.stable
+  ) {
     return "cooling";
   } else {
     return "stable";

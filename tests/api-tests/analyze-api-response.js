@@ -274,9 +274,8 @@ try {
         log("\n=== Testing Alchemize Function ===", "bright");
         try {
           // Import the alchemize function
-          const alchemizeModule = await import(
-            "./src/calculations/alchemicalEngine.js"
-          );
+          const alchemizeModule =
+            await import("./src/calculations/alchemicalEngine.js");
           const alchemize = alchemizeModule.default.alchemize;
 
           if (typeof alchemize === "function") {

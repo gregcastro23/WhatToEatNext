@@ -37,8 +37,7 @@ interface QuantityAwareRecipeCriteria extends RecipeRecommendationCriteria {
   useQuantityScaling?: boolean;
 }
 
-interface QuantityAwareIngredientCriteria
-  extends IngredientRecommendationCriteria {
+interface QuantityAwareIngredientCriteria extends IngredientRecommendationCriteria {
   targetQuantity?: number;
   targetUnit?: string;
   useQuantityScaling?: boolean;
@@ -49,9 +48,7 @@ interface QuantityAwareIngredientCriteria
  * A consolidated service for all recommendation-related operations.
  * Implements the RecommendationServiceInterface and follows the singleton pattern.
  */
-export class UnifiedRecommendationService
-  implements RecommendationServiceInterface
-{
+export class UnifiedRecommendationService implements RecommendationServiceInterface {
   private static instance: UnifiedRecommendationService;
 
   private constructor() {}

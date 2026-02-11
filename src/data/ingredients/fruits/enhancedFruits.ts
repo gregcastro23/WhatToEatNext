@@ -15,7 +15,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     subcategory: "citrus",
 
     // Acidic, bright, cleansing
-    elementalProperties: { Air: 0.45, Fire: 0.30, Water: 0.15, Earth: 0.10 },
+    elementalProperties: { Air: 0.45, Fire: 0.3, Water: 0.15, Earth: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 medium (58g)",
@@ -160,7 +160,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     subcategory: "pome",
 
     // Crisp, balanced, wholesome
-    elementalProperties: { Earth: 0.35, Air: 0.30, Water: 0.25, Fire: 0.10 },
+    elementalProperties: { Earth: 0.35, Air: 0.3, Water: 0.25, Fire: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 medium (182g)",
@@ -302,7 +302,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     subcategory: "tropical",
 
     // Sweet, creamy, energizing
-    elementalProperties: { Earth: 0.40, Water: 0.30, Fire: 0.20, Air: 0.10 },
+    elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 medium (118g)",
@@ -361,7 +361,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     storage: {
       temperature: "room temperature 60-70°F, NEVER refrigerate unripe",
       duration: "3-7 days at room temp depending on ripeness",
-      container: "open air, separate from other fruit if you want slow ripening",
+      container:
+        "open air, separate from other fruit if you want slow ripening",
       tips: [
         "Store at room temperature - refrigeration turns skin black",
         "Hang on banana hanger to prevent bruising",
@@ -447,7 +448,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     subcategory: "berry",
 
     // Sweet, aromatic, delicate
-    elementalProperties: { Water: 0.40, Air: 0.30, Fire: 0.20, Earth: 0.10 },
+    elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 cup whole (152g)",
@@ -556,7 +557,10 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     description:
       "Strawberries are beloved for their bright red color, juicy texture, and sweet-tart flavor. Unlike most fruits, the seeds are on the outside. Peak season berries are incomparably sweet and aromatic compared to off-season varieties. Extremely high in vitamin C and antioxidants. Choose berries that are uniformly red with fresh green hulls.",
 
-    origin: ["Hybrid of North and South American species", "Cultivated globally"],
+    origin: [
+      "Hybrid of North and South American species",
+      "Cultivated globally",
+    ],
 
     qualities: [
       "sweet",
@@ -591,7 +595,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     subcategory: "tropical_berry",
 
     // Creamy, rich, nourishing
-    elementalProperties: { Earth: 0.45, Water: 0.30, Fire: 0.15, Air: 0.10 },
+    elementalProperties: { Earth: 0.45, Water: 0.3, Fire: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1/2 medium (68g)",
@@ -612,7 +616,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       minerals: {
         potassium: 0.14, // More than bananas!
         magnesium: 0.07,
-        copper: 0.10,
+        copper: 0.1,
       },
       antioxidants: {
         lutein_zeaxanthin: "high - eye health",
@@ -651,7 +655,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
 
     storage: {
       temperature: "ripen at room temp, refrigerate when ripe",
-      duration: "3-5 days at room temp to ripen, 3-5 days refrigerated when ripe",
+      duration:
+        "3-5 days at room temp to ripen, 3-5 days refrigerated when ripe",
       container: "open air until ripe, then refrigerate",
       tips: [
         "Ripen in paper bag with banana or apple",
@@ -703,7 +708,10 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     description:
       "Avocados are unique fruits prized for their buttery texture and rich, mild flavor. Unlike most fruits, they're high in healthy fats—primarily monounsaturated oleic acid. Native to Mexico, avocados (also called alligator pears) are now cultivated in warm climates worldwide. Hass avocados with pebbly dark skin are most prized for eating. Ripe avocados yield to gentle pressure.",
 
-    origin: ["Mexico and Central America", "Cultivated in warm climates globally"],
+    origin: [
+      "Mexico and Central America",
+      "Cultivated in warm climates globally",
+    ],
 
     qualities: [
       "creamy",
@@ -738,7 +746,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     subcategory: "berry",
 
     // Sweet, delicate, antioxidant-rich
-    elementalProperties: { Water: 0.40, Air: 0.30, Earth: 0.20, Fire: 0.10 },
+    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 cup (148g)",
@@ -882,7 +890,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     subcategory: "citrus",
 
     // Sweet, juicy, refreshing
-    elementalProperties: { Water: 0.40, Fire: 0.30, Air: 0.20, Earth: 0.10 },
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
 
     nutritionalProfile: {
       serving_size: "1 medium (131g)",
@@ -895,7 +903,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       },
       vitamins: {
         C: 0.93, // 93% RDA - excellent source!
-        folate: 0.10,
+        folate: 0.1,
         thiamin: 0.08,
         A: 0.05,
       },

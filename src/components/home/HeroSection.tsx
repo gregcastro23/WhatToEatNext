@@ -90,11 +90,15 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
 
       {/* Planetary hour highlight */}
       <div className="flex items-center justify-center gap-3 my-6">
-        <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}>
+        <div
+          className={`w-14 h-14 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}
+        >
           <span className="text-3xl text-white">{planetIcon}</span>
         </div>
         <div className="text-left">
-          <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Current Hour</p>
+          <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            Current Hour
+          </p>
           <p className="text-lg font-bold text-gray-800">{planet} Hour</p>
         </div>
       </div>

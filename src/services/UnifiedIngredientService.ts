@@ -1214,14 +1214,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Filter ingredients that have valid elemental properties
     const validIngredients = ingredients.filter(
       (ing) =>
-        ing.elementalProperties &&
-        typeof ing.elementalProperties === "object",
+        ing.elementalProperties && typeof ing.elementalProperties === "object",
     );
 
     if (validIngredients.length === 0) {
-      throw new Error(
-        "No ingredients have valid elemental properties defined",
-      );
+      throw new Error("No ingredients have valid elemental properties defined");
     }
 
     // Sum up elemental properties

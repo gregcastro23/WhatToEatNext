@@ -6,10 +6,7 @@
  * complete natal chart data including elemental and alchemical properties.
  */
 
-import type {
-  BirthData,
-  NatalChart,
-} from "@/types/natalChart";
+import type { BirthData, NatalChart } from "@/types/natalChart";
 import type { Planet, ZodiacSign, Element, Modality } from "@/types/celestial";
 import {
   calculateAlchemicalFromPlanets,

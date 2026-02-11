@@ -490,20 +490,25 @@ function calculateThermodynamicCompatibility(
   // Estimate user's thermodynamic properties
   const userHeat = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / 4;
   const userEntropy = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / 4;
-  const userReactivity = (Math.pow(Fire + Water + Air, 2)) / 10;
+  const userReactivity = Math.pow(Fire + Water + Air, 2) / 10;
 
   // Compare with method's thermodynamic properties using exponential compatibility
   const heatDiff = Math.abs(userHeat - (methodThermodynamics.heat || 0.5));
   const heatCompat = Math.exp(-3.0 * heatDiff); // High sensitivity for heat
 
-  const entropyDiff = Math.abs(userEntropy - (methodThermodynamics.entropy || 0.5));
+  const entropyDiff = Math.abs(
+    userEntropy - (methodThermodynamics.entropy || 0.5),
+  );
   const entropyCompat = Math.exp(-2.5 * entropyDiff);
 
-  const reactivityDiff = Math.abs(userReactivity - (methodThermodynamics.reactivity || 0.5));
+  const reactivityDiff = Math.abs(
+    userReactivity - (methodThermodynamics.reactivity || 0.5),
+  );
   const reactivityCompat = Math.exp(-2.5 * reactivityDiff);
 
   // Weighted combination
-  const thermoScore = heatCompat * 0.4 + entropyCompat * 0.3 + reactivityCompat * 0.3;
+  const thermoScore =
+    heatCompat * 0.4 + entropyCompat * 0.3 + reactivityCompat * 0.3;
 
   return thermoScore;
 }

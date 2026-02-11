@@ -15,25 +15,25 @@ export const italian: Cuisine = {
           description: "Italian-style croissant served with frothy coffee",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "coffee-brewing",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.41,
-              Earth: 0.12,
-              Air: 0.24,
+            {
+              name: "coffee-brewing",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.41,
+                Earth: 0.12,
+                Air: 0.24,
+              },
             },
-          }
-        ],
+          ],
           tools: ["oven", "espresso machine", "milk frother", "baking sheet"],
           preparationSteps: [
             "Bake cornetto until golden",
@@ -94,13 +94,14 @@ export const italian: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.19,
             Water: 0.15,
             Earth: 0.58,
             Air: 0.08,
-          },mealType: ["breakfast"],
+          },
+          mealType: ["breakfast"],
           astrologicalAffinities: {
             planets: ["Venus", "Mercury"],
             signs: ["Taurus", "Libra"],
@@ -243,18 +244,18 @@ export const italian: Cuisine = {
           description: "Sicilian ice granita with soft brioche",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "freezing",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.64,
-              Earth: 0.21,
-              Air: 0.14,
+            {
+              name: "freezing",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.64,
+                Earth: 0.21,
+                Air: 0.14,
+              },
             },
-          },
-          "scraping",
-          "serving"
-        ],
+            "scraping",
+            "serving",
+          ],
           tools: ["shallow pan", "fork", "serving glass", "ice cream scoop"],
           preparationSteps: [
             "Freeze almond mixture",
@@ -309,13 +310,14 @@ export const italian: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.18,
             Water: 0.14,
             Earth: 0.55,
             Air: 0.14,
-          },mealType: ["breakfast"],
+          },
+          mealType: ["breakfast"],
         },
         {
           name: "Ricotta e Fichi",
@@ -379,25 +381,25 @@ export const italian: Cuisine = {
           description: "Thick Italian hot chocolate with cookies",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "heating",
-            elementalProperties: {
-              Fire: 0.36,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.21,
+            {
+              name: "heating",
+              elementalProperties: {
+                Fire: 0.36,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.21,
+              },
             },
-          },
-          {
-            name: "whisking",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.24,
-              Earth: 0.1,
-              Air: 0.59,
+            {
+              name: "whisking",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.24,
+                Earth: 0.1,
+                Air: 0.59,
+              },
             },
-          }
-        ],
+          ],
           tools: ["saucepan", "whisk", "measuring cups", "serving mug"],
           preparationSteps: [
             "Heat milk in saucepan",
@@ -463,13 +465,14 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          
+
           elementalProperties: {
             Fire: 0.16,
             Water: 0.38,
             Earth: 0.37,
             Air: 0.09,
-          },mealType: ["breakfast"],
+          },
+          mealType: ["breakfast"],
         },
       ],
     },
@@ -612,16 +615,16 @@ export const italian: Cuisine = {
           description: "Tuscan bread and tomato salad",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "sharp knife",
             "serving bowl",
@@ -691,13 +694,14 @@ export const italian: Cuisine = {
             minerals: ["Potassium", "Iron"],
           },
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.18,
             Water: 0.09,
             Earth: 0.55,
             Air: 0.18,
-          },mealType: ["lunch"],
+          },
+          mealType: ["lunch"],
         },
       ],
       winter: [
@@ -706,25 +710,25 @@ export const italian: Cuisine = {
           description: "Hearty Tuscan bread and vegetable soup",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: ["large pot", "wooden spoon", "knife", "cutting board"],
           preparationSteps: [
             "Sauté vegetables and herbs",
@@ -790,29 +794,30 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Fiber"],
           },
           season: ["winter", "autumn"],
-          
+
           elementalProperties: {
             Fire: 0.17,
             Water: 0.11,
             Earth: 0.54,
             Air: 0.17,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Pasta e Fagioli",
           description: "Classic pasta and bean soup",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: ["large pot", "wooden spoon", "knife", "cutting board"],
           preparationSteps: [
             "Sauté vegetables and herbs",
@@ -876,13 +881,14 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["winter"],
-          
+
           elementalProperties: {
             Fire: 0.08,
             Water: 0.22,
             Earth: 0.62,
             Air: 0.08,
-          },mealType: ["lunch"],
+          },
+          mealType: ["lunch"],
         },
       ],
     },
@@ -959,17 +965,17 @@ export const italian: Cuisine = {
           description: "Creamy mushroom risotto",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          "gradual-liquid-addition"
-        ],
+            "gradual-liquid-addition",
+          ],
           tools: ["heavy-bottomed pan", "wooden spoon", "ladle", "saucepan"],
           preparationSteps: [
             "Prepare mushroom broth",
@@ -1032,13 +1038,14 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["autumn"],
-          
+
           elementalProperties: {
             Fire: 0.09,
             Water: 0.27,
             Earth: 0.55,
             Air: 0.09,
-          },mealType: ["dinner"],
+          },
+          mealType: ["dinner"],
         },
         {
           name: "Gnocchi alla Sorrentina",
@@ -1046,25 +1053,25 @@ export const italian: Cuisine = {
             "Potato gnocchi baked with tomato sauce, mozzarella, and basil",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "baking dish",
@@ -1093,7 +1100,11 @@ export const italian: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "flour", amount: "300", unit: "g", category: "grain",
+            {
+              name: "flour",
+              amount: "300",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.1,
@@ -1101,7 +1112,11 @@ export const italian: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "egg", amount: "1", unit: "large", category: "protein",
+            {
+              name: "egg",
+              amount: "1",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1146,7 +1161,11 @@ export const italian: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "olive oil", amount: "3", unit: "tbsp", category: "oil",
+            {
+              name: "olive oil",
+              amount: "3",
+              unit: "tbsp",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -1198,25 +1217,25 @@ export const italian: Cuisine = {
           description: "Neapolitan style fish in 'crazy water'",
           cuisine: "Italian (Neapolitan)",
           cookingMethods: [
-          {
-            name: "poaching",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.5,
-              Earth: 0.13,
-              Air: 0.19,
+            {
+              name: "poaching",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.5,
+                Earth: 0.13,
+                Air: 0.19,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: ["large skillet", "fish spatula", "knife", "cutting board"],
           preparationSteps: [
             "Clean and prepare fish",
@@ -1282,38 +1301,39 @@ export const italian: Cuisine = {
             minerals: ["Selenium", "Iodine", "Potassium"],
           },
           season: ["summer", "spring"],
-          
+
           elementalProperties: {
             Fire: 0.05,
             Water: 0.72,
             Earth: 0.15,
             Air: 0.07,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Melanzane alla Parmigiana",
           description: "Eggplant Parmesan with tomato sauce",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "baking dish",
             "frying pan",
@@ -1395,13 +1415,14 @@ export const italian: Cuisine = {
             minerals: ["Calcium", "Iron"],
           },
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.35,
             Water: 0.23,
             Earth: 0.32,
             Air: 0.1,
-          },mealType: ["dinner"],
+          },
+          mealType: ["dinner"],
         },
       ],
     },
@@ -1533,13 +1554,14 @@ export const italian: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.1,
             Water: 0.58,
             Earth: 0.23,
             Air: 0.1,
-          },mealType: ["dessert"],
+          },
+          mealType: ["dessert"],
         },
       ],
       winter: [
@@ -1548,26 +1570,26 @@ export const italian: Cuisine = {
           description: "Traditional Christmas sweet bread",
           cuisine: "Italian",
           cookingMethods: [
-          {
-            name: "kneading",
-            elementalProperties: {
-              Fire: 0.14,
-              Water: 0.14,
-              Earth: 0.43,
-              Air: 0.29,
+            {
+              name: "kneading",
+              elementalProperties: {
+                Fire: 0.14,
+                Water: 0.14,
+                Earth: 0.43,
+                Air: 0.29,
+              },
             },
-          },
-          "rising",
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            "rising",
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           tools: ["mixing bowl", "stand mixer", "loaf pan", "oven"],
           preparationSteps: [
             "Knead dough with butter and sugar",
@@ -1627,13 +1649,14 @@ export const italian: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["winter"],
-          
+
           elementalProperties: {
             Fire: 0.09,
             Water: 0.07,
             Earth: 0.68,
             Air: 0.16,
-          },mealType: ["dessert"],
+          },
+          mealType: ["dessert"],
         },
       ],
     },

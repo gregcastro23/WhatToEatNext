@@ -267,7 +267,10 @@ export interface FoodPatterns {
 
   // Elemental patterns
   dominantElement: keyof ElementalProperties;
-  elementalTrends: Record<keyof ElementalProperties, "increasing" | "stable" | "decreasing">;
+  elementalTrends: Record<
+    keyof ElementalProperties,
+    "increasing" | "stable" | "decreasing"
+  >;
 
   // Mood correlations
   moodFoodCorrelations: Array<{
@@ -459,14 +462,15 @@ export function createEmptyDailySummary(date: Date): DailyFoodDiarySummary {
 export function calculateEntryNutrition(
   nutritionPer100g: Partial<NutritionalSummary>,
   serving: ServingSize,
-  quantity: number
+  quantity: number,
 ): Partial<NutritionalSummary> {
   const multiplier = (serving.grams * quantity) / 100;
   const result: Partial<NutritionalSummary> = {};
 
   for (const [key, value] of Object.entries(nutritionPer100g)) {
     if (typeof value === "number") {
-      result[key as keyof NutritionalSummary] = Math.round(value * multiplier * 10) / 10;
+      result[key as keyof NutritionalSummary] =
+        Math.round(value * multiplier * 10) / 10;
     }
   }
 

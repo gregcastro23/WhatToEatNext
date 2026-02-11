@@ -102,25 +102,25 @@ export const russian: Cuisine = {
           description: "Buckwheat porridge with milk",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "toasting",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.28,
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
             },
-          }
-        ],
+          ],
           tools: ["saucepan", "wooden spoon", "measuring cups", "strainer"],
           preparationSteps: [
             "Toast buckwheat groats until fragrant",
@@ -201,34 +201,34 @@ export const russian: Cuisine = {
           description: "Thin yeasted pancakes",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          },
-          {
-            name: "fermenting",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.33,
-              Earth: 0.39,
-              Air: 0.22,
+            {
+              name: "fermenting",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.33,
+                Earth: 0.39,
+                Air: 0.22,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowls",
             "whisk",
@@ -320,25 +320,25 @@ export const russian: Cuisine = {
           description: "Fluffy Russian buttermilk pancakes",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: ["mixing bowl", "whisk", "frying pan", "spatula", "ladle"],
           preparationSteps: [
             "Mix dry ingredients",
@@ -413,34 +413,34 @@ export const russian: Cuisine = {
           description: "Classic beetroot and cabbage soup",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large soup pot",
             "cutting board",
@@ -537,26 +537,26 @@ export const russian: Cuisine = {
           description: "Russian meat dumplings",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "kneading",
-            elementalProperties: {
-              Fire: 0.14,
-              Water: 0.14,
-              Earth: 0.43,
-              Air: 0.29,
+            {
+              name: "kneading",
+              elementalProperties: {
+                Fire: 0.14,
+                Water: 0.14,
+                Earth: 0.43,
+                Air: 0.29,
+              },
             },
-          },
-          "filling",
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            "filling",
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowl",
             "rolling pin",
@@ -647,34 +647,34 @@ export const russian: Cuisine = {
           description: "Traditional Russian cabbage soup",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large soup pot",
             "cutting board",
@@ -769,26 +769,26 @@ export const russian: Cuisine = {
           description: "Clear Russian fish soup",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          "straining",
-          {
-            name: "poaching",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.5,
-              Earth: 0.13,
-              Air: 0.19,
+            "straining",
+            {
+              name: "poaching",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.5,
+                Earth: 0.13,
+                Air: 0.19,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "fine-mesh strainer",
@@ -817,7 +817,11 @@ export const russian: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "onions", amount: "200", unit: "g", category: "vegetable",
+            {
+              name: "onions",
+              amount: "200",
+              unit: "g",
+              category: "vegetable",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.2,
@@ -942,13 +946,14 @@ export const russian: Cuisine = {
           },
           timeToMake: "90 minutes",
           season: ["winter"],
-          
+
           elementalProperties: {
             Fire: 0.25,
             Water: 0.19,
             Earth: 0.48,
             Air: 0.08,
-          },mealType: ["lunch"],
+          },
+          mealType: ["lunch"],
         },
       ],
     },
@@ -959,34 +964,34 @@ export const russian: Cuisine = {
           description: "Tender beef in sour cream sauce",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sauce-making",
-            elementalProperties: {
-              Fire: 0.27,
-              Water: 0.33,
-              Earth: 0.2,
-              Air: 0.2,
+            {
+              name: "sauce-making",
+              elementalProperties: {
+                Fire: 0.27,
+                Water: 0.33,
+                Earth: 0.2,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large skillet",
             "sharp knife",
@@ -1083,34 +1088,34 @@ export const russian: Cuisine = {
           description: "Stuffed cabbage rolls",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "blanching",
-            elementalProperties: {
-              Fire: 0.23,
-              Water: 0.55,
-              Earth: 0.1,
-              Air: 0.13,
+            {
+              name: "blanching",
+              elementalProperties: {
+                Fire: 0.23,
+                Water: 0.55,
+                Earth: 0.1,
+                Air: 0.13,
+              },
             },
-          },
-          {
-            name: "stuffing",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.54,
-              Air: 0.23,
+            {
+              name: "stuffing",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.54,
+                Air: 0.23,
+              },
             },
-          },
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "mixing bowl",
@@ -1204,34 +1209,34 @@ export const russian: Cuisine = {
           description: "Russian style meat patties",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "grinding",
-            elementalProperties: {
-              Fire: 0.14,
-              Water: 0.07,
-              Earth: 0.57,
-              Air: 0.21,
+            {
+              name: "grinding",
+              elementalProperties: {
+                Fire: 0.14,
+                Water: 0.07,
+                Earth: 0.57,
+                Air: 0.21,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "meat grinder or food processor",
             "mixing bowl",
@@ -1332,34 +1337,34 @@ export const russian: Cuisine = {
           description: "Russian festive potato salad",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "dicing",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.08,
-              Earth: 0.54,
-              Air: 0.31,
+            {
+              name: "dicing",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.08,
+                Earth: 0.54,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "sharp knife",
@@ -1401,7 +1406,11 @@ export const russian: Cuisine = {
               },
             },
             { name: "peas", amount: "200", unit: "g", category: "vegetable" },
-            { name: "eggs", amount: "4", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "4",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1474,34 +1483,34 @@ export const russian: Cuisine = {
           description: "Russian meat and potato stew",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "stewing",
-            elementalProperties: {
-              Fire: 0.22,
-              Water: 0.41,
-              Earth: 0.3,
-              Air: 0.08,
+            {
+              name: "stewing",
+              elementalProperties: {
+                Fire: 0.22,
+                Water: 0.41,
+                Earth: 0.3,
+                Air: 0.08,
+              },
             },
-          },
-          {
-            name: "roasting",
-            elementalProperties: {
-              Fire: 0.47,
-              Water: 0.06,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "roasting",
+              elementalProperties: {
+                Fire: 0.47,
+                Water: 0.06,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "dutch oven",
             "cutting board",
@@ -1673,26 +1682,26 @@ export const russian: Cuisine = {
           description: "Curd cheese pastry with sweet filling",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          },
-          "rolling",
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            "rolling",
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowls",
             "rolling pin",
@@ -1770,26 +1779,26 @@ export const russian: Cuisine = {
           description: "Sweet cherry dumplings",
           cuisine: "Russian",
           cookingMethods: [
-          {
-            name: "kneading",
-            elementalProperties: {
-              Fire: 0.14,
-              Water: 0.14,
-              Earth: 0.43,
-              Air: 0.29,
+            {
+              name: "kneading",
+              elementalProperties: {
+                Fire: 0.14,
+                Water: 0.14,
+                Earth: 0.43,
+                Air: 0.29,
+              },
             },
-          },
-          "filling",
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            "filling",
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowl",
             "rolling pin",
@@ -1982,16 +1991,17 @@ export const russian: Cuisine = {
 
         {
           name: "Pelmeni",
-          description: "Russian dumplings filled with seasoned meat, served with sour cream",
+          description:
+            "Russian dumplings filled with seasoned meat, served with sour cream",
           cuisine: "Russian",
           cookingMethods: [
             {
               name: "boiling",
               elementalProperties: {
-                Fire: 0.20,
+                Fire: 0.2,
                 Water: 0.55,
                 Earth: 0.15,
-                Air: 0.10,
+                Air: 0.1,
               },
             },
             {
@@ -1999,8 +2009,8 @@ export const russian: Cuisine = {
               elementalProperties: {
                 Fire: 0.05,
                 Water: 0.15,
-                Earth: 0.50,
-                Air: 0.30,
+                Earth: 0.5,
+                Air: 0.3,
               },
             },
           ],
@@ -2015,11 +2025,26 @@ export const russian: Cuisine = {
           ],
           ingredients: [
             { name: "flour", amount: "3", unit: "cups", category: "grain" },
-            { name: "ground beef and pork", amount: "500", unit: "g", category: "protein" },
-            { name: "onion", amount: "1", unit: "medium", category: "vegetable" },
+            {
+              name: "ground beef and pork",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "onion",
+              amount: "1",
+              unit: "medium",
+              category: "vegetable",
+            },
             { name: "eggs", amount: "2", unit: "large", category: "protein" },
             { name: "sour cream", amount: "1", unit: "cup", category: "dairy" },
-            { name: "fresh dill", amount: "1/4", unit: "cup", category: "herb" },
+            {
+              name: "fresh dill",
+              amount: "1/4",
+              unit: "cup",
+              category: "herb",
+            },
           ],
           substitutions: {
             "ground beef and pork": ["ground lamb", "ground chicken"],
@@ -2029,7 +2054,8 @@ export const russian: Cuisine = {
           allergens: ["gluten", "dairy", "eggs"],
           prepTime: "60 minutes",
           cookTime: "10 minutes",
-          culturalNotes: "A Siberian specialty traditionally made in large batches and frozen for winter months",
+          culturalNotes:
+            "A Siberian specialty traditionally made in large batches and frozen for winter months",
           pairingSuggestions: ["melted butter", "vinegar", "black pepper"],
           dietaryInfo: [],
           spiceLevel: "none",
@@ -2048,8 +2074,8 @@ export const russian: Cuisine = {
           elementalProperties: {
             Fire: 0.18,
             Water: 0.32,
-            Earth: 0.40,
-            Air: 0.10,
+            Earth: 0.4,
+            Air: 0.1,
           },
         },
       ],

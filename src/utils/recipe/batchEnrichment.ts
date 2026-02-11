@@ -63,7 +63,7 @@ export interface BatchEnrichmentOptions {
  */
 export function batchEnrichRecipes(
   recipes: Partial<Recipe>[],
-  options: BatchEnrichmentOptions = {}
+  options: BatchEnrichmentOptions = {},
 ): BatchEnrichmentResult {
   const {
     skipExisting = false,
@@ -109,7 +109,9 @@ export function batchEnrichRecipes(
       }
 
       if (logProgress && totalProcessed % 50 === 0) {
-        logger.info(`Progress: ${totalProcessed}/${recipes.length} (${enriched} enriched)`);
+        logger.info(
+          `Progress: ${totalProcessed}/${recipes.length} (${enriched} enriched)`,
+        );
       }
     } catch (error) {
       errors++;
@@ -175,7 +177,7 @@ function validateEnrichment(enrichment: EnrichmentResult): boolean {
  * Calculate statistics from enrichment results
  */
 function calculateEnrichmentStats(
-  results: Map<string, EnrichmentResult>
+  results: Map<string, EnrichmentResult>,
 ): EnrichmentStats {
   const stats: EnrichmentStats = {
     avgConfidenceScore: 0,
@@ -207,8 +209,7 @@ function calculateEnrichmentStats(
 
     // Count seasons
     for (const season of enrichment.seasonalAlignment) {
-      stats.seasonalCounts[season] =
-        (stats.seasonalCounts[season] || 0) + 1;
+      stats.seasonalCounts[season] = (stats.seasonalCounts[season] || 0) + 1;
     }
 
     // Count meal types
@@ -238,7 +239,7 @@ function calculateEnrichmentStats(
  */
 export function applyBatchEnrichment(
   recipes: Partial<Recipe>[],
-  enrichmentResults: BatchEnrichmentResult
+  enrichmentResults: BatchEnrichmentResult,
 ): Recipe[] {
   const enricher = RecipeDataEnricher.getInstance();
   const enrichedRecipes: Recipe[] = [];
@@ -320,7 +321,7 @@ export function extractRecipesFromCuisine(cuisineData: any): Partial<Recipe>[] {
  */
 export function convertToDisheFormat(
   recipe: Recipe,
-  enrichment: EnrichmentResult
+  enrichment: EnrichmentResult,
 ): Record<string, any> {
   return {
     name: recipe.name,
@@ -372,7 +373,7 @@ export type ProgressCallback = (progress: {
 export async function batchEnrichWithProgress(
   recipes: Partial<Recipe>[],
   options: BatchEnrichmentOptions = {},
-  onProgress?: ProgressCallback
+  onProgress?: ProgressCallback,
 ): Promise<BatchEnrichmentResult> {
   const {
     skipExisting = false,
@@ -446,7 +447,4 @@ export async function batchEnrichWithProgress(
 // Exports
 // ============================================================================
 
-export {
-  validateEnrichment,
-  calculateEnrichmentStats,
-};
+export { validateEnrichment, calculateEnrichmentStats };

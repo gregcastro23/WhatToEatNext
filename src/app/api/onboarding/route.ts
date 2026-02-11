@@ -130,7 +130,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Complete birth data (dateTime, latitude, longitude) required",
+          message:
+            "Complete birth data (dateTime, latitude, longitude) required",
         },
         { status: 400 },
       );
@@ -172,7 +173,7 @@ export async function POST(request: NextRequest) {
       Uranus: planetaryPositions.Uranus?.sign as ZodiacSign,
       Neptune: planetaryPositions.Neptune?.sign as ZodiacSign,
       Pluto: planetaryPositions.Pluto?.sign as ZodiacSign,
-      Ascendant: planetaryPositions.Ascendant?.sign as ZodiacSign || "aries", // Default fallback
+      Ascendant: (planetaryPositions.Ascendant?.sign as ZodiacSign) || "aries", // Default fallback
     };
 
     // Calculate alchemical properties
@@ -270,8 +271,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message:
-          error instanceof Error ? error.message : "Onboarding failed",
+        message: error instanceof Error ? error.message : "Onboarding failed",
       },
       { status: 500 },
     );

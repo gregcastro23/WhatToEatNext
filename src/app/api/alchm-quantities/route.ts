@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { calculatePlanetaryPositions, getFallbackPlanetaryPositions } from "@/utils/serverPlanetaryCalculations";
+import {
+  calculatePlanetaryPositions,
+  getFallbackPlanetaryPositions,
+} from "@/utils/serverPlanetaryCalculations";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { createLogger } from "@/utils/logger";
@@ -61,13 +64,22 @@ export async function GET() {
     try {
       logger.info("Attempting to calculate planetary positions...");
       planetaryPositions = await calculatePlanetaryPositions();
-      logger.info(`Got ${Object.keys(planetaryPositions).length} planetary positions`);
+      logger.info(
+        `Got ${Object.keys(planetaryPositions).length} planetary positions`,
+      );
     } catch (calcError) {
-      const errorMessage = calcError instanceof Error ? calcError.message : String(calcError);
-      const errorStack = calcError instanceof Error ? calcError.stack : undefined;
-      logger.warn("Failed to calculate planetary positions, using fallback:", { error: errorMessage, stack: errorStack });
+      const errorMessage =
+        calcError instanceof Error ? calcError.message : String(calcError);
+      const errorStack =
+        calcError instanceof Error ? calcError.stack : undefined;
+      logger.warn("Failed to calculate planetary positions, using fallback:", {
+        error: errorMessage,
+        stack: errorStack,
+      });
       planetaryPositions = getFallbackPlanetaryPositions();
-      logger.info(`Using fallback positions: ${Object.keys(planetaryPositions).length} planets`);
+      logger.info(
+        `Using fallback positions: ${Object.keys(planetaryPositions).length} planets`,
+      );
     }
 
     // Get alchemical properties using real service (synchronous function)
@@ -102,16 +114,24 @@ export async function GET() {
 
     // Velocity: Each quantity's tendency to change based on its relative strength
     const totalQuantity =
-      quantities.Spirit + quantities.Essence + quantities.Matter + quantities.Substance;
+      quantities.Spirit +
+      quantities.Essence +
+      quantities.Matter +
+      quantities.Substance;
     const kinetics: KineticData = {
       velocity: {
         Spirit:
-          ((quantities.Spirit / totalQuantity - 0.25) * velocityFactor * heat) / 10,
+          ((quantities.Spirit / totalQuantity - 0.25) * velocityFactor * heat) /
+          10,
         Essence:
-          ((quantities.Essence / totalQuantity - 0.25) * velocityFactor * (1 - entropy)) /
+          ((quantities.Essence / totalQuantity - 0.25) *
+            velocityFactor *
+            (1 - entropy)) /
           10,
         Matter:
-          ((quantities.Matter / totalQuantity - 0.25) * velocityFactor * (1 / reactivity)) /
+          ((quantities.Matter / totalQuantity - 0.25) *
+            velocityFactor *
+            (1 / reactivity)) /
           10,
         Substance:
           ((quantities.Substance / totalQuantity - 0.25) *
@@ -127,22 +147,28 @@ export async function GET() {
       },
       momentum: {
         Spirit:
-          quantities.Spirit *
-          ((quantities.Spirit / totalQuantity - 0.25) * velocityFactor * heat) /
+          (quantities.Spirit *
+            ((quantities.Spirit / totalQuantity - 0.25) *
+              velocityFactor *
+              heat)) /
           10,
         Essence:
-          quantities.Essence *
-          ((quantities.Essence / totalQuantity - 0.25) * velocityFactor * (1 - entropy)) /
+          (quantities.Essence *
+            ((quantities.Essence / totalQuantity - 0.25) *
+              velocityFactor *
+              (1 - entropy))) /
           10,
         Matter:
-          quantities.Matter *
-          ((quantities.Matter / totalQuantity - 0.25) * velocityFactor * (1 / reactivity)) /
+          (quantities.Matter *
+            ((quantities.Matter / totalQuantity - 0.25) *
+              velocityFactor *
+              (1 / reactivity))) /
           10,
         Substance:
-          quantities.Substance *
-          ((quantities.Substance / totalQuantity - 0.25) *
-            velocityFactor *
-            (heat + entropy)) /
+          (quantities.Substance *
+            ((quantities.Substance / totalQuantity - 0.25) *
+              velocityFactor *
+              (heat + entropy))) /
           20,
       },
     };
@@ -151,7 +177,12 @@ export async function GET() {
     // Cast elementalProperties to match expected type (both have same shape)
     const circuitKinetics = calculateKineticProperties(
       alchemicalResult.esms,
-      alchemicalResult.elementalProperties as { Fire: number; Water: number; Earth: number; Air: number },
+      alchemicalResult.elementalProperties as {
+        Fire: number;
+        Water: number;
+        Earth: number;
+        Air: number;
+      },
       {
         heat,
         entropy,
@@ -159,7 +190,7 @@ export async function GET() {
         gregsEnergy,
         kalchm: alchemicalResult.kalchm,
         monica: alchemicalResult.monica,
-      }
+      },
     );
 
     // Extract circuit data for API response
@@ -177,9 +208,10 @@ export async function GET() {
     // Determine dominant element from elementalProperties
     const elements = alchemicalResult.elementalProperties;
     const dominantElement = Object.entries(elements).reduce((a, b) =>
-      elements[a[0] as keyof typeof elements] > elements[b[0] as keyof typeof elements]
+      elements[a[0] as keyof typeof elements] >
+      elements[b[0] as keyof typeof elements]
         ? a
-        : b
+        : b,
     )[0];
 
     const responseData = {
@@ -207,14 +239,17 @@ export async function GET() {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
-    logger.error("API Error generating Alchm quantities:", { error: errorMessage, stack: errorStack });
+    logger.error("API Error generating Alchm quantities:", {
+      error: errorMessage,
+      stack: errorStack,
+    });
     return NextResponse.json(
       {
         error: "Failed to calculate quantities",
         details: errorMessage,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

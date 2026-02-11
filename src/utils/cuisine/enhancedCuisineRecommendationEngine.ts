@@ -247,12 +247,12 @@ export function generateEnhancedCuisineRecommendations(
 
   // Default weights (enhanced with kinetic and thermodynamic factors)
   const scoringWeights = {
-    elemental: weights?.elemental ?? 0.30,
+    elemental: weights?.elemental ?? 0.3,
     alchemical: weights?.alchemical ?? 0.15,
     kinetic: weights?.kinetic ?? 0.15,
-    thermodynamic: weights?.thermodynamic ?? 0.10,
-    cultural: weights?.cultural ?? 0.10,
-    seasonal: weights?.seasonal ?? 0.10,
+    thermodynamic: weights?.thermodynamic ?? 0.1,
+    cultural: weights?.cultural ?? 0.1,
+    seasonal: weights?.seasonal ?? 0.1,
     signature: weights?.signature ?? 0.05,
     aspectPhase: weights?.aspectPhase ?? 0.05,
   };
@@ -318,10 +318,7 @@ export function generateEnhancedCuisineRecommendations(
     // 7. Thermodynamic Resonance
     let thermodynamicResonance: ThermodynamicResonanceResult | undefined;
     let thermodynamicScore = 0;
-    if (
-      userProfile.thermodynamicProfile &&
-      cuisineData.thermodynamicProfile
-    ) {
+    if (userProfile.thermodynamicProfile && cuisineData.thermodynamicProfile) {
       thermodynamicResonance = calculateThermodynamicResonance(
         userProfile.thermodynamicProfile,
         cuisineData.thermodynamicProfile,
@@ -340,7 +337,8 @@ export function generateEnhancedCuisineRecommendations(
       cuisineData.kineticProfile?.averageKinetics.aspectPhase
     ) {
       const userPhase = userProfile.kineticProfile.kineticMetrics.aspectPhase;
-      const cuisinePhase = cuisineData.kineticProfile.averageKinetics.aspectPhase;
+      const cuisinePhase =
+        cuisineData.kineticProfile.averageKinetics.aspectPhase;
 
       if (userPhase.type === cuisinePhase.type) {
         aspectPhaseAlignment = 1.0;
@@ -454,8 +452,7 @@ export function generateEnhancedCuisineRecommendations(
         targetAlchemicalProperties: cuisineProperties.averageAlchemical,
         targetThermodynamicProperties:
           cuisineData.thermodynamicProfile?.averageThermodynamics,
-        targetKineticProperties:
-          cuisineData.kineticProfile?.averageKinetics,
+        targetKineticProperties: cuisineData.kineticProfile?.averageKinetics,
         sauceRole: "complement",
         maxRecommendations: saucesPerCuisine,
         minCompatibilityThreshold: 0.4,
@@ -493,9 +490,9 @@ export function generateEnhancedCuisineRecommendations(
 
     // Calculate enhancement score (how much the new factors improve recommendation quality)
     const enhancementScore =
-      (kineticScore * 0.4 +
-        thermodynamicScore * 0.4 +
-        aspectPhaseAlignment * 0.2);
+      kineticScore * 0.4 +
+      thermodynamicScore * 0.4 +
+      aspectPhaseAlignment * 0.2;
 
     // ========== CREATE RECOMMENDATION ==========
 

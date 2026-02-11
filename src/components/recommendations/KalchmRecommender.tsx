@@ -163,10 +163,12 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
       memberScores,
     } = item;
 
-    const displayScore = isGroupMode && groupScore !== undefined ? groupScore : score;
-    const isBestForEveryone = isGroupMode && memberScores
-      ? Math.min(...memberScores.map((ms) => ms.score)) >= 0.6
-      : false;
+    const displayScore =
+      isGroupMode && groupScore !== undefined ? groupScore : score;
+    const isBestForEveryone =
+      isGroupMode && memberScores
+        ? Math.min(...memberScores.map((ms) => ms.score)) >= 0.6
+        : false;
 
     return (
       <div

@@ -123,7 +123,8 @@ export default function AlchmQuantitiesTrends() {
       </ResponsiveContainer>
 
       <div className="text-xs text-gray-400">
-        Trends show quantity fluctuations over the past 7 days based on planetary movements (sampled every 4 hours).
+        Trends show quantity fluctuations over the past 7 days based on
+        planetary movements (sampled every 4 hours).
       </div>
     </div>
   );
