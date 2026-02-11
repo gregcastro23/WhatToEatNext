@@ -1,7 +1,16 @@
-import CurrentMomentCuisineRecommendations from "../components/cuisines/CurrentMomentCuisineRecommendations";
-import EnhancedIngredientRecommender from "../components/recommendations/EnhancedIngredientRecommender";
-import AlchmQuantitiesDisplay from "../components/alchm-quantities-display";
-import EnhancedCookingMethodRecommender from "../components/recommendations/EnhancedCookingMethodRecommender";
+import { Suspense } from "react";
+import { HeroSection } from "@/components/home/HeroSection";
+import DynamicCuisineRecommender from "@/components/home/DynamicCuisineRecommender";
+import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
+import EnhancedCookingMethodRecommender from "@/components/recommendations/EnhancedCookingMethodRecommender";
+
+function SectionLoader() {
+  return (
+    <div className="flex items-center justify-center py-12">
+      <div className="animate-pulse text-slate-400">Loading...</div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
