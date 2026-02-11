@@ -19,6 +19,13 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       },
     },
     qualities: ["warming", "sweet", "pungent"],
+    nutritionalProfile: {
+      serving_size: "1 tsp (2.6g)",
+      calories: 6,
+      macros: { protein: 0.1, carbs: 2.1, fat: 0, fiber: 1.4, saturatedFat: 0, sugar: 0.1, potassium: 11, sodium: 0 },
+      vitamins: { K: 0.01 },
+      minerals: { manganese: 0.22, calcium: 0.03, iron: 0.01 },
+    },
     origin: ["Sri Lanka", "Indonesia", "China"],
     category: "spices",
     subCategory: "ground",
