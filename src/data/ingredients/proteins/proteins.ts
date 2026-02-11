@@ -11,29 +11,50 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["fall", "winter"],
+      seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 large (50g)",
+      calories: 72,
+      macros: { protein: 6.3, carbs: 0.4, fat: 4.8, fiber: 0, saturatedFat: 1.6, sugar: 0.2, potassium: 69, sodium: 71 },
+      vitamins: { B12: 0.19, D: 0.11, riboflavin: 0.15, A: 0.08, B6: 0.04 },
+      minerals: { selenium: 0.28, phosphorus: 0.10, iron: 0.05, zinc: 0.05 },
     },
   },
   ground_beef: {
     name: "ground beef",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ["protein-rich", "sustaining", "nutritious"],
+    qualities: ["protein-rich", "hearty", "savory"],
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["fall", "winter"],
+      seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "3 oz cooked (85g)",
+      calories: 218,
+      macros: { protein: 22, carbs: 0, fat: 14, fiber: 0, saturatedFat: 5.5, sugar: 0, potassium: 270, sodium: 66 },
+      vitamins: { B12: 1.04, niacin: 0.28, B6: 0.18, riboflavin: 0.09 },
+      minerals: { zinc: 0.39, selenium: 0.27, phosphorus: 0.17, iron: 0.14 },
     },
   },
   grilled_chicken: {
     name: "grilled chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ["protein-rich", "sustaining", "nutritious"],
+    qualities: ["lean", "versatile", "high-protein"],
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["fall", "winter"],
+      seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 128,
+      macros: { protein: 26, carbs: 0, fat: 2.7, fiber: 0, saturatedFat: 0.8, sugar: 0, potassium: 218, sodium: 60 },
+      vitamins: { B6: 0.46, niacin: 0.59, B12: 0.13 },
+      minerals: { selenium: 0.37, phosphorus: 0.17, zinc: 0.06 },
     },
   },
   hard_boiled_eggs: {
@@ -72,12 +93,19 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   salmon_fillet: {
     name: "salmon fillet",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ["protein-rich", "sustaining", "nutritious"],
+    qualities: ["omega-rich", "flaky", "nutritious"],
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["fall", "winter"],
+      seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 177,
+      macros: { protein: 17, carbs: 0, fat: 11, fiber: 0, saturatedFat: 2.6, sugar: 0, potassium: 292, sodium: 50 },
+      vitamins: { D: 0.66, B12: 1.17, niacin: 0.50, B6: 0.38 },
+      minerals: { selenium: 0.46, phosphorus: 0.22 },
     },
   },
   beef_chuck_roast: {
@@ -105,12 +133,19 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   soft_tofu: {
     name: "soft tofu",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ["protein-rich", "sustaining", "nutritious"],
+    qualities: ["mild", "plant-based", "versatile"],
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["fall", "winter"],
+      seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1/2 cup (126g)",
+      calories: 76,
+      macros: { protein: 8, carbs: 2.3, fat: 4.8, fiber: 0.4, saturatedFat: 0.7, sugar: 1, potassium: 150, sodium: 7 },
+      vitamins: {},
+      minerals: { calcium: 0.28, iron: 0.12, selenium: 0.16, manganese: 0.15, phosphorus: 0.10 },
     },
   },
   har_gow__shrimp_dumplings_: {

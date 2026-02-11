@@ -438,6 +438,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Libra", "Cancer"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (15g)",
+      calories: 51,
+      macros: { protein: 0.4, carbs: 0.4, fat: 5.4, fiber: 0, saturatedFat: 3.4, sugar: 0.4, potassium: 11, sodium: 6 },
+      vitamins: { A: 0.08, D: 0.02, E: 0.02, K: 0.01 },
+      minerals: { calcium: 0.01 },
+    },
   },
 
   sour_cream: {
@@ -653,6 +660,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Cancer"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 102,
+      macros: { protein: 0.1, carbs: 0, fat: 11.5, fiber: 0, saturatedFat: 7.3, sugar: 0, potassium: 3, sodium: 91 },
+      vitamins: { A: 0.11, E: 0.03, D: 0.01, K: 0.01 },
+      minerals: { selenium: 0.01 },
     },
   },
 
@@ -955,6 +969,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["Cancer", "Taurus", "Libra"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 99,
+      macros: { protein: 2, carbs: 1, fat: 10, fiber: 0, saturatedFat: 5.7, sugar: 0.8, potassium: 35, sodium: 86 },
+      vitamins: { A: 0.06, B12: 0.04, riboflavin: 0.03 },
+      minerals: { calcium: 0.02, phosphorus: 0.03, selenium: 0.03 },
     },
   },
 
@@ -1431,6 +1452,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Libra"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 85,
+      macros: { protein: 6, carbs: 0.7, fat: 6.3, fiber: 0, saturatedFat: 3.7, sugar: 0.3, potassium: 24, sodium: 178 },
+      vitamins: { B12: 0.13, riboflavin: 0.06, A: 0.04 },
+      minerals: { calcium: 0.14, phosphorus: 0.10, selenium: 0.06, zinc: 0.06 },
+    },
   },
 
   havarti: {
@@ -1647,6 +1675,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Taurus", "Aries"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 113,
+      macros: { protein: 7, carbs: 0.4, fat: 9.3, fiber: 0, saturatedFat: 5.9, sugar: 0.1, potassium: 28, sodium: 174 },
+      vitamins: { B12: 0.14, A: 0.06, riboflavin: 0.06, K: 0.03 },
+      minerals: { calcium: 0.15, phosphorus: 0.14, selenium: 0.06, zinc: 0.06 },
+    },
   },
 
   gruy_re_cheese: {
@@ -1732,6 +1767,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mars"],
       favorableZodiac: ["Capricorn", "Taurus", "Virgo"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 111,
+      macros: { protein: 10, carbs: 0.9, fat: 7.3, fiber: 0, saturatedFat: 4.7, sugar: 0.3, potassium: 26, sodium: 390 },
+      vitamins: { B12: 0.20, riboflavin: 0.05, A: 0.04 },
+      minerals: { calcium: 0.26, phosphorus: 0.20, selenium: 0.08, zinc: 0.06 },
     },
   },
 
@@ -2122,6 +2164,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Virgo", "Pisces"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (245g)",
+      calories: 149,
+      macros: { protein: 9, carbs: 12, fat: 8, fiber: 0, saturatedFat: 5, sugar: 12, potassium: 380, sodium: 113 },
+      vitamins: { B12: 0.38, riboflavin: 0.24, D: 0.02, B6: 0.07 },
+      minerals: { calcium: 0.30, phosphorus: 0.23, zinc: 0.10, selenium: 0.06, magnesium: 0.07 },
+    },
   },
 
   greek_yogurt: {
@@ -2164,6 +2213,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Capricorn", "Virgo"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (245g)",
+      calories: 100,
+      macros: { protein: 17, carbs: 6, fat: 0.7, fiber: 0, saturatedFat: 0.4, sugar: 6, potassium: 240, sodium: 65 },
+      vitamins: { B12: 0.50, riboflavin: 0.15, D: 0.02, B6: 0.05 },
+      minerals: { calcium: 0.18, phosphorus: 0.22, zinc: 0.09, selenium: 0.10, magnesium: 0.05 },
     },
   },
 

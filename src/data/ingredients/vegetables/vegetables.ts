@@ -6,45 +6,73 @@ const rawVegetables: Record<string, Partial<IngredientMapping>> = {
   tomato_paste: {
     name: "tomato paste",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["nutritious", "versatile", "concentrated"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (16g)",
+      calories: 13,
+      macros: { protein: 0.7, carbs: 3, fat: 0.1, fiber: 0.5, saturatedFat: 0, sugar: 2, potassium: 162, sodium: 9 },
+      vitamins: { A: 0.04, C: 0.04 },
+      minerals: { iron: 0.03, potassium: 0.05 },
     },
   },
   onions: {
     name: "onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["pungent", "aromatic", "versatile"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 medium (110g)",
+      calories: 44,
+      macros: { protein: 1.2, carbs: 10, fat: 0.1, fiber: 1.9, saturatedFat: 0, sugar: 4.7, potassium: 161, sodium: 4 },
+      vitamins: { C: 0.13, B6: 0.06, folate: 0.05 },
+      minerals: { manganese: 0.06, potassium: 0.05 },
     },
   },
   bell_peppers: {
     name: "bell peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["sweet", "colorful", "crunchy"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 medium (119g)",
+      calories: 31,
+      macros: { protein: 1, carbs: 6, fat: 0.3, fiber: 2.1, saturatedFat: 0.1, sugar: 4.2, potassium: 210, sodium: 4 },
+      vitamins: { C: 1.69, A: 0.11, B6: 0.17, folate: 0.11 },
+      minerals: { potassium: 0.06 },
+    },
   },
   garlic: {
     name: "garlic",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["pungent", "aromatic", "medicinal"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "3 cloves (9g)",
+      calories: 13,
+      macros: { protein: 0.6, carbs: 3, fat: 0, fiber: 0.2, saturatedFat: 0, sugar: 0.1, potassium: 36, sodium: 2 },
+      vitamins: { C: 0.05, B6: 0.06 },
+      minerals: { manganese: 0.08, selenium: 0.02 },
     },
   },
   red_pepper_flakes: {
@@ -72,12 +100,19 @@ const rawVegetables: Record<string, Partial<IngredientMapping>> = {
   asparagus: {
     name: "asparagus",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["tender", "spring", "elegant"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
-      seasonalAffinity: ["summer", "fall"],
+      seasonalAffinity: ["spring"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (134g)",
+      calories: 27,
+      macros: { protein: 3, carbs: 5, fat: 0.2, fiber: 2.8, saturatedFat: 0, sugar: 2.5, potassium: 271, sodium: 3 },
+      vitamins: { K: 0.57, folate: 0.34, A: 0.18, C: 0.12, E: 0.10 },
+      minerals: { iron: 0.16, copper: 0.10, phosphorus: 0.07 },
     },
   },
   fresh_peas: {
@@ -336,12 +371,19 @@ const rawVegetables: Record<string, Partial<IngredientMapping>> = {
   cucumber: {
     name: "cucumber",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["refreshing", "crisp", "hydrating"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
-      seasonalAffinity: ["summer", "fall"],
+      seasonalAffinity: ["summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup sliced (119g)",
+      calories: 16,
+      macros: { protein: 0.7, carbs: 3.1, fat: 0.2, fiber: 0.5, saturatedFat: 0, sugar: 1.7, potassium: 152, sodium: 2 },
+      vitamins: { K: 0.19, C: 0.06 },
+      minerals: { potassium: 0.04, manganese: 0.04 },
     },
   },
   red_onion: {
@@ -380,12 +422,19 @@ const rawVegetables: Record<string, Partial<IngredientMapping>> = {
   chickpeas: {
     name: "chickpeas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["hearty", "protein-rich", "versatile"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
-      seasonalAffinity: ["summer", "fall"],
+      seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (164g)",
+      calories: 269,
+      macros: { protein: 15, carbs: 45, fat: 4.2, fiber: 12.5, saturatedFat: 0.4, sugar: 8, potassium: 477, sodium: 11 },
+      vitamins: { folate: 0.71, B6: 0.11, thiamin: 0.12, C: 0.04 },
+      minerals: { manganese: 0.84, copper: 0.29, phosphorus: 0.28, iron: 0.26, zinc: 0.17, magnesium: 0.19 },
     },
   },
   peanuts: {
@@ -402,12 +451,19 @@ const rawVegetables: Record<string, Partial<IngredientMapping>> = {
   spinach: {
     name: "spinach",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["leafy", "nutritious", "iron-rich"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
-      seasonalAffinity: ["summer", "fall"],
+      seasonalAffinity: ["spring", "fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup raw (30g)",
+      calories: 7,
+      macros: { protein: 0.9, carbs: 1.1, fat: 0.1, fiber: 0.7, saturatedFat: 0, sugar: 0.1, potassium: 167, sodium: 24 },
+      vitamins: { K: 1.81, A: 0.56, folate: 0.15, C: 0.14, E: 0.06 },
+      minerals: { manganese: 0.13, iron: 0.05, magnesium: 0.06 },
     },
   },
   large_eggplant: {
@@ -457,23 +513,37 @@ const rawVegetables: Record<string, Partial<IngredientMapping>> = {
   carrot: {
     name: "carrot",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["sweet", "crunchy", "nutritious"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
-      seasonalAffinity: ["summer", "fall"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 medium (61g)",
+      calories: 25,
+      macros: { protein: 0.6, carbs: 6, fat: 0.1, fiber: 1.7, saturatedFat: 0, sugar: 2.9, potassium: 195, sodium: 42 },
+      vitamins: { A: 2.03, K: 0.10, C: 0.06, B6: 0.04 },
+      minerals: { potassium: 0.06, manganese: 0.04 },
     },
   },
   cabbage: {
     name: "cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ["nutritious", "versatile", "fresh"],
+    qualities: ["crunchy", "mild", "versatile"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
-      seasonalAffinity: ["summer", "fall"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup shredded (89g)",
+      calories: 22,
+      macros: { protein: 1.1, carbs: 5.2, fat: 0.1, fiber: 2.2, saturatedFat: 0, sugar: 2.9, potassium: 151, sodium: 16 },
+      vitamins: { C: 0.54, K: 0.68, folate: 0.10 },
+      minerals: { manganese: 0.07, potassium: 0.04 },
     },
   },
   potato_starch: {
