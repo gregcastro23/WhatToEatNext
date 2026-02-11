@@ -165,6 +165,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (108g)",
+      calories: 427,
+      macros: { protein: 14, carbs: 78, fat: 6, fiber: 3.5, saturatedFat: 1.3, sugar: 6, potassium: 196, sodium: 732 },
+      vitamins: { thiamin: 0.42, niacin: 0.30, riboflavin: 0.18, folate: 0.25 },
+      minerals: { selenium: 0.40, manganese: 0.35, iron: 0.25 },
+    },
   },
   arborio_rice: {
     name: "arborio rice",
@@ -175,6 +182,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (170g)",
+      calories: 242,
+      macros: { protein: 4.4, carbs: 53, fat: 0.4, fiber: 0.8, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      vitamins: { thiamin: 0.17, niacin: 0.15 },
+      minerals: { manganese: 0.37, selenium: 0.17 },
     },
   },
   bread_stuffing: {
@@ -187,6 +201,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (100g)",
+      calories: 177,
+      macros: { protein: 3.2, carbs: 22, fat: 8.6, fiber: 2.9, saturatedFat: 1.7, sugar: 3, potassium: 74, sodium: 543 },
+      vitamins: { thiamin: 0.10, niacin: 0.08, folate: 0.06 },
+      minerals: { selenium: 0.14, manganese: 0.12, iron: 0.07 },
+    },
   },
   cheong_fun__rice_noodle_rolls_: {
     name: "cheong fun (rice noodle rolls)",
@@ -197,6 +218,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 roll (120g)",
+      calories: 130,
+      macros: { protein: 2, carbs: 28, fat: 1, fiber: 0.5, saturatedFat: 0.2, sugar: 0, potassium: 20, sodium: 250 },
+      vitamins: {},
+      minerals: { iron: 0.03 },
     },
   },
   glutinous_rice: {
@@ -209,6 +237,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (174g)",
+      calories: 169,
+      macros: { protein: 3.5, carbs: 37, fat: 0.3, fiber: 1.7, saturatedFat: 0.1, sugar: 0, potassium: 17, sodium: 5 },
+      vitamins: { thiamin: 0.03, niacin: 0.03 },
+      minerals: { manganese: 0.25, selenium: 0.08 },
+    },
   },
   rustic_bread: {
     name: "rustic bread",
@@ -219,6 +254,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 slice (50g)",
+      calories: 130,
+      macros: { protein: 4, carbs: 25, fat: 1.5, fiber: 1, saturatedFat: 0.3, sugar: 1, potassium: 50, sodium: 280 },
+      vitamins: { thiamin: 0.15, niacin: 0.10, folate: 0.12 },
+      minerals: { selenium: 0.16, manganese: 0.12 },
     },
   },
   white_sandwich_bread: {
@@ -231,6 +273,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 slice (25g)",
+      calories: 67,
+      macros: { protein: 2, carbs: 13, fat: 0.8, fiber: 0.6, saturatedFat: 0.2, sugar: 1.5, potassium: 37, sodium: 132 },
+      vitamins: { thiamin: 0.12, niacin: 0.08, folate: 0.10, riboflavin: 0.06 },
+      minerals: { selenium: 0.10, manganese: 0.08, iron: 0.06 },
+    },
   },
   idli_rice: {
     name: "idli rice",
@@ -242,6 +291,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (158g)",
+      calories: 206,
+      macros: { protein: 4.3, carbs: 45, fat: 0.4, fiber: 0.6, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      vitamins: { thiamin: 0.17, niacin: 0.15 },
+      minerals: { manganese: 0.37, selenium: 0.17 },
+    },
   },
   flattened_rice: {
     name: "flattened rice",
@@ -252,6 +308,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (30g)",
+      calories: 110,
+      macros: { protein: 2, carbs: 25, fat: 0.2, fiber: 0.4, saturatedFat: 0, sugar: 0, potassium: 30, sodium: 2 },
+      vitamins: { thiamin: 0.10, niacin: 0.08 },
+      minerals: { iron: 0.15, manganese: 0.10 },
     },
   },
   basmati_rice: {
@@ -291,6 +354,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (158g)",
+      calories: 206,
+      macros: { protein: 4.3, carbs: 45, fat: 0.4, fiber: 0.6, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      vitamins: { thiamin: 0.17, niacin: 0.15 },
+      minerals: { manganese: 0.37, selenium: 0.17 },
+    },
   },
   sushi_rice: {
     name: "sushi rice",
@@ -301,6 +371,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (186g)",
+      calories: 242,
+      macros: { protein: 4.4, carbs: 53, fat: 0.4, fiber: 0, saturatedFat: 0.1, sugar: 9, potassium: 24, sodium: 402 },
+      vitamins: { thiamin: 0.03, niacin: 0.03 },
+      minerals: { manganese: 0.25, selenium: 0.10 },
     },
   },
   short_grain_rice: {
@@ -313,6 +390,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (174g)",
+      calories: 242,
+      macros: { protein: 4.4, carbs: 53, fat: 0.4, fiber: 0, saturatedFat: 0.1, sugar: 0, potassium: 48, sodium: 0 },
+      vitamins: { thiamin: 0.17, niacin: 0.15 },
+      minerals: { manganese: 0.37, selenium: 0.17 },
+    },
   },
   sliced_rice_cakes: {
     name: "sliced rice cakes",
@@ -323,6 +407,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (150g)",
+      calories: 230,
+      macros: { protein: 3, carbs: 50, fat: 0.5, fiber: 0.5, saturatedFat: 0.1, sugar: 0, potassium: 30, sodium: 200 },
+      vitamins: {},
+      minerals: { iron: 0.05 },
     },
   },
   rice_cakes: {
@@ -335,6 +426,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cake (9g)",
+      calories: 35,
+      macros: { protein: 0.7, carbs: 7.3, fat: 0.3, fiber: 0.4, saturatedFat: 0.1, sugar: 0, potassium: 26, sodium: 29 },
+      vitamins: { niacin: 0.04 },
+      minerals: { manganese: 0.08, selenium: 0.03 },
+    },
   },
   rice_flour: {
     name: "rice flour",
@@ -345,6 +443,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (158g)",
+      calories: 578,
+      macros: { protein: 9.4, carbs: 127, fat: 2.2, fiber: 3.8, saturatedFat: 0.6, sugar: 0, potassium: 120, sodium: 0 },
+      vitamins: { thiamin: 0.11, niacin: 0.16, B6: 0.17 },
+      minerals: { manganese: 0.60, selenium: 0.22, phosphorus: 0.15 },
     },
   },
   flatbread: {
@@ -357,6 +462,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 piece (60g)",
+      calories: 165,
+      macros: { protein: 5.5, carbs: 33, fat: 1, fiber: 1.4, saturatedFat: 0.2, sugar: 1, potassium: 70, sodium: 320 },
+      vitamins: { thiamin: 0.15, niacin: 0.12, folate: 0.10 },
+      minerals: { selenium: 0.14, iron: 0.10, manganese: 0.08 },
+    },
   },
   jasmine_rice: {
     name: "jasmine rice",
@@ -367,6 +479,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (158g)",
+      calories: 205,
+      macros: { protein: 4.2, carbs: 45, fat: 0.4, fiber: 0.6, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      vitamins: { thiamin: 0.17, niacin: 0.15 },
+      minerals: { manganese: 0.37, selenium: 0.17 },
     },
   },
   glass_noodles: {
@@ -379,6 +498,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (190g)",
+      calories: 160,
+      macros: { protein: 0, carbs: 39, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 5, sodium: 10 },
+      vitamins: {},
+      minerals: { iron: 0.03 },
+    },
   },
   rice_noodles: {
     name: "rice noodles",
@@ -389,6 +515,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (176g)",
+      calories: 192,
+      macros: { protein: 1.6, carbs: 44, fat: 0.4, fiber: 1.8, saturatedFat: 0.1, sugar: 0, potassium: 7, sodium: 33 },
+      vitamins: { thiamin: 0.01 },
+      minerals: { selenium: 0.11, manganese: 0.08 },
     },
   },
   sticky_rice: {
@@ -401,6 +534,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (174g)",
+      calories: 169,
+      macros: { protein: 3.5, carbs: 37, fat: 0.3, fiber: 1.7, saturatedFat: 0.1, sugar: 0, potassium: 17, sodium: 5 },
+      vitamins: { thiamin: 0.03, niacin: 0.03 },
+      minerals: { manganese: 0.25, selenium: 0.08 },
+    },
   },
   tapioca_flour: {
     name: "tapioca flour",
@@ -411,6 +551,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (120g)",
+      calories: 428,
+      macros: { protein: 0, carbs: 105, fat: 0, fiber: 1.1, saturatedFat: 0, sugar: 3.4, potassium: 17, sodium: 1 },
+      vitamins: {},
+      minerals: { iron: 0.06, calcium: 0.02 },
     },
   },
   glutinous_rice_flour: {
@@ -423,6 +570,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (150g)",
+      calories: 540,
+      macros: { protein: 7.5, carbs: 120, fat: 1.5, fiber: 3, saturatedFat: 0.4, sugar: 0, potassium: 60, sodium: 3 },
+      vitamins: { thiamin: 0.06, niacin: 0.10 },
+      minerals: { manganese: 0.45, selenium: 0.15, iron: 0.08 },
+    },
   },
   thick_rice_noodles: {
     name: "thick rice noodles",
@@ -434,6 +588,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (176g)",
+      calories: 192,
+      macros: { protein: 1.6, carbs: 44, fat: 0.4, fiber: 1.8, saturatedFat: 0.1, sugar: 0, potassium: 7, sodium: 33 },
+      vitamins: {},
+      minerals: { selenium: 0.11, manganese: 0.08 },
+    },
   },
   broken_rice: {
     name: "broken rice",
@@ -444,6 +605,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
       seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (158g)",
+      calories: 205,
+      macros: { protein: 4.3, carbs: 45, fat: 0.4, fiber: 0.6, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      vitamins: { thiamin: 0.17, niacin: 0.15 },
+      minerals: { manganese: 0.37, selenium: 0.17 },
     },
   },
 };
