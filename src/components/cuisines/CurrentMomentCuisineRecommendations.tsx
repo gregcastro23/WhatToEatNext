@@ -366,8 +366,10 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     );
   };
 
-  const renderRecipeCard = (recipe: NestedRecipe) => (
-    <Card key={recipe.recipe_id} size="sm" bg={cardBg} shadow="md" borderWidth="2px" borderColor="purple.100">
+  const renderRecipeCard = (recipe: NestedRecipe) => {
+    if (!recipe) return null; // Defensive check
+    return (
+      <Card key={recipe.recipe_id} size="sm" bg={cardBg} shadow="md" borderWidth="2px" borderColor="purple.100">
       <CardHeader pb={2}>
         <Flex justify="space-between" align="start">
           <Box>
@@ -472,8 +474,10 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     </Card>
   );
 
-  const renderSauceCard = (sauce: SauceRecommendation) => (
-    <Card key={sauce.sauce_name} size="sm" bg={cardBg} shadow="md" borderWidth="1px" borderColor="orange.100">
+  const renderSauceCard = (sauce: SauceRecommendation) => {
+    if (!sauce) return null; // Defensive check
+    return (
+      <Card key={sauce.sauce_name} size="sm" bg={cardBg} shadow="md" borderWidth="1px" borderColor="orange.100">
       <CardBody>
         <VStack {...({ align: "start", spacing: 3 } as any)}>
           <Flex justify="space-between" width="100%" align="start">
@@ -648,7 +652,12 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
           {/* Tier-based display of all cuisines */}
           {(() => {
-            const { topMatches, goodMatches, otherOptions } = categorizeCuisines(data.cuisine_recommendations);
+            // Ensure data.cuisine_recommendations is an array before processing
+            const validCuisines = Array.isArray(data?.cuisine_recommendations)
+              ? data.cuisine_recommendations.filter(Boolean) // Filter out any null/undefined items
+              : [];
+
+            const { topMatches, goodMatches, otherOptions } = categorizeCuisines(validCuisines);
             const topTier = getTierInfo("top");
             const goodTier = getTierInfo("good");
             const otherTier = getTierInfo("other");
