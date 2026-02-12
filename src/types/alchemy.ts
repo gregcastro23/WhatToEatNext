@@ -249,8 +249,6 @@ export interface ElementalInteraction {
 
 // ========== MISSING TYPES FOR PHASE 8 ==========
 
-// Season type - import from central definition
-export type { Season } from "@/constants/seasons";
 // Alchemical calculation results
 export interface AlchemicalResult {
   elementalProperties: ElementalProperties;
@@ -585,12 +583,6 @@ export interface CelestialPosition {
   element?: Element;
   dignity?: DignityType;
 }
-
-// Re-export AstrologicalState from celestial types
-export type { AstrologicalState } from "@/types/celestial";
-
-// Re-export standard types from celestial
-export type { LunarPhase, PlanetName, ZodiacSign } from "@/types/celestial";
 
 export const _COOKING_METHOD_THERMODYNAMICS = {};
 
@@ -1361,23 +1353,26 @@ const _PHASE_29_DEMONSTRATION_RESULTS = executeDemonstration();
 // }
 
 // Re-export standard types from celestial
-export type { AlchemicalProperties, Modality } from "@/types/celestial";
-export type { LunarPhase, PlanetName, ZodiacSign } from "@/types/celestial";
+export type {
+  AlchemicalProperties,
+  Modality,
+  LunarPhase,
+  PlanetName,
+  ZodiacSign,
+  AstrologicalState,
+} from "@/types/celestial";
 
 // Re-export type aliases from PHASE 1
 export type {
-  AlchemicalPropertiesType as AlchemicalProperties,
+  AlchemicalPropertiesType,
   ElementalPropertiesType as ElementalProperties,
   ThermodynamicMetricsType as ThermodynamicMetrics,
   PlanetaryPositionsType as PlanetaryPositions,
-  ZodiacSignType as ZodiacSign,
-  LunarPhaseType as LunarPhase,
   NutritionalContentType as NutritionalContent,
   IngredientMappingType as IngredientMapping,
   ServiceResponseType as ServiceResponse,
   AlchemicalTransformationResultType as AlchemicalTransformationResult,
   PlanetaryInfluenceResultType as PlanetaryInfluenceResult,
-  AstrologicalStateType as AstrologicalState,
 };
 
 // Core elemental types
@@ -1393,7 +1388,7 @@ export type {
 
 // PHASE 8 types
 export type {
-  Season,
+  Season, // Re-exported from @/constants/seasons (now removed local re-export)
   AlchemicalResult,
   StandardizedAlchemicalResult,
   AlchemicalCalculationResult,
