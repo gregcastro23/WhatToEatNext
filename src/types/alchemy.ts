@@ -1047,6 +1047,8 @@ export type _season = Season; // Lowercase underscore-prefixed alias for Season
 export type _RawElementalProperties = RawElementalProperties;
 export type _NormalizedElementalProperties = NormalizedElementalProperties;
 
+export type BaseIngredient = Ingredient;
+
 // ---------------------------------------------------------------------------
 
 // Re-export types from other modules for convenience and backward compatibility
