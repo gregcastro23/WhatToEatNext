@@ -1047,112 +1047,6 @@ export type _season = Season; // Lowercase underscore-prefixed alias for Season
 export type _RawElementalProperties = RawElementalProperties;
 export type _NormalizedElementalProperties = NormalizedElementalProperties;
 
-export type { AlchemicalProperties, Modality } from "@/types/celestial";
-export type {
-  AlchemicalPropertiesType as AlchemicalProperties,
-  ElementalPropertiesType as ElementalProperties,
-  ThermodynamicMetricsType as ThermodynamicMetrics,
-  PlanetaryPositionsType as PlanetaryPositions,
-  ZodiacSignType as ZodiacSign,
-  LunarPhaseType as LunarPhase,
-  NutritionalContentType as NutritionalContent,
-  IngredientMappingType as IngredientMapping,
-  ServiceResponseType as ServiceResponse,
-  AlchemicalTransformationResultType as AlchemicalTransformationResult,
-  PlanetaryInfluenceResultType as PlanetaryInfluenceResult,
-  AstrologicalStateType as AstrologicalState,
-  Element,
-  RawElementalProperties,
-  NormalizedElementalProperties,
-  LowercaseElementalProperties,
-  ElementalRatio,
-  ElementalModifier,
-  ElementalInteraction,
-  AlchemicalResult,
-  StandardizedAlchemicalResult,
-  AlchemicalCalculationResult,
-  ThermodynamicProperties,
-  BasicThermodynamicProperties,
-  ElementalCharacteristics,
-  ElementalProfile,
-  ElementalAffinity,
-  _AstrologicalInfluence,
-  RecipeHarmonyResult,
-  ChakraEnergies,
-  CombinationEffect,
-  EffectType,
-  EnhancedCookingMethod,
-  CustomRecipe,
-  RecipeTiming,
-  AstrologicalTiming,
-  BirthInfo,
-  HoroscopeData,
-  CookingMethodModifier,
-  LunarPhaseWithSpaces,
-  LunarPhaseWithUnderscores,
-  Planet,
-  PlanetaryPosition,
-  PlanetaryAlignment,
-  PlanetaryHarmony,
-  AspectType,
-  PlanetaryAspect,
-  DignityType,
-  CelestialPosition,
-  CookingMethod,
-  ElementalItem,
-  AlchemicalProperty,
-  ElementalCharacter,
-  AlchemicalItem,
-  FilterOptions,
-  NutritionPreferences,
-  Ingredient,
-  NutritionalProfile,
-  ElementalState,
-  CuisineType,
-  Cuisine,
-  DietaryRestriction,
-  TimeFactors,
-  AlchemicalValues,
-  Decan,
-  AstrologicalProfile,
-  FlavorProfile,
-  MethodRecommendationOptions,
-  MethodRecommendation,
-  TarotSuit,
-  IngredientSearchCriteria,
-  EnergyStateProperties,
-  QuantityScaledProperties,
-  ChakraPosition,
-  CelestialBody,
-  CelestialAlignment,
-  AstrologicalInfluence,
-  CookingMethodProfile,
-  timeFactors,
-  alchemicalValues,
-  BaseIngredient,
-  _Element,
-  _ElementalProperties,
-  _LowercaseElementalProperties,
-  _ElementalRatio,
-  _ElementalModifier,
-  _Planet,
-  _PlanetName,
-  _LunarPhase,
-  _Modality,
-  _CelestialPosition,
-  _ChakraEnergies,
-  _AstrologicalProfile,
-  _PlanetaryPosition,
-  _Season,
-  _ThermodynamicMetrics,
-  _isDaytime,
-  _season,
-  _RawElementalProperties,
-  _NormalizedElementalProperties,
-};
-
-// ---------------------------------------------------------------------------
-
 /**
  * WARNING: The constants below (ASTROLOGICAL_TYPE_INTELLIGENCE, ALCHEMICAL_PROPERTIES_INTELLIGENCE,
  * TYPE_VALIDATION_INTELLIGENCE, CELESTIAL_ALIGNMENT_INTELLIGENCE, TYPE_INTELLIGENCE_DEMO)
@@ -1464,6 +1358,151 @@ const _PHASE_29_DEMONSTRATION_RESULTS = executeDemonstration();
 //   BaseIngredient,
 //   RecipeData
 // }
+
+// Re-export standard types from celestial
+export type { AlchemicalProperties, Modality } from "@/types/celestial";
+export type { LunarPhase, PlanetName, ZodiacSign } from "@/types/celestial";
+
+// Re-export type aliases from PHASE 1
+export type {
+  AlchemicalPropertiesType as AlchemicalProperties,
+  ElementalPropertiesType as ElementalProperties,
+  ThermodynamicMetricsType as ThermodynamicMetrics,
+  PlanetaryPositionsType as PlanetaryPositions,
+  ZodiacSignType as ZodiacSign,
+  LunarPhaseType as LunarPhase,
+  NutritionalContentType as NutritionalContent,
+  IngredientMappingType as IngredientMapping,
+  ServiceResponseType as ServiceResponse,
+  AlchemicalTransformationResultType as AlchemicalTransformationResult,
+  PlanetaryInfluenceResultType as PlanetaryInfluenceResult,
+  AstrologicalStateType as AstrologicalState,
+};
+
+// Core elemental types
+export type {
+  Element,
+  RawElementalProperties,
+  NormalizedElementalProperties,
+  LowercaseElementalProperties,
+  ElementalRatio,
+  ElementalModifier,
+  ElementalInteraction,
+};
+
+// PHASE 8 types
+export type {
+  Season,
+  AlchemicalResult,
+  StandardizedAlchemicalResult,
+  AlchemicalCalculationResult,
+  ThermodynamicProperties,
+  BasicThermodynamicProperties,
+  ElementalCharacteristics,
+  ElementalProfile,
+  ElementalAffinity,
+  _AstrologicalInfluence,
+  RecipeHarmonyResult,
+  ChakraEnergies,
+  CombinationEffect,
+  EffectType,
+  EnhancedCookingMethod,
+  CustomRecipe,
+  RecipeTiming,
+  AstrologicalTiming,
+  BirthInfo,
+  HoroscopeData,
+  CookingMethodModifier,
+};
+
+// Astrological types
+export type {
+  LunarPhaseWithSpaces,
+  LunarPhaseWithUnderscores,
+  Planet,
+  PlanetaryPosition,
+  PlanetaryAlignment,
+  PlanetaryHarmony,
+  AspectType,
+  PlanetaryAspect,
+  DignityType,
+  CelestialPosition,
+};
+
+// Missing types for TS2305 fixes
+export type {
+  CookingMethod,
+  ElementalItem,
+  AlchemicalProperty,
+  ElementalCharacter,
+  AlchemicalItem,
+  FilterOptions,
+  NutritionPreferences,
+  Ingredient,
+  NutritionalProfile,
+  ElementalState,
+};
+
+// Additional missing types for TS2305 fixes
+export type {
+  CuisineType,
+  Cuisine,
+  DietaryRestriction,
+  TimeFactors,
+  AlchemicalValues,
+  Decan,
+};
+
+// PHASE 2 missing types for TS2305 fixes
+export type {
+  AstrologicalProfile,
+  FlavorProfile,
+  MethodRecommendationOptions,
+  MethodRecommendation,
+};
+
+// Single-occurrence types
+export type {
+  TarotSuit,
+  IngredientSearchCriteria,
+  EnergyStateProperties,
+  QuantityScaledProperties,
+  ChakraPosition,
+  CelestialBody,
+  CelestialAlignment,
+};
+
+// Aliases for compatibility
+export type {
+  AstrologicalInfluence,
+  CookingMethodProfile,
+  timeFactors,
+  alchemicalValues,
+  BaseIngredient,
+};
+
+// Backward compatibility aliases (underscore-prefixed)
+export type {
+  _Element,
+  _ElementalProperties,
+  _LowercaseElementalProperties,
+  _ElementalRatio,
+  _ElementalModifier,
+  _Planet,
+  _PlanetName,
+  _LunarPhase,
+  _Modality,
+  _CelestialPosition,
+  _ChakraEnergies,
+  _AstrologicalProfile,
+  _PlanetaryPosition,
+  _Season,
+  _ThermodynamicMetrics,
+  _isDaytime,
+  _season,
+  _RawElementalProperties,
+  _NormalizedElementalProperties,
+};
 
 // ---------------------------------------------------------------------------
 
