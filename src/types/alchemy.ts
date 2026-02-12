@@ -5,6 +5,7 @@ import type {
   PlanetName,
   ZodiacSign,
 } from "@/types/celestial";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
 // src/types/alchemy.ts
 
@@ -358,27 +359,6 @@ export type EffectType =
   | "neutralize"
   | "amplify"
   | "transmute";
-// Recipe interface for alchemy calculations
-export interface Recipe {
-  id: string;
-  name: string;
-  ingredients: RecipeIngredient[];
-  elementalProperties: ElementalProperties;
-  season?: Season[];
-  mealType?: string[];
-  [key: string]: unknown;
-}
-
-export interface RecipeIngredient {
-  name: string;
-  amount?: number;
-  quantity?: string;
-  unit: string;
-  timing?: "early" | "middle" | "late";
-  preparation?: string;
-  elementalProperties?: ElementalProperties;
-  [key: string]: unknown;
-}
 
 // Add missing type definition
 export interface EnhancedCookingMethod {
