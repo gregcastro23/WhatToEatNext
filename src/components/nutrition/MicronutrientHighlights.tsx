@@ -2,6 +2,7 @@
 import React from "react";
 import { NutritionalSummary, NutritionalTargets } from "@/types/nutrition";
 import styles from "./MicronutrientHighlights.module.css";
+import { formatNutrientName, getNutrientUnit } from "../../utils/nutrition";
 
 interface MicronutrientHighlightsProps {
   totals: NutritionalSummary;
@@ -19,43 +20,6 @@ const KEY_MICRONUTRIENTS = [
   "zinc",
   "folate",
 ];
-
-// Helper to format nutrient names for display
-const formatNutrientName = (nutrient: string): string => {
-  const nameMap: Record<string, string> = {
-    vitaminC: "Vitamin C",
-    vitaminD: "Vitamin D",
-    calcium: "Calcium",
-    iron: "Iron",
-    magnesium: "Magnesium",
-    potassium: "Potassium",
-    zinc: "Zinc",
-    folate: "Folate (B9)",
-    // Add more as needed
-  };
-  return (
-    nameMap[nutrient] ||
-    nutrient
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, (str) => str.toUpperCase())
-  );
-};
-
-// Helper to get nutrient unit
-const getNutrientUnit = (nutrient: string): string => {
-  const unitMap: Record<string, string> = {
-    vitaminC: "mg",
-    vitaminD: "mcg", // Micrograms
-    calcium: "mg",
-    iron: "mg",
-    magnesium: "mg",
-    potassium: "mg",
-    zinc: "mg",
-    folate: "mcg",
-    // Add more as needed
-  };
-  return unitMap[nutrient] || "unit";
-};
 
 export function MicronutrientHighlights({
   totals,
