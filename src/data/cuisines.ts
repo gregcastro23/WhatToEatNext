@@ -43,7 +43,7 @@ const _: Recipe = {
     protein: 0,
     carbs: 0,
     fat: 0,
-  },
+  } as NutritionalSummaryBase,
   season: ["all"],
   mealType: ["any"],
 };
