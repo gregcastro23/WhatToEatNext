@@ -13,7 +13,7 @@ import { korean } from "@/data/cuisines/korean";
 import { vietnamese } from "@/data/cuisines/vietnamese";
 import { greek } from "@/data/cuisines/greek";
 import type {
-  ElementalProperties,
+  RawElementalProperties as ElementalProperties,
   AlchemicalProperties,
 } from "@/types/alchemy";
 import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
@@ -497,16 +497,18 @@ function identifyCulturalSignatures(
   const signatures: CuisineSignature[] = [];
 
   // Check elemental outliers
-  Object.entries(elementalProps).forEach(([element, value]) => {
-    if (value > 0.35) {
-      signatures.push({
-        property: `${element} Element`,
-        value,
-        zScore: (value - 0.25) / 0.15,
-        significance: value > 0.45 ? "high" : "medium",
-      });
-    }
-  });
+  Object.entries(elementalProps).forEach(
+    ([element, value]: [string, number]) => {
+      if (value > 0.35) {
+        signatures.push({
+          property: `${element} Element`,
+          value,
+          zScore: (value - 0.25) / 0.15,
+          significance: value > 0.45 ? "high" : "medium",
+        });
+      }
+    },
+  );
 
   // Check thermodynamic outliers
   if (thermodynamics.heat > 0.12) {
@@ -519,7 +521,7 @@ function identifyCulturalSignatures(
   }
 
   // Check flavor outliers
-  Object.entries(flavorProfile).forEach(([flavor, value]) => {
+  Object.entries(flavorProfile).forEach(([flavor, value]: [string, number]) => {
     if (value > 0.7) {
       signatures.push({
         property: `${flavor.charAt(0).toUpperCase() + flavor.slice(1)} Flavor`,
@@ -589,7 +591,7 @@ function calculateFusionPairings(
             return (
               otherValue !== undefined &&
               !isNaN(otherValue) &&
-              Math.abs(value - otherValue) < 0.2
+              Math.abs((value as number) - (otherValue as number)) < 0.2
             );
           })
           .map(([element]) => element);

@@ -132,7 +132,12 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       calories: 15,
       macros: { protein: 0.8, carbs: 0.8, fat: 1.0, fiber: 0.4 },
       vitamins: { B1: 0.02 },
-      minerals: { selenium: 0.06, manganese: 0.03, iron: 0.02, magnesium: 0.02 },
+      minerals: {
+        selenium: 0.06,
+        manganese: 0.03,
+        iron: 0.02,
+        magnesium: 0.02,
+      },
       source: "USDA FoodData Central",
     },
   },

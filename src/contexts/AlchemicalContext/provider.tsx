@@ -252,7 +252,10 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
           setNormalizedPositions(astroState.currentPlanetaryAlignment);
         }
       } catch (error) {
-        logger.error("Failed to load planetary positions - using defaults:", error);
+        logger.error(
+          "Failed to load planetary positions - using defaults:",
+          error,
+        );
         // Graceful degradation: don't throw from async void function
         // This would cause an unhandled promise rejection and crash child components
       }

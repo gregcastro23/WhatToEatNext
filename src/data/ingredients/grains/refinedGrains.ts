@@ -19,7 +19,16 @@ const rawRefinedGrains = {
     nutritionalProfile: {
       serving_size: "1 cup cooked (158g)",
       calories: 206,
-      macros: { protein: 4.3, carbs: 45, fat: 0.4, fiber: 0.6, saturatedFat: 0.1, sugar: 0, potassium: 55, sodium: 2 },
+      macros: {
+        protein: 4.3,
+        carbs: 45,
+        fat: 0.4,
+        fiber: 0.6,
+        saturatedFat: 0.1,
+        sugar: 0,
+        potassium: 55,
+        sodium: 2,
+      },
       vitamins: { thiamin: 0.17, niacin: 0.15, B6: 0.09, folate: 0.38 },
       minerals: { manganese: 0.37, selenium: 0.17, phosphorus: 0.05 },
     },
@@ -102,9 +111,31 @@ const rawRefinedGrains = {
     nutritionalProfile: {
       serving_size: "1 cup (167g)",
       calories: 601,
-      macros: { protein: 21, carbs: 122, fat: 1.8, fiber: 6.5, saturatedFat: 0.3, sugar: 2.6, potassium: 311, sodium: 2 },
-      vitamins: { thiamin: 0.78, niacin: 0.36, riboflavin: 0.26, folate: 0.30, B6: 0.08 },
-      minerals: { selenium: 0.76, manganese: 0.57, phosphorus: 0.25, iron: 0.48, magnesium: 0.12, zinc: 0.07 },
+      macros: {
+        protein: 21,
+        carbs: 122,
+        fat: 1.8,
+        fiber: 6.5,
+        saturatedFat: 0.3,
+        sugar: 2.6,
+        potassium: 311,
+        sodium: 2,
+      },
+      vitamins: {
+        thiamin: 0.78,
+        niacin: 0.36,
+        riboflavin: 0.26,
+        folate: 0.3,
+        B6: 0.08,
+      },
+      minerals: {
+        selenium: 0.76,
+        manganese: 0.57,
+        phosphorus: 0.25,
+        iron: 0.48,
+        magnesium: 0.12,
+        zinc: 0.07,
+      },
     },
     varieties: {
       durum: {
@@ -188,9 +219,24 @@ const rawRefinedGrains = {
     nutritionalProfile: {
       serving_size: "1 cup cooked (157g)",
       calories: 176,
-      macros: { protein: 5, carbs: 39, fat: 0.7, fiber: 6, saturatedFat: 0.1, sugar: 0.4, potassium: 146, sodium: 5 },
+      macros: {
+        protein: 5,
+        carbs: 39,
+        fat: 0.7,
+        fiber: 6,
+        saturatedFat: 0.1,
+        sugar: 0.4,
+        potassium: 146,
+        sodium: 5,
+      },
       vitamins: { niacin: 0.16, thiamin: 0.07, B6: 0.09, folate: 0.06 },
-      minerals: { selenium: 0.19, manganese: 0.16, phosphorus: 0.08, copper: 0.07, iron: 0.06 },
+      minerals: {
+        selenium: 0.19,
+        manganese: 0.16,
+        phosphorus: 0.08,
+        copper: 0.07,
+        iron: 0.06,
+      },
     },
     varieties: {
       quick: {
@@ -265,9 +311,24 @@ const rawRefinedGrains = {
     nutritionalProfile: {
       serving_size: "1 cup cooked (170g)",
       calories: 220,
-      macros: { protein: 8, carbs: 44, fat: 1.5, fiber: 4, saturatedFat: 0.2, sugar: 0.5, potassium: 170, sodium: 5 },
-      vitamins: { niacin: 0.15, thiamin: 0.10, B6: 0.08, riboflavin: 0.04 },
-      minerals: { manganese: 0.52, magnesium: 0.12, phosphorus: 0.10, zinc: 0.10, iron: 0.08 },
+      macros: {
+        protein: 8,
+        carbs: 44,
+        fat: 1.5,
+        fiber: 4,
+        saturatedFat: 0.2,
+        sugar: 0.5,
+        potassium: 170,
+        sodium: 5,
+      },
+      vitamins: { niacin: 0.15, thiamin: 0.1, B6: 0.08, riboflavin: 0.04 },
+      minerals: {
+        manganese: 0.52,
+        magnesium: 0.12,
+        phosphorus: 0.1,
+        zinc: 0.1,
+        iron: 0.08,
+      },
     },
     varieties: {
       pearled: {
@@ -347,9 +408,31 @@ const rawRefinedGrains = {
     nutritionalProfile: {
       serving_size: "1 cup (122g)",
       calories: 442,
-      macros: { protein: 10, carbs: 94, fat: 4.4, fiber: 9, saturatedFat: 0.6, sugar: 1.0, potassium: 284, sodium: 4 },
-      vitamins: { thiamin: 0.20, niacin: 0.18, B6: 0.16, folate: 0.12, riboflavin: 0.07 },
-      minerals: { selenium: 0.24, manganese: 0.11, phosphorus: 0.16, iron: 0.14, magnesium: 0.11, zinc: 0.10 },
+      macros: {
+        protein: 10,
+        carbs: 94,
+        fat: 4.4,
+        fiber: 9,
+        saturatedFat: 0.6,
+        sugar: 1.0,
+        potassium: 284,
+        sodium: 4,
+      },
+      vitamins: {
+        thiamin: 0.2,
+        niacin: 0.18,
+        B6: 0.16,
+        folate: 0.12,
+        riboflavin: 0.07,
+      },
+      minerals: {
+        selenium: 0.24,
+        manganese: 0.11,
+        phosphorus: 0.16,
+        iron: 0.14,
+        magnesium: 0.11,
+        zinc: 0.1,
+      },
     },
     varieties: {
       bolted: {
@@ -429,9 +512,29 @@ const rawRefinedGrains = {
     nutritionalProfile: {
       serving_size: "1 cup (125g)",
       calories: 455,
-      macros: { protein: 13, carbs: 95, fat: 1.2, fiber: 3.4, saturatedFat: 0.2, sugar: 0.3, potassium: 134, sodium: 3 },
-      vitamins: { thiamin: 0.59, niacin: 0.37, riboflavin: 0.24, folate: 0.46, iron: 0.32 },
-      minerals: { selenium: 0.48, manganese: 0.38, phosphorus: 0.14, copper: 0.08 },
+      macros: {
+        protein: 13,
+        carbs: 95,
+        fat: 1.2,
+        fiber: 3.4,
+        saturatedFat: 0.2,
+        sugar: 0.3,
+        potassium: 134,
+        sodium: 3,
+      },
+      vitamins: {
+        thiamin: 0.59,
+        niacin: 0.37,
+        riboflavin: 0.24,
+        folate: 0.46,
+        iron: 0.32,
+      },
+      minerals: {
+        selenium: 0.48,
+        manganese: 0.38,
+        phosphorus: 0.14,
+        copper: 0.08,
+      },
     },
     varieties: {
       bleached: {
