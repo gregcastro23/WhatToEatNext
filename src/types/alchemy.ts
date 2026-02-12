@@ -223,7 +223,7 @@ export interface NormalizedElementalProperties {
  * For normalized display values, use NormalizedElementalProperties and
  * the normalizeForDisplay() utility function.
  */
-export interface ElementalProperties extends RawElementalProperties {}
+interface ElementalProperties extends RawElementalProperties {}
 
 // Also export the lowercase version used in astrologyUtils.ts
 export interface LowercaseElementalProperties {
@@ -685,7 +685,7 @@ export interface NutritionPreferences {
 }
 
 // Ingredient type (causing errors in multiple files)
-export interface Ingredient {
+interface Ingredient {
   id: string;
   name: string;
   category: string;
@@ -849,7 +849,7 @@ export interface Decan {
 
 // IngredientMapping type (causing 65 errors across ingredient data files)
 // IngredientMapping should be an alias for a Record of Ingredients, not an interface
-export type IngredientMapping = Record<string, Ingredient>;
+type IngredientMapping = Record<string, Ingredient>;
 
 // AstrologicalProfile type (causing 4 errors)
 export interface AstrologicalProfile {
@@ -1022,25 +1022,6 @@ export interface CelestialAlignment {
   currentZodiacSign?: ZodiacSign; // Current zodiac sign for compatibility calculations
 }
 
-// Re-export important types from celestial that are commonly used
-export type { AlchemicalProperties, Modality } from "@/types/celestial";
-
-// ElementalCharacter is defined locally in this file
-// EnhancedCookingMethod is defined locally in this file
-
-// Add missing type aliases for compatibility
-export type AstrologicalInfluence = _AstrologicalInfluence;
-// Removed duplicate PlanetaryPositionsType - using the standardized one from Phase 1
-export type AlchemicalState = AstrologicalProfile; // Using existing similar interface
-export type CookingMethodProfile = CookingMethodModifier; // Alias for compatibility
-export type timeFactors = TimeFactors; // Lowercase version
-export type alchemicalValues = AlchemicalValues; // Lowercase version
-
-// Additional missing type exports
-export type BaseIngredient = Ingredient; // Alias for compatibility
-// export type RecipeData = Recipe; // Alias for compatibility
-// Removed local AlchemicalProperty definition - now imported from @/types/celestial
-
 // ========== BACKWARD COMPATIBILITY ALIASES (underscore-prefixed) ==========
 // Many legacy files still import underscore-prefixed types.  Provide
 // simple type aliases so those imports resolve without changing hundreds of files.
@@ -1065,9 +1046,112 @@ export type _season = Season; // Lowercase underscore-prefixed alias for Season
 // Raw and Normalized elemental property aliases
 export type _RawElementalProperties = RawElementalProperties;
 export type _NormalizedElementalProperties = NormalizedElementalProperties;
-// ---------------------------------------------------------------------------
 
-// ========== PHASE 29 TYPE INTELLIGENCE INTEGRATION AND DEMONSTRATION ==========
+export type { AlchemicalProperties, Modality } from "@/types/celestial";
+export type {
+  AlchemicalPropertiesType as AlchemicalProperties,
+  ElementalPropertiesType as ElementalProperties,
+  ThermodynamicMetricsType as ThermodynamicMetrics,
+  PlanetaryPositionsType as PlanetaryPositions,
+  ZodiacSignType as ZodiacSign,
+  LunarPhaseType as LunarPhase,
+  NutritionalContentType as NutritionalContent,
+  IngredientMappingType as IngredientMapping,
+  ServiceResponseType as ServiceResponse,
+  AlchemicalTransformationResultType as AlchemicalTransformationResult,
+  PlanetaryInfluenceResultType as PlanetaryInfluenceResult,
+  AstrologicalStateType as AstrologicalState,
+  Element,
+  RawElementalProperties,
+  NormalizedElementalProperties,
+  LowercaseElementalProperties,
+  ElementalRatio,
+  ElementalModifier,
+  ElementalInteraction,
+  AlchemicalResult,
+  StandardizedAlchemicalResult,
+  AlchemicalCalculationResult,
+  ThermodynamicProperties,
+  BasicThermodynamicProperties,
+  ElementalCharacteristics,
+  ElementalProfile,
+  ElementalAffinity,
+  _AstrologicalInfluence,
+  RecipeHarmonyResult,
+  ChakraEnergies,
+  CombinationEffect,
+  EffectType,
+  EnhancedCookingMethod,
+  CustomRecipe,
+  RecipeTiming,
+  AstrologicalTiming,
+  BirthInfo,
+  HoroscopeData,
+  CookingMethodModifier,
+  LunarPhaseWithSpaces,
+  LunarPhaseWithUnderscores,
+  Planet,
+  PlanetaryPosition,
+  PlanetaryAlignment,
+  PlanetaryHarmony,
+  AspectType,
+  PlanetaryAspect,
+  DignityType,
+  CelestialPosition,
+  CookingMethod,
+  ElementalItem,
+  AlchemicalProperty,
+  ElementalCharacter,
+  AlchemicalItem,
+  FilterOptions,
+  NutritionPreferences,
+  Ingredient,
+  NutritionalProfile,
+  ElementalState,
+  CuisineType,
+  Cuisine,
+  DietaryRestriction,
+  TimeFactors,
+  AlchemicalValues,
+  Decan,
+  AstrologicalProfile,
+  FlavorProfile,
+  MethodRecommendationOptions,
+  MethodRecommendation,
+  TarotSuit,
+  IngredientSearchCriteria,
+  EnergyStateProperties,
+  QuantityScaledProperties,
+  ChakraPosition,
+  CelestialBody,
+  CelestialAlignment,
+  AstrologicalInfluence,
+  CookingMethodProfile,
+  timeFactors,
+  alchemicalValues,
+  BaseIngredient,
+  _Element,
+  _ElementalProperties,
+  _LowercaseElementalProperties,
+  _ElementalRatio,
+  _ElementalModifier,
+  _Planet,
+  _PlanetName,
+  _LunarPhase,
+  _Modality,
+  _CelestialPosition,
+  _ChakraEnergies,
+  _AstrologicalProfile,
+  _PlanetaryPosition,
+  _Season,
+  _ThermodynamicMetrics,
+  _isDaytime,
+  _season,
+  _RawElementalProperties,
+  _NormalizedElementalProperties,
+};
+
+// ---------------------------------------------------------------------------
 
 /**
  * WARNING: The constants below (ASTROLOGICAL_TYPE_INTELLIGENCE, ALCHEMICAL_PROPERTIES_INTELLIGENCE,

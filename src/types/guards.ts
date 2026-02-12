@@ -10,13 +10,11 @@
 import type { PlanetaryPosition } from "./alchemy";
 import type { AstrologicalProfile } from "./astrology";
 import type { CookingMethod } from "./cooking";
-import type { NutritionalSummaryalSummary } from "./nutrition";
+import type { NutritionalSummary } from "./nutrition";
 import type { Ingredient } from "./ingredient";
 
 /** Narrow unknown object to `NutritionalSummary` (aka NutritionalSummaryalProfile). */
-export function isNutritionalSummaryalProfile(
-  obj: unknown,
-): obj is NutritionalSummary {
+export function isNutritionalProfile(obj: unknown): obj is NutritionalSummary {
   if (!obj || typeof obj !== "object") return false;
   const maybe = obj as Partial<NutritionalSummary>;
   return (
