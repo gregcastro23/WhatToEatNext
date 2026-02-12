@@ -1045,6 +1045,17 @@ export type _NormalizedElementalProperties = NormalizedElementalProperties;
 
 // ---------------------------------------------------------------------------
 
+// Re-export types from other modules for convenience and backward compatibility
+export type {
+  AlchemicalProperties,
+  AstrologicalState,
+  LunarPhase,
+  Modality,
+  PlanetName,
+  ZodiacSign,
+} from "@/types/celestial";
+export type { Season } from "@/constants/seasons";
+
 // ========== PHASE 45: ALCHEMY TYPE INTELLIGENCE SYSTEM ==========
 
 /**
