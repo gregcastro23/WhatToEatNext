@@ -1022,8 +1022,6 @@ export interface CelestialAlignment {
   currentZodiacSign?: ZodiacSign; // Current zodiac sign for compatibility calculations
 }
 
-export type BaseIngredient = Ingredient;
-
 // ========== BACKWARD COMPATIBILITY ALIASES (underscore-prefixed) ==========
 // Many legacy files still import underscore-prefixed types.  Provide
 // simple type aliases so those imports resolve without changing hundreds of files.
@@ -1048,6 +1046,10 @@ export type _season = Season; // Lowercase underscore-prefixed alias for Season
 // Raw and Normalized elemental property aliases
 export type _RawElementalProperties = RawElementalProperties;
 export type _NormalizedElementalProperties = NormalizedElementalProperties;
+
+export type BaseIngredient = Ingredient;
+
+export type BaseIngredient = Ingredient;
 
 // ---------------------------------------------------------------------------
 
