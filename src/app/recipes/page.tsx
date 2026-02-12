@@ -8,7 +8,7 @@ import { RecipeCard } from "@/components/recipes/RecipeCard";
 
 export default function RecipesPage() {
   const searchParams = useSearchParams();
-  const cuisine = searchParams.get("cuisine");
+  const cuisine = searchParams ? searchParams.get("cuisine") : null;
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

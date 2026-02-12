@@ -206,7 +206,7 @@ export default function RecipePage({
               </div>
             )}
 
-            {recipe.astrologicalAffinities && (
+            {recipe && (
               <div>
                 <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
                   Astrological Affinities
@@ -214,17 +214,15 @@ export default function RecipePage({
                 <div className="space-y-2">
                   <p>
                     <strong>Planets:</strong>{" "}
-                    {(recipe.astrologicalAffinities as any).planets.join(", ")}
+                    {(recipe as any).planetaryInfluences.join(", ")}
                   </p>
                   <p>
                     <strong>Signs:</strong>{" "}
-                    {(recipe.astrologicalAffinities as any).signs.join(", ")}
+                    {(recipe as any).zodiacInfluences.join(", ")}
                   </p>
                   <p>
                     <strong>Lunar Phases:</strong>{" "}
-                    {(recipe.astrologicalAffinities as any).lunarPhases.join(
-                      ", ",
-                    )}
+                    {(recipe as any).lunarPhaseInfluences.join(", ")}
                   </p>
                 </div>
               </div>
@@ -260,18 +258,18 @@ export default function RecipePage({
                 <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
                   Cultural Notes
                 </h2>
-                <p>{recipe.culturalNotes}</p>
+                <p>{recipe.culturalNotes as string}</p>
               </div>
             )}
 
-            {recipe.pairingSuggestions && (
+            {recipe.pairingRecommendations && (
               <div>
                 <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
                   Pairing Suggestions
                 </h2>
                 <ul className="list-disc list-inside space-y-2">
-                  {Array.isArray(recipe.pairingSuggestions) &&
-                    recipe.pairingSuggestions.map((suggestion, index) => (
+                  {Array.isArray(recipe.pairingRecommendations) &&
+                    recipe.pairingRecommendations.map((suggestion, index) => (
                       <li key={index}>{suggestion}</li>
                     ))}
                 </ul>

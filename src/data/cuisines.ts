@@ -33,8 +33,8 @@ const _: Recipe = {
       element: "Earth",
     },
   ],
-  cookingMethod: "baking",
-  timeToMake: 30, // minutes,
+  cookingMethod: ["baking"],
+  timeToMake: "30", // minutes,
   numberOfServings: 4,
   elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }, // ← Pattern GG-4: Added missing elementalProperties
   instructions: ["Prepare ingredients", "Follow cooking method"], // ← Pattern GG-4: Added missing instructions,
@@ -43,7 +43,7 @@ const _: Recipe = {
     protein: 0,
     carbs: 0,
     fat: 0,
-    vitamins: [],
+
     minerals: [],
   },
   season: ["all"],
