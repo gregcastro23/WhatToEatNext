@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
-import type { Recipe } from "@/types/recipe";
-import type { CuisineName } from "@/data/cuisines/index";
+import type { Recipe, CuisineName } from "@/types";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 
 export default function RecipePage({
@@ -250,18 +249,6 @@ export default function RecipePage({
                   </p>
                   <p>
                     <strong>Fiber:</strong> {recipe.nutrition.fiber}g
-                  </p>
-                  <p>
-                    <strong>Vitamins:</strong>{" "}
-                    {Array.isArray(recipe.nutrition.vitamins)
-                      ? recipe.nutrition.vitamins.join(", ")
-                      : ""}
-                  </p>
-                  <p>
-                    <strong>Minerals:</strong>{" "}
-                    {Array.isArray(recipe.nutrition.minerals)
-                      ? recipe.nutrition.minerals.join(", ")
-                      : ""}
                   </p>
                 </div>
               </div>

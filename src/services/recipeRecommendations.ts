@@ -130,13 +130,15 @@ export class RecipeRecommender {
     const getNames = (methods: Recipe["cookingMethods"]): string[] => {
       if (!methods) return [];
       if (Array.isArray(methods)) {
-        return methods.map((m) => (typeof m === "string" ? m : m.name));
+        return methods.map((m) =>
+          typeof m === "string" ? m : (m as any).name,
+        );
       }
       if (typeof methods === "string") {
         return [methods];
       }
       if (typeof methods === "object" && "name" in methods) {
-        return [methods.name];
+        return [(methods as any).name];
       }
       return [];
     };
