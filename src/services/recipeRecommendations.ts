@@ -65,6 +65,82 @@ export class RecipeRecommender {
     }
   }
 
+  async recommendSimilarRecipes(
+    currentRecipe: Recipe,
+    allRecipes: Recipe[],
+  ): Promise<Recipe[]> {
+    const scoredRecipes = allRecipes
+      .map((recipe) => {
+        const score = this.calculateSimilarityScore(currentRecipe, recipe);
+        return { ...recipe, score };
+      })
+      .sort((a, b) => b.score - a.score);
+
+    return scoredRecipes
+      .filter((recipe) => recipe.id !== currentRecipe.id)
+      .slice(0, 3);
+  }
+
+  private calculateSimilarityScore(recipe1: Recipe, recipe2: Recipe): number {
+    const weights = {
+      cuisine: 0.4,
+      ingredients: 0.3,
+      cookingMethods: 0.2,
+      elemental: 0.1,
+    };
+
+    const cuisineScore = recipe1.cuisine === recipe2.cuisine ? 1 : 0;
+    const ingredientScore = this.calculateIngredientSimilarity(
+      recipe1.ingredients,
+      recipe2.ingredients,
+    );
+    const cookingMethodScore = this.calculateCookingMethodSimilarity(
+      recipe1.cookingMethods,
+      recipe2.cookingMethods,
+    );
+    const elementalScore = this.calculateElementMatch(
+      recipe1.elementalProperties,
+      recipe2.elementalProperties,
+    );
+
+    const totalScore =
+      cuisineScore * weights.cuisine +
+      ingredientScore * weights.ingredients +
+      cookingMethodScore * weights.cookingMethods +
+      elementalScore * weights.elemental;
+
+    return totalScore;
+  }
+
+  private calculateIngredientSimilarity(
+    ingredients1: Recipe["ingredients"],
+    ingredients2: Recipe["ingredients"],
+  ): number {
+    const names1 = new Set(ingredients1.map((i) => i.name));
+    const names2 = new Set(ingredients2.map((i) => i.name));
+    const intersection = new Set([...names1].filter((x) => names2.has(x)));
+    const union = new Set([...names1, ...names2]);
+    return intersection.size / union.size;
+  }
+
+  private calculateCookingMethodSimilarity(
+    methods1: Recipe["cookingMethods"],
+    methods2: Recipe["cookingMethods"],
+  ): number {
+    const getNames = (methods: Recipe["cookingMethods"]): string[] => {
+      if (!methods) return [];
+      if (Array.isArray(methods)) {
+        return methods.map((m) => (typeof m === "string" ? m : m.name));
+      }
+      return [methods];
+    };
+    const names1 = new Set(getNames(methods1));
+    const names2 = new Set(getNames(methods2));
+    const intersection = new Set([...names1].filter((x) => names2.has(x)));
+    const union = new Set([...names1, ...names2]);
+    return intersection.size / union.size;
+  }
+
   private calculateRecipeScore(
     recipe: Recipe,
     criteria: RecommendationCriteria,

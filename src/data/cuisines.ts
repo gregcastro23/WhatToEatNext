@@ -6,6 +6,14 @@ import type {
   Recipe,
 } from "@/types/alchemy";
 import { american } from "./cuisines/american";
+import { greek } from "./cuisines/greek";
+import { indian } from "./cuisines/indian";
+import { italian } from "./cuisines/italian";
+import { middleEastern } from "./cuisines/middle-eastern";
+import { thai } from "./cuisines/thai";
+import { vietnamese } from "./cuisines/vietnamese";
+import { african } from "./cuisines/african";
+import { russian } from "./cuisines/russian";
 import { CUISINES, cuisinesMap as importedCuisinesMap } from "./cuisines/index";
 
 // Import types
@@ -83,16 +91,14 @@ function adaptCuisine(cuisine: unknown): AlchemyCuisine {
 // Combine all cuisines
 export const cuisines: Record<string, AlchemyCuisine> = {
   american: adaptCuisine(american),
-  // Temporarily disabled all other cuisines due to apostrophe syntax issues
-  // TODO: Fix apostrophes in cuisine files and re-enable
-  // greek: adaptCuisine(greek),
-  // indian: adaptCuisine(indian),
-  // italian: adaptCuisine(italian),
-  // middleEastern: adaptCuisine(middleEastern),
-  // thai: adaptCuisine(thai),
-  // vietnamese: adaptCuisine(vietnamese),
-  // african: adaptCuisine(african),
-  // russian: adaptCuisine(russian)
+  greek: adaptCuisine(greek),
+  indian: adaptCuisine(indian),
+  italian: adaptCuisine(italian),
+  middleEastern: adaptCuisine(middleEastern),
+  thai: adaptCuisine(thai),
+  vietnamese: adaptCuisine(vietnamese),
+  african: adaptCuisine(african),
+  russian: adaptCuisine(russian),
 };
 
 // Type exports
