@@ -1,7 +1,7 @@
 // Note: Validator imports removed to avoid circular dependency with ./validators
 // Validators are now only imported where they're actually used
 import type { LunarPhase } from "./alchemy";
-import type { NutritionalSummary } from "./nutrition";
+import type { NutritionalSummary, NutritionalSummaryBase } from "./nutrition";
 
 // Primary elemental properties interface - used throughout the application
 export interface ElementalProperties {
@@ -138,7 +138,7 @@ export interface Recipe {
   };
 
   // Nutritional information
-  nutrition?: NutritionalSummary;
+  nutrition?: NutritionalSummary | NutritionalSummaryBase;
 
   // Chef's notes and guidance
   preparationNotes?: string;
