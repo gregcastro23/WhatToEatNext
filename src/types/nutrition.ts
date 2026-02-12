@@ -91,16 +91,18 @@ export interface NutritionalFilter {
 // Comprehensive Nutrition Types for Nutrition-First Architecture
 // ============================================================
 
-/**
- * Complete nutritional summary for a meal, day, or week.
- * Based on USDA FoodData Central and FDA Daily Value standards.
- */
-export interface NutritionalSummary {
-  // Macronutrients
+export interface NutritionalSummaryBase {
   calories: number;
   protein: number;
   carbs: number;
   fat: number;
+}
+
+/**
+ * Complete nutritional summary for a meal, day, or week.
+ * Based on USDA FoodData Central and FDA Daily Value standards.
+ */
+export interface NutritionalSummary extends NutritionalSummaryBase {
   fiber: number;
   sugar: number;
   addedSugar?: number;

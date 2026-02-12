@@ -259,7 +259,7 @@ export default function RecipePage({
                   <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
                     Cultural Notes
                   </h2>
-                  <p>{recipe.culturalNotes}</p>
+                  <p>{String(recipe.culturalNotes)}</p>
                 </div>
               )}
 
