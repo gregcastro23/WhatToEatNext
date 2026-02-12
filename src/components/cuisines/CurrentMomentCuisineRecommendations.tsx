@@ -92,6 +92,28 @@ interface NestedRecipe {
   instructions: string[];
   meal_type: string;
   seasonal_fit: string;
+
+  // Enhanced recipe guidance fields
+  tips?: string[]; // Expert cooking tips
+  substitutions?: Array<{
+    original: string;
+    alternatives: string[];
+    notes?: string;
+  }>; // Ingredient substitutions
+  variations?: string[]; // Regional or dietary variations
+  pairing_suggestions?: {
+    sides?: string[];
+    drinks?: string[];
+    condiments?: string[];
+  }; // What pairs well with this dish
+  storage_info?: {
+    storage_method?: string;
+    storage_duration?: string;
+    reheating_instructions?: string;
+    freezer_friendly?: boolean;
+  }; // Storage and reheating guidance
+  common_mistakes?: string[]; // What to avoid
+  timing_tips?: string[]; // Do-ahead suggestions
 }
 
 interface SauceRecommendation {
