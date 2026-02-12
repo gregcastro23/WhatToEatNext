@@ -503,6 +503,170 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               </ListRoot>
             </Box>
           )}
+
+          {/* Chef's Notes */}
+          {(recipe.tips ||
+            recipe.substitutions ||
+            recipe.variations ||
+            recipe.pairing_suggestions ||
+            recipe.storage_info ||
+            recipe.common_mistakes ||
+            recipe.timing_tips) && (
+            <Box>
+              <Text fontSize="sm" fontWeight="medium" mb={2}>
+                👨‍🍳 Chef's Notes:
+              </Text>
+              <VStack {...({ align: "start", spacing: 2 } as any)}>
+                {recipe.tips && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="gray.600"
+                      mb={1}
+                    >
+                      💡 Tips:
+                    </Text>
+                    <ListRoot {...({ spacing: 1 } as any)}>
+                      {recipe.tips.map((tip, idx) => (
+                        <ListItem key={idx} fontSize="xs">
+                          {tip}
+                        </ListItem>
+                      ))}
+                    </ListRoot>
+                  </Box>
+                )}
+                {recipe.substitutions && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="gray.600"
+                      mb={1}
+                    >
+                      🔁 Substitutions:
+                    </Text>
+                    <ListRoot {...({ spacing: 1 } as any)}>
+                      {recipe.substitutions.map((sub, idx) => (
+                        <ListItem key={idx} fontSize="xs">
+                          <strong>{sub.original}:</strong>{" "}
+                          {sub.alternatives.join(", ")}
+                        </ListItem>
+                      ))}
+                    </ListRoot>
+                  </Box>
+                )}
+                {recipe.variations && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="gray.600"
+                      mb={1}
+                    >
+                      🌿 Variations:
+                    </Text>
+                    <ListRoot {...({ spacing: 1 } as any)}>
+                      {recipe.variations.map((variation, idx) => (
+                        <ListItem key={idx} fontSize="xs">
+                          {variation}
+                        </ListItem>
+                      ))}
+                    </ListRoot>
+                  </Box>
+                )}
+                {recipe.pairing_suggestions && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="gray.600"
+                      mb={1}
+                    >
+                      🍷 Pairings:
+                    </Text>
+                    <ListRoot {...({ spacing: 1 } as any)}>
+                      {recipe.pairing_suggestions.sides && (
+                        <ListItem fontSize="xs">
+                          <strong>Sides:</strong>{" "}
+                          {recipe.pairing_suggestions.sides.join(", ")}
+                        </ListItem>
+                      )}
+                      {recipe.pairing_suggestions.drinks && (
+                        <ListItem fontSize="xs">
+                          <strong>Drinks:</strong>{" "}
+                          {recipe.pairing_suggestions.drinks.join(", ")}
+                        </ListItem>
+                      )}
+                      {recipe.pairing_suggestions.condiments && (
+                        <ListItem fontSize="xs">
+                          <strong>Condiments:</strong>{" "}
+                          {recipe.pairing_suggestions.condiments.join(", ")}
+                        </ListItem>
+                      )}
+                    </ListRoot>
+                  </Box>
+                )}
+                {recipe.storage_info && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="gray.600"
+                      mb={1}
+                    >
+                      📦 Storage:
+                    </Text>
+                    <Text fontSize="xs">
+                      {recipe.storage_info.storage_method} for{" "}
+                      {recipe.storage_info.storage_duration}. Reheat:{" "}
+                      {recipe.storage_info.reheating_instructions}. Freezer
+                      friendly:{" "}
+                      {recipe.storage_info.freezer_friendly ? "Yes" : "No"}.
+                    </Text>
+                  </Box>
+                )}
+                {recipe.common_mistakes && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="gray.600"
+                      mb={1}
+                    >
+                      ❌ Common Mistakes:
+                    </Text>
+                    <ListRoot {...({ spacing: 1 } as any)}>
+                      {recipe.common_mistakes.map((mistake, idx) => (
+                        <ListItem key={idx} fontSize="xs">
+                          {mistake}
+                        </ListItem>
+                      ))}
+                    </ListRoot>
+                  </Box>
+                )}
+                {recipe.timing_tips && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="gray.600"
+                      mb={1}
+                    >
+                      ⏰ Timing Tips:
+                    </Text>
+                    <ListRoot {...({ spacing: 1 } as any)}>
+                      {recipe.timing_tips.map((tip, idx) => (
+                        <ListItem key={idx} fontSize="xs">
+                          {tip}
+                        </ListItem>
+                      ))}
+                    </ListRoot>
+                  </Box>
+                )}
+              </VStack>
+            </Box>
+          )}
         </VStack>
       </CardBody>
     </Card>
@@ -545,6 +709,27 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     </TagRoot>
                   </WrapItem>
                 ))}
+              </Wrap>
+            </Box>
+          )}
+
+          {sauce.elemental_properties && (
+            <Box width="100%">
+              <Text fontSize="xs" fontWeight="bold" color="gray.600" mb={2}>
+                🔥 Elemental Properties:
+              </Text>
+              <Wrap {...({ spacing: 1 } as any)}>
+                {Object.entries(sauce.elemental_properties).map(
+                  ([element, value]) => (
+                    <WrapItem key={element}>
+                      <TagRoot size="sm" variant="subtle" colorScheme="blue">
+                        <TagLabel fontSize="xs">
+                          {element}: {value as number}
+                        </TagLabel>
+                      </TagRoot>
+                    </WrapItem>
+                  ),
+                )}
               </Wrap>
             </Box>
           )}
