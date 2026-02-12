@@ -327,6 +327,8 @@ export interface _AstrologicalInfluence {
   aspects: PlanetaryAspect[];
 }
 
+export type AstrologicalInfluence = _AstrologicalInfluence;
+
 // Recipe harmony
 export interface RecipeHarmonyResult {
   overall: number;
@@ -443,6 +445,8 @@ export interface CookingMethodModifier {
   };
   notes?: string;
 }
+
+export type CookingMethodProfile = CookingMethodModifier;
 
 // ========== ASTROLOGICAL TYPES ==========
 
@@ -1017,6 +1021,8 @@ export interface CelestialAlignment {
   // Current celestial position properties
   currentZodiacSign?: ZodiacSign; // Current zodiac sign for compatibility calculations
 }
+
+export type BaseIngredient = Ingredient;
 
 // ========== BACKWARD COMPATIBILITY ALIASES (underscore-prefixed) ==========
 // Many legacy files still import underscore-prefixed types.  Provide
