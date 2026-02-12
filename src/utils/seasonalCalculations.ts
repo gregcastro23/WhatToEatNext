@@ -2,10 +2,10 @@ import type {
   ElementalProperties,
   LunarPhase,
   LunarPhaseWithSpaces,
-  Recipe,
   Season,
   ZodiacSign,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 // type Rating = 'optimal' | 'favorable' | 'neutral' | 'suboptimal'
 type Element = "Fire" | "Water" | "Earth" | "Air";

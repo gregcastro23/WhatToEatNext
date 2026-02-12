@@ -9,8 +9,8 @@ import type {
   ElementalCharacteristics,
   ElementalProfile,
   ElementalProperties,
-  Recipe,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import { isElementalProperties, logUnexpectedValue } from "@/utils/validation";
 
 // Re-export elemental mappings for callers that rely on these utilities

@@ -7,9 +7,9 @@ import type {
   AstrologicalState,
   ZodiacSign,
   LunarPhase,
-  Recipe,
   Ingredient,
 } from "../alchemy";
+import type { Recipe } from "../recipe";
 
 // Re-export all astrological types from their sources
 export type {
@@ -18,9 +18,9 @@ export type {
   AstrologicalState,
   ZodiacSign,
   LunarPhase,
-  Recipe,
   Ingredient,
 } from "../alchemy";
+export type { Recipe } from "../recipe";
 
 export type { Recipe as UnifiedRecipe } from "../recipe";
 

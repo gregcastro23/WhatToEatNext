@@ -43,8 +43,6 @@ const _: Recipe = {
     protein: 0,
     carbs: 0,
     fat: 0,
-
-    minerals: [],
   },
   season: ["all"],
   mealType: ["any"],

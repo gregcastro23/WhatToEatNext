@@ -16,8 +16,8 @@ import type {
   CookingMethod,
   ElementalProperties,
   RawElementalProperties,
-  RecipeIngredient,
 } from "@/types/alchemy";
+import type { RecipeIngredient } from "@/types/recipe";
 import type {
   QuantityScaledProperties,
   RecipeComputationOptions,

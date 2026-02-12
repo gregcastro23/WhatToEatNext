@@ -13,9 +13,9 @@ import type {
   AlchemicalProperties,
   CookingMethod,
   ElementalProperties,
-  RecipeIngredient,
   ThermodynamicProperties,
 } from "@/types/alchemy";
+import type { RecipeIngredient } from "@/types/recipe";
 import type {
   CuisineComputedProperties,
   IngredientData,

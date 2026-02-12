@@ -8,12 +8,8 @@ import {
   getElementalProperties,
   getSeasonalModifier,
 } from "../utils/backendAdapter";
-import type {
-  ElementalProperties,
-  Recipe,
-  Season,
-  ZodiacSign,
-} from "../types/alchemy";
+import type { ElementalProperties, Season, ZodiacSign } from "../types/alchemy";
+import type { Recipe } from "../types/recipe";
 
 interface ElementalSummary {
   totalFire: number;

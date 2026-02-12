@@ -5,7 +5,7 @@
 
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
-import type { Recipe } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes
 import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 // Using local error handler implementation

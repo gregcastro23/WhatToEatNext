@@ -4,9 +4,9 @@ import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type {
   AstrologicalState,
   ElementalProperties,
-  Recipe,
   Season,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 // Define IngredientMapping locally since it's not exported from alchemy
 interface IngredientMapping {

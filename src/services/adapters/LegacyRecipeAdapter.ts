@@ -10,7 +10,6 @@
 
 // ← Pattern HH-2: Unified Recipe type imports from primary source (@/types/alchemy)
 import type {
-  Recipe,
   Element,
   ElementalProperties,
   Season,
@@ -18,6 +17,7 @@ import type {
   LunarPhase,
   PlanetName,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 // Import ScoredRecipe from correct location
 import type { RecipeSearchCriteria, ScoredRecipe } from "@/types/recipe";

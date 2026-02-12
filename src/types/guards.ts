@@ -10,13 +10,15 @@
 import type { PlanetaryPosition } from "./alchemy";
 import type { AstrologicalProfile } from "./astrology";
 import type { CookingMethod } from "./cooking";
-import type { NutritionalSummary } from "./nutrition";
+import type { NutritionalSummaryalSummary } from "./nutrition";
 import type { Ingredient } from "./ingredient";
 
-/** Narrow unknown object to `Nutrition` (aka NutritionalProfile). */
-export function isNutritionalProfile(obj: unknown): obj is Nutrition {
+/** Narrow unknown object to `NutritionalSummary` (aka NutritionalSummaryalProfile). */
+export function isNutritionalSummaryalProfile(
+  obj: unknown,
+): obj is NutritionalSummary {
   if (!obj || typeof obj !== "object") return false;
-  const maybe = obj as Partial<Nutrition>;
+  const maybe = obj as Partial<NutritionalSummary>;
   return (
     typeof maybe.calories === "number" ||
     typeof maybe.protein === "number" ||

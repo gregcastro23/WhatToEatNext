@@ -17,6 +17,9 @@ import type {
   CookingMethod,
 } from "@/types/alchemy";
 
+type PlanetaryFlavorInfluence = unknown;
+type CuisineFlavorCompatibility = unknown;
+
 export interface UnifiedFlavorProfile {
   id: string;
   name: string;
@@ -36,7 +39,7 @@ export interface UnifiedFlavorProfile {
   description: string;
   planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>;
   cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility };
-  cookingMethodAffinity: Record<CookingMethod, number>;
+  cookingMethodAffinity: Record<string, number>;
   temperatureRange: { min: number; max: number };
   avoidCombinations: string[];
 }

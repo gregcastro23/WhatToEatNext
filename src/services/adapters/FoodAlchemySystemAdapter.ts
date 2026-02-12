@@ -10,10 +10,10 @@ import { enhancedIngredientSystem } from "@/services/adapters/IngredientServiceA
 import type {
   ElementalProperties,
   LunarPhase,
-  Recipe,
   Season,
   ZodiacSign,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 import type { ScoredRecipe } from "@/types/recipe";
