@@ -31,6 +31,7 @@ export interface ElementalPropertiesType {
   Water: number;
   Earth: number;
   Air: number;
+  [key: string]: number; // Allow indexing with string
 }
 
 /**
