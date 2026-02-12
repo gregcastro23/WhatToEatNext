@@ -6,9 +6,9 @@ import type {
   ElementalProperties,
   Ingredient,
   LunarPhase,
-  Recipe,
   ZodiacSign,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 // import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
 const getAccuratePlanetaryPositions: any = async () => ({}); // Function not available
 
@@ -383,7 +383,7 @@ export class AlchemicalEngineBase {
     return Object.entries(elements)
       .map(([element, value]) => ({
         element,
-        strength: value || 0,
+        strength: (value as number) || 0,
       }))
       .sort((a, b) => b.strength - a.strength)
       .slice(0, 2);

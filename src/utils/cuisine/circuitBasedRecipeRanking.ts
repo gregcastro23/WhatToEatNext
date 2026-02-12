@@ -7,7 +7,7 @@
  * Part of the enhanced cuisine recommender system.
  */
 
-import type { Recipe } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import type { KineticMetrics } from "@/types/kinetics";
 import type {
   ElementalProperties,
@@ -127,6 +127,7 @@ export function rankRecipesByCircuitCompatibility(
     filteredRecipes = recipes.filter(
       (r) =>
         r.mealType &&
+        Array.isArray(r.mealType) &&
         r.mealType.some((mt) =>
           mt.toLowerCase().includes(mealType.toLowerCase()),
         ),
@@ -259,7 +260,7 @@ function calculateServingAdjustment(
   userKinetics: KineticMetrics,
   desiredEnergyLevel: number,
 ): RankedRecipeResult["servingAdjustment"] {
-  const originalServings = Number(recipe.servings) || 4;
+  const originalServings = Number(recipe.servingSize) || 4;
   const recipePower = recipe.kineticProperties.power;
   const userPower = userKinetics.power;
 
@@ -494,6 +495,7 @@ export function generateCoursePairingRecommendations(
     candidates = availableCourses.filter(
       (recipe) =>
         recipe.mealType &&
+        Array.isArray(recipe.mealType) &&
         recipe.mealType.some((mt) =>
           mt.toLowerCase().includes(targetCourseType),
         ),

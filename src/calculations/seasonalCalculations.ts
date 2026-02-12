@@ -1,6 +1,7 @@
 import { SEASONAL_MODIFIERS } from "@/constants/seasonalModifiers";
 import { getZodiacSignForDate } from "@/data/zodiacSeasons";
-import type { ElementalProperties, Recipe, Season } from "@/types/alchemy";
+import type { ElementalProperties, Season } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 export interface SeasonalEffectiveness {
   score: number;
@@ -33,7 +34,7 @@ export function calculateSeasonalEffectiveness(
   // 1. Calculate Elemental Alignment (50% of total)
   const elementalScore = Object.entries(
     recipe.elementalProperties || {},
-  ).reduce((score, [element, value]) => {
+  ).reduce((score, [element, value]: [string, number]) => {
     // Get modifier from SEASONAL_MODIFIERS using lowercase season
     // Using proper type access with fallback
     const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {};

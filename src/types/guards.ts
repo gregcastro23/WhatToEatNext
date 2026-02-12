@@ -10,7 +10,7 @@
 import type { PlanetaryPosition } from "./alchemy";
 import type { AstrologicalProfile } from "./astrology";
 import type { CookingMethod } from "./cooking";
-import type { Nutrition } from "./index";
+import type { NutritionalSummary } from "./nutrition";
 import type { Ingredient } from "./ingredient";
 
 /** Narrow unknown object to `Nutrition` (aka NutritionalProfile). */

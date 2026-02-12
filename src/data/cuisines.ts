@@ -3,8 +3,8 @@ import type {
   Cuisine as AlchemyCuisine,
   CuisineType,
   ElementalProperties,
-  Recipe,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import { american } from "./cuisines/american";
 import { greek } from "./cuisines/greek";
 import { indian } from "./cuisines/indian";

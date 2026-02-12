@@ -5,6 +5,7 @@ import type {
   PlanetName,
   ZodiacSign,
 } from "@/types/celestial";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
 // src/types/alchemy.ts
 
@@ -1037,7 +1038,7 @@ export type alchemicalValues = AlchemicalValues; // Lowercase version
 
 // Additional missing type exports
 export type BaseIngredient = Ingredient; // Alias for compatibility
-export type RecipeData = Recipe; // Alias for compatibility
+// export type RecipeData = Recipe; // Alias for compatibility
 // Removed local AlchemicalProperty definition - now imported from @/types/celestial
 
 // ========== BACKWARD COMPATIBILITY ALIASES (underscore-prefixed) ==========
