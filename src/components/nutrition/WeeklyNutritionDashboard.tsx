@@ -257,9 +257,9 @@ export function WeeklyNutritionDashboard({
                 {weeklyCompliance.deficiencies.slice(0, 5).map((def, idx) => (
                   <li key={idx} className={styles.suggestionItem}>
                     <strong>{formatNutrientName(def.nutrient)}</strong>:
-                    Currently averaging {Math.round(def.averageDaily)}
+                    Currently averaging {Math.round(def.actual)}
                     {getNutrientUnit(def.nutrient)}/day (target:{" "}
-                    {Math.round(def.targetDaily)}
+                    {Math.round(def.target)}
                     {getNutrientUnit(def.nutrient)})
                   </li>
                 ))}

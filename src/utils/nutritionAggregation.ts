@@ -143,6 +143,9 @@ export function buildDailyResult(
     compliance: {
       overall,
       byNutrient,
+      deficiencies: [],
+      excesses: [],
+      suggestions: [],
     },
   };
 }
@@ -180,7 +183,12 @@ export function buildWeeklyResult(
     days,
     weeklyTotals,
     weeklyGoals,
-    weeklyCompliance: { overall, byNutrient },
+    weeklyCompliance: {
+      overall,
+      byNutrient,
+      deficiencies: [],
+      excesses: [],
+    },
     variety: {
       uniqueIngredients: 0, // Would require ingredient-level data
       uniqueRecipes,
