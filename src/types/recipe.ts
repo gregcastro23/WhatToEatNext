@@ -32,6 +32,7 @@ export interface RecipeIngredient {
   zodiacInfluences?: any[];
   planetaryInfluences?: string[]; // Planet names
   lunarPhaseInfluences?: LunarPhase[];
+  [key: string]: unknown;
 }
 
 // Unified Recipe interface - consolidates all previous recipe types
@@ -358,7 +359,7 @@ export interface RecipeDetail {
     };
   };
   texturalElements: string[]; // e.g., 'crispy', 'creamy', 'chewy',
-  aromatics: string[]; // Key aromatic components,
+  aromatics?: string[]; // Key aromatic components,
   colorProfile: string[]; // Dominant colors,
 
   // Cultural & Historical Context

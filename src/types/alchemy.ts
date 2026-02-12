@@ -5,7 +5,7 @@ import type {
   PlanetName,
   ZodiacSign,
 } from "@/types/celestial";
-import type { Recipe, RecipeIngredient } from "@/types/recipe";
+export type { Recipe, RecipeIngredient } from "@/types/recipe";
 
 // src/types/alchemy.ts
 
