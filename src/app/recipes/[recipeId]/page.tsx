@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
-import type { Recipe, CuisineName } from "@/types";
+import type { Recipe } from "@/types/recipe";
+import type { CuisineType } from "@/types/alchemy";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 
 export default function RecipePage({
@@ -45,7 +46,7 @@ export default function RecipePage({
                 : [];
 
             const sauces = sauceRecommender.recommendSauce(
-              fetchedRecipe.cuisine as CuisineName,
+              fetchedRecipe.cuisine as CuisineType,
               {
                 protein: proteins[0], // Simplified for now
                 vegetable: vegetables[0], // Simplified for now
