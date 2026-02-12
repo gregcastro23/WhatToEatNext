@@ -1,4 +1,5 @@
 // src/data/cuisines.ts
+import type { NutritionalSummaryBase } from "@/types/nutrition";
 import type {
   Cuisine as AlchemyCuisine,
   CuisineType,
