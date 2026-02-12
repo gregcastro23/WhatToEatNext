@@ -132,7 +132,13 @@ export class RecipeRecommender {
       if (Array.isArray(methods)) {
         return methods.map((m) => (typeof m === "string" ? m : m.name));
       }
-      return [methods];
+      if (typeof methods === "string") {
+        return [methods];
+      }
+      if (typeof methods === "object" && "name" in methods) {
+        return [methods.name];
+      }
+      return [];
     };
     const names1 = new Set(getNames(methods1));
     const names2 = new Set(getNames(methods2));

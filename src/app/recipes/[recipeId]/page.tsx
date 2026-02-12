@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
-import type { Recipe } from "@/types/recipe";
-import type { CuisineName } from "@/data/cuisines";
+import type { Recipe } from "@/types/alchemy";
+import type { CuisineName } from "@/data/cuisines/index";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 
 export default function RecipePage({
@@ -32,22 +32,24 @@ export default function RecipePage({
           if (fetchedRecipe) {
             // recommend sauces
             const proteins = fetchedRecipe.ingredients
-              .filter((i) => i.category === "protein")
+              ?.filter((i) => i.category === "protein")
               .map((i) => i.name);
             const vegetables = fetchedRecipe.ingredients
-              .filter((i) => i.category === "vegetable")
+              ?.filter((i) => i.category === "vegetable")
               .map((i) => i.name);
             const cookingMethods = Array.isArray(fetchedRecipe.cookingMethods)
               ? fetchedRecipe.cookingMethods.map((m) =>
                   typeof m === "string" ? m : m.name,
                 )
-              : [fetchedRecipe.cookingMethods];
+              : fetchedRecipe.cookingMethods
+                ? [fetchedRecipe.cookingMethods]
+                : [];
 
             const sauces = sauceRecommender.recommendSauce(
               fetchedRecipe.cuisine as CuisineName,
               {
-                protein: proteins[0], // Simplified for now
-                vegetable: vegetables[0], // Simplified for now
+                protein: proteins?.[0], // Simplified for now
+                vegetable: vegetables?.[0], // Simplified for now
                 cookingMethod: cookingMethods[0], // Simplified for now
               },
             );
@@ -110,7 +112,7 @@ export default function RecipePage({
                 Ingredients
               </h2>
               <ul className="list-disc list-inside space-y-2">
-                {recipe.ingredients.map((ingredient, index) => (
+                {recipe.ingredients?.map((ingredient, index) => (
                   <li key={index}>
                     {ingredient.amount} {ingredient.unit} {ingredient.name}
                   </li>
@@ -123,7 +125,7 @@ export default function RecipePage({
                 Instructions
               </h2>
               <ol className="list-decimal list-inside space-y-4">
-                {recipe.instructions.map((instruction, index) => (
+                {recipe.instructions?.map((instruction, index) => (
                   <li key={index}>{instruction}</li>
                 ))}
               </ol>
@@ -181,7 +183,8 @@ export default function RecipePage({
                     ? recipe.cookingMethods
                         .map((m) => (typeof m === "string" ? m : m.name))
                         .join(", ")
-                    : recipe.cookingMethods}
+                    : recipe.cookingMethods &&
+                      (recipe.cookingMethods as any).name}
                 </p>
               </div>
             </div>
@@ -195,7 +198,7 @@ export default function RecipePage({
                   {Object.entries(recipe.elementalProperties).map(
                     ([key, value]) => (
                       <p key={key}>
-                        <strong>{key}:</strong> {value}
+                        <strong>{key}:</strong> {value as number}
                       </p>
                     ),
                   )}
@@ -211,88 +214,85 @@ export default function RecipePage({
                 <div className="space-y-2">
                   <p>
                     <strong>Planets:</strong>{" "}
-                    {recipe.astrologicalAffinities.planets.join(", ")}
+                    {(recipe.astrologicalAffinities as any).planets.join(", ")}
                   </p>
                   <p>
                     <strong>Signs:</strong>{" "}
-                    {recipe.astrologicalAffinities.signs.join(", ")}
+                    {(recipe.astrologicalAffinities as any).signs.join(", ")}
                   </p>
                   <p>
                     <strong>Lunar Phases:</strong>{" "}
-                    {recipe.astrologicalAffinities.lunarPhases.join(", ")}
+                    {(recipe.astrologicalAffinities as any).lunarPhases.join(
+                      ", ",
+                    )}
                   </p>
                 </div>
               </div>
             )}
 
-            <div>
-              <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
-                Nutrition
-              </h2>
-              <div className="space-y-2">
-                <p>
-                  <strong>Calories:</strong> {recipe.nutrition.calories}
-                </p>
-                <p>
-                  <strong>Protein:</strong> {recipe.nutrition.protein}g
-                </p>
-                <p>
-                  <strong>Carbs:</strong> {recipe.nutrition.carbs}g
-                </p>
-                <p>
-                  <strong>Fat:</strong> {recipe.nutrition.fat}g
-                </p>
-                <p>
-                  <strong>Fiber:</strong> {recipe.nutrition.fiber}g
-                </p>
-                <p>
-                  <strong>Vitamins:</strong>{" "}
-                  {Array.isArray(recipe.nutrition.vitamins)
-                    ? recipe.nutrition.vitamins.join(", ")
-                    : ""}
-                </p>
-                <p>
-                  <strong>Minerals:</strong>{" "}
-                  {Array.isArray(recipe.nutrition.minerals)
-                    ? recipe.nutrition.minerals.join(", ")
-                    : ""}
-                </p>
+            {recipe.nutrition && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
+                  Nutrition
+                </h2>
+                <div className="space-y-2">
+                  <p>
+                    <strong>Calories:</strong> {recipe.nutrition.calories}
+                  </p>
+                  <p>
+                    <strong>Protein:</strong> {recipe.nutrition.protein}g
+                  </p>
+                  <p>
+                    <strong>Carbs:</strong> {recipe.nutrition.carbs}g
+                  </p>
+                  <p>
+                    <strong>Fat:</strong> {recipe.nutrition.fat}g
+                  </p>
+                  <p>
+                    <strong>Fiber:</strong> {recipe.nutrition.fiber}g
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
 
-            <div>
-              <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
-                Cultural Notes
-              </h2>
-              <p>{recipe.culturalNotes}</p>
-            </div>
+            {recipe.culturalNotes && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
+                  Cultural Notes
+                </h2>
+                <p>{recipe.culturalNotes}</p>
+              </div>
+            )}
 
-            <div>
-              <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
-                Pairing Suggestions
-              </h2>
-              <ul className="list-disc list-inside space-y-2">
-                {Array.isArray(recipe.pairingSuggestions) &&
-                  recipe.pairingSuggestions.map((suggestion, index) => (
-                    <li key={index}>{suggestion}</li>
-                  ))}
-              </ul>
-            </div>
+            {recipe.pairingSuggestions && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
+                  Pairing Suggestions
+                </h2>
+                <ul className="list-disc list-inside space-y-2">
+                  {Array.isArray(recipe.pairingSuggestions) &&
+                    recipe.pairingSuggestions.map((suggestion, index) => (
+                      <li key={index}>{suggestion}</li>
+                    ))}
+                </ul>
+              </div>
+            )}
 
-            <div>
-              <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
-                Substitutions
-              </h2>
-              <ul className="list-disc list-inside space-y-2">
-                {recipe.substitutions &&
-                  Object.entries(recipe.substitutions).map(([key, value]) => (
+            {recipe.substitutions && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4 border-b-2 border-slate-700 pb-2">
+                  Substitutions
+                </h2>
+                <ul className="list-disc list-inside space-y-2">
+                  {Object.entries(recipe.substitutions).map(([key, value]) => (
                     <li key={key}>
                       <strong>{key}:</strong>{" "}
-                      {Array.isArray(value) ? value.join(", ") : value}
+                      {Array.isArray(value) ? value.join(", ") : (value as any)}
                     </li>
                   ))}
-              </ul>
-            </div>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
         {recommendedRecipes.length > 0 && (
