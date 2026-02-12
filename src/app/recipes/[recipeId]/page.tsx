@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
-import type { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/alchemy";
 import type { CuisineName } from "@/data/cuisines/index";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 
@@ -32,10 +32,10 @@ export default function RecipePage({
           if (fetchedRecipe) {
             // recommend sauces
             const proteins = fetchedRecipe.ingredients
-              .filter((i) => i.category === "protein")
+              ?.filter((i) => i.category === "protein")
               .map((i) => i.name);
             const vegetables = fetchedRecipe.ingredients
-              .filter((i) => i.category === "vegetable")
+              ?.filter((i) => i.category === "vegetable")
               .map((i) => i.name);
             const cookingMethods = Array.isArray(fetchedRecipe.cookingMethods)
               ? fetchedRecipe.cookingMethods.map((m) =>
@@ -48,8 +48,8 @@ export default function RecipePage({
             const sauces = sauceRecommender.recommendSauce(
               fetchedRecipe.cuisine as CuisineName,
               {
-                protein: proteins[0], // Simplified for now
-                vegetable: vegetables[0], // Simplified for now
+                protein: proteins?.[0], // Simplified for now
+                vegetable: vegetables?.[0], // Simplified for now
                 cookingMethod: cookingMethods[0], // Simplified for now
               },
             );
@@ -112,7 +112,7 @@ export default function RecipePage({
                 Ingredients
               </h2>
               <ul className="list-disc list-inside space-y-2">
-                {recipe.ingredients.map((ingredient, index) => (
+                {recipe.ingredients?.map((ingredient, index) => (
                   <li key={index}>
                     {ingredient.amount} {ingredient.unit} {ingredient.name}
                   </li>
@@ -125,7 +125,7 @@ export default function RecipePage({
                 Instructions
               </h2>
               <ol className="list-decimal list-inside space-y-4">
-                {recipe.instructions.map((instruction, index) => (
+                {recipe.instructions?.map((instruction, index) => (
                   <li key={index}>{instruction}</li>
                 ))}
               </ol>
@@ -198,7 +198,7 @@ export default function RecipePage({
                   {Object.entries(recipe.elementalProperties).map(
                     ([key, value]) => (
                       <p key={key}>
-                        <strong>{key}:</strong> {value}
+                        <strong>{key}:</strong> {value as number}
                       </p>
                     ),
                   )}
@@ -250,18 +250,6 @@ export default function RecipePage({
                   </p>
                   <p>
                     <strong>Fiber:</strong> {recipe.nutrition.fiber}g
-                  </p>
-                  <p>
-                    <strong>Vitamins:</strong>{" "}
-                    {Array.isArray(recipe.nutrition.vitamins)
-                      ? recipe.nutrition.vitamins.join(", ")
-                      : ""}
-                  </p>
-                  <p>
-                    <strong>Minerals:</strong>{" "}
-                    {Array.isArray(recipe.nutrition.minerals)
-                      ? recipe.nutrition.minerals.join(", ")
-                      : ""}
                   </p>
                 </div>
               </div>

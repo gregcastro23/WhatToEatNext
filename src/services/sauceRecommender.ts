@@ -1,6 +1,6 @@
 // src/services/sauceRecommender.ts
 import { cuisinesMap } from "@/data/cuisines";
-import type { CuisineName } from "@/data/cuisines";
+import type { CuisineName } from "@/data/cuisines/index";
 
 export class SauceRecommender {
   private static instance: SauceRecommender;
