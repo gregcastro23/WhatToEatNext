@@ -227,7 +227,7 @@ export interface NormalizedElementalProperties {
  * For normalized display values, use NormalizedElementalProperties and
  * the normalizeForDisplay() utility function.
  */
-interface ElementalProperties extends RawElementalProperties {}
+export interface ElementalProperties extends RawElementalProperties {}
 
 // Also export the lowercase version used in astrologyUtils.ts
 export interface LowercaseElementalProperties {
@@ -681,7 +681,7 @@ export interface NutritionPreferences {
 }
 
 // Ingredient type (causing errors in multiple files)
-interface Ingredient {
+export interface Ingredient {
   id: string;
   name: string;
   category: string;
@@ -845,7 +845,7 @@ export interface Decan {
 
 // IngredientMapping type (causing 65 errors across ingredient data files)
 // IngredientMapping should be an alias for a Record of Ingredients, not an interface
-type IngredientMapping = Record<string, Ingredient>;
+export type IngredientMapping = Record<string, Ingredient>;
 
 // AstrologicalProfile type (causing 4 errors)
 export interface AstrologicalProfile {
@@ -1044,127 +1044,6 @@ export type _RawElementalProperties = RawElementalProperties;
 export type _NormalizedElementalProperties = NormalizedElementalProperties;
 
 // ---------------------------------------------------------------------------
-
-// Consolidated exports to prevent duplicate identifier errors
-export type {
-  // From "@/types/celestial"
-  AlchemicalProperties,
-  AstrologicalState,
-  LunarPhase,
-  Modality,
-  PlanetName,
-  ZodiacSign,
-
-  // From "@/constants/seasons"
-  Season,
-
-  // From alchemy.ts (interfaces and types defined in this file)
-  AlchemicalPropertiesType,
-  ElementalPropertiesType,
-  ThermodynamicMetricsType,
-  AlchemicalStateType,
-  CompleteAlchemicalResultType,
-  PlanetaryPositionsType,
-  ZodiacSignType,
-  LunarPhaseType,
-  NutritionalContentType,
-  IngredientMappingType,
-  ServiceResponseType,
-  AlchemicalTransformationResultType,
-  PlanetaryInfluenceResultType,
-  AstrologicalStateType,
-  Element,
-  RawElementalProperties,
-  NormalizedElementalProperties,
-  ElementalProperties, // This is an interface extending RawElementalProperties
-  LowercaseElementalProperties,
-  ElementalRatio,
-  ElementalModifier,
-  ElementalInteraction,
-  AlchemicalResult,
-  StandardizedAlchemicalResult,
-  AlchemicalCalculationResult,
-  ThermodynamicProperties,
-  BasicThermodynamicProperties,
-  ElementalCharacteristics,
-  ElementalProfile,
-  ElementalAffinity,
-  _AstrologicalInfluence,
-  RecipeHarmonyResult,
-  ChakraEnergies,
-  CombinationEffect,
-  EffectType,
-  EnhancedCookingMethod,
-  CustomRecipe,
-  RecipeTiming,
-  AstrologicalTiming,
-  BirthInfo,
-  HoroscopeData,
-  CookingMethodModifier,
-  LunarPhaseWithSpaces,
-  LunarPhaseWithUnderscores,
-  Planet,
-  PlanetaryPosition,
-  PlanetaryAlignment,
-  PlanetaryHarmony,
-  AspectType,
-  PlanetaryAspect,
-  DignityType,
-  CelestialPosition,
-  CookingMethod,
-  ElementalItem,
-  AlchemicalProperty,
-  ElementalCharacter,
-  AlchemicalItem,
-  FilterOptions,
-  NutritionPreferences,
-  Ingredient,
-  NutritionalProfile,
-  ElementalState,
-  CuisineType,
-  Cuisine,
-  DietaryRestriction,
-  TimeFactors,
-  AlchemicalValues,
-  Decan,
-  AstrologicalProfile,
-  FlavorProfile,
-  MethodRecommendationOptions,
-  MethodRecommendation,
-  TarotSuit,
-  IngredientSearchCriteria,
-  EnergyStateProperties,
-  QuantityScaledProperties,
-  ChakraPosition,
-  CelestialBody,
-  CelestialAlignment,
-  AstrologicalInfluence, // This type is defined locally as well, so it should be exported
-  CookingMethodProfile, // This type is defined locally as well, so it should be exported
-  timeFactors, // This type is defined locally as well, so it should be exported
-  alchemicalValues, // This type is defined locally as well, so it should be exported
-  BaseIngredient, // This type is defined locally as well, so it should be exported
-
-  // Underscore-prefixed aliases for backward compatibility
-  _Element,
-  _ElementalProperties,
-  _LowercaseElementalProperties,
-  _ElementalRatio,
-  _ElementalModifier,
-  _Planet,
-  _PlanetName,
-  _LunarPhase,
-  _Modality,
-  _CelestialPosition,
-  _ChakraEnergies,
-  _AstrologicalProfile,
-  _PlanetaryPosition,
-  _Season,
-  _ThermodynamicMetrics,
-  _isDaytime,
-  _season,
-  _RawElementalProperties,
-  _NormalizedElementalProperties,
-} from "./alchemy";
 
 // ========== PHASE 45: ALCHEMY TYPE INTELLIGENCE SYSTEM ==========
 
