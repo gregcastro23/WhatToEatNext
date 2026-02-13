@@ -69,7 +69,7 @@ export type CompleteAlchemicalResultType = AlchemicalStateType &
  * Planetary Positions Map
  * Standard type for planetary position data
  */
-export type PlanetaryPositionsType = Record<string, string>;
+export type PlanetaryPositionsType = PlanetaryAlignment;
 
 /**
  * Zodiac Sign Union Type
@@ -568,7 +568,8 @@ export type AspectType =
   | "trine"
   | "opposition"
   | "quincunx"
-  | "semisextile"
+  | "inconjunct"
+  | "semi-sextile"
   | "semisquare"
   | "sesquisquare"
   | "quintile"

@@ -1420,7 +1420,7 @@ export const getRecommendedIngredients = (
  * Get top ingredient matches based on elemental properties and other factors
  */
 export const _getTopIngredientMatches = (
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
   limit = 5,
 ): EnhancedIngredient[] =>
   // Simply use our main recommendation function but with the requested limit

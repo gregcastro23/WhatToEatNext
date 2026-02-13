@@ -1848,7 +1848,7 @@ function calculateVenusInfluence(
 // Enhance ingredient scoring with Venus influence
 function _enhanceVenusIngredientScoring(
   ingredient: Ingredient,
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
   score: number,
 ): number {
   // Only apply Venus scoring if Venus is active
@@ -1881,7 +1881,7 @@ function _enhanceVenusIngredientScoring(
 // Enhanced function to boost Venus-ruled ingredients based on detailed Venus data
 function enhanceVenusIngredientBatch(
   ingredients: Ingredient[],
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
 ): void {
   // Check if Venus is active
   const isVenusActive = astroState.activePlanets?.includes("Venus");
@@ -2069,7 +2069,7 @@ function calculateMarsInfluence(
  */
 function enhanceMarsIngredientScoring(
   ingredients: Ingredient[],
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
 ): void {
   // Get Mars status info from astro state
   // Extract astrological state with safe property access for Mars retrograde
@@ -2427,7 +2427,7 @@ function calculateMercuryInfluence(
 // Add the function to enhance Mercury ingredient scoring
 function enhanceMercuryIngredientScoring(
   ingredients: Ingredient[],
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
 ): void {
   // Check if Mercury is retrograde
   // Extract astrological state with safe property access for Mercury retrograde
@@ -3124,7 +3124,7 @@ function isDaytime(date: Date = new Date()): boolean {
  * Recommend ingredients with enhanced planetary, dignity and aspect effects
  */
 export async function recommendIngredients(
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
   options: RecommendationOptions = {},
 ): Promise<IngredientRecommendation[]> {
   // Get all available ingredients
