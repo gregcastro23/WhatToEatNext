@@ -1,8 +1,8 @@
 import type { Recipe } from "@/types/recipe";
 import type {
-  AstrologicalStateTypeType,
+  AstrologicalStateType,
   ElementalProperties,
-} from "../types/alchemy";
+} from "../../types/alchemy";
 
 // Re-export types and functions from ingredient recommendation
 export type {

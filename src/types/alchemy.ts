@@ -8,6 +8,7 @@ import type {
   AstrologicalState, // Added AstrologicalState from celestial
 } from "@/types/celestial";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
+export type { RecipeIngredient } from "@/types/recipe";
 import type { Season } from "@/constants/seasons"; // Manually added as it was removed accidentally
 
 // src/types/alchemy.ts
@@ -132,6 +133,7 @@ export interface IngredientMappingType {
   sustainabilityScore: number;
   qualities: string[];
   culinaryApplications?: Record<string, Record<string, string>>;
+  storage?: { temperature?: string; humidity?: string };
 }
 
 /**
@@ -174,10 +176,20 @@ export interface PlanetaryInfluenceResultType {
  * Complete astrological state including planetary positions and influences
  */
 export interface AstrologicalStateType {
-  planetaryPositions: PlanetaryPositionsType;
-  currentZodiac: ZodiacSign;
-  lunarPhase: LunarPhaseType;
-  elementalInfluence: ElementalPropertiesType;
+  planetaryPositions?: PlanetaryPositionsType;
+  zodiacSign?: ZodiacSignType; // Changed from currentZodiac to zodiacSign and made optional
+  lunarPhase?: LunarPhaseType; // Original lunarPhase as LunarPhaseType
+  moonPhase?: string; // Additional string for moonPhase property
+  elementalInfluence?: ElementalPropertiesType; // Made optional
+  currentZodiac?: ZodiacSign; // For backward compatibility if other files use it
+
+  // New properties to resolve TS2339 errors
+  activePlanets?: string[];
+  planetaryHour?: string;
+  aspects?: PlanetaryAspect[];
+  tarotElementBoosts?: Record<string, number>;
+  tarotPlanetaryBoosts?: Record<PlanetName, number>;
+  dominantElement?: Element;
 }
 
 // ========== CORE ELEMENTAL TYPES ==========
