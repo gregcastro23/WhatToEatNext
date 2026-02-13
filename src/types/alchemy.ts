@@ -77,7 +77,7 @@ export type PlanetaryPositionsType = Record<string, CelestialPosition> & {
  * Zodiac Sign Union Type
  * All twelve zodiac signs in lowercase (project standard)
  */
-export type ZodiacSignType =
+export type ZodiacSignTypeType =
   | "aries"
   | "taurus"
   | "gemini"
@@ -179,11 +179,11 @@ export interface PlanetaryInfluenceResultType {
  */
 export interface AstrologicalStateType {
   planetaryPositions?: PlanetaryPositionsType;
-  zodiacSign?: ZodiacSignType; // Changed from currentZodiac to zodiacSign and made optional
+  zodiacSign?: ZodiacSignTypeType; // Changed from currentZodiac to zodiacSign and made optional
   lunarPhase?: LunarPhaseType; // Original lunarPhase as LunarPhaseType
   moonPhase?: string; // Additional string for moonPhase property
   elementalInfluence?: ElementalPropertiesType; // Made optional
-  currentZodiac?: ZodiacSign; // For backward compatibility if other files use it
+  currentZodiac?: ZodiacSignType; // For backward compatibility if other files use it
 
   // New properties to resolve TS2339 errors
   activePlanets?: string[];
@@ -335,7 +335,7 @@ export interface ElementalAffinity {
 // Astrological influence
 export interface _AstrologicalInfluence {
   planet: string;
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   element: Element;
   strength: number;
   aspects: PlanetaryAspect[];
@@ -436,11 +436,11 @@ export interface HoroscopeData {
   houses: Record<string, unknown>;
   aspects: PlanetaryAspect[];
   ascendant?: {
-    sign: ZodiacSign;
+    sign: ZodiacSignType;
     degree: number;
   };
   midheaven?: {
-    sign: ZodiacSign;
+    sign: ZodiacSignType;
     degree: number;
   };
   [key: string]: unknown;
@@ -525,7 +525,7 @@ export interface Planet {
 }
 
 export interface PlanetaryPosition {
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   degree: number;
   minute?: number;
   element?: Element;
@@ -597,7 +597,7 @@ export type DignityType =
   | "Fall"
   | "Neutral";
 export interface CelestialPosition {
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   degree: number;
   minute?: number;
   position?: number;
@@ -849,7 +849,7 @@ export interface AlchemicalValues {
 // Decan type (causing errors in elementalCore.ts)
 export interface Decan {
   number: 1 | 2 | 3;
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   element: Element;
   planetaryRuler: string;
   degrees: {
@@ -876,7 +876,7 @@ export interface AstrologicalProfile {
   chakraAlignment?: ChakraEnergies;
   personalPlanets?: Record<string, PlanetaryPosition>;
   rulingPlanets?: string[]; // Array of ruling planet names
-  favorableZodiac?: ZodiacSign[]; // Array of favorable zodiac signs
+  favorableZodiac?: ZodiacSignType[]; // Array of favorable zodiac signs
   elementalAffinity?: {
     base?: Element;
     [key: string]: unknown;
@@ -1015,7 +1015,7 @@ export interface CelestialAlignment {
   aspectPatterns: PlanetaryAspect[];
   energyFlow: number; // 0-1 scale
   // Enhanced properties for celestialCalculations.ts compatibility
-  zodiacSign?: ZodiacSign; // Current dominant zodiac sign
+  zodiacSign?: ZodiacSignType; // Current dominant zodiac sign
   dominantPlanets?: CelestialBody[]; // Array of dominant celestial bodies
   astrologicalInfluences?: string[]; // Array of astrological influence strings
   tarotInfluences?: TarotCard[]; // Tarot card influences
@@ -1034,7 +1034,7 @@ export interface CelestialAlignment {
   kalchm?: number; // Kalchm constant for alchemical calculations
   monica?: number; // Monica constant for alchemical calculations
   // Current celestial position properties
-  currentZodiacSign?: ZodiacSign; // Current zodiac sign for compatibility calculations
+  currentZodiacSignType?: ZodiacSignType; // Current zodiac sign for compatibility calculations
 }
 
 // ========== BACKWARD COMPATIBILITY ALIASES (underscore-prefixed) ==========
@@ -1073,7 +1073,7 @@ export type {
   LunarPhase,
   Modality,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/celestial";
 export type { Season } from "@/constants/seasons";
 
