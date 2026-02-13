@@ -96,6 +96,60 @@ export interface NutritionalSummaryBase {
   protein: number;
   carbs: number;
   fat: number;
+  fiber?: number;
+  sugar?: number;
+  addedSugar?: number;
+
+  // Fat breakdown
+  saturatedFat?: number;
+  transFat?: number;
+  monounsaturatedFat?: number;
+  polyunsaturatedFat?: number;
+  omega3?: number;
+  omega6?: number;
+  cholesterol?: number;
+
+  // Vitamins (fat-soluble)
+  vitaminA?: number;
+  vitaminD?: number;
+  vitaminE?: number;
+  vitaminK?: number;
+
+  // Vitamins (water-soluble)
+  vitaminC?: number;
+  thiamin?: number;
+  riboflavin?: number;
+  niacin?: number;
+  pantothenicAcid?: number;
+  vitaminB6?: number;
+  biotin?: number;
+  folate?: number;
+  vitaminB12?: number;
+  choline?: number;
+
+  // Minerals (major)
+  calcium?: number;
+  phosphorus?: number;
+  magnesium?: number;
+  sodium?: number;
+  potassium?: number;
+  chloride?: number;
+
+  // Minerals (trace)
+  iron?: number;
+  zinc?: number;
+  copper?: number;
+  manganese?: number;
+  selenium?: number;
+  iodine?: number;
+  chromium?: number;
+  molybdenum?: number;
+  fluoride?: number;
+
+  // Additional
+  alcohol?: number;
+  caffeine?: number;
+  water?: number;
 }
 
 /**
