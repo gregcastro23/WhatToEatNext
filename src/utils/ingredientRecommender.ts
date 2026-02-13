@@ -73,7 +73,7 @@ import { spices } from "@/data/ingredients/spices";
 // Types
 import type { Ingredient, Modality } from "@/data/ingredients/types";
 import { vegetables } from "@/data/ingredients/vegetables";
-import type { AstrologicalState } from "@/types";
+import type { AstrologicalStateType } from "@/types/alchemy";
 import type {
   ChakraEnergies,
   ElementalProperties,
@@ -279,7 +279,7 @@ function getAllIngredients(): Ingredient[] {
  * Returns a list of ingredients that match the current astrological state
  */
 export function getRecommendedIngredients(
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
 ): EnhancedIngredient[] {
   // Get the active planets from the astrological state
   const activePlanets = astroState.activePlanets || [];

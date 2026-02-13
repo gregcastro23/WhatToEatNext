@@ -19,9 +19,9 @@ import { vinegars } from "@/data/ingredients/vinegars";
 import { getCurrentSeason } from "@/data/integrations/seasonal";
 import { log } from "@/services/LoggingService";
 import type {
-  /* LunarPhase, Season, Element, */ AstrologicalState,
+  AstrologicalStateType,
   ElementalProperties,
-} from "@/types";
+} from "@/types/alchemy";
 // Removed unused, _imports: LunarPhase, Season, Element
 import type { Modality, Planet } from "@/types/celestial";
 
@@ -461,7 +461,7 @@ function calculateElementalProperties(
  * Get ingredient recommendations based on astrological state
  */
 export const getRecommendedIngredients = (
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
 ): EnhancedIngredient[] => {
   const ingredients = getAllIngredients();
 

@@ -9,7 +9,7 @@ import sunData from "@/data/planets/sun";
 import uranusData from "@/data/planets/uranus";
 import venusData from "@/data/planets/venus";
 import { log } from "@/services/LoggingService";
-import type { ZodiacSign } from "@/types";
+import type { ZodiacSign } from "@/types/zodiac";
 import type { PlanetPosition } from "./astrologyUtils";
 
 interface TransitDate {
