@@ -913,11 +913,7 @@ export const getRecommendedIngredients = (
             else if (aspect.type === "quincunx" || aspect.type === "inconjunct")
               multiplier = 0.85;
             // Semi-sextile aspects - minor benefit
-            else if (
-              aspect.type === "semi-sextile" ||
-              aspect.type === "semisextile"
-            )
-              multiplier = 1.05;
+            else if (aspect.type === "semi-sextile") multiplier = 1.05;
 
             totalStrength += (aspect.strength || 0.5) * multiplier;
           });

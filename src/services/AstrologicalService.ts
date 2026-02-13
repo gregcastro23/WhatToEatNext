@@ -158,7 +158,9 @@ export class AstrologicalService {
       ];
 
       const isValid = Object.values(positions).every((sign) =>
-        validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign),
+        validZodiacSigns.includes(
+          sign.sign.toLowerCase() as StandardZodiacSign,
+        ),
       );
 
       return _createSuccessResponse(isValid);

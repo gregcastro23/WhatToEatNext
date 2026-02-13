@@ -6,6 +6,7 @@ import type {
   ZodiacSign,
   AlchemicalProperties, // Added AlchemicalProperties from celestial
   AstrologicalState, // Added AstrologicalState from celestial
+  CelestialPosition, // Added CelestialPosition from celestial
 } from "@/types/celestial";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 export type { RecipeIngredient } from "@/types/recipe";
@@ -69,7 +70,13 @@ export type CompleteAlchemicalResultType = AlchemicalStateType &
  * Planetary Positions Map
  * Standard type for planetary position data
  */
-export type PlanetaryPositionsType = PlanetaryAlignment;
+export interface ExtendedPlanetaryPositions extends Record<
+  string,
+  CelestialPosition
+> {
+  dominantPlanet?: string;
+}
+export type PlanetaryPositionsType = ExtendedPlanetaryPositions;
 
 /**
  * Zodiac Sign Union Type

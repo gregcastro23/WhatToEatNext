@@ -18,6 +18,7 @@ import type {
   AstrologicalStateType,
   ServiceResponseType,
 } from "../types/alchemy";
+import type { CelestialPosition, ZodiacSign } from "../types/celestial";
 
 // ========== PHASE, 2: TYPE DEFAULTS ==========
 
@@ -129,16 +130,16 @@ export const _EmptyPlanetaryPositions: PlanetaryPositionsType = {} as const;
  * Basic planetary positions with default zodiac signs
  */
 export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
-  Sun: "aries",
-  Moon: "cancer",
-  Mercury: "gemini",
-  Venus: "taurus",
-  Mars: "aries",
-  Jupiter: "sagittarius",
-  Saturn: "capricorn",
-  Uranus: "aquarius",
-  Neptune: "pisces",
-  Pluto: "scorpio",
+  Sun: { sign: "aries" as ZodiacSign },
+  Moon: { sign: "cancer" as ZodiacSign },
+  Mercury: { sign: "gemini" as ZodiacSign },
+  Venus: { sign: "taurus" as ZodiacSign },
+  Mars: { sign: "aries" as ZodiacSign },
+  Jupiter: { sign: "sagittarius" as ZodiacSign },
+  Saturn: { sign: "capricorn" as ZodiacSign },
+  Uranus: { sign: "aquarius" as ZodiacSign },
+  Neptune: { sign: "pisces" as ZodiacSign },
+  Pluto: { sign: "scorpio" as ZodiacSign },
 } as const;
 
 /**

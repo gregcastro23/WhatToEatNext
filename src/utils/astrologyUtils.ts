@@ -1541,7 +1541,7 @@ export function calculateAspects(
     square: { maxOrb: 7, multiplier: -1 }, // -1 effect (special case for Ascendant handled in logic)
     sextile: { maxOrb: 4, multiplier: 0.5 }, // +0.5 effect (moderate positive)
     quincunx: { maxOrb: 3, multiplier: -0.5 }, // -0.5 effect (moderate negative)
-    semisextile: { maxOrb: 3, multiplier: 0.2 }, // +0.2 effect (mild positive)
+    "semi-sextile": { maxOrb: 3, multiplier: 0.2 }, // +0.2 effect (mild positive)
     semisquare: { maxOrb: 2, multiplier: -0.3 }, // -0.3 effect (mild negative)
     sesquisquare: { maxOrb: 2, multiplier: -0.3 }, // -0.3 effect (mild negative)
     quintile: { maxOrb: 2, multiplier: 0.3 }, // +0.3 effect (mild positive)
@@ -1607,7 +1607,7 @@ export function calculateAspects(
           trine: 120,
           opposition: 180,
           quincunx: 150,
-          semisextile: 30,
+          "semi-sextile": 30,
           semisquare: 45,
           sesquisquare: 135,
           quintile: 72,
