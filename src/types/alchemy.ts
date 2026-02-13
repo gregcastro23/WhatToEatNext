@@ -3,7 +3,6 @@ import type {
   LunarPhase,
   Modality,
   PlanetName,
-  ZodiacSign,
   AlchemicalProperties, // Added AlchemicalProperties from celestial
   AstrologicalState, // Added AstrologicalState from celestial
   CelestialPosition, // Added CelestialPosition from celestial
@@ -70,13 +69,9 @@ export type CompleteAlchemicalResultType = AlchemicalStateType &
  * Planetary Positions Map
  * Standard type for planetary position data
  */
-export interface ExtendedPlanetaryPositions extends Record<
-  string,
-  CelestialPosition
-> {
+export type PlanetaryPositionsType = Record<string, CelestialPosition> & {
   dominantPlanet?: string;
-}
-export type PlanetaryPositionsType = ExtendedPlanetaryPositions;
+};
 
 /**
  * Zodiac Sign Union Type
@@ -586,7 +581,7 @@ export type AspectType =
 export interface PlanetaryAspect {
   planet1: string;
   planet2: string;
-  type: AspectType;
+  type?: AspectType; // Made optional
   orb: number;
   strength: number;
   planets?: string[];

@@ -159,7 +159,7 @@ export class AstrologicalService {
 
       const isValid = Object.values(positions).every((sign) =>
         validZodiacSigns.includes(
-          sign.sign.toLowerCase() as StandardZodiacSign,
+          (sign.sign?.toLowerCase() || "") as StandardZodiacSign,
         ),
       );
 
