@@ -9,7 +9,10 @@
  */
 
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
-import type { Recipe, ElementalProperties } from "@/types/recipe";
+import type {
+  ElementalProperties,
+  MonicaOptimizedRecipe,
+} from "@/types/recipe";
 import type { AstrologyHookData } from "@/hooks/useAstrologicalState";
 import type { NatalChart } from "@/types/natalChart";
 import type { ChartComparison } from "@/services/ChartComparisonService";
@@ -63,7 +66,7 @@ export interface DayRecommendationOptions {
  */
 export interface RecommendedMeal {
   mealType: MealType;
-  recipe: Recipe;
+  recipe: MonicaOptimizedRecipe;
   score: number;
   reasons: string[];
   dayAlignment: number;
@@ -212,7 +215,7 @@ function applyUserPersonalization(
  * @returns Boost multiplier (0.7 to 1.3)
  */
 function calculatePersonalizationBoost(
-  recipe: Recipe,
+  recipe: MonicaOptimizedRecipe,
   natalChart: NatalChart,
   chartComparison?: ChartComparison,
 ): number {
@@ -723,7 +726,7 @@ function calculateCookingMethodScore(
  * @returns Score and reasons
  */
 function scoreRecipeForDay(
-  recipe: Recipe,
+  recipe: MonicaOptimizedRecipe,
   dayChar: PlanetaryDayCharacteristics,
   mealType: MealType,
   astroState: AstrologicalState,
@@ -856,53 +859,6 @@ function scoreNutritionalAlignment(
         Math.abs(carbsRatio - 0.4) -
         Math.abs(fatRatio - 0.3);
       return Math.max(0, Math.min(1, balance));
-    default:
-      return 0.5;
-  }
-}
-
-/**
- * Score how appropriate a recipe is for a meal type on a specific day
- *
- * @param recipe - Recipe to score
- * @param mealType - Type of meal
- * @param dayChar - Day characteristics
- * @returns Score (0-1)
- */
-function scoreMealTypeAppropriate(
-  recipe: Recipe,
-  mealType: MealType,
-  dayChar: PlanetaryDayCharacteristics,
-): number {
-  // If recipe has meal type tags, check for exact match
-  if (recipe.mealTypes && Array.isArray(recipe.mealTypes)) {
-    if (recipe.mealTypes.includes(mealType)) {
-      return 1.0;
-    }
-  }
-
-  // Fallback: Use prep time as a heuristic
-  const prepTime =
-    typeof recipe.prepTime === "string"
-      ? parseInt(recipe.prepTime.match(/\d+/)?.[0] || "30", 10)
-      : recipe.prepTime || 30;
-
-  switch (mealType) {
-    case "breakfast":
-      // Breakfast should be quick (< 30 min)
-      return prepTime <= 30 ? 1.0 : 0.5;
-    case "lunch":
-      // Lunch can be moderate (< 45 min)
-      return prepTime <= 45 ? 1.0 : 0.6;
-    case "dinner":
-      // Dinner can be longer, especially on Jupiter/Venus days
-      if (dayChar.planet === "Jupiter" || dayChar.planet === "Venus") {
-        return 1.0; // Any prep time okay
-      }
-      return prepTime <= 60 ? 1.0 : 0.7;
-    case "snack":
-      // Snacks should be very quick (< 15 min)
-      return prepTime <= 15 ? 1.0 : 0.3;
     default:
       return 0.5;
   }

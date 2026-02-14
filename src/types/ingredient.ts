@@ -7,7 +7,11 @@ import type {
   Modality,
 } from "@/data/ingredients/types";
 import type { ElementalProperties } from "./alchemy";
-import type { ZodiacSignType, LunarPhase, PlanetaryAlignment } from "./astrology";
+import type {
+  ZodiacSignType,
+  LunarPhase,
+  PlanetaryAlignment,
+} from "./astrology";
 
 export interface Ingredient {
   id?: string;

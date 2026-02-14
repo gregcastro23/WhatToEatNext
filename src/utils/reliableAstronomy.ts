@@ -514,7 +514,8 @@ async function fetchPublicApiData(
           ) {
             const standardName = planetNameMap[planetData.name.toLowerCase()];
             const exactLongitude = parseFloat(planetData.longitude);
-            const { sign, degree } = getLongitudeToZodiacSignType(exactLongitude);
+            const { sign, degree } =
+              getLongitudeToZodiacSignType(exactLongitude);
 
             positions[standardName] = {
               sign,

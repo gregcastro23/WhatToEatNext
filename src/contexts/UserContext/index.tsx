@@ -35,6 +35,8 @@ interface UserContextType {
   currentUser: UserProfile | null;
   isLoading: boolean;
   error: string | null;
+  isNewUser: boolean; // Flag for first-time users
+  isProfileIncomplete: boolean; // Flag for users with missing data
   loadProfile: () => void;
   updateProfile: (data: Partial<UserProfile>) => Promise<UserProfile | null>;
   logout: () => void;
@@ -51,11 +53,27 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isNewUser, setIsNewUser] = useState<boolean>(false);
+  const [isProfileIncomplete, setIsProfileIncomplete] = useState<boolean>(false);
+
+
+  // Check if the profile is missing essential information
+  const checkProfileCompleteness = (profile: UserProfile | null) => {
+    if (!profile || !profile.birthData) {
+      setIsProfileIncomplete(true);
+    } else {
+      setIsProfileIncomplete(false);
+    }
+  };
+
 
   // Load profile from localStorage first, then optionally sync with server
   const loadProfile = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    setIsNewUser(false);
+
+
     try {
       // Try to load from localStorage first
       const storedProfile =
@@ -63,10 +81,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           ? localStorage.getItem(STORAGE_KEY)
           : null;
 
+      let profileLoaded = false;
       if (storedProfile) {
         try {
           const profile = JSON.parse(storedProfile) as UserProfile;
           setCurrentUser(profile);
+          checkProfileCompleteness(profile);
+          profileLoaded = true;
           _logger.info("Profile loaded from localStorage", {
             userId: profile.userId,
           });
@@ -77,8 +98,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       }
 
       // If no stored profile, check if there's an authenticated session
-      // This allows for server-side profile loading when logged in
-      if (!storedProfile) {
+      if (!profileLoaded) {
         try {
           const response = await fetch("/api/user/profile", {
             method: "GET",
@@ -99,17 +119,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 diningGroups: data.profile.diningGroups || [],
               };
               setCurrentUser(profile);
-              // Save to localStorage for future use
+              checkProfileCompleteness(profile);
               localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+              profileLoaded = true;
               _logger.info("Profile loaded from server", {
                 userId: profile.userId,
               });
             }
           }
         } catch (fetchError) {
-          // Server fetch failed - this is OK if user isn't authenticated
           _logger.info("No authenticated session found");
         }
+      }
+
+      // If no profile was loaded from either source, it's a new user
+      if (!profileLoaded) {
+        setIsNewUser(true);
+        _logger.info("No profile found, marking as new user.");
       }
     } catch (err) {
       setError("Failed to load user profile");
@@ -144,6 +170,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             diningGroups: data.profile.diningGroups || [],
           };
           setCurrentUser(profile);
+          checkProfileCompleteness(profile);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
           _logger.info("Profile refreshed from server");
         }
@@ -159,16 +186,16 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setIsLoading(true);
     setError(null);
     try {
-      if (!currentUser) {
-        throw new Error("No user profile loaded");
-      }
+      // For a new user, create a basic profile structure
+      const baseProfile = currentUser || {
+        userId: `local-${new Date().getTime()}`, // Create a temporary local ID
+      };
 
       // Merge with existing profile
       const updatedProfile: UserProfile = {
-        ...currentUser,
+        ...baseProfile,
         ...data,
-        userId: currentUser.userId, // Preserve userId
-      };
+      } as UserProfile;
 
       // Try to update on server first
       try {
@@ -189,7 +216,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               userId:
                 result.profile.userId ||
                 result.profile.id ||
-                currentUser.userId,
+                updatedProfile.userId,
               name: result.profile.name,
               email: result.profile.email,
               preferences: result.profile.preferences,
@@ -199,6 +226,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               diningGroups: result.profile.diningGroups || [],
             };
             setCurrentUser(serverProfile);
+            checkProfileCompleteness(serverProfile);
+            setIsNewUser(false); // No longer a new user
             localStorage.setItem(STORAGE_KEY, JSON.stringify(serverProfile));
             _logger.info("Profile updated on server", {
               userId: serverProfile.userId,
@@ -209,9 +238,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       } catch (fetchError) {
         _logger.warn("Server update failed, saving locally", fetchError as any);
       }
-
+      
       // Fallback: Save locally if server update fails
       setCurrentUser(updatedProfile);
+      checkProfileCompleteness(updatedProfile);
+      setIsNewUser(false); // No longer a new user after first update
       if (typeof window !== "undefined") {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
       }
@@ -231,6 +262,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const logout = () => {
     setCurrentUser(null);
+    setIsNewUser(false);
+    setIsProfileIncomplete(false);
     // Clear localStorage on logout
     if (typeof window !== "undefined") {
       localStorage.removeItem(STORAGE_KEY);
@@ -246,6 +279,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     currentUser,
     isLoading,
     error,
+    isNewUser,
+    isProfileIncomplete,
     loadProfile,
     updateProfile,
     logout,

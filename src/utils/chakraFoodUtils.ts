@@ -389,7 +389,9 @@ function generateBalancingMeals(
  * @param zodiacSign The zodiac sign to get food recommendations for
  * @returns Array of recommended foods
  */
-export function getZodiacSignTypeFoodRecommendations(zodiacSign: any): string[] {
+export function getZodiacSignTypeFoodRecommendations(
+  zodiacSign: any,
+): string[] {
   // Mapping of zodiac signs to primarily associated chakras
   const ZODIAC_PRIMARY_CHAKRA: Record<ZodiacSignType, Chakra> = {
     aries: "Solar Plexus",

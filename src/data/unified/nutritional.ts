@@ -268,7 +268,10 @@ export class UnifiedNutritionalSystem {
       PlanetName,
       PlanetaryNutritionalProfile
     >;
-    this.zodiacProfiles = {} as Record<ZodiacSignType, ZodiacNutritionalProfile>;
+    this.zodiacProfiles = {} as Record<
+      ZodiacSignType,
+      ZodiacNutritionalProfile
+    >;
   }
 
   private calculateElementalBalance(

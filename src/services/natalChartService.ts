@@ -7,7 +7,12 @@
  */
 
 import type { BirthData, NatalChart } from "@/types/natalChart";
-import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
+import type {
+  Planet,
+  ZodiacSignType,
+  Element,
+  Modality,
+} from "@/types/celestial";
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,

@@ -2204,10 +2204,12 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
   const currentZodiacSignType = "aries"; // Use fallback or implement getCurrentZodiacSignType function
   if (
     currentZodiacSignType &&
-    mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiacSignType]?.Ingredients
+    mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiacSignType]
+      ?.Ingredients
   ) {
     const transitIngredients =
-      mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSignType].Ingredients;
+      mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSignType]
+        .Ingredients;
     if (
       transitIngredients.some(
         (ingredient) =>

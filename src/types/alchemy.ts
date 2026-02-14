@@ -74,8 +74,6 @@ export type PlanetaryPositionsType = Record<string, CelestialPosition> & {
   dominantPlanet?: string;
 };
 
-
-
 /**
  * Lunar Phase Type
  * Standard lunar phases with spaces (project standard)
@@ -581,7 +579,6 @@ export type DignityType =
   | "Detriment"
   | "Fall"
   | "Neutral";
-
 
 export const _COOKING_METHOD_THERMODYNAMICS = {};
 

@@ -273,7 +273,12 @@ export function getModalityForZodiac(
     "libra",
     "capricorn",
   ];
-  const fixedZodiacs: ZodiacSignType[] = ["taurus", "leo", "scorpio", "aquarius"];
+  const fixedZodiacs: ZodiacSignType[] = [
+    "taurus",
+    "leo",
+    "scorpio",
+    "aquarius",
+  ];
   const mutableZodiacs: ZodiacSignType[] = [
     "gemini",
     "virgo",

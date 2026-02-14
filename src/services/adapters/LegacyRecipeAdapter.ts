@@ -126,7 +126,9 @@ export class LegacyRecipeAdapter {
   /**
    * Get recipes by zodiac sign using modern service
    */
-  public async getRecipesByZodiac(zodiacSign: ZodiacSignType): Promise<Recipe[]> {
+  public async getRecipesByZodiac(
+    zodiacSign: ZodiacSignType,
+  ): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Safe string conversion for zodiac search
       const searchQuery = `zodiac:${String(zodiacSign || "")}`;

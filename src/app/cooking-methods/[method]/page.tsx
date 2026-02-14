@@ -628,7 +628,11 @@ export default function CookingMethodPage() {
                         </Typography>
                         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
                           {method.zodiacResonance.map((sign, index) => (
-                            <ZodiacSignType key={index} sign={sign} size="medium" />
+                            <ZodiacSignType
+                              key={index}
+                              sign={sign}
+                              size="medium"
+                            />
                           ))}
                         </Box>
                       </Box>

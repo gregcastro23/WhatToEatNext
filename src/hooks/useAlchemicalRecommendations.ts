@@ -31,7 +31,7 @@ export interface UseAlchemicalRecommendationsProps {
 }
 
 interface AlchemicalRecommendationResults {
-  recommendations: AlchemicalRecommendations;
+  recommendations: AlchemicalRecommendations | null;
   transformedIngredients: AlchemicalItem[];
   transformedMethods: AlchemicalItem[];
   transformedCuisines: AlchemicalItem[];
@@ -267,17 +267,7 @@ export const useAlchemicalRecommendations = ({
   ]);
 
   return {
-    recommendations: recommendations || {
-      topIngredients: [],
-      topMethods: [],
-      topCuisines: [],
-      dominantElement: "Fire",
-      dominantAlchemicalProperty: "Spirit",
-      heat: 0.5,
-      entropy: 0.5,
-      reactivity: 0.5,
-      gregsEnergy: 0.5,
-    },
+    recommendations,
     transformedIngredients,
     transformedMethods,
     transformedCuisines,

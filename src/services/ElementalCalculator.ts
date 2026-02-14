@@ -8,7 +8,11 @@ import {
   getElementalProperties,
   getSeasonalModifier,
 } from "../utils/backendAdapter";
-import type { ElementalProperties, Season, ZodiacSignType } from "../types/alchemy";
+import type {
+  ElementalProperties,
+  Season,
+  ZodiacSignType,
+} from "../types/alchemy";
 import type { Recipe } from "../types/recipe";
 
 interface ElementalSummary {
@@ -770,7 +774,10 @@ export class ElementalCalculator {
     // Base seasonal influence
     const seasonalModifiers = this.getZodiacSeasonalModifiers(sign);
     // Specific zodiac sign adjustments
-    const zodiacModifiers: Record<ZodiacSignType, Partial<ElementalProperties>> = {
+    const zodiacModifiers: Record<
+      ZodiacSignType,
+      Partial<ElementalProperties>
+    > = {
       aries: { Fire: 0.2 }, // Extra Fire boost for aries
       taurus: { Earth: 0.2 }, // Extra Earth boost for taurus
       gemini: { Air: 0.2 }, // Extra Air boost for gemini

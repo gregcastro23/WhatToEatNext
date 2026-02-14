@@ -6,7 +6,11 @@
  * planetary hours, critical degrees, and retrograde modifiers.
  */
 
-import type { Planet, ZodiacSignType, PlanetaryPosition } from "@/types/celestial";
+import type {
+  Planet,
+  ZodiacSignType,
+  PlanetaryPosition,
+} from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
 
 // Planets used for scoring (exclude Ascendant which isn't a planet)

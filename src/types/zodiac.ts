@@ -41,20 +41,21 @@ export const zodiacDateRanges: Record<
 };
 
 // Zodiac Elements
-export const zodiacElements: Record<ZodiacSignType, keyof ElementalProperties> = {
-  aries: "Fire",
-  leo: "Fire",
-  sagittarius: "Fire",
-  taurus: "Earth",
-  virgo: "Earth",
-  capricorn: "Earth",
-  gemini: "Air",
-  libra: "Air",
-  aquarius: "Air",
-  cancer: "Water",
-  scorpio: "Water",
-  pisces: "Water",
-};
+export const zodiacElements: Record<ZodiacSignType, keyof ElementalProperties> =
+  {
+    aries: "Fire",
+    leo: "Fire",
+    sagittarius: "Fire",
+    taurus: "Earth",
+    virgo: "Earth",
+    capricorn: "Earth",
+    gemini: "Air",
+    libra: "Air",
+    aquarius: "Air",
+    cancer: "Water",
+    scorpio: "Water",
+    pisces: "Water",
+  };
 
 // Helper Functions
 export const _getZodiacSignType = (date: Date): any => {

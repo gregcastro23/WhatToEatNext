@@ -156,7 +156,9 @@ export const transformItemWithPlanetaryPositions = (
 
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
-    const zodiacSign = (currentZodiac || "aries").toLowerCase() as ZodiacSignType;
+    const zodiacSign = (
+      currentZodiac || "aries"
+    ).toLowerCase() as ZodiacSignType;
     const zodiacElementMap: Record<ZodiacSignType, ElementalCharacter> = {
       aries: "Fire",
       leo: "Fire",

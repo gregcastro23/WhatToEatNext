@@ -19,7 +19,9 @@ import type {
 import {
   getAllEnhancedCookingMethods,
   type EnhancedCookingMethod,
+  getEnhancedIngredients,
 } from "../../constants/alchemicalPillars";
+import type { EnhancedRecipeIngredient } from "./recipes";
 import {
   unifiedCuisineIntegrationSystem,
   type CuisineIngredientAnalysis,
@@ -723,8 +725,12 @@ export class UnifiedRecipeBuildingSystem {
     );
 
     return {
-      name: this.generateRecipeName(criteria),
-      description: this.generateRecipeDescription(criteria),
+      name: this.generateRecipeName(
+        criteria,
+        baseIngredients,
+        baseCookingMethods,
+      ),
+      description: this.generateRecipeDescription(criteria, baseIngredients),
       cuisine: criteria.cuisine || "fusion",
       ingredients: baseIngredients,
       instructions: baseInstructions,
@@ -1829,57 +1835,237 @@ export class UnifiedRecipeBuildingSystem {
 
   // Additional placeholder methods for comprehensive functionality...
   private selectIngredientsFromCriteria(
-    _criteria: RecipeBuildingCriteria,
-  ): unknown[] {
-    // TODO: Implement ingredient selection based on criteria
-    return [];
+    criteria: RecipeBuildingCriteria,
+  ): EnhancedRecipeIngredient[] {
+    const allIngredients = getEnhancedIngredients();
+    let filteredIngredients = [...allIngredients];
+
+    // Filter by cuisine
+    if (criteria.cuisine) {
+      filteredIngredients = filteredIngredients.filter(
+        (i) => i.cuisine === criteria.cuisine,
+      );
+    }
+
+    // Filter by required ingredients
+    if (criteria.requiredIngredients) {
+      const required = new Set(criteria.requiredIngredients);
+      filteredIngredients = filteredIngredients.filter((i) =>
+        required.has(i.name),
+      );
+    }
+
+    // Filter by excluded ingredients
+    if (criteria.excludedIngredients) {
+      const excluded = new Set(criteria.excludedIngredients);
+      filteredIngredients = filteredIngredients.filter(
+        (i) => !excluded.has(i.name),
+      );
+    }
+
+    // Filter by dietary restrictions (assuming a 'tags' field on ingredients)
+    if (criteria.dietaryRestrictions) {
+      const restrictions = new Set(criteria.dietaryRestrictions);
+      filteredIngredients = filteredIngredients.filter((i) => {
+        const ingredientTags = new Set(i.tags || []);
+        return ![...restrictions].some((r) => ingredientTags.has(r));
+      });
+    }
+
+    // Filter by allergens
+    if (criteria.allergens) {
+      const allergens = new Set(criteria.allergens);
+      filteredIngredients = filteredIngredients.filter((i) => {
+        const ingredientAllergens = new Set(i.allergens || []);
+        return ![...allergens].some((a) => ingredientAllergens.has(a));
+      });
+    }
+
+    // Simple selection logic (can be expanded)
+    const selected = [];
+    const protein = filteredIngredients.find((i) => i.category === "protein");
+    const vegetables = filteredIngredients
+      .filter((i) => i.category === "vegetable")
+      .slice(0, 2);
+    const grain = filteredIngredients.find((i) => i.category === "grain");
+
+    if (protein) selected.push(protein);
+    selected.push(...vegetables);
+    if (grain) selected.push(grain);
+
+    // If no ingredients are selected, return some defaults
+    if (selected.length === 0) {
+      return [
+        { name: "Chicken", amount: "1", unit: "breast" },
+        { name: "Broccoli", amount: "1", unit: "cup" },
+        { name: "Rice", amount: "1", unit: "cup" },
+      ];
+    }
+
+    return selected.map((i) => ({
+      name: i.name,
+      amount: "1",
+      unit: "cup",
+      id: i.id,
+      seasonality: i.seasonality,
+    }));
   }
 
   private selectCookingMethodsFromCriteria(
-    _criteria: RecipeBuildingCriteria,
+    criteria: RecipeBuildingCriteria,
   ): string[] {
-    // TODO: Implement cooking method selection
-    return [];
+    if (criteria.cookingMethods && criteria.cookingMethods.length > 0) {
+      return criteria.cookingMethods;
+    }
+
+    // Default to common methods if no preference is given
+    const defaultMethods = ["Sauté", "Bake", "Roast"];
+
+    // Suggest simpler methods for beginners
+    if (criteria.skillLevel === "beginner") {
+      return ["Bake", "Roast"];
+    }
+
+    return defaultMethods;
   }
 
   private generateBaseInstructions(
-    _ingredients: unknown[],
-    _methods: string[],
+    ingredients: EnhancedRecipeIngredient[],
+    methods: string[],
   ): string[] {
-    // TODO: Implement instruction generation
-    return [];
+    const instructions = [];
+    const ingredientNames = ingredients.map((i) => i.name).join(", ");
+
+    // Initial prep
+    instructions.push(`Prepare all ingredients: chop ${ingredientNames}.`);
+
+    // Method-specific instructions
+    if (methods.includes("Roast") || methods.includes("Bake")) {
+      instructions.push(
+        `Preheat oven to 400°F (200°C). Toss ingredients with oil and spices, then spread on a baking sheet.`,
+        `Roast for 20-30 minutes, until golden and cooked through.`,
+      );
+    } else if (methods.includes("Sauté")) {
+      instructions.push(
+        `Heat a pan over medium-high heat with a tablespoon of oil.`,
+        `Add ingredients and sauté for 7-10 minutes, stirring occasionally.`,
+      );
+    } else {
+      instructions.push(
+        `Apply the selected cooking method, ${methods.join(", ")}, to the ingredients until cooked through.`,
+      );
+    }
+
+    // Final steps
+    instructions.push(
+      "Combine all cooked elements and season to taste.",
+      "Plate the dish and serve immediately.",
+    );
+
+    return instructions;
   }
 
-  private generateRecipeName(_criteria: RecipeBuildingCriteria): string {
-    // TODO: Generate dynamic recipe names based on criteria
-    return "Generated Recipe";
-  }
-  private generateRecipeDescription(_criteria: RecipeBuildingCriteria): string {
-    // TODO: Generate dynamic recipe descriptions
-    return "A delicious recipe";
-  }
-  private estimatePrepTime(
-    _ingredients: unknown[],
-    _methods: string[],
+  private generateRecipeName(
+    criteria: RecipeBuildingCriteria,
+    ingredients: EnhancedRecipeIngredient[],
+    methods: string[],
   ): string {
-    // TODO: Calculate prep time based on ingredients and methods
-    return "15 minutes";
-  }
-  private estimateCookTime(_methods: string[]): string {
-    // TODO: Calculate cook time based on methods
-    return "30 minutes";
-  }
-  private calculateBaseElementalProperties(
-    _ingredients: unknown[],
-  ): ElementalProperties {
-    // TODO: Calculate elemental properties from ingredients
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const primaryIngredient =
+      ingredients.find((i) => i.category === "protein")?.name ||
+      ingredients[0]?.name ||
+      "Mystery";
+    const cuisine = criteria.cuisine || "Fusion";
+    const method = methods[0] || "Delight";
+
+    return `${cuisine}-style ${method} ${primaryIngredient}`;
   }
 
-  private calculateCookingMethodMonicaModifier(_methods: string[]): number {
-    // TODO: Calculate Monica modifier from cooking methods
-    return 1.0;
+  private generateRecipeDescription(
+    criteria: RecipeBuildingCriteria,
+    ingredients: EnhancedRecipeIngredient[],
+  ): string {
+    const cuisine = criteria.cuisine || "Fusion";
+    const primaryIngredient =
+      ingredients.find((i) => i.category === "protein")?.name ||
+      ingredients[0]?.name ||
+      "delicious ingredients";
+    const elementalProfile =
+      Object.keys(criteria.elementalPreference || {}).join(", ") || "balanced";
+
+    return `A delicious and alchemically-tuned ${cuisine} dish featuring ${primaryIngredient}. Crafted for a ${elementalProfile} elemental profile, this recipe is perfect for the current season.`;
   }
+
+  private estimatePrepTime(
+    ingredients: EnhancedRecipeIngredient[],
+    methods: string[],
+  ): string {
+    let prepTime = ingredients.length * 2; // Base 2 mins per ingredient
+
+    // Add time for more complex methods
+    if (methods.some((m) => ["Braise", "Stew", "Marinate"].includes(m))) {
+      prepTime += 10;
+    }
+    if (methods.some((m) => ["Grill", "Roast"].includes(m))) {
+      prepTime += 5;
+    }
+
+    return `${prepTime} minutes`;
+  }
+
+  private estimateCookTime(methods: string[]): string {
+    let time = 0;
+    if (methods.includes("Sauté")) time = Math.max(time, 15);
+    if (methods.includes("Roast")) time = Math.max(time, 30);
+    if (methods.includes("Bake")) time = Math.max(time, 25);
+    if (methods.includes("Braise")) time = Math.max(time, 90);
+    if (methods.includes("Stew")) time = Math.max(time, 120);
+    if (methods.includes("Grill")) time = Math.max(time, 20);
+    if (methods.includes("Steam")) time = Math.max(time, 15);
+    if (time === 0) time = 20; // Default cook time
+    return `${time} minutes`;
+  }
+
+  private calculateBaseElementalProperties(
+    ingredients: EnhancedRecipeIngredient[],
+  ): ElementalProperties {
+    const allIngredients = getEnhancedIngredients();
+    const properties: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+
+    const selectedIngredients = allIngredients.filter((i) =>
+      ingredients.map((si) => si.name).includes(i.name),
+    );
+
+    for (const ingredient of selectedIngredients) {
+      if (ingredient.elementalProperties) {
+        properties.Fire += ingredient.elementalProperties.Fire || 0;
+        properties.Water += ingredient.elementalProperties.Water || 0;
+        properties.Earth += ingredient.elementalProperties.Earth || 0;
+        properties.Air += ingredient.elementalProperties.Air || 0;
+      }
+    }
+
+    const count = selectedIngredients.length || 1;
+    properties.Fire = parseFloat((properties.Fire / count).toFixed(2));
+    properties.Water = parseFloat((properties.Water / count).toFixed(2));
+    properties.Earth = parseFloat((properties.Earth / count).toFixed(2));
+    properties.Air = parseFloat((properties.Air / count).toFixed(2));
+
+    return properties;
+  }
+
+  private calculateCookingMethodMonicaModifier(methods: string[]): number {
+    let modifier = 1.0;
+    if (methods.includes("Braise") || methods.includes("Stew")) {
+      modifier *= 1.2;
+    }
+    if (methods.includes("Grill") || methods.includes("Roast")) {
+      modifier *= 1.1;
+    }
+    return modifier;
+  }
+  
+  // ... (rest of the file remains the same)
+  // ... (seasonal adaptation, fusion, etc.)
 
   // Seasonal adaptation methods - TODO: Implement comprehensive seasonal adaptations
   private generateDetailedIngredientSubstitutions(

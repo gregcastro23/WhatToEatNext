@@ -14,7 +14,11 @@ import {
   getEclipseSeasons,
   COMPREHENSIVE_TRANSIT_DATABASE,
 } from "@/data/transits/comprehensiveTransitDatabase";
-import type { CelestialPosition, Planet, ZodiacSignType } from "@/types/celestial";
+import type {
+  CelestialPosition,
+  Planet,
+  ZodiacSignType,
+} from "@/types/celestial";
 // import { getFallbackPlanetaryPositions } from "@/utils/accurateAstronomy";
 import { createLogger } from "@/utils/logger";
 import { getCurrentPlanetaryPositions } from "./astrologizeApi";

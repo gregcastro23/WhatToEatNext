@@ -173,7 +173,8 @@ export async function POST(request: NextRequest) {
       Uranus: planetaryPositions.Uranus?.sign as ZodiacSignType,
       Neptune: planetaryPositions.Neptune?.sign as ZodiacSignType,
       Pluto: planetaryPositions.Pluto?.sign as ZodiacSignType,
-      Ascendant: (planetaryPositions.Ascendant?.sign as ZodiacSignType) || "aries", // Default fallback
+      Ascendant:
+        (planetaryPositions.Ascendant?.sign as ZodiacSignType) || "aries", // Default fallback
     };
 
     // Calculate alchemical properties

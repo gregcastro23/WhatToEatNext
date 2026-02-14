@@ -104,7 +104,9 @@ export class AstrologyService {
   /**
    * Get the current zodiac sign (Sun sign)
    */
-  async getCurrentZodiacSignType(forceRefresh = false): Promise<ZodiacSignType> {
+  async getCurrentZodiacSignType(
+    forceRefresh = false,
+  ): Promise<ZodiacSignType> {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
