@@ -191,7 +191,7 @@ export interface AppState {
   Season,
   Element,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   PlanetaryAlignment,
   ElementalProperties

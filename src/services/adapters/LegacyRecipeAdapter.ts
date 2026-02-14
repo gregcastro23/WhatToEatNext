@@ -13,7 +13,7 @@ import type {
   Element,
   ElementalProperties,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   PlanetName,
 } from "@/types/alchemy";
@@ -126,7 +126,7 @@ export class LegacyRecipeAdapter {
   /**
    * Get recipes by zodiac sign using modern service
    */
-  public async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
+  public async getRecipesByZodiac(zodiacSign: ZodiacSignType): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Safe string conversion for zodiac search
       const searchQuery = `zodiac:${String(zodiacSign || "")}`;
@@ -255,7 +255,7 @@ export class LegacyRecipeAdapter {
       cuisine?: string;
       flavorProfile?: { [key: string]: number };
       season?: Season;
-      zodiacSign?: ZodiacSign;
+      zodiacSign?: ZodiacSignType;
       lunarPhase?: LunarPhase;
       planetName?: PlanetName;
       elementalFocus?: Element;

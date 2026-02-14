@@ -1,7 +1,7 @@
 import type {
   ElementalCharacter,
   LunarPhaseWithSpaces,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type { AlchemicalProperty, CelestialPosition } from "@/types/celestial";
 import { createLogger } from "@/utils/logger";
@@ -93,7 +93,7 @@ export const transformItemWithPlanetaryPositions = (
       sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
-      (currentZodiac || "aries").toLowerCase() as ZodiacSign,
+      (currentZodiac || "aries").toLowerCase() as ZodiacSignType,
     );
 
     // Calculate dominant element and alchemical property
@@ -156,8 +156,8 @@ export const transformItemWithPlanetaryPositions = (
 
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
-    const zodiacSign = (currentZodiac || "aries").toLowerCase() as ZodiacSign;
-    const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+    const zodiacSign = (currentZodiac || "aries").toLowerCase() as ZodiacSignType;
+    const zodiacElementMap: Record<ZodiacSignType, ElementalCharacter> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",
@@ -316,7 +316,7 @@ const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: any, // AlchemicalResults,
   planetaryBoost = 1.0,
-  zodiacSign?: ZodiacSign,
+  zodiacSign?: ZodiacSignType,
 ): Record<ElementalCharacter, number> => {
   try {
     // Create a copy of the original properties
@@ -395,10 +395,10 @@ const transformElementalProperties = (
  */
 const applyZodiacBoost = (
   transformedProperties: Record<ElementalCharacter, number>,
-  zodiacSign: ZodiacSign,
+  zodiacSign: ZodiacSignType,
 ): void => {
   try {
-    const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+    const zodiacElementMap: Record<ZodiacSignType, ElementalCharacter> = {
       aries: "Fire",
       taurus: "Earth",
       gemini: "Air",

@@ -1,5 +1,5 @@
 import type { RecipeData } from "@/data/recipes";
-import type { LunarPhase, ZodiacSign } from "@/types/alchemy";
+import type { LunarPhase, ZodiacSignType } from "@/types/alchemy";
 import type {
   ElementalProperties,
   Recipe,
@@ -234,7 +234,7 @@ function applyEnergyProfile(
       : [energyProfile.zodiac];
     recipe.zodiacInfluences = zodiacValues
       .map((value) => String(value).toLowerCase())
-      .filter(Boolean) as ZodiacSign[];
+      .filter(Boolean) as ZodiacSignType[];
   }
 
   if (energyProfile.lunar) {

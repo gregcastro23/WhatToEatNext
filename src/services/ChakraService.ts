@@ -7,7 +7,7 @@ import {
 import type { Chakra } from "../constants/chakraMappings";
 import type {
   SignEnergyState,
-  ZodiacSign,
+  ZodiacSignType,
 } from "../constants/signEnergyStates";
 
 export interface ChakraEnergyState {
@@ -34,7 +34,7 @@ export class ChakraService {
     signEnergyStates: SignEnergyState[],
   ): ChakraEnergyState[] {
     // Convert sign energy states to a record for easier access
-    const signEnergyRecord: Record<ZodiacSign, number> = {
+    const signEnergyRecord: Record<ZodiacSignType, number> = {
       aries: 0,
       taurus: 0,
       gemini: 0,

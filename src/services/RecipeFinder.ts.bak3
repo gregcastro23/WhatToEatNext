@@ -156,7 +156,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByZodiac(params: GetRecipesByZodiacParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSign);
+      const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSignType);
       return {
         success: true,
         data: recipes,
@@ -171,7 +171,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         context: {
           service: 'RecipeFinder',
           action: 'getRecipesByZodiac',
-          data: params.currentZodiacSign
+          data: params.currentZodiacSignType
         }
       });
       return {

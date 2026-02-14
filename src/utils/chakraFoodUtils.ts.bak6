@@ -1,5 +1,5 @@
 import { Chakra, CHAKRA_BALANCING_FOODS } from '../constants/chakraMappings';
-import { ZodiacSign } from '../constants/signEnergyStates';
+import { ZodiacSignType } from '../constants/signEnergyStates';
 import { ChakraEnergyState } from '../services/ChakraService';
 
 // Mapping food groups to chakras
@@ -319,9 +319,9 @@ function generateBalancingMeals(
  * @param zodiacSign The zodiac sign to get food recommendations for
  * @returns Array of recommended foods
  */
-export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
+export function getZodiacSignTypeFoodRecommendations(_zodiacSign: any): string[] {
   // Mapping of zodiac signs to primarily associated chakras
-  const ZODIAC_PRIMARY_CHAKRA: Record<ZodiacSign, Chakra> = {
+  const ZODIAC_PRIMARY_CHAKRA: Record<ZodiacSignType, Chakra> = {
     aries: 'Solar Plexus',
     taurus: 'Root',
     gemini: 'Throat',
@@ -359,7 +359,7 @@ export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
     }
 
     // Map signs to elements
-    const signElements: Record<ZodiacSign, string> = {
+    const signElements: Record<ZodiacSignType, string> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',

@@ -5,7 +5,7 @@
  */
 
 import * as Astronomy from "astronomy-engine";
-import type { ZodiacSign } from "@/types/celestial";
+import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 
@@ -84,7 +84,7 @@ async function calculatePlanetaryPositionsBackend(
     )) {
       const pos = position as any;
       positions[planetName] = {
-        sign: pos.sign as ZodiacSign,
+        sign: pos.sign as ZodiacSignType,
         degree: pos.degree,
         minute: pos.minute,
         exactLongitude: pos.exactLongitude,
@@ -107,7 +107,7 @@ async function calculatePlanetaryPositionsBackend(
  * Convert ecliptic longitude to zodiac sign and degree
  */
 function longitudeToZodiacPosition(longitude: number): {
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   degree: number;
   minute: number;
 } {
@@ -117,7 +117,7 @@ function longitudeToZodiacPosition(longitude: number): {
   const degree = Math.floor(degreeInSign);
   const minute = Math.floor((degreeInSign - degree) * 60);
 
-  const signs: ZodiacSign[] = [
+  const signs: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",

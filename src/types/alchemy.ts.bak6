@@ -540,7 +540,7 @@ export interface CelestialPosition {
 export type { AstrologicalState } from '@/types/celestial';
 
 // Re-export standard types from celestial
-export type { LunarPhase, PlanetName, ZodiacSign } from '@/types/celestial';
+export type { LunarPhase, PlanetName, ZodiacSignType } from '@/types/celestial';
 
 export const _COOKING_METHOD_THERMODYNAMICS = {}
 
@@ -962,7 +962,7 @@ export interface CelestialAlignment {
   kalchm?: number; // Kalchm constant for alchemical calculations
   monica?: number; // Monica constant for alchemical calculations
   // Current celestial position properties
-  currentZodiacSign?: any // Current zodiac sign for compatibility calculations
+  currentZodiacSignType?: any // Current zodiac sign for compatibility calculations
 }
 
 // Re-export important types from celestial that are commonly used

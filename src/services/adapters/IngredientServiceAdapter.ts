@@ -10,7 +10,7 @@ import type {
   ElementalProperties,
   PlanetName,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import { Element } from "@/types/alchemy";
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
@@ -52,7 +52,7 @@ export class EnhancedIngredientSystem {
     state: SystemState,
     options: {
       season?: Season;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSignType?: ZodiacSignType;
       categories?: string[];
       dietaryPreferences?: {
         isVegetarian?: boolean;
@@ -103,7 +103,7 @@ export class EnhancedIngredientSystem {
       }
 
       // Filter by zodiac sign if specified
-      if (options.currentZodiacSign) {
+      if (options.currentZodiacSignType) {
         filtered = filtered.filter((ingredient) => {
           const profile = ingredient.astrologicalPropertiesProfile as any;
           const zodiac =
@@ -112,7 +112,7 @@ export class EnhancedIngredientSystem {
           return zodiacArray.some(
             (z) =>
               typeof z === "string" &&
-              z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),
+              z.toLowerCase() === options.currentZodiacSignType?.toLowerCase(),
           );
         });
       }

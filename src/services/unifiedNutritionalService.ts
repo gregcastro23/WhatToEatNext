@@ -8,7 +8,7 @@ import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type {
   Element,
   ElementalProperties,
-  ZodiacSign,
+  ZodiacSignType,
   PlanetName,
   Season,
   CookingMethod,
@@ -73,7 +73,7 @@ export class UnifiedNutritionalService {
     ingredient: string | UnifiedIngredient,
     context?: {
       season?: Season;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       planetaryHour?: PlanetName;
       cookingMethod?: CookingMethod;
     },
@@ -245,7 +245,7 @@ export class UnifiedNutritionalService {
     ingredients: Array<string | UnifiedIngredient>,
     context?: {
       season?: Season;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       planetaryHour?: PlanetName;
     },
   ): Promise<NutritionalCompatibilityAnalysis> {
@@ -294,7 +294,7 @@ export class UnifiedNutritionalService {
    */
   getNutritionalRecommendations(criteria: {
     season?: Season;
-    currentZodiacSign?: any;
+    currentZodiacSignType?: any;
     planetaryHour?: PlanetName;
     targetKalchm?: number;
     elementalFocus?: Element;
@@ -335,7 +335,7 @@ export class UnifiedNutritionalService {
   getSeasonalNutritionalRecommendations(
     season?: Season,
     additionalCriteria?: {
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       planetaryHour?: PlanetName;
       healthGoals?: string[];
     },
@@ -351,7 +351,7 @@ export class UnifiedNutritionalService {
    * Get zodiac-specific nutritional recommendations
    */
   getZodiacNutritionalRecommendations(
-    currentZodiacSign: any,
+    currentZodiacSignType: any,
     additionalCriteria?: {
       season?: Season;
       planetaryHour?: PlanetName;
@@ -359,7 +359,7 @@ export class UnifiedNutritionalService {
     },
   ): NutritionalRecommendations {
     return this.getNutritionalRecommendations({
-      currentZodiacSign,
+      currentZodiacSignType,
       ...additionalCriteria,
     });
   }
@@ -371,7 +371,7 @@ export class UnifiedNutritionalService {
     planetaryHour: PlanetName,
     additionalCriteria?: {
       season?: Season;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       healthGoals?: string[];
     },
   ): NutritionalRecommendations {
@@ -524,7 +524,7 @@ export class UnifiedNutritionalService {
     ingredient: string | UnifiedIngredient,
     context?: {
       season?: Season;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       planetaryHour?: PlanetName;
     },
   ): Promise<number> {
@@ -548,7 +548,7 @@ export class UnifiedNutritionalService {
     ingredient: string | UnifiedIngredient,
     context?: {
       season?: Season;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       planetaryHour?: PlanetName;
     },
   ): Promise<{
@@ -671,7 +671,7 @@ export class UnifiedNutritionalService {
     ingredients: Array<string | UnifiedIngredient>,
     context?: {
       season?: Season;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       planetaryHour?: PlanetName;
       cookingMethod?: CookingMethod;
     },
@@ -705,7 +705,7 @@ export class UnifiedNutritionalService {
     ingredients: Array<string | UnifiedIngredient>,
     context?: {
       season?: Season;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
       planetaryHour?: PlanetName;
     },
   ): Promise<Record<string, number>> {
@@ -888,7 +888,7 @@ export const getEnhancedNutritionalProfile = (
   ingredient: string | UnifiedIngredient,
   context?: {
     season?: Season;
-    currentZodiacSign?: any;
+    currentZodiacSignType?: any;
     planetaryHour?: PlanetName;
     cookingMethod?: CookingMethod;
   },
@@ -899,7 +899,7 @@ export const analyzeNutritionalCompatibility = (
   ingredients: Array<string | UnifiedIngredient>,
   context?: {
     season?: Season;
-    currentZodiacSign?: any;
+    currentZodiacSignType?: any;
     planetaryHour?: PlanetName;
   },
 ) =>
@@ -910,7 +910,7 @@ export const analyzeNutritionalCompatibility = (
 
 export const getNutritionalRecommendations = (criteria: {
   season?: Season;
-  currentZodiacSign?: any;
+  currentZodiacSignType?: any;
   planetaryHour?: PlanetName;
   targetKalchm?: number;
   elementalFocus?: Element;
@@ -925,7 +925,7 @@ export const getNutritionalInsights = (
   ingredient: string | UnifiedIngredient,
   context?: {
     season?: Season;
-    currentZodiacSign?: any;
+    currentZodiacSignType?: any;
     planetaryHour?: PlanetName;
   },
 ) => unifiedNutritionalService.getNutritionalInsights(ingredient, context);

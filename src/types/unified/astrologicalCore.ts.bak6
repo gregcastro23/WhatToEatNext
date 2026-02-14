@@ -5,7 +5,7 @@ export type {
   ElementalProperties,
   PlanetaryPosition,
   AstrologicalState,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   Recipe,
   Ingredient
@@ -18,7 +18,7 @@ export interface FlexibleAstrologicalData {
   [key: string]: unknown,
   elementalProperties?: ElementalProperties,
   planetaryInfluences?: PlanetaryPosition[],
-  zodiacSign?: import('../alchemy').ZodiacSign,
+  zodiacSign?: import('../alchemy').ZodiacSignType,
   lunarPhase?: LunarPhase
 }
 

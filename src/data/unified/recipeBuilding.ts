@@ -61,7 +61,7 @@ export interface RecipeBuildingCriteria {
   // Astrological Preferences
   planetaryHour?: PlanetName;
   lunarPhase?: LunarPhase;
-  currentZodiacSign?: any;
+  currentZodiacSignType?: any;
 }
 
 export interface MonicaOptimizedRecipe extends EnhancedRecipe {
@@ -672,7 +672,7 @@ export class UnifiedRecipeBuildingSystem {
     criteria: RecipeBuildingCriteria & {
       currentPlanetaryHour: PlanetName;
       lunarPhase: LunarPhase;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
     },
   ): PlanetaryRecipeRecommendation {
     // Generate base recipe
@@ -683,7 +683,7 @@ export class UnifiedRecipeBuildingSystem {
       baseRecipe.recipe,
       criteria.currentPlanetaryHour,
       criteria.lunarPhase,
-      criteria.currentZodiacSign,
+      criteria.currentZodiacSignType,
     );
 
     // Calculate optimal cooking time
@@ -2254,7 +2254,7 @@ export function generatePlanetaryRecipeRecommendation(
   _criteria: RecipeBuildingCriteria & {
     currentPlanetaryHour: PlanetName;
     lunarPhase: LunarPhase;
-    currentZodiacSign?: any;
+    currentZodiacSignType?: any;
   },
 ): PlanetaryRecipeRecommendation {
   return unifiedRecipeBuildingSystem.generatePlanetaryRecipeRecommendation(

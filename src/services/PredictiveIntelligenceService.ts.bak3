@@ -11,7 +11,7 @@ import type {
     AdvancedIntelligenceConfig,
     AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
-import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSignType } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
 import type { PredictiveContext } from '@/types/predictiveIntelligence';
 import type { Recipe } from '@/types/recipe';
@@ -67,7 +67,7 @@ const calculateAstrologicalAlignment = (
   // Check zodiac compatibility with recipe's astrological timing
   const astroTiming = recipe.astrologicalTiming as any
   if (astroTiming.zodiacCompatibility) {
-    const zodiacCompatibility = (astroTiming.zodiacCompatibility as Record<ZodiacSign, number>)[
+    const zodiacCompatibility = (astroTiming.zodiacCompatibility as Record<ZodiacSignType, number>)[
       zodiacSign as any
     ],
     if (zodiacCompatibility) {

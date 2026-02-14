@@ -1,7 +1,7 @@
 import type {
   AlchemicalResult,
   ElementalProperties,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import {
   calculateAlchemicalCompatibility,
@@ -87,7 +87,7 @@ export function getUserFoodCompatibility(
   foodElementalProps: ElementalProperties,
 ) {
   // Map food elements to zodiac signs for compatibility calculation
-  const foodSignMap: Record<string, ZodiacSign> = {
+  const foodSignMap: Record<string, ZodiacSignType> = {
     Fire: "aries" as any, // Could also use leo or sagittarius,
     Water: "cancer" as any, // Could also use scorpio or pisces,
     Earth: "taurus" as any, // Could also use virgo or capricorn,

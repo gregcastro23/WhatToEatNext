@@ -22,7 +22,7 @@ export interface PlanetInfo {
   };
   aspects: Array<{
     planet: string;
-    type: string;
+    type?: string;
     orb: number;
   }>;
   elementalInfluence: {
@@ -121,7 +121,7 @@ export async function getPlanetInfo(
       };
     }
 
-    let planetAspects: Array<{ planet: string; type: string; orb: number }> =
+    let planetAspects: Array<{ planet: string; type?: string; orb: number }> =
       [];
     try {
       const { aspects } = calculateAspects(positions as any, 0);

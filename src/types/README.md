@@ -39,12 +39,12 @@ export enum Element {
 
 Always use this enum rather than string literals when working with elements.
 
-### ZodiacSign
+### ZodiacSignType
 
-The canonical type for zodiac signs is the `ZodiacSign` enum in `constants.ts`:
+The canonical type for zodiac signs is the `ZodiacSignType` enum in `constants.ts`:
 
 ```typescript
-export enum ZodiacSign {
+export enum ZodiacSignType {
   Aries = "aries",
   Taurus = "taurus",
   // ... other signs
@@ -83,8 +83,8 @@ The canonical interfaces for state are in `state.ts`:
 
 ```typescript
 export interface AlchemicalState {
-  currentZodiac: ZodiacSign;
-  sunSign: ZodiacSign;
+  currentZodiac: ZodiacSignType;
+  sunSign: ZodiacSignType;
   lunarPhase: LunarPhase;
   elementalProperties: ElementalProperties;
   // ... other properties
@@ -98,7 +98,7 @@ export interface AlchemicalState {
 Use type guards from `utils.ts` to check types at runtime:
 
 ```typescript
-import { isElement, isZodiacSign } from "./types";
+import { isElement, isZodiacSignType } from "./types";
 
 // Check if a value is a valid Element
 if (isElement(someValue)) {

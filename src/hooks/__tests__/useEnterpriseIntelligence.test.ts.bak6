@@ -5,7 +5,7 @@
 
 import { renderHook, act } from '@testing-library/react';
 
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSignType, LunarPhase } from '@/types/alchemy';
 
 import { useEnterpriseIntelligence } from '../useEnterpriseIntelligence';
 

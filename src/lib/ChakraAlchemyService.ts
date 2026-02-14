@@ -4,7 +4,7 @@ import type {
   EnergyStateProperties,
   Planet,
   TarotSuit,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type {
   Chakra,
@@ -281,7 +281,7 @@ export class ChakraAlchemyService {
     strength: number,
   ): void {
     // Map zodiac signs to elements
-    const zodiacElements: Record<ZodiacSign, string[]> = {
+    const zodiacElements: Record<ZodiacSignType, string[]> = {
       aries: ["Fire"],
       taurus: ["Earth"],
       gemini: ["Air"],

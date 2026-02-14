@@ -46,7 +46,7 @@ export interface TarotSeasonalInfluence {
 export interface SeasonalTarotProfile {
   minorArcana: string[];
   majorArcana: string[];
-  currentZodiacSigns: any[];
+  currentZodiacSignTypes: any[];
   cookingRecommendations: string[];
   tarotInfluences: Record<string, TarotSeasonalInfluence | string>;
   dominant_element: Element;
@@ -164,7 +164,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         "10 of Swords",
       ],
       majorArcana: ["The Emperor", "The Hierophant", "The Lovers"],
-      currentZodiacSigns: ["aries", "taurus", "gemini"],
+      currentZodiacSignTypes: ["aries", "taurus", "gemini"],
       cookingRecommendations: [
         "Use energetic Fire elements (aries) for quick cooking methods like stir-frying and grilling",
         "Incorporate Earth elements (taurus) for grounding dishes with root vegetables",
@@ -261,7 +261,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         "10 of Pentacles",
       ],
       majorArcana: ["The Chariot", "Strength", "The Hermit"],
-      currentZodiacSigns: ["cancer", "leo", "virgo"],
+      currentZodiacSignTypes: ["cancer", "leo", "virgo"],
       cookingRecommendations: [
         "Embrace Water elements (cancer) for emotional and nurturing dishes",
         "Use Fire elements (leo) for bold, vibrant cooking with strong flavors",
@@ -359,7 +359,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         "10 of Wands",
       ],
       majorArcana: ["Justice", "The Hanged Man", "Death"],
-      currentZodiacSigns: ["libra", "scorpio", "sagittarius"],
+      currentZodiacSignTypes: ["libra", "scorpio", "sagittarius"],
       cookingRecommendations: [
         "Balance Air elements (libra) with harmonious flavor combinations",
         "Use Water elements (scorpio) for deep, transformative dishes with complex flavors",
@@ -458,7 +458,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         "10 of Wands",
       ],
       majorArcana: ["Justice", "The Hanged Man", "Death"],
-      currentZodiacSigns: ["libra", "scorpio", "sagittarius"],
+      currentZodiacSignTypes: ["libra", "scorpio", "sagittarius"],
       cookingRecommendations: [
         "Balance Air elements (libra) with harmonious flavor combinations",
         "Use Water elements (scorpio) for deep, transformative dishes with complex flavors",
@@ -556,7 +556,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         "10 of Cups",
       ],
       majorArcana: ["Temperance", "The Devil", "The Tower"],
-      currentZodiacSigns: ["capricorn", "aquarius", "pisces"],
+      currentZodiacSignTypes: ["capricorn", "aquarius", "pisces"],
       cookingRecommendations: [
         "Embrace Earth elements (capricorn) for traditional and structured cooking",
         "Use Air elements (aquarius) for innovative and unconventional approaches",
@@ -653,7 +653,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         "The High Priestess",
         "The World",
       ],
-      currentZodiacSigns: [
+      currentZodiacSignTypes: [
         "aries",
         "taurus",
         "gemini",
@@ -1441,7 +1441,7 @@ export const seasonalUsage = Object.fromEntries(
       tarotAssociations: {
         minorArcana: profile.tarotProfile.minorArcana,
         majorArcana: profile.tarotProfile.majorArcana,
-        currentZodiacSigns: profile.tarotProfile.currentZodiacSigns,
+        currentZodiacSignTypes: profile.tarotProfile.currentZodiacSignTypes,
         cookingRecommendations: profile.tarotProfile.cookingRecommendations,
       },
     },

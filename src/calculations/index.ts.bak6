@@ -18,7 +18,7 @@ import { createLogger } from '@/utils/logger';
 import type {
   ElementalProperties,
   PlanetaryPosition,
-  ZodiacSign,
+  ZodiacSignType,
   Element
 } from '@/types/alchemy';
 

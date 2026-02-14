@@ -5,7 +5,7 @@ import {
   recommendFoodsForChakraBalance,
   CHAKRA_PROPERTIES
 } from '../constants/chakraMappings';
-import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
+import { SignEnergyState, ZodiacSignType } from '../constants/signEnergyStates';
 
 export interface ChakraEnergyState {
   chakra: Chakra,
@@ -29,7 +29,7 @@ export class ChakraService {
    */
   public calculateChakraEnergyStates(signEnergyStates: SignEnergyState[]): ChakraEnergyState[] {
     // Convert sign energy states to a record for easier access
-    const signEnergyRecord: Record<ZodiacSign, number> = {
+    const signEnergyRecord: Record<ZodiacSignType, number> = {
       aries: 0,
       taurus: 0,
       gemini: 0,

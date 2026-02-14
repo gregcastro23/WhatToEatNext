@@ -53,7 +53,6 @@ export type {
   AspectType,
   PlanetaryAspect,
   DignityType,
-  CelestialPosition,
   CookingMethod,
   ElementalItem,
   AlchemicalProperty,
@@ -102,6 +101,9 @@ export type {
   _NormalizedElementalProperties,
   BaseIngredient,
 } from "./alchemy";
+
+// Re-export types from celestial.ts
+export type { CelestialPosition } from "./celestial";
 
 // Re-export types from recipe.ts, excluding types already exported by alchemy.ts
 export type {

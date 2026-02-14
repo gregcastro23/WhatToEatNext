@@ -12,7 +12,7 @@ import type {
 } from "@/types/alchemy";
 import type { NutritionalProfile } from "@/types/nutrition";
 import type { Season } from "@/types/seasons";
-import type { ZodiacSign } from "@/types/zodiac";
+import type { ZodiacSignType } from "@/types/zodiac";
 
 // TODO: Fix import - add what to import from './ingredients.ts'
 // TODO: Fix import - add what to import from './seasonal.ts'
@@ -255,7 +255,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
 export class UnifiedNutritionalSystem {
   private seasonalProfiles: Record<Season, SeasonalNutritionalProfile>;
   private planetaryProfiles: Record<PlanetName, PlanetaryNutritionalProfile>;
-  private zodiacProfiles: Record<ZodiacSign, ZodiacNutritionalProfile>;
+  private zodiacProfiles: Record<ZodiacSignType, ZodiacNutritionalProfile>;
 
   constructor() {
     this.initializeProfiles();
@@ -268,7 +268,7 @@ export class UnifiedNutritionalSystem {
       PlanetName,
       PlanetaryNutritionalProfile
     >;
-    this.zodiacProfiles = {} as Record<ZodiacSign, ZodiacNutritionalProfile>;
+    this.zodiacProfiles = {} as Record<ZodiacSignType, ZodiacNutritionalProfile>;
   }
 
   private calculateElementalBalance(
@@ -415,7 +415,7 @@ export class UnifiedNutritionalSystem {
 
   getNutritionalRecommendations(_: {
     season?: Season;
-    currentZodiacSign?: any;
+    currentZodiacSignType?: any;
     planetaryHour?: PlanetName;
     targetKalchm?: number;
     elementalFocus?: Element;

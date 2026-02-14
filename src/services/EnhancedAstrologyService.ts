@@ -14,7 +14,7 @@ import {
   getEclipseSeasons,
   COMPREHENSIVE_TRANSIT_DATABASE,
 } from "@/data/transits/comprehensiveTransitDatabase";
-import type { CelestialPosition, Planet, ZodiacSign } from "@/types/celestial";
+import type { CelestialPosition, Planet, ZodiacSignType } from "@/types/celestial";
 // import { getFallbackPlanetaryPositions } from "@/utils/accurateAstronomy";
 import { createLogger } from "@/utils/logger";
 import { getCurrentPlanetaryPositions } from "./astrologizeApi";
@@ -321,7 +321,7 @@ export class EnhancedAstrologyService {
       Water: 0,
     };
 
-    const signElements: Record<ZodiacSign, string> = {
+    const signElements: Record<ZodiacSignType, string> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",

@@ -7,7 +7,7 @@ import {
 import {
   __,
   CelestialPosition,
-  _ZodiacSign,
+  _ZodiacSignType,
   _,
   _Planet,
   _PlanetaryAlignment

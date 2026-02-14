@@ -43,9 +43,9 @@ export type PlanetName = Planet;
 
 // Zodiac sign types
 /**
- * Standard ZodiacSign type - lowercase format for consistency
+ * Standard ZodiacSignType type - lowercase format for consistency
  */
-export type ZodiacSign =
+export type ZodiacSignType =
   | "aries"
   | "taurus"
   | "gemini"

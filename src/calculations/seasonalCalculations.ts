@@ -1,5 +1,5 @@
 import { SEASONAL_MODIFIERS } from "@/constants/seasonalModifiers";
-import { getZodiacSignForDate } from "@/data/zodiacSeasons";
+import { getZodiacSignTypeForDate } from "@/data/zodiacSeasons";
 import type { ElementalProperties, Season } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 
@@ -139,7 +139,7 @@ export function calculateSeasonalScores(
 
 // Helper function to get current season as a zodiac sign
 function getCurrentZodiacSeason(): any {
-  return getZodiacSignForDate(new Date());
+  return getZodiacSignTypeForDate(new Date());
 }
 
 // For backward compatibility

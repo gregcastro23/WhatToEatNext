@@ -6,7 +6,7 @@ import type {
   LunarPhase,
   PlanetName,
   PlanetaryAspect,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type { CelestialPosition } from "@/types/celestial";
 
@@ -209,7 +209,7 @@ export function getmoonIllumination(): number {
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export function calculateSunSign(date: Date = new Date()): ZodiacSign {
+export function calculateSunSign(date: Date = new Date()): ZodiacSignType {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
@@ -239,10 +239,10 @@ export function calculateSunSign(date: Date = new Date()): ZodiacSign {
  * @returns Total degrees (0-360)
  */
 export function getZodiacPositionInDegrees(
-  sign: ZodiacSign,
+  sign: ZodiacSignType,
   degree: number,
 ): number {
-  const signs: ZodiacSign[] = [
+  const signs: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",
@@ -439,8 +439,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
 
     // Provide Sun and Moon signs
-    const sunSign = (positions.Sun.sign as ZodiacSign) || "aries";
-    const moonSign = (positions.moon.sign as ZodiacSign) || "cancer";
+    const sunSign = (positions.Sun.sign as ZodiacSignType) || "aries";
+    const moonSign = (positions.moon.sign as ZodiacSignType) || "cancer";
 
     // Return formatted state
     return {
@@ -475,12 +475,12 @@ export function getCurrentAstrologicalState(): AstrologicalState {
  * @param sign Zodiac sign string (case insensitive)
  * @returns Normalized zodiac sign
  */
-export const normalizeZodiacSign = (sign: string): ZodiacSign => {
+export const normalizeZodiacSignType = (sign: string): ZodiacSignType => {
   // Convert to lowercase and trim
   const normalizedSign = sign.toLowerCase().trim();
 
   // Check if it's a valid sign
-  const validSigns: ZodiacSign[] = [
+  const validSigns: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",
@@ -495,8 +495,8 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
     "pisces",
   ];
 
-  if (validSigns.includes(normalizedSign as ZodiacSign)) {
-    return normalizedSign as ZodiacSign;
+  if (validSigns.includes(normalizedSign as ZodiacSignType)) {
+    return normalizedSign as ZodiacSignType;
   }
 
   // Handle common variations
@@ -518,14 +518,14 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
 export function getCurrentTransitSign(
   planet: string,
   date: Date = new Date(),
-): ZodiacSign | null {
+): ZodiacSignType | null {
   try {
     // Get reliable positions
     const positions = getReliablePlanetaryPositions();
 
     // Return position if available
     if (positions[planet]) {
-      return positions[planet].sign as ZodiacSign;
+      return positions[planet].sign as ZodiacSignType;
     }
 
     // For common planets, calculate fallback
@@ -610,8 +610,8 @@ export function validatePlanetaryPositions(
  * @param sign Zodiac sign
  * @returns Base longitude in degrees
  */
-export function getBaseSignLongitude(sign: ZodiacSign): number {
-  const signs: ZodiacSign[] = [
+export function getBaseSignLongitude(sign: ZodiacSignType): number {
+  const signs: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",
@@ -635,19 +635,19 @@ export function getBaseSignLongitude(sign: ZodiacSign): number {
  * @returns Current planetary positions
  */
 export function getCurrentTransitPositions(): {
-  [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean };
+  [key: string]: { sign: ZodiacSignType; degree: number; isRetrograde: boolean };
 } {
   // First try to get reliable positions
   const positions = getReliablePlanetaryPositions();
 
   // Convert to transit format
   const result: {
-    [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean };
+    [key: string]: { sign: ZodiacSignType; degree: number; isRetrograde: boolean };
   } = {};
 
   for (const [planet, data] of Object.entries(positions)) {
     result[planet] = {
-      sign: data.sign as ZodiacSign,
+      sign: data.sign as ZodiacSignType,
       degree: (data.degree as number) || 0,
       isRetrograde: data.isRetrograde || false,
     };
@@ -673,7 +673,7 @@ function getDayOfYear(date: Date): number {
  * @param dayOfYear Day of year (1-366)
  * @returns Zodiac sign
  */
-function _calculateApproximateSunSign(dayOfYear: number): ZodiacSign {
+function _calculateApproximateSunSign(dayOfYear: number): ZodiacSignType {
   // Simple approximation of Sun sign based on day of year
   if (dayOfYear >= 80 && dayOfYear < 110) return "aries";
   if (dayOfYear >= 110 && dayOfYear < 141) return "taurus";
@@ -694,11 +694,11 @@ function _calculateApproximateSunSign(dayOfYear: number): ZodiacSign {
  * @param dayOfYear Day of year (1-366)
  * @returns Zodiac sign
  */
-function calculateApproximateMoonSign(dayOfYear: number): ZodiacSign {
+function calculateApproximateMoonSign(dayOfYear: number): ZodiacSignType {
   // Moon moves about 13 degrees per day, spending about 2.5 days in each sign
   // This is a very rough approximation
   const moonCycle = Math.floor((dayOfYear % 29.5) / 2.5);
-  const signs: ZodiacSign[] = [
+  const signs: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",
@@ -803,6 +803,6 @@ function _getDaysSinceDate(date: Date): number {
  * @param sign String to convert
  * @returns Zodiac sign
  */
-function _toZodiacSign(sign: string): ZodiacSign {
-  return normalizeZodiacSign(sign);
+function _toZodiacSignType(sign: string): ZodiacSignType {
+  return normalizeZodiacSignType(sign);
 }

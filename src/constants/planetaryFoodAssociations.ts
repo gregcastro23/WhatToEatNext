@@ -40,8 +40,8 @@ export type PlanetaryDignity =
 export interface PlanetaryDignityDetails {
   type: PlanetaryDignity;
   strength: number;
-  favorableZodiacSigns?: string[];
-  unfavorableZodiacSigns?: string[];
+  favorableZodiacSignTypes?: string[];
+  unfavorableZodiacSignTypes?: string[];
 }
 
 /**
@@ -252,7 +252,7 @@ export const _calculatePlanetaryBoost = (
       dignities[_planet] = {
         type: "Neutral" as PlanetaryDignity,
         strength: baseBoost,
-        favorableZodiacSigns: currentZodiac ? [currentZodiac] : [],
+        favorableZodiacSignTypes: currentZodiac ? [currentZodiac] : [],
       };
     }
   });

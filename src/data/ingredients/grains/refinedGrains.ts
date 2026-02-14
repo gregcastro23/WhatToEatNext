@@ -1,5 +1,5 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
-import type { ZodiacSign } from "@/types/celestial";
+import type { ZodiacSignType } from "@/types/celestial";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRefinedGrains = {
@@ -610,7 +610,7 @@ const rawRefinedGrains = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+// ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const refinedGrains: Record<string, IngredientMapping> =
   fixIngredientMappings(rawRefinedGrains);
 

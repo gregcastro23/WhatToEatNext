@@ -1,4 +1,4 @@
-import { ZodiacSign, CookingMethod } from "../types/alchemy";
+import { ZodiacSignType, CookingMethod } from "../types/alchemy";
 import {
   _transformIngredients,
   _transformCookingMethods,

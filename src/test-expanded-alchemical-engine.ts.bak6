@@ -19,7 +19,7 @@ const alchemicalEngine = new AlchemicalEngine()
 import {;
   ElementalProperties,
   AstrologicalState,
-  ZodiacSign,
+  ZodiacSignType,
   CelestialPosition
 } from './types/alchemy';
 

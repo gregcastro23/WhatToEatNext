@@ -7,7 +7,7 @@
  */
 
 import type { BirthData, NatalChart } from "@/types/natalChart";
-import type { Planet, ZodiacSign, Element, Modality } from "@/types/celestial";
+import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
@@ -68,8 +68,8 @@ interface AstrologizeResponse {
 /**
  * Normalize zodiac sign name from API to our lowercase format
  */
-function normalizeSignName(signName: string): ZodiacSign {
-  const signMap: Record<string, ZodiacSign> = {
+function normalizeSignName(signName: string): ZodiacSignType {
+  const signMap: Record<string, ZodiacSignType> = {
     aries: "aries",
     taurus: "taurus",
     gemini: "gemini",
@@ -85,7 +85,7 @@ function normalizeSignName(signName: string): ZodiacSign {
   };
 
   const normalized = signName.toLowerCase();
-  return signMap[normalized] || ("aries" as ZodiacSign);
+  return signMap[normalized] || ("aries" as ZodiacSignType);
 }
 
 /**
@@ -93,7 +93,7 @@ function normalizeSignName(signName: string): ZodiacSign {
  */
 async function fetchPlanetaryPositions(
   birthData: BirthData,
-): Promise<Record<Planet, ZodiacSign>> {
+): Promise<Record<Planet, ZodiacSignType>> {
   try {
     const date = new Date(birthData.dateTime);
 
@@ -121,7 +121,7 @@ async function fetchPlanetaryPositions(
     const data = (await response.json()) as AstrologizeResponse;
 
     // Extract planetary positions
-    const positions: Record<Planet, ZodiacSign> = {
+    const positions: Record<Planet, ZodiacSignType> = {
       Sun: normalizeSignName(data._celestialBodies.sun.Sign.label),
       Moon: normalizeSignName(data._celestialBodies.moon.Sign.label),
       Mercury: normalizeSignName(data._celestialBodies.mercury.Sign.label),
@@ -132,7 +132,7 @@ async function fetchPlanetaryPositions(
       Uranus: normalizeSignName(data._celestialBodies.uranus.Sign.label),
       Neptune: normalizeSignName(data._celestialBodies.neptune.Sign.label),
       Pluto: normalizeSignName(data._celestialBodies.pluto.Sign.label),
-      Ascendant: "aries" as ZodiacSign, // Placeholder - would need more calculation
+      Ascendant: "aries" as ZodiacSignType, // Placeholder - would need more calculation
     };
 
     return positions;
@@ -146,7 +146,7 @@ async function fetchPlanetaryPositions(
  * Calculate dominant modality from planetary positions
  */
 function calculateDominantModality(
-  planetaryPositions: Record<Planet, ZodiacSign>,
+  planetaryPositions: Record<Planet, ZodiacSignType>,
 ): Modality {
   const modalityCounts: Record<string, number> = {
     Cardinal: 0,

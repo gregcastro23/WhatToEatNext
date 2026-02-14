@@ -7,7 +7,7 @@ import type {
     Ingredient,
     LunarPhase,
     Recipe,
-    ZodiacSign
+    ZodiacSignType
 } from '@/types/alchemy';
 // SpoonacularRecipe import removed with Spoonacular service cleanup
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
@@ -62,7 +62,7 @@ export class AlchemicalEngineBase {
   };
 
   private readonly zodiacElements: Record<
-    ZodiacSign,
+    ZodiacSignType,
     {
       baseElement: keyof ElementalProperties;
       decans: Array<{

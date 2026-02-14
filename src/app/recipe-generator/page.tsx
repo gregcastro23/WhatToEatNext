@@ -318,6 +318,20 @@ function RecipeGeneratorContent() {
         });
       }
 
+      if (filters.skillLevel !== "any") {
+        const skillMap = {
+          easy: "beginner",
+          medium: "intermediate",
+          hard: "advanced",
+        };
+
+        filtered = filtered.filter((rec) => {
+          const recipe = rec.recipe as any;
+          const skillLevel = recipe.skillLevel || skillMap[recipe.difficulty];
+          return skillLevel === filters.skillLevel;
+        });
+      }
+
       // Apply personalization if natal chart is available
       let personalizedResults: PersonalizedRecipeMeal[] = filtered.map(
         (rec) => ({

@@ -22,7 +22,7 @@ export type PlanetType =
   | "Uranus"
   | "Neptune"
   | "Pluto";
-export type ZodiacSign =
+export type ZodiacSignType =
   | "Aries"
   | "Taurus"
   | "Gemini"
@@ -135,7 +135,7 @@ export interface ZodiacAffinity {
   id: string; // UUID
   entity_type: string;
   entity_id: string; // UUID
-  zodiac_sign: ZodiacSign;
+  zodiac_sign: ZodiacSignType;
   affinity_strength: number; // DECIMAL(3,2) - 0.00 to 1.00
   created_at: Date;
 }

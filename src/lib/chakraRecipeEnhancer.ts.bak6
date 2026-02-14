@@ -1,4 +1,4 @@
-import {ChakraEnergies, ElementalProperties, Planet, _ZodiacSign} from '@/types/alchemy';
+import {ChakraEnergies, ElementalProperties, Planet, _ZodiacSignType} from '@/types/alchemy';
 import {KeyCardChakraMapping} from '@/types/chakra';
 import {Recipe} from '@/types/recipe';
 

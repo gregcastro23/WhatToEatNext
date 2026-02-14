@@ -22,7 +22,7 @@ import { alchemize } from "@/services/RealAlchemizeService";
 import type {
   ElementalProperties,
   PlanetaryPosition,
-  ZodiacSign,
+  ZodiacSignType,
   Element,
 } from "@/types/alchemy";
 import { Cache } from "@/utils/cache";

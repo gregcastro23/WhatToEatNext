@@ -33,7 +33,7 @@ async function testStreamlinedSystem() {
       _lunarPhase: 'waxing gibbous',
       _isDaytime: true,
       _currentDate: new Date(),
-      _currentZodiacSign: 'gemini'
+      _currentZodiacSignType: 'gemini'
 })
 
     log.info('🔬 KALCHM & MONICA _CONSTANTS: ')

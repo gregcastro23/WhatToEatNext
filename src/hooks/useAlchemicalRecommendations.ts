@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { RecommendationAdapter } from "../services/RecommendationAdapter";
-import { ZodiacSign } from "../types/alchemy";
+import { ZodiacSignType } from "../types/alchemy";
 import type { ElementalItem } from "../calculations/alchemicalTransformation";
 import type {
   ElementalCharacter,

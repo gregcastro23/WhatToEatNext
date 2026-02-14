@@ -1,6 +1,6 @@
 import { cuisinesMap } from "@/data/cuisines";
 import type {
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   ElementalProperties,
 } from "@/types/alchemy";

@@ -4,7 +4,7 @@
 
 import {culinaryTraditions, _CuisineProfile} from '@/data/cuisines/culinaryTraditions';
 import {culturalRules, _getCulturalRecommendations} from '@/data/culturalrules';
-import {ElementalProperties, _ZodiacSign, LunarPhase} from '@/types/alchemy';
+import {ElementalProperties, _ZodiacSignType, LunarPhase} from '@/types/alchemy';
 import {logger} from '@/utils/logger';
 
 // ===== INTERFACES =====;

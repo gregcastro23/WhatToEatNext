@@ -6,7 +6,7 @@
  * planetary hours, critical degrees, and retrograde modifiers.
  */
 
-import type { Planet, ZodiacSign, PlanetaryPosition } from "@/types/celestial";
+import type { Planet, ZodiacSignType, PlanetaryPosition } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
 
 // Planets used for scoring (exclude Ascendant which isn't a planet)
@@ -47,7 +47,7 @@ export interface BirthChart {
 }
 
 // Zodiac signs in order for longitude-to-sign conversion
-const ZODIAC_SIGNS: ZodiacSign[] = [
+const ZODIAC_SIGNS: ZodiacSignType[] = [
   "aries",
   "taurus",
   "gemini",
@@ -65,7 +65,7 @@ const ZODIAC_SIGNS: ZodiacSign[] = [
 // Planetary dignities
 const DIGNITIES: Record<
   string,
-  { domicile: ZodiacSign[]; exaltation: ZodiacSign[] }
+  { domicile: ZodiacSignType[]; exaltation: ZodiacSignType[] }
 > = {
   Sun: { domicile: ["leo"], exaltation: ["aries"] },
   Moon: { domicile: ["cancer"], exaltation: ["taurus"] },
@@ -77,7 +77,7 @@ const DIGNITIES: Record<
 };
 
 // Chaldean decan rulers
-const DECAN_RULERS: Record<ZodiacSign, [Planet, Planet, Planet]> = {
+const DECAN_RULERS: Record<ZodiacSignType, [Planet, Planet, Planet]> = {
   aries: ["Mars", "Sun", "Venus"],
   taurus: ["Mercury", "Moon", "Saturn"],
   gemini: ["Jupiter", "Mars", "Sun"],
@@ -272,7 +272,7 @@ export class PlanetaryScoringService {
 
   // --- Scoring calculations ---
 
-  private calculateDignityScore(planet: Planet, sign: ZodiacSign): number {
+  private calculateDignityScore(planet: Planet, sign: ZodiacSignType): number {
     const dignity = DIGNITIES[planet];
     if (!dignity) return 0.6;
 
@@ -289,7 +289,7 @@ export class PlanetaryScoringService {
   }
 
   private calculateDecanScore(
-    sign: ZodiacSign,
+    sign: ZodiacSignType,
     degree: number,
     minute: number,
     rulingPlanet: Planet,
@@ -413,13 +413,13 @@ export class PlanetaryScoringService {
 
   // --- Helpers ---
 
-  private normalizeSign(sign: any): ZodiacSign {
+  private normalizeSign(sign: any): ZodiacSignType {
     if (typeof sign !== "string") return "aries";
-    const lower = sign.toLowerCase() as ZodiacSign;
+    const lower = sign.toLowerCase() as ZodiacSignType;
     return ZODIAC_SIGNS.includes(lower) ? lower : "aries";
   }
 
-  private getOppositeSign(sign: ZodiacSign): ZodiacSign {
+  private getOppositeSign(sign: ZodiacSignType): ZodiacSignType {
     const idx = ZODIAC_SIGNS.indexOf(sign);
     return ZODIAC_SIGNS[(idx + 6) % 12];
   }
@@ -472,7 +472,7 @@ export class PlanetaryScoringService {
 
   private generateReason(
     planet: Planet,
-    sign: ZodiacSign,
+    sign: ZodiacSignType,
     components: PlanetaryScoreComponents,
     isRetrograde: boolean,
   ): string {

@@ -13,7 +13,7 @@ import type { PlanetaryInfluenceResponse } from "@/types/apiResponses";
 import type { AstrologicalTestData } from "@/types/astrologicalTestData";
 import type {
   PlanetaryPositions,
-  StandardZodiacSign,
+  StandardZodiacSignType,
   StandardLunarPhase,
   CompleteAstrologicalState,
   PlanetaryPositionDetails,
@@ -22,7 +22,7 @@ import type {
 import type {
   CelestialPosition,
   PlanetaryAlignment,
-  ZodiacSign,
+  ZodiacSignType,
   Planet,
   LunarPhase,
 } from "@/types/celestial";
@@ -40,7 +40,7 @@ const logger = createLogger("AstrologicalService");
  */
 export type AstrologicalCalculationResponse = ServiceResponseType<{
   planetaryPositions: PlanetaryPositions;
-  zodiacSign: StandardZodiacSign;
+  zodiacSign: StandardZodiacSignType;
   lunarPhase: StandardLunarPhase;
   elementalInfluence: ElementalPropertiesType;
   accuracy: number;
@@ -107,7 +107,7 @@ export class AstrologicalService {
       logger.info("Testing astrological calculations...");
       const mockCalculationResult = {
         planetaryPositions: DefaultPlanetaryPositions,
-        zodiacSign: "aries" as StandardZodiacSign,
+        zodiacSign: "aries" as StandardZodiacSignType,
         lunarPhase: "new moon" as StandardLunarPhase,
         elementalInfluence: {
           Fire: 0.3,
@@ -142,7 +142,7 @@ export class AstrologicalService {
       }
 
       // Validate that all positions are valid zodiac signs
-      const validZodiacSigns: StandardZodiacSign[] = [
+      const validZodiacSignTypes: StandardZodiacSignType[] = [
         "aries",
         "taurus",
         "gemini",
@@ -157,11 +157,14 @@ export class AstrologicalService {
         "pisces",
       ];
 
-      const isValid = Object.values(positions).every((sign) =>
-        validZodiacSigns.includes(
-          (sign.sign?.toLowerCase() || "") as StandardZodiacSign,
-        ),
-      );
+      const isValid = Object.values(positions).every((sign) => {
+        if (typeof sign === "string") {
+          return true; // Skip dominantPlanet property
+        }
+        return validZodiacSignTypes.includes(
+          (sign.sign?.toLowerCase() || "") as StandardZodiacSignType,
+        );
+      });
 
       return _createSuccessResponse(isValid);
     } catch (error) {
@@ -270,7 +273,7 @@ export class AstrologicalService {
 // Re-export types from centralized location - using the imported types instead of re-exporting
 export type {
   Planet,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   CelestialPosition,
   PlanetaryAlignment,
@@ -303,7 +306,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
     // For now, return a minimal valid state as a placeholder
     const astrologicalData = {
       planetaryPositions: DefaultPlanetaryPositions,
-      zodiacSign: "aries" as StandardZodiacSign,
+      zodiacSign: "aries" as StandardZodiacSignType,
       lunarPhase: "new moon" as StandardLunarPhase,
       elementalInfluence: {
         Fire: 0.25,

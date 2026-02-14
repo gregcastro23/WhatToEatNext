@@ -11,7 +11,7 @@ import {
   getCurrentPlanetaryPositions,
   getPlanetaryPositionsForDateTime,
 } from "@/services/astrologizeApi";
-import type { ZodiacSign } from "@/types/alchemy";
+import type { ZodiacSignType } from "@/types/alchemy";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
@@ -495,7 +495,7 @@ class CurrentMomentManager {
    * Get element for zodiac sign
    */
   private getElementForSign(sign: any): string {
-    const elementMap: Record<ZodiacSign, string> = {
+    const elementMap: Record<ZodiacSignType, string> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",

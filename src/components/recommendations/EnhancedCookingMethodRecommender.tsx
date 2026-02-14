@@ -122,7 +122,7 @@ const DEFAULT_PLANETARY_POSITIONS = {
 };
 
 // Helper to extract zodiac sign from position data
-function extractZodiacSign(position: unknown): string {
+function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
   if (typeof position === "object" && position !== null) {
@@ -162,7 +162,7 @@ function normalizePlanetaryPositions(
   for (const planet of planets) {
     const position =
       contextPositions[planet] || contextPositions[planet.toLowerCase()];
-    normalized[planet] = extractZodiacSign(position);
+    normalized[planet] = extractZodiacSignType(position);
   }
 
   return normalized;

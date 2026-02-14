@@ -4,7 +4,7 @@ import type {
   // Element, // unused - removed for performance
   ElementalProperties,
   // Planet, // unused - removed for performance
-  // ZodiacSign, // unused - removed for performance
+  // ZodiacSignType, // unused - removed for performance
   // ThermodynamicProperties, // unused - removed for performance
   ThermodynamicMetrics,
 } from "@/types/alchemy";

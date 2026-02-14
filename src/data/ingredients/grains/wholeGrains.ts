@@ -1083,7 +1083,7 @@ const rawWholeGrains = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+// ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const wholeGrains: Record<string, IngredientMapping> =
   fixIngredientMappings(rawWholeGrains);
 

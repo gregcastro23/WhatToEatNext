@@ -1,5 +1,5 @@
 import { cuisinesMap } from '@/data/cuisines';
-import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
+import type { ZodiacSignType, LunarPhase, ElementalProperties } from '@/types/alchemy';
 import {_createAstrologicalBridge} from '@/types/bridges/astrologicalBridge';
 import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
 import type { Recipe } from '@/types/recipe';

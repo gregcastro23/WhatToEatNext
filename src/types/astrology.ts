@@ -25,7 +25,7 @@ export type PlanetaryPositions = PlanetaryPositionsType;
  * Standardized Zodiac Sign Type
  * Using the project standard lowercase zodiac signs
  */
-export type StandardZodiacSign = ZodiacSignType;
+export type StandardZodiacSignType = ZodiacSignType;
 
 /**
  * Standardized Lunar Phase Type
@@ -95,7 +95,7 @@ export interface BirthChartData {
  * Complete astrological profile for ingredients or individuals
  */
 export interface AstrologicalProfileType {
-  zodiac?: StandardZodiacSign[];
+  zodiac?: StandardZodiacSignType[];
   lunar?: StandardLunarPhase[];
   planetary?: PlanetaryPositionDetails[];
   aspects?: PlanetaryAspectDetails[];
@@ -157,7 +157,7 @@ export interface AstrologicalAspect {
 
 /* Example code - commented out to avoid type errors
 import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
-import { Planet, PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
+import { Planet, PlanetName, ZodiacSignType, LunarPhase } from '@/types/celestial';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem()
@@ -183,5 +183,5 @@ export type {
   LunarPhase,
   Planet,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";

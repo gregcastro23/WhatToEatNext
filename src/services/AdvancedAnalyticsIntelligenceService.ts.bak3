@@ -29,7 +29,7 @@ import {
 import {
   Recipe,
   Ingredient,
-  ZodiacSign,
+  ZodiacSignType,
   RecipeIngredient,
   ElementalProperties
 } from '@/types/unified';
@@ -992,7 +992,7 @@ export class AdvancedAnalyticsIntelligenceService {
     // Astrological seasonal considerations
     if (astrologicalContext.sunSign) {
       // Sun sign seasonal alignment
-      const sunElement = this.getElementForZodiacSign(astrologicalContext.sunSign);
+      const sunElement = this.getElementForZodiacSignType(astrologicalContext.sunSign);
       const seasonElement = this.getElementForSeason(currentSeason);
 
       if (sunElement === seasonElement) {
@@ -1014,7 +1014,7 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   // Helper methods for astrological calculations
-  private getElementForZodiacSign(sign: string): string {
+  private getElementForZodiacSignType(sign: string): string {
     const elementMap: Record<string, string> = {
       aries: 'Fire',
       leo: 'Fire',

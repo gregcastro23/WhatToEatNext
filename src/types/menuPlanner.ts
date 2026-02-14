@@ -8,7 +8,7 @@
 
 import type { LunarPhase } from "./alchemy";
 import type { Recipe, ElementalProperties } from "./recipe";
-import type { PlanetaryPositions, StandardZodiacSign } from "./astrology";
+import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
 
 /**
  * Days of the week enumeration
@@ -41,7 +41,7 @@ export const PLANETARY_DAY_RULERS: Record<DayOfWeek, string> = {
  */
 export interface PlanetarySnapshot {
   dominantPlanet: string;
-  zodiacSign: StandardZodiacSign;
+  zodiacSign: StandardZodiacSignType;
   lunarPhase: LunarPhase;
   elementalState: ElementalProperties;
   planetaryPositions?: PlanetaryPositions;

@@ -1,5 +1,5 @@
 // Zodiac Signs
-export type ZodiacSign =
+export type ZodiacSignType =
   | "aries"
   | "taurus"
   | "gemini"
@@ -23,7 +23,7 @@ export interface ElementalProperties {
 
 // Zodiac Date Ranges
 export const zodiacDateRanges: Record<
-  ZodiacSign,
+  ZodiacSignType,
   { startMonth: number; startDay: number; endMonth: number; endDay: number }
 > = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
@@ -41,7 +41,7 @@ export const zodiacDateRanges: Record<
 };
 
 // Zodiac Elements
-export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
+export const zodiacElements: Record<ZodiacSignType, keyof ElementalProperties> = {
   aries: "Fire",
   leo: "Fire",
   sagittarius: "Fire",
@@ -57,7 +57,7 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
 };
 
 // Helper Functions
-export const _getZodiacSign = (date: Date): any => {
+export const _getZodiacSignType = (date: Date): any => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
   for (const [sign, range] of Object.entries(zodiacDateRanges)) {

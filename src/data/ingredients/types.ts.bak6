@@ -1,4 +1,4 @@
-import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSignType } from '@/types/alchemy';
 
 // Re-export ElementalProperties to fix TS2459 errors
 export type { ElementalProperties }

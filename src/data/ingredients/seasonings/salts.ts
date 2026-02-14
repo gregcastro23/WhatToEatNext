@@ -1100,7 +1100,7 @@ const rawSalts = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+// ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const salts: Record<string, IngredientMapping> = fixIngredientMappings(
   rawSalts as Record<string, Partial<IngredientMapping>>,
 );

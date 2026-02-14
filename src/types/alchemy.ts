@@ -6,6 +6,7 @@ import type {
   AlchemicalProperties, // Added AlchemicalProperties from celestial
   AstrologicalState, // Added AstrologicalState from celestial
   CelestialPosition, // Added CelestialPosition from celestial
+  ZodiacSignType,
 } from "@/types/celestial";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 export type { RecipeIngredient } from "@/types/recipe";
@@ -73,23 +74,7 @@ export type PlanetaryPositionsType = Record<string, CelestialPosition> & {
   dominantPlanet?: string;
 };
 
-/**
- * Zodiac Sign Union Type
- * All twelve zodiac signs in lowercase (project standard)
- */
-export type ZodiacSignTypeType =
-  | "aries"
-  | "taurus"
-  | "gemini"
-  | "cancer"
-  | "leo"
-  | "virgo"
-  | "libra"
-  | "scorpio"
-  | "sagittarius"
-  | "capricorn"
-  | "aquarius"
-  | "pisces";
+
 
 /**
  * Lunar Phase Type
@@ -179,7 +164,7 @@ export interface PlanetaryInfluenceResultType {
  */
 export interface AstrologicalStateType {
   planetaryPositions?: PlanetaryPositionsType;
-  zodiacSign?: ZodiacSignTypeType; // Changed from currentZodiac to zodiacSign and made optional
+  zodiacSign?: ZodiacSignType; // Changed from currentZodiac to zodiacSign and made optional
   lunarPhase?: LunarPhaseType; // Original lunarPhase as LunarPhaseType
   moonPhase?: string; // Additional string for moonPhase property
   elementalInfluence?: ElementalPropertiesType; // Made optional
@@ -583,7 +568,7 @@ export interface PlanetaryAspect {
   planet2: string;
   type?: AspectType; // Made optional
   orb: number;
-  strength: number;
+  strength?: number;
   planets?: string[];
   influence?: number;
   additionalInfo?: Record<string, unknown>;
@@ -596,15 +581,7 @@ export type DignityType =
   | "Detriment"
   | "Fall"
   | "Neutral";
-export interface CelestialPosition {
-  sign: ZodiacSignType;
-  degree: number;
-  minute?: number;
-  position?: number;
-  retrograde?: boolean;
-  element?: Element;
-  dignity?: DignityType;
-}
+
 
 export const _COOKING_METHOD_THERMODYNAMICS = {};
 
@@ -1081,7 +1058,7 @@ export type { Season } from "@/constants/seasons";
 
 /**
  * Comprehensive intelligence system for alchemy type definitions
- * Analyzes type usage patterns, validation, and compatibility
+ * Analyzes type usage, validation, and compatibility
  */
 
 // Simplified ALCHEMY_TYPE_INTELLIGENCE_SYSTEM for compilation

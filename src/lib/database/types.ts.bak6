@@ -12,7 +12,7 @@
 
 export type UserRole = 'admin' | 'user' | 'guest' | 'service'
 export type PlanetType = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' | 'Pluto'
-export type ZodiacSign = 'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 'Leo' | 'Virgo' | 'Libra' | 'Scorpio' | 'Sagittarius' | 'Capricorn' | 'Aquarius' | 'Pisces'
+export type ZodiacSignType = 'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 'Leo' | 'Virgo' | 'Libra' | 'Scorpio' | 'Sagittarius' | 'Capricorn' | 'Aquarius' | 'Pisces'
 export type LunarPhase = 'New Moon' | 'Waxing Crescent' | 'First Quarter' | 'Waxing Gibbous' | 'Full Moon' | 'Waning Gibbous' | 'Last Quarter' | 'Waning Crescent'
 export type Season = 'Spring' | 'Summer' | 'Autumn' | 'Winter'
 export type CuisineType = 'Italian' | 'French' | 'Chinese' | 'Japanese' | 'Indian' | 'Mexican' | 'Thai' | 'Vietnamese' | 'Korean' | 'Greek' | 'Middle Eastern' | 'American' | 'African' | 'Russian'
@@ -82,7 +82,7 @@ export interface ZodiacAffinity {
   id: string; // UUID
   entity_type: string,
   entity_id: string; // UUID
-  zodiac_sign: ZodiacSign,
+  zodiac_sign: ZodiacSignType,
   affinity_strength: number; // DECIMAL(3,2) - 0.00 to 1.00
   created_at: Date;
 }

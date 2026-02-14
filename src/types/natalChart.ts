@@ -6,7 +6,7 @@
 
 import type {
   Planet,
-  ZodiacSign,
+  ZodiacSignType,
   Element,
   Modality,
   ElementalProperties,
@@ -31,7 +31,7 @@ export interface NatalChart {
   id?: string;
   name?: string;
   birthData: BirthData;
-  planetaryPositions: Record<Planet, ZodiacSign>;
+  planetaryPositions: Record<Planet, ZodiacSignType>;
   dominantElement: Element;
   dominantModality: Modality;
   elementalBalance: ElementalProperties;

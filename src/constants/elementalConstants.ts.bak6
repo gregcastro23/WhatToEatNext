@@ -1,6 +1,6 @@
 // src/constants/elementalConstants.ts
 
-import type { Element, ElementalProperties, ZodiacSign } from '../types/alchemy';
+import type { Element, ElementalProperties, ZodiacSignType } from '../types/alchemy';
 
 // Define StringIndexed type inline since we're not importing it
 type _<T = unknown> = {
@@ -38,7 +38,7 @@ export const _ELEMENT_AFFINITIES: Record<Element, Element[]> = {
   Earth: ['Water']
 }
 
-export const _ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
+export const _ZODIAC_ELEMENTS: Record<ZodiacSignType, Element> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',

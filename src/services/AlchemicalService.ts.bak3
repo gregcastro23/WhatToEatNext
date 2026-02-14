@@ -16,7 +16,7 @@ import type {
   PlanetaryPositionsType,
   ServiceResponseType,
   ElementalProperties,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   LunarPhaseWithSpaces,
   PlanetaryAspect,
@@ -448,7 +448,7 @@ export class AlchemicalService {
    * @param zodiacSign The zodiac sign to generate recommendations for
    * @returns A recommendation tailored to the zodiac sign
    */
-  generateZodiacRecommendation(currentZodiacSign: any): ElementalRecommendation {
+  generateZodiacRecommendation(currentZodiacSignType: any): ElementalRecommendation {
     const ZODIAC_ELEMENTS: { [key: string]: ElementalCharacter } = {
       aries: 'Fire',
       leo: 'Fire',
@@ -464,7 +464,7 @@ export class AlchemicalService {
       pisces: 'Water'
     };
 
-    const element = ZODIAC_ELEMENTS[currentZodiacSign];
+    const element = ZODIAC_ELEMENTS[currentZodiacSignType];
     const properties = {
       Fire: element === 'Fire' ? 0.6 : 0.1,
       Water: element === 'Water' ? 0.6 : 0.1,

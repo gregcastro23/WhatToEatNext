@@ -31,7 +31,7 @@ import {
 } from "@/utils/planetaryAlchemyMapping";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { retryWithTimeout } from "@/utils/apiUtils"; // Import retryWithTimeout
-import type { Planet, ZodiacSign } from "@/types/celestial";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 const logger = createLogger("CuisinesRecommendAPI");
@@ -291,12 +291,12 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
  * Per CLAUDE.md: "ESMS ONLY from planetary positions, NOT elemental approximations"
  *
  * @param planetaryPositions - Actual planetary positions from backend
- * @param fallbackZodiacSign - Fallback if planetary positions unavailable
+ * @param fallbackZodiacSignType - Fallback if planetary positions unavailable
  * @returns Alchemical properties (Spirit, Essence, Matter, Substance)
  */
 function calculateAlchemicalPropertiesFromPlanets(
   planetaryPositions: Record<string, PlanetPosition> | undefined,
-  fallbackZodiacSign?: string,
+  fallbackZodiacSignType?: string,
 ): AlchemicalProperties {
   if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
     // ✅ CORRECT: Use actual planetary positions
@@ -316,12 +316,12 @@ function calculateAlchemicalPropertiesFromPlanets(
     });
 
     return alchemical;
-  } else if (fallbackZodiacSign) {
+  } else if (fallbackZodiacSignType) {
     // ❌ FALLBACK ONLY: Approximate from Sun sign (not ideal, but better than nothing)
     logger.warn(
       "Using zodiac fallback for ESMS calculation - backend unavailable",
       {
-        fallbackZodiacSign,
+        fallbackZodiacSignType,
       },
     );
 
@@ -341,7 +341,7 @@ function calculateAlchemicalPropertiesFromPlanets(
     };
 
     return (
-      alchemicalMap[fallbackZodiacSign] || {
+      alchemicalMap[fallbackZodiacSignType] || {
         Spirit: 4,
         Essence: 4,
         Matter: 4,

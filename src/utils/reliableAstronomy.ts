@@ -238,7 +238,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
     const exactLongitude = parseFloat(longMatch[1]);
 
     // Get zodiac sign based on longitude;
-    const { sign, degree } = getLongitudeToZodiacSign(exactLongitude);
+    const { sign, degree } = getLongitudeToZodiacSignType(exactLongitude);
 
     // Check for retrograde motion
     const retroLine = lines.find((line) => line.includes("retrograde"));
@@ -259,7 +259,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
 /**
  * Convert longitude to zodiac sign
  */
-function getLongitudeToZodiacSign(longitude: number): {
+function getLongitudeToZodiacSignType(longitude: number): {
   sign: string;
   degree: number;
 } {
@@ -314,7 +314,7 @@ function calculateLunarNode(
     const longitude = nodeType === "northNode" ? (Omega + 180) % 360 : Omega;
 
     // Get zodiac sign;
-    const { sign, degree } = getLongitudeToZodiacSign(longitude);
+    const { sign, degree } = getLongitudeToZodiacSignType(longitude);
 
     return {
       sign,
@@ -514,7 +514,7 @@ async function fetchPublicApiData(
           ) {
             const standardName = planetNameMap[planetData.name.toLowerCase()];
             const exactLongitude = parseFloat(planetData.longitude);
-            const { sign, degree } = getLongitudeToZodiacSign(exactLongitude);
+            const { sign, degree } = getLongitudeToZodiacSignType(exactLongitude);
 
             positions[standardName] = {
               sign,
@@ -643,7 +643,7 @@ async function fetchTimeAndDateData(
           ) {
             const planetName =
               objData.name.charAt(0).toUpperCase() + objData.name.slice(1);
-            const { sign, degree } = getLongitudeToZodiacSign(
+            const { sign, degree } = getLongitudeToZodiacSignType(
               objData.position.eclipticLongitude,
             );
 

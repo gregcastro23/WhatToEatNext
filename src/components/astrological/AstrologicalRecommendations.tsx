@@ -103,7 +103,7 @@ const SEASON_ICONS = {
 };
 
 export const AstrologicalRecommendations: React.FC = () => {
-  const [zodiacSign, setZodiacSign] = useState<string>("");
+  const [zodiacSign, setZodiacSignType] = useState<string>("");
   const [season, setSeason] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [cookingPlan, setCookingPlan] = useState<CookingPlan | null>(null);
@@ -205,7 +205,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                 <Select
                   placeholder="Select your zodiac sign"
                   value={zodiacSign}
-                  onChange={(e) => setZodiacSign(e.target.value)}
+                  onChange={(e) => setZodiacSignType(e.target.value)}
                 >
                   {ZODIAC_SIGNS.map((sign) => (
                     <option key={sign} value={sign}>

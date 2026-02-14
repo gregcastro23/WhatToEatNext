@@ -13,7 +13,7 @@ import {
     getSeasonalAnalysis,
     getTransitForDate
 } from '@/data/transits/comprehensiveTransitDatabase';
-import { CelestialPosition, Planet, ZodiacSign } from '@/types/celestial';
+import { CelestialPosition, Planet, ZodiacSignType } from '@/types/celestial';
 import { getFallbackPlanetaryPositions } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
 
@@ -256,7 +256,7 @@ export class EnhancedAstrologyService {
   ): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
-    const signElements: Record<ZodiacSign, string> = {
+    const signElements: Record<ZodiacSignType, string> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',

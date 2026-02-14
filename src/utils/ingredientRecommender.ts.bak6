@@ -2022,13 +2022,13 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
 
   // Check Mercury ZodiacTransit ingredient associations in current sign
   // This is a more dynamic way to check for transient associations
-  const currentZodiacSign = 'aries'; // Use fallback or implement getCurrentZodiacSign function
+  const currentZodiacSignType = 'aries'; // Use fallback or implement getCurrentZodiacSignType function
   if (
-    currentZodiacSign &&
-    mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiacSign]?.Ingredients
+    currentZodiacSignType &&
+    mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiacSignType]?.Ingredients
   ) {
     const transitIngredients =
-      mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSign].Ingredients,
+      mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSignType].Ingredients,
     if (
       transitIngredients.some(
         ingredient =>

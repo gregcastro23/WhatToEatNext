@@ -17,7 +17,7 @@ export * from "./elementalUtils";
 export {
   getSignFromLongitude as zodiacUtilsGetSignFromLongitude,
   getZodiacElementalInfluence as zodiacUtilsGetZodiacElementalInfluence,
-  getZodiacSign as zodiacUtilsGetZodiacSign,
+  getZodiacSignType as zodiacUtilsGetZodiacSignType,
 } from "./zodiacUtils";
 
 // Export sign vector utilities

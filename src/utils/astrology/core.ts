@@ -7,7 +7,7 @@ import type {
   LowercaseElementalProperties,
   LunarPhase,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type {
   AstrologicalState,
@@ -245,7 +245,7 @@ export function getLunarPhaseModifier(phase: LunarPhase): number {
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
 export function getZodiacElement(sign: any): ElementalCharacter {
-  const elements: Record<ZodiacSign, ElementalCharacter> = {
+  const elements: Record<ZodiacSignType, ElementalCharacter> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -385,7 +385,7 @@ export function calculateSunSign(date: Date = new Date()): any | undefined {
  */
 export async function calculatemoonSign(
   date: Date = new Date(),
-): Promise<ZodiacSign> {
+): Promise<ZodiacSignType> {
   try {
     const rawPositions = await getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);

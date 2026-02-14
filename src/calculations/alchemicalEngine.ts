@@ -8,7 +8,7 @@ import type {
   ElementalProperties,
   PlanetPosition,
   StandardizedAlchemicalResult,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/unified";
 
 // Internal imports
@@ -76,7 +76,7 @@ export class AlchemicalEngineAdvanced {
   };
 
   private readonly zodiacElements: Record<
-    ZodiacSign,
+    ZodiacSignType,
     keyof ElementalProperties
   > = {
     aries: "Fire",
@@ -112,7 +112,7 @@ export class AlchemicalEngineAdvanced {
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
   };
 
-  private readonly decans: Record<ZodiacSign, Decan[]> = {
+  private readonly decans: Record<ZodiacSignType, Decan[]> = {
     aries: [
       { ruler: "Mars", element: "Fire", degree: 0 },
       { ruler: "Sun", element: "Fire", degree: 10 },

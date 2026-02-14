@@ -2,7 +2,7 @@ import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransfo
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { RulingPlanet } from '../constants/planets';
 import {
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   PlanetaryAspect,
   LunarPhaseWithSpaces,

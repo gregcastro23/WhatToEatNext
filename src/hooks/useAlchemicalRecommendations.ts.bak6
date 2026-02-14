@@ -8,7 +8,7 @@ import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import {
   AlchemicalItem,
   LunarPhaseWithSpaces,
-  ZodiacSign,
+  ZodiacSignType,
   PlanetaryAspect
 } from '../types/alchemy';
 

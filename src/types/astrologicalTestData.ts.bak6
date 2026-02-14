@@ -6,7 +6,7 @@
 
 export interface AstrologicalTestData {
   mockPlanetaryPositions?: Record<string, number>;
-  testZodiacSign?: string;
+  testZodiacSignType?: string;
   testLunarPhase?: string;
   testElementalInfluence?: {
     Fire: number;

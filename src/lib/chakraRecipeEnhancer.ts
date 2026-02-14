@@ -3,7 +3,7 @@ import type {
   ElementalProperties,
   Planet,
 } from "@/types/alchemy";
-import { ZodiacSign } from "@/types/alchemy";
+import { ZodiacSignType } from "@/types/alchemy";
 import type { KeyCardChakraMapping } from "@/types/chakra";
 import type { Recipe } from "@/types/recipe";
 import { ChakraAlchemyService } from "./ChakraAlchemyService";
