@@ -1795,10 +1795,10 @@ export function alchemize(planetaryPositions: Record<string, any>): {
  */
 export interface EnhancedRecipeIngredient {
   name: string;
-  amount: string;
+  amount: number;
   unit: string;
   id?: string;
-  seasonality?: string | string[];
+  seasonality?: Season | "all" | Season[];
   category?: string;
   cuisine?: string;
   elementalProperties?: {
@@ -1934,4 +1934,3 @@ const ALL_ENHANCED_INGREDIENTS: EnhancedRecipeIngredient[] = [
 export function getEnhancedIngredients(): EnhancedRecipeIngredient[] {
   return [...ALL_ENHANCED_INGREDIENTS];
 }
-
