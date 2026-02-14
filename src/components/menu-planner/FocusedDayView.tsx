@@ -21,6 +21,7 @@ import type {
   DayOfWeek,
 } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import {
   getDayName,
   getPlanetaryDayCharacteristics,
@@ -684,7 +685,10 @@ export default function FocusedDayView({
   };
 
   // Handle recipe selection
-  const handleSelectRecipe = async (mealType: MealType, recipe: MonicaOptimizedRecipe) => {
+  const handleSelectRecipe = async (
+    mealType: MealType,
+    recipe: MonicaOptimizedRecipe,
+  ) => {
     await addMealToSlot(dayOfWeek, mealType, recipe, 2);
   };
 
