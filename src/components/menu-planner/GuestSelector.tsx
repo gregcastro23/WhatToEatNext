@@ -11,10 +11,10 @@ interface GuestSelectorProps {
 export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
   const { currentUser, isLoading: userIsLoading, error: userError } = useUser();
   const [activeParticipants, setActiveParticipants] = useState<string[]>([]);
-  
+
   const savedCharts: (DiningGroup | GroupMember)[] = [
     ...(currentUser?.diningGroups || []),
-    ...(currentUser?.groupMembers || [])
+    ...(currentUser?.groupMembers || []),
   ];
 
   const toggleParticipant = (chartId: string) => {
@@ -33,7 +33,11 @@ export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
   }
 
   if (userError) {
-    return <div style={{color: "#ef4444"}}>Error loading guest charts: {userError}</div>;
+    return (
+      <div style={{ color: "#ef4444" }}>
+        Error loading guest charts: {userError}
+      </div>
+    );
   }
 
   return (
@@ -60,7 +64,7 @@ export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
             ),
         )}
         {savedCharts.length === 0 && (
-            <p className="text-gray-500 text-sm">No saved guests found.</p>
+          <p className="text-gray-500 text-sm">No saved guests found.</p>
         )}
       </div>
     </div>

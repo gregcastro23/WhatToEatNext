@@ -322,18 +322,18 @@ export function RecipeNutritionModal({
 
                       const totalIngredientCalories = ingredientNutrition
                         ? (ingredientNutrition.calories *
-                            ing.amount *
+                            Number(ing.amount) *
                             servings) /
                           (masterIngredient?.servingSize || 1)
                         : 0;
                       const totalIngredientProtein = ingredientNutrition
                         ? (ingredientNutrition.protein *
-                            ing.amount *
+                            Number(ing.amount) *
                             servings) /
                           (masterIngredient?.servingSize || 1)
                         : 0;
                       const totalIngredientSodium = ingredientNutrition
-                        ? (ingredientNutrition.sodium * ing.amount * servings) /
+                        ? (ingredientNutrition.sodium * Number(ing.amount) * servings) /
                           (masterIngredient?.servingSize || 1)
                         : 0;
 
@@ -344,7 +344,7 @@ export function RecipeNutritionModal({
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
                           <span>
-                            {ing.amount * servings} {ing.unit} {ing.name}
+                            {Number(ing.amount) * servings} {ing.unit} {ing.name}
                           </span>
                           {ing.optional && (
                             <span className="text-xs text-gray-400">

@@ -54,8 +54,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isNewUser, setIsNewUser] = useState<boolean>(false);
-  const [isProfileIncomplete, setIsProfileIncomplete] = useState<boolean>(false);
-
+  const [isProfileIncomplete, setIsProfileIncomplete] =
+    useState<boolean>(false);
 
   // Check if the profile is missing essential information
   const checkProfileCompleteness = (profile: UserProfile | null) => {
@@ -66,13 +66,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-
   // Load profile from localStorage first, then optionally sync with server
   const loadProfile = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     setIsNewUser(false);
-
 
     try {
       // Try to load from localStorage first
@@ -238,7 +236,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       } catch (fetchError) {
         _logger.warn("Server update failed, saving locally", fetchError as any);
       }
-      
+
       // Fallback: Save locally if server update fails
       setCurrentUser(updatedProfile);
       checkProfileCompleteness(updatedProfile);

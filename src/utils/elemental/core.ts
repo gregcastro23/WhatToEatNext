@@ -407,14 +407,14 @@ export function calculateElementalState(
  * @returns Elemental properties
  */
 function calculateElementalStateFromIngredients(
-  ingredients: Array<{ category?: string; amount?: number }>,
+  ingredients: RecipeIngredient[],
 ): ElementalProperties {
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   let totalWeight = 0;
 
   (ingredients || []).forEach((ingredient) => {
     const category = ingredient.category?.toLowerCase() || "";
-    const amount = ingredient.amount || 1;
+    const amount = Number(ingredient.amount) || 1; // Explicitly cast to Number
 
     // Map categories to elements
     let elementContribution = { Fire: 0, Water: 0, Earth: 0, Air: 0 };

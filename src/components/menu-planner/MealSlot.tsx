@@ -19,12 +19,13 @@ import { RecipeNutritionModal } from "@/components/nutrition/RecipeNutritionModa
 
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
 import { getMealTypeCharacteristics } from "@/types/menuPlanner";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { Recipe } from "@/types/recipe";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
 
 interface MealSlotProps {
   mealSlot: MealSlotType;
-  onAddRecipe?: (recipe: Recipe) => void;
+  onAddRecipe?: (recipe: MonicaOptimizedRecipe) => void;
   onRemoveRecipe?: () => void;
   onUpdateServings?: (servings: number) => void;
   onMoveMeal?: (targetSlotId: string) => void;
@@ -143,7 +144,7 @@ function RecipeDisplay({
   onCopyMeal,
   weeklyNutrition,
 }: {
-  recipe: Recipe;
+  recipe: MonicaOptimizedRecipe;
   servings: number;
   mealType: MealType;
   onRemove?: () => void;
@@ -366,7 +367,7 @@ function RecipeDisplay({
                     <span className="text-purple-500">•</span>
                     <span className="truncate">
                       {ing.amount
-                        ? `${ing.amount * servings} ${ing.unit || ""} `
+                        ? `${Number(ing.amount) * servings} ${ing.unit || ""} `
                         : ""}
                       {ing.name}
                     </span>
@@ -442,7 +443,7 @@ export default function MealSlot({
 
   // Handle recipe selection
   const handleRecipeSelect = (recipe: Recipe) => {
-    onAddRecipe?.(recipe);
+    onAddRecipe?.(recipe as MonicaOptimizedRecipe);
     setShowRecipeSelector(false);
   };
 

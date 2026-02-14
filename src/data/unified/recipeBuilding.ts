@@ -20,8 +20,8 @@ import {
   getAllEnhancedCookingMethods,
   type EnhancedCookingMethod,
   getEnhancedIngredients,
+  type EnhancedRecipeIngredient,
 } from "../../constants/alchemicalPillars";
-import type { EnhancedRecipeIngredient } from "./recipes";
 import {
   unifiedCuisineIntegrationSystem,
   type CuisineIngredientAnalysis,
@@ -1882,7 +1882,7 @@ export class UnifiedRecipeBuildingSystem {
     }
 
     // Simple selection logic (can be expanded)
-    const selected = [];
+    const selected: EnhancedRecipeIngredient[] = [];
     const protein = filteredIngredients.find((i) => i.category === "protein");
     const vegetables = filteredIngredients
       .filter((i) => i.category === "vegetable")
@@ -1933,7 +1933,7 @@ export class UnifiedRecipeBuildingSystem {
     ingredients: EnhancedRecipeIngredient[],
     methods: string[],
   ): string[] {
-    const instructions = [];
+    const instructions: string[] = [];
     const ingredientNames = ingredients.map((i) => i.name).join(", ");
 
     // Initial prep
@@ -2029,7 +2029,12 @@ export class UnifiedRecipeBuildingSystem {
     ingredients: EnhancedRecipeIngredient[],
   ): ElementalProperties {
     const allIngredients = getEnhancedIngredients();
-    const properties: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const properties: ElementalProperties = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
 
     const selectedIngredients = allIngredients.filter((i) =>
       ingredients.map((si) => si.name).includes(i.name),
@@ -2063,7 +2068,7 @@ export class UnifiedRecipeBuildingSystem {
     }
     return modifier;
   }
-  
+
   // ... (rest of the file remains the same)
   // ... (seasonal adaptation, fusion, etc.)
 

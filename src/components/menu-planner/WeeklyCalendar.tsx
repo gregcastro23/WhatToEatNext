@@ -28,6 +28,7 @@ import {
   PLANETARY_DAY_RULERS,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { Recipe } from "@/types/recipe";
 
 interface WeeklyCalendarProps {
@@ -167,7 +168,7 @@ function DayColumn({
           <MealSlot
             key={mealSlot.id}
             mealSlot={mealSlot}
-            onAddRecipe={(recipe: Recipe) =>
+            onAddRecipe={(recipe: MonicaOptimizedRecipe) =>
               addMealToSlot(dayOfWeek, mealSlot.mealType, recipe)
             }
             onRemoveRecipe={() => removeMealFromSlot(mealSlot.id)}

@@ -58,7 +58,7 @@ export class RecipeEngine {
     }
 
     const total = recipe.ingredients.reduce(
-      (sum, ing) => sum + (ing.amount ?? 0),
+      (sum, ing) => sum + (Number(ing.amount) ?? 0),
       0,
     );
     const unnormalized = recipe.ingredients.reduce((props, ing) => {
@@ -66,7 +66,7 @@ export class RecipeEngine {
         Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
           props[_element] =
             (props[_element] || 0) +
-            ((value as number) * (ing.amount ?? 0)) / total;
+            ((value as number) * (Number(ing.amount) ?? 0)) / total;
         });
       }
       return props;

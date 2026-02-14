@@ -1788,3 +1788,150 @@ export function alchemize(planetaryPositions: Record<string, any>): {
     };
   }
 }
+
+/**
+ * Interface representing an Enhanced Recipe Ingredient
+ * (Moved here from unified/recipes.ts for central access)
+ */
+export interface EnhancedRecipeIngredient {
+  name: string;
+  amount: string;
+  unit: string;
+  id?: string;
+  seasonality?: string | string[];
+  category?: string;
+  cuisine?: string;
+  elementalProperties?: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  tags?: string[];
+  allergens?: string[];
+  // Additional alchemical and nutritional properties can be added here
+}
+
+// Sample ingredients for demonstration and testing purposes
+const ALL_ENHANCED_INGREDIENTS: EnhancedRecipeIngredient[] = [
+  {
+    id: "chicken-breast",
+    name: "Chicken Breast",
+    amount: "1",
+    unit: "piece",
+    category: "protein",
+    cuisine: "universal",
+    seasonality: "all",
+    elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.5, Air: 0.2 },
+    tags: ["lean-protein"],
+  },
+  {
+    id: "broccoli",
+    name: "Broccoli",
+    amount: "1",
+    unit: "cup",
+    category: "vegetable",
+    cuisine: "universal",
+    seasonality: ["spring", "fall"],
+    elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.3, Air: 0.5 },
+    tags: ["green-vegetable", "cruciferous"],
+  },
+  {
+    id: "rice",
+    name: "Rice",
+    amount: "1",
+    unit: "cup",
+    category: "grain",
+    cuisine: "asian",
+    seasonality: "all",
+    elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.7, Air: 0.1 },
+    tags: ["staple", "carbohydrate"],
+  },
+  {
+    id: "salmon-fillet",
+    name: "Salmon Fillet",
+    amount: "1",
+    unit: "piece",
+    category: "protein",
+    cuisine: "universal",
+    seasonality: ["summer", "fall"],
+    elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.4, Air: 0.2 },
+    tags: ["fatty-fish", "omega-3"],
+    allergens: ["fish"],
+  },
+  {
+    id: "spinach",
+    name: "Spinach",
+    amount: "1",
+    unit: "cup",
+    category: "leafy-green",
+    cuisine: "mediterranean",
+    seasonality: ["spring", "fall"],
+    elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.6 },
+    tags: ["nutrient-dense", "iron"],
+  },
+  {
+    id: "quinoa",
+    name: "Quinoa",
+    amount: "1",
+    unit: "cup",
+    category: "grain",
+    cuisine: "south-american",
+    seasonality: "all",
+    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.6, Air: 0.4 },
+    tags: ["complete-protein", "gluten-free"],
+  },
+  {
+    id: "bell-pepper",
+    name: "Bell Pepper",
+    amount: "1",
+    unit: "piece",
+    category: "vegetable",
+    cuisine: "mexican",
+    seasonality: ["summer"],
+    elementalProperties: { Fire: 0.5, Water: 0.4, Earth: 0.3, Air: 0.4 },
+    tags: ["colorful", "vitamin-c"],
+  },
+  {
+    id: "garlic",
+    name: "Garlic",
+    amount: "1",
+    unit: "clove",
+    category: "aromatic",
+    cuisine: "universal",
+    seasonality: "all",
+    elementalProperties: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.3 },
+    tags: ["pungent", "flavor-enhancer"],
+  },
+  {
+    id: "onion",
+    name: "Onion",
+    amount: "1",
+    unit: "medium",
+    category: "aromatic",
+    cuisine: "universal",
+    seasonality: "all",
+    elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.5, Air: 0.2 },
+    tags: ["base-flavor", "pungent"],
+  },
+  {
+    id: "tomato",
+    name: "Tomato",
+    amount: "1",
+    unit: "medium",
+    category: "fruit",
+    cuisine: "mediterranean",
+    seasonality: ["summer"],
+    elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.3 },
+    tags: ["acidic", "juicy"],
+  },
+];
+
+/**
+ * Returns a list of all enhanced ingredients.
+ * @returns {EnhancedRecipeIngredient[]}
+ */
+export function getEnhancedIngredients(): EnhancedRecipeIngredient[] {
+  return [...ALL_ENHANCED_INGREDIENTS];
+}
+

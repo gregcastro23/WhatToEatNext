@@ -684,7 +684,7 @@ export default function FocusedDayView({
   };
 
   // Handle recipe selection
-  const handleSelectRecipe = async (mealType: MealType, recipe: Recipe) => {
+  const handleSelectRecipe = async (mealType: MealType, recipe: MonicaOptimizedRecipe) => {
     await addMealToSlot(dayOfWeek, mealType, recipe, 2);
   };
 

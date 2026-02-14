@@ -33,7 +33,7 @@ function isIngredientLike(value: unknown): value is IngredientLike {
 }
 
 // Enhanced recipe interface that extends existing recipe structure
-export interface EnhancedRecipe {
+export interface EnhancedRecipe extends Recipe {
   // ===== EXISTING RECIPE PROPERTIES (PRESERVED) =====
   name: string;
   description: string;

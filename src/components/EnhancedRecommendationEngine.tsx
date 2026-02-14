@@ -56,7 +56,12 @@ export function EnhancedRecommendationEngine({
   className = "",
 }: EnhancedRecommendationEngineProps) {
   const { currentUser } = useUser();
-  const { positions, alchemical, isLoading: chartIsLoading, error: chartError } = useChartData();
+  const {
+    positions,
+    alchemical,
+    isLoading: chartIsLoading,
+    error: chartError,
+  } = useChartData();
 
   const { recommendations, loading, error } = useAlchemicalRecommendations({
     // @ts-ignore
@@ -82,7 +87,7 @@ export function EnhancedRecommendationEngine({
         return "#6b7280";
     }
   };
-  
+
   const isLoading = loading || chartIsLoading;
 
   return (
@@ -105,7 +110,7 @@ export function EnhancedRecommendationEngine({
       >
         🍳 Enhanced Recipe Recommendations
       </h2>
-      
+
       {/* Filters Section - Simplified for now */}
       <div
         style={{
@@ -125,8 +130,8 @@ export function EnhancedRecommendationEngine({
         >
           Filters
         </h3>
-        <p style={{color: "#666", fontSize: "14px"}}>
-            Filters will be applied automatically based on your preferences.
+        <p style={{ color: "#666", fontSize: "14px" }}>
+          Filters will be applied automatically based on your preferences.
         </p>
       </div>
 
@@ -163,15 +168,15 @@ export function EnhancedRecommendationEngine({
             Generating personalized recommendations...
           </div>
         ) : error || chartError ? (
-            <div
-                style={{
-                textAlign: "center",
-                padding: "40px",
-                color: "#ef4444",
-                }}
-            >
-                Error generating recommendations: {error?.message || chartError}
-            </div>
+          <div
+            style={{
+              textAlign: "center",
+              padding: "40px",
+              color: "#ef4444",
+            }}
+          >
+            Error generating recommendations: {error?.message || chartError}
+          </div>
         ) : !recommendations || recommendations.topIngredients.length === 0 ? (
           <div
             style={{
@@ -190,145 +195,149 @@ export function EnhancedRecommendationEngine({
               gap: "16px",
             }}
           >
-            {recommendations.topIngredients.map((result: any, index: number) => (
-              <div
-                key={result.id}
-                style={{
-                  padding: "16px",
-                  border: "1px solid #e0e0e0",
-                  borderRadius: "8px",
-                  backgroundColor: "#fff",
-                }}
-              >
+            {recommendations.topIngredients.map(
+              (result: any, index: number) => (
                 <div
+                  key={result.id}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-start",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <div>
-                    <h4
-                      style={{
-                        margin: "0 0 4px 0",
-                        fontSize: "16px",
-                        fontWeight: "600",
-                        color: "#333",
-                      }}
-                    >
-                      #{index + 1} {result.name}
-                    </h4>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "14px",
-                        color: "#666",
-                        lineHeight: "1.4",
-                      }}
-                    >
-                      {/* Description would go here if available */}
-                    </p>
-                  </div>
-                  {showScoring && (
-                    <div
-                      style={{
-                        textAlign: "right",
-                        minWidth: "80px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: "18px",
-                          fontWeight: "600",
-                          color: "#22c55e",
-                        }}
-                      >
-                        {(result.score * 100).toFixed(0)}%
-                      </div>
-                      <div
-                        style={{
-                          fontSize: "10px",
-                          color: "#666",
-                        }}
-                      >
-                        Match Score
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "8px",
+                    padding: "16px",
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "8px",
+                    backgroundColor: "#fff",
                   }}
                 >
                   <div
                     style={{
                       display: "flex",
-                      gap: "12px",
-                      fontSize: "12px",
-                      color: "#666",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      marginBottom: "8px",
                     }}
                   >
-                    <span>🍽️ {result.cuisine || "N/A"}</span>
-                    <span>⏱️ {result.cookingTime || "N/A"} min</span>
-                    <span
-                      style={{
-                        color: getDifficultyColor(result.difficulty || "Easy"),
-                      }}
-                    >
-                      ⭐ {result.difficulty || "Easy"}
-                    </span>
-                    <span>⭐ {result.rating || "N/A"}/5</span>
+                    <div>
+                      <h4
+                        style={{
+                          margin: "0 0 4px 0",
+                          fontSize: "16px",
+                          fontWeight: "600",
+                          color: "#333",
+                        }}
+                      >
+                        #{index + 1} {result.name}
+                      </h4>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: "14px",
+                          color: "#666",
+                          lineHeight: "1.4",
+                        }}
+                      >
+                        {/* Description would go here if available */}
+                      </p>
+                    </div>
+                    {showScoring && (
+                      <div
+                        style={{
+                          textAlign: "right",
+                          minWidth: "80px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: "600",
+                            color: "#22c55e",
+                          }}
+                        >
+                          {(result.score * 100).toFixed(0)}%
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "10px",
+                            color: "#666",
+                          }}
+                        >
+                          Match Score
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
 
-                {showScoring && (
                   <div
                     style={{
-                      marginTop: "8px",
-                      padding: "8px",
-                      backgroundColor: "#f0f9ff",
-                      borderRadius: "4px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "8px",
                     }}
                   >
                     <div
                       style={{
+                        display: "flex",
+                        gap: "12px",
                         fontSize: "12px",
-                        fontWeight: "500",
-                        color: "#0369a1",
-                        marginBottom: "4px",
+                        color: "#666",
                       }}
                     >
-                      Alchemical Properties:
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "11px",
-                        color: "#0369a1",
-                      }}
-                    >
-                      Dominant Element: {recommendations.dominantElement}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "11px",
-                        color: "#0369a1",
-                        marginTop: "4px",
-                      }}
-                    >
-                      Heat: {recommendations.heat.toFixed(2)} |
-                      Entropy: {recommendations.entropy.toFixed(2)} |
-                      Reactivity: {recommendations.reactivity.toFixed(2)}
+                      <span>🍽️ {result.cuisine || "N/A"}</span>
+                      <span>⏱️ {result.cookingTime || "N/A"} min</span>
+                      <span
+                        style={{
+                          color: getDifficultyColor(
+                            result.difficulty || "Easy",
+                          ),
+                        }}
+                      >
+                        ⭐ {result.difficulty || "Easy"}
+                      </span>
+                      <span>⭐ {result.rating || "N/A"}/5</span>
                     </div>
                   </div>
-                )}
-              </div>
-            ))}
+
+                  {showScoring && (
+                    <div
+                      style={{
+                        marginTop: "8px",
+                        padding: "8px",
+                        backgroundColor: "#f0f9ff",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: "500",
+                          color: "#0369a1",
+                          marginBottom: "4px",
+                        }}
+                      >
+                        Alchemical Properties:
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          color: "#0369a1",
+                        }}
+                      >
+                        Dominant Element: {recommendations.dominantElement}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          color: "#0369a1",
+                          marginTop: "4px",
+                        }}
+                      >
+                        Heat: {recommendations.heat.toFixed(2)} | Entropy:{" "}
+                        {recommendations.entropy.toFixed(2)} | Reactivity:{" "}
+                        {recommendations.reactivity.toFixed(2)}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ),
+            )}
           </div>
         )}
       </div>

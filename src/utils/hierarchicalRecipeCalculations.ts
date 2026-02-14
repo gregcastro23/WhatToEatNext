@@ -206,7 +206,7 @@ export function aggregateIngredientElementals(
     // Scale by quantity
     const scaled = scaleIngredientByQuantity(
       ingredient.elementalProperties,
-      ingredient.amount || 1,
+      Number(ingredient.amount) || 1,
       ingredient.unit || "g",
     );
 

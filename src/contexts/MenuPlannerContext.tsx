@@ -43,7 +43,8 @@ import {
   getWeekEndDate,
   PLANETARY_DAY_RULERS,
 } from "@/types/menuPlanner";
-import type { Recipe } from "@/types/recipe";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
 import { logger } from "@/utils/logger";
 import { generateGroceryList } from "@/utils/groceryListGenerator";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
@@ -88,7 +89,7 @@ interface MenuPlannerContextType {
   addMealToSlot: (
     dayOfWeek: DayOfWeek,
     mealType: MealType,
-    recipe: Recipe,
+    recipe: MonicaOptimizedRecipe,
     servings?: number,
   ) => Promise<void>;
   removeMealFromSlot: (mealSlotId: string) => Promise<void>;
@@ -403,7 +404,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     async (
       dayOfWeek: DayOfWeek,
       mealType: MealType,
-      recipe: Recipe,
+      recipe: MonicaOptimizedRecipe,
       servings: number = 1,
     ) => {
       if (!currentMenu) return;

@@ -16,7 +16,7 @@ export interface ElementalProperties {
 export interface RecipeIngredient {
   id?: string;
   name: string;
-  amount: number; // Keep as number for calculations,
+  amount: number; // Revert to number for calculations
   unit: string;
   category?: string;
   optional?: boolean;
@@ -26,7 +26,7 @@ export interface RecipeIngredient {
   cookingPoint?: string;
   substitutes?: string[];
   elementalProperties?: ElementalProperties;
-  seasonality?: string[];
+  seasonality?: Season | "all" | Season[]; // Match EnhancedRecipe seasonality
 
   // Astrological associations
   zodiacInfluences?: any[];

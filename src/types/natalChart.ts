@@ -21,6 +21,10 @@ export interface BirthData {
   latitude: number;
   longitude: number;
   timezone?: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+  };
 }
 
 /**

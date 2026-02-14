@@ -14,7 +14,11 @@ export interface AstrologicalInfluence {
 }
 
 export function useAstrologicalInfluence() {
-  const { planetaryPositions, isLoading: alchemicalIsLoading, error: alchemicalError } = useAlchemical();
+  const {
+    planetaryPositions,
+    isLoading: alchemicalIsLoading,
+    error: alchemicalError,
+  } = useAlchemical();
 
   const [astrologicalState, setAstrologicalState] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +42,12 @@ export function useAstrologicalInfluence() {
   }, []);
 
   const influence = useMemo((): AstrologicalInfluence | null => {
-    if (isLoading || alchemicalIsLoading || !astrologicalState || !planetaryPositions) {
+    if (
+      isLoading ||
+      alchemicalIsLoading ||
+      !astrologicalState ||
+      !planetaryPositions
+    ) {
       return null;
     }
 
@@ -66,12 +75,15 @@ export function useAstrologicalInfluence() {
       }
     });
 
-    const dominantElement = Object.keys(elementCounts).length > 0 ? Object.entries(elementCounts).reduce((a, b) =>
-      elementCounts[a[0] as keyof typeof elementCounts] >
-      elementCounts[b[0] as keyof typeof elementCounts]
-        ? a
-        : b,
-    )[0] : null;
+    const dominantElement =
+      Object.keys(elementCounts).length > 0
+        ? Object.entries(elementCounts).reduce((a, b) =>
+            elementCounts[a[0] as keyof typeof elementCounts] >
+            elementCounts[b[0] as keyof typeof elementCounts]
+              ? a
+              : b,
+          )[0]
+        : null;
 
     // Calculate aspect strength (simplified)
     const aspectStrength = astrologicalState.aspects

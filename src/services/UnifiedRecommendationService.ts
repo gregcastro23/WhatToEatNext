@@ -1011,7 +1011,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         if (recipeIngredient && recipeIngredient.amount) {
           // Simple quantity matching bonus (could be enhanced)
           const quantityMatch =
-            Math.abs(recipeIngredient.amount - quantityInfo.quantity) < 50
+            Math.abs(Number(recipeIngredient.amount) - quantityInfo.quantity) < 50
               ? 0.1
               : 0;
           bonus += quantityMatch;
