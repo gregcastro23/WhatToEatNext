@@ -1,5 +1,5 @@
 import type { Element, ElementalProperties } from "@/types/alchemy";
-import type { Recipe } from "@/types/recipe";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
 /**
  * Elemental Core Module

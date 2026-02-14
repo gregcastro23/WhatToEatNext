@@ -1,4 +1,7 @@
-import type { AlchemicalProperty, Element } from "@/types/celestial";
+// src/constants/alchemicalPillars.ts
+
+import type { AlchemicalProperty, Element, LunarPhase, PlanetName } from "@/types/celestial";
+import type { Season, ElementalProperties, QuantityScaledProperties, ThermodynamicMetrics } from "@/types/alchemy"; // Importing ElementalProperties and QuantityScaledProperties from alchemy (or celestial if preferred)
 
 /**
  * Interface representing an Alchemical Pillar
@@ -582,9 +585,9 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
         longTerm: {
           effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
           factors: [
-            "skill development",
-            "equipment upgrades",
-            "methodology evolution",
+            "mastery development",
+            "system integration",
+            "evolutionary optimization",
           ],
         },
       },
@@ -1181,9 +1184,81 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
   },
 };
 
-// ========== MISSING EXPORTS FOR TS2305 FIXES ==========
+// ========== MISSING EXPORTS FOR TS2305 FIXES & NEW INTERFACES ==========
 
-// EnhancedCookingMethod type (causing error in recipeBuilding.ts)
+/**
+ * EnhancedRecipeIngredient type, based on RecipeIngredient from src/types/recipe.ts
+ * with additional properties from initial alchemicalPillars.ts context.
+ */
+export interface EnhancedRecipeIngredient {
+  id?: string;
+  name: string;
+  amount: number; // Ensuring this is number, not string
+  unit: string;
+  category?: string;
+  optional?: boolean;
+  preparation?: string;
+  notes?: string;
+  function?: string;
+  cookingPoint?: string;
+  substitutes?: string[];
+  elementalProperties?: ElementalProperties;
+  seasonality?: Season | "all" | Season[]; // Using the more specific Season type
+
+  // Astrological associations (from original EnhancedRecipeIngredient in alchemicalPillars.ts)
+  cuisine?: string;
+  zodiacInfluences?: any[];
+  planetaryInfluences?: string[];
+  lunarPhaseInfluences?: LunarPhase[];
+
+  tags?: string[]; // Added from original ALL_ENHANCED_INGREDIENTS
+  allergens?: string[]; // Added from original ALL_ENHANCED_INGREDIENTS
+
+  // Quantity-scaled properties for enhanced alchemical calculations (from src/types/recipeIngredient.ts if needed, assuming QuantityScaledProperties from alchemy)
+  scaledProperties?: QuantityScaledProperties;
+
+  // Astrological profile for recipe context (from src/types/recipeIngredient.ts)
+  astrologicalProfile?: {
+    _elementalAffinity: {
+      base: string;
+      secondary?: string;
+    };
+    rulingPlanets?: string[];
+    zodiacAffinity?: string[];
+  };
+
+  // Nutritional properties (optional)
+  calories?: number;
+  macronutrients?: {
+    carbs?: number;
+    protein?: number;
+    fat?: number;
+  };
+
+  // Storage and handling
+  storage?: string;
+  shelfLife?: string;
+
+  // Cultural and culinary properties
+  origin?: string;
+  culinaryUse?: string[];
+  flavorProfile?: string[];
+
+  // Processing state
+  isProcessed?: boolean;
+  processingLevel?: "minimal" | "moderate" | "highly-processed";
+  // Compatibility and pairing
+  pairing?: string[];
+  avoidWith?: string[];
+
+  // Allow additional properties for extensibility
+  [_key: string]: unknown;
+}
+
+/**
+ * EnhancedCookingMethod interface, combining definitions from
+ * src/constants/alchemicalPillars.ts and src/types/alchemy.ts
+ */
 export interface EnhancedCookingMethod {
   id: string;
   name: string;
@@ -1209,20 +1284,21 @@ export interface EnhancedCookingMethod {
     entropy: number;
     reactivity: number;
   };
-  // Elemental influences
+  // Elemental influences (from src/constants/alchemicalPillars.ts)
   elementalInfluence: {
     Fire: number;
     Water: number;
     Earth: number;
     Air: number;
   };
-  // Monica compatibility metrics
+  // elementalEffect (from src/types/alchemy.ts) - integrating it here
+  elementalEffect?: ElementalProperties; // Made optional to avoid immediate conflicts, can be aligned later
+
   monicaCompatibility: {
     score: number;
     factors: string[];
     enhancedProperties: string[];
   };
-  // Additional properties
   techniques: string[];
   equipment: string[];
   skillLevel: "beginner" | "intermediate" | "advanced" | "expert";
@@ -1231,11 +1307,115 @@ export interface EnhancedCookingMethod {
     max: number;
     unit: "minutes" | "hours";
   };
-
-  // Astrological associations
   planetaryAssociations?: string[];
   zodiacAffinity?: string[];
   lunarPhaseOptimal?: string[];
+  duration?: {
+    min: number;
+    max: number;
+  };
+  suitable_for?: string[];
+  benefits?: string[];
+  [key: string]: unknown;
+}
+
+// Placeholder functions that were previously missing 'export' or entirely missing
+/**
+ * Placeholder for the alchemize function.
+ * @param input The input to alchemize.
+ * @returns The alchemized output.
+ */
+export function alchemize<T>(input: T): ThermodynamicMetrics {
+  console.warn("alchemize function is a placeholder, returning mock ThermodynamicMetrics.");
+  // Placeholder implementation to return a mock ThermodynamicMetrics object
+  // In a real scenario, this function would perform complex alchemical calculations
+  return {
+    heat: Math.random(),
+    entropy: Math.random(),
+    reactivity: Math.random(),
+    gregsEnergy: Math.random() * 100,
+    kalchm: Math.random() * 10,
+    monica: Math.random() * 5,
+  };
+}
+
+/**
+ * Placeholder for calculateOptimalCookingConditions function.
+ * @param monica The monica constant.
+ * @param thermodynamicProperties The thermodynamic properties of the method.
+ * @returns Optimal cooking conditions.
+ */
+export function calculateOptimalCookingConditions(
+  monica: number,
+  thermodynamicProperties: { heat: number; entropy: number; reactivity: number; energy?: number; },
+): { temperature: number; timing: string; planetaryHours: string[]; lunarPhases: string[]; } {
+  console.warn("calculateOptimalCookingConditions function is a placeholder.");
+  // Placeholder logic based on monica and heat
+  let temperature = 350; // Fahrenheit
+  let timing = "steady";
+  const planetaryHours = ["Sun", "Moon"];
+  const lunarPhases = ["new moon", "full moon"];
+
+  if (monica > 5) {
+    temperature += thermodynamicProperties.heat * 50; // Increase temp with high heat
+    timing = "quick";
+  } else if (monica < 1) {
+    temperature -= thermodynamicProperties.heat * 50; // Decrease temp with low heat
+    timing = "slow";
+  }
+
+  // Adjust temperature for Monica modifiers example (placeholder)
+  if (thermodynamicProperties.heat > 0.8) {
+    temperature += 20;
+  } else if (thermodynamicProperties.heat < 0.2) {
+    temperature -= 20;
+  }
+
+  return { temperature, timing, planetaryHours, lunarPhases };
+}
+
+/**
+ * Placeholder for calculatePillarMonicaModifiers function.
+ * @param monica The monica constant.
+ * @returns Monica modifiers.
+ */
+export function calculatePillarMonicaModifiers(monica: number): Record<string, number> {
+  console.warn("calculatePillarMonicaModifiers function is a placeholder.");
+  // Example placeholder logic, adjust as needed
+  if (monica > 5) {
+    return { temperatureAdjustment: 10, timingAdjustment: 5, intensityModifier: 0.1 };
+  } else if (monica < 1) {
+    return { temperatureAdjustment: -10, timingAdjustment: -5, intensityModifier: -0.1 };
+  }
+  return { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: 0 };
+}
+
+/**
+ * Returns a list of all enhanced cooking methods.
+ * Currently, this maps ALCHEMICAL_PILLARS to EnhancedCookingMethod.
+ * This function is a placeholder and may need more complex logic.
+ * @returns {EnhancedCookingMethod[]}
+ */
+export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
+  console.warn("getAllEnhancedCookingMethods is a placeholder function.");
+  return ALCHEMICAL_PILLARS.map((pillar) => ({
+    id: String(pillar.id),
+    name: pillar.name,
+    description: pillar.description,
+    category: "transformation", // Default category
+    alchemicalEffects: pillar.effects,
+    thermodynamics: { heat: 0.5, entropy: 0.5, reactivity: 0.5 }, // Placeholder
+    elementalInfluence: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }, // Placeholder
+    techniques: [],
+    equipment: [],
+    skillLevel: "intermediate",
+    timeRange: { min: 5, max: 60, unit: "minutes" },
+    elementalEffect: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }, // Placeholder
+    duration: { min: 5, max: 60 },
+    suitable_for: [],
+    benefits: [],
+    monicaCompatibility: { score: 0, factors: [], enhancedProperties: [] }, // Initialize monicaCompatibility
+  }));
 }
 
 // Sample ingredients for demonstration and testing purposes

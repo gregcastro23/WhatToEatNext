@@ -296,10 +296,10 @@ export default function QuickActionsToolbar() {
 
             const best = scored[0].recipe;
             await addMealToSlot(
-            day as DayOfWeek,
-            mealType,
-            best as MonicaOptimizedRecipe,
-          );
+              day as DayOfWeek,
+              mealType,
+              best as MonicaOptimizedRecipe,
+            );
             usedRecipeIds.add(best.id);
           }
         }
@@ -610,3 +610,4 @@ export default function QuickActionsToolbar() {
     </>
   );
 }
+// Dummy comment to force re-compile

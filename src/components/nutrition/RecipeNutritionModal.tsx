@@ -333,7 +333,9 @@ export function RecipeNutritionModal({
                           (masterIngredient?.servingSize || 1)
                         : 0;
                       const totalIngredientSodium = ingredientNutrition
-                        ? (ingredientNutrition.sodium * Number(ing.amount) * servings) /
+                        ? (ingredientNutrition.sodium *
+                            Number(ing.amount) *
+                            servings) /
                           (masterIngredient?.servingSize || 1)
                         : 0;
 
@@ -344,7 +346,8 @@ export function RecipeNutritionModal({
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
                           <span>
-                            {Number(ing.amount) * servings} {ing.unit} {ing.name}
+                            {Number(ing.amount) * servings} {ing.unit}{" "}
+                            {ing.name}
                           </span>
                           {ing.optional && (
                             <span className="text-xs text-gray-400">

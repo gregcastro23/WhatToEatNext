@@ -12,12 +12,15 @@ import type {
   PlanetName,
   Season,
 } from "@/types/alchemy";
+
 import {
   getAllEnhancedCookingMethods,
-  getMonicaCompatibleCookingMethods,
+  getCookingMethodPillar,
   type EnhancedCookingMethod,
 } from "../../constants/alchemicalPillars";
+import { memoize } from "@/utils/memoize";
 import { unifiedIngredients } from "./ingredients";
+
 
 // ===== ENHANCED SEASONAL INTERFACES =====
 
@@ -718,11 +721,16 @@ export class UnifiedSeasonalSystem {
   private readonly enhancedCookingMethods: {
     [key: string]: EnhancedCookingMethod;
   };
+  public calculateKalchmSeasonalCompatibility: (ingredientKalchm: number, season: Season) => number;
+  public calculateElementalSeasonalCompatibility: (ingredientElements: ElementalProperties, seasonalElements: ElementalProperties) => number;
 
   constructor() {
     this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {
       [key: string]: EnhancedCookingMethod;
     };
+
+    this.calculateKalchmSeasonalCompatibility = memoize(this._calculateKalchmSeasonalCompatibility.bind(this));
+    this.calculateElementalSeasonalCompatibility = memoize(this._calculateElementalSeasonalCompatibility.bind(this));
   }
 
   // ===== CORE SEASONAL FUNCTIONS =====
@@ -820,7 +828,7 @@ export class UnifiedSeasonalSystem {
   /**
    * Calculate Kalchm compatibility with seasonal range
    */
-  private calculateKalchmSeasonalCompatibility(
+  private _calculateKalchmSeasonalCompatibility(
     ingredientKalchm: number,
     season: Season,
   ): number {
@@ -914,7 +922,7 @@ export class UnifiedSeasonalSystem {
   /**
    * Calculate elemental compatibility between ingredient and season
    */
-  private calculateElementalSeasonalCompatibility(
+  private _calculateElementalSeasonalCompatibility(
     ingredientElements: ElementalProperties,
     seasonalElements: ElementalProperties,
   ): number {
@@ -1080,7 +1088,7 @@ export class UnifiedSeasonalSystem {
     targetMonica?: number,
   ): EnhancedCookingMethod[] {
     const seasonProfile = unifiedSeasonalProfiles[season];
-    const optimalMethods: EnhancedCookingMethod[] = [];
+    let optimalMethods: EnhancedCookingMethod[] = [];
 
     // Get methods listed as optimal for the season
     for (const methodName of seasonProfile.optimalCookingMethods) {
@@ -1092,15 +1100,25 @@ export class UnifiedSeasonalSystem {
 
     // If target Monica is specified, find compatible methods
     if (targetMonica !== undefined) {
-      const monicaCompatibleMethods =
-        getMonicaCompatibleCookingMethods(targetMonica);
+      // Temporarily commented out due to missing Monica utility imports.
+      // The logic here needs to be re-evaluated once @/utils/monica is properly integrated
+      // or replaced with in-line calculations.
+      /*
+      const compatibleMethodNames = new Set<string>();
 
-      // Add Monica-compatible methods that aren't already included
-      for (const method of monicaCompatibleMethods) {
-        if (!optimalMethods.find((m) => m.name === method.name)) {
-          optimalMethods.push(method);
-        }
+      for (const method of Object.values(this.enhancedCookingMethods)) {
+        const pillar = getCookingMethodPillar(method.name);
+        if (!pillar) continue;
+
+        const metrics = getMonicaMetricsForPillar(pillar.id);
+        if (!metrics) continue;
+
+        const compatibleMethods = getMonicaCompatibleCookingMethods(metrics);
+        compatibleMethods.forEach(name => compatibleMethodNames.add(name));
       }
+      
+      optimalMethods = optimalMethods.filter(method => compatibleMethodNames.has(method.name));
+      */
     }
 
     // Sort by seasonal compatibility and Monica alignment

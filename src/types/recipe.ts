@@ -202,6 +202,49 @@ export interface Recipe {
   environmentalMatchDetails?: string;
   optimal_cooking_window?: OptimalCookingWindow;
 
+  monicaOptimization?: {
+    originalMonica: number | null;
+    optimizedMonica: number;
+    optimizationScore: number;
+    temperatureAdjustments: number[];
+    timingAdjustments: number[];
+    intensityModifications: string[];
+    planetaryTimingRecommendations: string[];
+  };
+  seasonalAdaptation?: {
+    currentSeason: Season;
+    seasonalScore: number;
+    seasonalIngredientSubstitutions: Array<{
+      original: string;
+      seasonal: string;
+      reason: string;
+      seasonalScore: number;
+    }>;
+    seasonalCookingMethodAdjustments: Array<{
+      method: string;
+      adjustment: string;
+      reason: string;
+    }>;
+  };
+  cuisineIntegration?: {
+    authenticity: number;
+    fusionPotential: number;
+    culturalNotes: string[];
+    traditionalVariations: string[];
+    modernAdaptations: string[];
+  };
+  nutritionalOptimization?: {
+    alchemicalNutrition: {
+      spiritNutrients: string[];
+      essenceNutrients: string[];
+      matterNutrients: string[];
+      substanceNutrients: string[];
+    };
+    elementalNutrition: ElementalProperties;
+    kalchmNutritionalBalance: number;
+    monicaNutritionalHarmony: number;
+  };
+
   // Allow additional dynamic properties for extensibility
   [key: string]: unknown;
 }
@@ -245,14 +288,22 @@ export const _validateRecipe = (recipe: Partial<Recipe>): boolean => {
   return true;
 };
 
-export const validateSeason = (season: string): boolean => {
-  const validSeasons = ["spring", "summer", "autumn", "winter"];
-  return validSeasons.includes(season.toLowerCase());
+import type { Season } from "@/constants/seasons"; // Add this import
+import { VALID_SEASONS } from "@/constants/seasons";
+
+// ...
+
+export const validateSeason = (season: string | Season): boolean => {
+  return VALID_SEASONS.includes(season.toLowerCase() as Season);
 };
 
-export const validateSeasonality = (seasonality: string[]): boolean => {
-  if (!Array.isArray(seasonality)) return false;
-  return seasonality.every((season) => validateSeason(season));
+export const validateSeasonality = (seasonality: Season | "all" | Season[]): boolean => {
+  if (typeof seasonality === "string") {
+    return validateSeason(seasonality);
+  } else if (Array.isArray(seasonality)) {
+    return seasonality.every((season) => validateSeason(season));
+  }
+  return false;
 };
 
 export const validateIngredient = (
@@ -559,6 +610,7 @@ export interface RecipeNutrition {
   carbs?: number;
   fat?: number;
   sodium?: number;
+  fiber?: number;
   vitamins?: string[];
   minerals?: string[];
   macronutrients?: {

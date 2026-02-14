@@ -620,4 +620,4 @@ export function getDailyCookingMethods(
       method.toLowerCase().includes(am.toLowerCase()),
     ),
   );
-}// Dummy comment to force re-compile
+} // Dummy comment to force re-compile

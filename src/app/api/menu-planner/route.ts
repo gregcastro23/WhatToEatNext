@@ -1,3 +1,4 @@
+// src/app/api/menu-planner/route.ts
 import { NextResponse } from "next/server";
 import {
   generateDayRecommendations,
@@ -5,65 +6,74 @@ import {
   type UserPersonalizationContext,
   type DayRecommendationOptions,
 } from "@/utils/menuPlanner/recommendationBridge";
-import type { DayOfWeek, MealType } from "@/types/menuPlanner";
+import type { DayOfWeek } from "@/types/menuPlanner";
+import type { NatalChart } from "@/types/natalChart";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const currentWeekStart = searchParams.get("currentWeekStart");
-
-  // For now, just return a placeholder for the current menu
-  // In later phases, this would fetch the actual menu from a database
-  return NextResponse.json({
-    message: "GET request to menu-planner API (placeholder)",
-    currentWeekStart: currentWeekStart || new Date().toISOString(),
-    menu: [], // Placeholder for an empty menu
-  });
+// Define the structure of the incoming POST request body
+interface MenuPlannerRequestBody {
+  userPreferences: {
+    dietaryRestrictions?: string[];
+    preferredCuisines?: string[];
+    excludeIngredients?: string[];
+  };
+  availableIngredients?: string[]; // This will be used in a future phase
+  currentChart: AstrologicalState;
+  natalChart?: NatalChart; // For personalization
 }
 
 export async function POST(request: Request) {
-  const {
-    action,
-    dayOfWeek,
-    mealTypes,
-    dietaryRestrictions,
-    astrologicalState,
-    userPersonalizationContext,
-  } = await request.json();
+  try {
+    const {
+      userPreferences,
+      availableIngredients,
+      currentChart,
+      natalChart,
+    }: MenuPlannerRequestBody = await request.json();
 
-  if (action === "generateMealsForDay") {
-    if (!dayOfWeek || !astrologicalState) {
+    if (!userPreferences || !currentChart) {
       return NextResponse.json(
-        { error: "Missing required parameters for meal generation" },
+        { error: "Missing required parameters: userPreferences and currentChart are required." },
         { status: 400 },
       );
     }
 
-    try {
-      const options: DayRecommendationOptions = {
-        mealTypes,
-        dietaryRestrictions,
-        userContext: userPersonalizationContext,
-      };
+    const dayOfWeek = new Date().getDay() as DayOfWeek;
 
-      const recommendations = await generateDayRecommendations(
-        dayOfWeek as DayOfWeek,
-        astrologicalState as AstrologicalState,
-        options,
-      );
+    const userContext: UserPersonalizationContext | undefined = natalChart
+      ? { natalChart, prioritizeHarmony: true }
+      : undefined;
 
-      return NextResponse.json(recommendations);
-    } catch (error) {
-      console.error("Error generating meals:", error);
+    const options: DayRecommendationOptions = {
+      dietaryRestrictions: userPreferences.dietaryRestrictions,
+      preferredCuisines: userPreferences.preferredCuisines,
+      excludeIngredients: userPreferences.excludeIngredients,
+      userContext,
+    };
+
+    const recommendations = await generateDayRecommendations(
+      dayOfWeek,
+      currentChart,
+      options,
+    );
+
+    if (!recommendations || recommendations.length === 0) {
       return NextResponse.json(
-        { error: "Failed to generate meals" },
-        { status: 500 },
+        { message: "No recommendations could be generated for the given criteria." },
+        { status: 200 },
       );
     }
-  }
 
-  // Default POST action (placeholder for saving/updating menu)
-  return NextResponse.json({
-    message: "POST request to menu-planner API (placeholder)",
-    received: { action, dayOfWeek, mealTypes, dietaryRestrictions },
-  });
+    return NextResponse.json(recommendations);
+  } catch (error) {
+    console.error("Error in menu-planner API:", error);
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json(
+      { error: "Failed to generate menu recommendations.", details: errorMessage },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET(request: Request) {
+    return NextResponse.json({ message: "This endpoint is for POST requests to generate menu plans." }, { status: 405 });
 }

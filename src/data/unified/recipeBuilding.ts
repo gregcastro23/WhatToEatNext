@@ -1896,15 +1896,15 @@ export class UnifiedRecipeBuildingSystem {
     // If no ingredients are selected, return some defaults
     if (selected.length === 0) {
       return [
-        { name: "Chicken", amount: "1", unit: "breast" },
-        { name: "Broccoli", amount: "1", unit: "cup" },
-        { name: "Rice", amount: "1", unit: "cup" },
+        { name: "Chicken", amount: 1, unit: "breast" },
+        { name: "Broccoli", amount: 1, unit: "cup" },
+        { name: "Rice", amount: 1, unit: "cup" },
       ];
     }
 
     return selected.map((i) => ({
       name: i.name,
-      amount: "1",
+      amount: 1,
       unit: "cup",
       id: i.id,
       seasonality: i.seasonality,
