@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/contexts/UserContext";
 import { usePersonalization } from "@/hooks/usePersonalization";
 import { ProfileHeader } from "./components/ProfileHeader";
-import { ElementalAffinitiesChart } from "./components/ElementalAffinitiesChart";
+import { AlchemicalProfileDisplay } from "./components/AlchemicalProfileDisplay";
 import { PreferencesEditor } from "./components/PreferencesEditor";
 import { PersonalizationInsights } from "./components/PersonalizationInsights";
 import { GroupManagement } from "./components/GroupManagement";
@@ -304,9 +304,13 @@ export default function ProfilePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Column */}
           <div className="space-y-6">
-            <ElementalAffinitiesChart
-              affinities={personalization.data.preferences.elementalAffinities}
-            />
+            {currentUser.stats ? (
+              <AlchemicalProfileDisplay stats={currentUser.stats} />
+            ) : (
+              <div className="alchm-card p-6 text-center">
+                <p className="text-gray-600">Complete your profile to see your alchemical stats.</p>
+              </div>
+            )}
             <PersonalizationInsights
               learningStats={personalization.data.learningStats}
               preferences={{

@@ -1,20 +1,31 @@
-"use client";
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
-import { _logger } from "@/lib/logger";
-import type { ReactNode } from "react";
-
+import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import type {
   BirthData,
   NatalChart,
   GroupMember,
   DiningGroup,
 } from "@/types/natalChart";
+
+// Define the user's alchemical constitution
+interface AlchemicalProfile {
+  // Elemental
+  fire: number;
+  water: number;
+  air: number;
+  earth: number;
+  // Alchemical
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
+  // Thermodynamic Metrics
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kAlchm: number;
+  monicaConstant: number;
+}
 
 // Extended UserProfile interface with natal chart and group support
 interface UserProfile {
@@ -26,6 +37,7 @@ interface UserProfile {
   natalChart?: NatalChart;
   groupMembers?: GroupMember[];
   diningGroups?: DiningGroup[];
+  stats?: AlchemicalProfile;
 }
 
 // Keys for localStorage
@@ -115,6 +127,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 natalChart: data.profile.natalChart,
                 groupMembers: data.profile.groupMembers || [],
                 diningGroups: data.profile.diningGroups || [],
+                stats: data.profile.stats,
               };
               setCurrentUser(profile);
               checkProfileCompleteness(profile);
@@ -166,6 +179,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             natalChart: data.profile.natalChart,
             groupMembers: data.profile.groupMembers || [],
             diningGroups: data.profile.diningGroups || [],
+            stats: data.profile.stats,
           };
           setCurrentUser(profile);
           checkProfileCompleteness(profile);
@@ -190,10 +204,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       };
 
       // Merge with existing profile
-      const updatedProfile: UserProfile = {
+      let updatedProfile: UserProfile = {
         ...baseProfile,
         ...data,
       } as UserProfile;
+
+      // If birthData is being updated, and we have a natal chart, recalculate stats
+      if (data.birthData && updatedProfile.natalChart) {
+        updatedProfile.stats = calculateAlchemicalProfile(updatedProfile.natalChart);
+      }
 
       // Try to update on server first
       try {
@@ -222,6 +241,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               natalChart: result.profile.natalChart,
               groupMembers: result.profile.groupMembers || [],
               diningGroups: result.profile.diningGroups || [],
+              stats: result.profile.stats,
             };
             setCurrentUser(serverProfile);
             checkProfileCompleteness(serverProfile);
@@ -297,4 +317,4 @@ export const useUser = (): UserContextType => {
 };
 
 // Export types for use in other modules
-export type { UserProfile };
+export type { UserProfile, AlchemicalProfile };

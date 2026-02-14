@@ -773,6 +773,10 @@ export interface Cuisine {
       [season: string]: Recipe[];
     };
   };
+  alchemicalSignature?: {
+    targetKAlchm: number;
+    tolerance: number;
+  };
   [key: string]: unknown;
 }
 

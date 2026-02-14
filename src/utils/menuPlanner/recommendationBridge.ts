@@ -16,11 +16,17 @@ import type { AstrologyHookData } from "@/hooks/useAstrologicalState";
 import type { NatalChart } from "@/types/natalChart";
 import type { ChartComparison } from "@/services/ChartComparisonService";
 import {
+  getRecipeKAlchm,
+  getUserTargetKAlchm,
+} from "@/utils/alchemy/derivedStats";
+import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
+import {
   getPlanetaryDayCharacteristics,
   calculateDayFoodCompatibility,
   type PlanetaryDayCharacteristics,
 } from "@/utils/planetaryDayRecommendations";
 import { createLogger } from "@/utils/logger";
+import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
 
 const logger = createLogger("RecommendationBridge");
 const recipeBuilder = new UnifiedRecipeBuildingSystem();
@@ -44,6 +50,7 @@ export interface UserPersonalizationContext {
   natalChart: NatalChart;
   chartComparison?: ChartComparison;
   prioritizeHarmony?: boolean;
+  stats?: AlchemicalProfile;
 }
 
 /**
@@ -135,6 +142,7 @@ export async function generateDayRecommendations(
       const personalizedRecs = applyUserPersonalization(
         recommendations,
         userContext,
+        astroState,
       );
 
       logger.info(
@@ -156,13 +164,16 @@ export async function generateDayRecommendations(
  *
  * @param recommendations - Base recommendations
  * @param userContext - User personalization context
+ * @param astroState - The current astrological state for transit calculations
  * @returns Personalized recommendations sorted by personalized score
  */
 function applyUserPersonalization(
   recommendations: RecommendedMeal[],
   userContext: UserPersonalizationContext,
+  astroState: AstrologicalState,
 ): RecommendedMeal[] {
-  const { natalChart, chartComparison, prioritizeHarmony = true } = userContext;
+  const { natalChart, chartComparison, prioritizeHarmony = true, stats } =
+    userContext;
 
   const personalized = recommendations.map((rec) => {
     // Calculate personalization boost based on elemental alignment with user's chart
@@ -172,7 +183,36 @@ function applyUserPersonalization(
       chartComparison,
     );
 
-    const personalizedScore = rec.score * boost;
+    // NEW: Calculate transit score modifier
+    const transitModifier = calculateTransitScoreModifier(
+      natalChart,
+      astroState,
+      rec.recipe,
+    );
+
+    // NEW: Constitutional Balancing
+    let constitutionalModifier = 1.0;
+    if (stats) {
+      constitutionalModifier = calculateConstitutionalCompatibility(
+        stats,
+        rec.recipe,
+      );
+    }
+
+    // NEW: Equilibrium Score
+    const recipeKAlchm = getRecipeKAlchm(rec.recipe);
+    const userTargetKAlchm = getUserTargetKAlchm(astroState);
+    const equilibriumScore =
+      1 /
+      (1 +
+        Math.abs(Math.log(recipeKAlchm) - Math.log(userTargetKAlchm)));
+
+    let personalizedScore =
+      rec.score *
+      boost *
+      transitModifier *
+      constitutionalModifier *
+      equilibriumScore;
     const reasons = [...rec.reasons];
 
     // Add personalization reasons
@@ -183,6 +223,15 @@ function applyUserPersonalization(
     }
     if (boost > 1.15) {
       reasons.push("Strong cosmic harmony with your birth chart");
+    }
+    if (transitModifier > 1.0) {
+      reasons.push("Enhanced by current planetary transits.");
+    }
+    if (constitutionalModifier > 1.1) {
+      reasons.push("Provides excellent constitutional balance.");
+    }
+    if (equilibriumScore > 0.8) {
+      reasons.push("Excellent KAlchm equilibrium for your current state.");
     }
 
     return {

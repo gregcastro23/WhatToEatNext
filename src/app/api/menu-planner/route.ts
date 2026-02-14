@@ -1,79 +1,100 @@
-// src/app/api/menu-planner/route.ts
-import { NextResponse } from "next/server";
-import {
-  generateDayRecommendations,
-  type AstrologicalState,
-  type UserPersonalizationContext,
-  type DayRecommendationOptions,
-} from "@/utils/menuPlanner/recommendationBridge";
-import type { DayOfWeek } from "@/types/menuPlanner";
-import type { NatalChart } from "@/types/natalChart";
 
-// Define the structure of the incoming POST request body
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { generateDayRecommendations, type AstrologicalState, type UserPersonalizationContext } from '@/utils/menuPlanner/recommendationBridge';
+import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
+import { allCookingMethods } from '@/data/cooking';
+import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import type { CookingMethod, CookingMethodProfile } from '@/types/cooking';
+import type { DayOfWeek, MealType } from '@/types/menuPlanner';
+
+// Define the structure of the incoming request body
 interface MenuPlannerRequestBody {
-  userPreferences: {
-    dietaryRestrictions?: string[];
-    preferredCuisines?: string[];
-    excludeIngredients?: string[];
-  };
-  availableIngredients?: string[]; // This will be used in a future phase
+  userPreferences: UserPersonalizationContext;
+  availableIngredients: string[];
   currentChart: AstrologicalState;
-  natalChart?: NatalChart; // For personalization
+  dayOfWeek: DayOfWeek;
+  mealTypes: MealType[];
 }
 
-export async function POST(request: Request) {
+// Extend the recipe type to include alternative cooking methods
+interface ExtendedRecipe extends MonicaOptimizedRecipe {
+  alternativeCookingMethods?: Array<{
+    method: CookingMethod;
+    score: number;
+  }>;
+}
+
+// The threshold for a "low" score, prompting a search for alternatives
+const LOW_SCORE_THRESHOLD = 0.6;
+
+export async function POST(request: NextRequest) {
   try {
-    const {
-      userPreferences,
-      availableIngredients,
+    const { 
+      userPreferences, 
+      availableIngredients, 
       currentChart,
-      natalChart,
+      dayOfWeek,
+      mealTypes,
     }: MenuPlannerRequestBody = await request.json();
 
-    if (!userPreferences || !currentChart) {
-      return NextResponse.json(
-        { error: "Missing required parameters: userPreferences and currentChart are required." },
-        { status: 400 },
-      );
-    }
-
-    const dayOfWeek = new Date().getDay() as DayOfWeek;
-
-    const userContext: UserPersonalizationContext | undefined = natalChart
-      ? { natalChart, prioritizeHarmony: true }
-      : undefined;
-
-    const options: DayRecommendationOptions = {
-      dietaryRestrictions: userPreferences.dietaryRestrictions,
-      preferredCuisines: userPreferences.preferredCuisines,
-      excludeIngredients: userPreferences.excludeIngredients,
-      userContext,
-    };
-
+    // 1. Generate base recipe recommendations
     const recommendations = await generateDayRecommendations(
       dayOfWeek,
       currentChart,
-      options,
+      {
+        userContext: userPreferences,
+        excludeIngredients: availableIngredients, // Assuming we want to use available ingredients, not exclude them. This might need adjustment based on intended logic.
+        mealTypes
+      }
     );
 
-    if (!recommendations || recommendations.length === 0) {
-      return NextResponse.json(
-        { message: "No recommendations could be generated for the given criteria." },
-        { status: 200 },
-      );
+    const enhancedRecipes: ExtendedRecipe[] = [];
+
+    // 2. Enhance each recipe with cooking method scores and alternatives
+    for (const recommendedMeal of recommendations) {
+      const recipe = recommendedMeal.recipe;
+      const extendedRecipe: ExtendedRecipe = { ...recipe, alternativeCookingMethods: [] };
+
+      if (recipe.cookingMethods && recipe.cookingMethods.length > 0) {
+        const primaryMethodName = recipe.cookingMethods[0];
+        const primaryMethod = allCookingMethods[primaryMethodName as keyof typeof allCookingMethods] as unknown as CookingMethodProfile;
+        
+        if (primaryMethod) {
+            const score = calculateMethodScore(primaryMethod, currentChart);
+
+            // 3. If the score is low, find better alternatives
+            if (score < LOW_SCORE_THRESHOLD) {
+                const alternatives: Array<{ method: CookingMethod; score: number }> = [];
+                
+                for (const methodName in allCookingMethods) {
+                    const potentialMethod = allCookingMethods[methodName as keyof typeof allCookingMethods] as unknown as CookingMethodProfile;
+                    if (potentialMethod) {
+                        const alternativeScore = calculateMethodScore(potentialMethod, currentChart);
+                        if (alternativeScore > score) {
+                            alternatives.push({ method: potentialMethod as unknown as CookingMethod, score: alternativeScore });
+                        }
+                    }
+                }
+
+                // Sort alternatives by score and add the top 3
+                alternatives.sort((a, b) => b.score - a.score);
+                extendedRecipe.alternativeCookingMethods = alternatives.slice(0, 3);
+            }
+        }
+      }
+      enhancedRecipes.push(extendedRecipe);
     }
 
-    return NextResponse.json(recommendations);
+    // 4. Return the fully enhanced recipes
+    return NextResponse.json(enhancedRecipes);
+
   } catch (error) {
-    console.error("Error in menu-planner API:", error);
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-    return NextResponse.json(
-      { error: "Failed to generate menu recommendations.", details: errorMessage },
-      { status: 500 },
+    console.error('Menu Planner API Error:', error);
+    // Return a 500 internal server error response
+    return new NextResponse(
+      JSON.stringify({ success: false, message: 'An internal server error occurred.' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
-}
-
-export async function GET(request: Request) {
-    return NextResponse.json({ message: "This endpoint is for POST requests to generate menu plans." }, { status: 405 });
 }

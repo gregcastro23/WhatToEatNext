@@ -71,10 +71,11 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
 }
 
 // Helper function to adapt cuisines to the Cuisine interface format
-function adaptCuisine(cuisine: unknown): AlchemyCuisine {
+function adaptCuisine(cuisine: unknown, alchemicalSignature: { targetKAlchm: number, tolerance: number }): AlchemyCuisine {
   const cuisineData = cuisine as any;
   return {
     ...cuisineData,
+    alchemicalSignature,
     // Convert elementalProperties if present,
     elementalProperties: cuisineData.elementalProperties
       ? adaptElementalProperties(cuisineData.elementalProperties)
@@ -89,16 +90,31 @@ function adaptCuisine(cuisine: unknown): AlchemyCuisine {
 
 // Combine all cuisines
 export const cuisines: Record<string, AlchemyCuisine> = {
-  american: adaptCuisine(american),
-  greek: adaptCuisine(greek),
-  indian: adaptCuisine(indian),
-  italian: adaptCuisine(italian),
-  middleEastern: adaptCuisine(middleEastern),
-  thai: adaptCuisine(thai),
-  vietnamese: adaptCuisine(vietnamese),
-  african: adaptCuisine(african),
-  russian: adaptCuisine(russian),
+  american: adaptCuisine(american, { targetKAlchm: 1.2, tolerance: 0.3 }),
+  greek: adaptCuisine(greek, { targetKAlchm: 1.5, tolerance: 0.4 }),
+  indian: adaptCuisine(indian, { targetKAlchm: 2.5, tolerance: 0.6 }),
+  italian: adaptCuisine(italian, { targetKAlchm: 1.8, tolerance: 0.5 }),
+  middleEastern: adaptCuisine(middleEastern, { targetKAlchm: 2.0, tolerance: 0.5 }),
+  thai: adaptCuisine(thai, { targetKAlchm: 2.8, tolerance: 0.7 }),
+  vietnamese: adaptCuisine(vietnamese, { targetKAlchm: 2.2, tolerance: 0.6 }),
+  african: adaptCuisine(african, { targetKAlchm: 2.3, tolerance: 0.6 }),
+  russian: adaptCuisine(russian, { targetKAlchm: 0.9, tolerance: 0.3 }),
 };
+
+/**
+ * Returns the target KAlchm for a given cuisine.
+ * @param cuisineName - The name of the cuisine.
+ * @returns The target KAlchm value or a default of 1.0.
+ */
+export function getCuisineKAlchm(cuisineName: string): { targetKAlchm: number, tolerance: number } {
+    const cuisine = cuisines[cuisineName.toLowerCase()];
+    if (cuisine && cuisine.alchemicalSignature) {
+        return cuisine.alchemicalSignature;
+    }
+    // Return a neutral default if not found
+    return { targetKAlchm: 1.0, tolerance: 0.5 };
+}
+
 
 // Type exports
 export type { CuisineType };
