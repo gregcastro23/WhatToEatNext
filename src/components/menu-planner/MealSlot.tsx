@@ -562,7 +562,7 @@ export default function MealSlot({
       {/* Content */}
       {hasRecipe ? (
         <RecipeDisplay
-          recipe={mealSlot.recipe!}
+          recipe={mealSlot.recipe as MonicaOptimizedRecipe}
           servings={mealSlot.servings}
           mealType={mealSlot.mealType}
           onRemove={onRemoveRecipe}
