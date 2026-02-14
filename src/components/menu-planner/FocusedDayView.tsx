@@ -45,7 +45,7 @@ interface FocusedDayViewProps {
 }
 
 interface MealSuggestion {
-  recipe: Recipe;
+  recipe: MonicaOptimizedRecipe;
   score: number;
   reasons: string[];
 }
@@ -64,7 +64,7 @@ function SuggestionCarousel({
   suggestions: MealSuggestion[];
   currentIndex: number;
   onIndexChange: (index: number) => void;
-  onSelect: (recipe: Recipe) => void;
+  onSelect: (recipe: MonicaOptimizedRecipe) => void;
   isLoading: boolean;
 }) {
   // Touch handling state for swipe gestures
@@ -284,7 +284,7 @@ function SuggestionCarousel({
           </Link>
 
           <button
-            onClick={() => onSelect(current.recipe)}
+            onClick={() => onSelect(current.recipe as MonicaOptimizedRecipe)}
             className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
           >
             Select This Recipe
