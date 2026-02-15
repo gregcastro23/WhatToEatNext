@@ -83,9 +83,11 @@ function standardizeRecipe(
     );
   }
 
-  // 2. Ensure cuisine is set
+  // 2. Ensure cuisine is set and consistent casing
   if (!standardized.cuisine) {
-    standardized.cuisine = cuisineName;
+    standardized.cuisine = cuisineName.toLowerCase(); // Convert to lowercase
+  } else {
+    standardized.cuisine = (standardized.cuisine as string).toLowerCase(); // Ensure existing cuisine is also lowercase
   }
 
   // 3. Ensure mealType is an array
