@@ -1,3 +1,5 @@
+"use client";
+
 import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import type {
   BirthData,
