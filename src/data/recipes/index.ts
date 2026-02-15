@@ -216,9 +216,14 @@ const flattenCuisineRecipes = () => {
   const seenIds = new Set<string>();
   const cuisines = cuisinesMap as Record<string, any>;
 
+  console.log("cuisinesMap keys:", Object.keys(cuisinesMap)); // Debug: Log all keys in cuisinesMap
+
   // Iterate only through primary cuisine keys to avoid duplicates from aliases
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
+    console.log(`Processing cuisineName: ${cuisineName}`); // Debug: Log current cuisine being processed
     const cuisine = cuisines[cuisineName];
+    console.log(`Cuisine object for ${cuisineName}:`, cuisine); // Debug: Log the cuisine object itself
+
     if (cuisine && cuisine.dishes) {
       // Iterate through meal types
       Object.entries(cuisine.dishes).forEach(
@@ -251,6 +256,8 @@ const flattenCuisineRecipes = () => {
           }
         },
       );
+    } else {
+      console.warn(`Cuisine ${cuisineName} not found or has no dishes in cuisinesMap.`);
     }
   });
 
