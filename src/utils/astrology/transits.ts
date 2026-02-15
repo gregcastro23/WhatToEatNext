@@ -80,7 +80,7 @@ export function calculateTransitScoreModifier(
     if (natalMoonElement === currentMoonElement) {
       // Check if the recipe is a "comfort food". This is a simplification.
       // We'll use keywords in the description or category.
-      if (recipe.description.toLowerCase().includes('comfort') || (recipe.mealType && recipe.mealType.includes('comfort'))) {
+      if (recipe.description && recipe.description.toLowerCase().includes('comfort') || (recipe.mealType && recipe.mealType.includes('comfort'))) {
         modifier += 0.2; // 20% boost for comfort foods
       }
     }
@@ -102,7 +102,7 @@ export function calculateTransitScoreModifier(
       if (nutritionalProfile && nutritionalProfile.protein && nutritionalProfile.protein > 25) { // e.g., > 25g protein
         modifier += 0.15; // 15% boost
       }
-      if (recipe.description.toLowerCase().includes('energy') || recipe.description.toLowerCase().includes('hearty')) {
+      if (recipe.description && (recipe.description.toLowerCase().includes('energy') || recipe.description.toLowerCase().includes('hearty'))) {
         modifier += 0.1;
       }
     }

@@ -71,6 +71,9 @@ export function getRecipeKAlchm(recipe: MonicaOptimizedRecipe): number {
  */
 export function getUserTargetKAlchm(astroState: AstrologicalState): number {
     // This is a simplified heuristic. A more complex model would be needed for a real application.
+    if (!astroState.domElements) {
+        return 1.0;
+    }
     const { domElements } = astroState;
 
     const alchemicalProps: AlchemicalProperties = {

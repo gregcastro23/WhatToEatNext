@@ -5,7 +5,9 @@ import { generateDayRecommendations, type AstrologicalState, type UserPersonaliz
 import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { allCookingMethods } from '@/data/cooking';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
-import type { CookingMethod, CookingMethodProfile } from '@/types/cooking';
+import type { CookingMethod } from '@/types/cooking';
+import { CookingMethodData } from '@/types/cookingMethod';
+import { CookingMethodModifier, Element } from '@/types/alchemy';
 import type { DayOfWeek, MealType } from '@/types/menuPlanner';
 
 // Define the structure of the incoming request body
@@ -27,6 +29,20 @@ interface ExtendedRecipe extends MonicaOptimizedRecipe {
 
 // The threshold for a "low" score, prompting a search for alternatives
 const LOW_SCORE_THRESHOLD = 0.6;
+
+function cookingMethodDataToModifier(method: CookingMethodData): CookingMethodModifier {
+  const dominantElement = Object.keys(method.elementalEffect).reduce((a, b) => method.elementalEffect[a] > method.elementalEffect[b] ? a : b) as Element;
+  const intensity = Object.values(method.elementalEffect).reduce((a, b) => a + b, 0) / 4;
+
+  return {
+    element: dominantElement,
+    intensity: intensity,
+    effect: 'enhance', // default
+    applicableTo: method.suitable_for || [],
+    duration: method.duration,
+    notes: method.description,
+  };
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,23 +72,25 @@ export async function POST(request: NextRequest) {
       const recipe = recommendedMeal.recipe;
       const extendedRecipe: ExtendedRecipe = { ...recipe, alternativeCookingMethods: [] };
 
-      if (recipe.cookingMethods && recipe.cookingMethods.length > 0) {
-        const primaryMethodName = recipe.cookingMethods[0];
-        const primaryMethod = allCookingMethods[primaryMethodName as keyof typeof allCookingMethods] as unknown as CookingMethodProfile;
+      if (recipe.cookingMethod && recipe.cookingMethod.length > 0) {
+        const primaryMethodName = recipe.cookingMethod[0];
+        const primaryMethodData = allCookingMethods[primaryMethodName as keyof typeof allCookingMethods] as unknown as CookingMethodData;
         
-        if (primaryMethod) {
-            const score = calculateMethodScore(primaryMethod, currentChart);
+        if (primaryMethodData) {
+            const primaryMethodModifier = cookingMethodDataToModifier(primaryMethodData);
+            const score = calculateMethodScore(primaryMethodModifier, currentChart);
 
             // 3. If the score is low, find better alternatives
             if (score < LOW_SCORE_THRESHOLD) {
                 const alternatives: Array<{ method: CookingMethod; score: number }> = [];
                 
                 for (const methodName in allCookingMethods) {
-                    const potentialMethod = allCookingMethods[methodName as keyof typeof allCookingMethods] as unknown as CookingMethodProfile;
-                    if (potentialMethod) {
-                        const alternativeScore = calculateMethodScore(potentialMethod, currentChart);
+                    const potentialMethodData = allCookingMethods[methodName as keyof typeof allCookingMethods] as unknown as CookingMethodData;
+                    if (potentialMethodData) {
+                        const potentialMethodModifier = cookingMethodDataToModifier(potentialMethodData);
+                        const alternativeScore = calculateMethodScore(potentialMethodModifier, currentChart);
                         if (alternativeScore > score) {
-                            alternatives.push({ method: potentialMethod as unknown as CookingMethod, score: alternativeScore });
+                            alternatives.push({ method: potentialMethodData as unknown as CookingMethod, score: alternativeScore });
                         }
                     }
                 }

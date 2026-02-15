@@ -734,7 +734,7 @@ export class UnifiedRecipeBuildingSystem {
       cuisine: criteria.cuisine || "fusion",
       ingredients: baseIngredients,
       instructions: baseInstructions,
-      cookingMethods: baseCookingMethods,
+      cookingMethod: baseCookingMethods,
       season:
         criteria.currentSeason || criteria.season
           ? [criteria.currentSeason || criteria.season]
@@ -1035,11 +1035,11 @@ export class UnifiedRecipeBuildingSystem {
     let score = 0.5; // Base seasonal score
 
     // Check if recipe has explicit seasonality
-    if (recipe.seasonality === season) {
+    if (recipe.season === season) {
       score = 0.95; // Perfect match
-    } else if (recipe.seasonality === "all") {
+    } else if (recipe.season === "all") {
       score = 0.75; // Universal recipes work in any season
-    } else if (recipe.seasonality && recipe.seasonality.includes(season)) {
+    } else if (recipe.season && Array.isArray(recipe.season) && recipe.season.includes(season)) {
       score = 0.85; // Good match for multi-season recipes
     }
 
@@ -1060,7 +1060,7 @@ export class UnifiedRecipeBuildingSystem {
     score = score * 0.6 + seasonalIngredientScore * 0.4;
 
     // Cooking method seasonal appropriateness
-    const cookingMethodArray = recipe.cookingMethods;
+    const cookingMethodArray = recipe.cookingMethod;
     if (!cookingMethodArray || cookingMethodArray.length === 0) {
       return Math.max(0.2, Math.min(1.0, score)); // Return early if no cooking methods
     }
@@ -1188,7 +1188,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Adapt cooking methods based on season and recipe type;
     const currentMethods =
-      (recipe as { cookingMethods?: string[] | string }).cookingMethods || [];
+      recipe.cookingMethod || [];
     for (const method of Array.isArray(currentMethods)
       ? currentMethods
       : [currentMethods]) {
@@ -1295,10 +1295,10 @@ export class UnifiedRecipeBuildingSystem {
     }
 
     // Add cooking method cultural notes
-    const recipeWithMethods = recipe as { cookingMethods?: string[] | string };
-    const cookingMethods = Array.isArray(recipeWithMethods.cookingMethods)
-      ? recipeWithMethods.cookingMethods
-      : [recipeWithMethods.cookingMethods].filter(Boolean);
+    const recipeWithMethods = recipe as { cookingMethod?: string[] | string };
+    const cookingMethods = Array.isArray(recipeWithMethods.cookingMethod)
+      ? recipeWithMethods.cookingMethod
+      : [recipeWithMethods.cookingMethod].filter(Boolean);
     if (cookingMethods.some((method) => method?.includes("slow"))) {
       (notes as unknown as string[]).push(
         "Slow cooking methods enhance traditional flavors",
@@ -1360,7 +1360,7 @@ export class UnifiedRecipeBuildingSystem {
 
       // Add technique-based adaptations - Fix property name consistency
       if (
-        (recipe as { cookingMethods?: string[] }).cookingMethods?.some(
+        recipe.cookingMethod?.some(
           (method: string) => method.includes("traditional"),
         )
       ) {
@@ -1591,7 +1591,7 @@ export class UnifiedRecipeBuildingSystem {
 
       // Cooking method influence on Kalchm balance
       if (
-        (recipe as { cookingMethods?: string[] }).cookingMethods?.some(
+        recipe.cookingMethod?.some(
           (method: string) =>
             method.includes("slow") || method.includes("traditional"),
         )
@@ -1650,8 +1650,8 @@ export class UnifiedRecipeBuildingSystem {
 
       // Cooking method influence on Monica harmony
       if (
-        recipe.cookingMethods?.includes("steam") ||
-        recipe.cookingMethods?.includes("raw")
+        recipe.cookingMethod?.includes("steam") ||
+        recipe.cookingMethod?.includes("raw")
       ) {
         monicaHarmony += 0.05;
       }
@@ -1716,7 +1716,7 @@ export class UnifiedRecipeBuildingSystem {
       confidence += 0.1;
     }
 
-    if (recipe.cookingMethods && recipe.cookingMethods.length > 0) {
+    if (recipe.cookingMethod && recipe.cookingMethod.length > 0) {
       confidence += 0.1;
     }
 
@@ -2280,8 +2280,8 @@ export class UnifiedRecipeBuildingSystem {
       fusionApplication: string;
     }> = [];
 
-    if (recipe.cookingMethods && Array.isArray(recipe.cookingMethods)) {
-      recipe.cookingMethods.forEach((method, index) => {
+    if (recipe.cookingMethod && Array.isArray(recipe.cookingMethod)) {
+      recipe.cookingMethod.forEach((method, index) => {
         const sourceCuisine =
           cuisines[index % cuisines.length] || cuisines[0] || "fusion";
         const fusionApplication = `Fusion technique integrating ${sourceCuisine} methodology`;

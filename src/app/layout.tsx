@@ -227,7 +227,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
-        </DynamicProviders>
+        </ClientProviders>
       </body>
     </html>
   );

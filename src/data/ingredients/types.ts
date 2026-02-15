@@ -183,10 +183,10 @@ export type OilSubcategory = "cooking" | "finishing" | "infused";
 export type VinegarSubcategory = "wine" | "fruit" | "grain" | "specialty";
 // Updated AlchemicalProperties interface with more accurate values
 export interface AlchemicalProperties {
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
 }
 
 // Updated ThermodynamicProperties interface based on the FoodAlchemySystem

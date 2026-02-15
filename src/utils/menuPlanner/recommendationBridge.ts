@@ -27,6 +27,7 @@ import {
 } from "@/utils/planetaryDayRecommendations";
 import { createLogger } from "@/utils/logger";
 import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
+import type { LunarPhase } from "@/types/celestial";
 
 const logger = createLogger("RecommendationBridge");
 const recipeBuilder = new UnifiedRecipeBuildingSystem();
@@ -37,7 +38,7 @@ const recipeBuilder = new UnifiedRecipeBuildingSystem();
  */
 export interface AstrologicalState {
   currentZodiac: string;
-  lunarPhase: string;
+  lunarPhase: LunarPhase;
   activePlanets: string[];
   domElements: ElementalProperties;
   currentPlanetaryHour?: string;

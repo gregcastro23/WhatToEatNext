@@ -13,6 +13,15 @@ import type {
   AlchemicalProperties,
 } from "./celestial";
 
+export type {
+  Planet,
+  ZodiacSignType,
+  Element,
+  Modality,
+  ElementalProperties,
+  AlchemicalProperties,
+} from "./celestial";
+
 /**
  * Birth data required to generate a natal chart
  */
@@ -27,6 +36,12 @@ export interface BirthData {
   };
 }
 
+export interface PlanetInfo {
+  name: Planet;
+  sign: ZodiacSignType;
+  position: number;
+}
+
 /**
  * Natal chart calculated from birth data
  * Contains planetary positions and derived properties
@@ -35,6 +50,8 @@ export interface NatalChart {
   id?: string;
   name?: string;
   birthData: BirthData;
+  planets: PlanetInfo[];
+  ascendant: ZodiacSignType;
   planetaryPositions: Record<Planet, ZodiacSignType>;
   dominantElement: Element;
   dominantModality: Modality;

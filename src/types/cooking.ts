@@ -93,3 +93,4 @@ export type { ElementalProperties, ZodiacSignType } from "./alchemy";
 
 // Add CookingMethodInfo alias for compatibility
 export type CookingMethodInfo = CookingMethod;
+export type CookingMethodProfile = CookingMethod;

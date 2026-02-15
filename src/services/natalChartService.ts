@@ -6,7 +6,7 @@
  * complete natal chart data including elemental and alchemical properties.
  */
 
-import type { BirthData, NatalChart } from "@/types/natalChart";
+import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import type {
   Planet,
   ZodiacSignType,
@@ -214,9 +214,19 @@ export async function calculateNatalChart(
     const dominantElement = getDominantElement(elementalBalance) as Element;
     const dominantModality = calculateDominantModality(planetaryPositions);
 
+    const planets: PlanetInfo[] = Object.entries(planetaryPositions).map(
+      ([name, sign]) => ({
+        name: name as Planet,
+        sign,
+        position: 0, // Simplified for now
+      }),
+    );
+
     // Create natal chart
     const natalChart: NatalChart = {
       birthData,
+      planets,
+      ascendant: planetaryPositions.Ascendant,
       planetaryPositions,
       dominantElement,
       dominantModality,

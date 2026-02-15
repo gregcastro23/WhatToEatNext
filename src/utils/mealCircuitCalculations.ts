@@ -74,7 +74,12 @@ export function calculateMealCircuit(
 
   try {
     // Type assertions for recipe properties (checked above)
-    const alchemicalProps = recipe.alchemicalProperties as AlchemicalProperties;
+    const alchemicalProps: AlchemicalProperties = {
+      Spirit: recipe.alchemicalProperties.reactivity || 0,
+      Essence: recipe.alchemicalProperties.entropy || 0,
+      Matter: recipe.alchemicalProperties.heat || 0,
+      Substance: recipe.alchemicalProperties.stability || 0,
+    };
     const elementalProps = recipe.elementalProperties as ElementalProperties;
 
     // 1. Calculate thermodynamic metrics (heat, entropy, reactivity, Greg's Energy)

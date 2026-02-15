@@ -10,7 +10,7 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 import emailService from "@/services/emailService";
 import { UserRole } from "@/lib/auth/jwt-auth";
 import type { NextRequest } from "next/server";
-import type { BirthData, NatalChart } from "@/types/natalChart";
+import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
 
 export const dynamic = "force-dynamic";
@@ -186,6 +186,15 @@ export async function POST(request: NextRequest) {
     // Calculate dominant element
     const dominantElement = calculateDominantElement(positions);
 
+    // Create a `planets` array from the `positions` object.
+    const planets: PlanetInfo[] = Object.entries(positions).map(
+      ([name, sign]) => ({
+        name: name as Planet,
+        sign,
+        position: 0, // Simplified for now
+      }),
+    );
+
     // Create natal chart
     const natalChart: NatalChart = {
       birthData: {
@@ -194,6 +203,8 @@ export async function POST(request: NextRequest) {
         longitude,
         timezone,
       } as BirthData,
+      planets,
+      ascendant: positions.Ascendant,
       planetaryPositions: positions,
       dominantElement,
       dominantModality: "Cardinal", // Simplified for now

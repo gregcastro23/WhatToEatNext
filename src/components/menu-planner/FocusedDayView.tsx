@@ -284,7 +284,7 @@ function SuggestionCarousel({
           </Link>
 
           <button
-            onClick={() => onSelect(current.recipe as MonicaOptimizedRecipe)}
+            onClick={() => onSelect(current.recipe)}
             className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
           >
             Select This Recipe

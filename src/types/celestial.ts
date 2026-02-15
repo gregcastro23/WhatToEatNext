@@ -205,6 +205,7 @@ export interface AstrologicalState {
   isDaytime?: boolean;
   planetaryHour?: Planet;
   dominantElement?: Element;
+  domElements?: ElementalProperties;
   dominantModality?: Modality;
   aspects?: PlanetaryAspect[];
 
