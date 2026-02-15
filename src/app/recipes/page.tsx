@@ -38,6 +38,13 @@ export default function RecipesPage() {
         <h1 className="text-4xl font-bold text-center mb-8">
           Recipes for {cuisine}
         </h1>
+        {/* TEMPORARY DEBUG INFO */}
+        {!isLoading && (
+          <div className="text-sm text-gray-400 text-center mb-4">
+            Displaying {recipes.length} recipes for {cuisine}.
+          </div>
+        )}
+        {/* END TEMPORARY DEBUG INFO */}
         {isLoading ? (
           <p>Loading recipes...</p>
         ) : (

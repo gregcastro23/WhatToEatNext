@@ -44,6 +44,9 @@ export class UnifiedRecipeService {
       this.recipesCache = recipes;
 
       logger.info(`Loaded ${recipes.length} recipes from data layer`);
+      // Debugging: Count Indian recipes
+      const indianRecipes = recipes.filter(recipe => (recipe.cuisine as string)?.toLowerCase() === 'indian');
+      logger.info(`Total Indian recipes loaded: ${indianRecipes.length}`);
       return recipes;
     } catch (error) {
       ErrorHandler.log(error, {
