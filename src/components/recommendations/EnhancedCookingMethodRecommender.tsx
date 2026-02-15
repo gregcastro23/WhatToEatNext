@@ -462,8 +462,8 @@ export default function EnhancedCookingMethodRecommender() {
           kinetics,
         };
       })
-      .sort((a, b) => b.gregsEnergy - a.gregsEnergy)
-      .slice(0, 8);
+      .sort((a, b) => b.gregsEnergy - a.gregsEnergy);
+      // .slice(0, 8); // TEMPORARY: Show everything
   }, [selectedCategory, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
