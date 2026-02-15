@@ -1406,13 +1406,13 @@ export default function EnhancedCookingMethodRecommender() {
                         {method.pillar.planetaryAssociations && (
                           <div className="mb-1 text-xs">
                             <strong>Planets:</strong>{" "}
-                            {method.pillar.planetaryAssociations.join(", ")}
+                            {(method.pillar.planetaryAssociations || []).join(", ")}
                           </div>
                         )}
                         {method.pillar.tarotAssociations && (
                           <div className="text-xs">
                             <strong>Tarot:</strong>{" "}
-                            {method.pillar.tarotAssociations.join(", ")}
+                            {(method.pillar.tarotAssociations || []).join(", ")}
                           </div>
                         )}
                       </div>

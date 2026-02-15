@@ -18,7 +18,7 @@ import type {
   ChartDataPoint,
   NutritionalChart,
 } from "@/types/menuPlanner";
-import type { ElementalProperties } from "@/types/recipe";
+import type { ElementalProperties, EnhancedRecipe } from "@/types/recipe";
 import type { AlchemicalProperties } from "@/calculations/core/kalchmEngine";
 import {
   calculateHeat,
@@ -83,7 +83,13 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
   meals.forEach((meal) => {
     if (!meal.recipe) return;
 
-    const recipe = meal.recipe;
+    const recipe = meal.recipe as EnhancedRecipe;
+
+    // Safe check for ingredients and instructions
+    if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {
+      logger.warn(`Recipe ${recipe.id} is incomplete (missing ingredients or instructions). Skipping nutrition calculation.`);
+      return; // Skip nutrition calculation for incomplete recipes
+    }
     const servings = meal.servings || 1;
 
     // Basic nutrition
@@ -106,6 +112,7 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
 
     // Alchemical properties (ESMS)
     if (recipe.alchemicalProperties) {
+      console.log(`Auditing alchemical properties for recipe: ${recipe.id}`, recipe.alchemicalProperties);
       // Map properties from recipe.alchemicalProperties (heat, entropy, reactivity, stability)
       // to AlchemicalProperties (Spirit, Essence, Matter, Substance)
       const mappedAlchemicalProps: AlchemicalProperties = {

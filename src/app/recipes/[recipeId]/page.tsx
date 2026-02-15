@@ -168,19 +168,19 @@ export default function RecipePage({
                 <p>
                   <strong>Season:</strong>{" "}
                   {Array.isArray(recipe.season)
-                    ? recipe.season.join(", ")
+                    ? (recipe.season || []).join(", ")
                     : recipe.season}
                 </p>
                 <p>
                   <strong>Meal Type:</strong>{" "}
                   {Array.isArray(recipe.mealType)
-                    ? recipe.mealType.join(", ")
+                    ? (recipe.mealType || []).join(", ")
                     : recipe.mealType}
                 </p>
                 <p>
                   <strong>Cooking Methods:</strong>{" "}
                   {Array.isArray(recipe.cookingMethods)
-                    ? recipe.cookingMethods
+                    ? (recipe.cookingMethods || [])
                         .map((m) => (typeof m === "string" ? m : m.name))
                         .join(", ")
                     : recipe.cookingMethods &&
@@ -214,15 +214,15 @@ export default function RecipePage({
                 <div className="space-y-2">
                   <p>
                     <strong>Planets:</strong>{" "}
-                    {(recipe as any).planetaryInfluences.join(", ")}
+                    {(recipe as any).planetaryInfluences && Array.isArray((recipe as any).planetaryInfluences) ? (recipe as any).planetaryInfluences.join(", ") : ''}
                   </p>
                   <p>
                     <strong>Signs:</strong>{" "}
-                    {(recipe as any).zodiacInfluences.join(", ")}
+                    {(recipe as any).zodiacInfluences && Array.isArray((recipe as any).zodiacInfluences) ? (recipe as any).zodiacInfluences.join(", ") : ''}
                   </p>
                   <p>
                     <strong>Lunar Phases:</strong>{" "}
-                    {(recipe as any).lunarPhaseInfluences.join(", ")}
+                    {(recipe as any).lunarPhaseInfluences && Array.isArray((recipe as any).lunarPhaseInfluences) ? (recipe as any).lunarPhaseInfluences.join(", ") : ''}
                   </p>
                 </div>
               </div>
@@ -297,7 +297,7 @@ export default function RecipePage({
                   {Object.entries(recipe.substitutions).map(([key, value]) => (
                     <li key={key}>
                       <strong>{key}:</strong>{" "}
-                      {Array.isArray(value) ? value.join(", ") : (value as any)}
+                      {Array.isArray(value) ? (value || []).join(", ") : (value as any)}
                     </li>
                   ))}
                 </ul>

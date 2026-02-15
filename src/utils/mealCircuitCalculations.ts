@@ -21,6 +21,7 @@ import {
   type ElementalAlchemicalCounts,
 } from "@/calculations/gregsEnergy";
 import { validateRecipeCircuit } from "./recipeCircuit";
+import type { EnhancedRecipe } from '@/types/recipe';
 
 /**
  * Count elemental and alchemical properties for thermodynamic calculations
@@ -62,15 +63,23 @@ export function calculateMealCircuit(
     return null;
   }
 
-  const recipe = mealSlot.recipe;
+  const recipe = mealSlot.recipe as EnhancedRecipe;
 
-  // Ensure we have required properties
+  // Safe check for ingredients and instructions
+  if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {
+    console.warn(`Recipe ${recipe.id} is incomplete (missing ingredients or instructions).`);
+    return null; // Handle incomplete recipes gracefully
+  }
+
+  // Ensure we have required properties for alchemical calculations
   if (!recipe.alchemicalProperties || !recipe.elementalProperties) {
     console.warn(
-      `Recipe ${recipe.id} missing alchemical or elemental properties`,
+      `Recipe ${recipe.id} missing alchemical or elemental properties for circuit calculation.`,
     );
     return null;
   }
+
+  console.log(`Auditing alchemical properties for recipe: ${recipe.id}`, recipe.alchemicalProperties);
 
   try {
     // Type assertions for recipe properties (checked above)

@@ -630,3 +630,33 @@ export interface RecipePlanetaryInfluences {
   unfavorable: string[];
   neutral?: string[];
 }
+
+import { AlchemicalProperties } from './alchemy'; // Import your specific alchemy type
+
+export interface EnhancedRecipe {
+  id: string;
+  title: string;
+  description?: string; // Optional
+  
+  // CRITICAL: Defining these as arrays prevents the .join() crash
+  ingredients: string[]; 
+  instructions: string[];
+  tags: string[];
+
+  // This matches the structure you are actually receiving
+  alchemicalProperties?: {
+    heat?: number;
+    entropy?: number;
+    reactivity?: number;
+    stability?: number;
+    // Map any other raw properties from your backend here
+  };
+
+  // Your internal mapped properties (optional, if you calculate them later)
+  mappedAlchemy?: AlchemicalProperties; 
+  
+  imageUrl?: string;
+  cookTime?: number;
+  prepTime?: number;
+  servings?: number;
+}

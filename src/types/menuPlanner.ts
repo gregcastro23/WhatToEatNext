@@ -7,9 +7,9 @@
  */
 
 import type { LunarPhase } from "./alchemy";
-import type { Recipe, ElementalProperties } from "./recipe";
+import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
 import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding"; // Add this import
+
 
 /**
  * Days of the week enumeration
@@ -57,7 +57,7 @@ export interface MealSlot {
   id: string;
   dayOfWeek: DayOfWeek;
   mealType: MealType;
-  recipe?: MonicaOptimizedRecipe; // Change from Recipe to MonicaOptimizedRecipe
+  recipe?: EnhancedRecipe; // Changed from MonicaOptimizedRecipe to EnhancedRecipe
   servings: number;
   planetarySnapshot: PlanetarySnapshot;
   notes?: string;
