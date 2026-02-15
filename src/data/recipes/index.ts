@@ -73,15 +73,12 @@ function standardizeRecipe(
 
   const standardized: Record<string, unknown> = { ...recipe };
 
-  // 1. Generate ID if missing
-  if (!standardized.id) {
-    standardized.id = generateRecipeId(
-      (standardized.name as string) || "unnamed",
-      cuisineName,
-      mealType,
-      season,
-    );
+  // 1. Generate ID if missing or ensure consistent ID based on canonical name
+  let canonicalName = (standardized.name as string) || "unnamed";
+  if (canonicalName.includes("(Monica Enhanced)")) {
+    canonicalName = canonicalName.replace(" (Monica Enhanced)", "");
   }
+  standardized.id = generateRecipeId(canonicalName, cuisineName, mealType, season);
 
   // 2. Ensure cuisine is set and consistent casing
   if (!standardized.cuisine) {
@@ -242,15 +239,8 @@ const flattenCuisineRecipes = () => {
                       season,
                     );
 
-                    // Determine the base ID (without Monica Enhanced suffix)
-                    let baseId = standardized.id as string;
-                    if (standardized.name && (standardized.name as string).includes("(Monica Enhanced)")) {
-                      const baseName = (standardized.name as string).replace(" (Monica Enhanced)", "");
-                      baseId = generateRecipeId(baseName, cuisineName, mealType, season);
-                    }
-
-                    // Store the recipe in the map, enhanced version replaces original
-                    recipeMap.set(baseId, standardized);
+                    // Store the recipe in the map, enhanced version replaces original if loaded later
+                    recipeMap.set(standardized.id as string, standardized);
                   });
                 }
               },
