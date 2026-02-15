@@ -1,5 +1,14 @@
 "use client";
 
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  type ReactNode,
+} from "react";
+import { logger } from "@/utils/logger";
 import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import type {
   BirthData,
@@ -100,11 +109,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           setCurrentUser(profile);
           checkProfileCompleteness(profile);
           profileLoaded = true;
-          _logger.info("Profile loaded from localStorage", {
+          logger.info("Profile loaded from localStorage", {
             userId: profile.userId,
           });
         } catch (parseError) {
-          _logger.error("Failed to parse stored profile", parseError as any);
+          logger.error("Failed to parse stored profile", parseError as any);
           localStorage.removeItem(STORAGE_KEY);
         }
       }
@@ -135,24 +144,24 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               checkProfileCompleteness(profile);
               localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
               profileLoaded = true;
-              _logger.info("Profile loaded from server", {
+              logger.info("Profile loaded from server", {
                 userId: profile.userId,
               });
             }
           }
         } catch (fetchError) {
-          _logger.info("No authenticated session found");
+          logger.info("No authenticated session found");
         }
       }
 
       // If no profile was loaded from either source, it's a new user
       if (!profileLoaded) {
         setIsNewUser(true);
-        _logger.info("No profile found, marking as new user.");
+        logger.info("No profile found, marking as new user.");
       }
     } catch (err) {
       setError("Failed to load user profile");
-      _logger.error("Error loading profile: ", err as any);
+      logger.error("Error loading profile: ", err as any);
     } finally {
       setIsLoading(false);
     }
@@ -186,11 +195,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           setCurrentUser(profile);
           checkProfileCompleteness(profile);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-          _logger.info("Profile refreshed from server");
+          logger.info("Profile refreshed from server");
         }
       }
     } catch (err) {
-      _logger.error("Failed to refresh profile from server", err as any);
+      logger.error("Failed to refresh profile from server", err as any);
     }
   }, [currentUser?.userId]);
 
@@ -249,14 +258,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             checkProfileCompleteness(serverProfile);
             setIsNewUser(false); // No longer a new user
             localStorage.setItem(STORAGE_KEY, JSON.stringify(serverProfile));
-            _logger.info("Profile updated on server", {
+            logger.info("Profile updated on server", {
               userId: serverProfile.userId,
             });
             return serverProfile;
           }
         }
       } catch (fetchError) {
-        _logger.warn("Server update failed, saving locally", fetchError as any);
+        logger.warn("Server update failed, saving locally", fetchError as any);
       }
 
       // Fallback: Save locally if server update fails
@@ -267,13 +276,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
       }
 
-      _logger.info("Profile updated locally", {
+      logger.info("Profile updated locally", {
         userId: updatedProfile.userId,
       });
       return updatedProfile;
     } catch (err) {
       setError("Failed to update profile");
-      _logger.error("Error updating profile: ", err as any);
+      logger.error("Error updating profile: ", err as any);
       return null;
     } finally {
       setIsLoading(false);
@@ -288,7 +297,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     if (typeof window !== "undefined") {
       localStorage.removeItem(STORAGE_KEY);
     }
-    _logger.info("User logged out");
+    logger.info("User logged out");
   };
 
   useEffect(() => {
