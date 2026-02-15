@@ -162,8 +162,15 @@ export class UnifiedRecipeService {
           cuisine && typeof cuisine === "string"
             ? cuisine.toLowerCase()
             : cuisine;
+
+        // Debugging log
+        if (targetCuisine === "indian") { // Focus on Indian cuisine for debugging
+          logger.info(`Comparing recipe.cuisine: "${recipe.cuisine}" (normalized: "${recipeCuisine}") with targetCuisine: "${targetCuisine}" -> Match: ${recipeCuisine === targetCuisine}`);
+        }
+
         return recipeCuisine === targetCuisine;
       });
+      logger.info(`getRecipesForCuisine for "${cuisine}" returned ${filtered.length} recipes.`);
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
       ErrorHandler.log(error, {
