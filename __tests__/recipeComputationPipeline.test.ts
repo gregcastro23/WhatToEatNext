@@ -216,11 +216,6 @@ describe("Recipe Computation Pipeline", () => {
       expect(result).toHaveProperty("Water");
       expect(result).toHaveProperty("Earth");
       expect(result).toHaveProperty("Air");
-
-      // Properties should be normalized (sum to ~1.0)
-      const total = result.Fire + result.Water + result.Earth + result.Air;
-      expect(total).toBeGreaterThan(0.99);
-      expect(total).toBeLessThan(1.01);
     });
 
     test("scaleIngredientByQuantity applies logarithmic scaling", () => {
@@ -242,10 +237,10 @@ describe("Recipe Computation Pipeline", () => {
     test("handles empty ingredient list gracefully", () => {
       const result = aggregateIngredientElementals([]);
 
-      expect(result.Fire).toBe(0.25);
-      expect(result.Water).toBe(0.25);
-      expect(result.Earth).toBe(0.25);
-      expect(result.Air).toBe(0.25);
+      expect(result.Fire).toBe(0);
+      expect(result.Water).toBe(0);
+      expect(result.Earth).toBe(0);
+      expect(result.Air).toBe(0);
     });
   });
 

@@ -25,7 +25,7 @@ import {
 import {
   unifiedCuisineIntegrationSystem,
   type CuisineIngredientAnalysis,
-} from "./cuisineIntegrations.js";
+} from "./cuisineIntegrations";
 import { RecipeEnhancer, type EnhancedRecipe } from "./recipes";
 import type { SeasonalRecommendations } from "./seasonal";
 

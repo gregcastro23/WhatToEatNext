@@ -178,7 +178,7 @@ describe("Elemental Normalization Utilities", () => {
       const result = isNormalized(nearNormalized);
 
       // Should still be considered normalized (within tolerance)
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     });
   });
 

@@ -910,11 +910,13 @@ export function detectDuplicates(
       processedIndices.add(i);
 
       // Determine which recipe to keep
-      const recipeObjects = group.map((g, idx) => ({
-        ...g,
-        originalIndex: idx === 0 ? i : -1,
-        recipe: recipes[idx === 0 ? i : -1] as Record<string, unknown>,
-      }));
+      const recipeObjects = group.map((g) => {
+        const originalRecipe = recipes.find((r: any) => r.id === g.id); // Find the original recipe by ID
+        return {
+          ...g,
+          recipe: originalRecipe as Record<string, unknown>,
+        };
+      });
 
       // Score recipes by completeness
       const scores = recipeObjects.map((r) => {
