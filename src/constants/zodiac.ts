@@ -3,7 +3,7 @@ import type { ElementalCharacter } from "./planetaryElements";
 /**
  * Zodiac sign types
  */
-export type ZodiacSign =
+export type ZodiacSignType =
   | "aries"
   | "taurus"
   | "gemini"
@@ -19,7 +19,7 @@ export type ZodiacSign =
 /**
  * Elemental correspondences for zodiac signs
  */
-export const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+export const zodiacElementMap: Record<ZodiacSignType, ElementalCharacter> = {
   aries: "Fire",
   taurus: "Earth",
   gemini: "Air",
@@ -40,7 +40,7 @@ export const _ZODIAC_ELEMENTS = zodiacElementMap;
 /**
  * Planetary rulerships - which planets rule which signs
  */
-export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
+export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSignType[]> = {
   sun: ["leo"],
   moon: ["cancer"],
   mercury: ["gemini", "virgo"],
@@ -56,7 +56,7 @@ export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
 /**
  * Planetary exaltations - where planets have extra strength
  */
-export const _PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
+export const _PLANETARY_EXALTATIONS: Record<string, ZodiacSignType> = {
   sun: "aries",
   moon: "taurus",
   mercury: "virgo",
@@ -88,7 +88,9 @@ export const _getElementFromZodiac = (sign: any): ElementalCharacter =>
 /**
  * Gets all zodiac signs associated with a specific element
  */
-export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] =>
+export const _getZodiacSignTypesByElement = (
+  element: ElementalCharacter,
+): any[] =>
   Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element)
     .map(([sign]) => sign as unknown);

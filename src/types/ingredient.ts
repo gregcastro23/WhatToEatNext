@@ -7,7 +7,11 @@ import type {
   Modality,
 } from "@/data/ingredients/types";
 import type { ElementalProperties } from "./alchemy";
-import type { ZodiacSign, LunarPhase, PlanetaryAlignment } from "./astrology";
+import type {
+  ZodiacSignType,
+  LunarPhase,
+  PlanetaryAlignment,
+} from "./astrology";
 
 export interface Ingredient {
   id?: string;
@@ -33,7 +37,7 @@ export interface Ingredient {
 
   // Astrological profile
   energyProfile?: {
-    zodiac?: any[];
+    zodiac?: ZodiacSignType[];
     lunar?: LunarPhase[];
     planetary?: PlanetaryAlignment[];
   };
@@ -86,5 +90,5 @@ export interface Ingredient {
 // ========== TYPE RE-EXPORTS FOR DOWNSTREAM COMPATIBILITY ==========
 // These re-exports ensure downstream adapters and services can import from ingredient.ts
 export type { ElementalProperties, Season } from "./alchemy";
-export type { ZodiacSign, PlanetName } from "./celestial";
+export type { ZodiacSignType, PlanetName } from "./celestial";
 export type { UnifiedIngredient } from "@/data/unified/unifiedTypes";

@@ -1,20 +1,42 @@
 "use client";
+
 import React, {
   createContext,
   useContext,
-  useEffect,
   useState,
+  useEffect,
   useCallback,
+  type ReactNode,
 } from "react";
-import { _logger } from "@/lib/logger";
-import type { ReactNode } from "react";
-
+import { logger } from "@/utils/logger";
+import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import type {
   BirthData,
   NatalChart,
   GroupMember,
   DiningGroup,
 } from "@/types/natalChart";
+
+// Define the user's alchemical constitution
+interface AlchemicalProfile {
+  // Elemental
+  fire: number;
+  water: number;
+  air: number;
+  earth: number;
+  // Alchemical
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
+  // Thermodynamic Metrics
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kAlchm: number;
+  monicaConstant: number;
+}
 
 // Extended UserProfile interface with natal chart and group support
 interface UserProfile {
@@ -26,6 +48,7 @@ interface UserProfile {
   natalChart?: NatalChart;
   groupMembers?: GroupMember[];
   diningGroups?: DiningGroup[];
+  stats?: AlchemicalProfile;
 }
 
 // Keys for localStorage
@@ -35,6 +58,8 @@ interface UserContextType {
   currentUser: UserProfile | null;
   isLoading: boolean;
   error: string | null;
+  isNewUser: boolean; // Flag for first-time users
+  isProfileIncomplete: boolean; // Flag for users with missing data
   loadProfile: () => void;
   updateProfile: (data: Partial<UserProfile>) => Promise<UserProfile | null>;
   logout: () => void;
@@ -51,11 +76,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isNewUser, setIsNewUser] = useState<boolean>(false);
+  const [isProfileIncomplete, setIsProfileIncomplete] =
+    useState<boolean>(false);
+
+  // Check if the profile is missing essential information
+  const checkProfileCompleteness = (profile: UserProfile | null) => {
+    if (!profile || !profile.birthData) {
+      setIsProfileIncomplete(true);
+    } else {
+      setIsProfileIncomplete(false);
+    }
+  };
 
   // Load profile from localStorage first, then optionally sync with server
   const loadProfile = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    setIsNewUser(false);
+
     try {
       // Try to load from localStorage first
       const storedProfile =
@@ -63,22 +102,24 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           ? localStorage.getItem(STORAGE_KEY)
           : null;
 
+      let profileLoaded = false;
       if (storedProfile) {
         try {
           const profile = JSON.parse(storedProfile) as UserProfile;
           setCurrentUser(profile);
-          _logger.info("Profile loaded from localStorage", {
+          checkProfileCompleteness(profile);
+          profileLoaded = true;
+          logger.info("Profile loaded from localStorage", {
             userId: profile.userId,
           });
         } catch (parseError) {
-          _logger.error("Failed to parse stored profile", parseError as any);
+          logger.error("Failed to parse stored profile", parseError as any);
           localStorage.removeItem(STORAGE_KEY);
         }
       }
 
       // If no stored profile, check if there's an authenticated session
-      // This allows for server-side profile loading when logged in
-      if (!storedProfile) {
+      if (!profileLoaded) {
         try {
           const response = await fetch("/api/user/profile", {
             method: "GET",
@@ -97,23 +138,30 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 natalChart: data.profile.natalChart,
                 groupMembers: data.profile.groupMembers || [],
                 diningGroups: data.profile.diningGroups || [],
+                stats: data.profile.stats,
               };
               setCurrentUser(profile);
-              // Save to localStorage for future use
+              checkProfileCompleteness(profile);
               localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-              _logger.info("Profile loaded from server", {
+              profileLoaded = true;
+              logger.info("Profile loaded from server", {
                 userId: profile.userId,
               });
             }
           }
         } catch (fetchError) {
-          // Server fetch failed - this is OK if user isn't authenticated
-          _logger.info("No authenticated session found");
+          logger.info("No authenticated session found");
         }
+      }
+
+      // If no profile was loaded from either source, it's a new user
+      if (!profileLoaded) {
+        setIsNewUser(true);
+        logger.info("No profile found, marking as new user.");
       }
     } catch (err) {
       setError("Failed to load user profile");
-      _logger.error("Error loading profile: ", err as any);
+      logger.error("Error loading profile: ", err as any);
     } finally {
       setIsLoading(false);
     }
@@ -142,14 +190,16 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             natalChart: data.profile.natalChart,
             groupMembers: data.profile.groupMembers || [],
             diningGroups: data.profile.diningGroups || [],
+            stats: data.profile.stats,
           };
           setCurrentUser(profile);
+          checkProfileCompleteness(profile);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-          _logger.info("Profile refreshed from server");
+          logger.info("Profile refreshed from server");
         }
       }
     } catch (err) {
-      _logger.error("Failed to refresh profile from server", err as any);
+      logger.error("Failed to refresh profile from server", err as any);
     }
   }, [currentUser?.userId]);
 
@@ -159,16 +209,21 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setIsLoading(true);
     setError(null);
     try {
-      if (!currentUser) {
-        throw new Error("No user profile loaded");
-      }
+      // For a new user, create a basic profile structure
+      const baseProfile = currentUser || {
+        userId: `local-${new Date().getTime()}`, // Create a temporary local ID
+      };
 
       // Merge with existing profile
-      const updatedProfile: UserProfile = {
-        ...currentUser,
+      let updatedProfile: UserProfile = {
+        ...baseProfile,
         ...data,
-        userId: currentUser.userId, // Preserve userId
-      };
+      } as UserProfile;
+
+      // If birthData is being updated, and we have a natal chart, recalculate stats
+      if (data.birthData && updatedProfile.natalChart) {
+        updatedProfile.stats = calculateAlchemicalProfile(updatedProfile.natalChart);
+      }
 
       // Try to update on server first
       try {
@@ -189,7 +244,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               userId:
                 result.profile.userId ||
                 result.profile.id ||
-                currentUser.userId,
+                updatedProfile.userId,
               name: result.profile.name,
               email: result.profile.email,
               preferences: result.profile.preferences,
@@ -197,32 +252,37 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               natalChart: result.profile.natalChart,
               groupMembers: result.profile.groupMembers || [],
               diningGroups: result.profile.diningGroups || [],
+              stats: result.profile.stats,
             };
             setCurrentUser(serverProfile);
+            checkProfileCompleteness(serverProfile);
+            setIsNewUser(false); // No longer a new user
             localStorage.setItem(STORAGE_KEY, JSON.stringify(serverProfile));
-            _logger.info("Profile updated on server", {
+            logger.info("Profile updated on server", {
               userId: serverProfile.userId,
             });
             return serverProfile;
           }
         }
       } catch (fetchError) {
-        _logger.warn("Server update failed, saving locally", fetchError as any);
+        logger.warn("Server update failed, saving locally", fetchError as any);
       }
 
       // Fallback: Save locally if server update fails
       setCurrentUser(updatedProfile);
+      checkProfileCompleteness(updatedProfile);
+      setIsNewUser(false); // No longer a new user after first update
       if (typeof window !== "undefined") {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
       }
 
-      _logger.info("Profile updated locally", {
+      logger.info("Profile updated locally", {
         userId: updatedProfile.userId,
       });
       return updatedProfile;
     } catch (err) {
       setError("Failed to update profile");
-      _logger.error("Error updating profile: ", err as any);
+      logger.error("Error updating profile: ", err as any);
       return null;
     } finally {
       setIsLoading(false);
@@ -231,11 +291,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const logout = () => {
     setCurrentUser(null);
+    setIsNewUser(false);
+    setIsProfileIncomplete(false);
     // Clear localStorage on logout
     if (typeof window !== "undefined") {
       localStorage.removeItem(STORAGE_KEY);
     }
-    _logger.info("User logged out");
+    logger.info("User logged out");
   };
 
   useEffect(() => {
@@ -246,6 +308,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     currentUser,
     isLoading,
     error,
+    isNewUser,
+    isProfileIncomplete,
     loadProfile,
     updateProfile,
     logout,
@@ -264,4 +328,4 @@ export const useUser = (): UserContextType => {
 };
 
 // Export types for use in other modules
-export type { UserProfile };
+export type { UserProfile, AlchemicalProfile };

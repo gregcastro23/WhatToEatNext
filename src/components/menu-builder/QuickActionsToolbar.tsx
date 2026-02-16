@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useUser } from "@/contexts/UserContext";
@@ -240,7 +241,7 @@ export default function QuickActionsToolbar() {
             .sort((a, b) => b.score - a.score);
 
           const best = scored[0].recipe;
-          await addMealToSlot(day, mealType, best);
+          await addMealToSlot(day, mealType, best as MonicaOptimizedRecipe);
           usedRecipeIds.add(best.id);
         }
       }
@@ -294,7 +295,11 @@ export default function QuickActionsToolbar() {
               .sort((a, b) => b.score - a.score);
 
             const best = scored[0].recipe;
-            await addMealToSlot(day as DayOfWeek, mealType, best);
+            await addMealToSlot(
+              day as DayOfWeek,
+              mealType,
+              best as MonicaOptimizedRecipe,
+            );
             usedRecipeIds.add(best.id);
           }
         }
@@ -359,7 +364,7 @@ export default function QuickActionsToolbar() {
           await addMealToSlot(
             meal.slot.dayOfWeek,
             meal.slot.mealType,
-            replacement,
+            replacement as MonicaOptimizedRecipe,
           );
         }
       }
@@ -450,7 +455,7 @@ export default function QuickActionsToolbar() {
           await addMealToSlot(
             meal.slot.dayOfWeek,
             meal.slot.mealType,
-            replacement,
+            replacement as MonicaOptimizedRecipe,
           );
         }
       }
@@ -605,3 +610,4 @@ export default function QuickActionsToolbar() {
     </>
   );
 }
+// Dummy comment to force re-compile

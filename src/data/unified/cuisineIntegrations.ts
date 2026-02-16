@@ -3,7 +3,7 @@
 // Consolidates cuisineMatrix.ts and related files with Monica/Kalchm integration
 // Integrates with unified seasonal system for dynamic cuisine recommendations
 
-import type { UnifiedIngredient } from "@/types";
+import type { UnifiedIngredient } from "./unifiedTypes";
 import type {
   CookingMethod,
   Element,

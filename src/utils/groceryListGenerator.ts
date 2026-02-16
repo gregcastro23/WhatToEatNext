@@ -245,7 +245,7 @@ export function generateGroceryList(
             : `${normalizedName}-${meal.recipe!.id}`;
 
         // Convert to base unit if requested
-        let amount = ingredient.amount * meal.servings;
+        let amount = Number(ingredient.amount) * meal.servings;
         let unit = ingredient.unit;
 
         if (convertUnits) {

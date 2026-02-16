@@ -15,6 +15,7 @@ import Link from "next/link";
 import type { Recipe, ElementalProperties } from "@/types/recipe";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useUser } from "@/contexts/UserContext";
@@ -139,7 +140,7 @@ function getPlanetaryInfo(day: DayOfWeek) {
 /**
  * Extract nutrition summary from recipe
  */
-function extractNutritionSummary(recipe: Recipe) {
+function extractNutritionSummary(recipe: MonicaOptimizedRecipe) {
   const nutrition = recipe.nutrition;
   if (!nutrition) return undefined;
 
@@ -315,6 +316,20 @@ function RecipeGeneratorContent() {
               ? parseInt(rec.recipe.prepTime.match(/\d+/)?.[0] || "999", 10)
               : rec.recipe.prepTime || 0;
           return prepTime <= (filters.maxPrepTime || 999);
+        });
+      }
+
+      if (filters.skillLevel !== "any") {
+        const skillMap = {
+          easy: "beginner",
+          medium: "intermediate",
+          hard: "advanced",
+        };
+
+        filtered = filtered.filter((rec) => {
+          const recipe = rec.recipe as any;
+          const skillLevel = recipe.skillLevel || skillMap[recipe.difficulty];
+          return skillLevel === filters.skillLevel;
         });
       }
 

@@ -1,4 +1,8 @@
-import type { ElementalProperties, Season, ZodiacSign } from "@/types/alchemy";
+import type {
+  ElementalProperties,
+  Season,
+  ZodiacSignType,
+} from "@/types/alchemy";
 
 /**
  * Core seasonal constants - consolidated from multiple files
@@ -89,7 +93,7 @@ export const BALANCED_ELEMENTS: ElementalProperties = {
 /**
  * Zodiac signs associated with each season
  */
-export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
+export const ZODIAC_SEASONS: Record<Season, ZodiacSignType[]> = {
   spring: ["aries", "taurus", "gemini"],
   summer: ["cancer", "leo", "virgo"],
   autumn: ["libra", "scorpio", "sagittarius"],
@@ -383,14 +387,14 @@ export function calculateSeasonalCompatibility(
 /**
  * Get zodiac signs for a season
  */
-export function getZodiacSignsForSeason(season: Season): any[] {
+export function getZodiacSignTypesForSeason(season: Season): any[] {
   return ZODIAC_SEASONS[season] || [];
 }
 
 /**
  * Get season for a zodiac sign
  */
-export function getSeasonForZodiacSign(sign: any): Season {
+export function getSeasonForZodiacSignType(sign: any): Season {
   for (const [season, signs] of Object.entries(ZODIAC_SEASONS)) {
     if (Array.isArray(signs) && signs.includes(sign)) {
       return season as Season;
@@ -431,7 +435,7 @@ export default {
   getCurrentSeason,
   getSeasonalModifier,
   calculateSeasonalCompatibility,
-  getZodiacSignsForSeason,
-  getSeasonForZodiacSign,
+  getZodiacSignTypesForSeason,
+  getSeasonForZodiacSignType,
   applySeasonalModifier,
 };

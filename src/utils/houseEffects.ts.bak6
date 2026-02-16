@@ -1,5 +1,5 @@
 // Removed unused log import
-import type { ZodiacSign } from '@/types/alchemy';
+import type { ZodiacSignType } from '@/types/alchemy';
 
 import type { ElementalCharacter } from '../constants/planetaryElements';
 
@@ -224,7 +224,7 @@ export function calculateHouseEffect(
  */
 export function calculateAllHouseEffects(
   planetPositions: Record<string, { sign: any, house?: number }>,
-  _houses: Record<number, ZodiacSign>,
+  _houses: Record<number, ZodiacSignType>,
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {
     Fire: 0,

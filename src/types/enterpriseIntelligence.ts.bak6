@@ -2,7 +2,7 @@
  * Type definitions for Enterprise Intelligence Integration Service
  */
 
-import { ElementalProperties, Ingredient, Recipe, ZodiacSign } from './unified';
+import { ElementalProperties, Ingredient, Recipe, ZodiacSignType } from './unified';
 
 export interface EnterpriseIntelligenceConfig {
   enableRecipeIntelligence: boolean;
@@ -50,7 +50,7 @@ export interface SeasonalAnalysis {
 }
 
 export interface AstrologicalAnalysis {
-  zodiacInfluences: Record<ZodiacSign, number>,
+  zodiacInfluences: Record<ZodiacSignType, number>,
   planetaryInfluences: Record<string, number>,
   elementalProperties: ElementalProperties,
   lunarPhaseCompatibility: Record<string, number>,

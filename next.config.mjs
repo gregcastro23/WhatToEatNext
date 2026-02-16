@@ -14,30 +14,40 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Turbopack configuration (Next.js 16 default bundler)
+  // turbopack: {
+  //   root: __dirname,
+  //   resolveAlias: {
+  //     '@': path.resolve(__dirname, 'src'),
+  //   },
+  // },
   // Webpack fallback configuration for path alias resolution
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@": path.resolve(__dirname, "src"),
     };
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      async_hooks: false,
-    };
 
     // Externalize Node.js core modules and 'pg' to prevent bundling them into the client-side
     // This is crucial for Vercel deployment where these modules are not available client-side
+    // Ensure Node.js core modules and 'pg' are externalized for server-side builds
+    // This prevents bundling them into the client-side, which is crucial for Vercel.
+    // Webpack's 'externals' property can be a function that receives the Webpack context.
+    // If it's already a function, we should wrap it. If it's an array or object, we merge.
     const originalExternals = config.externals;
     config.externals = ({ context, request }, callback) => {
+      // List of modules to externalize
       const externalsToExternalize = ["pg", "dns", "net", "tls", "fs"];
 
       if (externalsToExternalize.includes(request)) {
         return callback(null, `commonjs ${request}`);
       }
 
+      // If original externals is a function, call it
       if (typeof originalExternals === "function") {
         return originalExternals(context, request, callback);
       }
+      // If original externals is an object and contains the request
       if (
         typeof originalExternals === "object" &&
         originalExternals !== null &&
@@ -45,6 +55,7 @@ const nextConfig = {
       ) {
         return callback(null, originalExternals[request]);
       }
+      // If it's an array, or other cases, let Webpack handle it normally
       callback();
     };
     return config;
@@ -52,14 +63,16 @@ const nextConfig = {
   async headers() {
     const isDevelopment = process.env.NODE_ENV === "development";
 
+    // CSP configuration for Chakra UI and application security
+    // Build script-src dynamically
     const scriptSrcParts = [
       "'self'",
       "'unsafe-inline'",
       "https://unpkg.com",
       "https://cdn.jsdelivr.net",
       "https://r2cdn.perplexity.ai",
-      "https://vercel.live",
-      "https://*.vercel.live",
+      "https://vercel.live", // Always allow Vercel Live (for preview/production deployments)
+      "https://*.vercel.live", // Allow all Vercel Live subdomains
     ];
 
     if (isDevelopment) {

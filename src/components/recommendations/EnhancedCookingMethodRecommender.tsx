@@ -122,7 +122,7 @@ const DEFAULT_PLANETARY_POSITIONS = {
 };
 
 // Helper to extract zodiac sign from position data
-function extractZodiacSign(position: unknown): string {
+function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
   if (typeof position === "object" && position !== null) {
@@ -162,7 +162,7 @@ function normalizePlanetaryPositions(
   for (const planet of planets) {
     const position =
       contextPositions[planet] || contextPositions[planet.toLowerCase()];
-    normalized[planet] = extractZodiacSign(position);
+    normalized[planet] = extractZodiacSignType(position);
   }
 
   return normalized;
@@ -462,8 +462,8 @@ export default function EnhancedCookingMethodRecommender() {
           kinetics,
         };
       })
-      .sort((a, b) => b.gregsEnergy - a.gregsEnergy)
-      .slice(0, 8);
+      .sort((a, b) => b.gregsEnergy - a.gregsEnergy);
+      // .slice(0, 8); // TEMPORARY: Show everything
   }, [selectedCategory, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
@@ -1406,13 +1406,13 @@ export default function EnhancedCookingMethodRecommender() {
                         {method.pillar.planetaryAssociations && (
                           <div className="mb-1 text-xs">
                             <strong>Planets:</strong>{" "}
-                            {method.pillar.planetaryAssociations.join(", ")}
+                            {(method.pillar.planetaryAssociations || []).join(", ")}
                           </div>
                         )}
                         {method.pillar.tarotAssociations && (
                           <div className="text-xs">
                             <strong>Tarot:</strong>{" "}
-                            {method.pillar.tarotAssociations.join(", ")}
+                            {(method.pillar.tarotAssociations || []).join(", ")}
                           </div>
                         )}
                       </div>

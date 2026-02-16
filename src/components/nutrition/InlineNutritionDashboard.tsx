@@ -9,9 +9,9 @@
 import React, { useState, useMemo } from "react";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
 import { getComplianceSeverity } from "@/types/nutrition";
-import { ComplianceScore } from "../nutrition";
-import { MacroSummary } from "../nutrition";
-import { MicronutrientHighlights } from "../nutrition";
+import { ComplianceScore } from "./ComplianceScore";
+import { MacroSummary } from "./MacroSummary";
+import { MicronutrientHighlights } from "./MicronutrientHighlights";
 
 import { multiplyNutrition } from "@/data/nutritional/rdaStandards";
 

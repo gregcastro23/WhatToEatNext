@@ -12,7 +12,7 @@ import {
   calculateAlchemicalFromPlanets,
   PLANETARY_ALCHEMY,
   ZODIAC_ELEMENTS,
-  type ZodiacSign as ZodiacSignType,
+  type ZodiacSignType as ZodiacSignType,
 } from "@/utils/planetaryAlchemyMapping";
 import { calculateKalchmResults } from "@/calculations/core/kalchmEngine";
 import { calculateKinetics } from "@/calculations/kinetics";
@@ -110,7 +110,13 @@ export default function AlchemicalKineticsDemo() {
   // State for planetary positions
   const [planetaryPositions, setPlanetaryPositions] = useState<
     Record<string, string>
-  >(DefaultPlanetaryPositions as Record<string, string>);
+  >(
+    Object.fromEntries(
+      Object.entries(DefaultPlanetaryPositions)
+        .filter(([, value]) => typeof value === "object" && value !== null)
+        .map(([key, value]) => [key, (value as any).sign]),
+    ),
+  );
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set(),
   );

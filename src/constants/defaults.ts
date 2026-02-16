@@ -1,12 +1,12 @@
 import type {
   AlchemicalValues,
   AstrologicalState,
-  CelestialPosition,
   ChakraEnergies,
   ElementalProperties,
   LunarPhase,
   PlanetaryAlignment,
 } from "@/types/alchemy";
+import type { CelestialPosition } from "@/types/celestial";
 
 /**
  * Default elemental properties with balanced values

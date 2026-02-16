@@ -347,7 +347,7 @@ export class ServicesManager {
     try {
       logger.info("Initializing AlchemicalRecommendationService...");
       // Ensure the service is initialized
-      // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility
+      // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSignType> compatibility
       const dummyPositions = {
         Sun: "aries",
         moon: "taurus",

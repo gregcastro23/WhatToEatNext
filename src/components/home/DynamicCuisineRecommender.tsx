@@ -253,8 +253,9 @@ export default function DynamicCuisineRecommender() {
         });
       }
 
-      scored.sort((a, b) => b.score - a.score);
-      setRecommendations(scored);
+      const filteredAndScored = scored.filter(cuisine => cuisine.recipeCount > 0);
+      filteredAndScored.sort((a, b) => b.score - a.score);
+      setRecommendations(filteredAndScored);
       setLastUpdated(new Date());
     } catch (error) {
       console.error("Failed to load dynamic cuisine recommendations:", error);

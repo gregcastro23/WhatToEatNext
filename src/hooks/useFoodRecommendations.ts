@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { usePlanetaryKinetics } from "@/hooks/usePlanetaryKinetics";
 import { _logger } from "@/lib/logger";
-import type { ZodiacSign, LunarPhase, Planet } from "@/types/alchemy";
+import type { ZodiacSignType, LunarPhase, Planet } from "@/types/alchemy";
 import type {
   AstrologicalState,
   CelestialPosition,
@@ -61,7 +61,7 @@ export const useFoodRecommendations = (
       ({
         // Required fields from the type definition
         currentZodiac:
-          (state.astrologicalState?.zodiacSign as ZodiacSign) || "aries",
+          (state.astrologicalState?.zodiacSign as ZodiacSignType) || "aries",
         moonPhase:
           (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
         currentPlanetaryAlignment:
@@ -77,7 +77,7 @@ export const useFoodRecommendations = (
         lunarPhase:
           (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
         zodiacSign:
-          (state.astrologicalState?.zodiacSign as ZodiacSign) || "aries",
+          (state.astrologicalState?.zodiacSign as ZodiacSignType) || "aries",
         planetaryHours:
           (state.astrologicalState?.planetaryHour as Planet) || "Sun",
         aspects: (state.astrologicalState?.aspects || []) as PlanetaryAspect[],

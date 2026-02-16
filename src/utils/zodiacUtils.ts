@@ -1,11 +1,11 @@
-import type { ElementalProperties, ZodiacSign } from "@/types/alchemy";
+import type { ElementalProperties, ZodiacSignType } from "@/types/alchemy";
 import { DEFAULT_ZODIAC_AFFINITY } from "@/types/zodiacAffinity";
 
 /**
  * Get the current zodiac sign based on the current date
  * @returns The current zodiac sign as a string
  */
-export const getCurrentZodiacSign = (): string => {
+export const getCurrentZodiacSignType = (): string => {
   const now = new Date();
   const month = now.getMonth() + 1;
   const day = now.getDate();
@@ -29,14 +29,14 @@ export const getCurrentZodiacSign = (): string => {
 };
 
 /**
- * Convert any string to a valid ZodiacSign if possible
+ * Convert any string to a valid ZodiacSignType if possible
  * @param zodiac String representing a zodiac sign
- * @returns A valid ZodiacSign or 'aries' as default
+ * @returns A valid ZodiacSignType or 'aries' as default
  */
-export function toZodiacSign(zodiac: string): ZodiacSign {
+export function toZodiacSignType(zodiac: string): ZodiacSignType {
   if (!zodiac) return "aries";
 
-  const validSigns: ZodiacSign[] = [
+  const validSigns: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",
@@ -85,7 +85,7 @@ export function getSignFromLongitude(longitude: number): string {
  * @param date Date to calculate zodiac sign for
  * @returns Zodiac sign
  */
-export function getZodiacSign(date: Date): ZodiacSign {
+export function getZodiacSignType(date: Date): ZodiacSignType {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
@@ -113,12 +113,12 @@ export function getZodiacSign(date: Date): ZodiacSign {
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
 export function getElementForZodiac(
-  sign: ZodiacSign,
+  sign: ZodiacSignType,
 ): "Fire" | "Earth" | "Air" | "Water" {
-  const fireZodiacs: ZodiacSign[] = ["aries", "leo", "sagittarius"];
-  const earthZodiacs: ZodiacSign[] = ["taurus", "virgo", "capricorn"];
-  const airZodiacs: ZodiacSign[] = ["gemini", "libra", "aquarius"];
-  const waterZodiacs: ZodiacSign[] = ["cancer", "scorpio", "pisces"];
+  const fireZodiacs: ZodiacSignType[] = ["aries", "leo", "sagittarius"];
+  const earthZodiacs: ZodiacSignType[] = ["taurus", "virgo", "capricorn"];
+  const airZodiacs: ZodiacSignType[] = ["gemini", "libra", "aquarius"];
+  const waterZodiacs: ZodiacSignType[] = ["cancer", "scorpio", "pisces"];
 
   if (fireZodiacs.includes(sign)) return "Fire";
   if (earthZodiacs.includes(sign)) return "Earth";
@@ -132,7 +132,7 @@ export function getElementForZodiac(
  * @returns Elemental properties with the sign's element boosted
  */
 export function getZodiacElementalInfluence(
-  sign: ZodiacSign,
+  sign: ZodiacSignType,
 ): ElementalProperties {
   const element = getElementForZodiac(sign);
 
@@ -153,17 +153,17 @@ export function getZodiacElementalInfluence(
 /**
  * Calculate zodiac affinity based on an ingredient's elemental properties
  * @param elementalProperties Elemental properties to calculate affinity from
- * @param primaryZodiacSign Optional primary sign to boost modality affinity
+ * @param primaryZodiacSignType Optional primary sign to boost modality affinity
  * @returns Zodiac affinity with values for each sign
  */
 export function calculateZodiacAffinityFromElements(
   elementalProperties: ElementalProperties,
-  primaryZodiacSign?: ZodiacSign,
+  primaryZodiacSignType?: ZodiacSignType,
 ): typeof DEFAULT_ZODIAC_AFFINITY {
   const result = { ...DEFAULT_ZODIAC_AFFINITY };
 
   // Map each zodiac sign to its element
-  const elementMap: Record<ZodiacSign, keyof ElementalProperties> = {
+  const elementMap: Record<ZodiacSignType, keyof ElementalProperties> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -180,7 +180,7 @@ export function calculateZodiacAffinityFromElements(
 
   // Calculate affinities based on elemental properties
   Object.entries(elementMap).forEach(([sign, element]) => {
-    const zodiacSign = sign as ZodiacSign;
+    const zodiacSign = sign as ZodiacSignType;
 
     // Base affinity from primary element - elements are most harmonious with themselves
     result[zodiacSign] = elementalProperties[element] * 0.7;
@@ -198,9 +198,9 @@ export function calculateZodiacAffinityFromElements(
     });
 
     // Apply modality boost if primary sign is provided
-    if (primaryZodiacSign) {
+    if (primaryZodiacSignType) {
       const signModality = getModalityForZodiac(zodiacSign);
-      const primaryModality = getModalityForZodiac(primaryZodiacSign);
+      const primaryModality = getModalityForZodiac(primaryZodiacSignType);
 
       // Apply hierarchical modality-element affinities
       if (signModality === primaryModality) {
@@ -230,7 +230,7 @@ export function calculateZodiacAffinityFromElements(
   });
 
   // Ensure all values are in the 0-1 range
-  (Object.keys(result) as ZodiacSign[]).forEach((sign) => {
+  (Object.keys(result) as ZodiacSignType[]).forEach((sign) => {
     result[sign] = Math.min(1, Math.max(0, result[sign]));
   });
 
@@ -265,16 +265,21 @@ function getElementalCompatibility(
  * @returns Modality ('cardinal', 'fixed', or 'mutable')
  */
 export function getModalityForZodiac(
-  sign: ZodiacSign,
+  sign: ZodiacSignType,
 ): "cardinal" | "fixed" | "mutable" {
-  const cardinalZodiacs: ZodiacSign[] = [
+  const cardinalZodiacs: ZodiacSignType[] = [
     "aries",
     "cancer",
     "libra",
     "capricorn",
   ];
-  const fixedZodiacs: ZodiacSign[] = ["taurus", "leo", "scorpio", "aquarius"];
-  const mutableZodiacs: ZodiacSign[] = [
+  const fixedZodiacs: ZodiacSignType[] = [
+    "taurus",
+    "leo",
+    "scorpio",
+    "aquarius",
+  ];
+  const mutableZodiacs: ZodiacSignType[] = [
     "gemini",
     "virgo",
     "sagittarius",
@@ -287,10 +292,10 @@ export function getModalityForZodiac(
 }
 
 /**
- * Get zodiac sign from a date (alias for getZodiacSign)
+ * Get zodiac sign from a date (alias for getZodiacSignType)
  * @param date Date to calculate zodiac sign for
  * @returns Zodiac sign
  */
-export function getZodiacFromDate(date: Date): ZodiacSign {
-  return getZodiacSign(date);
+export function getZodiacFromDate(date: Date): ZodiacSignType {
+  return getZodiacSignType(date);
 }

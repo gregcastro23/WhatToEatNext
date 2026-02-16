@@ -10,10 +10,10 @@ import { enhancedIngredientSystem } from "@/services/adapters/IngredientServiceA
 import type {
   ElementalProperties,
   LunarPhase,
-  Recipe,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 import type { ScoredRecipe } from "@/types/recipe";
@@ -65,7 +65,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       cuisine?: string;
       season?: Season;
       mealType?: string;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSignType?: ZodiacSignType;
       lunarPhase?: LunarPhase;
       dietaryPreferences?: string[];
       ingredients?: string[];
@@ -167,7 +167,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     state: SystemState,
     options: {
       season?: Season;
-      currentZodiacSign?: ZodiacSign;
+      currentZodiacSignType?: ZodiacSignType;
       categories?: string[];
       dietaryPreferences?: {
         isVegetarian?: boolean;

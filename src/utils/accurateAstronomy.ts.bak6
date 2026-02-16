@@ -673,7 +673,7 @@ export function getExactCardinalPoints(year: number): {
  * @param year Year to calculate for
  * @returns Duration in days for each zodiac sign
  */
-export function getZodiacSignDurations(year: number): Record<string, number> {
+export function getZodiacSignTypeDurations(year: number): Record<string, number> {
   return getSignDurations(year);
 }
 

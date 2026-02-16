@@ -17,7 +17,7 @@ import {
   getDominantElement,
 } from "@/utils/planetaryAlchemyMapping";
 import type { NatalChart } from "@/types/natalChart";
-import type { Planet, ZodiacSign, Element } from "@/types/celestial";
+import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
 import type {
   ElementalProperties,
   AlchemicalProperties,
@@ -35,7 +35,7 @@ export interface MomentChart {
     latitude: number;
     longitude: number;
   };
-  planetaryPositions: Record<Planet, ZodiacSign>;
+  planetaryPositions: Record<Planet, ZodiacSignType>;
   dominantElement: Element;
   elementalBalance: ElementalProperties;
   alchemicalProperties: AlchemicalProperties;
@@ -91,20 +91,20 @@ export async function calculateMomentChart(
     const planetaryPositionsRaw: Record<string, PlanetPosition> =
       await getPlanetaryPositionsForDateTime(targetDateTime, targetLocation);
 
-    // Convert to Record<Planet, ZodiacSign>
-    const planetaryPositions: Record<Planet, ZodiacSign> = {
-      Sun: planetaryPositionsRaw.Sun?.sign as ZodiacSign,
-      Moon: planetaryPositionsRaw.Moon?.sign as ZodiacSign,
-      Mercury: planetaryPositionsRaw.Mercury?.sign as ZodiacSign,
-      Venus: planetaryPositionsRaw.Venus?.sign as ZodiacSign,
-      Mars: planetaryPositionsRaw.Mars?.sign as ZodiacSign,
-      Jupiter: planetaryPositionsRaw.Jupiter?.sign as ZodiacSign,
-      Saturn: planetaryPositionsRaw.Saturn?.sign as ZodiacSign,
-      Uranus: planetaryPositionsRaw.Uranus?.sign as ZodiacSign,
-      Neptune: planetaryPositionsRaw.Neptune?.sign as ZodiacSign,
-      Pluto: planetaryPositionsRaw.Pluto?.sign as ZodiacSign,
+    // Convert to Record<Planet, ZodiacSignType>
+    const planetaryPositions: Record<Planet, ZodiacSignType> = {
+      Sun: planetaryPositionsRaw.Sun?.sign as ZodiacSignType,
+      Moon: planetaryPositionsRaw.Moon?.sign as ZodiacSignType,
+      Mercury: planetaryPositionsRaw.Mercury?.sign as ZodiacSignType,
+      Venus: planetaryPositionsRaw.Venus?.sign as ZodiacSignType,
+      Mars: planetaryPositionsRaw.Mars?.sign as ZodiacSignType,
+      Jupiter: planetaryPositionsRaw.Jupiter?.sign as ZodiacSignType,
+      Saturn: planetaryPositionsRaw.Saturn?.sign as ZodiacSignType,
+      Uranus: planetaryPositionsRaw.Uranus?.sign as ZodiacSignType,
+      Neptune: planetaryPositionsRaw.Neptune?.sign as ZodiacSignType,
+      Pluto: planetaryPositionsRaw.Pluto?.sign as ZodiacSignType,
       Ascendant:
-        (planetaryPositionsRaw.Ascendant?.sign as ZodiacSign) || "aries",
+        (planetaryPositionsRaw.Ascendant?.sign as ZodiacSignType) || "aries",
     };
 
     // Calculate elemental balance from zodiac positions
@@ -236,8 +236,8 @@ function calculateAlchemicalAlignment(
  * Considers which planets are in harmonious signs
  */
 function calculatePlanetaryResonance(
-  natalPositions: Record<Planet, ZodiacSign>,
-  momentPositions: Record<Planet, ZodiacSign>,
+  natalPositions: Record<Planet, ZodiacSignType>,
+  momentPositions: Record<Planet, ZodiacSignType>,
 ): number {
   const planets: Planet[] = [
     "Sun",
@@ -315,8 +315,8 @@ function calculatePlanetaryResonance(
  * Identify which planets are in harmonic positions
  */
 function getHarmonicPlanets(
-  natalPositions: Record<Planet, ZodiacSign>,
-  momentPositions: Record<Planet, ZodiacSign>,
+  natalPositions: Record<Planet, ZodiacSignType>,
+  momentPositions: Record<Planet, ZodiacSignType>,
 ): Planet[] {
   const planets: Planet[] = [
     "Sun",

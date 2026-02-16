@@ -7,7 +7,7 @@ import type {
   LunarPhase,
   Planet,
   PlanetaryAlignment,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/celestial";
 import { normalizePlanetaryPositions } from "@/utils/astrology/core";
 
@@ -104,7 +104,9 @@ export class AstrologyService {
   /**
    * Get the current zodiac sign (Sun sign)
    */
-  async getCurrentZodiacSign(forceRefresh = false): Promise<ZodiacSign> {
+  async getCurrentZodiacSignType(
+    forceRefresh = false,
+  ): Promise<ZodiacSignType> {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
@@ -241,7 +243,7 @@ export class AstrologyService {
       }
 
       const state: AstrologicalState = {
-        currentZodiac: this.calculateZodiacSign(currentDate),
+        currentZodiac: this.calculateZodiacSignType(currentDate),
         moonPhase: this.calculateLunarPhase(currentDate),
         currentPlanetaryAlignment: planetaryAlignment,
         isDaytime: this.calculateIsDaytime(currentDate),
@@ -260,7 +262,7 @@ export class AstrologyService {
   }
 
   // Mock calculation methods - these would contain real implementations in practice
-  private calculateZodiacSign(date: Date): any {
+  private calculateZodiacSignType(date: Date): any {
     const month = date.getMonth();
     const day = date.getDate();
 

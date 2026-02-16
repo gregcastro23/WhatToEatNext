@@ -27,7 +27,7 @@ import type {
   Season,
   ThermodynamicProperties,
 } from "@/types/alchemy";
-import type { ZodiacSign } from "@/types/celestial";
+import type { ZodiacSignType } from "@/types/celestial";
 import type { TimeFactors } from "@/types/time";
 // Removed unused, imports: getCurrentSeason, getTimeOfDay
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from "@/utils/safeAstrology";
@@ -91,7 +91,7 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
 export function getZodiacElement(_sign: any): ElementalCharacter {
-  const elements: Record<ZodiacSign, ElementalCharacter> = {
+  const elements: Record<ZodiacSignType, ElementalCharacter> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -118,7 +118,7 @@ export function getPlanetaryDignity(
 
 // Add type definition for PlanetPosition
 export interface PlanetPosition {
-  sign: any;
+  sign: ZodiacSignType;
   degree: number;
   minute: number;
   exactLongitude: number;
@@ -168,12 +168,12 @@ export const zodiacSigns: any[] = [
 ];
 
 // Utility function to validate zodiac sign
-export function isValidZodiacSign(sign: string): sign is ZodiacSign {
-  return zodiacSigns.includes(sign as any);
+export function isValidZodiacSignType(sign: string): sign is ZodiacSignType {
+  return zodiacSigns.includes(sign as ZodiacSignType);
 }
 
 export interface PlanetPositionData {
-  sign: any;
+  sign: ZodiacSignType;
   degree: number;
   minute?: number;
   exactLongitude?: number;
@@ -366,7 +366,7 @@ export function calculateSunSign(date: Date = new Date()): any {
  */
 export async function calculateMoonSign(
   date: Date = new Date(),
-): Promise<ZodiacSign> {
+): Promise<ZodiacSignType> {
   try {
     // Try to get accurate positions first
     const positions = await getAccuratePlanetaryPositions(date);
@@ -377,7 +377,7 @@ export async function calculateMoonSign(
     errorLog("Error in calculateMoonSign: ", error);
     // Fallback to simplified calculation
     const moonLongitude = calculateMoonLongitude(calculateJulianDate(date));
-    return getZodiacSign(moonLongitude) as any;
+    return getZodiacSignType(moonLongitude) as any;
   }
 }
 
@@ -404,7 +404,7 @@ export async function calculatePlanetaryPositions(
         );
 
         formattedPositions[planet] = {
-          sign: sign as any, // Cast string to ZodiacSign
+          sign: sign as ZodiacSignType, // Cast string to ZodiacSignType
           degree: parseFloat(degree.toFixed(4)), // Increased precision to 4 decimal places
           minute: Math.round((degree % 1) * 60), // Minute calculation
           exactLongitude: planetData.exactLongitude,
@@ -443,7 +443,7 @@ export async function calculatePlanetaryPositions(
           );
 
           formattedPositions[planet] = {
-            sign: sign as any, // Cast string to ZodiacSign
+            sign: sign as ZodiacSignType, // Cast string to ZodiacSignType
             degree: parseFloat(degree.toFixed(3)),
             minute: Math.round((degree % 1) * 60), // Add minute calculation
             exactLongitude: planetData.exactLongitude,
@@ -1279,7 +1279,7 @@ export function calculateCompleteAstrologicalEffects(
 
   // Process each planet for dignity
   for (const [planet, position] of Object.entries(planetPositions)) {
-    const dignity = getPlanetaryDignity(planet, position.sign as any); // Cast to ZodiacSign
+    const dignity = getPlanetaryDignity(planet, position.sign as any); // Cast to ZodiacSignType
     const element = getZodiacElement(position.sign as any).toLowerCase();
 
     // Apply dignity strength based on type
@@ -1541,7 +1541,8 @@ export function calculateAspects(
     square: { maxOrb: 7, multiplier: -1 }, // -1 effect (special case for Ascendant handled in logic)
     sextile: { maxOrb: 4, multiplier: 0.5 }, // +0.5 effect (moderate positive)
     quincunx: { maxOrb: 3, multiplier: -0.5 }, // -0.5 effect (moderate negative)
-    semisextile: { maxOrb: 3, multiplier: 0.2 }, // +0.2 effect (mild positive)
+    inconjunct: { maxOrb: 3, multiplier: -0.5 }, // -0.5 effect (moderate negative)
+    "semi-sextile": { maxOrb: 3, multiplier: 0.2 }, // +0.2 effect (mild positive)
     semisquare: { maxOrb: 2, multiplier: -0.3 }, // -0.3 effect (mild negative)
     sesquisquare: { maxOrb: 2, multiplier: -0.3 }, // -0.3 effect (mild negative)
     quintile: { maxOrb: 2, multiplier: 0.3 }, // +0.3 effect (mild positive)
@@ -1607,7 +1608,8 @@ export function calculateAspects(
           trine: 120,
           opposition: 180,
           quincunx: 150,
-          semisextile: 30,
+          inconjunct: 150,
+          "semi-sextile": 30,
           semisquare: 45,
           sesquisquare: 135,
           quintile: 72,
@@ -1787,91 +1789,91 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
   // _Reference: current-moment-chart.ipynb for July 2nd, 2025 at, 10: 45 PM EDT
   const currentPositions: Record<string, PlanetPosition> = {
     Sun: {
-      sign: "cancer",
+      sign: "cancer" as ZodiacSignType,
       degree: 10,
       minute: 45,
       exactLongitude: 100.75, // 10° 45' Cancer,
       isRetrograde: false,
     },
     Moon: {
-      sign: "libra",
+      sign: "libra" as ZodiacSignType,
       degree: 18,
       minute: 19,
       exactLongitude: 198.32, // 18° 19' Libra,
       isRetrograde: false,
     },
     Mercury: {
-      sign: "leo",
+      sign: "leo" as ZodiacSignType,
       degree: 2,
       minute: 9,
       exactLongitude: 122.15, // 2° 9' Leo,
       isRetrograde: false,
     },
     Venus: {
-      sign: "leo",
+      sign: "leo" as ZodiacSignType,
       degree: 14,
       minute: 51,
       exactLongitude: 134.85, // 14° 51' Leo,
       isRetrograde: false,
     },
     Mars: {
-      sign: "taurus",
+      sign: "taurus" as ZodiacSignType,
       degree: 25,
       minute: 25,
       exactLongitude: 55.42, // 25° 25' Taurus,
       isRetrograde: false,
     },
     Jupiter: {
-      sign: "gemini",
+      sign: "gemini" as ZodiacSignType,
       degree: 12,
       minute: 44,
       exactLongitude: 72.73, // 12° 44' Gemini,
       isRetrograde: false,
     },
     Saturn: {
-      sign: "pisces",
+      sign: "pisces" as ZodiacSignType,
       degree: 19,
       minute: 17,
       exactLongitude: 349.28, // 19° 17' Pisces,
       isRetrograde: false,
     },
     Uranus: {
-      sign: "taurus",
+      sign: "taurus" as ZodiacSignType,
       degree: 26,
       minute: 9,
       exactLongitude: 56.15, // 26° 9' Taurus,
       isRetrograde: false,
     },
     Neptune: {
-      sign: "aries",
+      sign: "aries" as ZodiacSignType,
       degree: 29,
       minute: 55,
       exactLongitude: 29.92, // 29° 55' Aries,
       isRetrograde: false,
     },
     Pluto: {
-      sign: "aquarius",
+      sign: "aquarius" as ZodiacSignType,
       degree: 1,
       minute: 53,
       exactLongitude: 301.88, // 1° 53' Aquarius,
       isRetrograde: true,
     },
     northNode: {
-      sign: "pisces",
+      sign: "pisces" as ZodiacSignType,
       degree: 26,
       minute: 33,
       exactLongitude: 356.55, // Position in 330-360 degrees (pisces),
       isRetrograde: true,
     },
     southNode: {
-      sign: "virgo",
+      sign: "virgo" as ZodiacSignType,
       degree: 26,
       minute: 33,
       exactLongitude: 176.55, // Position in 150-180 degrees (virgo), opposite to North Node,
       isRetrograde: true,
     },
     Ascendant: {
-      sign: "sagittarius",
+      sign: "sagittarius" as ZodiacSignType,
       degree: 3,
       minute: 58,
       exactLongitude: 243.97, // Position in 240-270 degrees (sagittarius),
@@ -1888,7 +1890,7 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
  * @param longitude Longitude in degrees
  * @returns Zodiac sign
  */
-export function getZodiacSign(longitude: number): string {
+export function getZodiacSignType(longitude: number): string {
   const signs = [
     "aries",
     "taurus",
@@ -2380,8 +2382,8 @@ export function getPlanetaryElementalInfluence(planet: string): Element {
  * @param sign The zodiac sign
  * @returns The elemental association
  */
-export function getZodiacElementalInfluence(sign: ZodiacSign): Element {
-  const zodiacElementMap: Record<ZodiacSign, Element> = {
+export function getZodiacElementalInfluence(sign: ZodiacSignType): Element {
+  const zodiacElementMap: Record<ZodiacSignType, Element> = {
     aries: "Fire",
     taurus: "Earth",
     gemini: "Air",

@@ -3,7 +3,7 @@
 import type {
   Element,
   ElementalProperties,
-  ZodiacSign,
+  ZodiacSignType,
 } from "../types/alchemy";
 
 // Define StringIndexed type inline since we're not importing it
@@ -45,7 +45,7 @@ export const _ELEMENT_AFFINITIES: Record<Element, Element[]> = {
   Earth: ["Water"],
 };
 
-export const _ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
+export const _ZODIAC_ELEMENTS: Record<ZodiacSignType, Element> = {
   aries: "Fire",
   leo: "Fire",
   sagittarius: "Fire",

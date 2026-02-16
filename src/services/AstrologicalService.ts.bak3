@@ -13,7 +13,7 @@ import { PlanetaryInfluenceResponse } from '@/types/apiResponses';
 import type { AstrologicalTestData } from '@/types/astrologicalTestData';
 import {
   PlanetaryPositions,
-  StandardZodiacSign,
+  StandardZodiacSignType,
   StandardLunarPhase,
   CompleteAstrologicalState,
   PlanetaryPositionDetails,
@@ -22,7 +22,7 @@ import {
 import {
   CelestialPosition,
   PlanetaryAlignment,
-  ZodiacSign,
+  ZodiacSignType,
   Planet,
   LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
@@ -60,7 +60,7 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {
  */
 export type AstrologicalCalculationResponse = ServiceResponseType<{
   planetaryPositions: PlanetaryPositions,
-  zodiacSign: StandardZodiacSign,
+  zodiacSign: StandardZodiacSignType,
   lunarPhase: StandardLunarPhase,
   elementalInfluence: ElementalPropertiesType,
   accuracy: number,
@@ -127,7 +127,7 @@ export class AstrologicalService {
       logger.info('Testing astrological calculations...');
       const mockCalculationResult = {
         planetaryPositions: DefaultPlanetaryPositions,
-        zodiacSign: 'aries' as StandardZodiacSign,
+        zodiacSign: 'aries' as StandardZodiacSignType,
         lunarPhase: 'new moon' as StandardLunarPhase,
         elementalInfluence: {
           Fire: 0.3,
@@ -160,7 +160,7 @@ export class AstrologicalService {
       }
 
       // Validate that all positions are valid zodiac signs
-      const validZodiacSigns: StandardZodiacSign[] = [
+      const validZodiacSignTypes: StandardZodiacSignType[] = [
         'aries',
         'taurus',
         'gemini',
@@ -176,7 +176,7 @@ export class AstrologicalService {
       ];
 
       const isValid = Object.values(positions).every(sign =>
-        validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign);
+        validZodiacSignTypes.includes(sign.toLowerCase() as StandardZodiacSignType);
       );
 
       return createSuccessResponse(isValid);
@@ -281,7 +281,7 @@ export class AstrologicalService {
 }
 
 // Re-export types from centralized location - using the imported types instead of re-exporting
-export type { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignment };
+export type { Planet, ZodiacSignType, LunarPhase, CelestialPosition, PlanetaryAlignment };
 
 // Interface for legacy code support - use the centralized CelestialPosition type internally
 export interface PlanetPosition {
@@ -311,7 +311,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
     // For now, return a minimal valid state as a placeholder
     const astrologicalData = {
       planetaryPositions: DefaultPlanetaryPositions,
-      zodiacSign: 'aries' as StandardZodiacSign,
+      zodiacSign: 'aries' as StandardZodiacSignType,
       lunarPhase: 'new moon' as StandardLunarPhase,
       elementalInfluence: {
         Fire: 0.25,

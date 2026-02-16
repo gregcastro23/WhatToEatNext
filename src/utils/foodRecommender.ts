@@ -19,9 +19,9 @@ import { vinegars } from "@/data/ingredients/vinegars";
 import { getCurrentSeason } from "@/data/integrations/seasonal";
 import { log } from "@/services/LoggingService";
 import type {
-  /* LunarPhase, Season, Element, */ AstrologicalState,
+  AstrologicalStateType,
   ElementalProperties,
-} from "@/types";
+} from "@/types/alchemy";
 // Removed unused, _imports: LunarPhase, Season, Element
 import type { Modality, Planet } from "@/types/celestial";
 
@@ -461,7 +461,7 @@ function calculateElementalProperties(
  * Get ingredient recommendations based on astrological state
  */
 export const getRecommendedIngredients = (
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
 ): EnhancedIngredient[] => {
   const ingredients = getAllIngredients();
 
@@ -913,11 +913,7 @@ export const getRecommendedIngredients = (
             else if (aspect.type === "quincunx" || aspect.type === "inconjunct")
               multiplier = 0.85;
             // Semi-sextile aspects - minor benefit
-            else if (
-              aspect.type === "semi-sextile" ||
-              aspect.type === "semisextile"
-            )
-              multiplier = 1.05;
+            else if (aspect.type === "semi-sextile") multiplier = 1.05;
 
             totalStrength += (aspect.strength || 0.5) * multiplier;
           });
@@ -1420,7 +1416,7 @@ export const getRecommendedIngredients = (
  * Get top ingredient matches based on elemental properties and other factors
  */
 export const _getTopIngredientMatches = (
-  astroState: AstrologicalState,
+  astroState: AstrologicalStateType,
   limit = 5,
 ): EnhancedIngredient[] =>
   // Simply use our main recommendation function but with the requested limit

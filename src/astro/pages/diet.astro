@@ -12,7 +12,7 @@ const planetPositions = getAccuratePlanetaryPositions(currentDate);
 validatePositions(planetPositions);
 
 // Get zodiac sign for a degree
-const getZodiacSign = (degree) => {
+const getZodiacSignType = (degree) => {
   const signs = [
     { name: 'aries', symbol: '♈', start: 0, element: 'Fire', foods: ['Red meat', 'Spicy foods', 'Red peppers', 'Garlic', 'Onions'] },
     { name: 'taurus', symbol: '♉', start: 30, element: 'Earth', foods: ['Root vegetables', 'Dairy products', 'Bread', 'Pasta', 'Rice'] },
@@ -54,7 +54,7 @@ const calculateElementalBalance = () => {
   let total = 0;
   
   Object.entries(planetPositions).forEach(([planet, degree]) => {
-    const sign = getZodiacSign(degree);
+    const sign = getZodiacSignType(degree);
     let weight = 1;
     if (planet === 'Sun' || planet === 'Moon') weight = 3;
     
@@ -103,7 +103,7 @@ const getDietaryRecommendations = () => {
   });
   
   // Sun sign recommendation
-  const sunSign = getZodiacSign(planetPositions['Sun']);
+  const sunSign = getZodiacSignType(planetPositions['Sun']);
   recommendations.push({
     title: `${sunSign.name} Sun Sign Foods`,
     description: `As a ${sunSign.name} sun sign, these foods resonate with your core energy:`,
@@ -111,7 +111,7 @@ const getDietaryRecommendations = () => {
   });
   
   // Moon sign recommendation
-  const moonSign = getZodiacSign(planetPositions['Moon']);
+  const moonSign = getZodiacSignType(planetPositions['Moon']);
   recommendations.push({
     title: `${moonSign.name} Moon Sign Foods`,
     description: `Your moon is in ${moonSign.name}, nourish your emotional self with:`,
@@ -210,7 +210,7 @@ const planetSymbols = {
         <h2>Key Planetary Positions</h2>
         <div class="planets-grid">
           {Object.entries(planetPositions).slice(0, 4).map(([planet, degree]) => {
-            const sign = getZodiacSign(degree);
+            const sign = getZodiacSignType(degree);
             const degreeInSign = Math.floor(degree % 30);
             return (
               <div class="planet-card" data-element={sign.element.toLowerCase()}>

@@ -1,4 +1,4 @@
-import type { AstrologicalState, ZodiacSign } from "@/types/celestial";
+import type { AstrologicalState, ZodiacSignType } from "@/types/celestial";
 import type {
   ElementalProperties,
   Recipe,
@@ -318,7 +318,7 @@ export function describePlanetaryInfluences(
 
 export function highlightZodiacAlignment(
   recipe: Recipe,
-  signs: ZodiacSign[],
+  signs: ZodiacSignType[],
 ): string[] {
   if (
     !Array.isArray(recipe.zodiacInfluences) ||

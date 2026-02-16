@@ -33,55 +33,7 @@ function isIngredientLike(value: unknown): value is IngredientLike {
 }
 
 // Enhanced recipe interface that extends existing recipe structure
-export interface EnhancedRecipe {
-  // ===== EXISTING RECIPE PROPERTIES (PRESERVED) =====
-  name: string;
-  description: string;
-  cuisine: string;
-  cookingMethods?: string[];
-  tools?: string[];
-  preparationSteps?: string[];
-  ingredients: Array<{
-    name: string;
-    amount: string | number;
-    unit: string;
-    category?: string;
-    element?: string;
-    optional?: boolean;
-    preparation?: string;
-    seasonality?: Season | "all" | Season[];
-  }>;
-  substitutions?:
-    | Record<string, string[]>
-    | Array<{ original: string; alternatives: string[] }>;
-  servingSize?: number;
-  allergens?: string[];
-  prepTime?: string;
-  cookTime?: string;
-  culturalNotes?: string;
-  pairingSuggestions?: string[];
-  dietaryInfo?: string[];
-  spiceLevel?: string | number;
-  nutrition?: {
-    calories?: number;
-    protein?: number;
-    carbs?: number;
-    fat?: number;
-    vitamins?: string[];
-    minerals?: string[];
-  };
-  season?: string[];
-  seasonality?: Season | "all" | Season[];
-  mealType?: string[];
-  elementalProperties?: ElementalProperties;
-  lunarPhaseInfluences?: string[];
-  zodiacInfluences?: string[];
-  astrologicalAffinities?: {
-    planets?: string[];
-    signs?: string[];
-    lunarPhases?: string[];
-  };
-
+export interface EnhancedRecipe extends Recipe {
   // ===== NEW ALCHEMICAL ENHANCEMENTS (ADDITIVE) =====
   alchemicalProperties?: {
     totalKalchm: number;

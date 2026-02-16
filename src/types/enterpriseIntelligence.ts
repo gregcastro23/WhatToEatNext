@@ -6,7 +6,7 @@ import type {
   ElementalProperties,
   Ingredient,
   Recipe,
-  ZodiacSign,
+  ZodiacSignType,
 } from "./unified";
 
 export interface EnterpriseIntelligenceConfig {
@@ -57,7 +57,7 @@ export interface SeasonalAnalysis {
 }
 
 export interface AstrologicalAnalysis {
-  zodiacInfluences: Record<ZodiacSign, number>;
+  zodiacInfluences: Record<ZodiacSignType, number>;
   planetaryInfluences: Record<string, number>;
   elementalProperties: ElementalProperties;
   lunarPhaseCompatibility: Record<string, number>;

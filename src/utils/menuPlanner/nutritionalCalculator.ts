@@ -18,7 +18,7 @@ import type {
   ChartDataPoint,
   NutritionalChart,
 } from "@/types/menuPlanner";
-import type { ElementalProperties } from "@/types/recipe";
+import type { ElementalProperties, EnhancedRecipe } from "@/types/recipe";
 import type { AlchemicalProperties } from "@/calculations/core/kalchmEngine";
 import {
   calculateHeat,
@@ -83,7 +83,13 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
   meals.forEach((meal) => {
     if (!meal.recipe) return;
 
-    const recipe = meal.recipe;
+    const recipe = meal.recipe as EnhancedRecipe;
+
+    // Safe check for ingredients and instructions
+    if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {
+      logger.warn(`Recipe ${recipe.id} is incomplete (missing ingredients or instructions). Skipping nutrition calculation.`);
+      return; // Skip nutrition calculation for incomplete recipes
+    }
     const servings = meal.servings || 1;
 
     // Basic nutrition
@@ -106,11 +112,19 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
 
     // Alchemical properties (ESMS)
     if (recipe.alchemicalProperties) {
-      const alchem = recipe.alchemicalProperties as AlchemicalProperties;
-      alchemicalAccumulator.Spirit += (alchem.Spirit || 0) * servings;
-      alchemicalAccumulator.Essence += (alchem.Essence || 0) * servings;
-      alchemicalAccumulator.Matter += (alchem.Matter || 0) * servings;
-      alchemicalAccumulator.Substance += (alchem.Substance || 0) * servings;
+      console.log(`Auditing alchemical properties for recipe: ${recipe.id}`, recipe.alchemicalProperties);
+      // Map properties from recipe.alchemicalProperties (heat, entropy, reactivity, stability)
+      // to AlchemicalProperties (Spirit, Essence, Matter, Substance)
+      const mappedAlchemicalProps: AlchemicalProperties = {
+        Spirit: (recipe.alchemicalProperties as any).reactivity || 0,
+        Essence: (recipe.alchemicalProperties as any).entropy || 0,
+        Matter: (recipe.alchemicalProperties as any).heat || 0,
+        Substance: (recipe.alchemicalProperties as any).stability || 0,
+      };
+      alchemicalAccumulator.Spirit += (mappedAlchemicalProps.Spirit || 0) * servings;
+      alchemicalAccumulator.Essence += (mappedAlchemicalProps.Essence || 0) * servings;
+      alchemicalAccumulator.Matter += (mappedAlchemicalProps.Matter || 0) * servings;
+      alchemicalAccumulator.Substance += (mappedAlchemicalProps.Substance || 0) * servings;
     }
   });
 

@@ -14,7 +14,16 @@ const rawSalts = {
     nutritionalProfile: {
       serving_size: "1 tsp (6g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 2, sodium: 2120 },
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        sugar: 0,
+        potassium: 2,
+        sodium: 2120,
+      },
       vitamins: {},
       minerals: { calcium: 0.01, magnesium: 0.01 },
     },
@@ -481,7 +490,16 @@ const rawSalts = {
     nutritionalProfile: {
       serving_size: "1 tsp (4g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 0, sodium: 1560 },
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        sugar: 0,
+        potassium: 0,
+        sodium: 1560,
+      },
       vitamins: {},
       minerals: {},
     },
@@ -604,7 +622,16 @@ const rawSalts = {
     nutritionalProfile: {
       serving_size: "1 tsp (6g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 1, sodium: 2325 },
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        sugar: 0,
+        potassium: 1,
+        sodium: 2325,
+      },
       vitamins: {},
       minerals: { magnesium: 0.02, calcium: 0.01 },
     },
@@ -680,7 +707,16 @@ const rawSalts = {
     nutritionalProfile: {
       serving_size: "1 tsp (6g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 3, sodium: 2200 },
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        sugar: 0,
+        potassium: 3,
+        sodium: 2200,
+      },
       vitamins: {},
       minerals: { iron: 0.01, calcium: 0.01, magnesium: 0.01 },
     },
@@ -937,7 +973,16 @@ const rawSalts = {
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 0, sodium: 1120 },
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        sugar: 0,
+        potassium: 0,
+        sodium: 1120,
+      },
       vitamins: {},
       minerals: {},
     },
@@ -1002,7 +1047,16 @@ const rawSalts = {
     nutritionalProfile: {
       serving_size: "1 tsp (6g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 0, sodium: 2325 },
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        sugar: 0,
+        potassium: 0,
+        sodium: 2325,
+      },
       vitamins: {},
       minerals: { iodine: 0.47 },
     },
@@ -1046,7 +1100,7 @@ const rawSalts = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+// ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const salts: Record<string, IngredientMapping> = fixIngredientMappings(
   rawSalts as Record<string, Partial<IngredientMapping>>,
 );

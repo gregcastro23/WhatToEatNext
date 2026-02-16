@@ -10,14 +10,14 @@
 
 // ← Pattern HH-2: Unified Recipe type imports from primary source (@/types/alchemy)
 import type {
-  Recipe,
   Element,
   ElementalProperties,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   PlanetName,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 // Import ScoredRecipe from correct location
 import type { RecipeSearchCriteria, ScoredRecipe } from "@/types/recipe";
@@ -126,7 +126,9 @@ export class LegacyRecipeAdapter {
   /**
    * Get recipes by zodiac sign using modern service
    */
-  public async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
+  public async getRecipesByZodiac(
+    zodiacSign: ZodiacSignType,
+  ): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Safe string conversion for zodiac search
       const searchQuery = `zodiac:${String(zodiacSign || "")}`;
@@ -255,7 +257,7 @@ export class LegacyRecipeAdapter {
       cuisine?: string;
       flavorProfile?: { [key: string]: number };
       season?: Season;
-      zodiacSign?: ZodiacSign;
+      zodiacSign?: ZodiacSignType;
       lunarPhase?: LunarPhase;
       planetName?: PlanetName;
       elementalFocus?: Element;

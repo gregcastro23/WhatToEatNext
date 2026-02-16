@@ -9,7 +9,7 @@ import type {
   Element,
   NutritionalProfile,
   ElementalProperties,
-  ZodiacSign,
+  ZodiacSignType,
   PlanetName,
   Season,
 } from "@/types/alchemy";
@@ -43,7 +43,7 @@ export interface NutritionalDataAdapterInterface {
   ): ElementalProperties;
 
   // Astrological nutrition recommendations
-  getZodiacNutritionalRecommendations(sign: ZodiacSign | string): {
+  getZodiacNutritionalRecommendations(sign: ZodiacSignType | string): {
     focusNutrients: string[];
     recommendedFoods: string[];
     avoidFoods: string[];
@@ -187,7 +187,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   /**
    * Get nutritional recommendations based on zodiac sign
    */
-  getZodiacNutritionalRecommendations(sign: ZodiacSign | string): {
+  getZodiacNutritionalRecommendations(sign: ZodiacSignType | string): {
     focusNutrients: string[];
     recommendedFoods: string[];
     avoidFoods: string[];

@@ -1,4 +1,4 @@
-import type { ZodiacSign } from "@/types/zodiac";
+import type { ZodiacSignType } from "@/types/zodiac";
 import type { Modality, ZodiacAffinity } from "@/types/zodiacAffinity";
 import {
   ZODIAC_MODALITIES,
@@ -12,7 +12,7 @@ export type { ZodiacAffinity };
  * Mapping of zodiac signs to culinary preferences and affinities
  */
 export const _zodiacCulinaryPreferences: Record<
-  ZodiacSign,
+  ZodiacSignType,
   {
     favoredCuisines: string[];
     favoredIngredients: string[];
@@ -741,7 +741,7 @@ export const _modalityIngredientPreferences: Record<
  * Seasonal affinities by zodiac sign
  */
 export const _zodiacSeasonalAffinities: Record<
-  ZodiacSign,
+  ZodiacSignType,
   {
     spring: number;
     summer: number;
@@ -948,7 +948,7 @@ export function getCookingTechniquesForSign(sign: any): string[] {
  * Zodiac affinity for meal timing
  */
 export const _zodiacMealTimingPreferences: Record<
-  ZodiacSign,
+  ZodiacSignType,
   {
     breakfast: number;
     lunch: number;
@@ -1092,7 +1092,7 @@ export function calculateRecipeZodiacCompatibility(
   const preparationModality = ZODIAC_MODALITIES[preparationMethodSign];
 
   // Get elements (from zodiacUtils);
-  const elementMap: Record<ZodiacSign, string> = {
+  const elementMap: Record<ZodiacSignType, string> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",

@@ -21,6 +21,7 @@ import type {
   DayOfWeek,
 } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import {
   getDayName,
   getPlanetaryDayCharacteristics,
@@ -44,7 +45,7 @@ interface FocusedDayViewProps {
 }
 
 interface MealSuggestion {
-  recipe: Recipe;
+  recipe: ScoredRecipe;
   score: number;
   reasons: string[];
 }
@@ -63,7 +64,7 @@ function SuggestionCarousel({
   suggestions: MealSuggestion[];
   currentIndex: number;
   onIndexChange: (index: number) => void;
-  onSelect: (recipe: Recipe) => void;
+  onSelect: (recipe: ScoredRecipe) => void;
   isLoading: boolean;
 }) {
   // Touch handling state for swipe gestures
@@ -422,7 +423,7 @@ function FocusedMealSlot({
   isLocked: boolean;
   onLock: () => void;
   onUnlock: () => void;
-  onSelectRecipe: (recipe: Recipe) => void | Promise<void>;
+  onSelectRecipe: (recipe: ScoredRecipe) => void | Promise<void>;
   onRemoveRecipe: () => void | Promise<void>;
   suggestions: MealSuggestion[];
   isLoadingSuggestions: boolean;
@@ -684,8 +685,12 @@ export default function FocusedDayView({
   };
 
   // Handle recipe selection
-  const handleSelectRecipe = async (mealType: MealType, recipe: Recipe) => {
-    await addMealToSlot(dayOfWeek, mealType, recipe, 2);
+  const handleSelectRecipe = async (
+    mealType: MealType,
+    recipe: ScoredRecipe,
+  ) => {
+    // Cast recipe to MonicaOptimizedRecipe, asserting that Monica properties will be available or handled downstream
+    await addMealToSlot(dayOfWeek, mealType, recipe as MonicaOptimizedRecipe, 2);
   };
 
   // Handle locking/unlocking - uses context for persistence

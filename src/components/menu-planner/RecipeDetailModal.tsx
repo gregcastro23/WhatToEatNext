@@ -99,7 +99,7 @@ function scaleIngredient(
 ): RecipeIngredient {
   return {
     ...ingredient,
-    amount: Math.round(ingredient.amount * multiplier * 100) / 100,
+    amount: Math.round(Number(ingredient.amount) * multiplier * 100) / 100,
   };
 }
 
@@ -400,7 +400,7 @@ export default function RecipeDetailModal({
                       {recipe.substitutions.map((sub, idx) => (
                         <li key={idx}>
                           <strong>{sub.original}</strong> →{" "}
-                          {sub.alternatives.join(", ")}
+                          {(sub.alternalternatives || []).join(", ")}
                         </li>
                       ))}
                     </ul>

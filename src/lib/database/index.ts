@@ -48,7 +48,7 @@ export type {
   UserCalculation,
   UserRole,
   ZodiacAffinity,
-  ZodiacSign,
+  ZodiacSignType,
 } from "./types";
 
 // High-level service classes

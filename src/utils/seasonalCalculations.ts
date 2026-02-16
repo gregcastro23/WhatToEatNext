@@ -2,10 +2,10 @@ import type {
   ElementalProperties,
   LunarPhase,
   LunarPhaseWithSpaces,
-  Recipe,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 // type Rating = 'optimal' | 'favorable' | 'neutral' | 'suboptimal'
 type Element = "Fire" | "Water" | "Earth" | "Air";
@@ -20,7 +20,7 @@ const SEASONAL_ELEMENTS: Record<Season, Record<Element, number>> = {
 };
 
 // Map seasons to zodiac signs
-const seasonToZodiac: Record<Season, ZodiacSign[]> = {
+const seasonToZodiac: Record<Season, ZodiacSignType[]> = {
   spring: ["aries", "taurus", "gemini"],
   summer: ["cancer", "leo", "virgo"],
   autumn: ["libra", "scorpio", "sagittarius"],
@@ -42,7 +42,7 @@ const seasonToZodiac: Record<Season, ZodiacSign[]> = {
   ],
 };
 
-const ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
+const ZODIAC_ELEMENTS: Record<ZodiacSignType, Element> = {
   aries: "Fire",
   leo: "Fire",
   sagittarius: "Fire",
@@ -139,7 +139,7 @@ const _getRating = (score: number): SeasonalEffectiveness["rating"] => {
 export const _getSeasonalEffectiveness = async (
   recipe: Recipe,
   _season: Season,
-  currentZodiac?: ZodiacSign | null,
+  currentZodiac?: ZodiacSignType | null,
   currentLunarPhase?: LunarPhase | null,
 ): Promise<SeasonalEffectiveness> => {
   if (!recipe || !_season) {
@@ -262,7 +262,7 @@ const _calculateSeasonalBonus = async (
 // Calculate zodiac alignment
 const _calculateZodiacAlignment = async (
   recipe: Recipe,
-  currentZodiac: ZodiacSign,
+  currentZodiac: ZodiacSignType,
 ): Promise<number> => {
   if (!recipe || !currentZodiac) return 0;
   let alignmentScore = 0;
@@ -278,7 +278,7 @@ const _calculateZodiacAlignment = async (
     }
   }
   const { zodiacInfluences } = recipe as unknown as {
-    zodiacInfluences?: ZodiacSign[];
+    zodiacInfluences?: ZodiacSignType[];
   };
   if (
     zodiacInfluences &&
@@ -362,7 +362,7 @@ function _getElementalBreakdown(
 
 function _calculateSeasonalScores(
   recipe: Recipe,
-  currentZodiac?: ZodiacSign | null,
+  currentZodiac?: ZodiacSignType | null,
   lunarPhase?: LunarPhase | null,
 ): {
   seasonalScores: Record<Season, number>;

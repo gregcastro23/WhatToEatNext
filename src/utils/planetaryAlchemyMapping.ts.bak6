@@ -68,7 +68,7 @@ export const ZODIAC_ELEMENTS = {
   Pisces: 'Water'
 } as const;
 
-export type ZodiacSign = keyof typeof ZODIAC_ELEMENTS;
+export type ZodiacSignType = keyof typeof ZODIAC_ELEMENTS;
 export type PlanetName = keyof typeof PLANETARY_ALCHEMY;
 
 /**
@@ -149,7 +149,7 @@ export function aggregateZodiacElementals(
   let count = 0;
 
   for (const planet in planetaryPositions) {
-    const sign = planetaryPositions[planet] as ZodiacSign;
+    const sign = planetaryPositions[planet] as ZodiacSignType;
     const element = ZODIAC_ELEMENTS[sign];
 
     if (!element) {

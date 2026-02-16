@@ -1,7 +1,7 @@
 // Note: Validator imports removed to avoid circular dependency with ./validators
 // Validators are now only imported where they're actually used
 import type { LunarPhase } from "./alchemy";
-import type { NutritionalSummary } from "./nutrition";
+import type { NutritionalSummary, NutritionalSummaryBase } from "./nutrition";
 
 // Primary elemental properties interface - used throughout the application
 export interface ElementalProperties {
@@ -16,7 +16,7 @@ export interface ElementalProperties {
 export interface RecipeIngredient {
   id?: string;
   name: string;
-  amount: number; // Keep as number for calculations,
+  amount: number; // Revert to number for calculations
   unit: string;
   category?: string;
   optional?: boolean;
@@ -26,12 +26,13 @@ export interface RecipeIngredient {
   cookingPoint?: string;
   substitutes?: string[];
   elementalProperties?: ElementalProperties;
-  seasonality?: string[];
+  seasonality?: Season | "all" | Season[]; // Match EnhancedRecipe seasonality
 
   // Astrological associations
   zodiacInfluences?: any[];
   planetaryInfluences?: string[]; // Planet names
   lunarPhaseInfluences?: LunarPhase[];
+  [key: string]: unknown;
 }
 
 // Unified Recipe interface - consolidates all previous recipe types
@@ -137,7 +138,7 @@ export interface Recipe {
   };
 
   // Nutritional information
-  nutrition?: NutritionalSummary;
+  nutrition?: NutritionalSummary | NutritionalSummaryBase;
 
   // Chef's notes and guidance
   preparationNotes?: string;
@@ -201,6 +202,49 @@ export interface Recipe {
   environmentalMatchDetails?: string;
   optimal_cooking_window?: OptimalCookingWindow;
 
+  monicaOptimization?: {
+    originalMonica: number | null;
+    optimizedMonica: number;
+    optimizationScore: number;
+    temperatureAdjustments: number[];
+    timingAdjustments: number[];
+    intensityModifications: string[];
+    planetaryTimingRecommendations: string[];
+  };
+  seasonalAdaptation?: {
+    currentSeason: Season;
+    seasonalScore: number;
+    seasonalIngredientSubstitutions: Array<{
+      original: string;
+      seasonal: string;
+      reason: string;
+      seasonalScore: number;
+    }>;
+    seasonalCookingMethodAdjustments: Array<{
+      method: string;
+      adjustment: string;
+      reason: string;
+    }>;
+  };
+  cuisineIntegration?: {
+    authenticity: number;
+    fusionPotential: number;
+    culturalNotes: string[];
+    traditionalVariations: string[];
+    modernAdaptations: string[];
+  };
+  nutritionalOptimization?: {
+    alchemicalNutrition: {
+      spiritNutrients: string[];
+      essenceNutrients: string[];
+      matterNutrients: string[];
+      substanceNutrients: string[];
+    };
+    elementalNutrition: ElementalProperties;
+    kalchmNutritionalBalance: number;
+    monicaNutritionalHarmony: number;
+  };
+
   // Allow additional dynamic properties for extensibility
   [key: string]: unknown;
 }
@@ -244,14 +288,22 @@ export const _validateRecipe = (recipe: Partial<Recipe>): boolean => {
   return true;
 };
 
-export const validateSeason = (season: string): boolean => {
-  const validSeasons = ["spring", "summer", "autumn", "winter"];
-  return validSeasons.includes(season.toLowerCase());
+import type { Season } from "@/constants/seasons"; // Add this import
+import { VALID_SEASONS } from "@/constants/seasons";
+
+// ...
+
+export const validateSeason = (season: string | Season): boolean => {
+  return VALID_SEASONS.includes(season.toLowerCase() as Season);
 };
 
-export const validateSeasonality = (seasonality: string[]): boolean => {
-  if (!Array.isArray(seasonality)) return false;
-  return seasonality.every((season) => validateSeason(season));
+export const validateSeasonality = (seasonality: Season | "all" | Season[]): boolean => {
+  if (typeof seasonality === "string") {
+    return validateSeason(seasonality);
+  } else if (Array.isArray(seasonality)) {
+    return seasonality.every((season) => validateSeason(season));
+  }
+  return false;
 };
 
 export const validateIngredient = (
@@ -358,7 +410,7 @@ export interface RecipeDetail {
     };
   };
   texturalElements: string[]; // e.g., 'crispy', 'creamy', 'chewy',
-  aromatics: string[]; // Key aromatic components,
+  aromatics?: string[]; // Key aromatic components,
   colorProfile: string[]; // Dominant colors,
 
   // Cultural & Historical Context
@@ -558,6 +610,7 @@ export interface RecipeNutrition {
   carbs?: number;
   fat?: number;
   sodium?: number;
+  fiber?: number;
   vitamins?: string[];
   minerals?: string[];
   macronutrients?: {
@@ -576,4 +629,34 @@ export interface RecipePlanetaryInfluences {
   favorable: string[];
   unfavorable: string[];
   neutral?: string[];
+}
+
+import { AlchemicalProperties } from './alchemy'; // Import your specific alchemy type
+
+export interface EnhancedRecipe {
+  id: string;
+  title: string;
+  description?: string; // Optional
+  
+  // CRITICAL: Defining these as arrays prevents the .join() crash
+  ingredients: string[]; 
+  instructions: string[];
+  tags: string[];
+
+  // This matches the structure you are actually receiving
+  alchemicalProperties?: {
+    heat?: number;
+    entropy?: number;
+    reactivity?: number;
+    stability?: number;
+    // Map any other raw properties from your backend here
+  };
+
+  // Your internal mapped properties (optional, if you calculate them later)
+  mappedAlchemy?: AlchemicalProperties; 
+  
+  imageUrl?: string;
+  cookTime?: number;
+  prepTime?: number;
+  servings?: number;
 }

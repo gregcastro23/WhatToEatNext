@@ -2,7 +2,7 @@ import type { Season } from "@/types/alchemy";
 import type {
   PlanetaryAspect,
   PlanetaryPosition,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/celestial";
 
 /**
@@ -41,7 +41,7 @@ export interface SignVectorCalculationInput {
   season?: Season;
 }
 
-export type SignVectorMap = Record<ZodiacSign, SignVector>;
+export type SignVectorMap = Record<ZodiacSignType, SignVector>;
 
 export interface SignVectorCompatibilityResult {
   similarity: number; // 0-1 cosine similarity across components

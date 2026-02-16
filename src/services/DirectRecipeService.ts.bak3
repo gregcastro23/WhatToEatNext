@@ -276,7 +276,7 @@ export class DirectRecipeService {
     if (!recipe.zodiacInfluences || (recipe.zodiacInfluences || []).length === 0) return 0.5;
 
     // Check if current zodiac sign matches recipe influences
-    const currentZodiac = alignment.currentZodiacSign?.toLowerCase();
+    const currentZodiac = alignment.currentZodiacSignType?.toLowerCase();
     const hasZodiacMatch = (recipe.zodiacInfluences || []).some(
       sign => sign.toLowerCase() === currentZodiac,
     ),
@@ -470,15 +470,15 @@ export class DirectRecipeService {
   /**
    * Get recipes by zodiac sign with full astrological integration
    */
-  public async getRecipesByZodiacSign(
-    currentZodiacSign: string,
+  public async getRecipesByZodiacSignType(
+    currentZodiacSignType: string,
     limit = 20,,
     offset = 0
   ): Promise<ScoredRecipe[]> {
-    const normalizedZodiacSign = currentZodiacSign.toLowerCase();
+    const normalizedZodiacSignType = currentZodiacSignType.toLowerCase();
     const filteredRecipes = (this.allRecipes || []).filter(recipe => {
       return (recipe.zodiacInfluences || []).some(
-        sign => sign.toLowerCase() === normalizedZodiacSign,,
+        sign => sign.toLowerCase() === normalizedZodiacSignType,,
       )
     });
 

@@ -8,7 +8,7 @@
 import type {
   CelestialPosition,
   PlanetaryPosition,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/celestial";
 import { createLogger } from "@/utils/logger";
 
@@ -128,7 +128,7 @@ const ZODIAC_SIGNS: any[] = [
 /**
  * Element associations for zodiac signs
  */
-const _SIGN_ELEMENTS: Record<ZodiacSign, string> = {
+const _SIGN_ELEMENTS: Record<ZodiacSignType, string> = {
   aries: "Fire",
   leo: "Fire",
   sagittarius: "Fire",
@@ -968,7 +968,7 @@ export class SwissEphemerisService {
    * Convert longitude to zodiac sign and degree
    */
   private longitudeToSignAndDegree(longitude: number): {
-    sign: ZodiacSign;
+    sign: ZodiacSignType;
     degree: number;
   } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;

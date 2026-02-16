@@ -3,10 +3,10 @@ import type {
   ElementalProperties,
   ThermodynamicProperties,
   CookingMethod,
-  ZodiacSign,
-  Recipe,
+  ZodiacSignType,
   BasicThermodynamicProperties,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import type { Planet } from "@/types/celestial";
 import type { UnifiedIngredient } from "@/types/ingredient";
 import { getCurrentSeason } from "@/types/seasons";
@@ -51,7 +51,7 @@ export class AlchemicalRecommendationService {
    * Generate recommendations based on planetary positions
    */
   public async generateRecommendations(
-    planetaryPositions: Record<string, ZodiacSign>,
+    planetaryPositions: Record<string, ZodiacSignType>,
     ingredients: UnifiedIngredient[],
     cookingMethods: CookingMethod[],
   ): Promise<AlchemicalRecommendation> {
@@ -382,7 +382,7 @@ export class AlchemicalRecommendationService {
    */
   public getRecipeRecommendations(
     recipe: Recipe,
-    planetaryPositions: Record<string, ZodiacSign>,
+    planetaryPositions: Record<string, ZodiacSignType>,
   ): {
     compatibility: number;
     suggestions: string[];

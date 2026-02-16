@@ -230,7 +230,7 @@ function enhanceRecipe(recipe) {
   // Add recipe metadata
   enhanced.cuisineCategory = recipe.cuisine || "general";
   enhanced.mealType = determineMealType(recipe);
-  enhanced.difficulty = determineDifficulty(recipe);
+  enhanced.skillLevel = determineSkillLevel(recipe);
   enhanced.preparationTime = estimatePreparationTime(recipe);
   enhanced.cookingTime = estimateCookingTime(recipe);
 
@@ -279,9 +279,9 @@ function determineMealType(recipe) {
 }
 
 /**
- * Determine recipe difficulty
+ * Determine recipe skill level
  */
-function determineDifficulty(recipe) {
+function determineSkillLevel(recipe) {
   const skills = recipe.skillsRequired || [];
   const time = recipe.prepTime || recipe.totalTime || "30 minutes";
 
@@ -296,11 +296,11 @@ function determineDifficulty(recipe) {
   );
 
   if (hasComplexMethods || skills.length > 3 || timeMinutes > 120) {
-    return "hard";
+    return "advanced";
   } else if (skills.length > 1 || timeMinutes > 60) {
-    return "medium";
+    return "intermediate";
   } else {
-    return "easy";
+    return "beginner";
   }
 }
 

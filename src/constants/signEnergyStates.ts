@@ -25,10 +25,10 @@ export const ZODIAC_SIGNS = [
   "pisces",
 ] as const;
 
-export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
+export type ZodiacSignType = (typeof ZODIAC_SIGNS)[number];
 
 // Base energy levels for each sign
-const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
+const BASE_SIGN_ENERGIES: Record<ZodiacSignType, number> = {
   aries: 1.0,
   taurus: 0.8,
   gemini: 0.6,
@@ -45,7 +45,7 @@ const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
 
 // Define initial energy states for all zodiac signs
 export const ENERGY_STATES: Record<
-  ZodiacSign,
+  ZodiacSignType,
   { baseEnergy: number; currentEnergy: number }
 > = {
   aries: {
@@ -99,7 +99,7 @@ export const ENERGY_STATES: Record<
 };
 
 // Planetary rulerships and their energy multipliers
-const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
+const PLANETARY_RULERSHIPS: Record<ZodiacSignType, string[]> = {
   aries: ["Mars"],
   taurus: ["Venus"],
   gemini: ["Mercury"],

@@ -1,6 +1,6 @@
 // Common types used across the application
 export type { Season } from "@/constants/seasons";
-export type ZodiacSign =
+export type ZodiacSignType =
   | "aries"
   | "taurus"
   | "gemini"

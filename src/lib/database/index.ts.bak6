@@ -14,7 +14,7 @@ export {
 
 // Type definitions
 export type {
-    ActiveUser, ApiKey, CalculationCache, CuisineType, DatabaseTable, DietaryRestriction, ElementalProperties, Ingredient, IngredientCompatibility, IngredientCuisine, Insertable, LunarPhase, PaginationResult, PlanetType, PlanetaryInfluence, QueryOptions, Recipe, RecipeContext, RecipeIngredient, RecipeSearch, Recommendation, Season, SeasonalAssociation, SystemMetric, Updatable, User, UserCalculation, UserRole, ZodiacAffinity, ZodiacSign
+    ActiveUser, ApiKey, CalculationCache, CuisineType, DatabaseTable, DietaryRestriction, ElementalProperties, Ingredient, IngredientCompatibility, IngredientCuisine, Insertable, LunarPhase, PaginationResult, PlanetType, PlanetaryInfluence, QueryOptions, Recipe, RecipeContext, RecipeIngredient, RecipeSearch, Recommendation, Season, SeasonalAssociation, SystemMetric, Updatable, User, UserCalculation, UserRole, ZodiacAffinity, ZodiacSignType
 } from './types';
 
 // High-level service classes

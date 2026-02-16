@@ -11,7 +11,7 @@ import type {
   AspectType,
   CelestialPosition,
   PlanetaryAspect,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/celestial";
 import { createLogger } from "@/utils/logger";
 
@@ -24,7 +24,7 @@ interface StateCache<T> {
   timestamp: number;
 }
 
-// Ensure ZodiacSign type is properly capitalized
+// Ensure ZodiacSignType type is properly capitalized
 const ZODIAC_SIGNS: any[] = [
   "aries",
   "taurus",
@@ -244,7 +244,7 @@ export function calculatePlanetaryAspects(
 
       if (!positions[planet1] || !positions[planet2]) continue;
 
-      // Convert lowercase sign strings to proper ZodiacSign type values
+      // Convert lowercase sign strings to proper ZodiacSignType type values
       const pos1Sign = positions[planet1].sign;
       const pos2Sign = positions[planet2].sign;
 
@@ -397,8 +397,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +
     dominantElement.slice(1)) as "Fire" | "Water" | "Earth" | "Air";
   const state: AstrologicalState = {
-    sunSign: toZodiacSign(String(positions.sun.sign)),
-    _moonSign: toZodiacSign(String(positions.moon.sign)),
+    sunSign: toZodiacSignType(String(positions.sun.sign)),
+    _moonSign: toZodiacSignType(String(positions.moon.sign)),
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,
@@ -430,7 +430,7 @@ function countElements(
   };
 
   // Element mapping for signs
-  const signElements: Record<ZodiacSign, keyof typeof elements> = {
+  const signElements: Record<ZodiacSignType, keyof typeof elements> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -502,12 +502,12 @@ function getDaysSinceDate(date: Date): number {
   return timeDiff / (1000 * 60 * 60 * 24);
 }
 
-// Helper function to convert any string to a valid ZodiacSign
-function toZodiacSign(sign: string): any {
+// Helper function to convert any string to a valid ZodiacSignType
+function toZodiacSignType(sign: string): any {
   // Convert first letter to uppercase and rest to lowercase
   const formattedSign =
     sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
-  // Check if it's a valid ZodiacSign
+  // Check if it's a valid ZodiacSignType
   if (ZODIAC_SIGNS.includes(formattedSign as any)) {
     return formattedSign as any;
   }

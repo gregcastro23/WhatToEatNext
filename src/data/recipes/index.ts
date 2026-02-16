@@ -73,19 +73,18 @@ function standardizeRecipe(
 
   const standardized: Record<string, unknown> = { ...recipe };
 
-  // 1. Generate ID if missing
-  if (!standardized.id) {
-    standardized.id = generateRecipeId(
-      (standardized.name as string) || "unnamed",
-      cuisineName,
-      mealType,
-      season,
-    );
+  // 1. Generate ID if missing or ensure consistent ID based on canonical name
+  let canonicalName = (standardized.name as string) || "unnamed";
+  if (canonicalName.includes("(Monica Enhanced)")) {
+    canonicalName = canonicalName.replace(" (Monica Enhanced)", "");
   }
+  standardized.id = generateRecipeId(canonicalName, cuisineName, mealType, season);
 
-  // 2. Ensure cuisine is set
+  // 2. Ensure cuisine is set and consistent casing
   if (!standardized.cuisine) {
-    standardized.cuisine = cuisineName;
+    standardized.cuisine = cuisineName.toLowerCase(); // Convert to lowercase
+  } else {
+    standardized.cuisine = (standardized.cuisine as string).toLowerCase(); // Ensure existing cuisine is also lowercase
   }
 
   // 3. Ensure mealType is an array
@@ -210,13 +209,17 @@ function standardizeRecipe(
 
 // Create flattened list of all recipes from all cuisines with standardization
 const flattenCuisineRecipes = () => {
-  const allRecipes: Recipe[] = [];
-  const seenIds = new Set<string>();
+  const recipeMap = new Map<string, Recipe>(); // Use a Map to store recipes by base ID
   const cuisines = cuisinesMap as Record<string, any>;
+
+  console.log("cuisinesMap keys:", Object.keys(cuisinesMap)); // Debug: Log all keys in cuisinesMap
 
   // Iterate only through primary cuisine keys to avoid duplicates from aliases
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
+    console.log(`Processing cuisineName: ${cuisineName}`); // Debug: Log current cuisine being processed
     const cuisine = cuisines[cuisineName];
+    console.log(`Cuisine object for ${cuisineName}:`, cuisine); // Debug: Log the cuisine object itself
+
     if (cuisine && cuisine.dishes) {
       // Iterate through meal types
       Object.entries(cuisine.dishes).forEach(
@@ -236,12 +239,8 @@ const flattenCuisineRecipes = () => {
                       season,
                     );
 
-                    // Avoid duplicates by ID
-                    const id = standardized.id as string;
-                    if (!seenIds.has(id)) {
-                      seenIds.add(id);
-                      allRecipes.push(standardized);
-                    }
+                    // Store the recipe in the map, enhanced version replaces original if loaded later
+                    recipeMap.set(standardized.id as string, standardized);
                   });
                 }
               },
@@ -249,10 +248,12 @@ const flattenCuisineRecipes = () => {
           }
         },
       );
+    } else {
+      console.warn(`Cuisine ${cuisineName} not found or has no dishes in cuisinesMap.`);
     }
   });
 
-  return allRecipes;
+  return Array.from(recipeMap.values()); // Convert map values back to an array
 };
 
 // Export flattened recipes from all 14 primary cuisines

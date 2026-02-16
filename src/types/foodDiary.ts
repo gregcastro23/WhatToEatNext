@@ -9,7 +9,7 @@
 import type { MealType } from "./menuPlanner";
 import type { NutritionalSummary, NutritionalProfile } from "./nutrition";
 import type { ElementalProperties } from "./alchemy";
-import type { StandardZodiacSign } from "./astrology";
+import type { StandardZodiacSignType } from "./astrology";
 
 /**
  * Food entry source type - where the food data comes from
@@ -140,7 +140,7 @@ export interface FoodDiaryEntry {
   // Astrological context (captured at entry time)
   astrologicalContext?: {
     dominantPlanet?: string;
-    zodiacSign?: StandardZodiacSign;
+    zodiacSign?: StandardZodiacSignType;
     lunarPhase?: string;
     planetaryHour?: string;
   };

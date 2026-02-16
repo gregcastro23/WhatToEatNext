@@ -91,16 +91,72 @@ export interface NutritionalFilter {
 // Comprehensive Nutrition Types for Nutrition-First Architecture
 // ============================================================
 
-/**
- * Complete nutritional summary for a meal, day, or week.
- * Based on USDA FoodData Central and FDA Daily Value standards.
- */
-export interface NutritionalSummary {
-  // Macronutrients
+export interface NutritionalSummaryBase {
   calories: number;
   protein: number;
   carbs: number;
   fat: number;
+  fiber?: number;
+  sugar?: number;
+  addedSugar?: number;
+
+  // Fat breakdown
+  saturatedFat?: number;
+  transFat?: number;
+  monounsaturatedFat?: number;
+  polyunsaturatedFat?: number;
+  omega3?: number;
+  omega6?: number;
+  cholesterol?: number;
+
+  // Vitamins (fat-soluble)
+  vitaminA?: number;
+  vitaminD?: number;
+  vitaminE?: number;
+  vitaminK?: number;
+
+  // Vitamins (water-soluble)
+  vitaminC?: number;
+  thiamin?: number;
+  riboflavin?: number;
+  niacin?: number;
+  pantothenicAcid?: number;
+  vitaminB6?: number;
+  biotin?: number;
+  folate?: number;
+  vitaminB12?: number;
+  choline?: number;
+
+  // Minerals (major)
+  calcium?: number;
+  phosphorus?: number;
+  magnesium?: number;
+  sodium?: number;
+  potassium?: number;
+  chloride?: number;
+
+  // Minerals (trace)
+  iron?: number;
+  zinc?: number;
+  copper?: number;
+  manganese?: number;
+  selenium?: number;
+  iodine?: number;
+  chromium?: number;
+  molybdenum?: number;
+  fluoride?: number;
+
+  // Additional
+  alcohol?: number;
+  caffeine?: number;
+  water?: number;
+}
+
+/**
+ * Complete nutritional summary for a meal, day, or week.
+ * Based on USDA FoodData Central and FDA Daily Value standards.
+ */
+export interface NutritionalSummary extends NutritionalSummaryBase {
   fiber: number;
   sugar: number;
   addedSugar?: number;
@@ -264,6 +320,17 @@ export type NutritionGoal =
   | "athletic_performance";
 
 /**
+ * Nutrient deficiency or excess entry
+ */
+export interface ComplianceDeficiency {
+  nutrient: keyof NutritionalSummary;
+  actual: number;
+  target: number;
+  delta: number;
+  severity: "mild" | "moderate" | "severe";
+}
+
+/**
  * Daily nutrition result with compliance analysis
  */
 export interface DailyNutritionResult {
@@ -278,6 +345,9 @@ export interface DailyNutritionResult {
   compliance: {
     overall: number;
     byNutrient: Record<string, number>;
+    deficiencies: ComplianceDeficiency[];
+    excesses: ComplianceDeficiency[];
+    suggestions: string[];
   };
 }
 
@@ -292,7 +362,9 @@ export interface WeeklyNutritionResult {
   weeklyGoals: NutritionalSummary;
   weeklyCompliance: {
     overall: number;
-    byNutrient: ComplianceDeficiency; // Changed to use new type
+    byNutrient: Record<string, number>;
+    deficiencies: ComplianceDeficiency[];
+    excesses: ComplianceDeficiency[];
   };
   variety: {
     uniqueIngredients: number;
@@ -301,13 +373,6 @@ export interface WeeklyNutritionResult {
     colorDiversity: number;
   };
 }
-
-/**
- * Represents a detailed breakdown of nutrient compliance or deficiency.
- * Replaces previous concepts like NutrientDeviation.
- * Keys are nutrient names (e.g., "sodium"), values are compliance/deficiency scores.
- */
-export type ComplianceDeficiency = Record<string, number>;
 
 /**
  * Compliance severity levels

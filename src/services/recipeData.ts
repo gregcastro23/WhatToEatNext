@@ -27,7 +27,7 @@ import { logger } from "../utils/logger";
 import { ErrorHandler } from "./errorHandler";
 import { recipeElementalService } from "./RecipeElementalService";
 import type { Recipe } from "../types/recipe";
-import type { RecipeIngredient } from "../types/recipeIngredient";
+import type { RecipeIngredient } from "../types/recipe";
 import {
   createEmptyNutritionalSummary,
   type NutritionalSummary,

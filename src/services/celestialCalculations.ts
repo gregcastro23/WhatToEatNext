@@ -8,7 +8,7 @@ import type {
   ElementalProperties,
   EnergyStateProperties,
   ChakraEnergies,
-  ZodiacSign,
+  ZodiacSignType,
   AspectType,
   PlanetaryAspect,
   CelestialBody,
@@ -225,7 +225,7 @@ class CelestialCalculator {
       const hour = now.getHours();
 
       // Determine current zodiac sign
-      const zodiacSign = this.determineZodiacSign(month, day);
+      const zodiacSign = this.determineZodiacSignType(month, day);
 
       // Get current planetary positions
       let planetaryPositions: PlanetaryPositionRecord = {};
@@ -546,7 +546,7 @@ class CelestialCalculator {
   /**
    * Determine zodiac sign based on month and day
    */
-  private determineZodiacSign(month: number, day: number): any {
+  private determineZodiacSignType(month: number, day: number): any {
     // Zodiac date ranges
     if ((month === 2 && day >= 21) || (month === 3 && day <= 19))
       return "aries";
@@ -1606,7 +1606,7 @@ class CelestialCalculator {
         const { element } = affinityData as { element: string };
 
         // Determine the zodiac sign based on the date
-        const zodiacSign = this.determineZodiacSign(month, day);
+        const zodiacSign = this.determineZodiacSignType(month, day);
 
         // Create and return the minor arcana card
         const displayName = cardName

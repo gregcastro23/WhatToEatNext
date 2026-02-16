@@ -1,4 +1,4 @@
-import type { Season } from "@/types";
+import type { Season } from "@/types/seasons";
 
 // Define cuisine type directly as an object to avoid import issues
 const _CuisineType = {

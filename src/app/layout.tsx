@@ -3,7 +3,7 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import Providers from "./providers";
+import ClientProviders from "./ClientProviders";
 import PayPalButton from "@/components/PayPalButton";
 
 // Force dynamic rendering for all pages - the app relies on runtime
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
-        <Providers>
+        <ClientProviders>
           <header className="bg-gradient-to-r from-purple-50 via-orange-50 to-pink-50 py-6 border-b-2 border-purple-100 shadow-md sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
             <div className="mx-auto max-w-7xl px-4">
               <div className="flex flex-col gap-4">
@@ -227,7 +227,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
-        </Providers>
+        </ClientProviders>
       </body>
     </html>
   );

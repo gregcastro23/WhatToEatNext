@@ -21,7 +21,16 @@ const rawAromatics = {
     nutritionalProfile: {
       serving_size: "1 medium (110g)",
       calories: 44,
-      macros: { protein: 1.2, carbs: 10, fat: 0.1, fiber: 1.7, saturatedFat: 0, sugar: 4.7, potassium: 161, sodium: 4 },
+      macros: {
+        protein: 1.2,
+        carbs: 10,
+        fat: 0.1,
+        fiber: 1.7,
+        saturatedFat: 0,
+        sugar: 4.7,
+        potassium: 161,
+        sodium: 4,
+      },
       vitamins: { B6: 0.12, folate: 0.05, thiamin: 0.03 },
       minerals: { manganese: 0.06, phosphorus: 0.04, potassium: 0.05 },
     },
@@ -69,7 +78,16 @@ const rawAromatics = {
     nutritionalProfile: {
       serving_size: "3 cloves (9g)",
       calories: 13,
-      macros: { protein: 0.6, carbs: 3, fat: 0, fiber: 0.2, saturatedFat: 0, sugar: 0.1, potassium: 36, sodium: 2 },
+      macros: {
+        protein: 0.6,
+        carbs: 3,
+        fat: 0,
+        fiber: 0.2,
+        saturatedFat: 0,
+        sugar: 0.1,
+        potassium: 36,
+        sodium: 2,
+      },
       vitamins: { B6: 0.06, manganese: 0.08 },
       minerals: { manganese: 0.08, selenium: 0.01 },
     },
@@ -117,7 +135,16 @@ const rawAromatics = {
     nutritionalProfile: {
       serving_size: "1 tbsp fresh (6g)",
       calories: 5,
-      macros: { protein: 0.1, carbs: 1.1, fat: 0, fiber: 0.1, saturatedFat: 0, sugar: 0.1, potassium: 25, sodium: 1 },
+      macros: {
+        protein: 0.1,
+        carbs: 1.1,
+        fat: 0,
+        fiber: 0.1,
+        saturatedFat: 0,
+        sugar: 0.1,
+        potassium: 25,
+        sodium: 1,
+      },
       vitamins: { B6: 0.01 },
       minerals: { manganese: 0.01, copper: 0.01, magnesium: 0.01 },
     },
@@ -179,9 +206,18 @@ const rawAromatics = {
     nutritionalProfile: {
       serving_size: "1 stalk (67g)",
       calories: 66,
-      macros: { protein: 1.2, carbs: 17, fat: 0.3, fiber: 0, saturatedFat: 0.1, sugar: 0, potassium: 484, sodium: 4 },
+      macros: {
+        protein: 1.2,
+        carbs: 17,
+        fat: 0.3,
+        fiber: 0,
+        saturatedFat: 0.1,
+        sugar: 0,
+        potassium: 484,
+        sodium: 4,
+      },
       vitamins: { folate: 0.19, B6: 0.04, riboflavin: 0.04 },
-      minerals: { manganese: 0.28, iron: 0.23, zinc: 0.10, potassium: 0.10 },
+      minerals: { manganese: 0.28, iron: 0.23, zinc: 0.1, potassium: 0.1 },
     },
     origin: ["Southeast Asia"],
     category: "seasonings",
@@ -231,7 +267,16 @@ const rawAromatics = {
     nutritionalProfile: {
       serving_size: "1 tbsp chopped (10g)",
       calories: 7,
-      macros: { protein: 0.3, carbs: 1.7, fat: 0, fiber: 0.3, saturatedFat: 0, sugar: 0.8, potassium: 33, sodium: 1 },
+      macros: {
+        protein: 0.3,
+        carbs: 1.7,
+        fat: 0,
+        fiber: 0.3,
+        saturatedFat: 0,
+        sugar: 0.8,
+        potassium: 33,
+        sodium: 1,
+      },
       vitamins: { B6: 0.03, folate: 0.01 },
       minerals: { manganese: 0.02, iron: 0.01 },
     },
@@ -273,7 +318,16 @@ const rawAromatics = {
     nutritionalProfile: {
       serving_size: "1 medium (15g)",
       calories: 5,
-      macros: { protein: 0.3, carbs: 1.1, fat: 0, fiber: 0.4, saturatedFat: 0, sugar: 0.4, potassium: 41, sodium: 2 },
+      macros: {
+        protein: 0.3,
+        carbs: 1.1,
+        fat: 0,
+        fiber: 0.4,
+        saturatedFat: 0,
+        sugar: 0.4,
+        potassium: 41,
+        sodium: 2,
+      },
       vitamins: { K: 0.26, folate: 0.02 },
       minerals: { iron: 0.01, manganese: 0.01 },
     },
@@ -320,7 +374,16 @@ const rawAromatics = {
     nutritionalProfile: {
       serving_size: "1 tsp (0.7g)",
       calories: 2,
-      macros: { protein: 0.1, carbs: 0.5, fat: 0, fiber: 0, saturatedFat: 0, sugar: 0, potassium: 12, sodium: 1 },
+      macros: {
+        protein: 0.1,
+        carbs: 0.5,
+        fat: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        sugar: 0,
+        potassium: 12,
+        sodium: 1,
+      },
       vitamins: { B6: 0.01, riboflavin: 0.01 },
       minerals: { manganese: 0.14, iron: 0.04 },
     },
@@ -360,7 +423,7 @@ const rawAromatics = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+// ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const aromatics: Record<string, IngredientMapping> =
   fixIngredientMappings(
     rawAromatics as Record<string, Partial<IngredientMapping>>,

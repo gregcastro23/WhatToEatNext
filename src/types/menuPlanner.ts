@@ -7,8 +7,9 @@
  */
 
 import type { LunarPhase } from "./alchemy";
-import type { Recipe, ElementalProperties } from "./recipe";
-import type { PlanetaryPositions, StandardZodiacSign } from "./astrology";
+import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
+import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
+
 
 /**
  * Days of the week enumeration
@@ -41,7 +42,7 @@ export const PLANETARY_DAY_RULERS: Record<DayOfWeek, string> = {
  */
 export interface PlanetarySnapshot {
   dominantPlanet: string;
-  zodiacSign: StandardZodiacSign;
+  zodiacSign: StandardZodiacSignType;
   lunarPhase: LunarPhase;
   elementalState: ElementalProperties;
   planetaryPositions?: PlanetaryPositions;
@@ -56,7 +57,7 @@ export interface MealSlot {
   id: string;
   dayOfWeek: DayOfWeek;
   mealType: MealType;
-  recipe?: Recipe;
+  recipe?: EnhancedRecipe; // Changed from MonicaOptimizedRecipe to EnhancedRecipe
   servings: number;
   planetarySnapshot: PlanetarySnapshot;
   notes?: string;

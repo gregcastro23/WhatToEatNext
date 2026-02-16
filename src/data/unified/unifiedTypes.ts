@@ -10,12 +10,48 @@ import type {
   NutritionalProfile,
   Season,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
   ThermodynamicMetrics,
   ThermodynamicProperties,
   FlavorProfile,
   CookingMethod,
 } from "@/types/alchemy";
+
+type PlanetaryFlavorInfluence = unknown;
+type CuisineFlavorCompatibility = unknown;
+
+export interface UnifiedFlavorProfile {
+  id: string;
+  name: string;
+  category: "cuisine" | "planetary" | "elemental" | "ingredient" | "fusion";
+  baseNotes: BaseFlavorNotes;
+  elementalFlavors: ElementalProperties;
+  intensity: number;
+  complexity: number;
+  kalchm: number;
+  monicaOptimization: number;
+  alchemicalProperties: AlchemicalProperties;
+  seasonalPeak: Season[];
+  seasonalModifiers: Record<Season, number>;
+  culturalOrigins: string[];
+  pairingRecommendations: string[];
+  nutritionalSynergy: number;
+  description: string;
+  planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>;
+  cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility };
+  cookingMethodAffinity: Record<string, number>;
+  temperatureRange: { min: number; max: number };
+  avoidCombinations: string[];
+}
+
+export interface BaseFlavorNotes {
+  sweet: number;
+  sour: number;
+  salty: number;
+  bitter: number;
+  umami: number;
+  spicy: number;
+}
 
 /**
  * UnifiedIngredient interface combines properties from multiple Ingredient interfaces

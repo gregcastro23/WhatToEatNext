@@ -1,6 +1,6 @@
 import {
   Planet,
-  ZodiacSign,
+  ZodiacSignType,
   Element,
   TarotSuit,
   ChakraPosition,
@@ -268,7 +268,7 @@ export class ChakraAlchemyService {
    */
   private addZodiacInfluence(energies: ChakraEnergies, sign: any, strength: number): void {
     // Map zodiac signs to elements
-    const zodiacElements: Record<ZodiacSign, string[]> = {
+    const zodiacElements: Record<ZodiacSignType, string[]> = {
       aries: ['Fire'],
       taurus: ['Earth'],
       gemini: ['Air'],

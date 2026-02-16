@@ -1,6 +1,6 @@
 // Type imports
 import type { ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
-import type { ZodiacSign } from '@/types/unified';
+import type { ZodiacSignType } from '@/types/unified';
 
 // Internal imports
 import { signs } from '@/data/astrology';
@@ -22,8 +22,8 @@ const logger = createLogger('EnhancedAlchemicalMatching');
  * @param planets Optional planetary positions for more accurate calculations
  * @returns Numeric score between 0-1 representing astrological affinity
  */
-export function calculateAstrologicalAffinity(signA: ZodiacSign,
-  signB: ZodiacSign,
+export function calculateAstrologicalAffinity(signA: ZodiacSignType,
+  signB: ZodiacSignType,
   _planets?: Record<string, PlanetaryPosition>): number {
   try {
     // Base elemental compatibility
@@ -221,7 +221,7 @@ export function calculateEnhancedElementalMatch(recipeElements: ElementalPropert
  * Calculate overall alchemical compatibility score
  */
 export function calculateAlchemicalCompatibility(recipeElements: ElementalProperties,
-  astrologicalSign: ZodiacSign,
+  astrologicalSign: ZodiacSignType,
   currentElements: ElementalProperties): number {
   try {
     // Elemental matching (40% weight)

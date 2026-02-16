@@ -1,84 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import type { NatalChart } from "@/types/natalChart";
-
-// Mock data for saved charts, as we can't fetch from /api/charts directly
-const MOCK_SAVED_CHARTS: NatalChart[] = [
-  {
-    id: "chart-1",
-    name: "Greg",
-    birthData: {
-      dateTime: "1990-05-21T10:30:00Z",
-      latitude: 40.7128,
-      longitude: -74.006,
-    },
-    planetaryPositions: {
-      Sun: "gemini",
-      Moon: "leo",
-      Ascendant: "virgo",
-      Mercury: "cancer",
-      Venus: "taurus",
-      Mars: "aries",
-      Jupiter: "pisces",
-      Saturn: "capricorn",
-      Uranus: "aquarius",
-      Neptune: "sagittarius",
-      Pluto: "scorpio",
-    },
-    dominantElement: "Air",
-    dominantModality: "Mutable",
-    elementalBalance: { Fire: 0.2, Water: 0.3, Earth: 0.1, Air: 0.4 },
-    alchemicalProperties: { Spirit: 10, Essence: 12, Matter: 8, Substance: 5 },
-    calculatedAt: new Date().toISOString(),
-  },
-  {
-    id: "chart-2",
-    name: "Monica",
-    birthData: {
-      dateTime: "1992-11-15T14:00:00Z",
-      latitude: 34.0522,
-      longitude: -118.2437,
-    },
-    planetaryPositions: {
-      Sun: "scorpio",
-      Moon: "taurus",
-      Ascendant: "aquarius",
-      Mercury: "libra",
-      Venus: "sagittarius",
-      Mars: "leo",
-      Jupiter: "virgo",
-      Saturn: "pisces",
-      Uranus: "capricorn",
-      Neptune: "aquarius",
-      Pluto: "scorpio",
-    },
-    dominantElement: "Water",
-    dominantModality: "Fixed",
-    elementalBalance: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
-    alchemicalProperties: { Spirit: 8, Essence: 15, Matter: 10, Substance: 7 },
-    calculatedAt: new Date().toISOString(),
-  },
-];
+import type { NatalChart, DiningGroup, GroupMember } from "@/types/natalChart";
+import { useUser } from "@/contexts/UserContext";
 
 interface GuestSelectorProps {
   onParticipantsChange: (participantIds: string[]) => void;
 }
 
 export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
-  const [savedCharts, setSavedCharts] = useState<NatalChart[]>([]);
+  const { currentUser, isLoading: userIsLoading, error: userError } = useUser();
   const [activeParticipants, setActiveParticipants] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // In a real implementation, this would be an API call:
-    // fetch('/api/charts').then(res => res.json()).then(data => setSavedCharts(data));
-    setIsLoading(true);
-    setTimeout(() => {
-      setSavedCharts(MOCK_SAVED_CHARTS);
-      setIsLoading(false);
-    }, 500);
-  }, []);
+  const savedCharts: (DiningGroup | GroupMember)[] = [
+    ...(currentUser?.diningGroups || []),
+    ...(currentUser?.groupMembers || []),
+  ];
 
   const toggleParticipant = (chartId: string) => {
     setActiveParticipants((prev) => {
@@ -91,8 +28,16 @@ export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
     });
   };
 
-  if (isLoading) {
+  if (userIsLoading) {
     return <div>Loading guest charts...</div>;
+  }
+
+  if (userError) {
+    return (
+      <div style={{ color: "#ef4444" }}>
+        Error loading guest charts: {userError}
+      </div>
+    );
   }
 
   return (
@@ -117,6 +62,9 @@ export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
                 <label htmlFor={`guest-${chart.id}`}>{chart.name}</label>
               </div>
             ),
+        )}
+        {savedCharts.length === 0 && (
+          <p className="text-gray-500 text-sm">No saved guests found.</p>
         )}
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { ElementalCalculator } from "@/services/ElementalCalculator";
-import type { ElementalProperties, Recipe } from "@/types/alchemy";
+import type { ElementalProperties } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 export class RecipeEngine {
   private readonly calculator: ElementalCalculator;
@@ -13,7 +14,7 @@ export class RecipeEngine {
     if (
       !recipe.elementalProperties ||
       Object.values(recipe.elementalProperties).some(
-        (val) => val < 0 || val > 1,
+        (val: number) => val < 0 || val > 1,
       )
     ) {
       return 0;
@@ -47,7 +48,7 @@ export class RecipeEngine {
     }, {} as ElementalProperties);
 
     return Object.entries(elementalProps)
-      .sort(([, a], [, b]) => b - a)
+      .sort(([, a]: [string, number], [, b]: [string, number]) => b - a)
       .map(([_element, value]) => ({ _element, value }));
   }
 
@@ -57,24 +58,28 @@ export class RecipeEngine {
     }
 
     const total = recipe.ingredients.reduce(
-      (sum, ing) => sum + (ing.amount ?? 0),
+      (sum, ing) => sum + (Number(ing.amount) ?? 0),
       0,
     );
     const unnormalized = recipe.ingredients.reduce((props, ing) => {
       if (ing.elementalProperties) {
         Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
           props[_element] =
-            (props[_element] || 0) + (value * (ing.amount ?? 0)) / total;
+            (props[_element] || 0) +
+            ((value as number) * (Number(ing.amount) ?? 0)) / total;
         });
       }
       return props;
     }, {} as ElementalProperties);
 
     // Normalize the result
-    const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
+    const sum = Object.values(unnormalized).reduce(
+      (acc: number, val: number) => acc + val,
+      0,
+    );
     return Object.entries(unnormalized).reduce(
       (normalized, [_element, value]) => {
-        normalized[_element] = value / sum;
+        normalized[_element] = (value as number) / (sum as number);
         return normalized;
       },
       {} as ElementalProperties,
@@ -128,7 +133,7 @@ export class RecipeEngine {
     Object.entries(recipe.elementalProperties).forEach(([_element, value]) => {
       const multiplier =
         seasonMultipliers[_element as keyof typeof seasonMultipliers] || 0.5;
-      score += value * multiplier;
+      score += (value as number) * multiplier;
     });
 
     return Math.max(0, Math.min(1, score));

@@ -1,4 +1,8 @@
-import type { ElementalProperties, Season, ZodiacSign } from "@/types/alchemy";
+import type {
+  ElementalProperties,
+  Season,
+  ZodiacSignType,
+} from "@/types/alchemy";
 
 export const _SCORE_THRESHOLDS = {
   EXCELLENT: 80,
@@ -54,7 +58,7 @@ export const _BALANCED_ELEMENTS: ElementalProperties = {
   Earth: 0.25,
 };
 
-export const _ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
+export const _ZODIAC_SEASONS: Record<Season, ZodiacSignType[]> = {
   spring: ["aries", "taurus", "gemini"],
   summer: ["cancer", "leo", "virgo"],
   autumn: ["libra", "scorpio", "sagittarius"],

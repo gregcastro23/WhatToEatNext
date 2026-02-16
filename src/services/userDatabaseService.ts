@@ -46,38 +46,7 @@ class UserDatabaseService {
    */
   private async ensureInitialized(): Promise<void> {
     if (this.initialized) return;
-
-    // Always initialize in-memory default users for fallback
-    this.initializeDefaultUsers();
     this.initialized = true;
-  }
-
-  /**
-   * Initialize default users (including admin)
-   */
-  private initializeDefaultUsers(): void {
-    const currentTime = new Date();
-
-    // Admin user: xalchm@gmail.com
-    const adminUser: UserWithProfile = {
-      id: "user_admin_001",
-      email: "xalchm@gmail.com",
-      passwordHash: "TEMP_NO_PASSWORD", // Will be set during onboarding
-      roles: ["admin" as UserRole, "user" as UserRole],
-      isActive: true,
-      createdAt: currentTime,
-      profile: {
-        userId: "user_admin_001",
-        name: "Admin User",
-        email: "xalchm@gmail.com",
-        preferences: {},
-      },
-    };
-
-    this.users.set(adminUser.id, adminUser);
-    this.emailIndex.set(adminUser.email, adminUser.id);
-
-    _logger.info("User database initialized with in-memory fallback");
   }
 
   /**

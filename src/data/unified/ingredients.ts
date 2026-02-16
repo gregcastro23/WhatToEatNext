@@ -2,7 +2,7 @@
 // This file provides a unified interface for accessing ingredients with enhanced alchemical properties
 // It acts as an adapter/enhancer for existing ingredient data rather than duplicating it
 
-import type { UnifiedIngredient } from "@/types";
+import type { UnifiedIngredient } from "./unifiedTypes";
 import type {
   AlchemicalProperties,
   ElementalProperties,

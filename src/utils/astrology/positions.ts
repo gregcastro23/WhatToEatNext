@@ -14,7 +14,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 
 // Updated reference data for July 2, 2025 at, 10: 45 PM EDT (Cancer season)
 const REFERENCE_POSITIONS = {
-  // _Planet: [degrees, minutes, seconds, currentZodiacSign],
+  // _Planet: [degrees, minutes, seconds, currentZodiacSignType],
   Sun: [104, 5, 0, "cancer"],
   moon: [181, 9, 0, "libra"],
   Mercury: [2, 9, 0, "leo"],

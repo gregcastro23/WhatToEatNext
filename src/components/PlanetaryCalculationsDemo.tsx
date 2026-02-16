@@ -15,7 +15,7 @@ import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
   type AlchemicalProperties,
-  type ZodiacSign,
+  type ZodiacSignType,
 } from "@/utils/planetaryAlchemyMapping";
 import {
   calculateThermodynamicMetrics,
@@ -96,7 +96,7 @@ const PLANETARY_EXALTATIONS: Record<string, string> = {
 };
 
 interface PlanetaryPosition {
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   degree: number;
   minute: number;
   exactLongitude: number;
@@ -232,7 +232,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
           const signKey = planetData.Sign?.key || planetData.Sign?.zodiac;
 
           positions[planetName] = {
-            sign: signKey as ZodiacSign,
+            sign: signKey as ZodiacSignType,
             degree:
               planetData.ChartPosition?.Ecliptic?.ArcDegrees?.degrees || 0,
             minute:

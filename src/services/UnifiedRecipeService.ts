@@ -5,7 +5,7 @@
 
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
-import type { Recipe } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes
 import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 // Using local error handler implementation
@@ -44,6 +44,9 @@ export class UnifiedRecipeService {
       this.recipesCache = recipes;
 
       logger.info(`Loaded ${recipes.length} recipes from data layer`);
+      // Debugging: Count Indian recipes
+      const indianRecipes = recipes.filter(recipe => (recipe.cuisine as string)?.toLowerCase() === 'indian');
+      logger.info(`Total Indian recipes loaded: ${indianRecipes.length}`);
       return recipes;
     } catch (error) {
       ErrorHandler.log(error, {
@@ -162,8 +165,15 @@ export class UnifiedRecipeService {
           cuisine && typeof cuisine === "string"
             ? cuisine.toLowerCase()
             : cuisine;
+
+        // Debugging log
+        if (targetCuisine === "indian") { // Focus on Indian cuisine for debugging
+          logger.info(`Comparing recipe.cuisine: "${recipe.cuisine}" (normalized: "${recipeCuisine}") with targetCuisine: "${targetCuisine}" -> Match: ${recipeCuisine === targetCuisine}`);
+        }
+
         return recipeCuisine === targetCuisine;
       });
+      logger.info(`getRecipesForCuisine for "${cuisine}" returned ${filtered.length} recipes.`);
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
       ErrorHandler.log(error, {

@@ -16,8 +16,8 @@ import type {
   CookingMethod,
   ElementalProperties,
   RawElementalProperties,
-  RecipeIngredient,
 } from "@/types/alchemy";
+import type { RecipeIngredient } from "@/types/recipe";
 import type {
   QuantityScaledProperties,
   RecipeComputationOptions,
@@ -206,7 +206,7 @@ export function aggregateIngredientElementals(
     // Scale by quantity
     const scaled = scaleIngredientByQuantity(
       ingredient.elementalProperties,
-      ingredient.amount || 1,
+      Number(ingredient.amount) || 1,
       ingredient.unit || "g",
     );
 

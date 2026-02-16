@@ -13,7 +13,7 @@ import type {
   ThermodynamicProperties,
   Planet,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   PlanetName,
   ElementalProperties,
@@ -241,7 +241,7 @@ export class LegacyRecommendationAdapter {
    * Generate alchemical recommendations using AlchemicalRecommendationService
    */
   public generateAlchemicalRecommendations(
-    planetaryPositions: Record<string, ZodiacSign>,
+    planetaryPositions: Record<string, ZodiacSignType>,
     ingredients: UnifiedIngredient[],
     cookingMethods: CookingMethod[],
   ) {
@@ -284,7 +284,7 @@ export class LegacyRecommendationAdapter {
    */
   public getRecipeRecommendations(
     recipe: Recipe,
-    planetaryPositions: Record<string, ZodiacSign>,
+    planetaryPositions: Record<string, ZodiacSignType>,
   ) {
     try {
       return alchemicalRecommendationService.getRecipeRecommendations(

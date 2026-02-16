@@ -46,7 +46,7 @@ const MethodImage = ({ method }: { method: string }) => (
   </div>
 );
 
-const ZodiacSign = ({
+const ZodiacSignType = ({
   sign,
   size = "medium",
 }: {
@@ -628,7 +628,11 @@ export default function CookingMethodPage() {
                         </Typography>
                         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
                           {method.zodiacResonance.map((sign, index) => (
-                            <ZodiacSign key={index} sign={sign} size="medium" />
+                            <ZodiacSignType
+                              key={index}
+                              sign={sign}
+                              size="medium"
+                            />
                           ))}
                         </Box>
                       </Box>

@@ -6,7 +6,7 @@
  * and advanced analytics intelligence systems.
  */
 
-import type { ElementalProperties, LunarPhase, ZodiacSign } from './alchemy';
+import type { ElementalProperties, LunarPhase, ZodiacSignType } from './alchemy';
 import type { Ingredient } from './ingredient';
 import type { Recipe } from './recipe';
 

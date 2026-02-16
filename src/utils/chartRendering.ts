@@ -7,7 +7,7 @@
 
 import type {
   Planet,
-  ZodiacSign,
+  ZodiacSignType,
   PlanetaryAspect,
   AspectType,
 } from "@/types/celestial";
@@ -40,8 +40,8 @@ export function degreesToSVGCoords(
  * @param sign - Zodiac sign
  * @returns Starting longitude in degrees
  */
-export function getZodiacStartDegree(sign: ZodiacSign): number {
-  const signs: ZodiacSign[] = [
+export function getZodiacStartDegree(sign: ZodiacSignType): number {
+  const signs: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",
@@ -67,7 +67,7 @@ export function getZodiacStartDegree(sign: ZodiacSign): number {
  * @returns Absolute longitude (0-360)
  */
 export function calculateAbsoluteLongitude(
-  sign: ZodiacSign,
+  sign: ZodiacSignType,
   degree: number,
 ): number {
   const signStart = getZodiacStartDegree(sign);
@@ -136,8 +136,8 @@ export function getPlanetSymbol(planet: string): string {
  * @param sign - Zodiac sign
  * @returns Unicode symbol
  */
-export function getZodiacGlyph(sign: ZodiacSign): string {
-  const glyphs: Record<ZodiacSign, string> = {
+export function getZodiacGlyph(sign: ZodiacSignType): string {
+  const glyphs: Record<ZodiacSignType, string> = {
     aries: "♈",
     taurus: "♉",
     gemini: "♊",
@@ -202,7 +202,7 @@ export function getElementColor(element: string): string {
  * @returns Formatted string like "15°32' Aries"
  */
 export function formatDegreeString(
-  sign: ZodiacSign,
+  sign: ZodiacSignType,
   degree: number,
   minute: number = 0,
 ): string {

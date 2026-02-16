@@ -1,5 +1,8 @@
 import type { Recipe } from "@/types/recipe";
-import type { AstrologicalState, ElementalProperties } from "../../types";
+import type {
+  AstrologicalStateType,
+  ElementalProperties,
+} from "../../types/alchemy";
 
 // Re-export types and functions from ingredient recommendation
 export type {
@@ -55,7 +58,7 @@ interface RecommendationExplanation {
  */
 export function calculateRecommendationScore(
   recipe: Recipe,
-  astrologicalState: AstrologicalState,
+  astrologicalState: AstrologicalStateType,
   timeFactors: TimeFactors,
 ): number {
   let totalScore = 0;
@@ -105,7 +108,7 @@ export function calculateRecommendationScore(
  */
 export function getRecommendedRecipes(
   recipes: Recipe[],
-  astrologicalState: AstrologicalState,
+  astrologicalState: AstrologicalStateType,
   timeFactors: TimeFactors = getTimeFactors(),
   count = 3,
 ): Recipe[] {
@@ -125,7 +128,7 @@ export function getRecommendedRecipes(
  */
 export function explainRecommendation(
   recipe: Recipe,
-  astrologicalState: AstrologicalState,
+  astrologicalState: AstrologicalStateType,
   timeFactors: TimeFactors = getTimeFactors(),
 ): string {
   const explanations: string[] = [];
@@ -361,7 +364,7 @@ function getTimeFactors(): TimeFactors {
  */
 export function getDetailedRecipeRecommendations(
   recipes: Recipe[],
-  astrologicalState: AstrologicalState,
+  astrologicalState: AstrologicalStateType,
   limit = 3,
 ): RecommendationExplanation[] {
   const timeFactors = getTimeFactors();

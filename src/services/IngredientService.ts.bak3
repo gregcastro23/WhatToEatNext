@@ -1,5 +1,5 @@
 import type { ElementalProperties, IngredientMapping, ThermodynamicMetrics } from '@/types/alchemy';
-import type { Recipe, ZodiacSign } from '@/types/unified';
+import type { Recipe, ZodiacSignType } from '@/types/unified';
 
 import { fruits } from '../data/ingredients/fruits';
 import { grains } from '../data/ingredients/grains';
@@ -118,7 +118,7 @@ function isNutritionProfile(value: unknown): value is NutritionProfile {
 type ElementalAffinity = string | { base?: string, secondary?: string };
 type AstroProfile = {
   elementalAffinity?: ElementalAffinity,
-  favorableZodiac?: Array<string | ZodiacSign>
+  favorableZodiac?: Array<string | ZodiacSignType>
 };
 type CulinaryProperties = { modality?: string };
 
@@ -385,8 +385,8 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Apply zodiac sign filter if specified
-        if (filter.currentZodiacSign) {
-          filtered = this.applyZodiacFilterUnified(filtered, filter.currentZodiacSign),
+        if (filter.currentZodiacSignType) {
+          filtered = this.applyZodiacFilterUnified(filtered, filter.currentZodiacSignType),
         }
 
         // Apply planetary influence filter if specified
@@ -791,7 +791,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   private applyZodiacFilterUnified(
     ingredients: UnifiedIngredient[],
-    currentZodiacSign: any,
+    currentZodiacSignType: any,
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
@@ -801,33 +801,33 @@ export class IngredientService implements IngredientServiceInterface {
 
         // zodiacAffinity as array
         const zodiacAffinity = Array.isArray(astro?.['zodiacAffinity']);
-          ? (astro?.['zodiacAffinity'] as Array<string | ZodiacSign>);
+          ? (astro?.['zodiacAffinity'] as Array<string | ZodiacSignType>);
           : undefined,
         if (zodiacAffinity && zodiacAffinity.length > 0) {
           const ok = safeSome(zodiacAffinity, sign =>,
             typeof sign === 'string'
-              ? sign.toLowerCase() === currentZodiacSign.toLowerCase();
-              : sign === currentZodiacSign,
+              ? sign.toLowerCase() === currentZodiacSignType.toLowerCase();
+              : sign === currentZodiacSignType,
           ),
           if (ok) return true
         }
 
         // favorableZodiac as array
         const favorableZodiac = Array.isArray(astro?.['favorableZodiac']);
-          ? (astro?.['favorableZodiac'] as Array<string | ZodiacSign>);
+          ? (astro?.['favorableZodiac'] as Array<string | ZodiacSignType>);
           : undefined
         if (favorableZodiac && favorableZodiac.length > 0) {
           return safeSome(favorableZodiac, sign =>,
             typeof sign === 'string'
-              ? sign.toLowerCase() === currentZodiacSign.toLowerCase();
-              : sign === currentZodiacSign,,
+              ? sign.toLowerCase() === currentZodiacSignType.toLowerCase();
+              : sign === currentZodiacSignType,,
           )
         }
 
         return false;
       });
     } catch (error) {
-      logger.error(`Error applying zodiac filter for sign ${currentZodiacSign}:`, error);
+      logger.error(`Error applying zodiac filter for sign ${currentZodiacSignType}:`, error);
       return [];
     }
   }
@@ -950,7 +950,7 @@ export class IngredientService implements IngredientServiceInterface {
    * @param sign The zodiac sign
    * @returns An array of ingredients associated with that sign
    */
-  public getIngredientsByZodiacSign(sign: any): UnifiedIngredient[] {
+  public getIngredientsByZodiacSignType(sign: any): UnifiedIngredient[] {
     try {
       return this.applyZodiacFilterUnified(this.unifiedIngredientsFlat, sign);
     } catch (error) {
@@ -1937,7 +1937,7 @@ export class IngredientService implements IngredientServiceInterface {
         dietaryPreferences = [],,
         excludeIngredients = [],,
         currentSeason,
-        currentZodiacSign,
+        currentZodiacSignType,
         modalityPreference
       } = options;
 
@@ -2010,15 +2010,15 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Apply zodiac compatibility if specified
         let zodiacScore = 1;
-        if (currentZodiacSign && ingredient.astrologicalProfile) {
+        if (currentZodiacSignType && ingredient.astrologicalProfile) {
           const astro = ingredient.astrologicalProfile as unknown;
           const fav = astro['favorableZodiac'];
-          const favorable = Array.isArray(fav) ? (fav as Array<string | ZodiacSign>) : undefined;
+          const favorable = Array.isArray(fav) ? (fav as Array<string | ZodiacSignType>) : undefined;
           if (favorable) {
             const isCompatible = favorable.some(sign =>
               typeof sign === 'string'
-                ? sign.toLowerCase() === currentZodiacSign.toLowerCase();
-                : sign === currentZodiacSign,
+                ? sign.toLowerCase() === currentZodiacSignType.toLowerCase();
+                : sign === currentZodiacSignType,
             ),
             zodiacScore = isCompatible ? 1.3 : 0.9
           }
