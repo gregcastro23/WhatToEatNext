@@ -1,5 +1,5 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
-import { fixIngredientMappings } from "@/utils/elementalUtils";
+
 
 // Spices ingredients extracted from cuisine files
 const rawSpices: Record<string, Partial<IngredientMapping>> = {
@@ -409,5 +409,5 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   },
 };
 
-// Export processed ingredients
-export const spicesIngredients = fixIngredientMappings(rawSpices);
+// Raw spices are merged into the main spices export via spices/index.ts
+// Individual entries are available through the rawSpices constant above

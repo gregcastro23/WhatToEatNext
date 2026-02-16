@@ -202,6 +202,14 @@ export interface Recipe {
   environmentalMatchDetails?: string;
   optimal_cooking_window?: OptimalCookingWindow;
 
+  // Monica Optimization Score (0-100 scale)
+  // Weighted thermodynamic-alchemical alignment index:
+  //   40% Thermodynamic Efficiency (Greg's Energy)
+  //   30% Alchemical Equilibrium (Kalchm)
+  //   30% Monica Constant Alignment
+  monicaScore?: number;
+  monicaScoreLabel?: string;
+
   monicaOptimization?: {
     originalMonica: number | null;
     optimizedMonica: number;
