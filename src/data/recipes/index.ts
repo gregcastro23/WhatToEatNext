@@ -45,6 +45,10 @@ function generateRecipeId(
     parts.push(mealType.toLowerCase().replace(/[^a-z0-9]/g, ""));
   }
 
+  if (season) { // Include season in the ID to ensure uniqueness
+    parts.push(season.toLowerCase().replace(/[^a-z0-9]/g, ""));
+  }
+
   const baseName = name
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
@@ -65,18 +69,20 @@ function standardizeRecipe(
   cuisineName: string,
   mealType: string,
   season: string,
-): Recipe {
+): { standardizedRecipe: Recipe; wasOriginallyEnhanced: boolean } {
   // Ensure the recipe is an object
   if (!recipe || typeof recipe !== "object") {
-    return recipe;
+    return { standardizedRecipe: recipe, wasOriginallyEnhanced: false };
   }
 
   const standardized: Record<string, unknown> = { ...recipe };
+  let wasOriginallyEnhanced = false;
 
   // 1. Generate ID if missing or ensure consistent ID based on canonical name
   let canonicalName = (standardized.name as string) || "unnamed";
   if (canonicalName.includes("(Monica Enhanced)")) {
     canonicalName = canonicalName.replace(" (Monica Enhanced)", "");
+    wasOriginallyEnhanced = true;
   }
   standardized.id = generateRecipeId(canonicalName, cuisineName, mealType, season);
 
@@ -204,7 +210,7 @@ function standardizeRecipe(
     standardized.allergens = [standardized.allergens];
   }
 
-  return standardized as unknown as Recipe;
+  return { standardizedRecipe: standardized as unknown as Recipe, wasOriginallyEnhanced };
 }
 
 // Create flattened list of all recipes from all cuisines with standardization
@@ -232,15 +238,28 @@ const flattenCuisineRecipes = () => {
                 if (Array.isArray(recipes)) {
                   recipes.forEach((recipe: any) => {
                     // Standardize the recipe
-                    const standardized = standardizeRecipe(
-                      recipe,
-                      cuisineName,
-                      mealType,
-                      season,
-                    );
+                    const { standardizedRecipe, wasOriginallyEnhanced } =
+                      standardizeRecipe(
+                        recipe,
+                        cuisineName,
+                        mealType,
+                        season,
+                      );
 
-                    // Store the recipe in the map, enhanced version replaces original if loaded later
-                    recipeMap.set(standardized.id as string, standardized);
+                    const existingEntry = recipeMap.get(
+                      standardizedRecipe.id as string,
+                    ) as (Recipe & { wasOriginallyEnhanced?: boolean }) | undefined;
+
+                    // If no existing recipe, or if the new recipe is not enhanced and the existing one is,
+                    // add/overwrite with the non-enhanced version.
+                    if (
+                      !existingEntry ||
+                      (wasOriginallyEnhanced === false &&
+                        existingEntry.wasOriginallyEnhanced === true)
+                    ) {
+                      recipeMap.set(standardizedRecipe.id as string, { ...standardizedRecipe, wasOriginallyEnhanced });
+                    }
+
                   });
                 }
               },
@@ -249,7 +268,9 @@ const flattenCuisineRecipes = () => {
         },
       );
     } else {
-      console.warn(`Cuisine ${cuisineName} not found or has no dishes in cuisinesMap.`);
+      console.warn(
+        `Cuisine ${cuisineName} not found or has no dishes in cuisinesMap.`,
+      );
     }
   });
 
