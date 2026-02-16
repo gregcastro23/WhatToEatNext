@@ -28,6 +28,8 @@ import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import {
   calculateKAlchm,
   calculateMonicaConstant,
+  calculateMonicaOptimizationScore,
+  type MonicaScoreResult,
 } from "@/utils/monicaKalchmCalculations";
 import {
   calculateOptimalCookingConditions,
@@ -448,6 +450,13 @@ export default function EnhancedCookingMethodRecommender() {
           console.warn(`Failed to calculate kinetics for ${id}:`, error);
         }
 
+        // Calculate Monica Optimization Score (0-100)
+        const monicaScoreResult = calculateMonicaOptimizationScore(
+          [id],
+          baseAlchemicalProperties ?? { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 },
+          method.elementalEffect,
+        );
+
         return {
           id,
           ...method,
@@ -460,6 +469,7 @@ export default function EnhancedCookingMethodRecommender() {
           gregsEnergy,
           optimalConditions,
           kinetics,
+          monicaScoreResult,
         };
       })
       .sort((a, b) => b.gregsEnergy - a.gregsEnergy);
@@ -547,6 +557,95 @@ export default function EnhancedCookingMethodRecommender() {
               </div>
             </div>
           )}
+        </div>
+      </div>
+    );
+  };
+
+  // ==================== SECTION 1.5: MONICA VIBE SCORE ====================
+  const renderMonicaVibeScore = (method: (typeof currentMethods)[0]) => {
+    const { monicaScoreResult } = method;
+    if (!monicaScoreResult) return null;
+
+    const score = monicaScoreResult.score;
+    const { thermodynamicEfficiency, alchemicalEquilibrium, monicaAlignment } =
+      monicaScoreResult.breakdown;
+
+    // Color gradient based on score
+    const getScoreColor = (s: number) => {
+      if (s >= 90) return { text: "text-yellow-800", bg: "bg-yellow-100", bar: "bg-gradient-to-r from-yellow-400 to-yellow-600", border: "border-yellow-400" };
+      if (s >= 75) return { text: "text-purple-800", bg: "bg-purple-100", bar: "bg-gradient-to-r from-purple-400 to-purple-600", border: "border-purple-400" };
+      if (s >= 60) return { text: "text-green-800", bg: "bg-green-100", bar: "bg-gradient-to-r from-green-400 to-green-600", border: "border-green-400" };
+      if (s >= 45) return { text: "text-blue-800", bg: "bg-blue-100", bar: "bg-gradient-to-r from-blue-400 to-blue-600", border: "border-blue-400" };
+      if (s >= 30) return { text: "text-orange-800", bg: "bg-orange-100", bar: "bg-gradient-to-r from-orange-400 to-orange-600", border: "border-orange-400" };
+      return { text: "text-red-800", bg: "bg-red-100", bar: "bg-gradient-to-r from-red-400 to-red-600", border: "border-red-400" };
+    };
+
+    const colors = getScoreColor(score);
+
+    return (
+      <div className={`rounded-xl border-2 ${colors.border} ${colors.bg} p-4 shadow-lg`}>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          Monica Vibe Score
+        </h3>
+
+        {/* Main Score Display */}
+        <div className="mb-4 flex items-center gap-4">
+          <div className="relative h-20 w-20 flex-shrink-0">
+            <svg className="h-20 w-20 -rotate-90 transform" viewBox="0 0 36 36">
+              <path
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="#e5e7eb"
+                strokeWidth="3"
+              />
+              <path
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeDasharray={`${score}, 100`}
+                className={colors.text}
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className={`text-xl font-bold ${colors.text}`}>{Math.round(score)}</span>
+            </div>
+          </div>
+          <div>
+            <div className={`text-xl font-bold ${colors.text}`}>{monicaScoreResult.label}</div>
+            <div className="text-xs text-gray-600">
+              {score >= 90
+                ? "Perfect alchemical harmony achieved"
+                : score >= 60
+                  ? "Strong thermodynamic-alchemical alignment"
+                  : score >= 30
+                    ? "Moderate transformation potential"
+                    : "High entropic loss detected"}
+            </div>
+          </div>
+        </div>
+
+        {/* Component Breakdown */}
+        <div className="space-y-2">
+          {[
+            { name: "Thermodynamic Efficiency", value: thermodynamicEfficiency, weight: "40%", icon: "⚡" },
+            { name: "Alchemical Equilibrium", value: alchemicalEquilibrium, weight: "30%", icon: "⚖️" },
+            { name: "Monica Alignment", value: monicaAlignment, weight: "30%", icon: "🔮" },
+          ].map(({ name, value, weight, icon }) => (
+            <div key={name}>
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-medium text-gray-700">{icon} {name} ({weight})</span>
+                <span className="font-bold text-gray-800">{Math.round(value)}/100</span>
+              </div>
+              <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                <div
+                  className={`h-full transition-all duration-500 ${colors.bar}`}
+                  style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -1355,6 +1454,19 @@ export default function EnhancedCookingMethodRecommender() {
                 >
                   ⚡ Energy: {method.gregsEnergy.toFixed(2)}
                 </span>
+                {method.monicaScoreResult && (
+                  <span
+                    className={`rounded-lg px-3 py-1 text-sm font-bold ${
+                      method.monicaScoreResult.score >= 75
+                        ? "bg-yellow-100 text-yellow-800"
+                        : method.monicaScoreResult.score >= 45
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    Monica: {Math.round(method.monicaScoreResult.score)}/100
+                  </span>
+                )}
                 {method.monica !== null && !isNaN(method.monica) && (
                   <span
                     className={`rounded-lg px-3 py-1 text-sm font-medium ${method.monicaClass.bgColor} ${method.monicaClass.color}`}
@@ -1376,6 +1488,9 @@ export default function EnhancedCookingMethodRecommender() {
                 <div className="space-y-4 border-t-2 border-purple-200 pt-4">
                   {/* Section 1: Transformation Overview */}
                   {renderTransformationOverview(method)}
+
+                  {/* Section 1.5: Monica Vibe Score */}
+                  {renderMonicaVibeScore(method)}
 
                   {/* Section 2: Alchemical Matrix */}
                   {renderAlchemicalMatrix(method)}
