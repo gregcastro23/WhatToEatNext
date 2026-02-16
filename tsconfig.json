@@ -73,7 +73,6 @@
         "./src/calculations/*"
       ]
     },
-    "types": ["node", "jose"],
     "plugins": [
       {
         "name": "next"
@@ -115,6 +114,7 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
-    "**/*.spec.tsx"
+    "**/*.spec.tsx",
+    "**/*.bak*"
   ]
 }
