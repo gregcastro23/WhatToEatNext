@@ -143,7 +143,11 @@ function getTimeAgo(date: Date): string {
   return "recently";
 }
 
-export default function DynamicCuisineRecommender() {
+interface DynamicCuisineRecommenderProps {
+  onDoubleClickCuisine?: (cuisineName: string) => void;
+}
+
+export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: DynamicCuisineRecommenderProps = {}) {
   const [recommendations, setRecommendations] = useState<
     DynamicCuisineRecommendation[]
   >([]);
@@ -328,6 +332,7 @@ export default function DynamicCuisineRecommender() {
                 key={cuisine.cuisine}
                 cuisine={cuisine}
                 rank={index + 1}
+                onDoubleClickCuisine={onDoubleClickCuisine}
               />
             ))}
           </div>
@@ -356,6 +361,7 @@ export default function DynamicCuisineRecommender() {
                       cuisine={cuisine}
                       rank={index + 7}
                       compact
+                      onDoubleClickCuisine={onDoubleClickCuisine}
                     />
                   ))}
                 </div>

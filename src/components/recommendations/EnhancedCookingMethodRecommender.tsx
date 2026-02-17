@@ -301,7 +301,11 @@ function getPillarColors(pillarId: number): {
   );
 }
 
-export default function EnhancedCookingMethodRecommender() {
+interface EnhancedCookingMethodRecommenderProps {
+  onDoubleClickMethod?: (methodName: string) => void;
+}
+
+export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }: EnhancedCookingMethodRecommenderProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [showPillarsGuide, setShowPillarsGuide] = useState(false);
@@ -1429,6 +1433,11 @@ export default function EnhancedCookingMethodRecommender() {
                   : "border-gray-300 bg-white hover:border-purple-400 hover:shadow-xl"
               }`}
               onClick={() => toggleMethod(method.id)}
+              onDoubleClick={() => {
+                if (onDoubleClickMethod) {
+                  onDoubleClickMethod(method.name);
+                }
+              }}
             >
               {/* Method Header */}
               <div className="mb-4">

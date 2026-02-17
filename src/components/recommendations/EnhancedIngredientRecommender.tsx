@@ -45,6 +45,7 @@ interface EnhancedIngredientRecommenderProps {
   isFullPageVersion?: boolean;
   onCategoryChange?: (category: string) => void;
   onIngredientSelect?: (ingredient: string) => void;
+  onDoubleClickIngredient?: (ingredientName: string, category?: string, elementalProperties?: Record<string, number>) => void;
 }
 
 // Category definitions mapped to ingredient categories
@@ -336,6 +337,7 @@ export const EnhancedIngredientRecommender: React.FC<
   isFullPageVersion = false,
   onCategoryChange,
   onIngredientSelect,
+  onDoubleClickIngredient,
 }) => {
   // State
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -629,6 +631,15 @@ export const EnhancedIngredientRecommender: React.FC<
       <div
         key={ingredient.name}
         onClick={() => handleIngredientSelect(ingredient.name)}
+        onDoubleClick={() => {
+          if (onDoubleClickIngredient) {
+            onDoubleClickIngredient(
+              ingredient.name,
+              ingredient.category as string | undefined,
+              ingredient.elementalProperties as Record<string, number> | undefined,
+            );
+          }
+        }}
         className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
           isSelected
             ? "border-indigo-500 bg-indigo-50 shadow-lg"

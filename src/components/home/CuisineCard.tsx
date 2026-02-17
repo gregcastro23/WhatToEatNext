@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
+// Optional callback for double-click-to-queue integration
+type OnDoubleClickCuisine = (cuisineName: string) => void;
+
 const PLANET_ICONS: Record<string, string> = {
   Sun: "\u2609",
   Moon: "\u263D",
@@ -48,9 +51,10 @@ interface CuisineCardProps {
   cuisine: DynamicCuisineRecommendation;
   rank: number;
   compact?: boolean;
+  onDoubleClickCuisine?: OnDoubleClickCuisine;
 }
 
-export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
+export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: CuisineCardProps) {
   const [showPreview, setShowPreview] = useState(false);
 
   const icon = PLANET_ICONS[cuisine.planet] || "\u2609";
@@ -68,6 +72,12 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
     return (
       <Link
         href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
+        onDoubleClick={(e) => {
+          if (onDoubleClickCuisine) {
+            e.preventDefault();
+            onDoubleClickCuisine(cuisine.cuisine);
+          }
+        }}
       >
         <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200 hover:border-amber-300 cursor-pointer p-4">
           <div className="flex items-center justify-between mb-2">
@@ -108,6 +118,12 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
       className="relative group"
       onMouseEnter={() => setShowPreview(true)}
       onMouseLeave={() => setShowPreview(false)}
+      onDoubleClick={(e) => {
+        if (onDoubleClickCuisine) {
+          e.preventDefault();
+          onDoubleClickCuisine(cuisine.cuisine);
+        }
+      }}
     >
       <Link
         href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
