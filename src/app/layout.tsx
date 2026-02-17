@@ -79,18 +79,11 @@ export default function RootLayout({
                     📅 Menu Planner
                   </Link>
                   <Link
-                    href="/recipe-generator"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-amber-100 text-amber-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-200"
-                    aria-label="Generate recipes with planetary alignment"
-                  >
-                    ✨ Recipe Generator
-                  </Link>
-                  <Link
                     href="/recipe-builder"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-pink-100 text-pink-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-pink-200"
-                    aria-label="Build custom recipes with ingredient search"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-amber-100 text-amber-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-200"
+                    aria-label="Build and generate recipes with ingredient search and planetary alignment"
                   >
-                    🧪 Recipe Builder
+                    ✨ Recipe Builder
                   </Link>
                   <Link
                     href="/quantities"
@@ -174,18 +167,10 @@ export default function RootLayout({
                     </li>
                     <li>
                       <Link
-                        href="/recipe-generator"
+                        href="/recipe-builder"
                         className="text-gray-300 hover:text-amber-300 transition-colors"
                       >
-                        ✨ Recipe Generator
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/recipe-builder"
-                        className="text-gray-300 hover:text-pink-300 transition-colors"
-                      >
-                        🧪 Recipe Builder
+                        ✨ Recipe Builder
                       </Link>
                     </li>
                     <li>

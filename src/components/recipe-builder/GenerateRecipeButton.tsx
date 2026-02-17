@@ -72,8 +72,19 @@ export default function GenerateRecipeButton({
       const system = new UnifiedRecipeBuildingSystem();
       const generationResult = system.generateMonicaOptimizedRecipe(criteria);
 
-      setResult(generationResult);
-      onGenerated?.(generationResult);
+      // Strip "(Monica Enhanced)" from recipe name if present
+      const cleanedResult = {
+        ...generationResult,
+        recipe: {
+          ...generationResult.recipe,
+          name: generationResult.recipe.name
+            .replace(/\s*\(Monica Enhanced\)\s*/gi, "")
+            .trim(),
+        },
+      };
+
+      setResult(cleanedResult);
+      onGenerated?.(cleanedResult);
 
       logger.info(
         `Recipe generated: "${generationResult.recipe.name}" with confidence ${generationResult.confidence}`,
