@@ -15,6 +15,7 @@ import {
   type FlavorPreference,
 } from "@/contexts/RecipeBuilderContext";
 import IngredientSearchBar from "./IngredientSearchBar";
+import IngredientSuggestions from "./IngredientSuggestions";
 import RecipeBuilderQueue from "./RecipeBuilderQueue";
 import GenerateRecipeButton from "./GenerateRecipeButton";
 
@@ -256,6 +257,9 @@ export default function RecipeBuilderPanel({
         </label>
         <IngredientSearchBar />
       </div>
+
+      {/* Smart Ingredient Suggestions */}
+      <IngredientSuggestions />
 
       {/* Preferences */}
       <CollapsibleSection title="Meal & Flavor Preferences" defaultOpen>

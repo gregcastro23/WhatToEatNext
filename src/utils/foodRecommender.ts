@@ -185,39 +185,23 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     `Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`,
   );
 
-  // Filter out ingredients without proper astrological profiles (using optional chaining)
-  const validIngredients = allIngredients.filter(
+  // Standardize all ingredients first (adds missing elementalAffinity, rulingPlanets, etc.)
+  const standardized = allIngredients.map((ingredient) =>
+    standardizeIngredient(ingredient),
+  );
+
+  // Filter out ingredients without proper astrological profiles (after standardization)
+  const validIngredients = standardized.filter(
     (ing) =>
-      ing.astrologicalProfile.elementalAffinity &&
-      ing.astrologicalProfile.rulingPlanets,
+      ing.astrologicalProfile?.elementalAffinity &&
+      ing.astrologicalProfile?.rulingPlanets,
   );
 
   log.info(
     `Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`,
   );
-  if (validIngredients.length < allIngredients.length) {
-    const filteredOut = allIngredients.filter(
-      (ing) =>
-        !(
-          ing.astrologicalProfile.elementalAffinity &&
-          ing.astrologicalProfile.rulingPlanets
-        ),
-    );
-    log.info("Filtered out: ", {
-      count: filteredOut.length,
-      type: "ingredients",
-    });
-    log.info("Categories of filtered ingredients: ", {
-      categories: [...new Set(filteredOut.map((ing) => ing.category))].join(
-        ", ",
-      ),
-    });
-  }
 
-  // At the end of the getAllIngredients function, add standardization
-  return validIngredients.map((ingredient) =>
-    standardizeIngredient(ingredient),
-  );
+  return validIngredients;
 };
 
 /**
@@ -264,6 +248,23 @@ function standardizeIngredient(
       ? ["Moon", "Venus"]
       : ["Mercury"],
   };
+
+  // Ensure elementalAffinity exists even if astrologicalProfile was already present
+  if (!standardized.astrologicalProfile.elementalAffinity) {
+    // Derive base element from the dominant elemental property
+    const elProps = standardized.elementalProperties;
+    let dominantElement = "Earth";
+    let maxVal = 0;
+    for (const [el, val] of Object.entries(elProps)) {
+      if (typeof val === "number" && val > maxVal) {
+        maxVal = val;
+        dominantElement = el;
+      }
+    }
+    standardized.astrologicalProfile.elementalAffinity = {
+      base: dominantElement,
+    };
+  }
 
   // Ensure favorableZodiac exists
   if (!standardized.astrologicalProfile.favorableZodiac) {
