@@ -48,6 +48,22 @@ const PLANET_ELEMENTS: Record<string, string> = {
   Saturn: "Earth",
 };
 
+// Reverse lookup: element → associated planet name
+const ELEMENT_PLANETS: Record<string, string> = {
+  Fire: "Mars",
+  Water: "Venus",
+  Earth: "Saturn",
+  Air: "Mercury",
+};
+
+// Elemental balancing rules for the Alchemical Sous Chef
+const BALANCING_GUIDANCE: Record<string, { target: string; verb: string }> = {
+  Fire: { target: "Water", verb: "cool" },
+  Water: { target: "Fire", verb: "warm" },
+  Earth: { target: "Air", verb: "add lightness to" },
+  Air: { target: "Earth", verb: "ground" },
+};
+
 interface SuggestionItem {
   ingredient: EnhancedIngredient;
   reason: string;
@@ -164,13 +180,19 @@ function computeSuggestions(
     // Elemental complement bonus (for Monica Score balancing)
     if (complementElements.includes(ingDominant.element)) {
       score += 2;
-      reason = `Balances ${dominantEl} with ${ingDominant.element}`;
+      const guidance = BALANCING_GUIDANCE[dominantEl];
+      const targetPlanet = ELEMENT_PLANETS[ingDominant.element];
+      if (guidance && guidance.target === ingDominant.element) {
+        reason = `Balances ${dominantEl}/${ELEMENT_PLANETS[dominantEl]} — ${ingDominant.element}/${targetPlanet} to ${guidance.verb} the dish`;
+      } else {
+        reason = `Balances ${dominantEl} with ${ingDominant.element}`;
+      }
     }
 
     // Same element reinforcement (smaller bonus)
     if (ingDominant.element === dominantEl) {
       score += 1;
-      reason = reason || `Reinforces ${dominantEl} energy`;
+      reason = reason || `Reinforces ${dominantEl}/${ELEMENT_PLANETS[dominantEl]} energy`;
     }
 
     // Category-specific reasons
@@ -231,56 +253,67 @@ export default function IngredientSuggestions({
 
   // Build a context message based on what's selected
   const lastSelected = selectedIngredients[selectedIngredients.length - 1];
-  const lastCategory = getCategoryType(lastSelected.category);
   const lastDominant = getDominantElement(
     lastSelected.elementalProperties as Record<string, number>,
   );
 
-  const planetKey = Object.entries(PLANET_ELEMENTS).find(
-    ([, el]) => el === lastDominant.element,
-  );
-  const planetName = planetKey ? planetKey[0] : null;
+  const planetName = ELEMENT_PLANETS[lastDominant.element] || null;
+  const guidance = BALANCING_GUIDANCE[lastDominant.element];
+  const targetElement = guidance?.target || "Earth";
 
   return (
     <div className={`rounded-xl border border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50 p-3 ${className}`}>
       <div className="mb-2">
-        <p className="text-xs text-indigo-700 font-medium">
-          Pairs well with {lastSelected.name}
-          {planetName && (
-            <span className="text-indigo-500">
-              {" "}
-              ({planetName} energy)
-            </span>
-          )}
+        <p className="text-sm text-indigo-800 font-semibold">
+          Balance your {lastSelected.name} with:
+        </p>
+        <p className="text-xs text-indigo-500 mt-0.5">
+          {lastSelected.name} is {lastDominant.element}
+          {planetName && `/${planetName}`} dominant
+          {guidance && ` — add ${targetElement}/${ELEMENT_PLANETS[targetElement]} ingredients to ${guidance.verb} the dish`}
         </p>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {suggestions.map((s) => {
           const isAlready = hasIngredient(s.ingredient.name);
+          const sDominant = getDominantElement(
+            s.ingredient.elementalProperties as Record<string, number>,
+          );
+          const elColor =
+            sDominant.element === "Fire" ? "text-orange-500" :
+            sDominant.element === "Water" ? "text-blue-500" :
+            sDominant.element === "Earth" ? "text-amber-600" :
+            sDominant.element === "Air" ? "text-sky-500" : "text-gray-500";
+
           return (
             <button
               key={s.ingredient.name}
               onClick={() => !isAlready && handleAdd(s.ingredient)}
               disabled={isAlready}
               className={`
-                inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all
+                inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all shadow-sm
                 ${isAlready
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-white text-indigo-700 border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-300 cursor-pointer"
+                  : "bg-white text-indigo-700 border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-300 hover:shadow-md cursor-pointer"
                 }
               `}
               title={s.reason}
             >
+              <span className={`${elColor} text-[10px]`}>
+                {sDominant.element === "Fire" ? "\u2b25" :
+                 sDominant.element === "Water" ? "\u25cf" :
+                 sDominant.element === "Earth" ? "\u25a0" : "\u25b2"}
+              </span>
               <span>{s.ingredient.name}</span>
               {!isAlready && (
-                <span className="text-indigo-400">+</span>
+                <span className="text-indigo-400 font-bold">(+)</span>
               )}
             </button>
           );
         })}
       </div>
-      <p className="text-xs text-indigo-400 mt-1.5">
-        Click to add. Suggestions based on elemental harmony and category balance.
+      <p className="text-[10px] text-indigo-400 mt-1.5">
+        Quick Add chips. Alchemical Sous Chef: elemental harmony + category balance.
       </p>
     </div>
   );

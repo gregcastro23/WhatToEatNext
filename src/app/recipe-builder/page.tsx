@@ -13,10 +13,9 @@
  * @file src/app/recipe-builder/page.tsx
  */
 
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import RecipeBuilderPanel from "@/components/recipe-builder/RecipeBuilderPanel";
-import type { ElementalProperties } from "@/types/recipe";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
@@ -30,24 +29,29 @@ import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeBuilder");
 
-// ===== Deduplication utility =====
+// ===== Iron Dome Deduplication Layer =====
+// UI-layer firewall that ensures no "Monica Enhanced" clones or duplicates
+// slip through, regardless of backend deduplication.
+
+function normalizeRecipeName(name: string): string {
+  return name
+    .replace(/\s*\(Monica Enhanced\)\s*/i, "")
+    .replace(/\s*\(Enhanced\)\s*/i, "")
+    .replace(/\s*[-_]?\s*(copy|duplicate|variant)\s*\d*\s*$/gi, "")
+    .trim()
+    .toLowerCase();
+}
 
 function deduplicateRecipes<T extends { recipe: { name: string } }>(
   recipes: T[],
 ): T[] {
-  const seen = new Set<string>();
-  return recipes.filter((r) => {
-    const normalized = r.recipe.name
-      .toLowerCase()
-      .replace(/\s*\(monica enhanced\)\s*/gi, "")
-      .replace(/\s*[-_]?\s*(copy|duplicate)\s*\d*\s*$/gi, "")
-      .replace(/[^a-z0-9\s]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-    if (seen.has(normalized)) return false;
-    seen.add(normalized);
-    return true;
-  });
+  return recipes.reduce((acc, current) => {
+    const coreName = normalizeRecipeName(current.recipe.name);
+    if (!acc.find((r) => normalizeRecipeName(r.recipe.name) === coreName)) {
+      acc.push(current);
+    }
+    return acc;
+  }, [] as T[]);
 }
 
 // ===== Element icon helper =====
@@ -71,6 +75,7 @@ const getElementIcon = (element: string) => {
 
 interface QuickGenerateProps {
   onGenerate: (mealType: MealType) => void;
+  onChefsChoice: () => void;
   isGenerating: boolean;
   planetaryInfo: ReturnType<typeof getPlanetaryDayCharacteristics>;
   lunarPhase: string;
@@ -78,6 +83,7 @@ interface QuickGenerateProps {
 
 function QuickGenerateBar({
   onGenerate,
+  onChefsChoice,
   isGenerating,
   planetaryInfo,
   lunarPhase,
@@ -103,7 +109,7 @@ function QuickGenerateBar({
 
           {lunarPhase && (
             <div className="flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 rounded-lg">
-              <span className="text-xs">🌙</span>
+              <span className="text-xs">\ud83c\udf19</span>
               <span className="text-xs text-purple-700 font-medium">
                 {lunarPhase}
               </span>
@@ -112,10 +118,17 @@ function QuickGenerateBar({
         </div>
 
         {/* Quick Generate Buttons */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 hidden sm:inline">
-            Quick Generate:
-          </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Chef's Choice — planetary-hour aligned auto-generate */}
+          <button
+            onClick={onChefsChoice}
+            disabled={isGenerating}
+            className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-gradient-to-r from-purple-500 to-orange-500 text-white border border-purple-300 hover:from-purple-600 hover:to-orange-600 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Auto-fill with planet-aligned ingredients and generate"
+          >
+            Chef&apos;s Choice
+          </button>
+          <span className="text-gray-300 hidden sm:inline">|</span>
           {(["breakfast", "lunch", "dinner", "snack"] as MealType[]).map(
             (meal) => (
               <button
@@ -181,7 +194,10 @@ function RecipeResults({
 
   if (!hasGenerated) return null;
 
-  if (recipes.length === 0) {
+  // Iron Dome: UI-layer dedup firewall before rendering
+  const uniqueRecipes = deduplicateRecipes(recipes);
+
+  if (uniqueRecipes.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-md p-8 text-center">
         <p className="text-gray-600 mb-3">
@@ -205,7 +221,7 @@ function RecipeResults({
             Generated Recipes
           </h3>
           <p className="text-xs text-gray-500">
-            {recipes.length} recipe{recipes.length !== 1 ? "s" : ""} found
+            {uniqueRecipes.length} recipe{uniqueRecipes.length !== 1 ? "s" : ""} found
           </p>
         </div>
         <button
@@ -217,7 +233,7 @@ function RecipeResults({
       </div>
 
       <div className="divide-y divide-gray-100">
-        {recipes.map((rec, idx) => {
+        {uniqueRecipes.map((rec, idx) => {
           const nutrition = (rec.recipe as MonicaOptimizedRecipe).nutrition;
 
           return (
@@ -457,6 +473,52 @@ export default function RecipeBuilderPage() {
     [currentDay, convertedAstroState],
   );
 
+  // Chef's Choice: auto-generate based on current planetary hour's meal type
+  const handleChefsChoice = useCallback(async () => {
+    const hour = new Date().getHours();
+    // Determine meal type from time of day
+    let mealType: MealType;
+    if (hour < 11) mealType = "breakfast";
+    else if (hour < 15) mealType = "lunch";
+    else if (hour < 20) mealType = "dinner";
+    else mealType = "snack";
+
+    logger.info(
+      `Chef's Choice: ${planetaryDayInfo.planet} day, ${planetaryDayInfo.element} energy → ${mealType}`,
+    );
+
+    // Generate with full planetary alignment
+    setIsGenerating(true);
+    setHasGenerated(true);
+
+    try {
+      const recommendations = await generateDayRecommendations(
+        currentDay,
+        convertedAstroState,
+        {
+          mealTypes: [mealType],
+          dietaryRestrictions: [],
+          useCurrentPlanetary: true,
+          maxRecipesPerMeal: 15,
+          preferredCuisines: [],
+          excludeIngredients: [],
+        },
+      );
+
+      const deduplicated = deduplicateRecipes(recommendations);
+      setGeneratedRecipes(deduplicated);
+
+      logger.info(
+        `Chef's Choice generated ${deduplicated.length} recipes for ${mealType}`,
+      );
+    } catch (err) {
+      logger.error("Chef's Choice generation failed:", err);
+      setGeneratedRecipes([]);
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [currentDay, convertedAstroState, planetaryDayInfo]);
+
   const handleClearResults = useCallback(() => {
     setGeneratedRecipes([]);
     setHasGenerated(false);
@@ -486,6 +548,7 @@ export default function RecipeBuilderPage() {
         {/* Quick Generate Bar */}
         <QuickGenerateBar
           onGenerate={handleQuickGenerate}
+          onChefsChoice={handleChefsChoice}
           isGenerating={isGenerating}
           planetaryInfo={planetaryDayInfo}
           lunarPhase={astroState.lunarPhase || ""}

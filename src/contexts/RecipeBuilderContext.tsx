@@ -39,6 +39,10 @@ export interface SelectedIngredient {
   };
 }
 
+export type PrepTimeOption = 15 | 30 | 45 | 60 | null;
+
+export type ServingsOption = "1-2" | "3-4" | "5-6" | "7+" | null;
+
 export interface RecipeBuilderState {
   mealType: MealType | null;
   flavors: FlavorPreference[];
@@ -47,6 +51,8 @@ export interface RecipeBuilderState {
   selectedCuisines: string[];
   selectedIngredients: SelectedIngredient[];
   selectedCookingMethods: string[];
+  prepTime: PrepTimeOption;
+  servings: ServingsOption;
 }
 
 export interface RecipeBuilderContextType extends RecipeBuilderState {
@@ -79,6 +85,10 @@ export interface RecipeBuilderContextType extends RecipeBuilderState {
   removeCookingMethod: (method: string) => void;
   hasCookingMethod: (method: string) => boolean;
 
+  // Prep time & servings
+  setPrepTime: (time: PrepTimeOption) => void;
+  setServings: (servings: ServingsOption) => void;
+
   // Queue summary
   totalItems: number;
 
@@ -94,6 +104,8 @@ const initialState: RecipeBuilderState = {
   selectedCuisines: [],
   selectedIngredients: [],
   selectedCookingMethods: [],
+  prepTime: null,
+  servings: null,
 };
 
 const RecipeBuilderContext = createContext<RecipeBuilderContextType | undefined>(
@@ -276,6 +288,15 @@ export function RecipeBuilderProvider({
     [state.selectedCookingMethods],
   );
 
+  // --- Prep Time & Servings ---
+  const setPrepTime = useCallback((time: PrepTimeOption) => {
+    setState((prev) => ({ ...prev, prepTime: time }));
+  }, []);
+
+  const setServings = useCallback((s: ServingsOption) => {
+    setState((prev) => ({ ...prev, servings: s }));
+  }, []);
+
   // --- Queue Summary ---
   const totalItems = useMemo(
     () =>
@@ -315,6 +336,8 @@ export function RecipeBuilderProvider({
       addCookingMethod,
       removeCookingMethod,
       hasCookingMethod,
+      setPrepTime,
+      setServings,
       totalItems,
       clearQueue,
     }),
@@ -337,6 +360,8 @@ export function RecipeBuilderProvider({
       addCookingMethod,
       removeCookingMethod,
       hasCookingMethod,
+      setPrepTime,
+      setServings,
       totalItems,
       clearQueue,
     ],

@@ -2,8 +2,8 @@
 
 /**
  * Recipe Builder Queue
- * Displays selected cuisines, ingredients, and cooking methods as removable chips,
- * along with a real-time category summary and clear-all functionality.
+ * Sticky, prominent selection bar that shows selected items as removable chips
+ * with elemental property indicators. Feels like a shopping cart.
  *
  * @file src/components/recipe-builder/RecipeBuilderQueue.tsx
  */
@@ -11,30 +11,59 @@
 import React from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 
-// ===== Chip Component =====
+// Element color dots
+const ELEMENT_DOT_COLORS: Record<string, string> = {
+  Fire: "bg-red-500",
+  Water: "bg-blue-500",
+  Earth: "bg-green-600",
+  Air: "bg-cyan-400",
+};
 
-interface SelectionChipProps {
-  label: string;
-  category: "cuisine" | "ingredient" | "method";
+// ===== Ingredient Chip with Elemental Dots =====
+
+interface IngredientChipProps {
+  name: string;
+  elementalProperties?: {
+    Fire?: number;
+    Water?: number;
+    Earth?: number;
+    Air?: number;
+  };
   onRemove: () => void;
 }
 
-const SelectionChip: React.FC<SelectionChipProps> = ({ label, category, onRemove }) => {
-  const colorMap = {
-    cuisine: "bg-purple-100 text-purple-800 border-purple-200",
-    ingredient: "bg-green-100 text-green-800 border-green-200",
-    method: "bg-orange-100 text-orange-800 border-orange-200",
-  };
+const IngredientChip: React.FC<IngredientChipProps> = ({
+  name,
+  elementalProperties,
+  onRemove,
+}) => {
+  // Find top 2 elements for dot indicators
+  const elements = elementalProperties
+    ? Object.entries(elementalProperties)
+        .filter(([, v]) => typeof v === "number" && v > 0.1)
+        .sort(([, a], [, b]) => (b as number) - (a as number))
+        .slice(0, 2)
+    : [];
 
   return (
-    <span
-      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border transition-all hover:shadow-sm ${colorMap[category]}`}
-    >
-      {label}
+    <span className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200 transition-all hover:shadow-sm">
+      {/* Elemental dots */}
+      {elements.length > 0 && (
+        <span className="flex gap-0.5 mr-0.5">
+          {elements.map(([el]) => (
+            <span
+              key={el}
+              className={`w-2 h-2 rounded-full ${ELEMENT_DOT_COLORS[el] || "bg-gray-400"}`}
+              title={el}
+            />
+          ))}
+        </span>
+      )}
+      {name}
       <button
         onClick={onRemove}
         className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10 transition-colors"
-        aria-label={`Remove ${label}`}
+        aria-label={`Remove ${name}`}
       >
         &times;
       </button>
@@ -42,44 +71,28 @@ const SelectionChip: React.FC<SelectionChipProps> = ({ label, category, onRemove
   );
 };
 
-// ===== Category Summary =====
+// ===== Simple Chip =====
 
-interface CategorySummaryProps {
-  cuisineCount: number;
-  ingredientCount: number;
-  methodCount: number;
+interface SimpleChipProps {
+  label: string;
+  colorClass: string;
+  onRemove: () => void;
 }
 
-const CategorySummary: React.FC<CategorySummaryProps> = ({ cuisineCount, ingredientCount, methodCount }) => {
-  const total = cuisineCount + ingredientCount + methodCount;
-
-  if (total === 0) return null;
-
-  return (
-    <div className="flex items-center gap-3 text-xs text-gray-500">
-      <span className="font-medium text-gray-700">{total} item{total !== 1 ? "s" : ""}</span>
-      <span className="text-gray-300">|</span>
-      {cuisineCount > 0 && (
-        <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-purple-400" />
-          {cuisineCount} cuisine{cuisineCount !== 1 ? "s" : ""}
-        </span>
-      )}
-      {ingredientCount > 0 && (
-        <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-green-400" />
-          {ingredientCount} ingredient{ingredientCount !== 1 ? "s" : ""}
-        </span>
-      )}
-      {methodCount > 0 && (
-        <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-orange-400" />
-          {methodCount} method{methodCount !== 1 ? "s" : ""}
-        </span>
-      )}
-    </div>
-  );
-};
+const SimpleChip: React.FC<SimpleChipProps> = ({ label, colorClass, onRemove }) => (
+  <span
+    className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-medium border transition-all hover:shadow-sm ${colorClass}`}
+  >
+    {label}
+    <button
+      onClick={onRemove}
+      className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10 transition-colors"
+      aria-label={`Remove ${label}`}
+    >
+      &times;
+    </button>
+  </span>
+);
 
 // ===== Main Queue Component =====
 
@@ -98,6 +111,8 @@ export default function RecipeBuilderQueue({
     selectedCuisines,
     selectedIngredients,
     selectedCookingMethods,
+    prepTime,
+    servings,
     setMealType,
     removeFlavor,
     removeDietaryPreference,
@@ -105,6 +120,8 @@ export default function RecipeBuilderQueue({
     removeCuisine,
     removeIngredient,
     removeCookingMethod,
+    setPrepTime,
+    setServings,
     clearQueue,
     totalItems,
   } = useRecipeBuilder();
@@ -114,176 +131,147 @@ export default function RecipeBuilderQueue({
     flavors.length > 0 ||
     dietaryPreferences.length > 0 ||
     allergies.length > 0 ||
+    prepTime ||
+    servings ||
     totalItems > 0;
 
   if (!hasAnything) {
     return (
-      <div className={`rounded-xl border-2 border-dashed border-gray-200 p-6 text-center ${className}`}>
-        <div className="text-3xl mb-2 opacity-30">&#x2615;</div>
-        <p className="text-sm text-gray-500">Your recipe builder is empty</p>
-        <p className="text-xs text-gray-400 mt-1">
-          Search for ingredients, double-click cuisines or cooking methods to add them
+      <div
+        className={`rounded-xl border-2 border-dashed border-gray-200 p-4 text-center ${className}`}
+      >
+        <p className="text-sm text-gray-400">
+          Your selection is empty. Add ingredients, cuisines, or cooking methods above.
         </p>
       </div>
     );
   }
 
   return (
-    <div className={`rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-white to-orange-50 p-4 ${className}`}>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold text-sm text-purple-900">Recipe Builder Queue</h3>
+    <div
+      className={`sticky top-20 z-40 rounded-xl border-2 border-purple-200 bg-white bg-opacity-95 backdrop-blur-sm shadow-lg p-3 ${className}`}
+    >
+      {/* Header with summary and clear */}
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-3 text-xs">
+          <span className="font-bold text-purple-900">Your Selection</span>
+          <span className="text-gray-400">|</span>
+          <span className="text-gray-600">
+            {selectedIngredients.length > 0 && (
+              <span className="mr-2">
+                <span className="font-semibold">{selectedIngredients.length}</span> ingredient{selectedIngredients.length !== 1 ? "s" : ""}
+              </span>
+            )}
+            {selectedCuisines.length > 0 && (
+              <span className="mr-2">
+                <span className="font-semibold">{selectedCuisines.length}</span> cuisine{selectedCuisines.length !== 1 ? "s" : ""}
+              </span>
+            )}
+            {selectedCookingMethods.length > 0 && (
+              <span>
+                <span className="font-semibold">{selectedCookingMethods.length}</span> method{selectedCookingMethods.length !== 1 ? "s" : ""}
+              </span>
+            )}
+            {totalItems === 0 && mealType && "Meal type set"}
+          </span>
+        </div>
         <button
           onClick={clearQueue}
-          className="text-xs text-gray-500 hover:text-red-600 transition-colors px-2 py-1 rounded hover:bg-red-50"
+          className="text-xs text-gray-400 hover:text-red-600 transition-colors px-2 py-1 rounded hover:bg-red-50"
         >
           Clear All
         </button>
       </div>
 
-      {/* Category Summary */}
-      <CategorySummary
-        cuisineCount={selectedCuisines.length}
-        ingredientCount={selectedIngredients.length}
-        methodCount={selectedCookingMethods.length}
-      />
+      {/* All chips in a single flow */}
+      <div className="flex flex-wrap gap-1.5">
+        {/* Meal type */}
+        {mealType && (
+          <SimpleChip
+            label={mealType}
+            colorClass="bg-indigo-100 text-indigo-800 border-indigo-200"
+            onRemove={() => setMealType(null)}
+          />
+        )}
 
-      {/* Meal Type */}
-      {mealType && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Meal Type</div>
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 border border-indigo-200">
-            {mealType}
-            <button
-              onClick={() => setMealType(null)}
-              className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-              aria-label="Clear meal type"
-            >
-              &times;
-            </button>
-          </span>
-        </div>
-      )}
+        {/* Prep time */}
+        {prepTime && (
+          <SimpleChip
+            label={`${prepTime} min`}
+            colorClass="bg-gray-100 text-gray-700 border-gray-200"
+            onRemove={() => setPrepTime(null)}
+          />
+        )}
 
-      {/* Flavors */}
-      {flavors.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Flavors</div>
-          <div className="flex flex-wrap gap-1.5">
-            {flavors.map((flavor) => (
-              <span
-                key={flavor}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-800 border border-pink-200"
-              >
-                {flavor}
-                <button
-                  onClick={() => removeFlavor(flavor)}
-                  className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-                >
-                  &times;
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+        {/* Servings */}
+        {servings && (
+          <SimpleChip
+            label={`${servings} servings`}
+            colorClass="bg-gray-100 text-gray-700 border-gray-200"
+            onRemove={() => setServings(null)}
+          />
+        )}
 
-      {/* Dietary */}
-      {dietaryPreferences.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Dietary</div>
-          <div className="flex flex-wrap gap-1.5">
-            {dietaryPreferences.map((pref) => (
-              <span
-                key={pref}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-teal-100 text-teal-800 border border-teal-200"
-              >
-                {pref}
-                <button
-                  onClick={() => removeDietaryPreference(pref)}
-                  className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-                >
-                  &times;
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+        {/* Cuisines */}
+        {selectedCuisines.map((cuisine) => (
+          <SimpleChip
+            key={`c-${cuisine}`}
+            label={cuisine}
+            colorClass="bg-purple-100 text-purple-800 border-purple-200"
+            onRemove={() => removeCuisine(cuisine)}
+          />
+        ))}
 
-      {/* Allergies */}
-      {allergies.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Allergies</div>
-          <div className="flex flex-wrap gap-1.5">
-            {allergies.map((allergy) => (
-              <span
-                key={allergy}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200"
-              >
-                {allergy}
-                <button
-                  onClick={() => removeAllergy(allergy)}
-                  className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-                >
-                  &times;
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+        {/* Cooking methods */}
+        {selectedCookingMethods.map((method) => (
+          <SimpleChip
+            key={`m-${method}`}
+            label={method}
+            colorClass="bg-orange-100 text-orange-800 border-orange-200"
+            onRemove={() => removeCookingMethod(method)}
+          />
+        ))}
 
-      {/* Cuisines */}
-      {selectedCuisines.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Cuisines</div>
-          <div className="flex flex-wrap gap-1.5">
-            {selectedCuisines.map((cuisine) => (
-              <SelectionChip
-                key={cuisine}
-                label={cuisine}
-                category="cuisine"
-                onRemove={() => removeCuisine(cuisine)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+        {/* Ingredients with elemental dots */}
+        {selectedIngredients.map((ing) => (
+          <IngredientChip
+            key={`i-${ing.name}`}
+            name={ing.name}
+            elementalProperties={ing.elementalProperties}
+            onRemove={() => removeIngredient(ing.name)}
+          />
+        ))}
 
-      {/* Ingredients */}
-      {selectedIngredients.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Ingredients</div>
-          <div className="flex flex-wrap gap-1.5">
-            {selectedIngredients.map((ing) => (
-              <SelectionChip
-                key={ing.name}
-                label={ing.name}
-                category="ingredient"
-                onRemove={() => removeIngredient(ing.name)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+        {/* Flavors */}
+        {flavors.map((flavor) => (
+          <SimpleChip
+            key={`f-${flavor}`}
+            label={flavor}
+            colorClass="bg-pink-100 text-pink-800 border-pink-200"
+            onRemove={() => removeFlavor(flavor)}
+          />
+        ))}
 
-      {/* Cooking Methods */}
-      {selectedCookingMethods.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Cooking Methods</div>
-          <div className="flex flex-wrap gap-1.5">
-            {selectedCookingMethods.map((method) => (
-              <SelectionChip
-                key={method}
-                label={method}
-                category="method"
-                onRemove={() => removeCookingMethod(method)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+        {/* Dietary */}
+        {dietaryPreferences.map((pref) => (
+          <SimpleChip
+            key={`d-${pref}`}
+            label={pref}
+            colorClass="bg-teal-100 text-teal-800 border-teal-200"
+            onRemove={() => removeDietaryPreference(pref)}
+          />
+        ))}
+
+        {/* Allergies */}
+        {allergies.map((allergy) => (
+          <SimpleChip
+            key={`a-${allergy}`}
+            label={allergy}
+            colorClass="bg-red-100 text-red-800 border-red-200"
+            onRemove={() => removeAllergy(allergy)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

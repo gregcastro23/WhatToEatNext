@@ -53,6 +53,50 @@ function fuzzyMatch(query: string, target: string): number {
 }
 
 /**
+ * Multi-field search: matches query against name, category, subCategory, qualities, and search key.
+ * Returns the best (lowest) score across all fields, or -1 if no match.
+ */
+function multiFieldMatch(query: string, ingredient: Record<string, unknown>): number {
+  const name = (ingredient.name as string) || "";
+  const nameScore = fuzzyMatch(query, name);
+
+  // Check category
+  const category = (ingredient.category as string) || "";
+  const catScore = category ? fuzzyMatch(query, category) : -1;
+
+  // Check original key
+  const searchKey = (ingredient._searchKey as string) || "";
+  const keyScore = searchKey ? fuzzyMatch(query, searchKey.replace(/_/g, " ")) : -1;
+
+  // Check subCategory
+  const subCat = (ingredient.subCategory as string) || "";
+  const subCatScore = subCat ? fuzzyMatch(query, subCat.replace(/_/g, " ")) : -1;
+
+  // Check qualities/tags
+  const qualities = ingredient.qualities as string[] | undefined;
+  let qualScore = -1;
+  if (Array.isArray(qualities)) {
+    for (const q of qualities) {
+      const s = fuzzyMatch(query, q);
+      if (s >= 0 && (qualScore < 0 || s < qualScore)) {
+        qualScore = s;
+      }
+    }
+  }
+
+  // Return the best (lowest non-negative) score; add a penalty for non-name matches
+  const scores = [
+    nameScore,                          // name match: no penalty
+    catScore >= 0 ? catScore + 3 : -1,  // category: slight penalty
+    keyScore >= 0 ? keyScore + 2 : -1,  // key match: slight penalty
+    subCatScore >= 0 ? subCatScore + 3 : -1,
+    qualScore >= 0 ? qualScore + 4 : -1, // quality: more penalty (less specific)
+  ].filter((s) => s >= 0);
+
+  return scores.length > 0 ? Math.min(...scores) : -1;
+}
+
+/**
  * Elemental property bar visualization
  */
 interface ElementalBarProps {
@@ -192,6 +236,11 @@ export default function IngredientSearchBar({
     try {
       const ingredients = getAllIngredients();
       logger.info(`Loaded ${ingredients.length} ingredients for search`);
+      // Verification log: ingredient names sample
+      if (ingredients.length > 0) {
+        const sample = ingredients.slice(0, 5).map((i) => i.name);
+        logger.info(`Sample ingredients: ${sample.join(", ")}`);
+      }
       return ingredients;
     } catch (error) {
       logger.error("Failed to load ingredients:", error as any);
@@ -208,7 +257,7 @@ export default function IngredientSearchBar({
     return Array.from(cats).sort();
   }, [allIngredients]);
 
-  // Fuzzy search + category filter
+  // Fuzzy search + category filter (with safety-net deduplication)
   const filteredIngredients = useMemo(() => {
     let filtered = allIngredients;
 
@@ -217,22 +266,31 @@ export default function IngredientSearchBar({
       filtered = filtered.filter((ing) => ing.category === selectedCategory);
     }
 
-    // Search filter
+    let results: typeof filtered;
+
+    // Search filter — multi-field: name, category, key, qualities
     if (query.trim().length >= 1) {
       const scored = filtered
-        .map((ing) => ({ ing, score: fuzzyMatch(query, ing.name) }))
+        .map((ing) => ({ ing, score: multiFieldMatch(query, ing as unknown as Record<string, unknown>) }))
         .filter((item) => item.score >= 0)
         .sort((a, b) => a.score - b.score);
 
-      return scored.slice(0, maxResults).map((item) => item.ing);
+      results = scored.slice(0, maxResults).map((item) => item.ing);
+    } else if (selectedCategory) {
+      // No search query: show first N alphabetically
+      results = filtered.slice(0, maxResults);
+    } else {
+      return [];
     }
 
-    // No search query: show first N alphabetically
-    if (selectedCategory) {
-      return filtered.slice(0, maxResults);
-    }
-
-    return [];
+    // Safety-net deduplication by normalized name
+    const seen = new Set<string>();
+    return results.filter((ing) => {
+      const key = ing.name.toLowerCase().trim();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }, [allIngredients, query, selectedCategory, maxResults]);
 
   // Handle adding an ingredient

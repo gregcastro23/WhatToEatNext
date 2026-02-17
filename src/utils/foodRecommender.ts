@@ -26,13 +26,33 @@ import type {
 import type { Modality, Planet } from "@/types/celestial";
 
 // Create eggs and dairy from _proteins by filtering category
+// Use broader matching to catch "egg", "eggs", "dairy" variants
 const eggs = Object.entries(_proteins)
-  .filter(([_, value]) => (value as any).category === "egg")
+  .filter(([key, value]) => {
+    const cat = ((value as any).category || "").toLowerCase();
+    const name = ((value as any).name || key).toLowerCase();
+    return cat === "egg" || cat === "eggs" || name.includes("egg");
+  })
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 const dairy = Object.entries(_proteins)
-  .filter(([_, value]) => (value as any).category === "dairy")
+  .filter(([key, value]) => {
+    const cat = ((value as any).category || "").toLowerCase();
+    const name = ((value as any).name || key).toLowerCase();
+    return cat === "dairy" || name.includes("milk") || name.includes("cheese") || name.includes("yogurt") || name.includes("butter") || name.includes("cream");
+  })
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+/**
+ * Converts a snake_case or camelCase key to a display-friendly Title Case name.
+ */
+function formatDisplayName(key: string): string {
+  return key
+    .replace(/_/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
+}
 
 export interface EnhancedIngredient {
   name: string;
@@ -126,12 +146,15 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       `${category.name} category has ${Object.keys(category.data).length} items`,
     );
 
-    Object.entries(category.data).forEach(([name, data]) => {
-      // Make sure we add the name to the ingredient
+    Object.entries(category.data).forEach(([key, data]) => {
+      const rawData = data as any;
+      // Prefer the data's own name field; fall back to formatting the key
+      const displayName = rawData.name || formatDisplayName(key);
       const ingredientData = {
-        name,
-        category: category.name.toLowerCase(),
-        ...(data as any),
+        ...rawData,
+        name: displayName,
+        category: rawData.category || category.name.toLowerCase(),
+        _searchKey: key.toLowerCase(), // preserve original key for search
       } as EnhancedIngredient;
 
       // Special tracking for grains and herbs
@@ -197,12 +220,47 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       ing.astrologicalProfile?.rulingPlanets,
   );
 
+  // Deduplicate by normalized name (case-insensitive), keeping the first/most complete version
+  const seen = new Set<string>();
+  const deduplicated = validIngredients.filter((ing) => {
+    const normalized = ing.name.toLowerCase().trim();
+    if (seen.has(normalized)) return false;
+    seen.add(normalized);
+    return true;
+  });
+
   log.info(
-    `Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`,
+    `Total ingredients: ${allIngredients.length}, Valid: ${validIngredients.length}, Deduplicated: ${deduplicated.length}`,
   );
 
-  return validIngredients;
+  return deduplicated;
 };
+
+/**
+ * Search ingredients by query string.
+ * Matches case-insensitively against name, category, qualities/tags, and original key.
+ */
+export function searchIngredients(query: string): EnhancedIngredient[] {
+  if (!query || query.trim().length === 0) return [];
+
+  const q = query.toLowerCase().trim();
+  const all = getAllIngredients();
+
+  return all.filter((ing) => {
+    // Match against name
+    if (ing.name.toLowerCase().includes(q)) return true;
+    // Match against category
+    if (ing.category && ing.category.toLowerCase().includes(q)) return true;
+    // Match against original key
+    if (typeof ing._searchKey === "string" && ing._searchKey.includes(q)) return true;
+    // Match against subCategory
+    if (typeof ing.subCategory === "string" && ing.subCategory.toLowerCase().includes(q)) return true;
+    // Match against qualities/tags
+    const qualities = ing.qualities as string[] | undefined;
+    if (Array.isArray(qualities) && qualities.some((t) => t.toLowerCase().includes(q))) return true;
+    return false;
+  });
+}
 
 /**
  * Standardizes an ingredient's data structure to ensure consistent format
