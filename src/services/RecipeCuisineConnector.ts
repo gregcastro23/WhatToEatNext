@@ -10,6 +10,12 @@ import {
   type NutritionalSummary,
 } from "@/types/nutrition";
 
+// Primary cuisine keys (14 cuisines) - avoids duplicate processing via lowercase aliases
+const PRIMARY_CUISINE_KEYS = [
+  "African", "American", "Chinese", "French", "Greek", "Indian", "Italian",
+  "Japanese", "Korean", "Mexican", "Middle Eastern", "Russian", "Thai", "Vietnamese",
+] as const;
+
 export interface CuisineRecipe {
   id: string;
   name: string;
@@ -87,8 +93,18 @@ export class RecipeCuisineConnector {
   }
 
   private buildRecipeCache(): void {
-    Object.entries(this.cuisineDatabase).forEach(([_, cuisine]) => {
+    // Only iterate primary cuisine keys (14) to avoid duplicate processing
+    // via lowercase aliases in cuisinesMap (which has 28 entries)
+    const seenNames = new Set<string>();
+    PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
+      const cuisine = this.cuisineDatabase[cuisineName];
+      if (!cuisine) return;
       this.extractRecipesFromCuisine(cuisine).forEach((recipe) => {
+        // Deduplicate by normalized recipe name to prevent duplicates from seasonal merging
+        const normalizedName = recipe.name.toLowerCase().trim();
+        if (seenNames.has(normalizedName)) return;
+        seenNames.add(normalizedName);
+
         const recipeId = this.generateRecipeId(recipe.name, cuisine.name);
         this.recipeCache.set(recipeId, {
           ...recipe,
@@ -196,6 +212,7 @@ export class RecipeCuisineConnector {
   }
 
   getCuisineList(): string[] {
+    // cuisineDatabase is already primaryCuisines (14 entries, no aliases)
     return Object.values(this.cuisineDatabase).map((c) => c.name);
   }
 
