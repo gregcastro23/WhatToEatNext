@@ -207,10 +207,18 @@ function standardizeRecipe(
   standardized.id = generateRecipeId(canonicalName, cuisineName, mealType, season);
 
   // 2. Ensure cuisine is set and consistent casing
+  // Strip regional sub-tags like "Indian (South)" → "indian", "Mexican (Yucatan)" → "mexican"
   if (!standardized.cuisine) {
     standardized.cuisine = cuisineName.toLowerCase();
   } else {
-    standardized.cuisine = (standardized.cuisine as string).toLowerCase();
+    const rawCuisine = (standardized.cuisine as string);
+    // Preserve regional info as a separate field before normalizing
+    const regionMatch = rawCuisine.match(/\(([^)]+)\)/);
+    if (regionMatch) {
+      standardized.regionalVariant = regionMatch[1].trim();
+    }
+    // Strip parenthetical regional tags and normalize to base cuisine name
+    standardized.cuisine = rawCuisine.replace(/\s*\([^)]*\)\s*/g, "").trim().toLowerCase();
   }
 
   // 3. Ensure mealType is an array

@@ -7,6 +7,7 @@ import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
 import type { DynamicCuisineRecommendation } from "./CuisineCard";
 
 // Cuisine definitions with planetary rulerships
+// These must match the 14 actual cuisine data files in src/data/cuisines/
 const CUISINE_DEFINITIONS = [
   { name: "Italian", planet: "Venus", tags: ["pasta", "comfort", "indulgent"] },
   { name: "Thai", planet: "Mars", tags: ["spicy", "bold", "aromatic"] },
@@ -23,9 +24,9 @@ const CUISINE_DEFINITIONS = [
     tags: ["abundant", "complex", "aromatic"],
   },
   {
-    name: "Mediterranean",
+    name: "American",
     planet: "Sun",
-    tags: ["healthy", "fresh", "bright"],
+    tags: ["hearty", "diverse", "bold"],
   },
   {
     name: "Chinese",
@@ -33,19 +34,23 @@ const CUISINE_DEFINITIONS = [
     tags: ["varied", "abundant", "balanced"],
   },
   {
-    name: "Middle-Eastern",
+    name: "Middle Eastern",
     planet: "Saturn",
     tags: ["traditional", "grounding", "wholesome"],
   },
   { name: "Greek", planet: "Sun", tags: ["fresh", "light", "citrus"] },
   { name: "Korean", planet: "Mars", tags: ["fermented", "bold", "umami"] },
   {
-    name: "Ethiopian",
+    name: "African",
     planet: "Jupiter",
     tags: ["spiced", "communal", "aromatic"],
   },
   { name: "Vietnamese", planet: "Mercury", tags: ["fresh", "herbal", "light"] },
-  { name: "Spanish", planet: "Sun", tags: ["vibrant", "tapas", "olive oil"] },
+  {
+    name: "Russian",
+    planet: "Saturn",
+    tags: ["hearty", "warming", "traditional"],
+  },
 ];
 
 const CUISINE_QUALITIES: Record<string, string> = {
@@ -55,14 +60,14 @@ const CUISINE_QUALITIES: Record<string, string> = {
   Mexican: "favors vibrant, festive dishes",
   French: "favors refined techniques and elegance",
   Indian: "favors abundant spices and complex flavors",
-  Mediterranean: "favors fresh, bright ingredients",
+  American: "favors hearty, diverse flavors and comfort food",
   Chinese: "favors variety and balance",
-  "Middle-Eastern": "favors traditional, grounding meals",
+  "Middle Eastern": "favors traditional, grounding meals",
   Greek: "favors fresh, citrus-forward dishes",
   Korean: "favors bold fermented and umami flavors",
-  Ethiopian: "favors communal dining with complex spices",
+  African: "favors communal dining with complex spices",
   Vietnamese: "favors fresh herbs and delicate broths",
-  Spanish: "favors vibrant tapas and olive oil preparations",
+  Russian: "favors warming, hearty traditional dishes",
 };
 
 const OPTIMAL_TIMINGS: Record<string, string> = {
@@ -96,13 +101,15 @@ function calculateDignity(planet: string, sign: string): number {
 }
 
 function getTimingScore(cuisine: string, hour: number): number {
-  const lightCuisines = ["Japanese", "Mediterranean", "Greek", "Vietnamese"];
+  const lightCuisines = ["Japanese", "Greek", "Vietnamese", "Chinese"];
   const heartyCuisines = [
     "Italian",
     "Indian",
     "Mexican",
     "French",
-    "Ethiopian",
+    "American",
+    "Russian",
+    "African",
   ];
 
   if (hour >= 6 && hour < 10) {
@@ -229,7 +236,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
           isRetrograde,
         );
 
-        // Get real recipe count for this cuisine
+        // Get real recipe count and score top recipes for this cuisine
         let recipeCount = 0;
         let topRecipes: Array<{ name: string; matchScore: number }> = [];
         try {
@@ -237,10 +244,22 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
             cuisine.name.toLowerCase(),
           );
           recipeCount = cuisineRecipes.length;
-          topRecipes = cuisineRecipes.slice(0, 3).map((r) => ({
-            name: r.name || "Unknown",
-            matchScore: Math.round(totalScore * (0.85 + Math.random() * 0.15)),
-          }));
+
+          // Score a sample of recipes and pick the top 5
+          const sampleSize = Math.min(cuisineRecipes.length, 15);
+          const sample = cuisineRecipes.slice(0, sampleSize);
+          const scoredSample = await Promise.all(
+            sample.map(async (r) => {
+              try {
+                const result = await service.scoreRecipe(r as any);
+                return { name: r.name || "Unknown", matchScore: result.overallScore };
+              } catch {
+                return { name: r.name || "Unknown", matchScore: totalScore };
+              }
+            }),
+          );
+          scoredSample.sort((a, b) => b.matchScore - a.matchScore);
+          topRecipes = scoredSample.slice(0, 5);
         } catch {
           recipeCount = 0;
         }
