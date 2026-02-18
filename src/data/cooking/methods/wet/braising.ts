@@ -209,6 +209,15 @@ export const braising: CookingMethodData = {
     gregsEnergy: -14.35, // Calculated using heat - (entropy * reactivity) // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
+  kineticProfile: {
+    voltage: 0.50,            // Moderate heat (300-325°F oven)
+    current: 0.60,            // Partial liquid + steam conduction
+    resistance: 0.40,         // Covered vessel, mixed media
+    velocityFactor: 0.25,     // Very slow transformation
+    momentumRetention: 0.80,  // High - dense liquid retains heat
+    forceImpact: 0.75,        // Significant collagen breakdown over time
+  },
+
   // Additional metadata
   history:
     "Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the 'New England boiled dinner' emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.",

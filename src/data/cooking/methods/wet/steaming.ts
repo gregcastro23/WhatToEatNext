@@ -200,6 +200,15 @@ export const steaming: CookingMethodData = {
     gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
   } as any,
 
+  kineticProfile: {
+    voltage: 0.40,            // Limited by 212°F water boiling point
+    current: 0.65,            // Steam is efficient heat carrier
+    resistance: 0.30,         // Steam surrounds food evenly
+    velocityFactor: 0.50,     // Moderate speed
+    momentumRetention: 0.20,  // Low carry-over (steam dissipates quickly)
+    forceImpact: 0.25,        // Gentle - preserves structure
+  },
+
   // Additional metadata
   history:
     "Steaming dates back to ancient Chinese cooking techniques from at least 5000 BCE, where bamboo steamers were developed for rice and dumplings. Archaeological evidence shows pottery steamers from the Banpo Neolithic settlement (4800-4200 BCE) in China's Yellow River Valley. The technique spread throughout Asia and eventually worldwide. In 18th century Europe, 'bain-marie' steaming became fashionable in French cuisine. Modern pressure steamers were developed in the early 20th century, while contemporary high-tech combi-ovens with precision steam control represent the latest evolution.",

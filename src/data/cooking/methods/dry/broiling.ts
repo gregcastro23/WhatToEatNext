@@ -127,6 +127,15 @@ export const broiling: CookingMethodData = {
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.95,            // Extreme radiant heat from above (500-550°F)
+    current: 0.70,            // Intense radiation, fast transfer
+    resistance: 0.20,         // Direct exposure, minimal barriers
+    velocityFactor: 0.88,     // Very fast surface transformation
+    momentumRetention: 0.40,  // Lower carry-over (surface-focused)
+    forceImpact: 0.85,        // Extreme surface structural impact
+  },
+
   // Additional metadata
   history:
     "Broiling evolved from ancient cooking methods where food was placed near open fires, but as a distinct technique with overhead heatit became refined with the development of modern ovens in the 19th century. It gained particular popularity in American steakhouses in the 20th century as a way to quickly prepare steaks with a charred exterior while maintaining a juicy interior.",

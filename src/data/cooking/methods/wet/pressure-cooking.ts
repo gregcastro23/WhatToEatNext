@@ -68,6 +68,15 @@ export const _pressureCooking: CookingMethodData = {
     reactivity: 0.9, // High chemical reactivity from pressure and heat
     gregsEnergy: 0.175, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.75,            // High temp from pressure (250°F)
+    current: 0.85,            // Pressurized steam, excellent transfer
+    resistance: 0.15,         // Pressure forces heat into food
+    velocityFactor: 0.80,     // Very fast under pressure
+    momentumRetention: 0.60,  // Moderate (pressure drops when opened)
+    forceImpact: 0.70,        // Significant structural breakdown
+  },
 };
 
 // Export without underscore for compatibility

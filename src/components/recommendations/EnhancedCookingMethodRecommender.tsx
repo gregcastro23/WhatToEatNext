@@ -36,12 +36,10 @@ import {
   calculatePillarMonicaModifiers,
   getCookingMethodThermodynamics,
 } from "@/constants/alchemicalPillars";
-import {
-  calculateKinetics,
-  type KineticMetrics,
-} from "@/calculations/kinetics";
+import type { KineticMetrics } from "@/calculations/kinetics";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateMethodSpecificKinetics } from "@/utils/cookingMethodKinetics";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type {
   AlchemicalProperties,
@@ -443,12 +441,18 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               )
             : null;
 
-        // Calculate kinetic metrics using real planetary positions
+        // Calculate method-specific kinetic metrics using P=IV Circuit Model
         let kinetics: KineticMetrics | null = null;
         try {
-          kinetics = calculateKinetics({
-            currentPlanetaryPositions: planetaryPositions,
-            timeInterval: 1,
+          kinetics = calculateMethodSpecificKinetics({
+            methodId: id,
+            elementalEffect: method.elementalEffect as unknown as Record<string, number>,
+            transformedESMS: transformedESMS,
+            thermodynamics: methodThermo,
+            gregsEnergy,
+            monica,
+            kineticProfile: (method as any).kineticProfile,
+            planetaryPositions,
           });
         } catch (error) {
           console.warn(`Failed to calculate kinetics for ${id}:`, error);
@@ -458,7 +462,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         const monicaScoreResult = calculateMonicaOptimizationScore(
           [id],
           baseAlchemicalProperties ?? { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 },
-          method.elementalEffect,
+          method.elementalEffect as any,
         );
 
         return {
@@ -476,8 +480,12 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           monicaScoreResult,
         };
       })
-      .sort((a, b) => b.gregsEnergy - a.gregsEnergy);
-      // .slice(0, 8); // TEMPORARY: Show everything
+      .sort((a, b) => {
+        // Composite score: 60% Monica optimization score + 40% thermodynamic efficiency
+        const scoreA = (a.monicaScoreResult?.score ?? 50) * 0.6 + (a.gregsEnergy + 1) * 20;
+        const scoreB = (b.monicaScoreResult?.score ?? 50) * 0.6 + (b.gregsEnergy + 1) * 20;
+        return scoreB - scoreA;
+      });
   }, [selectedCategory, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
@@ -754,7 +762,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             <div className="text-xs font-medium text-gray-600">
               Pillar Effects:{" "}
               {Object.entries(method.pillar.effects)
-                .map(([prop, val]) => `${prop} ${val > 0 ? "+" : ""}${val}`)
+                .map(([prop, val]) => `${prop} ${(val as number) > 0 ? "+" : ""}${val}`)
                 .join(", ")}
             </div>
           </div>

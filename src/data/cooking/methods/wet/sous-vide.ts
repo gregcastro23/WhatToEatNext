@@ -163,6 +163,15 @@ export const _sousVide: CookingMethodData = {
     gregsEnergy: -6.35, // Calculated using heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
+  kineticProfile: {
+    voltage: 0.15,            // Very low temp differential (130-185°F, precise)
+    current: 0.80,            // Water is excellent conductor
+    resistance: 0.85,         // Vacuum bag insulates, precision limits transfer
+    velocityFactor: 0.10,     // Extremely slow, controlled transformation
+    momentumRetention: 0.90,  // Very high - water bath retains heat perfectly
+    forceImpact: 0.15,        // Minimal structural impact - precise, gentle
+  },
+
   // Additional metadata
   history:
     "Sous vide (French for 'under vacuum') was developed in France in the 1970s by chef Georges Pralus to minimize shrinkage in foie gras. However, low-temperature cooking was first described by Benjamin Thompson (Count Rumford) in 1799. The modern technique was refined and popularized by Bruno Goussault, who established time-temperature guidelines for various foods. Sous vide remained primarily in professional kitchens until the 2010s, when affordable immersion circulators made the technique accessible to home cooks.",
