@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
         <ClientProviders>
-          <header className="bg-gradient-to-r from-purple-50 via-orange-50 to-pink-50 py-6 border-b-2 border-purple-100 shadow-md sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+          <header className="bg-gradient-to-r from-purple-50 via-orange-50 to-pink-50 py-6 border-b-2 border-purple-100 shadow-md">
             <div className="mx-auto max-w-7xl px-4">
               <div className="flex flex-col gap-4">
                 {/* Top Row: Logo and PayPal */}

@@ -3,7 +3,12 @@ import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
-import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
+import {
+  PLANETARY_ALCHEMY,
+  isSectDiurnal,
+  getPlanetarySectElement,
+  getZodiacQuality,
+} from "@/utils/planetaryAlchemyMapping";
 import { calculateNextSignTransition } from "@/utils/planetaryTransitions";
 import { createLogger } from "@/utils/logger";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
@@ -23,6 +28,10 @@ type PlanetaryData = {
     Matter: number;
     Substance: number;
   };
+  /** Element the planet expresses under the current sect (day/night) */
+  sectElement: string;
+  /** Quality (modality) of the sign the planet currently occupies */
+  signQuality: string;
   transition: {
     nextSign: string;
     estimatedDate: Date;
@@ -51,6 +60,10 @@ export async function GET() {
       });
       planetaryPositions = getFallbackPlanetaryPositions();
     }
+
+    // Determine current sect (diurnal / nocturnal) for this moment
+    const now = new Date();
+    const diurnal = isSectDiurnal(now);
 
     // Process each planet
     const planetNames = [
@@ -84,6 +97,12 @@ export async function GET() {
         continue;
       }
 
+      // Sectarian element: what this planet expresses under the current sect
+      const sectElement = getPlanetarySectElement(planetName, diurnal);
+
+      // Quality of the sign this planet is currently in
+      const signQuality = getZodiacQuality(String(position.sign));
+
       // Calculate next sign transition
       const transition = calculateNextSignTransition(planetName, position);
 
@@ -96,13 +115,16 @@ export async function GET() {
           Matter: alchemyData.Matter,
           Substance: alchemyData.Substance,
         },
+        sectElement,
+        signQuality,
         transition,
       });
     }
 
     const responseData = {
       planets,
-      timestamp: new Date().toISOString(),
+      isDiurnal: diurnal,
+      timestamp: now.toISOString(),
     };
 
     logger.info(`Successfully calculated data for ${planets.length} planets`);

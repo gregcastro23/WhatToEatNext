@@ -5,9 +5,20 @@ import { _logger } from "@/lib/logger";
  *
  * This service provides real alchemical calculations based on actual planetary positions.
  * It uses the proven standalone alchemize function that produces meaningful, nonzero results.
+ *
+ * Sectarian Logic (January 2026):
+ * The elemental totals are now a blend of:
+ *   60% — the element of the zodiac sign the planet occupies (traditional)
+ *   40% — the planet's own sectarian element (diurnal or nocturnal)
+ * This means the elemental profile of the sky shifts at every sunrise and sunset,
+ * making the quantities truly dynamic.
  */
 
 import type { ElementalProperties } from "@/types/celestial";
+import {
+  isSectDiurnal,
+  getPlanetarySectElement,
+} from "@/utils/planetaryAlchemyMapping";
 
 // Types
 export interface PlanetaryPosition {
@@ -39,6 +50,7 @@ export interface StandardizedAlchemicalResult {
     dominantModality: string;
     sunSign: string;
     chartRuler: string;
+    isDiurnal: boolean;
   };
 }
 
@@ -196,6 +208,16 @@ export function alchemize(
     Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   };
 
+  // Determine sect (diurnal / nocturnal) from current UTC time.
+  // This shifts at every sunrise (~06:00 UTC) and sunset (~18:00 UTC).
+  const diurnal = isSectDiurnal(new Date());
+
+  // Elemental blending weights:
+  //   60% from the planet's zodiac sign (WHERE it is — the medium)
+  //   40% from the planet's sectarian element (WHAT it is — its nature)
+  const SIGN_WEIGHT = 0.6;
+  const SECT_WEIGHT = 0.4;
+
   // Process each planet
   for (const [planet, position] of Object.entries(planetaryPositions)) {
     // Get planetary alchemical properties
@@ -214,14 +236,22 @@ export function alchemize(
       totals.Substance += alchemy.Substance * dignityMultiplier;
     }
 
-    // Add elemental contribution from sign
-    const element = getZodiacElement(position.sign);
-    const elementWeight = 1.0; // Base weight for sign element
+    // Elemental contribution — blend of zodiac sign element and sectarian element.
+    // Sign element: the element of the sign the planet currently occupies.
+    const signElement = getZodiacElement(position.sign);
+    // Sectarian element: the planet's own elemental nature under the current sect.
+    const sectElement = getPlanetarySectElement(planet, diurnal);
 
-    if (element === "Fire") totals.Fire += elementWeight;
-    else if (element === "Water") totals.Water += elementWeight;
-    else if (element === "Air") totals.Air += elementWeight;
-    else if (element === "Earth") totals.Earth += elementWeight;
+    // Apply both weights (total weight per planet remains 1.0)
+    const addElement = (el: string, weight: number) => {
+      if (el === "Fire") totals.Fire += weight;
+      else if (el === "Water") totals.Water += weight;
+      else if (el === "Air") totals.Air += weight;
+      else if (el === "Earth") totals.Earth += weight;
+    };
+
+    addElement(signElement, SIGN_WEIGHT);
+    addElement(sectElement, SECT_WEIGHT);
   }
 
   // Calculate thermodynamic metrics using the exact formulas
@@ -313,6 +343,7 @@ export function alchemize(
       dominantModality: "Cardinal", // Simplified for now,
       sunSign: planetaryPositions["Sun"].sign || "",
       chartRuler: getZodiacElement(planetaryPositions["Sun"].sign || "aries"),
+      isDiurnal: diurnal,
     },
   };
 }
