@@ -448,11 +448,59 @@ function calculateElementalProperties(
     elementalProps.Earth /= sum;
     elementalProps.Air /= sum;
   } else {
-    // If no element was calculated, use a balanced distribution
-    elementalProps.Fire = 0.25;
-    elementalProps.Water = 0.25;
-    elementalProps.Earth = 0.25;
-    elementalProps.Air = 0.25;
+    // Category-based inference for ingredients that didn't match any known category.
+    // Uses the ingredient's qualities array and name to assign meaningful elemental defaults
+    // rather than the generic flat 0.25 distribution.
+    const quals = ((ingredient as any).qualities as string[] | undefined) ?? [];
+    const name = (ingredient.name || "").toLowerCase();
+    const qualSet = new Set(quals.map((q) => q.toLowerCase()));
+
+    if (
+      qualSet.has("spicy") || qualSet.has("hot") || qualSet.has("pungent") || qualSet.has("fiery") ||
+      name.includes("pepper") || name.includes("chili") || name.includes("chile") ||
+      name.includes("jalape") || name.includes("habanero") || name.includes("cayenne")
+    ) {
+      // Spicy / fiery → Fire dominant
+      elementalProps.Fire = 0.8;
+      elementalProps.Water = 0.05;
+      elementalProps.Earth = 0.1;
+      elementalProps.Air = 0.05;
+    } else if (
+      qualSet.has("leafy") || qualSet.has("aromatic") || qualSet.has("fresh") || qualSet.has("light") || qualSet.has("floral") ||
+      name.includes("leaf") || name.includes("herb") || name.includes("mint") ||
+      name.includes("basil") || name.includes("cilantro") || name.includes("parsley")
+    ) {
+      // Leafy / aromatic herbs → Air dominant
+      elementalProps.Fire = 0.1;
+      elementalProps.Water = 0.15;
+      elementalProps.Earth = 0.15;
+      elementalProps.Air = 0.6;
+    } else if (
+      qualSet.has("root") || qualSet.has("earthy") || qualSet.has("dense") || qualSet.has("grounding") || qualSet.has("starchy") ||
+      name.includes("root") || name.includes("tuber") || name.includes("potato") ||
+      name.includes("carrot") || name.includes("beet") || name.includes("turnip") || name.includes("parsnip")
+    ) {
+      // Root vegetables / earthy → Earth dominant
+      elementalProps.Fire = 0.1;
+      elementalProps.Water = 0.1;
+      elementalProps.Earth = 0.7;
+      elementalProps.Air = 0.1;
+    } else if (
+      qualSet.has("aquatic") || qualSet.has("fluid") || qualSet.has("cooling") || qualSet.has("juicy") || qualSet.has("watery") ||
+      name.includes("cucumber") || name.includes("melon") || name.includes("zucchini")
+    ) {
+      // Aquatic / cooling → Water dominant
+      elementalProps.Fire = 0.05;
+      elementalProps.Water = 0.7;
+      elementalProps.Earth = 0.15;
+      elementalProps.Air = 0.1;
+    } else {
+      // True unknown — favour Earth as most ingredients are terrestrial
+      elementalProps.Fire = 0.15;
+      elementalProps.Water = 0.2;
+      elementalProps.Earth = 0.5;
+      elementalProps.Air = 0.15;
+    }
   }
 
   return elementalProps;
