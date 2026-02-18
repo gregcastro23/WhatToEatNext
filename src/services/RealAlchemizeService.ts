@@ -174,9 +174,15 @@ function getPlanetaryDignity(planet: string, sign: string): number {
 /**
  * Core alchemize function that calculates alchemical properties from planetary positions
  * This is the proven implementation that produces meaningful, nonzero results
+ *
+ * @param planetaryPositions - Map of planet names to their zodiac positions
+ * @param date - The moment being calculated (defaults to now). MUST be passed for
+ *               historical/forecast calculations so the sect (day/night) is determined
+ *               correctly for that moment rather than always using "now".
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
+  date: Date = new Date(),
 ): StandardizedAlchemicalResult {
   // Initialize totals
   const totals = {
@@ -208,9 +214,11 @@ export function alchemize(
     Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   };
 
-  // Determine sect (diurnal / nocturnal) from current UTC time.
+  // Determine sect (diurnal / nocturnal) for the moment being calculated.
   // This shifts at every sunrise (~06:00 UTC) and sunset (~18:00 UTC).
-  const diurnal = isSectDiurnal(new Date());
+  // Using the provided `date` parameter ensures historical/forecast
+  // calculations use the correct sect for that point in time.
+  const diurnal = isSectDiurnal(date);
 
   // Elemental blending weights:
   //   60% from the planet's zodiac sign (WHERE it is — the medium)

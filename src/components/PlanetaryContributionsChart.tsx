@@ -33,6 +33,8 @@ type PlanetaryData = {
     Matter: number;
     Substance: number;
   };
+  /** Element derived from the zodiac sign */
+  signElement?: string;
   /** Element the planet expresses under the current sect */
   sectElement: string;
   /** Quality (modality) of the sign the planet currently occupies */
@@ -155,117 +157,147 @@ export default function PlanetaryContributionsChart() {
         </div>
         <span className="text-gray-600">|</span>
         <span className="text-gray-400 italic">
-          Sect element drives the live elemental profile
+          Sect element (bold) drives the live elemental profile
         </span>
       </div>
 
       {/* Planetary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {data.planets.map((planet) => (
-          <div
-            key={planet.name}
-            className="p-4 bg-gradient-to-br from-indigo-900/30 to-purple-900/20 border border-indigo-500/20 rounded-lg hover:border-indigo-400/40 transition-all duration-200"
-          >
-            {/* Planet Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-lg font-bold text-indigo-200">
-                  {getPlanetEmoji(planet.name)} {planet.name}
-                </span>
-                {planet.position.isRetrograde && (
-                  <span className="text-xs px-2 py-0.5 bg-orange-900/50 text-orange-300 rounded border border-orange-500/30 flex items-center gap-1">
-                    <RotateCcw className="h-3 w-3" />
-                    Rx
+        {data.planets.map((planet) => {
+          // Determine whether sign element and sect element differ
+          const signEl = planet.signElement;
+          const sectEl = planet.sectElement;
+          const elementsMatch = signEl === sectEl;
+
+          return (
+            <div
+              key={planet.name}
+              className="p-4 bg-gradient-to-br from-indigo-900/30 to-purple-900/20 border border-indigo-500/20 rounded-lg hover:border-indigo-400/40 transition-all duration-200"
+            >
+              {/* Planet Header */}
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-lg font-bold text-indigo-200">
+                    {getPlanetEmoji(planet.name)} {planet.name}
                   </span>
+                  {planet.position.isRetrograde && (
+                    <span className="text-xs px-2 py-0.5 bg-orange-900/50 text-orange-300 rounded border border-orange-500/30 flex items-center gap-1">
+                      <RotateCcw className="h-3 w-3" />
+                      Rx
+                    </span>
+                  )}
+                  {/* Sign quality badge */}
+                  <span className="text-xs px-2 py-0.5 bg-gray-800/60 text-gray-400 rounded border border-gray-700/50">
+                    {planet.signQuality}
+                  </span>
+                </div>
+              </div>
+
+              {/* Current Position + Sign Element + Sect Element */}
+              <div className="mb-3 p-2 bg-black/20 rounded">
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="text-sm text-gray-300">
+                    <span className="font-semibold text-indigo-300">
+                      {capitalizeFirstLetter(planet.position.sign)}
+                    </span>{" "}
+                    {planet.position.degree}&deg;&nbsp;{planet.position.minute}&apos;
+                  </div>
+                </div>
+
+                {/* Dual-element display: Sign element vs Sect element */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* Sign element (muted) */}
+                  {signEl && (
+                    <div
+                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] border opacity-60 ${getElementStyle(signEl)}`}
+                      title={`Sign element: ${capitalizeFirstLetter(planet.position.sign)} is ${signEl}`}
+                    >
+                      {getElementIcon(signEl, "h-2.5 w-2.5")}
+                      <span>Sign: {signEl}</span>
+                    </div>
+                  )}
+
+                  {/* Arrow showing the active element */}
+                  {signEl && !elementsMatch && (
+                    <ArrowRight className="h-3 w-3 text-gray-500" />
+                  )}
+
+                  {/* Sect element (bold, active) */}
+                  <div
+                    className={`flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold border ${getElementStyle(sectEl)}`}
+                    title={`Sect element: ${planet.name} is ${sectEl} during the ${data.isDiurnal ? "day" : "night"} sect`}
+                  >
+                    {getElementIcon(sectEl)}
+                    <span>Sect: {sectEl}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* ESMS Contributions */}
+              <div className="grid grid-cols-4 gap-2 mb-3">
+                {planet.esms.Spirit > 0 && (
+                  <div className="flex flex-col items-center p-2 bg-red-900/20 rounded border border-red-500/20">
+                    <Flame className="h-4 w-4 text-red-400 mb-1" />
+                    <span className="text-sm font-bold text-red-300">
+                      {planet.esms.Spirit}
+                    </span>
+                  </div>
                 )}
-                {/* Sign quality badge */}
-                <span className="text-xs px-2 py-0.5 bg-gray-800/60 text-gray-400 rounded border border-gray-700/50">
-                  {planet.signQuality}
+                {planet.esms.Essence > 0 && (
+                  <div className="flex flex-col items-center p-2 bg-blue-900/20 rounded border border-blue-500/20">
+                    <Droplets className="h-4 w-4 text-blue-400 mb-1" />
+                    <span className="text-sm font-bold text-blue-300">
+                      {planet.esms.Essence}
+                    </span>
+                  </div>
+                )}
+                {planet.esms.Matter > 0 && (
+                  <div className="flex flex-col items-center p-2 bg-green-900/20 rounded border border-green-500/20">
+                    <Mountain className="h-4 w-4 text-green-400 mb-1" />
+                    <span className="text-sm font-bold text-green-300">
+                      {planet.esms.Matter}
+                    </span>
+                  </div>
+                )}
+                {planet.esms.Substance > 0 && (
+                  <div className="flex flex-col items-center p-2 bg-purple-900/20 rounded border border-purple-500/20">
+                    <Wind className="h-4 w-4 text-purple-400 mb-1" />
+                    <span className="text-sm font-bold text-purple-300">
+                      {planet.esms.Substance}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Next Transition */}
+              <div className="text-xs text-gray-400 flex items-center gap-2">
+                <ArrowRight className="h-3 w-3 text-indigo-400" />
+                <span>
+                  Enters{" "}
+                  <span className="font-semibold text-indigo-300">
+                    {capitalizeFirstLetter(planet.transition.nextSign)}
+                  </span>{" "}
+                  in{" "}
+                  <span className="font-semibold text-indigo-300">
+                    {formatTransitionTime(planet.transition.daysUntil)}
+                  </span>
                 </span>
               </div>
-            </div>
-
-            {/* Current Position + Sectarian Element */}
-            <div className="mb-3 p-2 bg-black/20 rounded flex items-center justify-between">
-              <div className="text-sm text-gray-300">
-                <span className="font-semibold text-indigo-300">
-                  {capitalizeFirstLetter(planet.position.sign)}
-                </span>{" "}
-                {planet.position.degree}°&nbsp;{planet.position.minute}&apos;
-              </div>
-              {/* Sect element pill */}
-              <div
-                className={`flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold border ${getElementStyle(planet.sectElement)}`}
-              >
-                {getElementIcon(planet.sectElement)}
-                <span>{planet.sectElement}</span>
+              <div className="text-xs text-gray-500 mt-1 ml-5">
+                {new Date(planet.transition.estimatedDate).toLocaleDateString(
+                  "en-US",
+                  {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  },
+                )}
               </div>
             </div>
-
-            {/* ESMS Contributions */}
-            <div className="grid grid-cols-4 gap-2 mb-3">
-              {planet.esms.Spirit > 0 && (
-                <div className="flex flex-col items-center p-2 bg-red-900/20 rounded border border-red-500/20">
-                  <Flame className="h-4 w-4 text-red-400 mb-1" />
-                  <span className="text-sm font-bold text-red-300">
-                    {planet.esms.Spirit}
-                  </span>
-                </div>
-              )}
-              {planet.esms.Essence > 0 && (
-                <div className="flex flex-col items-center p-2 bg-blue-900/20 rounded border border-blue-500/20">
-                  <Droplets className="h-4 w-4 text-blue-400 mb-1" />
-                  <span className="text-sm font-bold text-blue-300">
-                    {planet.esms.Essence}
-                  </span>
-                </div>
-              )}
-              {planet.esms.Matter > 0 && (
-                <div className="flex flex-col items-center p-2 bg-green-900/20 rounded border border-green-500/20">
-                  <Mountain className="h-4 w-4 text-green-400 mb-1" />
-                  <span className="text-sm font-bold text-green-300">
-                    {planet.esms.Matter}
-                  </span>
-                </div>
-              )}
-              {planet.esms.Substance > 0 && (
-                <div className="flex flex-col items-center p-2 bg-purple-900/20 rounded border border-purple-500/20">
-                  <Wind className="h-4 w-4 text-purple-400 mb-1" />
-                  <span className="text-sm font-bold text-purple-300">
-                    {planet.esms.Substance}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Next Transition */}
-            <div className="text-xs text-gray-400 flex items-center gap-2">
-              <ArrowRight className="h-3 w-3 text-indigo-400" />
-              <span>
-                Enters{" "}
-                <span className="font-semibold text-indigo-300">
-                  {capitalizeFirstLetter(planet.transition.nextSign)}
-                </span>{" "}
-                in{" "}
-                <span className="font-semibold text-indigo-300">
-                  {formatTransitionTime(planet.transition.daysUntil)}
-                </span>
-              </span>
-            </div>
-            <div className="text-xs text-gray-500 mt-1 ml-5">
-              {new Date(planet.transition.estimatedDate).toLocaleDateString(
-                "en-US",
-                {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                },
-              )}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -274,18 +306,18 @@ export default function PlanetaryContributionsChart() {
 /** Traditional glyphs for each planet */
 function getPlanetEmoji(planetName: string): string {
   const emojis: Record<string, string> = {
-    Sun: "☉",
-    Moon: "☽",
-    Mercury: "☿",
-    Venus: "♀",
-    Mars: "♂",
-    Jupiter: "♃",
-    Saturn: "♄",
-    Uranus: "⛢",
-    Neptune: "♆",
-    Pluto: "♇",
+    Sun: "\u2609",
+    Moon: "\u263D",
+    Mercury: "\u263F",
+    Venus: "\u2640",
+    Mars: "\u2642",
+    Jupiter: "\u2643",
+    Saturn: "\u2644",
+    Uranus: "\u26E2",
+    Neptune: "\u2646",
+    Pluto: "\u2647",
   };
-  return emojis[planetName] || "🪐";
+  return emojis[planetName] || "\uD83E\uDE90";
 }
 
 /** Tailwind classes for sectarian element pill */
@@ -300,12 +332,12 @@ function getElementStyle(element: string): string {
 }
 
 /** Lucide icon for sectarian element */
-function getElementIcon(element: string): React.ReactNode {
+function getElementIcon(element: string, sizeClass = "h-3 w-3"): React.ReactNode {
   switch (element) {
-    case "Fire":  return <Flame   className="h-3 w-3" />;
-    case "Water": return <Droplets className="h-3 w-3" />;
-    case "Earth": return <Mountain className="h-3 w-3" />;
-    case "Air":   return <Wind    className="h-3 w-3" />;
+    case "Fire":  return <Flame    className={sizeClass} />;
+    case "Water": return <Droplets className={sizeClass} />;
+    case "Earth": return <Mountain className={sizeClass} />;
+    case "Air":   return <Wind     className={sizeClass} />;
     default:      return null;
   }
 }

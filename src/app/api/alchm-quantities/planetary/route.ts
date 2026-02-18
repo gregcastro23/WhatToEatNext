@@ -5,6 +5,7 @@ import {
 } from "@/utils/serverPlanetaryCalculations";
 import {
   PLANETARY_ALCHEMY,
+  ZODIAC_ELEMENTS,
   isSectDiurnal,
   getPlanetarySectElement,
   getZodiacQuality,
@@ -28,6 +29,8 @@ type PlanetaryData = {
     Matter: number;
     Substance: number;
   };
+  /** Element derived from the zodiac sign the planet occupies */
+  signElement: string;
   /** Element the planet expresses under the current sect (day/night) */
   sectElement: string;
   /** Quality (modality) of the sign the planet currently occupies */
@@ -97,11 +100,17 @@ export async function GET() {
         continue;
       }
 
+      // Sign element: the element of the zodiac sign the planet currently occupies
+      const signStr = String(position.sign);
+      const capitalised = signStr.charAt(0).toUpperCase() + signStr.slice(1).toLowerCase();
+      const signElement =
+        ZODIAC_ELEMENTS[capitalised as keyof typeof ZODIAC_ELEMENTS] ?? "Air";
+
       // Sectarian element: what this planet expresses under the current sect
       const sectElement = getPlanetarySectElement(planetName, diurnal);
 
       // Quality of the sign this planet is currently in
-      const signQuality = getZodiacQuality(String(position.sign));
+      const signQuality = getZodiacQuality(signStr);
 
       // Calculate next sign transition
       const transition = calculateNextSignTransition(planetName, position);
@@ -115,6 +124,7 @@ export async function GET() {
           Matter: alchemyData.Matter,
           Substance: alchemyData.Substance,
         },
+        signElement,
         sectElement,
         signQuality,
         transition,
