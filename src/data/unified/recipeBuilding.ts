@@ -203,6 +203,97 @@ export interface PlanetaryRecipeRecommendation {
   };
 }
 
+// ===== TEMPLATE SELECTOR & FLAVOR INJECTION =====
+
+/**
+ * Maps the Moon's zodiac sign (or dominant element) to a recipe template type.
+ * Water signs → comforting soups/stews; Fire signs → roasts/grills;
+ * Earth signs → hearty grain bowls/platters; Air signs → fresh salads/wraps.
+ */
+const MOON_SIGN_TEMPLATE_MAP: Record<string, string> = {
+  // Water signs → slow, nurturing
+  cancer: "Stew",
+  scorpio: "Braise",
+  pisces: "Soup",
+  // Fire signs → high-heat, bold
+  aries: "Roast",
+  leo: "Grill",
+  sagittarius: "Skillet",
+  // Earth signs → hearty, grounded
+  taurus: "Platter",
+  virgo: "Bowl",
+  capricorn: "Bake",
+  // Air signs → light, fresh
+  gemini: "Wrap",
+  libra: "Salad",
+  aquarius: "Stir-Fry",
+};
+
+const ELEMENT_TEMPLATE_MAP: Record<string, string> = {
+  Water: "Stew",
+  Fire: "Roast",
+  Earth: "Bowl",
+  Air: "Stir-Fry",
+};
+
+/** Selects template type from lunar phase when no zodiac sign is available. */
+const LUNAR_PHASE_TEMPLATE_MAP: Record<string, string> = {
+  "new moon": "Soup",
+  "waxing crescent": "Stir-Fry",
+  "first quarter": "Skillet",
+  "waxing gibbous": "Bowl",
+  "full moon": "Platter",
+  "waning gibbous": "Roast",
+  "last quarter": "Braise",
+  "waning crescent": "Stew",
+};
+
+/**
+ * Flavor adjectives keyed by planetary hour.
+ * The generator picks one at random to prefix the recipe name.
+ */
+const PLANETARY_HOUR_ADJECTIVES: Record<string, string[]> = {
+  Sun: ["Golden", "Radiant", "Sunlit", "Vibrant", "Blazing"],
+  Moon: ["Lunar", "Dreamy", "Misty", "Soothing", "Silvered"],
+  Mercury: ["Zesty", "Bright", "Crisp", "Lively", "Tangy"],
+  Venus: ["Honeyed", "Velvety", "Luscious", "Rose-Kissed", "Silken"],
+  Mars: ["Smoky", "Fiery", "Bold", "Charred", "Spiced"],
+  Jupiter: ["Abundant", "Rich", "Hearty", "Festive", "Grand"],
+  Saturn: ["Herb-Crusted", "Earthy", "Deep", "Slow-Roasted", "Rustic"],
+  Uranus: ["Electric", "Fusion", "Inventive", "Unexpected", "Vivid"],
+  Neptune: ["Celestial", "Ethereal", "Sea-Salted", "Briny", "Mystical"],
+  Pluto: ["Dark", "Intense", "Umami-Rich", "Caramelized", "Transformed"],
+};
+
+const DEFAULT_ADJECTIVES = [
+  "Seasonal",
+  "Crafted",
+  "Alchemical",
+  "Balanced",
+  "Cosmic",
+];
+
+/** Picks a pseudo-random item from an array using a seed string. */
+function seededPick<T>(arr: T[], seed: string): T {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  return arr[hash % arr.length];
+}
+
+/** Returns the dominant element from an elemental preference map. */
+function dominantElement(
+  pref?: Partial<Record<string, number>>,
+): string | undefined {
+  if (!pref) return undefined;
+  const entries = Object.entries(pref).filter(([k]) =>
+    ["Fire", "Water", "Earth", "Air"].includes(k),
+  );
+  if (entries.length === 0) return undefined;
+  return entries.sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))[0][0];
+}
+
 // ===== UNIFIED RECIPE BUILDING SYSTEM =====
 
 export class UnifiedRecipeBuildingSystem {
@@ -1881,31 +1972,71 @@ export class UnifiedRecipeBuildingSystem {
       });
     }
 
-    // Simple selection logic (can be expanded)
+    // ── Varied selection: pick from ALL available ingredients, not just first ──
+    // Build category pools
+    const proteins = filteredIngredients.filter((i) => i.category === "protein");
+    const vegetables = filteredIngredients.filter((i) => i.category === "vegetable");
+    const grains = filteredIngredients.filter((i) => i.category === "grain");
+    const aromatics = filteredIngredients.filter((i) => i.category === "aromatic");
+    const leafyGreens = filteredIngredients.filter((i) => i.category === "leafy-green");
+    const fruits = filteredIngredients.filter((i) => i.category === "fruit");
+
+    // Use a time-based seed so each call gets a different shuffle
+    const timeSeed = `${Date.now()}-${criteria.lunarPhase ?? ""}-${criteria.zodiacSign ?? ""}`;
+
+    // Seeded shuffle for a pool: returns a copy in shuffled order
+    // <T,> trailing comma disambiguates from JSX in .tsx files
+    const shuffled = <T,>(arr: T[]): T[] => {
+      const out = [...arr];
+      for (let i = out.length - 1; i > 0; i--) {
+        const digit = seededPick([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], `${timeSeed}-${i}`);
+        const j = Math.floor((digit / 10) * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    };
+
     const selected: EnhancedRecipeIngredient[] = [];
-    const protein = filteredIngredients.find((i) => i.category === "protein");
-    const vegetables = filteredIngredients
-      .filter((i) => i.category === "vegetable")
-      .slice(0, 2);
-    const grain = filteredIngredients.find((i) => i.category === "grain");
 
-    if (protein) selected.push(protein);
-    selected.push(...vegetables);
-    if (grain) selected.push(grain);
+    // 1 protein
+    const shuffledProteins = shuffled(proteins);
+    if (shuffledProteins.length > 0) selected.push(shuffledProteins[0]);
 
-    // If no ingredients are selected, return some defaults
+    // 1-2 vegetables or leafy greens
+    const veggiePool = shuffled([...vegetables, ...leafyGreens]);
+    selected.push(...veggiePool.slice(0, 2));
+
+    // 1 grain (or fruit as aromatic complement)
+    const grainPool = shuffled([...grains]);
+    if (grainPool.length > 0) selected.push(grainPool[0]);
+
+    // 1 aromatic if nothing selected yet, or always add flavour base
+    const aromaticPool = shuffled(aromatics);
+    if (aromaticPool.length > 0) selected.push(aromaticPool[0]);
+
+    // If still nothing, pull from fruits
+    if (selected.length === 0 && fruits.length > 0) {
+      selected.push(fruits[0]);
+    }
+
+    // Final fallback to all available ingredients
+    if (selected.length === 0 && filteredIngredients.length > 0) {
+      selected.push(...shuffled(filteredIngredients).slice(0, 4));
+    }
+
+    // Last resort: static defaults so we never crash
     if (selected.length === 0) {
       return [
-        { name: "Chicken", amount: 1, unit: "breast" },
-        { name: "Broccoli", amount: 1, unit: "cup" },
-        { name: "Rice", amount: 1, unit: "cup" },
+        { name: "Chicken Breast", amount: 1, unit: "piece" },
+        { name: "Seasonal Vegetables", amount: 2, unit: "cups" },
+        { name: "Quinoa", amount: 1, unit: "cup" },
       ];
     }
 
     return selected.map((i) => ({
       name: i.name,
-      amount: 1,
-      unit: "cup",
+      amount: i.amount ?? 1,
+      unit: i.unit ?? "cup",
       id: i.id,
       seasonality: i.seasonality,
     }));
@@ -1918,15 +2049,54 @@ export class UnifiedRecipeBuildingSystem {
       return criteria.cookingMethods;
     }
 
-    // Default to common methods if no preference is given
-    const defaultMethods = ["Sauté", "Bake", "Roast"];
+    // ── Derive methods from Moon sign or lunar phase ──
+    const zodiac = (criteria.zodiacSign as string | undefined)?.toLowerCase();
+    const lunarPhase = (criteria.lunarPhase as string | undefined)?.toLowerCase();
 
-    // Suggest simpler methods for beginners
-    if (criteria.skillLevel === "beginner") {
-      return ["Bake", "Roast"];
+    // Water signs → slow, moist cooking
+    const waterSigns = ["cancer", "scorpio", "pisces"];
+    // Fire signs → high-heat, dry cooking
+    const fireSigns = ["aries", "leo", "sagittarius"];
+    // Earth signs → oven / grounded
+    const earthSigns = ["taurus", "virgo", "capricorn"];
+
+    if (zodiac && waterSigns.includes(zodiac)) {
+      return criteria.skillLevel === "beginner"
+        ? ["Braise"]
+        : ["Braise", "Stew"];
+    }
+    if (zodiac && fireSigns.includes(zodiac)) {
+      return criteria.skillLevel === "beginner"
+        ? ["Roast"]
+        : ["Roast", "Grill"];
+    }
+    if (zodiac && earthSigns.includes(zodiac)) {
+      return criteria.skillLevel === "beginner"
+        ? ["Bake"]
+        : ["Bake", "Roast"];
     }
 
-    return defaultMethods;
+    // Lunar phase fallback
+    if (lunarPhase && ["new moon", "waning crescent", "waning gibbous"].includes(lunarPhase)) {
+      return ["Stew", "Braise"]; // Waning = slow, drawing in
+    }
+    if (lunarPhase && ["full moon", "waxing gibbous"].includes(lunarPhase)) {
+      return ["Grill", "Roast"]; // Waxing/full = expansive, high heat
+    }
+
+    // Dominant elemental preference
+    const domEl = dominantElement(
+      criteria.elementalPreference as Record<string, number> | undefined,
+    );
+    if (domEl === "Water") return ["Stew", "Steam"];
+    if (domEl === "Fire") return ["Roast", "Grill"];
+    if (domEl === "Earth") return ["Bake", "Braise"];
+    if (domEl === "Air") return ["Sauté", "Stir-Fry"];
+
+    // Skill-adjusted defaults
+    if (criteria.skillLevel === "beginner") return ["Bake", "Roast"];
+    if (criteria.skillLevel === "advanced") return ["Sauté", "Braise", "Grill"];
+    return ["Sauté", "Bake", "Roast"];
   }
 
   private generateBaseInstructions(
@@ -1972,12 +2142,42 @@ export class UnifiedRecipeBuildingSystem {
   ): string {
     const primaryIngredient =
       ingredients.find((i) => i.category === "protein")?.name ||
+      ingredients.find((i) => i.category === "vegetable")?.name ||
       ingredients[0]?.name ||
-      "Mystery";
-    const cuisine = criteria.cuisine || "Fusion";
-    const method = methods[0] || "Delight";
+      "Harvest";
 
-    return `${cuisine}-style ${method} ${primaryIngredient}`;
+    // ── 1. Template type from Moon sign or lunar phase or dominant element ──
+    const zodiac = (criteria.zodiacSign as string | undefined)?.toLowerCase();
+    const lunarPhase = (criteria.lunarPhase as string | undefined)?.toLowerCase();
+    const domEl = dominantElement(
+      criteria.elementalPreference as Record<string, number> | undefined,
+    );
+
+    const templateType =
+      (zodiac && MOON_SIGN_TEMPLATE_MAP[zodiac]) ||
+      (lunarPhase && LUNAR_PHASE_TEMPLATE_MAP[lunarPhase]) ||
+      (domEl && ELEMENT_TEMPLATE_MAP[domEl]) ||
+      methods[0] ||
+      "Bowl";
+
+    // ── 2. Flavor adjective from planetary hour ──
+    const planetaryHour = criteria.planetaryHour as string | undefined;
+    const adjectivePool =
+      (planetaryHour && PLANETARY_HOUR_ADJECTIVES[planetaryHour]) ||
+      DEFAULT_ADJECTIVES;
+
+    // Use a seed combining the ingredient name + template so the same recipe
+    // criteria always produce the same name, but different combos produce
+    // different names.
+    const seed = `${primaryIngredient}-${templateType}-${planetaryHour ?? "x"}`;
+    const adjective = seededPick(adjectivePool, seed);
+
+    // ── 3. Cuisine prefix (only when non-fusion) ──
+    const cuisine = criteria.cuisine && criteria.cuisine !== "fusion"
+      ? `${criteria.cuisine} `
+      : "";
+
+    return `${adjective} ${cuisine}${templateType} with ${primaryIngredient}`;
   }
 
   private generateRecipeDescription(
@@ -1987,12 +2187,26 @@ export class UnifiedRecipeBuildingSystem {
     const cuisine = criteria.cuisine || "Fusion";
     const primaryIngredient =
       ingredients.find((i) => i.category === "protein")?.name ||
+      ingredients.find((i) => i.category === "vegetable")?.name ||
       ingredients[0]?.name ||
-      "delicious ingredients";
-    const elementalProfile =
-      Object.keys(criteria.elementalPreference || {}).join(", ") || "balanced";
+      "seasonal ingredients";
 
-    return `A delicious and alchemically-tuned ${cuisine} dish featuring ${primaryIngredient}. Crafted for a ${elementalProfile} elemental profile, this recipe is perfect for the current season.`;
+    const zodiac = (criteria.zodiacSign as string | undefined) ?? "";
+    const lunarPhase = (criteria.lunarPhase as string | undefined) ?? "";
+    const planetaryHour = (criteria.planetaryHour as string | undefined) ?? "";
+
+    const astroContext = [
+      zodiac ? `${zodiac} energy` : "",
+      lunarPhase ? `${lunarPhase} phase` : "",
+      planetaryHour ? `${planetaryHour} hour` : "",
+    ]
+      .filter(Boolean)
+      .join(", ");
+
+    const elementalProfile =
+      Object.keys(criteria.elementalPreference || {}).join(" & ") || "balanced";
+
+    return `An alchemically-tuned ${cuisine} dish featuring ${primaryIngredient}${astroContext ? `, crafted under ${astroContext}` : ""}. Designed for a ${elementalProfile} elemental profile and perfectly timed to the current celestial moment.`;
   }
 
   private estimatePrepTime(

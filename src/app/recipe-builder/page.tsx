@@ -19,6 +19,7 @@ import RecipeBuilderPanel from "@/components/recipe-builder/RecipeBuilderPanel";
 import type { ElementalProperties } from "@/types/recipe";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import {
   generateDayRecommendations,
@@ -374,6 +375,18 @@ function RecipeResults({
                   </div>
                 </div>
               )}
+
+              {/* View Full Recipe link */}
+              {rec.recipe.id && (
+                <div className="mt-3 pt-2 border-t border-gray-100 flex justify-end">
+                  <Link
+                    href={`/generated-recipe/${rec.recipe.id}`}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-purple-50 text-purple-700 hover:bg-purple-100 transition-colors text-xs font-medium"
+                  >
+                    View Full Recipe →
+                  </Link>
+                </div>
+              )}
             </div>
           );
         })}
@@ -443,6 +456,14 @@ export default function RecipeBuilderPage() {
         // Deduplicate before setting state
         const deduplicated = deduplicateRecipes(recommendations);
         setGeneratedRecipes(deduplicated);
+
+        // Persist Monica-optimized recipes so the full-recipe page can read them
+        deduplicated.forEach((rec) => {
+          const monicaRecipe = rec.recipe as MonicaOptimizedRecipe;
+          if (monicaRecipe?.id) {
+            saveRecipeToStore(monicaRecipe);
+          }
+        });
 
         logger.info(
           `Quick generated ${deduplicated.length} recipes for ${mealType}`,
