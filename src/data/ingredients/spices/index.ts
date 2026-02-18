@@ -11,22 +11,14 @@ const normalizeElementalProperties = (
   properties: Record<string, number>,
 ): Record<string, number> => {
   if (!properties) {
-    return {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    };
+    // Spice default: Fire-dominant (warming, pungent aromatic compounds)
+    return { Fire: 0.60, Water: 0.05, Earth: 0.20, Air: 0.15 };
   }
 
   const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
   if (sum === 0) {
-    return {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    };
+    // Zero-sum spice default: same Fire-dominant profile
+    return { Fire: 0.60, Water: 0.05, Earth: 0.20, Air: 0.15 };
   }
 
   return Object.entries(properties).reduce(

@@ -6,11 +6,12 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 function createIngredientMapping(id: string, properties: any) {
   return {
     name: id, // Add the required name property,
+    // Vinegar default: Water-dominant (aqueous acid), Air (volatile acidity), minor Fire (acid bite)
     elementalProperties: properties.elementalProperties || {
-      Earth: 0.25,
-      Water: 0.25,
-      Fire: 0.25,
-      Air: 0.25,
+      Water: 0.45,
+      Air: 0.30,
+      Fire: 0.15,
+      Earth: 0.10,
     },
     category: properties.category || "",
     ...properties,

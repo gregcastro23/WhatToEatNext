@@ -168,12 +168,13 @@ function calculateElementalPropertiesFromCategory(
     seasoning: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
   };
 
+  // Unknown category: favour Earth as most ingredients are terrestrial/grounding
   return (
     categoryElements[category] || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
+      Fire: 0.15,
+      Water: 0.2,
+      Earth: 0.5,
+      Air: 0.15,
     }
   );
 }
