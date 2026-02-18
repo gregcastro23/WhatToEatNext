@@ -5,6 +5,7 @@ import {
 } from "@/utils/serverPlanetaryCalculations";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("AlchmQuantitiesAPI");
@@ -82,10 +83,11 @@ export async function GET() {
       );
     }
 
-    // Get alchemical properties using real service (synchronous function)
-    const alchemicalResult = alchemize(planetaryPositions);
-
     const now = new Date();
+
+    // Get alchemical properties using real service.
+    // Pass `now` so the sect (day/night) determination is explicit.
+    const alchemicalResult = alchemize(planetaryPositions, now);
     const timeOfDay = now.getHours() + now.getMinutes() / 60;
 
     // Extract ESMS quantities
@@ -220,6 +222,7 @@ export async function GET() {
       circuit,
       dominantElement,
       elementalProperties: alchemicalResult.elementalProperties,
+      isDiurnal: isSectDiurnal(now),
       heat: alchemicalResult.thermodynamicProperties.heat,
       entropy: alchemicalResult.thermodynamicProperties.entropy,
       reactivity: alchemicalResult.thermodynamicProperties.reactivity,

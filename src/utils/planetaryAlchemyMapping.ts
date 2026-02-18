@@ -320,6 +320,45 @@ export function getDominantElement(
 }
 
 /**
+ * Get the full contribution profile for a single planet at a given moment.
+ *
+ * Returns:
+ *   - ESMS values (from PLANETARY_ALCHEMY — the authoritative source)
+ *   - The sect element the planet expresses under the current sect
+ *   - The sign element (derived from the zodiac sign, if provided)
+ *
+ * This is the convenience function the UI should call for each planet card.
+ *
+ * @param planet   - Planet name (capitalised: "Sun", "Moon", etc.)
+ * @param diurnal  - true if the current sect is diurnal (day)
+ * @param sign     - Optional zodiac sign the planet occupies (for sign element)
+ */
+export function getCurrentPlanetaryContribution(
+  planet: string,
+  diurnal: boolean,
+  sign?: string,
+): {
+  esms: AlchemicalProperties;
+  sectElement: AlchemicalElement;
+  signElement: AlchemicalElement | null;
+} {
+  const alchemy = PLANETARY_ALCHEMY[planet as PlanetName];
+  const esms: AlchemicalProperties = alchemy
+    ? { Spirit: alchemy.Spirit, Essence: alchemy.Essence, Matter: alchemy.Matter, Substance: alchemy.Substance }
+    : { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+
+  const sectElement = getPlanetarySectElement(planet, diurnal);
+
+  let signElement: AlchemicalElement | null = null;
+  if (sign) {
+    const normalised = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
+    signElement = ZODIAC_ELEMENTS[normalised as ZodiacSignType] ?? null;
+  }
+
+  return { esms, sectElement, signElement };
+}
+
+/**
  * Validate planetary positions object
  *
  * @param positions - Object to validate
