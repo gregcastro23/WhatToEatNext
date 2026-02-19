@@ -212,6 +212,15 @@ export const gelification: CookingMethodData = {
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.25,            // Warm to cool — hydrocolloids hydrate at various temps
+    current: 0.45,            // Moderate — molecular network formation is gradual
+    resistance: 0.40,         // Moderate — depends on gelling agent concentration
+    velocityFactor: 0.30,     // Moderate — gelation takes minutes to hours
+    momentumRetention: 0.65,  // Good — gels maintain structure when set
+    forceImpact: 0.55,        // Moderate — complete liquid-to-solid phase transition
+  },
+
   // Additional metadata
   history:
     "Gelification has roots in traditional cuisines (aspics, jellies), but was revolutionized in the early 2000s by Ferran Adrià and Heston Blumenthal who brought scientific precision and novel hydrocolloids to fine dining, creating previously impossible textures and presentations. The technique evolved from traditional gelatin-based preparations dating back to the 18th century French haute cuisine, where aspics and chaud-froids were symbols of culinary sophistication. The crossover between food science and high gastronomy accelerated in the 1990s with the availability of industrial hydrocolloids to chefs, and by the mid-2000s, restaurants like elBulli, The Fat Duck, and Alinea were pioneering applications that transformed dining experiences, leading to the global molecular gastronomy movement.",

@@ -212,6 +212,15 @@ export const simmering: CookingMethodData = {
     gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
   } as any,
 
+  kineticProfile: {
+    voltage: 0.38,            // 185-200°F — lower temp differential than boiling
+    current: 0.72,            // Good conduction through liquid, gentle convection
+    resistance: 0.22,         // Slightly higher resistance — less turbulent transfer
+    velocityFactor: 0.35,     // Slow, gradual transformation over extended time
+    momentumRetention: 0.40,  // Heavy pot thermal mass retains heat well
+    forceImpact: 0.42,        // Gentle — collagen breakdown without protein toughening
+  },
+
   // Additional metadata
   history:
     "Simmering is one of humanity's earliest refined cooking techniques, developed once humans mastered controlled fire and created vessels that could withstand heat. Archaeological evidence suggests controlled simmering dates back to at least 10,000 BCE. The technique was refined in ancient civilizations like China, where clay and bronze vessels were specifically designed for slow cooking. In medieval Europe, the cauldron suspended above a hearth allowed for precise simmering control. The technique gained scientific understanding during the 18th century with advancements in thermodynamics. Traditional cultures worldwide developed specialized simmering vessels, from the Moroccan tagine to the Japanese donabe, each designed to maintain ideal simmering conditions for regional cuisines.",

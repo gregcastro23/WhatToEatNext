@@ -170,6 +170,15 @@ export const spherification: CookingMethodData = {
     gregsEnergy: -0.15, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.10,            // Room temp or slight warming — chemical, not thermal
+    current: 0.35,            // Ionic exchange at liquid surface — rapid membrane formation
+    resistance: 0.55,         // Moderate — alginate-calcium reaction is fast at interface
+    velocityFactor: 0.70,     // Fast — membrane forms in seconds upon contact
+    momentumRetention: 0.20,  // Low — spheres are fragile and time-sensitive
+    forceImpact: 0.35,        // Surface-only transformation — interior remains liquid
+  },
+
   // Additional metadata
   history:
     "Spherification was pioneered by Chef Ferran Adrià at elBulli restaurant in Spain in the early 2000s, though the underlying chemical principles were known in the food industry since the 1950s. Adrià and his team refined the technique into a culinary application, first serving olive oil spheres that resembled olive shapes in 2003. The technique revolutionized molecular gastronomy and inspired a generation of chefs to explore science-based cooking techniques. Chef Adrià closed elBulli in 2011, but spherification has been adopted worldwide as a staple technique in avant-garde cuisine.",

@@ -51,12 +51,12 @@ export const COOKING_METHOD_KINETIC_PROFILES: Record<string, CookingMethodKineti
     forceImpact: 0.80,        // Major structural change (dehydration, crust formation)
   },
   stir_frying: {
-    voltage: 0.90,            // Extreme wok heat (>600°F)
-    current: 0.85,            // Direct metal-to-food contact
-    resistance: 0.10,         // Very thin oil film, max contact
-    velocityFactor: 0.92,     // Near-instant transformation (wok hei)
-    momentumRetention: 0.30,  // Low carry-over (small pieces cool fast)
-    forceImpact: 0.70,        // Significant but brief structural change
+    voltage: 0.95,            // Wok heat 600-900°F — highest temp differential of any method
+    current: 0.88,            // Direct metal-to-food contact through ultra-thin oil film
+    resistance: 0.08,         // Constant tossing maximizes heat contact, minimal barrier
+    velocityFactor: 0.95,     // Near-instant transformation — "wok hei" develops in seconds
+    momentumRetention: 0.25,  // Small pieces + high surface area = extremely rapid cooling
+    forceImpact: 0.72,        // Significant charring but brief — preserves interior tenderness
   },
   grilling: {
     voltage: 0.88,            // High radiant heat from coals/gas
@@ -93,28 +93,28 @@ export const COOKING_METHOD_KINETIC_PROFILES: Record<string, CookingMethodKineti
     forceImpact: 0.25,        // Gentle - preserves structure
   },
   boiling: {
-    voltage: 0.50,            // Constant at 212°F (100°C at sea level)
-    current: 0.75,            // Water is excellent conductor - full submersion
-    resistance: 0.20,         // Direct liquid contact
-    velocityFactor: 0.60,     // Moderate-fast (turbulent convection)
-    momentumRetention: 0.25,  // Low carry-over
-    forceImpact: 0.45,        // Moderate structural impact (can break down fibers)
+    voltage: 0.50,            // 212°F fixed temp — moderate differential vs ambient
+    current: 0.78,            // Excellent conduction through full liquid immersion
+    resistance: 0.18,         // Low resistance — water is efficient heat conductor
+    velocityFactor: 0.60,     // Moderate transformation speed at rolling boil
+    momentumRetention: 0.25,  // Rapid cooling once removed from liquid
+    forceImpact: 0.45,        // Moderate structural impact — can toughen proteins
   },
   simmering: {
-    voltage: 0.38,            // Just below boiling (185-205°F)
-    current: 0.70,            // Good liquid conduction
-    resistance: 0.25,         // Full liquid contact
-    velocityFactor: 0.35,     // Slow, gentle transformation
-    momentumRetention: 0.35,  // Some carry-over in liquid
-    forceImpact: 0.40,        // Moderate (gentle breakdown over time)
+    voltage: 0.38,            // 185-200°F — lower temp differential than boiling
+    current: 0.72,            // Good conduction through liquid, gentle convection
+    resistance: 0.22,         // Slightly higher resistance — less turbulent transfer
+    velocityFactor: 0.35,     // Slow, gradual transformation over extended time
+    momentumRetention: 0.40,  // Heavy pot thermal mass retains heat well
+    forceImpact: 0.42,        // Gentle — collagen breakdown without protein toughening
   },
   poaching: {
-    voltage: 0.30,            // Low temperature (160-180°F)
-    current: 0.70,            // Good liquid conduction
-    resistance: 0.25,         // Full liquid contact
-    velocityFactor: 0.30,     // Slow, very gentle
-    momentumRetention: 0.15,  // Minimal carry-over
-    forceImpact: 0.20,        // Very gentle - preserves delicate structure
+    voltage: 0.30,            // 140-180°F — gentlest wet heat method
+    current: 0.70,            // Good liquid conduction, minimal turbulence
+    resistance: 0.22,         // Low resistance from full submersion
+    velocityFactor: 0.28,     // Very slow transformation — preserves delicate texture
+    momentumRetention: 0.15,  // Rapid cooling of thin, delicate items
+    forceImpact: 0.18,        // Minimal structural impact — ideal for eggs, fish
   },
   braising: {
     voltage: 0.50,            // Moderate heat (300-325°F oven)
@@ -125,12 +125,12 @@ export const COOKING_METHOD_KINETIC_PROFILES: Record<string, CookingMethodKineti
     forceImpact: 0.75,        // Significant collagen breakdown over time
   },
   stewing: {
-    voltage: 0.45,            // Moderate-low heat
-    current: 0.65,            // Full liquid submersion
-    resistance: 0.35,         // Covered pot
-    velocityFactor: 0.25,     // Slow
-    momentumRetention: 0.70,  // High in liquid mass
-    forceImpact: 0.65,        // Significant breakdown of proteins/vegetables
+    voltage: 0.42,            // 190-210°F — between simmering and boiling
+    current: 0.68,            // Good conduction, items partially submerged
+    resistance: 0.32,         // Higher resistance — dense ingredients, thick liquid
+    velocityFactor: 0.22,     // Very slow transformation over hours
+    momentumRetention: 0.72,  // Excellent — heavy pot, dense liquid retains heat
+    forceImpact: 0.68,        // Significant over time — complete collagen breakdown
   },
   sous_vide: {
     voltage: 0.15,            // Very low temp differential (130-185°F, precise)
@@ -151,114 +151,114 @@ export const COOKING_METHOD_KINETIC_PROFILES: Record<string, CookingMethodKineti
 
   // ── Molecular Methods ─────────────────────────────────────────────────
   spherification: {
-    voltage: 0.10,            // Near room temperature
-    current: 0.30,            // Chemical diffusion (slow)
-    resistance: 0.70,         // Gel membrane forms as barrier
-    velocityFactor: 0.45,     // Medium (chemical reaction is quick, but delicate)
-    momentumRetention: 0.10,  // No thermal carry-over
-    forceImpact: 0.60,        // Total structural transformation (liquid → gel sphere)
+    voltage: 0.10,            // Room temp or slight warming — chemical, not thermal
+    current: 0.35,            // Ionic exchange at liquid surface — rapid membrane formation
+    resistance: 0.55,         // Moderate — alginate-calcium reaction is fast at interface
+    velocityFactor: 0.70,     // Fast — membrane forms in seconds upon contact
+    momentumRetention: 0.20,  // Low — spheres are fragile and time-sensitive
+    forceImpact: 0.35,        // Surface-only transformation — interior remains liquid
   },
   emulsification: {
-    voltage: 0.20,            // Low heat or room temp
-    current: 0.50,            // Mechanical energy (whisking/blending)
-    resistance: 0.45,         // Surface tension resistance
-    velocityFactor: 0.55,     // Moderate speed with mechanical input
-    momentumRetention: 0.05,  // Minimal thermal carry-over
-    forceImpact: 0.55,        // Structural change (separate liquids → unified)
+    voltage: 0.20,            // Low temp differential — mechanical energy dominates
+    current: 0.50,            // Moderate — shear force creates droplet dispersion
+    resistance: 0.60,         // High — immiscible phases resist mixing
+    velocityFactor: 0.55,     // Moderate — stable emulsion forms in minutes
+    momentumRetention: 0.35,  // Low-moderate — emulsions can break over time
+    forceImpact: 0.40,        // Moderate — molecular restructuring without cooking
   },
   gelification: {
-    voltage: 0.25,            // Low heat then cooling
-    current: 0.35,            // Chemical diffusion
-    resistance: 0.60,         // Gel network resists further change
-    velocityFactor: 0.20,     // Slow (gelation takes time)
-    momentumRetention: 0.15,  // Minimal
-    forceImpact: 0.65,        // Major structural change (liquid → solid gel)
+    voltage: 0.25,            // Warm to cool — hydrocolloids hydrate at various temps
+    current: 0.45,            // Moderate — molecular network formation is gradual
+    resistance: 0.40,         // Moderate — depends on gelling agent concentration
+    velocityFactor: 0.30,     // Moderate — gelation takes minutes to hours
+    momentumRetention: 0.65,  // Good — gels maintain structure when set
+    forceImpact: 0.55,        // Moderate — complete liquid-to-solid phase transition
   },
   cryo_cooking: {
-    voltage: 0.95,            // Extreme temperature differential (liquid nitrogen: -321°F)
-    current: 0.92,            // Direct cryogenic contact
-    resistance: 0.10,         // No barrier
-    velocityFactor: 0.98,     // Near-instant freezing
-    momentumRetention: 0.05,  // No carry-over (items stay frozen)
-    forceImpact: 0.90,        // Extreme structural change (ice crystal formation)
+    voltage: 0.95,            // Extreme temp differential — liquid nitrogen at -321°F
+    current: 0.92,            // Rapid heat extraction through direct contact
+    resistance: 0.05,         // Near-zero — liquid nitrogen conducts heat instantly
+    velocityFactor: 0.98,     // Near-instant — flash freezing in seconds
+    momentumRetention: 0.85,  // High — frozen state is very stable
+    forceImpact: 0.70,        // Significant — rapid ice crystal formation alters texture
   },
 
   // ── Traditional Methods ───────────────────────────────────────────────
   fermentation: {
-    voltage: 0.05,            // Near ambient temperature
-    current: 0.05,            // Biological heat (negligible)
-    resistance: 0.90,         // Very slow, self-regulating
-    velocityFactor: 0.03,     // Extremely slow (days to weeks)
-    momentumRetention: 0.95,  // Maximum - fermentation continues indefinitely
-    forceImpact: 0.85,        // Profound structural/chemical transformation
+    voltage: 0.05,            // Ambient temp — biological process, not thermal
+    current: 0.08,            // Microbial metabolism — extremely slow energy transfer
+    resistance: 0.88,         // Very high — cellular barriers, slow diffusion
+    velocityFactor: 0.05,     // Slowest of all methods — days to months
+    momentumRetention: 0.90,  // Excellent — fermented foods are stable for months/years
+    forceImpact: 0.72,        // High — complete biochemical transformation of sugars/proteins
   },
   pickling: {
-    voltage: 0.10,            // Room temp or brief boil for brine
-    current: 0.15,            // Chemical diffusion (acid penetration)
-    resistance: 0.80,         // Slow acid penetration
-    velocityFactor: 0.05,     // Very slow
-    momentumRetention: 0.92,  // Process continues in jar
-    forceImpact: 0.60,        // Moderate structural change (texture, flavor)
+    voltage: 0.15,            // Brief heat for brine (quick pickle) or ambient (lacto)
+    current: 0.20,            // Acid/brine diffusion — moderate molecular transfer
+    resistance: 0.65,         // High — cell walls resist acid penetration
+    velocityFactor: 0.12,     // Slow — hours for quick pickle, weeks for lacto-fermented
+    momentumRetention: 0.88,  // Excellent — pickled foods last months to years
+    forceImpact: 0.50,        // Moderate — texture change from acid, cell wall breakdown
   },
 
   // ── Transformation Methods ────────────────────────────────────────────
   smoking: {
-    voltage: 0.45,            // Low-moderate heat (225-275°F for hot smoke)
-    current: 0.35,            // Smoke particles carry flavor, not much heat
-    resistance: 0.55,         // Smoke is diffuse medium
-    velocityFactor: 0.15,     // Slow transformation
-    momentumRetention: 0.70,  // Residual smoke flavor continues developing
-    forceImpact: 0.55,        // Moderate (surface dehydration, flavor penetration)
+    voltage: 0.45,            // 125-275°F — low-moderate temp differential (cold/hot smoke)
+    current: 0.30,            // Indirect heat transfer via smoke particles and convection
+    resistance: 0.62,         // High resistance — smoke is poor conductor, air gap
+    velocityFactor: 0.15,     // Very slow transformation — hours to days
+    momentumRetention: 0.85,  // Excellent — smoke compounds persist in food long after
+    forceImpact: 0.55,        // Moderate — surface dehydration + chemical preservation
   },
   dehydrating: {
-    voltage: 0.30,            // Low heat (125-160°F)
-    current: 0.25,            // Air circulation, slow transfer
-    resistance: 0.65,         // Low-temp air is poor conductor
-    velocityFactor: 0.08,     // Very slow (hours)
-    momentumRetention: 0.85,  // Continues drying after removal
-    forceImpact: 0.70,        // Significant (moisture removal changes structure)
+    voltage: 0.35,            // 95-165°F — low temp, relies on airflow
+    current: 0.25,            // Poor heat transfer — convective air drying
+    resistance: 0.70,         // High resistance — surface moisture barrier
+    velocityFactor: 0.12,     // Extremely slow — hours to days for full dehydration
+    momentumRetention: 0.92,  // Highest retention — dehydrated food is shelf-stable
+    forceImpact: 0.75,        // Major structural change — complete moisture removal
   },
   curing: {
-    voltage: 0.05,            // Ambient or refrigerator temp
-    current: 0.10,            // Salt/chemical diffusion
-    resistance: 0.85,         // Slow osmotic process
-    velocityFactor: 0.04,     // Extremely slow (days to months)
-    momentumRetention: 0.93,  // Process continues
-    forceImpact: 0.75,        // Major (protein denaturation via chemistry, not heat)
+    voltage: 0.10,            // Ambient or cold temp — osmotic pressure, not heat
+    current: 0.12,            // Salt/sugar osmosis — extremely slow molecular transfer
+    resistance: 0.80,         // Very high — cellular membranes resist salt penetration
+    velocityFactor: 0.08,     // Slowest method — days to weeks for full cure
+    momentumRetention: 0.95,  // Highest of all methods — cured food lasts months/years
+    forceImpact: 0.60,        // Significant — dehydration and protein cross-linking
   },
   marinating: {
-    voltage: 0.08,            // Room temp or refrigerated
-    current: 0.20,            // Acid/enzyme diffusion
-    resistance: 0.70,         // Surface absorption is slow
-    velocityFactor: 0.10,     // Slow (hours)
-    momentumRetention: 0.40,  // Some continued absorption
-    forceImpact: 0.35,        // Moderate surface impact
+    voltage: 0.08,            // Ambient temp — minimal thermal differential
+    current: 0.15,            // Chemical diffusion only — no thermal current
+    resistance: 0.75,         // High resistance — slow molecular penetration
+    velocityFactor: 0.10,     // Very slow — relies on diffusion gradient over hours
+    momentumRetention: 0.55,  // Moderate — flavors persist but fade without reinforcement
+    forceImpact: 0.30,        // Limited surface tenderization from acid/enzyme action
   },
   infusing: {
-    voltage: 0.35,            // Low-moderate heat
-    current: 0.30,            // Flavor compound diffusion
-    resistance: 0.60,         // Medium dissolves compounds slowly
-    velocityFactor: 0.20,     // Slow
-    momentumRetention: 0.50,  // Flavors continue developing
-    forceImpact: 0.20,        // Minimal structural change
+    voltage: 0.30,            // Warm to hot liquid — moderate temp differential
+    current: 0.40,            // Solvent extraction — moderate molecular transfer
+    resistance: 0.50,         // Medium — depends on surface area and solubility
+    velocityFactor: 0.25,     // Moderate — minutes to hours depending on medium
+    momentumRetention: 0.45,  // Moderate — infused flavors can dissipate over time
+    forceImpact: 0.15,        // Minimal structural change to the infusing medium
   },
   distilling: {
-    voltage: 0.80,            // High heat to vaporize
-    current: 0.50,            // Phase change transfer
-    resistance: 0.40,         // Condensation system
-    velocityFactor: 0.45,     // Moderate (phase changes take energy)
-    momentumRetention: 0.30,  // Distillate is stable
-    forceImpact: 0.95,        // Complete structural transformation (liquid→vapor→liquid)
+    voltage: 0.88,            // 173-212°F — high heat for vaporization
+    current: 0.55,            // Phase-change transfer — energy absorbed by evaporation
+    resistance: 0.45,         // Moderate — condenser efficiency determines output
+    velocityFactor: 0.40,     // Moderate — continuous process but slow collection
+    momentumRetention: 0.80,  // High — distilled product is concentrated and stable
+    forceImpact: 0.90,        // Maximum — complete molecular separation
   },
 
   // ── Raw Methods ───────────────────────────────────────────────────────
   raw: {
-    voltage: 0.0,             // No heat applied
-    current: 0.0,             // No heat transfer
-    resistance: 1.0,          // Maximum resistance (no cooking)
-    velocityFactor: 0.0,      // No transformation
-    momentumRetention: 0.0,   // No carry-over
-    forceImpact: 0.0,         // No structural change from cooking
+    voltage: 0.0,             // No heat applied — zero thermal differential
+    current: 0.05,            // Minimal — only enzymatic and mechanical processes
+    resistance: 0.95,         // Maximum — no energy input to overcome barriers
+    velocityFactor: 0.02,     // Minimal transformation — mechanical prep only
+    momentumRetention: 0.10,  // Very low — raw food degrades fastest
+    forceImpact: 0.05,        // Minimal — cutting/slicing only
   },
 };
 
