@@ -66,6 +66,15 @@ export const _distilling: CookingMethodData = {
     reactivity: 0.85, // High chemical transformation
     gregsEnergy: 0.1775, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.88,            // 173-212°F — high heat for vaporization
+    current: 0.55,            // Phase-change transfer — energy absorbed by evaporation
+    resistance: 0.45,         // Moderate — condenser efficiency determines output
+    velocityFactor: 0.40,     // Moderate — continuous process but slow collection
+    momentumRetention: 0.80,  // High — distilled product is concentrated and stable
+    forceImpact: 0.90,        // Maximum — complete molecular separation
+  },
 };
 
 export const distilling = _distilling;

@@ -58,4 +58,13 @@ export const curing: CookingMethodData = {
     reactivity: 0.35, // Slow chemical changes
     gregsEnergy: 0.0425, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.10,            // Ambient or cold temp — osmotic pressure, not heat
+    current: 0.12,            // Salt/sugar osmosis — extremely slow molecular transfer
+    resistance: 0.80,         // Very high — cellular membranes resist salt penetration
+    velocityFactor: 0.08,     // Slowest method — days to weeks for full cure
+    momentumRetention: 0.95,  // Highest of all methods — cured food lasts months/years
+    forceImpact: 0.60,        // Significant — dehydration and protein cross-linking
+  },
 };

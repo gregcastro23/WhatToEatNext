@@ -68,4 +68,13 @@ export const infusing: CookingMethodData = {
     reactivity: 0.45, // Moderate chemical transfer
     gregsEnergy: 0.12, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.30,            // Warm to hot liquid — moderate temp differential
+    current: 0.40,            // Solvent extraction — moderate molecular transfer
+    resistance: 0.50,         // Medium — depends on surface area and solubility
+    velocityFactor: 0.25,     // Moderate — minutes to hours depending on medium
+    momentumRetention: 0.45,  // Moderate — infused flavors can dissipate over time
+    forceImpact: 0.15,        // Minimal structural change to the infusing medium
+  },
 };

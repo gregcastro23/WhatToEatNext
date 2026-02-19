@@ -163,6 +163,15 @@ export const stewing: CookingMethodData = {
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
+  kineticProfile: {
+    voltage: 0.42,            // 190-210°F — between simmering and boiling
+    current: 0.68,            // Good conduction, items partially submerged
+    resistance: 0.32,         // Higher resistance — dense ingredients, thick liquid
+    velocityFactor: 0.22,     // Very slow transformation over hours
+    momentumRetention: 0.72,  // Excellent — heavy pot, dense liquid retains heat
+    forceImpact: 0.68,        // Significant over time — complete collagen breakdown
+  },
+
   // Additional metadata
   history:
     "Stewing has ancient origins dating back to the earliest pottery, approximately 10,000 BCE, when humans first could sustain long cooking periods in liquid. Archaeological evidence shows stewing was common in Mesopotamian, Egyptian, Roman, and Chinese ancient cuisines. Medieval European peasant cooking relied heavily on stewing to tenderize tough meats and extend limited resources. Indigenous cultures worldwide developed stewing techniques using available materials—from earth ovens to clay pots. During the 18th century, advances in cookware and controlled heating improved stewing precision. The industrial revolution introduced dedicated stewing and slow-cooking appliances. In the 20th century, the development of electric slow cookers revolutionized stewing for busy households. Throughout history, stewing has remained a fundamental technique for resource maximization and flavor development, with regional variations reflecting local ingredients and cultural preferences.",

@@ -74,4 +74,13 @@ export const smoking = {
     reactivity: 0.8, // High chemical interaction with smoke compounds
     gregsEnergy: 0.05, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.45,            // 125-275°F — low-moderate temp differential (cold/hot smoke)
+    current: 0.30,            // Indirect heat transfer via smoke particles and convection
+    resistance: 0.62,         // High resistance — smoke is poor conductor, air gap
+    velocityFactor: 0.15,     // Very slow transformation — hours to days
+    momentumRetention: 0.85,  // Excellent — smoke compounds persist in food long after
+    forceImpact: 0.55,        // Moderate — surface dehydration + chemical preservation
+  },
 } as unknown as CookingMethodData;

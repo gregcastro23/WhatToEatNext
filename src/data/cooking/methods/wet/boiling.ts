@@ -215,6 +215,15 @@ export const boiling: CookingMethodData = {
     gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
   } as ThermodynamicProperties,
 
+  kineticProfile: {
+    voltage: 0.50,            // 212°F fixed temp — moderate differential vs ambient
+    current: 0.78,            // Excellent conduction through full liquid immersion
+    resistance: 0.18,         // Low resistance — water is efficient heat conductor
+    velocityFactor: 0.60,     // Moderate transformation speed at rolling boil
+    momentumRetention: 0.25,  // Rapid cooling once removed from liquid
+    forceImpact: 0.45,        // Moderate structural impact — can toughen proteins
+  },
+
   // Additional metadata
   history:
     "Boiling is one of humanity's oldest cooking methods, dating back to the discovery of fire-resistant containers around 5000 BCE. Evidence of boiling has been found in archaeological sites worldwide, with specialized pottery for boiling developed in many cultures. The advent of pottery and the hearth revolutionized human nutrition by making grains, legumes, and tough plant materials digestible. In ancient Rome, the 'foculus' was specifically designed for boiling. Medieval cooking heavily relied on boiling, as evidenced in cookbooks like 'The Forme of Cury.' Industrial revolution brought standardized cooking equipment, and the development of pressure cooking in the 17th century by Denis Papin revolutionized boiling by raising the boiling point of water through pressure.",
