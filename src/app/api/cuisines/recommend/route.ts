@@ -663,11 +663,26 @@ function getRecipesForCuisine(
   const mealType = moment.meal_type?.toLowerCase() || "dinner";
 
   let recipes: any[] = [];
+  // Track seen recipe names to avoid duplicates across meal types
+  const seenNames = new Set<string>();
+
+  const addUniqueRecipes = (source: any[]) => {
+    for (const recipe of source) {
+      const name = (recipe?.name || "").toLowerCase().trim();
+      if (name && !seenNames.has(name)) {
+        seenNames.add(name);
+        recipes.push(recipe);
+      }
+    }
+  };
 
   if (cuisineData.dishes && cuisineData.dishes[mealType]) {
+    // After processCuisineRecipes, 'all' recipes are already merged into seasonal arrays.
+    // Access the seasonal array directly; fall back to 'all' only for raw (unprocessed) data.
     const seasonalRecipes = cuisineData.dishes[mealType][season] || [];
     const allSeasonRecipes = cuisineData.dishes[mealType].all || [];
-    recipes = [...allSeasonRecipes, ...seasonalRecipes];
+    addUniqueRecipes(allSeasonRecipes);
+    addUniqueRecipes(seasonalRecipes);
   }
 
   if (recipes.length < maxRecipes) {
@@ -678,7 +693,7 @@ function getRecipesForCuisine(
           ...(cuisineData.dishes[mt][season] || []),
           ...(cuisineData.dishes[mt].all || []),
         ];
-        recipes = [...recipes, ...additionalRecipes];
+        addUniqueRecipes(additionalRecipes);
         if (recipes.length >= maxRecipes) break;
       }
     }

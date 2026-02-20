@@ -112,6 +112,15 @@ export const grilling: CookingMethodData = {
     gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.88,            // High radiant heat from coals/gas
+    current: 0.65,            // Radiant + some conductive (grill marks)
+    resistance: 0.25,         // Open-air setup, some radiation loss
+    velocityFactor: 0.75,     // Fast surface transformation
+    momentumRetention: 0.55,  // Moderate carry-over from thick proteins
+    forceImpact: 0.75,        // Strong surface charring and structural change
+  },
+
   // Additional metadata
   history:
     "Grilling is among humanity oldest cooking methods, dating back to the discovery of fire around 1.8 million years ago. Every culture has developed variation of cooking over direct flame, from the South American asado to the Japanese yakitori, making it a universally significant culinary technique.",

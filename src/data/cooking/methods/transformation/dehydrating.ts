@@ -69,6 +69,15 @@ export const _dehydrating: CookingMethodData = {
     reactivity: 0.5, // Moderate chemical changes during drying
     gregsEnergy: -0.05, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.35,            // 95-165°F — low temp, relies on airflow
+    current: 0.25,            // Poor heat transfer — convective air drying
+    resistance: 0.70,         // High resistance — surface moisture barrier
+    velocityFactor: 0.12,     // Extremely slow — hours to days for full dehydration
+    momentumRetention: 0.92,  // Highest retention — dehydrated food is shelf-stable
+    forceImpact: 0.75,        // Major structural change — complete moisture removal
+  },
 };
 
 export const dehydrating = _dehydrating;

@@ -1,4 +1,5 @@
 import { cuisinesMap } from "@/data/cuisines";
+import { allRecipes } from "@/data/recipes/index";
 import type {
   ZodiacSignType,
   LunarPhase,
@@ -109,7 +110,8 @@ export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
 
   /**
-   * Get all available recipes
+   * Get all available recipes.
+   * Uses the unified, deduplicated allRecipes pipeline as the single source of truth.
    * @returns Array of all recipes
    */
   static async getAllRecipes(): Promise<Recipe[]> {
@@ -119,19 +121,10 @@ export class LocalRecipeService {
     }
 
     try {
-      const recipes: Recipe[] = [];
+      // Use the unified deduplicated pipeline from src/data/recipes/index.ts
+      const recipes = allRecipes as Recipe[];
 
-      // Get recipes from all available cuisines
-      for (const cuisine of Object.values(cuisinesMap)) {
-        if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(
-            cuisine as ExtendedCuisine,
-          );
-          recipes.push(...cuisineRecipes);
-        }
-      }
-
-      logger.debug(`Loaded ${recipes.length} total recipes`);
+      logger.debug(`Loaded ${recipes.length} total recipes from unified pipeline`);
 
       // Cache the recipes for future use
       this._allRecipes = recipes;

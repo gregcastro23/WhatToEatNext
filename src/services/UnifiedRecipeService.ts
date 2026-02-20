@@ -44,9 +44,6 @@ export class UnifiedRecipeService {
       this.recipesCache = recipes;
 
       logger.info(`Loaded ${recipes.length} recipes from data layer`);
-      // Debugging: Count Indian recipes
-      const indianRecipes = recipes.filter(recipe => (recipe.cuisine as string)?.toLowerCase() === 'indian');
-      logger.info(`Total Indian recipes loaded: ${indianRecipes.length}`);
       return recipes;
     } catch (error) {
       ErrorHandler.log(error, {
@@ -152,26 +149,34 @@ export class UnifiedRecipeService {
   }
   /**
    * Get recipes for a specific cuisine (Phase 11 addition)
+   * Supports exact match and startsWith matching for regional variants
+   * e.g., searching "indian" will match "indian", "indian (south)", "indian (north)", etc.
    */
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
+      const targetCuisine =
+        cuisine && typeof cuisine === "string"
+          ? cuisine.toLowerCase().trim()
+          : "";
+
+      if (!targetCuisine) return [];
+
       const filtered = (allRecipes || []).filter((recipe) => {
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === "string"
-            ? recipe.cuisine.toLowerCase()
-            : recipe.cuisine;
-        const targetCuisine =
-          cuisine && typeof cuisine === "string"
-            ? cuisine.toLowerCase()
-            : cuisine;
+            ? recipe.cuisine.toLowerCase().trim()
+            : "";
 
-        // Debugging log
-        if (targetCuisine === "indian") { // Focus on Indian cuisine for debugging
-          logger.info(`Comparing recipe.cuisine: "${recipe.cuisine}" (normalized: "${recipeCuisine}") with targetCuisine: "${targetCuisine}" -> Match: ${recipeCuisine === targetCuisine}`);
-        }
+        if (!recipeCuisine) return false;
 
-        return recipeCuisine === targetCuisine;
+        // Exact match (covers normalized recipes)
+        if (recipeCuisine === targetCuisine) return true;
+
+        // startsWith match for regional variants (e.g., "indian (south)" starts with "indian")
+        if (recipeCuisine.startsWith(targetCuisine + " ") || recipeCuisine.startsWith(targetCuisine + "(")) return true;
+
+        return false;
       });
       logger.info(`getRecipesForCuisine for "${cuisine}" returned ${filtered.length} recipes.`);
       return filtered as unknown as ExtendedRecipe[];

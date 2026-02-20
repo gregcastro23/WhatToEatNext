@@ -5,13 +5,15 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   pork_sausage: {
     name: "pork sausage",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    // Corrected: pork sausage is a cured meat, not an herb.
+    // Fire-dominant (heat/cooking), secondary Earth (rich, dense texture).
+    elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.35, Air: 0.05 },
+    qualities: ["savory", "rich", "cured", "umami"],
+    category: "meats",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
+      seasonalAffinity: ["autumn", "winter"],
     },
   },
   thyme: {

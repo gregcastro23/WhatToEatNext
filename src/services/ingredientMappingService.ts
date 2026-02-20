@@ -12,6 +12,12 @@ import type { Recipe } from "@/types/recipe";
 import { filterRecipesByIngredientMappings } from "@/utils/recipeFilters";
 import { connectIngredientsToMappings } from "@/utils/recipeMatching";
 
+// Primary cuisine keys (14 cuisines) - avoids duplicate processing via lowercase aliases
+const PRIMARY_CUISINE_KEYS = [
+  "African", "American", "Chinese", "French", "Greek", "Indian", "Italian",
+  "Japanese", "Korean", "Mexican", "Middle Eastern", "Russian", "Thai", "Vietnamese",
+] as const;
+
 /**
  * Unified service for ingredient mapping operations
  */
@@ -43,11 +49,14 @@ class IngredientMappingService {
     const allRecipes: Recipe[] = [];
 
     // Filter by cuisine if specified
+    // Use PRIMARY_CUISINE_KEYS to avoid duplicate processing via lowercase aliases
     const cuisines = options.cuisineType
       ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(
           Boolean,
         )
-      : Object.values(cuisinesMap);
+      : PRIMARY_CUISINE_KEYS.map(
+          (key) => cuisinesMap[key as keyof typeof cuisinesMap],
+        ).filter(Boolean);
 
     // Collect recipes from specified cuisines
     cuisines.forEach((cuisine) => {

@@ -336,6 +336,15 @@ export const frying: CookingMethodData = {
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.85,            // Very high oil temp (350-375°F)
+    current: 0.90,            // Oil is excellent conductor - direct contact
+    resistance: 0.15,         // Minimal barrier between oil and food
+    velocityFactor: 0.85,     // Rapid transformation
+    momentumRetention: 0.45,  // Moderate carry-over (oil cools once removed)
+    forceImpact: 0.80,        // Major structural change (dehydration, crust)
+  },
+
   // Additional metadata
   history:
     "Frying dates back to ancient Egypt around 2500 BCE, with evidence of oil-cooking vessels and depictions in tomb paintings. The technique spread throughout the Mediterranean and was later refined in Asia and Europe. Deep-frying became especially popular during medieval times in Europe, while tempura was introduced to Japan by Portuguese traders in the 16th century. Modern industrialization in the 20th century, particularly the rise of fast-food chains, has made fried foods a global phenomenon. Throughout the centuries, different cultures developed unique approaches—from the light tempura batters of Japan to the seasoned cornmeal coatings of Southern American cuisine. In the late 20th and early 21st centuries, technological innovations like vacuum fryers, pressure fryers, and air fryers have attempted to address health concerns while maintaining the appealing characteristics of traditional frying.",

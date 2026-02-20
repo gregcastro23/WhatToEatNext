@@ -23,11 +23,129 @@ const PRIMARY_CUISINE_KEYS = [
 // Re-export for backward compatibility
 export const Recipes = cuisinesMap;
 
+// ============ NAME NORMALIZATION & DEDUPLICATION ============
+
+/**
+ * Normalize a recipe name for use as a deduplication key.
+ * Strips "(Monica Enhanced)", trailing numbers/copy suffixes,
+ * and reduces to lowercase alphanumeric + spaces.
+ */
+function normalizeRecipeName(name: string): string {
+  return name
+    .replace(/\s*\(Monica Enhanced\)\s*/gi, "")
+    .replace(/\s*[-_]?\s*(copy|duplicate)\s*\d*\s*$/gi, "")
+    .replace(/\s*[-_]?\d+\s*$/, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Count the number of populated (non-empty, non-null) fields on a recipe object.
+ * Used to determine which duplicate version is more complete.
+ */
+function countPopulatedFields(recipe: Record<string, unknown>): number {
+  let count = 0;
+  for (const value of Object.values(recipe)) {
+    if (value === null || value === undefined) continue;
+    if (Array.isArray(value) && value.length === 0) continue;
+    if (typeof value === "string" && value.trim() === "") continue;
+    count++;
+  }
+  return count;
+}
+
+// ============ MONICA SCORING (COOKING-METHOD HEURISTIC) ============
+
+// Method categories for the weighted Monica score
+const HIGH_REACTIVITY_METHODS = new Set([
+  "frying", "deep-frying", "searing", "grilling", "pressure-cooking",
+  "stir-frying", "flash-frying", "wok-frying", "broiling", "charring",
+]);
+const HIGH_STABILITY_METHODS = new Set([
+  "baking", "roasting", "slow-cooking", "braising", "oven-roasting",
+  "smoking", "curing", "confit",
+]);
+const HIGH_HARMONY_METHODS = new Set([
+  "steaming", "poaching", "raw", "blanching", "sous-vide",
+  "fermenting", "pickling", "marinating",
+]);
+
+// Keywords for special Monica modifiers
+const MOLECULAR_KEYWORDS = ["molecular", "spherification", "gelification", "foam"];
+const ENTROPIC_KEYWORDS = ["microwave", "reheat", "reheating"];
+
+/**
+ * Calculate a weighted Monica heuristic score (0-100) for a recipe
+ * based on its cooking methods.
+ *
+ * Algorithm:
+ *   Base score: 50
+ *   High Reactivity methods: +15 each
+ *   High Stability methods: +10 each
+ *   High Harmony methods: +5 each
+ *   Molecular/Spherification modifier: +20
+ *   Microwave/Reheat modifier: -10
+ *   Result clamped to [0, 100]
+ */
+function calculateMethodMonicaScore(cookingMethods: unknown[]): number {
+  if (!cookingMethods || cookingMethods.length === 0) return 50;
+
+  let score = 50;
+
+  for (const method of cookingMethods) {
+    // Cooking methods can be strings or objects with a .name property
+    const methodName =
+      typeof method === "string"
+        ? method
+        : typeof method === "object" && method !== null && "name" in method
+          ? String((method as Record<string, unknown>).name)
+          : "";
+
+    const normalized = methodName.toLowerCase().replace(/\s+/g, "-");
+
+    if (HIGH_REACTIVITY_METHODS.has(normalized)) {
+      score += 15;
+    } else if (HIGH_STABILITY_METHODS.has(normalized)) {
+      score += 10;
+    } else if (HIGH_HARMONY_METHODS.has(normalized)) {
+      score += 5;
+    }
+
+    // Molecular / Spherification bonus
+    if (MOLECULAR_KEYWORDS.some((kw) => normalized.includes(kw))) {
+      score += 20;
+    }
+
+    // Entropic loss for microwave / reheat
+    if (ENTROPIC_KEYWORDS.some((kw) => normalized.includes(kw))) {
+      score -= 10;
+    }
+  }
+
+  // Clamp to [0, 100]
+  return Math.max(0, Math.min(100, score));
+}
+
+/**
+ * Classify a Monica score into a human-readable label.
+ */
+function classifyMonicaScoreLabel(score: number): string {
+  if (score >= 90) return "Alchemical Gold";
+  if (score >= 75) return "Philosopher's Stone";
+  if (score >= 60) return "Harmonious";
+  if (score >= 45) return "Transitional";
+  if (score >= 30) return "Volatile";
+  return "Entropic";
+}
+
 // ============ INLINE RECIPE STANDARDIZATION ============
 // Apply standardization fixes at load time for consistent data
 
 /**
- * Generate a standardized ID from recipe name and cuisine
+ * Generate a standardized ID from recipe name and cuisine.
+ * Season is included to ensure uniqueness across seasonal variants.
  */
 function generateRecipeId(
   name: string,
@@ -62,7 +180,8 @@ function generateRecipeId(
 }
 
 /**
- * Standardize a single recipe during load
+ * Standardize a single recipe during load.
+ * Also computes and attaches the monicaScore field.
  */
 function standardizeRecipe(
   recipe: any,
@@ -78,19 +197,28 @@ function standardizeRecipe(
   const standardized: Record<string, unknown> = { ...recipe };
   let wasOriginallyEnhanced = false;
 
-  // 1. Generate ID if missing or ensure consistent ID based on canonical name
+  // 1. Strip "(Monica Enhanced)" from name; canonical name drives the ID
   let canonicalName = (standardized.name as string) || "unnamed";
   if (canonicalName.includes("(Monica Enhanced)")) {
-    canonicalName = canonicalName.replace(" (Monica Enhanced)", "");
+    canonicalName = canonicalName.replace(/\s*\(Monica Enhanced\)\s*/g, "").trim();
     wasOriginallyEnhanced = true;
   }
+  standardized.name = canonicalName;
   standardized.id = generateRecipeId(canonicalName, cuisineName, mealType, season);
 
   // 2. Ensure cuisine is set and consistent casing
+  // Strip regional sub-tags like "Indian (South)" → "indian", "Mexican (Yucatan)" → "mexican"
   if (!standardized.cuisine) {
-    standardized.cuisine = cuisineName.toLowerCase(); // Convert to lowercase
+    standardized.cuisine = cuisineName.toLowerCase();
   } else {
-    standardized.cuisine = (standardized.cuisine as string).toLowerCase(); // Ensure existing cuisine is also lowercase
+    const rawCuisine = (standardized.cuisine as string);
+    // Preserve regional info as a separate field before normalizing
+    const regionMatch = rawCuisine.match(/\(([^)]+)\)/);
+    if (regionMatch) {
+      standardized.regionalVariant = regionMatch[1].trim();
+    }
+    // Strip parenthetical regional tags and normalize to base cuisine name
+    standardized.cuisine = rawCuisine.replace(/\s*\([^)]*\)\s*/g, "").trim().toLowerCase();
   }
 
   // 3. Ensure mealType is an array
@@ -210,35 +338,59 @@ function standardizeRecipe(
     standardized.allergens = [standardized.allergens];
   }
 
+  // 13. Compute monicaScore from cooking methods (deterministic heuristic)
+  const methods = Array.isArray(standardized.cookingMethods)
+    ? standardized.cookingMethods
+    : [];
+  const monicaScore = calculateMethodMonicaScore(methods);
+  standardized.monicaScore = monicaScore;
+  standardized.monicaScoreLabel = classifyMonicaScoreLabel(monicaScore);
+
   return { standardizedRecipe: standardized as unknown as Recipe, wasOriginallyEnhanced };
 }
 
-// Create flattened list of all recipes from all cuisines with standardization
-const flattenCuisineRecipes = () => {
-  const recipeMap = new Map<string, Recipe>(); // Use a Map to store recipes by base ID
+// ============ FLATTEN & DEDUPLICATE ============
+
+/**
+ * Create a flattened, deduplicated list of all recipes from all 14 primary cuisines.
+ *
+ * Deduplication strategy:
+ *   - Uses normalized recipe name as the Map key (not the raw ID).
+ *   - If a name collision occurs, keeps the version with more populated fields.
+ *   - "(Monica Enhanced)" versions are stripped to their base name;
+ *     the non-enhanced (original) version is preferred unless
+ *     the enhanced version has strictly more data.
+ */
+const flattenCuisineRecipes = (): Recipe[] => {
+  // Map from normalized name → Recipe (single source of truth)
+  const recipeMap = new Map<string, Recipe>();
+  // Track whether the stored recipe was a "Monica Enhanced" variant
+  const enhancedFlags = new Map<string, boolean>();
   const cuisines = cuisinesMap as Record<string, any>;
 
-  console.log("cuisinesMap keys:", Object.keys(cuisinesMap)); // Debug: Log all keys in cuisinesMap
-
-  // Iterate only through primary cuisine keys to avoid duplicates from aliases
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
-    console.log(`Processing cuisineName: ${cuisineName}`); // Debug: Log current cuisine being processed
     const cuisine = cuisines[cuisineName];
-    console.log(`Cuisine object for ${cuisineName}:`, cuisine); // Debug: Log the cuisine object itself
 
     if (cuisine && cuisine.dishes) {
-      // Iterate through meal types
+      // Iterate through meal types (breakfast, lunch, dinner, dessert, snacks)
       Object.entries(cuisine.dishes).forEach(
         ([mealType, mealTypeData]: [string, unknown]) => {
-          // Guard against null/undefined mealType before calling Object.entries
           if (mealTypeData && typeof mealTypeData === "object") {
             // Iterate through seasons
             Object.entries(mealTypeData as Record<string, unknown>).forEach(
               ([season, recipes]: [string, unknown]) => {
                 if (Array.isArray(recipes)) {
                   recipes.forEach((recipe: any) => {
+                    if (!recipe || typeof recipe !== "object" || !recipe.name) {
+                      return;
+                    }
+
+                    const rawName = String(recipe.name);
+                    const isEnhanced = rawName.includes("(Monica Enhanced)");
+                    const normalizedKey = normalizeRecipeName(rawName);
+
                     // Standardize the recipe
-                    const { standardizedRecipe, wasOriginallyEnhanced } =
+                    const { standardizedRecipe } =
                       standardizeRecipe(
                         recipe,
                         cuisineName,
@@ -246,20 +398,37 @@ const flattenCuisineRecipes = () => {
                         season,
                       );
 
-                    const existingEntry = recipeMap.get(
-                      standardizedRecipe.id as string,
-                    ) as (Recipe & { wasOriginallyEnhanced?: boolean }) | undefined;
+                    const existingEntry = recipeMap.get(normalizedKey);
 
-                    // If no existing recipe, or if the new recipe is not enhanced and the existing one is,
-                    // add/overwrite with the non-enhanced version.
-                    if (
-                      !existingEntry ||
-                      (wasOriginallyEnhanced === false &&
-                        existingEntry.wasOriginallyEnhanced === true)
-                    ) {
-                      recipeMap.set(standardizedRecipe.id as string, { ...standardizedRecipe, wasOriginallyEnhanced });
+                    if (!existingEntry) {
+                      // First time seeing this recipe name — store it
+                      recipeMap.set(normalizedKey, standardizedRecipe);
+                      enhancedFlags.set(normalizedKey, isEnhanced);
+                    } else {
+                      // Collision: decide which version to keep
+                      const existingIsEnhanced = enhancedFlags.get(normalizedKey) || false;
+
+                      if (existingIsEnhanced && !isEnhanced) {
+                        // Current is the original (non-enhanced); prefer it
+                        recipeMap.set(normalizedKey, standardizedRecipe);
+                        enhancedFlags.set(normalizedKey, false);
+                      } else if (!existingIsEnhanced && isEnhanced) {
+                        // Existing is original, incoming is enhanced; keep existing
+                        // (original takes precedence)
+                      } else {
+                        // Same enhanced status — keep the more complete version
+                        const existingFields = countPopulatedFields(
+                          existingEntry as unknown as Record<string, unknown>,
+                        );
+                        const newFields = countPopulatedFields(
+                          standardizedRecipe as unknown as Record<string, unknown>,
+                        );
+                        if (newFields > existingFields) {
+                          recipeMap.set(normalizedKey, standardizedRecipe);
+                          enhancedFlags.set(normalizedKey, isEnhanced);
+                        }
+                      }
                     }
-
                   });
                 }
               },
@@ -274,7 +443,7 @@ const flattenCuisineRecipes = () => {
     }
   });
 
-  return Array.from(recipeMap.values()); // Convert map values back to an array
+  return Array.from(recipeMap.values());
 };
 
 // Export flattened recipes from all 14 primary cuisines

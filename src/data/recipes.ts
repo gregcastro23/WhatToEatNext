@@ -116,10 +116,21 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
   const recipes: RecipeData[] = [];
 
   logger.debug("Starting transformCuisineData");
-  logger.debug("Available cuisines: ", Object.keys(cuisinesMap));
 
-  const cuisineDataPromises = Object.entries(cuisinesMap).map(
-    async ([cuisineName, cuisineData]) => {
+  // Primary cuisine keys (14 cuisines) - avoids duplicate processing via lowercase aliases
+  const PRIMARY_KEYS = [
+    "African", "American", "Chinese", "French", "Greek", "Indian", "Italian",
+    "Japanese", "Korean", "Mexican", "Middle Eastern", "Russian", "Thai", "Vietnamese",
+  ];
+
+  logger.debug("Available cuisines: ", PRIMARY_KEYS);
+
+  // Use PRIMARY_KEYS instead of Object.entries(cuisinesMap) which has 28 entries
+  // (14 capitalized + 14 lowercase aliases) causing each cuisine to be processed twice
+  const cuisineDataPromises = PRIMARY_KEYS.map(
+    async (cuisineName) => {
+      const cuisineData = cuisinesMap[cuisineName as keyof typeof cuisinesMap];
+      if (!cuisineData) return;
       try {
         logger.debug(`Processing cuisine: ${cuisineName}`);
 
@@ -390,8 +401,17 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 
   await Promise.all(cuisineDataPromises);
 
-  logger.debug(`Transformed ${recipes.length} recipes`);
-  return recipes;
+  // Deduplicate by normalized recipe name to prevent duplicates from 'all' season merging
+  const seen = new Set<string>();
+  const deduplicated = recipes.filter((recipe) => {
+    const key = recipe.name.toLowerCase().trim();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  logger.debug(`Transformed ${deduplicated.length} recipes (${recipes.length} before dedup)`);
+  return deduplicated;
 };
 
 // Cache recipes to avoid re-processing

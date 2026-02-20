@@ -7,6 +7,7 @@ import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UserProvider } from "@/contexts/UserContext";
 import PrivyProviderWrapper from "@/providers/PrivyProviderWrapper";
+import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +16,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <ChakraProvider value={defaultSystem}>
           <ThemeProvider>
             <UserProvider>
-              <AlchemicalProvider>{children}</AlchemicalProvider>
+              <AlchemicalProvider>
+                <RecipeBuilderProvider>{children}</RecipeBuilderProvider>
+              </AlchemicalProvider>
             </UserProvider>
           </ThemeProvider>
         </ChakraProvider>

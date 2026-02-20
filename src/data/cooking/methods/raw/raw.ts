@@ -200,6 +200,15 @@ export const raw: CookingMethodData = {
     gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.0,             // No heat applied — zero thermal differential
+    current: 0.05,            // Minimal — only enzymatic and mechanical processes
+    resistance: 0.95,         // Maximum — no energy input to overcome barriers
+    velocityFactor: 0.02,     // Minimal transformation — mechanical prep only
+    momentumRetention: 0.10,  // Very low — raw food degrades fastest
+    forceImpact: 0.05,        // Minimal — cutting/slicing only
+  },
+
   // Additional metadata
   history:
     "The practice of eating foods in their natural, uncooked state dates back to the beginning of human existence, predating cooking technologies. Throughout history, various cultures developed sophisticated raw food preparations, from Mediterranean crudo to Polynesian poisson cru and Japanese sashimi. The modern raw food movement emerged in the 1800s with figures like Sylvester Graham advocating for unprocessed foods. Dr. Max Bircher-Benner's raw food sanitarium in the early 1900s popularized therapeutic raw eating (creating muesli in the process). The 1970s saw increased interest in \"living foods\" through Ann Wigmore's work. By the 1990s-2000s, raw food cuisine evolved into a sophisticated culinary approach with chefs like Matthew Kenney elevating raw preparation to fine dining. Today's approach integrates traditional knowledge with modern nutritional science and creative culinary techniques.",

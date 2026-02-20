@@ -6,6 +6,35 @@ import type {
 } from "./shared";
 
 /**
+ * P=IV Circuit Model parameters for a cooking method.
+ *
+ * Maps physical cooking properties to an electrical circuit analogy:
+ * - Voltage (V): Temperature differential / intensity of heat source
+ * - Current (I): Rate of heat transfer to food
+ * - Resistance (R): Insulation / surface area factors that impede transfer
+ * - Power (P = V × I): Total energy transfer rate
+ *
+ * Kinetic properties describe the method's transformative dynamics:
+ * - Velocity: Speed of food state transformation
+ * - Momentum retention: Carry-over cooking potential after heat removal
+ * - Force impact: Structural impact on food (how much the method changes texture/structure)
+ */
+export interface CookingMethodKineticProfile {
+  /** Temperature differential intensity (0-1). Voltage in P=IV model. */
+  voltage: number;
+  /** Heat transfer rate (0-1). Current in P=IV model. */
+  current: number;
+  /** Insulation/surface area resistance (0-1). Higher = more energy loss. */
+  resistance: number;
+  /** Speed of food transformation (0-1). */
+  velocityFactor: number;
+  /** Carry-over cooking potential (0-1). How much cooking continues after removal from heat. */
+  momentumRetention: number;
+  /** Structural impact on food (0-1). How much the method changes food structure. */
+  forceImpact: number;
+}
+
+/**
  * Interface defining the structure of cooking method data
  */
 export interface CookingMethodData {
@@ -70,6 +99,9 @@ export interface CookingMethodData {
 
   // Alchemical aspects for advanced cooking methods
   alchemicalAspects?: Record<string, Record<string, string>>;
+
+  // P=IV Circuit Model kinetic profile
+  kineticProfile?: CookingMethodKineticProfile;
 }
 
 // Export alias for compatibility

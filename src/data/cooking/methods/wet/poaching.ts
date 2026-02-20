@@ -247,6 +247,15 @@ export const poaching: CookingMethodData = {
     gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity) // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
+  kineticProfile: {
+    voltage: 0.30,            // 140-180°F — gentlest wet heat method
+    current: 0.70,            // Good liquid conduction, minimal turbulence
+    resistance: 0.22,         // Low resistance from full submersion
+    velocityFactor: 0.28,     // Very slow transformation — preserves delicate texture
+    momentumRetention: 0.15,  // Rapid cooling of thin, delicate items
+    forceImpact: 0.18,        // Minimal structural impact — ideal for eggs, fish
+  },
+
   // Additional metadata
   history:
     "Poaching dates back to ancient times, with written records of gentle liquid cooking in Roman texts from the 1st century AD. The technique was refined in medieval European courts, particularly in France where it became a cornerstone of delicate fish cookery by the 15th century. The 17th century saw the development of court bouillon (short broth) specifically for poaching. In 19th century France, Chef Marie-Antoine Carême standardized poaching techniques and elevated them in haute cuisine, creating elaborate presentations like poached salmon in aspic. In Asian traditions, particularly Chinese cuisine, gentle poaching techniques developed independently with a focus on delicate flavors and textures, as seen in white-cut chicken (bai qie ji). Modern professional kitchens still rely on poaching as the preferred method for delicate ingredients and precision cooking.",

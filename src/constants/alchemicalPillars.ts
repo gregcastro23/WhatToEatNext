@@ -1375,19 +1375,75 @@ export function calculateOptimalCookingConditions(
 }
 
 /**
- * Placeholder for calculatePillarMonicaModifiers function.
- * @param monica The monica constant.
- * @returns Monica modifiers.
+ * Calculate physics-based Monica modifiers for cooking optimization.
+ *
+ * The Monica constant (M_c) reflects the thermodynamic-alchemical balance of a cooking system.
+ * This function derives practical cooking adjustments based on M_c's value:
+ *
+ * - Highly Volatile (M_c > 10): Reduce temperature, shorten time, lower intensity
+ *   → System is energetically unstable, needs dampening
+ * - Volatile (5 < M_c ≤ 10): Moderate temperature reduction, slight timing decrease
+ *   → System is reactive, benefit from controlled acceleration
+ * - Transformative (2 < M_c ≤ 5): Slight temperature increase to push past barriers
+ *   → System is in active transformation zone
+ * - Balanced (1 < M_c ≤ 2): Near-equilibrium, optimal cooking window
+ *   → Minimal adjustments needed
+ * - Stable (0.5 < M_c ≤ 1): Increase temperature/time to overcome inertia
+ *   → System needs energy input to transform
+ * - Very Stable (M_c ≤ 0.5): Significant energy input needed
+ *   → System resists transformation
+ *
+ * @param monica The Monica constant value
+ * @returns Physics-based cooking modifiers
  */
-export function calculatePillarMonicaModifiers(monica: number): Record<string, number> {
-  console.warn("calculatePillarMonicaModifiers function is a placeholder.");
-  // Example placeholder logic, adjust as needed
-  if (monica > 5) {
-    return { temperatureAdjustment: 10, timingAdjustment: 5, intensityModifier: 0.1 };
-  } else if (monica < 1) {
-    return { temperatureAdjustment: -10, timingAdjustment: -5, intensityModifier: -0.1 };
+export function calculatePillarMonicaModifiers(monica: number): {
+  temperatureAdjustment: number;
+  timingAdjustment: number;
+  intensityModifier: string;
+} {
+  if (monica > 10) {
+    // Highly Volatile: dampen the system significantly
+    return {
+      temperatureAdjustment: -25,
+      timingAdjustment: -15,
+      intensityModifier: "reduce",
+    };
+  } else if (monica > 5) {
+    // Volatile: controlled reduction
+    return {
+      temperatureAdjustment: -15,
+      timingAdjustment: -8,
+      intensityModifier: "temper",
+    };
+  } else if (monica > 2) {
+    // Transformative: slight push to drive reactions
+    return {
+      temperatureAdjustment: 10,
+      timingAdjustment: 5,
+      intensityModifier: "amplify",
+    };
+  } else if (monica > 1) {
+    // Balanced: optimal zone, minimal adjustment
+    return {
+      temperatureAdjustment: 0,
+      timingAdjustment: 0,
+      intensityModifier: "neutral",
+    };
+  } else if (monica > 0.5) {
+    // Stable: needs energy input
+    return {
+      temperatureAdjustment: 15,
+      timingAdjustment: 10,
+      intensityModifier: "boost",
+    };
+  } else {
+    // Very Stable: significant energy needed to overcome inertia
+    return {
+      temperatureAdjustment: 25,
+      timingAdjustment: 20,
+      intensityModifier: "intensify",
+    };
   }
-  return { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: 0 };
 }
 
 /**

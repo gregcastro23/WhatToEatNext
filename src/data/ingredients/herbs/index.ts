@@ -77,12 +77,13 @@ function createIngredientMapping(
   id: string,
   properties: Partial<IngredientMapping>,
 ): IngredientMapping {
-  // Default elemental properties if none provided
+  // Default elemental properties if none provided.
+  // Herbs are Air-dominant (aromatic volatiles), with secondary Earth grounding.
   const elementalProps = properties.elementalProperties || {
+    Fire: 0.1,
+    Water: 0.2,
     Earth: 0.25,
-    Water: 0.25,
-    Fire: 0.25,
-    Air: 0.25,
+    Air: 0.45,
   };
 
   // Generate meaningful numeric values based on elemental properties

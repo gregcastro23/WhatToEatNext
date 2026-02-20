@@ -8,6 +8,8 @@ import {
   Mountain,
   Coins,
   RefreshCw,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 type AlchemyQuantities = {
@@ -23,6 +25,7 @@ type AlchemyQuantities = {
 type AlchemyData = {
   quantities: AlchemyQuantities;
   dominantElement: string;
+  isDiurnal?: boolean;
   heat: number;
   entropy: number;
   reactivity: number;
@@ -100,11 +103,29 @@ export default function AlchmQuantitiesDisplay() {
 
   return (
     <div className="space-y-6">
-      {/* Refresh Button */}
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-orange-300">
-          Current Quantities
-        </h3>
+      {/* Header: title + sect badge + refresh */}
+      <div className="flex justify-between items-center flex-wrap gap-2">
+        <div className="flex items-center gap-3">
+          <h3 className="text-lg font-semibold text-orange-300">
+            Current Quantities
+          </h3>
+          {data.isDiurnal != null && (
+            <div
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold ${
+                data.isDiurnal
+                  ? "bg-amber-900/30 border-amber-500/40 text-amber-300"
+                  : "bg-indigo-900/40 border-indigo-500/40 text-indigo-300"
+              }`}
+            >
+              {data.isDiurnal ? (
+                <Sun className="h-3.5 w-3.5" />
+              ) : (
+                <Moon className="h-3.5 w-3.5" />
+              )}
+              {data.isDiurnal ? "Day Sect" : "Night Sect"}
+            </div>
+          )}
+        </div>
         <button
           onClick={fetchData}
           className="px-3 py-2 rounded-lg bg-orange-900/30 hover:bg-orange-800/40 text-orange-300 font-semibold text-sm transition-all duration-200 hover:scale-105 border border-orange-500/30 flex items-center gap-2"

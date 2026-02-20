@@ -218,6 +218,15 @@ export const pickling: CookingMethodData = {
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
   } as any,
 
+  kineticProfile: {
+    voltage: 0.15,            // Brief heat for brine (quick pickle) or ambient (lacto)
+    current: 0.20,            // Acid/brine diffusion — moderate molecular transfer
+    resistance: 0.65,         // High — cell walls resist acid penetration
+    velocityFactor: 0.12,     // Slow — hours for quick pickle, weeks for lacto-fermented
+    momentumRetention: 0.88,  // Excellent — pickled foods last months to years
+    forceImpact: 0.50,        // Moderate — texture change from acid, cell wall breakdown
+  },
+
   // Additional metadata
   history:
     "Pickling has been practiced for at least 4,000 years, originating as a necessity for food preservation before refrigeration. Ancient Mesopotamians pickled foods in brineas documented in cuneiform tablets from 2400 BCE. The word 'pickle' derives from the Dutch 'pekel' or German 'pökel,' referring to salt or brine. In ancient times, pickling was essential for long sea voyages and military campaigns. Cleopatra attributed her beauty to a diet of pickles. Throughout history, sailors consumed pickled foods to prevent scurvy. During the 17th and 18th centuries, pickled vegetables were vital for long ocean voyages. The Industrial Revolution standardized pickling processes, with companies like Heinz mass-producing pickled products by the late 19th century. In the 20th century, refrigeration reduced dependency on pickling for preservation, but cultural traditions and flavors have kept the method relevant worldwide.",

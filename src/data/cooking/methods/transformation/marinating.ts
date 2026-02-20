@@ -69,6 +69,15 @@ export const _marinating: CookingMethodData = {
     reactivity: 0.5, // Moderate flavor penetration
     gregsEnergy: -0.025, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.08,            // Ambient temp — minimal thermal differential
+    current: 0.15,            // Chemical diffusion only — no thermal current
+    resistance: 0.75,         // High resistance — slow molecular penetration
+    velocityFactor: 0.10,     // Very slow — relies on diffusion gradient over hours
+    momentumRetention: 0.55,  // Moderate — flavors persist but fade without reinforcement
+    forceImpact: 0.30,        // Limited surface tenderization from acid/enzyme action
+  },
 };
 
 export const marinating = _marinating;
