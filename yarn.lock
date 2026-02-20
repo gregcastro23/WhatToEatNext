@@ -1019,12 +1019,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@csstools/selector-resolve-nested@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@csstools/selector-resolve-nested@npm:4.0.0"
+  peerDependencies:
+    postcss-selector-parser: ^7.1.1
+  checksum: eebdec8f3a8dbb81afa5c76b0568bb1a0b6dfa7c2c9434dbc4cd86cc2244db1cca2392127fca0d54653050688eb1da18eb7bfecedf5c1f9689957c4c44617f32
+  languageName: node
+  linkType: hard
+
 "@csstools/selector-specificity@npm:^5.0.0":
   version: 5.0.0
   resolution: "@csstools/selector-specificity@npm:5.0.0"
   peerDependencies:
     postcss-selector-parser: ^7.0.0
   checksum: 8df1a01a1fa52b66c7ba0286e1c77d1faff45009876f09ddcac542a1c4bca9f34ee92a10acf056b8e7b7ac93679c1635496c6cdfd7d88dbaff2b6afd1eb823ec
+  languageName: node
+  linkType: hard
+
+"@csstools/selector-specificity@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@csstools/selector-specificity@npm:6.0.0"
+  peerDependencies:
+    postcss-selector-parser: ^7.1.1
+  checksum: 56790acc910b516df87bf6fd43389a88da1922ffb004de4d6099559ece48c88a8185e29439c570d1102a414bbecbb34e33f1aeace76a63e9f72e0794517cf7d7
   languageName: node
   linkType: hard
 
@@ -13569,7 +13587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-nesting@npm:^13.0.1, postcss-nesting@npm:^13.0.2":
+"postcss-nesting@npm:^13.0.2":
   version: 13.0.2
   resolution: "postcss-nesting@npm:13.0.2"
   dependencies:
@@ -13579,6 +13597,19 @@ __metadata:
   peerDependencies:
     postcss: ^8.4
   checksum: fce488a2e77d9a8183a4e014caf047e41cb2422c07de1d49a092734fc90feeb8ced21090e3e284cfb2956afdba73e4a3547065ede228b209003bac5e1de62f0a
+  languageName: node
+  linkType: hard
+
+"postcss-nesting@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "postcss-nesting@npm:14.0.0"
+  dependencies:
+    "@csstools/selector-resolve-nested": ^4.0.0
+    "@csstools/selector-specificity": ^6.0.0
+    postcss-selector-parser: ^7.1.1
+  peerDependencies:
+    postcss: ^8.4
+  checksum: 3ad8ff01bf42f58e05a059bf4458b8b8b848d41e20accdb93f8845c6a82423bd0a383e33f2d25b181100527d43d8b720742058774286400e713bb9e098ef8991
   languageName: node
   linkType: hard
 
@@ -13744,7 +13775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-selector-parser@npm:^7.0.0":
+"postcss-selector-parser@npm:^7.0.0, postcss-selector-parser@npm:^7.1.1":
   version: 7.1.1
   resolution: "postcss-selector-parser@npm:7.1.1"
   dependencies:
@@ -16653,7 +16684,7 @@ __metadata:
     postcss-custom-properties: ^14.0.4
     postcss-flexbugs-fixes: ^5.0.2
     postcss-import: ^16.1.0
-    postcss-nesting: ^13.0.1
+    postcss-nesting: ^14.0.0
     postcss-preset-env: ^10.1.5
     postcss-simple-vars: ^7.0.1
     prettier: ^3.6.2
