@@ -10097,11 +10097,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.23.22":
-  version: 12.34.1
-  resolution: "framer-motion@npm:12.34.1"
+"framer-motion@npm:^12.34.3":
+  version: 12.34.3
+  resolution: "framer-motion@npm:12.34.3"
   dependencies:
-    motion-dom: ^12.34.1
+    motion-dom: ^12.34.3
     motion-utils: ^12.29.2
     tslib: ^2.4.0
   peerDependencies:
@@ -10115,7 +10115,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 3babbc1a4e884a3da45cee40a4b8a42205efdb81e8f408f97a794419f3e98f6dd6daf8e15be974408e5e1aadd62d037bb63d2a51b4cf2f297a9e863377d27af0
+  checksum: 45bb3a71ae7be14cc80ca351ad90d826f0c03457db29dd24f69a40592a475cc681445e60a90bb19d4b0796403eb26a05dc19967947d3448f18bfa5a04ec202c3
   languageName: node
   linkType: hard
 
@@ -12131,12 +12131,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion-dom@npm:^12.34.1":
-  version: 12.34.1
-  resolution: "motion-dom@npm:12.34.1"
+"motion-dom@npm:^12.34.3":
+  version: 12.34.3
+  resolution: "motion-dom@npm:12.34.3"
   dependencies:
     motion-utils: ^12.29.2
-  checksum: 07d6643e30ebe8052e295c6289c9ca8920598054ba67cb81000c9f9d79c8b201c5b34bd42a43256afb4b1e539d83857de4235f24ac772cc6f7d8fc39d3a47cda
+  checksum: 2603d1b58043d969bba09d6517e51239ae21eb3f95ac0b28e1e2568ab5d121e77abc5ff5c4f7e0c11c72fb30ac890f79474479efe503e9f34b7b15dad4ebeb45
   languageName: node
   linkType: hard
 
@@ -16630,7 +16630,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.3
     eslint-plugin-react-hooks: ^5.2.0
-    framer-motion: ^12.23.22
+    framer-motion: ^12.34.3
     glob: ^11.0.3
     globals: ^15.14.0
     husky: ^8.0.3
