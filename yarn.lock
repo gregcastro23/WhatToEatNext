@@ -12382,10 +12382,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.9.16":
-  version: 6.10.1
-  resolution: "nodemailer@npm:6.10.1"
-  checksum: 39e9208e13c40b58c59242205bce855e74def25d953070ab6a5b1c23b0bf37df0725b3c6dea52d4220e2e60dd1fffcd486a697dece79afdf98842aae6395d393
+"nodemailer@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "nodemailer@npm:8.0.1"
+  checksum: a7bc02f7cfc946ad18d092b58fbf0e628294bcb2f040be782e3a53d7dea21141d2e75f7ac14e23b1f42aa6498236eda49e9286a9c3f2bb9c02d8e4c102f65656
   languageName: node
   linkType: hard
 
@@ -16644,7 +16644,7 @@ __metadata:
     madge: ^8.0.0
     next: 15.5.9
     node-fetch: 2
-    nodemailer: ^6.9.16
+    nodemailer: ^8.0.1
     nodemon: ^3.1.10
     open: ^10.1.0
     openapi-typescript: ^7.9.1
