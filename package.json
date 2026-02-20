@@ -135,7 +135,7 @@
     "@emotion/styled": "^11.14.1",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
-    "@mui/icons-material": "^5.11.16",
+    "@mui/icons-material": "^7.3.8",
     "@mui/material": "^5.13.6",
     "@next/swc-wasm-nodejs": "^16.1.6",
     "@privy-io/react-auth": "^3.14.1",
