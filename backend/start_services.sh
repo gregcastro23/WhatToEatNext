@@ -3,7 +3,8 @@ echo "🚀 Starting alchm.kitchen Unified Backend..."
 
 # Start the unified backend service
 echo "🏺 Starting alchm.kitchen Unified Backend (Port 8000)..."
-cd alchm_kitchen && PYTHONPATH=.. python3 main.py &
+export PYTHONPATH=$(pwd)/backend:$(pwd)/src:$PYTHONPATH
+python3 -m backend.alchm_kitchen.main &
 BACKEND_PID=$!
 
 echo "✅ alchm.kitchen backend started successfully!"

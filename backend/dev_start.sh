@@ -46,11 +46,11 @@ fi
 
 # Initialize database (skip if already exists)
 echo "🗄️  Checking database..."
-if docker exec backend-postgres-1 psql -U user -l | grep -q alchm_kitchen; then
+if docker exec whattoeatnext-postgres-17 psql -U user -l | grep -q alchm_kitchen; then
     print_status "Database already exists"
 else
     echo "Creating database..."
-    if docker exec backend-postgres-1 psql -U user -d postgres -c "CREATE DATABASE alchm_kitchen WITH OWNER user ENCODING 'UTF8';" 2>/dev/null; then
+    if docker exec whattoeatnext-postgres-17 psql -U user -d postgres -c "CREATE DATABASE alchm_kitchen WITH OWNER user ENCODING 'UTF8';" 2>/dev/null; then
         print_status "Database created"
     else
         print_warning "Database creation failed (continuing...)"

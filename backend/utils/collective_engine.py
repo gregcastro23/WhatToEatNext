@@ -198,18 +198,15 @@ if __name__ == "__main__":
         async def run_example():
             print("--- Collective Synastry Analysis ---")
             collective_deficits = await engine.calculate_collective_elemental_deficits([participant1_chart, participant2_chart])
-            print("
-Collective Deficits:")
+            print("Collective Deficits:")
             print(collective_deficits)
 
             harmonizing_profile_text = await engine.generate_harmonizing_recipe_profile(collective_deficits)
-            print("
-Harmonizing Recipe Profile:")
+            print("Harmonizing Recipe Profile:")
             print(harmonizing_profile_text)
 
             harmonizing_recipes = await engine.find_harmonizing_recipes(harmonizing_profile_text)
-            print("
-Harmonizing Recipes (Placeholder):")
+            print("Harmonizing Recipes (Placeholder):")
             print(harmonizing_recipes)
 
         # Run the async example

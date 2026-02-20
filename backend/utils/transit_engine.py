@@ -1,10 +1,10 @@
 
 import datetime
+from backend.config.celestial_config import FOREST_HILLS_COORDINATES
 try:
     import swisseph as swe
     from astral.sun import sun
     from astral import LocationInfo
-from backend.config import FOREST_HILLS_COORDINATES
 except ImportError:
     swe = None
     sun = None

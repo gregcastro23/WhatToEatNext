@@ -163,22 +163,7 @@ class SeasonalAssociation(Base):
         Index('idx_seasonal_season', 'season'),
     )
 
-class TransitHistory(Base):
-    """History of planetary transit scores."""
-    __tablename__ = 'transit_history'
 
-    id: Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, server_default=func.uuid_generate_v4())
-    matter_score: Mapped[float] = mapped_column(Float(precision=4), nullable=False)
-    spirit_score: Mapped[float] = mapped_column(Float(precision=4), nullable=False)
-    is_collective: Mapped[bool] = mapped_column(Boolean, default=False)
-    participant_count: Mapped[int] = mapped_column(Integer, default=1)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-
-    __table_args__ = (
-        CheckConstraint('matter_score >= 0', name='matter_score_positive'),
-        CheckConstraint('spirit_score >= 0', name='spirit_score_positive'),
-        Index('idx_transit_history_created_at', 'created_at'),
-    )
 
 # ==========================================
 # INGREDIENT TABLES
@@ -504,5 +489,5 @@ class SavedChart(Base):
     __table_args__ = (
         Index('idx_saved_charts_user', 'user_id'),
         UniqueConstraint('user_id', 'chart_name', name='uq_user_chart_name'),
-        UniqueConstraint('user_id', 'is_primary', name='uq_user_primary_chart', postgresql_where=is_primary == True)
+        
     )
