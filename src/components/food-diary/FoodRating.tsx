@@ -19,16 +19,66 @@ interface FoodRatingProps {
   readOnly?: boolean;
 }
 
-const MOOD_TAG_OPTIONS: { tag: MoodTag; label: string; emoji: string; color: string }[] = [
-  { tag: "energized", label: "Energized", emoji: "lightning", color: "bg-yellow-100 text-yellow-800" },
-  { tag: "satisfied", label: "Satisfied", emoji: "smile", color: "bg-green-100 text-green-800" },
-  { tag: "content", label: "Content", emoji: "heart", color: "bg-pink-100 text-pink-800" },
-  { tag: "focused", label: "Focused", emoji: "target", color: "bg-blue-100 text-blue-800" },
-  { tag: "tired", label: "Tired", emoji: "sleep", color: "bg-gray-100 text-gray-800" },
-  { tag: "bloated", label: "Bloated", emoji: "balloon", color: "bg-orange-100 text-orange-800" },
-  { tag: "sluggish", label: "Sluggish", emoji: "snail", color: "bg-amber-100 text-amber-800" },
-  { tag: "hungry_after", label: "Still Hungry", emoji: "question", color: "bg-red-100 text-red-800" },
-  { tag: "craving_more", label: "Want More", emoji: "plus", color: "bg-purple-100 text-purple-800" },
+const MOOD_TAG_OPTIONS: {
+  tag: MoodTag;
+  label: string;
+  emoji: string;
+  color: string;
+}[] = [
+  {
+    tag: "energized",
+    label: "Energized",
+    emoji: "lightning",
+    color: "bg-yellow-100 text-yellow-800",
+  },
+  {
+    tag: "satisfied",
+    label: "Satisfied",
+    emoji: "smile",
+    color: "bg-green-100 text-green-800",
+  },
+  {
+    tag: "content",
+    label: "Content",
+    emoji: "heart",
+    color: "bg-pink-100 text-pink-800",
+  },
+  {
+    tag: "focused",
+    label: "Focused",
+    emoji: "target",
+    color: "bg-blue-100 text-blue-800",
+  },
+  {
+    tag: "tired",
+    label: "Tired",
+    emoji: "sleep",
+    color: "bg-gray-100 text-gray-800",
+  },
+  {
+    tag: "bloated",
+    label: "Bloated",
+    emoji: "balloon",
+    color: "bg-orange-100 text-orange-800",
+  },
+  {
+    tag: "sluggish",
+    label: "Sluggish",
+    emoji: "snail",
+    color: "bg-amber-100 text-amber-800",
+  },
+  {
+    tag: "hungry_after",
+    label: "Still Hungry",
+    emoji: "question",
+    color: "bg-red-100 text-red-800",
+  },
+  {
+    tag: "craving_more",
+    label: "Want More",
+    emoji: "plus",
+    color: "bg-purple-100 text-purple-800",
+  },
 ];
 
 export default function FoodRating({
@@ -39,7 +89,9 @@ export default function FoodRating({
   readOnly = false,
 }: FoodRatingProps) {
   const [hoverRating, setHoverRating] = useState<number | null>(null);
-  const [selectedRating, setSelectedRating] = useState<FoodRatingType | undefined>(rating);
+  const [selectedRating, setSelectedRating] = useState<
+    FoodRatingType | undefined
+  >(rating);
   const [selectedMoods, setSelectedMoods] = useState<MoodTag[]>(moodTags);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -61,10 +113,8 @@ export default function FoodRating({
   const handleMoodToggle = (mood: MoodTag) => {
     if (readOnly) return;
 
-    setSelectedMoods(prev =>
-      prev.includes(mood)
-        ? prev.filter(m => m !== mood)
-        : [...prev, mood]
+    setSelectedMoods((prev) =>
+      prev.includes(mood) ? prev.filter((m) => m !== mood) : [...prev, mood],
     );
   };
 
@@ -149,7 +199,9 @@ export default function FoodRating({
       <div className="flex items-center gap-2 mb-4">
         {[1, 2, 3, 4, 5].map(renderStar)}
         <span className="text-gray-500 ml-2">
-          {displayRating > 0 ? `${displayRating.toFixed(1)} / 5` : "Tap to rate"}
+          {displayRating > 0
+            ? `${displayRating.toFixed(1)} / 5`
+            : "Tap to rate"}
         </span>
       </div>
 
@@ -203,8 +255,8 @@ export default function FoodRating({
       {/* Display Selected Moods (when not expanded) */}
       {!isExpanded && selectedMoods.length > 0 && (
         <div className="flex flex-wrap gap-1 mt-2">
-          {selectedMoods.map(mood => {
-            const option = MOOD_TAG_OPTIONS.find(o => o.tag === mood);
+          {selectedMoods.map((mood) => {
+            const option = MOOD_TAG_OPTIONS.find((o) => o.tag === mood);
             return option ? (
               <span
                 key={mood}
@@ -223,7 +275,13 @@ export default function FoodRating({
 /**
  * Inline star display for read-only contexts
  */
-export function StarDisplay({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" | "lg" }) {
+export function StarDisplay({
+  rating,
+  size = "sm",
+}: {
+  rating: number;
+  size?: "sm" | "md" | "lg";
+}) {
   const sizeClasses = {
     sm: "w-4 h-4",
     md: "w-5 h-5",
@@ -232,7 +290,7 @@ export function StarDisplay({ rating, size = "sm" }: { rating: number; size?: "s
 
   return (
     <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map(index => {
+      {[1, 2, 3, 4, 5].map((index) => {
         const filled = rating >= index;
         const halfFilled = rating >= index - 0.5 && rating < index;
 
@@ -240,11 +298,19 @@ export function StarDisplay({ rating, size = "sm" }: { rating: number; size?: "s
           <svg
             key={index}
             className={sizeClasses[size]}
-            fill={filled ? "#f59e0b" : halfFilled ? "url(#halfDisplay)" : "#e5e7eb"}
+            fill={
+              filled ? "#f59e0b" : halfFilled ? "url(#halfDisplay)" : "#e5e7eb"
+            }
             viewBox="0 0 24 24"
           >
             <defs>
-              <linearGradient id="halfDisplay" x1="0%" y1="0%" x2="100%" y2="0%">
+              <linearGradient
+                id="halfDisplay"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="0%"
+              >
                 <stop offset="50%" stopColor="#f59e0b" />
                 <stop offset="50%" stopColor="#e5e7eb" />
               </linearGradient>

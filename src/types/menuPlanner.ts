@@ -7,8 +7,9 @@
  */
 
 import type { LunarPhase } from "./alchemy";
-import type { Recipe, ElementalProperties } from "./recipe";
-import type { PlanetaryPositions, StandardZodiacSign } from "./astrology";
+import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
+import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
+
 
 /**
  * Days of the week enumeration
@@ -26,13 +27,13 @@ export type MealType = "breakfast" | "lunch" | "dinner" | "snack";
  * Each day of the week is ruled by a specific planet in traditional astrology
  */
 export const PLANETARY_DAY_RULERS: Record<DayOfWeek, string> = {
-  0: "Sun",      // Sunday
-  1: "Moon",     // Monday
-  2: "Mars",     // Tuesday
-  3: "Mercury",  // Wednesday
-  4: "Jupiter",  // Thursday
-  5: "Venus",    // Friday
-  6: "Saturn",   // Saturday
+  0: "Sun", // Sunday
+  1: "Moon", // Monday
+  2: "Mars", // Tuesday
+  3: "Mercury", // Wednesday
+  4: "Jupiter", // Thursday
+  5: "Venus", // Friday
+  6: "Saturn", // Saturday
 };
 
 /**
@@ -41,7 +42,7 @@ export const PLANETARY_DAY_RULERS: Record<DayOfWeek, string> = {
  */
 export interface PlanetarySnapshot {
   dominantPlanet: string;
-  zodiacSign: StandardZodiacSign;
+  zodiacSign: StandardZodiacSignType;
   lunarPhase: LunarPhase;
   elementalState: ElementalProperties;
   planetaryPositions?: PlanetaryPositions;
@@ -56,11 +57,11 @@ export interface MealSlot {
   id: string;
   dayOfWeek: DayOfWeek;
   mealType: MealType;
-  recipe?: Recipe;
+  recipe?: EnhancedRecipe; // Changed from MonicaOptimizedRecipe to EnhancedRecipe
   servings: number;
   planetarySnapshot: PlanetarySnapshot;
   notes?: string;
-  isLocked?: boolean;  // Whether this meal is locked from changes
+  isLocked?: boolean; // Whether this meal is locked from changes
   createdAt: Date;
   updatedAt: Date;
 }
@@ -137,8 +138,8 @@ export interface NutritionalGoals {
   targetMonica?: number;
   macroRatio?: {
     protein: number; // e.g., 30 for 30%
-    carbs: number;   // e.g., 40 for 40%
-    fat: number;     // e.g., 30 for 30%
+    carbs: number; // e.g., 40 for 40%
+    fat: number; // e.g., 30 for 30%
   };
   elementalTargets?: Partial<ElementalProperties>;
 }
@@ -237,7 +238,10 @@ export interface MenuTemplate {
   id: string;
   name: string;
   description?: string;
-  meals: Omit<MealSlot, "id" | "planetarySnapshot" | "createdAt" | "updatedAt">[];
+  meals: Omit<
+    MealSlot,
+    "id" | "planetarySnapshot" | "createdAt" | "updatedAt"
+  >[];
   tags?: string[];
   author?: string;
   isPublic: boolean;
@@ -410,7 +414,8 @@ export function getPlanetaryDayCharacteristics(day: DayOfWeek): {
     5: {
       planet: "Venus",
       description: "Indulgent, beautiful",
-      mealGuidance: "Indulge in beautiful, sensual, aesthetically pleasing meals",
+      mealGuidance:
+        "Indulge in beautiful, sensual, aesthetically pleasing meals",
     },
     6: {
       planet: "Saturn",

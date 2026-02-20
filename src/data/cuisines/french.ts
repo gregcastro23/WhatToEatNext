@@ -198,25 +198,25 @@ export const french: Cuisine = {
             "Traditional Parisian breakfast with croissant, café au lait, and strawberry preserves",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "warming",
-            elementalProperties: {
-              Fire: 0.31,
-              Water: 0.23,
-              Earth: 0.23,
-              Air: 0.23,
+            {
+              name: "warming",
+              elementalProperties: {
+                Fire: 0.31,
+                Water: 0.23,
+                Earth: 0.23,
+                Air: 0.23,
+              },
             },
-          },
-          {
-            name: "brewing",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.41,
-              Earth: 0.12,
-              Air: 0.24,
+            {
+              name: "brewing",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.41,
+                Earth: 0.12,
+                Air: 0.24,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "coffee maker",
             "milk frother",
@@ -267,7 +267,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "French butter", amount: 30, unit: "g", category: "dairy",
+            {
+              name: "French butter",
+              amount: 30,
+              unit: "g",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.2,
@@ -287,7 +291,11 @@ export const french: Cuisine = {
                 Air: 0.15,
               },
             },
-            { name: "coffee", amount: 120, unit: "ml", category: "beverage",
+            {
+              name: "coffee",
+              amount: 120,
+              unit: "ml",
+              category: "beverage",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.3,
@@ -295,7 +303,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "whole milk", amount: 120, unit: "ml", category: "dairy",
+            {
+              name: "whole milk",
+              amount: 120,
+              unit: "ml",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.6,
@@ -342,25 +354,25 @@ export const french: Cuisine = {
             "Baked eggs in ramekins with cream and fine herbs - a refined French breakfast",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "water bath",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.6,
-              Earth: 0.13,
-              Air: 0.13,
+            {
+              name: "water bath",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.6,
+                Earth: 0.13,
+                Air: 0.13,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "ramekins",
             "baking dish",
@@ -427,7 +439,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "fine herbs", amount: 1, unit: "tbsp", category: "herb",
+            {
+              name: "fine herbs",
+              amount: 1,
+              unit: "tbsp",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -521,25 +537,25 @@ export const french: Cuisine = {
           description: "Traditional French toast with brioche and vanilla bean",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "pan-frying",
-            elementalProperties: {
-              Fire: 0.42,
-              Water: 0.09,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          {
-            name: "soaking",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.75,
-              Earth: 0.17,
-              Air: 0.08,
+            {
+              name: "soaking",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.75,
+                Earth: 0.17,
+                Air: 0.08,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "non-stick pan",
             "shallow dish",
@@ -580,7 +596,11 @@ export const french: Cuisine = {
           dietaryInfo: ["vegetarian"],
           spiceLevel: "none",
           ingredients: [
-            { name: "brioche", amount: 6, unit: "slices", category: "bread",
+            {
+              name: "brioche",
+              amount: 6,
+              unit: "slices",
+              category: "bread",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.15,
@@ -588,7 +608,11 @@ export const french: Cuisine = {
                 Air: 0.15,
               },
             },
-            { name: "eggs", amount: 3, unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: 3,
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -596,7 +620,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "whole milk", amount: 240, unit: "ml", category: "dairy",
+            {
+              name: "whole milk",
+              amount: 240,
+              unit: "ml",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.6,
@@ -640,7 +668,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "cinnamon", amount: 0.25, unit: "tsp", category: "spice",
+            {
+              name: "cinnamon",
+              amount: 0.25,
+              unit: "tsp",
+              category: "spice",
               elementalProperties: {
                 Fire: 0.45,
                 Water: 0.1,
@@ -694,19 +726,34 @@ export const french: Cuisine = {
                 Earth: 0.21,
                 Air: 0.37,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "pie crust", amount: "1", unit: "9-inch", category: "grain" },
+            {
+              name: "pie crust",
+              amount: "1",
+              unit: "9-inch",
+              category: "grain",
+            },
             { name: "bacon", amount: "200", unit: "g", category: "protein" },
-            { name: "Gruyère cheese", amount: "150", unit: "g", category: "dairy" },
-            { name: "heavy cream", amount: "1", unit: "cup", category: "dairy" },
+            {
+              name: "Gruyère cheese",
+              amount: "150",
+              unit: "g",
+              category: "dairy",
+            },
+            {
+              name: "heavy cream",
+              amount: "1",
+              unit: "cup",
+              category: "dairy",
+            },
             { name: "eggs", amount: "4", unit: "large", category: "protein" },
             { name: "nutmeg", amount: "1/4", unit: "tsp", category: "spice" },
           ],
           substitutions: {
             bacon: ["ham", "mushrooms"],
-            "Gruyère": ["Swiss cheese", "Emmental"],
+            Gruyère: ["Swiss cheese", "Emmental"],
           },
           servingSize: 6,
           allergens: ["gluten", "eggs", "dairy"],
@@ -743,15 +790,35 @@ export const french: Cuisine = {
                 Earth: 0.21,
                 Air: 0.27,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "brioche", amount: "4", unit: "thick slices", category: "grain" },
+            {
+              name: "brioche",
+              amount: "4",
+              unit: "thick slices",
+              category: "grain",
+            },
             { name: "eggs", amount: "3", unit: "large", category: "protein" },
-            { name: "heavy cream", amount: "1/2", unit: "cup", category: "dairy" },
-            { name: "vanilla extract", amount: "1", unit: "tsp", category: "flavoring" },
+            {
+              name: "heavy cream",
+              amount: "1/2",
+              unit: "cup",
+              category: "dairy",
+            },
+            {
+              name: "vanilla extract",
+              amount: "1",
+              unit: "tsp",
+              category: "flavoring",
+            },
             { name: "butter", amount: "3", unit: "tbsp", category: "fat" },
-            { name: "powdered sugar", amount: "2", unit: "tbsp", category: "sweetener" },
+            {
+              name: "powdered sugar",
+              amount: "2",
+              unit: "tbsp",
+              category: "sweetener",
+            },
           ],
           substitutions: {
             brioche: ["challah", "croissants"],
@@ -789,34 +856,34 @@ export const french: Cuisine = {
             "The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "broiling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.12,
-              Air: 0.32,
+            {
+              name: "broiling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.12,
+                Air: 0.32,
+              },
             },
-          },
-          {
-            name: "sauce-making",
-            elementalProperties: {
-              Fire: 0.27,
-              Water: 0.33,
-              Earth: 0.2,
-              Air: 0.2,
+            {
+              name: "sauce-making",
+              elementalProperties: {
+                Fire: 0.27,
+                Water: 0.33,
+                Earth: 0.2,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "saucepan",
             "whisk",
@@ -917,7 +984,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "nutmeg", amount: 1, unit: "pinch", category: "spice",
+            {
+              name: "nutmeg",
+              amount: 1,
+              unit: "pinch",
+              category: "spice",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.1,
@@ -964,25 +1035,25 @@ export const french: Cuisine = {
             "Classic Mediterranean salad from Nice with tuna, olives, and vegetables",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large bowl",
             "saucepan",
@@ -1059,7 +1130,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "eggs", amount: 4, unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: 4,
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1079,7 +1154,11 @@ export const french: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "anchovies", amount: 8, unit: "fillets", category: "fish",
+            {
+              name: "anchovies",
+              amount: 8,
+              unit: "fillets",
+              category: "fish",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.55,
@@ -1138,34 +1217,34 @@ export const french: Cuisine = {
             "Rich onion soup topped with toasted bread and melted Gruyère cheese",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "caramelizing",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.19,
+            {
+              name: "caramelizing",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.19,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "broiling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.12,
-              Air: 0.32,
+            {
+              name: "broiling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.12,
+                Air: 0.32,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "wooden spoon",
@@ -1220,7 +1299,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "beef stock", amount: 1.5, unit: "L", category: "broth",
+            {
+              name: "beef stock",
+              amount: 1.5,
+              unit: "L",
+              category: "broth",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.7,
@@ -1228,7 +1311,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "baguette", amount: 0.5, unit: "piece", category: "bread",
+            {
+              name: "baguette",
+              amount: 0.5,
+              unit: "piece",
+              category: "bread",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.1,
@@ -1248,7 +1335,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "butter", amount: 50, unit: "g", category: "dairy",
+            {
+              name: "butter",
+              amount: 50,
+              unit: "g",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.2,
@@ -1280,7 +1371,11 @@ export const french: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "bay leaf", amount: 1, unit: "piece", category: "herb",
+            {
+              name: "bay leaf",
+              amount: 1,
+              unit: "piece",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.15,
                 Water: 0.15,
@@ -1346,15 +1441,40 @@ export const french: Cuisine = {
                 Earth: 0.13,
                 Air: 0.19,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "frisée lettuce", amount: "2", unit: "heads", category: "vegetable" },
-            { name: "bacon lardons", amount: "150", unit: "g", category: "protein" },
+            {
+              name: "frisée lettuce",
+              amount: "2",
+              unit: "heads",
+              category: "vegetable",
+            },
+            {
+              name: "bacon lardons",
+              amount: "150",
+              unit: "g",
+              category: "protein",
+            },
             { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            { name: "shallots", amount: "2", unit: "medium", category: "vegetable" },
-            { name: "red wine vinegar", amount: "3", unit: "tbsp", category: "vinegar" },
-            { name: "Dijon mustard", amount: "1", unit: "tsp", category: "condiment" },
+            {
+              name: "shallots",
+              amount: "2",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "red wine vinegar",
+              amount: "3",
+              unit: "tbsp",
+              category: "vinegar",
+            },
+            {
+              name: "Dijon mustard",
+              amount: "1",
+              unit: "tsp",
+              category: "condiment",
+            },
           ],
           substitutions: {
             frisée: ["escarole", "mixed greens"],
@@ -1395,13 +1515,23 @@ export const french: Cuisine = {
                 Earth: 0.21,
                 Air: 0.27,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "buckwheat flour", amount: "1", unit: "cup", category: "grain" },
+            {
+              name: "buckwheat flour",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
+            },
             { name: "eggs", amount: "5", unit: "large", category: "protein" },
             { name: "ham", amount: "200", unit: "g", category: "protein" },
-            { name: "Gruyère cheese", amount: "150", unit: "g", category: "dairy" },
+            {
+              name: "Gruyère cheese",
+              amount: "150",
+              unit: "g",
+              category: "dairy",
+            },
             { name: "butter", amount: "4", unit: "tbsp", category: "fat" },
           ],
           substitutions: {
@@ -1440,25 +1570,25 @@ export const french: Cuisine = {
             "Classic French chicken braised in red wine with mushrooms and lardons",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "Dutch oven",
             "tongs",
@@ -1519,7 +1649,11 @@ export const french: Cuisine = {
                 Air: 0.15,
               },
             },
-            { name: "lardons", amount: 200, unit: "g", category: "protein",
+            {
+              name: "lardons",
+              amount: 200,
+              unit: "g",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.35,
                 Water: 0.15,
@@ -1527,7 +1661,11 @@ export const french: Cuisine = {
                 Air: 0.05,
               },
             },
-            { name: "red wine", amount: 750, unit: "ml", category: "wine",
+            {
+              name: "red wine",
+              amount: 750,
+              unit: "ml",
+              category: "wine",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.5,
@@ -1635,25 +1773,25 @@ export const french: Cuisine = {
             "Classic pan-fried sole with brown butter, lemon and parsley",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "pan-frying",
-            elementalProperties: {
-              Fire: 0.42,
-              Water: 0.09,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          {
-            name: "sauce-making",
-            elementalProperties: {
-              Fire: 0.27,
-              Water: 0.33,
-              Earth: 0.2,
-              Air: 0.2,
+            {
+              name: "sauce-making",
+              elementalProperties: {
+                Fire: 0.27,
+                Water: 0.33,
+                Earth: 0.2,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large skillet",
             "fish spatula",
@@ -1740,7 +1878,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "lemon", amount: 2, unit: "whole", category: "fruit",
+            {
+              name: "lemon",
+              amount: 2,
+              unit: "whole",
+              category: "fruit",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.5,
@@ -1823,34 +1965,34 @@ export const french: Cuisine = {
             "Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "reducing",
-            elementalProperties: {
-              Fire: 0.29,
-              Water: 0.34,
-              Earth: 0.17,
-              Air: 0.2,
+            {
+              name: "reducing",
+              elementalProperties: {
+                Fire: 0.29,
+                Water: 0.34,
+                Earth: 0.17,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "Dutch oven",
             "strainer",
@@ -1895,7 +2037,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "lardons", amount: 200, unit: "g", category: "protein",
+            {
+              name: "lardons",
+              amount: 200,
+              unit: "g",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.35,
                 Water: 0.15,
@@ -1903,7 +2049,11 @@ export const french: Cuisine = {
                 Air: 0.05,
               },
             },
-            { name: "red wine", amount: 750, unit: "ml", category: "wine",
+            {
+              name: "red wine",
+              amount: 750,
+              unit: "ml",
+              category: "wine",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.5,
@@ -1911,7 +2061,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "beef stock", amount: 500, unit: "ml", category: "broth",
+            {
+              name: "beef stock",
+              amount: 500,
+              unit: "ml",
+              category: "broth",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.7,
@@ -2015,7 +2169,11 @@ export const french: Cuisine = {
                 Air: 0.05,
               },
             },
-            { name: "butter", amount: 30, unit: "g", category: "dairy",
+            {
+              name: "butter",
+              amount: 30,
+              unit: "g",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.2,
@@ -2035,7 +2193,11 @@ export const french: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "thyme", amount: 4, unit: "sprigs", category: "herb",
+            {
+              name: "thyme",
+              amount: 4,
+              unit: "sprigs",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.1,
@@ -2043,7 +2205,11 @@ export const french: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "bay leaf", amount: 2, unit: "pieces", category: "herb",
+            {
+              name: "bay leaf",
+              amount: 2,
+              unit: "pieces",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.15,
                 Water: 0.15,
@@ -2109,15 +2275,35 @@ export const french: Cuisine = {
                 Earth: 0.5,
                 Air: 0.1,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "duck legs", amount: "4", unit: "whole", category: "protein" },
+            {
+              name: "duck legs",
+              amount: "4",
+              unit: "whole",
+              category: "protein",
+            },
             { name: "duck fat", amount: "4", unit: "cups", category: "fat" },
-            { name: "kosher salt", amount: "1/4", unit: "cup", category: "seasoning" },
+            {
+              name: "kosher salt",
+              amount: "1/4",
+              unit: "cup",
+              category: "seasoning",
+            },
             { name: "thyme", amount: "4", unit: "sprigs", category: "herb" },
-            { name: "garlic", amount: "6", unit: "cloves", category: "vegetable" },
-            { name: "bay leaves", amount: "2", unit: "pieces", category: "herb" },
+            {
+              name: "garlic",
+              amount: "6",
+              unit: "cloves",
+              category: "vegetable",
+            },
+            {
+              name: "bay leaves",
+              amount: "2",
+              unit: "pieces",
+              category: "herb",
+            },
           ],
           substitutions: {
             "duck legs": ["chicken legs"],
@@ -2158,15 +2344,45 @@ export const french: Cuisine = {
                 Earth: 0.3,
                 Air: 0.1,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "white beans", amount: "500", unit: "g", category: "legume" },
-            { name: "duck confit", amount: "2", unit: "legs", category: "protein" },
-            { name: "Toulouse sausage", amount: "300", unit: "g", category: "protein" },
-            { name: "pork belly", amount: "200", unit: "g", category: "protein" },
-            { name: "tomatoes", amount: "2", unit: "medium", category: "vegetable" },
-            { name: "breadcrumbs", amount: "1", unit: "cup", category: "grain" },
+            {
+              name: "white beans",
+              amount: "500",
+              unit: "g",
+              category: "legume",
+            },
+            {
+              name: "duck confit",
+              amount: "2",
+              unit: "legs",
+              category: "protein",
+            },
+            {
+              name: "Toulouse sausage",
+              amount: "300",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "pork belly",
+              amount: "200",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "tomatoes",
+              amount: "2",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "breadcrumbs",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
+            },
           ],
           substitutions: {
             "duck confit": ["chicken thighs"],
@@ -2204,25 +2420,25 @@ export const french: Cuisine = {
             "Traditional vanilla custard with caramelized sugar crust",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "caramelizing",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.19,
+            {
+              name: "caramelizing",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.19,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "ramekins",
             "baking dish",
@@ -2257,7 +2473,11 @@ export const french: Cuisine = {
           dietaryInfo: ["vegetarian", "gluten-free"],
           spiceLevel: "none",
           ingredients: [
-            { name: "heavy cream", amount: 500, unit: "ml", category: "dairy",
+            {
+              name: "heavy cream",
+              amount: 500,
+              unit: "ml",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.5,
@@ -2362,34 +2582,34 @@ export const french: Cuisine = {
           description: "Upside-down caramelized apple tart",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "caramelizing",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.19,
+            {
+              name: "caramelizing",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.19,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "pastry-making",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.13,
-              Earth: 0.37,
-              Air: 0.31,
+            {
+              name: "pastry-making",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.13,
+                Earth: 0.37,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "heavy-bottomed tatin pan or cast iron skillet",
             "rolling pin",
@@ -2408,7 +2628,11 @@ export const french: Cuisine = {
             "Cool slightly and invert onto plate",
           ],
           ingredients: [
-            { name: "apples", amount: 8, unit: "large", category: "fruit",
+            {
+              name: "apples",
+              amount: 8,
+              unit: "large",
+              category: "fruit",
               elementalProperties: {
                 Fire: 0.15,
                 Water: 0.5,
@@ -2519,34 +2743,34 @@ export const french: Cuisine = {
             "Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce",
           cuisine: "french",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "piping",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.22,
-              Earth: 0.22,
-              Air: 0.52,
+            {
+              name: "piping",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.22,
+                Earth: 0.22,
+                Air: 0.52,
+              },
             },
-          },
-          {
-            name: "sauce-making",
-            elementalProperties: {
-              Fire: 0.27,
-              Water: 0.33,
-              Earth: 0.2,
-              Air: 0.2,
+            {
+              name: "sauce-making",
+              elementalProperties: {
+                Fire: 0.27,
+                Water: 0.33,
+                Earth: 0.2,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "saucepan",
             "piping bags",
@@ -2618,7 +2842,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "heavy cream", amount: 200, unit: "ml", category: "dairy",
+            {
+              name: "heavy cream",
+              amount: 200,
+              unit: "ml",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.5,
@@ -2626,7 +2854,11 @@ export const french: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "sugar", amount: 50, unit: "g", category: "sweetener",
+            {
+              name: "sugar",
+              amount: 50,
+              unit: "g",
+              category: "sweetener",
               elementalProperties: {
                 Fire: 0.3,
                 Water: 0.2,
@@ -2689,13 +2921,28 @@ export const french: Cuisine = {
                 Earth: 0.3,
                 Air: 0.4,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "dark chocolate", amount: "200", unit: "g", category: "sweetener" },
+            {
+              name: "dark chocolate",
+              amount: "200",
+              unit: "g",
+              category: "sweetener",
+            },
             { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            { name: "sugar", amount: "1/4", unit: "cup", category: "sweetener" },
-            { name: "heavy cream", amount: "1", unit: "cup", category: "dairy" },
+            {
+              name: "sugar",
+              amount: "1/4",
+              unit: "cup",
+              category: "sweetener",
+            },
+            {
+              name: "heavy cream",
+              amount: "1",
+              unit: "cup",
+              category: "dairy",
+            },
             { name: "butter", amount: "2", unit: "tbsp", category: "fat" },
           ],
           substitutions: {
@@ -2737,13 +2984,33 @@ export const french: Cuisine = {
                 Earth: 0.21,
                 Air: 0.37,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "puff pastry", amount: "500", unit: "g", category: "grain" },
-            { name: "pastry cream", amount: "2", unit: "cups", category: "filling" },
-            { name: "powdered sugar", amount: "1", unit: "cup", category: "sweetener" },
-            { name: "vanilla extract", amount: "1", unit: "tsp", category: "flavoring" },
+            {
+              name: "puff pastry",
+              amount: "500",
+              unit: "g",
+              category: "grain",
+            },
+            {
+              name: "pastry cream",
+              amount: "2",
+              unit: "cups",
+              category: "filling",
+            },
+            {
+              name: "powdered sugar",
+              amount: "1",
+              unit: "cup",
+              category: "sweetener",
+            },
+            {
+              name: "vanilla extract",
+              amount: "1",
+              unit: "tsp",
+              category: "flavoring",
+            },
           ],
           substitutions: {
             "puff pastry": ["phyllo dough"],

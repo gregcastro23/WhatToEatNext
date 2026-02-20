@@ -56,6 +56,10 @@ const rawLegumes = {
       protein_g: 1.8,
       fiber_g: 2.7,
       carbs_g: 7,
+      saturatedFat_g: 0,
+      sugar_g: 1.4,
+      potassium_mg: 211,
+      sodium_mg: 6,
       antioxidants: ["flavonoids", "carotenoids"],
     },
     preparation: {
@@ -129,6 +133,10 @@ const rawLegumes = {
       protein_g: 2.8,
       fiber_g: 2.6,
       carbs_g: 7.5,
+      saturatedFat_g: 0,
+      sugar_g: 3.2,
+      potassium_mg: 200,
+      sodium_mg: 4,
     },
     preparation: {
       washing: true,
@@ -174,6 +182,10 @@ const rawLegumes = {
       protein_g: 2.8,
       fiber_g: 2.6,
       carbs_g: 7.5,
+      saturatedFat_g: 0,
+      sugar_g: 4.0,
+      potassium_mg: 200,
+      sodium_mg: 4,
     },
     preparation: {
       washing: true,
@@ -219,6 +231,10 @@ const rawLegumes = {
       fiber_g: 5,
       carbs_g: 10,
       fat_g: 5,
+      saturatedFat_g: 0.6,
+      sugar_g: 2.2,
+      potassium_mg: 376,
+      sodium_mg: 2,
     },
     preparation: {
       washing: true,
@@ -271,6 +287,10 @@ const rawLegumes = {
       protein_g: 8,
       fiber_g: 7,
       carbs_g: 21,
+      saturatedFat_g: 0.1,
+      sugar_g: 1.8,
+      potassium_mg: 369,
+      sodium_mg: 2,
     },
     preparation: {
       shelling: "remove from pods if fresh",
@@ -289,7 +309,7 @@ const rawLegumes = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+// ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const _legumes: Record<string, IngredientMapping> =
   fixIngredientMappings(
     rawLegumes as Record<string, Partial<IngredientMapping>>,

@@ -10,7 +10,11 @@
  * Provides sophisticated resonance analysis for enhanced cuisine recommendations.
  */
 
-import type { AlchemicalProperties, ElementalProperties, ThermodynamicProperties } from "@/types/alchemy";
+import type {
+  AlchemicalProperties,
+  ElementalProperties,
+  ThermodynamicProperties,
+} from "@/types/alchemy";
 import {
   calculateThermodynamicMetrics,
   calculateMonicaKalchmCompatibility,
@@ -104,8 +108,8 @@ export function calculateThermodynamicResonance(
     monica: options.weightMonica ?? 0.25,
     gregsEnergy: options.weightGregsEnergy ?? 0.15,
     heat: options.weightHeat ?? 0.15,
-    entropy: options.weightEntropy ?? 0.10,
-    reactivity: options.weightReactivity ?? 0.10,
+    entropy: options.weightEntropy ?? 0.1,
+    reactivity: options.weightReactivity ?? 0.1,
   };
 
   const reasoning: string[] = [];
@@ -206,27 +210,35 @@ function calculateKalchmResonance(
   const cuisineKalchm = cuisineThermo.kalchm ?? 1;
 
   // Calculate ratio for logarithmic scaling
-  const kalchmRatio = Math.min(userKalchm, cuisineKalchm) / Math.max(userKalchm, cuisineKalchm);
+  const kalchmRatio =
+    Math.min(userKalchm, cuisineKalchm) / Math.max(userKalchm, cuisineKalchm);
 
   // Use logarithmic scaling to better discriminate ratio differences
   // This gives: 1:1 = 1.0, 2:1 = 0.65, 3:1 = 0.45, 10:1 = 0
-  const ratioScore = Math.max(0, 1 - Math.abs(Math.log(kalchmRatio)) / Math.log(10));
+  const ratioScore = Math.max(
+    0,
+    1 - Math.abs(Math.log(kalchmRatio)) / Math.log(10),
+  );
 
   // Bonus for both being near equilibrium (Kalchm ≈ 1.0)
   const equilibriumBonus = Math.max(
     0,
-    1 - Math.abs(1 - userKalchm) - Math.abs(1 - cuisineKalchm)
+    1 - Math.abs(1 - userKalchm) - Math.abs(1 - cuisineKalchm),
   );
 
   // Apply power function to equilibrium bonus for more discrimination
   const resonance = ratioScore * 0.7 + Math.pow(equilibriumBonus, 1.5) * 0.3;
 
   if (resonance > 0.8) {
-    reasoning.push("Exceptional Kalchm resonance - alchemical equilibrium strongly aligned");
+    reasoning.push(
+      "Exceptional Kalchm resonance - alchemical equilibrium strongly aligned",
+    );
   } else if (resonance > 0.6) {
     reasoning.push("Good Kalchm harmony - compatible alchemical dynamics");
   } else if (resonance < 0.4) {
-    reasoning.push("Kalchm mismatch - alchemical properties may feel unbalanced");
+    reasoning.push(
+      "Kalchm mismatch - alchemical properties may feel unbalanced",
+    );
   }
 
   return Math.max(0, Math.min(1, resonance));
@@ -254,14 +266,20 @@ function calculateMonicaAlignment(
 
   // Special case: Both near 1.0 (neutral equilibrium) - reduced bonus
   if (Math.abs(userMonica - 1) < 0.2 && Math.abs(cuisineMonica - 1) < 0.2) {
-    reasoning.push("Monica constants both near equilibrium - stable dynamic system");
+    reasoning.push(
+      "Monica constants both near equilibrium - stable dynamic system",
+    );
     return Math.max(alignment, 0.8); // Reduced from 0.85
   }
 
   if (alignment > 0.75) {
-    reasoning.push("Strong Monica alignment - dynamic system properties highly compatible");
+    reasoning.push(
+      "Strong Monica alignment - dynamic system properties highly compatible",
+    );
   } else if (alignment < 0.4) {
-    reasoning.push("Monica constant mismatch - system dynamics may require adjustment");
+    reasoning.push(
+      "Monica constant mismatch - system dynamics may require adjustment",
+    );
   }
 
   return alignment;
@@ -297,7 +315,10 @@ function calculateGregsEnergyHarmony(
     // User prefers negative energy, cuisine has negative energy
     harmony *= 1.5; // Increased from 1.2
     reasoning.push("Grounding energy alignment matches your preference");
-  } else if (Math.abs(userPref) > 0.3 && Math.sign(cuisineEnergy) !== Math.sign(userPref)) {
+  } else if (
+    Math.abs(userPref) > 0.3 &&
+    Math.sign(cuisineEnergy) !== Math.sign(userPref)
+  ) {
     // User has strong preference but cuisine is opposite - stronger penalty
     harmony *= 0.4; // Reduced from 0.7
     reasoning.push("Energy balance opposes your strong preference");
@@ -336,7 +357,9 @@ function calculateHeatCompatibility(
     // High heat cuisine
     if (userTolerance < 0.4) {
       compatibility *= 0.3; // Stronger penalty (reduced from 0.6)
-      reasoning.push("High heat cuisine significantly exceeds your heat tolerance");
+      reasoning.push(
+        "High heat cuisine significantly exceeds your heat tolerance",
+      );
     } else if (userTolerance > 0.7) {
       compatibility *= 1.6; // Stronger bonus (increased from 1.2)
       reasoning.push("High heat profile matches your heat tolerance well");
@@ -345,7 +368,9 @@ function calculateHeatCompatibility(
     // Low heat cuisine
     if (userTolerance > 0.7) {
       compatibility *= 0.7; // Slight penalty for mismatch
-      reasoning.push("Mild heat profile - may be less stimulating than preferred");
+      reasoning.push(
+        "Mild heat profile - may be less stimulating than preferred",
+      );
     } else {
       compatibility *= 1.2; // Small bonus
       reasoning.push("Gentle heat profile suits your preference");
@@ -382,15 +407,21 @@ function calculateEntropyMatch(
   if (userPref > 0.7 && normalizedCuisineEntropy > 0.6) {
     // User likes high diversity/chaos, cuisine is high entropy
     match *= 1.6; // Increased from 1.2
-    reasoning.push("High culinary diversity matches your preference for variety");
+    reasoning.push(
+      "High culinary diversity matches your preference for variety",
+    );
   } else if (userPref < 0.3 && normalizedCuisineEntropy < 0.4) {
     // User prefers order/simplicity, cuisine is low entropy
     match *= 1.5; // Increased from 1.2
-    reasoning.push("Structured, cohesive flavor profiles match your preference");
+    reasoning.push(
+      "Structured, cohesive flavor profiles match your preference",
+    );
   } else if (Math.abs(userPref - normalizedCuisineEntropy) > 0.5) {
     // Strong mismatch between preference and cuisine entropy
     match *= 0.6; // Penalty for mismatch
-    reasoning.push("Culinary complexity differs significantly from your preference");
+    reasoning.push(
+      "Culinary complexity differs significantly from your preference",
+    );
   }
 
   return Math.max(0, Math.min(1, match));
@@ -420,14 +451,20 @@ function calculateReactivityAlignment(
   if (userPref > 0.7 && cuisineReactivity > 1.0) {
     // User wants transformative cooking, cuisine is highly reactive
     alignment *= 1.8; // Increased from 1.3
-    reasoning.push("Highly transformative cooking methods match your preference for complex preparations");
+    reasoning.push(
+      "Highly transformative cooking methods match your preference for complex preparations",
+    );
   } else if (userPref < 0.3 && cuisineReactivity < 0.5) {
     // User prefers simple cooking, cuisine is low reactivity
     alignment *= 1.5; // Increased from 1.2
-    reasoning.push("Simple, straightforward preparations match your preference");
+    reasoning.push(
+      "Simple, straightforward preparations match your preference",
+    );
   } else if (Math.abs(userPref - cuisineReactivity) > 0.5) {
     alignment *= 0.5; // Stronger penalty (reduced from 0.8)
-    reasoning.push("Cooking complexity differs significantly from your preference");
+    reasoning.push(
+      "Cooking complexity differs significantly from your preference",
+    );
   }
 
   return Math.max(0, Math.min(1, alignment));
@@ -446,7 +483,8 @@ function determineTransformationPotential(
   const kalchm = thermo.kalchm ?? 1;
 
   // High reactivity + favorable Kalchm = high transformation potential
-  const transformationScore = reactivity * 0.7 + Math.abs(Math.log(kalchm)) * 0.3;
+  const transformationScore =
+    reactivity * 0.7 + Math.abs(Math.log(kalchm)) * 0.3;
 
   if (transformationScore > 2.0) {
     return "exceptional";
@@ -517,18 +555,26 @@ export function aggregateCuisineThermodynamicProfile(
   recipeThermodynamics: ThermodynamicProperties[],
 ): CuisineThermodynamicProfile {
   if (recipeThermodynamics.length === 0) {
-    throw new Error("Cannot aggregate thermodynamic profile from empty recipe list");
+    throw new Error(
+      "Cannot aggregate thermodynamic profile from empty recipe list",
+    );
   }
 
   const count = recipeThermodynamics.length;
 
   // Calculate averages
-  const avgHeat = recipeThermodynamics.reduce((sum, t) => sum + t.heat, 0) / count;
-  const avgEntropy = recipeThermodynamics.reduce((sum, t) => sum + t.entropy, 0) / count;
-  const avgReactivity = recipeThermodynamics.reduce((sum, t) => sum + t.reactivity, 0) / count;
-  const avgGregsEnergy = recipeThermodynamics.reduce((sum, t) => sum + t.gregsEnergy, 0) / count;
-  const avgKalchm = recipeThermodynamics.reduce((sum, t) => sum + (t.kalchm ?? 1), 0) / count;
-  const avgMonica = recipeThermodynamics.reduce((sum, t) => sum + (t.monica ?? 1), 0) / count;
+  const avgHeat =
+    recipeThermodynamics.reduce((sum, t) => sum + t.heat, 0) / count;
+  const avgEntropy =
+    recipeThermodynamics.reduce((sum, t) => sum + t.entropy, 0) / count;
+  const avgReactivity =
+    recipeThermodynamics.reduce((sum, t) => sum + t.reactivity, 0) / count;
+  const avgGregsEnergy =
+    recipeThermodynamics.reduce((sum, t) => sum + t.gregsEnergy, 0) / count;
+  const avgKalchm =
+    recipeThermodynamics.reduce((sum, t) => sum + (t.kalchm ?? 1), 0) / count;
+  const avgMonica =
+    recipeThermodynamics.reduce((sum, t) => sum + (t.monica ?? 1), 0) / count;
 
   const averageThermodynamics: ThermodynamicProperties = {
     heat: avgHeat,
@@ -540,10 +586,18 @@ export function aggregateCuisineThermodynamicProfile(
   };
 
   // Calculate variances
-  const heatVariance = calculateVariance(recipeThermodynamics.map((t) => t.heat));
-  const entropyVariance = calculateVariance(recipeThermodynamics.map((t) => t.entropy));
-  const reactivityVariance = calculateVariance(recipeThermodynamics.map((t) => t.reactivity));
-  const gregsEnergyVariance = calculateVariance(recipeThermodynamics.map((t) => t.gregsEnergy));
+  const heatVariance = calculateVariance(
+    recipeThermodynamics.map((t) => t.heat),
+  );
+  const entropyVariance = calculateVariance(
+    recipeThermodynamics.map((t) => t.entropy),
+  );
+  const reactivityVariance = calculateVariance(
+    recipeThermodynamics.map((t) => t.reactivity),
+  );
+  const gregsEnergyVariance = calculateVariance(
+    recipeThermodynamics.map((t) => t.gregsEnergy),
+  );
 
   // Identify signatures (z-score > 1.5)
   // For simplicity, using heuristics here - could calculate actual z-scores
@@ -597,10 +651,14 @@ export function calculateMultiCuisineHarmony(
       const thermo2 = cuisineProfiles[j].averageThermodynamics;
 
       // Calculate Kalchm ratio
-      const kalchmRatio = Math.min(thermo1.kalchm ?? 1, thermo2.kalchm ?? 1) / Math.max(thermo1.kalchm ?? 1, thermo2.kalchm ?? 1);
+      const kalchmRatio =
+        Math.min(thermo1.kalchm ?? 1, thermo2.kalchm ?? 1) /
+        Math.max(thermo1.kalchm ?? 1, thermo2.kalchm ?? 1);
 
       // Calculate Monica difference
-      const monicaDiff = Math.abs((thermo1.monica ?? 1) - (thermo2.monica ?? 1));
+      const monicaDiff = Math.abs(
+        (thermo1.monica ?? 1) - (thermo2.monica ?? 1),
+      );
       const monicaHarmony = Math.max(0, 1 - monicaDiff / 10);
 
       // Calculate energy compatibility
@@ -608,7 +666,8 @@ export function calculateMultiCuisineHarmony(
       const energyHarmony = Math.max(0, 1 - energyDiff / 5);
 
       // Weighted harmony
-      const pairHarmony = kalchmRatio * 0.4 + monicaHarmony * 0.3 + energyHarmony * 0.3;
+      const pairHarmony =
+        kalchmRatio * 0.4 + monicaHarmony * 0.3 + energyHarmony * 0.3;
 
       totalHarmony += pairHarmony;
       comparisons++;

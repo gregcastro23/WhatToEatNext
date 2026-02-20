@@ -1,6 +1,6 @@
 import type { ThermodynamicMetrics } from "@/types/alchemical";
 import type { ElementalProperties, Planet } from "@/types/alchemy";
-import { ZodiacSign, PlanetaryAlignment, Element } from "@/types/alchemy";
+import { ZodiacSignType, PlanetaryAlignment, Element } from "@/types/alchemy";
 import type { CookingMethod } from "@/types/cooking";
 import type { Ingredient } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";

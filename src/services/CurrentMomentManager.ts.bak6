@@ -12,7 +12,7 @@ import {
     getCurrentPlanetaryPositions,
     getPlanetaryPositionsForDateTime
 } from '@/services/astrologizeApi';
-import { ZodiacSign } from '@/types/alchemy';
+import { ZodiacSignType } from '@/types/alchemy';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 
@@ -457,7 +457,7 @@ class CurrentMomentManager {
    * Get element for zodiac sign
    */
   private getElementForSign(sign: any): string {
-    const elementMap: Record<ZodiacSign, string> = {
+    const elementMap: Record<ZodiacSignType, string> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',

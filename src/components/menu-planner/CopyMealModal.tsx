@@ -146,9 +146,7 @@ export default function CopyMealModal({
         {/* Header */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-800">
-              Copy/Move Meal
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-800">Copy/Move Meal</h2>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 text-2xl"
@@ -281,67 +279,75 @@ export default function CopyMealModal({
                   </tr>
                 </thead>
                 <tbody>
-                  {(["breakfast", "lunch", "dinner", "snack"] as MealType[]).map(
-                    (mealType) => (
-                      <tr key={mealType}>
-                        <td className="p-2 text-xs font-medium text-gray-700 capitalize border-b border-gray-200">
-                          {mealType}
-                        </td>
-                        {[0, 1, 2, 3, 4, 5, 6].map((day) => {
-                          const meal = mealsByDayAndType[day as DayOfWeek]?.[mealType];
-                          if (!meal) return <td key={day} className="p-1" />;
+                  {(
+                    ["breakfast", "lunch", "dinner", "snack"] as MealType[]
+                  ).map((mealType) => (
+                    <tr key={mealType}>
+                      <td className="p-2 text-xs font-medium text-gray-700 capitalize border-b border-gray-200">
+                        {mealType}
+                      </td>
+                      {[0, 1, 2, 3, 4, 5, 6].map((day) => {
+                        const meal =
+                          mealsByDayAndType[day as DayOfWeek]?.[mealType];
+                        if (!meal) return <td key={day} className="p-1" />;
 
-                          const isSource = meal.id === sourceMeal.id;
-                          const isFiltered = filteredMeals.some(
-                            (m) => m.id === meal.id,
-                          );
-                          const isSelected = selectedSlotIds.has(meal.id);
-                          const hasRecipe = !!meal.recipe;
-                          const colors = getMealTypeColors(mealType);
+                        const isSource = meal.id === sourceMeal.id;
+                        const isFiltered = filteredMeals.some(
+                          (m) => m.id === meal.id,
+                        );
+                        const isSelected = selectedSlotIds.has(meal.id);
+                        const hasRecipe = !!meal.recipe;
+                        const colors = getMealTypeColors(mealType);
 
-                          return (
-                            <td key={day} className="p-1 border-b border-gray-200">
-                              <button
-                                onClick={() => toggleSlot(meal.id)}
-                                disabled={isSource || !isFiltered}
-                                className={`
+                        return (
+                          <td
+                            key={day}
+                            className="p-1 border-b border-gray-200"
+                          >
+                            <button
+                              onClick={() => toggleSlot(meal.id)}
+                              disabled={isSource || !isFiltered}
+                              className={`
                                   w-full h-16 rounded-lg border-2 text-xs transition-all
                                   ${isSource ? "bg-gray-300 border-gray-400 cursor-not-allowed opacity-50" : ""}
                                   ${!isFiltered && !isSource ? "bg-gray-100 border-gray-200 cursor-not-allowed opacity-30" : ""}
                                   ${isFiltered && !isSource ? `${colors.bg} ${colors.border} hover:shadow-lg cursor-pointer` : ""}
                                   ${isSelected ? "ring-4 ring-purple-500 scale-105" : ""}
                                 `}
-                                title={
-                                  isSource
-                                    ? "Source slot"
-                                    : !isFiltered
-                                      ? "Filtered out"
-                                      : hasRecipe
-                                        ? meal.recipe!.name
-                                        : "Empty slot"
-                                }
-                              >
-                                {isSource && (
-                                  <div className="font-bold text-gray-600">SOURCE</div>
-                                )}
-                                {!isSource && isSelected && (
-                                  <div className="font-bold text-purple-600">✓</div>
-                                )}
-                                {!isSource && !isSelected && hasRecipe && (
-                                  <div className="truncate px-1 text-gray-600">
-                                    {meal.recipe!.name}
-                                  </div>
-                                )}
-                                {!isSource && !isSelected && !hasRecipe && (
-                                  <div className="text-gray-400">Empty</div>
-                                )}
-                              </button>
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ),
-                  )}
+                              title={
+                                isSource
+                                  ? "Source slot"
+                                  : !isFiltered
+                                    ? "Filtered out"
+                                    : hasRecipe
+                                      ? meal.recipe!.name
+                                      : "Empty slot"
+                              }
+                            >
+                              {isSource && (
+                                <div className="font-bold text-gray-600">
+                                  SOURCE
+                                </div>
+                              )}
+                              {!isSource && isSelected && (
+                                <div className="font-bold text-purple-600">
+                                  ✓
+                                </div>
+                              )}
+                              {!isSource && !isSelected && hasRecipe && (
+                                <div className="truncate px-1 text-gray-600">
+                                  {meal.recipe!.name}
+                                </div>
+                              )}
+                              {!isSource && !isSelected && !hasRecipe && (
+                                <div className="text-gray-400">Empty</div>
+                              )}
+                            </button>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -353,8 +359,9 @@ export default function CopyMealModal({
               <p className="text-sm text-blue-800">
                 {operation === "copy" ? "Copying" : "Moving"}{" "}
                 <span className="font-semibold">{sourceMeal.recipe?.name}</span>{" "}
-                to {selectedSlotIds.size} slot{selectedSlotIds.size > 1 ? "s" : ""}{" "}
-                with {servings} serving{servings > 1 ? "s" : ""} each
+                to {selectedSlotIds.size} slot
+                {selectedSlotIds.size > 1 ? "s" : ""} with {servings} serving
+                {servings > 1 ? "s" : ""} each
               </p>
             </div>
           )}

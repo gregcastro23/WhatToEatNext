@@ -12,55 +12,60 @@ All 480 recipes have complete core data (ingredients, instructions, basic nutrit
 
 ### Missing Data Breakdown
 
-| Field | Missing Count | Notes |
-|-------|---------------|-------|
-| Ingredients | 0 | All recipes have ingredients |
-| Instructions | 0 | All recipes have instructions |
-| Nutrition | 0 | All recipes have nutrition objects |
-| Calories | 0 | All recipes have calories |
-| Protein | 0 | All recipes have protein |
-| Carbs | 0 | All recipes have carbs |
-| Fat | 0 | All recipes have fat |
-| **Fiber** | **480** | Not included in nutrition data |
-| **Prep Time** | **480** | Recipes use `timeToMake` instead |
-| Description | 0 | All recipes have descriptions |
+| Field         | Missing Count | Notes                              |
+| ------------- | ------------- | ---------------------------------- |
+| Ingredients   | 0             | All recipes have ingredients       |
+| Instructions  | 0             | All recipes have instructions      |
+| Nutrition     | 0             | All recipes have nutrition objects |
+| Calories      | 0             | All recipes have calories          |
+| Protein       | 0             | All recipes have protein           |
+| Carbs         | 0             | All recipes have carbs             |
+| Fat           | 0             | All recipes have fat               |
+| **Fiber**     | **480**       | Not included in nutrition data     |
+| **Prep Time** | **480**       | Recipes use `timeToMake` instead   |
+| Description   | 0             | All recipes have descriptions      |
 
 ### Recipes by Cuisine
 
-| Cuisine | Recipe Count | Issues |
-|---------|--------------|--------|
-| American | 56 | Missing fiber, prepTime |
-| Thai | 52 | Missing fiber, prepTime |
-| Japanese | 44 | Missing fiber, prepTime |
-| Greek | 40 | Missing fiber, prepTime |
-| Korean | 40 | Missing fiber, prepTime |
-| Italian | 38 | Missing fiber, prepTime |
-| Indian | 36 | Missing fiber, prepTime |
-| Russian | 36 | Missing fiber, prepTime |
-| Mexican | 34 | Missing fiber, prepTime |
-| Middle Eastern | 34 | Missing fiber, prepTime |
-| Chinese | 24 | Missing fiber, prepTime |
-| French | 24 | Missing fiber, prepTime |
-| Vietnamese | 22 | Missing fiber, prepTime |
-| **African** | **0** | Data structure error |
+| Cuisine        | Recipe Count | Issues                  |
+| -------------- | ------------ | ----------------------- |
+| American       | 56           | Missing fiber, prepTime |
+| Thai           | 52           | Missing fiber, prepTime |
+| Japanese       | 44           | Missing fiber, prepTime |
+| Greek          | 40           | Missing fiber, prepTime |
+| Korean         | 40           | Missing fiber, prepTime |
+| Italian        | 38           | Missing fiber, prepTime |
+| Indian         | 36           | Missing fiber, prepTime |
+| Russian        | 36           | Missing fiber, prepTime |
+| Mexican        | 34           | Missing fiber, prepTime |
+| Middle Eastern | 34           | Missing fiber, prepTime |
+| Chinese        | 24           | Missing fiber, prepTime |
+| French         | 24           | Missing fiber, prepTime |
+| Vietnamese     | 22           | Missing fiber, prepTime |
+| **African**    | **0**        | Data structure error    |
 
 ## Issues Identified
 
 ### 1. Missing Fiber Data (Priority: High)
+
 All recipes have nutrition objects containing calories, protein, carbs, and fat, but fiber is not included. This impacts the Menu Planner's ability to track complete macros.
 
 **Recommendation**: Add fiber values to all recipe nutrition objects, either:
+
 - Manually research and add fiber content
 - Estimate based on ingredient types (vegetables, grains, legumes typically high in fiber)
 
 ### 2. Missing prepTime Field (Priority: Medium)
+
 The audit checks for a `prepTime` field, but recipes use `timeToMake` instead. This is a schema mismatch rather than missing data.
 
 **Recommendation**: Either:
+
 - Update the audit to check `timeToMake` instead of `prepTime`
 - Add `prepTime` and `cookTime` fields to recipes for more granular timing
 
 ### 3. African Cuisine Data Structure (Priority: High)
+
 The African cuisine file has a malformed data structure where `dishes.breakfast` is undefined, causing an error during recipe extraction.
 
 **Error**: `Cannot read properties of undefined (reading 'breakfast')`
@@ -69,15 +74,15 @@ The African cuisine file has a malformed data structure where `dishes.breakfast`
 
 ## Data Quality Assessment
 
-| Metric | Score | Notes |
-|--------|-------|-------|
-| Core Ingredients | 100% | All recipes have ingredient lists with names |
-| Ingredient Details | ~95% | Most have amount/unit, some missing |
-| Instructions | 100% | All recipes have preparation steps |
-| Basic Nutrition | 100% | Calories, protein, carbs, fat present |
-| Complete Nutrition | 0% | Fiber missing from all |
-| Timing Data | 100% | All have timeToMake (not prepTime) |
-| Descriptions | 100% | All recipes have descriptions |
+| Metric             | Score | Notes                                        |
+| ------------------ | ----- | -------------------------------------------- |
+| Core Ingredients   | 100%  | All recipes have ingredient lists with names |
+| Ingredient Details | ~95%  | Most have amount/unit, some missing          |
+| Instructions       | 100%  | All recipes have preparation steps           |
+| Basic Nutrition    | 100%  | Calories, protein, carbs, fat present        |
+| Complete Nutrition | 0%    | Fiber missing from all                       |
+| Timing Data        | 100%  | All have timeToMake (not prepTime)           |
+| Descriptions       | 100%  | All recipes have descriptions                |
 
 ## Next Steps
 
@@ -100,4 +105,4 @@ npx tsx scripts/runRecipeAudit.ts
 
 ---
 
-*Generated by Recipe Data Audit Script*
+_Generated by Recipe Data Audit Script_

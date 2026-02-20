@@ -63,15 +63,15 @@ export function useToast() {
 
   const showSuccess = useCallback(
     (message: string) => setToast({ type: "success", message }),
-    []
+    [],
   );
   const showError = useCallback(
     (message: string) => setToast({ type: "error", message }),
-    []
+    [],
   );
   const showInfo = useCallback(
     (message: string) => setToast({ type: "info", message }),
-    []
+    [],
   );
 
   const ToastComponent = toast ? (

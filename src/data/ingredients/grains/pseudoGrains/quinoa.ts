@@ -72,6 +72,35 @@ const rawQuinoa = {
         "very wet preparations that might make it soggy",
       ],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (185g)",
+      calories: 222,
+      macros: {
+        protein: 8,
+        carbs: 39,
+        fat: 3.6,
+        fiber: 5,
+        saturatedFat: 0.4,
+        sugar: 2,
+        potassium: 318,
+        sodium: 13,
+      },
+      vitamins: {
+        folate: 0.19,
+        B6: 0.11,
+        thiamin: 0.13,
+        riboflavin: 0.12,
+        E: 0.08,
+      },
+      minerals: {
+        manganese: 0.58,
+        phosphorus: 0.28,
+        magnesium: 0.28,
+        iron: 0.15,
+        zinc: 0.13,
+        copper: 0.18,
+      },
+    },
   },
 };
 

@@ -24,8 +24,14 @@ const PLANET_FLAVOR_NOTES: Record<string, string> = {
 };
 
 const MOON_PHASES = [
-  "New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous",
-  "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent",
+  "New Moon",
+  "Waxing Crescent",
+  "First Quarter",
+  "Waxing Gibbous",
+  "Full Moon",
+  "Waning Gibbous",
+  "Last Quarter",
+  "Waning Crescent",
 ];
 
 function getMoonPhase(): string {

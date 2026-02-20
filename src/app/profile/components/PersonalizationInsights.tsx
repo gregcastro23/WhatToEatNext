@@ -25,10 +25,21 @@ export const PersonalizationInsights: React.FC<
 
   // Determine confidence level
   const getConfidenceLevel = (confidence: number) => {
-    if (confidence < 0.3) return { level: "Building", color: "text-yellow-600", bg: "bg-yellow-100" };
-    if (confidence < 0.6) return { level: "Good", color: "text-green-600", bg: "bg-green-100" };
-    if (confidence < 0.8) return { level: "Strong", color: "text-blue-600", bg: "bg-blue-100" };
-    return { level: "Excellent", color: "text-purple-600", bg: "bg-purple-100" };
+    if (confidence < 0.3)
+      return {
+        level: "Building",
+        color: "text-yellow-600",
+        bg: "bg-yellow-100",
+      };
+    if (confidence < 0.6)
+      return { level: "Good", color: "text-green-600", bg: "bg-green-100" };
+    if (confidence < 0.8)
+      return { level: "Strong", color: "text-blue-600", bg: "bg-blue-100" };
+    return {
+      level: "Excellent",
+      color: "text-purple-600",
+      bg: "bg-purple-100",
+    };
   };
 
   const confidenceInfo = getConfidenceLevel(learningStats.confidence);
@@ -102,8 +113,9 @@ export const PersonalizationInsights: React.FC<
                     Building Your Profile
                   </h4>
                   <p className="text-sm text-yellow-700">
-                    Interact with more recipes and ingredients to improve recommendation
-                    accuracy. We need more data to learn your preferences better.
+                    Interact with more recipes and ingredients to improve
+                    recommendation accuracy. We need more data to learn your
+                    preferences better.
                   </p>
                 </div>
               </div>
@@ -119,8 +131,9 @@ export const PersonalizationInsights: React.FC<
                     Great Progress!
                   </h4>
                   <p className="text-sm text-green-700">
-                    We have a good understanding of your preferences. Recommendations
-                    are getting more personalized with each interaction.
+                    We have a good understanding of your preferences.
+                    Recommendations are getting more personalized with each
+                    interaction.
                   </p>
                 </div>
               </div>
@@ -136,8 +149,9 @@ export const PersonalizationInsights: React.FC<
                     Excellent Match!
                   </h4>
                   <p className="text-sm text-purple-700">
-                    Our recommendations are highly personalized to your taste. Keep
-                    exploring to discover new favorites that match your preferences.
+                    Our recommendations are highly personalized to your taste.
+                    Keep exploring to discover new favorites that match your
+                    preferences.
                   </p>
                 </div>
               </div>
@@ -201,9 +215,10 @@ export const PersonalizationInsights: React.FC<
             <div>
               <h4 className="font-semibold text-blue-800 mb-1">Pro Tip</h4>
               <p className="text-sm text-blue-700">
-                The more you interact with recipes, ingredients, and cooking methods,
-                the better we can personalize recommendations. Save favorites, rate
-                dishes, and explore new cuisines to enhance your experience.
+                The more you interact with recipes, ingredients, and cooking
+                methods, the better we can personalize recommendations. Save
+                favorites, rate dishes, and explore new cuisines to enhance your
+                experience.
               </p>
             </div>
           </div>

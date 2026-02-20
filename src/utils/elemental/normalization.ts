@@ -75,9 +75,7 @@ export function normalizeForDisplay(
 export function getTotalIntensity(
   properties: RawElementalProperties | ElementalProperties,
 ): number {
-  return (
-    properties.Fire + properties.Water + properties.Earth + properties.Air
-  );
+  return properties.Fire + properties.Water + properties.Earth + properties.Air;
 }
 
 /**

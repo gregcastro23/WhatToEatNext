@@ -4,7 +4,7 @@
  * Stub implementation for consolidated recipe operations
  */
 
-import type { Recipe } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 export class ConsolidatedRecipeService {
   private static instance: ConsolidatedRecipeService;

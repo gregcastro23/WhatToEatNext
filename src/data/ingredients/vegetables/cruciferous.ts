@@ -59,6 +59,11 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       calories: 25,
       protein_g: 2,
       fiber_g: 3,
+      fat_g: 0.3,
+      saturatedFat_g: 0.1,
+      sugar_g: 1.7,
+      potassium_mg: 316,
+      sodium_mg: 33,
       antioxidants: [
         "glucosinolates",
         "flavonoids",

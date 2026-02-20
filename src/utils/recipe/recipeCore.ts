@@ -1,4 +1,4 @@
-import type { AstrologicalState, ZodiacSign } from "@/types/celestial";
+import type { AstrologicalState, ZodiacSignType } from "@/types/celestial";
 import type {
   ElementalProperties,
   Recipe,
@@ -75,8 +75,10 @@ export interface RecommendationExplanation {
   explanation: string;
 }
 
-export interface RecipeMatchContext
-  extends Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air"> {
+export interface RecipeMatchContext extends Pick<
+  ElementalProperties,
+  "Fire" | "Water" | "Earth" | "Air"
+> {
   timeOfDay: TimeOfDay | string;
   season: Season | string;
   currentSeason?: RecipeSeason | string;
@@ -316,7 +318,7 @@ export function describePlanetaryInfluences(
 
 export function highlightZodiacAlignment(
   recipe: Recipe,
-  signs: ZodiacSign[],
+  signs: ZodiacSignType[],
 ): string[] {
   if (
     !Array.isArray(recipe.zodiacInfluences) ||

@@ -13,7 +13,7 @@ import type { ThermodynamicMetrics } from "@/types/alchemical";
 import type {
   ElementalProperties,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
   PlanetName,
 } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";

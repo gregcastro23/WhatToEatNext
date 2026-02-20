@@ -69,6 +69,15 @@ export const _cryoCooking: CookingMethodData = {
     reactivity: 0.15, // Minimal chemical reactions at extreme cold
     gregsEnergy: -0.0775, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.95,            // Extreme temp differential — liquid nitrogen at -321°F
+    current: 0.92,            // Rapid heat extraction through direct contact
+    resistance: 0.05,         // Near-zero — liquid nitrogen conducts heat instantly
+    velocityFactor: 0.98,     // Near-instant — flash freezing in seconds
+    momentumRetention: 0.85,  // High — frozen state is very stable
+    forceImpact: 0.70,        // Significant — rapid ice crystal formation alters texture
+  },
 };
 
 export const cryoCooking = _cryoCooking;

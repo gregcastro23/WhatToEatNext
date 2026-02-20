@@ -102,9 +102,8 @@ const alchemicalEngine = {
   > => {
     try {
       // Import and call the function from the source module
-      const { calculateCurrentPlanetaryPositions } = await import(
-        "@/calculations/alchemicalEngine"
-      );
+      const { calculateCurrentPlanetaryPositions } =
+        await import("@/calculations/alchemicalEngine");
       return calculateCurrentPlanetaryPositions() as any;
     } catch (error) {
       _logger.error("Error calculating planetary positions: ", error);

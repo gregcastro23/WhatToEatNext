@@ -34,7 +34,12 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
   }
 
   // Enhanced defensive checks for alchemical and all required properties
-  if (!alchemical || !alchemical.elementalProperties || !alchemical.thermodynamicProperties || !alchemical.esms) {
+  if (
+    !alchemical ||
+    !alchemical.elementalProperties ||
+    !alchemical.thermodynamicProperties ||
+    !alchemical.esms
+  ) {
     return (
       <div className="p-6 bg-gradient-to-br from-orange-900/20 to-red-900/20 rounded-lg border border-orange-500/30">
         <p className="text-gray-400 italic">No alchemical data available</p>
@@ -42,8 +47,15 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
     );
   }
 
-  const { elementalProperties, thermodynamicProperties, esms, kalchm, monica, score, metadata } =
-    alchemical;
+  const {
+    elementalProperties,
+    thermodynamicProperties,
+    esms,
+    kalchm,
+    monica,
+    score,
+    metadata,
+  } = alchemical;
 
   // Find max values for scaling bars
   const maxElemental = Math.max(...Object.values(elementalProperties));
@@ -53,12 +65,23 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
     <div className="space-y-6 p-6 bg-gradient-to-br from-orange-900/20 to-red-900/20 rounded-lg border border-orange-500/30">
       {/* Header */}
       <div>
-        <h3 className="text-2xl font-bold text-orange-300 mb-2">Alchemical Analysis</h3>
+        <h3 className="text-2xl font-bold text-orange-300 mb-2">
+          Alchemical Analysis
+        </h3>
         {metadata?.dominantElement && (
           <p className="text-sm text-gray-400">
-            Dominant Element: <span className="text-orange-300 font-semibold">{metadata.dominantElement}</span>
+            Dominant Element:{" "}
+            <span className="text-orange-300 font-semibold">
+              {metadata.dominantElement}
+            </span>
             {metadata.sunSign && (
-              <> • Sun in <span className="text-orange-300 font-semibold capitalize">{metadata.sunSign}</span></>
+              <>
+                {" "}
+                • Sun in{" "}
+                <span className="text-orange-300 font-semibold capitalize">
+                  {metadata.sunSign}
+                </span>
+              </>
             )}
           </p>
         )}
@@ -74,7 +97,9 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
             <div key={property}>
               <div className="flex justify-between text-sm mb-1">
                 <span className="text-gray-300">{property}</span>
-                <span className="text-orange-300 font-semibold">{value.toFixed(1)}</span>
+                <span className="text-orange-300 font-semibold">
+                  {value.toFixed(1)}
+                </span>
               </div>
               <div className="h-2 bg-orange-900/30 rounded-full overflow-hidden">
                 <div
@@ -176,7 +201,8 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
           <p className="text-xs text-gray-500">
             Source: {metadata.source}
             {metadata.chartRuler && ` • Chart Ruler: ${metadata.chartRuler}`}
-            {metadata.dominantModality && ` • Dominant Modality: ${metadata.dominantModality}`}
+            {metadata.dominantModality &&
+              ` • Dominant Modality: ${metadata.dominantModality}`}
           </p>
         </div>
       )}

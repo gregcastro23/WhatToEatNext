@@ -92,6 +92,49 @@ const pages = [
           insights for this moment.
         </p>
       </section>
+
+      <section class="our-system">
+        <h2>Our Alchemical System</h2>
+        <p>
+          Our system is based on the eight core alchemical elements. 
+          Understanding their influence can help you make more informed 
+          dietary choices.
+        </p>
+        <div class="elements-grid">
+          <div class="element">
+            <h3>Fire</h3>
+            <p>Represents energy, passion, and transformation. Associated with spicy and warming foods.</p>
+          </div>
+          <div class="element">
+            <h3>Water</h3>
+            <p>Represents emotion, intuition, and purification. Associated with hydrating and cooling foods.</p>
+          </div>
+          <div class="element">
+            <h3>Earth</h3>
+            <p>Represents grounding, stability, and nourishment. Associated with root vegetables and grains.</p>
+          </div>
+          <div class="element">
+            <h3>Air</h3>
+            <p>Represents intellect, communication, and lightness. Associated with leafy greens and fruits.</p>
+          </div>
+          <div class="element">
+            <h3>Spirit</h3>
+            <p>Represents the life force and connection to the cosmos.</p>
+          </div>
+          <div class="element">
+            <h3>Essence</h3>
+            <p>Represents the purest form of a substance's energy.</p>
+          </div>
+          <div class="element">
+            <h3>Matter</h3>
+            <p>Represents the physical body and tangible world.</p>
+          </div>
+          <div class="element">
+            <h3>Substance</h3>
+            <p>Represents the underlying material of all things.</p>
+          </div>
+        </div>
+      </section>
     </main>
     
     <footer>
@@ -159,6 +202,24 @@ const pages = [
         padding: 2rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         margin-bottom: 2rem;
+      }
+
+      .our-system h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .elements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .element {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
       }
       
       h2 {

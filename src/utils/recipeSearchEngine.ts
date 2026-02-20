@@ -280,8 +280,8 @@ function calculateRecipeScore(
   // 3. Cuisine match (0-40 points)
   if (options.cuisine && options.cuisine.length > 0) {
     const recipeCuisine = recipe.cuisine?.toLowerCase() || "";
-    const matchesCuisine = options.cuisine.some(
-      (c) => recipeCuisine.includes(c.toLowerCase()),
+    const matchesCuisine = options.cuisine.some((c) =>
+      recipeCuisine.includes(c.toLowerCase()),
     );
     details.cuisineMatch = matchesCuisine ? 40 : 0;
   }
@@ -394,11 +394,7 @@ export function searchRecipes(
     }
 
     // 2. Filter by time constraints
-    if (
-      options.prepTimeMax ||
-      options.cookTimeMax ||
-      options.totalTimeMax
-    ) {
+    if (options.prepTimeMax || options.cookTimeMax || options.totalTimeMax) {
       results = results.filter((r) => checkTimeConstraints(r, options));
     }
 
@@ -425,8 +421,7 @@ export function searchRecipes(
       options.spiceLevelMax !== undefined
     ) {
       results = results.filter((r) => {
-        const spiceLevel =
-          typeof r.spiceLevel === "number" ? r.spiceLevel : 0;
+        const spiceLevel = typeof r.spiceLevel === "number" ? r.spiceLevel : 0;
         if (
           options.spiceLevelMin !== undefined &&
           spiceLevel < options.spiceLevelMin
@@ -637,7 +632,10 @@ export function searchRecipesByIngredients(
     recipe.ingredients?.forEach((ing) => {
       const ingLower = ing.name.toLowerCase();
       ingredientsLower.forEach((searchIng) => {
-        if (ingLower.includes(searchIng) && !matchedIngredients.includes(searchIng)) {
+        if (
+          ingLower.includes(searchIng) &&
+          !matchedIngredients.includes(searchIng)
+        ) {
           matchCount++;
           matchedIngredients.push(searchIng);
         }
@@ -886,7 +884,10 @@ export function formatAuditSummary(audit: RecipeAuditResult): string {
     `Description: ${audit.stats.missingDescription}`,
   ];
 
-  if (audit.incompleteRecipes.length > 0 && audit.incompleteRecipes.length <= 20) {
+  if (
+    audit.incompleteRecipes.length > 0 &&
+    audit.incompleteRecipes.length <= 20
+  ) {
     lines.push("", "--- Incomplete Recipes (first 20) ---");
     audit.incompleteRecipes.slice(0, 20).forEach((r, i) => {
       lines.push(`${i + 1}. ${r.recipeName} (${r.cuisine || "no cuisine"})`);

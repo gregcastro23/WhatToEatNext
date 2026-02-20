@@ -15,7 +15,7 @@ export interface UserWithProfile extends User {
 
 // Check if we should use database (only in server-side contexts with DB available)
 const isServerWithDB = (): boolean => {
-  return typeof window === 'undefined' && !!process.env.DATABASE_URL;
+  return typeof window === "undefined" && !!process.env.DATABASE_URL;
 };
 
 // Lazy-load database module to avoid build-time issues
@@ -46,38 +46,7 @@ class UserDatabaseService {
    */
   private async ensureInitialized(): Promise<void> {
     if (this.initialized) return;
-
-    // Always initialize in-memory default users for fallback
-    this.initializeDefaultUsers();
     this.initialized = true;
-  }
-
-  /**
-   * Initialize default users (including admin)
-   */
-  private initializeDefaultUsers(): void {
-    const currentTime = new Date();
-
-    // Admin user: xalchm@gmail.com
-    const adminUser: UserWithProfile = {
-      id: "user_admin_001",
-      email: "xalchm@gmail.com",
-      passwordHash: "TEMP_NO_PASSWORD", // Will be set during onboarding
-      roles: ["admin" as UserRole, "user" as UserRole],
-      isActive: true,
-      createdAt: currentTime,
-      profile: {
-        userId: "user_admin_001",
-        name: "Admin User",
-        email: "xalchm@gmail.com",
-        preferences: {},
-      },
-    };
-
-    this.users.set(adminUser.id, adminUser);
-    this.emailIndex.set(adminUser.email, adminUser.id);
-
-    _logger.info("User database initialized with in-memory fallback");
   }
 
   /**
@@ -135,7 +104,7 @@ class UserDatabaseService {
             JSON.stringify(user.profile),
             JSON.stringify(user.profile.preferences || {}),
             now,
-          ]
+          ],
         );
 
         // Insert into user_profiles table
@@ -154,12 +123,18 @@ class UserDatabaseService {
             JSON.stringify(data.profile?.natalChart || {}),
             JSON.stringify(data.profile?.groupMembers || []),
             JSON.stringify(data.profile?.diningGroups || []),
-          ]
+          ],
         );
 
-        _logger.info("User created in PostgreSQL:", { userId, email: data.email });
+        _logger.info("User created in PostgreSQL:", {
+          userId,
+          email: data.email,
+        });
       } catch (error) {
-        _logger.error("PostgreSQL user creation failed, using in-memory:", error as any);
+        _logger.error(
+          "PostgreSQL user creation failed, using in-memory:",
+          error as any,
+        );
         // Fall through to in-memory storage
       }
     }
@@ -188,7 +163,7 @@ class UserDatabaseService {
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
            WHERE u.id = $1`,
-          [userId]
+          [userId],
         );
 
         if (result.rows.length > 0) {
@@ -220,7 +195,7 @@ class UserDatabaseService {
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
            WHERE u.email = $1`,
-          [email]
+          [email],
         );
 
         if (result.rows.length > 0) {
@@ -271,7 +246,7 @@ class UserDatabaseService {
             userId,
             JSON.stringify(updatedProfile),
             JSON.stringify(updatedProfile.preferences || {}),
-          ]
+          ],
         );
 
         // Update user_profiles table
@@ -290,14 +265,14 @@ class UserDatabaseService {
              updated_at = CURRENT_TIMESTAMP`,
           [
             userId,
-            updatedProfile.name || '',
+            updatedProfile.name || "",
             JSON.stringify(updatedProfile.birthData || {}),
             JSON.stringify(updatedProfile.natalChart || {}),
             JSON.stringify(updatedProfile.preferences || {}),
             JSON.stringify(updatedProfile.groupMembers || []),
             JSON.stringify(updatedProfile.diningGroups || []),
             !!(updatedProfile.birthData && updatedProfile.natalChart),
-          ]
+          ],
         );
 
         _logger.info("User profile updated in PostgreSQL:", { userId });
@@ -353,8 +328,8 @@ class UserDatabaseService {
 
         if (updates.length > 0) {
           await db.executeQuery(
-            `UPDATE users SET ${updates.join(', ')}, updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
-            params
+            `UPDATE users SET ${updates.join(", ")}, updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
+            params,
           );
         }
       } catch (error) {
@@ -379,7 +354,7 @@ class UserDatabaseService {
       try {
         const result = await db.executeQuery(
           `SELECT onboarding_completed FROM user_profiles WHERE user_id = $1`,
-          [userId]
+          [userId],
         );
         if (result.rows.length > 0) {
           return result.rows[0].onboarding_completed === true;
@@ -415,7 +390,7 @@ class UserDatabaseService {
       try {
         await db.executeQuery(
           `UPDATE users SET is_active = false, updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
-          [userId]
+          [userId],
         );
       } catch (error) {
         _logger.error("PostgreSQL deactivation failed:", error as any);
@@ -445,7 +420,7 @@ class UserDatabaseService {
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
            WHERE u.is_active = true
-           ORDER BY u.created_at DESC`
+           ORDER BY u.created_at DESC`,
         );
 
         return result.rows.map((row: any) => this.rowToUserWithProfile(row));
@@ -470,7 +445,7 @@ class UserDatabaseService {
       try {
         const result = await db.executeQuery(
           `SELECT 1 FROM users WHERE email = $1 LIMIT 1`,
-          [email]
+          [email],
         );
         return result.rows.length > 0;
       } catch (error) {
@@ -486,27 +461,32 @@ class UserDatabaseService {
    * Convert database row to UserWithProfile object
    */
   private rowToUserWithProfile(row: any): UserWithProfile {
-    const birthData = typeof row.birth_data === 'string'
-      ? JSON.parse(row.birth_data)
-      : row.birth_data;
-    const natalChart = typeof row.natal_chart === 'string'
-      ? JSON.parse(row.natal_chart)
-      : row.natal_chart;
-    const preferences = typeof row.dietary_preferences === 'string'
-      ? JSON.parse(row.dietary_preferences)
-      : (row.dietary_preferences || row.preferences || {});
-    const groupMembers = typeof row.group_members === 'string'
-      ? JSON.parse(row.group_members)
-      : (row.group_members || []);
-    const diningGroups = typeof row.dining_groups === 'string'
-      ? JSON.parse(row.dining_groups)
-      : (row.dining_groups || []);
+    const birthData =
+      typeof row.birth_data === "string"
+        ? JSON.parse(row.birth_data)
+        : row.birth_data;
+    const natalChart =
+      typeof row.natal_chart === "string"
+        ? JSON.parse(row.natal_chart)
+        : row.natal_chart;
+    const preferences =
+      typeof row.dietary_preferences === "string"
+        ? JSON.parse(row.dietary_preferences)
+        : row.dietary_preferences || row.preferences || {};
+    const groupMembers =
+      typeof row.group_members === "string"
+        ? JSON.parse(row.group_members)
+        : row.group_members || [];
+    const diningGroups =
+      typeof row.dining_groups === "string"
+        ? JSON.parse(row.dining_groups)
+        : row.dining_groups || [];
 
     return {
       id: row.id,
       email: row.email,
       passwordHash: row.password_hash,
-      roles: row.roles || ['user'],
+      roles: row.roles || ["user"],
       isActive: row.is_active,
       createdAt: new Date(row.created_at),
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
@@ -515,8 +495,10 @@ class UserDatabaseService {
         name: row.profile_name || row.name,
         email: row.email,
         preferences: preferences,
-        birthData: Object.keys(birthData || {}).length > 0 ? birthData : undefined,
-        natalChart: Object.keys(natalChart || {}).length > 0 ? natalChart : undefined,
+        birthData:
+          Object.keys(birthData || {}).length > 0 ? birthData : undefined,
+        natalChart:
+          Object.keys(natalChart || {}).length > 0 ? natalChart : undefined,
         groupMembers: groupMembers,
         diningGroups: diningGroups,
       },

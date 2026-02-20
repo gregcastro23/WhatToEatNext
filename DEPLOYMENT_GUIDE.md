@@ -1,4 +1,5 @@
 # WhatToEatNext Deployment Guide
+
 **Version**: 1.0
 **Last Updated**: November 17, 2025
 **Supported Platforms**: Docker, Vercel, Standalone, Kubernetes
@@ -6,6 +7,7 @@
 ---
 
 ## Table of Contents
+
 1. [Quick Start](#quick-start)
 2. [Environment Setup](#environment-setup)
 3. [Docker Deployment](#docker-deployment)
@@ -18,9 +20,11 @@
 ---
 
 <a name="quick-start"></a>
+
 ## 1. Quick Start (Docker - Recommended)
 
 ### Prerequisites
+
 - **Node.js**: 20.18.0 (required by package.json)
 - **Yarn**: 3.6.4
 - **Docker**: 20.10+ (for containerized deployment)
@@ -47,6 +51,7 @@ curl http://localhost:3000/api/health
 ```
 
 **Expected Output**:
+
 ```json
 {
   "status": "healthy",
@@ -61,31 +66,33 @@ curl http://localhost:3000/api/health
 ---
 
 <a name="environment-setup"></a>
+
 ## 2. Environment Setup
 
 ### Required Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `NODE_ENV` | ✅ Yes | `production` | Runtime environment |
-| `PORT` | No | `3000` | Server port |
-| `JWT_SECRET` | ✅ Yes | - | Session encryption key |
-| `DEFAULT_LATITUDE` | No | `40.7498` | Default location (NY) |
-| `DEFAULT_LONGITUDE` | No | `-73.7976` | Default location (NY) |
+| Variable            | Required | Default      | Description            |
+| ------------------- | -------- | ------------ | ---------------------- |
+| `NODE_ENV`          | ✅ Yes   | `production` | Runtime environment    |
+| `PORT`              | No       | `3000`       | Server port            |
+| `JWT_SECRET`        | ✅ Yes   | -            | Session encryption key |
+| `DEFAULT_LATITUDE`  | No       | `40.7498`    | Default location (NY)  |
+| `DEFAULT_LONGITUDE` | No       | `-73.7976`   | Default location (NY)  |
 
 ### Optional Environment Variables
 
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| `LOG_LEVEL` | `info` | Logging verbosity |
-| `CACHE_TTL` | `60` | Cache duration (seconds) |
-| `DEFAULT_ZODIAC_SYSTEM` | `tropical` | Astrological system |
-| `ENABLE_PLANETARY_CALCULATIONS` | `true` | Feature flag |
-| `API_TIMEOUT` | `10000` | API timeout (ms) |
+| Variable                        | Default    | Purpose                  |
+| ------------------------------- | ---------- | ------------------------ |
+| `LOG_LEVEL`                     | `info`     | Logging verbosity        |
+| `CACHE_TTL`                     | `60`       | Cache duration (seconds) |
+| `DEFAULT_ZODIAC_SYSTEM`         | `tropical` | Astrological system      |
+| `ENABLE_PLANETARY_CALCULATIONS` | `true`     | Feature flag             |
+| `API_TIMEOUT`                   | `10000`    | API timeout (ms)         |
 
 ### Environment File Setup
 
 **Development** (`.env.local`):
+
 ```bash
 NODE_ENV=development
 LOG_LEVEL=debug
@@ -93,6 +100,7 @@ FAST_REFRESH=true
 ```
 
 **Production** (`.env.production`):
+
 ```bash
 NODE_ENV=production
 LOG_LEVEL=info
@@ -102,6 +110,7 @@ NEXT_PUBLIC_APP_URL=https://yourdomain.com
 ```
 
 **Security Notes**:
+
 - ⚠️ **Never commit** `.env.local` or `.env.production` to Git
 - ✅ Use `.env.example` as a template
 - ✅ Generate unique `JWT_SECRET` for each environment
@@ -110,11 +119,13 @@ NEXT_PUBLIC_APP_URL=https://yourdomain.com
 ---
 
 <a name="docker-deployment"></a>
+
 ## 3. Docker Deployment
 
 ### Option A: Docker Compose (Recommended)
 
 #### Development Mode
+
 ```bash
 # Build and start
 docker-compose -f docker-compose.simple.yml up
@@ -130,6 +141,7 @@ docker-compose -f docker-compose.simple.yml down
 ```
 
 #### Production Mode
+
 ```bash
 # Create production environment file
 cp .env.example .env.production
@@ -148,6 +160,7 @@ docker-compose -f docker-compose.simple.yml logs -f --tail=100 app
 ### Option B: Standalone Docker
 
 #### Build Image
+
 ```bash
 docker build -t whattoeatnext:latest .
 
@@ -159,6 +172,7 @@ docker build \
 ```
 
 #### Run Container
+
 ```bash
 docker run -d \
   --name whattoeatnext \
@@ -170,6 +184,7 @@ docker run -d \
 ```
 
 #### With Environment File
+
 ```bash
 docker run -d \
   --name whattoeatnext \
@@ -189,6 +204,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 ```
 
 **Check container health**:
+
 ```bash
 docker inspect --format='{{.State.Health.Status}}' whattoeatnext
 ```
@@ -196,6 +212,7 @@ docker inspect --format='{{.State.Health.Status}}' whattoeatnext
 ### Resource Limits
 
 **Recommended Limits**:
+
 ```bash
 docker run -d \
   --name whattoeatnext \
@@ -209,6 +226,7 @@ docker run -d \
 ```
 
 **For High Traffic**:
+
 ```bash
 --memory="2g" \
 --cpus="2.0" \
@@ -217,9 +235,11 @@ docker run -d \
 ---
 
 <a name="vercel-deployment"></a>
+
 ## 4. Vercel Deployment
 
 ### Prerequisites
+
 - Vercel account
 - Vercel CLI: `npm install -g vercel`
 
@@ -228,6 +248,7 @@ docker run -d \
 #### Option A: Git Integration (Recommended)
 
 1. **Push to GitHub**:
+
    ```bash
    git push origin main
    ```
@@ -267,6 +288,7 @@ vercel env add NODE_ENV production
 ### Vercel-Specific Configuration
 
 **vercel.json** (optional):
+
 ```json
 {
   "buildCommand": "yarn build",
@@ -288,6 +310,7 @@ vercel env add NODE_ENV production
 ---
 
 <a name="production-checklist"></a>
+
 ## 5. Production Checklist
 
 ### Pre-Deployment ✅
@@ -345,6 +368,7 @@ vercel env add NODE_ENV production
 ---
 
 <a name="monitoring"></a>
+
 ## 6. Monitoring & Health Checks
 
 ### Health Check Endpoint
@@ -352,6 +376,7 @@ vercel env add NODE_ENV production
 **Endpoint**: `GET /api/health`
 
 **Success Response** (200 OK):
+
 ```json
 {
   "status": "healthy",
@@ -373,6 +398,7 @@ vercel env add NODE_ENV production
 ```
 
 **Failure Response** (500 Internal Server Error):
+
 ```json
 {
   "status": "unhealthy",
@@ -384,6 +410,7 @@ vercel env add NODE_ENV production
 ### Monitoring Commands
 
 **Check Application Health**:
+
 ```bash
 # Local
 curl http://localhost:3000/api/health
@@ -396,6 +423,7 @@ curl --max-time 5 http://localhost:3000/api/health
 ```
 
 **Check Docker Container**:
+
 ```bash
 # Container status
 docker ps -f name=whattoeatnext
@@ -411,6 +439,7 @@ docker stats whattoeatnext
 ```
 
 **Check API Endpoints**:
+
 ```bash
 # Test astrologize API
 curl http://localhost:3000/api/astrologize
@@ -427,6 +456,7 @@ curl http://localhost:3000/api/recipes
 ### Logging
 
 **Log Levels**:
+
 - `debug`: Verbose (development only)
 - `info`: General information (default production)
 - `warn`: Warnings
@@ -434,6 +464,7 @@ curl http://localhost:3000/api/recipes
 - `silent`: No logging
 
 **View Logs**:
+
 ```bash
 # Docker Compose
 docker-compose -f docker-compose.simple.yml logs -f app
@@ -465,6 +496,7 @@ docker logs whattoeatnext 2>&1 | grep "ERROR"
 ---
 
 <a name="troubleshooting"></a>
+
 ## 7. Troubleshooting
 
 ### Common Issues
@@ -472,33 +504,39 @@ docker logs whattoeatnext 2>&1 | grep "ERROR"
 #### 1. Yarn 3.6.4 Download Failure (HTTP 403)
 
 **Symptoms**:
+
 ```
 Error: Server answered with HTTP 403 when performing the request to
 https://repo.yarnpkg.com/3.6.4/packages/yarnpkg-cli/bin/yarn.js
 ```
 
 **Solution A**: Use the workaround script
+
 ```bash
 chmod +x start-dev-server.sh
 ./start-dev-server.sh
 ```
 
 **Solution B**: Deploy with Docker (bypasses Yarn requirement)
+
 ```bash
 docker-compose -f docker-compose.simple.yml up -d
 ```
 
 **Solution C**: Use environment with proper Yarn access
+
 - Deploy to Vercel (handles Yarn automatically)
 - Use CI/CD with Yarn pre-installed
 
 #### 2. Build Hangs Indefinitely
 
 **Symptoms**:
+
 - Build process never completes
 - TypeScript compilation stuck
 
 **Solution**:
+
 ```bash
 # 1. Check current TypeScript errors
 make check 2>&1 | head -20
@@ -520,10 +558,12 @@ yarn build
 **Current Status**: 149 errors (92.5% reduction achieved)
 
 **Blocked Errors**:
+
 - **TS1117** (88 errors): spiceBlends.ts - requires dedicated refactor
 - **TS2307** (61 errors): Module resolution - systemic issue
 
 **Action**:
+
 ```bash
 # Check specific error types
 make errors-by-type
@@ -535,11 +575,13 @@ make errors-by-type
 #### 4. Port Already in Use
 
 **Symptoms**:
+
 ```
 Error: listen EADDRINUSE: address already in use :::3000
 ```
 
 **Solution**:
+
 ```bash
 # Find process using port 3000
 lsof -i :3000
@@ -554,11 +596,13 @@ PORT=3001 yarn dev
 #### 5. Memory Issues
 
 **Symptoms**:
+
 - Out of memory errors
 - Slow performance
 - Container restarts
 
 **Solution**:
+
 ```bash
 # Increase Docker memory limit
 docker update --memory="2g" --memory-swap="2g" whattoeatnext
@@ -573,11 +617,13 @@ docker stats whattoeatnext
 #### 6. Health Check Failing
 
 **Symptoms**:
+
 ```
 unhealthy
 ```
 
 **Diagnosis**:
+
 ```bash
 # Check logs
 docker logs whattoeatnext
@@ -590,6 +636,7 @@ docker exec whattoeatnext ps aux
 ```
 
 **Common Causes**:
+
 - Application not fully started (wait 30-60 seconds)
 - Port conflict
 - Missing environment variables
@@ -598,6 +645,7 @@ docker exec whattoeatnext ps aux
 ---
 
 <a name="performance"></a>
+
 ## 8. Performance Tuning
 
 ### Production Optimizations
@@ -605,6 +653,7 @@ docker exec whattoeatnext ps aux
 #### 1. Node.js Memory
 
 **Recommended Settings**:
+
 ```bash
 # For typical usage (< 1000 concurrent users)
 NODE_OPTIONS="--max-old-space-size=1024"
@@ -619,6 +668,7 @@ NODE_OPTIONS="--max-old-space-size=4096"
 #### 2. Docker Resource Limits
 
 **Small Deployment** (< 100 users):
+
 ```yaml
 deploy:
   resources:
@@ -628,6 +678,7 @@ deploy:
 ```
 
 **Medium Deployment** (100-1000 users):
+
 ```yaml
 deploy:
   resources:
@@ -637,6 +688,7 @@ deploy:
 ```
 
 **Large Deployment** (> 1000 users):
+
 ```yaml
 deploy:
   resources:
@@ -648,11 +700,13 @@ deploy:
 #### 3. Caching Strategy
 
 **Current Implementation**:
+
 - PlanetaryPositionsService: 1-minute TTL
 - IngredientService: In-memory cache
 - No external cache layer
 
 **Recommended for Scale**:
+
 ```bash
 # Add Redis for caching
 docker run -d \
@@ -668,6 +722,7 @@ CACHE_TTL=300
 #### 4. Load Balancing
 
 **For High Availability**:
+
 ```bash
 # Run multiple instances
 docker-compose -f docker-compose.simple.yml up -d --scale app=3
@@ -678,6 +733,7 @@ docker-compose -f docker-compose.simple.yml up -d --scale app=3
 ### Performance Benchmarks
 
 **Expected Response Times**:
+
 - Health Check: < 10ms
 - Static Pages: < 100ms
 - Astrologize API: 100-300ms
@@ -685,6 +741,7 @@ docker-compose -f docker-compose.simple.yml up -d --scale app=3
 - Recipe Recommendations: 200-500ms
 
 **Target Metrics**:
+
 - Server startup: < 10 seconds
 - First request: < 500ms
 - Subsequent requests: < 200ms
@@ -696,15 +753,18 @@ docker-compose -f docker-compose.simple.yml up -d --scale app=3
 ## Additional Resources
 
 ### Documentation
+
 - [Backend Status Report](./BACKEND_STATUS_REPORT.md) - Complete backend analysis
 - [Service Deep Dive](./SERVICE_DEEP_DIVE.md) - Detailed service reviews
 - [CLAUDE.md](./CLAUDE.md) - Project architecture and development guide
 
 ### Scripts
+
 - `start-dev-server.sh` - Workaround for Yarn issues
 - `Makefile` - Build and development commands
 
 ### Configuration Files
+
 - `.env.example` - Environment variable template
 - `docker-compose.simple.yml` - Simple Docker Compose configuration
 - `Dockerfile` - Production Docker image
@@ -715,6 +775,7 @@ docker-compose -f docker-compose.simple.yml up -d --scale app=3
 ## Support & Contact
 
 For deployment issues or questions:
+
 1. Check [Troubleshooting](#troubleshooting) section
 2. Review [Backend Status Report](./BACKEND_STATUS_REPORT.md)
 3. Open an issue on GitHub

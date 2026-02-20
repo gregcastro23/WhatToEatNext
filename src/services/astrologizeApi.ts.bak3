@@ -1,5 +1,5 @@
 import { log } from '@/services/LoggingService';
-import type { ZodiacSign } from '@/types/alchemy';
+import type { ZodiacSignType } from '@/types/alchemy';
 import {_PlanetaryPosition} from '@/types/celestial';
 import {astrologizeApiCircuitBreaker} from '@/utils/apiCircuitBreaker';
 import {PlanetPosition} from '@/utils/astrologyUtils';

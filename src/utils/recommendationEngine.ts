@@ -3,7 +3,7 @@ import type {
   AstrologicalState,
   Element,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
 } from "../types/alchemy";
 import type { Recipe } from "../types/recipe";
 import type { Season, TimeFactors, WeekDay } from "../types/time";
@@ -119,7 +119,7 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
 
 // Calculate sun sign affinity - certain zodiac signs favor certain flavors/cuisines
 function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
-  const zodiacAffinities: Record<ZodiacSign, string[]> = {
+  const zodiacAffinities: Record<ZodiacSignType, string[]> = {
     aries: ["Spicy", "Bold", "Quick"],
     taurus: ["Rich", "Indulgent", "Traditional"],
     gemini: ["Varied", "Fusion", "Surprising"],

@@ -10,14 +10,25 @@
 
 import React, { useState } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { useWeeklyCircuitMetrics, formatPower, formatEfficiency, getEfficiencyColor } from "@/hooks/useCircuitMetrics";
+import {
+  useWeeklyCircuitMetrics,
+  formatPower,
+  formatEfficiency,
+  getEfficiencyColor,
+} from "@/hooks/useCircuitMetrics";
 import { getDayName } from "@/types/menuPlanner";
 import type { DayOfWeek } from "@/types/menuPlanner";
 
 /**
  * Simple Tooltip Component
  */
-function Tooltip({ text, children }: { text: string; children: React.ReactNode }) {
+function Tooltip({
+  text,
+  children,
+}: {
+  text: string;
+  children: React.ReactNode;
+}) {
   const [show, setShow] = useState(false);
 
   return (
@@ -60,7 +71,9 @@ function WeeklyOverview() {
     return (
       <div className="text-center py-6 text-gray-500">
         <p className="text-sm">No circuit metrics available yet.</p>
-        <p className="text-xs mt-1">Add meals to your menu to see circuit analysis.</p>
+        <p className="text-xs mt-1">
+          Add meals to your menu to see circuit analysis.
+        </p>
       </div>
     );
   }
@@ -88,7 +101,9 @@ function WeeklyOverview() {
         </Tooltip>
 
         <Tooltip text="Efficiency: Percentage of power successfully delivered vs. lost to resistance. 70%+ is excellent, 40-70% is good, <40% needs optimization.">
-          <div className={`rounded-lg p-3 border-2 ${efficiencyClasses[efficiencyColor]}`}>
+          <div
+            className={`rounded-lg p-3 border-2 ${efficiencyClasses[efficiencyColor]}`}
+          >
             <div className="text-xs font-medium mb-1 flex items-center gap-1">
               Efficiency <span className="text-[10px]">ⓘ</span>
             </div>
@@ -160,27 +175,28 @@ function WeeklyOverview() {
           Weekly Elemental Balance
         </div>
         <div className="flex gap-1 h-4 rounded overflow-hidden">
-          {Object.entries(metrics.weeklyElementalBalance).map(([element, value]) => {
-            const colors = {
-              Fire: "bg-orange-500",
-              Water: "bg-blue-500",
-              Earth: "bg-amber-600",
-              Air: "bg-sky-400",
-            };
-            const total = Object.values(metrics.weeklyElementalBalance).reduce(
-              (sum, v) => sum + v,
-              0
-            );
-            const percentage = total > 0 ? (value / total) * 100 : 0;
-            return (
-              <div
-                key={element}
-                className={colors[element as keyof typeof colors]}
-                style={{ width: `${percentage}%` }}
-                title={`${element}: ${percentage.toFixed(1)}%`}
-              />
-            );
-          })}
+          {Object.entries(metrics.weeklyElementalBalance).map(
+            ([element, value]) => {
+              const colors = {
+                Fire: "bg-orange-500",
+                Water: "bg-blue-500",
+                Earth: "bg-amber-600",
+                Air: "bg-sky-400",
+              };
+              const total = Object.values(
+                metrics.weeklyElementalBalance,
+              ).reduce((sum, v) => sum + v, 0);
+              const percentage = total > 0 ? (value / total) * 100 : 0;
+              return (
+                <div
+                  key={element}
+                  className={colors[element as keyof typeof colors]}
+                  style={{ width: `${percentage}%` }}
+                  title={`${element}: ${percentage.toFixed(1)}%`}
+                />
+              );
+            },
+          )}
         </div>
         <div className="flex justify-between mt-2 text-[10px] text-gray-600">
           <span>🔥 Fire</span>
@@ -357,7 +373,8 @@ function EmptyStatePrompt({ mealCount }: { mealCount: number }) {
         Circuit Optimization Ready
       </h3>
       <p className="text-sm text-gray-600 mb-4">
-        Add recipes to your calendar to unlock weekly power flow analysis and optimization suggestions.
+        Add recipes to your calendar to unlock weekly power flow analysis and
+        optimization suggestions.
       </p>
       {mealCount > 0 && (
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-lg border border-purple-200">
@@ -371,7 +388,10 @@ function EmptyStatePrompt({ mealCount }: { mealCount: number }) {
       )}
       {mealCount === 0 && (
         <div className="mt-4 text-xs text-gray-500 max-w-md mx-auto">
-          <p>💡 Tip: Click "✨ Generate" on any day or search recipes below to get started!</p>
+          <p>
+            💡 Tip: Click "✨ Generate" on any day or search recipes below to
+            get started!
+          </p>
         </div>
       )}
     </div>
@@ -412,9 +432,7 @@ export default function CircuitMetricsPanel() {
             </p>
           </div>
         </div>
-        <div className="text-purple-600 text-xl">
-          {isCollapsed ? "▼" : "▲"}
-        </div>
+        <div className="text-purple-600 text-xl">{isCollapsed ? "▼" : "▲"}</div>
       </button>
 
       {/* Content */}

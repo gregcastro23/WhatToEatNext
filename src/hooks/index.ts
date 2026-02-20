@@ -2,7 +2,11 @@
 export { useIngredientMapping } from "./useIngredientMapping";
 
 // Food Diary hooks
-export { useFoodDiary, useQuickFoodEntry, useFoodDiaryInsights } from "./useFoodDiary";
+export {
+  useFoodDiary,
+  useQuickFoodEntry,
+  useFoodDiaryInsights,
+} from "./useFoodDiary";
 
 // ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========;
 

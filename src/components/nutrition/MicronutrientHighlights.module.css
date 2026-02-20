@@ -74,7 +74,11 @@
 }
 
 .micronutrientItem.deficient .progressBarFill {
-  background: linear-gradient(90deg, #ffc107, #fd7e14); /* Orange gradient for deficient */
+  background: linear-gradient(
+    90deg,
+    #ffc107,
+    #fd7e14
+  ); /* Orange gradient for deficient */
 }
 
 .nutrientValue {

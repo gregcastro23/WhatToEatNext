@@ -18,6 +18,7 @@ import type {
   AstrologicalStateType,
   ServiceResponseType,
 } from "../types/alchemy";
+import type { CelestialPosition, ZodiacSignType } from "../types/celestial";
 
 // ========== PHASE, 2: TYPE DEFAULTS ==========
 
@@ -129,23 +130,23 @@ export const _EmptyPlanetaryPositions: PlanetaryPositionsType = {} as const;
  * Basic planetary positions with default zodiac signs
  */
 export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
-  Sun: "aries",
-  Moon: "cancer",
-  Mercury: "gemini",
-  Venus: "taurus",
-  Mars: "aries",
-  Jupiter: "sagittarius",
-  Saturn: "capricorn",
-  Uranus: "aquarius",
-  Neptune: "pisces",
-  Pluto: "scorpio",
+  Sun: { sign: "aries" as ZodiacSignType, degree: 0 },
+  Moon: { sign: "cancer" as ZodiacSignType, degree: 0 },
+  Mercury: { sign: "gemini" as ZodiacSignType, degree: 0 },
+  Venus: { sign: "taurus" as ZodiacSignType, degree: 0 },
+  Mars: { sign: "aries" as ZodiacSignType, degree: 0 },
+  Jupiter: { sign: "sagittarius" as ZodiacSignType, degree: 0 },
+  Saturn: { sign: "capricorn" as ZodiacSignType, degree: 0 },
+  Uranus: { sign: "aquarius" as ZodiacSignType, degree: 0 },
+  Neptune: { sign: "pisces" as ZodiacSignType, degree: 0 },
+  Pluto: { sign: "scorpio" as ZodiacSignType, degree: 0 },
 } as const;
 
 /**
  * Default Zodiac Sign
  * Fallback zodiac sign (first sign of the zodiac)
  */
-export const DefaultZodiacSign = "aries" as const;
+export const DefaultZodiacSignType = "aries" as const;
 
 /**
  * Default Lunar Phase
@@ -191,7 +192,7 @@ export const _DefaultIngredientMapping: IngredientMappingType = {
  */
 export const _DefaultAstrologicalState: AstrologicalStateType = {
   planetaryPositions: DefaultPlanetaryPositions,
-  currentZodiac: DefaultZodiacSign,
+  currentZodiac: DefaultZodiacSignType,
   lunarPhase: DefaultLunarPhase,
   elementalInfluence: BalancedElementalProperties,
 } as const;
@@ -313,7 +314,7 @@ export const _createSafeThermodynamicMetrics = (
  * Validate Zodiac Sign
  * Ensures the provided string is a valid zodiac sign
  */
-export const _validateZodiacSign = (sign: string): string => {
+export const _validateZodiacSignType = (sign: string): string => {
   const validSigns: string[] = [
     "aries",
     "taurus",
@@ -332,7 +333,7 @@ export const _validateZodiacSign = (sign: string): string => {
   const normalizedSign = sign.toLowerCase();
   return validSigns.includes(normalizedSign)
     ? normalizedSign
-    : DefaultZodiacSign;
+    : DefaultZodiacSignType;
 };
 
 /**

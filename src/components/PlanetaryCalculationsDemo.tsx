@@ -15,7 +15,7 @@ import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
   type AlchemicalProperties,
-  type ZodiacSign,
+  type ZodiacSignType,
 } from "@/utils/planetaryAlchemyMapping";
 import {
   calculateThermodynamicMetrics,
@@ -96,7 +96,7 @@ const PLANETARY_EXALTATIONS: Record<string, string> = {
 };
 
 interface PlanetaryPosition {
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   degree: number;
   minute: number;
   exactLongitude: number;
@@ -232,8 +232,9 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
           const signKey = planetData.Sign?.key || planetData.Sign?.zodiac;
 
           positions[planetName] = {
-            sign: signKey as ZodiacSign,
-            degree: planetData.ChartPosition?.Ecliptic?.ArcDegrees?.degrees || 0,
+            sign: signKey as ZodiacSignType,
+            degree:
+              planetData.ChartPosition?.Ecliptic?.ArcDegrees?.degrees || 0,
             minute:
               planetData.ChartPosition?.Ecliptic?.ArcDegrees?.minutes || 0,
             exactLongitude:
@@ -391,7 +392,9 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
                   ? "bg-green-500/30 hover:bg-green-500/40"
                   : "bg-white/20 hover:bg-white/30"
               }`}
-              title={autoRefresh ? "Disable auto-refresh" : "Enable auto-refresh"}
+              title={
+                autoRefresh ? "Disable auto-refresh" : "Enable auto-refresh"
+              }
             >
               {autoRefresh ? "⏸️ Auto" : "▶️ Manual"}
             </button>
@@ -824,7 +827,8 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {aspects.map((aspect, idx) => {
                   const aspectColors: Record<string, string> = {
-                    Conjunction: "from-purple-50 to-indigo-50 border-purple-200",
+                    Conjunction:
+                      "from-purple-50 to-indigo-50 border-purple-200",
                     Sextile: "from-green-50 to-emerald-50 border-green-200",
                     Square: "from-red-50 to-orange-50 border-red-200",
                     Trine: "from-blue-50 to-cyan-50 border-blue-200",
@@ -964,9 +968,10 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
 
         <div className="mt-4 pt-4 border-t border-gray-300">
           <div className="text-xs text-gray-600">
-            <strong>Note:</strong> All calculations follow the hierarchical culinary data system.
-            ESMS properties are derived from planetary positions using the authoritative
-            planetary alchemy mapping. Kinetic properties use the P=IV circuit model.
+            <strong>Note:</strong> All calculations follow the hierarchical
+            culinary data system. ESMS properties are derived from planetary
+            positions using the authoritative planetary alchemy mapping. Kinetic
+            properties use the P=IV circuit model.
           </div>
         </div>
       </div>

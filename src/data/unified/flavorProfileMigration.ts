@@ -2,7 +2,7 @@
 
 // Import needed from ./flavorProfiles.ts
 import { log } from "@/services/LoggingService";
-import type { UnifiedFlavorProfile, BaseFlavorNotes } from "@/types";
+import type { UnifiedFlavorProfile, BaseFlavorNotes } from "./unifiedTypes";
 import type {
   AlchemicalProperties,
   AlchemicalValues,

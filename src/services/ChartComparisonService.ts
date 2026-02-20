@@ -17,8 +17,11 @@ import {
   getDominantElement,
 } from "@/utils/planetaryAlchemyMapping";
 import type { NatalChart } from "@/types/natalChart";
-import type { Planet, ZodiacSign, Element } from "@/types/celestial";
-import type { ElementalProperties, AlchemicalProperties } from "@/types/alchemy";
+import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
+import type {
+  ElementalProperties,
+  AlchemicalProperties,
+} from "@/types/alchemy";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { _logger } from "@/lib/logger";
 
@@ -32,7 +35,7 @@ export interface MomentChart {
     latitude: number;
     longitude: number;
   };
-  planetaryPositions: Record<Planet, ZodiacSign>;
+  planetaryPositions: Record<Planet, ZodiacSignType>;
   dominantElement: Element;
   elementalBalance: ElementalProperties;
   alchemicalProperties: AlchemicalProperties;
@@ -88,26 +91,28 @@ export async function calculateMomentChart(
     const planetaryPositionsRaw: Record<string, PlanetPosition> =
       await getPlanetaryPositionsForDateTime(targetDateTime, targetLocation);
 
-    // Convert to Record<Planet, ZodiacSign>
-    const planetaryPositions: Record<Planet, ZodiacSign> = {
-      Sun: planetaryPositionsRaw.Sun?.sign as ZodiacSign,
-      Moon: planetaryPositionsRaw.Moon?.sign as ZodiacSign,
-      Mercury: planetaryPositionsRaw.Mercury?.sign as ZodiacSign,
-      Venus: planetaryPositionsRaw.Venus?.sign as ZodiacSign,
-      Mars: planetaryPositionsRaw.Mars?.sign as ZodiacSign,
-      Jupiter: planetaryPositionsRaw.Jupiter?.sign as ZodiacSign,
-      Saturn: planetaryPositionsRaw.Saturn?.sign as ZodiacSign,
-      Uranus: planetaryPositionsRaw.Uranus?.sign as ZodiacSign,
-      Neptune: planetaryPositionsRaw.Neptune?.sign as ZodiacSign,
-      Pluto: planetaryPositionsRaw.Pluto?.sign as ZodiacSign,
-      Ascendant: (planetaryPositionsRaw.Ascendant?.sign as ZodiacSign) || "aries",
+    // Convert to Record<Planet, ZodiacSignType>
+    const planetaryPositions: Record<Planet, ZodiacSignType> = {
+      Sun: planetaryPositionsRaw.Sun?.sign as ZodiacSignType,
+      Moon: planetaryPositionsRaw.Moon?.sign as ZodiacSignType,
+      Mercury: planetaryPositionsRaw.Mercury?.sign as ZodiacSignType,
+      Venus: planetaryPositionsRaw.Venus?.sign as ZodiacSignType,
+      Mars: planetaryPositionsRaw.Mars?.sign as ZodiacSignType,
+      Jupiter: planetaryPositionsRaw.Jupiter?.sign as ZodiacSignType,
+      Saturn: planetaryPositionsRaw.Saturn?.sign as ZodiacSignType,
+      Uranus: planetaryPositionsRaw.Uranus?.sign as ZodiacSignType,
+      Neptune: planetaryPositionsRaw.Neptune?.sign as ZodiacSignType,
+      Pluto: planetaryPositionsRaw.Pluto?.sign as ZodiacSignType,
+      Ascendant:
+        (planetaryPositionsRaw.Ascendant?.sign as ZodiacSignType) || "aries",
     };
 
     // Calculate elemental balance from zodiac positions
     const elementalBalance = aggregateZodiacElementals(planetaryPositions);
 
     // Calculate alchemical properties from planets
-    const alchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
+    const alchemicalProperties =
+      calculateAlchemicalFromPlanets(planetaryPositions);
 
     // Determine dominant element (cast keyof to Element type)
     const dominantElement = getDominantElement(elementalBalance) as Element;
@@ -175,8 +180,10 @@ function calculateAlchemicalAlignment(
   moment: AlchemicalProperties,
 ): number {
   // Normalize values for comparison
-  const natalTotal = natal.Spirit + natal.Essence + natal.Matter + natal.Substance;
-  const momentTotal = moment.Spirit + moment.Essence + moment.Matter + moment.Substance;
+  const natalTotal =
+    natal.Spirit + natal.Essence + natal.Matter + natal.Substance;
+  const momentTotal =
+    moment.Spirit + moment.Essence + moment.Matter + moment.Substance;
 
   if (natalTotal === 0 || momentTotal === 0) {
     return 0.5; // Neutral if no values
@@ -201,7 +208,12 @@ function calculateAlchemicalAlignment(
   let natalMagnitude = 0;
   let momentMagnitude = 0;
 
-  const properties: (keyof AlchemicalProperties)[] = ["Spirit", "Essence", "Matter", "Substance"];
+  const properties: (keyof AlchemicalProperties)[] = [
+    "Spirit",
+    "Essence",
+    "Matter",
+    "Substance",
+  ];
 
   properties.forEach((prop) => {
     dotProduct += natalNorm[prop] * momentNorm[prop];
@@ -224,10 +236,21 @@ function calculateAlchemicalAlignment(
  * Considers which planets are in harmonious signs
  */
 function calculatePlanetaryResonance(
-  natalPositions: Record<Planet, ZodiacSign>,
-  momentPositions: Record<Planet, ZodiacSign>,
+  natalPositions: Record<Planet, ZodiacSignType>,
+  momentPositions: Record<Planet, ZodiacSignType>,
 ): number {
-  const planets: Planet[] = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+  const planets: Planet[] = [
+    "Sun",
+    "Moon",
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",
+  ];
 
   // Zodiac sign to element mapping (lowercase signs)
   const signToElement: Record<string, Element> = {
@@ -292,10 +315,21 @@ function calculatePlanetaryResonance(
  * Identify which planets are in harmonic positions
  */
 function getHarmonicPlanets(
-  natalPositions: Record<Planet, ZodiacSign>,
-  momentPositions: Record<Planet, ZodiacSign>,
+  natalPositions: Record<Planet, ZodiacSignType>,
+  momentPositions: Record<Planet, ZodiacSignType>,
 ): Planet[] {
-  const planets: Planet[] = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+  const planets: Planet[] = [
+    "Sun",
+    "Moon",
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",
+  ];
   const harmonicPlanets: Planet[] = [];
 
   const signToElement: Record<string, Element> = {
@@ -341,7 +375,7 @@ export async function compareCharts(
   momentChart?: MomentChart,
 ): Promise<ChartComparison> {
   // Calculate moment chart if not provided
-  const moment = momentChart || await calculateMomentChart();
+  const moment = momentChart || (await calculateMomentChart());
 
   // Calculate individual harmony scores (cast to align ElementalProperties types)
   const elementalHarmony = calculateElementalHarmony(
@@ -367,10 +401,18 @@ export async function compareCharts(
 
   // Identify favorable and challenging elements
   const elementalDifferences: Record<Element, number> = {
-    Fire: Math.abs(natalChart.elementalBalance.Fire - moment.elementalBalance.Fire),
-    Water: Math.abs(natalChart.elementalBalance.Water - moment.elementalBalance.Water),
-    Earth: Math.abs(natalChart.elementalBalance.Earth - moment.elementalBalance.Earth),
-    Air: Math.abs(natalChart.elementalBalance.Air - moment.elementalBalance.Air),
+    Fire: Math.abs(
+      natalChart.elementalBalance.Fire - moment.elementalBalance.Fire,
+    ),
+    Water: Math.abs(
+      natalChart.elementalBalance.Water - moment.elementalBalance.Water,
+    ),
+    Earth: Math.abs(
+      natalChart.elementalBalance.Earth - moment.elementalBalance.Earth,
+    ),
+    Air: Math.abs(
+      natalChart.elementalBalance.Air - moment.elementalBalance.Air,
+    ),
   };
 
   const elements: Element[] = ["Fire", "Water", "Earth", "Air"];
@@ -391,11 +433,17 @@ export async function compareCharts(
   const recommendations: string[] = [];
 
   if (overallHarmony > 0.7) {
-    recommendations.push("Excellent cosmic alignment! This is a favorable time for culinary exploration.");
+    recommendations.push(
+      "Excellent cosmic alignment! This is a favorable time for culinary exploration.",
+    );
   } else if (overallHarmony > 0.5) {
-    recommendations.push("Good cosmic balance. Focus on dishes that emphasize your favorable elements.");
+    recommendations.push(
+      "Good cosmic balance. Focus on dishes that emphasize your favorable elements.",
+    );
   } else {
-    recommendations.push("Moderate cosmic alignment. Stick with familiar flavors for comfort.");
+    recommendations.push(
+      "Moderate cosmic alignment. Stick with familiar flavors for comfort.",
+    );
   }
 
   if (favorableElements.length > 0) {
@@ -418,7 +466,12 @@ export async function compareCharts(
 
   // Calculate alchemical boosts
   const alchemicalBoosts: Partial<AlchemicalProperties> = {};
-  const alchemProps: (keyof AlchemicalProperties)[] = ["Spirit", "Essence", "Matter", "Substance"];
+  const alchemProps: (keyof AlchemicalProperties)[] = [
+    "Spirit",
+    "Essence",
+    "Matter",
+    "Substance",
+  ];
 
   alchemProps.forEach((prop) => {
     const natalValue = natalChart.alchemicalProperties[prop];
@@ -479,7 +532,12 @@ export function getPersonalizationBoost(
   });
 
   // Alchemical boost
-  const alchemProps: (keyof AlchemicalProperties)[] = ["Spirit", "Essence", "Matter", "Substance"];
+  const alchemProps: (keyof AlchemicalProperties)[] = [
+    "Spirit",
+    "Essence",
+    "Matter",
+    "Substance",
+  ];
   const totalAlchem =
     itemAlchemical.Spirit +
     itemAlchemical.Essence +
@@ -495,7 +553,7 @@ export function getPersonalizationBoost(
   }
 
   // Overall harmony multiplier
-  boost *= 0.7 + (chartComparison.overallHarmony * 0.6); // Range: 0.7 to 1.3
+  boost *= 0.7 + chartComparison.overallHarmony * 0.6; // Range: 0.7 to 1.3
 
   return Math.max(0.7, Math.min(1.3, boost)); // Clamp to reasonable range
 }

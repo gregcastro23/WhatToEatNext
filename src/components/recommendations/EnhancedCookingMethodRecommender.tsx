@@ -28,18 +28,18 @@ import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import {
   calculateKAlchm,
   calculateMonicaConstant,
+  calculateMonicaOptimizationScore,
+  type MonicaScoreResult,
 } from "@/utils/monicaKalchmCalculations";
 import {
   calculateOptimalCookingConditions,
   calculatePillarMonicaModifiers,
   getCookingMethodThermodynamics,
 } from "@/constants/alchemicalPillars";
-import {
-  calculateKinetics,
-  type KineticMetrics,
-} from "@/calculations/kinetics";
+import type { KineticMetrics } from "@/calculations/kinetics";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateMethodSpecificKinetics } from "@/utils/cookingMethodKinetics";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type {
   AlchemicalProperties,
@@ -122,14 +122,16 @@ const DEFAULT_PLANETARY_POSITIONS = {
 };
 
 // Helper to extract zodiac sign from position data
-function extractZodiacSign(position: unknown): string {
+function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
   if (typeof position === "object" && position !== null) {
     const posObj = position as Record<string, unknown>;
     if (typeof posObj.sign === "string") {
       // Capitalize first letter for consistency
-      return posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase();
+      return (
+        posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase()
+      );
     }
   }
   return "Aries";
@@ -137,18 +139,30 @@ function extractZodiacSign(position: unknown): string {
 
 // Convert context planetary positions to simple zodiac sign format
 function normalizePlanetaryPositions(
-  contextPositions: Record<string, unknown> | undefined
+  contextPositions: Record<string, unknown> | undefined,
 ): Record<string, string> {
   if (!contextPositions || Object.keys(contextPositions).length === 0) {
     return DEFAULT_PLANETARY_POSITIONS;
   }
 
   const normalized: Record<string, string> = {};
-  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+  const planets = [
+    "Sun",
+    "Moon",
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",
+  ];
 
   for (const planet of planets) {
-    const position = contextPositions[planet] || contextPositions[planet.toLowerCase()];
-    normalized[planet] = extractZodiacSign(position);
+    const position =
+      contextPositions[planet] || contextPositions[planet.toLowerCase()];
+    normalized[planet] = extractZodiacSignType(position);
   }
 
   return normalized;
@@ -285,12 +299,20 @@ function getPillarColors(pillarId: number): {
   );
 }
 
-export default function EnhancedCookingMethodRecommender() {
+interface EnhancedCookingMethodRecommenderProps {
+  onDoubleClickMethod?: (methodName: string) => void;
+}
+
+export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }: EnhancedCookingMethodRecommenderProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [showPillarsGuide, setShowPillarsGuide] = useState(false);
-  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
-  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
+  const [planetaryPositions, setPlanetaryPositions] = useState<
+    Record<string, string>
+  >(DEFAULT_PLANETARY_POSITIONS);
+  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">(
+    "fallback",
+  );
 
   // Get planetary positions from AlchemicalContext
   let alchemicalContext: ReturnType<typeof useAlchemical> | null = null;
@@ -303,22 +325,29 @@ export default function EnhancedCookingMethodRecommender() {
   // Update planetary positions from context
   useEffect(() => {
     if (alchemicalContext?.planetaryPositions) {
-      const normalized = normalizePlanetaryPositions(alchemicalContext.planetaryPositions);
+      const normalized = normalizePlanetaryPositions(
+        alchemicalContext.planetaryPositions,
+      );
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
 
     // Also try to refresh positions from backend
     if (alchemicalContext?.refreshPlanetaryPositions) {
-      alchemicalContext.refreshPlanetaryPositions().then((positions) => {
-        if (positions && Object.keys(positions).length > 0) {
-          const normalized = normalizePlanetaryPositions(positions as Record<string, unknown>);
-          setPlanetaryPositions(normalized);
-          setPositionsSource("real");
-        }
-      }).catch(() => {
-        // Silently fail, use existing positions
-      });
+      alchemicalContext
+        .refreshPlanetaryPositions()
+        .then((positions) => {
+          if (positions && Object.keys(positions).length > 0) {
+            const normalized = normalizePlanetaryPositions(
+              positions as Record<string, unknown>,
+            );
+            setPlanetaryPositions(normalized);
+            setPositionsSource("real");
+          }
+        })
+        .catch(() => {
+          // Silently fail, use existing positions
+        });
     }
   }, [alchemicalContext?.planetaryPositions]);
 
@@ -328,9 +357,8 @@ export default function EnhancedCookingMethodRecommender() {
 
     // Calculate BASE alchemical properties from real planetary positions (ESMS)
     // This is calculated once and then transformed per-method by pillar effects
-    const baseAlchemicalProperties = calculateAlchemicalFromPlanets(
-      planetaryPositions,
-    );
+    const baseAlchemicalProperties =
+      calculateAlchemicalFromPlanets(planetaryPositions);
 
     return Object.entries(category.methods)
       .map(([id, method]) => {
@@ -357,7 +385,7 @@ export default function EnhancedCookingMethodRecommender() {
 
         // Use method's thermodynamic properties if available, otherwise calculate from pillar
         // This ensures each method gets unique thermodynamic values based on its pillar
-        const methodThermo = method.thermodynamicProperties || 
+        const methodThermo = method.thermodynamicProperties ||
           getCookingMethodThermodynamics(id) || {
             heat: 0.5,
             entropy: 0.5,
@@ -413,16 +441,29 @@ export default function EnhancedCookingMethodRecommender() {
               )
             : null;
 
-        // Calculate kinetic metrics using real planetary positions
+        // Calculate method-specific kinetic metrics using P=IV Circuit Model
         let kinetics: KineticMetrics | null = null;
         try {
-          kinetics = calculateKinetics({
-            currentPlanetaryPositions: planetaryPositions,
-            timeInterval: 1,
+          kinetics = calculateMethodSpecificKinetics({
+            methodId: id,
+            elementalEffect: method.elementalEffect as unknown as Record<string, number>,
+            transformedESMS: transformedESMS,
+            thermodynamics: methodThermo,
+            gregsEnergy,
+            monica,
+            kineticProfile: (method as any).kineticProfile,
+            planetaryPositions,
           });
         } catch (error) {
           console.warn(`Failed to calculate kinetics for ${id}:`, error);
         }
+
+        // Calculate Monica Optimization Score (0-100)
+        const monicaScoreResult = calculateMonicaOptimizationScore(
+          [id],
+          baseAlchemicalProperties ?? { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 },
+          method.elementalEffect as any,
+        );
 
         return {
           id,
@@ -436,10 +477,15 @@ export default function EnhancedCookingMethodRecommender() {
           gregsEnergy,
           optimalConditions,
           kinetics,
+          monicaScoreResult,
         };
       })
-      .sort((a, b) => b.gregsEnergy - a.gregsEnergy)
-      .slice(0, 8);
+      .sort((a, b) => {
+        // Composite score: 60% Monica optimization score + 40% thermodynamic efficiency
+        const scoreA = (a.monicaScoreResult?.score ?? 50) * 0.6 + (a.gregsEnergy + 1) * 20;
+        const scoreB = (b.monicaScoreResult?.score ?? 50) * 0.6 + (b.gregsEnergy + 1) * 20;
+        return scoreB - scoreA;
+      });
   }, [selectedCategory, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
@@ -528,6 +574,95 @@ export default function EnhancedCookingMethodRecommender() {
     );
   };
 
+  // ==================== SECTION 1.5: MONICA VIBE SCORE ====================
+  const renderMonicaVibeScore = (method: (typeof currentMethods)[0]) => {
+    const { monicaScoreResult } = method;
+    if (!monicaScoreResult) return null;
+
+    const score = monicaScoreResult.score;
+    const { thermodynamicEfficiency, alchemicalEquilibrium, monicaAlignment } =
+      monicaScoreResult.breakdown;
+
+    // Color gradient based on score
+    const getScoreColor = (s: number) => {
+      if (s >= 90) return { text: "text-yellow-800", bg: "bg-yellow-100", bar: "bg-gradient-to-r from-yellow-400 to-yellow-600", border: "border-yellow-400" };
+      if (s >= 75) return { text: "text-purple-800", bg: "bg-purple-100", bar: "bg-gradient-to-r from-purple-400 to-purple-600", border: "border-purple-400" };
+      if (s >= 60) return { text: "text-green-800", bg: "bg-green-100", bar: "bg-gradient-to-r from-green-400 to-green-600", border: "border-green-400" };
+      if (s >= 45) return { text: "text-blue-800", bg: "bg-blue-100", bar: "bg-gradient-to-r from-blue-400 to-blue-600", border: "border-blue-400" };
+      if (s >= 30) return { text: "text-orange-800", bg: "bg-orange-100", bar: "bg-gradient-to-r from-orange-400 to-orange-600", border: "border-orange-400" };
+      return { text: "text-red-800", bg: "bg-red-100", bar: "bg-gradient-to-r from-red-400 to-red-600", border: "border-red-400" };
+    };
+
+    const colors = getScoreColor(score);
+
+    return (
+      <div className={`rounded-xl border-2 ${colors.border} ${colors.bg} p-4 shadow-lg`}>
+        <h3 className="mb-3 text-lg font-bold text-gray-900">
+          Monica Vibe Score
+        </h3>
+
+        {/* Main Score Display */}
+        <div className="mb-4 flex items-center gap-4">
+          <div className="relative h-20 w-20 flex-shrink-0">
+            <svg className="h-20 w-20 -rotate-90 transform" viewBox="0 0 36 36">
+              <path
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="#e5e7eb"
+                strokeWidth="3"
+              />
+              <path
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeDasharray={`${score}, 100`}
+                className={colors.text}
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className={`text-xl font-bold ${colors.text}`}>{Math.round(score)}</span>
+            </div>
+          </div>
+          <div>
+            <div className={`text-xl font-bold ${colors.text}`}>{monicaScoreResult.label}</div>
+            <div className="text-xs text-gray-600">
+              {score >= 90
+                ? "Perfect alchemical harmony achieved"
+                : score >= 60
+                  ? "Strong thermodynamic-alchemical alignment"
+                  : score >= 30
+                    ? "Moderate transformation potential"
+                    : "High entropic loss detected"}
+            </div>
+          </div>
+        </div>
+
+        {/* Component Breakdown */}
+        <div className="space-y-2">
+          {[
+            { name: "Thermodynamic Efficiency", value: thermodynamicEfficiency, weight: "40%", icon: "⚡" },
+            { name: "Alchemical Equilibrium", value: alchemicalEquilibrium, weight: "30%", icon: "⚖️" },
+            { name: "Monica Alignment", value: monicaAlignment, weight: "30%", icon: "🔮" },
+          ].map(({ name, value, weight, icon }) => (
+            <div key={name}>
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-medium text-gray-700">{icon} {name} ({weight})</span>
+                <span className="font-bold text-gray-800">{Math.round(value)}/100</span>
+              </div>
+              <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                <div
+                  className={`h-full transition-all duration-500 ${colors.bar}`}
+                  style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   // ==================== SECTION 2: ALCHEMICAL TRANSFORMATION MATRIX ====================
   const renderAlchemicalMatrix = (method: (typeof currentMethods)[0]) => {
     if (!method.alchemicalProperties) {
@@ -541,7 +676,8 @@ export default function EnhancedCookingMethodRecommender() {
               No alchemical properties available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              This method may not have planetary associations or ESMS calculations defined.
+              This method may not have planetary associations or ESMS
+              calculations defined.
             </p>
           </div>
         </div>
@@ -626,7 +762,7 @@ export default function EnhancedCookingMethodRecommender() {
             <div className="text-xs font-medium text-gray-600">
               Pillar Effects:{" "}
               {Object.entries(method.pillar.effects)
-                .map(([prop, val]) => `${prop} ${val > 0 ? "+" : ""}${val}`)
+                .map(([prop, val]) => `${prop} ${(val as number) > 0 ? "+" : ""}${val}`)
                 .join(", ")}
             </div>
           </div>
@@ -648,7 +784,8 @@ export default function EnhancedCookingMethodRecommender() {
               No thermodynamic data available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Heat, Entropy, and Reactivity calculations are not defined for this method.
+              Heat, Entropy, and Reactivity calculations are not defined for
+              this method.
             </p>
           </div>
         </div>
@@ -784,7 +921,8 @@ export default function EnhancedCookingMethodRecommender() {
               No kinetic data available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Power, Force, Velocity, and Momentum calculations require alchemical properties.
+              Power, Force, Velocity, and Momentum calculations require
+              alchemical properties.
             </p>
           </div>
         </div>
@@ -938,7 +1076,8 @@ export default function EnhancedCookingMethodRecommender() {
               No optimal conditions calculated for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Temperature, timing, and planetary recommendations require thermodynamic and Monica constant data.
+              Temperature, timing, and planetary recommendations require
+              thermodynamic and Monica constant data.
             </p>
           </div>
         </div>
@@ -1037,14 +1176,20 @@ export default function EnhancedCookingMethodRecommender() {
                   {((monicaModifiers as any)?.temperatureAdjustment ?? 0) >= 0
                     ? "+"
                     : ""}
-                  {((monicaModifiers as any)?.temperatureAdjustment ?? 0).toFixed(0)}°F
+                  {(
+                    (monicaModifiers as any)?.temperatureAdjustment ?? 0
+                  ).toFixed(0)}
+                  °F
                 </span>
               </div>
               <div>
                 <span className="text-gray-600">Time Adjust:</span>{" "}
                 <span className="font-bold text-blue-700">
-                  {((monicaModifiers as any)?.timingAdjustment ?? 0) >= 0 ? "+" : ""}
-                  {((monicaModifiers as any)?.timingAdjustment ?? 0).toFixed(0)} min
+                  {((monicaModifiers as any)?.timingAdjustment ?? 0) >= 0
+                    ? "+"
+                    : ""}
+                  {((monicaModifiers as any)?.timingAdjustment ?? 0).toFixed(0)}{" "}
+                  min
                 </span>
               </div>
               <div>
@@ -1073,7 +1218,8 @@ export default function EnhancedCookingMethodRecommender() {
               No elemental flow data available for this cooking method.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              Velocity, Momentum, and Force calculations require kinetic properties.
+              Velocity, Momentum, and Force calculations require kinetic
+              properties.
             </p>
           </div>
         </div>
@@ -1283,6 +1429,7 @@ export default function EnhancedCookingMethodRecommender() {
       {/* Methods Grid */}
       <div className="grid grid-cols-1 gap-6">
         {currentMethods.map((method) => {
+          if (!method) return null; // Defensive check
           const isExpanded = expandedMethod === method.id;
 
           return (
@@ -1294,6 +1441,11 @@ export default function EnhancedCookingMethodRecommender() {
                   : "border-gray-300 bg-white hover:border-purple-400 hover:shadow-xl"
               }`}
               onClick={() => toggleMethod(method.id)}
+              onDoubleClick={() => {
+                if (onDoubleClickMethod) {
+                  onDoubleClickMethod(method.name);
+                }
+              }}
             >
               {/* Method Header */}
               <div className="mb-4">
@@ -1319,6 +1471,19 @@ export default function EnhancedCookingMethodRecommender() {
                 >
                   ⚡ Energy: {method.gregsEnergy.toFixed(2)}
                 </span>
+                {method.monicaScoreResult && (
+                  <span
+                    className={`rounded-lg px-3 py-1 text-sm font-bold ${
+                      method.monicaScoreResult.score >= 75
+                        ? "bg-yellow-100 text-yellow-800"
+                        : method.monicaScoreResult.score >= 45
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    Monica: {Math.round(method.monicaScoreResult.score)}/100
+                  </span>
+                )}
                 {method.monica !== null && !isNaN(method.monica) && (
                   <span
                     className={`rounded-lg px-3 py-1 text-sm font-medium ${method.monicaClass.bgColor} ${method.monicaClass.color}`}
@@ -1340,6 +1505,9 @@ export default function EnhancedCookingMethodRecommender() {
                 <div className="space-y-4 border-t-2 border-purple-200 pt-4">
                   {/* Section 1: Transformation Overview */}
                   {renderTransformationOverview(method)}
+
+                  {/* Section 1.5: Monica Vibe Score */}
+                  {renderMonicaVibeScore(method)}
 
                   {/* Section 2: Alchemical Matrix */}
                   {renderAlchemicalMatrix(method)}
@@ -1370,13 +1538,13 @@ export default function EnhancedCookingMethodRecommender() {
                         {method.pillar.planetaryAssociations && (
                           <div className="mb-1 text-xs">
                             <strong>Planets:</strong>{" "}
-                            {method.pillar.planetaryAssociations.join(", ")}
+                            {(method.pillar.planetaryAssociations || []).join(", ")}
                           </div>
                         )}
                         {method.pillar.tarotAssociations && (
                           <div className="text-xs">
                             <strong>Tarot:</strong>{" "}
-                            {method.pillar.tarotAssociations.join(", ")}
+                            {(method.pillar.tarotAssociations || []).join(", ")}
                           </div>
                         )}
                       </div>

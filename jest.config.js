@@ -26,6 +26,7 @@ const config = {
     "/.temp-disabled-tests/",
     "/archive/",
     "/__tests__/temp-validation/", // Exclude temp validation components (not actual tests)
+    "/docs/Alchm Kitchen/", // Exclude Alchm Kitchen docs from tests to resolve Haste collision
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 

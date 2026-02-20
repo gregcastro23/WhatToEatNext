@@ -52,11 +52,11 @@ export const FoodData = {
 
 export type {
   CuisineType,
-  Recipe,
   Ingredient,
   CookingMethod,
   ElementalProperties,
 } from "@/types/alchemy";
+export type { Recipe } from "@/types/recipe";
 
 export {
   cuisines,

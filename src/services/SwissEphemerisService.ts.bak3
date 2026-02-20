@@ -5,7 +5,7 @@
  * Includes comprehensive transit information for multiple years with detailed seasonal mappings
  */
 
-import { CelestialPosition, PlanetaryPosition, ZodiacSign } from '@/types/celestial';
+import { CelestialPosition, PlanetaryPosition, ZodiacSignType } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('SwissEphemerisService');
@@ -124,7 +124,7 @@ const ZODIAC_SIGNS: any[] = [
 /**
  * Element associations for zodiac signs
  */
-const _SIGN_ELEMENTS: Record<ZodiacSign, string> = {
+const _SIGN_ELEMENTS: Record<ZodiacSignType, string> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',

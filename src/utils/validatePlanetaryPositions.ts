@@ -9,7 +9,7 @@ import sunData from "@/data/planets/sun";
 import uranusData from "@/data/planets/uranus";
 import venusData from "@/data/planets/venus";
 import { log } from "@/services/LoggingService";
-import type { ZodiacSign } from "@/types";
+import type { ZodiacSignType } from "@/types/zodiac";
 import type { PlanetPosition } from "./astrologyUtils";
 
 interface TransitDate {
@@ -39,10 +39,10 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
 };
 
 /**
- * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSign type
+ * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSignType type
  */
-const normalizeZodiacSign = (sign: string): ZodiacSign =>
-  sign.toLowerCase() as ZodiacSign;
+const normalizeZodiacSignType = (sign: string): ZodiacSignType =>
+  sign.toLowerCase() as ZodiacSignType;
 
 /**
  * Gets current zodiac sign for a planet based on transit dates
@@ -53,7 +53,7 @@ const normalizeZodiacSign = (sign: string): ZodiacSign =>
 export function getCurrentTransitSign(
   planet: string,
   date: Date = new Date(),
-): ZodiacSign | null {
+): ZodiacSignType | null {
   const planetData = planetDataMap[planet];
   if (!planetData || !planetData.PlanetSpecific) return null;
   const { TransitDates } = planetData.PlanetSpecific;
@@ -68,7 +68,7 @@ export function getCurrentTransitSign(
       currentDateString >= transit.Start &&
       currentDateString <= transit.End
     ) {
-      return normalizeZodiacSign(sign);
+      return normalizeZodiacSignType(sign);
     }
   }
 
@@ -120,8 +120,8 @@ export function validatePlanetaryPositions(
 /**
  * Gets the base longitude value for a sign (0 for Aries, 30 for Taurus, etc.)
  */
-function getBaseSignLongitude(sign: ZodiacSign): number {
-  const signs: ZodiacSign[] = [
+function getBaseSignLongitude(sign: ZodiacSignType): number {
+  const signs: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",
@@ -150,7 +150,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   // Current planetary positions (May 16, 2024) from user input
   const hardcodedPositions: Record<
     string,
-    { sign: ZodiacSign; degree: number; minute: number }
+    { sign: ZodiacSignType; degree: number; minute: number }
   > = {
     Sun: { sign: "taurus", degree: 27, minute: 12 },
     Moon: { sign: "capricorn", degree: 25, minute: 36 },

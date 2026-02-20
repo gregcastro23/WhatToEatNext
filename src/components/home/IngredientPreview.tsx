@@ -69,9 +69,8 @@ const categories: CategoryConfig[] = [
     id: "fruits",
     name: "Fruits",
     icon: "🍎",
-    getData: () => Object.values(allIngredients).filter(
-      (ing) => ing.category === "fruit"
-    ),
+    getData: () =>
+      Object.values(allIngredients).filter((ing) => ing.category === "fruit"),
   },
   {
     id: "grains",
@@ -92,16 +91,20 @@ function convertToIngredientData(ingredient: Ingredient): IngredientData {
       Air: 0.25,
     },
     culinaryUses: (ingredient as any).culinaryUses || (ingredient as any).uses,
-    flavorProfile: (ingredient as any).flavorProfile || (ingredient as any).flavor,
-    pairings: (ingredient as any).pairings || (ingredient as any).pairingRecommendations,
+    flavorProfile:
+      (ingredient as any).flavorProfile || (ingredient as any).flavor,
+    pairings:
+      (ingredient as any).pairings ||
+      (ingredient as any).pairingRecommendations,
     seasonality: (ingredient as any).seasonality,
-    nutrition: (ingredient as any).nutrition || (ingredient as any).nutritionalBenefits,
+    nutrition:
+      (ingredient as any).nutrition || (ingredient as any).nutritionalBenefits,
   };
 }
 
 // Calculate a simple compatibility score based on elemental balance
 function calculateScore(
-  ingredients: IngredientData[]
+  ingredients: IngredientData[],
 ): Array<IngredientData & { score: number }> {
   return ingredients
     .map((ing) => ({
@@ -119,7 +122,9 @@ function calculateScore(
 
 export default function IngredientPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>("spices");
-  const [expandedIngredients, setExpandedIngredients] = useState<Set<string>>(new Set());
+  const [expandedIngredients, setExpandedIngredients] = useState<Set<string>>(
+    new Set(),
+  );
 
   const currentIngredients = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
@@ -277,11 +282,16 @@ export default function IngredientPreview() {
                   <div className="space-y-2">
                     {(() => {
                       // Normalize raw elemental values for display
-                      const normalized = normalizeForDisplay(ingredient.elementalProperties);
+                      const normalized = normalizeForDisplay(
+                        ingredient.elementalProperties,
+                      );
                       return Object.entries(normalized)
                         .sort((a, b) => b[1] - a[1])
                         .map(([element, value]) => (
-                          <div key={element} className="flex items-center gap-2">
+                          <div
+                            key={element}
+                            className="flex items-center gap-2"
+                          >
                             <span className="text-sm w-16">
                               {element === "Fire"
                                 ? "🔥 Fire"
@@ -315,24 +325,25 @@ export default function IngredientPreview() {
                 </div>
 
                 {/* Culinary Uses */}
-                {ingredient.culinaryUses && ingredient.culinaryUses.length > 0 && (
-                  <div>
-                    <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <span className="text-lg">👨‍🍳</span>
-                      <span>Culinary Uses</span>
-                    </h5>
-                    <div className="flex flex-wrap gap-2">
-                      {ingredient.culinaryUses.slice(0, 6).map((use, idx) => (
-                        <span
-                          key={idx}
-                          className="text-xs bg-green-50 text-green-800 px-3 py-1.5 rounded-full border border-green-200"
-                        >
-                          {use}
-                        </span>
-                      ))}
+                {ingredient.culinaryUses &&
+                  ingredient.culinaryUses.length > 0 && (
+                    <div>
+                      <h5 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <span className="text-lg">👨‍🍳</span>
+                        <span>Culinary Uses</span>
+                      </h5>
+                      <div className="flex flex-wrap gap-2">
+                        {ingredient.culinaryUses.slice(0, 6).map((use, idx) => (
+                          <span
+                            key={idx}
+                            className="text-xs bg-green-50 text-green-800 px-3 py-1.5 rounded-full border border-green-200"
+                          >
+                            {use}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* Pairings */}
                 {ingredient.pairings && ingredient.pairings.length > 0 && (
@@ -343,7 +354,10 @@ export default function IngredientPreview() {
                     </h5>
                     <div className="space-y-1">
                       {ingredient.pairings.slice(0, 4).map((pairing, idx) => (
-                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                        <div
+                          key={idx}
+                          className="flex items-start gap-2 text-sm text-gray-700"
+                        >
                           <span className="text-green-600">•</span>
                           <span>{pairing}</span>
                         </div>

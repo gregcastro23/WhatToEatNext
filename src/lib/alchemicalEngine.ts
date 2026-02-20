@@ -6,9 +6,9 @@ import type {
   ElementalProperties,
   Ingredient,
   LunarPhase,
-  Recipe,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 // import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
 const getAccuratePlanetaryPositions: any = async () => ({}); // Function not available
 
@@ -51,7 +51,7 @@ export function validateElementalProperties(
 
 export class AlchemicalEngineBase {
   private readonly zodiacElements: Record<
-    ZodiacSign,
+    ZodiacSignType,
     {
       baseElement: keyof ElementalProperties;
       decans: Array<{
@@ -225,7 +225,7 @@ export class AlchemicalEngineBase {
   }
 
   calculateAstrologicalPower(
-    recipeSunSign: ZodiacSign,
+    recipeSunSign: ZodiacSignType,
     astrologicalState: AstrologicalState,
   ): number {
     const getCurrentDecan = (degree: number): number => {
@@ -383,7 +383,7 @@ export class AlchemicalEngineBase {
     return Object.entries(elements)
       .map(([element, value]) => ({
         element,
-        strength: value || 0,
+        strength: (value as number) || 0,
       }))
       .sort((a, b) => b.strength - a.strength)
       .slice(0, 2);

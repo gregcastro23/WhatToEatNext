@@ -49,7 +49,10 @@ export interface PlanetaryDayCharacteristics {
  * Planetary day ruler mapping
  * Each day of the week is ruled by a specific planet
  */
-export const PLANETARY_DAY_RULERS: Record<DayOfWeek, PlanetaryDayCharacteristics> = {
+export const PLANETARY_DAY_RULERS: Record<
+  DayOfWeek,
+  PlanetaryDayCharacteristics
+> = {
   0: {
     // Sunday - Sun
     planet: "Sun",
@@ -88,7 +91,8 @@ export const PLANETARY_DAY_RULERS: Record<DayOfWeek, PlanetaryDayCharacteristics
     },
     nutritionalEmphasis: "balanced",
     mealTimingAdvice: {
-      breakfast: "Energizing, vitality-boosting - start the day with brightness",
+      breakfast:
+        "Energizing, vitality-boosting - start the day with brightness",
       lunch: "Peak solar energy - main meal of the day, celebratory",
       dinner: "Lighter but still warm - maintain the sun's glow",
       snack: "Bright, uplifting - citrus or honey-based treats",
@@ -116,7 +120,12 @@ export const PLANETARY_DAY_RULERS: Record<DayOfWeek, PlanetaryDayCharacteristics
       "cabbage",
       "turnips",
     ],
-    recommendedCuisines: ["Comfort food", "Home cooking", "Traditional", "Asian"],
+    recommendedCuisines: [
+      "Comfort food",
+      "Home cooking",
+      "Traditional",
+      "Asian",
+    ],
     cookingMethods: [
       "steaming",
       "poaching",
@@ -161,13 +170,7 @@ export const PLANETARY_DAY_RULERS: Record<DayOfWeek, PlanetaryDayCharacteristics
       "mustard",
       "cayenne",
     ],
-    recommendedCuisines: [
-      "Mexican",
-      "Thai",
-      "Korean",
-      "Indian",
-      "Szechuan",
-    ],
+    recommendedCuisines: ["Mexican", "Thai", "Korean", "Indian", "Szechuan"],
     cookingMethods: [
       "grilling",
       "searing",
@@ -471,7 +474,12 @@ export function calculateDayFoodCompatibility(
   let totalWeight = 0;
 
   // Compare each element
-  const elements: Array<keyof ElementalProperties> = ["Fire", "Water", "Earth", "Air"];
+  const elements: Array<keyof ElementalProperties> = [
+    "Fire",
+    "Water",
+    "Earth",
+    "Air",
+  ];
 
   elements.forEach((element) => {
     const preferredIntensity = dayChar.elementalPreferences[element];
@@ -561,15 +569,25 @@ export function getRecommendedCookingMethods(
   const mealMethodPrefs: Record<MealType, string[]> = {
     breakfast: ["quick-cooking", "steaming", "poaching", "baking", "assembly"],
     lunch: ["grilling", "roasting", "stir-frying", "searing", "simmering"],
-    dinner: ["slow-cooking", "braising", "roasting", "multi-course", "elaborate preparations"],
+    dinner: [
+      "slow-cooking",
+      "braising",
+      "roasting",
+      "multi-course",
+      "elaborate preparations",
+    ],
     snack: ["assembly", "raw preparations", "quick-cooking"],
   };
 
   const mealMethods = mealMethodPrefs[mealType] || [];
 
   // Combine day recommendations with meal-appropriate methods
-  return dayChar.cookingMethods.filter(
-    (method) => mealMethods.some((mm) => mm.toLowerCase().includes(method.toLowerCase()) || method.toLowerCase().includes(mm.toLowerCase()))
+  return dayChar.cookingMethods.filter((method) =>
+    mealMethods.some(
+      (mm) =>
+        mm.toLowerCase().includes(method.toLowerCase()) ||
+        method.toLowerCase().includes(mm.toLowerCase()),
+    ),
   );
 }
 
@@ -598,10 +616,20 @@ export function getRecommendedIngredients(
  */
 export function generateDaySummary(dayOfWeek: DayOfWeek): string {
   const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
-  return `${dayNames[dayOfWeek]} is ruled by ${dayChar.planet}, a ${dayChar.energy} ${dayChar.element} planet. ` +
+  return (
+    `${dayNames[dayOfWeek]} is ruled by ${dayChar.planet}, a ${dayChar.energy} ${dayChar.element} planet. ` +
     `Focus on ${dayChar.flavorProfiles && Object.keys(dayChar.flavorProfiles)[0]} flavors and ` +
     `${dayChar.cookingMethods[0]} cooking methods. ` +
-    `Recommended cuisines include ${dayChar.recommendedCuisines.slice(0, 2).join(" and ")}.`;
+    `Recommended cuisines include ${dayChar.recommendedCuisines.slice(0, 2).join(" and ")}.`
+  );
 }

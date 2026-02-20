@@ -1426,7 +1426,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       fresh: {
         duration: "1 month",
         storage: "refrigerated",
-        tips: ["use as finishing oil", "great for seafood", "drizzle on salads"],
+        tips: [
+          "use as finishing oil",
+          "great for seafood",
+          "drizzle on salads",
+        ],
       },
     },
     storage: {

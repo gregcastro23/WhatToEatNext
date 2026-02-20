@@ -442,7 +442,7 @@ export class PlanetaryAgentsAdapter {
     _logger.warn(
       "PlanetaryAgentsAdapter.getGroupDynamics: Using placeholder implementation. " +
         "Real group harmony calculation requires user birth chart data and elemental properties. " +
-        `Called for ${userIds.length} users at location ${JSON.stringify(location)}`
+        `Called for ${userIds.length} users at location ${JSON.stringify(location)}`,
     );
 
     // PLACEHOLDER: Return mock data until user elemental properties are available

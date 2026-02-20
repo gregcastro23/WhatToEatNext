@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import type {
-  GroupMember,
-  DiningGroup,
-  BirthData,
-} from "@/types/natalChart";
+import type { GroupMember, DiningGroup, BirthData } from "@/types/natalChart";
 import { useUser } from "@/contexts/UserContext";
-import { calculateNatalChart, validateBirthData } from "@/services/natalChartService";
+import {
+  calculateNatalChart,
+  validateBirthData,
+} from "@/services/natalChartService";
 import {
   calculateCompositeNatalChart,
   getGroupInsights,
@@ -253,9 +252,7 @@ export function GroupManagement() {
           </div>
           <div className="flex gap-2">
             <button
-              onClick={() =>
-                setSelectedGroupId(isExpanded ? null : group.id)
-              }
+              onClick={() => setSelectedGroupId(isExpanded ? null : group.id)}
               className="text-sm text-indigo-600 hover:text-indigo-800"
             >
               {isExpanded ? "Hide" : "View"}
@@ -354,9 +351,7 @@ export function GroupManagement() {
         {/* Add Member Form */}
         {showAddMember && (
           <div className="mb-4 rounded-lg border border-indigo-200 bg-indigo-50 p-4">
-            <h4 className="mb-3 font-medium text-indigo-900">
-              Add New Member
-            </h4>
+            <h4 className="mb-3 font-medium text-indigo-900">Add New Member</h4>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <div>
                 <label className="mb-1 block text-sm text-gray-700">
@@ -450,7 +445,9 @@ export function GroupManagement() {
               </button>
               <button
                 onClick={handleAddMember}
-                disabled={isCalculating || !newMember.name || !newMember.dateTime}
+                disabled={
+                  isCalculating || !newMember.name || !newMember.dateTime
+                }
                 className="rounded bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700 disabled:bg-gray-300"
               >
                 {isCalculating ? "Calculating..." : "Add Member"}
@@ -513,15 +510,10 @@ export function GroupManagement() {
                 </label>
                 <div className="space-y-2">
                   {groupMembers.map((member) => (
-                    <label
-                      key={member.id}
-                      className="flex items-center gap-2"
-                    >
+                    <label key={member.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        checked={newGroup.selectedMemberIds.includes(
-                          member.id,
-                        )}
+                        checked={newGroup.selectedMemberIds.includes(member.id)}
                         onChange={(e) => {
                           if (e.target.checked) {
                             setNewGroup({

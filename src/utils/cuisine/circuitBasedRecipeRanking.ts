@@ -7,9 +7,12 @@
  * Part of the enhanced cuisine recommender system.
  */
 
-import type { Recipe } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import type { KineticMetrics } from "@/types/kinetics";
-import type { ElementalProperties, AlchemicalProperties } from "@/types/hierarchy";
+import type {
+  ElementalProperties,
+  AlchemicalProperties,
+} from "@/types/hierarchy";
 import {
   validateRecipeCircuit,
   validateMultiRecipeCircuit,
@@ -122,7 +125,12 @@ export function rankRecipesByCircuitCompatibility(
   let filteredRecipes = recipes;
   if (mealType) {
     filteredRecipes = recipes.filter(
-      (r) => r.mealType && r.mealType.some(mt => mt.toLowerCase().includes(mealType.toLowerCase()))
+      (r) =>
+        r.mealType &&
+        Array.isArray(r.mealType) &&
+        r.mealType.some((mt) =>
+          mt.toLowerCase().includes(mealType.toLowerCase()),
+        ),
     );
   }
 
@@ -138,9 +146,13 @@ export function rankRecipesByCircuitCompatibility(
       );
 
       if (!circuitValidation.isValid) {
-        reasoning.push("⚠️ Circuit power conservation violated - unstable recipe");
+        reasoning.push(
+          "⚠️ Circuit power conservation violated - unstable recipe",
+        );
       } else if (circuitValidation.efficiency > 0.9) {
-        reasoning.push("⚡ Exceptional circuit efficiency - minimal energy losses");
+        reasoning.push(
+          "⚡ Exceptional circuit efficiency - minimal energy losses",
+        );
       }
 
       // 2. Calculate kinetics compatibility
@@ -159,31 +171,45 @@ export function rankRecipesByCircuitCompatibility(
       const powerEfficiency = circuitValidation.efficiency;
 
       // 4. Calculate energy level match
-      const recipePowerLevel = Math.min(recipe.kineticProperties.power / 100, 1.0);
-      const energyLevelMatch = 1 - Math.abs(recipePowerLevel - desiredEnergyLevel);
+      const recipePowerLevel = Math.min(
+        recipe.kineticProperties.power / 100,
+        1.0,
+      );
+      const energyLevelMatch =
+        1 - Math.abs(recipePowerLevel - desiredEnergyLevel);
 
       if (energyLevelMatch > 0.8) {
-        reasoning.push(`⚡ Perfect power level match (${(recipePowerLevel * 100).toFixed(0)}%)`);
+        reasoning.push(
+          `⚡ Perfect power level match (${(recipePowerLevel * 100).toFixed(0)}%)`,
+        );
       } else if (energyLevelMatch < 0.4) {
-        reasoning.push(`⚠️ Power level ${recipePowerLevel > desiredEnergyLevel ? "higher" : "lower"} than desired`);
+        reasoning.push(
+          `⚠️ Power level ${recipePowerLevel > desiredEnergyLevel ? "higher" : "lower"} than desired`,
+        );
       }
 
       // 5. Calculate force classification bonus
       let forceBonus = 0;
       if (
-        userKinetics.forceClassification === recipe.kineticProperties.forceClassification
+        userKinetics.forceClassification ===
+        recipe.kineticProperties.forceClassification
       ) {
         forceBonus = 0.15;
-        reasoning.push(`✓ Force classification match: ${userKinetics.forceClassification}`);
+        reasoning.push(
+          `✓ Force classification match: ${userKinetics.forceClassification}`,
+        );
       }
 
       // 6. Calculate thermal direction bonus
       let thermalBonus = 0;
       if (
-        userKinetics.thermalDirection === recipe.kineticProperties.thermalDirection
+        userKinetics.thermalDirection ===
+        recipe.kineticProperties.thermalDirection
       ) {
         thermalBonus = 0.1;
-        reasoning.push(`✓ Thermal direction aligned: ${userKinetics.thermalDirection}`);
+        reasoning.push(
+          `✓ Thermal direction aligned: ${userKinetics.thermalDirection}`,
+        );
       }
 
       // 7. Calculate overall score
@@ -192,11 +218,11 @@ export function rankRecipesByCircuitCompatibility(
         Math.min(
           1,
           powerEfficiency * 0.35 + // 35% weight on efficiency
-          kineticsCompatibility * 0.25 + // 25% weight on kinetics
-          energyLevelMatch * 0.25 + // 25% weight on energy match
-          forceBonus + // 15% bonus
-          thermalBonus // 10% bonus
-        )
+            kineticsCompatibility * 0.25 + // 25% weight on kinetics
+            energyLevelMatch * 0.25 + // 25% weight on energy match
+            forceBonus + // 15% bonus
+            thermalBonus, // 10% bonus
+        ),
       );
 
       // 8. Calculate serving adjustment if needed
@@ -234,7 +260,7 @@ function calculateServingAdjustment(
   userKinetics: KineticMetrics,
   desiredEnergyLevel: number,
 ): RankedRecipeResult["servingAdjustment"] {
-  const originalServings = Number(recipe.servings) || 4;
+  const originalServings = Number(recipe.servingSize) || 4;
   const recipePower = recipe.kineticProperties.power;
   const userPower = userKinetics.power;
 
@@ -256,7 +282,10 @@ function calculateServingAdjustment(
     reason = "Increased servings to match your desired energy level";
   } else if (powerRatio < 0.7) {
     // User has low power, reduce servings
-    recommendedServings = Math.max(1, Math.floor(originalServings * powerRatio));
+    recommendedServings = Math.max(
+      1,
+      Math.floor(originalServings * powerRatio),
+    );
     reason = "Adjusted servings based on your current power capacity";
   }
 
@@ -322,7 +351,9 @@ export function validateMultiCoursePowerFlow(
 
     // Course-level warnings
     if (validation.efficiency < 0.6) {
-      warnings.push(`${course.name}: Low circuit efficiency (${(validation.efficiency * 100).toFixed(1)}%)`);
+      warnings.push(
+        `${course.name}: Low circuit efficiency (${(validation.efficiency * 100).toFixed(1)}%)`,
+      );
     }
 
     if (!validation.isValid) {
@@ -337,7 +368,7 @@ export function validateMultiCoursePowerFlow(
   // Check power capacity
   if (totalInputPower > maxPowerCapacity) {
     warnings.push(
-      `Total power (${totalInputPower.toFixed(1)}) exceeds capacity (${maxPowerCapacity}). Consider reducing courses or portions.`
+      `Total power (${totalInputPower.toFixed(1)}) exceeds capacity (${maxPowerCapacity}). Consider reducing courses or portions.`,
     );
   }
 
@@ -348,19 +379,20 @@ export function validateMultiCoursePowerFlow(
 
   if (!isValid) {
     warnings.push(
-      `Multi-course power conservation violated! Power imbalance: ${(totalInputPower - totalOutputPower - totalLosses).toFixed(2)}`
+      `Multi-course power conservation violated! Power imbalance: ${(totalInputPower - totalOutputPower - totalLosses).toFixed(2)}`,
     );
   }
 
   // Check for course balance
   const powerImbalance = courseBreakdown.some(
     (course) =>
-      course.inputPower > totalInputPower * 0.6 || course.inputPower < totalInputPower * 0.15
+      course.inputPower > totalInputPower * 0.6 ||
+      course.inputPower < totalInputPower * 0.15,
   );
 
   if (powerImbalance && courses.length > 1) {
     warnings.push(
-      "Power distribution across courses is unbalanced. Consider adjusting portions for better flow."
+      "Power distribution across courses is unbalanced. Consider adjusting portions for better flow.",
     );
   }
 
@@ -463,7 +495,10 @@ export function generateCoursePairingRecommendations(
     candidates = availableCourses.filter(
       (recipe) =>
         recipe.mealType &&
-        recipe.mealType.some(mt => mt.toLowerCase().includes(targetCourseType))
+        Array.isArray(recipe.mealType) &&
+        recipe.mealType.some((mt) =>
+          mt.toLowerCase().includes(targetCourseType),
+        ),
     );
   }
 
@@ -489,7 +524,10 @@ export function generateCoursePairingRecommendations(
 
     // Check thermal complementarity
     let thermalScore = 0;
-    if (mainCourse.kineticProperties.thermalDirection === candidate.kineticProperties.thermalDirection) {
+    if (
+      mainCourse.kineticProperties.thermalDirection ===
+      candidate.kineticProperties.thermalDirection
+    ) {
       thermalScore = 0.8;
       reasoning.push("✓ Thermal direction aligned");
     } else if (
@@ -510,18 +548,28 @@ export function generateCoursePairingRecommendations(
       // Pair with balanced or decelerating
       if (candidate.kineticProperties.forceClassification === "decelerating") {
         forceScore = 1.0;
-        reasoning.push("✓ Decelerating force balances main course's acceleration");
-      } else if (candidate.kineticProperties.forceClassification === "balanced") {
+        reasoning.push(
+          "✓ Decelerating force balances main course's acceleration",
+        );
+      } else if (
+        candidate.kineticProperties.forceClassification === "balanced"
+      ) {
         forceScore = 0.8;
       } else {
         forceScore = 0.5;
       }
-    } else if (mainCourse.kineticProperties.forceClassification === "decelerating") {
+    } else if (
+      mainCourse.kineticProperties.forceClassification === "decelerating"
+    ) {
       // Pair with balanced or accelerating
       if (candidate.kineticProperties.forceClassification === "accelerating") {
         forceScore = 1.0;
-        reasoning.push("✓ Accelerating force energizes main course's grounding effect");
-      } else if (candidate.kineticProperties.forceClassification === "balanced") {
+        reasoning.push(
+          "✓ Accelerating force energizes main course's grounding effect",
+        );
+      } else if (
+        candidate.kineticProperties.forceClassification === "balanced"
+      ) {
         forceScore = 0.8;
       } else {
         forceScore = 0.5;
@@ -532,7 +580,8 @@ export function generateCoursePairingRecommendations(
     }
 
     // Overall score
-    const overallScore = powerScore * 0.4 + thermalScore * 0.3 + forceScore * 0.3;
+    const overallScore =
+      powerScore * 0.4 + thermalScore * 0.3 + forceScore * 0.3;
 
     // Mock circuit validation for structure
     const mockCircuitValidation: CircuitValidationResult = {

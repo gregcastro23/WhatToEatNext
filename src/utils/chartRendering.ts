@@ -5,7 +5,12 @@
  * Converts astronomical coordinates to SVG coordinates.
  */
 
-import type { Planet, ZodiacSign, PlanetaryAspect, AspectType } from "@/types/celestial";
+import type {
+  Planet,
+  ZodiacSignType,
+  PlanetaryAspect,
+  AspectType,
+} from "@/types/celestial";
 
 /**
  * Convert ecliptic longitude (0-360°) to SVG coordinates
@@ -19,7 +24,7 @@ export function degreesToSVGCoords(
   longitude: number,
   radius: number,
   centerX: number = 250,
-  centerY: number = 250
+  centerY: number = 250,
 ): { x: number; y: number } {
   // Convert to radians, adjusting so 0° Aries is at top (90° in standard coords)
   const radians = ((longitude - 90) * Math.PI) / 180;
@@ -35,11 +40,20 @@ export function degreesToSVGCoords(
  * @param sign - Zodiac sign
  * @returns Starting longitude in degrees
  */
-export function getZodiacStartDegree(sign: ZodiacSign): number {
-  const signs: ZodiacSign[] = [
-    "aries", "taurus", "gemini", "cancer",
-    "leo", "virgo", "libra", "scorpio",
-    "sagittarius", "capricorn", "aquarius", "pisces"
+export function getZodiacStartDegree(sign: ZodiacSignType): number {
+  const signs: ZodiacSignType[] = [
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
   ];
 
   const index = signs.indexOf(sign);
@@ -52,7 +66,10 @@ export function getZodiacStartDegree(sign: ZodiacSign): number {
  * @param degree - Degree within sign (0-30)
  * @returns Absolute longitude (0-360)
  */
-export function calculateAbsoluteLongitude(sign: ZodiacSign, degree: number): number {
+export function calculateAbsoluteLongitude(
+  sign: ZodiacSignType,
+  degree: number,
+): number {
   const signStart = getZodiacStartDegree(sign);
   return signStart + degree;
 }
@@ -65,10 +82,10 @@ export function calculateAbsoluteLongitude(sign: ZodiacSign, degree: number): nu
 export function getAspectColor(type: AspectType | undefined): string {
   const colors: Record<AspectType, string> = {
     conjunction: "#FF6B6B", // Red - powerful
-    opposition: "#4ECDC4",  // Teal - tension
-    trine: "#45B7D1",       // Blue - harmony
-    square: "#FFA07A",      // Orange - challenge
-    sextile: "#98D8C8",     // Green - opportunity
+    opposition: "#4ECDC4", // Teal - tension
+    trine: "#45B7D1", // Blue - harmony
+    square: "#FFA07A", // Orange - challenge
+    sextile: "#98D8C8", // Green - opportunity
   };
 
   return type ? colors[type] || "#888888" : "#888888";
@@ -81,11 +98,11 @@ export function getAspectColor(type: AspectType | undefined): string {
  */
 export function getAspectLineStyle(type: AspectType | undefined): string {
   const styles: Record<AspectType, string> = {
-    conjunction: "none",      // Solid
-    opposition: "5,5",        // Dashed
-    trine: "none",           // Solid
-    square: "3,3",           // Short dashed
-    sextile: "2,2",          // Dotted
+    conjunction: "none", // Solid
+    opposition: "5,5", // Dashed
+    trine: "none", // Solid
+    square: "3,3", // Short dashed
+    sextile: "2,2", // Dotted
   };
 
   return type ? styles[type] || "none" : "none";
@@ -119,8 +136,8 @@ export function getPlanetSymbol(planet: string): string {
  * @param sign - Zodiac sign
  * @returns Unicode symbol
  */
-export function getZodiacGlyph(sign: ZodiacSign): string {
-  const glyphs: Record<ZodiacSign, string> = {
+export function getZodiacGlyph(sign: ZodiacSignType): string {
+  const glyphs: Record<ZodiacSignType, string> = {
     aries: "♈",
     taurus: "♉",
     gemini: "♊",
@@ -145,16 +162,16 @@ export function getZodiacGlyph(sign: ZodiacSign): string {
  */
 export function getPlanetColor(planet: string): string {
   const colors: Record<string, string> = {
-    Sun: "#FFD700",      // Gold
-    Moon: "#C0C0C0",     // Silver
-    Mercury: "#FFA500",  // Orange
-    Venus: "#FF69B4",    // Pink
-    Mars: "#FF4500",     // Red-Orange
-    Jupiter: "#4169E1",  // Royal Blue
-    Saturn: "#8B4513",   // Brown
-    Uranus: "#40E0D0",   // Turquoise
-    Neptune: "#9370DB",  // Purple
-    Pluto: "#8B0000",    // Dark Red
+    Sun: "#FFD700", // Gold
+    Moon: "#C0C0C0", // Silver
+    Mercury: "#FFA500", // Orange
+    Venus: "#FF69B4", // Pink
+    Mars: "#FF4500", // Red-Orange
+    Jupiter: "#4169E1", // Royal Blue
+    Saturn: "#8B4513", // Brown
+    Uranus: "#40E0D0", // Turquoise
+    Neptune: "#9370DB", // Purple
+    Pluto: "#8B0000", // Dark Red
     Ascendant: "#FFFFFF", // White
   };
 
@@ -168,10 +185,10 @@ export function getPlanetColor(planet: string): string {
  */
 export function getElementColor(element: string): string {
   const colors: Record<string, string> = {
-    Fire: "#FF6B6B",    // Red
-    Earth: "#8B4513",   // Brown
-    Air: "#87CEEB",     // Sky Blue
-    Water: "#4682B4",   // Steel Blue
+    Fire: "#FF6B6B", // Red
+    Earth: "#8B4513", // Brown
+    Air: "#87CEEB", // Sky Blue
+    Water: "#4682B4", // Steel Blue
   };
 
   return colors[element] || "#888888";
@@ -185,15 +202,15 @@ export function getElementColor(element: string): string {
  * @returns Formatted string like "15°32' Aries"
  */
 export function formatDegreeString(
-  sign: ZodiacSign,
+  sign: ZodiacSignType,
   degree: number,
-  minute: number = 0
+  minute: number = 0,
 ): string {
   const signName = sign.charAt(0).toUpperCase() + sign.slice(1);
   const degreeInt = Math.floor(degree);
   const minuteInt = Math.floor(minute);
 
-  return `${degreeInt}°${minuteInt.toString().padStart(2, '0')}' ${signName}`;
+  return `${degreeInt}°${minuteInt.toString().padStart(2, "0")}' ${signName}`;
 }
 
 /**
@@ -210,7 +227,7 @@ export function getZodiacArcPath(
   innerRadius: number,
   outerRadius: number,
   centerX: number = 250,
-  centerY: number = 250
+  centerY: number = 250,
 ): string {
   const startAngle = signIndex * 30 - 90; // -90 to start at top
   const endAngle = startAngle + 30;

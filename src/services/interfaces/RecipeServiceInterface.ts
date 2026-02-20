@@ -12,7 +12,7 @@
  */
 
 import type { ElementalProperties, Season } from "@/types/alchemy";
-import type { LunarPhase, PlanetName, ZodiacSign } from "@/types/celestial";
+import type { LunarPhase, PlanetName, ZodiacSignType } from "@/types/celestial";
 import { PlanetaryAlignment } from "@/types/celestial";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import type {
@@ -55,7 +55,7 @@ export interface RecipeSearchCriteria {
   // Astrological filters
   planetaryHour?: PlanetName;
   lunarPhase?: LunarPhase;
-  currentZodiacSign?: ZodiacSign;
+  currentZodiacSignType?: ZodiacSignType;
 
   // Other practical filters
   maxPrepTime?: number;

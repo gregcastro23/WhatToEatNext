@@ -78,8 +78,12 @@ function formatValidationReport(report: ValidationReport): string {
     .slice(0, 10);
 
   for (const recipe of sortedRecipes) {
-    const errorCount = recipe.issues.filter(i => i.severity === "error").length;
-    const warningCount = recipe.issues.filter(i => i.severity === "warning").length;
+    const errorCount = recipe.issues.filter(
+      (i) => i.severity === "error",
+    ).length;
+    const warningCount = recipe.issues.filter(
+      (i) => i.severity === "warning",
+    ).length;
     output += `  ${recipe.recipeName.slice(0, 35).padEnd(36)} `;
     output += `E:${errorCount.toString().padStart(2)} W:${warningCount.toString().padStart(2)} `;
     output += `Q:${recipe.qualityScore.toFixed(0).padStart(3)}%\n`;
@@ -99,8 +103,8 @@ function formatValidationReport(report: ValidationReport): string {
 
   // Recipes Missing Critical Fields
   output += formatSubsectionHeader("Recipes Missing ID");
-  const missingId = report.recipeResults.filter(r =>
-    r.issues.some(i => i.field === "id" && i.severity === "warning")
+  const missingId = report.recipeResults.filter((r) =>
+    r.issues.some((i) => i.field === "id" && i.severity === "warning"),
   );
   output += `Count: ${missingId.length}\n`;
   if (missingId.length > 0 && missingId.length <= 10) {
@@ -117,19 +121,20 @@ function formatValidationReport(report: ValidationReport): string {
 
   // Recipes Missing Elemental Properties
   output += formatSubsectionHeader("Recipes Missing Elemental Properties");
-  const missingElemental = report.recipeResults.filter(r =>
-    r.issues.some(i => i.field === "elementalProperties")
+  const missingElemental = report.recipeResults.filter((r) =>
+    r.issues.some((i) => i.field === "elementalProperties"),
   );
   output += `Count: ${missingElemental.length}\n`;
 
   // Cuisine Distribution
   output += formatSubsectionHeader("Quality by Cuisine");
-  const cuisineStats: Record<string, { count: number; totalQuality: number }> = {};
+  const cuisineStats: Record<string, { count: number; totalQuality: number }> =
+    {};
 
   for (const result of report.recipeResults) {
     // Find cuisine from the original recipe
-    const cuisineIssue = result.issues.find(i => i.field === "cuisine");
-    const cuisine = cuisineIssue?.currentValue as string || "unknown";
+    const cuisineIssue = result.issues.find((i) => i.field === "cuisine");
+    const cuisine = (cuisineIssue?.currentValue as string) || "unknown";
 
     if (!cuisineStats[cuisine]) {
       cuisineStats[cuisine] = { count: 0, totalQuality: 0 };
@@ -177,7 +182,8 @@ function formatDuplicateReport(report: DuplicateReport): string {
     output += `  Members:\n`;
 
     for (const recipe of group.recipes) {
-      const keepMark = recipe.id === group.suggestedKeep ? " [KEEP]" : " [REMOVE]";
+      const keepMark =
+        recipe.id === group.suggestedKeep ? " [KEEP]" : " [REMOVE]";
       output += `    - ${recipe.name} (${recipe.cuisine || "unknown"}) `;
       output += `Similarity: ${(recipe.similarity * 100).toFixed(0)}%${keepMark}\n`;
     }
@@ -197,7 +203,7 @@ function formatDetailedErrorReport(report: ValidationReport): string {
   const errorsByType: Record<string, RecipeValidationResult[]> = {};
 
   for (const result of report.recipeResults) {
-    const errors = result.issues.filter(i => i.severity === "error");
+    const errors = result.issues.filter((i) => i.severity === "error");
     for (const error of errors) {
       if (!errorsByType[error.field]) {
         errorsByType[error.field] = [];
@@ -213,7 +219,9 @@ function formatDetailedErrorReport(report: ValidationReport): string {
     // Show first 5 examples
     const examples = recipes.slice(0, 5);
     for (const recipe of examples) {
-      const issue = recipe.issues.find(i => i.field === field && i.severity === "error");
+      const issue = recipe.issues.find(
+        (i) => i.field === field && i.severity === "error",
+      );
       output += `  - ${recipe.recipeName}\n`;
       output += `    Current: ${JSON.stringify(issue?.currentValue)}\n`;
     }
@@ -252,9 +260,15 @@ async function main() {
 
   // Summary
   console.log(formatSectionHeader("RECOMMENDATIONS"));
-  console.log(`1. Fix ${validationReport.issuesBySeverity.error} critical errors first`);
-  console.log(`2. Apply auto-fixes for ${validationReport.autoFixableIssues} auto-fixable issues`);
-  console.log(`3. Review and consolidate ${duplicateReport.totalDuplicateRecipes} duplicate recipes`);
+  console.log(
+    `1. Fix ${validationReport.issuesBySeverity.error} critical errors first`,
+  );
+  console.log(
+    `2. Apply auto-fixes for ${validationReport.autoFixableIssues} auto-fixable issues`,
+  );
+  console.log(
+    `3. Review and consolidate ${duplicateReport.totalDuplicateRecipes} duplicate recipes`,
+  );
   console.log(`4. Add missing IDs to recipes for better tracking`);
   console.log(`5. Add elemental properties for astrological features\n`);
 

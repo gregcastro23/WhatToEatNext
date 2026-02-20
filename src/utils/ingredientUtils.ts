@@ -19,7 +19,11 @@
  */
 
 import type { IngredientCategory } from "@/data/ingredients/types";
-import type { Ingredient, IngredientMapping, RecipeIngredient } from "@/types";
+import type {
+  Ingredient,
+  RecipeIngredient,
+  IngredientMappingType,
+} from "@/types/alchemy";
 import type { ElementalProperties } from "@/types/alchemy";
 
 /**
@@ -162,12 +166,12 @@ export function isFullIngredient(
   const ingredientData = ingredient as any;
   return Boolean(
     ingredient &&
-      typeof ingredientData.name === "string" &&
-      typeof ingredientData.category === "string" &&
-      ingredientData.elementalProperties &&
-      Array.isArray(ingredientData.qualities) &&
-      ingredientData.storage &&
-      typeof ingredientData.storage === "object",
+    typeof ingredientData.name === "string" &&
+    typeof ingredientData.category === "string" &&
+    ingredientData.elementalProperties &&
+    Array.isArray(ingredientData.qualities) &&
+    ingredientData.storage &&
+    typeof ingredientData.storage === "object",
   );
 }
 
@@ -324,7 +328,7 @@ export function getDominantElement(
 /**
  * Converts an ingredient mapping to a full ingredient
  */
-export function mapToIngredient(mapping: IngredientMapping): Ingredient {
+export function mapToIngredient(mapping: IngredientMappingType): Ingredient {
   // Set default values for required properties
   const ingredient = {
     name: (mapping.name as unknown) || "",

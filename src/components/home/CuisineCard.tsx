@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
+// Optional callback for double-click-to-queue integration
+type OnDoubleClickCuisine = (cuisineName: string) => void;
+
 const PLANET_ICONS: Record<string, string> = {
   Sun: "\u2609",
   Moon: "\u263D",
@@ -48,9 +51,10 @@ interface CuisineCardProps {
   cuisine: DynamicCuisineRecommendation;
   rank: number;
   compact?: boolean;
+  onDoubleClickCuisine?: OnDoubleClickCuisine;
 }
 
-export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
+export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: CuisineCardProps) {
   const [showPreview, setShowPreview] = useState(false);
 
   const icon = PLANET_ICONS[cuisine.planet] || "\u2609";
@@ -68,6 +72,12 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
     return (
       <Link
         href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
+        onDoubleClick={(e) => {
+          if (onDoubleClickCuisine) {
+            e.preventDefault();
+            onDoubleClickCuisine(cuisine.cuisine);
+          }
+        }}
       >
         <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200 hover:border-amber-300 cursor-pointer p-4">
           <div className="flex items-center justify-between mb-2">
@@ -75,18 +85,27 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
               <span className="text-lg">{icon}</span>
               <h3 className="font-semibold text-gray-900">{cuisine.cuisine}</h3>
               {cuisine.isRetrograde && (
-                <span className="text-xs text-amber-600" title={`${cuisine.planet} retrograde`}>
+                <span
+                  className="text-xs text-amber-600"
+                  title={`${cuisine.planet} retrograde`}
+                >
                   Rx
                 </span>
               )}
             </div>
-            <div className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-xs font-bold`}>
+            <div
+              className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-xs font-bold`}
+            >
               {cuisine.score}%
             </div>
           </div>
-          <p className="text-xs text-gray-600 line-clamp-2">{cuisine.reasoning}</p>
+          <p className="text-xs text-gray-600 line-clamp-2">
+            {cuisine.reasoning}
+          </p>
           <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
-            {cuisine.recipeCount > 0 && <span>{cuisine.recipeCount} recipes</span>}
+            {cuisine.recipeCount > 0 && (
+              <span>{cuisine.recipeCount} recipes</span>
+            )}
             <span>{cuisine.optimalTiming}</span>
           </div>
         </div>
@@ -99,6 +118,12 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
       className="relative group"
       onMouseEnter={() => setShowPreview(true)}
       onMouseLeave={() => setShowPreview(false)}
+      onDoubleClick={(e) => {
+        if (onDoubleClickCuisine) {
+          e.preventDefault();
+          onDoubleClickCuisine(cuisine.cuisine);
+        }
+      }}
     >
       <Link
         href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
@@ -147,7 +172,10 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
                 </span>
               </div>
               {cuisine.isRetrograde && (
-                <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full" title={`${cuisine.planet} is retrograde`}>
+                <span
+                  className="inline-flex items-center px-2 py-1 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full"
+                  title={`${cuisine.planet} is retrograde`}
+                >
                   Rx
                 </span>
               )}
@@ -176,9 +204,7 @@ export function CuisineCard({ cuisine, rank, compact }: CuisineCardProps) {
           {/* Hover Preview */}
           {showPreview && cuisine.topRecipes.length > 0 && (
             <div className="absolute inset-0 bg-white bg-opacity-95 backdrop-blur-sm p-5 flex flex-col justify-center rounded-xl">
-              <h4 className="font-semibold text-gray-900 mb-3">
-                Top Recipes:
-              </h4>
+              <h4 className="font-semibold text-gray-900 mb-3">Top Recipes:</h4>
               <div className="space-y-2">
                 {cuisine.topRecipes.map((recipe, idx) => (
                   <div

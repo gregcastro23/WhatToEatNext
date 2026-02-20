@@ -254,9 +254,7 @@ export function getGroupInsights(
 
   // Diversity insight
   if (diversity > 0.8) {
-    insights.push(
-      "This is a diverse group - fusion cuisines may work well.",
-    );
+    insights.push("This is a diverse group - fusion cuisines may work well.");
   } else if (diversity < 0.4) {
     insights.push(
       "This group has similar tastes - focused cuisines recommended.",

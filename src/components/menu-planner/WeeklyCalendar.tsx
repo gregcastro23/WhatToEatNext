@@ -28,6 +28,7 @@ import {
   PLANETARY_DAY_RULERS,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { Recipe } from "@/types/recipe";
 
 interface WeeklyCalendarProps {
@@ -65,8 +66,7 @@ function DayColumn({
   } = useMenuPlanner();
 
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);
-  const isToday =
-    new Date().toDateString() === new Date(date).toDateString();
+  const isToday = new Date().toDateString() === new Date(date).toDateString();
 
   // Get meals sorted by type
   const mealTypes: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
@@ -168,7 +168,7 @@ function DayColumn({
           <MealSlot
             key={mealSlot.id}
             mealSlot={mealSlot}
-            onAddRecipe={(recipe: Recipe) =>
+            onAddRecipe={(recipe: MonicaOptimizedRecipe) =>
               addMealToSlot(dayOfWeek, mealSlot.mealType, recipe)
             }
             onRemoveRecipe={() => removeMealFromSlot(mealSlot.id)}
@@ -196,8 +196,13 @@ function DayColumn({
  * Main Weekly Calendar Component
  */
 export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
-  const { currentMenu, navigation, isLoading, copyMealToSlots, moveMealToSlots } =
-    useMenuPlanner();
+  const {
+    currentMenu,
+    navigation,
+    isLoading,
+    copyMealToSlots,
+    moveMealToSlots,
+  } = useMenuPlanner();
   const { currentPlanetaryHour } = useAstrologicalState();
   const [copyMealModalState, setCopyMealModalState] = useState<{
     isOpen: boolean;
@@ -226,7 +231,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
 
   // Handle day change in focused view
   const handleFocusedDayChange = (direction: "prev" | "next") => {
-    setFocusedDayState(prev => ({
+    setFocusedDayState((prev) => ({
       ...prev,
       dayOfWeek: (direction === "prev"
         ? (prev.dayOfWeek - 1 + 7) % 7
@@ -353,7 +358,9 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center text-sm text-gray-700">
               <div className="flex items-center gap-2">
                 <span className="text-purple-600">✨</span>
-                <span>Click "Generate" on any day for planetary-aligned suggestions</span>
+                <span>
+                  Click "Generate" on any day for planetary-aligned suggestions
+                </span>
               </div>
               <div className="hidden sm:block text-gray-400">•</div>
               <div className="flex items-center gap-2">
@@ -372,7 +379,8 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
               <div className="text-2xl">📅</div>
               <div>
                 <h3 className="font-bold text-gray-800">
-                  Great start! {totalMeals} meal{totalMeals === 1 ? "" : "s"} planned
+                  Great start! {totalMeals} meal{totalMeals === 1 ? "" : "s"}{" "}
+                  planned
                 </h3>
                 <p className="text-sm text-gray-600">
                   Keep adding meals to build your ideal week
@@ -490,7 +498,9 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
           dayOfWeek={focusedDayState.dayOfWeek}
           date={weekDates[focusedDayState.dayOfWeek]}
           meals={mealsByDay[focusedDayState.dayOfWeek] || []}
-          onClose={() => setFocusedDayState({ isOpen: false, dayOfWeek: 0 as DayOfWeek })}
+          onClose={() =>
+            setFocusedDayState({ isOpen: false, dayOfWeek: 0 as DayOfWeek })
+          }
           onDayChange={handleFocusedDayChange}
         />
       )}

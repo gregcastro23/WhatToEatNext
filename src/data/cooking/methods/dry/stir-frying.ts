@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ZodiacSign, ThermodynamicProperties } from "@/types/shared";
+import type { ZodiacSignType, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Stir-frying cooking method
@@ -11,10 +11,10 @@ export const _stirFrying: CookingMethodData = {
   description:
     "High-heat, quick cooking technique where food is rapidly tossed and stirred in a wok or pan, preserving texture and creating complex flavors",
   elementalEffect: {
-    Fire: 0.5,
-    Air: 0.3,
-    Earth: 0.1,
-    Water: 0.1,
+    Fire: 0.7,  // Extreme wok heat (600-900°F) dominates
+    Air: 0.2,   // Constant tossing, wok hei requires air exposure
+    Earth: 0.05, // Minimal grounding
+    Water: 0.05, // Minimal moisture (drives off quickly)
   },
   duration: {
     min: 3,
@@ -108,6 +108,15 @@ export const _stirFrying: CookingMethodData = {
     reactivity: 0.85, // High reactivity (Maillard, caramelization)
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.95,            // Wok heat 600-900°F — highest temp differential of any method
+    current: 0.88,            // Direct metal-to-food contact through ultra-thin oil film
+    resistance: 0.08,         // Constant tossing maximizes heat contact, minimal barrier
+    velocityFactor: 0.95,     // Near-instant transformation — "wok hei" develops in seconds
+    momentumRetention: 0.25,  // Small pieces + high surface area = extremely rapid cooling
+    forceImpact: 0.72,        // Significant charring but brief — preserves interior tenderness
+  },
 
   // Additional metadata
   history:

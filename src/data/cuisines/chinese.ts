@@ -205,27 +205,31 @@ export const chinese = {
             "Comforting rice porridge, slow-cooked to a silky consistency and served with various toppings",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "slow-cooking",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.39,
-              Earth: 0.33,
-              Air: 0.08,
+            {
+              name: "slow-cooking",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.39,
+                Earth: 0.33,
+                Air: 0.08,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
-            { name: "rice", amount: "1", unit: "cup", category: "grain",
+            {
+              name: "rice",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -233,7 +237,11 @@ export const chinese = {
                 Air: 0.1,
               },
             },
-            { name: "Water", amount: "10", unit: "cups", category: "liquid",
+            {
+              name: "Water",
+              amount: "10",
+              unit: "cups",
+              category: "liquid",
               elementalProperties: {
                 Fire: 0,
                 Water: 0.9,
@@ -304,17 +312,17 @@ export const chinese = {
             "Light and crispy deep-fried dough strips, perfect for dipping in congee or soy milk",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "deep-frying",
-            elementalProperties: {
-              Fire: 0.45,
-              Water: 0.06,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.06,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          "dough preparation"
-        ],
+            "dough preparation",
+          ],
           ingredients: [
             {
               name: "all-purpose flour",
@@ -340,7 +348,11 @@ export const chinese = {
               unit: "tsp",
               category: "leavening",
             },
-            { name: "salt", amount: "1/2", unit: "tsp", category: "seasoning",
+            {
+              name: "salt",
+              amount: "1/2",
+              unit: "tsp",
+              category: "seasoning",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.1,
@@ -391,28 +403,32 @@ export const chinese = {
             "Fresh, warm soy milk served with crispy fried dough and optional sweet or savory toppings",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "blending",
-            elementalProperties: {
-              Fire: 0.1,
-              Water: 0.26,
-              Earth: 0.16,
-              Air: 0.48,
+            {
+              name: "blending",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.26,
+                Earth: 0.16,
+                Air: 0.48,
+              },
             },
-          },
-          "straining",
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            "straining",
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
-            { name: "soybeans", amount: "1", unit: "cup", category: "legume",
+            {
+              name: "soybeans",
+              amount: "1",
+              unit: "cup",
+              category: "legume",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -420,7 +436,11 @@ export const chinese = {
                 Air: 0.1,
               },
             },
-            { name: "Water", amount: "8", unit: "cups", category: "liquid",
+            {
+              name: "Water",
+              amount: "8",
+              unit: "cups",
+              category: "liquid",
               elementalProperties: {
                 Fire: 0,
                 Water: 0.9,
@@ -505,14 +525,34 @@ export const chinese = {
                 Earth: 0.21,
                 Air: 0.27,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "mung bean flour", amount: "1", unit: "cup", category: "grain" },
+            {
+              name: "mung bean flour",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
+            },
             { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            { name: "scallions", amount: "3", unit: "stalks", category: "vegetable" },
-            { name: "hoisin sauce", amount: "2", unit: "tbsp", category: "sauce" },
-            { name: "wonton crackers", amount: "2", unit: "pieces", category: "grain" },
+            {
+              name: "scallions",
+              amount: "3",
+              unit: "stalks",
+              category: "vegetable",
+            },
+            {
+              name: "hoisin sauce",
+              amount: "2",
+              unit: "tbsp",
+              category: "sauce",
+            },
+            {
+              name: "wonton crackers",
+              amount: "2",
+              unit: "pieces",
+              category: "grain",
+            },
           ],
           substitutions: {
             "mung bean flour": ["wheat flour"],
@@ -553,13 +593,23 @@ export const chinese = {
                 Earth: 0.21,
                 Air: 0.27,
               },
-            }
+            },
           ],
           ingredients: [
             { name: "flour", amount: "2", unit: "cups", category: "grain" },
-            { name: "scallions", amount: "6", unit: "stalks", category: "vegetable" },
+            {
+              name: "scallions",
+              amount: "6",
+              unit: "stalks",
+              category: "vegetable",
+            },
             { name: "sesame oil", amount: "3", unit: "tbsp", category: "oil" },
-            { name: "vegetable oil", amount: "1/4", unit: "cup", category: "oil" },
+            {
+              name: "vegetable oil",
+              amount: "1/4",
+              unit: "cup",
+              category: "oil",
+            },
             { name: "salt", amount: "1", unit: "tsp", category: "seasoning" },
           ],
           substitutions: {
@@ -601,34 +651,34 @@ export const chinese = {
             "Spicy Sichuan noodles with ground pork, preserved vegetables, and numbing chili oil",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "stir-frying",
-            elementalProperties: {
-              Fire: 0.44,
-              Water: 0.09,
-              Earth: 0.15,
-              Air: 0.32,
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.44,
+                Water: 0.09,
+                Earth: 0.15,
+                Air: 0.32,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "sauce-mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "sauce-mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "wheat noodles",
@@ -705,25 +755,25 @@ export const chinese = {
             "Spicy Sichuan dish of soft tofu in a fiery sauce with minced meat and Sichuan pepper",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "stir-frying",
-            elementalProperties: {
-              Fire: 0.44,
-              Water: 0.09,
-              Earth: 0.15,
-              Air: 0.32,
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.44,
+                Water: 0.09,
+                Earth: 0.15,
+                Air: 0.32,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "soft tofu",
@@ -801,26 +851,26 @@ export const chinese = {
             "Assortment of bite-sized portions of steamed and fried Cantonese delicacies",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          "wrapping"
-        ],
+            "wrapping",
+          ],
           ingredients: [
             {
               name: "har gow (shrimp dumplings)",
@@ -915,15 +965,41 @@ export const chinese = {
                 Earth: 0.23,
                 Air: 0.27,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "pork shoulder", amount: "1", unit: "kg", category: "protein" },
-            { name: "hoisin sauce", amount: "4", unit: "tbsp", category: "sauce" },
+            {
+              name: "pork shoulder",
+              amount: "1",
+              unit: "kg",
+              category: "protein",
+            },
+            {
+              name: "hoisin sauce",
+              amount: "4",
+              unit: "tbsp",
+              category: "sauce",
+            },
             { name: "honey", amount: "3", unit: "tbsp", category: "sweetener" },
-            { name: "five-spice powder", amount: "1", unit: "tsp", category: "spice" },
-            { name: "soy sauce", amount: "3", unit: "tbsp", category: "condiment" },
-            { name: "red food coloring", amount: "1/2", unit: "tsp", category: "coloring", optional: true },
+            {
+              name: "five-spice powder",
+              amount: "1",
+              unit: "tsp",
+              category: "spice",
+            },
+            {
+              name: "soy sauce",
+              amount: "3",
+              unit: "tbsp",
+              category: "condiment",
+            },
+            {
+              name: "red food coloring",
+              amount: "1/2",
+              unit: "tsp",
+              category: "coloring",
+              optional: true,
+            },
           ],
           substitutions: {
             "pork shoulder": ["pork belly", "chicken thigh"],
@@ -973,14 +1049,34 @@ export const chinese = {
                 Earth: 0.4,
                 Air: 0.3,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "wonton wrappers", amount: "30", unit: "pieces", category: "grain" },
-            { name: "ground pork", amount: "250", unit: "g", category: "protein" },
+            {
+              name: "wonton wrappers",
+              amount: "30",
+              unit: "pieces",
+              category: "grain",
+            },
+            {
+              name: "ground pork",
+              amount: "250",
+              unit: "g",
+              category: "protein",
+            },
             { name: "shrimp", amount: "150", unit: "g", category: "protein" },
-            { name: "chicken broth", amount: "6", unit: "cups", category: "liquid" },
-            { name: "bok choy", amount: "2", unit: "heads", category: "vegetable" },
+            {
+              name: "chicken broth",
+              amount: "6",
+              unit: "cups",
+              category: "liquid",
+            },
+            {
+              name: "bok choy",
+              amount: "2",
+              unit: "heads",
+              category: "vegetable",
+            },
             { name: "sesame oil", amount: "1", unit: "tsp", category: "oil" },
           ],
           substitutions: {
@@ -1022,34 +1118,34 @@ export const chinese = {
             "Famous Beijing dish of roasted duck known for its thin, crispy skin, served with pancakes and condiments",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "air-drying",
-            elementalProperties: {
-              Fire: 0.17,
-              Water: 0.06,
-              Earth: 0.28,
-              Air: 0.5,
+            {
+              name: "air-drying",
+              elementalProperties: {
+                Fire: 0.17,
+                Water: 0.06,
+                Earth: 0.28,
+                Air: 0.5,
+              },
             },
-          },
-          {
-            name: "roasting",
-            elementalProperties: {
-              Fire: 0.47,
-              Water: 0.06,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "roasting",
+              elementalProperties: {
+                Fire: 0.47,
+                Water: 0.06,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "glazing",
-            elementalProperties: {
-              Fire: 0.29,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.29,
+            {
+              name: "glazing",
+              elementalProperties: {
+                Fire: 0.29,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "whole duck",
@@ -1139,17 +1235,17 @@ export const chinese = {
             "Spicy stir-fried dish from Sichuan featuring chicken, peanuts, vegetables, and chilis",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "stir-frying",
-            elementalProperties: {
-              Fire: 0.44,
-              Water: 0.09,
-              Earth: 0.15,
-              Air: 0.32,
+            {
+              name: "stir-frying",
+              elementalProperties: {
+                Fire: 0.44,
+                Water: 0.09,
+                Earth: 0.15,
+                Air: 0.32,
+              },
             },
-          },
-          "velveting"
-        ],
+            "velveting",
+          ],
           ingredients: [
             {
               name: "chicken thighs",
@@ -1233,26 +1329,26 @@ export const chinese = {
             "Steamed dumplings filled with meat and flavorful soup, from Shanghai",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          "dough-making",
-          {
-            name: "folding",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.18,
-              Earth: 0.18,
-              Air: 0.61,
+            "dough-making",
+            {
+              name: "folding",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.18,
+                Earth: 0.18,
+                Air: 0.61,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "ground pork",
@@ -1342,15 +1438,40 @@ export const chinese = {
                 Earth: 0.11,
                 Air: 0.35,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "pork loin", amount: "500", unit: "g", category: "protein" },
+            {
+              name: "pork loin",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+            },
             { name: "pineapple", amount: "1", unit: "cup", category: "fruit" },
-            { name: "bell peppers", amount: "2", unit: "medium", category: "vegetable" },
-            { name: "rice vinegar", amount: "3", unit: "tbsp", category: "vinegar" },
-            { name: "ketchup", amount: "4", unit: "tbsp", category: "condiment" },
-            { name: "cornstarch", amount: "1/2", unit: "cup", category: "starch" },
+            {
+              name: "bell peppers",
+              amount: "2",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "rice vinegar",
+              amount: "3",
+              unit: "tbsp",
+              category: "vinegar",
+            },
+            {
+              name: "ketchup",
+              amount: "4",
+              unit: "tbsp",
+              category: "condiment",
+            },
+            {
+              name: "cornstarch",
+              amount: "1/2",
+              unit: "cup",
+              category: "starch",
+            },
           ],
           substitutions: {
             "pork loin": ["chicken breast", "tofu"],
@@ -1391,14 +1512,39 @@ export const chinese = {
                 Earth: 0.11,
                 Air: 0.35,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "beef sirloin", amount: "500", unit: "g", category: "protein" },
-            { name: "broccoli", amount: "4", unit: "cups", category: "vegetable" },
-            { name: "oyster sauce", amount: "3", unit: "tbsp", category: "sauce" },
-            { name: "soy sauce", amount: "2", unit: "tbsp", category: "condiment" },
-            { name: "garlic", amount: "4", unit: "cloves", category: "vegetable" },
+            {
+              name: "beef sirloin",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "broccoli",
+              amount: "4",
+              unit: "cups",
+              category: "vegetable",
+            },
+            {
+              name: "oyster sauce",
+              amount: "3",
+              unit: "tbsp",
+              category: "sauce",
+            },
+            {
+              name: "soy sauce",
+              amount: "2",
+              unit: "tbsp",
+              category: "condiment",
+            },
+            {
+              name: "garlic",
+              amount: "4",
+              unit: "cloves",
+              category: "vegetable",
+            },
             { name: "ginger", amount: "1", unit: "inch", category: "spice" },
           ],
           substitutions: {
@@ -1440,25 +1586,25 @@ export const chinese = {
             "Flaky pastry shells filled with silky smooth egg custard, popular in Canton and Hong Kong",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "pastry-making",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.13,
-              Earth: 0.37,
-              Air: 0.31,
+            {
+              name: "pastry-making",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.13,
+                Earth: 0.37,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "pastry dough",
@@ -1472,7 +1618,11 @@ export const chinese = {
                 Air: 0.2,
               },
             },
-            { name: "eggs", amount: "4", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "4",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1492,7 +1642,11 @@ export const chinese = {
                 Air: 0.1,
               },
             },
-            { name: "sugar", amount: "100", unit: "g", category: "sweetener",
+            {
+              name: "sugar",
+              amount: "100",
+              unit: "g",
+              category: "sweetener",
               elementalProperties: {
                 Fire: 0.3,
                 Water: 0.2,
@@ -1542,25 +1696,25 @@ export const chinese = {
             "Glutinous rice dessert filled with sweet red bean paste and topped with dried fruits and nuts",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "layering",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.46,
-              Air: 0.31,
+            {
+              name: "layering",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "glutinous rice",
@@ -1662,25 +1816,25 @@ export const chinese = {
             "Refreshing Hong Kong dessert with fresh mangoes, pomelo segments, and tapioca pearls in sweetened coconut milk",
           cuisine: "chinese",
           cookingMethods: [
-          {
-            name: "chilling",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.54,
-              Earth: 0.15,
-              Air: 0.31,
+            {
+              name: "chilling",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.54,
+                Earth: 0.15,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "ripe mangoes",
@@ -1767,14 +1921,39 @@ export const chinese = {
                 Earth: 0.14,
                 Air: 0.32,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "glutinous rice flour", amount: "2", unit: "cups", category: "grain" },
-            { name: "red bean paste", amount: "1", unit: "cup", category: "filling" },
-            { name: "sesame seeds", amount: "1/2", unit: "cup", category: "coating" },
-            { name: "sugar", amount: "1/2", unit: "cup", category: "sweetener" },
-            { name: "vegetable oil", amount: "4", unit: "cups", category: "oil" },
+            {
+              name: "glutinous rice flour",
+              amount: "2",
+              unit: "cups",
+              category: "grain",
+            },
+            {
+              name: "red bean paste",
+              amount: "1",
+              unit: "cup",
+              category: "filling",
+            },
+            {
+              name: "sesame seeds",
+              amount: "1/2",
+              unit: "cup",
+              category: "coating",
+            },
+            {
+              name: "sugar",
+              amount: "1/2",
+              unit: "cup",
+              category: "sweetener",
+            },
+            {
+              name: "vegetable oil",
+              amount: "4",
+              unit: "cups",
+              category: "oil",
+            },
           ],
           substitutions: {
             "red bean paste": ["lotus seed paste", "black sesame paste"],
@@ -1814,13 +1993,28 @@ export const chinese = {
                 Earth: 0.2,
                 Air: 0.1,
               },
-            }
+            },
           ],
           ingredients: [
-            { name: "glutinous rice flour", amount: "2", unit: "cups", category: "grain" },
-            { name: "black sesame paste", amount: "1/2", unit: "cup", category: "filling" },
+            {
+              name: "glutinous rice flour",
+              amount: "2",
+              unit: "cups",
+              category: "grain",
+            },
+            {
+              name: "black sesame paste",
+              amount: "1/2",
+              unit: "cup",
+              category: "filling",
+            },
             { name: "ginger", amount: "3", unit: "inches", category: "spice" },
-            { name: "rock sugar", amount: "1/2", unit: "cup", category: "sweetener" },
+            {
+              name: "rock sugar",
+              amount: "1/2",
+              unit: "cup",
+              category: "sweetener",
+            },
             { name: "water", amount: "6", unit: "cups", category: "liquid" },
           ],
           substitutions: {

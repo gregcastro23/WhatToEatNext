@@ -10,7 +10,10 @@ import type {
   SensoryProfile,
 } from "../../data/ingredients/types";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
-import type { KineticMetrics, ThermodynamicMetrics } from "@/utils/kineticCalculations";
+import type {
+  KineticMetrics,
+  ThermodynamicMetrics,
+} from "@/utils/kineticCalculations";
 
 // Phase 10: Calculation Type Interfaces
 interface _CalculationData {
@@ -306,8 +309,7 @@ export interface EnhancedIngredient {
   [key: string]: unknown;
 }
 
-export interface EnhancedIngredientRecommendation
-  extends IngredientRecommendation {
+export interface EnhancedIngredientRecommendation extends IngredientRecommendation {
   details?: {
     chakraAlignment?: {
       dominantChakra: string;
@@ -771,22 +773,19 @@ export async function getIngredientRecommendations(
         );
 
         // NEW: Kinetic scoring using P=IV circuit model
-        const kineticScore = calculateKineticScore(
-          ingredient,
-          _elementalProps,
-        );
+        const kineticScore = calculateKineticScore(ingredient, _elementalProps);
 
         // Enhanced weighted calculation with kinetics integration
         // Adjusted weights to include kinetics (0.12) while maintaining balance
         const totalScore =
-          elementalScore * 0.18 +  // Elemental (reduced from 0.20)
-          seasonalScore * 0.13 +   // Seasonal (reduced from 0.15)
-          modalityScore * 0.08 +   // Modality (reduced from 0.10)
-          flavorScore * 0.22 +     // Flavor (reduced from 0.25)
-          kalchmScore * 0.13 +     // Kalchm (reduced from 0.15)
-          monicaScore * 0.09 +     // Monica (reduced from 0.10)
-          culturalScore * 0.05 +   // Cultural (same)
-          kineticScore * 0.12;     // Kinetic (NEW - P=IV circuit model)
+          elementalScore * 0.18 + // Elemental (reduced from 0.20)
+          seasonalScore * 0.13 + // Seasonal (reduced from 0.15)
+          modalityScore * 0.08 + // Modality (reduced from 0.10)
+          flavorScore * 0.22 + // Flavor (reduced from 0.25)
+          kalchmScore * 0.13 + // Kalchm (reduced from 0.15)
+          monicaScore * 0.09 + // Monica (reduced from 0.10)
+          culturalScore * 0.05 + // Cultural (same)
+          kineticScore * 0.12; // Kinetic (NEW - P=IV circuit model)
 
         return {
           ...ingredient,
@@ -961,7 +960,10 @@ function calculateElementalScore(
  * Exponential compatibility for elemental matching
  * Creates better spread than linear approach
  */
-function exponentialElementalCompatibility(value1: number, value2: number): number {
+function exponentialElementalCompatibility(
+  value1: number,
+  value2: number,
+): number {
   const diff = Math.abs(value1 - value2);
   // Sensitivity of 2.5 for good differentiation
   return Math.exp(-2.5 * diff);
@@ -1049,7 +1051,10 @@ function calculateUnifiedFlavorScore(
         const flavorValue = (flavorProfile as any)[flavor] || 0;
         if (flavorValue > 0) {
           // Use exponential compatibility for better spread
-          const alignment = exponentialElementalCompatibility(flavorValue, preference);
+          const alignment = exponentialElementalCompatibility(
+            flavorValue,
+            preference,
+          );
           flavorAlignment += alignment;
           flavorCount++;
         }
@@ -1063,15 +1068,20 @@ function calculateUnifiedFlavorScore(
 
       // Bonus for flavor intensity matching preferences
       if (options.flavorIntensityPreference) {
-        const totalIntensity = Object.values(flavorProfile as Record<string, number>).reduce(
-          (sum, val) => sum + val,
-          0,
-        );
+        const totalIntensity = Object.values(
+          flavorProfile as Record<string, number>,
+        ).reduce((sum, val) => sum + val, 0);
         const avgIntensity = totalIntensity / Object.keys(flavorProfile).length;
 
-        if (options.flavorIntensityPreference === "intense" && avgIntensity > 0.7) {
+        if (
+          options.flavorIntensityPreference === "intense" &&
+          avgIntensity > 0.7
+        ) {
           score *= 1.2;
-        } else if (options.flavorIntensityPreference === "mild" && avgIntensity < 0.4) {
+        } else if (
+          options.flavorIntensityPreference === "mild" &&
+          avgIntensity < 0.4
+        ) {
           score *= 1.2;
         } else if (
           options.flavorIntensityPreference === "moderate" &&
@@ -1159,7 +1169,10 @@ function calculateMonicaOptimization(
     const entropyDenom = Essence + Matter + Earth + Water;
     const entropy =
       entropyDenom > 0
-        ? (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+        ? (Math.pow(Spirit, 2) +
+            Math.pow(Substance, 2) +
+            Math.pow(Fire, 2) +
+            Math.pow(Air, 2)) /
           Math.pow(entropyDenom, 2)
         : 0.5;
 
@@ -1183,7 +1196,8 @@ function calculateMonicaOptimization(
     const m = Math.max(0.01, Matter);
     const sub = Math.max(0.01, Substance);
 
-    const kalchm = (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+    const kalchm =
+      (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
 
     // Calculate Monica
     let monica = 1.0;
@@ -1254,7 +1268,10 @@ function calculateKineticScore(
     const entropyDenom = Essence + Matter + Earth + Water;
     const entropy =
       entropyDenom > 0
-        ? (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+        ? (Math.pow(Spirit, 2) +
+            Math.pow(Substance, 2) +
+            Math.pow(Fire, 2) +
+            Math.pow(Air, 2)) /
           Math.pow(entropyDenom, 2)
         : 0.15;
 
@@ -1277,7 +1294,8 @@ function calculateKineticScore(
     const e = Math.max(0.01, Essence);
     const m = Math.max(0.01, Matter);
     const sub = Math.max(0.01, Substance);
-    const kalchm = (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+    const kalchm =
+      (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
 
     // Calculate Monica
     let monica = 1.0;
@@ -1333,11 +1351,11 @@ function calculateKineticScore(
 function _isElementalProperties(obj: unknown): obj is ElementalProperties {
   return Boolean(
     obj &&
-      typeof obj === "object" &&
-      typeof (obj as any).Fire === "number" &&
-      typeof (obj as any).Water === "number" &&
-      typeof (obj as any).Earth === "number" &&
-      typeof (obj as any).Air === "number",
+    typeof obj === "object" &&
+    typeof (obj as any).Fire === "number" &&
+    typeof (obj as any).Water === "number" &&
+    typeof (obj as any).Earth === "number" &&
+    typeof (obj as any).Air === "number",
   );
 }
 

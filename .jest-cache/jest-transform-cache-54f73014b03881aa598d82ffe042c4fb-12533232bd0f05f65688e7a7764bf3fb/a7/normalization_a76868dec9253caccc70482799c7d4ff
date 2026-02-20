@@ -1,0 +1,220 @@
+534095110b9cbbe7c8e6e28f21c471b6
+"use strict";
+/**
+ * Elemental Normalization Utilities
+ *
+ * This module provides utilities for normalizing elemental properties for DISPLAY ONLY.
+ *
+ * IMPORTANT: With the denormalization update, raw elemental values are now the standard
+ * for calculations. These utilities should ONLY be used for UI display purposes.
+ *
+ * For calculations, use raw elemental values directly without normalization.
+ * Raw values preserve true energetic intensity information that is lost during normalization.
+ *
+ * @example
+ * // For calculations - use raw values directly
+ * const rawProps = { Fire: 5.2, Water: 3.1, Earth: 1.8, Air: 1.2 };
+ * const thermodynamics = calculateThermodynamicMetrics(alchemical, rawProps);
+ *
+ * // For display only - normalize to percentages
+ * const displayProps = normalizeForDisplay(rawProps);
+ * // Result: { Fire: 0.46, Water: 0.27, Earth: 0.16, Air: 0.11 }
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.normalizeForDisplay = normalizeForDisplay;
+exports.getTotalIntensity = getTotalIntensity;
+exports.getDominantElementByIntensity = getDominantElementByIntensity;
+exports.isNormalized = isNormalized;
+exports.convertNormalizedToRaw = convertNormalizedToRaw;
+exports.getRelativeStrengths = getRelativeStrengths;
+exports.formatAsPercentages = formatAsPercentages;
+exports.compareIntensities = compareIntensities;
+const elementalCore_1 = require("@/constants/elementalCore");
+/**
+ * Normalize raw elemental properties to percentages (0.0-1.0) for display
+ * Used ONLY for UI display purposes, NOT for calculations
+ *
+ * @param properties - Raw elemental properties (may have values > 1.0)
+ * @returns Normalized elemental properties (sum = 1.0, each value 0.0-1.0)
+ *
+ * @example
+ * const raw = { Fire: 5.2, Water: 3.1, Earth: 1.8, Air: 1.2 };
+ * const display = normalizeForDisplay(raw);
+ * // Result: { Fire: 0.46, Water: 0.27, Earth: 0.16, Air: 0.11 }
+ */
+function normalizeForDisplay(properties) {
+    const total = properties.Fire + properties.Water + properties.Earth + properties.Air;
+    if (total === 0) {
+        return { ...elementalCore_1.NORMALIZED_DEFAULT_PROPERTIES };
+    }
+    return {
+        Fire: properties.Fire / total,
+        Water: properties.Water / total,
+        Earth: properties.Earth / total,
+        Air: properties.Air / total,
+    };
+}
+/**
+ * Get total elemental intensity (sum of all elements)
+ * Useful for understanding the overall energetic magnitude of properties
+ *
+ * @param properties - Raw elemental properties
+ * @returns Total intensity (sum of Fire + Water + Earth + Air)
+ *
+ * @example
+ * const props = { Fire: 5.2, Water: 3.1, Earth: 1.8, Air: 1.2 };
+ * const total = getTotalIntensity(props);
+ * // Result: 11.3
+ */
+function getTotalIntensity(properties) {
+    return properties.Fire + properties.Water + properties.Earth + properties.Air;
+}
+/**
+ * Get dominant element by absolute value (not percentage)
+ * For raw values, this gives the element with the highest intensity
+ *
+ * @param properties - Raw or normalized elemental properties
+ * @returns The dominant element
+ *
+ * @example
+ * const props = { Fire: 5.2, Water: 3.1, Earth: 1.8, Air: 1.2 };
+ * const dominant = getDominantElementByIntensity(props);
+ * // Result: "Fire"
+ */
+function getDominantElementByIntensity(properties) {
+    const entries = Object.entries(properties).filter(([key]) => ["Fire", "Water", "Earth", "Air"].includes(key));
+    return entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
+}
+/**
+ * Check if properties appear to be normalized (sum ≈ 1.0)
+ * Useful for detecting legacy normalized data
+ *
+ * @param properties - Properties to check
+ * @returns True if properties appear to be normalized
+ *
+ * @example
+ * const normalized = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+ * const raw = { Fire: 5.2, Water: 3.1, Earth: 1.8, Air: 1.2 };
+ *
+ * isNormalized(normalized); // true
+ * isNormalized(raw); // false
+ */
+function isNormalized(properties) {
+    const total = getTotalIntensity(properties);
+    return (Math.abs(total - 1) <= elementalCore_1.VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE);
+}
+/**
+ * Convert normalized properties to raw values using a reference intensity
+ *
+ * This is useful for backwards compatibility when processing legacy data
+ * that was stored as normalized values. The reference intensity determines
+ * the scale of the resulting raw values.
+ *
+ * @param properties - Normalized elemental properties (sum ≈ 1.0)
+ * @param referenceIntensity - Target total intensity (default: 4.0)
+ * @returns Raw elemental properties scaled to reference intensity
+ *
+ * @example
+ * const normalized = { Fire: 0.45, Water: 0.30, Earth: 0.15, Air: 0.10 };
+ * const raw = convertNormalizedToRaw(normalized, 10);
+ * // Result: { Fire: 4.5, Water: 3.0, Earth: 1.5, Air: 1.0 }
+ */
+function convertNormalizedToRaw(properties, referenceIntensity = 4.0) {
+    const sum = getTotalIntensity(properties);
+    // If sum ≈ 1.0, assume normalized and scale
+    if (Math.abs(sum - 1.0) < elementalCore_1.VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE) {
+        return {
+            Fire: properties.Fire * referenceIntensity,
+            Water: properties.Water * referenceIntensity,
+            Earth: properties.Earth * referenceIntensity,
+            Air: properties.Air * referenceIntensity,
+        };
+    }
+    // Otherwise, assume already raw and return as-is
+    return {
+        Fire: properties.Fire,
+        Water: properties.Water,
+        Earth: properties.Earth,
+        Air: properties.Air,
+    };
+}
+/**
+ * Get relative strength of each element as a multiplier
+ * Useful for understanding how much stronger one element is than the average
+ *
+ * @param properties - Raw elemental properties
+ * @returns Object with relative strength multipliers for each element
+ *
+ * @example
+ * const props = { Fire: 8.0, Water: 2.0, Earth: 2.0, Air: 2.0 };
+ * const strengths = getRelativeStrengths(props);
+ * // Result: { Fire: 2.29, Water: 0.57, Earth: 0.57, Air: 0.57 }
+ * // (Fire is 2.29x the average, others are 0.57x)
+ */
+function getRelativeStrengths(properties) {
+    const total = getTotalIntensity(properties);
+    const average = total / 4;
+    if (average === 0) {
+        return { Fire: 1, Water: 1, Earth: 1, Air: 1 };
+    }
+    return {
+        Fire: properties.Fire / average,
+        Water: properties.Water / average,
+        Earth: properties.Earth / average,
+        Air: properties.Air / average,
+    };
+}
+/**
+ * Format elemental properties for display with percentages
+ *
+ * @param properties - Raw or normalized elemental properties
+ * @returns Object with formatted percentage strings
+ *
+ * @example
+ * const props = { Fire: 5.2, Water: 3.1, Earth: 1.8, Air: 1.2 };
+ * const formatted = formatAsPercentages(props);
+ * // Result: { Fire: "46.0%", Water: "27.4%", Earth: "15.9%", Air: "10.6%" }
+ */
+function formatAsPercentages(properties, decimals = 1) {
+    const normalized = normalizeForDisplay(properties);
+    return {
+        Fire: `${(normalized.Fire * 100).toFixed(decimals)}%`,
+        Water: `${(normalized.Water * 100).toFixed(decimals)}%`,
+        Earth: `${(normalized.Earth * 100).toFixed(decimals)}%`,
+        Air: `${(normalized.Air * 100).toFixed(decimals)}%`,
+    };
+}
+/**
+ * Compare two sets of elemental properties by intensity
+ *
+ * Returns positive values where properties1 is stronger, negative where weaker
+ *
+ * @param properties1 - First set of elemental properties
+ * @param properties2 - Second set of elemental properties
+ * @returns Difference object (positive = properties1 stronger)
+ *
+ * @example
+ * const recipe = { Fire: 5.2, Water: 3.1, Earth: 1.8, Air: 1.2 };
+ * const user = { Fire: 3.0, Water: 4.0, Earth: 2.0, Air: 1.0 };
+ * const diff = compareIntensities(recipe, user);
+ * // Result: { Fire: 2.2, Water: -0.9, Earth: -0.2, Air: 0.2 }
+ */
+function compareIntensities(properties1, properties2) {
+    return {
+        Fire: properties1.Fire - properties2.Fire,
+        Water: properties1.Water - properties2.Water,
+        Earth: properties1.Earth - properties2.Earth,
+        Air: properties1.Air - properties2.Air,
+    };
+}
+exports.default = {
+    normalizeForDisplay,
+    getTotalIntensity,
+    getDominantElementByIntensity,
+    isNormalized,
+    convertNormalizedToRaw,
+    getRelativeStrengths,
+    formatAsPercentages,
+    compareIntensities,
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2RhdGEvZGF0YS9jb20udGVybXV4L2ZpbGVzL2hvbWUvV2hhdFRvRWF0TmV4dC9zcmMvdXRpbHMvZWxlbWVudGFsL25vcm1hbGl6YXRpb24udHMiLCJtYXBwaW5ncyI6IjtBQUFBOzs7Ozs7Ozs7Ozs7Ozs7Ozs7O0dBbUJHOztBQXlCSCxrREFnQkM7QUFjRCw4Q0FJQztBQWNELHNFQU9DO0FBZ0JELG9DQU9DO0FBa0JELHdEQXVCQztBQWVELG9EQWdCQztBQWFELGtEQVlDO0FBaUJELGdEQVVDO0FBM05ELDZEQUdtQztBQUVuQzs7Ozs7Ozs7Ozs7R0FXRztBQUNILFNBQWdCLG1CQUFtQixDQUNqQyxVQUF3RDtJQUV4RCxNQUFNLEtBQUssR0FDVCxVQUFVLENBQUMsSUFBSSxHQUFHLFVBQVUsQ0FBQyxLQUFLLEdBQUcsVUFBVSxDQUFDLEtBQUssR0FBRyxVQUFVLENBQUMsR0FBRyxDQUFDO0lBRXpFLElBQUksS0FBSyxLQUFLLENBQUMsRUFBRSxDQUFDO1FBQ2hCLE9BQU8sRUFBRSxHQUFHLDZDQUE2QixFQUFFLENBQUM7SUFDOUMsQ0FBQztJQUVELE9BQU87UUFDTCxJQUFJLEVBQUUsVUFBVSxDQUFDLElBQUksR0FBRyxLQUFLO1FBQzdCLEtBQUssRUFBRSxVQUFVLENBQUMsS0FBSyxHQUFHLEtBQUs7UUFDL0IsS0FBSyxFQUFFLFVBQVUsQ0FBQyxLQUFLLEdBQUcsS0FBSztRQUMvQixHQUFHLEVBQUUsVUFBVSxDQUFDLEdBQUcsR0FBRyxLQUFLO0tBQzVCLENBQUM7QUFDSixDQUFDO0FBRUQ7Ozs7Ozs7Ozs7O0dBV0c7QUFDSCxTQUFnQixpQkFBaUIsQ0FDL0IsVUFBd0Q7SUFFeEQsT0FBTyxVQUFVLENBQUMsSUFBSSxHQUFHLFVBQVUsQ0FBQyxLQUFLLEdBQUcsVUFBVSxDQUFDLEtBQUssR0FBRyxVQUFVLENBQUMsR0FBRyxDQUFDO0FBQ2hGLENBQUM7QUFFRDs7Ozs7Ozs7Ozs7R0FXRztBQUNILFNBQWdCLDZCQUE2QixDQUMzQyxVQUF3RDtJQUV4RCxNQUFNLE9BQU8sR0FBRyxN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R0FBRyxHQUFHLENBQUMsQ0FBQyxPQUFPLENBQUMsUUFBUSxDQUFDLEdBQUc7UUFDckQsS0FBSyxFQUFFLEdBQUcsQ0FBQyxVQUFVLENBQUMsS0FBSyxHQUFHLEdBQUcsQ0FBQyxDQUFDLE9BQU8sQ0FBQyxRQUFRLENBQUMsR0FBRztRQUN2RCxLQUFLLEVBQUUsR0FBRyxDQUFDLFVBQVUsQ0FBQyxLQUFLLEdBQUcsR0FBRyxDQUFDLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxHQUFHO1FBQ3ZELEdBQUcsRUFBRSxHQUFHLENBQUMsVUFBVSxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUMsQ0FBQyxPQUFPLENBQUMsUUFBUSxDQUFDLEdBQUc7S0FDcEQsQ0FBQztBQUNKLENBQUM7QUFFRDs7Ozs7Ozs7Ozs7Ozs7R0FjRztBQUNILFNBQWdCLGtCQUFrQixDQUNoQyxXQUF5RCxFQUN6RCxXQUF5RDtJQUV6RCxPQUFPO1FBQ0wsSUFBSSxFQUFFLFdBQVcsQ0FBQyxJQUFJLEdBQUcsV0FBVyxDQUFDLElBQUk7UUFDekMsS0FBSyxFQUFFLFdBQVcsQ0FBQyxLQUFLLEdBQUcsV0FBVyxDQUFDLEtBQUs7UUFDNUMsS0FBSyxFQUFFLFdBQVcsQ0FBQyxLQUFLLEdBQUcsV0FBVyxDQUFDLEtBQUs7UUFDNUMsR0FBRyxFQUFFLFdBQVcsQ0FBQyxHQUFHLEdBQUcsV0FBVyxDQUFDLEdBQUc7S0FDdkMsQ0FBQztBQUNKLENBQUM7QUFFRCxrQkFBZTtJQUNiLG1CQUFtQjtJQUNuQixpQkFBaUI7SUFDakIsNkJBQTZCO0lBQzdCLFlBQVk7SUFDWixzQkFBc0I7SUFDdEIsb0JBQW9CO0lBQ3BCLG1CQUFtQjtJQUNuQixrQkFBa0I7Q0FDbkIsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZS9XaGF0VG9FYXROZXh0L3NyYy91dGlscy9lbGVtZW50YWwvbm9ybWFsaXphdGlvbi50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEVsZW1lbnRhbCBOb3JtYWxpemF0aW9uIFV0aWxpdGllc1xuICpcbiAqIFRoaXMgbW9kdWxlIHByb3ZpZGVzIHV0aWxpdGllcyBmb3Igbm9ybWFsaXppbmcgZWxlbWVudGFsIHByb3BlcnRpZXMgZm9yIERJU1BMQVkgT05MWS5cbiAqXG4gKiBJTVBPUlRBTlQ6IFdpdGggdGhlIGRlbm9ybWFsaXphdGlvbiB1cGRhdGUsIHJhdyBlbGVtZW50YWwgdmFsdWVzIGFyZSBub3cgdGhlIHN0YW5kYXJkXG4gKiBmb3IgY2FsY3VsYXRpb25zLiBUaGVzZSB1dGlsaXRpZXMgc2hvdWxkIE9OTFkgYmUgdXNlZCBmb3IgVUkgZGlzcGxheSBwdXJwb3Nlcy5cbiAqXG4gKiBGb3IgY2FsY3VsYXRpb25zLCB1c2UgcmF3IGVsZW1lbnRhbCB2YWx1ZXMgZGlyZWN0bHkgd2l0aG91dCBub3JtYWxpemF0aW9uLlxuICogUmF3IHZhbHVlcyBwcmVzZXJ2ZSB0cnVlIGVuZXJnZXRpYyBpbnRlbnNpdHkgaW5mb3JtYXRpb24gdGhhdCBpcyBsb3N0IGR1cmluZyBub3JtYWxpemF0aW9uLlxuICpcbiAqIEBleGFtcGxlXG4gKiAvLyBGb3IgY2FsY3VsYXRpb25zIC0gdXNlIHJhdyB2YWx1ZXMgZGlyZWN0bHlcbiAqIGNvbnN0IHJhd1Byb3BzID0geyBGaXJlOiA1LjIsIFdhdGVyOiAzLjEsIEVhcnRoOiAxLjgsIEFpcjogMS4yIH07XG4gKiBjb25zdCB0aGVybW9keW5hbWljcyA9IGNhbGN1bGF0ZVRoZXJtb2R5bmFtaWNNZXRyaWNzKGFsY2hlbWljYWwsIHJhd1Byb3BzKTtcbiAqXG4gKiAvLyBGb3IgZGlzcGxheSBvbmx5IC0gbm9ybWFsaXplIHRvIHBlcmNlbnRhZ2VzXG4gKiBjb25zdCBkaXNwbGF5UHJvcHMgPSBub3JtYWxpemVGb3JEaXNwbGF5KHJhd1Byb3BzKTtcbiAqIC8vIFJlc3VsdDogeyBGaXJlOiAwLjQ2LCBXYXRlcjogMC4yNywgRWFydGg6IDAuMTYsIEFpcjogMC4xMSB9XG4gKi9cblxuaW1wb3J0IHR5cGUge1xuICBFbGVtZW50LFxuICBFbGVtZW50YWxQcm9wZXJ0aWVzLFxuICBOb3JtYWxpemVkRWxlbWVudGFsUHJvcGVydGllcyxcbiAgUmF3RWxlbWVudGFsUHJvcGVydGllcyxcbn0gZnJvbSBcIkAvdHlwZXMvYWxjaGVteVwiO1xuaW1wb3J0IHtcbiAgTk9STUFMSVpFRF9ERUZBVUxUX1BST1BFUlRJRVMsXG4gIFZBTElEQVRJT05fVEhSRVNIT0xEUyxcbn0gZnJvbSBcIkAvY29uc3RhbnRzL2VsZW1lbnRhbENvcmVcIjtcblxuLyoqXG4gKiBOb3JtYWxpemUgcmF3IGVsZW1lbnRhbCBwcm9wZXJ0aWVzIHRvIHBlcmNlbnRhZ2VzICgwLjAtMS4wKSBmb3IgZGlzcGxheVxuICogVXNlZCBPTkxZIGZvciBVSSBkaXNwbGF5IHB1cnBvc2VzLCBOT1QgZm9yIGNhbGN1bGF0aW9uc1xuICpcbiAqIEBwYXJhbSBwcm9wZXJ0aWVzIC0gUmF3IGVsZW1lbnRhbCBwcm9wZXJ0aWVzIChtYXkgaGF2ZSB2YWx1ZXMgPiAxLjApXG4gKiBAcmV0dXJucyBOb3JtYWxpemVkIGVsZW1lbnRhbCBwcm9wZXJ0aWVzIChzdW0gPSAxLjAsIGVhY2ggdmFsdWUgMC4wLTEuMClcbiAqXG4gKiBAZXhhbXBsZVxuICogY29uc3QgcmF3ID0geyBGaXJlOiA1LjIsIFdhdGVyOiAzLjEsIEVhcnRoOiAxLjgsIEFpcjogMS4yIH07XG4gKiBjb25zdCBkaXNwbGF5ID0gbm9ybWFsaXplRm9yRGlzcGxheShyYXcpO1xuICogLy8gUmVzdWx0OiB7IEZpcmU6IDAuNDYsIFdhdGVyOiAwLjI3LCBFYXJ0aDogMC4xNiwgQWlyOiAwLjExIH1cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIG5vcm1hbGl6ZUZvckRpc3BsYXkoXG4gIHByb3BlcnRpZXM6IFJhd0VsZW1lbnRhbFByb3BlcnRpZXMgfCBFbGVtZW50YWxQcm9wZXJ0aWVzLFxuKTogTm9ybWFsaXplZEVsZW1lbnRhbFByb3BlcnRpZXMge1xuICBjb25zdCB0b3RhbCA9XG4gICAgcHJvcGVydGllcy5GaXJlICsgcHJvcGVydGllcy5XYXRlciArIHByb3BlcnRpZXMuRWFydGggKyBwcm9wZXJ0aWVzLkFpcjtcblxuICBpZiAodG90YWwgPT09IDApIHtcbiAgICByZXR1cm4geyAuLi5OT1JNQUxJWkVEX0RFRkFVTFRfUFJPUEVSVElFUyB9O1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBGaXJlOiBwcm9wZXJ0aWVzLkZpcmUgLyB0b3RhbCxcbiAgICBXYXRlcjogcHJvcGVydGllcy5XYXRlciAvIHRvdGFsLFxuICAgIEVhcnRoOiBwcm9wZXJ0aWVzLkVhcnRoIC8gdG90YWwsXG4gICAgQWlyOiBwcm9wZXJ0aWVzLkFpciAvIHRvdGFsLFxuICB9O1xufVxuXG4vKipcbiAqIEdldCB0b3RhbCBlbGVtZW50YWwgaW50ZW5zaXR5IChzdW0gb2YgYWxsIGVsZW1lbnRzKVxuICogVXNlZnVsIGZvciB1bmRlcnN0YW5kaW5nIHRoZSBvdmVyYWxsIGVuZXJnZXRpYyBtYWduaXR1ZGUgb2YgcHJvcGVydGllc1xuICpcbiAqIEBwYXJhbSBwcm9wZXJ0aWVzIC0gUmF3IGVsZW1lbnRhbCBwcm9wZXJ0aWVzXG4gKiBAcmV0dXJucyBUb3RhbCBpbnRlbnNpdHkgKHN1bSBvZiBGaXJlICsgV2F0ZXIgKyBFYXJ0aCArIEFpcilcbiAqXG4gKiBAZXhhbXBsZVxuICogY29uc3QgcHJvcHMgPSB7IEZpcmU6IDUuMiwgV2F0ZXI6IDMuMSwgRWFydGg6IDEuOCwgQWlyOiAxLjIgfTtcbiAqIGNvbnN0IHRvdGFsID0gZ2V0VG90YWxJbnRlbnNpdHkocHJvcHMpO1xuICogLy8gUmVzdWx0OiAxMS4zXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBnZXRUb3RhbEludGVuc2l0eShcbiAgcHJvcGVydGllczogUmF3RWxlbWVudGFsUHJvcGVydGllcyB8IEVsZW1lbnRhbFByb3BlcnRpZXMsXG4pOiBudW1iZXIge1xuICByZXR1cm4gcHJvcGVydGllcy5GaXJlICsgcHJvcGVydGllcy5XYXRlciArIHByb3BlcnRpZXMuRWFydGggKyBwcm9wZXJ0aWVzLkFpcjtcbn1cblxuLyoqXG4gKiBHZXQgZG9taW5hbnQgZWxlbWVudCBieSBhYnNvbHV0ZSB2YWx1ZSAobm90IHBlcmNlbnRhZ2UpXG4gKiBGb3IgcmF3IHZhbHVlcywgdGhpcyBnaXZlcyB0aGUgZWxlbWVudCB3aXRoIHRoZSBoaWdoZXN0IGludGVuc2l0eVxuICpcbiAqIEBwYXJhbSBwcm9wZXJ0aWVzIC0gUmF3IG9yIG5vcm1hbGl6ZWQgZWxlbWVudGFsIHByb3BlcnRpZXNcbiAqIEByZXR1cm5zIFRoZSBkb21pbmFudCBlbGVtZW50XG4gKlxuICogQGV4YW1wbGVcbiAqIGNvbnN0IHByb3BzID0geyBGaXJlOiA1LjIsIFdhdGVyOiAzLjEsIEVhcnRoOiAxLjgsIEFpcjogMS4yIH07XG4gKiBjb25zdCBkb21pbmFudCA9IGdldERvbWluYW50RWxlbWVudEJ5SW50ZW5zaXR5KHByb3BzKTtcbiAqIC8vIFJlc3VsdDogXCJGaXJlXCJcbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGdldERvbWluYW50RWxlbWVudEJ5SW50ZW5zaXR5KFxuICBwcm9wZXJ0aWVzOiBSYXdFbGVtZW50YWxQcm9wZXJ0aWVzIHwgRWxlbWVudGFsUHJvcGVydGllcyxcbik6IEVsZW1lbnQge1xuICBjb25zdCBlbnRyaWVzID0gT2JqZWN0LmVudHJpZXMocHJvcGVydGllcykuZmlsdGVyKChba2V5XSkgPT5cbiAgICBbXCJGaXJlXCIsIFwiV2F0ZXJcIiwgXCJFYXJ0aFwiLCBcIkFpclwiXS5pbmNsdWRlcyhrZXkpLFxuICApIGFzIFtFbGVtZW50LCBudW1iZXJdW107XG4gIHJldHVybiBlbnRyaWVzLnJlZHVjZSgoYSwgYikgPT4gKGFbMV0gPiBiWzFdID8gYSA6IGIpKVswXTtcbn1cblxuLyoqXG4gKiBDaGVjayBpZiBwcm9wZXJ0aWVzIGFwcGVhciB0byBiZSBub3JtYWxpemVkIChzdW0g4omIIDEuMClcbiAqIFVzZWZ1bCBmb3IgZGV0ZWN0aW5nIGxlZ2FjeSBub3JtYWxpemVkIGRhdGFcbiAqXG4gKiBAcGFyYW0gcHJvcGVydGllcyAtIFByb3BlcnRpZXMgdG8gY2hlY2tcbiAqIEByZXR1cm5zIFRydWUgaWYgcHJvcGVydGllcyBhcHBlYXIgdG8gYmUgbm9ybWFsaXplZFxuICpcbiAqIEBleGFtcGxlXG4gKiBjb25zdCBub3JtYWxpemVkID0geyBGaXJlOiAwLjI1LCBXYXRlcjogMC4yNSwgRWFydGg6IDAuMjUsIEFpcjogMC4yNSB9O1xuICogY29uc3QgcmF3ID0geyBGaXJlOiA1LjIsIFdhdGVyOiAzLjEsIEVhcnRoOiAxLjgsIEFpcjogMS4yIH07XG4gKlxuICogaXNOb3JtYWxpemVkKG5vcm1hbGl6ZWQpOyAvLyB0cnVlXG4gKiBpc05vcm1hbGl6ZWQocmF3KTsgLy8gZmFsc2VcbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGlzTm9ybWFsaXplZChcbiAgcHJvcGVydGllczogRWxlbWVudGFsUHJvcGVydGllcyB8IFJhd0VsZW1lbnRhbFByb3BlcnRpZXMsXG4pOiBib29sZWFuIHtcbiAgY29uc3QgdG90YWwgPSBnZXRUb3RhbEludGVuc2l0eShwcm9wZXJ0aWVzKTtcbiAgcmV0dXJuIChcbiAgICBNYXRoLmFicyh0b3RhbCAtIDEpIDw9IFZBTElEQVRJT05fVEhSRVNIT0xEUy5OT1JNQUxJWkFUSU9OX1NVTV9UT0xFUkFOQ0VcbiAgKTtcbn1cblxuLyoqXG4gKiBDb252ZXJ0IG5vcm1hbGl6ZWQgcHJvcGVydGllcyB0byByYXcgdmFsdWVzIHVzaW5nIGEgcmVmZXJlbmNlIGludGVuc2l0eVxuICpcbiAqIFRoaXMgaXMgdXNlZnVsIGZvciBiYWNrd2FyZHMgY29tcGF0aWJpbGl0eSB3aGVuIHByb2Nlc3NpbmcgbGVnYWN5IGRhdGFcbiAqIHRoYXQgd2FzIHN0b3JlZCBhcyBub3JtYWxpemVkIHZhbHVlcy4gVGhlIHJlZmVyZW5jZSBpbnRlbnNpdHkgZGV0ZXJtaW5lc1xuICogdGhlIHNjYWxlIG9mIHRoZSByZXN1bHRpbmcgcmF3IHZhbHVlcy5cbiAqXG4gKiBAcGFyYW0gcHJvcGVydGllcyAtIE5vcm1hbGl6ZWQgZWxlbWVudGFsIHByb3BlcnRpZXMgKHN1bSDiiYggMS4wKVxuICogQHBhcmFtIHJlZmVyZW5jZUludGVuc2l0eSAtIFRhcmdldCB0b3RhbCBpbnRlbnNpdHkgKGRlZmF1bHQ6IDQuMClcbiAqIEByZXR1cm5zIFJhdyBlbGVtZW50YWwgcHJvcGVydGllcyBzY2FsZWQgdG8gcmVmZXJlbmNlIGludGVuc2l0eVxuICpcbiAqIEBleGFtcGxlXG4gKiBjb25zdCBub3JtYWxpemVkID0geyBGaXJlOiAwLjQ1LCBXYXRlcjogMC4zMCwgRWFydGg6IDAuMTUsIEFpcjogMC4xMCB9O1xuICogY29uc3QgcmF3ID0gY29udmVydE5vcm1hbGl6ZWRUb1Jhdyhub3JtYWxpemVkLCAxMCk7XG4gKiAvLyBSZXN1bHQ6IHsgRmlyZTogNC41LCBXYXRlcjogMy4wLCBFYXJ0aDogMS41LCBBaXI6IDEuMCB9XG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBjb252ZXJ0Tm9ybWFsaXplZFRvUmF3KFxuICBwcm9wZXJ0aWVzOiBOb3JtYWxpemVkRWxlbWVudGFsUHJvcGVydGllcyB8IEVsZW1lbnRhbFByb3BlcnRpZXMsXG4gIHJlZmVyZW5jZUludGVuc2l0eSA9IDQuMCxcbik6IFJhd0VsZW1lbnRhbFByb3BlcnRpZXMge1xuICBjb25zdCBzdW0gPSBnZXRUb3RhbEludGVuc2l0eShwcm9wZXJ0aWVzKTtcblxuICAvLyBJZiBzdW0g4omIIDEuMCwgYXNzdW1lIG5vcm1hbGl6ZWQgYW5kIHNjYWxlXG4gIGlmIChNYXRoLmFicyhzdW0gLSAxLjApIDwgVkFMSURBVElPTl9USFJFU0hPTERTLk5PUk1BTElaQVRJT05fU1VNX1RPTEVSQU5DRSkge1xuICAgIHJldHVybiB7XG4gICAgICBGaXJlOiBwcm9wZXJ0aWVzLkZpcmUgKiByZWZlcmVuY2VJbnRlbnNpdHksXG4gICAgICBXYXRlcjogcHJvcGVydGllcy5XYXRlciAqIHJlZmVyZW5jZUludGVuc2l0eSxcbiAgICAgIEVhcnRoOiBwcm9wZXJ0aWVzLkVhcnRoICogcmVmZXJlbmNlSW50ZW5zaXR5LFxuICAgICAgQWlyOiBwcm9wZXJ0aWVzLkFpciAqIHJlZmVyZW5jZUludGVuc2l0eSxcbiAgICB9O1xuICB9XG5cbiAgLy8gT3RoZXJ3aXNlLCBhc3N1bWUgYWxyZWFkeSByYXcgYW5kIHJldHVybiBhcy1pc1xuICByZXR1cm4ge1xuICAgIEZpcmU6IHByb3BlcnRpZXMuRmlyZSxcbiAgICBXYXRlcjogcHJvcGVydGllcy5XYXRlcixcbiAgICBFYXJ0aDogcHJvcGVydGllcy5FYXJ0aCxcbiAgICBBaXI6IHByb3BlcnRpZXMuQWlyLFxuICB9O1xufVxuXG4vKipcbiAqIEdldCByZWxhdGl2ZSBzdHJlbmd0aCBvZiBlYWNoIGVsZW1lbnQgYXMgYSBtdWx0aXBsaWVyXG4gKiBVc2VmdWwgZm9yIHVuZGVyc3RhbmRpbmcgaG93IG11Y2ggc3Ryb25nZXIgb25lIGVsZW1lbnQgaXMgdGhhbiB0aGUgYXZlcmFnZVxuICpcbiAqIEBwYXJhbSBwcm9wZXJ0aWVzIC0gUmF3IGVsZW1lbnRhbCBwcm9wZXJ0aWVzXG4gKiBAcmV0dXJucyBPYmplY3Qgd2l0aCByZWxhdGl2ZSBzdHJlbmd0aCBtdWx0aXBsaWVycyBmb3IgZWFjaCBlbGVtZW50XG4gKlxuICogQGV4YW1wbGVcbiAqIGNvbnN0IHByb3BzID0geyBGaXJlOiA4LjAsIFdhdGVyOiAyLjAsIEVhcnRoOiAyLjAsIEFpcjogMi4wIH07XG4gKiBjb25zdCBzdHJlbmd0aHMgPSBnZXRSZWxhdGl2ZVN0cmVuZ3Rocyhwcm9wcyk7XG4gKiAvLyBSZXN1bHQ6IHsgRmlyZTogMi4yOSwgV2F0ZXI6IDAuNTcsIEVhcnRoOiAwLjU3LCBBaXI6IDAuNTcgfVxuICogLy8gKEZpcmUgaXMgMi4yOXggdGhlIGF2ZXJhZ2UsIG90aGVycyBhcmUgMC41N3gpXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBnZXRSZWxhdGl2ZVN0cmVuZ3RocyhcbiAgcHJvcGVydGllczogUmF3RWxlbWVudGFsUHJvcGVydGllcyB8IEVsZW1lbnRhbFByb3BlcnRpZXMsXG4pOiBSZWNvcmQ8RWxlbWVudCwgbnVtYmVyPiB7XG4gIGNvbnN0IHRvdGFsID0gZ2V0VG90YWxJbnRlbnNpdHkocHJvcGVydGllcyk7XG4gIGNvbnN0IGF2ZXJhZ2UgPSB0b3RhbCAvIDQ7XG5cbiAgaWYgKGF2ZXJhZ2UgPT09IDApIHtcbiAgICByZXR1cm4geyBGaXJlOiAxLCBXYXRlcjogMSwgRWFydGg6IDEsIEFpcjogMSB9O1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBGaXJlOiBwcm9wZXJ0aWVzLkZpcmUgLyBhdmVyYWdlLFxuICAgIFdhdGVyOiBwcm9wZXJ0aWVzLldhdGVyIC8gYXZlcmFnZSxcbiAgICBFYXJ0aDogcHJvcGVydGllcy5FYXJ0aCAvIGF2ZXJhZ2UsXG4gICAgQWlyOiBwcm9wZXJ0aWVzLkFpciAvIGF2ZXJhZ2UsXG4gIH07XG59XG5cbi8qKlxuICogRm9ybWF0IGVsZW1lbnRhbCBwcm9wZXJ0aWVzIGZvciBkaXNwbGF5IHdpdGggcGVyY2VudGFnZXNcbiAqXG4gKiBAcGFyYW0gcHJvcGVydGllcyAtIFJhdyBvciBub3JtYWxpemVkIGVsZW1lbnRhbCBwcm9wZXJ0aWVzXG4gKiBAcmV0dXJucyBPYmplY3Qgd2l0aCBmb3JtYXR0ZWQgcGVyY2VudGFnZSBzdHJpbmdzXG4gKlxuICogQGV4YW1wbGVcbiAqIGNvbnN0IHByb3BzID0geyBGaXJlOiA1LjIsIFdhdGVyOiAzLjEsIEVhcnRoOiAxLjgsIEFpcjogMS4yIH07XG4gKiBjb25zdCBmb3JtYXR0ZWQgPSBmb3JtYXRBc1BlcmNlbnRhZ2VzKHByb3BzKTtcbiAqIC8vIFJlc3VsdDogeyBGaXJlOiBcIjQ2LjAlXCIsIFdhdGVyOiBcIjI3LjQlXCIsIEVhcnRoOiBcIjE1LjklXCIsIEFpcjogXCIxMC42JVwiIH1cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGZvcm1hdEFzUGVyY2VudGFnZXMoXG4gIHByb3BlcnRpZXM6IFJhd0VsZW1lbnRhbFByb3BlcnRpZXMgfCBFbGVtZW50YWxQcm9wZXJ0aWVzLFxuICBkZWNpbWFscyA9IDEsXG4pOiBSZWNvcmQ8RWxlbWVudCwgc3RyaW5nPiB7XG4gIGNvbnN0IG5vcm1hbGl6ZWQgPSBub3JtYWxpemVGb3JEaXNwbGF5KHByb3BlcnRpZXMpO1xuXG4gIHJldHVybiB7XG4gICAgRmlyZTogYCR7KG5vcm1hbGl6ZWQuRmlyZSAqIDEwMCkudG9GaXhlZChkZWNpbWFscyl9JWAsXG4gICAgV2F0ZXI6IGAkeyhub3JtYWxpemVkLldhdGVyICogMTAwKS50b0ZpeGVkKGRlY2ltYWxzKX0lYCxcbiAgICBFYXJ0aDogYCR7KG5vcm1hbGl6ZWQuRWFydGggKiAxMDApLnRvRml4ZWQoZGVjaW1hbHMpfSVgLFxuICAgIEFpcjogYCR7KG5vcm1hbGl6ZWQuQWlyICogMTAwKS50b0ZpeGVkKGRlY2ltYWxzKX0lYCxcbiAgfTtcbn1cblxuLyoqXG4gKiBDb21wYXJlIHR3byBzZXRzIG9mIGVsZW1lbnRhbCBwcm9wZXJ0aWVzIGJ5IGludGVuc2l0eVxuICpcbiAqIFJldHVybnMgcG9zaXRpdmUgdmFsdWVzIHdoZXJlIHByb3BlcnRpZXMxIGlzIHN0cm9uZ2VyLCBuZWdhdGl2ZSB3aGVyZSB3ZWFrZXJcbiAqXG4gKiBAcGFyYW0gcHJvcGVydGllczEgLSBGaXJzdCBzZXQgb2YgZWxlbWVudGFsIHByb3BlcnRpZXNcbiAqIEBwYXJhbSBwcm9wZXJ0aWVzMiAtIFNlY29uZCBzZXQgb2YgZWxlbWVudGFsIHByb3BlcnRpZXNcbiAqIEByZXR1cm5zIERpZmZlcmVuY2Ugb2JqZWN0IChwb3NpdGl2ZSA9IHByb3BlcnRpZXMxIHN0cm9uZ2VyKVxuICpcbiAqIEBleGFtcGxlXG4gKiBjb25zdCByZWNpcGUgPSB7IEZpcmU6IDUuMiwgV2F0ZXI6IDMuMSwgRWFydGg6IDEuOCwgQWlyOiAxLjIgfTtcbiAqIGNvbnN0IHVzZXIgPSB7IEZpcmU6IDMuMCwgV2F0ZXI6IDQuMCwgRWFydGg6IDIuMCwgQWlyOiAxLjAgfTtcbiAqIGNvbnN0IGRpZmYgPSBjb21wYXJlSW50ZW5zaXRpZXMocmVjaXBlLCB1c2VyKTtcbiAqIC8vIFJlc3VsdDogeyBGaXJlOiAyLjIsIFdhdGVyOiAtMC45LCBFYXJ0aDogLTAuMiwgQWlyOiAwLjIgfVxuICovXG5leHBvcnQgZnVuY3Rpb24gY29tcGFyZUludGVuc2l0aWVzKFxuICBwcm9wZXJ0aWVzMTogUmF3RWxlbWVudGFsUHJvcGVydGllcyB8IEVsZW1lbnRhbFByb3BlcnRpZXMsXG4gIHByb3BlcnRpZXMyOiBSYXdFbGVtZW50YWxQcm9wZXJ0aWVzIHwgRWxlbWVudGFsUHJvcGVydGllcyxcbik6IFJlY29yZDxFbGVtZW50LCBudW1iZXI+IHtcbiAgcmV0dXJuIHtcbiAgICBGaXJlOiBwcm9wZXJ0aWVzMS5GaXJlIC0gcHJvcGVydGllczIuRmlyZSxcbiAgICBXYXRlcjogcHJvcGVydGllczEuV2F0ZXIgLSBwcm9wZXJ0aWVzMi5XYXRlcixcbiAgICBFYXJ0aDogcHJvcGVydGllczEuRWFydGggLSBwcm9wZXJ0aWVzMi5FYXJ0aCxcbiAgICBBaXI6IHByb3BlcnRpZXMxLkFpciAtIHByb3BlcnRpZXMyLkFpcixcbiAgfTtcbn1cblxuZXhwb3J0IGRlZmF1bHQge1xuICBub3JtYWxpemVGb3JEaXNwbGF5LFxuICBnZXRUb3RhbEludGVuc2l0eSxcbiAgZ2V0RG9taW5hbnRFbGVtZW50QnlJbnRlbnNpdHksXG4gIGlzTm9ybWFsaXplZCxcbiAgY29udmVydE5vcm1hbGl6ZWRUb1JhdyxcbiAgZ2V0UmVsYXRpdmVTdHJlbmd0aHMsXG4gIGZvcm1hdEFzUGVyY2VudGFnZXMsXG4gIGNvbXBhcmVJbnRlbnNpdGllcyxcbn07XG4iXSwidmVyc2lvbiI6M30=

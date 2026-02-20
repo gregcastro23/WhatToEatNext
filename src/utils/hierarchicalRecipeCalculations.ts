@@ -16,8 +16,8 @@ import type {
   CookingMethod,
   ElementalProperties,
   RawElementalProperties,
-  RecipeIngredient,
 } from "@/types/alchemy";
+import type { RecipeIngredient } from "@/types/recipe";
 import type {
   QuantityScaledProperties,
   RecipeComputationOptions,
@@ -193,7 +193,12 @@ export function aggregateIngredientElementals(
     return { ...ZERO_ELEMENTAL_PROPERTIES };
   }
 
-  const totals: RawElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const totals: RawElementalProperties = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+  };
 
   for (const ingredient of ingredients) {
     if (!ingredient.elementalProperties) continue;
@@ -201,7 +206,7 @@ export function aggregateIngredientElementals(
     // Scale by quantity
     const scaled = scaleIngredientByQuantity(
       ingredient.elementalProperties,
-      ingredient.amount || 1,
+      Number(ingredient.amount) || 1,
       ingredient.unit || "g",
     );
 

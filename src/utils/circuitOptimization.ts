@@ -42,7 +42,7 @@ function mean(numbers: number[]): number {
  */
 export function findCircuitBottlenecks(
   dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
-  currentMenu: WeeklyMenu
+  currentMenu: WeeklyMenu,
 ): CircuitBottleneck[] {
   const bottlenecks: CircuitBottleneck[] = [];
 
@@ -105,10 +105,10 @@ export function findCircuitBottlenecks(
       if (!mealSlot.recipe) {
         // Check if this empty slot disrupts flow on its day
         const dayMeals = currentMenu.meals.filter(
-          (m) => m.dayOfWeek === mealSlot.dayOfWeek
+          (m) => m.dayOfWeek === mealSlot.dayOfWeek,
         );
         const hasAdjacentMeals = dayMeals.some(
-          (m) => m.recipe && m.id !== mealSlot.id
+          (m) => m.recipe && m.id !== mealSlot.id,
         );
 
         if (hasAdjacentMeals) {
@@ -145,7 +145,7 @@ export function findCircuitBottlenecks(
  */
 function calculateIdealRecipeProperties(
   mealSlot: MealSlot,
-  dayCircuit: DayCircuitMetrics
+  dayCircuit: DayCircuitMetrics,
 ): {
   targetPower: number;
   targetResistance: number;
@@ -153,14 +153,15 @@ function calculateIdealRecipeProperties(
 } {
   // For balanced day, aim for equal power distribution across meals
   const filledMealsCount = Object.values(dayCircuit.meals).filter(
-    (m) => m !== null
+    (m) => m !== null,
   ).length;
 
   const targetPower =
     filledMealsCount > 0 ? dayCircuit.totalPower / filledMealsCount : 30; // Default 30W
 
   // Target resistance should be low to minimize losses
-  const targetResistance = dayCircuit.totalResistance / Math.max(filledMealsCount, 4);
+  const targetResistance =
+    dayCircuit.totalResistance / Math.max(filledMealsCount, 4);
 
   // Target efficiency: aim for 80%+
   const targetEfficiency = 0.8;
@@ -187,7 +188,7 @@ export function scoreRecipeCircuitCompatibility(
   recipe: Recipe,
   mealSlot: MealSlot,
   dayCircuit: DayCircuitMetrics,
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): number {
   if (!recipe.alchemicalProperties || !recipe.elementalProperties) {
     return 0;
@@ -207,7 +208,9 @@ export function scoreRecipeCircuitCompatibility(
 
   const powerScore =
     idealProps.targetPower > 0
-      ? 1 - Math.abs(estimatedPower - idealProps.targetPower) / idealProps.targetPower
+      ? 1 -
+        Math.abs(estimatedPower - idealProps.targetPower) /
+          idealProps.targetPower
       : 0.5;
   score += Math.max(0, powerScore) * 0.3;
 
@@ -233,9 +236,12 @@ export function scoreRecipeCircuitCompatibility(
     const recipeElements = elementalProps;
 
     let balanceScore = 0;
-    if (dayElements.Fire < avg && recipeElements.Fire > 0.3) balanceScore += 0.25;
-    if (dayElements.Water < avg && recipeElements.Water > 0.3) balanceScore += 0.25;
-    if (dayElements.Earth < avg && recipeElements.Earth > 0.3) balanceScore += 0.25;
+    if (dayElements.Fire < avg && recipeElements.Fire > 0.3)
+      balanceScore += 0.25;
+    if (dayElements.Water < avg && recipeElements.Water > 0.3)
+      balanceScore += 0.25;
+    if (dayElements.Earth < avg && recipeElements.Earth > 0.3)
+      balanceScore += 0.25;
     if (dayElements.Air < avg && recipeElements.Air > 0.3) balanceScore += 0.25;
 
     score += balanceScore * 0.2;
@@ -255,7 +261,7 @@ export function scoreRecipeCircuitCompatibility(
       elementalProps.Fire +
         elementalProps.Air -
         elementalProps.Earth -
-        elementalProps.Water
+        elementalProps.Water,
     );
     mealTypeScore = 1 - Math.min(balance, 1);
   }
@@ -293,18 +299,20 @@ export function generateCircuitSuggestions(
   dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
   currentMenu: WeeklyMenu,
   planetaryPositions?: PlanetaryPositions,
-  recipeDatabase?: Recipe[]
+  recipeDatabase?: Recipe[],
 ): CircuitImprovementSuggestion[] {
   const suggestions: CircuitImprovementSuggestion[] = [];
   const bottlenecks = findCircuitBottlenecks(dayCircuits, currentMenu);
 
   // 1. Suggest filling empty slots (highest priority)
   const emptyBottlenecks = bottlenecks.filter((b) =>
-    b.reason.includes("Empty slot")
+    b.reason.includes("Empty slot"),
   );
   for (const bottleneck of emptyBottlenecks.slice(0, 5)) {
     // Top 5
-    const mealSlot = currentMenu.meals.find((m) => m.id === bottleneck.mealSlotId);
+    const mealSlot = currentMenu.meals.find(
+      (m) => m.id === bottleneck.mealSlotId,
+    );
     if (!mealSlot) continue;
 
     const dayCircuit = dayCircuits[mealSlot.dayOfWeek];
@@ -319,11 +327,13 @@ export function generateCircuitSuggestions(
 
   // 2. Suggest replacing high-resistance meals
   const highResistanceBottlenecks = bottlenecks.filter((b) =>
-    b.reason.includes("High resistance")
+    b.reason.includes("High resistance"),
   );
   for (const bottleneck of highResistanceBottlenecks.slice(0, 3)) {
     // Top 3
-    const mealSlot = currentMenu.meals.find((m) => m.id === bottleneck.mealSlotId);
+    const mealSlot = currentMenu.meals.find(
+      (m) => m.id === bottleneck.mealSlotId,
+    );
     if (!mealSlot || !mealSlot.recipe) continue;
 
     const currentEfficiency =
@@ -342,11 +352,13 @@ export function generateCircuitSuggestions(
 
   // 3. Suggest boosting low-power meals via servings adjustment
   const lowPowerBottlenecks = bottlenecks.filter((b) =>
-    b.reason.includes("Low power output")
+    b.reason.includes("Low power output"),
   );
   for (const bottleneck of lowPowerBottlenecks.slice(0, 3)) {
     // Top 3
-    const mealSlot = currentMenu.meals.find((m) => m.id === bottleneck.mealSlotId);
+    const mealSlot = currentMenu.meals.find(
+      (m) => m.id === bottleneck.mealSlotId,
+    );
     if (!mealSlot || !mealSlot.recipe) continue;
 
     const currentServings = mealSlot.servings;
@@ -361,7 +373,9 @@ export function generateCircuitSuggestions(
   }
 
   // Sort by expected improvement (highest first)
-  return suggestions.sort((a, b) => b.expectedImprovement - a.expectedImprovement);
+  return suggestions.sort(
+    (a, b) => b.expectedImprovement - a.expectedImprovement,
+  );
 }
 
 /**
@@ -373,7 +387,7 @@ export function generateCircuitSuggestions(
  */
 export function predictImprovementImpact(
   suggestions: CircuitImprovementSuggestion[],
-  currentEfficiency: number
+  currentEfficiency: number,
 ): number {
   // Each suggestion contributes to overall improvement
   // Diminishing returns: first suggestions have more impact
@@ -388,7 +402,7 @@ export function predictImprovementImpact(
   // Apply improvement to current efficiency
   const predictedEfficiency = Math.min(
     1,
-    currentEfficiency + totalImprovement * (1 - currentEfficiency)
+    currentEfficiency + totalImprovement * (1 - currentEfficiency),
   );
 
   return predictedEfficiency;
@@ -398,6 +412,14 @@ export function predictImprovementImpact(
  * Helper to get day name from DayOfWeek
  */
 function getDayName(day: DayOfWeek): string {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   return days[day];
 }

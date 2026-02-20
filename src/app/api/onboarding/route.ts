@@ -10,15 +10,15 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 import emailService from "@/services/emailService";
 import { UserRole } from "@/lib/auth/jwt-auth";
 import type { NextRequest } from "next/server";
-import type { BirthData, NatalChart } from "@/types/natalChart";
-import type { Planet, ZodiacSign, Element } from "@/types/celestial";
+import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
+import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 // Helper to calculate dominant element from planetary positions
 function calculateDominantElement(
-  planetaryPositions: Record<Planet, ZodiacSign>,
+  planetaryPositions: Record<Planet, ZodiacSignType>,
 ): Element {
   const elementCounts: Record<Element, number> = {
     Fire: 0,
@@ -28,7 +28,7 @@ function calculateDominantElement(
   };
 
   // Zodiac sign to element mapping
-  const signToElement: Record<ZodiacSign, Element> = {
+  const signToElement: Record<ZodiacSignType, Element> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -67,7 +67,7 @@ function calculateDominantElement(
 
 // Helper to calculate elemental balance
 function calculateElementalBalance(
-  planetaryPositions: Record<Planet, ZodiacSign>,
+  planetaryPositions: Record<Planet, ZodiacSignType>,
 ): { Fire: number; Water: number; Earth: number; Air: number } {
   const elementCounts: Record<Element, number> = {
     Fire: 0,
@@ -76,7 +76,7 @@ function calculateElementalBalance(
     Air: 0,
   };
 
-  const signToElement: Record<ZodiacSign, Element> = {
+  const signToElement: Record<ZodiacSignType, Element> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -130,7 +130,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Complete birth data (dateTime, latitude, longitude) required",
+          message:
+            "Complete birth data (dateTime, latitude, longitude) required",
         },
         { status: 400 },
       );
@@ -159,20 +160,21 @@ export async function POST(request: NextRequest) {
       { latitude, longitude },
     );
 
-    // Convert to Record<Planet, ZodiacSign>
+    // Convert to Record<Planet, ZodiacSignType>
     // Note: Ascendant is optional as it may not always be calculated
-    const positions: Record<Planet, ZodiacSign> = {
-      Sun: planetaryPositions.Sun?.sign as ZodiacSign,
-      Moon: planetaryPositions.Moon?.sign as ZodiacSign,
-      Mercury: planetaryPositions.Mercury?.sign as ZodiacSign,
-      Venus: planetaryPositions.Venus?.sign as ZodiacSign,
-      Mars: planetaryPositions.Mars?.sign as ZodiacSign,
-      Jupiter: planetaryPositions.Jupiter?.sign as ZodiacSign,
-      Saturn: planetaryPositions.Saturn?.sign as ZodiacSign,
-      Uranus: planetaryPositions.Uranus?.sign as ZodiacSign,
-      Neptune: planetaryPositions.Neptune?.sign as ZodiacSign,
-      Pluto: planetaryPositions.Pluto?.sign as ZodiacSign,
-      Ascendant: planetaryPositions.Ascendant?.sign as ZodiacSign || "aries", // Default fallback
+    const positions: Record<Planet, ZodiacSignType> = {
+      Sun: planetaryPositions.Sun?.sign as ZodiacSignType,
+      Moon: planetaryPositions.Moon?.sign as ZodiacSignType,
+      Mercury: planetaryPositions.Mercury?.sign as ZodiacSignType,
+      Venus: planetaryPositions.Venus?.sign as ZodiacSignType,
+      Mars: planetaryPositions.Mars?.sign as ZodiacSignType,
+      Jupiter: planetaryPositions.Jupiter?.sign as ZodiacSignType,
+      Saturn: planetaryPositions.Saturn?.sign as ZodiacSignType,
+      Uranus: planetaryPositions.Uranus?.sign as ZodiacSignType,
+      Neptune: planetaryPositions.Neptune?.sign as ZodiacSignType,
+      Pluto: planetaryPositions.Pluto?.sign as ZodiacSignType,
+      Ascendant:
+        (planetaryPositions.Ascendant?.sign as ZodiacSignType) || "aries", // Default fallback
     };
 
     // Calculate alchemical properties
@@ -184,6 +186,15 @@ export async function POST(request: NextRequest) {
     // Calculate dominant element
     const dominantElement = calculateDominantElement(positions);
 
+    // Create a `planets` array from the `positions` object.
+    const planets: PlanetInfo[] = Object.entries(positions).map(
+      ([name, sign]) => ({
+        name: name as Planet,
+        sign,
+        position: 0, // Simplified for now
+      }),
+    );
+
     // Create natal chart
     const natalChart: NatalChart = {
       birthData: {
@@ -192,6 +203,8 @@ export async function POST(request: NextRequest) {
         longitude,
         timezone,
       } as BirthData,
+      planets,
+      ascendant: positions.Ascendant,
       planetaryPositions: positions,
       dominantElement,
       dominantModality: "Cardinal", // Simplified for now
@@ -270,8 +283,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message:
-          error instanceof Error ? error.message : "Onboarding failed",
+        message: error instanceof Error ? error.message : "Onboarding failed",
       },
       { status: 500 },
     );

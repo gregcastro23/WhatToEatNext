@@ -1,5 +1,5 @@
 import { ZODIAC_SIGNS } from "./signEnergyStates";
-import type { ZodiacSign } from "./signEnergyStates";
+import type { ZodiacSignType } from "./signEnergyStates";
 
 export const CHAKRAS = [
   "Root", // Muladhara
@@ -115,7 +115,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
 };
 
 // Chakra to Zodiac Sign mappings
-export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
+export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSignType[]> = {
   Root: ["capricorn", "taurus"],
   Sacral: ["cancer", "scorpio", "pisces"],
   "Solar Plexus": ["aries", "leo", "sagittarius"],
@@ -126,7 +126,7 @@ export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
 };
 
 // Zodiac Sign to Chakra mappings (reverse of above)
-export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> =
+export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSignType, Chakra[]> =
   ZODIAC_SIGNS.reduce(
     (mappings, sign) => {
       mappings[sign] = CHAKRAS.filter((chakra) =>
@@ -134,12 +134,12 @@ export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> =
       );
       return mappings;
     },
-    {} as Record<ZodiacSign, Chakra[]>,
+    {} as Record<ZodiacSignType, Chakra[]>,
   );
 
 // Chakra energy calculation based on sign energy states
 export function calculateChakraEnergies(
-  signEnergyStates: Record<ZodiacSign, number>,
+  signEnergyStates: Record<ZodiacSignType, number>,
 ): Record<Chakra, number> {
   const chakraEnergies: Record<Chakra, number> = {} as Record<Chakra, number>;
 

@@ -41,7 +41,7 @@ async function main() {
 
       // Sort by count
       const sortedCuisines = [...byCuisine.entries()].sort(
-        (a, b) => b[1].length - a[1].length
+        (a, b) => b[1].length - a[1].length,
       );
 
       for (const [cuisine, recipes] of sortedCuisines) {
@@ -63,7 +63,8 @@ async function main() {
     }
 
     // Return exit code based on completeness
-    const completionRate = auditResult.completeRecipes / auditResult.totalRecipes;
+    const completionRate =
+      auditResult.completeRecipes / auditResult.totalRecipes;
     if (completionRate < 0.5) {
       console.log("\n⚠️ WARNING: Less than 50% of recipes are complete!");
       process.exit(1);

@@ -72,7 +72,7 @@ const baseCuisine: Cuisine = {
 const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
   if (!cuisine) return { ...baseCuisine };
 
-  // Helper to combine 'all' recipes with seasonal ones
+  // Helper to combine 'all' recipes with seasonal ones, deduplicating by normalized name
   const combineRecipes = (mealType: unknown) => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
 
@@ -83,23 +83,48 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     // Make sure 'all' is an array even if it's not defined
     const allRecipes = Array.isArray(mealData.all) ? mealData.all : [];
 
+    // Deduplicate recipes within a single season array by normalized name.
+    // If a recipe name exists in both the seasonal list and the 'all' list,
+    // keep the seasonal version (it's usually more specific).
+    const deduplicateByName = (seasonal: any[], all: any[]): any[] => {
+      const seen = new Set<string>();
+      const result: any[] = [];
+      // Seasonal recipes take priority
+      for (const recipe of seasonal) {
+        const key = (recipe?.name || "").toLowerCase().trim();
+        if (key && !seen.has(key)) {
+          seen.add(key);
+          result.push(recipe);
+        }
+      }
+      // Add 'all' recipes only if not already present
+      for (const recipe of all) {
+        const key = (recipe?.name || "").toLowerCase().trim();
+        if (key && !seen.has(key)) {
+          seen.add(key);
+          result.push(recipe);
+        }
+      }
+      return result;
+    };
+
     return {
-      spring: [
-        ...(Array.isArray(mealData.spring) ? mealData.spring : []),
-        ...allRecipes,
-      ],
-      summer: [
-        ...(Array.isArray(mealData.summer) ? mealData.summer : []),
-        ...allRecipes,
-      ],
-      autumn: [
-        ...(Array.isArray(mealData.autumn) ? mealData.autumn : []),
-        ...allRecipes,
-      ],
-      winter: [
-        ...(Array.isArray(mealData.winter) ? mealData.winter : []),
-        ...allRecipes,
-      ],
+      spring: deduplicateByName(
+        Array.isArray(mealData.spring) ? mealData.spring : [],
+        allRecipes,
+      ),
+      summer: deduplicateByName(
+        Array.isArray(mealData.summer) ? mealData.summer : [],
+        allRecipes,
+      ),
+      autumn: deduplicateByName(
+        Array.isArray(mealData.autumn) ? mealData.autumn : [],
+        allRecipes,
+      ),
+      winter: deduplicateByName(
+        Array.isArray(mealData.winter) ? mealData.winter : [],
+        allRecipes,
+      ),
     };
   };
 
@@ -154,7 +179,9 @@ const processedCuisines = {
   Japanese: processCuisineRecipes(japanese as unknown as Partial<Cuisine>),
   Korean: processCuisineRecipes(korean as unknown as Partial<Cuisine>),
   Mexican: processCuisineRecipes(mexican as unknown as Partial<Cuisine>),
-  "Middle Eastern": processCuisineRecipes(middleEastern as unknown as Partial<Cuisine>),
+  "Middle Eastern": processCuisineRecipes(
+    middleEastern as unknown as Partial<Cuisine>,
+  ),
   Russian: processCuisineRecipes(russian as unknown as Partial<Cuisine>),
   Thai: processCuisineRecipes(thai as unknown as Partial<Cuisine>),
   Vietnamese: processCuisineRecipes(vietnamese as unknown as Partial<Cuisine>),

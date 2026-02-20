@@ -94,16 +94,16 @@ export const greek: Cuisine = {
             "Thick strained yogurt with honey, walnuts and seasonal fruit",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: ["serving bowl", "honey dipper", "knife", "measuring spoons"],
           preparationSteps: [
             "Layer yogurt in bowl",
@@ -175,17 +175,17 @@ export const greek: Cuisine = {
             "Traditional scrambled eggs with tomatoes, feta, and olive oil",
           cuisine: "Greek (Peloponnese)",
           cookingMethods: [
-          "scrambling",
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            "scrambling",
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "non-stick pan",
             "sharp knife",
@@ -341,26 +341,26 @@ export const greek: Cuisine = {
           description: "Grilled meat skewers with herbs and lemon",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "marinating",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.44,
-              Earth: 0.19,
-              Air: 0.25,
+            {
+              name: "marinating",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.44,
+                Earth: 0.19,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          "skewering"
-        ],
+            "skewering",
+          ],
           tools: [
             "metal skewers",
             "grill",
@@ -377,7 +377,11 @@ export const greek: Cuisine = {
             "Rest before serving",
           ],
           ingredients: [
-            { name: "pork", amount: "1", unit: "kg", category: "protein",
+            {
+              name: "pork",
+              amount: "1",
+              unit: "kg",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -385,7 +389,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "olive oil", amount: "1/2", unit: "cup", category: "oil",
+            {
+              name: "olive oil",
+              amount: "1/2",
+              unit: "cup",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -393,7 +401,11 @@ export const greek: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "lemon", amount: "2", unit: "whole", category: "fruit",
+            {
+              name: "lemon",
+              amount: "2",
+              unit: "whole",
+              category: "fruit",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.5,
@@ -413,7 +425,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "oregano", amount: "2", unit: "tbsp", category: "herb",
+            {
+              name: "oregano",
+              amount: "2",
+              unit: "tbsp",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.1,
@@ -421,7 +437,11 @@ export const greek: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "salt", amount: "1", unit: "tbsp", category: "seasoning",
+            {
+              name: "salt",
+              amount: "1",
+              unit: "tbsp",
+              category: "seasoning",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.1,
@@ -480,25 +500,25 @@ export const greek: Cuisine = {
             "Traditional Greek village salad with tomatoes, cucumbers, and feta",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "chopping",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.08,
-              Earth: 0.54,
-              Air: 0.31,
+            {
+              name: "chopping",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.08,
+                Earth: 0.54,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "sharp knife",
             "cutting board",
@@ -607,13 +627,14 @@ export const greek: Cuisine = {
             minerals: ["Calcium", "Potassium"],
           },
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.27,
             Water: 0.33,
             Earth: 0.3,
             Air: 0.11,
-          },mealType: ["lunch", "dinner", "side"],
+          },
+          mealType: ["lunch", "dinner", "side"],
         },
       ],
       summer: [
@@ -622,34 +643,34 @@ export const greek: Cuisine = {
           description: "Stuffed vegetables with rice, herbs, and optional meat",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "stuffing",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.54,
-              Air: 0.23,
+            {
+              name: "stuffing",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.54,
+                Air: 0.23,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "baking dish",
             "sharp knife",
@@ -690,7 +711,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "rice", amount: "300", unit: "g", category: "grain",
+            {
+              name: "rice",
+              amount: "300",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -710,7 +735,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "parsley", amount: "1", unit: "bunch", category: "herb",
+            {
+              name: "parsley",
+              amount: "1",
+              unit: "bunch",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -718,7 +747,11 @@ export const greek: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "mint", amount: "1/2", unit: "bunch", category: "herb",
+            {
+              name: "mint",
+              amount: "1/2",
+              unit: "bunch",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -726,7 +759,11 @@ export const greek: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "olive oil", amount: "150", unit: "ml", category: "oil",
+            {
+              name: "olive oil",
+              amount: "150",
+              unit: "ml",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -771,13 +808,14 @@ export const greek: Cuisine = {
             minerals: ["Potassium", "Iron"],
           },
           season: ["summer"],
-          
+
           elementalProperties: {
             Fire: 0.28,
             Water: 0.19,
             Earth: 0.33,
             Air: 0.2,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
       ],
     },
@@ -789,43 +827,43 @@ export const greek: Cuisine = {
             "Layered eggplant casserole with spiced ground meat and béchamel sauce",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "layering",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.46,
-              Air: 0.31,
+            {
+              name: "layering",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "sauce-making",
-            elementalProperties: {
-              Fire: 0.27,
-              Water: 0.33,
-              Earth: 0.2,
-              Air: 0.2,
+            {
+              name: "sauce-making",
+              elementalProperties: {
+                Fire: 0.27,
+                Water: 0.33,
+                Earth: 0.2,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large baking dish",
             "frying pan",
@@ -910,13 +948,14 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Calcium", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.33,
             Water: 0.13,
             Earth: 0.44,
             Air: 0.1,
-          },mealType: ["dinner"],
+          },
+          mealType: ["dinner"],
         },
         {
           name: "Spanakopita",
@@ -1005,34 +1044,34 @@ export const greek: Cuisine = {
             "Baked pasta casserole with spiced meat sauce and béchamel",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "sauce-making",
-            elementalProperties: {
-              Fire: 0.27,
-              Water: 0.33,
-              Earth: 0.2,
-              Air: 0.2,
+            {
+              name: "sauce-making",
+              elementalProperties: {
+                Fire: 0.27,
+                Water: 0.33,
+                Earth: 0.2,
+                Air: 0.2,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large baking dish",
             "pasta pot",
@@ -1110,13 +1149,14 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Calcium", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.09,
             Water: 0.2,
             Earth: 0.61,
             Air: 0.09,
-          },mealType: ["dinner"],
+          },
+          mealType: ["dinner"],
         },
         {
           name: "Dolmades",
@@ -1124,26 +1164,26 @@ export const greek: Cuisine = {
             "Grape leaves stuffed with rice, herbs, and optional meat",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "stuffing",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.54,
-              Air: 0.23,
+            {
+              name: "stuffing",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.54,
+                Air: 0.23,
+              },
             },
-          },
-          "rolling",
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            "rolling",
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "mixing bowl",
@@ -1166,7 +1206,11 @@ export const greek: Cuisine = {
               unit: "pieces",
               category: "vegetable",
             },
-            { name: "rice", amount: "300", unit: "g", category: "grain",
+            {
+              name: "rice",
+              amount: "300",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -1186,7 +1230,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "dill", amount: "1", unit: "bunch", category: "herb",
+            {
+              name: "dill",
+              amount: "1",
+              unit: "bunch",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -1194,7 +1242,11 @@ export const greek: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "mint", amount: "1/2", unit: "bunch", category: "herb",
+            {
+              name: "mint",
+              amount: "1/2",
+              unit: "bunch",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -1202,7 +1254,11 @@ export const greek: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "lemon juice", amount: "60", unit: "ml", category: "acid",
+            {
+              name: "lemon juice",
+              amount: "60",
+              unit: "ml",
+              category: "acid",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.5,
@@ -1210,7 +1266,11 @@ export const greek: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "olive oil", amount: "120", unit: "ml", category: "oil",
+            {
+              name: "olive oil",
+              amount: "120",
+              unit: "ml",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -1243,31 +1303,32 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Magnesium"],
           },
           season: ["spring", "summer"],
-          
+
           elementalProperties: {
             Fire: 0.19,
             Water: 0.32,
             Earth: 0.23,
             Air: 0.25,
-          },mealType: ["appetizer", "side"],
+          },
+          mealType: ["appetizer", "side"],
         },
         {
           name: "Galaktoboureko",
           description: "Custard-filled phyllo pastry soaked in citrus syrup",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          "custard-making",
-          "syrup-making"
-        ],
+            "custard-making",
+            "syrup-making",
+          ],
           tools: [
             "baking dish",
             "saucepan",
@@ -1291,7 +1352,11 @@ export const greek: Cuisine = {
               unit: "package",
               category: "pastry",
             },
-            { name: "milk", amount: "1", unit: "L", category: "dairy",
+            {
+              name: "milk",
+              amount: "1",
+              unit: "L",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.6,
@@ -1300,7 +1365,11 @@ export const greek: Cuisine = {
               },
             },
             { name: "semolina", amount: "150", unit: "g", category: "grain" },
-            { name: "eggs", amount: "4", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "4",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1308,7 +1377,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "butter", amount: "200", unit: "g", category: "dairy",
+            {
+              name: "butter",
+              amount: "200",
+              unit: "g",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.2,
@@ -1316,7 +1389,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "sugar", amount: "400", unit: "g", category: "sweetener",
+            {
+              name: "sugar",
+              amount: "400",
+              unit: "g",
+              category: "sweetener",
               elementalProperties: {
                 Fire: 0.3,
                 Water: 0.2,
@@ -1367,38 +1444,39 @@ export const greek: Cuisine = {
             minerals: ["Calcium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.22,
             Water: 0.29,
             Earth: 0.36,
             Air: 0.14,
-          },mealType: ["dessert"],
+          },
+          mealType: ["dessert"],
         },
         {
           name: "Fasolada",
           description: "Traditional Greek white bean soup with vegetables",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "wooden spoon",
@@ -1469,7 +1547,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "olive oil", amount: "120", unit: "ml", category: "oil",
+            {
+              name: "olive oil",
+              amount: "120",
+              unit: "ml",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -1519,38 +1601,39 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Potassium", "Magnesium"],
           },
           season: ["autumn", "winter"],
-          
+
           elementalProperties: {
             Fire: 0.28,
             Water: 0.25,
             Earth: 0.36,
             Air: 0.11,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Youvetsi",
           description: "Baked orzo pasta with lamb in tomato sauce",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "Dutch oven",
             "baking dish",
@@ -1624,38 +1707,39 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["autumn", "winter"],
-          
+
           elementalProperties: {
             Fire: 0.31,
             Water: 0.17,
             Earth: 0.45,
             Air: 0.08,
-          },mealType: ["dinner"],
+          },
+          mealType: ["dinner"],
         },
         {
           name: "Revithia",
           description: "Traditional Greek chickpea soup with lemon and herbs",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "soaking",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.75,
-              Earth: 0.17,
-              Air: 0.08,
+            {
+              name: "soaking",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.75,
+                Earth: 0.17,
+                Air: 0.08,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "colander",
@@ -1672,7 +1756,11 @@ export const greek: Cuisine = {
             "Season with lemon",
           ],
           ingredients: [
-            { name: "chickpeas", amount: "500", unit: "g", category: "legume",
+            {
+              name: "chickpeas",
+              amount: "500",
+              unit: "g",
+              category: "legume",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -1704,7 +1792,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "olive oil", amount: "80", unit: "ml", category: "oil",
+            {
+              name: "olive oil",
+              amount: "80",
+              unit: "ml",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -1718,7 +1810,11 @@ export const greek: Cuisine = {
               unit: "whole",
               category: "herb",
             },
-            { name: "lemons", amount: "2", unit: "whole", category: "citrus",
+            {
+              name: "lemons",
+              amount: "2",
+              unit: "whole",
+              category: "citrus",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.5,
@@ -1726,7 +1822,11 @@ export const greek: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "rosemary", amount: "2", unit: "sprigs", category: "herb",
+            {
+              name: "rosemary",
+              amount: "2",
+              unit: "sprigs",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.3,
                 Water: 0.1,
@@ -1764,38 +1864,39 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Folate", "Magnesium"],
           },
           season: ["autumn", "winter"],
-          
+
           elementalProperties: {
             Fire: 0.28,
             Water: 0.23,
             Earth: 0.29,
             Air: 0.2,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Gigantes Plaki",
           description: "Baked giant beans in tomato sauce with herbs",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "baking dish",
             "large pot",
@@ -1871,38 +1972,39 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Potassium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.09,
             Water: 0.18,
             Earth: 0.64,
             Air: 0.08,
-          },mealType: ["main", "meze"],
+          },
+          mealType: ["main", "meze"],
         },
         {
           name: "Keftedes",
           description: "Greek meatballs with herbs and spices",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowl",
             "frying pan",
@@ -1973,30 +2075,31 @@ export const greek: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.33,
             Water: 0.13,
             Earth: 0.41,
             Air: 0.13,
-          },mealType: ["appetizer", "main"],
+          },
+          mealType: ["appetizer", "main"],
         },
         {
           name: "Galatopita",
           description: "Traditional milk pie with phyllo and vanilla custard",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          "custard-making"
-        ],
+            "custard-making",
+          ],
           tools: [
             "baking dish",
             "saucepan",
@@ -2013,7 +2116,11 @@ export const greek: Cuisine = {
             "Cool completely",
           ],
           ingredients: [
-            { name: "milk", amount: "1", unit: "L", category: "dairy",
+            {
+              name: "milk",
+              amount: "1",
+              unit: "L",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.6,
@@ -2021,7 +2128,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "eggs", amount: "4", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "4",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -2030,7 +2141,11 @@ export const greek: Cuisine = {
               },
             },
             { name: "semolina", amount: "100", unit: "g", category: "grain" },
-            { name: "sugar", amount: "200", unit: "g", category: "sweetener",
+            {
+              name: "sugar",
+              amount: "200",
+              unit: "g",
+              category: "sweetener",
               elementalProperties: {
                 Fire: 0.3,
                 Water: 0.2,
@@ -2050,7 +2165,11 @@ export const greek: Cuisine = {
               unit: "sheets",
               category: "pastry",
             },
-            { name: "butter", amount: "100", unit: "g", category: "dairy",
+            {
+              name: "butter",
+              amount: "100",
+              unit: "g",
+              category: "dairy",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.2,
@@ -2083,13 +2202,14 @@ export const greek: Cuisine = {
             minerals: ["Calcium", "Iron"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.21,
             Water: 0.26,
             Earth: 0.41,
             Air: 0.12,
-          },mealType: ["dessert"],
+          },
+          mealType: ["dessert"],
         },
         {
           name: "Skordalia",
@@ -2181,25 +2301,25 @@ export const greek: Cuisine = {
           description: "Smoky eggplant dip with garlic and olive oil",
           cuisine: "Greek",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "mashing",
-            elementalProperties: {
-              Fire: 0.11,
-              Water: 0.21,
-              Earth: 0.5,
-              Air: 0.18,
+            {
+              name: "mashing",
+              elementalProperties: {
+                Fire: 0.11,
+                Water: 0.21,
+                Earth: 0.5,
+                Air: 0.18,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "grill",
             "food processor",
@@ -2240,7 +2360,11 @@ export const greek: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "olive oil", amount: "80", unit: "ml", category: "oil",
+            {
+              name: "olive oil",
+              amount: "80",
+              unit: "ml",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -2260,7 +2384,11 @@ export const greek: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "parsley", amount: "1/4", unit: "cup", category: "herb",
+            {
+              name: "parsley",
+              amount: "1/4",
+              unit: "cup",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -2306,13 +2434,14 @@ export const greek: Cuisine = {
             minerals: ["Potassium", "Manganese"],
           },
           season: ["summer", "autumn"],
-          
+
           elementalProperties: {
             Fire: 0.37,
             Water: 0.16,
             Earth: 0.26,
             Air: 0.21,
-          },mealType: ["appetizer", "meze"],
+          },
+          mealType: ["appetizer", "meze"],
         },
       ],
     },

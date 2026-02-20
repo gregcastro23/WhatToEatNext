@@ -85,24 +85,21 @@ export function useRecipeCollections() {
   );
 
   // Collections
-  const createCollection = useCallback(
-    (name: string, description?: string) => {
-      const newCollection: RecipeCollection = {
-        id: `col-${Date.now()}`,
-        name,
-        description,
-        recipeIds: [],
-        createdAt: new Date().toISOString(),
-      };
-      setCollections((prev) => {
-        const next = [...prev, newCollection];
-        saveToStorage(STORAGE_KEYS.collections, next);
-        return next;
-      });
-      return newCollection.id;
-    },
-    [],
-  );
+  const createCollection = useCallback((name: string, description?: string) => {
+    const newCollection: RecipeCollection = {
+      id: `col-${Date.now()}`,
+      name,
+      description,
+      recipeIds: [],
+      createdAt: new Date().toISOString(),
+    };
+    setCollections((prev) => {
+      const next = [...prev, newCollection];
+      saveToStorage(STORAGE_KEYS.collections, next);
+      return next;
+    });
+    return newCollection.id;
+  }, []);
 
   const deleteCollection = useCallback((collectionId: string) => {
     setCollections((prev) => {

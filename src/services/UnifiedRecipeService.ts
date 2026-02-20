@@ -5,7 +5,7 @@
 
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
-import type { Recipe } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes
 import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 // Using local error handler implementation
@@ -97,7 +97,10 @@ export class UnifiedRecipeService {
         }
 
         // Search in description
-        if (typeof recipe.description === "string" && recipe.description.toLowerCase().includes(searchTerm)) {
+        if (
+          typeof recipe.description === "string" &&
+          recipe.description.toLowerCase().includes(searchTerm)
+        ) {
           return true;
         }
 
@@ -123,7 +126,7 @@ export class UnifiedRecipeService {
         // Search in tags
         if (Array.isArray(recipe.tags)) {
           const tagMatch = recipe.tags.some((tag: string) =>
-            tag.toLowerCase().includes(searchTerm)
+            tag.toLowerCase().includes(searchTerm),
           );
           if (tagMatch) {
             return true;
@@ -134,7 +137,7 @@ export class UnifiedRecipeService {
       });
 
       logger.info(
-        `Search for "${query}" returned ${matchedRecipes.length} recipes`
+        `Search for "${query}" returned ${matchedRecipes.length} recipes`,
       );
       return matchedRecipes;
     } catch (error) {
@@ -146,21 +149,36 @@ export class UnifiedRecipeService {
   }
   /**
    * Get recipes for a specific cuisine (Phase 11 addition)
+   * Supports exact match and startsWith matching for regional variants
+   * e.g., searching "indian" will match "indian", "indian (south)", "indian (north)", etc.
    */
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
+      const targetCuisine =
+        cuisine && typeof cuisine === "string"
+          ? cuisine.toLowerCase().trim()
+          : "";
+
+      if (!targetCuisine) return [];
+
       const filtered = (allRecipes || []).filter((recipe) => {
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === "string"
-            ? recipe.cuisine.toLowerCase()
-            : recipe.cuisine;
-        const targetCuisine =
-          cuisine && typeof cuisine === "string"
-            ? cuisine.toLowerCase()
-            : cuisine;
-        return recipeCuisine === targetCuisine;
+            ? recipe.cuisine.toLowerCase().trim()
+            : "";
+
+        if (!recipeCuisine) return false;
+
+        // Exact match (covers normalized recipes)
+        if (recipeCuisine === targetCuisine) return true;
+
+        // startsWith match for regional variants (e.g., "indian (south)" starts with "indian")
+        if (recipeCuisine.startsWith(targetCuisine + " ") || recipeCuisine.startsWith(targetCuisine + "(")) return true;
+
+        return false;
       });
+      logger.info(`getRecipesForCuisine for "${cuisine}" returned ${filtered.length} recipes.`);
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
       ErrorHandler.log(error, {

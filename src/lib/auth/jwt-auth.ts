@@ -89,49 +89,6 @@ export class JWTAuthService {
 
   constructor(config: AuthConfig) {
     this.config = config;
-    this.initializeDefaultUsers();
-  }
-
-  /**
-   * Initialize default users for development and testing
-   * Note: In production, users should be created through proper registration flow
-   */
-  private initializeDefaultUsers(): void {
-    // Use bcrypt.hashSync for synchronous initialization
-    // Cost factor of 10 provides good security/performance balance
-    const defaultUsers: Array<Omit<User, "id">> = [
-      {
-        email: "admin@alchm.kitchen",
-        passwordHash: bcrypt.hashSync("admin123", 10),
-        roles: [UserRole.ADMIN],
-        isActive: true,
-        createdAt: new Date(),
-      },
-      {
-        email: "user@alchm.kitchen",
-        passwordHash: bcrypt.hashSync("user123", 10),
-        roles: [UserRole.USER],
-        isActive: true,
-        createdAt: new Date(),
-      },
-      {
-        email: "service@alchm.kitchen",
-        passwordHash: bcrypt.hashSync("service123", 10),
-        roles: [UserRole.SERVICE],
-        isActive: true,
-        createdAt: new Date(),
-      },
-    ];
-
-    defaultUsers.forEach((userData, index) => {
-      const user: User = {
-        ...userData,
-        id: `user_${index + 1}`,
-      };
-      this.users.set(user.email, user);
-    });
-
-    logger.info("Default users initialized for authentication service");
   }
 
   /**
@@ -442,8 +399,8 @@ export const authService = new Proxy({} as JWTAuthService, {
   get(target, prop) {
     const service = getAuthService();
     const value = (service as any)[prop];
-    return typeof value === 'function' ? value.bind(service) : value;
-  }
+    return typeof value === "function" ? value.bind(service) : value;
+  },
 });
 
 export default authService;

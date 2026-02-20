@@ -1,4 +1,4 @@
-import type { /* _ , */ ZodiacSign } from "@/types/alchemy";
+import type { /* _ , */ ZodiacSignType } from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
 
 export const american: Cuisine = {
@@ -15,17 +15,17 @@ export const american: Cuisine = {
             "Fluffy, golden pancakes made with buttermilk and served with maple syrup",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "pan-frying",
-            elementalProperties: {
-              Fire: 0.42,
-              Water: 0.09,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          "flipping"
-        ],
+            "flipping",
+          ],
           tools: [
             "mixing bowl",
             "whisk",
@@ -167,34 +167,34 @@ export const american: Cuisine = {
             "Crusty whole grain toast topped with mashed avocado, poached eggs, and seasonings",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "toasting",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.28,
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
             },
-          },
-          {
-            name: "poaching",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.5,
-              Earth: 0.13,
-              Air: 0.19,
+            {
+              name: "poaching",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.5,
+                Earth: 0.13,
+                Air: 0.19,
+              },
             },
-          },
-          {
-            name: "mashing",
-            elementalProperties: {
-              Fire: 0.11,
-              Water: 0.21,
-              Earth: 0.5,
-              Air: 0.18,
+            {
+              name: "mashing",
+              elementalProperties: {
+                Fire: 0.11,
+                Water: 0.21,
+                Earth: 0.5,
+                Air: 0.18,
+              },
             },
-          }
-        ],
+          ],
           tools: ["toaster", "small pot", "slotted spoon", "fork", "knife"],
           preparationSteps: [
             "Toast bread",
@@ -318,25 +318,25 @@ export const american: Cuisine = {
             "Flaky buttermilk biscuits smothered in rich sausage gravy",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowl",
             "pastry cutter",
@@ -481,25 +481,25 @@ export const american: Cuisine = {
             "Open-faced omelet packed with seasonal spring vegetables and herbs",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "eggs",
@@ -602,25 +602,25 @@ export const american: Cuisine = {
             "Vibrant smoothie bowl with fresh summer berries and crunchy toppings",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "blending",
-            elementalProperties: {
-              Fire: 0.1,
-              Water: 0.26,
-              Earth: 0.16,
-              Air: 0.48,
+            {
+              name: "blending",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.26,
+                Earth: 0.16,
+                Air: 0.48,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "mixed berries",
@@ -717,17 +717,17 @@ export const american: Cuisine = {
             "Creamy steel-cut oatmeal with pumpkin puree and warm fall spices",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          "stirring"
-        ],
+            "stirring",
+          ],
           ingredients: [
             {
               name: "steel-cut oats",
@@ -836,25 +836,25 @@ export const american: Cuisine = {
             "Hearty quick bread with tart cranberries and bright orange zest",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "all-purpose flour",
@@ -965,34 +965,34 @@ export const american: Cuisine = {
             "Juicy grilled beef patty topped with melted cheese on a toasted bun with fresh vegetables",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "toasting",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.28,
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "grill or skillet",
             "spatula",
@@ -1158,34 +1158,34 @@ export const american: Cuisine = {
             "Composed salad with rows of chicken, bacon, eggs, avocado, and blue cheese over lettuce",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "chopping",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.08,
-              Earth: 0.54,
-              Air: 0.31,
+            {
+              name: "chopping",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.08,
+                Earth: 0.54,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "cutting board",
             "knife",
@@ -1347,25 +1347,25 @@ export const american: Cuisine = {
             "Creamy seafood soup with clams, potatoes, and bacon in a rich milk broth",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "wooden spoon",
@@ -1533,25 +1533,25 @@ export const american: Cuisine = {
             "Buttery pastry topped with fresh asparagus and tangy goat cheese",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "blind baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "blind baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "puff pastry",
@@ -1660,25 +1660,25 @@ export const american: Cuisine = {
             "Fresh lobster meat tossed with mayo and lemon on a buttered roll",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "lobster meat",
@@ -1775,16 +1775,16 @@ export const american: Cuisine = {
             "Sliced turkey with cranberry sauce and stuffing on whole grain bread",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "sliced turkey",
@@ -1887,25 +1887,25 @@ export const american: Cuisine = {
             "Creamy potato soup topped with cheese, bacon, and green onions",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "pureeing",
-            elementalProperties: {
-              Fire: 0.1,
-              Water: 0.33,
-              Earth: 0.27,
-              Air: 0.3,
+            {
+              name: "pureeing",
+              elementalProperties: {
+                Fire: 0.1,
+                Water: 0.33,
+                Earth: 0.27,
+                Air: 0.3,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "russet potatoes",
@@ -2022,26 +2022,26 @@ export const american: Cuisine = {
             "Slow-cooked pork ribs with tangy-sweet barbecue sauce and smoky flavor",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "slow cooking",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.39,
-              Earth: 0.33,
-              Air: 0.08,
+            {
+              name: "slow cooking",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.39,
+                Earth: 0.33,
+                Air: 0.08,
+              },
             },
-          },
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          "basting"
-        ],
+            "basting",
+          ],
           tools: [
             "grill or smoker",
             "large pot",
@@ -2183,34 +2183,34 @@ export const american: Cuisine = {
             "Classic American comfort food of seasoned ground meat with a glaze, served with creamy mashed potatoes",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "mashing",
-            elementalProperties: {
-              Fire: 0.11,
-              Water: 0.21,
-              Earth: 0.5,
-              Air: 0.18,
+            {
+              name: "mashing",
+              elementalProperties: {
+                Fire: 0.11,
+                Water: 0.21,
+                Earth: 0.5,
+                Air: 0.18,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "loaf pan",
             "mixing bowl",
@@ -2372,25 +2372,25 @@ export const american: Cuisine = {
             "Crispy southern fried chicken with flaky buttermilk biscuits and honey",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "dutch oven or deep fryer",
             "tongs",
@@ -2561,25 +2561,25 @@ export const american: Cuisine = {
             "Creamy risotto with fresh spring peas topped with herb-marinated grilled lamb chops",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "arborio rice",
@@ -2682,17 +2682,17 @@ export const american: Cuisine = {
             "Wild salmon grilled on a cedar plank with grilled corn, zucchini and bell peppers",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          "planking"
-        ],
+            "planking",
+          ],
           ingredients: [
             {
               name: "salmon fillet",
@@ -2795,25 +2795,25 @@ export const american: Cuisine = {
             "Slow-cooked beef chuck roast with autumn root vegetables and rich gravy",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "slow cooking",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.39,
-              Earth: 0.33,
-              Air: 0.08,
+            {
+              name: "slow cooking",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.39,
+                Earth: 0.33,
+                Air: 0.08,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "beef chuck roast",
@@ -2922,25 +2922,25 @@ export const american: Cuisine = {
             "Classic roast turkey with cranberry sauce, stuffing and rich turkey gravy",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "roasting",
-            elementalProperties: {
-              Fire: 0.47,
-              Water: 0.06,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "roasting",
+              elementalProperties: {
+                Fire: 0.47,
+                Water: 0.06,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "whole turkey",
@@ -3044,25 +3044,25 @@ export const american: Cuisine = {
           description: "Classic double-crust pie filled with spiced apples",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "pastry making",
-            elementalProperties: {
-              Fire: 0.19,
-              Water: 0.13,
-              Earth: 0.37,
-              Air: 0.31,
+            {
+              name: "pastry making",
+              elementalProperties: {
+                Fire: 0.19,
+                Water: 0.13,
+                Earth: 0.37,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "pie dish",
             "rolling pin",
@@ -3211,25 +3211,25 @@ export const american: Cuisine = {
             "Chewy cookies with melty chocolate chips and buttery flavor",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "mixing bowls",
             "baking sheets",
@@ -3371,25 +3371,25 @@ export const american: Cuisine = {
             "Dense, rich cheesecake with graham cracker crust and smooth texture",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "water bath",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.6,
-              Earth: 0.13,
-              Air: 0.13,
+            {
+              name: "water bath",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.6,
+                Earth: 0.13,
+                Air: 0.13,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "springform pan",
             "large roasting pan",
@@ -3534,25 +3534,25 @@ export const american: Cuisine = {
             "Sweet biscuits topped with macerated strawberries and whipped cream",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "whipping",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.2,
-              Earth: 0.13,
-              Air: 0.6,
+            {
+              name: "whipping",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.2,
+                Earth: 0.13,
+                Air: 0.6,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "all-purpose flour",
@@ -3661,25 +3661,25 @@ export const american: Cuisine = {
             "Graham cracker crust filled with chocolate ice cream and topped with toasted marshmallow",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "freezing",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.64,
-              Earth: 0.21,
-              Air: 0.14,
+            {
+              name: "freezing",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.64,
+                Earth: 0.21,
+                Air: 0.14,
+              },
             },
-          },
-          {
-            name: "toasting",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.28,
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "graham crackers",
@@ -3787,16 +3787,16 @@ export const american: Cuisine = {
           description: "Spiced pumpkin custard in a flaky pie crust",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "pumpkin puree",
@@ -3904,16 +3904,16 @@ export const american: Cuisine = {
           description: "Spiced molasses cookies cut into festive shapes",
           cuisine: "American",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          }
-        ],
+          ],
           ingredients: [
             {
               name: "all-purpose flour",

@@ -1,10 +1,10 @@
-import type { ZodiacSign } from "./zodiac";
+import type { ZodiacSignType } from "./zodiac";
 
 /**
  * ZodiacAffinity represents how well something harmonizes with different zodiac signs
  * Higher values indicate stronger affinity/compatibility
  */
-export type ZodiacAffinity = Record<ZodiacSign, number>;
+export type ZodiacAffinity = Record<ZodiacSignType, number>;
 
 /**
  * Modalities in astrology
@@ -13,7 +13,7 @@ export type Modality = "cardinal" | "fixed" | "mutable";
 /**
  * Mapping of zodiac signs to their modalities
  */
-export const ZODIAC_MODALITIES: Record<ZodiacSign, Modality> = {
+export const ZODIAC_MODALITIES: Record<ZodiacSignType, Modality> = {
   aries: "cardinal",
   cancer: "cardinal",
   libra: "cardinal",
@@ -88,20 +88,21 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
  * Calculates affinity between two zodiac signs based on both element and modality compatibility
  */
 export function getZodiacCompatibility(sign1: any, sign2: any): number {
-  const elementMap: Record<ZodiacSign, "fire" | "earth" | "air" | "water"> = {
-    aries: "fire",
-    leo: "fire",
-    sagittarius: "fire",
-    taurus: "earth",
-    virgo: "earth",
-    capricorn: "earth",
-    gemini: "air",
-    libra: "air",
-    aquarius: "air",
-    cancer: "water",
-    scorpio: "water",
-    pisces: "water",
-  };
+  const elementMap: Record<ZodiacSignType, "fire" | "earth" | "air" | "water"> =
+    {
+      aries: "fire",
+      leo: "fire",
+      sagittarius: "fire",
+      taurus: "earth",
+      virgo: "earth",
+      capricorn: "earth",
+      gemini: "air",
+      libra: "air",
+      aquarius: "air",
+      cancer: "water",
+      scorpio: "water",
+      pisces: "water",
+    };
 
   const elementCompatibilityChart: Record<string, Record<string, number>> = {
     fire: { fire: 0.8, earth: 0.4, air: 0.9, water: 0.3 },

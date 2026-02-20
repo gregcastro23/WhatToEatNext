@@ -13,7 +13,7 @@ import { korean } from "@/data/cuisines/korean";
 import { vietnamese } from "@/data/cuisines/vietnamese";
 import { greek } from "@/data/cuisines/greek";
 import type {
-  ElementalProperties,
+  RawElementalProperties as ElementalProperties,
   AlchemicalProperties,
 } from "@/types/alchemy";
 import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
@@ -27,10 +27,11 @@ import {
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
+  PLANETARY_ALCHEMY, // Import PLANETARY_ALCHEMY
 } from "@/utils/planetaryAlchemyMapping";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { retryWithTimeout } from "@/utils/apiUtils"; // Import retryWithTimeout
-import type { Planet, ZodiacSign } from "@/types/celestial";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 const logger = createLogger("CuisinesRecommendAPI");
@@ -290,18 +291,21 @@ async function getCurrentMoment(): Promise<CurrentMoment> {
  * Per CLAUDE.md: "ESMS ONLY from planetary positions, NOT elemental approximations"
  *
  * @param planetaryPositions - Actual planetary positions from backend
- * @param fallbackZodiacSign - Fallback if planetary positions unavailable
+ * @param fallbackZodiacSignType - Fallback if planetary positions unavailable
  * @returns Alchemical properties (Spirit, Essence, Matter, Substance)
  */
 function calculateAlchemicalPropertiesFromPlanets(
   planetaryPositions: Record<string, PlanetPosition> | undefined,
-  fallbackZodiacSign?: string,
+  fallbackZodiacSignType?: string,
 ): AlchemicalProperties {
   if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
     // ✅ CORRECT: Use actual planetary positions
     const planetSigns: Record<string, string> = {};
     for (const [planet, position] of Object.entries(planetaryPositions)) {
-      planetSigns[planet] = position.sign;
+      // Only include actual planets for alchemical calculation
+      if (planet in PLANETARY_ALCHEMY) {
+        planetSigns[planet] = position.sign;
+      }
     }
 
     const alchemical = calculateAlchemicalFromPlanets(planetSigns);
@@ -312,12 +316,12 @@ function calculateAlchemicalPropertiesFromPlanets(
     });
 
     return alchemical;
-  } else if (fallbackZodiacSign) {
+  } else if (fallbackZodiacSignType) {
     // ❌ FALLBACK ONLY: Approximate from Sun sign (not ideal, but better than nothing)
     logger.warn(
       "Using zodiac fallback for ESMS calculation - backend unavailable",
       {
-        fallbackZodiacSign,
+        fallbackZodiacSignType,
       },
     );
 
@@ -337,7 +341,7 @@ function calculateAlchemicalPropertiesFromPlanets(
     };
 
     return (
-      alchemicalMap[fallbackZodiacSign] || {
+      alchemicalMap[fallbackZodiacSignType] || {
         Spirit: 4,
         Essence: 4,
         Matter: 4,
@@ -493,16 +497,18 @@ function identifyCulturalSignatures(
   const signatures: CuisineSignature[] = [];
 
   // Check elemental outliers
-  Object.entries(elementalProps).forEach(([element, value]) => {
-    if (value > 0.35) {
-      signatures.push({
-        property: `${element} Element`,
-        value,
-        zScore: (value - 0.25) / 0.15,
-        significance: value > 0.45 ? "high" : "medium",
-      });
-    }
-  });
+  Object.entries(elementalProps).forEach(
+    ([element, value]: [string, number]) => {
+      if (value > 0.35) {
+        signatures.push({
+          property: `${element} Element`,
+          value,
+          zScore: (value - 0.25) / 0.15,
+          significance: value > 0.45 ? "high" : "medium",
+        });
+      }
+    },
+  );
 
   // Check thermodynamic outliers
   if (thermodynamics.heat > 0.12) {
@@ -515,7 +521,7 @@ function identifyCulturalSignatures(
   }
 
   // Check flavor outliers
-  Object.entries(flavorProfile).forEach(([flavor, value]) => {
+  Object.entries(flavorProfile).forEach(([flavor, value]: [string, number]) => {
     if (value > 0.7) {
       signatures.push({
         property: `${flavor.charAt(0).toUpperCase() + flavor.slice(1)} Flavor`,
@@ -585,7 +591,7 @@ function calculateFusionPairings(
             return (
               otherValue !== undefined &&
               !isNaN(otherValue) &&
-              Math.abs(value - otherValue) < 0.2
+              Math.abs((value as number) - (otherValue as number)) < 0.2
             );
           })
           .map(([element]) => element);
@@ -657,11 +663,26 @@ function getRecipesForCuisine(
   const mealType = moment.meal_type?.toLowerCase() || "dinner";
 
   let recipes: any[] = [];
+  // Track seen recipe names to avoid duplicates across meal types
+  const seenNames = new Set<string>();
+
+  const addUniqueRecipes = (source: any[]) => {
+    for (const recipe of source) {
+      const name = (recipe?.name || "").toLowerCase().trim();
+      if (name && !seenNames.has(name)) {
+        seenNames.add(name);
+        recipes.push(recipe);
+      }
+    }
+  };
 
   if (cuisineData.dishes && cuisineData.dishes[mealType]) {
+    // After processCuisineRecipes, 'all' recipes are already merged into seasonal arrays.
+    // Access the seasonal array directly; fall back to 'all' only for raw (unprocessed) data.
     const seasonalRecipes = cuisineData.dishes[mealType][season] || [];
     const allSeasonRecipes = cuisineData.dishes[mealType].all || [];
-    recipes = [...allSeasonRecipes, ...seasonalRecipes];
+    addUniqueRecipes(allSeasonRecipes);
+    addUniqueRecipes(seasonalRecipes);
   }
 
   if (recipes.length < maxRecipes) {
@@ -672,7 +693,7 @@ function getRecipesForCuisine(
           ...(cuisineData.dishes[mt][season] || []),
           ...(cuisineData.dishes[mt].all || []),
         ];
-        recipes = [...recipes, ...additionalRecipes];
+        addUniqueRecipes(additionalRecipes);
         if (recipes.length >= maxRecipes) break;
       }
     }

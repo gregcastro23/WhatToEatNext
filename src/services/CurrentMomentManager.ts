@@ -11,9 +11,10 @@ import {
   getCurrentPlanetaryPositions,
   getPlanetaryPositionsForDateTime,
 } from "@/services/astrologizeApi";
-import type { ZodiacSign } from "@/types/alchemy";
+import type { ZodiacSignType } from "@/types/alchemy";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
+import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
 const logger = createLogger("CurrentMomentManager");
 
@@ -36,9 +37,9 @@ export interface CurrentMomentData {
 
 // Default location (New York Area)
 const DEFAULT_LOCATION = {
-  latitude: 40.7498,
-  longitude: -73.7976,
-  timezone: "EDT",
+  latitude: FOREST_HILLS_COORDINATES.latitude,
+  longitude: FOREST_HILLS_COORDINATES.longitude,
+  timezone: FOREST_HILLS_COORDINATES.timezone,
 };
 
 // Performance monitoring metrics
@@ -494,7 +495,7 @@ class CurrentMomentManager {
    * Get element for zodiac sign
    */
   private getElementForSign(sign: any): string {
-    const elementMap: Record<ZodiacSign, string> = {
+    const elementMap: Record<ZodiacSignType, string> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",

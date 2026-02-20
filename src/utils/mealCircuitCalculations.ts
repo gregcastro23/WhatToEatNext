@@ -11,20 +11,24 @@
 import type { MealSlot } from "@/types/menuPlanner";
 import type { MealCircuitMetrics, KineticMetrics } from "@/types/kinetics";
 import type { PlanetaryPositions } from "@/types/astrology";
-import type { AlchemicalProperties, ElementalProperties } from "@/types/alchemy";
+import type {
+  AlchemicalProperties,
+  ElementalProperties,
+} from "@/types/alchemy";
 import { calculateKineticProperties } from "./kineticCalculations";
 import {
   calculateGregsEnergy,
   type ElementalAlchemicalCounts,
 } from "@/calculations/gregsEnergy";
 import { validateRecipeCircuit } from "./recipeCircuit";
+import type { EnhancedRecipe } from '@/types/recipe';
 
 /**
  * Count elemental and alchemical properties for thermodynamic calculations
  */
 function countElementalAlchemical(
   elemental: ElementalProperties,
-  alchemical: AlchemicalProperties
+  alchemical: AlchemicalProperties,
 ): ElementalAlchemicalCounts {
   return {
     Spirit: alchemical.Spirit || 0,
@@ -52,30 +56,45 @@ function countElementalAlchemical(
  */
 export function calculateMealCircuit(
   mealSlot: MealSlot,
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): MealCircuitMetrics | null {
   // Empty slot check
   if (!mealSlot.recipe) {
     return null;
   }
 
-  const recipe = mealSlot.recipe;
+  const recipe = mealSlot.recipe as EnhancedRecipe;
 
-  // Ensure we have required properties
+  // Safe check for ingredients and instructions
+  if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {
+    console.warn(`Recipe ${recipe.id} is incomplete (missing ingredients or instructions).`);
+    return null; // Handle incomplete recipes gracefully
+  }
+
+  // Ensure we have required properties for alchemical calculations
   if (!recipe.alchemicalProperties || !recipe.elementalProperties) {
-    console.warn(`Recipe ${recipe.id} missing alchemical or elemental properties`);
+    console.warn(
+      `Recipe ${recipe.id} missing alchemical or elemental properties for circuit calculation.`,
+    );
     return null;
   }
 
+  console.log(`Auditing alchemical properties for recipe: ${recipe.id}`, recipe.alchemicalProperties);
+
   try {
     // Type assertions for recipe properties (checked above)
-    const alchemicalProps = recipe.alchemicalProperties as AlchemicalProperties;
+    const alchemicalProps: AlchemicalProperties = {
+      Spirit: recipe.alchemicalProperties.reactivity || 0,
+      Essence: recipe.alchemicalProperties.entropy || 0,
+      Matter: recipe.alchemicalProperties.heat || 0,
+      Substance: recipe.alchemicalProperties.stability || 0,
+    };
     const elementalProps = recipe.elementalProperties as ElementalProperties;
 
     // 1. Calculate thermodynamic metrics (heat, entropy, reactivity, Greg's Energy)
     const elementalAlchemicalCounts = countElementalAlchemical(
       elementalProps,
-      alchemicalProps
+      alchemicalProps,
     );
 
     const thermodynamics = calculateGregsEnergy(elementalAlchemicalCounts);
@@ -84,7 +103,7 @@ export function calculateMealCircuit(
     const kinetics: KineticMetrics = calculateKineticProperties(
       alchemicalProps,
       elementalProps,
-      thermodynamics as any
+      thermodynamics as any,
     );
 
     // 3. Extract circuit properties from kinetics
@@ -130,7 +149,10 @@ export function calculateMealCircuit(
 
     return mealCircuit;
   } catch (error) {
-    console.error(`Error calculating meal circuit for slot ${mealSlot.id}:`, error);
+    console.error(
+      `Error calculating meal circuit for slot ${mealSlot.id}:`,
+      error,
+    );
     return null;
   }
 }
@@ -144,7 +166,7 @@ export function calculateMealCircuit(
  */
 export function calculateMealCircuits(
   mealSlots: MealSlot[],
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): Record<string, MealCircuitMetrics | null> {
   const circuits: Record<string, MealCircuitMetrics | null> = {};
 

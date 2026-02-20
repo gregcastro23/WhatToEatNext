@@ -11,7 +11,7 @@
  * Kept for reference only - do not use in new code.
  */
 
-import type { ZodiacSign } from "@/types/celestial";
+import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 
@@ -41,7 +41,9 @@ export function initializeSwissEphemeris(ephePath: string | null = null): void {
 
       ephemerisInitialized = true;
       logger.info("Swiss Ephemeris initialized successfully");
-      logger.info(`Ephemeris mode: ${ephePath ? "Swiss Ephemeris files" : "Moshier (built-in)"}`);
+      logger.info(
+        `Ephemeris mode: ${ephePath ? "Swiss Ephemeris files" : "Moshier (built-in)"}`,
+      );
       logger.info(`Version: ${swisseph.swe_version()}`);
     }
   } catch (error) {
@@ -56,7 +58,7 @@ export function initializeSwissEphemeris(ephePath: string | null = null): void {
  * Convert ecliptic longitude to zodiac sign and degree
  */
 function longitudeToZodiacPosition(longitude: number): {
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   degree: number;
   minute: number;
 } {
@@ -69,7 +71,7 @@ function longitudeToZodiacPosition(longitude: number): {
   const degree = Math.floor(degreeInSign);
   const minute = Math.floor((degreeInSign - degree) * 60);
 
-  const signs: ZodiacSign[] = [
+  const signs: ZodiacSignType[] = [
     "aries",
     "taurus",
     "gemini",

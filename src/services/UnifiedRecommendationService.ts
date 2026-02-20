@@ -4,7 +4,7 @@ import type {
   // Element, // unused - removed for performance
   ElementalProperties,
   // Planet, // unused - removed for performance
-  // ZodiacSign, // unused - removed for performance
+  // ZodiacSignType, // unused - removed for performance
   // ThermodynamicProperties, // unused - removed for performance
   ThermodynamicMetrics,
 } from "@/types/alchemy";
@@ -37,8 +37,7 @@ interface QuantityAwareRecipeCriteria extends RecipeRecommendationCriteria {
   useQuantityScaling?: boolean;
 }
 
-interface QuantityAwareIngredientCriteria
-  extends IngredientRecommendationCriteria {
+interface QuantityAwareIngredientCriteria extends IngredientRecommendationCriteria {
   targetQuantity?: number;
   targetUnit?: string;
   useQuantityScaling?: boolean;
@@ -49,9 +48,7 @@ interface QuantityAwareIngredientCriteria
  * A consolidated service for all recommendation-related operations.
  * Implements the RecommendationServiceInterface and follows the singleton pattern.
  */
-export class UnifiedRecommendationService
-  implements RecommendationServiceInterface
-{
+export class UnifiedRecommendationService implements RecommendationServiceInterface {
   private static instance: UnifiedRecommendationService;
 
   private constructor() {}
@@ -1014,7 +1011,8 @@ export class UnifiedRecommendationService
         if (recipeIngredient && recipeIngredient.amount) {
           // Simple quantity matching bonus (could be enhanced)
           const quantityMatch =
-            Math.abs(recipeIngredient.amount - quantityInfo.quantity) < 50
+            Math.abs(Number(recipeIngredient.amount) - quantityInfo.quantity) <
+            50
               ? 0.1
               : 0;
           bonus += quantityMatch;

@@ -38,7 +38,6 @@ export function MacroSummary({
             size={80}
             strokeWidth={8}
             label="Protein"
-            value={`${Math.round(totals.protein)}g`}
           />
           <div className={styles.macroDetails}>
             <span className={styles.macroLabel}>Protein</span>
@@ -58,7 +57,6 @@ export function MacroSummary({
             size={80}
             strokeWidth={8}
             label="Carbs"
-            value={`${Math.round(totals.carbs)}g`}
           />
           <div className={styles.macroDetails}>
             <span className={styles.macroLabel}>Carbs</span>
@@ -78,7 +76,6 @@ export function MacroSummary({
             size={80}
             strokeWidth={8}
             label="Fat"
-            value={`${Math.round(totals.fat)}g`}
           />
           <div className={styles.macroDetails}>
             <span className={styles.macroLabel}>Fat</span>

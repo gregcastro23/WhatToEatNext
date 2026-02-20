@@ -35,10 +35,12 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
 }) => {
   const [useCustomDate, setUseCustomDate] = useState(!!currentDateTime);
   const [dateString, setDateString] = useState(
-    currentDateTime ? currentDateTime.toISOString().slice(0, 16) : ""
+    currentDateTime ? currentDateTime.toISOString().slice(0, 16) : "",
   );
   const [latitude, setLatitude] = useState(currentLocation.latitude.toString());
-  const [longitude, setLongitude] = useState(currentLocation.longitude.toString());
+  const [longitude, setLongitude] = useState(
+    currentLocation.longitude.toString(),
+  );
 
   const handleDateToggle = () => {
     const newUseCustom = !useCustomDate;
@@ -70,16 +72,25 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
     const lat = parseFloat(latitude);
     const lon = parseFloat(longitude);
 
-    if (!isNaN(lat) && !isNaN(lon) && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
+    if (
+      !isNaN(lat) &&
+      !isNaN(lon) &&
+      lat >= -90 &&
+      lat <= 90 &&
+      lon >= -180 &&
+      lon <= 180
+    ) {
       onLocationChange({ latitude: lat, longitude: lon });
     } else {
       alert("Invalid coordinates. Latitude: -90 to 90, Longitude: -180 to 180");
     }
   };
 
-  const handlePresetLocation = (preset: "nyc" | "london" | "tokyo" | "sydney") => {
+  const handlePresetLocation = (
+    preset: "nyc" | "london" | "tokyo" | "sydney",
+  ) => {
     const presets = {
-      nyc: { latitude: 40.7128, longitude: -74.0060, name: "New York City" },
+      nyc: { latitude: 40.7128, longitude: -74.006, name: "New York City" },
       london: { latitude: 51.5074, longitude: -0.1278, name: "London" },
       tokyo: { latitude: 35.6762, longitude: 139.6503, name: "Tokyo" },
       sydney: { latitude: -33.8688, longitude: 151.2093, name: "Sydney" },
@@ -88,7 +99,10 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
     const location = presets[preset];
     setLatitude(location.latitude.toString());
     setLongitude(location.longitude.toString());
-    onLocationChange({ latitude: location.latitude, longitude: location.longitude });
+    onLocationChange({
+      latitude: location.latitude,
+      longitude: location.longitude,
+    });
   };
 
   const handleUseCurrentLocation = () => {
@@ -103,7 +117,7 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
         },
         (error) => {
           alert(`Error getting location: ${error.message}`);
-        }
+        },
       );
     } else {
       alert("Geolocation is not supported by your browser");
@@ -138,7 +152,9 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
         )}
 
         {!useCustomDate && (
-          <p className="text-sm text-gray-400 italic">Using current moment (live updates)</p>
+          <p className="text-sm text-gray-400 italic">
+            Using current moment (live updates)
+          </p>
         )}
       </div>
 
@@ -162,7 +178,9 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs text-gray-400 mb-1">Longitude</label>
+            <label className="block text-xs text-gray-400 mb-1">
+              Longitude
+            </label>
             <input
               type="number"
               value={longitude}

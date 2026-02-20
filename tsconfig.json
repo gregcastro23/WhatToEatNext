@@ -32,9 +32,6 @@
     "incremental": true,
     "baseUrl": ".",
     "maxNodeModuleJsDepth": 0,
-    // "types" restriction removed - was causing TypeScript to hang during build
-    // TypeScript will now auto-discover all necessary type definitions
-    // "types": ["node", "jest"],
     "paths": {
       "@/*": [
         "./src/*"
@@ -117,6 +114,7 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
-    "**/*.spec.tsx"
+    "**/*.spec.tsx",
+    "**/*.bak*"
   ]
 }

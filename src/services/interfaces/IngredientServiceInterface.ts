@@ -5,7 +5,7 @@ import type {
   ThermodynamicMetrics,
   Season,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
 import { RecipeIngredient } from "@/types/unified";
@@ -80,7 +80,7 @@ export interface IngredientFilter {
   categories?: string[];
   searchQuery?: string;
   excludeIngredients?: string[];
-  currentZodiacSign?: ZodiacSign;
+  currentZodiacSignType?: ZodiacSignType;
   planetaryInfluence?: PlanetName;
 }
 
@@ -107,7 +107,7 @@ export interface IngredientRecommendationOptions {
   currentSeason?: string;
 
   /** Zodiac sign to emphasize */
-  currentZodiacSign?: string;
+  currentZodiacSignType?: string;
 
   /** Modality preference */
   modalityPreference?: string;
@@ -198,7 +198,7 @@ export interface IngredientServiceInterface {
    * @param sign The zodiac sign
    * @returns An array of ingredients associated with that sign
    */
-  getIngredientsByZodiacSign(sign: ZodiacSign): UnifiedIngredient[];
+  getIngredientsByZodiacSignType(sign: ZodiacSignType): UnifiedIngredient[];
 
   /**
    * Get recommended ingredients based on the current alchemical state

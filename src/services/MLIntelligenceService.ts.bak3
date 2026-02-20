@@ -18,7 +18,7 @@ import {
   IngredientCompatibilityResult
 } from '@/types/mlIntelligence';
 import { getCurrentSeason } from '@/types/seasons';
-import {Recipe, Ingredient, _ZodiacSign} from '@/types/unified';
+import {Recipe, Ingredient, _ZodiacSignType} from '@/types/unified';
 import {calculateElementalCompatibility} from '@/utils/elemental/elementalUtils';
 import {logger} from '@/utils/logger';
 

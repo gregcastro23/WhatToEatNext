@@ -6,7 +6,11 @@
  * @created 2026-01-10 (Phase 2)
  */
 
-import type { GroceryItem, GroceryCategory, MealSlot } from "@/types/menuPlanner";
+import type {
+  GroceryItem,
+  GroceryCategory,
+  MealSlot,
+} from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("GroceryListGenerator");
@@ -15,13 +19,20 @@ const logger = createLogger("GroceryListGenerator");
  * Ingredient category mappings
  */
 const CATEGORY_PATTERNS: Record<GroceryCategory, RegExp> = {
-  produce: /tomato|onion|garlic|lettuce|carrot|celery|pepper|potato|spinach|kale|arugula|cabbage|broccoli|cauliflower|cucumber|zucchini|squash|mushroom|eggplant|avocado|lemon|lime|orange|apple|banana|berry|strawberry|blueberry|raspberry|grape|melon|peach|pear|plum|mango|pineapple|herb|parsley|cilantro|basil|mint|thyme|rosemary|oregano|sage|dill|chive|scallion|shallot|leek/i,
-  proteins: /chicken|beef|pork|lamb|turkey|duck|fish|salmon|tuna|cod|tilapia|shrimp|prawn|lobster|crab|scallop|mussel|oyster|clam|tofu|tempeh|seitan|egg|beans|lentil|chickpea|pea|edamame/i,
-  dairy: /milk|cream|cheese|yogurt|butter|ghee|sour cream|cottage cheese|ricotta|mozzarella|cheddar|parmesan|feta|brie|goat cheese|whey|buttermilk/i,
-  grains: /rice|pasta|noodle|bread|flour|oat|quinoa|barley|bulgur|couscous|farro|millet|wheat|rye|spelt|cornmeal|polenta|tortilla|pita|bagel|roll|bun|cracker/i,
-  spices: /salt|pepper|cumin|coriander|paprika|chili|cayenne|turmeric|ginger|garlic powder|onion powder|cinnamon|nutmeg|clove|cardamom|fennel|mustard|curry|saffron|vanilla|bay leaf|oregano|basil|thyme|rosemary|sage|dill|parsley|cilantro/i,
-  condiments: /sauce|ketchup|mustard|mayonnaise|vinegar|oil|olive oil|vegetable oil|sesame oil|soy sauce|tamari|worcestershire|hot sauce|salsa|pesto|tahini|honey|maple syrup|molasses|jam|jelly|preserve|pickle|relish/i,
-  canned: /canned|can of|tomato paste|tomato sauce|coconut milk|stock|broth|soup/i,
+  produce:
+    /tomato|onion|garlic|lettuce|carrot|celery|pepper|potato|spinach|kale|arugula|cabbage|broccoli|cauliflower|cucumber|zucchini|squash|mushroom|eggplant|avocado|lemon|lime|orange|apple|banana|berry|strawberry|blueberry|raspberry|grape|melon|peach|pear|plum|mango|pineapple|herb|parsley|cilantro|basil|mint|thyme|rosemary|oregano|sage|dill|chive|scallion|shallot|leek/i,
+  proteins:
+    /chicken|beef|pork|lamb|turkey|duck|fish|salmon|tuna|cod|tilapia|shrimp|prawn|lobster|crab|scallop|mussel|oyster|clam|tofu|tempeh|seitan|egg|beans|lentil|chickpea|pea|edamame/i,
+  dairy:
+    /milk|cream|cheese|yogurt|butter|ghee|sour cream|cottage cheese|ricotta|mozzarella|cheddar|parmesan|feta|brie|goat cheese|whey|buttermilk/i,
+  grains:
+    /rice|pasta|noodle|bread|flour|oat|quinoa|barley|bulgur|couscous|farro|millet|wheat|rye|spelt|cornmeal|polenta|tortilla|pita|bagel|roll|bun|cracker/i,
+  spices:
+    /salt|pepper|cumin|coriander|paprika|chili|cayenne|turmeric|ginger|garlic powder|onion powder|cinnamon|nutmeg|clove|cardamom|fennel|mustard|curry|saffron|vanilla|bay leaf|oregano|basil|thyme|rosemary|sage|dill|parsley|cilantro/i,
+  condiments:
+    /sauce|ketchup|mustard|mayonnaise|vinegar|oil|olive oil|vegetable oil|sesame oil|soy sauce|tamari|worcestershire|hot sauce|salsa|pesto|tahini|honey|maple syrup|molasses|jam|jelly|preserve|pickle|relish/i,
+  canned:
+    /canned|can of|tomato paste|tomato sauce|coconut milk|stock|broth|soup/i,
   frozen: /frozen/i,
   bakery: /cake|cookie|pastry|croissant|muffin|donut|pie|tart/i,
   beverages: /water|juice|soda|tea|coffee|wine|beer|liquor|milk/i,
@@ -205,7 +216,10 @@ export function generateGroceryList(
       excludePantryItems = false,
     } = options;
 
-    logger.debug("Generating grocery list", { mealsCount: meals.length, options });
+    logger.debug("Generating grocery list", {
+      mealsCount: meals.length,
+      options,
+    });
 
     // Extract all ingredients from recipes
     const ingredientMap = new Map<
@@ -225,10 +239,13 @@ export function generateGroceryList(
 
       meal.recipe.ingredients.forEach((ingredient) => {
         const normalizedName = normalizeIngredientName(ingredient.name);
-        const key = consolidateBy === "ingredient" ? normalizedName : `${normalizedName}-${meal.recipe!.id}`;
+        const key =
+          consolidateBy === "ingredient"
+            ? normalizedName
+            : `${normalizedName}-${meal.recipe!.id}`;
 
         // Convert to base unit if requested
-        let amount = ingredient.amount * meal.servings;
+        let amount = Number(ingredient.amount) * meal.servings;
         let unit = ingredient.unit;
 
         if (convertUnits) {

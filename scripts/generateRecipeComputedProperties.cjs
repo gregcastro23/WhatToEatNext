@@ -294,9 +294,7 @@ function aggregateIngredientElementals(ingredients) {
   );
 
   if (validIngredients.length === 0) {
-    throw new Error(
-      "No ingredients have valid elemental properties defined",
-    );
+    throw new Error("No ingredients have valid elemental properties defined");
   }
 
   const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 };

@@ -1141,7 +1141,7 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
         .validationLogic
         ? 1.0
         : 0.0,
-      astrologicalCoherence: 0, // placeholder, will be set after astrologicalMetrics is fully defined
+      astrologicalCoherence: 0, // initialized below as average of reliability metrics
     };
     astrologicalMetrics.astrologicalCoherence =
       (astrologicalMetrics.planetaryReliability +
@@ -1365,8 +1365,8 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
           (sum, r) => sum + (r.hasQualities ? 1 : 0),
           0,
         ) / validationAnalysis.validationResults.length,
-      validationBalance: 0, // placeholder, will be set after validationStructure is fully defined
-      structuralIntegrity: 0, // placeholder, will be set after validationMetrics is defined
+      validationBalance: 0, // initialized below as minimum coverage metric
+      structuralIntegrity: 0, // initialized below from validation metrics
     };
     validationStructure.validationBalance = Math.min(
       ...[

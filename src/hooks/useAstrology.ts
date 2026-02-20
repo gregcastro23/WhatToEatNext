@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type {
   LunarPhase,
   PlanetaryPosition,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/astrology";
 import { createLogger } from "@/utils/logger";
 import * as safeAstrology from "@/utils/safeAstrology";
@@ -26,7 +26,7 @@ interface AstrologyState {
   error: string | null;
   data: {
     planetaryPositions: Record<string, PlanetaryPosition> | null;
-    currentSign: ZodiacSign | null;
+    currentSign: ZodiacSignType | null;
     lunarPhase: LunarPhase | null;
     elementalBalance: Record<string, number> | null;
     aspectsInfluence: number | null;

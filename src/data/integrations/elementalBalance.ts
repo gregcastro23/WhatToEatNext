@@ -5,7 +5,8 @@ import {
   _MINIMUM_THRESHOLD,
   _VALIDATION_THRESHOLDS,
 } from "@/constants/elementalConstants";
-import type { Element, ElementalProperties, Recipe } from "@/types/alchemy";
+import type { Element, ElementalProperties } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import {
   validateElementalProperties,
   _normalizeElementalProperties,

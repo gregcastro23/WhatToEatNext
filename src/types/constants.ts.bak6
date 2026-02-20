@@ -19,7 +19,7 @@ export const ZODIAC_SIGNS = [
   'aquarius',
   'pisces'
 ] as const;
-export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
+export type ZodiacSignType = (typeof ZODIAC_SIGNS)[number];
 
 export const PLANETS = [
   'Sun',
@@ -100,7 +100,7 @@ export function isAlchemicalProperty(value: string): value is AlchemicalProperty
   return ALCHEMICAL_PROPERTIES.includes(value as AlchemicalProperty);
 }
 
-export function isZodiacSign(value: string): value is ZodiacSign {
+export function isZodiacSignType(value: string): value is ZodiacSignType {
   return ZODIAC_SIGNS.includes(value as any);
 }
 

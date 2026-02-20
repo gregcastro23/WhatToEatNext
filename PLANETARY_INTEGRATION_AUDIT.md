@@ -19,14 +19,14 @@ The Swiss Ephemeris backend migration (PR #119) successfully implemented high-pr
 
 ## Recommendation System Mapping
 
-| Recommendation Type | File/Component | Data Source | ESMS Calculation | Status |
-|---------------------|----------------|-------------|------------------|--------|
-| **Cuisine API** | `/src/app/api/cuisines/recommend/route.ts` | ❌ Hardcoded zodiac map (line 220-237) | ❌ Static mapping, NOT planetary | 🔴 **BROKEN** |
-| **User Personalization** | `/src/services/PersonalizedRecommendationService.ts` | ✅ `ChartComparisonService` | ✅ `calculateAlchemicalFromPlanets()` | 🟢 **WORKING** |
-| **Moment Chart** | `/src/services/ChartComparisonService.ts` | ✅ `getPlanetaryPositionsForDateTime()` → `/api/astrologize` → Backend | ✅ `calculateAlchemicalFromPlanets()` (line 109) | 🟢 **WORKING** |
-| **Recipe Calculations** | `/src/utils/hierarchicalRecipeCalculations.ts` | ✅ Imports `calculateAlchemicalFromPlanets()` (line 32) | ✅ Uses planetary alchemy mapping | 🟢 **WORKING** |
-| **Ingredient Transform** | `/src/utils/ingredientUtils.ts` | ✅ Uses planetary positions | ✅ `transformItemWithPlanetaryPositions()` | 🟢 **WORKING** |
-| **Cooking Methods** | `/src/components/recommendations/EnhancedCookingMethodRecommender.tsx` | ✅ Uses `calculateAlchemicalFromPlanets()` | ✅ Planetary-based | 🟢 **WORKING** |
+| Recommendation Type      | File/Component                                                         | Data Source                                                            | ESMS Calculation                                 | Status         |
+| ------------------------ | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------ | -------------- |
+| **Cuisine API**          | `/src/app/api/cuisines/recommend/route.ts`                             | ❌ Hardcoded zodiac map (line 220-237)                                 | ❌ Static mapping, NOT planetary                 | 🔴 **BROKEN**  |
+| **User Personalization** | `/src/services/PersonalizedRecommendationService.ts`                   | ✅ `ChartComparisonService`                                            | ✅ `calculateAlchemicalFromPlanets()`            | 🟢 **WORKING** |
+| **Moment Chart**         | `/src/services/ChartComparisonService.ts`                              | ✅ `getPlanetaryPositionsForDateTime()` → `/api/astrologize` → Backend | ✅ `calculateAlchemicalFromPlanets()` (line 109) | 🟢 **WORKING** |
+| **Recipe Calculations**  | `/src/utils/hierarchicalRecipeCalculations.ts`                         | ✅ Imports `calculateAlchemicalFromPlanets()` (line 32)                | ✅ Uses planetary alchemy mapping                | 🟢 **WORKING** |
+| **Ingredient Transform** | `/src/utils/ingredientUtils.ts`                                        | ✅ Uses planetary positions                                            | ✅ `transformItemWithPlanetaryPositions()`       | 🟢 **WORKING** |
+| **Cooking Methods**      | `/src/components/recommendations/EnhancedCookingMethodRecommender.tsx` | ✅ Uses `calculateAlchemicalFromPlanets()`                             | ✅ Planetary-based                               | 🟢 **WORKING** |
 
 ---
 
@@ -111,28 +111,43 @@ calculateAlchemicalProperties(zodiacSign)  ← ❌ HARDCODED MAP (line 220-237)
 **File:** `/src/app/api/cuisines/recommend/route.ts`
 
 **Problem:** Lines 181-237 implement a local `getCurrentMoment()` function that:
+
 1. Calculates zodiac sign from calendar date (no astronomical calculation)
 2. Maps zodiac signs to static ESMS values (not from planetary positions)
 3. Never calls `/api/astrologize` or backend
 4. Never uses `CurrentMomentManager` or `calculateAlchemicalFromPlanets()`
 
 **Example of broken code:**
+
 ```typescript
 // Line 220-237: WRONG - Static mapping instead of planetary calculation
-function calculateAlchemicalProperties(zodiacSign: string): AlchemicalProperties {
+function calculateAlchemicalProperties(
+  zodiacSign: string,
+): AlchemicalProperties {
   const alchemicalMap: Record<string, AlchemicalProperties> = {
     Aries: { Spirit: 5, Essence: 3, Matter: 2, Substance: 4 },
     Taurus: { Spirit: 2, Essence: 4, Matter: 6, Substance: 2 },
     // ... etc
   };
-  return alchemicalMap[zodiacSign] || { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+  return (
+    alchemicalMap[zodiacSign] || {
+      Spirit: 4,
+      Essence: 4,
+      Matter: 4,
+      Substance: 2,
+    }
+  );
 }
 ```
 
 **Correct approach (from ChartComparisonService):**
+
 ```typescript
 // ✅ CORRECT - Get real planetary positions and calculate ESMS
-const planetaryPositionsRaw = await getPlanetaryPositionsForDateTime(targetDateTime, targetLocation);
+const planetaryPositionsRaw = await getPlanetaryPositionsForDateTime(
+  targetDateTime,
+  targetLocation,
+);
 const planetaryPositions: Record<Planet, ZodiacSign> = {
   Sun: planetaryPositionsRaw.Sun?.sign as ZodiacSign,
   Moon: planetaryPositionsRaw.Moon?.sign as ZodiacSign,
@@ -142,6 +157,7 @@ const alchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
 ```
 
 **Impact:**
+
 - 🔴 HIGH: Main cuisine recommendation endpoint not using backend precision
 - 🔴 Users receive recommendations based on zodiac approximations
 - 🔴 Swiss Ephemeris upgrade benefit NOT realized for most users
@@ -159,7 +175,10 @@ export function calculateAlchemicalFromPlanets(planetaryPositions: {
   [planet: string]: string;
 }): AlchemicalProperties {
   const totals: AlchemicalProperties = {
-    Spirit: 0, Essence: 0, Matter: 0, Substance: 0
+    Spirit: 0,
+    Essence: 0,
+    Matter: 0,
+    Substance: 0,
   };
 
   for (const planet in planetaryPositions) {
@@ -177,6 +196,7 @@ export function calculateAlchemicalFromPlanets(planetaryPositions: {
 ```
 
 **Planetary Alchemy Values (Authoritative):**
+
 ```typescript
 Sun:     { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
 Moon:    { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
@@ -192,18 +212,18 @@ Pluto:   { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
 
 ### ✅ Components Using Correct ESMS Calculation
 
-| Component | Line | Status |
-|-----------|------|--------|
-| `ChartComparisonService.calculateMomentChart()` | Line 109 | ✅ Uses `calculateAlchemicalFromPlanets()` |
-| `hierarchicalRecipeCalculations.ts` | Line 32 | ✅ Imports `calculateAlchemicalFromPlanets()` |
-| `ingredientUtils.ts` | Various | ✅ Uses planetary positions |
-| `EnhancedCookingMethodRecommender.tsx` | Various | ✅ Uses `calculateAlchemicalFromPlanets()` |
+| Component                                       | Line     | Status                                        |
+| ----------------------------------------------- | -------- | --------------------------------------------- |
+| `ChartComparisonService.calculateMomentChart()` | Line 109 | ✅ Uses `calculateAlchemicalFromPlanets()`    |
+| `hierarchicalRecipeCalculations.ts`             | Line 32  | ✅ Imports `calculateAlchemicalFromPlanets()` |
+| `ingredientUtils.ts`                            | Various  | ✅ Uses planetary positions                   |
+| `EnhancedCookingMethodRecommender.tsx`          | Various  | ✅ Uses `calculateAlchemicalFromPlanets()`    |
 
 ### ❌ Components Using WRONG ESMS Calculation
 
-| Component | Line | Issue |
-|-----------|------|-------|
-| `/api/cuisines/recommend/route.ts` | Lines 220-237 | ❌ Hardcoded zodiac → ESMS mapping |
+| Component                          | Line          | Issue                                           |
+| ---------------------------------- | ------------- | ----------------------------------------------- |
+| `/api/cuisines/recommend/route.ts` | Lines 220-237 | ❌ Hardcoded zodiac → ESMS mapping              |
 | `/api/cuisines/recommend/route.ts` | Lines 629-676 | ❌ `calculateUserState()` uses hardcoded values |
 
 ---
@@ -217,10 +237,12 @@ Pluto:   { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
 **Implementation:** `/backend/alchm_kitchen/main.py`
 
 **Dependencies:**
+
 - ✅ `pyswisseph==2.10.3.2` (installed in `requirements.txt`)
 - ✅ Fallback to `pyephem` if Swiss Ephemeris unavailable
 
 **Precision:**
+
 - PRIMARY: NASA JPL DE (sub-arcsecond precision)
 - FALLBACK: astronomy-engine (moderate precision on frontend)
 
@@ -229,11 +251,13 @@ Pluto:   { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
 **File:** `/src/app/api/astrologize/route.ts`
 
 **Backend Health Check:**
+
 - Line 36-51: `isBackendAvailable()` with 2s timeout
 - Line 70: POST to `${BACKEND_URL}/api/planetary/positions`
 - Line 165-172: Tries backend first, falls back to astronomy-engine
 
 **Metadata Tracking:**
+
 ```typescript
 metadata: {
   source: (await isBackendAvailable())
@@ -256,6 +280,7 @@ metadata: {
 **Required Changes:**
 
 1. **Replace `getCurrentMoment()` with call to backend:**
+
    ```typescript
    // BEFORE (❌ WRONG):
    function getCurrentMoment(): CurrentMoment {
@@ -265,7 +290,9 @@ metadata: {
 
    // AFTER (✅ CORRECT):
    async function getCurrentMoment(): Promise<CurrentMoment> {
-     const planetaryPositions = await getPlanetaryPositionsForDateTime(new Date());
+     const planetaryPositions = await getPlanetaryPositionsForDateTime(
+       new Date(),
+     );
      const alchemical = calculateAlchemicalFromPlanets(planetaryPositions);
      const elemental = aggregateZodiacElementals(planetaryPositions);
      // ... returns moment with real planetary data
@@ -275,10 +302,11 @@ metadata: {
 2. **Remove hardcoded `calculateAlchemicalProperties()` function** (lines 220-237)
 
 3. **Import and use authoritative functions:**
+
    ```typescript
    import {
      calculateAlchemicalFromPlanets,
-     aggregateZodiacElementals
+     aggregateZodiacElementals,
    } from "@/utils/planetaryAlchemyMapping";
    import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
    ```
@@ -292,6 +320,7 @@ metadata: {
 **Rationale:** Multiple recommendation systems might call `getPlanetaryPositionsForDateTime()` for the same moment.
 
 **Suggested Implementation:**
+
 - Add TTL-based cache in `CurrentMomentManager` (15-minute expiry)
 - Key: `${timestamp}_${latitude}_${longitude}`
 - Auto-invalidate on time boundary crossings
@@ -301,6 +330,7 @@ metadata: {
 **Priority:** P2 (Observability)
 
 **Suggested Additions:**
+
 1. Log which precision level is being used (backend vs fallback)
 2. Track backend availability percentage
 3. Alert if backend is unavailable for > 5 minutes
@@ -348,55 +378,59 @@ metadata: {
 
 ### ✅ Files Using Backend Positions Correctly
 
-| File | Purpose | Status |
-|------|---------|--------|
-| `/src/app/api/astrologize/route.ts` | Backend integration gateway | ✅ Working |
-| `/src/services/CurrentMomentManager.ts` | Central state management | ✅ Working |
-| `/src/services/ChartComparisonService.ts` | Natal/moment chart comparison | ✅ Working |
-| `/src/services/PersonalizedRecommendationService.ts` | User personalization | ✅ Working |
-| `/src/utils/planetaryAlchemyMapping.ts` | Authoritative ESMS calculation | ✅ Working |
-| `/src/utils/hierarchicalRecipeCalculations.ts` | Recipe ESMS calculation | ✅ Working |
-| `/src/utils/ingredientUtils.ts` | Ingredient transformation | ✅ Working |
-| `/src/components/recommendations/EnhancedCookingMethodRecommender.tsx` | Cooking methods | ✅ Working |
+| File                                                                   | Purpose                        | Status     |
+| ---------------------------------------------------------------------- | ------------------------------ | ---------- |
+| `/src/app/api/astrologize/route.ts`                                    | Backend integration gateway    | ✅ Working |
+| `/src/services/CurrentMomentManager.ts`                                | Central state management       | ✅ Working |
+| `/src/services/ChartComparisonService.ts`                              | Natal/moment chart comparison  | ✅ Working |
+| `/src/services/PersonalizedRecommendationService.ts`                   | User personalization           | ✅ Working |
+| `/src/utils/planetaryAlchemyMapping.ts`                                | Authoritative ESMS calculation | ✅ Working |
+| `/src/utils/hierarchicalRecipeCalculations.ts`                         | Recipe ESMS calculation        | ✅ Working |
+| `/src/utils/ingredientUtils.ts`                                        | Ingredient transformation      | ✅ Working |
+| `/src/components/recommendations/EnhancedCookingMethodRecommender.tsx` | Cooking methods                | ✅ Working |
 
 ### ❌ Files NOT Using Backend Positions (Need Fixing)
 
-| File | Purpose | Issue | Priority |
-|------|---------|-------|----------|
-| `/src/app/api/cuisines/recommend/route.ts` | Main cuisine recommendation API | Uses hardcoded zodiac mapping | 🔴 P0 |
+| File                                       | Purpose                         | Issue                         | Priority |
+| ------------------------------------------ | ------------------------------- | ----------------------------- | -------- |
+| `/src/app/api/cuisines/recommend/route.ts` | Main cuisine recommendation API | Uses hardcoded zodiac mapping | 🔴 P0    |
 
 ### 📋 Files Propagated To (CurrentMomentManager)
 
-| File | Purpose | Updated By |
-|------|---------|------------|
-| `/current-moment-chart.ipynb` | Jupyter notebook for analysis | `CurrentMomentManager.updateNotebook()` |
-| `/src/constants/systemDefaults.ts` | Default planetary positions | `CurrentMomentManager.updateSystemDefaults()` |
-| `/src/utils/streamlinedPlanetaryPositions.ts` | Streamlined positions | `CurrentMomentManager.updateStreamlinedPositions()` |
-| `/src/utils/accurateAstronomy.ts` | Accurate astronomy reference | `CurrentMomentManager.updateAccurateAstronomy()` |
+| File                                          | Purpose                       | Updated By                                          |
+| --------------------------------------------- | ----------------------------- | --------------------------------------------------- |
+| `/current-moment-chart.ipynb`                 | Jupyter notebook for analysis | `CurrentMomentManager.updateNotebook()`             |
+| `/src/constants/systemDefaults.ts`            | Default planetary positions   | `CurrentMomentManager.updateSystemDefaults()`       |
+| `/src/utils/streamlinedPlanetaryPositions.ts` | Streamlined positions         | `CurrentMomentManager.updateStreamlinedPositions()` |
+| `/src/utils/accurateAstronomy.ts`             | Accurate astronomy reference  | `CurrentMomentManager.updateAccurateAstronomy()`    |
 
 ---
 
 ## Success Criteria (Completion Checklist)
 
 ### Phase 1: Fix Critical Issue ✅
+
 - [ ] Update `/api/cuisines/recommend` to call backend for planetary positions
 - [ ] Remove hardcoded `calculateAlchemicalProperties()` mapping
 - [ ] Replace with `calculateAlchemicalFromPlanets()` from `planetaryAlchemyMapping.ts`
 - [ ] Test that recommendations change based on real planetary positions
 
 ### Phase 2: Verify Integration ✅
+
 - [ ] Backend returns positions with `metadata.source: "backend-pyswisseph"`
 - [ ] All recommendation systems use `calculateAlchemicalFromPlanets()`
 - [ ] No remaining hardcoded zodiac → ESMS mappings
 - [ ] Fallback to `astronomy-engine` works correctly
 
 ### Phase 3: Documentation ✅
+
 - [ ] Update `CLAUDE.md` with verified integration details
 - [ ] Add data flow diagrams
 - [ ] Document which systems use backend positions
 - [ ] Add troubleshooting guide
 
 ### Phase 4: Testing ✅
+
 - [ ] End-to-end test: Backend → Frontend → Recommendations
 - [ ] Test with backend running (high precision)
 - [ ] Test with backend stopped (fallback precision)
@@ -409,12 +443,14 @@ metadata: {
 **Current State:** 60% integrated - Core infrastructure works perfectly, but the main user-facing cuisine recommendation API is not using backend planetary calculations.
 
 **Next Steps:**
+
 1. Fix `/api/cuisines/recommend/route.ts` to use backend positions (P0)
 2. Test end-to-end integration (P0)
 3. Update documentation (P1)
 4. Add monitoring/observability (P2)
 
 **Impact of Fix:**
+
 - ✅ Users will receive recommendations based on real-time, high-precision planetary positions
 - ✅ Swiss Ephemeris upgrade benefits fully realized
 - ✅ Consistent ESMS calculation across all recommendation systems

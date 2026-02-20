@@ -64,6 +64,7 @@ export interface recipe {
   _name: string;
   season?: Season | Season[];
   ingredients?: string[];
+  cookingMethods?: string[];
   elementalProperties?: {
     _Fire: number;
     _Water: number;

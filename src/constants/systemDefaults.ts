@@ -577,7 +577,7 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
   isDaytime: true,
   activePlanets: ["Sun", "Moon"],
   activeAspects: [],
-  currentZodiacSign: DEFAULT_SUN_SIGN,
+  currentZodiacSignType: DEFAULT_SUN_SIGN,
   calculationError: false,
   alchemicalValues: DEFAULT_ALCHEMICAL_VALUES as AlchemicalProperties,
 } as AstrologicalState;

@@ -16,7 +16,7 @@ import type {
   IntegratedAdvancedIntelligenceResult,
   MLIntelligenceResult
 } from '@/types/advancedIntelligence';
-import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSignType } from '@/types/alchemy';
 import type {
   AstrologicalAnalysisContext,
   CompatibilityAnalysisResult,
@@ -1126,7 +1126,7 @@ export class EnterpriseIntelligenceIntegration {
         flavorCompatibility: 0.8
       },
       astrologicalAnalysis: {
-        zodiacInfluences: {} as Record<ZodiacSign, number>,
+        zodiacInfluences: {} as Record<ZodiacSignType, number>,
         planetaryInfluences: {},
         elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
         lunarPhaseCompatibility: {}

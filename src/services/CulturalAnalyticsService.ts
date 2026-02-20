@@ -11,7 +11,7 @@ import {
   getCulturalRecommendations,
 } from "@/data/culturalrules";
 import type { ElementalProperties, LunarPhase } from "@/types/alchemy";
-import { ZodiacSign } from "@/types/alchemy";
+import { ZodiacSignType } from "@/types/alchemy";
 import { logger } from "@/utils/logger";
 
 // ===== INTERFACES =====

@@ -89,10 +89,10 @@ export function isElementalProperties(
 ): obj is ElementalProperties {
   return Boolean(
     obj &&
-      typeof obj === "object" &&
-      typeof (obj as ElementalProperties).Fire === "number" &&
-      typeof (obj as ElementalProperties).Water === "number" &&
-      typeof (obj as ElementalProperties).Earth === "number" &&
-      typeof (obj as ElementalProperties).Air === "number",
+    typeof obj === "object" &&
+    typeof (obj as ElementalProperties).Fire === "number" &&
+    typeof (obj as ElementalProperties).Water === "number" &&
+    typeof (obj as ElementalProperties).Earth === "number" &&
+    typeof (obj as ElementalProperties).Air === "number",
   );
 }

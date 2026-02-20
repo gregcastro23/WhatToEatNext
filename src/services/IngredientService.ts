@@ -320,7 +320,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients by zodiac sign
    */
-  getIngredientsByZodiacSign(sign: string): UnifiedIngredient[] {
+  getIngredientsByZodiacSignType(sign: string): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     return allIngredients.filter((ingredient) => {
       const influences = (ingredient.astrologicalInfluences || []) as any[];

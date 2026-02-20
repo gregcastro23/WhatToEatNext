@@ -168,9 +168,7 @@ function QueueItemCard({
 
       {/* Notes */}
       {item.notes && (
-        <div className="mb-2 text-xs text-gray-600 italic">
-          "{item.notes}"
-        </div>
+        <div className="mb-2 text-xs text-gray-600 italic">"{item.notes}"</div>
       )}
 
       {/* Action Buttons */}
@@ -275,9 +273,7 @@ export default function RecipeQueue({
           {queueSize === 0 ? (
             <div className="text-center py-8">
               <div className="text-4xl mb-2 opacity-30">📋</div>
-              <p className="text-sm text-gray-500 mb-1">
-                No recipes in queue
-              </p>
+              <p className="text-sm text-gray-500 mb-1">No recipes in queue</p>
               <p className="text-xs text-gray-400">
                 Add recipes from the selector to plan later
               </p>

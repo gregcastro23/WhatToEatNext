@@ -19,11 +19,13 @@ import type {
 import {
   getAllEnhancedCookingMethods,
   type EnhancedCookingMethod,
+  getEnhancedIngredients,
+  type EnhancedRecipeIngredient,
 } from "../../constants/alchemicalPillars";
 import {
   unifiedCuisineIntegrationSystem,
   type CuisineIngredientAnalysis,
-} from "./cuisineIntegrations.js";
+} from "./cuisineIntegrations";
 import { RecipeEnhancer, type EnhancedRecipe } from "./recipes";
 import type { SeasonalRecommendations } from "./seasonal";
 
@@ -61,7 +63,7 @@ export interface RecipeBuildingCriteria {
   // Astrological Preferences
   planetaryHour?: PlanetName;
   lunarPhase?: LunarPhase;
-  currentZodiacSign?: any;
+  currentZodiacSignType?: any;
 }
 
 export interface MonicaOptimizedRecipe extends EnhancedRecipe {
@@ -199,6 +201,97 @@ export interface PlanetaryRecipeRecommendation {
     physicalVitality: number;
     mentalClarity: number;
   };
+}
+
+// ===== TEMPLATE SELECTOR & FLAVOR INJECTION =====
+
+/**
+ * Maps the Moon's zodiac sign (or dominant element) to a recipe template type.
+ * Water signs → comforting soups/stews; Fire signs → roasts/grills;
+ * Earth signs → hearty grain bowls/platters; Air signs → fresh salads/wraps.
+ */
+const MOON_SIGN_TEMPLATE_MAP: Record<string, string> = {
+  // Water signs → slow, nurturing
+  cancer: "Stew",
+  scorpio: "Braise",
+  pisces: "Soup",
+  // Fire signs → high-heat, bold
+  aries: "Roast",
+  leo: "Grill",
+  sagittarius: "Skillet",
+  // Earth signs → hearty, grounded
+  taurus: "Platter",
+  virgo: "Bowl",
+  capricorn: "Bake",
+  // Air signs → light, fresh
+  gemini: "Wrap",
+  libra: "Salad",
+  aquarius: "Stir-Fry",
+};
+
+const ELEMENT_TEMPLATE_MAP: Record<string, string> = {
+  Water: "Stew",
+  Fire: "Roast",
+  Earth: "Bowl",
+  Air: "Stir-Fry",
+};
+
+/** Selects template type from lunar phase when no zodiac sign is available. */
+const LUNAR_PHASE_TEMPLATE_MAP: Record<string, string> = {
+  "new moon": "Soup",
+  "waxing crescent": "Stir-Fry",
+  "first quarter": "Skillet",
+  "waxing gibbous": "Bowl",
+  "full moon": "Platter",
+  "waning gibbous": "Roast",
+  "last quarter": "Braise",
+  "waning crescent": "Stew",
+};
+
+/**
+ * Flavor adjectives keyed by planetary hour.
+ * The generator picks one at random to prefix the recipe name.
+ */
+const PLANETARY_HOUR_ADJECTIVES: Record<string, string[]> = {
+  Sun: ["Golden", "Radiant", "Sunlit", "Vibrant", "Blazing"],
+  Moon: ["Lunar", "Dreamy", "Misty", "Soothing", "Silvered"],
+  Mercury: ["Zesty", "Bright", "Crisp", "Lively", "Tangy"],
+  Venus: ["Honeyed", "Velvety", "Luscious", "Rose-Kissed", "Silken"],
+  Mars: ["Smoky", "Fiery", "Bold", "Charred", "Spiced"],
+  Jupiter: ["Abundant", "Rich", "Hearty", "Festive", "Grand"],
+  Saturn: ["Herb-Crusted", "Earthy", "Deep", "Slow-Roasted", "Rustic"],
+  Uranus: ["Electric", "Fusion", "Inventive", "Unexpected", "Vivid"],
+  Neptune: ["Celestial", "Ethereal", "Sea-Salted", "Briny", "Mystical"],
+  Pluto: ["Dark", "Intense", "Umami-Rich", "Caramelized", "Transformed"],
+};
+
+const DEFAULT_ADJECTIVES = [
+  "Seasonal",
+  "Crafted",
+  "Alchemical",
+  "Balanced",
+  "Cosmic",
+];
+
+/** Picks a pseudo-random item from an array using a seed string. */
+function seededPick<T>(arr: T[], seed: string): T {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  return arr[hash % arr.length];
+}
+
+/** Returns the dominant element from an elemental preference map. */
+function dominantElement(
+  pref?: Partial<Record<string, number>>,
+): string | undefined {
+  if (!pref) return undefined;
+  const entries = Object.entries(pref).filter(([k]) =>
+    ["Fire", "Water", "Earth", "Air"].includes(k),
+  );
+  if (entries.length === 0) return undefined;
+  return entries.sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))[0][0];
 }
 
 // ===== UNIFIED RECIPE BUILDING SYSTEM =====
@@ -672,7 +765,7 @@ export class UnifiedRecipeBuildingSystem {
     criteria: RecipeBuildingCriteria & {
       currentPlanetaryHour: PlanetName;
       lunarPhase: LunarPhase;
-      currentZodiacSign?: any;
+      currentZodiacSignType?: any;
     },
   ): PlanetaryRecipeRecommendation {
     // Generate base recipe
@@ -683,7 +776,7 @@ export class UnifiedRecipeBuildingSystem {
       baseRecipe.recipe,
       criteria.currentPlanetaryHour,
       criteria.lunarPhase,
-      criteria.currentZodiacSign,
+      criteria.currentZodiacSignType,
     );
 
     // Calculate optimal cooking time
@@ -723,12 +816,16 @@ export class UnifiedRecipeBuildingSystem {
     );
 
     return {
-      name: this.generateRecipeName(criteria),
-      description: this.generateRecipeDescription(criteria),
+      name: this.generateRecipeName(
+        criteria,
+        baseIngredients,
+        baseCookingMethods,
+      ),
+      description: this.generateRecipeDescription(criteria, baseIngredients),
       cuisine: criteria.cuisine || "fusion",
       ingredients: baseIngredients,
       instructions: baseInstructions,
-      cookingMethods: baseCookingMethods,
+      cookingMethod: baseCookingMethods,
       season:
         criteria.currentSeason || criteria.season
           ? [criteria.currentSeason || criteria.season]
@@ -1029,11 +1126,11 @@ export class UnifiedRecipeBuildingSystem {
     let score = 0.5; // Base seasonal score
 
     // Check if recipe has explicit seasonality
-    if (recipe.seasonality === season) {
+    if (recipe.season === season) {
       score = 0.95; // Perfect match
-    } else if (recipe.seasonality === "all") {
+    } else if (recipe.season === "all") {
       score = 0.75; // Universal recipes work in any season
-    } else if (recipe.seasonality && recipe.seasonality.includes(season)) {
+    } else if (recipe.season && Array.isArray(recipe.season) && recipe.season.includes(season)) {
       score = 0.85; // Good match for multi-season recipes
     }
 
@@ -1054,7 +1151,7 @@ export class UnifiedRecipeBuildingSystem {
     score = score * 0.6 + seasonalIngredientScore * 0.4;
 
     // Cooking method seasonal appropriateness
-    const cookingMethodArray = recipe.cookingMethods;
+    const cookingMethodArray = recipe.cookingMethod;
     if (!cookingMethodArray || cookingMethodArray.length === 0) {
       return Math.max(0.2, Math.min(1.0, score)); // Return early if no cooking methods
     }
@@ -1182,7 +1279,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Adapt cooking methods based on season and recipe type;
     const currentMethods =
-      (recipe as { cookingMethods?: string[] | string }).cookingMethods || [];
+      recipe.cookingMethod || [];
     for (const method of Array.isArray(currentMethods)
       ? currentMethods
       : [currentMethods]) {
@@ -1289,10 +1386,10 @@ export class UnifiedRecipeBuildingSystem {
     }
 
     // Add cooking method cultural notes
-    const recipeWithMethods = recipe as { cookingMethods?: string[] | string };
-    const cookingMethods = Array.isArray(recipeWithMethods.cookingMethods)
-      ? recipeWithMethods.cookingMethods
-      : [recipeWithMethods.cookingMethods].filter(Boolean);
+    const recipeWithMethods = recipe as { cookingMethod?: string[] | string };
+    const cookingMethods = Array.isArray(recipeWithMethods.cookingMethod)
+      ? recipeWithMethods.cookingMethod
+      : [recipeWithMethods.cookingMethod].filter(Boolean);
     if (cookingMethods.some((method) => method?.includes("slow"))) {
       (notes as unknown as string[]).push(
         "Slow cooking methods enhance traditional flavors",
@@ -1354,7 +1451,7 @@ export class UnifiedRecipeBuildingSystem {
 
       // Add technique-based adaptations - Fix property name consistency
       if (
-        (recipe as { cookingMethods?: string[] }).cookingMethods?.some(
+        recipe.cookingMethod?.some(
           (method: string) => method.includes("traditional"),
         )
       ) {
@@ -1585,7 +1682,7 @@ export class UnifiedRecipeBuildingSystem {
 
       // Cooking method influence on Kalchm balance
       if (
-        (recipe as { cookingMethods?: string[] }).cookingMethods?.some(
+        recipe.cookingMethod?.some(
           (method: string) =>
             method.includes("slow") || method.includes("traditional"),
         )
@@ -1644,8 +1741,8 @@ export class UnifiedRecipeBuildingSystem {
 
       // Cooking method influence on Monica harmony
       if (
-        recipe.cookingMethods?.includes("steam") ||
-        recipe.cookingMethods?.includes("raw")
+        recipe.cookingMethod?.includes("steam") ||
+        recipe.cookingMethod?.includes("raw")
       ) {
         monicaHarmony += 0.05;
       }
@@ -1710,7 +1807,7 @@ export class UnifiedRecipeBuildingSystem {
       confidence += 0.1;
     }
 
-    if (recipe.cookingMethods && recipe.cookingMethods.length > 0) {
+    if (recipe.cookingMethod && recipe.cookingMethod.length > 0) {
       confidence += 0.1;
     }
 
@@ -1829,57 +1926,365 @@ export class UnifiedRecipeBuildingSystem {
 
   // Additional placeholder methods for comprehensive functionality...
   private selectIngredientsFromCriteria(
-    _criteria: RecipeBuildingCriteria,
-  ): unknown[] {
-    // TODO: Implement ingredient selection based on criteria
-    return [];
+    criteria: RecipeBuildingCriteria,
+  ): EnhancedRecipeIngredient[] {
+    const allIngredients = getEnhancedIngredients();
+    let filteredIngredients = [...allIngredients];
+
+    // Filter by cuisine
+    if (criteria.cuisine) {
+      filteredIngredients = filteredIngredients.filter(
+        (i) => i.cuisine === criteria.cuisine,
+      );
+    }
+
+    // Filter by required ingredients
+    if (criteria.requiredIngredients) {
+      const required = new Set(criteria.requiredIngredients);
+      filteredIngredients = filteredIngredients.filter((i) =>
+        required.has(i.name),
+      );
+    }
+
+    // Filter by excluded ingredients
+    if (criteria.excludedIngredients) {
+      const excluded = new Set(criteria.excludedIngredients);
+      filteredIngredients = filteredIngredients.filter(
+        (i) => !excluded.has(i.name),
+      );
+    }
+
+    // Filter by dietary restrictions (assuming a 'tags' field on ingredients)
+    if (criteria.dietaryRestrictions) {
+      const restrictions = new Set(criteria.dietaryRestrictions);
+      filteredIngredients = filteredIngredients.filter((i) => {
+        const ingredientTags = new Set(i.tags || []);
+        return ![...restrictions].some((r) => ingredientTags.has(r));
+      });
+    }
+
+    // Filter by allergens
+    if (criteria.allergens) {
+      const allergens = new Set(criteria.allergens);
+      filteredIngredients = filteredIngredients.filter((i) => {
+        const ingredientAllergens = new Set(i.allergens || []);
+        return ![...allergens].some((a) => ingredientAllergens.has(a));
+      });
+    }
+
+    // ── Varied selection: pick from ALL available ingredients, not just first ──
+    // Build category pools
+    const proteins = filteredIngredients.filter((i) => i.category === "protein");
+    const vegetables = filteredIngredients.filter((i) => i.category === "vegetable");
+    const grains = filteredIngredients.filter((i) => i.category === "grain");
+    const aromatics = filteredIngredients.filter((i) => i.category === "aromatic");
+    const leafyGreens = filteredIngredients.filter((i) => i.category === "leafy-green");
+    const fruits = filteredIngredients.filter((i) => i.category === "fruit");
+
+    // Use a time-based seed so each call gets a different shuffle
+    const timeSeed = `${Date.now()}-${criteria.lunarPhase ?? ""}-${criteria.zodiacSign ?? ""}`;
+
+    // Seeded shuffle for a pool: returns a copy in shuffled order
+    // <T,> trailing comma disambiguates from JSX in .tsx files
+    const shuffled = <T,>(arr: T[]): T[] => {
+      const out = [...arr];
+      for (let i = out.length - 1; i > 0; i--) {
+        const digit = seededPick([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], `${timeSeed}-${i}`);
+        const j = Math.floor((digit / 10) * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    };
+
+    const selected: EnhancedRecipeIngredient[] = [];
+
+    // 1 protein
+    const shuffledProteins = shuffled(proteins);
+    if (shuffledProteins.length > 0) selected.push(shuffledProteins[0]);
+
+    // 1-2 vegetables or leafy greens
+    const veggiePool = shuffled([...vegetables, ...leafyGreens]);
+    selected.push(...veggiePool.slice(0, 2));
+
+    // 1 grain (or fruit as aromatic complement)
+    const grainPool = shuffled([...grains]);
+    if (grainPool.length > 0) selected.push(grainPool[0]);
+
+    // 1 aromatic if nothing selected yet, or always add flavour base
+    const aromaticPool = shuffled(aromatics);
+    if (aromaticPool.length > 0) selected.push(aromaticPool[0]);
+
+    // If still nothing, pull from fruits
+    if (selected.length === 0 && fruits.length > 0) {
+      selected.push(fruits[0]);
+    }
+
+    // Final fallback to all available ingredients
+    if (selected.length === 0 && filteredIngredients.length > 0) {
+      selected.push(...shuffled(filteredIngredients).slice(0, 4));
+    }
+
+    // Last resort: static defaults so we never crash
+    if (selected.length === 0) {
+      return [
+        { name: "Chicken Breast", amount: 1, unit: "piece" },
+        { name: "Seasonal Vegetables", amount: 2, unit: "cups" },
+        { name: "Quinoa", amount: 1, unit: "cup" },
+      ];
+    }
+
+    return selected.map((i) => ({
+      name: i.name,
+      amount: i.amount ?? 1,
+      unit: i.unit ?? "cup",
+      id: i.id,
+      seasonality: i.seasonality,
+    }));
   }
 
   private selectCookingMethodsFromCriteria(
-    _criteria: RecipeBuildingCriteria,
+    criteria: RecipeBuildingCriteria,
   ): string[] {
-    // TODO: Implement cooking method selection
-    return [];
+    if (criteria.cookingMethods && criteria.cookingMethods.length > 0) {
+      return criteria.cookingMethods;
+    }
+
+    // ── Derive methods from Moon sign or lunar phase ──
+    const zodiac = (criteria.zodiacSign as string | undefined)?.toLowerCase();
+    const lunarPhase = (criteria.lunarPhase as string | undefined)?.toLowerCase();
+
+    // Water signs → slow, moist cooking
+    const waterSigns = ["cancer", "scorpio", "pisces"];
+    // Fire signs → high-heat, dry cooking
+    const fireSigns = ["aries", "leo", "sagittarius"];
+    // Earth signs → oven / grounded
+    const earthSigns = ["taurus", "virgo", "capricorn"];
+
+    if (zodiac && waterSigns.includes(zodiac)) {
+      return criteria.skillLevel === "beginner"
+        ? ["Braise"]
+        : ["Braise", "Stew"];
+    }
+    if (zodiac && fireSigns.includes(zodiac)) {
+      return criteria.skillLevel === "beginner"
+        ? ["Roast"]
+        : ["Roast", "Grill"];
+    }
+    if (zodiac && earthSigns.includes(zodiac)) {
+      return criteria.skillLevel === "beginner"
+        ? ["Bake"]
+        : ["Bake", "Roast"];
+    }
+
+    // Lunar phase fallback
+    if (lunarPhase && ["new moon", "waning crescent", "waning gibbous"].includes(lunarPhase)) {
+      return ["Stew", "Braise"]; // Waning = slow, drawing in
+    }
+    if (lunarPhase && ["full moon", "waxing gibbous"].includes(lunarPhase)) {
+      return ["Grill", "Roast"]; // Waxing/full = expansive, high heat
+    }
+
+    // Dominant elemental preference
+    const domEl = dominantElement(
+      criteria.elementalPreference as Record<string, number> | undefined,
+    );
+    if (domEl === "Water") return ["Stew", "Steam"];
+    if (domEl === "Fire") return ["Roast", "Grill"];
+    if (domEl === "Earth") return ["Bake", "Braise"];
+    if (domEl === "Air") return ["Sauté", "Stir-Fry"];
+
+    // Skill-adjusted defaults
+    if (criteria.skillLevel === "beginner") return ["Bake", "Roast"];
+    if (criteria.skillLevel === "advanced") return ["Sauté", "Braise", "Grill"];
+    return ["Sauté", "Bake", "Roast"];
   }
 
   private generateBaseInstructions(
-    _ingredients: unknown[],
-    _methods: string[],
+    ingredients: EnhancedRecipeIngredient[],
+    methods: string[],
   ): string[] {
-    // TODO: Implement instruction generation
-    return [];
+    const instructions: string[] = [];
+    const ingredientNames = ingredients.map((i) => i.name).join(", ");
+
+    // Initial prep
+    instructions.push(`Prepare all ingredients: chop ${ingredientNames}.`);
+
+    // Method-specific instructions
+    if (methods.includes("Roast") || methods.includes("Bake")) {
+      instructions.push(
+        `Preheat oven to 400°F (200°C). Toss ingredients with oil and spices, then spread on a baking sheet.`,
+        `Roast for 20-30 minutes, until golden and cooked through.`,
+      );
+    } else if (methods.includes("Sauté")) {
+      instructions.push(
+        `Heat a pan over medium-high heat with a tablespoon of oil.`,
+        `Add ingredients and sauté for 7-10 minutes, stirring occasionally.`,
+      );
+    } else {
+      instructions.push(
+        `Apply the selected cooking method, ${methods.join(", ")}, to the ingredients until cooked through.`,
+      );
+    }
+
+    // Final steps
+    instructions.push(
+      "Combine all cooked elements and season to taste.",
+      "Plate the dish and serve immediately.",
+    );
+
+    return instructions;
   }
 
-  private generateRecipeName(_criteria: RecipeBuildingCriteria): string {
-    // TODO: Generate dynamic recipe names based on criteria
-    return "Generated Recipe";
-  }
-  private generateRecipeDescription(_criteria: RecipeBuildingCriteria): string {
-    // TODO: Generate dynamic recipe descriptions
-    return "A delicious recipe";
-  }
-  private estimatePrepTime(
-    _ingredients: unknown[],
-    _methods: string[],
+  private generateRecipeName(
+    criteria: RecipeBuildingCriteria,
+    ingredients: EnhancedRecipeIngredient[],
+    methods: string[],
   ): string {
-    // TODO: Calculate prep time based on ingredients and methods
-    return "15 minutes";
-  }
-  private estimateCookTime(_methods: string[]): string {
-    // TODO: Calculate cook time based on methods
-    return "30 minutes";
-  }
-  private calculateBaseElementalProperties(
-    _ingredients: unknown[],
-  ): ElementalProperties {
-    // TODO: Calculate elemental properties from ingredients
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const primaryIngredient =
+      ingredients.find((i) => i.category === "protein")?.name ||
+      ingredients.find((i) => i.category === "vegetable")?.name ||
+      ingredients[0]?.name ||
+      "Harvest";
+
+    // ── 1. Template type from Moon sign or lunar phase or dominant element ──
+    const zodiac = (criteria.zodiacSign as string | undefined)?.toLowerCase();
+    const lunarPhase = (criteria.lunarPhase as string | undefined)?.toLowerCase();
+    const domEl = dominantElement(
+      criteria.elementalPreference as Record<string, number> | undefined,
+    );
+
+    const templateType =
+      (zodiac && MOON_SIGN_TEMPLATE_MAP[zodiac]) ||
+      (lunarPhase && LUNAR_PHASE_TEMPLATE_MAP[lunarPhase]) ||
+      (domEl && ELEMENT_TEMPLATE_MAP[domEl]) ||
+      methods[0] ||
+      "Bowl";
+
+    // ── 2. Flavor adjective from planetary hour ──
+    const planetaryHour = criteria.planetaryHour as string | undefined;
+    const adjectivePool =
+      (planetaryHour && PLANETARY_HOUR_ADJECTIVES[planetaryHour]) ||
+      DEFAULT_ADJECTIVES;
+
+    // Use a seed combining the ingredient name + template so the same recipe
+    // criteria always produce the same name, but different combos produce
+    // different names.
+    const seed = `${primaryIngredient}-${templateType}-${planetaryHour ?? "x"}`;
+    const adjective = seededPick(adjectivePool, seed);
+
+    // ── 3. Cuisine prefix (only when non-fusion) ──
+    const cuisine = criteria.cuisine && criteria.cuisine !== "fusion"
+      ? `${criteria.cuisine} `
+      : "";
+
+    return `${adjective} ${cuisine}${templateType} with ${primaryIngredient}`;
   }
 
-  private calculateCookingMethodMonicaModifier(_methods: string[]): number {
-    // TODO: Calculate Monica modifier from cooking methods
-    return 1.0;
+  private generateRecipeDescription(
+    criteria: RecipeBuildingCriteria,
+    ingredients: EnhancedRecipeIngredient[],
+  ): string {
+    const cuisine = criteria.cuisine || "Fusion";
+    const primaryIngredient =
+      ingredients.find((i) => i.category === "protein")?.name ||
+      ingredients.find((i) => i.category === "vegetable")?.name ||
+      ingredients[0]?.name ||
+      "seasonal ingredients";
+
+    const zodiac = (criteria.zodiacSign as string | undefined) ?? "";
+    const lunarPhase = (criteria.lunarPhase as string | undefined) ?? "";
+    const planetaryHour = (criteria.planetaryHour as string | undefined) ?? "";
+
+    const astroContext = [
+      zodiac ? `${zodiac} energy` : "",
+      lunarPhase ? `${lunarPhase} phase` : "",
+      planetaryHour ? `${planetaryHour} hour` : "",
+    ]
+      .filter(Boolean)
+      .join(", ");
+
+    const elementalProfile =
+      Object.keys(criteria.elementalPreference || {}).join(" & ") || "balanced";
+
+    return `An alchemically-tuned ${cuisine} dish featuring ${primaryIngredient}${astroContext ? `, crafted under ${astroContext}` : ""}. Designed for a ${elementalProfile} elemental profile and perfectly timed to the current celestial moment.`;
   }
+
+  private estimatePrepTime(
+    ingredients: EnhancedRecipeIngredient[],
+    methods: string[],
+  ): string {
+    let prepTime = ingredients.length * 2; // Base 2 mins per ingredient
+
+    // Add time for more complex methods
+    if (methods.some((m) => ["Braise", "Stew", "Marinate"].includes(m))) {
+      prepTime += 10;
+    }
+    if (methods.some((m) => ["Grill", "Roast"].includes(m))) {
+      prepTime += 5;
+    }
+
+    return `${prepTime} minutes`;
+  }
+
+  private estimateCookTime(methods: string[]): string {
+    let time = 0;
+    if (methods.includes("Sauté")) time = Math.max(time, 15);
+    if (methods.includes("Roast")) time = Math.max(time, 30);
+    if (methods.includes("Bake")) time = Math.max(time, 25);
+    if (methods.includes("Braise")) time = Math.max(time, 90);
+    if (methods.includes("Stew")) time = Math.max(time, 120);
+    if (methods.includes("Grill")) time = Math.max(time, 20);
+    if (methods.includes("Steam")) time = Math.max(time, 15);
+    if (time === 0) time = 20; // Default cook time
+    return `${time} minutes`;
+  }
+
+  private calculateBaseElementalProperties(
+    ingredients: EnhancedRecipeIngredient[],
+  ): ElementalProperties {
+    const allIngredients = getEnhancedIngredients();
+    const properties: ElementalProperties = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
+
+    const selectedIngredients = allIngredients.filter((i) =>
+      ingredients.map((si) => si.name).includes(i.name),
+    );
+
+    for (const ingredient of selectedIngredients) {
+      if (ingredient.elementalProperties) {
+        properties.Fire += ingredient.elementalProperties.Fire || 0;
+        properties.Water += ingredient.elementalProperties.Water || 0;
+        properties.Earth += ingredient.elementalProperties.Earth || 0;
+        properties.Air += ingredient.elementalProperties.Air || 0;
+      }
+    }
+
+    const count = selectedIngredients.length || 1;
+    properties.Fire = parseFloat((properties.Fire / count).toFixed(2));
+    properties.Water = parseFloat((properties.Water / count).toFixed(2));
+    properties.Earth = parseFloat((properties.Earth / count).toFixed(2));
+    properties.Air = parseFloat((properties.Air / count).toFixed(2));
+
+    return properties;
+  }
+
+  private calculateCookingMethodMonicaModifier(methods: string[]): number {
+    let modifier = 1.0;
+    if (methods.includes("Braise") || methods.includes("Stew")) {
+      modifier *= 1.2;
+    }
+    if (methods.includes("Grill") || methods.includes("Roast")) {
+      modifier *= 1.1;
+    }
+    return modifier;
+  }
+
+  // ... (rest of the file remains the same)
+  // ... (seasonal adaptation, fusion, etc.)
 
   // Seasonal adaptation methods - TODO: Implement comprehensive seasonal adaptations
   private generateDetailedIngredientSubstitutions(
@@ -2089,8 +2494,8 @@ export class UnifiedRecipeBuildingSystem {
       fusionApplication: string;
     }> = [];
 
-    if (recipe.cookingMethods && Array.isArray(recipe.cookingMethods)) {
-      recipe.cookingMethods.forEach((method, index) => {
+    if (recipe.cookingMethod && Array.isArray(recipe.cookingMethod)) {
+      recipe.cookingMethod.forEach((method, index) => {
         const sourceCuisine =
           cuisines[index % cuisines.length] || cuisines[0] || "fusion";
         const fusionApplication = `Fusion technique integrating ${sourceCuisine} methodology`;
@@ -2254,7 +2659,7 @@ export function generatePlanetaryRecipeRecommendation(
   _criteria: RecipeBuildingCriteria & {
     currentPlanetaryHour: PlanetName;
     lunarPhase: LunarPhase;
-    currentZodiacSign?: any;
+    currentZodiacSignType?: any;
   },
 ): PlanetaryRecipeRecommendation {
   return unifiedRecipeBuildingSystem.generatePlanetaryRecipeRecommendation(

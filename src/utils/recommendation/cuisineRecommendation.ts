@@ -55,8 +55,7 @@ export interface EnhancedCuisineRecommendation extends CuisineRecommendation {
 /**
  * Enhanced recommendation parameters
  */
-export interface EnhancedCuisineRecommendationParams
-  extends CuisineRecommendationParams {
+export interface EnhancedCuisineRecommendationParams extends CuisineRecommendationParams {
   astrologicalProfile?: {
     sunSign?: string;
     moonSign?: string;

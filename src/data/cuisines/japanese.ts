@@ -87,34 +87,34 @@ export const japanese: Cuisine = {
             "Classic breakfast with grilled fish, rice, miso soup, and sides",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "rice cooker",
             "fish grill",
@@ -219,17 +219,17 @@ export const japanese: Cuisine = {
           description: "Sweet-savory rolled Japanese omelette",
           cuisine: "Japanese",
           cookingMethods: [
-          "rolling",
-          {
-            name: "pan-frying",
-            elementalProperties: {
-              Fire: 0.42,
-              Water: 0.09,
-              Earth: 0.21,
-              Air: 0.27,
+            "rolling",
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "rectangular tamagoyaki pan",
             "chopsticks",
@@ -312,25 +312,25 @@ export const japanese: Cuisine = {
           description: "Fermented soybeans over rice with condiments",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          },
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          }
-        ],
+          ],
           tools: ["rice cooker", "small bowls", "chopsticks", "rice paddle"],
           preparationSteps: [
             "Cook rice",
@@ -422,18 +422,18 @@ export const japanese: Cuisine = {
           description: "Rice balls with various fillings",
           cuisine: "Japanese",
           cookingMethods: [
-          "shaping",
-          "wrapping",
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            "shaping",
+            "wrapping",
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "rice cooker",
             "onigiri mold (optional)",
@@ -451,7 +451,11 @@ export const japanese: Cuisine = {
             "Wrap with nori",
           ],
           ingredients: [
-            { name: "sushi rice", amount: "300", unit: "g", category: "grain",
+            {
+              name: "sushi rice",
+              amount: "300",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -521,34 +525,34 @@ export const japanese: Cuisine = {
           description: "Cold ramen noodles with colorful toppings",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "chilling",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.54,
-              Earth: 0.15,
-              Air: 0.31,
+            {
+              name: "chilling",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.54,
+                Earth: 0.15,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "colander",
@@ -631,26 +635,26 @@ export const japanese: Cuisine = {
           description: "Chilled buckwheat noodles with seasonal vegetables",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "chilling",
-            elementalProperties: {
-              Fire: 0,
-              Water: 0.54,
-              Earth: 0.15,
-              Air: 0.31,
+            {
+              name: "chilling",
+              elementalProperties: {
+                Fire: 0,
+                Water: 0.54,
+                Earth: 0.15,
+                Air: 0.31,
+              },
             },
-          },
-          "tossing"
-        ],
+            "tossing",
+          ],
           tools: [
             "large pot",
             "colander",
@@ -739,7 +743,11 @@ export const japanese: Cuisine = {
           description: "Japanese-style curry with vegetables and rice",
           cuisine: "Japanese",
           ingredients: [
-            { name: "rice", amount: "200", unit: "g", category: "grain",
+            {
+              name: "rice",
+              amount: "200",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -747,7 +755,11 @@ export const japanese: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "curry roux", amount: "100", unit: "g", category: "sauce",
+            {
+              name: "curry roux",
+              amount: "100",
+              unit: "g",
+              category: "sauce",
               elementalProperties: {
                 Fire: 0.55,
                 Water: 0.1,
@@ -755,7 +767,11 @@ export const japanese: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "potato", amount: "200", unit: "g", category: "vegetable",
+            {
+              name: "potato",
+              amount: "200",
+              unit: "g",
+              category: "vegetable",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -763,7 +779,11 @@ export const japanese: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "carrot", amount: "100", unit: "g", category: "vegetable",
+            {
+              name: "carrot",
+              amount: "100",
+              unit: "g",
+              category: "vegetable",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.2,
@@ -771,7 +791,11 @@ export const japanese: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "onion", amount: "150", unit: "g", category: "vegetable",
+            {
+              name: "onion",
+              amount: "150",
+              unit: "g",
+              category: "vegetable",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.2,
@@ -815,7 +839,11 @@ export const japanese: Cuisine = {
           description: "Assorted nigiri and maki sushi",
           cuisine: "Japanese",
           ingredients: [
-            { name: "sushi rice", amount: "300", unit: "g", category: "grain",
+            {
+              name: "sushi rice",
+              amount: "300",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -1023,26 +1051,26 @@ export const japanese: Cuisine = {
           description: "Chicken and egg rice bowl with onions in dashi sauce",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          "donburi-style"
-        ],
+            "donburi-style",
+          ],
           tools: [
             "donburi pan",
             "rice cooker",
@@ -1118,47 +1146,48 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Selenium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.1,
             Water: 0.5,
             Earth: 0.3,
             Air: 0.1,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Okonomiyaki",
           description: "Savory cabbage pancake with various toppings",
           cuisine: "Japanese (Osaka-style)",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "pan-frying",
-            elementalProperties: {
-              Fire: 0.42,
-              Water: 0.09,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          {
-            name: "mixing",
-            elementalProperties: {
-              Fire: 0.07,
-              Water: 0.21,
-              Earth: 0.21,
-              Air: 0.5,
+            {
+              name: "mixing",
+              elementalProperties: {
+                Fire: 0.07,
+                Water: 0.21,
+                Earth: 0.21,
+                Air: 0.5,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "flat griddle",
             "spatulas",
@@ -1246,13 +1275,14 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Calcium"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.11,
             Water: 0.19,
             Earth: 0.42,
             Air: 0.28,
-          },mealType: ["lunch", "dinner", "street food"],
+          },
+          mealType: ["lunch", "dinner", "street food"],
         },
         {
           name: "Tempura",
@@ -1336,34 +1366,34 @@ export const japanese: Cuisine = {
           description: "Thick wheat noodles in hot dashi broth",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "strainer",
@@ -1439,31 +1469,32 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Manganese"],
           },
           season: ["winter", "all"],
-          
+
           elementalProperties: {
             Fire: 0.07,
             Water: 0.37,
             Earth: 0.48,
             Air: 0.08,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Tonkatsu",
           description: "Breaded and deep-fried pork cutlet",
           cuisine: "Japanese",
           cookingMethods: [
-          "breading",
-          {
-            name: "deep-frying",
-            elementalProperties: {
-              Fire: 0.45,
-              Water: 0.06,
-              Earth: 0.21,
-              Air: 0.27,
+            "breading",
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.06,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          "cutting"
-        ],
+            "cutting",
+          ],
           tools: [
             "deep pot",
             "wire rack",
@@ -1538,39 +1569,40 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.24,
             Water: 0.25,
             Earth: 0.41,
             Air: 0.11,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Chawanmushi",
           description: "Savory steamed egg custard with various ingredients",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          "straining",
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            "straining",
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "steamer",
             "fine-mesh strainer",
@@ -1587,7 +1619,11 @@ export const japanese: Cuisine = {
             "Garnish and serve",
           ],
           ingredients: [
-            { name: "eggs", amount: "3", unit: "large", category: "protein",
+            {
+              name: "eggs",
+              amount: "3",
+              unit: "large",
+              category: "protein",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.3,
@@ -1649,31 +1685,32 @@ export const japanese: Cuisine = {
             minerals: ["Selenium", "Iodine"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.14,
             Water: 0.44,
             Earth: 0.3,
             Air: 0.12,
-          },mealType: ["appetizer", "side dish"],
+          },
+          mealType: ["appetizer", "side dish"],
         },
         {
           name: "Yakitori",
           description: "Grilled chicken skewers with various seasonings",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          "skewering",
-          "basting"
-        ],
+            "skewering",
+            "basting",
+          ],
           tools: [
             "yakitori grill",
             "bamboo skewers",
@@ -1738,47 +1775,48 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.29,
             Water: 0.24,
             Earth: 0.32,
             Air: 0.15,
-          },mealType: ["dinner", "appetizer"],
+          },
+          mealType: ["dinner", "appetizer"],
         },
         {
           name: "Miso Ramen",
           description: "Hearty noodle soup with miso-based broth",
           cuisine: "Japanese (Hokkaido-style)",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "boiling",
-            elementalProperties: {
-              Fire: 0.24,
-              Water: 0.59,
-              Earth: 0.12,
-              Air: 0.06,
+            {
+              name: "boiling",
+              elementalProperties: {
+                Fire: 0.24,
+                Water: 0.59,
+                Earth: 0.12,
+                Air: 0.06,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "strainer",
@@ -1861,39 +1899,40 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["winter", "all"],
-          
+
           elementalProperties: {
             Fire: 0.07,
             Water: 0.37,
             Earth: 0.48,
             Air: 0.08,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Katsudon",
           description: "Breaded pork cutlet with egg over rice",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          "donburi-style"
-        ],
+            "donburi-style",
+          ],
           tools: [
             "deep pot",
             "donburi pan",
@@ -1963,47 +2002,48 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.21,
             Water: 0.32,
             Earth: 0.37,
             Air: 0.1,
-          },mealType: ["lunch", "dinner"],
+          },
+          mealType: ["lunch", "dinner"],
         },
         {
           name: "Gyoza",
           description: "Pan-fried dumplings with meat and vegetable filling",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "pan-frying",
-            elementalProperties: {
-              Fire: 0.42,
-              Water: 0.09,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "pan-frying",
+              elementalProperties: {
+                Fire: 0.42,
+                Water: 0.09,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          },
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "folding",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.18,
-              Earth: 0.18,
-              Air: 0.61,
+            {
+              name: "folding",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.18,
+                Earth: 0.18,
+                Air: 0.61,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "non-stick pan",
             "spatula",
@@ -2078,38 +2118,39 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.12,
             Water: 0.47,
             Earth: 0.31,
             Air: 0.09,
-          },mealType: ["appetizer", "side dish"],
+          },
+          mealType: ["appetizer", "side dish"],
         },
         {
           name: "Karaage",
           description: "Japanese-style fried chicken",
           cuisine: "Japanese",
           cookingMethods: [
-          {
-            name: "marinating",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.44,
-              Earth: 0.19,
-              Air: 0.25,
+            {
+              name: "marinating",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.44,
+                Earth: 0.19,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "deep-frying",
-            elementalProperties: {
-              Fire: 0.45,
-              Water: 0.06,
-              Earth: 0.21,
-              Air: 0.27,
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.06,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "deep pot",
             "wire rack",
@@ -2217,13 +2258,14 @@ export const japanese: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.32,
             Water: 0.24,
             Earth: 0.32,
             Air: 0.12,
-          },mealType: ["appetizer", "main dish"],
+          },
+          mealType: ["appetizer", "main dish"],
         },
       ],
     },

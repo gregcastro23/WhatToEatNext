@@ -5,10 +5,10 @@
  * planetary hours, and recipe characteristics.
  */
 
-import type { Recipe } from '@/types/recipe';
-import type { Planet } from '@/types/celestial';
+import type { Recipe } from "@/types/recipe";
+import type { Planet } from "@/types/celestial";
 
-export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+export type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
 interface MealTypeProfile {
   label: string;
@@ -21,33 +21,33 @@ interface MealTypeProfile {
 
 const MEAL_PROFILES: Record<MealType, MealTypeProfile> = {
   breakfast: {
-    label: 'Breakfast',
+    label: "Breakfast",
     hourRange: [5, 11],
-    favoredPlanets: ['Sun', 'Mercury'],
+    favoredPlanets: ["Sun", "Mercury"],
     elementBias: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     maxPrepTimeMinutes: 30,
     preferLight: true,
   },
   lunch: {
-    label: 'Lunch',
+    label: "Lunch",
     hourRange: [11, 15],
-    favoredPlanets: ['Sun', 'Mars', 'Jupiter'],
+    favoredPlanets: ["Sun", "Mars", "Jupiter"],
     elementBias: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     maxPrepTimeMinutes: 60,
     preferLight: false,
   },
   dinner: {
-    label: 'Dinner',
+    label: "Dinner",
     hourRange: [17, 22],
-    favoredPlanets: ['Moon', 'Venus', 'Jupiter'],
+    favoredPlanets: ["Moon", "Venus", "Jupiter"],
     elementBias: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
     maxPrepTimeMinutes: 120,
     preferLight: false,
   },
   snack: {
-    label: 'Snack',
+    label: "Snack",
     hourRange: [0, 24], // anytime
-    favoredPlanets: ['Mercury', 'Venus'],
+    favoredPlanets: ["Mercury", "Venus"],
     elementBias: { Fire: 0.2, Water: 0.2, Earth: 0.3, Air: 0.3 },
     maxPrepTimeMinutes: 15,
     preferLight: true,
@@ -69,11 +69,11 @@ export class MealTypeService {
    */
   getCurrentMealType(date?: Date): MealType {
     const hour = (date ?? new Date()).getHours();
-    if (hour >= 5 && hour < 11) return 'breakfast';
-    if (hour >= 11 && hour < 15) return 'lunch';
-    if (hour >= 15 && hour < 17) return 'snack';
-    if (hour >= 17 && hour < 22) return 'dinner';
-    return 'snack';
+    if (hour >= 5 && hour < 11) return "breakfast";
+    if (hour >= 11 && hour < 15) return "lunch";
+    if (hour >= 15 && hour < 17) return "snack";
+    if (hour >= 17 && hour < 22) return "dinner";
+    return "snack";
   }
 
   /**
@@ -109,27 +109,41 @@ export class MealTypeService {
       if (prepMinutes <= profile.maxPrepTimeMinutes) {
         score += 10;
       } else {
-        score -= Math.min(15, Math.floor((prepMinutes - profile.maxPrepTimeMinutes) / 10));
+        score -= Math.min(
+          15,
+          Math.floor((prepMinutes - profile.maxPrepTimeMinutes) / 10),
+        );
       }
     }
 
     // Light/heavy preference
     if (profile.preferLight) {
-      if (combined.includes('light') || combined.includes('quick') || combined.includes('simple')) {
+      if (
+        combined.includes("light") ||
+        combined.includes("quick") ||
+        combined.includes("simple")
+      ) {
         score += 10;
       }
-      if (combined.includes('heavy') || combined.includes('rich') || combined.includes('feast')) {
+      if (
+        combined.includes("heavy") ||
+        combined.includes("rich") ||
+        combined.includes("feast")
+      ) {
         score -= 10;
       }
     }
 
     // Elemental alignment
     if (recipe.elementalProperties) {
-      const total = recipe.elementalProperties.Fire + recipe.elementalProperties.Water +
-        recipe.elementalProperties.Earth + recipe.elementalProperties.Air;
+      const total =
+        recipe.elementalProperties.Fire +
+        recipe.elementalProperties.Water +
+        recipe.elementalProperties.Earth +
+        recipe.elementalProperties.Air;
       if (total > 0) {
         let alignment = 0;
-        for (const elem of ['Fire', 'Water', 'Earth', 'Air'] as const) {
+        for (const elem of ["Fire", "Water", "Earth", "Air"] as const) {
           const normalized = recipe.elementalProperties[elem] / total;
           alignment += 1 - Math.abs(normalized - profile.elementBias[elem]);
         }
@@ -157,12 +171,16 @@ export class MealTypeService {
 
   // --- Helpers ---
 
-  private normalizeMealTypes(mealType: string | string[] | undefined): MealType[] {
+  private normalizeMealTypes(
+    mealType: string | string[] | undefined,
+  ): MealType[] {
     if (!mealType) return [];
     const types = Array.isArray(mealType) ? mealType : [mealType];
     return types
       .map((t) => t.toLowerCase().trim())
-      .filter((t): t is MealType => ['breakfast', 'lunch', 'dinner', 'snack'].includes(t));
+      .filter((t): t is MealType =>
+        ["breakfast", "lunch", "dinner", "snack"].includes(t),
+      );
   }
 
   private parsePrepTime(recipe: Recipe): number | null {

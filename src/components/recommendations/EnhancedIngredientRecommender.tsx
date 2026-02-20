@@ -22,10 +22,10 @@ const ITEMS_PER_PAGE = 21;
  */
 function formatIngredientName(name: string): string {
   return name
-    .replace(/_/g, ' ')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+    .replace(/_/g, " ")
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 }
 
 /**
@@ -33,10 +33,10 @@ function formatIngredientName(name: string): string {
  */
 function getCurrentSeason(): string {
   const month = new Date().getMonth();
-  if (month >= 2 && month <= 4) return 'spring';
-  if (month >= 5 && month <= 7) return 'summer';
-  if (month >= 8 && month <= 10) return 'autumn';
-  return 'winter';
+  if (month >= 2 && month <= 4) return "spring";
+  if (month >= 5 && month <= 7) return "summer";
+  if (month >= 8 && month <= 10) return "autumn";
+  return "winter";
 }
 
 interface EnhancedIngredientRecommenderProps {
@@ -45,6 +45,7 @@ interface EnhancedIngredientRecommenderProps {
   isFullPageVersion?: boolean;
   onCategoryChange?: (category: string) => void;
   onIngredientSelect?: (ingredient: string) => void;
+  onDoubleClickIngredient?: (ingredientName: string, category?: string, elementalProperties?: Record<string, number>) => void;
 }
 
 // Category definitions mapped to ingredient categories
@@ -81,7 +82,11 @@ const CATEGORIES = [
  * Medium diff (0.5) → ~0.37
  * Large diff (1.0) → ~0.14
  */
-function exponentialCompatibility(value1: number, value2: number, sensitivity = 2.0): number {
+function exponentialCompatibility(
+  value1: number,
+  value2: number,
+  sensitivity = 2.0,
+): number {
   const diff = Math.abs(value1 - value2);
   return Math.exp(-sensitivity * diff);
 }
@@ -91,26 +96,32 @@ function exponentialCompatibility(value1: number, value2: number, sensitivity = 
  * Handles multiple data formats: string, string[], object with arrays, or undefined
  */
 function normalizeSeasonality(
-  seasonality: string | string[] | { peak?: string[]; available?: string[]; optimal?: string[] } | undefined
+  seasonality:
+    | string
+    | string[]
+    | { peak?: string[]; available?: string[]; optimal?: string[] }
+    | undefined,
 ): string[] {
   if (!seasonality) return [];
 
-  if (typeof seasonality === 'string') {
+  if (typeof seasonality === "string") {
     // Handle string: "all" or "summer" or "autumn, winter"
-    return seasonality.split(',').map(s => s.trim());
+    return seasonality.split(",").map((s) => s.trim());
   }
 
   if (Array.isArray(seasonality)) {
     // Handle array: ["winter", "summer"]
-    return seasonality.filter(s => typeof s === 'string');
+    return seasonality.filter((s) => typeof s === "string");
   }
 
-  if (typeof seasonality === 'object') {
+  if (typeof seasonality === "object") {
     // Handle object: { peak: ["summer"], available: ["spring", "summer"], optimal: [...] }
     const peak = seasonality.peak || [];
     const available = seasonality.available || [];
     const optimal = seasonality.optimal || [];
-    return [...peak, ...available, ...optimal].filter(s => typeof s === 'string');
+    return [...peak, ...available, ...optimal].filter(
+      (s) => typeof s === "string",
+    );
   }
 
   return [];
@@ -121,22 +132,26 @@ function normalizeSeasonality(
  * Handles multiple data formats: string, string[], object with arrays, or undefined
  */
 function isIngredientInSeason(
-  seasonality: string | string[] | { peak?: string[]; available?: string[]; optimal?: string[] } | undefined,
-  currentSeason: string
+  seasonality:
+    | string
+    | string[]
+    | { peak?: string[]; available?: string[]; optimal?: string[] }
+    | undefined,
+  currentSeason: string,
 ): boolean {
   const seasons = normalizeSeasonality(seasonality);
 
   if (seasons.length === 0) return false;
 
   const normalizedCurrent = currentSeason.toLowerCase();
-  return seasons.some(s => {
+  return seasons.some((s) => {
     const normalizedSeason = s.toLowerCase();
     return (
       normalizedSeason === normalizedCurrent ||
-      normalizedSeason === 'all' ||
-      normalizedSeason === 'year-round' ||
-      (normalizedSeason === 'autumn' && normalizedCurrent === 'fall') ||
-      (normalizedSeason === 'fall' && normalizedCurrent === 'autumn')
+      normalizedSeason === "all" ||
+      normalizedSeason === "year-round" ||
+      (normalizedSeason === "autumn" && normalizedCurrent === "fall") ||
+      (normalizedSeason === "fall" && normalizedCurrent === "autumn")
     );
   });
 }
@@ -159,43 +174,67 @@ interface ScoreBreakdown {
 function calculateCompatibilityScore(
   ingredientElementals: ElementalProperties,
   currentElementals: ElementalProperties,
-  seasonality?: string | string[] | { peak?: string[]; available?: string[]; optimal?: string[] },
+  seasonality?:
+    | string
+    | string[]
+    | { peak?: string[]; available?: string[]; optimal?: string[] },
 ): { score: number; breakdown: ScoreBreakdown } {
   // Calculate elemental compatibility using exponential decay for better spread
   const fireCompat = exponentialCompatibility(
     ingredientElementals.Fire || 0,
     currentElementals.Fire || 0,
-    2.5
+    2.5,
   );
   const waterCompat = exponentialCompatibility(
     ingredientElementals.Water || 0,
     currentElementals.Water || 0,
-    2.5
+    2.5,
   );
   const earthCompat = exponentialCompatibility(
     ingredientElementals.Earth || 0,
     currentElementals.Earth || 0,
-    2.5
+    2.5,
   );
   const airCompat = exponentialCompatibility(
     ingredientElementals.Air || 0,
     currentElementals.Air || 0,
-    2.5
+    2.5,
   );
 
-  const elementalScore = (fireCompat + waterCompat + earthCompat + airCompat) / 4;
+  const elementalScore =
+    (fireCompat + waterCompat + earthCompat + airCompat) / 4;
 
   // Calculate thermodynamic metrics for both ingredient and current state
-  const ingredientAlchemical = elementalToAlchemicalApproximation(ingredientElementals);
-  const currentAlchemical = elementalToAlchemicalApproximation(currentElementals);
+  const ingredientAlchemical =
+    elementalToAlchemicalApproximation(ingredientElementals);
+  const currentAlchemical =
+    elementalToAlchemicalApproximation(currentElementals);
 
-  const ingredientThermo = calculateThermodynamicMetrics(ingredientAlchemical, ingredientElementals);
-  const currentThermo = calculateThermodynamicMetrics(currentAlchemical, currentElementals);
+  const ingredientThermo = calculateThermodynamicMetrics(
+    ingredientAlchemical,
+    ingredientElementals,
+  );
+  const currentThermo = calculateThermodynamicMetrics(
+    currentAlchemical,
+    currentElementals,
+  );
 
   // Thermodynamic compatibility (heat, entropy, reactivity)
-  const heatCompat = exponentialCompatibility(ingredientThermo.heat, currentThermo.heat, 3.0);
-  const entropyCompat = exponentialCompatibility(ingredientThermo.entropy, currentThermo.entropy, 2.5);
-  const reactivityCompat = exponentialCompatibility(ingredientThermo.reactivity, currentThermo.reactivity, 2.0);
+  const heatCompat = exponentialCompatibility(
+    ingredientThermo.heat,
+    currentThermo.heat,
+    3.0,
+  );
+  const entropyCompat = exponentialCompatibility(
+    ingredientThermo.entropy,
+    currentThermo.entropy,
+    2.5,
+  );
+  const reactivityCompat = exponentialCompatibility(
+    ingredientThermo.reactivity,
+    currentThermo.reactivity,
+    2.0,
+  );
 
   // Kalchm ratio compatibility (logarithmic scale for better handling of large differences)
   const kalchmMin = Math.min(ingredientThermo.kalchm, currentThermo.kalchm);
@@ -203,48 +242,56 @@ function calculateCompatibilityScore(
   const kalchmRatio = kalchmMax > 0 ? kalchmMin / kalchmMax : 0.5;
 
   // Monica compatibility
-  const monicaCompat = exponentialCompatibility(ingredientThermo.monica, currentThermo.monica, 1.5);
+  const monicaCompat = exponentialCompatibility(
+    ingredientThermo.monica,
+    currentThermo.monica,
+    1.5,
+  );
 
   // Calculate kinetic properties for deeper differentiation
   const ingredientKinetics = calculateKineticProperties(
     ingredientAlchemical,
     ingredientElementals,
-    ingredientThermo
+    ingredientThermo,
   );
   const currentKinetics = calculateKineticProperties(
     currentAlchemical,
     currentElementals,
-    currentThermo
+    currentThermo,
   );
 
   // Kinetic compatibility (power matching)
-  const powerCompat = exponentialCompatibility(ingredientKinetics.power, currentKinetics.power, 2.0);
+  const powerCompat = exponentialCompatibility(
+    ingredientKinetics.power,
+    currentKinetics.power,
+    2.0,
+  );
   const forceCompat = exponentialCompatibility(
     ingredientKinetics.forceMagnitude,
     currentKinetics.forceMagnitude,
-    1.0
+    1.0,
   );
 
   // Weighted composite score
-  const thermoScore = (
+  const thermoScore =
     heatCompat * 0.25 +
-    entropyCompat * 0.20 +
-    reactivityCompat * 0.20 +
+    entropyCompat * 0.2 +
+    reactivityCompat * 0.2 +
     kalchmRatio * 0.15 +
-    monicaCompat * 0.20
-  );
+    monicaCompat * 0.2;
 
-  const kineticScore = (powerCompat * 0.6 + forceCompat * 0.4);
+  const kineticScore = powerCompat * 0.6 + forceCompat * 0.4;
 
   // Final score: Blend elemental, thermodynamic, and kinetic
   // Using geometric mean for better differentiation (penalizes imbalanced scores)
   const geometricMean = Math.pow(
     elementalScore * thermoScore * kineticScore,
-    1 / 3
+    1 / 3,
   );
 
   // Blend geometric mean with weighted average for final score
-  const weightedScore = elementalScore * 0.35 + thermoScore * 0.40 + kineticScore * 0.25;
+  const weightedScore =
+    elementalScore * 0.35 + thermoScore * 0.4 + kineticScore * 0.25;
   let finalScore = geometricMean * 0.5 + weightedScore * 0.5;
 
   // Seasonal boosting - ingredients in season get a boost
@@ -290,6 +337,7 @@ export const EnhancedIngredientRecommender: React.FC<
   isFullPageVersion = false,
   onCategoryChange,
   onIngredientSelect,
+  onDoubleClickIngredient,
 }) => {
   // State
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -302,7 +350,9 @@ export const EnhancedIngredientRecommender: React.FC<
   const [ingredients, setIngredients] = useState<UnifiedIngredient[]>([]);
   const [loading, setLoading] = useState(true);
   // Track which categories are expanded to show all items
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set(),
+  );
 
   // Hooks
   const alchemicalContext = useAlchemical();
@@ -369,7 +419,16 @@ export const EnhancedIngredientRecommender: React.FC<
               currentElementals,
               seasonData,
             )
-          : { score: 0.5, breakdown: { elemental: 0.5, thermodynamic: 0.5, kinetic: 0.5, seasonal: 0.5, final: 0.5 } };
+          : {
+              score: 0.5,
+              breakdown: {
+                elemental: 0.5,
+                thermodynamic: 0.5,
+                kinetic: 0.5,
+                seasonal: 0.5,
+                final: 0.5,
+              },
+            };
 
         return {
           ...ing,
@@ -389,7 +448,7 @@ export const EnhancedIngredientRecommender: React.FC<
     setSelectedCategory(categoryId);
     setSelectedIngredient(null);
     // Reset expanded state for this category when selecting
-    setExpandedCategories(prev => {
+    setExpandedCategories((prev) => {
       const next = new Set(prev);
       next.delete(categoryId);
       return next;
@@ -405,7 +464,7 @@ export const EnhancedIngredientRecommender: React.FC<
   };
 
   const handleToggleExpand = (categoryId: string) => {
-    setExpandedCategories(prev => {
+    setExpandedCategories((prev) => {
       const next = new Set(prev);
       if (next.has(categoryId)) {
         next.delete(categoryId);
@@ -440,9 +499,10 @@ export const EnhancedIngredientRecommender: React.FC<
   }, [scoredIngredients, currentCategoryExpanded, searchQuery]);
 
   // Count of remaining items not shown (works for both category and "all" views)
-  const remainingCount = !currentCategoryExpanded && !searchQuery
-    ? Math.max(0, scoredIngredients.length - ITEMS_PER_PAGE)
-    : 0;
+  const remainingCount =
+    !currentCategoryExpanded && !searchQuery
+      ? Math.max(0, scoredIngredients.length - ITEMS_PER_PAGE)
+      : 0;
 
   // Render category grid
   const renderCategoryGrid = () => (
@@ -533,20 +593,28 @@ export const EnhancedIngredientRecommender: React.FC<
       <div className="grid grid-cols-2 gap-2">
         <div className="flex justify-between">
           <span className="text-gray-600">Elemental:</span>
-          <span className="font-medium">{Math.round(breakdown.elemental * 100)}%</span>
+          <span className="font-medium">
+            {Math.round(breakdown.elemental * 100)}%
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Thermodynamic:</span>
-          <span className="font-medium">{Math.round(breakdown.thermodynamic * 100)}%</span>
+          <span className="font-medium">
+            {Math.round(breakdown.thermodynamic * 100)}%
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Kinetic:</span>
-          <span className="font-medium">{Math.round(breakdown.kinetic * 100)}%</span>
+          <span className="font-medium">
+            {Math.round(breakdown.kinetic * 100)}%
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Seasonal:</span>
-          <span className={`font-medium ${breakdown.seasonal === 1.0 ? 'text-green-600' : ''}`}>
-            {breakdown.seasonal === 1.0 ? 'In Season!' : 'Off Season'}
+          <span
+            className={`font-medium ${breakdown.seasonal === 1.0 ? "text-green-600" : ""}`}
+          >
+            {breakdown.seasonal === 1.0 ? "In Season!" : "Off Season"}
           </span>
         </div>
       </div>
@@ -555,6 +623,7 @@ export const EnhancedIngredientRecommender: React.FC<
 
   // Render ingredient card
   const renderIngredientCard = (ingredient: (typeof scoredIngredients)[0]) => {
+    if (!ingredient) return null; // Defensive check
     const isSelected = selectedIngredient === ingredient.name;
     const displayName = formatIngredientName(ingredient.name);
 
@@ -562,6 +631,15 @@ export const EnhancedIngredientRecommender: React.FC<
       <div
         key={ingredient.name}
         onClick={() => handleIngredientSelect(ingredient.name)}
+        onDoubleClick={() => {
+          if (onDoubleClickIngredient) {
+            onDoubleClickIngredient(
+              ingredient.name,
+              ingredient.category as string | undefined,
+              ingredient.elementalProperties as Record<string, number> | undefined,
+            );
+          }
+        }}
         className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
           isSelected
             ? "border-indigo-500 bg-indigo-50 shadow-lg"
@@ -603,39 +681,49 @@ export const EnhancedIngredientRecommender: React.FC<
               {Math.round(ingredient.compatibilityScore * 100)}%
             </div>
             <div className="flex items-center gap-1 text-xs text-gray-500">
-              <span className={`inline-block h-2 w-2 rounded-full ${
-                ingredient.dominantElement === 'Fire' ? 'bg-red-500' :
-                ingredient.dominantElement === 'Water' ? 'bg-blue-500' :
-                ingredient.dominantElement === 'Earth' ? 'bg-green-500' :
-                ingredient.dominantElement === 'Air' ? 'bg-sky-500' : 'bg-gray-400'
-              }`} />
+              <span
+                className={`inline-block h-2 w-2 rounded-full ${
+                  ingredient.dominantElement === "Fire"
+                    ? "bg-red-500"
+                    : ingredient.dominantElement === "Water"
+                      ? "bg-blue-500"
+                      : ingredient.dominantElement === "Earth"
+                        ? "bg-green-500"
+                        : ingredient.dominantElement === "Air"
+                          ? "bg-sky-500"
+                          : "bg-gray-400"
+                }`}
+              />
               {ingredient.dominantElement}
             </div>
           </div>
         </div>
 
         {/* Qualities badges */}
-        {ingredient.qualities && ingredient.qualities.length > 0 && (
-          <div className="mb-3 flex flex-wrap gap-1">
-            {ingredient.qualities.slice(0, 4).map((quality, idx) => (
-              <span
-                key={idx}
-                className="rounded-md bg-green-100 px-2 py-1 text-xs text-green-700"
-              >
-                {quality}
-              </span>
-            ))}
-            {ingredient.qualities.length > 4 && (
-              <span className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600">
-                +{ingredient.qualities.length - 4} more
-              </span>
-            )}
-          </div>
-        )}
+        {ingredient.qualities &&
+          Array.isArray(ingredient.qualities) &&
+          ingredient.qualities.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-1">
+              {ingredient.qualities.slice(0, 4).map((quality, idx) => (
+                <span
+                  key={idx}
+                  className="rounded-md bg-green-100 px-2 py-1 text-xs text-green-700"
+                >
+                  {quality}
+                </span>
+              ))}
+              {ingredient.qualities.length > 4 && (
+                <span className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                  +{ingredient.qualities.length - 4} more
+                </span>
+              )}
+            </div>
+          )}
 
         {/* Seasonality */}
         {(() => {
-          const seasonData = ingredient.seasonality || (ingredient as any).season;
+          const seasonData =
+            ingredient.seasonality || (ingredient as any).season;
           const normalizedSeasons = normalizeSeasonality(seasonData);
           if (normalizedSeasons.length === 0) return null;
           return (
@@ -652,7 +740,8 @@ export const EnhancedIngredientRecommender: React.FC<
         {isSelected && (
           <div className="mt-4 space-y-4 border-t border-gray-200 pt-4">
             {/* Score Breakdown */}
-            {ingredient.scoreBreakdown && renderScoreBreakdown(ingredient.scoreBreakdown)}
+            {ingredient.scoreBreakdown &&
+              renderScoreBreakdown(ingredient.scoreBreakdown)}
 
             {/* Origin */}
             {ingredient.origin && ingredient.origin.length > 0 && (
@@ -667,83 +756,103 @@ export const EnhancedIngredientRecommender: React.FC<
             )}
 
             {/* Sensory Profile */}
-            {(ingredient as any).sensoryProfile && (
-              <div>
-                <div className="mb-2 text-sm font-semibold text-gray-800">
-                  Sensory Profile
-                </div>
-                <div className="space-y-2 text-sm">
-                  {/* Taste */}
-                  {(ingredient as any).sensoryProfile.taste && (
-                    <div>
-                      <span className="font-medium text-gray-700">Taste: </span>
-                      <div className="mt-1 flex flex-wrap gap-1">
-                        {Object.entries(
-                          (ingredient as any).sensoryProfile.taste,
-                        )
-                          .filter(([, value]) => (value as number) > 0)
-                          .sort(([, a], [, b]) => (b as number) - (a as number))
-                          .map(([taste, value]) => (
-                            <span
-                              key={taste}
-                              className="rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700"
-                            >
-                              {taste} ({Math.round((value as number) * 10)}/10)
-                            </span>
-                          ))}
-                      </div>
-                    </div>
-                  )}
+            {(ingredient as any).sensoryProfile &&
+              typeof (ingredient as any).sensoryProfile === "object" && (
+                <div>
+                  <div className="mb-2 text-sm font-semibold text-gray-800">
+                    Sensory Profile
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    {/* Taste */}
+                    {(ingredient as any).sensoryProfile.taste &&
+                      typeof (ingredient as any).sensoryProfile.taste ===
+                        "object" && (
+                        <div>
+                          <span className="font-medium text-gray-700">
+                            Taste:{" "}
+                          </span>
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {Object.entries(
+                              (ingredient as any).sensoryProfile.taste,
+                            )
+                              .filter(([, value]) => (value as number) > 0)
+                              .sort(
+                                ([, a], [, b]) => (b as number) - (a as number),
+                              )
+                              .map(([taste, value]) => (
+                                <span
+                                  key={taste}
+                                  className="rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700"
+                                >
+                                  {taste} ({Math.round((value as number) * 10)}
+                                  /10)
+                                </span>
+                              ))}
+                          </div>
+                        </div>
+                      )}
 
-                  {/* Aroma */}
-                  {(ingredient as any).sensoryProfile.aroma && (
-                    <div>
-                      <span className="font-medium text-gray-700">Aroma: </span>
-                      <div className="mt-1 flex flex-wrap gap-1">
-                        {Object.entries(
-                          (ingredient as any).sensoryProfile.aroma,
-                        )
-                          .filter(([, value]) => (value as number) > 0)
-                          .sort(([, a], [, b]) => (b as number) - (a as number))
-                          .map(([aroma, value]) => (
-                            <span
-                              key={aroma}
-                              className="rounded-md bg-pink-100 px-2 py-1 text-xs text-pink-700"
-                            >
-                              {aroma} ({Math.round((value as number) * 10)}/10)
-                            </span>
-                          ))}
-                      </div>
-                    </div>
-                  )}
+                    {/* Aroma */}
+                    {(ingredient as any).sensoryProfile.aroma &&
+                      typeof (ingredient as any).sensoryProfile.aroma ===
+                        "object" && (
+                        <div>
+                          <span className="font-medium text-gray-700">
+                            Aroma:{" "}
+                          </span>
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {Object.entries(
+                              (ingredient as any).sensoryProfile.aroma,
+                            )
+                              .filter(([, value]) => (value as number) > 0)
+                              .sort(
+                                ([, a], [, b]) => (b as number) - (a as number),
+                              )
+                              .map(([aroma, value]) => (
+                                <span
+                                  key={aroma}
+                                  className="rounded-md bg-pink-100 px-2 py-1 text-xs text-pink-700"
+                                >
+                                  {aroma} ({Math.round((value as number) * 10)}
+                                  /10)
+                                </span>
+                              ))}
+                          </div>
+                        </div>
+                      )}
 
-                  {/* Texture */}
-                  {(ingredient as any).sensoryProfile.texture && (
-                    <div>
-                      <span className="font-medium text-gray-700">
-                        Texture:{" "}
-                      </span>
-                      <div className="mt-1 flex flex-wrap gap-1">
-                        {Object.entries(
-                          (ingredient as any).sensoryProfile.texture,
-                        )
-                          .filter(([, value]) => (value as number) > 0)
-                          .sort(([, a], [, b]) => (b as number) - (a as number))
-                          .map(([texture, value]) => (
-                            <span
-                              key={texture}
-                              className="rounded-md bg-orange-100 px-2 py-1 text-xs text-orange-700"
-                            >
-                              {texture} ({Math.round((value as number) * 10)}
-                              /10)
-                            </span>
-                          ))}
-                      </div>
-                    </div>
-                  )}
+                    {/* Texture */}
+                    {(ingredient as any).sensoryProfile.texture &&
+                      typeof (ingredient as any).sensoryProfile.texture ===
+                        "object" && (
+                        <div>
+                          <span className="font-medium text-gray-700">
+                            Texture:{" "}
+                          </span>
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {Object.entries(
+                              (ingredient as any).sensoryProfile.texture,
+                            )
+                              .filter(([, value]) => (value as number) > 0)
+                              .sort(
+                                ([, a], [, b]) => (b as number) - (a as number),
+                              )
+                              .map(([texture, value]) => (
+                                <span
+                                  key={texture}
+                                  className="rounded-md bg-orange-100 px-2 py-1 text-xs text-orange-700"
+                                >
+                                  {texture} (
+                                  {Math.round((value as number) * 10)}
+                                  /10)
+                                </span>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Astrological Profile */}
             {ingredient.astrologicalProfile && (
@@ -752,48 +861,58 @@ export const EnhancedIngredientRecommender: React.FC<
                   Astrological Profile
                 </div>
                 <div className="space-y-1 text-sm">
-                  {ingredient.astrologicalProfile.rulingPlanets && (
-                    <div>
-                      <span className="font-medium text-gray-700">
-                        Ruling Planets:{" "}
-                      </span>
-                      <span className="text-gray-600">
-                        {ingredient.astrologicalProfile.rulingPlanets.join(
-                          ", ",
-                        )}
-                      </span>
-                    </div>
-                  )}
-                  {ingredient.astrologicalProfile.favorableZodiac && (
-                    <div>
-                      <span className="font-medium text-gray-700">
-                        Favorable Signs:{" "}
-                      </span>
-                      <span className="text-gray-600 capitalize">
-                        {ingredient.astrologicalProfile.favorableZodiac.join(
-                          ", ",
-                        )}
-                      </span>
-                    </div>
-                  )}
-                  {(ingredient.astrologicalProfile as any).seasonalAffinity && (
-                    <div>
-                      <span className="font-medium text-gray-700">
-                        Seasonal Affinity:{" "}
-                      </span>
-                      <span className="text-gray-600 capitalize">
-                        {(
-                          ingredient.astrologicalProfile as any
-                        ).seasonalAffinity.join(", ")}
-                      </span>
-                    </div>
-                  )}
+                  {ingredient.astrologicalProfile.rulingPlanets &&
+                    Array.isArray(
+                      ingredient.astrologicalProfile.rulingPlanets,
+                    ) && (
+                      <div>
+                        <span className="font-medium text-gray-700">
+                          Ruling Planets:{" "}
+                        </span>
+                        <span className="text-gray-600">
+                          {ingredient.astrologicalProfile.rulingPlanets.join(
+                            ", ",
+                          )}
+                        </span>
+                      </div>
+                    )}
+                  {ingredient.astrologicalProfile.favorableZodiac &&
+                    Array.isArray(
+                      ingredient.astrologicalProfile.favorableZodiac,
+                    ) && (
+                      <div>
+                        <span className="font-medium text-gray-700">
+                          Favorable Signs:{" "}
+                        </span>
+                        <span className="text-gray-600 capitalize">
+                          {ingredient.astrologicalProfile.favorableZodiac.join(
+                            ", ",
+                          )}
+                        </span>
+                      </div>
+                    )}
+                  {(ingredient.astrologicalProfile as any).seasonalAffinity &&
+                    Array.isArray(
+                      (ingredient.astrologicalProfile as any).seasonalAffinity,
+                    ) && (
+                      <div>
+                        <span className="font-medium text-gray-700">
+                          Seasonal Affinity:{" "}
+                        </span>
+                        <span className="text-gray-600 capitalize">
+                          {(
+                            ingredient.astrologicalProfile as any
+                          ).seasonalAffinity.join(", ")}
+                        </span>
+                      </div>
+                    )}
                 </div>
               </div>
             )}
 
             {/* Recommended Cooking Methods */}
             {(ingredient as any).recommendedCookingMethods &&
+              Array.isArray((ingredient as any).recommendedCookingMethods) &&
               (ingredient as any).recommendedCookingMethods.length > 0 && (
                 <div>
                   <div className="mb-1 text-sm font-semibold text-gray-800">
@@ -815,50 +934,63 @@ export const EnhancedIngredientRecommender: React.FC<
               )}
 
             {/* Pairing Recommendations */}
-            {ingredient.pairingRecommendations && (
-              <div>
-                <div className="mb-2 text-sm font-semibold text-gray-800">
-                  Pairings
+            {ingredient.pairingRecommendations &&
+              typeof ingredient.pairingRecommendations === "object" && (
+                <div>
+                  <div className="mb-2 text-sm font-semibold text-gray-800">
+                    Pairings
+                  </div>
+                  <div className="space-y-1 text-sm">
+                    {(ingredient.pairingRecommendations as any)
+                      ?.complementary &&
+                      Array.isArray(
+                        (ingredient.pairingRecommendations as any)
+                          ?.complementary,
+                      ) && (
+                        <div>
+                          <span className="font-medium text-green-700">
+                            Complementary:{" "}
+                          </span>
+                          <span className="text-gray-600">
+                            {(
+                              ingredient.pairingRecommendations as any
+                            ).complementary.join(", ")}
+                          </span>
+                        </div>
+                      )}
+                    {(ingredient.pairingRecommendations as any)?.contrasting &&
+                      Array.isArray(
+                        (ingredient.pairingRecommendations as any)?.contrasting,
+                      ) && (
+                        <div>
+                          <span className="font-medium text-orange-700">
+                            Contrasting:{" "}
+                          </span>
+                          <span className="text-gray-600">
+                            {(
+                              ingredient.pairingRecommendations as any
+                            ).contrasting.join(", ")}
+                          </span>
+                        </div>
+                      )}
+                    {(ingredient.pairingRecommendations as any)?.toAvoid &&
+                      Array.isArray(
+                        (ingredient.pairingRecommendations as any)?.toAvoid,
+                      ) && (
+                        <div>
+                          <span className="font-medium text-red-700">
+                            Avoid:{" "}
+                          </span>
+                          <span className="text-gray-600">
+                            {(
+                              ingredient.pairingRecommendations as any
+                            ).toAvoid.join(", ")}
+                          </span>
+                        </div>
+                      )}
+                  </div>
                 </div>
-                <div className="space-y-1 text-sm">
-                  {(ingredient.pairingRecommendations as any)
-                    ?.complementary && (
-                    <div>
-                      <span className="font-medium text-green-700">
-                        Complementary:{" "}
-                      </span>
-                      <span className="text-gray-600">
-                        {(
-                          ingredient.pairingRecommendations as any
-                        ).complementary.join(", ")}
-                      </span>
-                    </div>
-                  )}
-                  {(ingredient.pairingRecommendations as any)?.contrasting && (
-                    <div>
-                      <span className="font-medium text-orange-700">
-                        Contrasting:{" "}
-                      </span>
-                      <span className="text-gray-600">
-                        {(
-                          ingredient.pairingRecommendations as any
-                        ).contrasting.join(", ")}
-                      </span>
-                    </div>
-                  )}
-                  {(ingredient.pairingRecommendations as any)?.toAvoid && (
-                    <div>
-                      <span className="font-medium text-red-700">Avoid: </span>
-                      <span className="text-gray-600">
-                        {(
-                          ingredient.pairingRecommendations as any
-                        ).toAvoid.join(", ")}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+              )}
 
             {/* Elemental Properties */}
             {ingredient.elementalProperties && (
@@ -972,7 +1104,9 @@ export const EnhancedIngredientRecommender: React.FC<
       {scoredIngredients.length > ITEMS_PER_PAGE && !searchQuery && (
         <div className="mt-6 flex justify-center">
           <button
-            onClick={() => handleToggleExpand(selectedCategory || ALL_INGREDIENTS_KEY)}
+            onClick={() =>
+              handleToggleExpand(selectedCategory || ALL_INGREDIENTS_KEY)
+            }
             className="group flex items-center gap-2 rounded-lg border-2 border-indigo-200 bg-white px-6 py-3 text-indigo-700 transition-all hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md"
           >
             {currentCategoryExpanded ? (
@@ -1008,7 +1142,8 @@ export const EnhancedIngredientRecommender: React.FC<
                   />
                 </svg>
                 <span className="font-medium">
-                  Show {remainingCount} More Ingredient{remainingCount !== 1 ? "s" : ""}
+                  Show {remainingCount} More Ingredient
+                  {remainingCount !== 1 ? "s" : ""}
                 </span>
               </>
             )}

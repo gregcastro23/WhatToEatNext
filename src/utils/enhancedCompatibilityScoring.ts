@@ -61,7 +61,11 @@ export interface EnhancedCompatibilityResult {
  * Medium diff (0.5) → ~0.6
  * Large diff (1.0) → ~0.37
  */
-function exponentialCompatibility(value1: number, value2: number, sensitivity = 2.0): number {
+function exponentialCompatibility(
+  value1: number,
+  value2: number,
+  sensitivity = 2.0,
+): number {
   const diff = Math.abs(value1 - value2);
   // e^(-sensitivity * diff) creates exponential decay
   return Math.exp(-sensitivity * diff);
@@ -76,7 +80,11 @@ function exponentialCompatibility(value1: number, value2: number, sensitivity = 
  * diff=0.5 → ~0.38
  * diff=1.0 → ~0.12
  */
-function sigmoidCompatibility(value1: number, value2: number, steepness = 5.0): number {
+function sigmoidCompatibility(
+  value1: number,
+  value2: number,
+  steepness = 5.0,
+): number {
   const diff = Math.abs(value1 - value2);
   // 1 / (1 + e^(steepness * (diff - 0.5)))
   // Shifted sigmoid centered at diff=0
@@ -143,14 +151,16 @@ export function calculateThermodynamicCompatibility(
   );
 
   // Kalchm compatibility - logarithmic (can vary widely)
-  const kalchmCompatibility = userState.kalchm && itemState.kalchm
-    ? logarithmicCompatibility(userState.kalchm, itemState.kalchm)
-    : 0.5;
+  const kalchmCompatibility =
+    userState.kalchm && itemState.kalchm
+      ? logarithmicCompatibility(userState.kalchm, itemState.kalchm)
+      : 0.5;
 
   // Monica compatibility - exponential
-  const monicaCompatibility = userState.monica && itemState.monica
-    ? exponentialCompatibility(userState.monica, itemState.monica, 2.0)
-    : 0.5;
+  const monicaCompatibility =
+    userState.monica && itemState.monica
+      ? exponentialCompatibility(userState.monica, itemState.monica, 2.0)
+      : 0.5;
 
   // Weighted overall compatibility
   const overall =
@@ -217,7 +227,8 @@ export function calculateKineticCompatibility(
 
   // Circuit compatibility (combined I and V)
   // Using P=IV relationship: items with similar power dynamics
-  const circuitCompatibility = (currentCompatibility + voltageCompatibility) / 2;
+  const circuitCompatibility =
+    (currentCompatibility + voltageCompatibility) / 2;
 
   // Charge compatibility
   const chargeCompatibility = exponentialCompatibility(
@@ -234,7 +245,8 @@ export function calculateKineticCompatibility(
       const itemMom = itemKinetics.momentum![element] || 0;
       return exponentialCompatibility(userMom, itemMom, 1.5);
     });
-    momentumCompatibility = momentumScores.reduce((a, b) => a + b, 0) / momentumScores.length;
+    momentumCompatibility =
+      momentumScores.reduce((a, b) => a + b, 0) / momentumScores.length;
   }
 
   // Overall kinetic compatibility
@@ -337,9 +349,9 @@ export function calculateEnhancedCompatibility(
   // Composite score with strategic weights
   // Emphasizes thermodynamic and kinetic properties more than before
   const compositeScore =
-    thermoCompat.overall * 0.35 +      // Thermodynamic state (highest weight)
-    kineticCompat.overall * 0.3 +      // Kinetic properties
-    elementalCompat * 0.35;             // Elemental alignment
+    thermoCompat.overall * 0.35 + // Thermodynamic state (highest weight)
+    kineticCompat.overall * 0.3 + // Kinetic properties
+    elementalCompat * 0.35; // Elemental alignment
 
   // Overall score uses geometric mean for better differentiation
   // Geometric mean penalizes imbalanced scores more than arithmetic mean

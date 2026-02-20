@@ -17,11 +17,10 @@ import type {
   CookingMethod,
   ElementalProperties,
   LunarPhase,
-  Recipe,
-  RecipeIngredient,
   Season,
   ThermodynamicProperties,
 } from "@/types/alchemy";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import type { KineticMetrics } from "@/types/kinetics";
 
 // ========== TIER 1: INGREDIENT LEVEL ==========

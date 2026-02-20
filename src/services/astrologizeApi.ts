@@ -5,19 +5,27 @@ import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 // Use local API endpoint instead of external
 // On server-side, we need an absolute URL since relative URLs don't work in Node.js
-const getAstrologizeApiUrl = () => {
-  // Check if running on server
+const getBackendBaseUrl = () => {
   if (typeof window === "undefined") {
-    // Server-side: use absolute URL with configured base
-    // Priority: NEXT_PUBLIC_BASE_URL > VERCEL_URL > localhost
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL ||
+    // Server-side: use absolute URL from environment variables
+    return (
+      process.env.NEXT_PUBLIC_BACKEND_URL ||
       (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
-      "http://localhost:3000";
-    return `${baseUrl}/api/astrologize`;
+      "http://localhost:8001"
+    ); // Fallback to local Docker port
   }
-  // Client-side: use relative URL
-  return "/api/astrologize";
+  // Client-side: use relative URL if backend is proxied, or absolute if explicitly set
+  return process.env.NEXT_PUBLIC_BACKEND_URL || "";
+};
+
+const getAstrologizeApiUrl = () => {
+  const baseUrl = getBackendBaseUrl();
+  return `${baseUrl}/api/planetary/positions`; // Existing endpoint for planetary positions
+};
+
+const getRecipeRecommendationsApiUrl = () => {
+  const baseUrl = getBackendBaseUrl();
+  return `${baseUrl}/api/astrological/recipe-recommendations-by-chart`; // New endpoint
 };
 
 // Interface for the local API request
@@ -387,68 +395,48 @@ export async function testAstrologizeApi(): Promise<boolean> {
 }
 
 /**
- * Get the URL for the recipe recommendations API
- * Direct connection to Mac Mini backend
+ * Fetch astrological recipe recommendations based on birth data.
  */
-export const getRecipeRecommendationsApiUrl = () => {
-  return "http://192.168.0.129:8001/api/astrological/recipe-recommendations-by-chart";
-};
+export async function fetchAstrologicalRecipes(birthData: {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  latitude: number;
+  longitude: number;
+}): Promise<any> {
+  // TODO: Define a proper interface for recipe recommendations
+  return astrologizeApiCircuitBreaker.call(async () => {
+    log.info("Fetching astrological recipe recommendations with: ", birthData);
 
-/**
- * Interface for planetary positions request
- * Strictly typed for Swisseph calculations
- */
-export interface PlanetaryPositionsRequest {
-  year?: number;
-  month?: number;
-  day?: number;
-  hour?: number;
-  minute?: number;
-  latitude: number; // Required float
-  longitude: number; // Required float
-  zodiacSystem?: "tropical" | "sidereal";
+    const response = await fetch(getRecipeRecommendationsApiUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(birthData),
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Recipe recommendations API request failed: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+    log.info("Successfully fetched astrological recipe recommendations.");
+    return data;
+  });
 }
 
 /**
- * Fetch astrological recipes using the circuit breaker
+ * Get current chart data (alias for getCurrentPlanetaryPositions)
  */
-export async function fetchAstrologicalRecipes(
-  criteria: PlanetaryPositionsRequest,
-): Promise<any> {
-  return astrologizeApiCircuitBreaker.call(
-    async () => {
-      const url = getRecipeRecommendationsApiUrl();
-
-      log.info("Fetching astrological recipes from:", url);
-      log.info("Criteria:", criteria);
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(criteria),
-        // 10 second timeout for heavy Swiss Ephemeris calculations
-        signal: AbortSignal.timeout(10000),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Recipe API request failed: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const data = await response.json();
-      return data;
-    },
-    () => {
-      // Fallback if circuit breaker is open or request fails
-      log.warn("Using fallback recipe recommendations due to API failure");
-      return {
-        recommendations: [],
-        error: "Service temporarily unavailable. Please try again later.",
-        fallback: true,
-      };
-    },
-  );
+export async function getCurrentChart(
+  location?: { latitude: number; longitude: number },
+  zodiacSystem: "tropical" | "sidereal" = "tropical",
+): Promise<Record<string, PlanetPosition>> {
+  return await getCurrentPlanetaryPositions(location, zodiacSystem);
 }

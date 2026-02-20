@@ -54,6 +54,28 @@ const rawBuckwheat = {
       contrasting: ["light fruits", "yogurt", "honey"],
       toAvoid: ["subtle flavors that would be overpowered"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (168g)",
+      calories: 155,
+      macros: {
+        protein: 5.7,
+        carbs: 34,
+        fat: 1,
+        fiber: 4.5,
+        saturatedFat: 0.2,
+        sugar: 1.5,
+        potassium: 148,
+        sodium: 7,
+      },
+      vitamins: { niacin: 0.08, B6: 0.07 },
+      minerals: {
+        manganese: 0.34,
+        magnesium: 0.21,
+        phosphorus: 0.09,
+        copper: 0.13,
+        iron: 0.07,
+      },
+    },
   },
 };
 

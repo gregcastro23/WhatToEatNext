@@ -4,7 +4,7 @@ import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 import type { CelestialPosition } from "@/types/celestial";
 import type { PlanetaryAlignment } from "@/types/common";
-import { ZodiacSign } from "@/types/common";
+import { ZodiacSignType } from "@/types/common";
 import { longitudeToZodiacPosition } from "@/utils/astrologyUtils";
 import { logger } from "@/utils/logger";
 

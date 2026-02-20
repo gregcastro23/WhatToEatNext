@@ -15,7 +15,7 @@ import type {
   LunarPhase,
   Season,
   StandardizedAlchemicalResult,
-  ZodiacSign,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type { CookingMethod } from "@/types/cooking";
 
@@ -30,7 +30,7 @@ export type {
   LunarPhase,
   Season,
   StandardizedAlchemicalResult,
-  ZodiacSign,
+  ZodiacSignType,
 };
 
 // Ingredient types - Unified interface consolidating all ingredient definitions
@@ -80,7 +80,7 @@ export interface Ingredient {
   };
 
   // Astrological properties
-  zodiacInfluences?: any[];
+  zodiacInfluences?: ZodiacSignType[];
   planetaryInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
 
@@ -113,7 +113,7 @@ export interface IngredientMapping {
 // Astrological profile types
 export interface AstrologicalProfile {
   rulingPlanet?: string;
-  zodiacAffinity?: any[];
+  zodiacAffinity?: ZodiacSignType[];
   elementalAlignment: ElementalProperties;
   planetaryCorrespondences?: Record<string, number>;
   seasonalPreferences?: SeasonalPreferences;
@@ -141,7 +141,7 @@ export interface NutritionalData {
 
 // Planet position types (unified)
 export interface PlanetPosition {
-  sign: any;
+  sign: ZodiacSignType;
   degree: number;
   minute?: number;
   _exactLongitude: number;
@@ -150,7 +150,7 @@ export interface PlanetPosition {
 }
 
 export interface PlanetaryPosition {
-  sign: any;
+  sign: ZodiacSignType;
   degree: number;
   minute: number;
   isRetrograde: boolean;
@@ -215,7 +215,7 @@ export interface ThermodynamicProperties {
 }
 
 export interface AstrologicalInfluences {
-  favorableZodiac?: any[];
+  favorableZodiac?: ZodiacSignType[];
   favorablePlanets?: string[];
   lunarPhasePreference?: string[];
   seasonalAlignment?: SeasonalPreferences;
@@ -282,7 +282,7 @@ export interface RecipeIngredient {
   timing?: "early" | "middle" | "late";
   // Elemental and astrological properties
   elementalProperties?: ElementalProperties;
-  zodiacInfluences?: any[];
+  zodiacInfluences?: ZodiacSignType[];
   planetaryInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
 
@@ -296,10 +296,10 @@ export interface RecipeIngredient {
 
 export interface AstrologicalTiming {
   optimalLunarPhase?: string[];
-  favorableZodiac?: any[];
+  favorableZodiac?: ZodiacSignType[];
   seasonalPreference?: string[];
   planetaryHours?: string[];
-  zodiacCompatibility?: Record<ZodiacSign, number>;
+  zodiacCompatibility?: Record<ZodiacSignType, number>;
   lunarPhaseCompatibility?: Record<string, number>;
 }
 

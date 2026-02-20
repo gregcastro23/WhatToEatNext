@@ -241,7 +241,9 @@ export function usePlanetaryKinetics(
     const entries = Object.entries(totals);
     if (entries.length === 0) return "Earth";
 
-    return entries.sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))[0]?.[0] ?? "Earth";
+    return (
+      entries.sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))[0]?.[0] ?? "Earth"
+    );
   }, [kinetics]);
 
   const aspectPhase = useMemo(():

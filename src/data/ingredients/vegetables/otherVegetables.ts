@@ -523,11 +523,13 @@ const rawOtherVegetables = {
   fennel: {
     name: "fennel",
 
+    // Fennel: anise-like aromatic vegetable. Air (licorice/anise volatile aromatics, feathery fronds),
+    // Water (crisp, high-moisture bulb), Earth (root-like grounding), mild Fire (warming seeds).
     elementalProperties: {
-      Fire: 0.2540820208475995,
-      Water: 0.6474929620330214,
-      Earth: 0.0792817469375333,
-      Air: 0.01914327018184585,
+      Fire: 0.10,
+      Water: 0.30,
+      Earth: 0.25,
+      Air: 0.35,
     },
 
     category: "vegetables",
@@ -546,7 +548,7 @@ const rawOtherVegetables = {
 
     cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ["nutritious"],
+    qualities: ["aromatic", "anise-like", "crisp", "nutritious", "fresh"],
 
     // Removed excessive sensoryProfile nesting
     // Removed nested content

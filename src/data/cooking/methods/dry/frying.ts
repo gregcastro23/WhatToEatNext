@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ZodiacSign, ThermodynamicProperties } from "@/types/shared";
+import type { ZodiacSignType, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Frying cooking method
@@ -335,6 +335,15 @@ export const frying: CookingMethodData = {
     reactivity: 0.8, // High reactivity with numerous chemical changes
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.85,            // Very high oil temp (350-375°F)
+    current: 0.90,            // Oil is excellent conductor - direct contact
+    resistance: 0.15,         // Minimal barrier between oil and food
+    velocityFactor: 0.85,     // Rapid transformation
+    momentumRetention: 0.45,  // Moderate carry-over (oil cools once removed)
+    forceImpact: 0.80,        // Major structural change (dehydration, crust)
+  },
 
   // Additional metadata
   history:

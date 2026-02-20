@@ -238,6 +238,15 @@ export const roasting: CookingMethodData = {
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.70,            // Moderate-high oven temp (300-450°F)
+    current: 0.45,            // Air is a poor heat conductor
+    resistance: 0.55,         // Moderate insulation (enclosed oven)
+    velocityFactor: 0.40,     // Slow transformation over extended time
+    momentumRetention: 0.75,  // Significant carry-over cooking in large cuts
+    forceImpact: 0.65,        // Substantial Maillard + collagen breakdown
+  },
+
   // Additional metadata
   history:
     "Roasting is one of humanity's oldest cooking methods, dating back to the discovery of fire approximately 1.8 million years ago. Archaeological evidence shows spit roasting was common in ancient civilizations throughout Mesopotamia, Egypt, and China. Medieval Europe developed sophisticated roasting techniques, including specialized turnspits operated by servants or even dogs. The 18th century saw innovations like the tin reflector oven, while the 19th century brought reliable temperature-controlled roasting in cast iron stoves. The development of gas and electric ovens in the 20th century standardized roasting temperatures, while the late 20th and early 21st centuries have seen a renewed interest in traditional methods including wood-fired ovens, rotisserie cooking, and precision temperature control with digital technology.",

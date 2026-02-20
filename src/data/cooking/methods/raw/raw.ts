@@ -1,4 +1,4 @@
-import type { ZodiacSign, ThermodynamicProperties } from "@/types/alchemy";
+import type { ZodiacSignType, ThermodynamicProperties } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -199,6 +199,15 @@ export const raw: CookingMethodData = {
     reactivity: 0.4, // Moderate natural enzymatic reactions
     gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.0,             // No heat applied — zero thermal differential
+    current: 0.05,            // Minimal — only enzymatic and mechanical processes
+    resistance: 0.95,         // Maximum — no energy input to overcome barriers
+    velocityFactor: 0.02,     // Minimal transformation — mechanical prep only
+    momentumRetention: 0.10,  // Very low — raw food degrades fastest
+    forceImpact: 0.05,        // Minimal — cutting/slicing only
+  },
 
   // Additional metadata
   history:

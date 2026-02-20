@@ -5,22 +5,22 @@ import type {
   ElementalProperties,
   PlanetaryPosition,
   AstrologicalState,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
-  Recipe,
   Ingredient,
 } from "../alchemy";
+import type { Recipe } from "../recipe";
 
 // Re-export all astrological types from their sources
 export type {
   ElementalProperties,
   PlanetaryPosition,
   AstrologicalState,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
-  Recipe,
   Ingredient,
 } from "../alchemy";
+export type { Recipe } from "../recipe";
 
 export type { Recipe as UnifiedRecipe } from "../recipe";
 
@@ -29,7 +29,7 @@ export interface FlexibleAstrologicalData {
   [key: string]: unknown;
   elementalProperties?: ElementalProperties;
   planetaryInfluences?: PlanetaryPosition[];
-  zodiacSign?: ZodiacSign;
+  zodiacSign?: ZodiacSignType;
   lunarPhase?: LunarPhase;
 }
 

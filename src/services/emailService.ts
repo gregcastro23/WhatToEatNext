@@ -41,7 +41,8 @@ class EmailService {
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
     const fromName = process.env.EMAIL_FROM_NAME || "alchm.kitchen";
-    const fromAddress = process.env.EMAIL_FROM_ADDRESS || "noreply@alchm.kitchen";
+    const fromAddress =
+      process.env.EMAIL_FROM_ADDRESS || "noreply@alchm.kitchen";
 
     // Check if email is configured
     if (!host || !port || !user || !pass) {
@@ -153,7 +154,10 @@ class EmailService {
   /**
    * Get HTML template for welcome email
    */
-  private getWelcomeEmailTemplate(name: string, dominantElement?: string): string {
+  private getWelcomeEmailTemplate(
+    name: string,
+    dominantElement?: string,
+  ): string {
     const elementEmojis: Record<string, string> = {
       Fire: "🔥",
       Water: "💧",
@@ -168,8 +172,12 @@ class EmailService {
       Air: "#a855f7",
     };
 
-    const elementIcon = dominantElement ? elementEmojis[dominantElement] || "✨" : "✨";
-    const elementColor = dominantElement ? elementColors[dominantElement] || "#8b5cf6" : "#8b5cf6";
+    const elementIcon = dominantElement
+      ? elementEmojis[dominantElement] || "✨"
+      : "✨";
+    const elementColor = dominantElement
+      ? elementColors[dominantElement] || "#8b5cf6"
+      : "#8b5cf6";
 
     return `
 <!DOCTYPE html>
@@ -201,7 +209,9 @@ class EmailService {
         Thank you for joining alchm.kitchen! We're excited to help you discover personalized food recommendations based on your unique astrological and alchemical profile.
       </p>
 
-      ${dominantElement ? `
+      ${
+        dominantElement
+          ? `
       <div style="background: linear-gradient(135deg, ${elementColor}10 0%, ${elementColor}20 100%); border-left: 4px solid ${elementColor}; padding: 20px; margin: 20px 0; border-radius: 8px;">
         <p style="color: #1f2937; font-size: 16px; margin: 0; font-weight: 600;">
           ${elementIcon} Your Dominant Element: <span style="color: ${elementColor};">${dominantElement}</span>
@@ -210,7 +220,9 @@ class EmailService {
           We've calculated your natal chart and discovered your elemental affinity. This will help us recommend dishes that resonate with your unique energy.
         </p>
       </div>
-      ` : ""}
+      `
+          : ""
+      }
 
       <h2 style="color: #1f2937; font-size: 20px; font-weight: 600; margin: 30px 0 15px 0;">
         What's Next?
@@ -347,11 +359,15 @@ You're receiving this email because you signed up for alchm.kitchen.
         <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
           <strong>Email:</strong> ${userEmail}
         </p>
-        ${dominantElement ? `
+        ${
+          dominantElement
+            ? `
         <p style="color: #1f2937; font-size: 16px; margin: 0;">
           <strong>Dominant Element:</strong> ${elementIcon} ${dominantElement}
         </p>
-        ` : ""}
+        `
+            : ""
+        }
       </div>
 
       <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 30px 0 0 0;">

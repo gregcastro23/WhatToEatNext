@@ -49,17 +49,25 @@ interface UseFoodDiaryState {
  */
 interface UseFoodDiaryReturn extends UseFoodDiaryState {
   // Entry operations
-  addEntry: (input: CreateFoodDiaryEntryInput) => Promise<FoodDiaryEntry | null>;
-  updateEntry: (input: UpdateFoodDiaryEntryInput) => Promise<FoodDiaryEntry | null>;
+  addEntry: (
+    input: CreateFoodDiaryEntryInput,
+  ) => Promise<FoodDiaryEntry | null>;
+  updateEntry: (
+    input: UpdateFoodDiaryEntryInput,
+  ) => Promise<FoodDiaryEntry | null>;
   deleteEntry: (entryId: string) => Promise<boolean>;
-  rateEntry: (entryId: string, rating: FoodRating, moodTags?: MoodTag[]) => Promise<boolean>;
+  rateEntry: (
+    entryId: string,
+    rating: FoodRating,
+    moodTags?: MoodTag[],
+  ) => Promise<boolean>;
 
   // Quick add operations
   addQuickFood: (
     presetId: string,
     mealType: MealType,
     quantity?: number,
-    time?: string
+    time?: string,
   ) => Promise<FoodDiaryEntry | null>;
   getQuickFoodPresets: (category?: QuickFoodCategory) => QuickFoodPreset[];
 
@@ -121,7 +129,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
    * Load data for the current view
    */
   const loadData = useCallback(async () => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
       const [entries, dailySummary, stats, favorites] = await Promise.all([
@@ -131,7 +139,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         foodDiaryService.getFavorites(userId),
       ]);
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         entries,
         dailySummary,
@@ -140,10 +148,11 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         isLoading: false,
       }));
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to load food diary",
+        error:
+          error instanceof Error ? error.message : "Failed to load food diary",
       }));
     }
   }, [userId, selectedDate]);
@@ -158,8 +167,11 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       weekStart.setDate(weekStart.getDate() - weekStart.getDay());
       weekStart.setHours(0, 0, 0, 0);
 
-      const weeklySummary = await foodDiaryService.getWeeklySummary(userId, weekStart);
-      setState(prev => ({ ...prev, weeklySummary }));
+      const weeklySummary = await foodDiaryService.getWeeklySummary(
+        userId,
+        weekStart,
+      );
+      setState((prev) => ({ ...prev, weeklySummary }));
     } catch (error) {
       console.error("Failed to load weekly summary:", error);
     }
@@ -168,148 +180,185 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   /**
    * Add a new entry
    */
-  const addEntry = useCallback(async (
-    input: CreateFoodDiaryEntryInput
-  ): Promise<FoodDiaryEntry | null> => {
-    try {
-      const entry = await foodDiaryService.createEntry(userId, input);
-      await loadData();
-      return entry;
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : "Failed to add entry",
-      }));
-      return null;
-    }
-  }, [userId, loadData]);
+  const addEntry = useCallback(
+    async (
+      input: CreateFoodDiaryEntryInput,
+    ): Promise<FoodDiaryEntry | null> => {
+      try {
+        const entry = await foodDiaryService.createEntry(userId, input);
+        await loadData();
+        return entry;
+      } catch (error) {
+        setState((prev) => ({
+          ...prev,
+          error: error instanceof Error ? error.message : "Failed to add entry",
+        }));
+        return null;
+      }
+    },
+    [userId, loadData],
+  );
 
   /**
    * Update an entry
    */
-  const updateEntry = useCallback(async (
-    input: UpdateFoodDiaryEntryInput
-  ): Promise<FoodDiaryEntry | null> => {
-    try {
-      const entry = await foodDiaryService.updateEntry(userId, input);
-      await loadData();
-      return entry;
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : "Failed to update entry",
-      }));
-      return null;
-    }
-  }, [userId, loadData]);
+  const updateEntry = useCallback(
+    async (
+      input: UpdateFoodDiaryEntryInput,
+    ): Promise<FoodDiaryEntry | null> => {
+      try {
+        const entry = await foodDiaryService.updateEntry(userId, input);
+        await loadData();
+        return entry;
+      } catch (error) {
+        setState((prev) => ({
+          ...prev,
+          error:
+            error instanceof Error ? error.message : "Failed to update entry",
+        }));
+        return null;
+      }
+    },
+    [userId, loadData],
+  );
 
   /**
    * Delete an entry
    */
-  const deleteEntry = useCallback(async (entryId: string): Promise<boolean> => {
-    try {
-      const success = await foodDiaryService.deleteEntry(userId, entryId);
-      if (success) {
-        await loadData();
+  const deleteEntry = useCallback(
+    async (entryId: string): Promise<boolean> => {
+      try {
+        const success = await foodDiaryService.deleteEntry(userId, entryId);
+        if (success) {
+          await loadData();
+        }
+        return success;
+      } catch (error) {
+        setState((prev) => ({
+          ...prev,
+          error:
+            error instanceof Error ? error.message : "Failed to delete entry",
+        }));
+        return false;
       }
-      return success;
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : "Failed to delete entry",
-      }));
-      return false;
-    }
-  }, [userId, loadData]);
+    },
+    [userId, loadData],
+  );
 
   /**
    * Rate an entry
    */
-  const rateEntry = useCallback(async (
-    entryId: string,
-    rating: FoodRating,
-    moodTags?: MoodTag[]
-  ): Promise<boolean> => {
-    try {
-      const entry = await foodDiaryService.rateEntry(userId, entryId, rating, moodTags);
-      if (entry) {
-        await loadData();
-        return true;
+  const rateEntry = useCallback(
+    async (
+      entryId: string,
+      rating: FoodRating,
+      moodTags?: MoodTag[],
+    ): Promise<boolean> => {
+      try {
+        const entry = await foodDiaryService.rateEntry(
+          userId,
+          entryId,
+          rating,
+          moodTags,
+        );
+        if (entry) {
+          await loadData();
+          return true;
+        }
+        return false;
+      } catch (error) {
+        setState((prev) => ({
+          ...prev,
+          error:
+            error instanceof Error ? error.message : "Failed to rate entry",
+        }));
+        return false;
       }
-      return false;
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : "Failed to rate entry",
-      }));
-      return false;
-    }
-  }, [userId, loadData]);
+    },
+    [userId, loadData],
+  );
 
   /**
    * Add a quick food item
    */
-  const addQuickFood = useCallback(async (
-    presetId: string,
-    mealType: MealType,
-    quantity = 1,
-    time?: string
-  ): Promise<FoodDiaryEntry | null> => {
-    const preset = foodDiaryService.getQuickFoodPreset(presetId);
-    if (!preset) return null;
+  const addQuickFood = useCallback(
+    async (
+      presetId: string,
+      mealType: MealType,
+      quantity = 1,
+      time?: string,
+    ): Promise<FoodDiaryEntry | null> => {
+      const preset = foodDiaryService.getQuickFoodPreset(presetId);
+      if (!preset) return null;
 
-    const now = new Date();
-    const input: CreateFoodDiaryEntryInput = {
-      foodName: preset.name,
-      foodSource: "quick",
-      sourceId: presetId,
-      date: selectedDate,
-      mealType,
-      time: time || `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
-      serving: preset.defaultServing,
-      quantity,
-    };
+      const now = new Date();
+      const input: CreateFoodDiaryEntryInput = {
+        foodName: preset.name,
+        foodSource: "quick",
+        sourceId: presetId,
+        date: selectedDate,
+        mealType,
+        time:
+          time ||
+          `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
+        serving: preset.defaultServing,
+        quantity,
+      };
 
-    return addEntry(input);
-  }, [selectedDate, addEntry]);
+      return addEntry(input);
+    },
+    [selectedDate, addEntry],
+  );
 
   /**
    * Get quick food presets
    */
-  const getQuickFoodPresets = useCallback((category?: QuickFoodCategory): QuickFoodPreset[] => {
-    return foodDiaryService.getQuickFoodPresets(category);
-  }, []);
+  const getQuickFoodPresets = useCallback(
+    (category?: QuickFoodCategory): QuickFoodPreset[] => {
+      return foodDiaryService.getQuickFoodPresets(category);
+    },
+    [],
+  );
 
   /**
    * Search for foods
    */
-  const searchFoods = useCallback(async (query: string): Promise<FoodSearchResult[]> => {
-    return foodDiaryService.searchFoods(userId, query);
-  }, [userId]);
+  const searchFoods = useCallback(
+    async (query: string): Promise<FoodSearchResult[]> => {
+      return foodDiaryService.searchFoods(userId, query);
+    },
+    [userId],
+  );
 
   /**
    * Add entry to favorites
    */
-  const addToFavorites = useCallback(async (entryId: string): Promise<boolean> => {
-    try {
-      const favorite = await foodDiaryService.addToFavorites(userId, entryId);
-      if (favorite) {
-        await loadData();
-        return true;
+  const addToFavorites = useCallback(
+    async (entryId: string): Promise<boolean> => {
+      try {
+        const favorite = await foodDiaryService.addToFavorites(userId, entryId);
+        if (favorite) {
+          await loadData();
+          return true;
+        }
+        return false;
+      } catch (error) {
+        return false;
       }
-      return false;
-    } catch (error) {
-      return false;
-    }
-  }, [userId, loadData]);
+    },
+    [userId, loadData],
+  );
 
   /**
    * Remove from favorites (placeholder - would need implementation in service)
    */
-  const removeFavorite = useCallback(async (_favoriteId: string): Promise<boolean> => {
-    // TODO: Implement in service
-    return false;
-  }, []);
+  const removeFavorite = useCallback(
+    async (_favoriteId: string): Promise<boolean> => {
+      // TODO: Implement in service
+      return false;
+    },
+    [],
+  );
 
   /**
    * Navigation helpers
@@ -319,7 +368,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   }, []);
 
   const goToPreviousDay = useCallback(() => {
-    setSelectedDate(prev => {
+    setSelectedDate((prev) => {
       const newDate = new Date(prev);
       newDate.setDate(newDate.getDate() - 1);
       return newDate;
@@ -327,7 +376,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   }, []);
 
   const goToNextDay = useCallback(() => {
-    setSelectedDate(prev => {
+    setSelectedDate((prev) => {
       const newDate = new Date(prev);
       newDate.setDate(newDate.getDate() + 1);
       return newDate;
@@ -355,7 +404,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   const refreshInsights = useCallback(async () => {
     try {
       const insights = await foodDiaryService.generateInsights(userId);
-      setState(prev => ({ ...prev, insights }));
+      setState((prev) => ({ ...prev, insights }));
     } catch (error) {
       console.error("Failed to load insights:", error);
     }
@@ -404,21 +453,26 @@ export function useQuickFoodEntry() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<FoodSearchResult[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<QuickFoodCategory | undefined>();
+  const [selectedCategory, setSelectedCategory] = useState<
+    QuickFoodCategory | undefined
+  >();
 
   const presets = useMemo(() => {
     return getQuickFoodPresets(selectedCategory);
   }, [getQuickFoodPresets, selectedCategory]);
 
-  const handleSearch = useCallback(async (query: string) => {
-    setSearchQuery(query);
-    if (query.length >= 2) {
-      const results = await searchFoods(query);
-      setSearchResults(results);
-    } else {
-      setSearchResults([]);
-    }
-  }, [searchFoods]);
+  const handleSearch = useCallback(
+    async (query: string) => {
+      setSearchQuery(query);
+      if (query.length >= 2) {
+        const results = await searchFoods(query);
+        setSearchResults(results);
+      } else {
+        setSearchResults([]);
+      }
+    },
+    [searchFoods],
+  );
 
   return {
     presets,
@@ -437,7 +491,8 @@ export function useQuickFoodEntry() {
  * Hook for food diary statistics and insights
  */
 export function useFoodDiaryInsights() {
-  const { stats, insights, weeklySummary, refreshInsights, isLoading } = useFoodDiary();
+  const { stats, insights, weeklySummary, refreshInsights, isLoading } =
+    useFoodDiary();
 
   const topFoods = useMemo(() => {
     return weeklySummary?.patterns.topFoods || [];
@@ -452,7 +507,7 @@ export function useFoodDiaryInsights() {
   }, [weeklySummary]);
 
   const priorityInsights = useMemo(() => {
-    return insights.filter(i => i.priority === "high");
+    return insights.filter((i) => i.priority === "high");
   }, [insights]);
 
   return {

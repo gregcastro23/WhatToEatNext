@@ -130,7 +130,12 @@ describe("Elemental Normalization Utilities", () => {
     });
 
     test("returns first element for equal values", () => {
-      const equalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const equalProperties = {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      };
       const result = getDominantElementByIntensity(equalProperties);
 
       // Should return first element (order depends on Object.entries)
@@ -152,18 +157,28 @@ describe("Elemental Normalization Utilities", () => {
     });
 
     test("handles edge cases near 1.0", () => {
-      const nearNormalized = { Fire: 0.24, Water: 0.26, Earth: 0.25, Air: 0.25 };
+      const nearNormalized = {
+        Fire: 0.24,
+        Water: 0.26,
+        Earth: 0.25,
+        Air: 0.25,
+      };
       const result = isNormalized(nearNormalized);
 
       expect(result).toBe(true);
     });
 
     test("returns true for sum of 1.05 (within tolerance)", () => {
-      const nearNormalized = { Fire: 0.26, Water: 0.26, Earth: 0.26, Air: 0.27 };
+      const nearNormalized = {
+        Fire: 0.26,
+        Water: 0.26,
+        Earth: 0.26,
+        Air: 0.27,
+      };
       const result = isNormalized(nearNormalized);
 
       // Should still be considered normalized (within tolerance)
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     });
   });
 

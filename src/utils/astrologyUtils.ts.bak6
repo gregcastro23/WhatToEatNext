@@ -24,7 +24,7 @@ import type {
     Season,
     ThermodynamicProperties
 } from '@/types/alchemy';
-import type { ZodiacSign } from '@/types/celestial';
+import type { ZodiacSignType } from '@/types/celestial';
 import type { TimeFactors } from '@/types/time';
 // Removed unused, imports: getCurrentSeason, getTimeOfDay
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
@@ -83,7 +83,7 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
 export function getZodiacElement(_sign: any): ElementalCharacter {
-  const elements: Record<ZodiacSign, ElementalCharacter> = {
+  const elements: Record<ZodiacSignType, ElementalCharacter> = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -160,7 +160,7 @@ export const zodiacSigns: any[] = [
 ];
 
 // Utility function to validate zodiac sign
-export function isValidZodiacSign(sign: string): sign is ZodiacSign {
+export function isValidZodiacSignType(sign: string): sign is ZodiacSignType {
   return zodiacSigns.includes(sign as unknown)
 }
 
@@ -337,7 +337,7 @@ export function calculateSunSign(date: Date = new Date()): any {
  * @param date Date to calculate moon sign for
  * @returns The zodiac sign the moon is in
  */
-export async function calculateMoonSign(date: Date = new Date()): Promise<ZodiacSign> {
+export async function calculateMoonSign(date: Date = new Date()): Promise<ZodiacSignType> {
   try {
     // Try to get accurate positions first
     const positions = await getAccuratePlanetaryPositions(date)
@@ -348,7 +348,7 @@ export async function calculateMoonSign(date: Date = new Date()): Promise<Zodiac
     errorLog('Error in calculateMoonSign: ', error)
     // Fallback to simplified calculation
     const moonLongitude = calculateMoonLongitude(calculateJulianDate(date))
-    return getZodiacSign(moonLongitude) as any;
+    return getZodiacSignType(moonLongitude) as any;
   }
 }
 
@@ -372,7 +372,7 @@ export async function calculatePlanetaryPositions(
         const { sign, degree } = getSignFromLongitude(data.exactLongitude);
 
         formattedPositions[planet] = {
-          sign: sign as unknown, // Cast string to ZodiacSign
+          sign: sign as unknown, // Cast string to ZodiacSignType
           degree: parseFloat(degree.toFixed(4)), // Increased precision to 4 decimal places
           minute: Math.round((degree % 1) * 60), // Minute calculation
           exactLongitude: data.exactLongitude,
@@ -401,7 +401,7 @@ export async function calculatePlanetaryPositions(
           const { sign, degree } = getSignFromLongitude(data.exactLongitude);
 
           formattedPositions[planet] = {
-            sign: sign as unknown, // Cast string to ZodiacSign
+            sign: sign as unknown, // Cast string to ZodiacSignType
             degree: parseFloat(degree.toFixed(3)),
             minute: Math.round((degree % 1) * 60), // Add minute calculation
             exactLongitude: data.exactLongitude,
@@ -1189,7 +1189,7 @@ export function calculateCompleteAstrologicalEffects(
 
   // Process each planet for dignity
   for (const [planet, position] of Object.entries(planetPositions)) {
-    const dignity = getPlanetaryDignity(planet, position.sign as unknown); // Cast to ZodiacSign
+    const dignity = getPlanetaryDignity(planet, position.sign as unknown); // Cast to ZodiacSignType
     const element = getZodiacElement(position.sign as unknown).toLowerCase()
 
     // Apply dignity strength based on type
@@ -1760,7 +1760,7 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
  * @param longitude Longitude in degrees
  * @returns Zodiac sign
  */
-export function getZodiacSign(longitude: number): string {
+export function getZodiacSignType(longitude: number): string {
   const signs = [
     'aries',
     'taurus',
@@ -2235,7 +2235,7 @@ export function getPlanetaryElementalInfluence(_planet: string): Element {
  * @returns The elemental association
  */
 export function getZodiacElementalInfluence(_sign: any): Element {
-  const zodiacElementMap: Record<ZodiacSign, Element> = {
+  const zodiacElementMap: Record<ZodiacSignType, Element> = {
     aries: 'Fire',
     taurus: 'Earth',
     gemini: 'Air',

@@ -3,8 +3,13 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import Providers from "./providers";
+import ClientProviders from "./ClientProviders";
 import PayPalButton from "@/components/PayPalButton";
+
+// Force dynamic rendering for all pages - the app relies on runtime
+// context providers (Chakra, Theme, User, Alchemical) that require
+// a client-side React environment during rendering.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "What to Eat Next",
@@ -20,8 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
-        <Providers>
-          <header className="bg-gradient-to-r from-purple-50 via-orange-50 to-pink-50 py-6 border-b-2 border-purple-100 shadow-md sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+        <ClientProviders>
+          <header className="bg-gradient-to-r from-purple-50 via-orange-50 to-pink-50 py-6 border-b-2 border-purple-100 shadow-md">
             <div className="mx-auto max-w-7xl px-4">
               <div className="flex flex-col gap-4">
                 {/* Top Row: Logo and PayPal */}
@@ -41,7 +46,10 @@ export default function RootLayout({
                 </div>
 
                 {/* Navigation Menu */}
-                <nav className="flex flex-wrap gap-2 md:gap-4" aria-label="Main navigation">
+                <nav
+                  className="flex flex-wrap gap-2 md:gap-4"
+                  aria-label="Main navigation"
+                >
                   <Link
                     href="/#cuisines"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 text-purple-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-200"
@@ -69,6 +77,13 @@ export default function RootLayout({
                     aria-label="Plan your weekly menu"
                   >
                     📅 Menu Planner
+                  </Link>
+                  <Link
+                    href="/recipe-builder"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-amber-100 text-amber-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-200"
+                    aria-label="Build and generate recipes with ingredient search and planetary alignment"
+                  >
+                    ✨ Recipe Builder
                   </Link>
                   <Link
                     href="/quantities"
@@ -109,7 +124,8 @@ export default function RootLayout({
                     Alchm Kitchen
                   </h3>
                   <p className="text-gray-300 text-sm leading-relaxed">
-                    Bridging ancient astrological wisdom with cutting-edge AI to help you discover the perfect meal for every moment.
+                    Bridging ancient astrological wisdom with cutting-edge AI to
+                    help you discover the perfect meal for every moment.
                   </p>
                 </div>
 
@@ -118,27 +134,50 @@ export default function RootLayout({
                   <h4 className="font-bold mb-4 text-purple-300">Explore</h4>
                   <ul className="space-y-2 text-sm">
                     <li>
-                      <Link href="/#cuisines" className="text-gray-300 hover:text-purple-300 transition-colors">
+                      <Link
+                        href="/#cuisines"
+                        className="text-gray-300 hover:text-purple-300 transition-colors"
+                      >
                         🍽️ Cuisines
                       </Link>
                     </li>
                     <li>
-                      <Link href="/#ingredients" className="text-gray-300 hover:text-green-300 transition-colors">
+                      <Link
+                        href="/#ingredients"
+                        className="text-gray-300 hover:text-green-300 transition-colors"
+                      >
                         🥬 Ingredients
                       </Link>
                     </li>
                     <li>
-                      <Link href="/cooking-methods" className="text-gray-300 hover:text-orange-300 transition-colors">
+                      <Link
+                        href="/cooking-methods"
+                        className="text-gray-300 hover:text-orange-300 transition-colors"
+                      >
                         🔥 Cooking Methods
                       </Link>
                     </li>
                     <li>
-                      <Link href="/menu-planner" className="text-gray-300 hover:text-purple-300 transition-colors">
+                      <Link
+                        href="/menu-planner"
+                        className="text-gray-300 hover:text-purple-300 transition-colors"
+                      >
                         📅 Menu Planner
                       </Link>
                     </li>
                     <li>
-                      <Link href="/profile" className="text-gray-300 hover:text-blue-300 transition-colors">
+                      <Link
+                        href="/recipe-builder"
+                        className="text-gray-300 hover:text-amber-300 transition-colors"
+                      >
+                        ✨ Recipe Builder
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/profile"
+                        className="text-gray-300 hover:text-blue-300 transition-colors"
+                      >
                         👤 Profile
                       </Link>
                     </li>
@@ -150,7 +189,10 @@ export default function RootLayout({
                   <h4 className="font-bold mb-4 text-orange-300">Discover</h4>
                   <ul className="space-y-2 text-sm">
                     <li>
-                      <Link href="/quantities" className="text-gray-300 hover:text-indigo-300 transition-colors">
+                      <Link
+                        href="/quantities"
+                        className="text-gray-300 hover:text-indigo-300 transition-colors"
+                      >
                         ⚗️ Alchm Quantities
                       </Link>
                     </li>
@@ -159,7 +201,9 @@ export default function RootLayout({
 
                 {/* System Status Column */}
                 <div>
-                  <h4 className="font-bold mb-4 text-green-300">System Status</h4>
+                  <h4 className="font-bold mb-4 text-green-300">
+                    System Status
+                  </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
@@ -183,7 +227,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
-        </Providers>
+        </ClientProviders>
       </body>
     </html>
   );

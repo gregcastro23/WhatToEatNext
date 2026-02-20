@@ -5,7 +5,7 @@
  * to prevent duplication and ensure consistency.
  */
 
-import type { Element, Planet, ZodiacSign } from "@/types/celestial";
+import type { Element, Planet, ZodiacSignType } from "@/types/celestial";
 import {
   _DEFAULT_ELEMENTAL_PROPERTIES,
   isElementalProperties,
@@ -25,7 +25,7 @@ export type { ElementalProperties };
 export { _DEFAULT_ELEMENTAL_PROPERTIES, isElementalProperties };
 
 // Re-export celestial types that are commonly needed
-export type { Element, Planet, ZodiacSign };
+export type { Element, Planet, ZodiacSignType };
 
 // ========== CELESTIAL TYPES ==========;
 
@@ -55,7 +55,7 @@ export type DignityType =
 /**
  * Zodiac signs
  */
-// ZodiacSign type imported from @/types/celestial
+// ZodiacSignType type imported from @/types/celestial
 
 /**
  * Planet names - all lowercase as per project requirements

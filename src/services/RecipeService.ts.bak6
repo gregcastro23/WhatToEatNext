@@ -1,5 +1,5 @@
 import { cuisinesMap } from '@/data/cuisines';
-import type { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties, LunarPhase, ZodiacSignType } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
@@ -20,7 +20,7 @@ interface ExtendedCuisine extends Cuisine {
 // Recipe search criteria interface
 interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
   elementalProperties?: ElementalProperties;
-  zodiacSign?: ZodiacSign;
+  zodiacSign?: ZodiacSignType;
   lunarPhase?: LunarPhase;
   planetaryAlignment?: Record<string, { sign: string; degree: number }>;
 }
@@ -216,7 +216,7 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Get recipes by zodiac sign
    */
-  async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
+  async getRecipesByZodiac(zodiacSign: ZodiacSignType): Promise<Recipe[]> {
     try {
       logger.debug(`Getting recipes for zodiac sign: ${zodiacSign}`);
 

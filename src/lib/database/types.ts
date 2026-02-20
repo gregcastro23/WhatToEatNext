@@ -22,7 +22,7 @@ export type PlanetType =
   | "Uranus"
   | "Neptune"
   | "Pluto";
-export type ZodiacSign =
+export type ZodiacSignType =
   | "Aries"
   | "Taurus"
   | "Gemini"
@@ -135,7 +135,7 @@ export interface ZodiacAffinity {
   id: string; // UUID
   entity_type: string;
   entity_id: string; // UUID
-  zodiac_sign: ZodiacSign;
+  zodiac_sign: ZodiacSignType;
   affinity_strength: number; // DECIMAL(3,2) - 0.00 to 1.00
   created_at: Date;
 }
@@ -308,14 +308,14 @@ export interface SystemMetric {
 // QUERY RESULT TYPES
 // ==========================================
 
-export interface ActiveUser
-  extends Pick<
-    User,
-    "id" | "email" | "roles" | "created_at" | "last_login_at" | "login_count"
-  > {}
+export interface ActiveUser extends Pick<
+  User,
+  "id" | "email" | "roles" | "created_at" | "last_login_at" | "login_count"
+> {}
 
 export interface RecipeSearch
-  extends Pick<
+  extends
+    Pick<
       Recipe,
       | "id"
       | "name"

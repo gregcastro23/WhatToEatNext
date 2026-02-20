@@ -1183,9 +1183,10 @@ function getAllCookingMethodData(): Record<string, unknown> {
     const wetMethods = import("../data/cooking/methods/wet").then(
       (module) => (module as any).default || module,
     );
-    const traditionalMethods = import(
-      "../data/cooking/methods/traditional"
-    ).then((module) => (module as any).default || module);
+    const traditionalMethods =
+      import("../data/cooking/methods/traditional").then(
+        (module) => (module as any).default || module,
+      );
 
     // Since we're using async imports, return a promise with all methods
     return Promise.all([dryMethods, wetMethods, traditionalMethods])

@@ -6,14 +6,14 @@
  * individual type definition files to avoid type mismatches.
  */
 
-// Import Season, ZodiacSign, CookingMethod as types from constants.ts
+// Import Season, ZodiacSignType, CookingMethod as types from constants.ts
 import type {
   CookingMethod,
   ElementType,
   LunarPhase,
   Planet,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
 } from "./constants";
 // Import LunarPhase as type from constants.ts
 
@@ -77,7 +77,7 @@ export interface Ingredient {
 // Re-export all types
 export type {
   Season,
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   CookingMethod,
   ElementType as Element,

@@ -318,194 +318,212 @@ const rawFreshHerbs = {
   // More herbs would be added here...
   pork_sausage: {
     name: "pork sausage",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    // Corrected: pork sausage is a cured meat, not an herb.
+    // Fire-dominant (high heat cooking), secondary Earth (rich, dense).
+    elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.35, Air: 0.05 },
+    qualities: ["savory", "rich", "cured", "umami"],
+    category: "meats",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
+      seasonalAffinity: ["autumn", "winter"],
     },
   },
   thyme: {
     name: "thyme",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Warm, earthy Mediterranean herb. Fire (warming thymol), Air (volatile aromatics), Earth (woody stem).
+    elementalProperties: { Fire: 0.30, Water: 0.10, Earth: 0.20, Air: 0.40 },
+    qualities: ["aromatic", "warming", "earthy", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Venus", "Mercury"],
+      favorableZodiac: ["Taurus", "Libra", "Virgo"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   fresh_thyme: {
     name: "fresh thyme",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Similar to dried thyme but slightly more Water (moisture in fresh leaves).
+    elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.18, Air: 0.42 },
+    qualities: ["aromatic", "fresh", "warming", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Venus", "Mercury"],
+      favorableZodiac: ["Taurus", "Libra", "Virgo"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   sage: {
     name: "sage",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Warm, pungent, slightly bitter. Strong Fire (warming oils), Air (volatile compounds), Earth (grounding).
+    elementalProperties: { Fire: 0.35, Water: 0.10, Earth: 0.20, Air: 0.35 },
+    qualities: ["warming", "pungent", "savory", "medicinal", "culinary"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Jupiter", "Mercury"],
+      favorableZodiac: ["Sagittarius", "Gemini", "Virgo"],
+      seasonalAffinity: ["autumn", "winter"],
     },
   },
   fresh_mint: {
     name: "fresh mint",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Cooling menthol creates a paradoxical sensation: Water (cooling), Air (volatile menthol), minimal Fire/Earth.
+    elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.05, Air: 0.50 },
+    qualities: ["cooling", "refreshing", "menthol", "aromatic", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Venus", "Moon"],
+      favorableZodiac: ["Libra", "Cancer", "Pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   fresh_sage: {
     name: "fresh sage",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Fresh sage: slightly more Water than dried, warm pungent oils still dominate.
+    elementalProperties: { Fire: 0.30, Water: 0.15, Earth: 0.20, Air: 0.35 },
+    qualities: ["warming", "pungent", "fresh", "savory", "culinary"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Jupiter", "Mercury"],
+      favorableZodiac: ["Sagittarius", "Gemini", "Virgo"],
+      seasonalAffinity: ["spring", "summer", "autumn"],
     },
   },
   bay_leaf: {
     name: "bay leaf",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Subtle, woody background note. Earth (woody structure), Air (slow-release aromatics), mild Fire.
+    elementalProperties: { Fire: 0.15, Water: 0.10, Earth: 0.35, Air: 0.40 },
+    qualities: ["aromatic", "woody", "subtle", "earthy", "culinary"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Mercury", "Apollo"],
+      favorableZodiac: ["Gemini", "Leo", "Virgo"],
+      seasonalAffinity: ["all"],
     },
   },
   flat_leaf_parsley: {
     name: "flat-leaf parsley",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Bright, fresh, green. Air (fresh volatile compounds), Water (high moisture, fresh green), minimal Fire/Earth.
+    elementalProperties: { Fire: 0.10, Water: 0.35, Earth: 0.10, Air: 0.45 },
+    qualities: ["fresh", "bright", "green", "clean", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Mercury", "Moon"],
+      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   oregano: {
     name: "oregano",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Robust Mediterranean herb. Strong Fire (warming carvacrol), Air (pungent aromatics), Earth (robust drying).
+    elementalProperties: { Fire: 0.40, Water: 0.10, Earth: 0.15, Air: 0.35 },
+    qualities: ["pungent", "warming", "robust", "aromatic", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Mars", "Mercury"],
+      favorableZodiac: ["Aries", "Gemini", "Scorpio"],
+      seasonalAffinity: ["summer", "autumn"],
     },
   },
   parsley: {
     name: "parsley",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Classic culinary parsley. Air dominant (fresh aromatics), Water (moisture-rich leaves).
+    elementalProperties: { Fire: 0.10, Water: 0.35, Earth: 0.12, Air: 0.43 },
+    qualities: ["fresh", "bright", "mild", "versatile", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Mercury", "Moon"],
+      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   mint: {
     name: "mint",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Cooling, menthol-dominant. Water (cooling effect), Air (extremely volatile menthol compounds).
+    elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.08, Air: 0.47 },
+    qualities: ["cooling", "refreshing", "menthol", "aromatic", "medicinal", "culinary"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Venus", "Moon"],
+      favorableZodiac: ["Libra", "Cancer", "Pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   dill: {
     name: "dill",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Feathery, delicate, anise-like. Very Air dominant (extremely aromatic, feathery texture), Water (fresh green).
+    elementalProperties: { Fire: 0.05, Water: 0.30, Earth: 0.10, Air: 0.55 },
+    qualities: ["delicate", "feathery", "anise-like", "fresh", "aromatic", "culinary"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Mercury", "Moon"],
+      favorableZodiac: ["Gemini", "Cancer", "Pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   bay_leaves: {
     name: "bay leaves",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Same profile as bay_leaf (plural form, same ingredient).
+    elementalProperties: { Fire: 0.15, Water: 0.10, Earth: 0.35, Air: 0.40 },
+    qualities: ["aromatic", "woody", "subtle", "earthy", "culinary"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Mercury", "Apollo"],
+      favorableZodiac: ["Gemini", "Leo", "Virgo"],
+      seasonalAffinity: ["all"],
     },
   },
   rosemary: {
     name: "rosemary",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Piney, resinous, powerful. Fire dominant (warming terpenes, resinous oils), Air (piney volatile aroma).
+    elementalProperties: { Fire: 0.45, Water: 0.10, Earth: 0.15, Air: 0.30 },
+    qualities: ["piney", "resinous", "warming", "robust", "aromatic", "medicinal", "culinary"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      rulingPlanets: ["Sun", "Mars"],
+      favorableZodiac: ["Leo", "Aries", "Capricorn"],
+      seasonalAffinity: ["year-round"],
     },
   },
   mint_leaves: {
     name: "mint leaves",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Mint leaves — same cooling profile as mint.
+    elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.08, Air: 0.47 },
+    qualities: ["cooling", "refreshing", "aromatic", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      rulingPlanets: ["Venus", "Moon"],
+      favorableZodiac: ["Libra", "Cancer", "Pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
   fresh_basil: {
     name: "fresh basil",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Fresh basil shares the profile of the detailed basil entry above: Air dominant, sweet/warm.
+    elementalProperties: { Fire: 0.22, Water: 0.27, Earth: 0.08, Air: 0.43 },
+    qualities: ["aromatic", "sweet", "fresh", "warm", "culinary"],
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
+      favorableZodiac: ["Gemini", "Libra", "Virgo"],
+      seasonalAffinity: ["summer"],
     },
   },
   cilantro: {
     name: "cilantro",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
+    // Bright, citrusy-soapy. Air very dominant (highly volatile aldehydes), Water (fresh green moisture).
+    elementalProperties: { Fire: 0.08, Water: 0.32, Earth: 0.10, Air: 0.50 },
+    qualities: ["citrusy", "fresh", "aromatic", "bright", "culinary", "medicinal"],
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["Gemini", "Libra", "Aquarius"],
       seasonalAffinity: ["spring", "summer"],
     },
   },
 };
 
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+// ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const freshHerbs = fixIngredientMappings(
   rawFreshHerbs as unknown as Record<string, Partial<IngredientMapping>>,
 );

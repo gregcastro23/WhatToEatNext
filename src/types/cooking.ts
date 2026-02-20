@@ -89,7 +89,8 @@ export interface EnhancedCookingMethod extends CookingMethod {
   zodiacCompatibility?: Record<string, number>;
 }
 
-export type { ElementalProperties, ZodiacSign } from "./alchemy";
+export type { ElementalProperties, ZodiacSignType } from "./alchemy";
 
 // Add CookingMethodInfo alias for compatibility
 export type CookingMethodInfo = CookingMethod;
+export type CookingMethodProfile = CookingMethod;

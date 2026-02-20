@@ -5,7 +5,8 @@
  * Validates power conservation and provides kinetics-enhanced food recommendations.
  */
 
-import type { CookingMethod, Recipe } from "@/types/alchemy";
+import type { CookingMethod } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import type { KineticMetrics } from "@/types/kinetics";
 
 export interface CircuitValidationResult {

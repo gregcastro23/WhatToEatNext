@@ -490,20 +490,25 @@ function calculateThermodynamicCompatibility(
   // Estimate user's thermodynamic properties
   const userHeat = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / 4;
   const userEntropy = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / 4;
-  const userReactivity = (Math.pow(Fire + Water + Air, 2)) / 10;
+  const userReactivity = Math.pow(Fire + Water + Air, 2) / 10;
 
   // Compare with method's thermodynamic properties using exponential compatibility
   const heatDiff = Math.abs(userHeat - (methodThermodynamics.heat || 0.5));
   const heatCompat = Math.exp(-3.0 * heatDiff); // High sensitivity for heat
 
-  const entropyDiff = Math.abs(userEntropy - (methodThermodynamics.entropy || 0.5));
+  const entropyDiff = Math.abs(
+    userEntropy - (methodThermodynamics.entropy || 0.5),
+  );
   const entropyCompat = Math.exp(-2.5 * entropyDiff);
 
-  const reactivityDiff = Math.abs(userReactivity - (methodThermodynamics.reactivity || 0.5));
+  const reactivityDiff = Math.abs(
+    userReactivity - (methodThermodynamics.reactivity || 0.5),
+  );
   const reactivityCompat = Math.exp(-2.5 * reactivityDiff);
 
   // Weighted combination
-  const thermoScore = heatCompat * 0.4 + entropyCompat * 0.3 + reactivityCompat * 0.3;
+  const thermoScore =
+    heatCompat * 0.4 + entropyCompat * 0.3 + reactivityCompat * 0.3;
 
   return thermoScore;
 }
@@ -1524,31 +1529,68 @@ export async function getRecommendedCookingMethods(
       method.score += venusScore * 0.15;
     }
 
-    // Calculate final score with proper weighting (updated to include thermodynamic)
+    // Planetary Harmonization: Boost methods when dominant planets are in aligned elements
+    // e.g., Mars in Fire sign → grilling/broiling get a bonus
+    // e.g., Moon in Water sign → steaming/poaching get a bonus
+    let planetaryHarmonizationScore = 0;
+    if (currentZodiac && method.astrologicalInfluences?.dominantPlanets) {
+      const zodiacElement = getElementForSign(currentZodiac);
+      if (zodiacElement) {
+        const methodElementals = methodWithProps.elementalEffect ||
+          methodWithProps.elementalProperties ||
+          { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+        const methodElementValue = (methodElementals as any)[zodiacElement] || 0;
+
+        // Methods with high emphasis on the current zodiac element get a bonus
+        if (methodElementValue >= 0.6) {
+          planetaryHarmonizationScore = 0.08; // Strong alignment
+        } else if (methodElementValue >= 0.4) {
+          planetaryHarmonizationScore = 0.04; // Moderate alignment
+        }
+
+        // Extra bonus if a dominant planet is the current sign's ruler
+        const dominantPlanets = method.astrologicalInfluences.dominantPlanets || [];
+        const fireRulers = ["Mars", "Sun"];
+        const waterRulers = ["Moon", "Neptune"];
+        const earthRulers = ["Saturn", "Venus"];
+        const airRulers = ["Mercury", "Uranus"];
+        const elementRulers: Record<string, string[]> = {
+          Fire: fireRulers, Water: waterRulers, Earth: earthRulers, Air: airRulers,
+        };
+        const rulers = elementRulers[zodiacElement] || [];
+        if (dominantPlanets.some((p: string) => rulers.includes(p))) {
+          planetaryHarmonizationScore += 0.05; // Planet-element ruler alignment bonus
+        }
+      }
+    }
+
+    // Calculate final score with proper weighting (updated to include thermodynamic + harmonization)
     score =
-      elementalScore * 0.3 + // Reduced from 0.4
-      thermodynamicScore * 0.1 + // NEW: Thermodynamic compatibility
-      astrologicalScore * 0.25 +
-      seasonalScore * 0.15 +
-      toolScore * 0.1 +
-      dietaryScore * 0.1 +
+      elementalScore * 0.28 + // Slightly reduced to make room for harmonization
+      thermodynamicScore * 0.10 +
+      astrologicalScore * 0.22 +
+      seasonalScore * 0.12 +
+      toolScore * 0.08 +
+      dietaryScore * 0.08 +
+      planetaryHarmonizationScore + // Planetary harmonization (up to 13%)
       culturalScore +
       lunarScore +
-      venusScore * 0.15; // Venus influence as additional component
+      venusScore * 0.12; // Venus influence
 
     // Capture detailed scoring components for transparency
     // Extract method data with safe property access
     const methodData = method as any;
     const scoreDetails = {
-      elemental: elementalScore * 0.3,
-      thermodynamic: thermodynamicScore * 0.1,
-      astrological: astrologicalScore * 0.25,
-      seasonal: seasonalScore * 0.15,
-      tools: toolScore * 0.1,
-      _dietary: dietaryScore * 0.1,
+      elemental: elementalScore * 0.28,
+      thermodynamic: thermodynamicScore * 0.10,
+      astrological: astrologicalScore * 0.22,
+      seasonal: seasonalScore * 0.12,
+      tools: toolScore * 0.08,
+      _dietary: dietaryScore * 0.08,
+      planetaryHarmonization: planetaryHarmonizationScore,
       cultural: culturalScore,
       lunar: lunarScore,
-      venus: venusScore * 0.15,
+      venus: venusScore * 0.12,
       total: Math.max(0, score), // Ensure score isn't negative
     };
 
@@ -1682,7 +1724,7 @@ export function calculateMethodScore(
     methodElemental,
     astroElemental,
   );
-  score += elementalScore * 0.4; // 40% weight
+  score += elementalScore * 0.35; // 35% weight
 
   // Astrological influence
   if (astrologicalInfluence) {
@@ -1694,7 +1736,7 @@ export function calculateMethodScore(
       const { currentZodiac } = astroState;
       // ✅ Pattern KK-1: Safe number conversion for zodiac score
       const zodiacScore = Number(zodiacCompatibility[currentZodiac]) || 0.5;
-      score += zodiacScore * 0.3; // 30% weight
+      score += zodiacScore * 0.25; // 25% weight
     }
 
     if (planetaryAlignment && astroState.currentPlanetaryAlignment) {
@@ -1706,7 +1748,16 @@ export function calculateMethodScore(
       const avgPlanetScore =
         planetScores.reduce((sum, score) => sum + score, 0) /
         planetScores.length;
-      score += avgPlanetScore * 0.3; // 30% weight
+      score += avgPlanetScore * 0.25; // 25% weight
+    }
+  }
+
+  // Planetary Harmonization: Boost methods aligned with current zodiac element
+  if (astroState.currentZodiac && methodElemental) {
+    const zodiacElement = getElementForSign(astroState.currentZodiac);
+    if (zodiacElement && methodElemental[zodiacElement as keyof typeof methodElemental]) {
+      const alignment = methodElemental[zodiacElement as keyof typeof methodElemental] || 0;
+      score += alignment * 0.15; // Up to 15% boost for element alignment
     }
   }
 

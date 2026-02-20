@@ -39,13 +39,13 @@ export function useDragAndDrop(config: UseDragAndDropConfig) {
       if (!config.currentMenu) return true;
 
       const dayMeals = config.currentMenu.meals.filter(
-        (m) => m.dayOfWeek === dayOfWeek && m.recipe
+        (m) => m.dayOfWeek === dayOfWeek && m.recipe,
       );
 
       // Prevent same recipe twice in one day
       return !dayMeals.some((m) => m.recipe?.id === recipe.id);
     },
-    [config.currentMenu]
+    [config.currentMenu],
   );
 
   const handleDragStart = useCallback((recipe: Recipe) => {
@@ -59,9 +59,12 @@ export function useDragAndDrop(config: UseDragAndDropConfig) {
     setIsDragging(false);
   }, []);
 
-  const handleDragOver = useCallback((dayOfWeek: DayOfWeek, mealType: MealType) => {
-    setDropTarget({ dayOfWeek, mealType });
-  }, []);
+  const handleDragOver = useCallback(
+    (dayOfWeek: DayOfWeek, mealType: MealType) => {
+      setDropTarget({ dayOfWeek, mealType });
+    },
+    [],
+  );
 
   const handleDragLeave = useCallback(() => {
     setDropTarget(null);
@@ -76,7 +79,7 @@ export function useDragAndDrop(config: UseDragAndDropConfig) {
       setDropTarget(null);
       setIsDragging(false);
     },
-    [draggedRecipe, isValidDrop, config]
+    [draggedRecipe, isValidDrop, config],
   );
 
   return {

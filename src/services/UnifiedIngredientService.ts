@@ -37,7 +37,7 @@ interface IngredientFilter {
   currentSeason?: string;
   searchQuery?: string;
   excludeIngredients?: string[];
-  currentZodiacSign?: any;
+  currentZodiacSignType?: any;
   planetaryInfluence?: Planet;
 }
 
@@ -222,10 +222,10 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       );
     }
 
-    if (filter.currentZodiacSign) {
+    if (filter.currentZodiacSignType) {
       filteredIngredients = this.applyZodiacFilter(
         filteredIngredients,
-        filter.currentZodiacSign,
+        filter.currentZodiacSignType,
       );
     }
 
@@ -372,7 +372,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients by zodiac sign
    */
-  getIngredientsByZodiacSign(sign: any): UnifiedIngredient[] {
+  getIngredientsByZodiacSignType(sign: any): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
 
     return (allIngredients || []).filter((_ingredient) => {
@@ -1026,7 +1026,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private applyZodiacFilter(
     ingredients: UnifiedIngredient[],
-    currentZodiacSign: any,
+    currentZodiacSignType: any,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter((ingredient) => {
       if (!(ingredient as any)?.astrologicalProperties?.signs) {
@@ -1036,13 +1036,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const signs = (ingredient as any)?.astrologicalProperties?.signs;
       return Array.isArray(signs)
         ? signs.includes(
-            currentZodiacSign as unknown as Record<
+            currentZodiacSignType as unknown as Record<
               string,
               Record<string, string>
             >,
           )
         : signs ===
-            (currentZodiacSign as unknown as Record<
+            (currentZodiacSignType as unknown as Record<
               string,
               Record<string, string>
             >);
@@ -1214,14 +1214,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Filter ingredients that have valid elemental properties
     const validIngredients = ingredients.filter(
       (ing) =>
-        ing.elementalProperties &&
-        typeof ing.elementalProperties === "object",
+        ing.elementalProperties && typeof ing.elementalProperties === "object",
     );
 
     if (validIngredients.length === 0) {
-      throw new Error(
-        "No ingredients have valid elemental properties defined",
-      );
+      throw new Error("No ingredients have valid elemental properties defined");
     }
 
     // Sum up elemental properties

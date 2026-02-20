@@ -3,9 +3,9 @@
 interface PlanetaryAspect {
   planet1: string;
   planet2: string;
-  type: string;
+  type?: string;
   orb: number;
-  strength: number;
+  strength?: number;
 }
 
 export interface ChartData {

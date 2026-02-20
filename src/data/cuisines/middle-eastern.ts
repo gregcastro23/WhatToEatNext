@@ -15,34 +15,34 @@ export const middleEastern: Cuisine = {
             "Eggs poached in spiced tomato sauce with peppers and onions",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "poaching",
-            elementalProperties: {
-            Fire: 0.16,
-            Water: 0.4,
-            Earth: 0.35,
-            Air: 0.09,
-          },
-          },
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "poaching",
+              elementalProperties: {
+                Fire: 0.16,
+                Water: 0.4,
+                Earth: 0.35,
+                Air: 0.09,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          }
-        ],
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
+            },
+          ],
           tools: [
             "large skillet",
             "lid",
@@ -148,26 +148,26 @@ export const middleEastern: Cuisine = {
             "Traditional fava bean breakfast with olive oil, lemon, and herbs",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "mashing",
-            elementalProperties: {
-              Fire: 0.11,
-              Water: 0.21,
-              Earth: 0.5,
-              Air: 0.18,
+            {
+              name: "mashing",
+              elementalProperties: {
+                Fire: 0.11,
+                Water: 0.21,
+                Earth: 0.5,
+                Air: 0.18,
+              },
             },
-          },
-          "garnishing"
-        ],
+            "garnishing",
+          ],
           tools: [
             "medium pot",
             "potato masher or fork",
@@ -196,7 +196,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "olive oil", amount: "3", unit: "tbsp", category: "oil",
+            {
+              name: "olive oil",
+              amount: "3",
+              unit: "tbsp",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -228,7 +232,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "cumin", amount: "1", unit: "tsp", category: "spice",
+            {
+              name: "cumin",
+              amount: "1",
+              unit: "tsp",
+              category: "spice",
               elementalProperties: {
                 Fire: 0.5,
                 Water: 0.1,
@@ -236,7 +244,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "parsley", amount: "1/4", unit: "cup", category: "herb",
+            {
+              name: "parsley",
+              amount: "1/4",
+              unit: "cup",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -300,26 +312,26 @@ export const middleEastern: Cuisine = {
           description: "Flatbread topped with za'atar herb blend and olive oil",
           cuisine: "Middle Eastern (Levant)",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "kneading",
-            elementalProperties: {
-              Fire: 0.14,
-              Water: 0.14,
-              Earth: 0.43,
-              Air: 0.29,
+            {
+              name: "kneading",
+              elementalProperties: {
+                Fire: 0.14,
+                Water: 0.14,
+                Earth: 0.43,
+                Air: 0.29,
+              },
             },
-          },
-          "topping"
-        ],
+            "topping",
+          ],
           tools: [
             "mixing bowl",
             "baking sheet",
@@ -481,34 +493,34 @@ export const middleEastern: Cuisine = {
             "Traditional Levantine lamb dish with fermented dried yogurt and rice",
           cuisine: "Middle Eastern (Jordan)",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "layering",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.46,
-              Air: 0.31,
+            {
+              name: "layering",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "fermenting",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.33,
-              Earth: 0.39,
-              Air: 0.22,
+            {
+              name: "fermenting",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.33,
+                Earth: 0.39,
+                Air: 0.22,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "serving platter",
@@ -539,7 +551,11 @@ export const middleEastern: Cuisine = {
               },
             },
             { name: "jameed", amount: "500", unit: "g", category: "dairy" },
-            { name: "rice", amount: "1", unit: "kg", category: "grain",
+            {
+              name: "rice",
+              amount: "1",
+              unit: "kg",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -547,7 +563,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "pine nuts", amount: "100", unit: "g", category: "nut",
+            {
+              name: "pine nuts",
+              amount: "100",
+              unit: "g",
+              category: "nut",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.1,
@@ -567,7 +587,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "parsley", amount: "1", unit: "bunch", category: "herb",
+            {
+              name: "parsley",
+              amount: "1",
+              unit: "bunch",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -613,26 +637,26 @@ export const middleEastern: Cuisine = {
           description: "Levantine bread salad with sumac and mixed vegetables",
           cuisine: "Middle Eastern (Levant)",
           cookingMethods: [
-          {
-            name: "toasting",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.06,
-              Earth: 0.25,
-              Air: 0.28,
+            {
+              name: "toasting",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.06,
+                Earth: 0.25,
+                Air: 0.28,
+              },
             },
-          },
-          {
-            name: "chopping",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.08,
-              Earth: 0.54,
-              Air: 0.31,
+            {
+              name: "chopping",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.08,
+                Earth: 0.54,
+                Air: 0.31,
+              },
             },
-          },
-          "tossing"
-        ],
+            "tossing",
+          ],
           tools: ["large bowl", "sharp knife", "baking sheet", "whisk"],
           preparationSteps: [
             "Toast pita bread",
@@ -724,43 +748,43 @@ export const middleEastern: Cuisine = {
             "Layered eggplant and spiced meat casserole with béchamel",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "layering",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.46,
-              Air: 0.31,
+            {
+              name: "layering",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "sautéing",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "sautéing",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large baking dish",
             "skillet",
@@ -856,34 +880,34 @@ export const middleEastern: Cuisine = {
           description: "Whole roasted lamb with spiced rice and nuts",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "roasting",
-            elementalProperties: {
-              Fire: 0.47,
-              Water: 0.06,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "roasting",
+              elementalProperties: {
+                Fire: 0.47,
+                Water: 0.06,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "braising",
-            elementalProperties: {
-              Fire: 0.25,
-              Water: 0.35,
-              Earth: 0.3,
-              Air: 0.1,
+            {
+              name: "braising",
+              elementalProperties: {
+                Fire: 0.25,
+                Water: 0.35,
+                Earth: 0.3,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large roasting pan",
             "rice cooker",
@@ -963,34 +987,34 @@ export const middleEastern: Cuisine = {
             "Assortment of grilled meats and vegetables with various dips",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          },
-          {
-            name: "marinating",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.44,
-              Earth: 0.19,
-              Air: 0.25,
+            {
+              name: "marinating",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.44,
+                Earth: 0.19,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "grill",
             "skewers",
@@ -1078,26 +1102,26 @@ export const middleEastern: Cuisine = {
           description: "Lentils and rice with caramelized onions",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "simmering",
-            elementalProperties: {
-              Fire: 0.2,
-              Water: 0.53,
-              Earth: 0.17,
-              Air: 0.1,
+            {
+              name: "simmering",
+              elementalProperties: {
+                Fire: 0.2,
+                Water: 0.53,
+                Earth: 0.17,
+                Air: 0.1,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          "combining"
-        ],
+            "combining",
+          ],
           tools: ["large pot", "skillet", "strainer", "wooden spoon"],
           preparationSteps: [
             "Cook lentils until tender",
@@ -1120,7 +1144,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "rice", amount: "250", unit: "g", category: "grain",
+            {
+              name: "rice",
+              amount: "250",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -1140,7 +1168,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "olive oil", amount: "1/2", unit: "cup", category: "oil",
+            {
+              name: "olive oil",
+              amount: "1/2",
+              unit: "cup",
+              category: "oil",
               elementalProperties: {
                 Fire: 0.4,
                 Water: 0.1,
@@ -1148,7 +1180,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "cumin", amount: "2", unit: "tsp", category: "spice",
+            {
+              name: "cumin",
+              amount: "2",
+              unit: "tsp",
+              category: "spice",
               elementalProperties: {
                 Fire: 0.5,
                 Water: 0.1,
@@ -1197,34 +1233,34 @@ export const middleEastern: Cuisine = {
             "Marinated meat slowly roasted on a vertical spit, served in bread with tahini sauce",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "roasting",
-            elementalProperties: {
-              Fire: 0.47,
-              Water: 0.06,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "roasting",
+              elementalProperties: {
+                Fire: 0.47,
+                Water: 0.06,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "marinating",
-            elementalProperties: {
-              Fire: 0.13,
-              Water: 0.44,
-              Earth: 0.19,
-              Air: 0.25,
+            {
+              name: "marinating",
+              elementalProperties: {
+                Fire: 0.13,
+                Water: 0.44,
+                Earth: 0.19,
+                Air: 0.25,
+              },
             },
-          },
-          {
-            name: "slicing",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.08,
-              Earth: 0.54,
-              Air: 0.31,
+            {
+              name: "slicing",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.08,
+                Earth: 0.54,
+                Air: 0.31,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "vertical rotisserie",
             "sharp knife",
@@ -1304,13 +1340,14 @@ export const middleEastern: Cuisine = {
             minerals: ["Iron", "Zinc"],
           },
           season: ["all"],
-          
+
           elementalProperties: {
             Fire: 0.29,
             Water: 0.19,
             Earth: 0.37,
             Air: 0.15,
-          },mealType: ["dinner"],
+          },
+          mealType: ["dinner"],
         },
 
         {
@@ -1319,26 +1356,26 @@ export const middleEastern: Cuisine = {
             "Layered phyllo pastry filled with nuts and soaked in honey syrup",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "layering",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.46,
-              Air: 0.31,
+            {
+              name: "layering",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          "syrup-making"
-        ],
+            "syrup-making",
+          ],
           tools: [
             "baking dish",
             "pastry brush",
@@ -1362,7 +1399,11 @@ export const middleEastern: Cuisine = {
               unit: "package",
               category: "pastry",
             },
-            { name: "walnuts", amount: "500", unit: "g", category: "nut",
+            {
+              name: "walnuts",
+              amount: "500",
+              unit: "g",
+              category: "nut",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.1,
@@ -1370,7 +1411,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.2,
               },
             },
-            { name: "butter", amount: "400", unit: "g", category: "fat",
+            {
+              name: "butter",
+              amount: "400",
+              unit: "g",
+              category: "fat",
               elementalProperties: {
                 Fire: 0.2,
                 Water: 0.2,
@@ -1378,7 +1423,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "honey", amount: "250", unit: "ml", category: "sweetener",
+            {
+              name: "honey",
+              amount: "250",
+              unit: "ml",
+              category: "sweetener",
               elementalProperties: {
                 Fire: 0.3,
                 Water: 0.3,
@@ -1386,7 +1435,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "cinnamon", amount: "2", unit: "tsp", category: "spice",
+            {
+              name: "cinnamon",
+              amount: "2",
+              unit: "tsp",
+              category: "spice",
               elementalProperties: {
                 Fire: 0.45,
                 Water: 0.1,
@@ -1434,26 +1487,26 @@ export const middleEastern: Cuisine = {
             "Deep-fried patties made from ground chickpeas or fava beans with herbs and spices",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "grinding",
-            elementalProperties: {
-              Fire: 0.14,
-              Water: 0.07,
-              Earth: 0.57,
-              Air: 0.21,
+            {
+              name: "grinding",
+              elementalProperties: {
+                Fire: 0.14,
+                Water: 0.07,
+                Earth: 0.57,
+                Air: 0.21,
+              },
             },
-          },
-          "shaping",
-          {
-            name: "deep-frying",
-            elementalProperties: {
-              Fire: 0.45,
-              Water: 0.06,
-              Earth: 0.21,
-              Air: 0.27,
+            "shaping",
+            {
+              name: "deep-frying",
+              elementalProperties: {
+                Fire: 0.45,
+                Water: 0.06,
+                Earth: 0.21,
+                Air: 0.27,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "food processor",
             "deep fryer",
@@ -1482,7 +1535,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "parsley", amount: "2", unit: "bunches", category: "herb",
+            {
+              name: "parsley",
+              amount: "2",
+              unit: "bunches",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -1490,7 +1547,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.5,
               },
             },
-            { name: "cilantro", amount: "1", unit: "bunch", category: "herb",
+            {
+              name: "cilantro",
+              amount: "1",
+              unit: "bunch",
+              category: "herb",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.2,
@@ -1522,7 +1583,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.1,
               },
             },
-            { name: "cumin", amount: "2", unit: "tbsp", category: "spice",
+            {
+              name: "cumin",
+              amount: "2",
+              unit: "tbsp",
+              category: "spice",
               elementalProperties: {
                 Fire: 0.5,
                 Water: 0.1,
@@ -1575,34 +1640,34 @@ export const middleEastern: Cuisine = {
           description: "Egyptian bread pudding with milk, cream, and nuts",
           cuisine: "Middle Eastern (Egyptian)",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          },
-          {
-            name: "broiling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.12,
-              Air: 0.32,
+            {
+              name: "broiling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.12,
+                Air: 0.32,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "baking dish",
             "mixing bowls",
@@ -1686,26 +1751,26 @@ export const middleEastern: Cuisine = {
             "Sweet cheese pastry made with shredded phyllo dough and aromatic syrup",
           cuisine: "Middle Eastern (Levant)",
           cookingMethods: [
-          {
-            name: "baking",
-            elementalProperties: {
-              Fire: 0.32,
-              Water: 0.11,
-              Earth: 0.21,
-              Air: 0.37,
+            {
+              name: "baking",
+              elementalProperties: {
+                Fire: 0.32,
+                Water: 0.11,
+                Earth: 0.21,
+                Air: 0.37,
+              },
             },
-          },
-          {
-            name: "assembling",
-            elementalProperties: {
-              Fire: 0.04,
-              Water: 0.16,
-              Earth: 0.4,
-              Air: 0.4,
+            {
+              name: "assembling",
+              elementalProperties: {
+                Fire: 0.04,
+                Water: 0.16,
+                Earth: 0.4,
+                Air: 0.4,
+              },
             },
-          },
-          "syrup-making"
-        ],
+            "syrup-making",
+          ],
           tools: [
             "round baking pan",
             "food processor",
@@ -1790,26 +1855,26 @@ export const middleEastern: Cuisine = {
             "Grilled spiced ground meat skewers with herbs and onions",
           cuisine: "Middle Eastern",
           cookingMethods: [
-          {
-            name: "grinding",
-            elementalProperties: {
-              Fire: 0.14,
-              Water: 0.07,
-              Earth: 0.57,
-              Air: 0.21,
+            {
+              name: "grinding",
+              elementalProperties: {
+                Fire: 0.14,
+                Water: 0.07,
+                Earth: 0.57,
+                Air: 0.21,
+              },
             },
-          },
-          "skewering",
-          {
-            name: "grilling",
-            elementalProperties: {
-              Fire: 0.5,
-              Water: 0.06,
-              Earth: 0.11,
-              Air: 0.33,
+            "skewering",
+            {
+              name: "grilling",
+              elementalProperties: {
+                Fire: 0.5,
+                Water: 0.06,
+                Earth: 0.11,
+                Air: 0.33,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "food processor",
             "metal skewers",
@@ -1892,34 +1957,34 @@ export const middleEastern: Cuisine = {
             "Upside-down rice dish with chicken, eggplant, and cauliflower",
           cuisine: "Middle Eastern (Palestinian)",
           cookingMethods: [
-          {
-            name: "layering",
-            elementalProperties: {
-              Fire: 0.08,
-              Water: 0.15,
-              Earth: 0.46,
-              Air: 0.31,
+            {
+              name: "layering",
+              elementalProperties: {
+                Fire: 0.08,
+                Water: 0.15,
+                Earth: 0.46,
+                Air: 0.31,
+              },
             },
-          },
-          {
-            name: "frying",
-            elementalProperties: {
-              Fire: 0.41,
-              Water: 0.12,
-              Earth: 0.18,
-              Air: 0.29,
+            {
+              name: "frying",
+              elementalProperties: {
+                Fire: 0.41,
+                Water: 0.12,
+                Earth: 0.18,
+                Air: 0.29,
+              },
             },
-          },
-          {
-            name: "steaming",
-            elementalProperties: {
-              Fire: 0.06,
-              Water: 0.56,
-              Earth: 0.13,
-              Air: 0.25,
+            {
+              name: "steaming",
+              elementalProperties: {
+                Fire: 0.06,
+                Water: 0.56,
+                Earth: 0.13,
+                Air: 0.25,
+              },
             },
-          }
-        ],
+          ],
           tools: [
             "large pot",
             "frying pan",
@@ -1948,7 +2013,11 @@ export const middleEastern: Cuisine = {
                 Air: 0.15,
               },
             },
-            { name: "rice", amount: "750", unit: "g", category: "grain",
+            {
+              name: "rice",
+              amount: "750",
+              unit: "g",
+              category: "grain",
               elementalProperties: {
                 Fire: 0.1,
                 Water: 0.3,
@@ -2021,7 +2090,8 @@ export const middleEastern: Cuisine = {
 
         {
           name: "Tabbouleh",
-          description: "Fresh Lebanese parsley salad with bulgur, tomatoes, and lemon",
+          description:
+            "Fresh Lebanese parsley salad with bulgur, tomatoes, and lemon",
           cuisine: "Middle Eastern (Lebanese)",
           cookingMethods: [
             {
@@ -2038,12 +2108,17 @@ export const middleEastern: Cuisine = {
               elementalProperties: {
                 Fire: 0.05,
                 Water: 0.65,
-                Earth: 0.20,
-                Air: 0.10,
+                Earth: 0.2,
+                Air: 0.1,
               },
             },
           ],
-          tools: ["sharp knife", "cutting board", "mixing bowl", "citrus juicer"],
+          tools: [
+            "sharp knife",
+            "cutting board",
+            "mixing bowl",
+            "citrus juicer",
+          ],
           preparationSteps: [
             "Soak bulgur wheat in water",
             "Finely chop parsley and mint",
@@ -2053,12 +2128,42 @@ export const middleEastern: Cuisine = {
             "Dress with lemon juice and olive oil",
           ],
           ingredients: [
-            { name: "flat-leaf parsley", amount: "3", unit: "bunches", category: "herb" },
-            { name: "fine bulgur", amount: "1/4", unit: "cup", category: "grain" },
-            { name: "tomatoes", amount: "2", unit: "medium", category: "vegetable" },
-            { name: "green onions", amount: "4", unit: "stalks", category: "vegetable" },
-            { name: "fresh mint", amount: "1/2", unit: "cup", category: "herb" },
-            { name: "lemon juice", amount: "1/3", unit: "cup", category: "citrus" },
+            {
+              name: "flat-leaf parsley",
+              amount: "3",
+              unit: "bunches",
+              category: "herb",
+            },
+            {
+              name: "fine bulgur",
+              amount: "1/4",
+              unit: "cup",
+              category: "grain",
+            },
+            {
+              name: "tomatoes",
+              amount: "2",
+              unit: "medium",
+              category: "vegetable",
+            },
+            {
+              name: "green onions",
+              amount: "4",
+              unit: "stalks",
+              category: "vegetable",
+            },
+            {
+              name: "fresh mint",
+              amount: "1/2",
+              unit: "cup",
+              category: "herb",
+            },
+            {
+              name: "lemon juice",
+              amount: "1/3",
+              unit: "cup",
+              category: "citrus",
+            },
             { name: "olive oil", amount: "1/4", unit: "cup", category: "fat" },
           ],
           substitutions: {
@@ -2069,7 +2174,8 @@ export const middleEastern: Cuisine = {
           allergens: ["gluten"],
           prepTime: "20 minutes",
           cookTime: "0 minutes",
-          culturalNotes: "A cornerstone of Lebanese cuisine, tabbouleh is parsley with some bulgur, not the other way around",
+          culturalNotes:
+            "A cornerstone of Lebanese cuisine, tabbouleh is parsley with some bulgur, not the other way around",
           pairingSuggestions: ["grilled meats", "pita bread", "hummus"],
           dietaryInfo: ["vegan", "vegetarian"],
           spiceLevel: "none",
@@ -2094,7 +2200,8 @@ export const middleEastern: Cuisine = {
 
         {
           name: "Kibbeh",
-          description: "Bulgur and ground meat croquettes with pine nuts and spices",
+          description:
+            "Bulgur and ground meat croquettes with pine nuts and spices",
           cuisine: "Middle Eastern (Levantine)",
           cookingMethods: [
             {
@@ -2111,12 +2218,17 @@ export const middleEastern: Cuisine = {
               elementalProperties: {
                 Fire: 0.55,
                 Water: 0.05,
-                Earth: 0.10,
-                Air: 0.30,
+                Earth: 0.1,
+                Air: 0.3,
               },
             },
           ],
-          tools: ["food processor", "mixing bowl", "deep fryer", "slotted spoon"],
+          tools: [
+            "food processor",
+            "mixing bowl",
+            "deep fryer",
+            "slotted spoon",
+          ],
           preparationSteps: [
             "Soak bulgur and squeeze dry",
             "Process with lean meat and spices",
@@ -2126,12 +2238,37 @@ export const middleEastern: Cuisine = {
             "Drain on paper towels",
           ],
           ingredients: [
-            { name: "fine bulgur", amount: "1", unit: "cup", category: "grain" },
-            { name: "lean ground lamb", amount: "500", unit: "g", category: "protein" },
-            { name: "onion", amount: "1", unit: "large", category: "vegetable" },
+            {
+              name: "fine bulgur",
+              amount: "1",
+              unit: "cup",
+              category: "grain",
+            },
+            {
+              name: "lean ground lamb",
+              amount: "500",
+              unit: "g",
+              category: "protein",
+            },
+            {
+              name: "onion",
+              amount: "1",
+              unit: "large",
+              category: "vegetable",
+            },
             { name: "pine nuts", amount: "1/4", unit: "cup", category: "nut" },
-            { name: "seven spices", amount: "1", unit: "tbsp", category: "spice blend" },
-            { name: "vegetable oil", amount: "2", unit: "cups", category: "fat" },
+            {
+              name: "seven spices",
+              amount: "1",
+              unit: "tbsp",
+              category: "spice blend",
+            },
+            {
+              name: "vegetable oil",
+              amount: "2",
+              unit: "cups",
+              category: "fat",
+            },
           ],
           substitutions: {
             "ground lamb": ["ground beef"],
@@ -2141,7 +2278,8 @@ export const middleEastern: Cuisine = {
           allergens: ["gluten", "nuts"],
           prepTime: "45 minutes",
           cookTime: "20 minutes",
-          culturalNotes: "Considered the national dish of Lebanon, with countless regional variations",
+          culturalNotes:
+            "Considered the national dish of Lebanon, with countless regional variations",
           pairingSuggestions: ["yogurt", "tabbouleh", "fattoush"],
           dietaryInfo: ["halal"],
           spiceLevel: "mild",
@@ -2159,14 +2297,15 @@ export const middleEastern: Cuisine = {
           elementalProperties: {
             Fire: 0.35,
             Water: 0.15,
-            Earth: 0.40,
-            Air: 0.10,
+            Earth: 0.4,
+            Air: 0.1,
           },
         },
 
         {
           name: "Basbousa",
-          description: "Semolina cake soaked in sweet rose or orange blossom syrup",
+          description:
+            "Semolina cake soaked in sweet rose or orange blossom syrup",
           cuisine: "Middle Eastern",
           cookingMethods: [
             {
@@ -2183,8 +2322,8 @@ export const middleEastern: Cuisine = {
               elementalProperties: {
                 Fire: 0.05,
                 Water: 0.65,
-                Earth: 0.20,
-                Air: 0.10,
+                Earth: 0.2,
+                Air: 0.1,
               },
             },
           ],
@@ -2203,17 +2342,23 @@ export const middleEastern: Cuisine = {
             { name: "yogurt", amount: "1", unit: "cup", category: "dairy" },
             { name: "butter", amount: "1/2", unit: "cup", category: "fat" },
             { name: "almonds", amount: "24", unit: "pieces", category: "nut" },
-            { name: "rose water", amount: "1", unit: "tbsp", category: "flavoring" },
+            {
+              name: "rose water",
+              amount: "1",
+              unit: "tbsp",
+              category: "flavoring",
+            },
           ],
           substitutions: {
             "rose water": ["orange blossom water", "vanilla"],
-            "almonds": ["pistachios", "coconut"],
+            almonds: ["pistachios", "coconut"],
           },
           servingSize: 24,
           allergens: ["dairy", "gluten", "nuts"],
           prepTime: "15 minutes",
           cookTime: "35 minutes",
-          culturalNotes: "A beloved dessert throughout the Arab world, often served during Ramadan and special occasions",
+          culturalNotes:
+            "A beloved dessert throughout the Arab world, often served during Ramadan and special occasions",
           pairingSuggestions: ["Arabic coffee", "black tea"],
           dietaryInfo: ["vegetarian"],
           spiceLevel: "none",
@@ -2229,10 +2374,10 @@ export const middleEastern: Cuisine = {
           season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
-            Fire: 0.10,
+            Fire: 0.1,
             Water: 0.25,
             Earth: 0.55,
-            Air: 0.10,
+            Air: 0.1,
           },
         },
       ],

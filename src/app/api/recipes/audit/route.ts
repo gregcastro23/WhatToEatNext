@@ -33,7 +33,10 @@ export async function GET() {
         : 0;
 
     // Group incomplete recipes by cuisine
-    const byCuisine: Record<string, { count: number; issues: Record<string, number> }> = {};
+    const byCuisine: Record<
+      string,
+      { count: number; issues: Record<string, number> }
+    > = {};
     for (const recipe of auditResult.incompleteRecipes) {
       const cuisine = recipe.cuisine || "Unknown";
       if (!byCuisine[cuisine]) {
@@ -42,7 +45,8 @@ export async function GET() {
       byCuisine[cuisine].count++;
 
       for (const issue of recipe.issues) {
-        byCuisine[cuisine].issues[issue] = (byCuisine[cuisine].issues[issue] || 0) + 1;
+        byCuisine[cuisine].issues[issue] =
+          (byCuisine[cuisine].issues[issue] || 0) + 1;
       }
     }
 
@@ -76,7 +80,7 @@ export async function GET() {
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

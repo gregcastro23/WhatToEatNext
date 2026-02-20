@@ -1,5 +1,5 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +25,7 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.resolve(__dirname, 'src'),
+      "@": path.resolve(__dirname, "src"),
     };
 
     // Externalize Node.js core modules and 'pg' to prevent bundling them into the client-side
@@ -37,18 +37,22 @@ const nextConfig = {
     const originalExternals = config.externals;
     config.externals = ({ context, request }, callback) => {
       // List of modules to externalize
-      const externalsToExternalize = ['pg', 'dns', 'net', 'tls', 'fs', 'async_hooks'];
+      const externalsToExternalize = ["pg", "dns", "net", "tls", "fs"];
 
       if (externalsToExternalize.includes(request)) {
         return callback(null, `commonjs ${request}`);
       }
 
       // If original externals is a function, call it
-      if (typeof originalExternals === 'function') {
+      if (typeof originalExternals === "function") {
         return originalExternals(context, request, callback);
       }
       // If original externals is an object and contains the request
-      if (typeof originalExternals === 'object' && originalExternals !== null && originalExternals[request]) {
+      if (
+        typeof originalExternals === "object" &&
+        originalExternals !== null &&
+        originalExternals[request]
+      ) {
         return callback(null, originalExternals[request]);
       }
       // If it's an array, or other cases, let Webpack handle it normally
@@ -57,7 +61,7 @@ const nextConfig = {
     return config;
   },
   async headers() {
-    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isDevelopment = process.env.NODE_ENV === "development";
 
     // CSP configuration for Chakra UI and application security
     // Build script-src dynamically
@@ -67,8 +71,8 @@ const nextConfig = {
       "https://unpkg.com",
       "https://cdn.jsdelivr.net",
       "https://r2cdn.perplexity.ai",
-      "https://vercel.live",  // Always allow Vercel Live (for preview/production deployments)
-      "https://*.vercel.live" // Allow all Vercel Live subdomains
+      "https://vercel.live", // Always allow Vercel Live (for preview/production deployments)
+      "https://*.vercel.live", // Allow all Vercel Live subdomains
     ];
 
     if (isDevelopment) {
@@ -79,47 +83,49 @@ const nextConfig = {
       "'self'",
       "https://vercel.live",
       "https://*.vercel.live",
-      "https:"
+      "https:",
     ];
 
     const cspHeader = [
       "default-src 'self'",
-      `script-src ${scriptSrcParts.join(' ')}`,
+      `script-src ${scriptSrcParts.join(" ")}`,
       "style-src 'self' 'unsafe-inline' 'unsafe-hashes' https://unpkg.com https://cdn.jsdelivr.net https://r2cdn.perplexity.ai",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data: https: https://r2cdn.perplexity.ai",
-      `connect-src ${connectSrcParts.join(' ')}`,
+      `connect-src ${connectSrcParts.join(" ")}`,
       "media-src 'self' https:",
       "object-src 'none'",
       "frame-src 'self' https:",
       "frame-ancestors 'none'",
       "block-all-mixed-content",
-      "upgrade-insecure-requests"
-    ].filter(Boolean).join('; ');
+      "upgrade-insecure-requests",
+    ]
+      .filter(Boolean)
+      .join("; ");
 
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
           {
-            key: 'Content-Security-Policy',
+            key: "Content-Security-Policy",
             value: cspHeader,
           },
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
           },
           {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
           },
         ],
       },

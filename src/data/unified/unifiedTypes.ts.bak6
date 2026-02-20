@@ -10,7 +10,7 @@ import type {
   NutritionalProfile,
   Season,
   PlanetName,
-  ZodiacSign,
+  ZodiacSignType,
   ThermodynamicMetrics,
   ThermodynamicProperties,
   FlavorProfile,

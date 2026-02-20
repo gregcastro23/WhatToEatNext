@@ -51,9 +51,9 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>(
     preferences.cuisines || [],
   );
-  const [complexity, setComplexity] = useState<"simple" | "moderate" | "complex">(
-    preferences.complexity || "moderate",
-  );
+  const [complexity, setComplexity] = useState<
+    "simple" | "moderate" | "complex"
+  >(preferences.complexity || "moderate");
   const [favoriteIngredient, setFavoriteIngredient] = useState("");
   const [dislikedIngredient, setDislikedIngredient] = useState("");
 
@@ -68,7 +68,9 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     });
   };
 
-  const handleComplexityChange = (newComplexity: "simple" | "moderate" | "complex") => {
+  const handleComplexityChange = (
+    newComplexity: "simple" | "moderate" | "complex",
+  ) => {
     setComplexity(newComplexity);
     onUpdate?.({
       ...preferences,
@@ -77,12 +79,18 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
   };
 
   const addFavoriteIngredient = () => {
-    if (favoriteIngredient.trim() && !preferences.ingredients.favorites.includes(favoriteIngredient.trim())) {
+    if (
+      favoriteIngredient.trim() &&
+      !preferences.ingredients.favorites.includes(favoriteIngredient.trim())
+    ) {
       const updated = {
         ...preferences,
         ingredients: {
           ...preferences.ingredients,
-          favorites: [...preferences.ingredients.favorites, favoriteIngredient.trim()],
+          favorites: [
+            ...preferences.ingredients.favorites,
+            favoriteIngredient.trim(),
+          ],
         },
       };
       onUpdate?.(updated);
@@ -91,12 +99,18 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
   };
 
   const addDislikedIngredient = () => {
-    if (dislikedIngredient.trim() && !preferences.ingredients.dislikes.includes(dislikedIngredient.trim())) {
+    if (
+      dislikedIngredient.trim() &&
+      !preferences.ingredients.dislikes.includes(dislikedIngredient.trim())
+    ) {
       const updated = {
         ...preferences,
         ingredients: {
           ...preferences.ingredients,
-          dislikes: [...preferences.ingredients.dislikes, dislikedIngredient.trim()],
+          dislikes: [
+            ...preferences.ingredients.dislikes,
+            dislikedIngredient.trim(),
+          ],
         },
       };
       onUpdate?.(updated);
@@ -109,7 +123,9 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
       ...preferences,
       ingredients: {
         ...preferences.ingredients,
-        favorites: preferences.ingredients.favorites.filter((i) => i !== ingredient),
+        favorites: preferences.ingredients.favorites.filter(
+          (i) => i !== ingredient,
+        ),
       },
     };
     onUpdate?.(updated);
@@ -120,7 +136,9 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
       ...preferences,
       ingredients: {
         ...preferences.ingredients,
-        dislikes: preferences.ingredients.dislikes.filter((i) => i !== ingredient),
+        dislikes: preferences.ingredients.dislikes.filter(
+          (i) => i !== ingredient,
+        ),
       },
     };
     onUpdate?.(updated);
@@ -154,7 +172,9 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         <h3 className="text-xl font-bold text-gray-800 mb-2">
           Recipe Complexity
         </h3>
-        <p className="text-gray-600 mb-4">Choose your preferred recipe complexity level</p>
+        <p className="text-gray-600 mb-4">
+          Choose your preferred recipe complexity level
+        </p>
         <div className="flex gap-3">
           {(["simple", "moderate", "complex"] as const).map((level) => (
             <button
@@ -209,7 +229,9 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
             </div>
           ))}
           {preferences.ingredients.favorites.length === 0 && (
-            <p className="text-gray-500 text-sm italic">No favorites added yet</p>
+            <p className="text-gray-500 text-sm italic">
+              No favorites added yet
+            </p>
           )}
         </div>
       </div>
@@ -251,7 +273,9 @@ export const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
             </div>
           ))}
           {preferences.ingredients.dislikes.length === 0 && (
-            <p className="text-gray-500 text-sm italic">No dislikes added yet</p>
+            <p className="text-gray-500 text-sm italic">
+              No dislikes added yet
+            </p>
           )}
         </div>
       </div>

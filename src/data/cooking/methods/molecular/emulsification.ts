@@ -68,4 +68,13 @@ export const emulsification: CookingMethodData = {
     reactivity: 0.6, // Moderate chemical interactions between phases
     gregsEnergy: 0.1, // heat - (entropy × reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.20,            // Low temp differential — mechanical energy dominates
+    current: 0.50,            // Moderate — shear force creates droplet dispersion
+    resistance: 0.60,         // High — immiscible phases resist mixing
+    velocityFactor: 0.55,     // Moderate — stable emulsion forms in minutes
+    momentumRetention: 0.35,  // Low-moderate — emulsions can break over time
+    forceImpact: 0.40,        // Moderate — molecular restructuring without cooking
+  },
 };

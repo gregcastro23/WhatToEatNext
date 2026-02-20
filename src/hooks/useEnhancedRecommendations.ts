@@ -131,9 +131,12 @@ export const useEnhancedRecommendations = () => {
             true,
         };
 
-        const result =
-          await kitchenBackendClient.getCuisineRecommendations(payload as any);
-        setRecommendations(result as unknown as EnhancedRecommendationsResponse);
+        const result = await kitchenBackendClient.getCuisineRecommendations(
+          payload as any,
+        );
+        setRecommendations(
+          result as unknown as EnhancedRecommendationsResponse,
+        );
         return result;
       } catch (err) {
         const errorMessage =

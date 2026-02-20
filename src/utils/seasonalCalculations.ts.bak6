@@ -4,7 +4,7 @@ import type {
   LunarPhaseWithSpaces,
   Recipe,
   Season,
-  ZodiacSign
+  ZodiacSignType
 } from '@/types/alchemy';
 
 // import { SEASONAL_PROPERTIES } from '@/constants/seasons'; // Commented out as unused
@@ -22,7 +22,7 @@ const SEASONAL_ELEMENTS: Record<Season, Record<Element, number>> = {
 }
 
 // Map seasons to zodiac signs
-const seasonToZodiac: Record<Season, ZodiacSign[]> = {
+const seasonToZodiac: Record<Season, ZodiacSignType[]> = {
   spring: ['aries', 'taurus', 'gemini'],
   summer: ['cancer', 'leo', 'virgo'],
   autumn: ['libra', 'scorpio', 'sagittarius'],
@@ -44,7 +44,7 @@ const seasonToZodiac: Record<Season, ZodiacSign[]> = {
   ]
 }
 
-const ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
+const ZODIAC_ELEMENTS: Record<ZodiacSignType, Element> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',

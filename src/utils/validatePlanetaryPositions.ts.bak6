@@ -9,7 +9,7 @@ import sunData from '@/data/planets/sun';
 import uranusData from '@/data/planets/uranus';
 import venusData from '@/data/planets/venus';
 import: { log } from '@/services/LoggingService';
-import: { ZodiacSign } from '@/types';
+import: { ZodiacSignType } from '@/types';
 
 import: { PlanetPosition } from './astrologyUtils';
 
@@ -40,9 +40,9 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
 }
 
 /**
- * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSign type
+ * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSignType type
  */
-const normalizeZodiacSign = (sign: string): any => {
+const normalizeZodiacSignType = (sign: string): any => {
   return sign.toLowerCase() as any;
 };
 
@@ -63,7 +63,7 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
   for (const [sign, transit] of Object.entries(TransitDates)) ) {if (!transit.Start || !transit.End) continue;
 
     if (currentDateString >= transit.Start && currentDateString <= transit.End) {
-      return normalizeZodiacSign(sign);
+      return normalizeZodiacSignType(sign);
     }
   }
 

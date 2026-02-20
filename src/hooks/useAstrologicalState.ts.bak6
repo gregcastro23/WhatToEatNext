@@ -4,7 +4,7 @@ import { LunarPhase } from '@/constants/planetaryFoodAssociations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { CelestialPosition } from '@/types/celestial';
-import {_ZodiacSign, PlanetaryAlignment} from '@/types/common';
+import {_ZodiacSignType, PlanetaryAlignment} from '@/types/common';
 import {_longitudeToZodiacPosition} from '@/utils/astrologyUtils';
 import {logger} from '@/utils/logger';
 

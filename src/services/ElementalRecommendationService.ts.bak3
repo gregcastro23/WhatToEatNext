@@ -1,5 +1,5 @@
 import { ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
-import type { ElementalProperties, Recipe, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import type { ElementalProperties, Recipe, ZodiacSignType, LunarPhase } from '@/types/alchemy';
 import { elementalUtils } from '@/utils/elementalUtils';
 
 /**

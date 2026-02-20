@@ -27,9 +27,7 @@ export function findMatchedItalianDinnerRecipes() {
 
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map((recipe) => {
-    const mappedIngredients = connectIngredientsToMappings(
-      recipe as import("@/types/alchemy").Recipe,
-    );
+    const mappedIngredients = connectIngredientsToMappings(recipe as Recipe);
 
     // Calculate mapping score (percentage of ingredients with a mapping)
     const recipeData = recipe as { ingredients?: unknown[] };
@@ -116,9 +114,7 @@ export function suggestIngredientSubstitutions(
   ingredientsMap: Record<string, unknown>,
 ) {
   // Map all ingredients
-  const mappedIngredients = connectIngredientsToMappings(
-    recipe as import("@/types/alchemy").Recipe,
-  );
+  const mappedIngredients = connectIngredientsToMappings(recipe as Recipe);
 
   // Find the ingredient to replace
   const ingredientMapping = mappedIngredients.find(

@@ -29,7 +29,11 @@ interface DayCardProps {
   meals: MealSlotType[];
   onGenerateMeal: (mealType: MealType) => void;
   dragState: DragState;
-  isValidDrop: (dayOfWeek: DayOfWeek, mealType: MealType, recipe: Recipe) => boolean;
+  isValidDrop: (
+    dayOfWeek: DayOfWeek,
+    mealType: MealType,
+    recipe: Recipe,
+  ) => boolean;
   children?: React.ReactNode;
   /** Render prop for each meal slot */
   renderMealSlot: (mealSlot: MealSlotType) => React.ReactNode;
@@ -38,11 +42,7 @@ interface DayCardProps {
 /**
  * Compact daily nutrition rings
  */
-function DailyNutritionRings({
-  meals,
-}: {
-  meals: MealSlotType[];
-}) {
+function DailyNutritionRings({ meals }: { meals: MealSlotType[] }) {
   const totals = useMemo(() => {
     let calories = 0;
     let protein = 0;

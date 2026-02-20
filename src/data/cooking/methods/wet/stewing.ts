@@ -1,4 +1,4 @@
-import type { ZodiacSign, ThermodynamicProperties } from "@/types/alchemy";
+import type { ZodiacSignType, ThermodynamicProperties } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -162,6 +162,15 @@ export const stewing: CookingMethodData = {
     reactivity: 0.45, // Moderate chemical reactions
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
+
+  kineticProfile: {
+    voltage: 0.42,            // 190-210°F — between simmering and boiling
+    current: 0.68,            // Good conduction, items partially submerged
+    resistance: 0.32,         // Higher resistance — dense ingredients, thick liquid
+    velocityFactor: 0.22,     // Very slow transformation over hours
+    momentumRetention: 0.72,  // Excellent — heavy pot, dense liquid retains heat
+    forceImpact: 0.68,        // Significant over time — complete collagen breakdown
+  },
 
   // Additional metadata
   history:

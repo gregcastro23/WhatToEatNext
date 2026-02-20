@@ -9,7 +9,12 @@
  */
 
 import React, { useState } from "react";
-import { useMealCircuitMetrics, formatPower, formatEfficiency, getEfficiencyColor } from "@/hooks/useCircuitMetrics";
+import {
+  useMealCircuitMetrics,
+  formatPower,
+  formatEfficiency,
+  getEfficiencyColor,
+} from "@/hooks/useCircuitMetrics";
 
 interface MealCircuitBadgeProps {
   mealSlotId: string;
@@ -107,7 +112,9 @@ function ExpandedBadge({
         </div>
         <div className="flex justify-between gap-2">
           <span className="text-gray-600">Efficiency:</span>
-          <span className={`font-semibold ${color === 'green' ? 'text-green-700' : color === 'yellow' ? 'text-yellow-700' : 'text-red-700'}`}>
+          <span
+            className={`font-semibold ${color === "green" ? "text-green-700" : color === "yellow" ? "text-yellow-700" : "text-red-700"}`}
+          >
             {formatEfficiency(efficiency)}
           </span>
         </div>

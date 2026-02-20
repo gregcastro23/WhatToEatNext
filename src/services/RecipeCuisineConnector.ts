@@ -5,6 +5,16 @@ import cuisinesMap from "@/data/cuisines";
 import type { Season, ElementalProperties } from "@/types/alchemy";
 import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
+
+// Primary cuisine keys (14 cuisines) - avoids duplicate processing via lowercase aliases
+const PRIMARY_CUISINE_KEYS = [
+  "African", "American", "Chinese", "French", "Greek", "Indian", "Italian",
+  "Japanese", "Korean", "Mexican", "Middle Eastern", "Russian", "Thai", "Vietnamese",
+] as const;
 
 export interface CuisineRecipe {
   id: string;
@@ -83,8 +93,18 @@ export class RecipeCuisineConnector {
   }
 
   private buildRecipeCache(): void {
-    Object.entries(this.cuisineDatabase).forEach(([_, cuisine]) => {
+    // Only iterate primary cuisine keys (14) to avoid duplicate processing
+    // via lowercase aliases in cuisinesMap (which has 28 entries)
+    const seenNames = new Set<string>();
+    PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
+      const cuisine = this.cuisineDatabase[cuisineName];
+      if (!cuisine) return;
       this.extractRecipesFromCuisine(cuisine).forEach((recipe) => {
+        // Deduplicate by normalized recipe name to prevent duplicates from seasonal merging
+        const normalizedName = recipe.name.toLowerCase().trim();
+        if (seenNames.has(normalizedName)) return;
+        seenNames.add(normalizedName);
+
         const recipeId = this.generateRecipeId(recipe.name, cuisine.name);
         this.recipeCache.set(recipeId, {
           ...recipe,
@@ -192,6 +212,7 @@ export class RecipeCuisineConnector {
   }
 
   getCuisineList(): string[] {
+    // cuisineDatabase is already primaryCuisines (14 entries, no aliases)
     return Object.values(this.cuisineDatabase).map((c) => c.name);
   }
 
@@ -320,14 +341,15 @@ export class RecipeCuisineConnector {
       })),
       instructions:
         cuisineRecipe.instructions || cuisineRecipe.preparationSteps || [],
-      nutrition: cuisineRecipe.nutrition || {
-        calories: 0,
-        protein: 0,
-        carbs: 0,
-        fat: 0,
-        vitamins: [],
-        minerals: [],
-      },
+      nutrition: cuisineRecipe.nutrition
+        ? {
+            ...createEmptyNutritionalSummary(),
+            calories: cuisineRecipe.nutrition.calories,
+            protein: cuisineRecipe.nutrition.protein,
+            carbs: cuisineRecipe.nutrition.carbs,
+            fat: cuisineRecipe.nutrition.fat,
+          }
+        : undefined,
       timeToMake: this.formatTimeToMake(
         cuisineRecipe.prepTime,
         cuisineRecipe.cookTime,

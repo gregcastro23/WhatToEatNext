@@ -6,7 +6,7 @@ const rawWholeSpices = {
     name: "Star Anise",
     elementalProperties: { Fire: 0.49, Water: 0.13, Earth: 0.13, Air: 0.25 },
     astrologicalProfile: {
-      rulingPlanets: ["Saturn", "Earth", "Mars"],
+      rulingPlanets: ["Saturn", "Mars"],
       favorableZodiac: ["Virgo", "Taurus", "Capricorn", "Aries"],
       seasonalAffinity: ["autumn"],
     },
@@ -18,292 +18,6 @@ const rawWholeSpices = {
       Chinese: "traditional variety",
       Japanese: "more delicate",
       Vietnamese: "more robust",
-      sensoryProfile: {
-        taste: ["Mild", "Balanced", "Natural"],
-        aroma: ["Fresh", "Clean", "Subtle"],
-        texture: ["Pleasant", "Smooth", "Appealing"],
-        notes: "Characteristic star anise profile",
-        culinaryProfile: {
-          flavorProfile: {
-            primary: ["balanced"],
-            secondary: ["versatile"],
-            notes: "Versatile star anise for various uses",
-            sensoryProfile: {
-              taste: ["Mild", "Balanced", "Natural"],
-              aroma: ["Fresh", "Clean", "Subtle"],
-              texture: ["Pleasant", "Smooth", "Appealing"],
-              notes: "Characteristic flavorProfile profile",
-              // Removed excessive sensoryProfile nesting
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              // Removed nested content
-              culinaryProfile: {
-                flavorProfile: {
-                  primary: ["balanced"],
-                  secondary: ["versatile"],
-                  notes: "Versatile flavorProfile for various uses",
-                },
-                cookingMethods: ["sautéing", "steaming", "roasting"],
-                cuisineAffinity: ["Global", "International"],
-                preparationTips: ["Use as needed", "Season to taste"],
-              },
-              season: ["year-round"],
-            },
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ["balanced"],
-                secondary: ["versatile"],
-                notes: "Versatile flavorProfile for various uses",
-              },
-              cookingMethods: ["sautéing", "steaming", "roasting"],
-              cuisineAffinity: ["Global", "International"],
-              preparationTips: ["Use as needed", "Season to taste"],
-            },
-            season: ["year-round"],
-          },
-          cookingMethods: ["sautéing", "steaming", "roasting"],
-          cuisineAffinity: ["Global", "International"],
-          preparationTips: ["Use as needed", "Season to taste"],
-        },
-        season: ["year-round"],
-        preparation: {
-          methods: ["standard preparation"],
-          timing: "as needed",
-          notes: "Standard preparation for star anise",
-        },
-      },
-      culinaryProfile: {
-        flavorProfile: {
-          primary: ["balanced"],
-          secondary: ["versatile"],
-          notes: "Versatile star anise for various uses",
-        },
-        cookingMethods: ["sautéing", "steaming", "roasting"],
-        cuisineAffinity: ["Global", "International"],
-        preparationTips: ["Use as needed", "Season to taste"],
-      },
-      season: ["year-round"],
     },
     preparation: {
       toasting: {
@@ -325,106 +39,12 @@ const rawWholeSpices = {
         timing: "early in cooking",
         pairings: ["cinnamon", "ginger", "onions"],
         ratios: "1-2 pods per 2 cups liquid",
-        // Removed excessive sensoryProfile nesting
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        culinaryProfile: {
-          flavorProfile: {
-            primary: ["balanced"],
-            secondary: ["versatile"],
-            notes: "Versatile broths for various uses",
-          },
-          cookingMethods: ["sautéing", "steaming", "roasting"],
-          cuisineAffinity: ["Global", "International"],
-          preparationTips: ["Use as needed", "Season to taste"],
-        },
-        season: ["year-round"],
       },
-
       tea_blends: {
         name: "Tea Blends",
         method: "combine with other spices",
         pairings: ["black tea", "cinnamon", "orange"],
         ratios: "1 pod per 2 cups water",
-        // Removed excessive sensoryProfile nesting
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        culinaryProfile: {
-          flavorProfile: {
-            primary: ["balanced"],
-            secondary: ["versatile"],
-            notes: "Versatile tea blends for various uses",
-          },
-          cookingMethods: ["sautéing", "steaming", "roasting"],
-          cuisineAffinity: ["Global", "International"],
-          preparationTips: ["Use as needed", "Season to taste"],
-        },
-        season: ["year-round"],
       },
     },
     storage: {
@@ -432,6 +52,14 @@ const rawWholeSpices = {
       duration: "2 years",
       container: "airtight",
       notes: "Maintains potency well when whole",
+    },
+    nutritionalProfile: {
+      serving_size: "1 whole star (1g)",
+      calories: 3,
+      macros: { protein: 0.04, carbs: 0.5, fat: 0.02, fiber: 0.1 },
+      vitamins: { C: 0.01 },
+      minerals: { iron: 0.01, calcium: 0.01 },
+      source: "USDA FoodData Central",
     },
   },
 
@@ -477,38 +105,6 @@ const rawWholeSpices = {
         timing: "with rice and water",
         pairings: ["basmati rice", "saffron", "cinnamon"],
         ratios: "4-5 pods per cup of rice",
-        // Removed excessive sensoryProfile nesting
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        culinaryProfile: {
-          flavorProfile: {
-            primary: ["balanced"],
-            secondary: ["versatile"],
-            notes: "Versatile rice dishes for various uses",
-          },
-          cookingMethods: ["sautéing", "steaming", "roasting"],
-          cuisineAffinity: ["Global", "International"],
-          preparationTips: ["Use as needed", "Season to taste"],
-        },
-        season: ["year-round"],
       },
       curries: {
         name: "Curries",
@@ -516,22 +112,6 @@ const rawWholeSpices = {
         timing: "with meat and vegetables",
         pairings: ["chicken", "lamb", "onions"],
         ratios: "2-3 pods per pound of meat",
-        // Removed excessive sensoryProfile nesting
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        culinaryProfile: {
-          flavorProfile: {
-            primary: ["balanced"],
-            secondary: ["versatile"],
-            notes: "Versatile curries for various uses",
-          },
-          cookingMethods: ["sautéing", "steaming", "roasting"],
-          cuisineAffinity: ["Global", "International"],
-          preparationTips: ["Use as needed", "Season to taste"],
-        },
-        season: ["year-round"],
       },
       tea_blends: {
         name: "Tea Blends",
@@ -545,6 +125,14 @@ const rawWholeSpices = {
       duration: "2 years",
       container: "airtight",
       notes: "Maintains potency well when whole",
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp pods (2g)",
+      calories: 6,
+      macros: { protein: 0.2, carbs: 1.4, fat: 0.1, fiber: 0.6 },
+      vitamins: { C: 0.01, B6: 0.01 },
+      minerals: { manganese: 0.04, iron: 0.02, magnesium: 0.01 },
+      source: "USDA FoodData Central",
     },
   },
 
@@ -561,39 +149,6 @@ const rawWholeSpices = {
         appearance: "smaller, dark brown",
         flavor: "more pungent",
         uses: "Indian cuisine, oil blooming",
-        // Removed excessive sensoryProfile nesting
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        // Removed nested content
-        culinaryProfile: {
-          flavorProfile: {
-            primary: ["balanced"],
-            secondary: ["versatile"],
-            notes: "Versatile mustard seeds for various uses",
-          },
-          cookingMethods: ["sautéing", "steaming", "roasting"],
-          cuisineAffinity: ["Global", "International"],
-          preparationTips: ["Use as needed", "Season to taste"],
-        },
-        season: ["year-round"],
       },
     },
     culinaryApplications: {
@@ -607,25 +162,8 @@ const rawWholeSpices = {
           tadka: "bloom in hot oil and pour over dish",
           base: "start dish with bloomed seeds",
           layering: "add at multiple cooking stages",
-          // Removed excessive sensoryProfile nesting
-          // Removed nested content
-          // Removed nested content
-          // Removed nested content
-          // Removed nested content
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ["balanced"],
-              secondary: ["versatile"],
-              notes: "Versatile tempering for various uses",
-            },
-            cookingMethods: ["sautéing", "steaming", "roasting"],
-            cuisineAffinity: ["Global", "International"],
-            preparationTips: ["Use as needed", "Season to taste"],
-          },
-          season: ["year-round"],
         },
       },
-
       marinades: {
         name: "Marinades",
         method: "crush or grind",
@@ -655,6 +193,19 @@ const rawWholeSpices = {
       duration: "whole: 1 year",
       container: "airtight",
       notes: "Seeds can be sprouted if fresh",
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp (3.3g)",
+      calories: 15,
+      macros: { protein: 0.8, carbs: 0.8, fat: 1.0, fiber: 0.4 },
+      vitamins: { B1: 0.02 },
+      minerals: {
+        selenium: 0.06,
+        manganese: 0.03,
+        iron: 0.02,
+        magnesium: 0.02,
+      },
+      source: "USDA FoodData Central",
     },
   },
 
@@ -716,6 +267,14 @@ const rawWholeSpices = {
         },
       },
     },
+    nutritionalProfile: {
+      serving_size: "1 tsp (2g)",
+      calories: 7,
+      macros: { protein: 0.3, carbs: 1.1, fat: 0.3, fiber: 0.8 },
+      vitamins: { C: 0.01 },
+      minerals: { manganese: 0.03, calcium: 0.02, iron: 0.02 },
+      source: "USDA FoodData Central",
+    },
   },
 
   coriander_seeds: {
@@ -764,6 +323,14 @@ const rawWholeSpices = {
           quick_pickle: "lightly crush first",
         },
       },
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp (1.8g)",
+      calories: 5,
+      macros: { protein: 0.2, carbs: 1.0, fat: 0.2, fiber: 0.7 },
+      vitamins: { C: 0.01 },
+      minerals: { iron: 0.02, manganese: 0.01 },
+      source: "USDA FoodData Central",
     },
   },
 
@@ -826,6 +393,14 @@ const rawWholeSpices = {
         },
       },
     },
+    nutritionalProfile: {
+      serving_size: "1 tsp (2.1g)",
+      calories: 8,
+      macros: { protein: 0.4, carbs: 0.9, fat: 0.5, fiber: 0.2 },
+      vitamins: { E: 0.01 },
+      minerals: { iron: 0.07, manganese: 0.02, magnesium: 0.02 },
+      source: "USDA FoodData Central",
+    },
   },
 
   caraway_seeds: {
@@ -875,220 +450,18 @@ const rawWholeSpices = {
         },
       },
     },
-  },
-  ginger: {
-    name: "ginger",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  cinnamon: {
-    name: "cinnamon",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  nutmeg: {
-    name: "nutmeg",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  paprika: {
-    name: "paprika",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  red_bean_paste: {
-    name: "red bean paste",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  curry_leaves: {
-    name: "curry leaves",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  turmeric: {
-    name: "turmeric",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  green_chilies: {
-    name: "green chilies",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  chole_masala: {
-    name: "chole masala",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  chaat_masala: {
-    name: "chaat masala",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  garam_masala: {
-    name: "garam masala",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  cardamom: {
-    name: "cardamom",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  saffron: {
-    name: "saffron",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  curry_roux: {
-    name: "curry roux",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  chili_powder: {
-    name: "chili powder",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  cumin: {
-    name: "cumin",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  coriander: {
-    name: "coriander",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  thai_chilies: {
-    name: "Thai chilies",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
-    },
-  },
-  shrimp_paste: {
-    name: "shrimp paste",
-    elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
-    qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["winter"],
+    nutritionalProfile: {
+      serving_size: "1 tsp (2.1g)",
+      calories: 7,
+      macros: { protein: 0.4, carbs: 1.0, fat: 0.3, fiber: 0.8 },
+      vitamins: { C: 0.01 },
+      minerals: { iron: 0.03, calcium: 0.01, manganese: 0.01 },
+      source: "USDA FoodData Central",
     },
   },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const _wholeSpices: Record<string, IngredientMapping> =
   fixIngredientMappings(
     rawWholeSpices as Record<string, Partial<IngredientMapping>>,

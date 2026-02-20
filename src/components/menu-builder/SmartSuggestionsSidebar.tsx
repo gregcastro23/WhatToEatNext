@@ -52,13 +52,13 @@ function extractAllIngredients(weekPlan: WeeklyMenu | null): string[] {
   return weekPlan.meals
     .filter((m) => m.recipe)
     .flatMap((m) =>
-      (m.recipe!.ingredients || []).map((ing) => ing.name.toLowerCase())
+      (m.recipe!.ingredients || []).map((ing) => ing.name.toLowerCase()),
     );
 }
 
 /** Count how often each recipe appears */
 function countRecipeFrequency(
-  weekPlan: WeeklyMenu | null
+  weekPlan: WeeklyMenu | null,
 ): Record<string, number> {
   if (!weekPlan) return {};
   const counts: Record<string, number> = {};
@@ -77,7 +77,7 @@ function countUniqueCuisines(weekPlan: WeeklyMenu | null): number {
   const cuisines = new Set(
     weekPlan.meals
       .filter((m) => m.recipe?.cuisine)
-      .map((m) => m.recipe!.cuisine!.toLowerCase())
+      .map((m) => m.recipe!.cuisine!.toLowerCase()),
   );
   return cuisines.size;
 }
@@ -221,14 +221,32 @@ export default function SmartSuggestionsSidebar({
     // --- PLANETARY ---
     const now = new Date();
     const dayOfWeek = now.getDay();
-    const planetaryRulers: Record<number, { planet: string; suggestion: string }> = {
-      0: { planet: "Sun", suggestion: "Energizing, bold-flavored meals shine today" },
+    const planetaryRulers: Record<
+      number,
+      { planet: string; suggestion: string }
+    > = {
+      0: {
+        planet: "Sun",
+        suggestion: "Energizing, bold-flavored meals shine today",
+      },
       1: { planet: "Moon", suggestion: "Comfort foods and soups are favored" },
       2: { planet: "Mars", suggestion: "Spicy, protein-rich dishes are ideal" },
-      3: { planet: "Mercury", suggestion: "Complex, varied dishes stimulate the mind" },
-      4: { planet: "Jupiter", suggestion: "Abundant, celebratory meals are auspicious" },
-      5: { planet: "Venus", suggestion: "Indulgent, beautiful presentations please" },
-      6: { planet: "Saturn", suggestion: "Grounding, traditional dishes provide structure" },
+      3: {
+        planet: "Mercury",
+        suggestion: "Complex, varied dishes stimulate the mind",
+      },
+      4: {
+        planet: "Jupiter",
+        suggestion: "Abundant, celebratory meals are auspicious",
+      },
+      5: {
+        planet: "Venus",
+        suggestion: "Indulgent, beautiful presentations please",
+      },
+      6: {
+        planet: "Saturn",
+        suggestion: "Grounding, traditional dishes provide structure",
+      },
     };
 
     const today = planetaryRulers[dayOfWeek];
@@ -267,7 +285,8 @@ export default function SmartSuggestionsSidebar({
           <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-amber-50 to-amber-100 flex-shrink-0">
             <h3 className="font-semibold text-gray-800">Smart Suggestions</h3>
             <p className="text-xs text-gray-600 mt-1">
-              {suggestions.length} active tip{suggestions.length !== 1 ? "s" : ""}
+              {suggestions.length} active tip
+              {suggestions.length !== 1 ? "s" : ""}
             </p>
           </div>
 
@@ -283,7 +302,11 @@ export default function SmartSuggestionsSidebar({
                 <SuggestionCard
                   key={suggestion.id}
                   suggestion={suggestion}
-                  onApply={onApplySuggestion as ((s: ApplicableSuggestion) => void) | undefined}
+                  onApply={
+                    onApplySuggestion as
+                      | ((s: ApplicableSuggestion) => void)
+                      | undefined
+                  }
                 />
               ))
             )}

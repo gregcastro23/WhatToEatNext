@@ -8,57 +8,65 @@
  * @created 2026-01-10
  */
 
-import { useAstrologicalState } from "@/hooks/useAstrologicalState";
-import { alchemicalApi } from "@/services/AlchemicalApiClient";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+  type ReactNode,
+} from "react";
 import type {
-  CircuitBottleneck,
-  CircuitImprovementSuggestion,
+  WeeklyMenu,
+  MealSlot,
+  DayOfWeek,
+  MealType,
+  GroceryItem,
+  DailyNutritionTotals,
+  PlanetarySnapshot,
+  MenuTemplate,
+  WeeklyMenuStats,
+  CalendarNavigation,
+} from "@/types/menuPlanner";
+import type {
+  WeeklyMenuCircuitMetrics,
   DayCircuitMetrics,
   MealCircuitMetrics,
-  WeeklyMenuCircuitMetrics,
+  CircuitBottleneck,
+  CircuitImprovementSuggestion,
+  CircuitOptimizationGoal,
 } from "@/types/kinetics";
-import type {
-  CalendarNavigation,
-  DailyNutritionTotals,
-  DayOfWeek,
-  GroceryItem,
-  MealSlot,
-  MealType,
-  MenuTemplate,
-  PlanetarySnapshot,
-  WeeklyMenu,
-  WeeklyMenuStats,
-} from "@/types/menuPlanner";
 import {
-  PLANETARY_DAY_RULERS,
-  getWeekEndDate,
   getWeekStartDate,
+  getWeekEndDate,
+  PLANETARY_DAY_RULERS,
 } from "@/types/menuPlanner";
-import type { Recipe } from "@/types/recipe";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
+import { logger } from "@/utils/logger";
+import { generateGroceryList } from "@/utils/groceryListGenerator";
+import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
+import {
+  calculateDayCircuit,
+  getMealsForDay,
+} from "@/utils/dayCircuitCalculations";
+import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
 import {
   findCircuitBottlenecks,
   generateCircuitSuggestions,
 } from "@/utils/circuitOptimization";
 import {
-  calculateDayCircuit,
-  getMealsForDay,
-} from "@/utils/dayCircuitCalculations";
-import { generateGroceryList } from "@/utils/groceryListGenerator";
-import { logger } from "@/utils/logger";
-import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
-import type { AstrologicalState } from "@/utils/menuPlanner/recommendationBridge";
-import { generateDayRecommendations } from "@/utils/menuPlanner/recommendationBridge";
-import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+  generateDayRecommendations,
+  type AstrologicalState,
+  type UserPersonalizationContext,
+} from "@/utils/menuPlanner/recommendationBridge";
+import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import { useUser } from "@/contexts/UserContext";
+import ChartComparisonService, {
+  type ChartComparison,
+} from "@/services/ChartComparisonService";
 
 /**
  * Context type definition
@@ -74,11 +82,6 @@ interface MenuPlannerContextType {
   dayCircuitMetrics: Record<DayOfWeek, DayCircuitMetrics | null>;
   mealCircuitMetrics: Record<string, MealCircuitMetrics | null>; // keyed by mealSlotId
 
-  // Collective Synastry (NEW - Phase 7/8)
-  participants: Participant[];
-  addParticipant: (participant: Participant) => void;
-  removeParticipant: (participantId: string) => void;
-
   // Calendar navigation
   navigation: CalendarNavigation;
 
@@ -86,7 +89,7 @@ interface MenuPlannerContextType {
   addMealToSlot: (
     dayOfWeek: DayOfWeek,
     mealType: MealType,
-    recipe: Recipe,
+    recipe: MonicaOptimizedRecipe,
     servings?: number,
   ) => Promise<void>;
   removeMealFromSlot: (mealSlotId: string) => Promise<void>;
@@ -122,6 +125,8 @@ interface MenuPlannerContextType {
       mealTypes?: MealType[];
       dietaryRestrictions?: string[];
       useCurrentPlanetary?: boolean;
+      /** Use user's natal chart for personalized recommendations */
+      usePersonalization?: boolean;
     },
   ) => Promise<void>;
 
@@ -158,6 +163,10 @@ interface MenuPlannerContextType {
   // Persistence
   saveMenu: () => Promise<void>;
   loadMenu: (menuId: string) => Promise<void>;
+
+  // Lunar Sync
+  syncWithLunarCycle: boolean;
+  toggleSyncWithLunarCycle: () => void;
 }
 
 /**
@@ -273,23 +282,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     Record<string, MealCircuitMetrics | null>
   >({});
 
-  // Collective Synastry State (NEW - Phase 7/8)
-  const [participants, setParticipants] = useState<Participant[]>([]);
-
-  const addParticipant = useCallback((participant: Participant) => {
-    setParticipants((prev) => [...prev, participant]);
-    logger.info(`Added participant: ${participant.name}`);
-  }, []);
-
-  const removeParticipant = useCallback((participantId: string) => {
-    setParticipants((prev) => prev.filter((p) => p.id !== participantId));
-    logger.info(`Removed participant: ${participantId}`);
-  }, []);
-
   // Astrological state for planetary recommendations (Phase 3)
   const astrologicalState = useAstrologicalState();
+  const [syncWithLunarCycle, setSyncWithLunarCycle] = useState<boolean>(false);
 
   const isMountedRef = useRef(false);
+
+  const toggleSyncWithLunarCycle = useCallback(() => {
+    setSyncWithLunarCycle((prev) => !prev);
+  }, []);
 
   /**
    * Initialize menu on mount
@@ -403,7 +404,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     async (
       dayOfWeek: DayOfWeek,
       mealType: MealType,
-      recipe: Recipe,
+      recipe: MonicaOptimizedRecipe,
       servings: number = 1,
     ) => {
       if (!currentMenu) return;
@@ -931,9 +932,35 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     [currentMenu, clearDay],
   );
 
+  // Get user context for personalization
+  const { currentUser } = useUser();
+  const natalChart = currentUser?.natalChart;
+
+  // Memoize chart comparison to avoid recalculating on every render
+  const [chartComparison, setChartComparison] =
+    useState<ChartComparison | null>(null);
+
+  // Update chart comparison when natal chart changes
+  useEffect(() => {
+    const updateChartComparison = async () => {
+      if (!natalChart) {
+        setChartComparison(null);
+        return;
+      }
+      try {
+        const comparison =
+          await ChartComparisonService.compareCharts(natalChart);
+        setChartComparison(comparison);
+      } catch (err) {
+        logger.error("Failed to calculate chart comparison:", err);
+      }
+    };
+    updateChartComparison();
+  }, [natalChart]);
+
   /**
    * Generate meals for a specific day using planetary recommendations
-   * Phase 3: Smart recommendation feature
+   * Phase 3: Smart recommendation feature with user personalization
    */
   const generateMealsForDay = useCallback(
     async (
@@ -942,6 +969,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         mealTypes?: MealType[];
         dietaryRestrictions?: string[];
         useCurrentPlanetary?: boolean;
+        usePersonalization?: boolean;
       } = {},
     ) => {
       if (!currentMenu) return;
@@ -951,51 +979,22 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           mealTypes = ["breakfast", "lunch", "dinner"],
           dietaryRestrictions = [],
           useCurrentPlanetary = true,
+          usePersonalization = true,
         } = options;
+
+        const hasPersonalization = usePersonalization && !!natalChart;
+
+        if (syncWithLunarCycle) {
+          logger.info("Generating meals with Lunar Cycle sync enabled.");
+        }
 
         logger.info(`Generating meals for day ${dayOfWeek}`, {
           mealTypes,
           dietaryRestrictions,
+          personalized: hasPersonalization,
         });
 
         // Build astrological state for recommendations
-        // Phase 7: Synastry Integration
-        let collectiveSynastry: AstrologicalState["collectiveSynastry"] =
-          undefined;
-
-        if (participants.length > 0) {
-          try {
-            logger.info(
-              "Fetching collective synastry data for meal generation...",
-            );
-            const synastryResponse = await alchemicalApi.getPlanetaryPositions({
-              secondary_charts: participants.map((p) => ({
-                user_id: p.id,
-                birth_date: p.birthDate,
-                birth_time: p.birthTime,
-                latitude: p.birthLocation?.latitude,
-                longitude: p.birthLocation?.longitude,
-              })),
-            });
-
-            if (
-              synastryResponse.is_collective &&
-              synastryResponse.collective_synastry
-            ) {
-              collectiveSynastry = synastryResponse.collective_synastry;
-              logger.info(
-                "Collective synastry data applied to recommendations",
-                {
-                  deficits: collectiveSynastry?.elemental_deficits,
-                },
-              );
-            }
-          } catch (error) {
-            logger.error("Failed to fetch collective synastry data", error);
-            // Fallback to individual recommendations on error
-          }
-        }
-
         const astroState: AstrologicalState = {
           currentZodiac: astrologicalState.currentZodiac || "",
           lunarPhase: astrologicalState.lunarPhase || "waxing crescent",
@@ -1008,10 +1007,19 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           },
           currentPlanetaryHour:
             astrologicalState.currentPlanetaryHour || undefined,
-          collectiveSynastry, // Pass collective data to bridge
         };
 
-        // Generate recommendations using planetary intelligence
+        // Build user context for personalization
+        const userContext: UserPersonalizationContext | undefined =
+          hasPersonalization && natalChart
+            ? {
+                natalChart,
+                chartComparison: chartComparison || undefined,
+                prioritizeHarmony: true,
+              }
+            : undefined;
+
+        // Generate recommendations using planetary intelligence + user personalization
         const recommendations = await generateDayRecommendations(
           dayOfWeek,
           astroState,
@@ -1020,16 +1028,19 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             dietaryRestrictions,
             useCurrentPlanetary: useCurrentPlanetary,
             maxRecipesPerMeal: 1, // Take top recommendation per meal
+            userContext,
           },
         );
 
         logger.info(
           `Generated ${recommendations.length} meal recommendations for day ${dayOfWeek}`,
           {
+            personalized: hasPersonalization,
             recommendations: recommendations.map((r) => ({
               mealType: r.mealType,
-              score: r.score,
+              score: r.personalizedScore || r.score,
               recipeName: r.recipe?.name || "N/A",
+              isPersonalized: r.isPersonalized,
             })),
           },
         );
@@ -1047,11 +1058,13 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
             // Only add if slot is empty
             if (!existingSlot) {
+              const score =
+                recommendation.personalizedScore || recommendation.score;
               await addMealToSlot(
                 dayOfWeek,
                 recommendation.mealType,
                 recommendation.recipe,
-                recommendation.score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
+                score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
               );
             }
           }
@@ -1067,7 +1080,13 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         throw err;
       }
     },
-    [currentMenu, astrologicalState, addMealToSlot],
+    [
+      currentMenu,
+      astrologicalState,
+      addMealToSlot,
+      natalChart,
+      chartComparison,
+    ],
   );
 
   /**
@@ -1486,9 +1505,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       getSuggestions,
       saveMenu,
       loadMenu,
-      participants,
-      addParticipant,
-      removeParticipant,
+      syncWithLunarCycle,
+      toggleSyncWithLunarCycle,
     }),
     [
       currentMenu,
@@ -1528,9 +1546,6 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       getSuggestions,
       saveMenu,
       loadMenu,
-      participants,
-      addParticipant,
-      removeParticipant,
     ],
   );
 

@@ -10,10 +10,10 @@ import {
 } from "../utils/backendAdapter";
 import type {
   ElementalProperties,
-  Recipe,
   Season,
-  ZodiacSign,
+  ZodiacSignType,
 } from "../types/alchemy";
+import type { Recipe } from "../types/recipe";
 
 interface ElementalSummary {
   totalFire: number;
@@ -745,9 +745,9 @@ export class ElementalCalculator {
     };
   }
 
-  private static getSeasonFromZodiacSign(sign: any): Season {
+  private static getSeasonFromZodiacSignType(sign: any): Season {
     // Map zodiac signs to seasons
-    const zodiacSeasons: Record<ZodiacSign, Season> = {
+    const zodiacSeasons: Record<ZodiacSignType, Season> = {
       aries: "spring",
       taurus: "spring",
       gemini: "spring",
@@ -766,7 +766,7 @@ export class ElementalCalculator {
 
   // Method to get seasonal modifiers based on zodiac sign
   public static getZodiacSeasonalModifiers(sign: any): ElementalProperties {
-    const season = this.getSeasonFromZodiacSign(sign);
+    const season = this.getSeasonFromZodiacSignType(sign);
     return this.getSeasonalModifiers(season);
   }
 
@@ -774,7 +774,10 @@ export class ElementalCalculator {
     // Base seasonal influence
     const seasonalModifiers = this.getZodiacSeasonalModifiers(sign);
     // Specific zodiac sign adjustments
-    const zodiacModifiers: Record<ZodiacSign, Partial<ElementalProperties>> = {
+    const zodiacModifiers: Record<
+      ZodiacSignType,
+      Partial<ElementalProperties>
+    > = {
       aries: { Fire: 0.2 }, // Extra Fire boost for aries
       taurus: { Earth: 0.2 }, // Extra Earth boost for taurus
       gemini: { Air: 0.2 }, // Extra Air boost for gemini

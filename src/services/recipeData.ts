@@ -27,7 +27,11 @@ import { logger } from "../utils/logger";
 import { ErrorHandler } from "./errorHandler";
 import { recipeElementalService } from "./RecipeElementalService";
 import type { Recipe } from "../types/recipe";
-import type { RecipeIngredient } from "../types/recipeIngredient";
+import type { RecipeIngredient } from "../types/recipe";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 
 // Use singleton error handler instance
 const errorHandler = ErrorHandler;
@@ -286,34 +290,29 @@ function validateAstrologicalInfluences(
 
 function validateAndNormalizeNutrition(
   nutrition: NutritionData,
-): NutritionData {
+): NutritionalSummary {
+  // Changed return type
+  const validatedNutrition = createEmptyNutritionalSummary(); // Start with a complete summary
+
   if (!nutrition || typeof nutrition !== "object") {
-    return {};
+    return validatedNutrition; // Return empty if invalid input
   }
 
-  const safeNutrition: NutritionData = {};
+  // Populate numeric fields
+  if (typeof nutrition.calories === "number")
+    validatedNutrition.calories = nutrition.calories;
+  if (typeof nutrition.protein === "number")
+    validatedNutrition.protein = nutrition.protein;
+  if (typeof nutrition.carbs === "number")
+    validatedNutrition.carbs = nutrition.carbs;
+  if (typeof nutrition.fat === "number") validatedNutrition.fat = nutrition.fat;
 
-  // Validate numeric fields
-  ["calories", "protein", "carbs", "fat"].forEach((field) => {
-    if (typeof nutrition[field] === "number") {
-      safeNutrition[field] = nutrition[field];
-    }
-  });
+  // For vitamins and minerals, NutritionData has string arrays, while NutritionalSummary has specific numeric properties.
+  // We cannot directly map string arrays to specific numeric properties without more complex logic (e.g., parsing names and looking up values).
+  // For simplicity, we will only map the macronutrients here.
+  // If `NutritionData` were to evolve to have specific vitaminA, sodium fields, they would be mapped here.
 
-  // Validate array fields (vitamins, minerals)
-  if (Array.isArray(nutrition.vitamins)) {
-    safeNutrition.vitamins = nutrition.vitamins
-      .filter((v: unknown) => typeof v === "string")
-      .slice(0, 10); // Limit to 10 items
-  }
-
-  if (Array.isArray(nutrition.minerals)) {
-    safeNutrition.minerals = nutrition.minerals
-      .filter((m: unknown) => typeof m === "string")
-      .slice(0, 10); // Limit to 10 items
-  }
-
-  return safeNutrition;
+  return validatedNutrition;
 }
 
 class RecipeData {

@@ -6,7 +6,16 @@
 
 import type {
   Planet,
-  ZodiacSign,
+  ZodiacSignType,
+  Element,
+  Modality,
+  ElementalProperties,
+  AlchemicalProperties,
+} from "./celestial";
+
+export type {
+  Planet,
+  ZodiacSignType,
   Element,
   Modality,
   ElementalProperties,
@@ -21,6 +30,16 @@ export interface BirthData {
   latitude: number;
   longitude: number;
   timezone?: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+export interface PlanetInfo {
+  name: Planet;
+  sign: ZodiacSignType;
+  position: number;
 }
 
 /**
@@ -28,8 +47,12 @@ export interface BirthData {
  * Contains planetary positions and derived properties
  */
 export interface NatalChart {
+  id?: string;
+  name?: string;
   birthData: BirthData;
-  planetaryPositions: Record<Planet, ZodiacSign>;
+  planets: PlanetInfo[];
+  ascendant: ZodiacSignType;
+  planetaryPositions: Record<Planet, ZodiacSignType>;
   dominantElement: Element;
   dominantModality: Modality;
   elementalBalance: ElementalProperties;

@@ -1,13 +1,18 @@
-export { default as NutritionRing } from "./NutritionRing";
-export { default as MacroSummary } from "./MacroSummary";
-export { default as ComplianceScore } from "./ComplianceScore";
-export { default as MicronutrientHighlights } from "./MicronutrientHighlights";
-export { default as DailyNutritionSummary } from "./DailyNutritionSummary";
-export { default as WeeklyNutritionDashboard } from "./WeeklyNutritionDashboard";
-export { default as InlineNutritionDashboard } from "./InlineNutritionDashboard";
-export { default as RecipeNutritionQuickView } from "./RecipeNutritionQuickView";
-export { default as RecipeNutritionModal } from "./RecipeNutritionModal";
-export { default as NutritionFilters } from "./NutritionFilters";
-export { default as SmartRecommendations } from "./SmartRecommendations";
+// Named exports (all components now use named export pattern)
+export { NutritionRing } from "./NutritionRing";
+export { MacroSummary } from "./MacroSummary";
+export { ComplianceScore } from "./ComplianceScore";
+export { MicronutrientHighlights } from "./MicronutrientHighlights";
+export { DailyNutritionSummary } from "./DailyNutritionSummary";
+export { WeeklyNutritionDashboard } from "./WeeklyNutritionDashboard";
+export { InlineNutritionDashboard } from "./InlineNutritionDashboard";
+export { RecipeNutritionQuickView } from "./RecipeNutritionQuickView";
+export { RecipeNutritionModal } from "./RecipeNutritionModal";
+export { NutritionFilters } from "./NutritionFilters";
+
+// Utility functions and types
 export { applyNutritionFilters, sortByNutrition } from "./NutritionFilters";
-export type { NutritionFilterValues, NutritionSortOption } from "./NutritionFilters";
+export type {
+  NutritionFilterValues,
+  NutritionSortOption,
+} from "./NutritionFilters";

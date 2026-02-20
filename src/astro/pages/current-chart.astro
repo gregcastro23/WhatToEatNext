@@ -12,7 +12,7 @@ const planetPositions = getAccuratePlanetaryPositions(currentDate);
 validatePositions(planetPositions);
 
 // Get zodiac sign for a degree
-const getZodiacSign = (degree) => {
+const getZodiacSignType = (degree) => {
   const signs = [
     { name: 'aries', symbol: '♈', start: 0, element: 'Fire' },
     { name: 'taurus', symbol: '♉', start: 30, element: 'Earth' },
@@ -38,7 +38,7 @@ const calculateElementalBalance = () => {
   let total = 0;
   
   Object.entries(planetPositions).forEach(([planet, degree]) => {
-    const sign = getZodiacSign(degree);
+    const sign = getZodiacSignType(degree);
     let weight = 1;
     if (planet === 'Sun' || planet === 'Moon') weight = 3;
     if (planet === 'Rising') weight = 2;
@@ -111,7 +111,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
           <h2>Planetary Positions</h2>
           <div class="planets-grid">
             {Object.entries(planetPositions).map(([planet, degree]) => {
-              const sign = getZodiacSign(degree);
+              const sign = getZodiacSignType(degree);
               const degreeInSign = Math.floor(degree % 30);
               return (
                 <div class="planet-card" data-element={sign.element.toLowerCase()}>

@@ -15,13 +15,13 @@ import type {
     LunarPhase,
     Season,
     StandardizedAlchemicalResult,
-    ZodiacSign
+    ZodiacSignType
 } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/cooking';
 
 // Re-export for convenience
 export type {
-    AlchemicalProperties, AlchemicalResult, AstrologicalState, CookingMethod, Element, ElementalProperties, LunarPhase, Season, StandardizedAlchemicalResult, ZodiacSign
+    AlchemicalProperties, AlchemicalResult, AstrologicalState, CookingMethod, Element, ElementalProperties, LunarPhase, Season, StandardizedAlchemicalResult, ZodiacSignType
 };
 
 // Ingredient types - Unified interface consolidating all ingredient definitions
@@ -288,7 +288,7 @@ export interface AstrologicalTiming {
   favorableZodiac?: any[],
   seasonalPreference?: string[];
   planetaryHours?: string[]
-  zodiacCompatibility?: Record<ZodiacSign, number>,
+  zodiacCompatibility?: Record<ZodiacSignType, number>,
   lunarPhaseCompatibility?: Record<string, number>,
 }
 

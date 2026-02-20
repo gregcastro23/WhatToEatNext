@@ -66,13 +66,15 @@ const DEFAULT_PLANETARY_POSITIONS = {
 };
 
 // Helper to extract zodiac sign from position data
-function extractZodiacSign(position: unknown): string {
+function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
   if (typeof position === "object" && position !== null) {
     const posObj = position as Record<string, unknown>;
     if (typeof posObj.sign === "string") {
-      return posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase();
+      return (
+        posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase()
+      );
     }
   }
   return "Aries";
@@ -80,25 +82,40 @@ function extractZodiacSign(position: unknown): string {
 
 // Convert context planetary positions to simple zodiac sign format
 function normalizePlanetaryPositions(
-  contextPositions: Record<string, unknown> | undefined
+  contextPositions: Record<string, unknown> | undefined,
 ): Record<string, string> {
   if (!contextPositions || Object.keys(contextPositions).length === 0) {
     return DEFAULT_PLANETARY_POSITIONS;
   }
 
   const normalized: Record<string, string> = {};
-  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+  const planets = [
+    "Sun",
+    "Moon",
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",
+  ];
 
   for (const planet of planets) {
-    const position = contextPositions[planet] || contextPositions[planet.toLowerCase()];
-    normalized[planet] = extractZodiacSign(position);
+    const position =
+      contextPositions[planet] || contextPositions[planet.toLowerCase()];
+    normalized[planet] = extractZodiacSignType(position);
   }
 
   return normalized;
 }
 
 // Classify Monica constant
-function classifyMonica(monica: number | null): { label: string; color: string } {
+function classifyMonica(monica: number | null): {
+  label: string;
+  color: string;
+} {
   if (monica === null || isNaN(monica)) {
     return { label: "Undefined", color: "text-gray-600" };
   }
@@ -173,14 +190,14 @@ function calculateCompatibilityScore(
     Water: number;
     Earth: number;
     Air: number;
-  }
+  },
 ): number {
   const elements = ["Fire", "Water", "Earth", "Air"] as const;
   let totalDiff = 0;
 
   elements.forEach((element) => {
     const diff = Math.abs(
-      (methodElementals[element] || 0) - (currentElementals[element] || 0)
+      (methodElementals[element] || 0) - (currentElementals[element] || 0),
     );
     totalDiff += diff;
   });
@@ -191,9 +208,15 @@ function calculateCompatibilityScore(
 
 export default function CookingMethodPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
-  const [expandedMethods, setExpandedMethods] = useState<Set<string>>(new Set());
-  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
-  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
+  const [expandedMethods, setExpandedMethods] = useState<Set<string>>(
+    new Set(),
+  );
+  const [planetaryPositions, setPlanetaryPositions] = useState<
+    Record<string, string>
+  >(DEFAULT_PLANETARY_POSITIONS);
+  const [positionsSource, setPositionsSource] = useState<"real" | "fallback">(
+    "fallback",
+  );
 
   // Get current alchemical context
   let alchemicalContext: ReturnType<typeof useAlchemical> | null = null;
@@ -206,22 +229,29 @@ export default function CookingMethodPreview() {
   // Update planetary positions from context
   useEffect(() => {
     if (alchemicalContext?.planetaryPositions) {
-      const normalized = normalizePlanetaryPositions(alchemicalContext.planetaryPositions);
+      const normalized = normalizePlanetaryPositions(
+        alchemicalContext.planetaryPositions,
+      );
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
 
     // Also try to refresh positions from backend
     if (alchemicalContext?.refreshPlanetaryPositions) {
-      alchemicalContext.refreshPlanetaryPositions().then((positions) => {
-        if (positions && Object.keys(positions).length > 0) {
-          const normalized = normalizePlanetaryPositions(positions as Record<string, unknown>);
-          setPlanetaryPositions(normalized);
-          setPositionsSource("real");
-        }
-      }).catch(() => {
-        // Silently fail, use existing positions
-      });
+      alchemicalContext
+        .refreshPlanetaryPositions()
+        .then((positions) => {
+          if (positions && Object.keys(positions).length > 0) {
+            const normalized = normalizePlanetaryPositions(
+              positions as Record<string, unknown>,
+            );
+            setPlanetaryPositions(normalized);
+            setPositionsSource("real");
+          }
+        })
+        .catch(() => {
+          // Silently fail, use existing positions
+        });
     }
   }, [alchemicalContext?.planetaryPositions]);
 
@@ -268,13 +298,14 @@ export default function CookingMethodPreview() {
               Spirit: safeBaseESMS.Spirit + (pillar.effects.Spirit || 0),
               Essence: safeBaseESMS.Essence + (pillar.effects.Essence || 0),
               Matter: safeBaseESMS.Matter + (pillar.effects.Matter || 0),
-              Substance: safeBaseESMS.Substance + (pillar.effects.Substance || 0),
+              Substance:
+                safeBaseESMS.Substance + (pillar.effects.Substance || 0),
             }
           : safeBaseESMS;
 
         // Use method's thermodynamic properties if available, otherwise calculate from pillar
         // This ensures each method gets unique thermodynamic values based on its pillar
-        const methodThermo = method.thermodynamicProperties || 
+        const methodThermo = method.thermodynamicProperties ||
           getCookingMethodThermodynamics(id) || {
             heat: 0.5,
             entropy: 0.5,
@@ -299,21 +330,25 @@ export default function CookingMethodPreview() {
           transformedESMS.Spirit,
           transformedESMS.Essence,
           transformedESMS.Matter,
-          transformedESMS.Substance
+          transformedESMS.Substance,
         );
 
         // Use method-specific reactivity for Monica calculation
         const reactivity = methodThermo.reactivity;
-        const monica = gregsEnergy !== null && kalchm
-          ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
-          : null;
+        const monica =
+          gregsEnergy !== null && kalchm
+            ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
+            : null;
 
         const monicaClass = classifyMonica(monica);
 
         return {
           id,
           ...method,
-          score: calculateCompatibilityScore(method.elementalEffect, currentElementals),
+          score: calculateCompatibilityScore(
+            method.elementalEffect,
+            currentElementals,
+          ),
           pillar,
           gregsEnergy,
           kalchm,
@@ -327,7 +362,7 @@ export default function CookingMethodPreview() {
   }, [selectedCategory, currentElementals, baseESMS, planetaryPositions]);
 
   const toggleMethod = (methodId: string) => {
-    setExpandedMethods(prev => {
+    setExpandedMethods((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(methodId)) {
         newSet.delete(methodId);
@@ -431,17 +466,24 @@ export default function CookingMethodPreview() {
                       <span>{formatDuration(method)}</span>
                     </span>
                     {/* Greg's Energy indicator */}
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full font-medium border ${
-                      method.gregsEnergy >= 0
-                        ? "bg-green-50 text-green-700 border-green-200"
-                        : "bg-red-50 text-red-700 border-red-200"
-                    }`}>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full font-medium border ${
+                        method.gregsEnergy >= 0
+                          ? "bg-green-50 text-green-700 border-green-200"
+                          : "bg-red-50 text-red-700 border-red-200"
+                      }`}
+                    >
                       <span>⚡</span>
-                      <span>{method.gregsEnergy >= 0 ? '+' : ''}{method.gregsEnergy.toFixed(2)}</span>
+                      <span>
+                        {method.gregsEnergy >= 0 ? "+" : ""}
+                        {method.gregsEnergy.toFixed(2)}
+                      </span>
                     </span>
                     {/* Monica Classification */}
                     {method.monica !== null && !isNaN(method.monica) && (
-                      <span className={`inline-flex items-center gap-1 bg-purple-50 border-purple-200 border px-2 py-1 rounded-full font-medium ${method.monicaClass.color}`}>
+                      <span
+                        className={`inline-flex items-center gap-1 bg-purple-50 border-purple-200 border px-2 py-1 rounded-full font-medium ${method.monicaClass.color}`}
+                      >
                         <span>🔮</span>
                         <span>{method.monicaClass.label}</span>
                       </span>
@@ -458,7 +500,8 @@ export default function CookingMethodPreview() {
                         <span>👨‍🍳</span>
                         <span>
                           {method.suitable_for.slice(0, 2).join(", ")}
-                          {method.suitable_for.length > 2 && ` +${method.suitable_for.length - 2}`}
+                          {method.suitable_for.length > 2 &&
+                            ` +${method.suitable_for.length - 2}`}
                         </span>
                       </span>
                     )}
@@ -489,22 +532,30 @@ export default function CookingMethodPreview() {
                       <div className="flex items-center gap-2">
                         <span className="text-yellow-500">✨</span>
                         <span className="text-gray-700">Spirit:</span>
-                        <span className="font-bold text-yellow-700">{method.esms.Spirit}</span>
+                        <span className="font-bold text-yellow-700">
+                          {method.esms.Spirit}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-blue-500">💫</span>
                         <span className="text-gray-700">Essence:</span>
-                        <span className="font-bold text-blue-700">{method.esms.Essence}</span>
+                        <span className="font-bold text-blue-700">
+                          {method.esms.Essence}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-green-500">🌿</span>
                         <span className="text-gray-700">Matter:</span>
-                        <span className="font-bold text-green-700">{method.esms.Matter}</span>
+                        <span className="font-bold text-green-700">
+                          {method.esms.Matter}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-purple-500">🔮</span>
                         <span className="text-gray-700">Substance:</span>
-                        <span className="font-bold text-purple-700">{method.esms.Substance}</span>
+                        <span className="font-bold text-purple-700">
+                          {method.esms.Substance}
+                        </span>
                       </div>
                     </div>
                     {method.pillar && (
@@ -530,10 +581,17 @@ export default function CookingMethodPreview() {
                             <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
                               <div
                                 className="h-full bg-red-500 rounded-full"
-                                style={{ width: `${method.thermodynamicProperties.heat * 100}%` }}
+                                style={{
+                                  width: `${method.thermodynamicProperties.heat * 100}%`,
+                                }}
                               />
                             </div>
-                            <span className="font-bold text-red-700">{(method.thermodynamicProperties.heat * 100).toFixed(0)}%</span>
+                            <span className="font-bold text-red-700">
+                              {(
+                                method.thermodynamicProperties.heat * 100
+                              ).toFixed(0)}
+                              %
+                            </span>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
@@ -542,10 +600,17 @@ export default function CookingMethodPreview() {
                             <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
                               <div
                                 className="h-full bg-orange-500 rounded-full"
-                                style={{ width: `${method.thermodynamicProperties.entropy * 100}%` }}
+                                style={{
+                                  width: `${method.thermodynamicProperties.entropy * 100}%`,
+                                }}
                               />
                             </div>
-                            <span className="font-bold text-orange-700">{(method.thermodynamicProperties.entropy * 100).toFixed(0)}%</span>
+                            <span className="font-bold text-orange-700">
+                              {(
+                                method.thermodynamicProperties.entropy * 100
+                              ).toFixed(0)}
+                              %
+                            </span>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
@@ -554,21 +619,35 @@ export default function CookingMethodPreview() {
                             <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
                               <div
                                 className="h-full bg-pink-500 rounded-full"
-                                style={{ width: `${method.thermodynamicProperties.reactivity * 100}%` }}
+                                style={{
+                                  width: `${method.thermodynamicProperties.reactivity * 100}%`,
+                                }}
                               />
                             </div>
-                            <span className="font-bold text-pink-700">{(method.thermodynamicProperties.reactivity * 100).toFixed(0)}%</span>
+                            <span className="font-bold text-pink-700">
+                              {(
+                                method.thermodynamicProperties.reactivity * 100
+                              ).toFixed(0)}
+                              %
+                            </span>
                           </div>
                         </div>
                         <div className="pt-2 border-t border-red-200 flex justify-between">
-                          <span className="text-gray-700">⚙️ Greg's Energy:</span>
-                          <span className={`font-bold ${method.gregsEnergy >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                            {method.gregsEnergy >= 0 ? '+' : ''}{method.gregsEnergy.toFixed(3)}
+                          <span className="text-gray-700">
+                            ⚙️ Greg's Energy:
+                          </span>
+                          <span
+                            className={`font-bold ${method.gregsEnergy >= 0 ? "text-green-700" : "text-red-700"}`}
+                          >
+                            {method.gregsEnergy >= 0 ? "+" : ""}
+                            {method.gregsEnergy.toFixed(3)}
                           </span>
                         </div>
                       </div>
                     ) : (
-                      <p className="text-sm text-gray-500 italic">Thermodynamic data not available</p>
+                      <p className="text-sm text-gray-500 italic">
+                        Thermodynamic data not available
+                      </p>
                     )}
                   </div>
                 </div>
@@ -582,14 +661,20 @@ export default function CookingMethodPreview() {
                       <span className={`font-bold ${method.monicaClass.color}`}>
                         {method.monicaClass.label}
                       </span>
-                      <span className="text-xs text-gray-500">({method.monica.toFixed(3)})</span>
+                      <span className="text-xs text-gray-500">
+                        ({method.monica.toFixed(3)})
+                      </span>
                     </div>
                   )}
                   {method.kalchm !== null && !isNaN(method.kalchm) && (
                     <div className="bg-teal-50 border border-teal-200 rounded-lg px-4 py-2 flex items-center gap-2">
                       <span className="text-lg">⚖️</span>
-                      <span className="text-sm text-gray-700">Kalchm (Equilibrium):</span>
-                      <span className="font-bold text-teal-700">{method.kalchm.toFixed(4)}</span>
+                      <span className="text-sm text-gray-700">
+                        Kalchm (Equilibrium):
+                      </span>
+                      <span className="font-bold text-teal-700">
+                        {method.kalchm.toFixed(4)}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -603,7 +688,10 @@ export default function CookingMethodPreview() {
                     </h5>
                     <div className="grid md:grid-cols-2 gap-2">
                       {method.benefits.slice(0, 6).map((benefit, idx) => (
-                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                        <div
+                          key={idx}
+                          className="flex items-start gap-2 text-sm text-gray-700"
+                        >
                           <span className="text-green-600 mt-0.5">✓</span>
                           <span>{benefit}</span>
                         </div>
@@ -621,7 +709,10 @@ export default function CookingMethodPreview() {
                     </h5>
                     <div className="space-y-2">
                       {method.expertTips.slice(0, 3).map((tip, idx) => (
-                        <div key={idx} className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-sm text-gray-800">
+                        <div
+                          key={idx}
+                          className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-sm text-gray-800"
+                        >
                           {tip}
                         </div>
                       ))}
@@ -638,7 +729,10 @@ export default function CookingMethodPreview() {
                     </h5>
                     <div className="space-y-2">
                       {method.commonMistakes.slice(0, 4).map((mistake, idx) => (
-                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                        <div
+                          key={idx}
+                          className="flex items-start gap-2 text-sm text-gray-700"
+                        >
                           <span className="text-red-500 mt-0.5">✗</span>
                           <span>{mistake}</span>
                         </div>
@@ -656,7 +750,10 @@ export default function CookingMethodPreview() {
                     </h5>
                     <div className="flex flex-wrap gap-2">
                       {method.toolsRequired.slice(0, 8).map((tool, idx) => (
-                        <span key={idx} className="text-xs bg-blue-50 text-blue-800 px-3 py-1.5 rounded-full border border-blue-200">
+                        <span
+                          key={idx}
+                          className="text-xs bg-blue-50 text-blue-800 px-3 py-1.5 rounded-full border border-blue-200"
+                        >
                           {tool}
                         </span>
                       ))}
@@ -665,49 +762,66 @@ export default function CookingMethodPreview() {
                 )}
 
                 {/* Pairing Suggestions */}
-                {method.pairingSuggestions && method.pairingSuggestions.length > 0 && (
-                  <div>
-                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <span className="text-xl">🤝</span>
-                      <span>Perfect Pairings</span>
-                    </h5>
-                    <div className="space-y-2">
-                      {method.pairingSuggestions.slice(0, 4).map((pairing, idx) => (
-                        <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                          <span className="text-purple-600">•</span>
-                          <span>{pairing}</span>
-                        </div>
-                      ))}
+                {method.pairingSuggestions &&
+                  method.pairingSuggestions.length > 0 && (
+                    <div>
+                      <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <span className="text-xl">🤝</span>
+                        <span>Perfect Pairings</span>
+                      </h5>
+                      <div className="space-y-2">
+                        {method.pairingSuggestions
+                          .slice(0, 4)
+                          .map((pairing, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-start gap-2 text-sm text-gray-700"
+                            >
+                              <span className="text-purple-600">•</span>
+                              <span>{pairing}</span>
+                            </div>
+                          ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* Regional Variations */}
-                {method.regionalVariations && Object.keys(method.regionalVariations).length > 0 && (
-                  <div>
-                    <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <span className="text-xl">🌍</span>
-                      <span>Regional Techniques</span>
-                    </h5>
-                    <div className="grid md:grid-cols-2 gap-3">
-                      {Object.entries(method.regionalVariations).slice(0, 4).map(([region, variations]) => (
-                        <div key={region} className="bg-white border border-gray-200 rounded-lg p-3">
-                          <div className="font-semibold text-gray-900 mb-2 capitalize">
-                            {region.replace(/_/g, ' ')}
-                          </div>
-                          <ul className="space-y-1">
-                            {variations.slice(0, 2).map((variation, idx) => (
-                              <li key={idx} className="text-xs text-gray-600 flex items-start gap-1">
-                                <span>•</span>
-                                <span>{variation}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                {method.regionalVariations &&
+                  Object.keys(method.regionalVariations).length > 0 && (
+                    <div>
+                      <h5 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <span className="text-xl">🌍</span>
+                        <span>Regional Techniques</span>
+                      </h5>
+                      <div className="grid md:grid-cols-2 gap-3">
+                        {Object.entries(method.regionalVariations)
+                          .slice(0, 4)
+                          .map(([region, variations]) => (
+                            <div
+                              key={region}
+                              className="bg-white border border-gray-200 rounded-lg p-3"
+                            >
+                              <div className="font-semibold text-gray-900 mb-2 capitalize">
+                                {region.replace(/_/g, " ")}
+                              </div>
+                              <ul className="space-y-1">
+                                {variations
+                                  .slice(0, 2)
+                                  .map((variation, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="text-xs text-gray-600 flex items-start gap-1"
+                                    >
+                                      <span>•</span>
+                                      <span>{variation}</span>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* Suitable For */}
                 {method.suitable_for && method.suitable_for.length > 0 && (
@@ -735,33 +849,46 @@ export default function CookingMethodPreview() {
                     <summary className="cursor-pointer flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium">
                       <span className="text-lg">⚗️</span>
                       <span>Show Elemental Effects</span>
-                      <span className="ml-auto group-open:rotate-180 transition-transform">▼</span>
+                      <span className="ml-auto group-open:rotate-180 transition-transform">
+                        ▼
+                      </span>
                     </summary>
                     <div className="mt-3 grid grid-cols-2 gap-2">
-                      {Object.entries(method.elementalEffect).map(([element, value]) => (
-                        <div key={element} className="flex items-center gap-2">
-                          <span className="text-sm">
-                            {element === "Fire" ? "🔥" : element === "Water" ? "💧" : element === "Earth" ? "🌍" : "💨"}
-                          </span>
-                          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full ${
-                                element === "Fire"
-                                  ? "bg-gradient-to-r from-red-400 to-orange-500"
-                                  : element === "Water"
-                                    ? "bg-gradient-to-r from-blue-400 to-cyan-500"
-                                    : element === "Earth"
-                                      ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                                      : "bg-gradient-to-r from-purple-400 to-indigo-500"
-                              }`}
-                              style={{ width: `${value * 100}%` }}
-                            />
+                      {Object.entries(method.elementalEffect).map(
+                        ([element, value]) => (
+                          <div
+                            key={element}
+                            className="flex items-center gap-2"
+                          >
+                            <span className="text-sm">
+                              {element === "Fire"
+                                ? "🔥"
+                                : element === "Water"
+                                  ? "💧"
+                                  : element === "Earth"
+                                    ? "🌍"
+                                    : "💨"}
+                            </span>
+                            <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full ${
+                                  element === "Fire"
+                                    ? "bg-gradient-to-r from-red-400 to-orange-500"
+                                    : element === "Water"
+                                      ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                                      : element === "Earth"
+                                        ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                                        : "bg-gradient-to-r from-purple-400 to-indigo-500"
+                                }`}
+                                style={{ width: `${value * 100}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-500 w-10 text-right">
+                              {(value * 100).toFixed(0)}%
+                            </span>
                           </div>
-                          <span className="text-xs text-gray-500 w-10 text-right">
-                            {(value * 100).toFixed(0)}%
-                          </span>
-                        </div>
-                      ))}
+                        ),
+                      )}
                     </div>
                   </details>
                 </div>

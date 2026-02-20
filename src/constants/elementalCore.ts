@@ -1,4 +1,9 @@
-import type { Element, ElementalProperties, NormalizedElementalProperties, RawElementalProperties } from "@/types/alchemy";
+import type {
+  Element,
+  ElementalProperties,
+  NormalizedElementalProperties,
+  RawElementalProperties,
+} from "@/types/alchemy";
 
 /**
  * Core elemental constants - consolidated from multiple files
@@ -450,7 +455,8 @@ export function normalizeElementalProperties(
 export function normalizeForDisplay(
   properties: RawElementalProperties | ElementalProperties,
 ): NormalizedElementalProperties {
-  const total = properties.Fire + properties.Water + properties.Earth + properties.Air;
+  const total =
+    properties.Fire + properties.Water + properties.Earth + properties.Air;
 
   if (total === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -471,7 +477,9 @@ export function normalizeForDisplay(
  * @param properties - Raw elemental properties
  * @returns Total intensity (sum of Fire + Water + Earth + Air)
  */
-export function getTotalIntensity(properties: RawElementalProperties | ElementalProperties): number {
+export function getTotalIntensity(
+  properties: RawElementalProperties | ElementalProperties,
+): number {
   return properties.Fire + properties.Water + properties.Earth + properties.Air;
 }
 
@@ -485,8 +493,8 @@ export function getTotalIntensity(properties: RawElementalProperties | Elemental
 export function getDominantElementByIntensity(
   properties: RawElementalProperties | ElementalProperties,
 ): Element {
-  const entries = Object.entries(properties).filter(
-    ([key]) => ["Fire", "Water", "Earth", "Air"].includes(key)
+  const entries = Object.entries(properties).filter(([key]) =>
+    ["Fire", "Water", "Earth", "Air"].includes(key),
   ) as [Element, number][];
   return entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
 }
@@ -545,7 +553,11 @@ export function validateElementalProperties(
   // Check all elements are present and non-negative numbers
   for (const element of elements) {
     const value = properties[element];
-    if (typeof value !== "number" || value < VALIDATION_THRESHOLDS.MINIMUM_ELEMENT || !isFinite(value)) {
+    if (
+      typeof value !== "number" ||
+      value < VALIDATION_THRESHOLDS.MINIMUM_ELEMENT ||
+      !isFinite(value)
+    ) {
       return false;
     }
   }
@@ -571,14 +583,20 @@ export function validateNormalizedProperties(
 
   for (const element of elements) {
     const value = properties[element];
-    if (typeof value !== "number" || value < 0 || value > VALIDATION_THRESHOLDS.LEGACY_MAXIMUM_ELEMENT) {
+    if (
+      typeof value !== "number" ||
+      value < 0 ||
+      value > VALIDATION_THRESHOLDS.LEGACY_MAXIMUM_ELEMENT
+    ) {
       return false;
     }
     total += value;
   }
 
   // Check sum is approximately 1.0
-  return Math.abs(total - 1) <= VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE;
+  return (
+    Math.abs(total - 1) <= VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE
+  );
 }
 
 /**
@@ -592,7 +610,9 @@ export function isNormalized(
   properties: ElementalProperties | RawElementalProperties,
 ): boolean {
   const total = getTotalIntensity(properties);
-  return Math.abs(total - 1) <= VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE;
+  return (
+    Math.abs(total - 1) <= VALIDATION_THRESHOLDS.NORMALIZATION_SUM_TOLERANCE
+  );
 }
 
 export default {

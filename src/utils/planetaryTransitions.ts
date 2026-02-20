@@ -58,7 +58,8 @@ function getNextSign(currentSign: string): string {
 function getPreviousSign(currentSign: string): string {
   const currentIndex = ZODIAC_SIGNS.indexOf(currentSign.toLowerCase() as any);
   if (currentIndex === -1) return "pisces";
-  const prevIndex = (currentIndex - 1 + ZODIAC_SIGNS.length) % ZODIAC_SIGNS.length;
+  const prevIndex =
+    (currentIndex - 1 + ZODIAC_SIGNS.length) % ZODIAC_SIGNS.length;
   return ZODIAC_SIGNS[prevIndex];
 }
 

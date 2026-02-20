@@ -112,7 +112,7 @@
   font-size: 18px;
   font-weight: 700;
   color: #212529;
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .pillTarget {
@@ -149,7 +149,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -163,7 +163,7 @@
 .expandButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #A0522D 0%, #CD853F 100%);
+  background: linear-gradient(135deg, #a0522d 0%, #cd853f 100%);
 }
 
 .expandButton .chevron {
@@ -190,8 +190,14 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .expandedGrid {
@@ -271,7 +277,6 @@
   min-width: 40px;
   text-align: right;
 }
-
 
 /* Suggestions */
 .suggestions {

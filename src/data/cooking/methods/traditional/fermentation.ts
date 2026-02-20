@@ -226,6 +226,15 @@ export const fermentation: CookingMethodData = {
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
 
+  kineticProfile: {
+    voltage: 0.05,            // Ambient temp — biological process, not thermal
+    current: 0.08,            // Microbial metabolism — extremely slow energy transfer
+    resistance: 0.88,         // Very high — cellular barriers, slow diffusion
+    velocityFactor: 0.05,     // Slowest of all methods — days to months
+    momentumRetention: 0.90,  // Excellent — fermented foods are stable for months/years
+    forceImpact: 0.72,        // High — complete biochemical transformation of sugars/proteins
+  },
+
   // Additional metadata
   history:
     "Fermentation is one of humanity's oldest food preservation methods, dating back at least 10,000 years. Every culture developed fermentation techniques, from wine and beer to bread, cheese, and preserved vegetables. It was critical for food security before refrigeration. Archaeological evidence suggests that fermented beverages predate agriculture, with fermented honey drinks (mead) possibly being one of the earliest alcoholic beverages. The scientific understanding of fermentation began with Antonie van Leeuwenhoek's microscopic observations in the 17th century, followed by Louis Pasteur's groundbreaking work in the 19th century that identified microorganisms as the agents of fermentation. The 20th century saw industrialization of many fermentation processes, while the 21st century has brought renewed interest in traditional fermentation techniques and their health benefits.",

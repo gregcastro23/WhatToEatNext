@@ -39,7 +39,7 @@ function mean(numbers: number[]): number {
  * Aggregate elemental vectors (momentum, force) across meals
  */
 function aggregateElementalVectors(
-  vectors: (Record<Element, number> | undefined)[]
+  vectors: (Record<Element, number> | undefined)[],
 ): Record<Element, number> {
   const result: Record<Element, number> = {
     Fire: 0,
@@ -65,7 +65,7 @@ function aggregateElementalVectors(
  */
 function calculatePlanetaryHarmony(
   meals: MealSlot[],
-  dayOfWeek: DayOfWeek
+  dayOfWeek: DayOfWeek,
 ): number {
   const dominantPlanet = PLANETARY_DAY_RULERS[dayOfWeek];
   let harmonyScore = 0;
@@ -112,7 +112,7 @@ function calculatePlanetaryHarmony(
 export function calculateDayCircuit(
   meals: MealSlot[],
   dayOfWeek: DayOfWeek,
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): DayCircuitMetrics {
   // Calculate individual meal circuits
   const breakfastMeal = meals.find((m) => m.mealType === "breakfast");
@@ -124,16 +124,20 @@ export function calculateDayCircuit(
     breakfast: breakfastMeal
       ? calculateMealCircuit(breakfastMeal, planetaryPositions)
       : null,
-    lunch: lunchMeal ? calculateMealCircuit(lunchMeal, planetaryPositions) : null,
+    lunch: lunchMeal
+      ? calculateMealCircuit(lunchMeal, planetaryPositions)
+      : null,
     dinner: dinnerMeal
       ? calculateMealCircuit(dinnerMeal, planetaryPositions)
       : null,
-    snack: snackMeal ? calculateMealCircuit(snackMeal, planetaryPositions) : null,
+    snack: snackMeal
+      ? calculateMealCircuit(snackMeal, planetaryPositions)
+      : null,
   };
 
   // Extract valid circuits (non-null)
   const validCircuits = Object.values(mealCircuits).filter(
-    (c): c is MealCircuitMetrics => c !== null
+    (c): c is MealCircuitMetrics => c !== null,
   );
 
   // Series connection aggregation
@@ -156,18 +160,18 @@ export function calculateDayCircuit(
 
   // Kinetic aggregation
   const netMomentum = aggregateElementalVectors(
-    validCircuits.map((c) => c.kinetics.momentum)
+    validCircuits.map((c) => c.kinetics.momentum),
   );
   const netForce = aggregateElementalVectors(
-    validCircuits.map((c) => c.kinetics.force)
+    validCircuits.map((c) => c.kinetics.force),
   );
 
   // Thermal balance classification
   const heatingMeals = validCircuits.filter(
-    (c) => c.kinetics.thermalDirection === "heating"
+    (c) => c.kinetics.thermalDirection === "heating",
   ).length;
   const coolingMeals = validCircuits.filter(
-    (c) => c.kinetics.thermalDirection === "cooling"
+    (c) => c.kinetics.thermalDirection === "cooling",
   ).length;
   const thermalBalance: "heating" | "cooling" | "stable" =
     heatingMeals > coolingMeals
@@ -186,7 +190,9 @@ export function calculateDayCircuit(
   const expectedPower = averageCurrent * totalVoltage;
   const actualPower = totalPower;
   const balanceDeviation =
-    expectedPower > 0 ? Math.abs(expectedPower - actualPower) / expectedPower : 0;
+    expectedPower > 0
+      ? Math.abs(expectedPower - actualPower) / expectedPower
+      : 0;
   const isPowerBalanced = balanceDeviation < 0.05; // 5% tolerance
 
   // Get date from first meal or use current date
@@ -236,7 +242,7 @@ export function calculateDayCircuit(
  */
 export function getMealsForDay(
   allMeals: MealSlot[],
-  dayOfWeek: DayOfWeek
+  dayOfWeek: DayOfWeek,
 ): MealSlot[] {
   return allMeals.filter((meal) => meal.dayOfWeek === dayOfWeek);
 }
@@ -250,7 +256,7 @@ export function getMealsForDay(
  */
 export function calculateAllDayCircuits(
   allMeals: MealSlot[],
-  planetaryPositions?: PlanetaryPositions
+  planetaryPositions?: PlanetaryPositions,
 ): Record<DayOfWeek, DayCircuitMetrics> {
   const dayCircuits: Record<DayOfWeek, DayCircuitMetrics> = {} as any;
 
@@ -260,7 +266,7 @@ export function calculateAllDayCircuits(
     dayCircuits[dayOfWeek] = calculateDayCircuit(
       dayMeals,
       dayOfWeek,
-      planetaryPositions
+      planetaryPositions,
     );
   }
 

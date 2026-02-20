@@ -1,6 +1,7 @@
 import { cuisinesMap } from "@/data/cuisines";
+import { allRecipes } from "@/data/recipes/index";
 import type {
-  ZodiacSign,
+  ZodiacSignType,
   LunarPhase,
   ElementalProperties,
 } from "@/types/alchemy";
@@ -8,6 +9,10 @@ import { _createAstrologicalBridge } from "@/types/bridges/astrologicalBridge";
 import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 
 // Define a more specific type for dish objects
 interface RawDish {
@@ -105,7 +110,8 @@ export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
 
   /**
-   * Get all available recipes
+   * Get all available recipes.
+   * Uses the unified, deduplicated allRecipes pipeline as the single source of truth.
    * @returns Array of all recipes
    */
   static async getAllRecipes(): Promise<Recipe[]> {
@@ -115,19 +121,10 @@ export class LocalRecipeService {
     }
 
     try {
-      const recipes: Recipe[] = [];
+      // Use the unified deduplicated pipeline from src/data/recipes/index.ts
+      const recipes = allRecipes as Recipe[];
 
-      // Get recipes from all available cuisines
-      for (const cuisine of Object.values(cuisinesMap)) {
-        if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(
-            cuisine as ExtendedCuisine,
-          );
-          recipes.push(...cuisineRecipes);
-        }
-      }
-
-      logger.debug(`Loaded ${recipes.length} total recipes`);
+      logger.debug(`Loaded ${recipes.length} total recipes from unified pipeline`);
 
       // Cache the recipes for future use
       this._allRecipes = recipes;
@@ -204,9 +201,14 @@ export class LocalRecipeService {
                 const dishes = directCuisine.dishes as any;
                 if (!dishes) return 0;
                 const breakfast = dishes.breakfast;
-                if (breakfast && Array.isArray(breakfast.all)) return breakfast.all.length;
+                if (breakfast && Array.isArray(breakfast.all))
+                  return breakfast.all.length;
                 const dishesNested = dishes.dishes;
-                if (dishesNested && dishesNested.breakfast && Array.isArray(dishesNested.breakfast.all)) {
+                if (
+                  dishesNested &&
+                  dishesNested.breakfast &&
+                  Array.isArray(dishesNested.breakfast.all)
+                ) {
                   return dishesNested.breakfast.all.length;
                 }
                 return 0;
@@ -217,7 +219,11 @@ export class LocalRecipeService {
                 const lunch = dishes.lunch;
                 if (lunch && Array.isArray(lunch.all)) return lunch.all.length;
                 const dishesNested = dishes.dishes;
-                if (dishesNested && dishesNested.lunch && Array.isArray(dishesNested.lunch.all)) {
+                if (
+                  dishesNested &&
+                  dishesNested.lunch &&
+                  Array.isArray(dishesNested.lunch.all)
+                ) {
                   return dishesNested.lunch.all.length;
                 }
                 return 0;
@@ -226,9 +232,14 @@ export class LocalRecipeService {
                 const dishes = directCuisine.dishes as any;
                 if (!dishes) return 0;
                 const dinner = dishes.dinner;
-                if (dinner && Array.isArray(dinner.all)) return dinner.all.length;
+                if (dinner && Array.isArray(dinner.all))
+                  return dinner.all.length;
                 const dishesNested = dishes.dishes;
-                if (dishesNested && dishesNested.dinner && Array.isArray(dishesNested.dinner.all)) {
+                if (
+                  dishesNested &&
+                  dishesNested.dinner &&
+                  Array.isArray(dishesNested.dinner.all)
+                ) {
                   return dishesNested.dinner.all.length;
                 }
                 return 0;
@@ -237,9 +248,14 @@ export class LocalRecipeService {
                 const dishes = directCuisine.dishes as any;
                 if (!dishes) return 0;
                 const dessert = dishes.dessert;
-                if (dessert && Array.isArray(dessert.all)) return dessert.all.length;
+                if (dessert && Array.isArray(dessert.all))
+                  return dessert.all.length;
                 const dishesNested = dishes.dishes;
-                if (dishesNested && dishesNested.dessert && Array.isArray(dishesNested.dessert.all)) {
+                if (
+                  dishesNested &&
+                  dishesNested.dessert &&
+                  Array.isArray(dishesNested.dessert.all)
+                ) {
                   return dishesNested.dessert.all.length;
                 }
                 return 0;
@@ -321,9 +337,14 @@ export class LocalRecipeService {
               const dishes = cuisine.dishes as any;
               if (!dishes) return 0;
               const breakfast = dishes.breakfast;
-              if (breakfast && Array.isArray(breakfast.all)) return breakfast.all.length;
+              if (breakfast && Array.isArray(breakfast.all))
+                return breakfast.all.length;
               const dishesNested = dishes.dishes;
-              if (dishesNested && dishesNested.breakfast && Array.isArray(dishesNested.breakfast.all)) {
+              if (
+                dishesNested &&
+                dishesNested.breakfast &&
+                Array.isArray(dishesNested.breakfast.all)
+              ) {
                 return dishesNested.breakfast.all.length;
               }
               return 0;
@@ -334,7 +355,11 @@ export class LocalRecipeService {
               const lunch = dishes.lunch;
               if (lunch && Array.isArray(lunch.all)) return lunch.all.length;
               const dishesNested = dishes.dishes;
-              if (dishesNested && dishesNested.lunch && Array.isArray(dishesNested.lunch.all)) {
+              if (
+                dishesNested &&
+                dishesNested.lunch &&
+                Array.isArray(dishesNested.lunch.all)
+              ) {
                 return dishesNested.lunch.all.length;
               }
               return 0;
@@ -345,7 +370,11 @@ export class LocalRecipeService {
               const dinner = dishes.dinner;
               if (dinner && Array.isArray(dinner.all)) return dinner.all.length;
               const dishesNested = dishes.dishes;
-              if (dishesNested && dishesNested.dinner && Array.isArray(dishesNested.dinner.all)) {
+              if (
+                dishesNested &&
+                dishesNested.dinner &&
+                Array.isArray(dishesNested.dinner.all)
+              ) {
                 return dishesNested.dinner.all.length;
               }
               return 0;
@@ -354,9 +383,14 @@ export class LocalRecipeService {
               const dishes = cuisine.dishes as any;
               if (!dishes) return 0;
               const dessert = dishes.dessert;
-              if (dessert && Array.isArray(dessert.all)) return dessert.all.length;
+              if (dessert && Array.isArray(dessert.all))
+                return dessert.all.length;
               const dishesNested = dishes.dishes;
-              if (dishesNested && dishesNested.dessert && Array.isArray(dishesNested.dessert.all)) {
+              if (
+                dishesNested &&
+                dishesNested.dessert &&
+                Array.isArray(dishesNested.dessert.all)
+              ) {
                 return dishesNested.dessert.all.length;
               }
               return 0;
@@ -372,7 +406,11 @@ export class LocalRecipeService {
           let breakfastAll: any[] = [];
           if (breakfastData && Array.isArray(breakfastData.all)) {
             breakfastAll = breakfastData.all;
-          } else if (dishesNested && dishesNested.breakfast && Array.isArray(dishesNested.breakfast.all)) {
+          } else if (
+            dishesNested &&
+            dishesNested.breakfast &&
+            Array.isArray(dishesNested.breakfast.all)
+          ) {
             breakfastAll = dishesNested.breakfast.all;
           }
           if (breakfastAll.length > 0) {
@@ -682,16 +720,21 @@ export class LocalRecipeService {
       }
 
       // Process nutrition information
-      const nutrition = dish.nutrition
-        ? {
-            calories: dish.nutrition.calories,
-            protein: dish.nutrition.protein,
-            carbs: dish.nutrition.carbs,
-            fat: dish.nutrition.fat,
-            vitamins: dish.nutrition.vitamins || [],
-            minerals: dish.nutrition.minerals || [],
-          }
-        : undefined;
+      let nutrition: NutritionalSummary | undefined;
+      if (dish.nutrition) {
+        const baseNutrition = createEmptyNutritionalSummary();
+        baseNutrition.calories = dish.nutrition.calories ?? 0;
+        baseNutrition.protein = dish.nutrition.protein ?? 0;
+        baseNutrition.carbs = dish.nutrition.carbs ?? 0;
+        baseNutrition.fat = dish.nutrition.fat ?? 0;
+        // The raw dish might have generic vitamins/minerals arrays which are not part of NutritionalSummary
+        // For now, we only map the main macros
+        // If dish.nutrition had specific vitaminA, sodium, etc, they would be mapped here.
+        // Assuming RawDish.nutrition is a simpler type that only has these few properties.
+        nutrition = baseNutrition;
+      } else {
+        nutrition = undefined;
+      }
 
       // Process substitutions
       let substitutions: Array<{ original: string; alternatives: string[] }> =

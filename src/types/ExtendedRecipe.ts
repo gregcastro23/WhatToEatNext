@@ -1,5 +1,5 @@
 import type { ElementalProperties } from "@/types/alchemy";
-import { _Element, ZodiacSign, _LunarPhase } from "@/types/alchemy";
+import { _Element, ZodiacSignType, _LunarPhase } from "@/types/alchemy";
 
 /**
  * 🚀 Phase, 10: ExtendedRecipe Interface - Complete Property Access Support
@@ -85,17 +85,6 @@ export interface ExtendedRecipe extends Recipe {
     beverages?: string[];
     sides?: string[];
     condiments?: string[];
-  };
-
-  nutrition?: {
-    calories?: number;
-    servingSize?: string;
-    macronutrients?: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
-    };
   };
 
   seasonalIngredients?: string[];

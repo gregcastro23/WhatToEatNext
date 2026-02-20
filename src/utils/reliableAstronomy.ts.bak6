@@ -232,7 +232,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
     const exactLongitude = parseFloat(longMatch[1])
 
     // Get zodiac sign based on longitude;
-    const { sign, degree } = getLongitudeToZodiacSign(exactLongitude)
+    const { sign, degree } = getLongitudeToZodiacSignType(exactLongitude)
 
     // Check for retrograde motion
     const retroLine = lines.find(line => line.includes('retrograde'))
@@ -253,7 +253,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
 /**
  * Convert longitude to zodiac sign
  */
-function getLongitudeToZodiacSign(_longitude: number): { sign: string, degree: number } {
+function getLongitudeToZodiacSignType(_longitude: number): { sign: string, degree: number } {
   // Normalize longitude to 0-360 range
   const normalized = ((longitude % 360) + 360) % 360;
 
@@ -302,7 +302,7 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
     const longitude = nodeType === 'northNode' ? (Omega + 180) % 360 : Omega
 
     // Get zodiac sign;
-    const { sign, degree} = getLongitudeToZodiacSign(longitude)
+    const { sign, degree} = getLongitudeToZodiacSignType(longitude)
 
     return {
       sign,
@@ -421,7 +421,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
           ) {
             const standardName = planetNameMap[planetData.name.toLowerCase()];
             const exactLongitude = parseFloat(planetData.longitude)
-            const { sign, degree} = getLongitudeToZodiacSign(exactLongitude)
+            const { sign, degree} = getLongitudeToZodiacSignType(exactLongitude)
 
             positions[standardName] = {
               sign,
@@ -543,7 +543,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
             typeof objData.position?.eclipticLongitude === 'number'
           ) {
             const planetName = objData.name.charAt(0).toUpperCase() + objData.name.slice(1)
-            const { sign, degree} = getLongitudeToZodiacSign(objData.position.eclipticLongitude)
+            const { sign, degree} = getLongitudeToZodiacSignType(objData.position.eclipticLongitude)
 
             positions[planetName] = {
               sign,

@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ZodiacSign, ThermodynamicProperties } from "@/types/shared";
+import type { ZodiacSignType, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Broiling cooking method
@@ -126,6 +126,15 @@ export const broiling: CookingMethodData = {
     reactivity: 0.8, // High chemical reactivity on food surface
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as any,
+
+  kineticProfile: {
+    voltage: 0.95,            // Extreme radiant heat from above (500-550°F)
+    current: 0.70,            // Intense radiation, fast transfer
+    resistance: 0.20,         // Direct exposure, minimal barriers
+    velocityFactor: 0.88,     // Very fast surface transformation
+    momentumRetention: 0.40,  // Lower carry-over (surface-focused)
+    forceImpact: 0.85,        // Extreme surface structural impact
+  },
 
   // Additional metadata
   history:

@@ -1,6 +1,6 @@
 import { _logger } from "@/lib/logger";
 // Removed unused log import
-import type { ZodiacSign } from "@/types/alchemy";
+import type { ZodiacSignType } from "@/types/alchemy";
 import type { ElementalCharacter } from "../constants/planetaryElements";
 
 /**
@@ -16,8 +16,8 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * Maps zodiac signs to their corresponding elemental character
  * Inlined here to avoid circular dependency with astrologyUtils
  */
-const getZodiacElement = (sign: ZodiacSign): ElementalCharacter => {
-  const elements: Record<ZodiacSign, ElementalCharacter> = {
+const getZodiacElement = (sign: ZodiacSignType): ElementalCharacter => {
+  const elements: Record<ZodiacSignType, ElementalCharacter> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -251,7 +251,7 @@ export function calculateHouseEffect(
  */
 export function calculateAllHouseEffects(
   planetPositions: Record<string, { sign: any; house?: number }>,
-  _houses: Record<number, ZodiacSign>,
+  _houses: Record<number, ZodiacSignType>,
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {
     Fire: 0,
