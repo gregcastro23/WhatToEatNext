@@ -1480,6 +1480,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hpke/chacha20poly1305@npm:^1.6.2":
+  version: 1.7.1
+  resolution: "@hpke/chacha20poly1305@npm:1.7.1"
+  dependencies:
+    "@hpke/common": ^1.8.1
+  checksum: 2263b3324404039af9415c2d79f5dc995bcaf621aeb870ae222eb1586d7a10adffb4b802e1ebf44607953ecb4c3ec6f912c066662cc51688774ba53b8bab977c
+  languageName: node
+  linkType: hard
+
+"@hpke/common@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "@hpke/common@npm:1.8.1"
+  checksum: e29309ce313dc8fab05408ef0b9969cf3f8cdbfc88f20a3b303e0e5ea5118bbac08f79680003624cbcb01e4414abd713ac3ab23770989b80a5a802bce4f07a3a
+  languageName: node
+  linkType: hard
+
+"@hpke/core@npm:^1.7.2":
+  version: 1.7.5
+  resolution: "@hpke/core@npm:1.7.5"
+  dependencies:
+    "@hpke/common": ^1.8.1
+  checksum: ea22af97bcab01e48a415f8d6c7291e9672994c13cb320912a523b1078e51c0a5f53d1d5e0d5e50c34a45f8e71454a7bf117deee74541ce3fbf7a2e871f1ce05
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -2816,6 +2841,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@privy-io/api-base@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@privy-io/api-base@npm:1.7.0"
+  dependencies:
+    zod: ^3.24.3
+  checksum: 3a749df3fa51d24f003aa477d34dc091143f40d367d1e5caf1c708eed8389a1061d015d8e66de45308eea543534b17c9d008ad5d5d0355a4cd9061f1788a39b3
+  languageName: node
+  linkType: hard
+
 "@privy-io/api-base@npm:1.8.2":
   version: 1.8.2
   resolution: "@privy-io/api-base@npm:1.8.2"
@@ -2890,6 +2924,19 @@ __metadata:
   version: 0.0.2
   resolution: "@privy-io/popup@npm:0.0.2"
   checksum: c103889f76a882e14dd1574d6423acd8a2ed0a21b34bb1ef900a3796219ef3a5075198fd458ccfe1af682f61a350499cedb6c5f583ade73c627ef27b2b7d3f1a
+  languageName: node
+  linkType: hard
+
+"@privy-io/public-api@npm:2.45.2":
+  version: 2.45.2
+  resolution: "@privy-io/public-api@npm:2.45.2"
+  dependencies:
+    "@privy-io/api-base": 1.7.0
+    bs58: ^5.0.0
+    libphonenumber-js: ^1.10.31
+    viem: ^2
+    zod: ^3.24.3
+  checksum: c04d8a31b34e93fa75d69f06dc4e20e19b7e4be14d175674a7a084e056d3a17b3353d2367f7c97cfb2801f5d5fac941ffdf256f8a60c4d83f86e62139ad73e68
   languageName: node
   linkType: hard
 
@@ -2969,6 +3016,37 @@ __metadata:
   dependencies:
     "@privy-io/api-types": 0.5.0
   checksum: f77491da418e7ad2bf653bcb94b5258ac4b128fe2d2aa74b4002760814401f15b8ab2113f36bdc04ad324fa2d714b135a2961b30535ed3f18b48c6a820d000c7
+  languageName: node
+  linkType: hard
+
+"@privy-io/server-auth@npm:^1.32.5":
+  version: 1.32.5
+  resolution: "@privy-io/server-auth@npm:1.32.5"
+  dependencies:
+    "@hpke/chacha20poly1305": ^1.6.2
+    "@hpke/core": ^1.7.2
+    "@noble/curves": ^1.6.0
+    "@noble/hashes": ^1.5.0
+    "@privy-io/public-api": 2.45.2
+    "@scure/base": ^1.2.6
+    "@solana/web3.js": ^1.95.8
+    canonicalize: ^2.0.0
+    dotenv: ^16.0.3
+    jose: ^4.10.4
+    node-fetch-native: ^1.4.0
+    redaxios: ^0.5.1
+    svix: ">=1.29.0 <= 1.37.0 || ^1.40.0"
+    ts-case-convert: ^2.0.2
+    type-fest: ^3.6.1
+  peerDependencies:
+    ethers: ^6
+    viem: ^2.24.1
+  peerDependenciesMeta:
+    ethers:
+      optional: true
+    viem:
+      optional: true
+  checksum: 2bc5bb1206f4e17e5798e0446bc8a660a8801565361b5ca8e85c945bf8b73664d907c11af962abe01350eace3dc75d803859688d2fa2977e57843580b3ace828
   languageName: node
   linkType: hard
 
@@ -4549,7 +4627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.98.1":
+"@solana/web3.js@npm:^1.95.8, @solana/web3.js@npm:^1.98.1":
   version: 1.98.4
   resolution: "@solana/web3.js@npm:1.98.4"
   dependencies:
@@ -4569,6 +4647,13 @@ __metadata:
     rpc-websockets: ^9.0.2
     superstruct: ^2.0.2
   checksum: f7169531e21af11276db6d382cc05b432c866e1ca908fa160e2270b0a85c96b8a920c385562c9ae6b0458f6857422fd4aba66599a2d3eeb530bd56a6176e2335
+  languageName: node
+  linkType: hard
+
+"@stablelib/base64@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@stablelib/base64@npm:1.0.1"
+  checksum: 3ef4466d1d6889ac3fc67407bc21aa079953981c322eeca3b29f426d05506c63011faab1bfc042d7406e0677a94de6c9d2db2ce079afdd1eccae90031bfb5859
   languageName: node
   linkType: hard
 
@@ -7500,6 +7585,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base-x@npm:^4.0.0":
+  version: 4.0.1
+  resolution: "base-x@npm:4.0.1"
+  checksum: c9061e576f7376b2bc6b69eca131254bb16ebe1445b535a3f0d68f27524e724965b6c191dffd255bf80f9bdf5eb9d1c8d0320903e83116f2c3e09f81b5ecb6a2
+  languageName: node
+  linkType: hard
+
 "base-x@npm:^5.0.0":
   version: 5.0.1
   resolution: "base-x@npm:5.0.1"
@@ -7672,6 +7764,15 @@ __metadata:
   dependencies:
     base-x: ^3.0.2
   checksum: b3c5365bb9e0c561e1a82f1a2d809a1a692059fae016be233a6127ad2f50a6b986467c3a50669ce4c18929dcccb297c5909314dd347a25a68c21b68eb3e95ac2
+  languageName: node
+  linkType: hard
+
+"bs58@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "bs58@npm:5.0.0"
+  dependencies:
+    base-x: ^4.0.0
+  checksum: 2475cb0684e07077521aac718e604a13e0f891d58cff923d437a2f7e9e28703ab39fce9f84c7c703ab369815a675f11e3bd394d38643bfe8969fbe42e6833d45
   languageName: node
   linkType: hard
 
@@ -8857,6 +8958,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^16.0.3":
+  version: 16.6.1
+  resolution: "dotenv@npm:16.6.1"
+  checksum: e8bd63c9a37f57934f7938a9cf35de698097fadf980cb6edb61d33b3e424ceccfe4d10f37130b904a973b9038627c2646a3365a904b4406514ea94d7f1816b69
+  languageName: node
+  linkType: hard
+
 "dunder-proto@npm:^1.0.0, dunder-proto@npm:^1.0.1":
   version: 1.0.1
   resolution: "dunder-proto@npm:1.0.1"
@@ -9791,6 +9899,13 @@ __metadata:
   version: 2.1.1
   resolution: "fast-safe-stringify@npm:2.1.1"
   checksum: a851cbddc451745662f8f00ddb622d6766f9bd97642dabfd9a405fb0d646d69fc0b9a1243cbf67f5f18a39f40f6fa821737651ff1bceeba06c9992ca2dc5bd3d
+  languageName: node
+  linkType: hard
+
+"fast-sha256@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "fast-sha256@npm:1.3.0"
+  checksum: 2b0bea7d3a9955e67abd2d3fbef4ce57f7dbb75708fc206d14973bd1d97aaf35b5c0a59c1d65be6f755df43d73b7657b9eac4fb3c2d58e6849966db1ef1fa186
   languageName: node
   linkType: hard
 
@@ -11156,7 +11271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^4.15.4, jose@npm:^4.15.5":
+"jose@npm:^4.10.4, jose@npm:^4.15.4, jose@npm:^4.15.5":
   version: 4.15.9
   resolution: "jose@npm:4.15.9"
   checksum: 41abe1c99baa3cf8a78ebbf93da8f8e50e417b7a26754c4afa21865d87527b8ac2baf66de2c5f6accc3f7d7158658dae7364043677236ea1d07895b040097f15
@@ -11448,7 +11563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libphonenumber-js@npm:^1.10.44":
+"libphonenumber-js@npm:^1.10.31, libphonenumber-js@npm:^1.10.44":
   version: 1.12.37
   resolution: "libphonenumber-js@npm:1.12.37"
   checksum: 43106a6d91fec640181f1140c8f4cea5020f7281f980d006b72980725ae3ae810db3988af151c76419787e8196a0e671e21d40b084d7ab6f3e732a8bce4a262c
@@ -12192,7 +12307,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch-native@npm:^1.6.7":
+"node-fetch-native@npm:^1.4.0, node-fetch-native@npm:^1.6.7":
   version: 1.6.7
   resolution: "node-fetch-native@npm:1.6.7"
   checksum: c564e4f098b2ee5f56569a5f7a3c81b86dd11eb626460c332930fbff180df727bf44067268b2f19e646ac2e87632662dabd362df4b6a93c7bd898a94a3af9cb1
@@ -14305,6 +14420,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redaxios@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "redaxios@npm:0.5.1"
+  checksum: 0ccd38610d2d0769fb72205151ee90aa2a929be66c6056b3eba0784e32e76618d5a9314bbb0d35d5d3a6197a032a411532437ade5bf0f350abbc1b631b1d0d17
+  languageName: node
+  linkType: hard
+
 "redent@npm:^3.0.0":
   version: 3.0.0
   resolution: "redent@npm:3.0.0"
@@ -15082,6 +15204,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"standardwebhooks@npm:1.0.0":
+  version: 1.0.0
+  resolution: "standardwebhooks@npm:1.0.0"
+  dependencies:
+    "@stablelib/base64": ^1.0.0
+    fast-sha256: ^1.3.0
+  checksum: 02b74a3e4cd131affe8bf18945360747a5a0bf81c1d62a7bbbea3d40976b4fef4bb37de71a35cdc0fdc4d6f0d951a3b6031052e78bd086dc9b09b629b82d3919
+  languageName: node
+  linkType: hard
+
 "stop-iteration-iterator@npm:^1.1.0":
   version: 1.1.0
   resolution: "stop-iteration-iterator@npm:1.1.0"
@@ -15425,6 +15557,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"svix@npm:>=1.29.0 <= 1.37.0 || ^1.40.0":
+  version: 1.85.0
+  resolution: "svix@npm:1.85.0"
+  dependencies:
+    standardwebhooks: 1.0.0
+    uuid: ^10.0.0
+  checksum: a677c69f5973e317d1891b3f966b61bef8fc5c88db1eb9dc44e57c47adab1bccee7b3f4f8b3c6072519e07ca95fc5f23e52fb552b756d9c7fa25ec04bc5309ae
+  languageName: node
+  linkType: hard
+
 "symbol-tree@npm:^3.2.4":
   version: 3.2.4
   resolution: "symbol-tree@npm:3.2.4"
@@ -15647,6 +15789,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-case-convert@npm:^2.0.2":
+  version: 2.1.0
+  resolution: "ts-case-convert@npm:2.1.0"
+  checksum: 124518fac2ad0575d3bfb51e06ec153a31ea4afb41d662bb217d7d959707331c27094c54667a620ed7335451a131b73a452b07e05395e4316dbe6d9b538e499a
+  languageName: node
+  linkType: hard
+
 "ts-graphviz@npm:^2.1.2":
   version: 2.1.6
   resolution: "ts-graphviz@npm:2.1.6"
@@ -15794,6 +15943,13 @@ __metadata:
   version: 4.0.8
   resolution: "type-detect@npm:4.0.8"
   checksum: 62b5628bff67c0eb0b66afa371bd73e230399a8d2ad30d852716efcc4656a7516904570cd8631a49a3ce57c10225adf5d0cbdcb47f6b0255fe6557c453925a15
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^3.6.1":
+  version: 3.13.1
+  resolution: "type-fest@npm:3.13.1"
+  checksum: c06b0901d54391dc46de3802375f5579868949d71f93b425ce564e19a428a0d411ae8d8cb0e300d330071d86152c3ea86e744c3f2860a42a79585b6ec2fdae8e
   languageName: node
   linkType: hard
 
@@ -16209,6 +16365,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "uuid@npm:10.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 4b81611ade2885d2313ddd8dc865d93d8dccc13ddf901745edca8f86d99bc46d7a330d678e7532e7ebf93ce616679fb19b2e3568873ac0c14c999032acb25869
+  languageName: node
+  linkType: hard
+
 "uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
@@ -16325,7 +16490,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:>=2.29.0, viem@npm:>=2.37.9, viem@npm:^2.1.1, viem@npm:^2.21.26, viem@npm:^2.27.2, viem@npm:^2.31.7, viem@npm:^2.46.1":
+"viem@npm:>=2.29.0, viem@npm:>=2.37.9, viem@npm:^2, viem@npm:^2.1.1, viem@npm:^2.21.26, viem@npm:^2.27.2, viem@npm:^2.31.7, viem@npm:^2.46.1":
   version: 2.46.2
   resolution: "viem@npm:2.46.2"
   dependencies:
@@ -16435,6 +16600,7 @@ __metadata:
     "@mui/material": ^5.13.6
     "@next/swc-wasm-nodejs": ^16.1.6
     "@privy-io/react-auth": ^3.14.1
+    "@privy-io/server-auth": ^1.32.5
     "@radix-ui/react-tabs": ^1.1.12
     "@tailwindcss/line-clamp": ^0.4.4
     "@testing-library/jest-dom": ^6.9.1

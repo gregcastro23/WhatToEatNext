@@ -27,11 +27,15 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 # Database imports
 from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation, TransitHistory
 
+# New Auth Middleware import
+from .auth_middleware import get_current_user
+
 from alchm_kitchen.recipe_generator import get_astrological_recipes
 try:
     import swisseph as swe
 except ImportError:
     swe = None
+
 
 # Lunar Engine import
 from ..utils.lunar_engine import get_current_lunar_phase, get_lunar_modifier
@@ -105,6 +109,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+# ==========================================
+# PROTECTED USER ROUTE
+# ==========================================
+
+@app.get("/api/me")
+async def get_me(user: dict = Depends(get_current_user)):
+    """
+    A protected route that returns the claims of the authenticated user.
+    If the user is not authenticated, the get_current_user dependency
+    will raise an HTTPException.
+    """
+    return user
+
 
 # ==========================================
 # ALCHEMICAL CALCULATIONS (via Render API)
