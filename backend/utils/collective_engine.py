@@ -7,7 +7,7 @@ from ..utils.transit_engine import get_transit_details, calculate_total_potency_
 from ..config.celestial_config import FOREST_HILLS_COORDINATES # For common location
 from backend.database import Recipe, ElementalProperties # For fetching recipes and their properties
 from fastapi import HTTPException # For consistency with other backend errors
-from backend.alchm_kitchen.main import calculate_planetary_positions_swisseph # New import for planetary positions
+from backend.utils.celestial_calculations import calculate_planetary_positions_swisseph # Fixed circular import
 
 class ChartData(BaseModel):
     year: int
@@ -39,7 +39,7 @@ class CollectiveSynastryEngine:
         transit_info = get_transit_details()
         if "error" in transit_info:
             raise HTTPException(status_code=500, detail=f"Failed to get transit details for individual snapshot: {transit_info['error']}")
-        
+
         # Get current planetary hour for the participant's *current* location
         # (Assuming participant_chart_data.latitude/longitude is their current location, or using Forest Hills)
         current_latitude = participant_chart_data.latitude if participant_chart_data.latitude else self.latitude
@@ -68,7 +68,7 @@ class CollectiveSynastryEngine:
             elementalProperties = DummyElementalProperties()
 
         dummy_recipe = DummyRecipe()
-        
+
         # Calculate initial potency and kinetic/thermo for a neutral profile,
         # considering the individual's natal Sun Element and current transits
         potency_and_physics = calculate_total_potency_score(
@@ -190,7 +190,7 @@ if __name__ == "__main__":
             year=1985, month=11, day=1, hour=18, minute=45,
             latitude=34.0522, longitude=-118.2437, timezone_str="America/Los_Angeles"
         )
-        
+
         # NOTE: For get_transit_details and get_planetary_hour to work in a real scenario,
         # pyswisseph must be installed and ephemeris files must be set up correctly.
         # This example will likely fail if run directly without these.
