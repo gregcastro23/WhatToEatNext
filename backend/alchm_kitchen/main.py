@@ -25,12 +25,12 @@ import os
 
 
 # Database imports
-from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation, TransitHistory, SavedChart
+from backend.database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation, TransitHistory, SavedChart
 
 # New Auth Middleware import
 from backend.alchm_kitchen.auth_middleware import get_current_user
 
-from alchm_kitchen.recipe_generator import get_astrological_recipes
+from backend.alchm_kitchen.recipe_generator import get_astrological_recipes
 try:
     import swisseph as swe
 except ImportError:
