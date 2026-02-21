@@ -4,6 +4,7 @@ echo "🚀 Starting alchm.kitchen Unified Backend..."
 # Start the unified backend service
 echo "🏺 Starting alchm.kitchen Unified Backend (Port 8000)..."
 export PYTHONPATH=$(pwd)/backend:$(pwd)/src:$PYTHONPATH
+export DISABLE_SQLALCHEMY_CEXT=1
 python3 -m backend.alchm_kitchen.main &
 BACKEND_PID=$!
 
