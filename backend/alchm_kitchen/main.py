@@ -123,6 +123,42 @@ async def get_me(user: dict = Depends(get_current_user)):
     """
     return user
 
+# ==========================================
+# LOCAL ALCHEMICAL CALCULATION ENDPOINT
+# ==========================================
+
+class AlchemicalQuantitiesRequest(BaseModel):
+    recipe: Dict[str, Any]
+    kinetic_rating: float
+    planetary_hour_ruler: str
+    thermo_rating: float
+
+@app.post("/api/alchemical/quantities")
+async def calculate_alchemical_quantities_endpoint(request: AlchemicalQuantitiesRequest):
+    """
+    Calculate Alchemical Quantities (Spirit, Essence, Matter, Substance)
+    using the local backend logic.
+    """
+    try:
+        # Create a simple object to match the interface expected by the utility
+        class RecipeObj:
+            def __init__(self, data):
+                self.elementalProperties = data.get('elementalProperties', {})
+                self.nutritional_profile = data.get('nutritional_profile', {})
+
+        recipe_obj = RecipeObj(request.recipe)
+        
+        result = calculate_alchemical_quantities(
+            recipe_obj,
+            request.kinetic_rating,
+            request.planetary_hour_ruler,
+            request.thermo_rating
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Calculation failed: {str(e)}")
+
+
 
 # ==========================================
 # ALCHEMICAL CALCULATIONS (via Render API)

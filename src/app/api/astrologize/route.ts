@@ -207,7 +207,8 @@ async function calculatePlanetaryPositions(
     for (const planet of planets) {
       try {
         // Get ecliptic coordinates
-        const ecliptic = (Astronomy.Ecliptic as any)(planet.body, date);
+        // Fixed: Removed 'as any' cast and validated usage
+        const ecliptic = Astronomy.Ecliptic(planet.body, date);
         const longitude = ecliptic.elon;
 
         // Convert to zodiac position
@@ -221,7 +222,7 @@ async function calculatePlanetaryPositions(
             planet.body !== Astronomy.Body.Moon
           ) {
             const futureDate = new Date(date.getTime() + 24 * 60 * 60 * 1000); // 1 day ahead
-            const futureEcliptic = (Astronomy.Ecliptic as any)(
+            const futureEcliptic = Astronomy.Ecliptic(
               planet.body,
               futureDate,
             );
