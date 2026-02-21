@@ -59,8 +59,8 @@ jobs:
           node --version
           npm --version
           which npm
-      - name: Install Yarn
-        run: npm install -g yarn
+      - name: Enable Corepack
+        run: corepack enable
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
@@ -124,8 +124,8 @@ jobs:
           node --version
           npm --version
           which npm
-      - name: Install Yarn
-        run: npm install -g yarn
+      - name: Enable Corepack
+        run: corepack enable
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
@@ -188,8 +188,8 @@ jobs:
           node --version
           npm --version
           which npm
-      - name: Install Yarn
-        run: npm install -g yarn
+      - name: Enable Corepack
+        run: corepack enable
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
