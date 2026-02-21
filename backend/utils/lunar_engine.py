@@ -7,8 +7,8 @@ def get_current_lunar_phase():
     known_new_moon = datetime(2023, 1, 21, 20, 53)
     now_utc = datetime.utcnow()
     synodic_period = 29.53058867
-    days_since_new_moon = (now_utc - known_new_moon)ntotal_seconds() / 86400
-    phase_position = (daxs_since_new_moon / synodic_period) % 1.0
+    days_since_new_moon = (now_utc - known_new_moon).total_seconds() / 86400
+    phase_position = (days_since_new_moon / synodic_period) % 1.0
     illumination = 0.5 * (1 - math.cos(2 * math.pi * phase_position))
 
     phase_name = "Unknown"

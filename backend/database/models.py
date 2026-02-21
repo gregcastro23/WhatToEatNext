@@ -163,6 +163,8 @@ class SeasonalAssociation(Base):
         Index('idx_seasonal_season', 'season'),
     )
 
+
+
 # ==========================================
 # INGREDIENT TABLES
 # ==========================================
@@ -487,5 +489,5 @@ class SavedChart(Base):
     __table_args__ = (
         Index('idx_saved_charts_user', 'user_id'),
         UniqueConstraint('user_id', 'chart_name', name='uq_user_chart_name'),
-        UniqueConstraint('user_id', 'is_primary', name='uq_user_primary_chart', postgresql_where=is_primary == True)
+        
     )

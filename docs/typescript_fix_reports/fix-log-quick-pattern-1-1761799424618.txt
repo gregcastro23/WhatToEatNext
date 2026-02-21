@@ -1,0 +1,483 @@
+[2025-10-30T04:43:44.618Z] ===== QUICK FIX - PATTERN 1: MISSING OPENING PAREN IN FUNCTIONS =====
+[2025-10-30T04:43:44.622Z] Mode: DRY RUN
+[2025-10-30T04:43:53.411Z] Parsing errors before: 245
+[2025-10-30T04:43:53.434Z] Scanning 799 TypeScript files...
+[2025-10-30T04:43:53.467Z]   Line 359: applySeasonalModifier - removed closing paren
+[2025-10-30T04:43:53.467Z] src/constants/seasonalCore.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.467Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.469Z]   Line 474: getPlanetaryAlchemicalEffect - removed closing paren
+[2025-10-30T04:43:53.469Z]   Line 1240: calculatePillarGregsEnergy - removed closing paren
+[2025-10-30T04:43:53.469Z]   Line 1256: calculatePillarMonica - removed closing paren
+[2025-10-30T04:43:53.469Z]   Line 1326: calculateOptimalCookingConditions - removed closing paren
+[2025-10-30T04:43:53.469Z]   Line 1395: calculatePlanetaryAlignment - removed closing paren
+[2025-10-30T04:43:53.469Z]   Line 1419: calculateLunarPhaseBonus - removed closing paren
+[2025-10-30T04:43:53.469Z] src/constants/alchemicalPillars.ts: Found 6 missing opening parens
+[2025-10-30T04:43:53.470Z]   [DRY RUN] Would fix 6 instances
+[2025-10-30T04:43:53.471Z]   Line 35: determineIngredientModality - removed closing paren
+[2025-10-30T04:43:53.471Z]   Line 267: mergeElementalProperties - removed closing paren
+[2025-10-30T04:43:53.471Z]   Line 339: ingredientToRecipeIngredient - removed closing paren
+[2025-10-30T04:43:53.471Z] src/utils/ingredientUtils.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.471Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.471Z]   Line 13: createElementalProperties - removed closing paren
+[2025-10-30T04:43:53.472Z]   Line 198: getMethodThermodynamics - removed closing paren
+[2025-10-30T04:43:53.472Z]   Line 284: calculateThermodynamicBaseScore - removed closing paren
+[2025-10-30T04:43:53.472Z]   Line 328: calculateEnhancedElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.472Z]   Line 354: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 382: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 418: getRecommendedCookingMethods - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 552: _calculateAspectMethodAffinity - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 596: calculateMethodScore - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 645: createElementalProfileFromAstroState - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 666: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 688: getCookingMethodRecommendations - removed closing paren
+[2025-10-30T04:43:53.473Z]   Line 750: getHolisticCookingRecommendations - removed closing paren
+[2025-10-30T04:43:53.474Z]   Line 811: getRecommendedCookingMethodsForIngredient - removed closing paren
+[2025-10-30T04:43:53.474Z] src/utils/recommendation/methodRecommendation.ts: Found 14 missing opening parens
+[2025-10-30T04:43:53.474Z]   [DRY RUN] Would fix 14 instances
+[2025-10-30T04:43:53.474Z]   Line 79: generateEnhancedCuisineRecommendations - removed closing paren
+[2025-10-30T04:43:53.474Z]   Line 163: generateCuisineRecommendation - removed closing paren
+[2025-10-30T04:43:53.474Z]   Line 180: generateBasicCuisineRecommendations - removed closing paren
+[2025-10-30T04:43:53.475Z]   Line 459: calculateElementalContributionsFromPlanets - removed closing paren
+[2025-10-30T04:43:53.475Z] src/utils/recommendation/cuisineRecommendation.ts: Found 4 missing opening parens
+[2025-10-30T04:43:53.475Z]   [DRY RUN] Would fix 4 instances
+[2025-10-30T04:43:53.475Z]   Line 50: calculateRecommendationScore - removed closing paren
+[2025-10-30T04:43:53.475Z]   Line 97: getRecommendedRecipes - removed closing paren
+[2025-10-30T04:43:53.475Z]   Line 117: explainRecommendation - removed closing paren
+[2025-10-30T04:43:53.475Z]   Line 324: getDetailedRecipeRecommendations - removed closing paren
+[2025-10-30T04:43:53.475Z]   Line 389: calculateElementalMatch - removed closing paren
+[2025-10-30T04:43:53.475Z]   Line 460: calculateRecipeMatchScore - removed closing paren
+[2025-10-30T04:43:53.475Z] src/utils/recommendation/foodRecommendation.ts: Found 6 missing opening parens
+[2025-10-30T04:43:53.475Z]   [DRY RUN] Would fix 6 instances
+[2025-10-30T04:43:53.476Z]   Line 881: calculateUnifiedFlavorScore - removed closing paren
+[2025-10-30T04:43:53.476Z]   Line 904: calculateKalchmResonance - removed closing paren
+[2025-10-30T04:43:53.476Z]   Line 923: calculateMonicaOptimization - removed closing paren
+[2025-10-30T04:43:53.476Z]   Line 945: calculateCulturalContextScore - removed closing paren
+[2025-10-30T04:43:53.476Z]   Line 1035: calculateElementalInfluences - removed closing paren
+[2025-10-30T04:43:53.477Z] src/utils/recommendation/ingredientRecommendation.ts: Found 5 missing opening parens
+[2025-10-30T04:43:53.477Z]   [DRY RUN] Would fix 5 instances
+[2025-10-30T04:43:53.478Z]   Line 6: convertToLunarPhase - removed closing paren
+[2025-10-30T04:43:53.478Z] src/utils/lunarUtils.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.478Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.480Z]   Line 248: getMethodThermodynamics - removed closing paren
+[2025-10-30T04:43:53.480Z]   Line 413: calculateEnhancedElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.480Z]   Line 464: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:43:53.480Z]   Line 506: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:43:53.480Z]   Line 1430: calculateMethodScore - removed closing paren
+[2025-10-30T04:43:53.480Z]   Line 1491: getAstrologicalElementalProfile - removed closing paren
+[2025-10-30T04:43:53.480Z]   Line 1523: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.480Z]   Line 1553: getCookingMethodRecommendations - removed closing paren
+[2025-10-30T04:43:53.480Z] src/utils/cookingMethodRecommender.ts: Found 8 missing opening parens
+[2025-10-30T04:43:53.480Z]   [DRY RUN] Would fix 8 instances
+[2025-10-30T04:43:53.481Z]   Line 63: createEnhancedError - removed closing paren
+[2025-10-30T04:43:53.481Z] src/utils/errorHandling.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.481Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.483Z]   Line 177: validatePlanetTransitDates - removed closing paren
+[2025-10-30T04:43:53.483Z]   Line 842: generateValidationSummary - removed closing paren
+[2025-10-30T04:43:53.483Z] src/utils/planetaryValidation.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.483Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.483Z]   Line 156: calculatePlanetaryAspects - removed closing paren
+[2025-10-30T04:43:53.483Z] src/utils/safeAstrology.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.484Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.484Z]   Line 153: calculateElementalSimilarity - removed closing paren
+[2025-10-30T04:43:53.484Z]   Line 345: classifySignatureStrength - removed closing paren
+[2025-10-30T04:43:53.484Z] src/utils/cuisineAggregations.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.484Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.486Z]   Line 104: getPlanetaryDignity - removed closing paren
+[2025-10-30T04:43:53.486Z]   Line 527: _calculatePlanetPosition - removed closing paren
+[2025-10-30T04:43:53.486Z]   Line 888: calculateEnhancedStelliumEffects - removed closing paren
+[2025-10-30T04:43:53.486Z]   Line 1098: calculateJoyEffects - removed closing paren
+[2025-10-30T04:43:53.486Z]   Line 1181: calculateCompleteAstrologicalEffects - removed closing paren
+[2025-10-30T04:43:53.486Z]   Line 1295: getPlanetaryDignityInfo - removed closing paren
+[2025-10-30T04:43:53.486Z]   Line 1407: calculateAspects - removed closing paren
+[2025-10-30T04:43:53.486Z]   Line 2303: calculateDominantElement - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2353: calculateElementalProfile - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2403: transformItemsWithPlanetaryPositions - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2527: calculateCurrentElementalInfluence - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2596: calculateItemCompatibilityScore - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2667: calculateAlchemicalProperties - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2748: calculateThermodynamicProperties - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2770: calculateElementalTransformations - removed closing paren
+[2025-10-30T04:43:53.487Z]   Line 2856: calculateOverallAlchemicalScore - removed closing paren
+[2025-10-30T04:43:53.487Z] src/utils/astrologyUtils.ts: Found 16 missing opening parens
+[2025-10-30T04:43:53.487Z]   [DRY RUN] Would fix 16 instances
+[2025-10-30T04:43:53.488Z]   Line 670: analyzePerformanceTrend - removed closing paren
+[2025-10-30T04:43:53.488Z]   Line 952: calculateOverallQualityScore - removed closing paren
+[2025-10-30T04:43:53.488Z]   Line 1045: generateOptimizationRecommendations - removed closing paren
+[2025-10-30T04:43:53.488Z] src/utils/buildQualityMonitor.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.488Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.488Z]   Line 36: calculateComprehensiveAspects - removed closing paren
+[2025-10-30T04:43:53.489Z] src/utils/aspectCalculator.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.489Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.490Z]   Line 70: isCuisineCompatibleWithIngredient - removed closing paren
+[2025-10-30T04:43:53.490Z]   Line 84: getSharedIngredients - removed closing paren
+[2025-10-30T04:43:53.490Z] src/utils/cuisine/cuisineUtils.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.490Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.491Z]   Line 32: calculateZScore - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 70: calculateSignatureConfidence - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 172: identifyElementalSignatures - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 211: identifyAlchemicalSignatures - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 259: identifyThermodynamicSignatures - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 304: generateElementalSignatureDescription - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 326: generateAlchemicalSignatureDescription - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 348: generateThermodynamicSignatureDescription - removed closing paren
+[2025-10-30T04:43:53.491Z]   Line 382: identifyCuisineSignatures - removed closing paren
+[2025-10-30T04:43:53.492Z]   Line 452: filterSignaturesByStrength - removed closing paren
+[2025-10-30T04:43:53.492Z] src/utils/cuisine/signatureIdentificationEngine.ts: Found 10 missing opening parens
+[2025-10-30T04:43:53.492Z]   [DRY RUN] Would fix 10 instances
+[2025-10-30T04:43:53.492Z]   Line 121: aggregateElementalProperties - removed closing paren
+[2025-10-30T04:43:53.492Z]   Line 151: aggregateAlchemicalProperties - removed closing paren
+[2025-10-30T04:43:53.492Z]   Line 183: aggregateThermodynamicProperties - removed closing paren
+[2025-10-30T04:43:53.492Z]   Line 221: calculateElementalVariance - removed closing paren
+[2025-10-30T04:43:53.493Z]   Line 249: calculateAlchemicalVariance - removed closing paren
+[2025-10-30T04:43:53.493Z]   Line 306: computeCuisineProperties - removed closing paren
+[2025-10-30T04:43:53.493Z] src/utils/cuisine/cuisineAggregationEngine.ts: Found 6 missing opening parens
+[2025-10-30T04:43:53.493Z]   [DRY RUN] Would fix 6 instances
+[2025-10-30T04:43:53.494Z]   Line 98: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.494Z]   Line 128: calculateAlchemicalCompatibility - removed closing paren
+[2025-10-30T04:43:53.494Z]   Line 159: calculateCulturalAlignment - removed closing paren
+[2025-10-30T04:43:53.494Z]   Line 201: calculateSeasonalRelevance - removed closing paren
+[2025-10-30T04:43:53.494Z]   Line 223: calculateSignatureMatch - removed closing paren
+[2025-10-30T04:43:53.495Z]   Line 411: createAdvancedUserProfile - removed closing paren
+[2025-10-30T04:43:53.495Z] src/utils/cuisine/cuisineRecommendationEngine.ts: Found 6 missing opening parens
+[2025-10-30T04:43:53.495Z]   [DRY RUN] Would fix 6 instances
+[2025-10-30T04:43:53.499Z]   Line 183: getCulturalSignificance - removed closing paren
+[2025-10-30T04:43:53.499Z]   Line 360: findRecipesWithPlanetaryPattern - removed closing paren
+[2025-10-30T04:43:53.499Z] src/utils/cuisine/planetaryPatternAnalysis.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.499Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.500Z]   Line 14: getSunPosition - removed closing paren
+[2025-10-30T04:43:53.500Z] src/utils/solarPositions.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.500Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.501Z]   Line 157: validateElementalProperties - removed closing paren
+[2025-10-30T04:43:53.501Z]   Line 197: validateCookingMethods - removed closing paren
+[2025-10-30T04:43:53.502Z]   Line 223: validateAstrologicalTiming - removed closing paren
+[2025-10-30T04:43:53.502Z]   Line 246: validateComputationIntegrity - removed closing paren
+[2025-10-30T04:43:53.502Z]   Line 299: calculateQualityMetrics - removed closing paren
+[2025-10-30T04:43:53.502Z]   Line 410: validateRecipes - removed closing paren
+[2025-10-30T04:43:53.502Z]   Line 420: getValidationStatistics - removed closing paren
+[2025-10-30T04:43:53.502Z] src/utils/recipe/recipeValidation.ts: Found 7 missing opening parens
+[2025-10-30T04:43:53.502Z]   [DRY RUN] Would fix 7 instances
+[2025-10-30T04:43:53.503Z]   Line 374: isRecipeDietaryCompatible - removed closing paren
+[2025-10-30T04:43:53.503Z] src/utils/recipe/recipeUtils.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.503Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.504Z]   Line 65: getCacheKey - removed closing paren
+[2025-10-30T04:43:53.504Z]   Line 467: calculateRecipeEnergyMatch - removed closing paren
+[2025-10-30T04:43:53.504Z]   Line 490: calculateElementalAlignment - removed closing paren
+[2025-10-30T04:43:53.504Z]   Line 524: calculateNutritionalMatch - removed closing paren
+[2025-10-30T04:43:53.504Z]   Line 603: calculateComplexityMatch - removed closing paren
+[2025-10-30T04:43:53.504Z] src/utils/recipe/recipeMatching.ts: Found 5 missing opening parens
+[2025-10-30T04:43:53.504Z]   [DRY RUN] Would fix 5 instances
+[2025-10-30T04:43:53.505Z]   Line 188: normalizeElementalProperties - removed closing paren
+[2025-10-30T04:43:53.505Z]   Line 198: applyEnergyProfile - removed closing paren
+[2025-10-30T04:43:53.505Z]   Line 240: normalizePlanetaryInfluences - removed closing paren
+[2025-10-30T04:43:53.505Z] src/utils/recipe/recipeAdapter.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.505Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.506Z]   Line 101: calculateElementalMatch - removed closing paren
+[2025-10-30T04:43:53.506Z]   Line 224: getRecommendedRecipes - removed closing paren
+[2025-10-30T04:43:53.506Z]   Line 254: describePlanetaryInfluences - removed closing paren
+[2025-10-30T04:43:53.506Z]   Line 303: getRecipeDominantElement - removed closing paren
+[2025-10-30T04:43:53.506Z]   Line 311: describeElementalPresence - removed closing paren
+[2025-10-30T04:43:53.506Z]   Line 319: scoreRecipe - removed closing paren
+[2025-10-30T04:43:53.506Z]   Line 465: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:43:53.507Z]   Line 570: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:43:53.507Z]   Line 696: extractElementalSnapshot - removed closing paren
+[2025-10-30T04:43:53.507Z]   Line 707: extractContextElements - removed closing paren
+[2025-10-30T04:43:53.507Z] src/utils/recipe/recipeCore.ts: Found 10 missing opening parens
+[2025-10-30T04:43:53.507Z]   [DRY RUN] Would fix 10 instances
+[2025-10-30T04:43:53.508Z]   Line 116: validateImportStatement - removed closing paren
+[2025-10-30T04:43:53.508Z]   Line 300: autoFixDependencyIssues - removed closing paren
+[2025-10-30T04:43:53.508Z] src/utils/dependencyValidation.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.508Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.511Z]   Line 77: calculatePillarCompatibility - removed closing paren
+[2025-10-30T04:43:53.511Z]   Line 119: applyPillarTransformation - removed closing paren
+[2025-10-30T04:43:53.511Z]   Line 291: applyPlanetaryInfluence - removed closing paren
+[2025-10-30T04:43:53.511Z]   Line 422: transformIngredient - removed closing paren
+[2025-10-30T04:43:53.512Z]   Line 841: getEnhancedCookingRecommendations - removed closing paren
+[2025-10-30T04:43:53.512Z]   Line 1013: generateRecommendationReason - removed closing paren
+[2025-10-30T04:43:53.512Z] src/utils/alchemicalPillarUtils.ts: Found 6 missing opening parens
+[2025-10-30T04:43:53.512Z]   [DRY RUN] Would fix 6 instances
+[2025-10-30T04:43:53.512Z]   Line 11: calculateMoonTimes - removed closing paren
+[2025-10-30T04:43:53.512Z]   Line 58: getMoonPosition - removed closing paren
+[2025-10-30T04:43:53.512Z] src/utils/moonTimes.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.512Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.513Z]   Line 562: filterRecipesByIngredientMappings - removed closing paren
+[2025-10-30T04:43:53.513Z] src/utils/recipeFilters.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.513Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.514Z]   Line 258: alchemize - removed closing paren
+[2025-10-30T04:43:53.514Z] src/utils/alchemicalCalculations.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.514Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.515Z]   Line 41: getTemporalFoodRecommendations - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 67: getElementalFoodRecommendations - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 124: getAspectEnhancedRecommendations - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 145: calculateKineticAlignment - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 239: generateRecommendationNote - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 289: calculateElementalAlignment - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 322: getKineticsEnhancedRecommendations - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 379: getForceDrivenCookingMethods - removed closing paren
+[2025-10-30T04:43:53.515Z]   Line 408: calculateKineticsFoodAlignment - removed closing paren
+[2025-10-30T04:43:53.515Z] src/utils/kineticsFoodMatcher.ts: Found 9 missing opening parens
+[2025-10-30T04:43:53.515Z]   [DRY RUN] Would fix 9 instances
+[2025-10-30T04:43:53.516Z]   Line 200: calculateEnhancedPlanetaryInfluence - removed closing paren
+[2025-10-30T04:43:53.516Z]   Line 768: calculateEnhancedPlanetaryScore - removed closing paren
+[2025-10-30T04:43:53.516Z]   Line 833: calculateElementalInfluences - removed closing paren
+[2025-10-30T04:43:53.516Z]   Line 903: getChakraBasedRecommendations - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 1132: calculateVenusInfluence - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 1668: _enhanceVenusIngredientScoring - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 1695: enhanceVenusIngredientBatch - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 1737: calculateMarsInfluence - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 1862: enhanceMarsIngredientScoring - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 2013: calculateMercuryInfluence - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 2188: enhanceMercuryIngredientScoring - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 2243: determineIngredientModality - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 2587: calculatePlanetaryDayInfluence - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 2678: calculatePlanetaryHourInfluence - removed closing paren
+[2025-10-30T04:43:53.517Z]   Line 3014: generateRecommendationsForIngredient - removed closing paren
+[2025-10-30T04:43:53.517Z] src/utils/ingredientRecommender.ts: Found 15 missing opening parens
+[2025-10-30T04:43:53.517Z]   [DRY RUN] Would fix 15 instances
+[2025-10-30T04:43:53.518Z]   Line 187: getMissingElements - removed closing paren
+[2025-10-30T04:43:53.518Z]   Line 479: _calculateUniqueness - removed closing paren
+[2025-10-30T04:43:53.519Z]   Line 493: transformItemsWithPlanetaryPositions - removed closing paren
+[2025-10-30T04:43:53.520Z]   Line 674: normalizeElementalValues - removed closing paren
+[2025-10-30T04:43:53.521Z]   Line 739: getElementalRelationship - removed closing paren
+[2025-10-30T04:43:53.521Z]   Line 796: enhanceVegetableTransformations - removed closing paren
+[2025-10-30T04:43:53.521Z]   Line 1135: enhanceOilProperties - removed closing paren
+[2025-10-30T04:43:53.521Z]   Line 1455: fixRawIngredientMappings - removed closing paren
+[2025-10-30T04:43:53.521Z] src/utils/elementalUtils.ts: Found 8 missing opening parens
+[2025-10-30T04:43:53.521Z]   [DRY RUN] Would fix 8 instances
+[2025-10-30T04:43:53.521Z]   Line 162: calculateHouseEffect - removed closing paren
+[2025-10-30T04:43:53.522Z]   Line 226: calculateAllHouseEffects - removed closing paren
+[2025-10-30T04:43:53.522Z] src/utils/houseEffects.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.522Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.524Z]   Line 191: validateIngredientElementalProperties - removed closing paren
+[2025-10-30T04:43:53.524Z]   Line 291: calculateElementalPropertiesCompatibility - removed closing paren
+[2025-10-30T04:43:53.524Z]   Line 459: validateAlchemicalConsistency - removed closing paren
+[2025-10-30T04:43:53.524Z]   Line 939: generateIngredientValidationSummary - removed closing paren
+[2025-10-30T04:43:53.524Z] src/utils/ingredientValidation.ts: Found 4 missing opening parens
+[2025-10-30T04:43:53.525Z]   [DRY RUN] Would fix 4 instances
+[2025-10-30T04:43:53.525Z]   Line 347: _calculateSeasonalScores - removed closing paren
+[2025-10-30T04:43:53.525Z]   Line 508: applySeasonalInfluence - removed closing paren
+[2025-10-30T04:43:53.526Z]   Line 539: calculateLunarPhaseCompatibility - removed closing paren
+[2025-10-30T04:43:53.526Z] src/utils/seasonalCalculations.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.526Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.527Z]   Line 215: calculateTokenValue - removed closing paren
+[2025-10-30T04:43:53.527Z] src/utils/planetaryCycles.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.527Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.528Z]   Line 161: calculateDominantElement - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 182: getElementalColor - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 215: getElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 294: getComplementaryElement - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 318: combineElementalProperties - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 362: calculateElementalStateFromIngredients - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 465: calculateComplementaryScore - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 478: calculateBalanceScore - removed closing paren
+[2025-10-30T04:43:53.528Z]   Line 496: generateCompatibilityRecommendation - removed closing paren
+[2025-10-30T04:43:53.528Z] src/utils/elemental/core.ts: Found 9 missing opening parens
+[2025-10-30T04:43:53.528Z]   [DRY RUN] Would fix 9 instances
+[2025-10-30T04:43:53.528Z]   Line 109: transformIngredients - removed closing paren
+[2025-10-30T04:43:53.529Z]   Line 122: transformCookingMethods - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 135: transformCuisines - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 148: transformSingleItem - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 200: applyPlanetaryInfluence - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 272: sortByAlchemicalCompatibility - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 300: filterByAlchemicalCompatibility - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 424: applyElementalTransformations - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 466: calculateAlchemicalProperties - removed closing paren
+[2025-10-30T04:43:53.530Z]   Line 518: calculateUniquenessScore - removed closing paren
+[2025-10-30T04:43:53.531Z]   Line 542: calculateTransformationScore - removed closing paren
+[2025-10-30T04:43:53.531Z]   Line 552: calculateCompatibilityScore - removed closing paren
+[2025-10-30T04:43:53.531Z] src/utils/elemental/transformations.ts: Found 12 missing opening parens
+[2025-10-30T04:43:53.531Z]   [DRY RUN] Would fix 12 instances
+[2025-10-30T04:43:53.532Z]   Line 132: calculateRecommendationScore - removed closing paren
+[2025-10-30T04:43:53.532Z]   Line 184: getRecommendedRecipes - removed closing paren
+[2025-10-30T04:43:53.532Z]   Line 204: explainRecommendation - removed closing paren
+[2025-10-30T04:43:53.532Z] src/utils/recommendationEngine.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.532Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.533Z]   Line 617: calculateModalityScore - removed closing paren
+[2025-10-30T04:43:53.534Z]   Line 748: getCacheKey - removed closing paren
+[2025-10-30T04:43:53.534Z]   Line 1040: _calculateNutritionalMatch - removed closing paren
+[2025-10-30T04:43:53.535Z]   Line 1119: _calculateAstrologicalMatch - removed closing paren
+[2025-10-30T04:43:53.535Z]   Line 1393: _calculateComplexityMatch - removed closing paren
+[2025-10-30T04:43:53.535Z] src/utils/recipeMatching.ts: Found 5 missing opening parens
+[2025-10-30T04:43:53.535Z]   [DRY RUN] Would fix 5 instances
+[2025-10-30T04:43:53.537Z]   Line 7: normalizeVitamins - removed closing paren
+[2025-10-30T04:43:53.537Z]   Line 35: normalizeMinerals - removed closing paren
+[2025-10-30T04:43:53.537Z]   Line 150: normalizeCulinaryApplications - removed closing paren
+[2025-10-30T04:43:53.537Z]   Line 292: normalizePreparation - removed closing paren
+[2025-10-30T04:43:53.537Z]   Line 318: normalizeIngredientData - removed closing paren
+[2025-10-30T04:43:53.538Z]   Line 374: safeGetNutritionalData - removed closing paren
+[2025-10-30T04:43:53.538Z] src/utils/ingredientDataNormalizer.ts: Found 6 missing opening parens
+[2025-10-30T04:43:53.538Z]   [DRY RUN] Would fix 6 instances
+[2025-10-30T04:43:53.538Z]   Line 31: validateRecipeCircuit - removed closing paren
+[2025-10-30T04:43:53.538Z]   Line 67: getCircuitBasedRecommendations - removed closing paren
+[2025-10-30T04:43:53.538Z]   Line 130: recommendCookingMethod - removed closing paren
+[2025-10-30T04:43:53.538Z]   Line 166: generatePowerFlowDescription - removed closing paren
+[2025-10-30T04:43:53.538Z]   Line 205: validateMultiRecipeCircuit - removed closing paren
+[2025-10-30T04:43:53.538Z] src/utils/recipeCircuit.ts: Found 5 missing opening parens
+[2025-10-30T04:43:53.538Z]   [DRY RUN] Would fix 5 instances
+[2025-10-30T04:43:53.539Z]   Line 68: calculateQuantityFactor - removed closing paren
+[2025-10-30T04:43:53.539Z]   Line 92: scaleElementalProperties - removed closing paren
+[2025-10-30T04:43:53.539Z]   Line 156: scaleAlchemicalProperties - removed closing paren
+[2025-10-30T04:43:53.539Z]   Line 205: createQuantityScaledProperties - removed closing paren
+[2025-10-30T04:43:53.539Z] src/utils/quantityScaling.ts: Found 4 missing opening parens
+[2025-10-30T04:43:53.539Z]   [DRY RUN] Would fix 4 instances
+[2025-10-30T04:43:53.540Z]   Line 29: generateTopSauceRecommendations - removed closing paren
+[2025-10-30T04:43:53.540Z]   Line 152: getCuisineRecommendations - removed closing paren
+[2025-10-30T04:43:53.540Z]   Line 239: calculateElementalMatch - removed closing paren
+[2025-10-30T04:43:53.540Z]   Line 263: calculateElementalContributionsFromPlanets - removed closing paren
+[2025-10-30T04:43:53.540Z] src/utils/cuisineRecommender.ts: Found 4 missing opening parens
+[2025-10-30T04:43:53.540Z]   [DRY RUN] Would fix 4 instances
+[2025-10-30T04:43:53.544Z]   Line 56: adaptPlanetaryPositions - removed closing paren
+[2025-10-30T04:43:53.544Z]   Line 95: isPlanetaryPositionsMap - removed closing paren
+[2025-10-30T04:43:53.544Z] src/utils/signVectorAdapters.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.544Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.545Z]   Line 41: standardizeElementalAffinity - removed closing paren
+[2025-10-30T04:43:53.545Z]   Line 273: cleanupIngredientsDatabase - removed closing paren
+[2025-10-30T04:43:53.545Z]   Line 322: mergeElementalProperties - removed closing paren
+[2025-10-30T04:43:53.545Z] src/utils/data/processing.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.545Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.545Z]   Line 217: isHistoricalCuisine - removed closing paren
+[2025-10-30T04:43:53.545Z]   Line 238: isStreetFoodCuisine - removed closing paren
+[2025-10-30T04:43:53.545Z]   Line 263: calculateCuisineCompatibility - removed closing paren
+[2025-10-30T04:43:53.545Z]   Line 504: getCuisineCompatibilityRecommendations - removed closing paren
+[2025-10-30T04:43:53.545Z]   Line 527: getCompatibilityFactors - removed closing paren
+[2025-10-30T04:43:53.546Z]   Line 562: getCommonIngredients - removed closing paren
+[2025-10-30T04:43:53.546Z]   Line 584: getRegionalVariations - removed closing paren
+[2025-10-30T04:43:53.546Z]   Line 636: groupCuisinesByCategory - removed closing paren
+[2025-10-30T04:43:53.547Z] src/utils/cuisineTypes.ts: Found 8 missing opening parens
+[2025-10-30T04:43:53.547Z]   [DRY RUN] Would fix 8 instances
+[2025-10-30T04:43:53.548Z]   Line 468: enhancedSearch - removed closing paren
+[2025-10-30T04:43:53.548Z]   Line 641: processQueryWithKinetics - removed closing paren
+[2025-10-30T04:43:53.548Z]   Line 692: generateKineticsFilters - removed closing paren
+[2025-10-30T04:43:53.548Z]   Line 740: filterItemsWithKinetics - removed closing paren
+[2025-10-30T04:43:53.548Z]   Line 861: scoreItemWithKinetics - removed closing paren
+[2025-10-30T04:43:53.548Z] src/utils/naturalLanguageProcessor.ts: Found 5 missing opening parens
+[2025-10-30T04:43:53.548Z]   [DRY RUN] Would fix 5 instances
+[2025-10-30T04:43:53.549Z]   Line 118: generateDefaultLunarPhaseModifiers - removed closing paren
+[2025-10-30T04:43:53.549Z]   Line 475: getLunarPhaseWithKinetics - removed closing paren
+[2025-10-30T04:43:53.550Z]   Line 516: getKineticsEnhancedLunarModifiers - removed closing paren
+[2025-10-30T04:43:53.550Z]   Line 575: calculateLunarKineticsMetrics - removed closing paren
+[2025-10-30T04:43:53.550Z] src/utils/lunarPhaseUtils.ts: Found 4 missing opening parens
+[2025-10-30T04:43:53.550Z]   [DRY RUN] Would fix 4 instances
+[2025-10-30T04:43:53.551Z]   Line 495: getCurrentTransitSign - removed closing paren
+[2025-10-30T04:43:53.551Z]   Line 535: validatePlanetaryPositions - removed closing paren
+[2025-10-30T04:43:53.551Z] src/utils/astrology/validation.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.551Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.552Z]   Line 51: validatePlanetaryPositions - removed closing paren
+[2025-10-30T04:43:53.552Z]   Line 147: validateSinglePlanetaryPosition - removed closing paren
+[2025-10-30T04:43:53.552Z]   Line 286: validateAstrologicalElementalProperties - removed closing paren
+[2025-10-30T04:43:53.552Z]   Line 477: quickValidate - removed closing paren
+[2025-10-30T04:43:53.552Z] src/utils/astrology/astrologicalValidation.ts: Found 4 missing opening parens
+[2025-10-30T04:43:53.552Z]   [DRY RUN] Would fix 4 instances
+[2025-10-30T04:43:53.552Z]   Line 52: normalizePlanetaryPositions - removed closing paren
+[2025-10-30T04:43:53.552Z] src/utils/astrology/core.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.552Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.553Z]   Line 29: validateTransitDate - removed closing paren
+[2025-10-30T04:43:53.553Z]   Line 74: getCurrentTransitSign - removed closing paren
+[2025-10-30T04:43:53.553Z]   Line 98: validateRetrogradePhase - removed closing paren
+[2025-10-30T04:43:53.553Z] src/utils/astrology/transitValidation.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.553Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.553Z]   Line 14: validateElementalProperties - removed closing paren
+[2025-10-30T04:43:53.553Z]   Line 50: normalizeElementalProperties - removed closing paren
+[2025-10-30T04:43:53.554Z]   Line 75: calculateElementalHarmony - removed closing paren
+[2025-10-30T04:43:53.554Z]   Line 129: getElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.554Z]   Line 178: createElementalProperties - removed closing paren
+[2025-10-30T04:43:53.554Z] src/utils/astrology/elementalValidation.ts: Found 5 missing opening parens
+[2025-10-30T04:43:53.554Z]   [DRY RUN] Would fix 5 instances
+[2025-10-30T04:43:53.555Z]   Line 1361: getModalityElementalAffinity - removed closing paren
+[2025-10-30T04:43:53.555Z] src/utils/foodRecommender.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.555Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.555Z]   Line 226: generateBalancingMeals - removed closing paren
+[2025-10-30T04:43:53.555Z] src/utils/chakraFoodUtils.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.555Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.562Z]   Line 26: _createCelestialPosition - removed closing paren
+[2025-10-30T04:43:53.562Z] src/hooks/useAstrologicalState.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.562Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.569Z]   Line 112: applyEditsToFile - removed closing paren
+[2025-10-30T04:43:53.569Z] src/scripts/unused-vars/batchEliminateUnused.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.569Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.569Z]   Line 72: decidePreservation - removed closing paren
+[2025-10-30T04:43:53.569Z] src/scripts/unused-vars/domainPreservation.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.569Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.575Z]   Line 188: analyzeElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.575Z] src/calculations/core/elementalCalculations.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.575Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.577Z]   Line 31: calculateRecipeCompatibility - removed closing paren
+[2025-10-30T04:43:53.577Z]   Line 214: calculateMonicaAlignment - removed closing paren
+[2025-10-30T04:43:53.577Z]   Line 367: generateEnhancedRecipeRecommendations - removed closing paren
+[2025-10-30T04:43:53.577Z] src/calculations/culinary/recipeMatching.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.577Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.578Z]   Line 126: calculateCuisineCompatibility - removed closing paren
+[2025-10-30T04:43:53.578Z] src/calculations/culinary/cuisineRecommendations.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.578Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.581Z]   Line 16: getCurrentDecan - removed closing paren
+[2025-10-30T04:43:53.581Z] src/lib/tarotCalculations.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.581Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.591Z]   Line 181: getCookingMethodsByTemperature - removed closing paren
+[2025-10-30T04:43:53.591Z] src/data/cooking/index.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.591Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.593Z]   Line 131: setGlobalState - removed closing paren
+[2025-10-30T04:43:53.593Z]   Line 1019: calculateFlavorCompatibility - removed closing paren
+[2025-10-30T04:43:53.593Z]   Line 1030: findCompatibleProfiles - removed closing paren
+[2025-10-30T04:43:53.593Z] src/data/unified/unifiedFlavorEngine.ts: Found 3 missing opening parens
+[2025-10-30T04:43:53.593Z]   [DRY RUN] Would fix 3 instances
+[2025-10-30T04:43:53.594Z]   Line 921: getMigratedProfilesByCategory - removed closing paren
+[2025-10-30T04:43:53.594Z] src/data/unified/flavorProfileMigration.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.594Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.595Z]   Line 2078: getCuisineCompatibility - removed closing paren
+[2025-10-30T04:43:53.595Z] src/data/unified/cuisineIntegrations.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.595Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.597Z]   Line 1889: generateMonicaOptimizedRecipe - removed closing paren
+[2025-10-30T04:43:53.597Z]   Line 1895: adaptRecipeForSeason - removed closing paren
+[2025-10-30T04:43:53.597Z]   Line 1902: generateFusionRecipe - removed closing paren
+[2025-10-30T04:43:53.597Z]   Line 1912: generatePlanetaryRecipeRecommendation - removed closing paren
+[2025-10-30T04:43:53.597Z] src/data/unified/recipeBuilding.ts: Found 4 missing opening parens
+[2025-10-30T04:43:53.597Z]   [DRY RUN] Would fix 4 instances
+[2025-10-30T04:43:53.601Z]   Line 23: getIngredientsForCuisine - removed closing paren
+[2025-10-30T04:43:53.601Z] src/data/integrations/cuisineMatrix.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.601Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.612Z]   Line 68: createIngredientMapping - removed closing paren
+[2025-10-30T04:43:53.612Z] src/data/ingredients/herbs/index.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.612Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.619Z]   Line 5: createIngredientMapping - removed closing paren
+[2025-10-30T04:43:53.619Z] src/data/ingredients/proteins/plantBased.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.619Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.630Z]   Line 99: analyzePropertyBalance - removed closing paren
+[2025-10-30T04:43:53.630Z]   Line 118: findComplementaryDishes - removed closing paren
+[2025-10-30T04:43:53.630Z] src/data/foodTypes.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.630Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.631Z]   Line 746: getRecipesForCuisineMatch - removed closing paren
+[2025-10-30T04:43:53.631Z] src/data/cuisineFlavorProfiles.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.631Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.634Z]   Line 289: validateType - removed closing paren
+[2025-10-30T04:43:53.634Z]   Line 323: handlePropertyAccessError - removed closing paren
+[2025-10-30T04:43:53.634Z] src/services/errorHandler.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.634Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.636Z]   Line 123: validateAndNormalizeIngredients - removed closing paren
+[2025-10-30T04:43:53.636Z] src/services/recipeData.ts: Found 1 missing opening parens
+[2025-10-30T04:43:53.637Z]   [DRY RUN] Would fix 1 instances
+[2025-10-30T04:43:53.638Z]   Line 168: calculateTransitEffect - removed closing paren
+[2025-10-30T04:43:53.638Z]   Line 197: calculateDignityEffect - removed closing paren
+[2025-10-30T04:43:53.638Z]   Line 216: calculateTarotEffect - removed closing paren
+[2025-10-30T04:43:53.638Z]   Line 238: calculateSeasonalEffect - removed closing paren
+[2025-10-30T04:43:53.638Z]   Line 272: calculateLocationEffect - removed closing paren
+[2025-10-30T04:43:53.638Z]   Line 297: calculateLunarPhaseEffect - removed closing paren
+[2025-10-30T04:43:53.638Z]   Line 402: calculateAspectEffect - removed closing paren
+[2025-10-30T04:43:53.638Z]   Line 442: calculateElementalCompatibility - removed closing paren
+[2025-10-30T04:43:53.639Z]   Line 468: calculateThermodynamicEffect - removed closing paren
+[2025-10-30T04:43:53.639Z]   Line 507: calculateKalchmResonance - removed closing paren
+[2025-10-30T04:43:53.639Z]   Line 527: calculateMonicaOptimization - removed closing paren
+[2025-10-30T04:43:53.639Z]   Line 547: calculateRetrogradeEffect - removed closing paren
+[2025-10-30T04:43:53.639Z] src/services/UnifiedScoringService.ts: Found 12 missing opening parens
+[2025-10-30T04:43:53.639Z]   [DRY RUN] Would fix 12 instances
+[2025-10-30T04:43:53.648Z]   Line 167: alchemize - removed closing paren
+[2025-10-30T04:43:53.648Z]   Line 368: calculateAlchemicalProperties - removed closing paren
+[2025-10-30T04:43:53.648Z] src/services/RealAlchemizeService.ts: Found 2 missing opening parens
+[2025-10-30T04:43:53.648Z]   [DRY RUN] Would fix 2 instances
+[2025-10-30T04:43:53.653Z] 
+===== SUMMARY =====
+[2025-10-30T04:43:53.653Z] Files with missing opening parens: 80
+[2025-10-30T04:43:53.653Z] Total instances found: 310
+[2025-10-30T04:43:53.653Z] 
+Mode: DRY RUN (no changes made)
+[2025-10-30T04:43:53.653Z] Log file: /Users/GregCastro/Desktop/WhatToEatNext/fix-log-quick-pattern-1-1761799424618.txt
+[2025-10-30T04:43:53.653Z] 
+💡 To apply changes, run with --apply flag

@@ -3,7 +3,7 @@ import os
 import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jwt.jwk import PyJWKClient
+from jwt import PyJWKClient
 
 # This is the JWKS endpoint for your Privy application
 PRIVY_JWKS_URL = f"https://auth.privy.io/api/v1/apps/{os.environ.get('PRIVY_APP_ID')}/jwks.json"

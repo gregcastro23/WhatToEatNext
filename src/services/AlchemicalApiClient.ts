@@ -40,6 +40,38 @@ export interface ThermodynamicsResult {
   equilibrium: number;
 }
 
+export interface PlanetaryPositionsRequest {
+  year?: number;
+  month?: number;
+  day?: number;
+  hour?: number;
+  minute?: number;
+  latitude?: number;
+  longitude?: number;
+  zodiacSystem?: string;
+  secondary_charts?: Array<{
+    user_id: string;
+    birth_date: string; // ISO string
+    birth_time?: string; // HH:MM
+    latitude?: number;
+    longitude?: number;
+  }>;
+}
+
+export interface PlanetaryPositionsResponse {
+  primary_chart: Record<string, any>;
+  secondary_charts?: Array<Record<string, any>>;
+  collective_synastry?: {
+    participant_count: number;
+    average_elemental_distribution: Record<string, number>;
+    elemental_deficits: Record<string, number>;
+    group_smes_scores: Record<string, number>;
+    is_collective: boolean;
+  };
+  is_collective: boolean;
+  participant_count: number;
+}
+
 export interface PlanetaryInfluenceResponse {
   current_time: string;
   dominant_planet: string;
@@ -149,6 +181,35 @@ export class AlchemicalApiClient {
           Saturn: 0.3,
         },
       };
+    }
+  }
+
+  /**
+   * Calculate planetary positions for single or multiple charts (Synastry)
+   */
+  async getPlanetaryPositions(
+    request: PlanetaryPositionsRequest,
+  ): Promise<PlanetaryPositionsResponse> {
+    try {
+      const response = await fetch(
+        `${this.baseUrls.alchemical}/planetary/positions`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(request),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Planetary positions fetch failed: ${response.statusText}`,
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      _logger.error("Planetary positions error: ", error);
+      throw error;
     }
   }
 
@@ -337,6 +398,8 @@ export const useBackendCalculations = () => ({
   getPlanetaryData: alchemicalApi.getCurrentPlanetaryHour.bind(alchemicalApi),
   getRecommendations:
     alchemicalApi.getRecipeRecommendations.bind(alchemicalApi),
+  getPlanetaryPositions:
+    alchemicalApi.getPlanetaryPositions.bind(alchemicalApi),
   createRealtimeConnection:
     alchemicalApi.createRealtimeConnection.bind(alchemicalApi),
 });
