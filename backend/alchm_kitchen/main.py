@@ -123,6 +123,53 @@ async def get_me(user: dict = Depends(get_current_user)):
     """
     return user
 
+# ... (previous imports)
+from backend.utils.natal_alchemy import calculate_natal_alchemical_quantities
+
+class OnboardingRequest(BaseModel):
+    birth_date: str # YYYY-MM-DD
+    birth_time: str # HH:MM
+    latitude: float
+    longitude: float
+    city_name: Optional[str] = "Unknown Location"
+
+@app.post("/api/user/onboarding")
+async def user_onboarding(
+    data: OnboardingRequest,
+    user: dict = Depends(get_current_user)
+):
+    """
+    Onboard a user: Calculate their Natal Chart and Alchemical Constitution.
+    """
+    try:
+        # Parse date and time
+        b_date = datetime.strptime(data.birth_date, "%Y-%m-%d")
+        b_time = datetime.strptime(data.birth_time, "%H:%M")
+        
+        # Calculate Planetary Positions
+        chart_data = calculate_planetary_positions_swisseph(
+            b_date.year, b_date.month, b_date.day,
+            b_time.hour, b_time.minute
+        )
+        
+        if not chart_data or "positions" not in chart_data:
+             raise HTTPException(status_code=500, detail="Failed to calculate natal chart")
+             
+        # Calculate Alchemical Quantities
+        alchemy_stats = calculate_natal_alchemical_quantities(chart_data["positions"])
+        
+        # Return the comprehensive profile
+        return {
+            "user_id": user.get("sub"),
+            "birth_data": data.dict(),
+            "natal_chart": chart_data["positions"],
+            "alchemical_quantities": alchemy_stats,
+            "message": "Onboarding successful. Welcome, Alchemist."
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Onboarding failed: {str(e)}")
+
 # ==========================================
 # LOCAL ALCHEMICAL CALCULATION ENDPOINT
 # ==========================================
