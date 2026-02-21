@@ -2,6 +2,9 @@
 echo "🚀 Starting alchm.kitchen Development Environment"
 
 # Colors for output
+export PYTHONDONTWRITEBYTECODE=1
+export DISABLE_SQLALCHEMY_CEXT=1
+export PYTHONPATH=$(pwd):$(pwd)/..:$PYTHONPATH
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'

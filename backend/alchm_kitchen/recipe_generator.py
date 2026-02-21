@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from typing import List, Dict, Any, Optional
-from database.models import Ingredient, Recipe
+from backend.database.models import Ingredient, Recipe
 
 def calculate_alchemical_scores(recipe_id: Optional[str], db: Session, metrics: Optional[Dict[str, float]] = None) -> Dict[str, float]:
     """
