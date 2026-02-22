@@ -9,16 +9,36 @@ import { AlchemicalDashboard } from '@/components/profile/AlchemicalDashboard';
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { ready, authenticated, user, getAccessToken } = usePrivy();
+  const { ready, authenticated, user, getAccessToken, logout, login } = usePrivy();
   const [profileData, setProfileData] = useState<any>(null);
+  const [dbProfile, setDbProfile] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch DB profile on mount
   useEffect(() => {
-    if (ready && !authenticated) {
-      router.push('/');
+    async function fetchProfile() {
+      if (ready && authenticated) {
+        try {
+          const token = await getAccessToken();
+          const res = await fetch('/api/user/profile', {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.profile) {
+              setDbProfile(data.profile);
+            }
+          }
+        } catch (err) {
+          console.error("Failed to fetch profile:", err);
+        }
+      }
     }
-  }, [ready, authenticated, router]);
+    fetchProfile();
+  }, [ready, authenticated, getAccessToken]);
 
   const handleOnboardingSubmit = async (data: any) => {
     setIsLoading(true);
@@ -42,6 +62,16 @@ const ProfilePage = () => {
 
       const result = await response.json();
       setProfileData(result);
+      
+      // Also refresh DB profile
+      const profileRes = await fetch('/api/user/profile', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        if (profileData.success) setDbProfile(profileData.profile);
+      }
+      
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An error occurred');
@@ -59,7 +89,24 @@ const ProfilePage = () => {
     );
   }
 
-  if (!authenticated) return null;
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 text-center">
+        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full">
+          <h1 className="text-3xl font-bold text-purple-800 mb-4">Alchemist Profile</h1>
+          <p className="text-gray-600 mb-8">
+            Unlock your cosmic culinary journey. Sign up or log in to access your personalized alchemical dashboard.
+          </p>
+          <button 
+            onClick={login}
+            className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-bold shadow-md hover:from-purple-700 hover:to-indigo-700 transition-all duration-200"
+          >
+            Log in / Sign up
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -70,8 +117,15 @@ const ProfilePage = () => {
           <div>
             <h1 className="text-3xl font-bold text-purple-800">Alchemist Profile</h1>
             <p className="text-gray-500 text-sm mt-1">ID: {user?.id?.slice(0, 12)}...</p>
+            {user?.email && <p className="text-gray-400 text-xs">{user.email.address}</p>}
           </div>
-          <div className="mt-4 md:mt-0">
+          <div className="mt-4 md:mt-0 flex gap-2">
+            <button 
+              onClick={logout}
+              className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
+            >
+              Log Out
+            </button>
             <LoginButton />
           </div>
         </div>
@@ -95,15 +149,18 @@ const ProfilePage = () => {
             </div>
             <div className="h-48 bg-gray-200 rounded-lg shadow-sm"></div>
           </div>
-        ) : profileData ? (
+        ) : profileData || (dbProfile && dbProfile.astrologicalData) ? (
           <div className="space-y-6">
             <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg text-center">
               ✨ Natal Chart Successfully Calculated!
             </div>
-            <AlchemicalDashboard data={profileData} />
+            <AlchemicalDashboard data={profileData || dbProfile} />
             <div className="text-center">
                 <button 
-                    onClick={() => setProfileData(null)}
+                    onClick={() => {
+                      setProfileData(null);
+                      setDbProfile(null);
+                    }}
                     className="text-sm text-gray-500 hover:text-purple-600 underline"
                 >
                     Recalculate Chart

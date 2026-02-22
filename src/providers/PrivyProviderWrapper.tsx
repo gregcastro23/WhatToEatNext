@@ -1,28 +1,17 @@
 'use client';
 
-import {PrivyProvider} from '@privy-io/react-auth';
-import {useRouter} from 'next/navigation';
+import { PrivyProvider } from '@privy-io/react-auth';
 
-export default function PrivyProviderWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const router = useRouter();
+export default function PrivyProviderWrapper({ children }: { children: React.ReactNode }) {
   return (
     <PrivyProvider
-      appId="cmluie0y802fa0cl88n1a4chh"
-      onSuccess={() => router.push('/dashboard')}
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
       config={{
-        // Customize Privy's appearance in your app
+        loginMethods: ['email', 'google'],
         appearance: {
-          theme: 'light',
+          theme: 'dark',
           accentColor: '#676FFF',
-          logo: 'https://your-logo-url.com/logo.png',
-        },
-        // Create embedded wallets for users who don't have a wallet
-        embeddedWallets: {
-          createOnLogin: 'users-without-wallets',
+          logo: 'https://alchm.kitchen/favicon.png',
         },
       }}
     >

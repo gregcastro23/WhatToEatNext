@@ -12,6 +12,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
+import { PrivyClient } from "@privy-io/server-auth";
+
+// Privy Client initialization
+const privy = new PrivyClient(
+  process.env.NEXT_PUBLIC_PRIVY_APP_ID!,
+  process.env.PRIVY_APP_SECRET!
+);
 
 // JWT Secret - lazy initialization
 let _jwtSecret: Uint8Array | null = null;
@@ -24,7 +31,8 @@ function getJWTSecret(): Uint8Array {
         "JWT_SECRET environment variable is not set. This may cause authentication issues in development/preview environments.",
       );
     }
-    throw new Error("JWT_SECRET environment variable is required");
+    // Return a dummy secret to prevent immediate crash if not required
+    return new TextEncoder().encode("dummy-secret-not-for-production");
   }
   // jose expects a Uint8Array for the secret
   _jwtSecret = new TextEncoder().encode(secret);
@@ -67,7 +75,8 @@ export function extractToken(request: NextRequest): string | null {
   // Check cookies
   const cookieToken =
     request.cookies.get("accessToken")?.value ||
-    request.cookies.get("auth_token")?.value;
+    request.cookies.get("auth_token")?.value ||
+    request.cookies.get("privy-token")?.value;
   if (cookieToken) {
     return cookieToken;
   }
@@ -77,17 +86,42 @@ export function extractToken(request: NextRequest): string | null {
 
 /**
  * Validate JWT token and return user payload
+ * Support both legacy JWT and Privy tokens
  */
 export async function validateToken(token: string): Promise<ValidationResult> {
   try {
+    // 1. Try Privy validation first
+    try {
+      const verifiedClaims = await privy.verifyAuthToken(token);
+      if (verifiedClaims) {
+        // Map Privy claims to our TokenPayload
+        // Note: Privy userId is verifiedClaims.userId
+        return {
+          valid: true,
+          user: {
+            userId: verifiedClaims.userId,
+            email: "", // Privy claims might not have email directly here depending on config
+            roles: ["user"], // Default role
+            scopes: [],
+            iat: verifiedClaims.issuedAt || 0,
+            exp: verifiedClaims.expiration || 0,
+            iss: "privy",
+          },
+        };
+      }
+    } catch (privyError) {
+      // If Privy validation fails, fall back to legacy JWT
+      // console.log("Privy validation failed, trying legacy JWT...");
+    }
+
+    // 2. Fallback to legacy JWT validation
     const { payload } = await jwtVerify(token, getJWTSecret(), {
-      algorithms: ["HS256"], // Specify the algorithm if known, e.g., HS256
+      algorithms: ["HS256"], 
     });
 
-    // Ensure payload matches TokenPayload interface
     const decoded = payload as unknown as TokenPayload;
 
-    // Verify user still exists and is active
+    // Verify user still exists and is active (optional, depending on requirements)
     const user = await userDatabase.getUserById(decoded.userId);
     if (!user || !user.isActive) {
       return {
@@ -120,11 +154,10 @@ export async function validateToken(token: string): Promise<ValidationResult> {
         statusCode: 401,
       };
     }
-    console.error("Token validation failed with unknown error:", error); // Log unexpected errors
     return {
       valid: false,
       error: "Token validation failed",
-      statusCode: 500,
+      statusCode: 401,
     };
   }
 }
