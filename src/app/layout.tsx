@@ -16,7 +16,10 @@ export const metadata: Metadata = {
   description:
     "Personalized food recommendations based on your chakra energies and astrological harmony",
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
     apple: "/icon-192x192.png",
   },
 };
