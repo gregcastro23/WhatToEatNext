@@ -132,6 +132,7 @@ class OnboardingRequest(BaseModel):
     latitude: float
     longitude: float
     city_name: Optional[str] = "Unknown Location"
+    state_country: Optional[str] = "Unknown"
 
 @app.post("/api/user/onboarding")
 async def user_onboarding(
@@ -179,6 +180,7 @@ class AlchemicalQuantitiesRequest(BaseModel):
     kinetic_rating: float
     planetary_hour_ruler: str
     thermo_rating: float
+    city_name: Optional[str] = None
 
 @app.post("/api/alchemical/quantities")
 async def calculate_alchemical_quantities_endpoint(request: AlchemicalQuantitiesRequest):
@@ -194,6 +196,10 @@ async def calculate_alchemical_quantities_endpoint(request: AlchemicalQuantities
                 self.nutritional_profile = data.get('nutritional_profile', {})
 
         recipe_obj = RecipeObj(request.recipe)
+        
+        # Log the context for polish
+        if request.city_name:
+            print(f"[{request.city_name}] Calculating Quantities for request...")
         
         result = calculate_alchemical_quantities(
             recipe_obj,

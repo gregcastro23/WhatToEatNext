@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface BirthDataFormProps {
-  onSubmit: (data: { birth_date: string; birth_time: string; latitude: number; longitude: number; city_name: string }) => void;
+  onSubmit: (data: { birth_date: string; birth_time: string; latitude: number; longitude: number; city_name: string; state_country: string }) => void;
   isLoading: boolean;
 }
 
@@ -10,6 +10,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
     birth_date: '',
     birth_time: '12:00',
     city_name: '',
+    state_country: '',
     latitude: '',
     longitude: ''
   });
@@ -59,16 +60,29 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">City Name</label>
-          <input
-            type="text"
-            name="city_name"
-            placeholder="e.g. New York"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
-            value={formData.city_name}
-            onChange={handleChange}
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">City Name</label>
+            <input
+              type="text"
+              name="city_name"
+              placeholder="e.g. New York"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+              value={formData.city_name}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">State / Country</label>
+            <input
+              type="text"
+              name="state_country"
+              placeholder="e.g. NY, USA"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+              value={formData.state_country}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">

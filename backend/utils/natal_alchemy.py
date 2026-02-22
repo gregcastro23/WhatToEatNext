@@ -45,9 +45,13 @@ def calculate_natal_alchemical_quantities(planetary_positions: Dict[str, Any]) -
             total_weight += weight
             
     # Normalize Elements
+    # Gracefully handles missing bodies (e.g., unknown birth time missing Ascendant)
     if total_weight > 0:
         for e in elements:
             elements[e] /= total_weight
+    else:
+        # Fallback to perfectly balanced if chart is completely empty
+        elements = {"Fire": 0.25, "Earth": 0.25, "Air": 0.25, "Water": 0.25}
             
     # Calculate Alchemical Quantities
     # Spirit: Fire (Energy) + Air (Movement)
