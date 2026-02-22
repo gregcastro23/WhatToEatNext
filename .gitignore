@@ -123,3 +123,4 @@ reports/
 *.json
 *-report.json
 \n# Privy backend secrets\nbackend/.env
+.env*.local
