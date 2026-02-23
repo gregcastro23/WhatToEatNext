@@ -1,17 +1,22 @@
 'use client';
 
-import {usePrivy} from '@privy-io/react-auth';
 import React from 'react';
 
-const LoginButton = () => {
-  const {
-    ready,
-    authenticated,
-    login,
-    logout,
-  } = usePrivy();
+// Safe hook that gracefully handles missing PrivyProvider
+function usePrivySafe() {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { usePrivy } = require('@privy-io/react-auth');
+    return usePrivy();
+  } catch {
+    return { ready: false, authenticated: false, login: () => {}, logout: () => {} };
+  }
+}
 
-  // Wait for the Privy SDK to be ready before showing the login button
+const LoginButton = () => {
+  const { ready, authenticated, login, logout } = usePrivySafe();
+
+  // Don't render if Privy SDK isn't ready or isn't available
   if (!ready) {
     return null;
   }

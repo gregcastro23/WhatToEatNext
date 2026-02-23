@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import { PrivyProvider } from '@privy-io/react-auth';
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
@@ -9,9 +8,24 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UserProvider } from "@/contexts/UserContext";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
 
+// Lazy-load PrivyProvider only when app ID is available to prevent
+// build failures and avoid blocking page rendering for unauthenticated content
+let PrivyProviderLazy: React.ComponentType<{ appId: string; config: Record<string, unknown>; children: React.ReactNode }> | null = null;
+
+function getPrivyProvider() {
+  if (PrivyProviderLazy) return PrivyProviderLazy;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const mod = require('@privy-io/react-auth');
+    PrivyProviderLazy = mod.PrivyProvider;
+    return PrivyProviderLazy;
+  } catch {
+    return null;
+  }
+}
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
 
   useEffect(() => {
     setMounted(true);
@@ -34,20 +48,21 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     </ErrorBoundary>
   );
 
-  // Aggressive check for missing, empty, or stringified 'undefined'
+  // Gracefully skip Privy when app ID is not configured — the app works
+  // fully for all public pages (cooking methods, cuisines, ingredients, etc.)
+  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
   if (!appId || appId.trim() === '' || appId === 'undefined') {
-    return (
-      <div style={{ padding: '20px', color: '#991b1b', backgroundColor: '#fee2e2', borderRadius: '8px', margin: '20px' }}>
-        <h2 style={{ fontWeight: 'bold' }}>Critical Error</h2>
-        <p><code>NEXT_PUBLIC_PRIVY_APP_ID</code> is missing from the build environment. Please add it to the Vercel dashboard and redeploy.</p>
-        <hr style={{ margin: '15px 0', borderColor: '#fca5a5' }} />
-        {content}
-      </div>
-    );
+    return content;
+  }
+
+  // Wrap with PrivyProvider only when available and configured
+  const Provider = getPrivyProvider();
+  if (!Provider) {
+    return content;
   }
 
   return (
-    <PrivyProvider
+    <Provider
       appId={appId}
       config={{
         loginMethods: ['google'],
@@ -58,6 +73,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       }}
     >
       {content}
-    </PrivyProvider>
+    </Provider>
   );
 }
