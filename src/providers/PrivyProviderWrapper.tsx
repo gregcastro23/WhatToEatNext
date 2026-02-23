@@ -5,12 +5,13 @@ import { PrivyProvider } from '@privy-io/react-auth';
 export default function PrivyProviderWrapper({ children }: { children: React.ReactNode }) {
   const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
 
-  if (!appId) {
+  if (!appId || appId === 'undefined') {
     return (
-      <div style={{ color: 'red', padding: '20px', textAlign: 'center' }}>
-        <h1>CRITICAL ERROR</h1>
-        <p>Missing Privy App ID Environment Variable.</p>
-        <p>Please configure NEXT_PUBLIC_PRIVY_APP_ID in your Vercel project settings.</p>
+      <div style={{ padding: '20px', color: '#991b1b', backgroundColor: '#fee2e2', textAlign: 'center' }}>
+        <h2>Critical Error</h2>
+        <p>NEXT_PUBLIC_PRIVY_APP_ID is missing from the build environment.</p>
+        {/* DO NOT render PrivyProvider here, but render children so the app doesn't crash completely */}
+        {children} 
       </div>
     );
   }
