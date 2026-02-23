@@ -50,7 +50,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <PrivyProvider
       appId={appId}
       config={{
-        loginMethods: ['email', 'google'],
+        loginMethods: ['google'],
         appearance: {
           theme: 'dark',
           accentColor: '#676FFF',

@@ -448,8 +448,7 @@ This is an automated notification from alchm.kitchen.
 // Create singleton instance
 const emailService = new EmailService();
 
-// Email service is currently disabled.
-// To re-enable, uncomment the line below and configure SMTP_* env variables.
-// emailService.initialize();
+// Initialize email service if SMTP env vars are configured
+emailService.initialize();
 
 export default emailService;
