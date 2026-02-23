@@ -1,4 +1,5 @@
-import * as Astronomy from "astronomy-engine";
+import * as AstronomyRaw from "astronomy-engine";
+const Astronomy: any = (AstronomyRaw as any).default || AstronomyRaw;
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
 import { onAstrologizeApiCall } from "@/services/CurrentMomentManager";
@@ -374,11 +375,12 @@ export async function POST(request: Request) {
     _logger.error("Error in astrologize API:", error);
     return NextResponse.json(
       {
-        error: "Failed to calculate astrological data",
+        error: "Calculations unavailable",
+        positions: [],
         details: error instanceof Error ? error.message : "Unknown error",
         timestamp: new Date().toISOString(),
       },
-      { status: 500 },
+      { status: 200 },
     );
   }
 }
