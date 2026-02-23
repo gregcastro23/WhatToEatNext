@@ -4,7 +4,10 @@ import { _logger } from "@/lib/logger";
 import { onAstrologizeApiCall } from "@/services/CurrentMomentManager";
 import { log } from "@/services/LoggingService";
 import type { ZodiacSignType } from "@/types/celestial";
-import type { PlanetPosition } from "@/utils/astrologyUtils";
+import { 
+  calculatePlanetaryPositions as calculateLocalPlanetaryPositions,
+  type PlanetPosition 
+} from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
@@ -256,13 +259,24 @@ async function calculatePlanetaryPositions(
       `Calculated ${Object.keys(positions).length} planetary positions using astronomy-engine`,
     );
   } catch (error) {
-    // Do NOT re-throw — return whatever partial positions were collected so the
-    // outer handler can still return a useful (possibly empty) response instead
-    // of crashing the server with a 500.
     logger.error(
-      "astronomy-engine fallback encountered an error; returning partial positions:",
+      "astronomy-engine fallback encountered an error; trying local secondary fallback:",
       error,
     );
+  }
+
+  // Final fallback: use the robust local implementation from astrologyUtils
+  if (Object.keys(positions).length === 0) {
+    try {
+      logger.info("Using robust local secondary fallback for planetary calculations");
+      const localPositions = await calculateLocalPlanetaryPositions(date);
+      if (localPositions && Object.keys(localPositions).length > 0) {
+        // Mark as local fallback in metadata if we were tracking it
+        return localPositions;
+      }
+    } catch (localError) {
+      logger.error("Local secondary fallback also failed:", localError);
+    }
   }
 
   return positions;

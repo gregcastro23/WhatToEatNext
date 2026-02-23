@@ -12,7 +12,10 @@ import {
   getPlanetaryPositionsForDateTime,
 } from "@/services/astrologizeApi";
 import type { ZodiacSignType } from "@/types/alchemy";
-import type { PlanetPosition } from "@/utils/astrologyUtils";
+import { 
+  calculatePlanetaryPositions as calculateLocalPlanetaryPositions,
+  type PlanetPosition 
+} from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
@@ -125,11 +128,20 @@ class CurrentMomentManager {
         );
       } catch (error) {
         void logger.warn(
-          "Failed to get positions from API, using fallback",
+          "Failed to get positions from API, attempting local calculation fallback",
           error,
         );
-        planetaryPositions = this.getFallbackPositions();
-        source = "fallback";
+        
+        try {
+          // Try local calculation fallback
+          planetaryPositions = await calculateLocalPlanetaryPositions(targetDate);
+          source = "calculated";
+          void logger.info("Successfully calculated positions locally as fallback");
+        } catch (localError) {
+          void logger.error("Local calculation fallback failed, using static fallback", localError);
+          planetaryPositions = this.getFallbackPositions();
+          source = "fallback";
+        }
       }
 
       // Step 2: Create current moment data structure

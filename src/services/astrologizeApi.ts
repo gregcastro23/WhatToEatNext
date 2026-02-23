@@ -20,7 +20,7 @@ const getBackendBaseUrl = () => {
 
 const getAstrologizeApiUrl = () => {
   const baseUrl = getBackendBaseUrl();
-  return `${baseUrl}/api/planetary/positions`; // Existing endpoint for planetary positions
+  return `${baseUrl}/api/astrologize`; // Corrected endpoint for planetary positions
 };
 
 const getRecipeRecommendationsApiUrl = () => {
