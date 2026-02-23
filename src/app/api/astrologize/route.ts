@@ -1,5 +1,4 @@
-import * as AstronomyRaw from "astronomy-engine";
-const Astronomy: any = (AstronomyRaw as any).default || AstronomyRaw;
+import * as Astronomy from "astronomy-engine";
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
 import { onAstrologizeApiCall } from "@/services/CurrentMomentManager";
