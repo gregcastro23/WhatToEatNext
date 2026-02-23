@@ -12,6 +12,7 @@ import type {
   PlanetaryPosition,
 } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 
 // Planets used for scoring (exclude Ascendant which isn't a planet)
 const SCORING_PLANETS: Planet[] = [
@@ -238,7 +239,7 @@ export class PlanetaryScoringService {
         : 0.5,
     };
 
-    const overallScore = this.calculateOverallScore(components);
+    const overallScore = this.calculateOverallScore(components, rulingPlanet);
     const recommendedTiming = this.getRecommendedTiming(rulingPlanet);
     const planetaryReason = this.generateReason(
       rulingPlanet,
@@ -344,7 +345,10 @@ export class PlanetaryScoringService {
     return (totalHarmony / count + 1) / 2;
   }
 
-  private calculateOverallScore(components: PlanetaryScoreComponents): number {
+  private calculateOverallScore(
+    components: PlanetaryScoreComponents,
+    rulingPlanet: Planet = "Moon",
+  ): number {
     const base =
       components.dignityScore * 0.4 +
       components.decanScore * 0.25 +
@@ -352,7 +356,14 @@ export class PlanetaryScoringService {
       components.planetaryHourBonus +
       components.criticalDegreeBonus;
 
-    const modified = base * components.retrogradeModifier;
+    // Apply ruling planet's physical mass as a weight.
+    // PLANET_WEIGHTS stores actual relative-to-Earth values; we normalize
+    // via log₁₀ inline so that Pluto → ≈0 and Sun → 1.0.
+    // Floor at 0.5 ensures no planet drives scores to zero.
+    const relMass = PLANET_WEIGHTS[rulingPlanet] ?? 1.0;
+    const massScale = 0.5 + 0.5 * normalizePlanetWeight(relMass);
+
+    const modified = base * massScale * components.retrogradeModifier;
     return Math.round(Math.min(modified, 1) * 100);
   }
 

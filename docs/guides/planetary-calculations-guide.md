@@ -6,6 +6,110 @@ This guide provides detailed instructions for working with planetary
 calculations in the WhatToEatNext system. It covers implementation patterns,
 calculation methods, and best practices for accurate astrological computations.
 
+---
+
+## Planetary Mass Weight Constants
+
+Every planet has a **physical mass constant** used to ground alchemical score
+calculations in measurable physics. Heavier planets (Sun, Jupiter, Saturn)
+exert greater alchemical influence; lighter ones (Moon, Mercury, Pluto) are
+more subtle.
+
+### Source Files
+
+| Layer               | File                                 | Symbol                                          |
+| ------------------- | ------------------------------------ | ----------------------------------------------- |
+| Python backend      | `backend/utils/planetary_weights.py` | `PLANET_MASS_NORMALIZED`, `get_planet_weight()` |
+| TypeScript frontend | `src/data/planets.ts`                | `PLANET_WEIGHTS`                                |
+
+### The Three Scales
+
+| Scale          | Description                          | Typical Use               |
+| -------------- | ------------------------------------ | ------------------------- |
+| `"kg"`         | Raw NASA mass in kilograms           | Reference / display       |
+| `"relative"`   | Mass relative to Earth (Earth = 1.0) | Comparative display       |
+| `"normalized"` | Log₁₀-scaled to 0–1 (**default**)    | All score multiplications |
+
+The **normalized** scale is preferred for scoring because the raw kg values
+span 18 orders of magnitude — using them directly would make Jupiter's score
+dominate by a factor of ~10⁵ over the Moon.
+
+### Normalized Weight Table
+
+| Planet  | Mass (kg)    | Normalized Weight |
+| ------- | ------------ | ----------------- |
+| Sun     | 1.989 × 10³⁰ | **1.0000**        |
+| Jupiter | 1.898 × 10²⁷ | 0.9208            |
+| Saturn  | 5.683 × 10²⁶ | 0.8773            |
+| Neptune | 1.024 × 10²⁶ | 0.8160            |
+| Uranus  | 8.681 × 10²⁵ | 0.8027            |
+| Earth   | 5.972 × 10²⁴ | 0.6000            |
+| Venus   | 4.867 × 10²⁴ | 0.5895            |
+| Mars    | 6.390 × 10²³ | 0.3333            |
+| Mercury | 3.285 × 10²³ | 0.3094            |
+| Moon    | 7.342 × 10²² | 0.2128            |
+| Pluto   | 1.309 × 10²² | 0.1273            |
+
+### Usage in Python
+
+```python
+from backend.utils.planetary_weights import get_planet_weight, PLANET_MASS_NORMALIZED
+
+# Default: normalized (0–1 scale, recommended)
+weight = get_planet_weight("Jupiter")            # 0.9208
+
+# Relative to Earth
+weight = get_planet_weight("Jupiter", "relative") # 317.8
+
+# Raw kg
+weight = get_planet_weight("Jupiter", "kg")       # 1.898e27
+
+# Applying to a lunar modifier
+from backend.utils.lunar_engine import get_lunar_modifier
+mod = get_lunar_modifier("Full Moon", "Grains", planet="Sun")  # ≈ 1.20 × 1.0  = 1.20
+mod = get_lunar_modifier("Full Moon", "Grains", planet="Moon") # ≈ 1.20 × 0.606 = 0.727
+```
+
+### Usage in TypeScript
+
+```typescript
+import { PLANET_WEIGHTS } from "@/data/planets";
+import { planetaryData } from "@/data/planets";
+
+// Lookup from the weight map
+const jupiterWeight = PLANET_WEIGHTS["Jupiter"]; // 0.9208
+
+// Or from the planet data object:
+const sunWeight = planetaryData.Sun.physicalWeight; // 1.0
+
+// Applying a mass scale floor
+const massScale = 0.5 + 0.5 * (PLANET_WEIGHTS[ruling] ?? 0.5);
+const weightedScore = baseScore * massScale;
+```
+
+### How the Score Pipeline Uses Weights
+
+```
+weighted_environmental_score = base_score
+                             * lunar_modifier(phase, category, planet)
+                             * seasonal_modifier(zodiac, elemental_type, planet)
+
+where:
+  lunar_modifier   = base_lunar_boost  * (0.5 + 0.5 * planet_mass_normalized)
+  seasonal_modifier = base_seasonal_mult * (0.5 + 0.5 * planet_mass_normalized)
+```
+
+For `calculateOverallScore` in `PlanetaryScoringService`:
+
+```
+overallScore = (dignityScore×0.4 + decanScore×0.25 + aspectScore×0.25 +
+               planetaryHourBonus + criticalDegreeBonus)
+             * (0.5 + 0.5 * PLANET_WEIGHTS[rulingPlanet])
+             * retrogradeModifier
+```
+
+---
+
 ## Core Planetary Calculation Functions
 
 ### 1. Primary Calculation Function
