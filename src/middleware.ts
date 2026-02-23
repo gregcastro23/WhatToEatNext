@@ -19,10 +19,10 @@ export const config = {
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico, icon-192x192.png (favicon files)
+     * - favicon.ico, icon-192x192.png, icon.svg (favicon files)
      * - login (login page)
      * - / (root/home page)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|icon-192x192.png|login|$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|icon-192x192.png|icon.svg|login|$).*)',
   ],
 };
