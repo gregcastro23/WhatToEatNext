@@ -204,34 +204,36 @@ async function calculatePlanetaryPositions(
       { name: "Pluto", body: Astronomy.Body.Pluto },
     ];
 
+    // Create AstroTime once — this is the type astronomy-engine requires
+    const astroTime = new Astronomy.AstroTime(date);
+
     for (const planet of planets) {
       try {
-        // Get ecliptic coordinates
-        // Fixed: Removed 'as any' cast and validated usage
-        const ecliptic = Astronomy.Ecliptic(planet.body, date);
+        // Step 1: get geocentric equatorial vector
+        const geoVec = Astronomy.GeoVector(planet.body, astroTime, true);
+        // Step 2: convert to ecliptic coordinates (elon = ecliptic longitude)
+        const ecliptic = Astronomy.Ecliptic(geoVec);
         const longitude = ecliptic.elon;
 
         // Convert to zodiac position
         const zodiacPos = longitudeToZodiacPosition(longitude);
 
-        // Check if retrograde (compare velocity)
+        // Check if retrograde (compare position 1 day ahead)
         let isRetrograde = false;
         try {
           if (
             planet.body !== Astronomy.Body.Sun &&
             planet.body !== Astronomy.Body.Moon
           ) {
-            const futureDate = new Date(date.getTime() + 24 * 60 * 60 * 1000); // 1 day ahead
-            const futureEcliptic = Astronomy.Ecliptic(
-              planet.body,
-              futureDate,
-            );
-            // If future longitude is less than current (accounting for wrap-around), it's retrograde
-            const delta = ((futureEcliptic.elon - longitude + 540) % 360) - 180;
+            const futureDate = new Date(date.getTime() + 24 * 60 * 60 * 1000);
+            const futureAstroTime = new Astronomy.AstroTime(futureDate);
+            const futureVec = Astronomy.GeoVector(planet.body, futureAstroTime, true);
+            const futureEcliptic = Astronomy.Ecliptic(futureVec);
+            const delta =
+              ((futureEcliptic.elon - longitude + 540) % 360) - 180;
             isRetrograde = delta < 0;
           }
         } catch (retroError) {
-          // If retrograde calculation fails, assume direct motion
           isRetrograde = false;
         }
 
@@ -254,8 +256,13 @@ async function calculatePlanetaryPositions(
       `Calculated ${Object.keys(positions).length} planetary positions using astronomy-engine`,
     );
   } catch (error) {
-    logger.error("Error calculating planetary positions:", error);
-    throw error;
+    // Do NOT re-throw — return whatever partial positions were collected so the
+    // outer handler can still return a useful (possibly empty) response instead
+    // of crashing the server with a 500.
+    logger.error(
+      "astronomy-engine fallback encountered an error; returning partial positions:",
+      error,
+    );
   }
 
   return positions;
@@ -294,9 +301,20 @@ export async function POST(request: Request) {
       zodiacSystem,
     );
 
-    // Validate planetary positions
+    // If no positions could be calculated, return a safe partial response
+    // instead of throwing and causing a 500 crash.
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
-      throw new Error("Failed to calculate planetary positions");
+      logger.warn("No planetary positions available; returning empty fallback response");
+      return NextResponse.json(
+        {
+          error: "Calculations unavailable",
+          positions: [],
+          _celestialBodies: { all: [] },
+          details: "astronomy-engine could not calculate positions for this date/time",
+          timestamp: new Date().toISOString(),
+        },
+        { status: 200 },
+      );
     }
 
     logger.info(
