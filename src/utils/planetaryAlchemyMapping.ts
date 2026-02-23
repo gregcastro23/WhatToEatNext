@@ -16,6 +16,7 @@
  */
 
 import type { ElementalProperties } from "@/types/alchemy";
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 
 export interface AlchemicalProperties {
   Spirit: number;
@@ -223,11 +224,16 @@ export function calculateAlchemicalFromPlanets(planetaryPositions: {
       continue;
     }
 
-    // Sum each planetary contribution
-    totals.Spirit += planetData.Spirit;
-    totals.Essence += planetData.Essence;
-    totals.Matter += planetData.Matter;
-    totals.Substance += planetData.Substance;
+    // Weight each planet's ESMS contribution by its log-normalized physical
+    // mass so that massive bodies (Sun, Jupiter) dominate the chart profile.
+    // Sun (w=1.0) → full contribution; Mercury (w≈0.17) → ~17% contribution.
+    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+    const w = normalizePlanetWeight(relMass);
+
+    totals.Spirit    += planetData.Spirit    * w;
+    totals.Essence   += planetData.Essence   * w;
+    totals.Matter    += planetData.Matter    * w;
+    totals.Substance += planetData.Substance * w;
   }
 
   return totals;
@@ -268,9 +274,12 @@ export function aggregateZodiacElementals(planetaryPositions: {
       continue;
     }
 
-    // Each planet in a sign contributes 1 to that sign's element
-    totals[element] += 1;
-    count += 1;
+    // Weight elemental contribution by planet's normalized physical mass.
+    // Jupiter in Sagittarius adds ~7× more Fire than Mercury in Sagittarius.
+    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+    const w = normalizePlanetWeight(relMass);
+    totals[element] += w;
+    count += w;
   }
 
   // Normalize to sum = 1.0

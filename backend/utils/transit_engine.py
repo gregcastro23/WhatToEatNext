@@ -1,6 +1,6 @@
-
 import datetime
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES
+from backend.utils.planetary_weights import normalize_planet_weight, PLANET_MASS_RELATIVE
 try:
     import swisseph as swe
     from astral.sun import sun
@@ -173,14 +173,13 @@ def calculate_total_potency_score(recipe, dominant_transit, sun_sign_element, pl
 
     total_potency_score = (planetary_alignment * 0.4) + (elemental_match * 0.3) + (thermodynamic_parity * 0.3) + planetary_hour_bonus
 
-    # 5. Kinetic Rating
-    kinetic_rating = 0.5
-    if dominant_transit == "Mars":
-        kinetic_rating = 1.0
-    elif dominant_transit == "Venus":
-        kinetic_rating = 0.3
-    elif dominant_transit == "Saturn":
-        kinetic_rating = 0.1
+    # 5. Kinetic Rating — derived from the dominant transit planet's actual
+    # physical mass (normalized via log₁₀).  A Sun or Jupiter transit carries
+    # far more kinetic energy than a Moon or Mercury transit.
+    # Fallback to Earth mass (neutral, w≈0.32) when no transit is detected.
+    _transit_rel_mass = PLANET_MASS_RELATIVE.get(dominant_transit or "Earth", 1.0)
+    kinetic_rating = normalize_planet_weight(_transit_rel_mass)
+    # Examples: Sun≈1.00, Jupiter≈0.63, Mars≈0.21, Moon≈0.09, Pluto=0.00
 
     # 6. "Steam" modifier for elemental conflicts
     if planetary_hour_ruler:

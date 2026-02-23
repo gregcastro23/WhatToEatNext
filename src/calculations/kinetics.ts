@@ -9,6 +9,7 @@
 import type { Element } from "@/types/celestial";
 import type { AspectPhase, KineticMetrics } from "@/types/kinetics";
 import { alchemize, planetInfo } from "./core/alchemicalEngine";
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 
 export type { KineticMetrics } from "@/types/kinetics";
 
@@ -220,16 +221,21 @@ function aggregateAlchemicalProperties(
     const planetData = planetInfo[planet];
     if (!planetData) continue;
 
-    // Sum alchemical properties
-    totals.Spirit += planetData.Alchemy.Spirit;
-    totals.Essence += planetData.Alchemy.Essence;
-    totals.Matter += planetData.Alchemy.Matter;
-    totals.Substance += planetData.Alchemy.Substance;
+    // Weight each planet's contribution by its log-normalized physical mass.
+    // Jupiter (w≈0.63) adds ~5× more than Mercury (w≈0.17) to alchemical totals.
+    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+    const w = normalizePlanetWeight(relMass);
 
-    // Sum elemental properties from sign
+    // Sum mass-weighted alchemical properties
+    totals.Spirit    += planetData.Alchemy.Spirit    * w;
+    totals.Essence   += planetData.Alchemy.Essence   * w;
+    totals.Matter    += planetData.Alchemy.Matter    * w;
+    totals.Substance += planetData.Alchemy.Substance * w;
+
+    // Sum mass-weighted elemental properties from sign
     const signElement = getElementFromSign(sign);
     if (signElement && totals[signElement] !== undefined) {
-      totals[signElement] += 1;
+      totals[signElement] += w;
     }
   }
 
@@ -258,37 +264,28 @@ function getElementFromSign(sign: string): Element | null {
 }
 
 /**
- * Get planetary modifiers for kinetics calculations
+ * Get planetary modifiers for kinetics calculations.
+ *
+ * All four modifiers are derived from the planet's actual relative-to-Earth
+ * mass (stored in PLANET_WEIGHTS) normalized via log₁₀ to [0, 1].
+ *
+ * Each modifier uses a role-specific sensitivity constant:
+ *   force    × 0.25  — mass most directly maps to gravitational force
+ *   inertia  × 0.20  — heavier bodies are harder to accelerate / decelerate
+ *   velocity × 0.15  — faster internal alchemical flow for massive planets
+ *   current  × 0.15  — stronger energetic current from massive bodies
+ *
+ * Result range: ~1.01 (Pluto, w≈0) to ~1.25 (Sun, w=1.0) for force.
  */
 function getPlanetaryModifiers(planet: string) {
-  // Base modifiers
-  const baseModifiers = {
-    velocity: 1.0,
-    inertia: 1.0,
-    current: 1.0,
-    force: 1.0,
-  };
+  const relMass = PLANET_WEIGHTS[planet] ?? 1.0; // actual × Earth
+  const w = normalizePlanetWeight(relMass);       // 0 (Pluto) → 1 (Sun)
 
-  // Planet-specific boosts
-  const planetBoosts: Record<string, Partial<typeof baseModifiers>> = {
-    Sun: { velocity: 1.1, force: 1.1 },
-    Moon: { inertia: 1.05, current: 1.05 },
-    Mercury: { velocity: 1.15, current: 1.15 },
-    Venus: { force: 1.08, inertia: 1.08 },
-    Mars: { force: 1.2, velocity: 1.1 },
-    Jupiter: { inertia: 1.15, current: 1.1 },
-    Saturn: { inertia: 1.1 }, // Already handled in inertia formula
-    Uranus: { current: 1.12, velocity: 1.08 },
-    Neptune: { force: 1.1, current: 1.1 },
-    Pluto: { force: 1.15, inertia: 1.1 },
-  };
-
-  const boosts = planetBoosts[planet] || {};
   return {
-    velocity: baseModifiers.velocity * (boosts.velocity || 1),
-    inertia: baseModifiers.inertia * (boosts.inertia || 1),
-    current: baseModifiers.current * (boosts.current || 1),
-    force: baseModifiers.force * (boosts.force || 1),
+    velocity: 1.0 + w * 0.15,
+    inertia:  1.0 + w * 0.20,
+    current:  1.0 + w * 0.15,
+    force:    1.0 + w * 0.25,
   };
 }
 
