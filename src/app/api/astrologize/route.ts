@@ -408,6 +408,7 @@ export async function POST(request: Request) {
       {
         error: "Calculations unavailable",
         positions: [],
+        _celestialBodies: { all: [] },
         details: error instanceof Error ? error.message : "Unknown error",
         timestamp: new Date().toISOString(),
       },
@@ -420,39 +421,53 @@ export async function POST(request: Request) {
  * Handle GET requests - calculate astrological positions for current time
  */
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+  try {
+    const { searchParams } = new URL(request.url);
 
-  // Extract query parameters
-  const latitude = parseFloat(
-    searchParams.get("latitude") || String(DEFAULT_LOCATION.latitude),
-  );
-  const longitude = parseFloat(
-    searchParams.get("longitude") || String(DEFAULT_LOCATION.longitude),
-  );
-  const zodiacSystem = (searchParams.get("zodiacSystem") || "tropical") as
-    | "tropical"
-    | "sidereal";
+    // Extract query parameters
+    const latitude = parseFloat(
+      searchParams.get("latitude") || String(DEFAULT_LOCATION.latitude),
+    );
+    const longitude = parseFloat(
+      searchParams.get("longitude") || String(DEFAULT_LOCATION.longitude),
+    );
+    const zodiacSystem = (searchParams.get("zodiacSystem") || "tropical") as
+      | "tropical"
+      | "sidereal";
 
-  // Use current date/time
-  const now = new Date();
+    // Use current date/time
+    const now = new Date();
 
-  const payload: AstrologizeRequest = {
-    year: now.getFullYear(),
-    month: now.getMonth() + 1, // Convert to 1-indexed
-    date: now.getDate(),
-    hour: now.getHours(),
-    minute: now.getMinutes(),
-    latitude,
-    longitude,
-    zodiacSystem,
-  };
+    const payload: AstrologizeRequest = {
+      year: now.getFullYear(),
+      month: now.getMonth() + 1, // Convert to 1-indexed
+      date: now.getDate(),
+      hour: now.getHours(),
+      minute: now.getMinutes(),
+      latitude,
+      longitude,
+      zodiacSystem,
+    };
 
-  // Forward to POST handler
-  return POST(
-    new Request(request.url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }),
-  );
+    // Forward to POST handler
+    return POST(
+      new Request(request.url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }),
+    );
+  } catch (error) {
+    _logger.error("Error in astrologize GET handler:", error);
+    return NextResponse.json(
+      {
+        error: "Calculations unavailable",
+        positions: [],
+        _celestialBodies: { all: [] },
+        details: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
+      },
+      { status: 200 },
+    );
+  }
 }
