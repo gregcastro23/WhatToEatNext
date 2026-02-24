@@ -207,8 +207,8 @@ async function calculatePlanetaryPositions(
       { name: "Pluto", body: Astronomy.Body.Pluto },
     ];
 
-    // Create AstroTime once — this is the type astronomy-engine requires
-    const astroTime = new Astronomy.AstroTime(date);
+    // Explicitly wrap in AstroTime — astronomy-engine requires this type, not a raw Date
+    const astroTime = new Astronomy.AstroTime(new Date(date.getTime()));
 
     for (const planet of planets) {
       try {
@@ -404,8 +404,10 @@ export async function POST(request: Request) {
     return NextResponse.json(response);
   } catch (error) {
     _logger.error("Error in astrologize API:", error);
+    // Return a graceful 200 instead of letting an unhandled exception produce a 500 crash
     return NextResponse.json(
       {
+        success: false,
         error: "Calculations unavailable",
         positions: [],
         _celestialBodies: { all: [] },
