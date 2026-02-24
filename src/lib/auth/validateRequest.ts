@@ -12,13 +12,23 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
-import { PrivyClient } from "@privy-io/server-auth";
-
-// Privy Client initialization
-const privy = new PrivyClient(
-  process.env.NEXT_PUBLIC_PRIVY_APP_ID!,
-  process.env.PRIVY_APP_SECRET!
-);
+// Privy Client - lazy initialization to prevent build-time crash
+// when PRIVY_APP_SECRET is not available (e.g. during static generation)
+let _privyClient: InstanceType<typeof import("@privy-io/server-auth").PrivyClient> | null = null;
+function getPrivyClient() {
+  if (_privyClient) return _privyClient;
+  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
+  const appSecret = process.env.PRIVY_APP_SECRET;
+  if (!appId || !appSecret) return null;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { PrivyClient } = require("@privy-io/server-auth");
+    _privyClient = new PrivyClient(appId, appSecret);
+    return _privyClient;
+  } catch {
+    return null;
+  }
+}
 
 // JWT Secret - lazy initialization
 let _jwtSecret: Uint8Array | null = null;
@@ -90,9 +100,10 @@ export function extractToken(request: NextRequest): string | null {
  */
 export async function validateToken(token: string): Promise<ValidationResult> {
   try {
-    // 1. Try Privy validation first
+    // 1. Try Privy validation first (only if client is available)
+    const privy = getPrivyClient();
     try {
-      const verifiedClaims = await privy.verifyAuthToken(token);
+      const verifiedClaims = privy ? await privy.verifyAuthToken(token) : null;
       if (verifiedClaims) {
         // Map Privy claims to our TokenPayload
         // Note: Privy userId is verifiedClaims.userId

@@ -1,15 +1,32 @@
 'use client';
 
-import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import LoginButton from '@/components/LoginButton';
 import { BirthDataForm } from '@/components/profile/BirthDataForm';
 import { AlchemicalDashboard } from '@/components/profile/AlchemicalDashboard';
 
+// Safe hook that gracefully handles missing PrivyProvider
+function usePrivySafe() {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { usePrivy } = require('@privy-io/react-auth');
+    return usePrivy();
+  } catch {
+    return {
+      ready: true,
+      authenticated: false,
+      user: null,
+      getAccessToken: async () => null,
+      logout: () => {},
+      login: () => {},
+    };
+  }
+}
+
 const ProfilePage = () => {
   const router = useRouter();
-  const { ready, authenticated, user, getAccessToken, logout, login } = usePrivy();
+  const { ready, authenticated, user, getAccessToken, logout, login } = usePrivySafe();
   const [profileData, setProfileData] = useState<any>(null);
   const [dbProfile, setDbProfile] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
