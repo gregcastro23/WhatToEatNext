@@ -12,7 +12,6 @@ import ingredients from "@/data/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { AlchemicalRecommendation } from "@/services/AlchemicalRecommendationService";
 import { AlchemicalRecommendationService } from "@/services/AlchemicalRecommendationService";
-import { fetchPlanetaryPositions } from "@/services/astrologizeApi";
 import type { StandardizedAlchemicalResult } from "@/services/RealAlchemizeService";
 import { alchemize } from "@/services/RealAlchemizeService";
 import type { CookingMethod } from "@/types/alchemy";
@@ -54,11 +53,12 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     logger.info("UnifiedContext: Refreshing all data...");
 
     try {
-      // 1. Fetch Astrological Data
-      const astroData = await fetchPlanetaryPositions();
-      if (!astroData) throw new Error("Failed to fetch astrological data.");
+      // 1. Planetary API fetch disabled pending swisseph migration.
+      // Use a static empty default so child components mount immediately
+      // without waiting on a crashing network call.
+      const astroData: Record<string, PlanetPosition> = {};
       setAstrologicalData(astroData);
-      logger.info("UnifiedContext: Fetched astrological data.", astroData);
+      logger.info("UnifiedContext: Using static default planetary positions (API fetch disabled).");
 
       // 2. Perform Alchemical Calculation
       const planetaryPositions = {};
