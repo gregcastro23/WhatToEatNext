@@ -72,8 +72,7 @@ const getSecurityHeaders = () => {
 
 const nextConfig = {
   reactStrictMode: false,
-  // Enable standalone output for Docker builds
-  output: "standalone",
+  // standalone output disabled - causes long builds and Vercel issues
   images: {
     domains: [], 
     remotePatterns: [
