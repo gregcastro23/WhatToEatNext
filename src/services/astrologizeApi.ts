@@ -295,6 +295,18 @@ export async function fetchPlanetaryPositions(
       throw new Error("Invalid API response structure");
     }
 
+    // If the API returned a graceful-degradation error response with empty bodies,
+    // throw so the circuit breaker activates the local fallback positions.
+    const hasError = (data as any).error;
+    const hasNoPlanets =
+      !celestialBodies.all ||
+      celestialBodies.all.length === 0;
+    if (hasError && hasNoPlanets) {
+      throw new Error(
+        `API returned error: ${(data as any).error || "Calculations unavailable"}`,
+      );
+    }
+
     const positions: { [key: string]: PlanetPosition } = {};
 
     // Process each planet from the celestial bodies
@@ -343,7 +355,7 @@ export async function fetchPlanetaryPositions(
       Object.keys(positions),
     );
     log.info("🌟 Using zodiac system: ", {
-      system: data.birth_info.ayanamsa || "TROPICAL",
+      system: data.birth_info?.ayanamsa || "TROPICAL",
     });
     return positions;
   }, fallbackPositions);
