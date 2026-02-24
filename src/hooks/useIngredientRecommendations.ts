@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import type { ElementalProperties } from "@/types/alchemy";
 import { useAlchemical } from "./useAlchemical";
 
@@ -39,10 +39,6 @@ export function useIngredientRecommendations(
   const [recommendations, setRecommendations] = useState<
     IngredientRecommendation[]
   >([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { planetaryPositions, isDaytime } = useAlchemical();
-
   const [state, setState] = useState<IngredientRecommendationsData>({
     ingredients: [],
     isLoading: true,
@@ -51,15 +47,25 @@ export function useIngredientRecommendations(
       maxResults: 15,
     },
   });
+  // Track refresh requests via a counter to avoid dependency array issues
+  const [refreshCounter, setRefreshCounter] = useState(0);
+  const isMountedRef = useRef(true);
+
+  const { planetaryPositions, isDaytime } = useAlchemical();
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const currentElementalProfile = useMemo(() => {
     if (
       !planetaryPositions ||
       Object.keys(planetaryPositions || {}).length === 0
     ) {
-      throw new Error(
-        "Cannot calculate elemental profile without planetary positions",
-      );
+      // Return balanced defaults instead of throwing - prevents component crash
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     // Calculate elemental distribution from planetary positions
@@ -92,9 +98,8 @@ export function useIngredientRecommendations(
     );
 
     if (total === 0) {
-      throw new Error(
-        "No valid planetary positions found to calculate elemental profile",
-      );
+      // Return balanced defaults instead of throwing
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     return {
@@ -105,126 +110,127 @@ export function useIngredientRecommendations(
     };
   }, [planetaryPositions]);
 
-  useEffect(() => {
-    async function fetchIngredients() {
-      if (isLoading) return;
+  const fetchIngredients = useCallback(async () => {
+    if (!isMountedRef.current) return;
 
-      setState((prev) => ({ ...prev, isLoading: true, error: null }));
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
-      try {
-        // Sample ingredients - in real app, this would be from API/database
-        const sampleIngredients: Ingredient[] = [
-          {
-            id: "ginger",
-            name: "Ginger",
-            category: "spices",
-            elementalProfile: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
-            nutritionalBenefits: ["Anti-inflammatory", "Digestive aid"],
-            cookingMethods: ["grating", "steaming", "stir-frying"],
-          },
-          {
-            id: "cucumber",
-            name: "Cucumber",
-            category: "vegetables",
-            elementalProfile: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
-            nutritionalBenefits: ["Hydrating", "Cooling"],
-            cookingMethods: ["raw", "pickling"],
-          },
-          {
-            id: "potato",
-            name: "Potato",
-            category: "vegetables",
-            elementalProfile: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 },
-            nutritionalBenefits: ["Vitamin C", "Fiber"],
-            cookingMethods: ["roasting", "boiling", "frying"],
-          },
-          {
-            id: "basil",
-            name: "Basil",
-            category: "herbs",
-            elementalProfile: { Fire: 0.3, Water: 0.2, Earth: 0.1, Air: 0.4 },
-            nutritionalBenefits: ["Antioxidants", "Aromatic"],
-            cookingMethods: ["fresh", "drying", "infusing"],
-          },
-          {
-            id: "salmon",
-            name: "Salmon",
-            category: "proteins",
-            elementalProfile: { Fire: 0.4, Water: 0.4, Earth: 0.1, Air: 0.1 },
-            nutritionalBenefits: ["Omega-3", "Protein"],
-            cookingMethods: ["grilling", "baking", "smoking"],
-          },
-          {
-            id: "lentils",
-            name: "Lentils",
-            category: "legumes",
-            elementalProfile: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
-            nutritionalBenefits: ["Protein", "Fiber"],
-            cookingMethods: ["boiling", "stewing"],
-          },
-        ];
+    try {
+      // Sample ingredients - in real app, this would be from API/database
+      const sampleIngredients: Ingredient[] = [
+        {
+          id: "ginger",
+          name: "Ginger",
+          category: "spices",
+          elementalProfile: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
+          nutritionalBenefits: ["Anti-inflammatory", "Digestive aid"],
+          cookingMethods: ["grating", "steaming", "stir-frying"],
+        },
+        {
+          id: "cucumber",
+          name: "Cucumber",
+          category: "vegetables",
+          elementalProfile: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
+          nutritionalBenefits: ["Hydrating", "Cooling"],
+          cookingMethods: ["raw", "pickling"],
+        },
+        {
+          id: "potato",
+          name: "Potato",
+          category: "vegetables",
+          elementalProfile: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 },
+          nutritionalBenefits: ["Vitamin C", "Fiber"],
+          cookingMethods: ["roasting", "boiling", "frying"],
+        },
+        {
+          id: "basil",
+          name: "Basil",
+          category: "herbs",
+          elementalProfile: { Fire: 0.3, Water: 0.2, Earth: 0.1, Air: 0.4 },
+          nutritionalBenefits: ["Antioxidants", "Aromatic"],
+          cookingMethods: ["fresh", "drying", "infusing"],
+        },
+        {
+          id: "salmon",
+          name: "Salmon",
+          category: "proteins",
+          elementalProfile: { Fire: 0.4, Water: 0.4, Earth: 0.1, Air: 0.1 },
+          nutritionalBenefits: ["Omega-3", "Protein"],
+          cookingMethods: ["grilling", "baking", "smoking"],
+        },
+        {
+          id: "lentils",
+          name: "Lentils",
+          category: "legumes",
+          elementalProfile: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
+          nutritionalBenefits: ["Protein", "Fiber"],
+          cookingMethods: ["boiling", "stewing"],
+        },
+      ];
 
-        // Calculate compatibility scores
-        const ingredientsWithScores = (sampleIngredients || []).map(
-          (ingredient) => {
-            const score = calculateElementalCompatibility(
-              (ingredient as any)?.elementalPropertiesProfile ||
-                ingredient.elementalProfile,
-              currentElementalProfile,
-            );
-            return { ...ingredient, score };
-          },
-        );
-
-        // Apply filters
-        let filteredIngredients = ingredientsWithScores;
-
-        if (state.filters.category) {
-          filteredIngredients = filteredIngredients.filter(
-            (i) => i.category === state.filters.category,
-          );
-        }
-
-        // Sort by score and limit results
-        filteredIngredients = filteredIngredients
-          .sort((a, b) => (b.score || 0) - (a.score || 0))
-          .slice(0, state.filters.maxResults || 15);
-
-        // Generate enhanced recommendations based on filtered ingredients
-        const enhancedRecommendations = filteredIngredients.map(
-          (ingredient) => ({
-            ingredient: {
-              id: ingredient.id,
-              name: ingredient.name,
-              category: ingredient.category,
-              elementalProperties: ingredient.elementalProfile,
-              nutritionalContent: undefined,
-            },
-            matchScore: ingredient.score || 0,
-            elementalCompatibility: calculateElementalCompatibility(
+      // Calculate compatibility scores
+      const ingredientsWithScores = (sampleIngredients || []).map(
+        (ingredient) => {
+          const score = calculateElementalCompatibility(
+            (ingredient as any)?.elementalPropertiesProfile ||
               ingredient.elementalProfile,
-              currentElementalProfile,
-            ),
-            nutritionalScore: 0.5, // Default score
-            seasonalScore: 0.5, // Default score
-            reason: generateRecommendationReason(
-              ingredient,
-              currentElementalProfile,
-              isDaytime,
-            ),
-            category: ingredient.category,
-            alternatives: [],
-          }),
+            currentElementalProfile,
+          );
+          return { ...ingredient, score };
+        },
+      );
+
+      // Apply filters
+      let filteredIngredients = ingredientsWithScores;
+
+      if (state.filters.category) {
+        filteredIngredients = filteredIngredients.filter(
+          (i) => i.category === state.filters.category,
         );
+      }
 
+      // Sort by score and limit results
+      filteredIngredients = filteredIngredients
+        .sort((a, b) => (b.score || 0) - (a.score || 0))
+        .slice(0, state.filters.maxResults || 15);
+
+      // Generate enhanced recommendations based on filtered ingredients
+      const enhancedRecommendations = filteredIngredients.map(
+        (ingredient) => ({
+          ingredient: {
+            id: ingredient.id,
+            name: ingredient.name,
+            category: ingredient.category,
+            elementalProperties: ingredient.elementalProfile,
+            nutritionalContent: undefined,
+          },
+          matchScore: ingredient.score || 0,
+          elementalCompatibility: calculateElementalCompatibility(
+            ingredient.elementalProfile,
+            currentElementalProfile,
+          ),
+          nutritionalScore: 0.5, // Default score
+          seasonalScore: 0.5, // Default score
+          reason: generateRecommendationReason(
+            ingredient,
+            currentElementalProfile,
+            isDaytime,
+          ),
+          category: ingredient.category,
+          alternatives: [],
+        }),
+      );
+
+      if (isMountedRef.current) {
         setRecommendations(enhancedRecommendations as any);
-
         setState((prev) => ({
           ...prev,
           ingredients: filteredIngredients,
           isLoading: false,
         }));
-      } catch (error) {
+      }
+    } catch (error) {
+      if (isMountedRef.current) {
         setState((prev) => ({
           ...prev,
           isLoading: false,
@@ -232,9 +238,12 @@ export function useIngredientRecommendations(
         }));
       }
     }
+  }, [currentElementalProfile, state.filters, isDaytime]);
 
+  // Run fetch when dependencies change or refresh is requested
+  useEffect(() => {
     void fetchIngredients();
-  }, [isLoading, currentElementalProfile, state.filters]);
+  }, [fetchIngredients, refreshCounter]);
 
   const updateFilters = (
     newFilters: Partial<IngredientRecommendationsData["filters"]>,
@@ -250,7 +259,7 @@ export function useIngredientRecommendations(
     recommendations,
     updateFilters,
     currentElementalProfile,
-    refreshRecommendations: () => setIsLoading(true),
+    refreshRecommendations: () => setRefreshCounter((c) => c + 1),
   };
 }
 

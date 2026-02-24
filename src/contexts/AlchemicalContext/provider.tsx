@@ -101,6 +101,13 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(alchemicalReducer, defaultState);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const isMountedRef = React.useRef(true);
+
+  React.useEffect(() => {
+    return () => { isMountedRef.current = false; };
+  }, []);
 
   // Helper function to get dominant element
   const getDominantElement = (): string => {
@@ -247,17 +254,23 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
           ? astroService.getStateForDate(new Date())
           : astroService.getCurrentState?.(new Date()));
 
-        if (astroState && astroState.currentPlanetaryAlignment) {
-          setPlanetaryPositions(astroState.currentPlanetaryAlignment);
-          setNormalizedPositions(astroState.currentPlanetaryAlignment);
+        if (isMountedRef.current) {
+          if (astroState && astroState.currentPlanetaryAlignment) {
+            setPlanetaryPositions(astroState.currentPlanetaryAlignment);
+            setNormalizedPositions(astroState.currentPlanetaryAlignment);
+            setError(null);
+          }
+          setIsLoading(false);
         }
-      } catch (error) {
+      } catch (err) {
         logger.error(
           "Failed to load planetary positions - using defaults:",
-          error,
+          err,
         );
-        // Graceful degradation: don't throw from async void function
-        // This would cause an unhandled promise rejection and crash child components
+        if (isMountedRef.current) {
+          setError(err instanceof Error ? err.message : "Failed to load planetary positions");
+          setIsLoading(false);
+        }
       }
     };
 
@@ -265,17 +278,60 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     void updatePlanetaryPositions();
   }, [state.currentSeason]);
 
+  // Compute isDaytime from current hour
+  const isDaytime = (() => {
+    const hour = new Date().getHours();
+    return hour >= 6 && hour < 18;
+  })();
+
+  // Stub methods for full interface compatibility
+  const updatePlanetaryPositionsDirectly = (positions: Record<string, unknown>) => {
+    setPlanetaryPositions(positions);
+    setNormalizedPositions(positions);
+  };
+
+  const refreshPlanetaryPositionsAsync = async (): Promise<Record<string, unknown>> => {
+    try {
+      setIsLoading(true);
+      const astroService = AstrologicalService as any;
+      const astroState = await (astroService.getStateForDate
+        ? astroService.getStateForDate(new Date())
+        : astroService.getCurrentState?.(new Date()));
+
+      if (astroState && astroState.currentPlanetaryAlignment) {
+        setPlanetaryPositions(astroState.currentPlanetaryAlignment);
+        setNormalizedPositions(astroState.currentPlanetaryAlignment);
+        setError(null);
+        return astroState.currentPlanetaryAlignment;
+      }
+      return planetaryPositions;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Refresh failed";
+      setError(msg);
+      return planetaryPositions;
+    } finally {
+      if (isMountedRef.current) setIsLoading(false);
+    }
+  };
+
   const contextValue: AlchemicalContextType = {
     state,
     dispatch,
     planetaryPositions,
     normalizedPositions,
+    isLoading,
+    error,
+    isDaytime,
     getDominantElement,
     getCurrentElementalBalance,
     getAlchemicalHarmony,
     updateAstrologicalState,
     calculateSeasonalInfluence,
     getThermodynamicState,
+    updatePlanetaryPositions: updatePlanetaryPositionsDirectly,
+    refreshPlanetaryPositions: refreshPlanetaryPositionsAsync,
+    setDaytime: () => {},
+    updateState: (updates) => dispatch({ type: "UPDATE_ASTROLOGICAL_STATE", payload: updates }),
   } as any;
 
   logger.debug("AlchemicalProvider rendered with state:", {

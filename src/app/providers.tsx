@@ -48,19 +48,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     </ErrorBoundary>
   );
 
-  // Bulletproof guard: if the Privy App ID is missing the deployment is still
-  // syncing environment variables. Show a holding screen rather than crashing.
+  // If Privy App ID is missing, render content without Privy auth
+  // This prevents the entire app from being blocked when env vars are not yet synced
   const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
   if (!appId || appId.trim() === '' || appId === 'undefined') {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center bg-zinc-950">
-        <div className="max-w-md p-6 bg-red-900/20 border border-red-500 rounded-lg">
-          <h2 className="text-xl font-bold text-red-500 mb-4">Awaiting Environment Variables</h2>
-          <p className="text-gray-300">The application is building and syncing configuration. Please wait for the deployment to finish.</p>
-        </div>
-        <div className="hidden">{children}</div>
-      </div>
-    );
+    return content;
   }
 
   // Wrap with PrivyProvider only when available and configured

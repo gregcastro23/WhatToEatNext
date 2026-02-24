@@ -46,6 +46,9 @@ export const useFlavorEngine = () => useContext(FlavorEngineContext);
 // Create a stable engine instance - we access it once here and never again;
 const engine = unifiedFlavorEngine;
 
+// Maximum number of initialization retries before giving up
+const MAX_INIT_RETRIES = 10;
+
 // Keep track of initialization outside of component lifecycle
 const globalInitState = {
   isInitialized: false,
@@ -55,6 +58,7 @@ const globalInitState = {
   categories: {} as Record<string, number>,
   initAttempted: false,
   initTimer: null as NodeJS.Timeout | null,
+  retryCount: 0,
 };
 
 // The provider component
@@ -124,8 +128,26 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
               });
             }
           } else if (isMountedRef.current) {
-            // Schedule another check if no profiles are loaded yet
-            globalInitState.initTimer = setTimeout(checkEngineInit, 500);
+            globalInitState.retryCount++;
+            if (globalInitState.retryCount >= MAX_INIT_RETRIES) {
+              // Max retries reached - stop polling and mark as initialized with zero profiles
+              _logger.error(`FlavorEngine: Max retries (${MAX_INIT_RETRIES}) reached, giving up`);
+              globalInitState.isInitialized = true;
+              globalInitState.isLoading = false;
+              globalInitState.error = new Error("Flavor engine initialization timed out");
+              if (isMountedRef.current) {
+                setState({
+                  isInitialized: true,
+                  isLoading: false,
+                  error: globalInitState.error,
+                  profileCount: 0,
+                  categories: {},
+                });
+              }
+            } else {
+              // Schedule another check if no profiles are loaded yet
+              globalInitState.initTimer = setTimeout(checkEngineInit, 500);
+            }
           }
         } catch (err) {
           const error =

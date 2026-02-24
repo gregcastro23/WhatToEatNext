@@ -37,6 +37,13 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  // Race condition protection: track the latest refresh version
+  const refreshVersionRef = React.useRef(0);
+  const isMountedRef = React.useRef(true);
+
+  React.useEffect(() => {
+    return () => { isMountedRef.current = false; };
+  }, []);
 
   // Safe helper function for planetary data access
   const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {
@@ -115,6 +122,9 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const refreshChart = async () => {
+    // Increment version to invalidate any in-flight refresh
+    const thisVersion = ++refreshVersionRef.current;
+
     setLoading(true);
     setError(null);
 
@@ -128,6 +138,9 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
       } else {
         try {
           const astroResponse = await getLatestAstrologicalState();
+          // Bail out if a newer refresh has started
+          if (refreshVersionRef.current !== thisVersion) return;
+
           if (astroResponse.success && astroResponse.data) {
             ((positions = astroResponse.data.planetaryPositions),
               log.info("Successfully calculated planetary positions"));
@@ -145,6 +158,9 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
 
+      // Bail out if a newer refresh has started
+      if (refreshVersionRef.current !== thisVersion || !isMountedRef.current) return;
+
       // Validate positions before calculating aspects
       if (!positions || Object.keys(positions).length === 0) {
         throw new Error("Unable to calculate planetary positions");
@@ -156,20 +172,26 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
       const stelliums = calculateStelliums(positions);
       const houseEffects = calculateHouseEffects(positions);
 
-      setChart({
-        planetaryPositions: positions,
-        aspects,
-        elementalEffects,
-        currentSeason: season,
-        lastUpdated: new Date(),
-        stelliums,
-        houseEffects,
-      });
+      if (refreshVersionRef.current === thisVersion && isMountedRef.current) {
+        setChart({
+          planetaryPositions: positions,
+          aspects,
+          elementalEffects,
+          currentSeason: season,
+          lastUpdated: new Date(),
+          stelliums,
+          houseEffects,
+        });
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update chart");
-      _logger.error("Error updating chart: ", err);
+      if (refreshVersionRef.current === thisVersion && isMountedRef.current) {
+        setError(err instanceof Error ? err.message : "Failed to update chart");
+        _logger.error("Error updating chart: ", err);
+      }
     } finally {
-      setLoading(false);
+      if (refreshVersionRef.current === thisVersion && isMountedRef.current) {
+        setLoading(false);
+      }
     }
   };
 

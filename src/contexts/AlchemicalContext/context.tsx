@@ -61,6 +61,9 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
   dispatch: () => {},
   planetaryPositions: {},
   normalizedPositions: {},
+  isLoading: true,
+  error: null,
+  isDaytime: true,
   getDominantElement: () => "Fire",
   getCurrentElementalBalance: () => ({
     Fire: 0.25,
@@ -77,6 +80,10 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
     entropy: 0.5,
     enthalpy: 0.5,
   }),
+  updatePlanetaryPositions: () => {},
+  refreshPlanetaryPositions: async () => ({}),
+  setDaytime: () => {},
+  updateState: () => {},
 } as any);
 
 // Export without underscore for compatibility
