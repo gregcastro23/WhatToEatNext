@@ -13,7 +13,7 @@ import type { Recipe, ScoredRecipe } from "@/types/recipe";
 
 // Using local error handler implementation
 
-import { errorHandler } from "@/utils/errorHandler";
+import { ErrorHandler as errorHandler } from "@/utils/errorHandler";
 
 import { ConsolidatedRecipeService } from "./ConsolidatedRecipeService";
 import type {
@@ -42,7 +42,7 @@ import type { RecipeServiceInterface } from "./interfaces/RecipeServiceInterface
  */
 export class RecipeFinder implements RecipeServiceInterface {
   private static instance: RecipeFinder;
-  private recipeService: ConsolidatedRecipeService;
+  private recipeService: any;
 
   /**
    * Private constructor to enforce singleton pattern
@@ -77,7 +77,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -119,7 +119,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -160,7 +160,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -189,7 +189,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   ): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesByZodiac(
-        params.currentZodiacSign,
+        params.currentZodiacSignType,
       );
       return {
         success: true,
@@ -201,13 +201,13 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
             service: "RecipeFinder",
             action: "getRecipesByZodiac",
-            data: params.currentZodiacSign,
+            data: params.currentZodiacSignType,
           },
         },
       );
@@ -242,7 +242,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -283,7 +283,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -324,7 +324,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -366,7 +366,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -411,7 +411,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -462,7 +462,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -514,7 +514,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -552,7 +552,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -601,7 +601,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -650,7 +650,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         },
       };
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -678,7 +678,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateElementalProperties(recipe);
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -703,7 +703,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.getDominantElement(recipe);
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -725,7 +725,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateSimilarity(recipe1, recipe2);
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: {
@@ -750,7 +750,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       this.recipeService.clearCache();
     } catch (error) {
-      errorHandler.log(
+      errorHandler._log(
         error instanceof Error ? error : new Error(String(error)),
         {
           context: { service: "RecipeFinder", action: "clearCache" },

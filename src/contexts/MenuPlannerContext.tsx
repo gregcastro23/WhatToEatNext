@@ -69,9 +69,24 @@ import ChartComparisonService, {
 } from "@/services/ChartComparisonService";
 
 /**
+ * Guest alchemist participant for synastry calculations
+ */
+export interface Participant {
+  id: string;
+  name: string;
+  birthDate: string;
+  birthTime?: string;
+  location?: string;
+}
+
+/**
  * Context type definition
  */
 interface MenuPlannerContextType {
+  // Guest alchemist participants
+  participants: Participant[];
+  addParticipant: (participant: Omit<Participant, 'id'>) => void;
+  removeParticipant: (id: string) => void;
   // Current menu state
   currentMenu: WeeklyMenu | null;
   isLoading: boolean;
@@ -272,6 +287,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const [groceryList, setGroceryList] = useState<GroceryItem[]>([]);
   const [weeklyStats, setWeeklyStats] = useState<WeeklyMenuStats | null>(null);
 
+  // Guest alchemist participants
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const addParticipant = useCallback((participant: Omit<Participant, 'id'>) => {
+    setParticipants(prev => [...prev, { ...participant, id: `participant-${Date.now()}` }]);
+  }, []);
+  const removeParticipant = useCallback((id: string) => {
+    setParticipants(prev => prev.filter(p => p.id !== id));
+  }, []);
+
   // Circuit metrics state (NEW - Phase 3A)
   const [weeklyCircuitMetrics, setWeeklyCircuitMetrics] =
     useState<WeeklyMenuCircuitMetrics | null>(null);
@@ -428,7 +452,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           updatedAt: new Date(),
         };
 
-        setCurrentMenu(updatedMenu);
+        setCurrentMenu(updatedMenu as any);
         logger.info(`Added ${recipe.name} to ${mealType} on day ${dayOfWeek}`);
       } catch (err) {
         logger.error("Failed to add meal:", err);
@@ -530,7 +554,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         await addMealToSlot(
           targetDay,
           targetMealType,
-          sourceMeal.recipe,
+          sourceMeal.recipe as any,
           sourceMeal.servings,
         );
         logger.info(
@@ -1468,6 +1492,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
    */
   const contextValue = useMemo<MenuPlannerContextType>(
     () => ({
+      participants,
+      addParticipant,
+      removeParticipant,
       currentMenu,
       isLoading,
       error,

@@ -28,6 +28,7 @@ import {
 import { createLogger } from "@/utils/logger";
 import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
 import type { LunarPhase } from "@/types/celestial";
+import type { AlchemicalProfile } from "@/contexts/UserContext";
 
 const logger = createLogger("RecommendationBridge");
 const recipeBuilder = new UnifiedRecipeBuildingSystem();

@@ -64,7 +64,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
   ): Promise<RecommendationResult<Recipe>> {
     try {
       // Get all recipes
-      const allRecipes = await this.recipeService.getAllRecipes();
+      const allRecipes = await (this.recipeService as any).getRecipes?.() ?? await (this.recipeService as any).getAllRecipes?.() ?? [];
 
       // Apply elemental filtering
       let filteredRecipes = allRecipes;
@@ -198,7 +198,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
   ): Promise<RecommendationResult<Ingredient>> {
     try {
       // Get all ingredients
-      const allIngredients = await this.ingredientService.getAllIngredients();
+      const allIngredients = await (this.ingredientService as any).getIngredients?.() ?? await (this.ingredientService as any).getAllIngredients?.() ?? [];
 
       // Ensure allIngredients is always an array of Ingredient
       let filteredIngredients: Ingredient[];
@@ -411,7 +411,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
    */
   async getRecommendedCookingMethods(
     criteria: CookingMethodRecommendationCriteria,
-  ): Promise<RecommendationResult<CookingMethod>> {
+  ): Promise<RecommendationResult<string>> {
     try {
       // Use safe type casting for criteria access
       const criteriaData = criteria as Record<string, unknown>;
@@ -423,19 +423,13 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         elementalPreference: elementalState,
         planetaryPositions: criteria.planetaryPositions,
         limit: criteria.limit,
-      } as unknown);
+      } as any);
 
-      // Transform to standardized result format - ensure CookingMethod type
-      // TODO: Enhance getCookingMethodRecommendations to return CookingMethod[]
-      const items: CookingMethod[] = (methodRecommendations || []).map(
+      // Transform to standardized result format - return method names as strings
+      const items: string[] = (methodRecommendations || []).map(
         (method: unknown) => {
           const methodData = method as Record<string, unknown>;
-          return {
-            id: String(methodData.id || methodData.name || ""),
-            name: String(methodData.name || ""),
-            description: String(methodData.description || ""),
-            ...methodData,
-          } as CookingMethod;
+          return String(methodData.name || methodData.id || "");
         },
       );
 
@@ -455,7 +449,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       let filteredItems = items;
       if (criteria.excludeMethods && criteria.excludeMethods.length > 0) {
         filteredItems = items.filter(
-          (method) => !criteria.excludeMethods?.includes(method.name),
+          (method) => !criteria.excludeMethods?.includes(method),
         );
       }
 

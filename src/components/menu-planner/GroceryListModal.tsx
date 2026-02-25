@@ -559,7 +559,7 @@ function RecipeGroupedView({
     if (!currentMenu) return map;
     currentMenu.meals.forEach((meal) => {
       if (meal.recipe) {
-        map.set(meal.recipe.id, meal.recipe.name);
+        map.set(meal.recipe.id, meal.recipe.name || meal.recipe.title || '');
       }
     });
     return map;

@@ -133,7 +133,7 @@ export class NutritionTrackingService {
     if (!meal.recipe) return base;
 
     const recipe = meal.recipe;
-    const nutrition = recipe.nutrition;
+    const nutrition = recipe.nutrition as Record<string, number | undefined> | undefined;
     const servings = meal.servings || 1;
 
     if (!nutrition) return base;
@@ -189,7 +189,7 @@ export class NutritionTrackingService {
     const mealData = meals
       .filter((m) => m.recipe)
       .map((m) => ({
-        recipeName: m.recipe!.name,
+        recipeName: m.recipe!.name || m.recipe!.title || "Unknown",
         mealType: m.mealType,
         nutrition: this.extractMealNutrition(m),
       }));

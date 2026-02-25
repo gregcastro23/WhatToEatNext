@@ -52,7 +52,7 @@ function extractAllIngredients(weekPlan: WeeklyMenu | null): string[] {
   return weekPlan.meals
     .filter((m) => m.recipe)
     .flatMap((m) =>
-      (m.recipe!.ingredients || []).map((ing) => ing.name.toLowerCase()),
+      (m.recipe!.ingredients || []).map((ing) => (typeof ing === 'string' ? ing : (ing as any).name ?? '').toLowerCase()),
     );
 }
 

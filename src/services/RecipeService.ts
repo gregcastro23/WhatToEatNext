@@ -2,8 +2,8 @@ import { cuisinesMap } from "@/data/cuisines";
 import type {
   ElementalProperties,
   LunarPhase,
-  ZodiacSign,
 } from "@/types/alchemy";
+import type { ZodiacSignType as ZodiacSign } from "@/types/celestial";
 import type { Cuisine } from "@/types/cuisine";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
@@ -12,21 +12,22 @@ import { logger } from "@/utils/logger";
 import type {
   RecipeRecommendationOptions,
   RecipeSearchCriteria,
-  RecipeServiceInterface,
 } from "./interfaces/RecipeServiceInterface";
 
 // Extended cuisine interface for internal use
-interface ExtendedCuisine extends Cuisine {
-  dishes?: Record<string, unknown>[];
+interface ExtendedCuisine extends Omit<Cuisine, 'dishes'> {
+  dishes?: Record<string, unknown>[] | Cuisine['dishes'];
   [key: string]: unknown;
 }
 
-// Recipe search criteria interface
+// Recipe search criteria interface with additional properties
 interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
   elementalProperties?: ElementalProperties;
   zodiacSign?: ZodiacSign;
   lunarPhase?: LunarPhase;
   planetaryAlignment?: Record<string, { sign: string; degree: number }>;
+  dietaryRestrictions?: string[];
+  limit?: number;
 }
 
 /**
@@ -41,7 +42,7 @@ interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
  * - Elemental and astrological compatibility matching
  * - Recipe recommendations based on various criteria
  */
-export class RecipeService implements RecipeServiceInterface {
+export class RecipeService {
   private static instance: RecipeService;
   private static _allRecipes: Recipe[] | null = null;
   private recipeCache: Map<string, Recipe[]> = new Map();
@@ -124,7 +125,7 @@ export class RecipeService implements RecipeServiceInterface {
    * Search recipes based on criteria
    */
   async searchRecipes(
-    criteria: RecipeSearchCriteria,
+    criteria: RecipeSearchCriteriaInternal,
     options: RecipeRecommendationOptions = {},
   ): Promise<Recipe[]> {
     try {
@@ -145,7 +146,7 @@ export class RecipeService implements RecipeServiceInterface {
       // Filter by max prep time
       if (criteria.maxPrepTime) {
         filteredRecipes = filteredRecipes.filter((recipe) => {
-          const prepTime = this.parseTimeToMinutes(recipe.timeToMake);
+          const prepTime = this.parseTimeToMinutes(recipe.timeToMake || '');
           return prepTime <= criteria.maxPrepTime!;
         });
       }
@@ -281,7 +282,8 @@ export class RecipeService implements RecipeServiceInterface {
 
       return allRecipes.filter((recipe) => {
         const recipeSeasons = recipe.season || [];
-        return recipeSeasons.some((recipeSeason: string) =>
+        const seasonsArray = Array.isArray(recipeSeasons) ? recipeSeasons : [recipeSeasons];
+        return seasonsArray.some((recipeSeason: string) =>
           recipeSeason.toLowerCase().includes(season.toLowerCase()),
         );
       });
@@ -348,9 +350,8 @@ export class RecipeService implements RecipeServiceInterface {
       // elemental compatibility calculations
       // TODO: Implement proper recipe scoring
       return recipes.map((recipe) => ({
-        recipe,
+        ...recipe,
         score: 0.8,
-        matchReasons: ["Basic match"],
       }));
     } catch (error) {
       logger.error("Error getting best recipe matches:", error);
@@ -366,7 +367,8 @@ export class RecipeService implements RecipeServiceInterface {
   ): Promise<Recipe[]> {
     try {
       const recipes: Recipe[] = [];
-      const dishes = cuisine.dishes || [];
+      const rawDishes = cuisine.dishes || [];
+      const dishes = Array.isArray(rawDishes) ? rawDishes : Object.values(rawDishes).flat();
 
       for (const dish of dishes) {
         const recipe = await this.convertDishToRecipe(

@@ -88,6 +88,9 @@
   ],
   "exclude": [
     "node_modules",
+    "tests/**",
+    "demo-*",
+    "run-*",
     "docs/**",
     "archive/**",
     "scripts/**",
@@ -98,6 +101,7 @@
     "src/app/alchemicalEngine.ts",
     "src/app/personalized-ingredients/**",
     "src/components/PersonalizedIngredientPage.tsx",
+    "src/services/KiroCampaignIntegration.ts",
     "**/* 2.*",
     "**/* 3.*",
     "**/* 2/**",

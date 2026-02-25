@@ -237,16 +237,21 @@ export function generateGroceryList(
     meals.forEach((meal) => {
       if (!meal.recipe || !meal.recipe.ingredients) return;
 
-      meal.recipe.ingredients.forEach((ingredient) => {
-        const normalizedName = normalizeIngredientName(ingredient.name);
+      meal.recipe.ingredients.forEach((rawIngredient: any) => {
+        // Handle both string ingredients and object ingredients
+        const ingredient = typeof rawIngredient === 'string'
+          ? { name: rawIngredient, amount: 1, unit: 'unit' }
+          : rawIngredient;
+
+        const normalizedName = normalizeIngredientName(ingredient.name || String(rawIngredient));
         const key =
           consolidateBy === "ingredient"
             ? normalizedName
             : `${normalizedName}-${meal.recipe!.id}`;
 
         // Convert to base unit if requested
-        let amount = Number(ingredient.amount) * meal.servings;
-        let unit = ingredient.unit;
+        let amount = Number(ingredient.amount || 1) * meal.servings;
+        let unit = ingredient.unit || 'unit';
 
         if (convertUnits) {
           const converted = convertToBaseUnit(amount, unit);

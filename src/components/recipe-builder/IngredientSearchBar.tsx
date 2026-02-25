@@ -269,15 +269,15 @@ export default function IngredientSearchBar({
       {/* Search Input */}
       <div className="relative">
         <input
-          ref={inputRef}
+          ref={inputRef as any}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e: any) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
           placeholder="Search ingredients... (e.g., tomato, basil, chicken)"
           className="w-full px-4 py-3 pl-10 rounded-xl border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none text-sm transition-all bg-white"
           aria-label="Search ingredients"
-          aria-expanded={showResults}
+          aria-expanded={!!showResults}
           role="combobox"
           aria-autocomplete="list"
         />

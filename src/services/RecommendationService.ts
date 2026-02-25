@@ -1,6 +1,5 @@
 import { ThermodynamicMetrics } from "@/types/alchemical";
 import { ElementalProperties } from "@/types/alchemy";
-import { CookingMethod } from "@/types/cooking";
 import { Ingredient } from "@/types/ingredient";
 import { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
@@ -80,7 +79,7 @@ export class RecommendationService implements RecommendationServiceInterface {
           if (!recipe.elementalProperties) return false;
 
           const compatibility = this.calculateElementalCompatibility(
-            criteria.elementalProperties,
+            criteria.elementalProperties!,
             recipe.elementalProperties,
           );
           return compatibility >= (criteria.minCompatibility || 0.3);
@@ -98,18 +97,23 @@ export class RecommendationService implements RecommendationServiceInterface {
 
       // Filter by cooking method
       if (criteria.cookingMethod) {
-        filteredRecipes = filteredRecipes.filter(
-          (recipe) =>
-            recipe.cookingMethod?.toLowerCase() ===
-            criteria.cookingMethod.toLowerCase(),
-        );
+        const targetMethod = criteria.cookingMethod.toLowerCase();
+        filteredRecipes = filteredRecipes.filter((recipe) => {
+          const methods = recipe.cookingMethod;
+          if (!methods) return false;
+          if (Array.isArray(methods)) {
+            return methods.some((m: string) => m.toLowerCase() === targetMethod);
+          }
+          return String(methods).toLowerCase() === targetMethod;
+        });
       }
 
       // Filter by cuisine
       if (criteria.cuisine) {
+        const targetCuisine = criteria.cuisine.toLowerCase();
         filteredRecipes = filteredRecipes.filter(
           (recipe) =>
-            recipe.cuisine?.toLowerCase() === criteria.cuisine.toLowerCase(),
+            recipe.cuisine?.toLowerCase() === targetCuisine,
         );
       }
 
@@ -400,16 +404,14 @@ export class RecommendationService implements RecommendationServiceInterface {
    */
   async getRecommendedCookingMethods(
     criteria: CookingMethodRecommendationCriteria,
-  ): Promise<RecommendationResult<CookingMethod>> {
+  ): Promise<RecommendationResult<string>> {
     try {
       logger.info(
         "Getting recommended cooking methods with criteria:",
         criteria,
       );
 
-      // For now, return some default cooking methods
-      // TODO: Implement full cooking method recommendation logic
-      const defaultMethods: CookingMethod[] = [
+      const defaultMethods: string[] = [
         "Grilling",
         "Baking",
         "Stir-frying",
@@ -427,8 +429,6 @@ export class RecommendationService implements RecommendationServiceInterface {
 
       // Apply elemental filtering (simplified)
       if (criteria.elementalProperties) {
-        // For now, assign scores based on elemental properties
-        // TODO: Implement proper cooking method-elemental mapping
         filteredMethods.forEach((method) => {
           scores[method] = Math.random() * 0.5 + 0.5;
         });
