@@ -11,10 +11,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Initialize theme from localStorage or system preference
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      themeManager.updateTheme(savedTheme);
+    if (typeof window === "undefined") return;
+    try {
+      const savedTheme = localStorage.getItem("theme") as Theme;
+      if (savedTheme) {
+        setTheme(savedTheme);
+        themeManager.updateTheme(savedTheme);
+      }
+    } catch {
+      // localStorage may be unavailable in some environments
     }
   }, []);
 
@@ -25,7 +30,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <_ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>
-      ,{children}
+      {children}
     </_ThemeContext.Provider>
   );
 }

@@ -249,15 +249,16 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
     const updatePlanetaryPositions = async () => {
       try {
-        const astroService = AstrologicalService as any;
-        const astroState = await (astroService.getStateForDate
-          ? astroService.getStateForDate(new Date())
-          : astroService.getCurrentState?.(new Date()));
+        const astroService = AstrologicalService.getInstance();
+        const astroState = astroService.getCurrentState();
 
         if (isMountedRef.current) {
-          if (astroState && astroState.currentPlanetaryAlignment) {
-            setPlanetaryPositions(astroState.currentPlanetaryAlignment);
-            setNormalizedPositions(astroState.currentPlanetaryAlignment);
+          if (astroState) {
+            const alignment = (astroState as any).currentPlanetaryAlignment;
+            if (alignment) {
+              setPlanetaryPositions(alignment);
+              setNormalizedPositions(alignment);
+            }
             setError(null);
           }
           setIsLoading(false);
@@ -293,16 +294,17 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const refreshPlanetaryPositionsAsync = async (): Promise<Record<string, unknown>> => {
     try {
       setIsLoading(true);
-      const astroService = AstrologicalService as any;
-      const astroState = await (astroService.getStateForDate
-        ? astroService.getStateForDate(new Date())
-        : astroService.getCurrentState?.(new Date()));
+      const astroService = AstrologicalService.getInstance();
+      const astroState = astroService.getCurrentState();
 
-      if (astroState && astroState.currentPlanetaryAlignment) {
-        setPlanetaryPositions(astroState.currentPlanetaryAlignment);
-        setNormalizedPositions(astroState.currentPlanetaryAlignment);
-        setError(null);
-        return astroState.currentPlanetaryAlignment;
+      if (astroState) {
+        const alignment = (astroState as any).currentPlanetaryAlignment;
+        if (alignment) {
+          setPlanetaryPositions(alignment);
+          setNormalizedPositions(alignment);
+          setError(null);
+          return alignment;
+        }
       }
       return planetaryPositions;
     } catch (err) {

@@ -14,15 +14,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, icon-192x192.png, icon.svg (favicon files)
-     * - login (login page)
-     * - / (root/home page)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico|icon-192x192.png|icon.svg|login|$).*)',
+    // Only run middleware on routes that need auth protection
+    '/profile/:path*',
+    '/onboarding/:path*',
   ],
 };
