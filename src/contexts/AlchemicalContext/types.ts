@@ -20,7 +20,16 @@ export interface AlchemicalContextType {
   state: AlchemicalState;
   dispatch: (action: unknown) => void;
   planetaryPositions: Record<string, unknown>;
+  normalizedPositions: Record<string, unknown>;
+  isLoading: boolean;
+  error: string | null;
   isDaytime: boolean;
+  getDominantElement: () => string;
+  getCurrentElementalBalance: () => Record<string, number>;
+  getAlchemicalHarmony: () => number;
+  updateAstrologicalState: (updates: Partial<AlchemicalState["astrologicalState"]>) => void;
+  calculateSeasonalInfluence: () => number;
+  getThermodynamicState: () => Record<string, number>;
   updatePlanetaryPositions: (positions: Record<string, unknown>) => void;
   refreshPlanetaryPositions: () => Promise<Record<string, unknown>>;
   setDaytime: (isDaytime: boolean) => void;
