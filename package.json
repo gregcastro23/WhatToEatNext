@@ -84,7 +84,7 @@
     "test:coverage": "jest --coverage",
     "fix-elemental": "node fix-elemental-logic.js",
     "test-elemental-fix": "node test-elemental-logic.js",
-    "prepare": "husky install",
+    "prepare": "husky install || true",
     "update-vegetables": "yarn ts-node src/scripts/updateVegetables.ts",
     "update-oils-vinegars": "yarn ts-node src/scripts/updateOilsAndVinegars.ts",
     "clean-imports": "scripts/typescript-fixes/clean-imports.sh",

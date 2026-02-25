@@ -5,16 +5,29 @@ import { AlchemicalContext } from "./context";
 import type { AlchemicalContextType } from "./types";
 
 /**
- * Hook to access the AlchemicalContext
- * @returns The AlchemicalContext
- * @throws Error if used outside of AlchemicalProvider
+ * Hook to access the AlchemicalContext.
+ * Returns the context value (which always exists due to the default value
+ * on the context). Logs a warning if called outside the provider tree
+ * but does NOT throw, avoiding blank-screen crashes.
  */
 export const useAlchemical = (): AlchemicalContextType => {
   const context = useContext(AlchemicalContext);
 
   if (!context) {
-    throw new Error("useAlchemical must be used within an AlchemicalProvider");
+    console.warn(
+      "[useAlchemical] Context is null — component may be outside AlchemicalProvider. Using default values.",
+    );
   }
 
-  return context;
+  // AlchemicalContext is created with a full default value, so context
+  // should never actually be null. The guard above is purely defensive.
+  return context as AlchemicalContextType;
+};
+
+/**
+ * Safe variant that returns null when the provider is missing,
+ * useful for optional integrations that should degrade gracefully.
+ */
+export const useAlchemicalSafe = (): AlchemicalContextType | null => {
+  return useContext(AlchemicalContext) ?? null;
 };

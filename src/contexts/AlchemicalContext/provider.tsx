@@ -19,12 +19,22 @@ import { AstrologicalService } from "@/services/AstrologicalService";
 type AlchemicalAction = any; // Type not exported
 import type { ReactNode } from "react";
 
-// Simple logger fallback
+// Structured logger for browser console visibility
 const logger = {
-  debug: (message: string, ...args: any[]) =>
-    console.log(`[DEBUG] ${message}`, ...args),
+  debug: (message: string, ...args: any[]) => {
+    if (typeof window !== "undefined") {
+      console.log(`%c[AlchemicalProvider] ${message}`, "color: #9c27b0", ...args);
+    }
+  },
+  info: (message: string, ...args: any[]) => {
+    if (typeof window !== "undefined") {
+      console.info(`%c[AlchemicalProvider] ${message}`, "color: #2196f3", ...args);
+    }
+  },
+  warn: (message: string, ...args: any[]) =>
+    console.warn(`[AlchemicalProvider] ${message}`, ...args),
   error: (message: string, ...args: any[]) =>
-    console.error(`[ERROR] ${message}`, ...args),
+    console.error(`[AlchemicalProvider] ${message}`, ...args),
 };
 
 // Reducer function for state management
@@ -264,8 +274,8 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
           setIsLoading(false);
         }
       } catch (err) {
-        logger.error(
-          "Failed to load planetary positions - using defaults:",
+        logger.warn(
+          "Failed to load planetary positions — falling back to defaults:",
           err,
         );
         if (isMountedRef.current) {
