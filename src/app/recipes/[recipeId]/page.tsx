@@ -8,11 +8,8 @@ import type { Recipe } from "@/types/recipe";
 import type { CuisineType } from "@/types/alchemy";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 
-export default function RecipePage({
-  params,
-}: {
-  params: { recipeId: string };
-}) {
+export default function RecipePage(props: any) {
+  const params = props.params as { recipeId: string };
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [recommendedSauces, setRecommendedSauces] = useState<string[]>([]);
   const [recommendedRecipes, setRecommendedRecipes] = useState<Recipe[]>([]);

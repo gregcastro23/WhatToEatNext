@@ -644,10 +644,11 @@ import { AlchemicalProperties } from './alchemy'; // Import your specific alchem
 export interface EnhancedRecipe {
   id: string;
   title: string;
+  name?: string;
   description?: string; // Optional
-  
+
   // CRITICAL: Defining these as arrays prevents the .join() crash
-  ingredients: string[]; 
+  ingredients: string[];
   instructions: string[];
   tags: string[];
 
@@ -657,14 +658,47 @@ export interface EnhancedRecipe {
     entropy?: number;
     reactivity?: number;
     stability?: number;
-    // Map any other raw properties from your backend here
+  };
+
+  // Elemental properties used by circuit calculations, nutrition, and grocery list
+  elementalProperties?: ElementalProperties;
+
+  // Nutritional profile used by menu planner
+  nutritionalProfile?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
+
+  // Nutrition data used by menu planner components (alias for nutritionalProfile)
+  nutrition?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+    sodium?: number;
   };
 
   // Your internal mapped properties (optional, if you calculate them later)
-  mappedAlchemy?: AlchemicalProperties; 
-  
+  mappedAlchemy?: AlchemicalProperties;
+
   imageUrl?: string;
   cookTime?: number;
   prepTime?: number;
   servings?: number;
+  cuisine?: string;
+  cookingMethod?: string | string[];
+  season?: string | string[];
+  mealType?: string | string[];
+  timeToMake?: string;
+  numberOfServings?: number;
+  isVegetarian?: boolean;
+  isVegan?: boolean;
+  isGlutenFree?: boolean;
+  isDairyFree?: boolean;
+  astrologicalInfluences?: string[];
+  substitutions?: Array<{ original: string; alternatives: string[] }>;
 }

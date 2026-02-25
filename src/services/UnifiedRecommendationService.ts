@@ -429,7 +429,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   async getRecommendedCookingMethods(
     criteria: CookingMethodRecommendationCriteria,
-  ): Promise<RecommendationResult<CookingMethod>> {
+  ): Promise<RecommendationResult<string>> {
     // This is a simplified implementation
     // In a real implementation, we would have a comprehensive cooking method database
     const cookingMethods: CookingMethod[] = [
@@ -540,7 +540,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     });
 
     return {
-      items: (limitedMethods || []).map((item) => item.method),
+      items: (limitedMethods || []).map((item) => item.method.name),
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(

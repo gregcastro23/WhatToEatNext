@@ -41,7 +41,7 @@ export default function GuestAlchemistPanel({
       name,
       birthDate,
       birthTime: birthTime || "12:00",
-      birthLocation: defaultLocation,
+      location: location || `${defaultLocation.latitude},${defaultLocation.longitude}`,
     };
 
     addParticipant(newGuest);

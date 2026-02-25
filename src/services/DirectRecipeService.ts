@@ -1,7 +1,7 @@
 import { _logger } from "@/lib/logger";
 import { cuisinesMap } from "@/data/cuisines/index";
 import { allIngredients } from "@/data/ingredients";
-import { celestialCalculator } from "@/services/celestialCalculations";
+import { _celestialCalculator as celestialCalculator } from "@/services/celestialCalculations";
 import type {
   ElementalProperties,
   CelestialAlignment,
@@ -129,7 +129,7 @@ export class DirectRecipeService {
    */
   private async getCurrentCelestialAlignment(
     forceRefresh = false,
-  ): Promise<CelestialAlignment> {
+  ): Promise<CelestialAlignment | null> {
     const now = Date.now();
 
     // Return cached alignment if still valid
@@ -146,7 +146,7 @@ export class DirectRecipeService {
       const _currentDate = new Date();
 
       // Unified positions service
-      const { planetaryPositionsService } =
+      const { _planetaryPositionsService: planetaryPositionsService } =
         await import("@/services/PlanetaryPositionsService");
       const planetaryPositions = await planetaryPositionsService.getCurrent();
 
@@ -205,7 +205,7 @@ export class DirectRecipeService {
       seasonalScore: number;
     };
   }> {
-    const _alignment = await this.getCurrentCelestialAlignment();
+    const _alignment = await this.getCurrentCelestialAlignment() ?? ({} as CelestialAlignment);
 
     // Calculate recipe's Kalchm value from ingredients
     const recipeKalchm = this.calculateRecipeKalchm(recipe);
@@ -319,7 +319,7 @@ export class DirectRecipeService {
       return 0.5;
 
     // Check if current zodiac sign matches recipe influences
-    const currentZodiac = alignment.currentZodiacSign?.toLowerCase();
+    const currentZodiac = (alignment as any).currentZodiacSignType?.toLowerCase() ?? (alignment as any).currentZodiacSign?.toLowerCase();
     const hasZodiacMatch = (recipe.zodiacInfluences || []).some(
       (sign) => sign.toLowerCase() === currentZodiac,
     );
@@ -465,7 +465,13 @@ export class DirectRecipeService {
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown,
+        alchemicalScores: {
+          _elementalScore: alchemicalScore.breakdown.elementalScore,
+          _zodiacalScore: alchemicalScore.breakdown.zodiacalScore,
+          _lunarScore: alchemicalScore.breakdown.lunarScore,
+          _planetaryScore: alchemicalScore.breakdown.planetaryScore,
+          _seasonalScore: alchemicalScore.breakdown.seasonalScore,
+        },
       });
     }
 
@@ -501,7 +507,13 @@ export class DirectRecipeService {
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown,
+        alchemicalScores: {
+          _elementalScore: alchemicalScore.breakdown.elementalScore,
+          _zodiacalScore: alchemicalScore.breakdown.zodiacalScore,
+          _lunarScore: alchemicalScore.breakdown.lunarScore,
+          _planetaryScore: alchemicalScore.breakdown.planetaryScore,
+          _seasonalScore: alchemicalScore.breakdown.seasonalScore,
+        },
       });
     }
 
@@ -536,7 +548,13 @@ export class DirectRecipeService {
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown,
+        alchemicalScores: {
+          _elementalScore: alchemicalScore.breakdown.elementalScore,
+          _zodiacalScore: alchemicalScore.breakdown.zodiacalScore,
+          _lunarScore: alchemicalScore.breakdown.lunarScore,
+          _planetaryScore: alchemicalScore.breakdown.planetaryScore,
+          _seasonalScore: alchemicalScore.breakdown.seasonalScore,
+        },
       });
     }
 
@@ -566,7 +584,13 @@ export class DirectRecipeService {
       scoredRecipes.push({
         ...recipe,
         score: alchemicalScore.score,
-        alchemicalScores: alchemicalScore.breakdown,
+        alchemicalScores: {
+          _elementalScore: alchemicalScore.breakdown.elementalScore,
+          _zodiacalScore: alchemicalScore.breakdown.zodiacalScore,
+          _lunarScore: alchemicalScore.breakdown.lunarScore,
+          _planetaryScore: alchemicalScore.breakdown.planetaryScore,
+          _seasonalScore: alchemicalScore.breakdown.seasonalScore,
+        },
       });
     }
 
@@ -700,7 +724,13 @@ export class DirectRecipeService {
       scoredRecipes.push({
         ...recipe,
         score: Math.min(1, finalScore),
-        alchemicalScores: alchemicalScore.breakdown,
+        alchemicalScores: {
+          _elementalScore: alchemicalScore.breakdown.elementalScore,
+          _zodiacalScore: alchemicalScore.breakdown.zodiacalScore,
+          _lunarScore: alchemicalScore.breakdown.lunarScore,
+          _planetaryScore: alchemicalScore.breakdown.planetaryScore,
+          _seasonalScore: alchemicalScore.breakdown.seasonalScore,
+        },
       });
     }
 
@@ -714,7 +744,7 @@ export class DirectRecipeService {
    * Get current celestial influence data for display
    */
   public async getCurrentCelestialInfluence(): Promise<CelestialAlignment> {
-    return await this.getCurrentCelestialAlignment();
+    return await this.getCurrentCelestialAlignment() ?? ({} as CelestialAlignment);
   }
 
   /**

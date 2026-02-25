@@ -83,7 +83,7 @@ export default function WeekProgress({
       ? weekPlan.meals
           .filter((m) => m.recipe)
           .flatMap((m) =>
-            (m.recipe!.ingredients || []).map((i) => i.name.toLowerCase()),
+            (m.recipe!.ingredients || []).map((i) => (typeof i === 'string' ? i : (i as any).name ?? '').toLowerCase()),
           )
       : [];
     const uniqueIngredients = new Set(ingredients).size;

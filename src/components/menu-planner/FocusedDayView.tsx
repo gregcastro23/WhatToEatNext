@@ -379,7 +379,7 @@ function LockedRecipeCard({
       {/* Actions */}
       <div className="flex items-center justify-between border-t border-gray-200 pt-4">
         <Link
-          href={`/recipes/${recipe.id || encodeURIComponent(recipe.name)}`}
+          href={`/recipes/${recipe.id || encodeURIComponent(recipe.name || recipe.title || '')}`}
           className="text-purple-600 hover:text-purple-800 text-sm font-medium flex items-center gap-1"
         >
           📖 View Full Recipe
@@ -521,7 +521,7 @@ function FocusedMealSlot({
           )}
           <div className="mt-3 pt-3 border-t border-gray-100">
             <RecipeNutritionQuickView
-              recipe={mealSlot.recipe!}
+              recipe={mealSlot.recipe! as any}
               servings={mealSlot.servings}
               compact
             />

@@ -400,7 +400,7 @@ export default function RecipeDetailModal({
                       {recipe.substitutions.map((sub, idx) => (
                         <li key={idx}>
                           <strong>{sub.original}</strong> →{" "}
-                          {(sub.alternalternatives || []).join(", ")}
+                          {(sub.alternatives || []).join(", ")}
                         </li>
                       ))}
                     </ul>

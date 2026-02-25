@@ -331,7 +331,7 @@ export default function QuickActionsToolbar() {
         .filter((m) => m.recipe)
         .map((m) => ({
           slot: m,
-          score: calculateNutritionScore(m.recipe!),
+          score: calculateNutritionScore(m.recipe! as any),
         }))
         .sort((a, b) => a.score - b.score);
 
@@ -402,7 +402,7 @@ export default function QuickActionsToolbar() {
         .forEach((m) => {
           const recipeIngs = new Set<string>();
           (m.recipe!.ingredients || []).forEach((ing) => {
-            const name = ing.name.toLowerCase();
+            const name = (typeof ing === 'string' ? ing : (ing as any).name ?? '').toLowerCase();
             ingredientCounts.set(name, (ingredientCounts.get(name) || 0) + 1);
             recipeIngs.add(name);
           });

@@ -134,7 +134,7 @@ export class LegacyRecommendationAdapter {
    */
   public async getRecommendedCookingMethods(
     criteria: CookingMethodRecommendationCriteria,
-  ): Promise<RecommendationResult<CookingMethod>> {
+  ): Promise<RecommendationResult<string>> {
     try {
       return await unifiedRecommendationService.getRecommendedCookingMethods(
         criteria,

@@ -57,8 +57,7 @@ export default function TestPlanetaryPage() {
         day: now.getDate(),
         hour: now.getHours(),
         minute: now.getMinutes(),
-        zodiacSystem: "tropical",
-      });
+      } as any);
 
       if (recipes.error) {
         setRecipeError(recipes.error);
