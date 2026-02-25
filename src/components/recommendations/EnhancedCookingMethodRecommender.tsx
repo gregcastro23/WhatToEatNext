@@ -266,13 +266,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
   const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
 
-  // Get planetary positions from AlchemicalContext
-  let alchemicalContext: ReturnType<typeof useAlchemical> | null = null;
-  try {
-    alchemicalContext = useAlchemical();
-  } catch {
-    // Context not available
-  }
+  // Get planetary positions from AlchemicalContext — called unconditionally (Rules of Hooks)
+  const alchemicalContext = useAlchemical();
 
   useEffect(() => {
     if (alchemicalContext?.planetaryPositions) {
@@ -288,9 +283,11 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             setPositionsSource("real");
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          console.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
+        });
     }
-  }, [alchemicalContext?.planetaryPositions]);
+  }, [alchemicalContext?.planetaryPositions, alchemicalContext?.refreshPlanetaryPositions]);
 
   // ── Compute all methods with full metrics ──
   const currentMethods = useMemo(() => {

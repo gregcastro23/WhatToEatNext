@@ -218,13 +218,8 @@ export default function CookingMethodPreview() {
     "fallback",
   );
 
-  // Get current alchemical context
-  let alchemicalContext: ReturnType<typeof useAlchemical> | null = null;
-  try {
-    alchemicalContext = useAlchemical();
-  } catch {
-    // Context not available
-  }
+  // Get current alchemical context — called unconditionally (Rules of Hooks)
+  const alchemicalContext = useAlchemical();
 
   // Update planetary positions from context
   useEffect(() => {
@@ -250,10 +245,10 @@ export default function CookingMethodPreview() {
           }
         })
         .catch(() => {
-          // Silently fail, use existing positions
+          console.warn("[CookingMethodPreview] Failed to refresh planetary positions, using defaults");
         });
     }
-  }, [alchemicalContext?.planetaryPositions]);
+  }, [alchemicalContext?.planetaryPositions, alchemicalContext?.refreshPlanetaryPositions]);
 
   // Get current elemental properties from alchemical context
   const currentElementals = useMemo(() => {

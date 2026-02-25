@@ -7,6 +7,7 @@ import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UserProvider } from "@/contexts/UserContext";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
+import { clientLogger } from "@/utils/clientLogger";
 
 // Lazy-load PrivyProvider only when app ID is available to prevent
 // build failures and avoid blocking page rendering for unauthenticated content
@@ -28,11 +29,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    clientLogger.info("Providers", "Client-side mount complete — all providers initializing");
     setMounted(true);
   }, []);
 
   // Prevent hydration mismatch
-  if (!mounted) return <>{children}</>;
+  if (!mounted) {
+    clientLogger.debug("Providers", "Waiting for client-side mount (SSR/hydration phase)");
+    return <>{children}</>;
+  }
 
   const content = (
     <ErrorBoundary>

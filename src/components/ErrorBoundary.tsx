@@ -33,7 +33,13 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
+    console.error(
+      "%c[ErrorBoundary] Uncaught error in React tree",
+      "color: #f44336; font-weight: bold; font-size: 14px",
+      "\n\nError:", error.message,
+      "\n\nStack:", error.stack,
+      "\n\nComponent Stack:", errorInfo.componentStack,
+    );
     this.setState({
       error,
       errorInfo,
