@@ -60,8 +60,9 @@ import {
 import { generateGroceryList } from "@/utils/groceryListGenerator";
 import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
-import type { RecommendedMeal ,
+import {
   generateDayRecommendations,
+  type RecommendedMeal,
   type AstrologicalState,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";

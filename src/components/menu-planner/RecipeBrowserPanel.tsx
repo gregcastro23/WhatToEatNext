@@ -20,8 +20,9 @@ import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
-import type { ScoredRecipe ,
+import {
   searchRecipes,
+  type ScoredRecipe,
   type RecipeSearchOptions,
 } from "@/utils/recipeSearchEngine";
 
