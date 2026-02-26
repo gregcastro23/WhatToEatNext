@@ -7,7 +7,6 @@ import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UserProvider } from "@/contexts/UserContext";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
-import { clientLogger } from "@/utils/clientLogger";
 
 // Lazy-load PrivyProvider only when app ID is available to prevent
 // build failures and avoid blocking page rendering for unauthenticated content
@@ -26,18 +25,13 @@ function getPrivyProvider() {
 }
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    clientLogger.info("Providers", "Client-side mount complete — all providers initializing");
-    setMounted(true);
-  }, []);
-
-  // Prevent hydration mismatch
-  if (!mounted) {
-    clientLogger.debug("Providers", "Waiting for client-side mount (SSR/hydration phase)");
-    return <>{children}</>;
-  }
+  // Render providers on both server and client consistently.
+  // All providers use useState with static initial values, so the SSR output
+  // matches the client's initial render — no hydration mismatch.
+  //
+  // Previously, a `mounted` gate caused the entire child tree to unmount and
+  // remount when switching from <>{children}</> to the full provider stack,
+  // which led to blank-page issues.
 
   const content = (
     <ErrorBoundary>
