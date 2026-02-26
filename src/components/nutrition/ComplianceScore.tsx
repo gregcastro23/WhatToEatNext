@@ -40,14 +40,14 @@ export function ComplianceScore({
           cx="18"
           cy="18"
           r="16"
-        ></circle>
+         />
         <circle
           className={styles.ringProgress}
           cx="18"
           cy="18"
           r="16"
           strokeDasharray={`${normalizedScore}, 100`}
-        ></circle>
+         />
       </svg>
       <div className={styles.scoreValue}>{normalizedScore.toFixed(0)}%</div>
       {showLabel && (

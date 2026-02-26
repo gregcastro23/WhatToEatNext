@@ -495,7 +495,7 @@ export function getDominantElementByIntensity(
 ): Element {
   const entries = Object.entries(properties).filter(([key]) =>
     ["Fire", "Water", "Earth", "Air"].includes(key),
-  ) as [Element, number][];
+  ) as Array<[Element, number]>;
   return entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
 }
 

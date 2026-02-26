@@ -112,7 +112,7 @@ export function useRecipeValidation() {
 
     const total = validIngredients.reduce(
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties!;
+        const props = ingredient.elementalProperties;
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),

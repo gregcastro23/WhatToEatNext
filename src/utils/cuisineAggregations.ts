@@ -164,7 +164,7 @@ export function computeGlobalAverages(
     alchemical: alchemicalMeans,
     thermodynamics: thermoMeans,
     elementalsStdDev: elementalStdDev,
-    alchemicalStdDev: alchemicalStdDev,
+    alchemicalStdDev,
     thermodynamicsStdDev: thermoStdDev,
   };
 }
@@ -388,7 +388,7 @@ export function aggregateAlchemicalProperties(
 
   for (const recipe of validRecipes) {
     const weight = calculateRecipeWeight(recipe, strategy, recipes);
-    const props = recipe._computed!.alchemicalProperties!;
+    const props = recipe._computed!.alchemicalProperties;
 
     totals.Spirit += (props.Spirit || 0) * weight;
     totals.Essence += (props.Essence || 0) * weight;

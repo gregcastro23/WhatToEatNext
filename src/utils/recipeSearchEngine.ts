@@ -6,9 +6,9 @@
  * @created 2026-01-10 (Phase 2)
  */
 
-import type { Recipe, ElementalProperties } from "@/types/recipe";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import { getPlanetaryDayCharacteristics } from "@/types/menuPlanner";
+import type { Recipe, ElementalProperties } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeSearchEngine");

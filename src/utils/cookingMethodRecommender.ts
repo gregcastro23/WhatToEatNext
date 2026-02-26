@@ -1755,8 +1755,8 @@ export function calculateMethodScore(
   // Planetary Harmonization: Boost methods aligned with current zodiac element
   if (astroState.currentZodiac && methodElemental) {
     const zodiacElement = getElementForSign(astroState.currentZodiac);
-    if (zodiacElement && methodElemental[zodiacElement as keyof typeof methodElemental]) {
-      const alignment = methodElemental[zodiacElement as keyof typeof methodElemental] || 0;
+    if (zodiacElement && methodElemental[zodiacElement]) {
+      const alignment = methodElemental[zodiacElement] || 0;
       score += alignment * 0.15; // Up to 15% boost for element alignment
     }
   }

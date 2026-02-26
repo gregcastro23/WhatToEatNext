@@ -1,6 +1,6 @@
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { ElementalProperties, Element, Season } from "@/types/alchemy";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 
 // ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====
 // Adds alchemical enhancements to existing cuisine recipes
@@ -681,7 +681,7 @@ export class RecipeAnalyzer {
     );
     const kalchmValues = enhanced
       .map((r) => r.alchemicalProperties?.totalKalchm)
-      .filter((k) => k !== undefined) as number[];
+      .filter((k) => k !== undefined);
 
     const monicaCalculated = enhanced.filter(
       (r) => r.enhancementMetadata?.monicaCalculated,

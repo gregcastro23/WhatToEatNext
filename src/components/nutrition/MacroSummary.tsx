@@ -1,7 +1,7 @@
 // src/components/nutrition/MacroSummary.tsx
 import React from "react";
-import { NutritionRing } from "./NutritionRing";
 import styles from "./MacroSummary.module.css";
+import { NutritionRing } from "./NutritionRing";
 
 interface MacroSummaryProps {
   totals: {

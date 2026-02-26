@@ -6,9 +6,9 @@ import type {
   ZodiacSignType,
   BasicThermodynamicProperties,
 } from "@/types/alchemy";
-import type { Recipe } from "@/types/recipe";
 import type { Planet } from "@/types/celestial";
 import type { UnifiedIngredient } from "@/types/ingredient";
+import type { Recipe } from "@/types/recipe";
 import { getCurrentSeason } from "@/types/seasons";
 import type { ScoringContext } from "./UnifiedScoringService";
 

@@ -8,14 +8,14 @@
  *   Planetary: 30% | Nutrition: 30% | Preferences: 20% | Seasonal: 10% | Meal Timing: 10%
  */
 
-import type { Recipe } from "@/types/recipe";
 import type { Planet } from "@/types/celestial";
+import type { Recipe } from "@/types/recipe";
+import { MealTypeService, type MealType } from "./mealTypeService";
 import {
   PlanetaryScoringService,
   type BirthChart,
   type PlanetaryScoringResult,
 } from "./planetaryScoring";
-import { MealTypeService, type MealType } from "./mealTypeService";
 
 // --- Public interfaces ---
 

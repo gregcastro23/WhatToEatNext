@@ -124,3 +124,4 @@ reports/
 *-report.json
 \n# Privy backend secrets\nbackend/.env
 .env*.local
+.jest-cache/

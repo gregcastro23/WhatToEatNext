@@ -15,8 +15,8 @@
  * night. These sectarian elements drive the dynamic elemental profile of the sky.
  */
 
-import type { ElementalProperties } from "@/types/alchemy";
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
+import type { ElementalProperties } from "@/types/alchemy";
 
 export interface AlchemicalProperties {
   Spirit: number;

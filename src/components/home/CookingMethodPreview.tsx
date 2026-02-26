@@ -7,6 +7,8 @@
  */
 
 import React, { useState, useMemo, useEffect } from "react";
+import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
+import { getCookingMethodThermodynamics } from "@/constants/alchemicalPillars";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   dryCookingMethods,
@@ -15,14 +17,12 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
-import { getCookingMethodThermodynamics } from "@/constants/alchemicalPillars";
-import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import {
   calculateKAlchm,
   calculateMonicaConstant,
 } from "@/utils/monicaKalchmCalculations";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 interface MethodData {
   name: string;
@@ -238,7 +238,7 @@ export default function CookingMethodPreview() {
         .then((positions) => {
           if (positions && Object.keys(positions).length > 0) {
             const normalized = normalizePlanetaryPositions(
-              positions as Record<string, unknown>,
+              positions,
             );
             setPlanetaryPositions(normalized);
             setPositionsSource("real");

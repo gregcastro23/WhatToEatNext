@@ -2,13 +2,13 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { alliums } from "./alliums";
 import { cruciferous } from "./cruciferous";
+import { enhancedVegetablesIngredients } from "./enhancedVegetables";
 import { leafyGreens } from "./leafyGreens";
 import { legumes } from "./legumes";
 import { nightshades } from "./nightshades";
 import { roots } from "./roots";
 import { squash } from "./squash";
 import { starchyVegetables } from "./starchy";
-import { enhancedVegetablesIngredients } from "./enhancedVegetables";
 
 // Combine all vegetable categories
 // Enhanced vegetables with comprehensive data take precedence

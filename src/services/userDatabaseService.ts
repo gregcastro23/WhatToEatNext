@@ -494,13 +494,13 @@ class UserDatabaseService {
         userId: row.id,
         name: row.profile_name || row.name,
         email: row.email,
-        preferences: preferences,
+        preferences,
         birthData:
           Object.keys(birthData || {}).length > 0 ? birthData : undefined,
         natalChart:
           Object.keys(natalChart || {}).length > 0 ? natalChart : undefined,
-        groupMembers: groupMembers,
-        diningGroups: diningGroups,
+        groupMembers,
+        diningGroups,
       },
     };
   }

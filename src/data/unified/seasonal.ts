@@ -12,13 +12,12 @@ import type {
   PlanetName,
   Season,
 } from "@/types/alchemy";
-
+import { memoize } from "@/utils/memoize";
 import {
   getAllEnhancedCookingMethods,
   getCookingMethodPillar,
   type EnhancedCookingMethod,
 } from "../../constants/alchemicalPillars";
-import { memoize } from "@/utils/memoize";
 import { unifiedIngredients } from "./ingredients";
 
 
@@ -1088,7 +1087,7 @@ export class UnifiedSeasonalSystem {
     targetMonica?: number,
   ): EnhancedCookingMethod[] {
     const seasonProfile = unifiedSeasonalProfiles[season];
-    let optimalMethods: EnhancedCookingMethod[] = [];
+    const optimalMethods: EnhancedCookingMethod[] = [];
 
     // Get methods listed as optimal for the season
     for (const methodName of seasonProfile.optimalCookingMethods) {

@@ -171,7 +171,7 @@ export function calculateGregsEnergy(
       heat: Math.max(0, Math.min(1, heat)),
       entropy: Math.max(0, Math.min(1, entropy)),
       reactivity: Math.max(0, Math.min(1, reactivity)),
-      gregsEnergy: gregsEnergy, // Allow negative values - do not clamp
+      gregsEnergy, // Allow negative values - do not clamp
     };
   } catch (error) {
     logger.error("Error calculating Gregs energy:", {

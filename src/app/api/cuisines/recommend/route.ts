@@ -1,38 +1,38 @@
 import { NextResponse } from "next/server";
-import { createLogger } from "@/utils/logger";
-import { CUISINES } from "@/data/cuisines/index";
-import { italian } from "@/data/cuisines/italian";
-import { mexican } from "@/data/cuisines/mexican";
 import { american } from "@/data/cuisines/american";
-import { french } from "@/data/cuisines/french";
 import { chinese } from "@/data/cuisines/chinese";
-import { japanese } from "@/data/cuisines/japanese";
-import { thai } from "@/data/cuisines/thai";
-import { indian } from "@/data/cuisines/indian";
-import { korean } from "@/data/cuisines/korean";
-import { vietnamese } from "@/data/cuisines/vietnamese";
+import { french } from "@/data/cuisines/french";
 import { greek } from "@/data/cuisines/greek";
+import { CUISINES } from "@/data/cuisines/index";
+import { indian } from "@/data/cuisines/indian";
+import { italian } from "@/data/cuisines/italian";
+import { japanese } from "@/data/cuisines/japanese";
+import { korean } from "@/data/cuisines/korean";
+import { mexican } from "@/data/cuisines/mexican";
+import { thai } from "@/data/cuisines/thai";
+import { vietnamese } from "@/data/cuisines/vietnamese";
+import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import type {
   RawElementalProperties as ElementalProperties,
   AlchemicalProperties,
 } from "@/types/alchemy";
-import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
-import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
+import { retryWithTimeout } from "@/utils/apiUtils"; // Import retryWithTimeout
+import type { PlanetPosition } from "@/utils/astrologyUtils";
 import {
   calculateEnhancedCompatibility,
   compatibilityToMatchPercentage,
   type ThermodynamicState,
   type KineticState,
 } from "@/utils/enhancedCompatibilityScoring";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import { createLogger } from "@/utils/logger";
+import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
   PLANETARY_ALCHEMY, // Import PLANETARY_ALCHEMY
 } from "@/utils/planetaryAlchemyMapping";
-import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
-import { retryWithTimeout } from "@/utils/apiUtils"; // Import retryWithTimeout
-import type { Planet, ZodiacSignType } from "@/types/celestial";
-import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 const logger = createLogger("CuisinesRecommendAPI");
 
@@ -591,7 +591,7 @@ function calculateFusionPairings(
             return (
               otherValue !== undefined &&
               !isNaN(otherValue) &&
-              Math.abs((value as number) - (otherValue as number)) < 0.2
+              Math.abs((value) - (otherValue as number)) < 0.2
             );
           })
           .map(([element]) => element);
@@ -662,7 +662,7 @@ function getRecipesForCuisine(
     | "winter";
   const mealType = moment.meal_type?.toLowerCase() || "dinner";
 
-  let recipes: any[] = [];
+  const recipes: any[] = [];
   // Track seen recipe names to avoid duplicates across meal types
   const seenNames = new Set<string>();
 
@@ -795,12 +795,12 @@ function getRecipesForCuisine(
 
     // Generate timing tips based on prep/cook time
     const timingTips: string[] = [];
-    if (recipe.prepTime && parseInt(recipe.prepTime) > 15) {
+    if (recipe.prepTime && parseInt(recipe.prepTime, 10) > 15) {
       timingTips.push(
         "Prep all ingredients (mise en place) before starting to cook",
       );
     }
-    if (recipe.cookTime && parseInt(recipe.cookTime) > 30) {
+    if (recipe.cookTime && parseInt(recipe.cookTime, 10) > 30) {
       timingTips.push("This dish benefits from being made ahead and reheated");
     }
     timingTips.push("Serve immediately for best taste and texture");

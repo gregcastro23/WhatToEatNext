@@ -15,8 +15,8 @@ import {
 import { _logger } from "@/lib/logger";
 import type { LunarPhase, Season } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
-import { logger } from "@/utils/logger";
 import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
+import { logger } from "@/utils/logger";
 
 // Log what was imported
 // DISABLED: Module-level logging causes Next.js build to hang during module scanning

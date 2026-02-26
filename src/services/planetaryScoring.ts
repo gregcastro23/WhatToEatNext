@@ -6,13 +6,13 @@
  * planetary hours, critical degrees, and retrograde modifiers.
  */
 
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type {
   Planet,
   ZodiacSignType,
   PlanetaryPosition,
 } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 
 // Planets used for scoring (exclude Ascendant which isn't a planet)
 const SCORING_PLANETS: Planet[] = [
@@ -532,7 +532,7 @@ export class PlanetaryScoringService {
         positions.push({
           ...pos,
           planet,
-        } as any);
+        });
       }
     }
     return positions;

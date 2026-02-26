@@ -7,9 +7,9 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { QuickFoodCategory } from "@/types/foodDiary";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("q");
     const userId = searchParams.get("userId") || "guest";
-    const limit = parseInt(searchParams.get("limit") || "20");
+    const limit = parseInt(searchParams.get("limit") || "20", 10);
     const category = searchParams.get("category") as QuickFoodCategory | null;
 
     if (!query || query.length < 2) {

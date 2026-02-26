@@ -2,15 +2,15 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
-import { IngredientService } from "@/services/IngredientService";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { IngredientService } from "@/services/IngredientService";
 import type { ElementalProperties } from "@/types/alchemy";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import {
   calculateThermodynamicMetrics,
   elementalToAlchemicalApproximation,
 } from "@/utils/monicaKalchmCalculations";
-import { calculateKineticProperties } from "@/utils/kineticCalculations";
 
 // Pagination constant - items shown before expansion
 const ITEMS_PER_PAGE = 21;
@@ -321,11 +321,11 @@ function calculateCompatibilityScore(
 
 // Helper: Get dominant element
 function getDominantElement(elementals: ElementalProperties): string {
-  const entries = Object.entries(elementals) as [
+  const entries = Object.entries(elementals) as Array<[
     keyof ElementalProperties,
     number,
-  ][];
-  const sorted = entries.sort((a, b) => (b[1] as number) - (a[1] as number));
+  ]>;
+  const sorted = entries.sort((a, b) => (b[1]) - (a[1]));
   return (sorted[0]?.[0] as string) || "Unknown";
 }
 

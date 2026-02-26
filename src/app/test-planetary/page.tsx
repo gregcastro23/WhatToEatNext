@@ -1,8 +1,7 @@
 "use client";
 
-import { usePlanetaryKinetics } from "@/hooks/usePlanetaryKinetics";
 import { useEffect, useState } from "react";
-
+import { usePlanetaryKinetics } from "@/hooks/usePlanetaryKinetics";
 import { fetchAstrologicalRecipes } from "@/services/astrologizeApi";
 
 export default function TestPlanetaryPage() {
@@ -353,7 +352,7 @@ export default function TestPlanetaryPage() {
                           <div
                             className="bg-gradient-to-r from-purple-500 to-indigo-600 h-2 rounded-full"
                             style={{ width: `${rec.score * 100}%` }}
-                          ></div>
+                           />
                         </div>
                       </div>
 

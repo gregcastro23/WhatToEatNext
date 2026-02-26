@@ -12,10 +12,10 @@
  * Part of the enhanced cuisine recommender system.
  */
 
+import { calculateKinetics } from "@/calculations/kinetics";
+import type { ThermodynamicProperties } from "@/types/alchemy";
 import type { ElementalProperties } from "@/types/hierarchy";
 import type { KineticMetrics } from "@/types/kinetics";
-import type { ThermodynamicProperties } from "@/types/alchemy";
-import { calculateKinetics } from "@/calculations/kinetics";
 import { validateRecipeCircuit } from "@/utils/recipeCircuit";
 
 // ========== TYPE DEFINITIONS ==========

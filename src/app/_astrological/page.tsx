@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import React from "react";
 
 /**
@@ -7,7 +8,6 @@ import React from "react";
  * Phase 5: Frontend Integration - Astrological Cooking Guide
  */
 
-import dynamic from "next/dynamic";
 
 export const dynamic_config = "force-dynamic";
 

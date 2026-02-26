@@ -16,8 +16,8 @@ import type {
   MoodTag,
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
-import FoodRating, { StarDisplay } from "./FoodRating";
 import { NutritionRing } from "../nutrition";
+import FoodRating, { StarDisplay } from "./FoodRating";
 
 interface FoodDiaryViewProps {
   entries: FoodDiaryEntry[];

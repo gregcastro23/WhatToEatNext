@@ -2,10 +2,10 @@
 import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
 
 // Internal imports
-import { createLogger } from "@/utils/logger";
 import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type { ThermodynamicMetrics } from "@/utils/kineticCalculations";
+import { createLogger } from "@/utils/logger";
 
 // Logger
 const logger = createLogger("EnhancedCuisineRecommender");

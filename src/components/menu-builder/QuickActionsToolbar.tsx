@@ -10,17 +10,16 @@
  * @updated 2026-02-03 - Added personalization status display
  */
 
-import React, { useState } from "react";
 import Link from "next/link";
-import type { DayOfWeek, MealType } from "@/types/menuPlanner";
-import type { Recipe } from "@/types/recipe";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-
+import React, { useState } from "react";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useUser } from "@/contexts/UserContext";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
+import type { DayOfWeek, MealType } from "@/types/menuPlanner";
+import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const logger = createLogger("QuickActionsToolbar");
 

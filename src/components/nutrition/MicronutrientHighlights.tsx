@@ -1,8 +1,9 @@
 // src/components/nutrition/MicronutrientHighlights.tsx
 import React from "react";
-import { NutritionalSummary, NutritionalTargets } from "@/types/nutrition";
-import styles from "./MicronutrientHighlights.module.css";
+import type { NutritionalSummary} from "@/types/nutrition";
+import { NutritionalTargets } from "@/types/nutrition";
 import { formatNutrientName, getNutrientUnit } from "../../utils/nutrition";
+import styles from "./MicronutrientHighlights.module.css";
 
 interface MicronutrientHighlightsProps {
   totals: NutritionalSummary;
@@ -43,8 +44,8 @@ export function MicronutrientHighlights({
       total: Math.round(total),
       goal: Math.round(goal),
       unit: getNutrientUnit(key),
-      percentage: percentage,
-      status: status,
+      percentage,
+      status,
     };
   }).filter((micro) => micro.goal > 0); // Only show if there's a goal for it
 
@@ -67,7 +68,7 @@ export function MicronutrientHighlights({
                   <div
                     className={`${styles.progressBarFill} ${styles[`progressBarFill-${micro.status}`]}`}
                     style={{ width: `${Math.min(100, micro.percentage)}%` }}
-                  ></div>
+                   />
                 </div>
                 <span className={styles.nutrientValue}>
                   {micro.total}

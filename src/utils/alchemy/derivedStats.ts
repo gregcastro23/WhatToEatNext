@@ -1,6 +1,6 @@
-import type { Ingredient } from '@/types/ingredient';
-import type { AlchemicalProperties, AstrologicalState } from '@/types/alchemy';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import type { AlchemicalProperties, AstrologicalState } from '@/types/alchemy';
+import type { Ingredient } from '@/types/ingredient';
 
 /**
  * Calculates the KAlchm (The Equilibrium Constant) for a given ingredient.

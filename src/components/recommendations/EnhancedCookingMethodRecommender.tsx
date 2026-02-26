@@ -11,6 +11,15 @@
  */
 
 import React, { useState, useMemo, useEffect } from "react";
+import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
+import type { KineticMetrics } from "@/calculations/kinetics";
+import {
+  ALCHEMICAL_PILLARS,
+
+  calculateOptimalCookingConditions,
+  calculatePillarMonicaModifiers,
+  getCookingMethodThermodynamics} from "@/constants/alchemicalPillars";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   dryCookingMethods,
   wetCookingMethods,
@@ -18,30 +27,18 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
-import {
-  ALCHEMICAL_PILLARS,
-} from "@/constants/alchemicalPillars";
+import type {
+  AlchemicalProperties,
+  ElementalProperties,
+} from "@/types/celestial";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
+import { calculateMethodSpecificKinetics , getKineticProfile } from "@/utils/cookingMethodKinetics";
 import {
   calculateKAlchm,
   calculateMonicaConstant,
   calculateMonicaOptimizationScore,
 } from "@/utils/monicaKalchmCalculations";
-import {
-  calculateOptimalCookingConditions,
-  calculatePillarMonicaModifiers,
-  getCookingMethodThermodynamics,
-} from "@/constants/alchemicalPillars";
-import type { KineticMetrics } from "@/calculations/kinetics";
-import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
-import { calculateMethodSpecificKinetics } from "@/utils/cookingMethodKinetics";
-import { getKineticProfile } from "@/utils/cookingMethodKinetics";
-import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
-import type {
-  AlchemicalProperties,
-  ElementalProperties,
-} from "@/types/celestial";
 
 // ============================================================================
 // Types
@@ -279,7 +276,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       alchemicalContext.refreshPlanetaryPositions()
         .then((positions) => {
           if (positions && Object.keys(positions).length > 0) {
-            setPlanetaryPositions(normalizePlanetaryPositions(positions as Record<string, unknown>));
+            setPlanetaryPositions(normalizePlanetaryPositions(positions));
             setPositionsSource("real");
           }
         })
@@ -405,7 +402,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // ============================================================================
   // RENDER: Tabs for expanded view
   // ============================================================================
-  const tabs: { key: ExpandedTab; label: string; icon: string }[] = [
+  const tabs: Array<{ key: ExpandedTab; label: string; icon: string }> = [
     { key: "overview", label: "Overview", icon: "🔮" },
     { key: "thermo", label: "Thermodynamics", icon: "🌡️" },
     { key: "kinetics", label: "Kinetics", icon: "⚡" },
@@ -520,7 +517,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </div>
           {method.pillar && (
             <div className="mt-3 text-center text-xs text-gray-500">
-              Pillar Effects: {Object.entries(method.pillar.effects).map(([p, v]) => `${p} ${(v as number) > 0 ? "+" : ""}${v}`).join(", ")}
+              Pillar Effects: {Object.entries(method.pillar.effects).map(([p, v]) => `${p} ${(v) > 0 ? "+" : ""}${v}`).join(", ")}
             </div>
           )}
         </div>
@@ -865,7 +862,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             { key: "energy", label: "Energy" },
             { key: "monica", label: "Monica" },
             { key: "heat", label: "Heat" },
-          ] as { key: SortKey; label: string }[]).map(({ key, label }) => (
+          ] as Array<{ key: SortKey; label: string }>).map(({ key, label }) => (
             <button
               key={key}
               onClick={() => setSortBy(key)}

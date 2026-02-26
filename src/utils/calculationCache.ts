@@ -82,7 +82,7 @@ export async function getCachedCalculation<T>(
   try {
     // CacheService might be null if database is unavailable
     if (CacheService) {
-      const cachedResult = await (CacheService.get as any)(cacheKey, inputHash);
+      const cachedResult = await (CacheService.get)(cacheKey, inputHash);
 
       if (cachedResult) {
         log.info(
@@ -99,7 +99,7 @@ export async function getCachedCalculation<T>(
 
     // Store in database cache if available
     if (CacheService) {
-      await (CacheService.set as any)(
+      await (CacheService.set)(
         cacheKey,
         inputHash,
         JSON.stringify(result),
@@ -141,7 +141,7 @@ export async function clearCalculationCache(cacheKey?: string): Promise<void> {
   // Server environment - clear database cache
   try {
     if (CacheService) {
-      const cache = CacheService as any;
+      const cache = CacheService;
       if (cacheKey) {
         await cache.delete(cacheKey);
         log.info(`Database cache cleared for ${cacheKey}`);
@@ -176,7 +176,7 @@ export async function getCacheStats(): Promise<{
   // Server environment - return database cache stats
   try {
     if (CacheService) {
-      const cache = CacheService as any;
+      const cache = CacheService;
       const stats = await cache.getStats();
       return {
         totalEntries: stats.total,

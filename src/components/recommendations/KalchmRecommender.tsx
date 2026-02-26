@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
-import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 import { useUser } from "@/contexts/UserContext";
+import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 
 interface KalchmRecommenderProps {
   maxRecommendations?: number;

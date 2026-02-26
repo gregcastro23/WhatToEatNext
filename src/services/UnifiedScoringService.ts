@@ -11,8 +11,6 @@
  */
 
 import { log } from "@/services/LoggingService";
-import { PlanetaryLocationService } from "../data/planets/locationService";
-import { getCurrentAlchemicalState } from "./RealAlchemizeService";
 import {
   calculateThermodynamicCompatibility,
   calculateKineticCompatibility,
@@ -20,6 +18,8 @@ import {
   type ThermodynamicState,
   type KineticState,
 } from "@/utils/enhancedCompatibilityScoring";
+import { PlanetaryLocationService } from "../data/planets/locationService";
+import { getCurrentAlchemicalState } from "./RealAlchemizeService";
 import type { GeographicCoordinates } from "../data/planets/locationService";
 import type { ElementalProperties } from "../types/alchemy";
 import type {

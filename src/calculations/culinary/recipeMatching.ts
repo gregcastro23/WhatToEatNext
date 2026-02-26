@@ -4,8 +4,8 @@
  * Stub implementation for recipe compatibility calculations
  */
 
-import type { Recipe } from "@/types/recipe";
 import type { AstrologicalState } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 export interface RecipeCompatibilityResult {
   score: number;

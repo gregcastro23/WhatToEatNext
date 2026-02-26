@@ -8,16 +8,16 @@
  * @created 2026-01-11
  */
 
-import type { MealSlot, DayOfWeek } from "@/types/menuPlanner";
+import type { PlanetaryPositions } from "@/types/astrology";
+import type { Element } from "@/types/celestial";
 import type {
   DayCircuitMetrics,
   MealCircuitMetrics,
   KineticMetrics,
 } from "@/types/kinetics";
-import type { PlanetaryPositions } from "@/types/astrology";
-import type { Element } from "@/types/celestial";
-import { calculateMealCircuit } from "./mealCircuitCalculations";
+import type { MealSlot, DayOfWeek } from "@/types/menuPlanner";
 import { PLANETARY_DAY_RULERS } from "@/types/menuPlanner";
+import { calculateMealCircuit } from "./mealCircuitCalculations";
 
 /**
  * Helper to sum array of numbers safely
@@ -39,7 +39,7 @@ function mean(numbers: number[]): number {
  * Aggregate elemental vectors (momentum, force) across meals
  */
 function aggregateElementalVectors(
-  vectors: (Record<Element, number> | undefined)[],
+  vectors: Array<Record<Element, number> | undefined>,
 ): Record<Element, number> {
   const result: Record<Element, number> = {
     Fire: 0,

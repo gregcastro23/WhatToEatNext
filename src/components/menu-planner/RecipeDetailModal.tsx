@@ -9,9 +9,9 @@
  */
 
 import React, { useState, useMemo } from "react";
-import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import type { NutritionalSummary } from "@/types/nutrition";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
 // Define constant keys for vitamins and minerals based on NutritionalSummary
 const VITAMIN_KEYS: Array<keyof NutritionalSummary> = [
@@ -111,10 +111,10 @@ function parseTimeToMinutes(timeStr?: string): number | null {
   const hourMatch = timeStr.match(/(\d+)\s*h/i);
   const minMatch = timeStr.match(/(\d+)\s*m/i);
   let total = 0;
-  if (hourMatch) total += parseInt(hourMatch[1]) * 60;
-  if (minMatch) total += parseInt(minMatch[1]);
+  if (hourMatch) total += parseInt(hourMatch[1], 10) * 60;
+  if (minMatch) total += parseInt(minMatch[1], 10);
   if (total === 0) {
-    const num = parseInt(timeStr);
+    const num = parseInt(timeStr, 10);
     if (!isNaN(num)) total = num;
   }
   return total > 0 ? total : null;
@@ -182,7 +182,7 @@ export default function RecipeDetailModal({
 
   if (!isOpen) return null;
 
-  const tabs: { id: TabId; label: string }[] = [
+  const tabs: Array<{ id: TabId; label: string }> = [
     { id: "overview", label: "Overview" },
     { id: "nutrition", label: "Nutrition" },
     { id: "notes", label: "My Notes" },
@@ -501,7 +501,7 @@ export default function RecipeDetailModal({
                           >
                             <div className="text-2xl font-bold">
                               {Math.round(
-                                (macro.value as number) * servingMultiplier,
+                                (macro.value) * servingMultiplier,
                               )}
                             </div>
                             <div className="text-xs font-medium">

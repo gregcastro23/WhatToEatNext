@@ -6,16 +6,15 @@
  * group-optimized food recommendations.
  */
 
+import { _logger } from "@/lib/logger";
+import type { ElementalProperties } from "@/types/alchemy";
+import type { Element, Modality , AlchemicalProperties } from "@/types/celestial";
 import type {
   NatalChart,
   GroupMember,
   CompositeNatalChart,
 } from "@/types/natalChart";
-import type { Element, Modality } from "@/types/celestial";
-import type { ElementalProperties } from "@/types/alchemy";
-import type { AlchemicalProperties } from "@/types/celestial";
 import { getDominantElement } from "@/utils/planetaryAlchemyMapping";
-import { _logger } from "@/lib/logger";
 
 /**
  * Calculate composite natal chart from multiple individual charts

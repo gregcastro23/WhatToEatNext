@@ -1,11 +1,11 @@
-import type { ElementalProperties, Recipe } from "@/types/recipe";
-import { isNonEmptyArray } from "../common/arrayUtils";
-import { createLogger } from "../logger";
-
 import {
   createEmptyNutritionalSummary,
   type NutritionalSummary,
 } from "@/types/nutrition";
+import type { ElementalProperties, Recipe } from "@/types/recipe";
+import { isNonEmptyArray } from "../common/arrayUtils";
+import { createLogger } from "../logger";
+
 
 const _logger = createLogger("RecipeEnrichment");
 

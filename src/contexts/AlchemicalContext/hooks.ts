@@ -21,7 +21,7 @@ export const useAlchemical = (): AlchemicalContextType => {
 
   // AlchemicalContext is created with a full default value, so context
   // should never actually be null. The guard above is purely defensive.
-  return context as AlchemicalContextType;
+  return context;
 };
 
 /**

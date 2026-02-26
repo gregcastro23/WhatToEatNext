@@ -226,7 +226,7 @@ export default function RecipeQuickView({
   const dominantElement = Object.entries(elementalProperties).reduce(
     (max, [key, value]) => (value > max[1] ? [key, value] : max),
     ["Fire", 0],
-  )[0] as string;
+  )[0];
 
   const dominantConfig: Record<string, string> = {
     Fire: "border-l-red-400",
@@ -531,10 +531,10 @@ function getElementalColor(elementalProperties: {
     Air: "#a855f7",
   };
 
-  const entries = Object.entries(elementalProperties) as [
+  const entries = Object.entries(elementalProperties) as Array<[
     keyof typeof colors,
     number,
-  ][];
+  ]>;
   if (entries.length === 0) return "#6b7280";
 
   const dominant = entries.reduce((max, curr) =>

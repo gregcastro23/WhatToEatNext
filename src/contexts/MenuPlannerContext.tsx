@@ -18,6 +18,20 @@ import React, {
   useRef,
   type ReactNode,
 } from "react";
+import { useUser } from "@/contexts/UserContext";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import ChartComparisonService, {
+  type ChartComparison,
+} from "@/services/ChartComparisonService";
+import type {
+  WeeklyMenuCircuitMetrics,
+  DayCircuitMetrics,
+  MealCircuitMetrics,
+  CircuitBottleneck,
+  CircuitImprovementSuggestion,
+  CircuitOptimizationGoal,
+} from "@/types/kinetics";
 import type {
   WeeklyMenu,
   MealSlot,
@@ -30,43 +44,28 @@ import type {
   WeeklyMenuStats,
   CalendarNavigation,
 } from "@/types/menuPlanner";
-import type {
-  WeeklyMenuCircuitMetrics,
-  DayCircuitMetrics,
-  MealCircuitMetrics,
-  CircuitBottleneck,
-  CircuitImprovementSuggestion,
-  CircuitOptimizationGoal,
-} from "@/types/kinetics";
 import {
   getWeekStartDate,
   getWeekEndDate,
   PLANETARY_DAY_RULERS,
 } from "@/types/menuPlanner";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
-import { logger } from "@/utils/logger";
-import { generateGroceryList } from "@/utils/groceryListGenerator";
-import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
-import {
-  calculateDayCircuit,
-  getMealsForDay,
-} from "@/utils/dayCircuitCalculations";
-import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
 import {
   findCircuitBottlenecks,
   generateCircuitSuggestions,
 } from "@/utils/circuitOptimization";
 import {
+  calculateDayCircuit,
+  getMealsForDay,
+} from "@/utils/dayCircuitCalculations";
+import { generateGroceryList } from "@/utils/groceryListGenerator";
+import { logger } from "@/utils/logger";
+import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
+import type { RecommendedMeal ,
   generateDayRecommendations,
   type AstrologicalState,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
-import { useAstrologicalState } from "@/hooks/useAstrologicalState";
-import { useUser } from "@/contexts/UserContext";
-import ChartComparisonService, {
-  type ChartComparison,
-} from "@/services/ChartComparisonService";
+import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
 
 /**
  * Guest alchemist participant for synastry calculations
@@ -1050,7 +1049,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           {
             mealTypes,
             dietaryRestrictions,
-            useCurrentPlanetary: useCurrentPlanetary,
+            useCurrentPlanetary,
             maxRecipesPerMeal: 1, // Take top recommendation per meal
             userContext,
           },

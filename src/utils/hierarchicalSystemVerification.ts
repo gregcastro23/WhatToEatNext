@@ -15,12 +15,12 @@ import type {
   ElementalProperties,
   ThermodynamicProperties,
 } from "@/types/alchemy";
-import type { RecipeIngredient } from "@/types/recipe";
 import type {
   CuisineComputedProperties,
   IngredientData,
   RecipeComputedProperties,
 } from "@/types/hierarchy";
+import type { RecipeIngredient } from "@/types/recipe";
 
 // Re-export all the core functions for comprehensive testing
 

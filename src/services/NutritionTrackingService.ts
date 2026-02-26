@@ -4,6 +4,11 @@
  * Bridges meal slot data with comprehensive nutritional analysis.
  */
 
+import {
+  calculatePersonalizedRDA,
+  multiplyNutrition,
+} from "@/data/nutritional/rdaStandards";
+import type { MealSlot, DayOfWeek } from "@/types/menuPlanner";
 import type {
   NutritionalSummary,
   NutritionalTargets,
@@ -16,11 +21,6 @@ import {
   createEmptyNutritionalSummary,
   getComplianceSeverity,
 } from "@/types/nutrition";
-import type { MealSlot, DayOfWeek } from "@/types/menuPlanner";
-import {
-  calculatePersonalizedRDA,
-  multiplyNutrition,
-} from "@/data/nutritional/rdaStandards";
 import {
   buildDailyResult,
   buildWeeklyResult,

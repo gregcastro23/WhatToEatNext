@@ -9,14 +9,14 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { userDatabase } from "@/services/userDatabaseService";
 import {
   compareCharts,
   calculateMomentChart,
 } from "@/services/ChartComparisonService";
 import type { ChartComparison } from "@/services/ChartComparisonService";
+import { userDatabase } from "@/services/userDatabaseService";
 import type { NatalChart } from "@/types/natalChart";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

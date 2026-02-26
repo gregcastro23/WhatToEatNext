@@ -15,16 +15,15 @@ import React, {
   useCallback,
   useRef,
 } from "react";
+import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
+import { useRecipeCollections } from "@/hooks/useRecipeCollections";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
-import type { ScoredRecipe } from "@/utils/recipeSearchEngine";
-import {
+import { createLogger } from "@/utils/logger";
+import type { ScoredRecipe ,
   searchRecipes,
   type RecipeSearchOptions,
 } from "@/utils/recipeSearchEngine";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
-import { useRecipeCollections } from "@/hooks/useRecipeCollections";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeBrowserPanel");
 
@@ -79,10 +78,10 @@ function parseTimeStringToMinutes(time?: string): number {
   const h = time.match(/(\d+)\s*h/i);
   const m = time.match(/(\d+)\s*m/i);
   let total = 0;
-  if (h) total += parseInt(h[1]) * 60;
-  if (m) total += parseInt(m[1]);
+  if (h) total += parseInt(h[1], 10) * 60;
+  if (m) total += parseInt(m[1], 10);
   if (total === 0) {
-    const n = parseInt(time);
+    const n = parseInt(time, 10);
     if (!isNaN(n)) return n;
   }
   return total || 999;

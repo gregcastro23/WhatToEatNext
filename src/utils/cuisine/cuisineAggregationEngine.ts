@@ -185,16 +185,16 @@ export function aggregateAlchemicalProperties(
     new Array(recipesWithAlchemy.length).fill(1 / recipesWithAlchemy.length);
 
   const spiritValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties!.Spirit,
+    (r) => r.alchemicalProperties.Spirit,
   );
   const essenceValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties!.Essence,
+    (r) => r.alchemicalProperties.Essence,
   );
   const matterValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties!.Matter,
+    (r) => r.alchemicalProperties.Matter,
   );
   const substanceValues = recipesWithAlchemy.map(
-    (r) => r.alchemicalProperties!.Substance,
+    (r) => r.alchemicalProperties.Substance,
   );
 
   return {

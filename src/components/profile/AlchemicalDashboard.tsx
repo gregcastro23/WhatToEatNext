@@ -14,7 +14,7 @@ const StatBar = ({ label, value, color, description }: { label: string; value: n
       <div
         className={`h-2.5 rounded-full ${color}`}
         style={{ width: `${Math.min(value * 100, 100)}%` }}
-      ></div>
+       />
     </div>
     {description && <p className="text-xs text-gray-500 mt-1 italic">{description}</p>}
   </div>

@@ -2,7 +2,6 @@
 // This file provides a unified interface for accessing ingredients with enhanced alchemical properties
 // It acts as an adapter/enhancer for existing ingredient data rather than duplicating it
 
-import type { UnifiedIngredient } from "./unifiedTypes";
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -26,6 +25,7 @@ import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
 import { vegetables } from "../ingredients/vegetables";
 import { vinegars } from "../ingredients/vinegars/vinegars";
+import type { UnifiedIngredient } from "./unifiedTypes";
 
 // Combine all protein types
 const proteins = {

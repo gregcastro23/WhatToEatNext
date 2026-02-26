@@ -8,27 +8,27 @@
  * @updated 2026-02-03 - Added user chart personalization support
  */
 
+import type { AlchemicalProfile } from "@/contexts/UserContext";
 import { UnifiedRecipeBuildingSystem } from "@/data/unified/recipeBuilding";
-import type { DayOfWeek, MealType } from "@/types/menuPlanner";
-import type { ElementalProperties } from "@/types/recipe";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding"; // Corrected import path
 import type { AstrologyHookData } from "@/hooks/useAstrologicalState";
-import type { NatalChart } from "@/types/natalChart";
 import type { ChartComparison } from "@/services/ChartComparisonService";
+import type { LunarPhase } from "@/types/celestial";
+import type { DayOfWeek, MealType } from "@/types/menuPlanner";
+import type { NatalChart } from "@/types/natalChart";
+import type { ElementalProperties } from "@/types/recipe";
+import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
 import {
   getRecipeKAlchm,
   getUserTargetKAlchm,
 } from "@/utils/alchemy/derivedStats";
-import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
+import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
+import { createLogger } from "@/utils/logger";
 import {
   getPlanetaryDayCharacteristics,
   calculateDayFoodCompatibility,
   type PlanetaryDayCharacteristics,
 } from "@/utils/planetaryDayRecommendations";
-import { createLogger } from "@/utils/logger";
-import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
-import type { LunarPhase } from "@/types/celestial";
-import type { AlchemicalProfile } from "@/contexts/UserContext";
 
 const logger = createLogger("RecommendationBridge");
 const recipeBuilder = new UnifiedRecipeBuildingSystem();
@@ -209,7 +209,7 @@ function applyUserPersonalization(
       (1 +
         Math.abs(Math.log(recipeKAlchm) - Math.log(userTargetKAlchm)));
 
-    let personalizedScore =
+    const personalizedScore =
       rec.score *
       boost *
       transitModifier *
@@ -572,7 +572,7 @@ function scoreNutritionalAlignment(
       return carbsRatio > 0.45 ? 1.0 : carbsRatio / 0.45;
     case "fats":
       return fatRatio > 0.3 ? 1.0 : fatRatio / 0.3;
-    case "balanced":
+    case "balanced": {
       // Check if ratios are reasonably balanced (none too high or too low)
       const balance =
         1 -
@@ -580,6 +580,7 @@ function scoreNutritionalAlignment(
         Math.abs(carbsRatio - 0.4) -
         Math.abs(fatRatio - 0.3);
       return Math.max(0, Math.min(1, balance));
+    }
     default:
       return 0.5;
   }

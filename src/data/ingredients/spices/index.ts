@@ -1,9 +1,9 @@
 import type { IngredientMapping } from "@/types/alchemy";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
+import { enhancedSpicesIngredients } from "./enhancedSpices";
 import { groundSpices } from "./groundspices";
 import { spiceBlends } from "./spiceBlends";
 import { wholeSpices } from "./wholespices";
-import { enhancedSpicesIngredients } from "./enhancedSpices";
 import type { Ingredient } from "../types";
 
 // Normalize elemental properties to sum to 1

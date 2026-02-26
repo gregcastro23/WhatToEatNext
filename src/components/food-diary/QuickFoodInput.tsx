@@ -58,7 +58,7 @@ const CATEGORY_ICONS: Record<QuickFoodCategory, string> = {
   prepared_foods: "prepared",
 };
 
-const MEAL_TIMES: { type: MealType; label: string; icon: string }[] = [
+const MEAL_TIMES: Array<{ type: MealType; label: string; icon: string }> = [
   { type: "breakfast", label: "Breakfast", icon: "sunrise" },
   { type: "lunch", label: "Lunch", icon: "sun" },
   { type: "dinner", label: "Dinner", icon: "moon" },
@@ -92,7 +92,7 @@ export default function QuickFoodInput({
 
   const categories = useMemo(() => {
     const cats = new Set(presets.map((p) => p.category));
-    return Array.from(cats) as QuickFoodCategory[];
+    return Array.from(cats);
   }, [presets]);
 
   const handleSearch = async (query: string) => {

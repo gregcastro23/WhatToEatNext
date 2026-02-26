@@ -1,6 +1,6 @@
 // Note: Validator imports removed to avoid circular dependency with ./validators
 // Validators are now only imported where they're actually used
-import type { LunarPhase } from "./alchemy";
+import type { AlchemicalProperties, LunarPhase } from "./alchemy";
 import type { NutritionalSummary, NutritionalSummaryBase } from "./nutrition";
 
 // Primary elemental properties interface - used throughout the application
@@ -638,8 +638,6 @@ export interface RecipePlanetaryInfluences {
   unfavorable: string[];
   neutral?: string[];
 }
-
-import { AlchemicalProperties } from './alchemy'; // Import your specific alchemy type
 
 export interface EnhancedRecipe {
   id: string;

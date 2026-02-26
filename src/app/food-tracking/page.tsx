@@ -8,14 +8,14 @@
  * @created 2026-02-02
  */
 
+import Link from "next/link";
 import React, { useState } from "react";
-import { useFoodDiary } from "@/hooks/useFoodDiary";
 import {
   QuickFoodInput,
   FoodDiaryView,
   NutritionDashboard,
 } from "@/components/food-diary";
-import Link from "next/link";
+import { useFoodDiary } from "@/hooks/useFoodDiary";
 
 export default function FoodTrackingPage() {
   const {

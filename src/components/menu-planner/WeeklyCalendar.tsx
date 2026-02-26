@@ -10,11 +10,8 @@
  */
 
 import React, { useMemo, useState } from "react";
-import MealSlot from "./MealSlot";
-import CopyMealModal from "./CopyMealModal";
-import FocusedDayView from "./FocusedDayView";
-
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type {
   DayOfWeek,
@@ -28,8 +25,10 @@ import {
   PLANETARY_DAY_RULERS,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { Recipe } from "@/types/recipe";
+import CopyMealModal from "./CopyMealModal";
+import FocusedDayView from "./FocusedDayView";
+import MealSlot from "./MealSlot";
 
 interface WeeklyCalendarProps {
   onMealClick?: (mealSlot: MealSlotType) => void;

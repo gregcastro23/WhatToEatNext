@@ -12,12 +12,12 @@
  */
 
 import { calculateKinetics } from "@/calculations/kinetics";
+import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
 import type {
   CookingMethod,
   ElementalProperties,
   RawElementalProperties,
 } from "@/types/alchemy";
-import type { RecipeIngredient } from "@/types/recipe";
 import type {
   QuantityScaledProperties,
   RecipeComputationOptions,
@@ -26,7 +26,7 @@ import type {
 import type {
   KineticMetrics /*, KineticsCalculationInput */,
 } from "@/types/kinetics";
-import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
+import type { RecipeIngredient } from "@/types/recipe";
 import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import {
   aggregateZodiacElementals,

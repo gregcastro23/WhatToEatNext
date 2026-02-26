@@ -1,6 +1,6 @@
 // src/components/recipes/RecipeCard.tsx
-import React from "react";
 import Link from "next/link";
+import React from "react";
 import type { Recipe } from "@/types/recipe";
 import styles from "./RecipeCard.module.css";
 

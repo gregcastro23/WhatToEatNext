@@ -15,6 +15,10 @@ export interface RecipeDataEnhanced {
   season?: string | string[];
   mealType?: string | string[];
 }
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 import { fruits } from "../data/ingredients/fruits";
 import { herbs } from "../data/ingredients/herbs";
 import { seasonings } from "../data/ingredients/seasonings";
@@ -26,12 +30,7 @@ import { cache } from "../utils/cache";
 import { logger } from "../utils/logger";
 import { ErrorHandler } from "./errorHandler";
 import { recipeElementalService } from "./RecipeElementalService";
-import type { Recipe } from "../types/recipe";
-import type { RecipeIngredient } from "../types/recipe";
-import {
-  createEmptyNutritionalSummary,
-  type NutritionalSummary,
-} from "@/types/nutrition";
+import type { Recipe , RecipeIngredient } from "../types/recipe";
 
 // Use singleton error handler instance
 const errorHandler = ErrorHandler;

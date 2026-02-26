@@ -2213,7 +2213,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Calculate Kalchm profile
     const kalchmValues = (ingredients || [])
       .map((ing) => ing.kalchm)
-      .filter((v) => v !== undefined) as number[];
+      .filter((v) => v !== undefined);
     const kalchmProfile = {
       averageKalchm:
         kalchmValues.length > 0

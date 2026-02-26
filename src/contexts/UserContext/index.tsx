@@ -8,14 +8,14 @@ import React, {
   useCallback,
   type ReactNode,
 } from "react";
-import { logger } from "@/utils/logger";
-import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import type {
   BirthData,
   NatalChart,
   GroupMember,
   DiningGroup,
 } from "@/types/natalChart";
+import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
+import { logger } from "@/utils/logger";
 
 // Define the user's alchemical constitution
 interface AlchemicalProfile {
@@ -218,7 +218,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       };
 
       // Merge with existing profile
-      let updatedProfile: UserProfile = {
+      const updatedProfile: UserProfile = {
         ...baseProfile,
         ...data,
       } as UserProfile;

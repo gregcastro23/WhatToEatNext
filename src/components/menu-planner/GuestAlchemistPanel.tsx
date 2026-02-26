@@ -9,11 +9,11 @@
  * @created 2026-02-09
  */
 
+import React, { useState } from "react";
 import {
   useMenuPlanner,
   type Participant,
 } from "@/contexts/MenuPlannerContext";
-import React, { useState } from "react";
 
 export default function GuestAlchemistPanel({
   isOpen,

@@ -5,6 +5,11 @@
  * individual and group natal charts.
  */
 
+import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
+import type {
+  ElementalProperties,
+  AlchemicalProperties,
+} from "@/types/celestial";
 import type {
   NatalChart,
   GroupMember,
@@ -13,11 +18,6 @@ import type {
   GroupScoringStrategy,
   CompositeNatalChart,
 } from "@/types/natalChart";
-import type {
-  ElementalProperties,
-  AlchemicalProperties,
-} from "@/types/celestial";
-import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 
 /**
  * Recipe data structure (simplified for compatibility scoring)
@@ -234,7 +234,7 @@ export function calculateGroupRecommendationScore(
       harmony = calculateHarmonyScore(memberScores);
       break;
 
-    case "weighted":
+    case "weighted": {
       // Use weighted average based on provided weights
       if (!strategy.weights) {
         throw new Error("Weighted strategy requires weights parameter");
@@ -254,8 +254,9 @@ export function calculateGroupRecommendationScore(
       groupCompatibility = weightedCompSum / totalWeight;
       harmony = calculateHarmonyScore(memberScores);
       break;
+    }
 
-    case "consensus":
+    case "consensus": {
       // Only recommend if most members like it
       const threshold = strategy.minimumConsensus || 0.6;
       const highScores = memberScores.filter(
@@ -284,6 +285,7 @@ export function calculateGroupRecommendationScore(
       }
       harmony = consensusRatio;
       break;
+    }
 
     case "average":
     default:

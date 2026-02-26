@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
 import Link from "next/link";
+import React, { useState } from "react";
 
 // Optional callback for double-click-to-queue integration
 type OnDoubleClickCuisine = (cuisineName: string) => void;

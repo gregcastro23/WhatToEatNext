@@ -1,6 +1,6 @@
-import { _logger } from "@/lib/logger";
 import { cuisinesMap } from "@/data/cuisines/index";
 import { allIngredients } from "@/data/ingredients";
+import { _logger } from "@/lib/logger";
 import { _celestialCalculator as celestialCalculator } from "@/services/celestialCalculations";
 import type {
   ElementalProperties,
@@ -8,7 +8,7 @@ import type {
   ThermodynamicMetrics,
   Element,
 } from "@/types/alchemy";
-import { Recipe, ScoredRecipe } from "@/types/recipe";
+import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import { calculateElementalCompatibility } from "@/utils/elemental/elementalUtils";
 
 // Temporary mock implementations for missing functions
@@ -161,7 +161,7 @@ export class DirectRecipeService {
         // Convert astrologize API format to our internal format
         const enhancedAlignment = {
           ..._alignment,
-          planetaryPositions: planetaryPositions,
+          planetaryPositions,
           realTimeData: true,
           lastUpdated: new Date().toISOString(),
         };
@@ -247,7 +247,7 @@ export class DirectRecipeService {
     return {
       score: Math.max(0, Math.min(1, totalScore)),
       kalchm: recipeKalchm,
-      monica: monica,
+      monica,
       thermodynamics: alchemicalAnalysis.thermodynamics,
       breakdown,
     };

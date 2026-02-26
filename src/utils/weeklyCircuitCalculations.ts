@@ -8,20 +8,20 @@
  * @created 2026-01-11
  */
 
-import type { WeeklyMenu, DayOfWeek } from "@/types/menuPlanner";
+import type { PlanetaryPositions } from "@/types/astrology";
+import type { Element } from "@/types/celestial";
 import type {
   WeeklyMenuCircuitMetrics,
   DayCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
 } from "@/types/kinetics";
-import type { PlanetaryPositions } from "@/types/astrology";
-import type { Element } from "@/types/celestial";
+import type { WeeklyMenu, DayOfWeek } from "@/types/menuPlanner";
+import { getWeekEndDate } from "@/types/menuPlanner";
 import {
   calculateAllDayCircuits,
   getMealsForDay,
 } from "./dayCircuitCalculations";
-import { getWeekEndDate } from "@/types/menuPlanner";
 
 /**
  * Helper to sum array of numbers safely

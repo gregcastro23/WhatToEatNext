@@ -9,6 +9,7 @@
  */
 
 import React, { useMemo } from "react";
+import type { DragState } from "@/hooks/useDragAndDrop";
 import type {
   DayOfWeek,
   MealType,
@@ -20,7 +21,6 @@ import {
   getPlanetaryDayCharacteristics,
 } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
-import type { DragState } from "@/hooks/useDragAndDrop";
 import PlanetaryHourIndicator from "./PlanetaryHourIndicator";
 
 interface DayCardProps {

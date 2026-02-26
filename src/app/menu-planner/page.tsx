@@ -8,21 +8,19 @@
  * @created 2026-01-10
  */
 
-import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
-import RecipeQueue from "@/components/menu-planner/RecipeQueue";
+import React, { useState, useEffect } from "react";
+import { useToast, Toast } from "@/components/common/Toast";
+import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
+import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
+import WeekProgress from "@/components/menu-builder/WeekProgress";
 import GroceryListModal from "@/components/menu-planner/GroceryListModal";
 import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard";
 import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
 import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
-import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
-import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
-import WeekProgress from "@/components/menu-builder/WeekProgress";
-import { InlineNutritionDashboard } from "@/components/nutrition";
-import { WeeklyNutritionDashboard } from "@/components/nutrition";
-import { useNutritionTracking } from "@/hooks/useNutritionTracking";
-import { useToast, Toast } from "@/components/common/Toast";
+import RecipeQueue from "@/components/menu-planner/RecipeQueue";
+import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
+import { InlineNutritionDashboard , WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
   MenuPlannerProvider,
   useMenuPlanner,
@@ -31,6 +29,7 @@ import {
   RecipeQueueProvider,
   useRecipeQueue,
 } from "@/contexts/RecipeQueueContext";
+import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import type { Recipe } from "@/types/recipe";
 
 interface SavedChart {
@@ -348,7 +347,7 @@ function MenuPlannerContent() {
         {detailRecipe && (
           <RecipeDetailModal
             recipe={detailRecipe}
-            isOpen={true}
+            isOpen
             onClose={() => setDetailRecipe(null)}
             onAddToMeal={(recipe) => {
               showInfo(

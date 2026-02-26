@@ -1,3 +1,5 @@
+import { calculateSeasonalCompatibility as calcSeasonalCompat } from "@/constants/seasonalCore";
+import { calculateFlavorMatch } from "@/data/unified/flavorCompatibilityLayer";
 import { unifiedIngredients } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type {
@@ -7,10 +9,8 @@ import type {
   ThermodynamicMetrics,
 } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
-import { logger } from "@/utils/logger";
-import { calculateFlavorMatch } from "@/data/unified/flavorCompatibilityLayer";
-import { calculateSeasonalCompatibility as calcSeasonalCompat } from "@/constants/seasonalCore";
 import { calculateThermodynamicCompatibility } from "@/utils/enhancedCompatibilityScoring";
+import { logger } from "@/utils/logger";
 
 // Import the ingredient service interface
 import type {

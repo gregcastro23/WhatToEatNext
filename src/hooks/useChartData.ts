@@ -6,8 +6,9 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
 import { useUser } from "@/contexts/UserContext"; // Import the useUser hook
+import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
+
 type PlanetPosition = PlanetaryPosition;
 
 // Define the expected structure of AlchemicalResult
@@ -48,9 +49,9 @@ export interface ChartData {
   error: string | null;
   refetch: () => void;
 }
+import type { KineticMetrics } from "@/types/kinetics";
 import { calculateAspects } from "@/utils/astrologyUtils";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
-import type { KineticMetrics } from "@/types/kinetics";
 
 export interface ChartDataOptions {
   dateTime?: Date;

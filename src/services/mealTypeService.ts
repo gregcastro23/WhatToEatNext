@@ -5,8 +5,8 @@
  * planetary hours, and recipe characteristics.
  */
 
-import type { Recipe } from "@/types/recipe";
 import type { Planet } from "@/types/celestial";
+import type { Recipe } from "@/types/recipe";
 
 export type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 

@@ -13,7 +13,7 @@ import {
   ReferenceLine,
 } from "recharts";
 
-type TrendPoint = {
+interface TrendPoint {
   time: string;
   iso?: string;
   Spirit: number;
@@ -25,7 +25,7 @@ type TrendPoint = {
   Earth?: number;
   Air?: number;
   isDiurnal?: boolean;
-};
+}
 
 type ChartMode = "esms" | "elemental" | "both";
 
@@ -60,7 +60,7 @@ export default function AlchmQuantitiesTrends() {
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-orange-300">7-Day Trends</h3>
         <div className="flex justify-center items-center h-[300px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400" />
         </div>
       </div>
     );

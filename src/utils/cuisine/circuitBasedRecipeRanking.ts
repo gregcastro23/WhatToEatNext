@@ -7,12 +7,12 @@
  * Part of the enhanced cuisine recommender system.
  */
 
-import type { Recipe } from "@/types/recipe";
-import type { KineticMetrics } from "@/types/kinetics";
 import type {
   ElementalProperties,
   AlchemicalProperties,
 } from "@/types/hierarchy";
+import type { KineticMetrics } from "@/types/kinetics";
+import type { Recipe } from "@/types/recipe";
 import {
   validateRecipeCircuit,
   validateMultiRecipeCircuit,

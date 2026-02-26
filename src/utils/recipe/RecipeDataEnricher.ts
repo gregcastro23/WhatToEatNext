@@ -767,7 +767,7 @@ export class RecipeDataEnricher {
    * Get the dominant element
    */
   private getDominantElement(elementals: ElementalProperties): string {
-    const entries = Object.entries(elementals) as [string, number][];
+    const entries = Object.entries(elementals);
     return entries.reduce((max, curr) => (curr[1] > max[1] ? curr : max))[0];
   }
 
@@ -910,7 +910,7 @@ export class RecipeDataEnricher {
     // Normalize taste balance (0-10 scale)
     for (const key of Object.keys(
       tasteBalance,
-    ) as (keyof typeof tasteBalance)[]) {
+    ) as Array<keyof typeof tasteBalance>) {
       tasteBalance[key] = Math.min(10, tasteBalance[key]);
     }
 
@@ -1175,7 +1175,7 @@ export class RecipeDataEnricher {
    * Batch enrich multiple recipes
    */
   public enrichRecipes(
-    recipes: Partial<Recipe>[],
+    recipes: Array<Partial<Recipe>>,
   ): Map<string, EnrichmentResult> {
     const results = new Map<string, EnrichmentResult>();
 
@@ -1251,7 +1251,7 @@ export const recipeDataEnricher = RecipeDataEnricher.getInstance();
 export const enrichRecipe = (recipe: Partial<Recipe>) =>
   recipeDataEnricher.enrichRecipe(recipe);
 
-export const enrichRecipes = (recipes: Partial<Recipe>[]) =>
+export const enrichRecipes = (recipes: Array<Partial<Recipe>>) =>
   recipeDataEnricher.enrichRecipes(recipes);
 
 export const needsEnrichment = (recipe: Partial<Recipe>) =>

@@ -1,7 +1,7 @@
 // app/layout.tsx
+import Link from "next/link";
 import React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
 import ClientProviders from "./ClientProviders";
 import PayPalButton from "@/components/PayPalButton";
@@ -213,15 +213,15 @@ export default function RootLayout({
                   </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
-                      <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                      <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                       <span className="text-gray-300">Build: Stable</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                      <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                       <span className="text-gray-300">PostgreSQL: Running</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                      <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                       <span className="text-gray-300">Next.js: Active</span>
                     </div>
                   </div>

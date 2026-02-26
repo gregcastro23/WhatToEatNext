@@ -2,7 +2,7 @@
 
 import { ALCHEMICAL_PILLARS, AlchemicalPillar } from '@/constants/alchemicalPillars';
 import { calculateMonicaMetrics } from './calculations';
-import { AlchemicalState, MonicaMetrics } from './types';
+import type { AlchemicalState, MonicaMetrics } from './types';
 
 /**
  * A cache to store pre-computed MonicaMetrics for each alchemical pillar.

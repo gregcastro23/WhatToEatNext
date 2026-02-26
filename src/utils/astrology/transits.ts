@@ -1,7 +1,7 @@
 
+import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 import type { NatalChart, Planet } from '@/types/natalChart';
 import type { AstrologicalState } from '@/utils/menuPlanner/recommendationBridge';
-import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 
 // Simple representation of planetary aspects
 type Aspect = 'conjunction' | 'square' | 'trine' | 'opposition' | 'sextile';

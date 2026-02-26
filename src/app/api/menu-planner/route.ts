@@ -1,14 +1,14 @@
 
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { generateDayRecommendations, type AstrologicalState, type UserPersonalizationContext } from '@/utils/menuPlanner/recommendationBridge';
-import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { allCookingMethods } from '@/data/cooking';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import type { CookingMethodModifier, Element } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/cooking';
-import { CookingMethodData } from '@/types/cookingMethod';
-import { CookingMethodModifier, Element } from '@/types/alchemy';
+import type { CookingMethodData } from '@/types/cookingMethod';
 import type { DayOfWeek, MealType } from '@/types/menuPlanner';
+import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
+import { generateDayRecommendations, type AstrologicalState, type UserPersonalizationContext } from '@/utils/menuPlanner/recommendationBridge';
+import type { NextRequest } from 'next/server';
 
 // Define the structure of the incoming request body
 interface MenuPlannerRequestBody {
@@ -36,7 +36,7 @@ function cookingMethodDataToModifier(method: CookingMethodData): CookingMethodMo
 
   return {
     element: dominantElement,
-    intensity: intensity,
+    intensity,
     effect: 'enhance', // default
     applicableTo: method.suitable_for || [],
     duration: method.duration,

@@ -1,18 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import type { GroupMember, DiningGroup, BirthData } from "@/types/natalChart";
 import { useUser } from "@/contexts/UserContext";
-import {
-  calculateNatalChart,
-  validateBirthData,
-} from "@/services/natalChartService";
 import {
   calculateCompositeNatalChart,
   getGroupInsights,
   calculateElementalHarmony,
   calculateGroupDiversity,
 } from "@/services/groupNatalChartService";
+import {
+  calculateNatalChart,
+  validateBirthData,
+} from "@/services/natalChartService";
+import type { GroupMember, DiningGroup, BirthData } from "@/types/natalChart";
 
 /**
  * Group Management Component

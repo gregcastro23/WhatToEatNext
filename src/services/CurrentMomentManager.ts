@@ -7,6 +7,7 @@
 
 import fs from "fs/promises";
 import path from "path";
+import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 import {
   getCurrentPlanetaryPositions,
   getPlanetaryPositionsForDateTime,
@@ -17,7 +18,6 @@ import {
   type PlanetPosition 
 } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
-import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
 const logger = createLogger("CurrentMomentManager");
 

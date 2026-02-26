@@ -8,11 +8,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useChartData } from "@/hooks/useChartData";
-import PlanetaryChart from "@/components/PlanetaryChart";
-import PlanetaryChartControls from "@/components/PlanetaryChartControls";
 import AlchemicalDisplay from "@/components/AlchemicalDisplay";
 import KineticsDisplay from "@/components/KineticsDisplay";
+import PlanetaryChart from "@/components/PlanetaryChart";
+import PlanetaryChartControls from "@/components/PlanetaryChartControls";
+import { useChartData } from "@/hooks/useChartData";
 
 export default function PlanetaryChartPage() {
   const [dateTime, setDateTime] = useState<Date | undefined>(undefined);
@@ -151,7 +151,7 @@ export default function PlanetaryChartPage() {
               {isLoading && !positions ? (
                 <div className="flex items-center justify-center h-96">
                   <div className="text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4" />
                     <p className="text-gray-300">
                       Calculating planetary positions...
                     </p>

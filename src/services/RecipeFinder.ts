@@ -14,7 +14,6 @@ import type { Recipe, ScoredRecipe } from "@/types/recipe";
 // Using local error handler implementation
 
 import { ErrorHandler as errorHandler } from "@/utils/errorHandler";
-
 import { ConsolidatedRecipeService } from "./ConsolidatedRecipeService";
 import type {
   AdaptRecipeForSeasonParams,

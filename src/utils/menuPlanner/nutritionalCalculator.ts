@@ -6,6 +6,15 @@
  * @created 2026-01-11 (Phase 3)
  */
 
+import type { AlchemicalProperties } from "@/calculations/core/kalchmEngine";
+import {
+  calculateHeat,
+  calculateEntropy,
+  calculateReactivity,
+  calculateGregsEnergy,
+  calculateKAlchm,
+  calculateMonicaConstant,
+} from "@/calculations/core/kalchmEngine";
 import type {
   MealSlot,
   DayOfWeek,
@@ -19,15 +28,6 @@ import type {
   NutritionalChart,
 } from "@/types/menuPlanner";
 import type { ElementalProperties, EnhancedRecipe } from "@/types/recipe";
-import type { AlchemicalProperties } from "@/calculations/core/kalchmEngine";
-import {
-  calculateHeat,
-  calculateEntropy,
-  calculateReactivity,
-  calculateGregsEnergy,
-  calculateKAlchm,
-  calculateMonicaConstant,
-} from "@/calculations/core/kalchmEngine";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("NutritionalCalculator");
@@ -83,7 +83,7 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
   meals.forEach((meal) => {
     if (!meal.recipe) return;
 
-    const recipe = meal.recipe as EnhancedRecipe;
+    const recipe = meal.recipe;
 
     // Safe check for ingredients and instructions
     if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {

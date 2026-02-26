@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
+import { alchemize } from "@/services/RealAlchemizeService";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import { createLogger } from "@/utils/logger";
+import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
-import { alchemize } from "@/services/RealAlchemizeService";
-import { calculateKineticProperties } from "@/utils/kineticCalculations";
-import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("AlchmQuantitiesAPI");
 
@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 // Define types
-type AlchemyQuantities = {
+interface AlchemyQuantities {
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -22,9 +22,9 @@ type AlchemyQuantities = {
   ANumber: number;
   DayEssence: number;
   NightEssence: number;
-};
+}
 
-type KineticData = {
+interface KineticData {
   velocity: {
     Spirit: number;
     Essence: number;
@@ -43,9 +43,9 @@ type KineticData = {
     Matter: number;
     Substance: number;
   };
-};
+}
 
-type CircuitData = {
+interface CircuitData {
   charge: number;
   potentialDifference: number;
   currentFlow: number;
@@ -54,7 +54,7 @@ type CircuitData = {
   forceMagnitude: number;
   forceClassification: string;
   thermalDirection: string;
-};
+}
 
 export async function GET() {
   try {

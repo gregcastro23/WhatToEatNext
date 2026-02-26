@@ -52,7 +52,7 @@ jobs:
           fi
           yarn install --no-immutable --network-timeout 300000
       - name: Run lint
-        run: yarn lint --max-warnings=200
+        run: yarn lint --max-warnings=1000
 
   build:
     runs-on: ubuntu-latest

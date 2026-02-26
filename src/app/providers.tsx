@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
+import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UserProvider } from "@/contexts/UserContext";
-import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
 
 // Lazy-load PrivyProvider only when app ID is available to prevent
 // build failures and avoid blocking page rendering for unauthenticated content
@@ -15,7 +15,7 @@ let PrivyProviderLazy: React.ComponentType<{ appId: string; config: Record<strin
 function getPrivyProvider() {
   if (PrivyProviderLazy) return PrivyProviderLazy;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     const mod = require('@privy-io/react-auth');
     PrivyProviderLazy = mod.PrivyProvider;
     return PrivyProviderLazy;

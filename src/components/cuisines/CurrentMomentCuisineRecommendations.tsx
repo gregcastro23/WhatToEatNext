@@ -415,7 +415,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       key={recipe.recipe_id}
       onClick={(e) => {
         e.stopPropagation();
-        window.location.href = "/recipes/" + recipe.recipe_id;
+        window.location.href = `/recipes/${  recipe.recipe_id}`;
       }}
       style={{ cursor: "pointer" }}
       size="sm"
@@ -746,7 +746,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     <WrapItem key={element}>
                       <TagRoot size="sm" variant="subtle" colorScheme="blue">
                         <TagLabel fontSize="xs">
-                          {element}: {value as number}
+                          {element}: {value}
                         </TagLabel>
                       </TagRoot>
                     </WrapItem>

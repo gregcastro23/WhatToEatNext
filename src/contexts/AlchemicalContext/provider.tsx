@@ -8,13 +8,13 @@
 "use client";
 
 import React, { useReducer, useEffect, useState } from "react";
+import { AstrologicalService } from "@/services/AstrologicalService";
 import { _AlchemicalContext, defaultState } from "./context";
 import type {
   AlchemicalState,
   // AlchemicalAction,
   AlchemicalContextType,
 } from "./types";
-import { AstrologicalService } from "@/services/AstrologicalService";
 
 type AlchemicalAction = any; // Type not exported
 import type { ReactNode } from "react";
@@ -233,7 +233,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     // Update every 5 minutes
     const interval = setInterval(updateTimeBasedValues, 5 * 60 * 1000);
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []); // Empty deps intentional - we only want this to run once on mount
 
   // Planetary positions state

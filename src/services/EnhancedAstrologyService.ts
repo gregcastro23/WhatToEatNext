@@ -142,7 +142,7 @@ export class EnhancedAstrologyService {
       keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]) || [],
       retrogradePlanets: seasonalAnalysis.retrogradePlanets || [],
       eclipseSeasons: futureEclipses,
-      majorTransits: majorTransits,
+      majorTransits,
     };
   }
 

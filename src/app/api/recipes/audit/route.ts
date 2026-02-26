@@ -7,11 +7,11 @@
 
 import { NextResponse } from "next/server";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
+import { createLogger } from "@/utils/logger";
 import {
   auditRecipeCompleteness,
   formatAuditSummary,
 } from "@/utils/recipeSearchEngine";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeAuditAPI");
 

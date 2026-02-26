@@ -2,11 +2,11 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { berries } from "./berries";
 import { citrus } from "./citrus";
+import { enhancedFruitsIngredients } from "./enhancedFruits";
 import { melons } from "./melons";
 import { pome } from "./pome";
 import { _stoneFruit } from "./stoneFruit";
 import { tropical } from "./tropical";
-import { enhancedFruitsIngredients } from "./enhancedFruits";
 
 // Combine all fruit categories
 // Enhanced fruits with comprehensive data take precedence

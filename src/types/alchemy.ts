@@ -9,6 +9,7 @@ import type {
   ZodiacSignType,
 } from "@/types/celestial";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
+
 export type { RecipeIngredient } from "@/types/recipe";
 import type { Season } from "@/constants/seasons"; // Manually added as it was removed accidentally
 

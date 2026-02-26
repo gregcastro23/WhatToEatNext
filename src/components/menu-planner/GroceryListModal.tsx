@@ -9,11 +9,11 @@
  */
 
 import React, { useState, useMemo } from "react";
-import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
-import { PantryManager } from "@/utils/pantryManager";
 import { createLogger } from "@/utils/logger";
+import { PantryManager } from "@/utils/pantryManager";
 
 const logger = createLogger("GroceryListModal");
 
@@ -78,14 +78,15 @@ async function exportGroceryList(
         logger.info("Grocery list copied to clipboard");
         break;
 
-      case "email":
+      case "email": {
         const subject = encodeURIComponent("Grocery List");
         const body = encodeURIComponent(text);
         window.location.href = `mailto:?subject=${subject}&body=${body}`;
         logger.info("Opened email client with grocery list");
         break;
+      }
 
-      case "print":
+      case "print": {
         const printWindow = window.open("", "_blank");
         if (printWindow) {
           printWindow.document.write(formatGroceryListAsHTML(activeItems));
@@ -97,6 +98,7 @@ async function exportGroceryList(
         }
         logger.info("Opened print dialog");
         break;
+      }
     }
   } catch (error) {
     logger.error("Failed to export grocery list:", error);
@@ -111,14 +113,14 @@ function formatGroceryListAsText(items: GroceryItem[]): string {
   const grouped = getGroupedGroceryList(items);
 
   let text = "🛒 Grocery List\n";
-  text += "=" + "=".repeat(50) + "\n\n";
+  text += `=${  "=".repeat(50)  }\n\n`;
 
   Object.entries(grouped).forEach(([category, categoryItems]) => {
     if (categoryItems.length === 0) return;
 
     const info = CATEGORY_INFO[category as GroceryCategory];
     text += `${info.icon} ${info.name}\n`;
-    text += "-".repeat(30) + "\n";
+    text += `${"-".repeat(30)  }\n`;
 
     categoryItems.forEach((item) => {
       text += `☐ ${item.quantity} ${item.unit} ${item.ingredient}\n`;
@@ -379,14 +381,14 @@ export default function GroceryListModal({
             // GROUP BY AISLE (default)
             <>
               {(
-                Object.entries(groupedItems) as [
+                Object.entries(groupedItems) as Array<[
                   GroceryCategory,
                   GroceryItem[],
-                ][]
+                ]>
               ).map(([category, items]) => {
                 if (items.length === 0) return null;
 
-                const categoryKey = category as GroceryCategory;
+                const categoryKey = category;
                 const info = CATEGORY_INFO[categoryKey];
                 const isExpanded = expandedCategories[categoryKey];
 

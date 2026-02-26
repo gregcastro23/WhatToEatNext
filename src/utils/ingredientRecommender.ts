@@ -73,8 +73,7 @@ import { spices } from "@/data/ingredients/spices";
 // Types
 import type { Ingredient, Modality } from "@/data/ingredients/types";
 import { vegetables } from "@/data/ingredients/vegetables";
-import type { AstrologicalStateType } from "@/types/alchemy";
-import type {
+import type { AstrologicalStateType ,
   ChakraEnergies,
   ElementalProperties,
   LunarPhase,

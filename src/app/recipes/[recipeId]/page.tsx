@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import { sauceRecommender } from "@/services/sauceRecommender";
-import { _recipeRecommender } from "@/services/recipeRecommendations";
-import type { Recipe } from "@/types/recipe";
-import type { CuisineType } from "@/types/alchemy";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { _recipeRecommender } from "@/services/recipeRecommendations";
+import { sauceRecommender } from "@/services/sauceRecommender";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
+import type { CuisineType } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 export default function RecipePage(props: any) {
   const params = props.params as { recipeId: string };
