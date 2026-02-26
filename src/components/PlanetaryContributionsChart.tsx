@@ -1,10 +1,5 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import {
-  formatTransitionTime,
-  capitalizeFirstLetter,
-} from "@/utils/planetaryTransitions";
 import {
   Flame,
   Droplets,
@@ -15,16 +10,21 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+  formatTransitionTime,
+  capitalizeFirstLetter,
+} from "@/utils/planetaryTransitions";
 
-type PlanetPosition = {
+interface PlanetPosition {
   sign: string;
   degree: number;
   minute: number;
   exactLongitude: number;
   isRetrograde: boolean;
-};
+}
 
-type PlanetaryData = {
+interface PlanetaryData {
   name: string;
   position: PlanetPosition;
   esms: {
@@ -45,13 +45,13 @@ type PlanetaryData = {
     daysUntil: number;
     direction: "forward" | "retrograde";
   };
-};
+}
 
-type PlanetaryContributionsData = {
+interface PlanetaryContributionsData {
   planets: PlanetaryData[];
   isDiurnal: boolean;
   timestamp: string;
-};
+}
 
 export default function PlanetaryContributionsChart() {
   const [data, setData] = useState<PlanetaryContributionsData | null>(null);
@@ -83,10 +83,10 @@ export default function PlanetaryContributionsChart() {
     return (
       <div className="p-6 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-lg border border-indigo-500/30">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-indigo-500/20 rounded w-1/3"></div>
-          <div className="h-4 bg-indigo-500/20 rounded w-full"></div>
-          <div className="h-4 bg-indigo-500/20 rounded w-full"></div>
-          <div className="h-4 bg-indigo-500/20 rounded w-2/3"></div>
+          <div className="h-6 bg-indigo-500/20 rounded w-1/3" />
+          <div className="h-4 bg-indigo-500/20 rounded w-full" />
+          <div className="h-4 bg-indigo-500/20 rounded w-full" />
+          <div className="h-4 bg-indigo-500/20 rounded w-2/3" />
         </div>
       </div>
     );

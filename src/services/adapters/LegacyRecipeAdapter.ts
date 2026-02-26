@@ -17,10 +17,7 @@ import type {
   LunarPhase,
   PlanetName,
 } from "@/types/alchemy";
-import type { Recipe } from "@/types/recipe";
-
-// Import ScoredRecipe from correct location
-import type { RecipeSearchCriteria, ScoredRecipe } from "@/types/recipe";
+import type { Recipe, RecipeSearchCriteria, ScoredRecipe } from "@/types/recipe";
 
 // Import recipe search criteria from recipe types if needed
 

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import type { ThermodynamicMetrics } from "@/types/alchemy";
 import { alchemize } from "@/constants/alchemicalPillars";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
+import type { ThermodynamicMetrics } from "@/types/alchemy";
 import { logger } from "@/utils/logger";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
         );
 
         // Calculate thermodynamic metrics using the alchemizer engine
-        const thermodynamicMetrics = alchemize(planetaryPositions) as ThermodynamicMetrics;
+        const thermodynamicMetrics = alchemize(planetaryPositions);
 
         // Derive elemental properties from thermodynamics
         type WithMonicaKalchm = typeof thermodynamicMetrics & {
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
       try {
         const alchemicalProperties =
           calculateAlchemicalFromPlanets(planetaryPositions);
-        const thermodynamicMetrics = alchemize(planetaryPositions) as ThermodynamicMetrics;
+        const thermodynamicMetrics = alchemize(planetaryPositions);
 
         // Derive elemental properties from thermodynamics
         type WithMonicaKalchm2 = typeof thermodynamicMetrics & {

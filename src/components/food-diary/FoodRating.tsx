@@ -19,12 +19,12 @@ interface FoodRatingProps {
   readOnly?: boolean;
 }
 
-const MOOD_TAG_OPTIONS: {
+const MOOD_TAG_OPTIONS: Array<{
   tag: MoodTag;
   label: string;
   emoji: string;
   color: string;
-}[] = [
+}> = [
   {
     tag: "energized",
     label: "Energized",

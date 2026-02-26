@@ -3,13 +3,13 @@
  * Provides a unified interface for recipe operations
  */
 
+import { allRecipes } from "@/data/recipes/index";
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
+import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes
-import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 // Using local error handler implementation
-import { allRecipes } from "@/data/recipes/index";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("UnifiedRecipeService");
@@ -174,7 +174,7 @@ export class UnifiedRecipeService {
         if (recipeCuisine === targetCuisine) return true;
 
         // startsWith match for regional variants (e.g., "indian (south)" starts with "indian")
-        if (recipeCuisine.startsWith(targetCuisine + " ") || recipeCuisine.startsWith(targetCuisine + "(")) return true;
+        if (recipeCuisine.startsWith(`${targetCuisine  } `) || recipeCuisine.startsWith(`${targetCuisine  }(`)) return true;
 
         return false;
       });

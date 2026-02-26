@@ -13,12 +13,12 @@
 
 import React, { useMemo, useState, useCallback } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import type { Recipe } from "@/types/recipe";
 import type {
   MealType,
   DayOfWeek,
   NutritionalGoals,
 } from "@/types/menuPlanner";
+import type { Recipe } from "@/types/recipe";
 
 // ============================================================================
 // Types
@@ -135,7 +135,7 @@ function getDominantElement(elementals: {
   return Object.entries(elementals).reduce(
     (max, [key, value]) => (value > max[1] ? [key, value] : max),
     ["Fire", 0],
-  )[0] as string;
+  )[0];
 }
 
 function getWeakestElement(elementals: {
@@ -147,7 +147,7 @@ function getWeakestElement(elementals: {
   return Object.entries(elementals).reduce(
     (min, [key, value]) => (value < min[1] ? [key, value] : min),
     ["Fire", Infinity],
-  )[0] as string;
+  )[0];
 }
 
 // ============================================================================

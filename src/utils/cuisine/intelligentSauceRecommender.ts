@@ -7,12 +7,12 @@
  * Part of the enhanced cuisine recommender system.
  */
 
+import type { ThermodynamicProperties } from "@/types/alchemy";
 import type {
   ElementalProperties,
   AlchemicalProperties,
 } from "@/types/hierarchy";
 import type { KineticMetrics } from "@/types/kinetics";
-import type { ThermodynamicProperties } from "@/types/alchemy";
 import { calculateElementalCompatibility } from "@/utils/cuisine/cuisineRecommendationEngine";
 
 // ========== TYPE DEFINITIONS ==========

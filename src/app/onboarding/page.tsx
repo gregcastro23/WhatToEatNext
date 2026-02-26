@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import type { BirthData } from "@/types/natalChart";
 

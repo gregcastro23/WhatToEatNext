@@ -7,9 +7,9 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { FoodRating, MoodTag } from "@/types/foodDiary";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

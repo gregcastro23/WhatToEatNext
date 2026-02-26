@@ -9,8 +9,8 @@
  */
 
 import { useState, useCallback } from "react";
-import type { Recipe } from "@/types/recipe";
 import type { MealType, DayOfWeek, WeeklyMenu } from "@/types/menuPlanner";
+import type { Recipe } from "@/types/recipe";
 
 export interface DropTarget {
   dayOfWeek: DayOfWeek;

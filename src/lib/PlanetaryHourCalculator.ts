@@ -1,7 +1,7 @@
 import SunCalc from "suncalc";
+import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 import { _logger } from "@/lib/logger";
 import type { Planet } from "@/types/celestial";
-import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 
 export class PlanetaryHourCalculator {
   // Planetary hour configuration according to traditional planetary rulers

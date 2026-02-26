@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Activity, TrendingUp, Zap, Gauge } from "lucide-react";
+import { useState, useEffect } from "react";
 
-type ESMSKinetics = {
+interface ESMSKinetics {
   velocity:     { Spirit: number; Essence: number; Matter: number; Substance: number };
   acceleration: { Spirit: number; Essence: number; Matter: number; Substance: number };
   momentum:     { Spirit: number; Essence: number; Matter: number; Substance: number };
-};
+}
 
-type CircuitData = {
+interface CircuitData {
   charge: number;
   potentialDifference: number;
   currentFlow: number;
@@ -18,12 +18,12 @@ type CircuitData = {
   forceMagnitude: number;
   forceClassification: string;
   thermalDirection: string;
-};
+}
 
-type ApiData = {
+interface ApiData {
   kinetics: ESMSKinetics;
   circuit: CircuitData;
-};
+}
 
 const QUANTITIES = ["Spirit", "Essence", "Matter", "Substance"] as const;
 

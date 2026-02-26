@@ -28,9 +28,9 @@ export const ProfileHeader: React.FC = () => {
   if (isLoading) {
     return (
       <div className="alchm-card p-8 animate-pulse">
-        <div className="h-16 w-16 bg-gradient-to-br from-purple-200 to-orange-200 rounded-full mb-4"></div>
-        <div className="h-6 bg-gradient-to-br from-purple-200 to-orange-200 rounded w-48 mb-2"></div>
-        <div className="h-4 bg-gradient-to-br from-purple-200 to-orange-200 rounded w-64"></div>
+        <div className="h-16 w-16 bg-gradient-to-br from-purple-200 to-orange-200 rounded-full mb-4" />
+        <div className="h-6 bg-gradient-to-br from-purple-200 to-orange-200 rounded w-48 mb-2" />
+        <div className="h-4 bg-gradient-to-br from-purple-200 to-orange-200 rounded w-64" />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import { MonicaMetrics } from './types';
+import type { MonicaMetrics } from './types';
 
 /**
  * Determines compatible cooking methods based on the Monica Constant.

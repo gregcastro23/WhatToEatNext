@@ -8,9 +8,9 @@
 "use client";
 
 import React from "react";
+import { useUser } from "@/contexts/UserContext";
 import { useAlchemicalRecommendations } from "@/hooks/useAlchemicalRecommendations";
 import { useChartData } from "@/hooks/useChartData";
-import { useUser } from "@/contexts/UserContext";
 
 interface RecommendationFilters {
   dietaryRestrictions: string[];

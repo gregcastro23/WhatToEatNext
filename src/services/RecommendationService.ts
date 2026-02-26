@@ -1,11 +1,12 @@
-import { ThermodynamicMetrics } from "@/types/alchemical";
-import { ElementalProperties } from "@/types/alchemy";
-import { Ingredient } from "@/types/ingredient";
-import { Recipe } from "@/types/recipe";
+import type { ThermodynamicMetrics } from "@/types/alchemical";
+import type { ElementalProperties } from "@/types/alchemy";
+import type { Ingredient } from "@/types/ingredient";
+import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
 
 // Import recommendation criteria and result interfaces
-import {
+import { RecipeService } from "./RecipeService";
+import type {
   CookingMethodRecommendationCriteria,
   CuisineRecommendationCriteria,
   IngredientRecommendationCriteria,
@@ -15,7 +16,6 @@ import {
 } from "./interfaces/RecommendationServiceInterface";
 
 // Import data services
-import { RecipeService } from "./RecipeService";
 
 /**
  * Consolidated Recommendation Service

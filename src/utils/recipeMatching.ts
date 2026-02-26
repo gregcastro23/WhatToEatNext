@@ -1155,8 +1155,8 @@ function _calculateNutritionalMatch(
         // Scale from 0-1 where 0 is high and 1 is low
         const recipeValue =
           typeof recipeProfile[factor] === "number"
-            ? (recipeProfile[factor] as number)
-            : parseFloat(recipeProfile[factor] as string) || 5;
+            ? (recipeProfile[factor])
+            : parseFloat(recipeProfile[factor]) || 5;
 
         const normalizedValue = 1 - Math.min(recipeValue / 5, 1);
         matchScore += normalizedValue;
@@ -1166,8 +1166,8 @@ function _calculateNutritionalMatch(
         // Scale from 0-1 where 1 is high and 0 is low
         const recipeValue =
           typeof recipeProfile[factor] === "number"
-            ? (recipeProfile[factor] as number)
-            : parseFloat(recipeProfile[factor] as string) || 0;
+            ? (recipeProfile[factor])
+            : parseFloat(recipeProfile[factor]) || 0;
 
         const normalizedValue = Math.min(recipeValue / 5, 1);
         matchScore += normalizedValue;
@@ -1179,13 +1179,13 @@ function _calculateNutritionalMatch(
       ) {
         const goalValue =
           typeof userGoals[factor] === "number"
-            ? (userGoals[factor] as number)
-            : parseFloat(userGoals[factor] as string);
+            ? (userGoals[factor])
+            : parseFloat(userGoals[factor]);
 
         const recipeValue =
           typeof recipeProfile[factor] === "number"
-            ? (recipeProfile[factor] as number)
-            : parseFloat(recipeProfile[factor] as string);
+            ? (recipeProfile[factor])
+            : parseFloat(recipeProfile[factor]);
 
         if (!isNaN(goalValue) && !isNaN(recipeValue)) {
           // Calculate how close the recipe is to the target (1 = exact match)

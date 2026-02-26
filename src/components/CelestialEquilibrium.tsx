@@ -205,12 +205,12 @@ export default function CelestialEquilibrium({
       {/* Legend */}
       <div className="flex space-x-4 mt-2">
         <div className="flex items-center">
-          <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+          <div className="w-3 h-3 rounded-full bg-purple-500 mr-2" />
           <span className="text-xs">Primary User</span>
         </div>
         {guestAlchemicalQuantities && (
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500 mr-2" />
             <span className="text-xs">Guest</span>
           </div>
         )}

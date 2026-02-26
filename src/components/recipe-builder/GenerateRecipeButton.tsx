@@ -9,14 +9,14 @@
  */
 
 import React, { useState, useCallback } from "react";
-import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
-import { createLogger } from "@/utils/logger";
+import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import type {
   RecipeBuildingCriteria,
   RecipeGenerationResult,
 } from "@/data/unified/recipeBuilding";
 import { UnifiedRecipeBuildingSystem } from "@/data/unified/recipeBuilding";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("GenerateRecipeButton");
 

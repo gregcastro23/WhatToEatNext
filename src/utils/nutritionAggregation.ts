@@ -3,16 +3,16 @@
  * Functions for aggregating, comparing, and analyzing nutritional data
  */
 
+import {
+  addNutrition,
+  multiplyNutrition,
+} from "@/data/nutritional/rdaStandards";
 import type {
   NutritionalSummary,
   DailyNutritionResult,
   WeeklyNutritionResult,
 } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
-import {
-  addNutrition,
-  multiplyNutrition,
-} from "@/data/nutritional/rdaStandards";
 
 /**
  * Key macronutrient fields for quick iteration

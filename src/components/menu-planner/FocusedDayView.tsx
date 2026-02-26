@@ -8,6 +8,7 @@
  * @created 2026-02-01
  */
 
+import Link from "next/link";
 import React, {
   useState,
   useCallback,
@@ -15,24 +16,23 @@ import React, {
   useRef,
   type TouchEvent as ReactTouchEvent,
 } from "react";
+import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
+import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type {
   MealSlot as MealSlotType,
   MealType,
   DayOfWeek,
 } from "@/types/menuPlanner";
-import type { Recipe } from "@/types/recipe";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import {
   getDayName,
   getPlanetaryDayCharacteristics,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
-import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import { searchRecipes, type ScoredRecipe } from "@/utils/recipeSearchEngine";
+import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
-import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
-import Link from "next/link";
+import { searchRecipes, type ScoredRecipe } from "@/utils/recipeSearchEngine";
 
 const logger = createLogger("FocusedDayView");
 

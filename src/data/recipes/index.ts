@@ -1,5 +1,5 @@
-import type { Recipe, ElementalProperties } from "@/types/recipe";
 import cuisinesMap from "@/data/cuisines/index";
+import type { Recipe, ElementalProperties } from "@/types/recipe";
 
 // Primary cuisines to use for recipe extraction (14 cuisines, avoids duplicates)
 // We use the capitalized keys from the cuisines map to avoid counting aliases

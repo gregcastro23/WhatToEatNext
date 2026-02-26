@@ -803,7 +803,7 @@ export function calculateMonicaOptimizationScore(
 
   // Import pillar mapping dynamically to avoid circular deps
   const { COOKING_METHOD_PILLAR_MAPPING, ALCHEMICAL_PILLARS } =
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     require("@/constants/alchemicalPillars");
 
   const methodScores: MonicaScoreResult["methodScores"] = [];

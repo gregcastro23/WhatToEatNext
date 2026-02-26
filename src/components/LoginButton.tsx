@@ -2,15 +2,28 @@
 
 import React from 'react';
 
-// Safe hook that gracefully handles missing PrivyProvider
+// Default state when Privy is unavailable
+const DEFAULT_PRIVY_STATE = { ready: false, authenticated: false, login: () => {}, logout: () => {} };
+
+// Resolve the usePrivy hook at module level so calls are never conditional
+let _usePrivy: (() => typeof DEFAULT_PRIVY_STATE) | null = null;
+try {
+   
+  const mod = require('@privy-io/react-auth');
+  _usePrivy = mod.usePrivy;
+} catch {
+  // Privy not available
+}
+
 function usePrivySafe() {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { usePrivy } = require('@privy-io/react-auth');
-    return usePrivy();
-  } catch {
-    return { ready: false, authenticated: false, login: () => {}, logout: () => {} };
+  if (_usePrivy) {
+    try {
+      return _usePrivy();
+    } catch {
+      return DEFAULT_PRIVY_STATE;
+    }
   }
+  return DEFAULT_PRIVY_STATE;
 }
 
 const LoginButton = () => {

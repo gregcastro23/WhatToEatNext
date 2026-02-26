@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   Flame,
   Droplets,
@@ -11,8 +10,9 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+import { useState, useEffect } from "react";
 
-type AlchemyQuantities = {
+interface AlchemyQuantities {
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -20,9 +20,9 @@ type AlchemyQuantities = {
   ANumber: number;
   DayEssence: number;
   NightEssence: number;
-};
+}
 
-type AlchemyData = {
+interface AlchemyData {
   quantities: AlchemyQuantities;
   dominantElement: string;
   isDiurnal?: boolean;
@@ -34,7 +34,7 @@ type AlchemyData = {
   monica: number;
   timestamp: string;
   error?: string;
-};
+}
 
 export default function AlchmQuantitiesDisplay() {
   const [data, setData] = useState<AlchemyData | null>(null);
@@ -66,10 +66,10 @@ export default function AlchmQuantitiesDisplay() {
     return (
       <div className="p-6 bg-gradient-to-br from-orange-900/20 to-red-900/20 rounded-lg border border-orange-500/30">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-orange-500/20 rounded w-1/3"></div>
-          <div className="h-4 bg-orange-500/20 rounded w-full"></div>
-          <div className="h-4 bg-orange-500/20 rounded w-full"></div>
-          <div className="h-4 bg-orange-500/20 rounded w-2/3"></div>
+          <div className="h-6 bg-orange-500/20 rounded w-1/3" />
+          <div className="h-4 bg-orange-500/20 rounded w-full" />
+          <div className="h-4 bg-orange-500/20 rounded w-full" />
+          <div className="h-4 bg-orange-500/20 rounded w-2/3" />
         </div>
       </div>
     );

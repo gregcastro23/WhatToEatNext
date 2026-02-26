@@ -7,12 +7,12 @@
  */
 
 import React, { useMemo } from "react";
-import type { Recipe, IngredientMapping } from "@/types/recipe";
 import type {
   NutritionalSummary,
   WeeklyNutritionResult,
 } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
+import type { Recipe, IngredientMapping } from "@/types/recipe";
 import { formatNutrientName } from "@/utils/nutritionAggregation";
 
 interface RecipeNutritionModalProps {

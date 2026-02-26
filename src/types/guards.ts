@@ -10,8 +10,8 @@
 import type { PlanetaryPosition } from "./alchemy";
 import type { AstrologicalProfile } from "./astrology";
 import type { CookingMethod } from "./cooking";
-import type { NutritionalSummary } from "./nutrition";
 import type { Ingredient } from "./ingredient";
+import type { NutritionalSummary } from "./nutrition";
 
 /** Narrow unknown object to `NutritionalSummary` (aka NutritionalSummaryalProfile). */
 export function isNutritionalProfile(obj: unknown): obj is NutritionalSummary {

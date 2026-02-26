@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import { PlanetaryScoringService } from "@/services/planetaryScoring";
-import type { Recipe } from "@/types/recipe";
+import React, { useState, useEffect } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { PlanetaryScoringService } from "@/services/planetaryScoring";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
+import type { Recipe } from "@/types/recipe";
 
 export default function RecipesPage() {
   const searchParams = useSearchParams();

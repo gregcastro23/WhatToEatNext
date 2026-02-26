@@ -8,6 +8,7 @@
  * personalization boosts based on astrological harmony.
  */
 
+import { _logger } from "@/lib/logger";
 import {
   compareCharts,
   calculateMomentChart,
@@ -17,13 +18,12 @@ import type {
   ChartComparison,
   MomentChart,
 } from "@/services/ChartComparisonService";
-import type { NatalChart } from "@/types/natalChart";
 import type {
   ElementalProperties,
   AlchemicalProperties,
   Element,
 } from "@/types/alchemy";
-import { _logger } from "@/lib/logger";
+import type { NatalChart } from "@/types/natalChart";
 
 /**
  * Cuisine/Recipe item with elemental and alchemical properties

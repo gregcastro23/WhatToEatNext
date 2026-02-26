@@ -10,18 +10,17 @@
  * @updated 2026-01-10 (Phase 2 - Added Recipe Selector)
  */
 
-import React, { useState } from "react";
 import Link from "next/link";
-import RecipeSelector from "./RecipeSelector";
-import RecipeRitualModal from "./RecipeRitualModal";
-import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
+import React, { useState } from "react";
 import { RecipeNutritionModal } from "@/components/nutrition/RecipeNutritionModal";
-
+import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
 import { getMealTypeCharacteristics } from "@/types/menuPlanner";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import type { Recipe } from "@/types/recipe";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
+import type { Recipe } from "@/types/recipe";
+import RecipeRitualModal from "./RecipeRitualModal";
+import RecipeSelector from "./RecipeSelector";
 
 interface MealSlotProps {
   mealSlot: MealSlotType;
@@ -274,7 +273,7 @@ function RecipeDisplay({
       {recipe.optimal_cooking_window && (
         <div
           className="flex items-center gap-1 text-xs text-blue-700 mb-2"
-          title={`Best cooked between ${recipe.optimal_cooking_window.start_time} - ${parseInt(recipe.optimal_cooking_window.start_time) + 3}:00 for maximum Lunar affinity.`}
+          title={`Best cooked between ${recipe.optimal_cooking_window.start_time} - ${parseInt(recipe.optimal_cooking_window.start_time, 10) + 3}:00 for maximum Lunar affinity.`}
         >
           <span>🌕</span>
           <span className="font-medium">Optimal Cooking Window!</span>

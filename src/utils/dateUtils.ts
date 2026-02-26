@@ -1,6 +1,6 @@
+import type { Dish } from "@/constants/recipe";
 import { cuisines } from "@/data/cuisines";
 import { _logger } from "@/lib/logger";
-import type { Dish } from "@/constants/recipe";
 import type { LunarPhaseWithSpaces, Season } from "@/types/alchemy";
 
 /**

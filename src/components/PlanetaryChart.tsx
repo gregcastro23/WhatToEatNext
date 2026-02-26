@@ -9,6 +9,7 @@
 
 import React from "react";
 import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
+
 type PlanetPosition = PlanetaryPosition;
 import {
   degreesToSVGCoords,

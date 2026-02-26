@@ -1,5 +1,9 @@
 import type { RecipeData } from "@/data/recipes";
 import type { LunarPhase, ZodiacSignType } from "@/types/alchemy";
+import {
+  createEmptyNutritionalSummary,
+  type NutritionalSummary,
+} from "@/types/nutrition";
 import type {
   ElementalProperties,
   Recipe,
@@ -10,10 +14,6 @@ import type {
   ScoredRecipe,
   // Season,
 } from "@/types/recipe";
-import {
-  createEmptyNutritionalSummary,
-  type NutritionalSummary,
-} from "@/types/nutrition";
 import { createElementalProperties } from "../elemental/elementalUtils";
 // import { isNonEmptyArray } from "../typeGuards";
 const isNonEmptyArray = (arr: any): boolean =>

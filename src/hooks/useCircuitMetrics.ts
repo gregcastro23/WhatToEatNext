@@ -6,14 +6,14 @@
  * @created 2026-01-11
  */
 
-import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useMemo } from "react";
-import type { DayOfWeek } from "@/types/menuPlanner";
+import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type {
   MealCircuitMetrics,
   DayCircuitMetrics,
   WeeklyMenuCircuitMetrics,
 } from "@/types/kinetics";
+import type { DayOfWeek } from "@/types/menuPlanner";
 
 /**
  * Circuit metrics scope
@@ -135,7 +135,7 @@ export function useCircuitMetrics(
     if (scope === "day" && typeof id === "number") {
       return {
         scope: "day",
-        metrics: dayCircuitMetrics[id as DayOfWeek] || null,
+        metrics: dayCircuitMetrics[id] || null,
         isLoading,
       };
     }

@@ -13,21 +13,21 @@
  * @file src/app/recipe-builder/page.tsx
  */
 
-import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import RecipeBuilderPanel from "@/components/recipe-builder/RecipeBuilderPanel";
-import type { ElementalProperties } from "@/types/recipe";
-import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import type { MealType, DayOfWeek } from "@/types/menuPlanner";
+import type { ElementalProperties } from "@/types/recipe";
+import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
+import { createLogger } from "@/utils/logger";
 import {
   generateDayRecommendations,
   type RecommendedMeal,
   type AstrologicalState,
 } from "@/utils/menuPlanner/recommendationBridge";
 import { getPlanetaryDayCharacteristics } from "@/utils/planetaryDayRecommendations";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeBuilder");
 
@@ -219,7 +219,7 @@ function RecipeResults({
 
       <div className="divide-y divide-gray-100">
         {recipes.map((rec, idx) => {
-          const nutrition = (rec.recipe as MonicaOptimizedRecipe).nutrition;
+          const nutrition = (rec.recipe).nutrition;
 
           return (
             <div
@@ -335,10 +335,7 @@ function RecipeResults({
                 <div className="mt-2 pt-2 border-t border-gray-100">
                   <div className="flex items-center gap-3">
                     {(
-                      Object.entries(rec.recipe.elementalProperties) as [
-                        string,
-                        number,
-                      ][]
+                      Object.entries(rec.recipe.elementalProperties)
                     )
                       .filter(([key]) =>
                         ["Fire", "Water", "Earth", "Air"].includes(key),
@@ -363,12 +360,12 @@ function RecipeResults({
                                       : "bg-cyan-400"
                               }`}
                               style={{
-                                width: `${(value as number) * 100}%`,
+                                width: `${(value) * 100}%`,
                               }}
                             />
                           </div>
                           <span className="text-[10px] text-gray-400">
-                            {Math.round((value as number) * 100)}%
+                            {Math.round((value) * 100)}%
                           </span>
                         </div>
                       ))}
@@ -459,7 +456,7 @@ export default function RecipeBuilderPage() {
 
         // Persist Monica-optimized recipes so the full-recipe page can read them
         deduplicated.forEach((rec) => {
-          const monicaRecipe = rec.recipe as MonicaOptimizedRecipe;
+          const monicaRecipe = rec.recipe;
           if (monicaRecipe?.id) {
             saveRecipeToStore(monicaRecipe);
           }

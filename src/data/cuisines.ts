@@ -1,21 +1,21 @@
 // src/data/cuisines.ts
-import type { NutritionalSummaryBase } from "@/types/nutrition";
 import type {
   Cuisine as AlchemyCuisine,
   CuisineType,
   ElementalProperties,
 } from "@/types/alchemy";
+import type { NutritionalSummaryBase } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
+import { african } from "./cuisines/african";
 import { american } from "./cuisines/american";
 import { greek } from "./cuisines/greek";
+import { CUISINES, cuisinesMap as importedCuisinesMap } from "./cuisines/index";
 import { indian } from "./cuisines/indian";
 import { italian } from "./cuisines/italian";
 import { middleEastern } from "./cuisines/middle-eastern";
+import { russian } from "./cuisines/russian";
 import { thai } from "./cuisines/thai";
 import { vietnamese } from "./cuisines/vietnamese";
-import { african } from "./cuisines/african";
-import { russian } from "./cuisines/russian";
-import { CUISINES, cuisinesMap as importedCuisinesMap } from "./cuisines/index";
 
 // Import types
 

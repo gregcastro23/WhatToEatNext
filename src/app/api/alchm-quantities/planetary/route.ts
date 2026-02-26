@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
-import {
-  calculatePlanetaryPositions,
-  getFallbackPlanetaryPositions,
-} from "@/utils/serverPlanetaryCalculations";
+import type { PlanetPosition } from "@/utils/astrologyUtils";
+import { createLogger } from "@/utils/logger";
 import {
   PLANETARY_ALCHEMY,
   ZODIAC_ELEMENTS,
@@ -11,8 +9,10 @@ import {
   getZodiacQuality,
 } from "@/utils/planetaryAlchemyMapping";
 import { calculateNextSignTransition } from "@/utils/planetaryTransitions";
-import { createLogger } from "@/utils/logger";
-import type { PlanetPosition } from "@/utils/astrologyUtils";
+import {
+  calculatePlanetaryPositions,
+  getFallbackPlanetaryPositions,
+} from "@/utils/serverPlanetaryCalculations";
 
 const logger = createLogger("PlanetaryContributionsAPI");
 
@@ -20,7 +20,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 // Type definitions
-type PlanetaryData = {
+interface PlanetaryData {
   name: string;
   position: PlanetPosition;
   esms: {
@@ -41,7 +41,7 @@ type PlanetaryData = {
     daysUntil: number;
     direction: "forward" | "retrograde";
   };
-};
+}
 
 export async function GET() {
   try {

@@ -8,15 +8,15 @@
  * @created 2026-01-11
  */
 
-import type { WeeklyMenu, MealSlot, DayOfWeek } from "@/types/menuPlanner";
+import type { PlanetaryPositions } from "@/types/astrology";
 import type {
   DayCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
   MealCircuitMetrics,
 } from "@/types/kinetics";
+import type { WeeklyMenu, MealSlot, DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
-import type { PlanetaryPositions } from "@/types/astrology";
 
 /**
  * Helper to calculate mean

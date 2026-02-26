@@ -7,13 +7,13 @@
  */
 
 import { NextResponse } from "next/server";
-import { userDatabase } from "@/services/userDatabaseService";
-import type { NextRequest } from "next/server";
 import type { UserProfile } from "@/contexts/UserContext";
 import {
   validateRequest,
   getUserIdFromRequest,
 } from "@/lib/auth/validateRequest";
+import { userDatabase } from "@/services/userDatabaseService";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

@@ -14,10 +14,10 @@ import {
   type MealType,
   type FlavorPreference,
 } from "@/contexts/RecipeBuilderContext";
+import GenerateRecipeButton from "./GenerateRecipeButton";
 import IngredientSearchBar from "./IngredientSearchBar";
 import IngredientSuggestions from "./IngredientSuggestions";
 import RecipeBuilderQueue from "./RecipeBuilderQueue";
-import GenerateRecipeButton from "./GenerateRecipeButton";
 
 // ===== Constants =====
 

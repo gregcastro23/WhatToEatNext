@@ -2,6 +2,11 @@ import { _logger } from "@/lib/logger";
 import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
 import type { ElementalData, ScoredItem } from "@/types/common";
 import type { Element } from "@/types/unified";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import type {
+  KineticMetrics,
+  ThermodynamicMetrics,
+} from "@/utils/kineticCalculations";
 import type {
   CookingMethod,
   // ElementalAffinity,
@@ -9,11 +14,6 @@ import type {
   Modality,
   SensoryProfile,
 } from "../../data/ingredients/types";
-import { calculateKineticProperties } from "@/utils/kineticCalculations";
-import type {
-  KineticMetrics,
-  ThermodynamicMetrics,
-} from "@/utils/kineticCalculations";
 
 // Phase 10: Calculation Type Interfaces
 interface _CalculationData {
@@ -201,7 +201,7 @@ function _getFlavorProperty(
   property: keyof FlavorProperties,
 ): number {
   if (hasFlavorProperties(obj) && typeof obj[property] === "number") {
-    return obj[property] as number;
+    return obj[property];
   }
   return 0;
 }

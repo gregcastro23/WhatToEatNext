@@ -13,8 +13,8 @@
  */
 
 import type { Element } from "@/types/celestial";
-import type { AspectPhase, KineticMetrics } from "@/types/kinetics";
 import type { CookingMethodKineticProfile } from "@/types/cookingMethod";
+import type { AspectPhase, KineticMetrics } from "@/types/kinetics";
 
 // ============================================================================
 // Default Kinetic Profiles for ALL cooking methods

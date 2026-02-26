@@ -705,7 +705,7 @@ export function fixAllRecipes(
  */
 export function extractFixedRecipes(
   batchResult: BatchFixResult,
-): Record<string, unknown>[] {
+): Array<Record<string, unknown>> {
   return batchResult.fixedRecipes.map((r) => r.fixedRecipe);
 }
 

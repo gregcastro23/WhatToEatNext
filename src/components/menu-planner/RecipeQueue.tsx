@@ -59,7 +59,7 @@ function QueueItemCard({
       "application/json",
       JSON.stringify({
         type: "queue-recipe",
-        recipe: recipe,
+        recipe,
         queueItemId: item.id,
       }),
     );
@@ -77,7 +77,7 @@ function QueueItemCard({
         bg-white rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-all p-3 mb-2 cursor-move
         ${isDragging ? "opacity-50 scale-95" : ""}
       `}
-      draggable={true}
+      draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >

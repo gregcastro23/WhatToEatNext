@@ -1,11 +1,11 @@
 // src/components/auth/OnboardingWizard.tsx
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { z } from "zod"; // For validation
-import { useForm } from "react-hook-form"; // For form management
 import { zodResolver } from "@hookform/resolvers/zod"; // For integrating zod with react-hook-form
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form"; // For form management
+import { z } from "zod"; // For validation
 
 // Assuming these types are defined elsewhere (e.g., src/types/auth.ts, src/types/chart.ts)
 interface UserIdentity {

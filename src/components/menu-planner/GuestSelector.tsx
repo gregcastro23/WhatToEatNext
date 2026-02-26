@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import type { NatalChart, DiningGroup, GroupMember } from "@/types/natalChart";
 import { useUser } from "@/contexts/UserContext";
+import type { NatalChart, DiningGroup, GroupMember } from "@/types/natalChart";
 
 interface GuestSelectorProps {
   onParticipantsChange: (participantIds: string[]) => void;
@@ -12,7 +12,7 @@ export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
   const { currentUser, isLoading: userIsLoading, error: userError } = useUser();
   const [activeParticipants, setActiveParticipants] = useState<string[]>([]);
 
-  const savedCharts: (DiningGroup | GroupMember)[] = [
+  const savedCharts: Array<DiningGroup | GroupMember> = [
     ...(currentUser?.diningGroups || []),
     ...(currentUser?.groupMembers || []),
   ];

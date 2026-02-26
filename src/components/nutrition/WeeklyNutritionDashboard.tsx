@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { formatNutrientName, getNutrientUnit } from "../../utils/nutrition";
+import type {
+  WeeklyNutritionResult} from "@/types/nutrition";
 import {
-  WeeklyNutritionResult,
   ComplianceSeverity,
   getComplianceSeverity,
 } from "@/types/nutrition";
-import { NutritionRing } from "./NutritionRing";
+import { formatNutrientName, getNutrientUnit } from "../../utils/nutrition";
+import { ComplianceScore } from "./ComplianceScore";
 import { MacroSummary } from "./MacroSummary";
 import { MicronutrientHighlights } from "./MicronutrientHighlights";
-import { ComplianceScore } from "./ComplianceScore";
+import { NutritionRing } from "./NutritionRing";
 import styles from "./WeeklyNutritionDashboard.module.css";
 
 interface WeeklyNutritionDashboardProps {
@@ -59,7 +60,7 @@ export function WeeklyNutritionDashboard({
           <ComplianceScore
             score={weeklyCompliance.overall}
             size="compact"
-            showLabel={true}
+            showLabel
           />
 
           {/* Macro Pills */}

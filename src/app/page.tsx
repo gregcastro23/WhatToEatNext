@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import { HeroSection } from "@/components/home/HeroSection";
 import DynamicCuisineRecommender from "@/components/home/DynamicCuisineRecommender";
-import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
+import { HeroSection } from "@/components/home/HeroSection";
 import EnhancedCookingMethodRecommender from "@/components/recommendations/EnhancedCookingMethodRecommender";
+import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
 
 function SectionLoader() {
   return (

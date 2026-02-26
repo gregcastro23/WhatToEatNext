@@ -19,7 +19,7 @@ export function isValidElementalProperties(
   const props = obj as any;
   return ["Fire", "Water", "Earth", "Air"].every(
     (element) =>
-      typeof props[element] === "number" && (props[element] as number) >= 0,
+      typeof props[element] === "number" && (props[element]) >= 0,
   );
 }
 

@@ -9,16 +9,16 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import {
+  validateRequest,
+  getUserIdFromRequest,
+} from "@/lib/auth/validateRequest";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type {
   CreateFoodDiaryEntryInput,
   FoodDiaryFilters,
 } from "@/types/foodDiary";
-import {
-  validateRequest,
-  getUserIdFromRequest,
-} from "@/lib/auth/validateRequest";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

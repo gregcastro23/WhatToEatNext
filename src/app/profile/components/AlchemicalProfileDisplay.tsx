@@ -81,9 +81,9 @@ export const AlchemicalProfileDisplay: React.FC<
       <div className="space-y-4 mb-6">
         <h3 className="font-semibold text-gray-700 mb-3">Elemental Balance</h3>
         {elements.map((element) => {
-          const value = elementalAffinities[element as keyof typeof elementalAffinities];
+          const value = elementalAffinities[element];
           const percentage = maxValue > 0 ? (value / maxValue) * 100 : 25;
-          const colors = elementColors[element as keyof typeof elementColors];
+          const colors = elementColors[element];
 
           return (
             <div key={element} className="space-y-2">

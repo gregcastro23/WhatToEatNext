@@ -7,11 +7,10 @@
  */
 
 import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
-
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
+import type { NextRequest } from "next/server";
 // Privy Client - lazy initialization to prevent build-time crash
 // when PRIVY_APP_SECRET is not available (e.g. during static generation)
 let _privyClient: InstanceType<typeof import("@privy-io/server-auth").PrivyClient> | null = null;
@@ -21,7 +20,7 @@ function getPrivyClient() {
   const appSecret = process.env.PRIVY_APP_SECRET;
   if (!appId || !appSecret) return null;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     const { PrivyClient } = require("@privy-io/server-auth");
     _privyClient = new PrivyClient(appId, appSecret);
     return _privyClient;

@@ -3,28 +3,33 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-// Safe hook that returns Privy state without crashing when provider is absent
+// Default state when Privy is unavailable
+const DEFAULT_PRIVY_STATE = { ready: true, authenticated: false, login: () => {}, logout: () => {} };
+
+// Resolve the usePrivy hook at module level so calls are never conditional
+let _usePrivy: (() => typeof DEFAULT_PRIVY_STATE) | null = null;
+try {
+   
+  const mod = require('@privy-io/react-auth');
+  _usePrivy = mod.usePrivy;
+} catch {
+  // Privy not available
+}
+
 function usePrivySafe() {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { usePrivy } = require('@privy-io/react-auth');
-    return usePrivy();
-  } catch {
-    return { ready: true, authenticated: false, login: () => {}, logout: () => {} };
+  if (_usePrivy) {
+    try {
+      return _usePrivy();
+    } catch {
+      return DEFAULT_PRIVY_STATE;
+    }
   }
+  return DEFAULT_PRIVY_STATE;
 }
 
 export default function LoginPage() {
   const [privyAvailable, setPrivyAvailable] = useState(true);
-  let privyState = { ready: false, authenticated: false, login: () => {}, logout: () => {} };
-
-  try {
-    privyState = usePrivySafe();
-  } catch {
-    // Will be handled below
-  }
-
-  const { ready, authenticated, login } = privyState;
+  const { ready, authenticated, login } = usePrivySafe();
   const router = useRouter();
 
   useEffect(() => {
@@ -64,7 +69,7 @@ export default function LoginPage() {
               className="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-bold shadow-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {!ready ? (
-                <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
               ) : (
                 "Log in with Google"
               )}

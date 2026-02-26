@@ -1,7 +1,7 @@
 // src/constants/alchemicalPillars.ts
 
-import type { AlchemicalProperty, Element, LunarPhase, PlanetName } from "@/types/celestial";
 import type { Season, ElementalProperties, QuantityScaledProperties, ThermodynamicMetrics } from "@/types/alchemy"; // Importing ElementalProperties and QuantityScaledProperties from alchemy (or celestial if preferred)
+import type { AlchemicalProperty, Element, LunarPhase, PlanetName } from "@/types/celestial";
 
 /**
  * Interface representing an Alchemical Pillar

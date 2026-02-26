@@ -2,12 +2,12 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
-import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 import {
   unifiedIngredients,
   getUnifiedIngredientsByCategory,
 } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 
 interface IngredientRecommenderProps {
   initialCategory?: string | null;
@@ -62,7 +62,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
 
   // Get all ingredients from the unified system
   const allIngredients = useMemo(() => {
-    return Object.values(unifiedIngredients) as UnifiedIngredient[];
+    return Object.values(unifiedIngredients);
   }, []);
 
   // Filter ingredients

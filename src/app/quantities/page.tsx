@@ -2,11 +2,11 @@
 
 import { Flame, Droplets, Wind, Mountain, Activity } from "lucide-react";
 import { Suspense } from "react";
+import AlchmKinetics from "@/components/alchm-kinetics";
 import AlchmQuantitiesDisplay from "@/components/alchm-quantities-display";
 import AlchmQuantitiesTrends from "@/components/alchm-quantities-trends";
-import AlchmKinetics from "@/components/alchm-kinetics";
-import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
+import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
 
 export default function QuantitiesPage() {
   return (

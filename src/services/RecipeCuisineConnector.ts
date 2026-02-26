@@ -4,11 +4,11 @@
 import cuisinesMap from "@/data/cuisines";
 import type { Season, ElementalProperties } from "@/types/alchemy";
 import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
-import type { Recipe } from "@/types/recipe";
 import {
   createEmptyNutritionalSummary,
   type NutritionalSummary,
 } from "@/types/nutrition";
+import type { Recipe } from "@/types/recipe";
 
 // Primary cuisine keys (14 cuisines) - avoids duplicate processing via lowercase aliases
 const PRIMARY_CUISINE_KEYS = [

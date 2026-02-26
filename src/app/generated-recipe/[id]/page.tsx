@@ -13,9 +13,9 @@
  * @file src/app/generated-recipe/[id]/page.tsx
  */
 
-import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState, useCallback } from "react";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { getRecipeFromStore } from "@/utils/generatedRecipeStore";
 

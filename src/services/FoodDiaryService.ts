@@ -31,9 +31,9 @@ import type {
   calculateEntryNutrition,
   createEmptyDailySummary,
 } from "@/types/foodDiary";
+import type { MealType } from "@/types/menuPlanner";
 import type { NutritionalSummary } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
-import type { MealType } from "@/types/menuPlanner";
 import { getNutritionTrackingService } from "./NutritionTrackingService";
 
 // Check if we should use database (only in server-side contexts with DB available)
@@ -3644,7 +3644,7 @@ class FoodDiaryService {
     actual: NutritionalSummary,
     target: NutritionalSummary,
   ): number {
-    const nutrients: (keyof NutritionalSummary)[] = [
+    const nutrients: Array<keyof NutritionalSummary> = [
       "calories",
       "protein",
       "carbs",
@@ -3669,7 +3669,7 @@ class FoodDiaryService {
   ): Record<string, number> {
     const result: Record<string, number> = {};
 
-    for (const key of Object.keys(target) as (keyof NutritionalSummary)[]) {
+    for (const key of Object.keys(target) as Array<keyof NutritionalSummary>) {
       const actualVal = actual[key] || 0;
       const targetVal = target[key] || 1;
       result[key] = Math.round((actualVal / targetVal) * 100);

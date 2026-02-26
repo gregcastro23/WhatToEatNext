@@ -6,20 +6,20 @@
  * complete natal chart data including elemental and alchemical properties.
  */
 
-import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
+import { _logger } from "@/lib/logger";
 import type {
   Planet,
   ZodiacSignType,
   Element,
   Modality,
 } from "@/types/celestial";
+import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
   getDominantElement,
 } from "@/utils/planetaryAlchemyMapping";
 import { getModalityForZodiac } from "@/utils/zodiacUtils";
-import { _logger } from "@/lib/logger";
 
 /**
  * Interface for the astrologize API response (simplified)

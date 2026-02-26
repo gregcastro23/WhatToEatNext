@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
+import { alchemize } from "@/services/RealAlchemizeService";
+import { createLogger } from "@/utils/logger";
+import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
-import { alchemize } from "@/services/RealAlchemizeService";
-import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("AlchmQuantitiesTrendsAPI");
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-type TrendPoint = {
+interface TrendPoint {
   time: string;
   /** ISO timestamp of this data point (for client-side formatting) */
   iso: string;
@@ -27,7 +27,7 @@ type TrendPoint = {
   Air: number;
   /** Whether this moment is diurnal (day) or nocturnal (night) */
   isDiurnal: boolean;
-};
+}
 
 export async function GET() {
   try {

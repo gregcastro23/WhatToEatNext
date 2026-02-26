@@ -28,7 +28,7 @@ let ephemerisInitialized = false;
 export function initializeSwissEphemeris(ephePath: string | null = null): void {
   try {
     if (!swisseph) {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
+       
       swisseph = require("swisseph-v2");
     }
 
@@ -372,7 +372,7 @@ export function closeSwissEphemeris(): void {
 export function isSwissEphemerisAvailable(): boolean {
   try {
     if (!swisseph) {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
+       
       swisseph = require("swisseph-v2");
     }
     return swisseph !== null;

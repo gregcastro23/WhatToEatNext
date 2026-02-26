@@ -8,20 +8,20 @@
  * @created 2026-01-11
  */
 
-import type { MealSlot } from "@/types/menuPlanner";
-import type { MealCircuitMetrics, KineticMetrics } from "@/types/kinetics";
-import type { PlanetaryPositions } from "@/types/astrology";
-import type {
-  AlchemicalProperties,
-  ElementalProperties,
-} from "@/types/alchemy";
-import { calculateKineticProperties } from "./kineticCalculations";
 import {
   calculateGregsEnergy,
   type ElementalAlchemicalCounts,
 } from "@/calculations/gregsEnergy";
-import { validateRecipeCircuit } from "./recipeCircuit";
+import type {
+  AlchemicalProperties,
+  ElementalProperties,
+} from "@/types/alchemy";
+import type { PlanetaryPositions } from "@/types/astrology";
+import type { MealCircuitMetrics, KineticMetrics } from "@/types/kinetics";
+import type { MealSlot } from "@/types/menuPlanner";
 import type { EnhancedRecipe } from '@/types/recipe';
+import { calculateKineticProperties } from "./kineticCalculations";
+import { validateRecipeCircuit } from "./recipeCircuit";
 
 /**
  * Count elemental and alchemical properties for thermodynamic calculations
@@ -63,7 +63,7 @@ export function calculateMealCircuit(
     return null;
   }
 
-  const recipe = mealSlot.recipe as EnhancedRecipe;
+  const recipe = mealSlot.recipe;
 
   // Safe check for ingredients and instructions
   if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {

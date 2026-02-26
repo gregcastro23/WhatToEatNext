@@ -383,7 +383,7 @@ export class AlchemicalEngineBase {
     return Object.entries(elements)
       .map(([element, value]) => ({
         element,
-        strength: (value as number) || 0,
+        strength: (value) || 0,
       }))
       .sort((a, b) => b.strength - a.strength)
       .slice(0, 2);
@@ -480,8 +480,8 @@ export class AlchemicalEngineBase {
       ((
         ["Fire", "Water", "Air", "Earth"] as Array<keyof ElementalProperties>
       ).reduce((diff: number, key) => {
-        const v1 = typeof p1[key] === "number" ? (p1[key] as number) : 0;
-        const v2 = typeof p2[key] === "number" ? (p2[key] as number) : 0;
+        const v1 = typeof p1[key] === "number" ? (p1[key]) : 0;
+        const v2 = typeof p2[key] === "number" ? (p2[key]) : 0;
         return diff + Math.abs(v1 - v2) / 2;
       }, 0) as number)
     );

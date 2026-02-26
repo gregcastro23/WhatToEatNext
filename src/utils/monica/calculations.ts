@@ -1,4 +1,4 @@
-import { AlchemicalState, MonicaMetrics } from './types';
+import type { AlchemicalState, MonicaMetrics } from './types';
 
 export function calculateMonicaMetrics(state: AlchemicalState): MonicaMetrics {
   const { spirit, essence, matter, substance, fire, water, air, earth } = state;

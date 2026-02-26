@@ -3,25 +3,38 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import LoginButton from '@/components/LoginButton';
-import { BirthDataForm } from '@/components/profile/BirthDataForm';
 import { AlchemicalDashboard } from '@/components/profile/AlchemicalDashboard';
+import { BirthDataForm } from '@/components/profile/BirthDataForm';
 
-// Safe hook that gracefully handles missing PrivyProvider
+// Default state when Privy is unavailable
+const DEFAULT_PRIVY_STATE = {
+  ready: true,
+  authenticated: false,
+  user: null as any,
+  getAccessToken: async () => null as any,
+  logout: () => {},
+  login: () => {},
+};
+
+// Resolve the usePrivy hook at module level so calls are never conditional
+let _usePrivy: (() => typeof DEFAULT_PRIVY_STATE) | null = null;
+try {
+   
+  const mod = require('@privy-io/react-auth');
+  _usePrivy = mod.usePrivy;
+} catch {
+  // Privy not available
+}
+
 function usePrivySafe() {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { usePrivy } = require('@privy-io/react-auth');
-    return usePrivy();
-  } catch {
-    return {
-      ready: true,
-      authenticated: false,
-      user: null,
-      getAccessToken: async () => null,
-      logout: () => {},
-      login: () => {},
-    };
+  if (_usePrivy) {
+    try {
+      return _usePrivy();
+    } catch {
+      return DEFAULT_PRIVY_STATE;
+    }
   }
+  return DEFAULT_PRIVY_STATE;
 }
 
 const ProfilePage = () => {
@@ -100,7 +113,7 @@ const ProfilePage = () => {
   if (!ready) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500" />
         <p className="ml-4 text-gray-700">Loading Account...</p>
       </div>
     );
@@ -161,10 +174,10 @@ const ProfilePage = () => {
         {isLoading ? (
           <div className="space-y-6 w-full max-w-4xl mx-auto animate-pulse">
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="h-64 bg-gray-200 rounded-lg shadow-sm"></div>
-              <div className="h-64 bg-gray-200 rounded-lg shadow-sm"></div>
+              <div className="h-64 bg-gray-200 rounded-lg shadow-sm" />
+              <div className="h-64 bg-gray-200 rounded-lg shadow-sm" />
             </div>
-            <div className="h-48 bg-gray-200 rounded-lg shadow-sm"></div>
+            <div className="h-48 bg-gray-200 rounded-lg shadow-sm" />
           </div>
         ) : profileData || (dbProfile && dbProfile.astrologicalData) ? (
           <div className="space-y-6">

@@ -5,16 +5,16 @@
  * user natal charts and personalized recommendations.
  */
 
-import { userDatabase } from "@/services/userDatabaseService";
-import { personalizedRecommendationService } from "@/services/PersonalizedRecommendationService";
 import { compareCharts } from "@/services/ChartComparisonService";
-import type { NatalChart } from "@/types/natalChart";
 import type { ChartComparison } from "@/services/ChartComparisonService";
+import { personalizedRecommendationService } from "@/services/PersonalizedRecommendationService";
 import type {
   RecommendableItem,
   PersonalizedRecommendation,
   PersonalizationContext,
 } from "@/services/PersonalizedRecommendationService";
+import { userDatabase } from "@/services/userDatabaseService";
+import type { NatalChart } from "@/types/natalChart";
 
 /**
  * Get user's natal chart by user ID

@@ -1,14 +1,12 @@
-import {
+import type {
   ElementalProperties,
-  ThermodynamicMetrics,
+  ThermodynamicMetrics} from "@/types/alchemy";
+import {
   Planet,
   Element,
 } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 import type { CookingMethod } from "@/types/cooking";
-
-import { Ingredient } from "../types/ingredient";
-import { Recipe } from "../types/recipe";
 // Import utility functions
 import { getCuisineRecommendations } from "../utils/cuisineRecommender";
 import { calculateElementalCompatibility } from "../utils/elemental/elementalUtils";
@@ -18,7 +16,9 @@ import { getCookingMethodRecommendations } from "../utils/recommendation/methodR
 // Import consolidated services
 import { ConsolidatedIngredientService } from "./ConsolidatedIngredientService";
 import { ConsolidatedRecipeService } from "./ConsolidatedRecipeService";
-import {
+import type { Ingredient } from "../types/ingredient";
+import type { Recipe } from "../types/recipe";
+import type {
   RecommendationServiceInterface,
   RecipeRecommendationCriteria,
   IngredientRecommendationCriteria,
@@ -436,8 +436,8 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       // Calculate scores - safe property access
       const scores: { [key: string]: number } = {};
       methodRecommendations.forEach((method: unknown) => {
-        const methodData = method as unknown as Record<string, unknown>;
-        const methodScore = method as unknown as Record<string, unknown>;
+        const methodData = method as Record<string, unknown>;
+        const methodScore = method as Record<string, unknown>;
         const methodName = String(methodData.name || "");
         const score = Number(methodScore.score || 0.5);
         if (methodName) {

@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { ArrowRight, ArrowLeft, Circle, RefreshCw } from "lucide-react";
+import React, { useState, useEffect } from "react";
 
-type AspectEntry = {
+interface AspectEntry {
   planet1: string;
   planet2: string;
   type: string;
@@ -13,12 +13,12 @@ type AspectEntry = {
   applying: boolean;
   daysToExact: number;
   influence: "harmonious" | "challenging" | "neutral";
-};
+}
 
-type AspectsData = {
+interface AspectsData {
   aspects: AspectEntry[];
   timestamp: string;
-};
+}
 
 // ── Visual helpers ───────────────────────────────────────────────────────────
 

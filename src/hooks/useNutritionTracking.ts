@@ -6,9 +6,9 @@
  */
 
 import { useMemo } from "react";
+import { getNutritionTrackingService } from "@/services/NutritionTrackingService";
 import type { WeeklyMenu, DayOfWeek, MealSlot } from "@/types/menuPlanner";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
-import { getNutritionTrackingService } from "@/services/NutritionTrackingService";
 
 /**
  * Given the current WeeklyMenu, compute a WeeklyNutritionResult in real-time.
@@ -34,7 +34,7 @@ export function useNutritionTracking(
     } as Record<DayOfWeek, MealSlot[]>;
 
     for (const meal of currentMenu.meals) {
-      const day = meal.dayOfWeek as DayOfWeek;
+      const day = meal.dayOfWeek;
       if (mealsByDay[day]) {
         mealsByDay[day].push(meal);
       }

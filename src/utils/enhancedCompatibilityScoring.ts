@@ -11,9 +11,9 @@
  * - Composite scoring that rewards perfect matches and penalizes large differences
  */
 
+import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/celestial";
 import type { KineticMetrics } from "@/types/kinetics";
-import { _logger } from "@/lib/logger";
 
 const log = _logger;
 

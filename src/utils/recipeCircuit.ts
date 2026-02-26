@@ -6,8 +6,8 @@
  */
 
 import type { CookingMethod } from "@/types/alchemy";
-import type { Recipe } from "@/types/recipe";
 import type { KineticMetrics } from "@/types/kinetics";
+import type { Recipe } from "@/types/recipe";
 
 export interface CircuitValidationResult {
   isValid: boolean;

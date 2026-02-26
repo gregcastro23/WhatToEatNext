@@ -1,8 +1,8 @@
 
-import type { NatalChart, Planet } from '@/types/natalChart';
-import type { AlchemicalState } from '@/utils/monica/types';
 import { performAlchemicalAnalysis, deriveAlchemicalFromElemental } from '@/data/unified/alchemicalCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
+import type { NatalChart, Planet } from '@/types/natalChart';
+import type { AlchemicalState } from '@/utils/monica/types';
 
 // Define weights for planets
 const PLANETARY_WEIGHTS: Record<string, number> = {

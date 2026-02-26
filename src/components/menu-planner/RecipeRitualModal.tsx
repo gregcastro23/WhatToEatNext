@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import type { ElementalProperties } from "@/types/recipe";
 import CelestialEquilibrium from "@/components/CelestialEquilibrium";
+import type { ElementalProperties } from "@/types/recipe";
 
 interface RecipeRitualModalProps {
   isOpen: boolean;
@@ -105,7 +105,7 @@ export default function RecipeRitualModal({
               <div
                 className="bg-green-500 h-4 rounded-full"
                 style={{ width: `${totalPotencyScore * 100}%` }}
-              ></div>
+               />
             </div>
             <div
               className={`text-right text-sm mt-1 ${isDarkBg ? "text-gray-300" : "text-gray-500"}`}

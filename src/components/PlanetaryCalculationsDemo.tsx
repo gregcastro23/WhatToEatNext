@@ -11,22 +11,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { logger } from "@/lib/logger";
+import type { ElementalProperties } from "@/types/alchemy";
+import {
+  calculateKineticProperties,
+  type KineticMetrics,
+} from "@/utils/kineticCalculations";
+import {
+  calculateThermodynamicMetrics,
+  type ThermodynamicMetrics,
+} from "@/utils/monicaKalchmCalculations";
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
   type AlchemicalProperties,
   type ZodiacSignType,
 } from "@/utils/planetaryAlchemyMapping";
-import {
-  calculateThermodynamicMetrics,
-  type ThermodynamicMetrics,
-} from "@/utils/monicaKalchmCalculations";
-import {
-  calculateKineticProperties,
-  type KineticMetrics,
-} from "@/utils/kineticCalculations";
-import type { ElementalProperties } from "@/types/alchemy";
-import { logger } from "@/lib/logger";
 
 // Planet symbols and colors
 const PLANET_SYMBOLS: Record<string, string> = {
@@ -311,7 +311,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
       elemental: elementalProps,
       thermodynamic: thermodynamicMetrics,
       kinetic: kineticMetrics,
-      aspects: aspects,
+      aspects,
     };
 
     const dataStr = JSON.stringify(exportObj, null, 2);
@@ -481,10 +481,10 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {(
-              Object.entries(alchemicalProps) as [
+              Object.entries(alchemicalProps) as Array<[
                 keyof AlchemicalProperties,
                 number,
-              ][]
+              ]>
             ).map(([property, value]) => (
               <div
                 key={property}
@@ -520,10 +520,10 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {(
-              Object.entries(elementalProps) as [
+              Object.entries(elementalProps) as Array<[
                 keyof ElementalProperties,
                 number,
-              ][]
+              ]>
             ).map(([element, value]) => {
               const colors = {
                 Fire: "from-red-50 to-orange-50 border-red-200 text-red-900",

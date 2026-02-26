@@ -15,41 +15,13 @@
  * @see cuisineRecommendationEngine.ts - Base engine
  */
 
+import type { ThermodynamicProperties } from "@/types/alchemy";
 import type {
   AlchemicalProperties,
   CuisineComputedProperties,
   ElementalProperties,
 } from "@/types/hierarchy";
 import type { KineticMetrics } from "@/types/kinetics";
-import type { ThermodynamicProperties } from "@/types/alchemy";
-
-import {
-  type UserProfile,
-  type CuisineRecommendation,
-  calculateElementalCompatibility,
-  calculateCulturalAlignment,
-  calculateSeasonalRelevance,
-  calculateSignatureMatch,
-} from "./cuisineRecommendationEngine";
-
-import {
-  calculateKineticCompatibility,
-  createUserKineticProfile,
-  aggregateCuisineKineticProfile,
-  type UserKineticProfile,
-  type CuisineKineticProfile,
-  type KineticCompatibilityResult,
-} from "./kineticCuisineCompatibility";
-
-import {
-  calculateThermodynamicResonance,
-  createUserThermodynamicProfile,
-  aggregateCuisineThermodynamicProfile,
-  type UserThermodynamicProfile,
-  type CuisineThermodynamicProfile,
-  type ThermodynamicResonanceResult,
-} from "./thermodynamicResonance";
-
 import {
   rankRecipesByCircuitCompatibility,
   validateMultiCoursePowerFlow,
@@ -60,13 +32,36 @@ import {
   type RankedRecipeResult,
   type MultiCourseValidationResult,
 } from "./circuitBasedRecipeRanking";
-
+import {
+  type UserProfile,
+  type CuisineRecommendation,
+  calculateElementalCompatibility,
+  calculateCulturalAlignment,
+  calculateSeasonalRelevance,
+  calculateSignatureMatch,
+} from "./cuisineRecommendationEngine";
 import {
   recommendSauces,
   type Sauce,
   type SauceRecommendationCriteria,
   type SauceRecommendationResult,
 } from "./intelligentSauceRecommender";
+import {
+  calculateKineticCompatibility,
+  createUserKineticProfile,
+  aggregateCuisineKineticProfile,
+  type UserKineticProfile,
+  type CuisineKineticProfile,
+  type KineticCompatibilityResult,
+} from "./kineticCuisineCompatibility";
+import {
+  calculateThermodynamicResonance,
+  createUserThermodynamicProfile,
+  aggregateCuisineThermodynamicProfile,
+  type UserThermodynamicProfile,
+  type CuisineThermodynamicProfile,
+  type ThermodynamicResonanceResult,
+} from "./thermodynamicResonance";
 
 // ========== ENHANCED TYPE DEFINITIONS ==========
 

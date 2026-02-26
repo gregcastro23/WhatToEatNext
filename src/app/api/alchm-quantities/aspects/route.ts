@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
+import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
+import { createLogger } from "@/utils/logger";
+import { AVERAGE_DAILY_MOTION } from "@/utils/planetaryTransitions";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
-import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
-import { AVERAGE_DAILY_MOTION } from "@/utils/planetaryTransitions";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("PlanetaryAspectsAPI");
 
@@ -33,7 +33,7 @@ function computeOrb(long1: number, long2: number, aspectAngle: number): number {
   return Math.abs(diff - aspectAngle);
 }
 
-export type AspectEntry = {
+export interface AspectEntry {
   planet1: string;
   planet2: string;
   type: string;
@@ -43,7 +43,7 @@ export type AspectEntry = {
   applying: boolean;          // true = approaching exact, false = moving away
   daysToExact: number;        // days until (applying) or since (separating) exact
   influence: "harmonious" | "challenging" | "neutral";
-};
+}
 
 export async function GET() {
   try {
@@ -60,7 +60,7 @@ export async function GET() {
     // Build lookup: planet → ecliptic longitude
     const longitudes: Record<string, number> = {};
     for (const [name, pos] of Object.entries(positions)) {
-      longitudes[name] = toLongitude(pos as any);
+      longitudes[name] = toLongitude(pos);
     }
 
     // Calculate all aspects using the existing utility
@@ -69,10 +69,10 @@ export async function GET() {
         Object.entries(positions).map(([name, pos]) => [
           name,
           {
-            sign: (pos as any).sign,
-            degree: (pos as any).degree ?? 0,
+            sign: (pos).sign,
+            degree: (pos).degree ?? 0,
             exactLongitude: longitudes[name],
-            isRetrograde: (pos as any).isRetrograde ?? false,
+            isRetrograde: (pos).isRetrograde ?? false,
           },
         ]),
       ),
@@ -110,9 +110,9 @@ export async function GET() {
 
       // Effective daily motion (negative when retrograde)
       const m1 = (AVERAGE_DAILY_MOTION[aspect.planet1] ?? 0.5) *
-        ((positions[aspect.planet1] as any)?.isRetrograde ? -1 : 1);
+        ((positions[aspect.planet1])?.isRetrograde ? -1 : 1);
       const m2 = (AVERAGE_DAILY_MOTION[aspect.planet2] ?? 0.5) *
-        ((positions[aspect.planet2] as any)?.isRetrograde ? -1 : 1);
+        ((positions[aspect.planet2])?.isRetrograde ? -1 : 1);
 
       // Current orb
       const currentOrb = computeOrb(L1, L2, aspectAngle);

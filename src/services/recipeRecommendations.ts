@@ -131,7 +131,7 @@ export class RecipeRecommender {
       if (!methods) return [];
       if (Array.isArray(methods)) {
         return methods.map((m) =>
-          typeof m === "string" ? m : (m as any).name,
+          typeof m === "string" ? m : (m).name,
         );
       }
       if (typeof methods === "string") {

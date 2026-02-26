@@ -10,11 +10,11 @@
  */
 
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
+import { createLogger } from "../logger";
 import {
   RecipeDataEnricher,
   type EnrichmentResult,
 } from "./RecipeDataEnricher";
-import { createLogger } from "../logger";
 
 const logger = createLogger("BatchEnrichment");
 
@@ -62,7 +62,7 @@ export interface BatchEnrichmentOptions {
  * Batch enrich multiple recipes
  */
 export function batchEnrichRecipes(
-  recipes: Partial<Recipe>[],
+  recipes: Array<Partial<Recipe>>,
   options: BatchEnrichmentOptions = {},
 ): BatchEnrichmentResult {
   const {
@@ -238,7 +238,7 @@ function calculateEnrichmentStats(
  * Apply enrichment results to recipes, returning updated recipes
  */
 export function applyBatchEnrichment(
-  recipes: Partial<Recipe>[],
+  recipes: Array<Partial<Recipe>>,
   enrichmentResults: BatchEnrichmentResult,
 ): Recipe[] {
   const enricher = RecipeDataEnricher.getInstance();
@@ -280,8 +280,8 @@ export function applyBatchEnrichment(
 /**
  * Extract recipes from a cuisine object structure
  */
-export function extractRecipesFromCuisine(cuisineData: any): Partial<Recipe>[] {
-  const recipes: Partial<Recipe>[] = [];
+export function extractRecipesFromCuisine(cuisineData: any): Array<Partial<Recipe>> {
+  const recipes: Array<Partial<Recipe>> = [];
   const cuisineName = cuisineData.name || cuisineData.id || "Unknown";
 
   // Handle dishes object structure (breakfast, lunch, dinner, etc.)
@@ -371,7 +371,7 @@ export type ProgressCallback = (progress: {
  * Batch enrich with progress reporting
  */
 export async function batchEnrichWithProgress(
-  recipes: Partial<Recipe>[],
+  recipes: Array<Partial<Recipe>>,
   options: BatchEnrichmentOptions = {},
   onProgress?: ProgressCallback,
 ): Promise<BatchEnrichmentResult> {

@@ -6,17 +6,18 @@
  * Shows ESMS, thermodynamic metrics, and P=IV circuit kinetics
  */
 
-import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
-import {
-  calculateAlchemicalFromPlanets,
-  PLANETARY_ALCHEMY,
-  ZODIAC_ELEMENTS,
-  type ZodiacSignType as ZodiacSignType,
-} from "@/utils/planetaryAlchemyMapping";
+import { useState, useMemo, useCallback } from "react";
 import { calculateKalchmResults } from "@/calculations/core/kalchmEngine";
 import { calculateKinetics } from "@/calculations/kinetics";
 import { DefaultPlanetaryPositions } from "@/constants/typeDefaults";
+import {
+  calculateAlchemicalFromPlanets,
+  PLANETARY_ALCHEMY,
+  ZODIAC_ELEMENTS
+} from "@/utils/planetaryAlchemyMapping";
+import type {
+  ZodiacSignType} from "@/utils/planetaryAlchemyMapping";
 
 // Zodiac signs array for dropdowns
 const ZODIAC_SIGNS: ZodiacSignType[] = [
@@ -300,9 +301,9 @@ export default function AlchemicalKineticsDemo() {
                   ))}
                 </select>
                 <div className="text-xs text-gray-500">
-                  {PLANETARY_ALCHEMY[planet as PlanetName] && (
+                  {PLANETARY_ALCHEMY[planet] && (
                     <div>
-                      {Object.entries(PLANETARY_ALCHEMY[planet as PlanetName])
+                      {Object.entries(PLANETARY_ALCHEMY[planet])
                         .filter(([_, value]) => value > 0)
                         .map(([prop]) => prop)
                         .join(", ")}

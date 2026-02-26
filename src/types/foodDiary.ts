@@ -6,10 +6,10 @@
  * @created 2026-02-02
  */
 
-import type { MealType } from "./menuPlanner";
-import type { NutritionalSummary, NutritionalProfile } from "./nutrition";
 import type { ElementalProperties } from "./alchemy";
 import type { StandardZodiacSignType } from "./astrology";
+import type { MealType } from "./menuPlanner";
+import type { NutritionalSummary, NutritionalProfile } from "./nutrition";
 
 /**
  * Food entry source type - where the food data comes from

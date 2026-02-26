@@ -9,7 +9,8 @@
  */
 
 import React, { useState, useEffect, useMemo } from "react";
-import type { Recipe } from "@/types/recipe";
+import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type {
   MealType,
   DayOfWeek,
@@ -19,15 +20,14 @@ import {
   getMealTypeCharacteristics,
   getPlanetaryDayCharacteristics,
 } from "@/types/menuPlanner";
+import type { Recipe } from "@/types/recipe";
+import { createLogger } from "@/utils/logger";
 import {
   searchRecipes,
   searchIngredients,
   type RecipeSearchOptions,
   type ScoredRecipe,
 } from "@/utils/recipeSearchEngine";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeSelector");
 
@@ -148,7 +148,7 @@ function RecipeCard({
       {elements.length > 0 && (
         <div className="flex gap-0.5 mb-2">
           {elements.map(([element, value]) => {
-            const width = Math.round((value as number) * 100);
+            const width = Math.round((value) * 100);
             const elementColors: Record<string, { bg: string }> = {
               Fire: { bg: "bg-orange-400" },
               Water: { bg: "bg-blue-400" },
@@ -161,7 +161,7 @@ function RecipeCard({
                 key={element}
                 className={`h-1 rounded-full ${color.bg}`}
                 style={{ width: `${width}%` }}
-                title={`${element}: ${Math.round((value as number) * 100)}%`}
+                title={`${element}: ${Math.round((value) * 100)}%`}
               />
             );
           })}
@@ -473,7 +473,7 @@ export default function RecipeSelector({
                 value={maxPrepTime || ""}
                 onChange={(e) =>
                   setMaxPrepTime(
-                    e.target.value ? parseInt(e.target.value) : undefined,
+                    e.target.value ? parseInt(e.target.value, 10) : undefined,
                   )
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"

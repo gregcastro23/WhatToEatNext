@@ -6,10 +6,10 @@
  * momentum, inertia, and aspect phase calculations.
  */
 
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type { Element } from "@/types/celestial";
 import type { AspectPhase, KineticMetrics } from "@/types/kinetics";
 import { alchemize, planetInfo } from "./core/alchemicalEngine";
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 
 export type { KineticMetrics } from "@/types/kinetics";
 

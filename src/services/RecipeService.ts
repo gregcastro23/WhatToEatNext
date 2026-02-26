@@ -16,7 +16,7 @@ import type {
 
 // Extended cuisine interface for internal use
 interface ExtendedCuisine extends Omit<Cuisine, 'dishes'> {
-  dishes?: Record<string, unknown>[] | Cuisine['dishes'];
+  dishes?: Array<Record<string, unknown>> | Cuisine['dishes'];
   [key: string]: unknown;
 }
 

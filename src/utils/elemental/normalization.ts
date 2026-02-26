@@ -19,16 +19,16 @@
  * // Result: { Fire: 0.46, Water: 0.27, Earth: 0.16, Air: 0.11 }
  */
 
+import {
+  NORMALIZED_DEFAULT_PROPERTIES,
+  VALIDATION_THRESHOLDS,
+} from "@/constants/elementalCore";
 import type {
   Element,
   ElementalProperties,
   NormalizedElementalProperties,
   RawElementalProperties,
 } from "@/types/alchemy";
-import {
-  NORMALIZED_DEFAULT_PROPERTIES,
-  VALIDATION_THRESHOLDS,
-} from "@/constants/elementalCore";
 
 /**
  * Normalize raw elemental properties to percentages (0.0-1.0) for display
@@ -95,7 +95,7 @@ export function getDominantElementByIntensity(
 ): Element {
   const entries = Object.entries(properties).filter(([key]) =>
     ["Fire", "Water", "Earth", "Air"].includes(key),
-  ) as [Element, number][];
+  ) as Array<[Element, number]>;
   return entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
 }
 

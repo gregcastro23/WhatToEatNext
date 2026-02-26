@@ -7,8 +7,8 @@
  */
 
 import type { LunarPhase } from "./alchemy";
-import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
 import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
+import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
 
 
 /**
@@ -238,10 +238,10 @@ export interface MenuTemplate {
   id: string;
   name: string;
   description?: string;
-  meals: Omit<
+  meals: Array<Omit<
     MealSlot,
     "id" | "planetarySnapshot" | "createdAt" | "updatedAt"
-  >[];
+  >>;
   tags?: string[];
   author?: string;
   isPublic: boolean;

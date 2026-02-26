@@ -18,17 +18,17 @@
  * const processed = autoConvertToRaw(unknownData);
  */
 
-import type {
-  ElementalProperties,
-  NormalizedElementalProperties,
-  RawElementalProperties,
-} from "@/types/alchemy";
 import {
   DEFAULT_ELEMENTAL_PROPERTIES,
   VALIDATION_THRESHOLDS,
   ZERO_ELEMENTAL_PROPERTIES,
 } from "@/constants/elementalCore";
-import { getTotalIntensity, isNormalized } from "./normalization";
+import type {
+  ElementalProperties,
+  NormalizedElementalProperties,
+  RawElementalProperties,
+} from "@/types/alchemy";
+import { convertNormalizedToRaw, getTotalIntensity, isNormalized } from "./normalization";
 
 /**
  * Reference intensity values for different ingredient categories
@@ -46,8 +46,6 @@ export const CATEGORY_REFERENCE_INTENSITIES: Record<string, number> = {
   default: 4.0, // Default reference for unknown categories
 };
 
-// Re-export convertNormalizedToRaw from normalization for backwards compatibility
-import { convertNormalizedToRaw } from "./normalization";
 export { convertNormalizedToRaw };
 
 /**

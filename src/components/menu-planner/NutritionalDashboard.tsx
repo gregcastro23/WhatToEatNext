@@ -159,8 +159,8 @@ function RadarChart({
   });
 
   const dataPath =
-    dataPoints.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") +
-    " Z";
+    `${dataPoints.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") 
+    } Z`;
 
   // Calculate axis labels positions
   const axisLabels = data.map((item, i) => {
@@ -188,9 +188,9 @@ function RadarChart({
             };
           });
           const levelPath =
-            levelPoints
+            `${levelPoints
               .map((p, j) => `${j === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-              .join(" ") + " Z";
+              .join(" ")  } Z`;
 
           return (
             <path
