@@ -1,5 +1,22 @@
 import AlertingSystem, { AlertRule } from "../AlertingSystem";
 
+// Mock fs to prevent real filesystem operations during tests
+jest.mock("fs", () => ({
+  existsSync: jest.fn(() => false),
+  readFileSync: jest.fn(() => "{}"),
+  writeFileSync: jest.fn(),
+  mkdirSync: jest.fn(),
+  appendFileSync: jest.fn(),
+}));
+
+// Mock logger dependencies
+jest.mock("@/lib/logger", () => ({
+  _logger: { warn: jest.fn(), error: jest.fn(), info: jest.fn(), debug: jest.fn() },
+}));
+jest.mock("@/services/LoggingService", () => ({
+  log: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },
+}));
+
 // Mock the dependencies
 jest.mock("../BuildPerformanceMonitor", () => ({
   buildPerformanceMonitor: {
@@ -16,7 +33,7 @@ jest.mock("../BuildPerformanceMonitor", () => ({
 }));
 
 jest.mock("../ErrorTrackingSystem", () => ({
-  errorTrackingSystem: {
+  _errorTrackingSystem: {
     subscribe: jest.fn(),
     getErrorSummary: jest.fn(() => ({
       totalActiveErrors: 150,
@@ -36,7 +53,7 @@ jest.mock("../ErrorTrackingSystem", () => ({
 }));
 
 jest.mock("../QualityMetricsService", () => ({
-  qualityMetricsService: {
+  _qualityMetricsService: {
     subscribe: jest.fn(),
   },
 }));
