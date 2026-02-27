@@ -27,16 +27,12 @@ const config = {
     "/archive/",
     "/__tests__/temp-validation/", // Exclude temp validation components (not actual tests)
     "/docs/Alchm Kitchen/", // Exclude Alchm Kitchen docs from tests to resolve Haste collision
-    // Tests with missing dependencies (@testing-library/react not installed)
-    "src/__tests__/hooks/",
-    "src/__tests__/providers/",
-    "src/__tests__/components/",
     // Orphaned tests referencing deleted modules
     "src/services/__tests__/EnterpriseIntelligenceIntegration",
-    "src/services/__tests__/AlertingSystem",
     "tests/cross-backend-rectification",
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 
   // Memory Management Configuration
   testTimeout: 30000, // 30s timeout for CI environment
