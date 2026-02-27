@@ -1,5 +1,28 @@
 import AlertingSystem, { AlertRule } from "../AlertingSystem";
 
+// Mock Node.js modules that AlertingSystem imports
+jest.mock("fs", () => ({
+  existsSync: jest.fn(() => false),
+  readFileSync: jest.fn(() => "[]"),
+  writeFileSync: jest.fn(),
+  mkdirSync: jest.fn(),
+}));
+
+jest.mock("path", () => ({
+  join: jest.fn((...args: string[]) => args.join("/")),
+  dirname: jest.fn((p: string) => p),
+  resolve: jest.fn((...args: string[]) => args.join("/")),
+}));
+
+jest.mock("@/lib/logger", () => ({
+  _logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },
+}));
+
+jest.mock("@/services/LoggingService", () => ({
+  log: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },
+  LogLevel: { DEBUG: 0, INFO: 1, WARN: 2, ERROR: 3, SILENT: 4 },
+}));
+
 // Mock the dependencies
 jest.mock("../BuildPerformanceMonitor", () => ({
   buildPerformanceMonitor: {
@@ -16,7 +39,7 @@ jest.mock("../BuildPerformanceMonitor", () => ({
 }));
 
 jest.mock("../ErrorTrackingSystem", () => ({
-  errorTrackingSystem: {
+  _errorTrackingSystem: {
     subscribe: jest.fn(),
     getErrorSummary: jest.fn(() => ({
       totalActiveErrors: 150,
@@ -36,7 +59,7 @@ jest.mock("../ErrorTrackingSystem", () => ({
 }));
 
 jest.mock("../QualityMetricsService", () => ({
-  qualityMetricsService: {
+  _qualityMetricsService: {
     subscribe: jest.fn(),
   },
 }));

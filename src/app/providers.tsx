@@ -1,7 +1,7 @@
 'use client';
 
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
@@ -15,7 +15,7 @@ let PrivyProviderLazy: React.ComponentType<{ appId: string; config: Record<strin
 function getPrivyProvider() {
   if (PrivyProviderLazy) return PrivyProviderLazy;
   try {
-     
+
     const mod = require('@privy-io/react-auth');
     PrivyProviderLazy = mod.PrivyProvider;
     return PrivyProviderLazy;
@@ -24,14 +24,23 @@ function getPrivyProvider() {
   }
 }
 
+/**
+ * Validates a Privy app ID format.
+ * Privy app IDs follow the pattern: clXXXXXXXXXXXXXXXXXXXXXXX (starts with "cl" prefix)
+ */
+function isValidPrivyAppId(appId: string): boolean {
+  if (!appId || appId.trim() === '' || appId === 'undefined' || appId === 'null') {
+    return false;
+  }
+  // Privy app IDs must start with "cl" and be at least 10 chars
+  const trimmed = appId.trim();
+  return trimmed.startsWith('cl') && trimmed.length >= 10;
+}
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   // Render providers on both server and client consistently.
   // All providers use useState with static initial values, so the SSR output
   // matches the client's initial render — no hydration mismatch.
-  //
-  // Previously, a `mounted` gate caused the entire child tree to unmount and
-  // remount when switching from <>{children}</> to the full provider stack,
-  // which led to blank-page issues.
 
   const content = (
     <ErrorBoundary>
@@ -47,31 +56,39 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     </ErrorBoundary>
   );
 
-  // If Privy App ID is missing, render content without Privy auth
-  // This prevents the entire app from being blocked when env vars are not yet synced
+  // If Privy App ID is missing or invalid, render content without Privy auth.
+  // This prevents the entire app from crashing when the Privy app ID is
+  // misconfigured (e.g., "Cannot initialize the Privy provider with an
+  // invalid Privy app ID").
   const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
-  if (!appId || appId.trim() === '' || appId === 'undefined') {
+  if (!isValidPrivyAppId(appId || '')) {
     return content;
   }
 
-  // Wrap with PrivyProvider only when available and configured
+  // Wrap with PrivyProvider only when available and configured.
   const Provider = getPrivyProvider();
   if (!Provider) {
     return content;
   }
 
+  // Wrap PrivyProvider in its own ErrorBoundary so that if Privy fails
+  // (invalid app ID, network issues, SDK errors), the rest of the app
+  // still renders. Without this, a Privy error would crash the entire
+  // React tree and show a blank screen.
   return (
-    <Provider
-      appId={appId}
-      config={{
-        loginMethods: ['google'],
-        appearance: {
-          theme: 'dark',
-          accentColor: '#676FFF',
-        },
-      }}
-    >
-      {content}
-    </Provider>
+    <ErrorBoundary fallback={content}>
+      <Provider
+        appId={appId!}
+        config={{
+          loginMethods: ['google'],
+          appearance: {
+            theme: 'dark',
+            accentColor: '#676FFF',
+          },
+        }}
+      >
+        {content}
+      </Provider>
+    </ErrorBoundary>
   );
 }

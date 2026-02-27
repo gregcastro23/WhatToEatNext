@@ -44,16 +44,23 @@ jest.mock("@/utils/alchemicalPillarUtils", () => ({
 // Mock alchemicalPillars
 jest.mock("@/constants/alchemicalPillars", () => ({
   getCookingMethodThermodynamics: () => ({
-    Heat: 0.5,
-    Entropy: 0.3,
-    Reactivity: 0.4,
+    heat: 0.5,
+    entropy: 0.3,
+    reactivity: 0.4,
   }),
-  alchemicalPillars: [],
+  ALCHEMICAL_PILLARS: [],
+  calculateOptimalCookingConditions: () => ({ temperature: 200, duration: 30 }),
+  calculatePillarMonicaModifiers: () => ({ modifier: 1 }),
 }));
 
-// Mock gregsEnergy
+// Mock gregsEnergy — must return the object shape { gregsEnergy, heat, entropy, reactivity }
 jest.mock("@/calculations/gregsEnergy", () => ({
-  calculateGregsEnergy: () => 0.5,
+  calculateGregsEnergy: () => ({
+    gregsEnergy: 0.5,
+    heat: 0.3,
+    entropy: 0.2,
+    reactivity: 0.4,
+  }),
 }));
 
 // Mock monicaKalchmCalculations

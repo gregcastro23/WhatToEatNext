@@ -40,9 +40,8 @@ const getSecurityHeaders = () => {
     `connect-src ${connectSrcParts.join(" ")}`,
     "media-src 'self' https:",
     "object-src 'none'",
-    "frame-src 'self' https://auth.privy.io https://*.privy.io",
+    "frame-src 'self' https://auth.privy.io https://*.privy.io https://vercel.live https://*.vercel.live",
     "frame-ancestors 'none'",
-    "block-all-mixed-content",
     "upgrade-insecure-requests",
   ].join("; ");
 
