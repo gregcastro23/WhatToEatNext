@@ -1,7 +1,8 @@
 // jest.setup.js
+// Uses require() because Jest loads .js setup files as CommonJS.
 
-import "@testing-library/jest-dom";
-import { TextEncoder } from "util";
+require("@testing-library/jest-dom");
+const { TextEncoder } = require("util");
 
 global.TextEncoder = TextEncoder;
 
@@ -32,17 +33,11 @@ global.IntersectionObserver = class IntersectionObserver {
 
 beforeAll(() => {
   jest.setTimeout(10000);
-
-  // Setup any global test configuration
-  console.log("Test setup initialized");
 });
 
 afterAll(() => {
   jest.clearAllTimers();
   jest.useRealTimers();
-
-  // Ensure cleanup after tests
-  console.log("Test cleanup completed");
 });
 
 // Add global error handler for unhandled rejections

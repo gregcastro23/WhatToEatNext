@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import {
-  currentMomentManager,
   getCurrentMoment,
   updateCurrentMoment,
 } from "@/services/CurrentMomentManager";
@@ -19,7 +18,6 @@ export async function GET(request: Request) {
     logger.info(`Getting current moment data (forceRefresh: ${forceRefresh})`);
 
     const currentMoment = await getCurrentMoment(forceRefresh);
-    const performanceMetrics = currentMomentManager.getPerformanceMetrics();
 
     const response = {
       success: true,
@@ -30,23 +28,6 @@ export async function GET(request: Request) {
         lastUpdated: currentMoment.metadata.lastUpdated,
         source: currentMoment.metadata.source,
         locationCount: Object.keys(currentMoment.planetaryPositions).length,
-        performance: {
-          totalUpdates: performanceMetrics.totalUpdates,
-          successRate:
-            performanceMetrics.totalUpdates > 0
-              ? `${(
-                  (performanceMetrics.successfulUpdates /
-                    performanceMetrics.totalUpdates) *
-                  100
-                ).toFixed(1)}%`
-              : "0%",
-          averageResponseTime: `${Math.round(performanceMetrics.averageResponseTime)}ms`,
-          lastError: performanceMetrics.lastError,
-          currentMinuteUpdates:
-            performanceMetrics.updateFrequency[
-              new Date().toISOString().slice(0, 16)
-            ] || 0,
-        },
       },
     };
 
@@ -94,12 +75,6 @@ export async function POST(request: Request) {
           timestamp: new Date().toISOString(),
           message: "Current moment updated successfully",
           currentMoment: result,
-          updatedFiles: [
-            "current-moment-chart.ipynb",
-            "src/constants/systemDefaults.ts",
-            "src/utils/streamlinedPlanetaryPositions.ts",
-            "src/utils/accurateAstronomy.ts",
-          ],
         });
       }
 

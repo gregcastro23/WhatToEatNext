@@ -25,17 +25,10 @@ const config = {
     "/docs/archived-tests/",
     "/.temp-disabled-tests/",
     "/archive/",
-    "/__tests__/temp-validation/", // Exclude temp validation components (not actual tests)
-    "/docs/Alchm Kitchen/", // Exclude Alchm Kitchen docs from tests to resolve Haste collision
-    // Tests with missing dependencies (@testing-library/react not installed)
-    "src/__tests__/hooks/",
-    "src/__tests__/providers/",
-    "src/__tests__/components/",
-    // Orphaned tests referencing deleted modules
-    "src/services/__tests__/EnterpriseIntelligenceIntegration",
-    "src/services/__tests__/AlertingSystem",
-    "tests/cross-backend-rectification",
+    "/__tests__/temp-validation/",
+    "/docs/Alchm Kitchen/",
   ],
+  setupFilesAfterEnv: ["./jest.setup.js"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 
   // Memory Management Configuration
@@ -46,7 +39,9 @@ const config = {
   // Memory optimization settings
   clearMocks: true,
   restoreMocks: true,
-  resetModules: true,
+  // resetModules must be false: resetting modules between tests breaks React
+  // hooks (useState/useContext become null) because the React instance changes.
+  resetModules: false,
 
   verbose: true,
 
