@@ -87,6 +87,7 @@ temp.log
 
 # Backup files
 *.bak
+*.bak6
 *_backup*
 *.backup*
 *-backup*
@@ -120,8 +121,9 @@ lint-fix-log.txt
 .typescript-errors-metrics.json
 .explicit-any-metrics.json
 reports/
-*.json
 *-report.json
+.eslint-fix-tmp/
+*.tsbuildinfo
 # Backend secrets
 backend/.env
 .env*.local
