@@ -59,24 +59,26 @@ COPY --from=dependencies /usr/local/bin /usr/local/bin
 
 WORKDIR /app
 
-# Copy database module
-COPY database/ ./database/
+# Set PYTHONPATH so "from backend.xxx" imports resolve
+ENV PYTHONPATH=/app
 
-# Copy alchm_kitchen service
-COPY alchm_kitchen/ ./alchm_kitchen/
+# Create the backend package structure to match import paths (from backend.xxx)
+RUN mkdir -p /app/backend
 
-# Copy utils (required for collective_engine)
-COPY utils/ ./utils/
+# Copy all backend modules INTO /app/backend/ so imports like
+# "from backend.database import ..." resolve correctly
+COPY database/ ./backend/database/
+COPY alchm_kitchen/ ./backend/alchm_kitchen/
+COPY utils/ ./backend/utils/
+COPY scripts/ ./backend/scripts/
+COPY alembic/ ./backend/alembic/
+COPY alembic.ini ./backend/
+COPY config/ ./backend/config/
 
-# Copy scripts (if needed for initialization)
-COPY scripts/ ./scripts/
+# Create __init__.py for the backend package
+RUN touch /app/backend/__init__.py
 
-# Copy alembic migrations
-COPY alembic/ ./alembic/
-COPY alembic.ini ./
-
-# Copy environment file if it exists (will be overridden at runtime by docker-compose/k8s)
-# Using shell to make it optional since .dockerignore excludes it
+# Copy environment file if it exists
 RUN touch .env
 
 # Create non-root user for security
@@ -95,7 +97,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:8000/health || exit 1
 
 # Default command: run uvicorn server
-CMD ["uvicorn", "alchm_kitchen.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "backend.alchm_kitchen.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 # =============================================================================
 # Build arguments for metadata

@@ -111,6 +111,15 @@ app.add_middleware(
 )
 
 # ==========================================
+# HEALTH CHECK
+# ==========================================
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Docker and monitoring."""
+    return {"status": "healthy", "service": "alchm.kitchen", "version": "2.0.0"}
+
+# ==========================================
 # PROTECTED USER ROUTE
 # ==========================================
 
@@ -146,19 +155,19 @@ async def user_onboarding(
         # Parse date and time
         b_date = datetime.strptime(data.birth_date, "%Y-%m-%d")
         b_time = datetime.strptime(data.birth_time, "%H:%M")
-        
+
         # Calculate Planetary Positions
         chart_data = calculate_planetary_positions_swisseph(
             b_date.year, b_date.month, b_date.day,
             b_time.hour, b_time.minute
         )
-        
+
         if not chart_data or "positions" not in chart_data:
              raise HTTPException(status_code=500, detail="Failed to calculate natal chart")
-             
+
         # Calculate Alchemical Quantities
         alchemy_stats = calculate_natal_alchemical_quantities(chart_data["positions"])
-        
+
         # Return the comprehensive profile
         return {
             "user_id": user.get("sub"),
@@ -167,7 +176,7 @@ async def user_onboarding(
             "alchemical_quantities": alchemy_stats,
             "message": "Onboarding successful. Welcome, Alchemist."
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Onboarding failed: {str(e)}")
 
@@ -196,11 +205,11 @@ async def calculate_alchemical_quantities_endpoint(request: AlchemicalQuantities
                 self.nutritional_profile = data.get('nutritional_profile', {})
 
         recipe_obj = RecipeObj(request.recipe)
-        
+
         # Log the context for polish
         if request.city_name:
             print(f"[{request.city_name}] Calculating Quantities for request...")
-        
+
         result = calculate_alchemical_quantities(
             recipe_obj,
             request.kinetic_rating,
