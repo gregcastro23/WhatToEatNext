@@ -9,13 +9,35 @@
  *   AUTH_GOOGLE_ID       - Google OAuth client ID
  *   AUTH_GOOGLE_SECRET   - Google OAuth client secret
  *
+ * When AUTH_SECRET is missing (e.g., Vercel preview deployments from dependabot),
+ * a placeholder secret is used so the app doesn't crash. Auth functionality
+ * will be non-functional but pages will still render.
+ *
  * @file src/lib/auth/auth.ts
  */
 
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 
+/**
+ * Resolve the auth secret. In preview/development environments where AUTH_SECRET
+ * is not configured (e.g., dependabot PRs), use a placeholder to prevent
+ * MissingSecret crashes. Auth features won't work, but the app won't 500.
+ */
+function getAuthSecret(): string | undefined {
+  if (process.env.AUTH_SECRET) {
+    return process.env.AUTH_SECRET;
+  }
+  // On Vercel preview deployments (e.g., dependabot), allow graceful degradation
+  if (process.env.VERCEL_ENV === "preview" || process.env.NODE_ENV === "development") {
+    return `placeholder-secret-${process.env.VERCEL_GIT_COMMIT_SHA || "dev"}`;
+  }
+  // In production, let Auth.js throw MissingSecret so it's caught immediately
+  return undefined;
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  secret: getAuthSecret(),
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
