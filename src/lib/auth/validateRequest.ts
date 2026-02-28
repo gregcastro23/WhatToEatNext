@@ -1,9 +1,9 @@
 /**
  * JWT Validation Utility for Next.js API Routes
- * Validates authentication tokens from cookies or Authorization header
+ * Validates authentication tokens from cookies or Authorization header.
+ * Uses NextAuth session as primary auth and legacy JWT as fallback.
  *
  * @file src/lib/auth/validateRequest.ts
- * @created 2026-02-03
  */
 
 import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
@@ -11,23 +11,7 @@ import { NextResponse } from "next/server";
 import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
-// Privy Client - lazy initialization to prevent build-time crash
-// when PRIVY_APP_SECRET is not available (e.g. during static generation)
-let _privyClient: InstanceType<typeof import("@privy-io/server-auth").PrivyClient> | null = null;
-function getPrivyClient() {
-  if (_privyClient) return _privyClient;
-  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
-  const appSecret = process.env.PRIVY_APP_SECRET;
-  if (!appId || !appSecret) return null;
-  try {
-     
-    const { PrivyClient } = require("@privy-io/server-auth");
-    _privyClient = new PrivyClient(appId, appSecret);
-    return _privyClient;
-  } catch {
-    return null;
-  }
-}
+import { auth } from "@/lib/auth/auth";
 
 // JWT Secret - lazy initialization
 let _jwtSecret: Uint8Array | null = null;
@@ -84,8 +68,7 @@ export function extractToken(request: NextRequest): string | null {
   // Check cookies
   const cookieToken =
     request.cookies.get("accessToken")?.value ||
-    request.cookies.get("auth_token")?.value ||
-    request.cookies.get("privy-token")?.value;
+    request.cookies.get("auth_token")?.value;
   if (cookieToken) {
     return cookieToken;
   }
@@ -95,38 +78,12 @@ export function extractToken(request: NextRequest): string | null {
 
 /**
  * Validate JWT token and return user payload
- * Support both legacy JWT and Privy tokens
  */
 export async function validateToken(token: string): Promise<ValidationResult> {
   try {
-    // 1. Try Privy validation first (only if client is available)
-    const privy = getPrivyClient();
-    try {
-      const verifiedClaims = privy ? await privy.verifyAuthToken(token) : null;
-      if (verifiedClaims) {
-        // Map Privy claims to our TokenPayload
-        // Note: Privy userId is verifiedClaims.userId
-        return {
-          valid: true,
-          user: {
-            userId: verifiedClaims.userId,
-            email: "", // Privy claims might not have email directly here depending on config
-            roles: ["user"], // Default role
-            scopes: [],
-            iat: verifiedClaims.issuedAt || 0,
-            exp: verifiedClaims.expiration || 0,
-            iss: "privy",
-          },
-        };
-      }
-    } catch (privyError) {
-      // If Privy validation fails, fall back to legacy JWT
-      // console.log("Privy validation failed, trying legacy JWT...");
-    }
-
-    // 2. Fallback to legacy JWT validation
+    // Validate using legacy JWT
     const { payload } = await jwtVerify(token, getJWTSecret(), {
-      algorithms: ["HS256"], 
+      algorithms: ["HS256"],
     });
 
     const decoded = payload as unknown as TokenPayload;
@@ -173,11 +130,33 @@ export async function validateToken(token: string): Promise<ValidationResult> {
 }
 
 /**
- * Validate request and return user or error response
+ * Validate request and return user or error response.
+ * Checks NextAuth session first, then falls back to legacy JWT.
  */
 export async function validateRequest(
   request: NextRequest,
 ): Promise<{ user: TokenPayload } | { error: NextResponse }> {
+  // 1. Try NextAuth session first
+  try {
+    const session = await auth();
+    if (session?.user) {
+      return {
+        user: {
+          userId: session.user.id || "",
+          email: session.user.email || "",
+          roles: ["user"],
+          scopes: [],
+          iat: 0,
+          exp: 0,
+          iss: "next-auth",
+        },
+      };
+    }
+  } catch {
+    // NextAuth session check failed, fall through to JWT
+  }
+
+  // 2. Fall back to legacy JWT token
   const token = extractToken(request);
 
   if (!token) {
@@ -228,12 +207,22 @@ export async function validateAdminRequest(
 }
 
 /**
- * Helper to get userId from request (from token or query param as fallback)
+ * Helper to get userId from request (from NextAuth session, token, or query param)
  */
 export async function getUserIdFromRequest(
   request: NextRequest,
 ): Promise<string | null> {
-  // Try token first
+  // Try NextAuth session first
+  try {
+    const session = await auth();
+    if (session?.user?.id) {
+      return session.user.id;
+    }
+  } catch {
+    // Fall through
+  }
+
+  // Try token
   const token = extractToken(request);
   if (token) {
     const result = await validateToken(token);
