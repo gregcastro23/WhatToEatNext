@@ -140,11 +140,14 @@ export async function validateRequest(
   try {
     const session = await auth();
     if (session?.user) {
+      const sessionRole = session.user.role || "user";
+      const roles =
+        sessionRole === "admin" ? ["admin", "user"] : ["user"];
       return {
         user: {
           userId: session.user.id || "",
           email: session.user.email || "",
-          roles: ["user"],
+          roles,
           scopes: [],
           iat: 0,
           exp: 0,

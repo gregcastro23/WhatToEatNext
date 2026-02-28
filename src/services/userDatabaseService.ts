@@ -91,15 +91,18 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
-        // Insert into users table
+        // Insert into users table (uses single 'role' ENUM column per migration 07)
+        const primaryRole = user.roles.includes("admin" as UserRole)
+          ? "ADMIN"
+          : "USER";
         await db.executeQuery(
-          `INSERT INTO users (id, email, password_hash, roles, is_active, profile, preferences, created_at)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+          `INSERT INTO users (id, email, password_hash, role, is_active, profile, preferences, created_at)
+           VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)`,
           [
             userId,
             data.email,
             user.passwordHash,
-            user.roles,
+            primaryRole,
             true,
             JSON.stringify(user.profile),
             JSON.stringify(user.profile.preferences || {}),
@@ -482,11 +485,16 @@ class UserDatabaseService {
         ? JSON.parse(row.dining_groups)
         : row.dining_groups || [];
 
+    // Map single 'role' ENUM column back to roles array
+    const dbRole = (row.role || "USER").toUpperCase();
+    const roles =
+      dbRole === "ADMIN" ? ["admin", "user"] : ["user"];
+
     return {
       id: row.id,
       email: row.email,
       passwordHash: row.password_hash,
-      roles: row.roles || ["user"],
+      roles: roles as UserRole[],
       isActive: row.is_active,
       createdAt: new Date(row.created_at),
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
