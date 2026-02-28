@@ -2,44 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import LoginButton from '@/components/LoginButton';
 import { AlchemicalDashboard } from '@/components/profile/AlchemicalDashboard';
 import { BirthDataForm } from '@/components/profile/BirthDataForm';
 
-// Default state when Privy is unavailable
-const DEFAULT_PRIVY_STATE = {
-  ready: true,
-  authenticated: false,
-  user: null as any,
-  getAccessToken: async () => null as any,
-  logout: () => {},
-  login: () => {},
-};
-
-// Resolve the usePrivy hook at module level so calls are never conditional
-let _usePrivy: (() => typeof DEFAULT_PRIVY_STATE) | null = null;
-try {
-   
-  const mod = require('@privy-io/react-auth');
-  _usePrivy = mod.usePrivy;
-} catch {
-  // Privy not available
-}
-
-function usePrivySafe() {
-  if (_usePrivy) {
-    try {
-      return _usePrivy();
-    } catch {
-      return DEFAULT_PRIVY_STATE;
-    }
-  }
-  return DEFAULT_PRIVY_STATE;
-}
-
 const ProfilePage = () => {
   const router = useRouter();
-  const { ready, authenticated, user, getAccessToken, logout, login } = usePrivySafe();
+  const { data: session, status } = useSession();
   const [profileData, setProfileData] = useState<any>(null);
   const [dbProfile, setDbProfile] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,13 +18,10 @@ const ProfilePage = () => {
   // Fetch DB profile on mount
   useEffect(() => {
     async function fetchProfile() {
-      if (ready && authenticated) {
+      if (status === 'authenticated' && session) {
         try {
-          const token = await getAccessToken();
           const res = await fetch('/api/user/profile', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+            credentials: 'include',
           });
           if (res.ok) {
             const data = await res.json();
@@ -68,21 +35,20 @@ const ProfilePage = () => {
       }
     }
     fetchProfile();
-  }, [ready, authenticated, getAccessToken]);
+  }, [status, session]);
 
   const handleOnboardingSubmit = async (data: any) => {
     setIsLoading(true);
     setError(null);
     try {
-      const token = await getAccessToken();
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-      
+
       const response = await fetch(`${backendUrl}/api/user/onboarding`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
+        credentials: 'include',
         body: JSON.stringify(data)
       });
 
@@ -92,16 +58,16 @@ const ProfilePage = () => {
 
       const result = await response.json();
       setProfileData(result);
-      
+
       // Also refresh DB profile
       const profileRes = await fetch('/api/user/profile', {
-        headers: { Authorization: `Bearer ${token}` }
+        credentials: 'include',
       });
       if (profileRes.ok) {
-        const profileData = await profileRes.json();
-        if (profileData.success) setDbProfile(profileData.profile);
+        const profileResData = await profileRes.json();
+        if (profileResData.success) setDbProfile(profileResData.profile);
       }
-      
+
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An error occurred');
@@ -110,7 +76,7 @@ const ProfilePage = () => {
     }
   };
 
-  if (!ready) {
+  if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500" />
@@ -119,7 +85,7 @@ const ProfilePage = () => {
     );
   }
 
-  if (!authenticated) {
+  if (status === 'unauthenticated') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 text-center">
         <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full">
@@ -127,8 +93,8 @@ const ProfilePage = () => {
           <p className="text-gray-600 mb-8">
             Unlock your cosmic culinary journey. Sign up or log in to access your personalized alchemical dashboard.
           </p>
-          <button 
-            onClick={login}
+          <button
+            onClick={() => signIn('google', { callbackUrl: '/profile' })}
             className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-bold shadow-md hover:from-purple-700 hover:to-indigo-700 transition-all duration-200"
           >
             Log in / Sign up
@@ -141,17 +107,17 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto space-y-8">
-        
+
         {/* Header Section */}
         <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col md:flex-row justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-purple-800">Alchemist Profile</h1>
-            <p className="text-gray-500 text-sm mt-1">ID: {user?.id?.slice(0, 12)}...</p>
-            {user?.email && <p className="text-gray-400 text-xs">{user.email.address}</p>}
+            <p className="text-gray-500 text-sm mt-1">ID: {session?.user?.id?.slice(0, 12)}...</p>
+            {session?.user?.email && <p className="text-gray-400 text-xs">{session.user.email}</p>}
           </div>
           <div className="mt-4 md:mt-0 flex gap-2">
-            <button 
-              onClick={logout}
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
               className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
             >
               Log Out
@@ -182,11 +148,11 @@ const ProfilePage = () => {
         ) : profileData || (dbProfile && dbProfile.astrologicalData) ? (
           <div className="space-y-6">
             <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg text-center">
-              ✨ Natal Chart Successfully Calculated!
+              Natal Chart Successfully Calculated!
             </div>
             <AlchemicalDashboard data={profileData || dbProfile} />
             <div className="text-center">
-                <button 
+                <button
                     onClick={() => {
                       setProfileData(null);
                       setDbProfile(null);

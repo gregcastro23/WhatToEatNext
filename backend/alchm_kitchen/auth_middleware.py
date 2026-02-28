@@ -3,29 +3,30 @@ import os
 import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jwt import PyJWKClient
-
-# This is the JWKS endpoint for your Privy application
-PRIVY_JWKS_URL = f"https://auth.privy.io/api/v1/apps/{os.environ.get('PRIVY_APP_ID')}/jwks.json"
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+# JWT Secret for verifying tokens issued by the Next.js backend
+JWT_SECRET = os.environ.get("JWT_SECRET", "")
+
+
 def get_current_user(token: str = Depends(oauth2_scheme)):
     """
-    Dependency to verify a Privy JWT and return the decoded claims.
+    Dependency to verify a JWT token and return the decoded claims.
+    Supports tokens issued by NextAuth.js and the legacy JWT auth service.
     Raises an HTTPException if the token is invalid.
     """
+    if not JWT_SECRET:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="JWT_SECRET environment variable is not configured",
+        )
+
     try:
-        jwks_client = PyJWKClient(PRIVY_JWKS_URL)
-        signing_key = jwks_client.get_signing_key_from_jwt(token)
-        
-        # Decode and verify the token
         payload = jwt.decode(
             token,
-            signing_key.key,
-            algorithms=["RS256"],
-            audience=os.environ.get('PRIVY_APP_ID'),
-            issuer="privy.io",
+            JWT_SECRET,
+            algorithms=["HS256"],
         )
         return payload
     except jwt.ExpiredSignatureError:
@@ -45,9 +46,3 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {e}",
         )
-
-# Example of a model you might use for the user claims
-# from pydantic import BaseModel
-# class PrivyUser(BaseModel):
-#     sub: str  # The user's Privy DID
-#     # ... other fields from the token payload

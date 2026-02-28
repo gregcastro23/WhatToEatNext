@@ -120,7 +120,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       // If no stored profile, check if there's an authenticated session
       /* 
-      // Disabled for migration to Privy + Python Backend
+      // Disabled - server sync handled via NextAuth session
       if (!profileLoaded) {
         try {
           const response = await fetch("/api/user/profile", {

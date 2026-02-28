@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 
-// Security headers with Privy and Vercel support
+// Security headers with Vercel support
 const getSecurityHeaders = () => {
   const scriptSrcParts = [
     "'self'",
@@ -18,16 +18,13 @@ const getSecurityHeaders = () => {
     "https://r2cdn.perplexity.ai",
     "https://vercel.live",
     "https://*.vercel.live",
-    "https://auth.privy.io",
-    "https://*.privy.io",
   ];
 
   const connectSrcParts = [
     "'self'",
     "https://vercel.live",
     "https://*.vercel.live",
-    "https://auth.privy.io",
-    "https://*.privy.io",
+    "https://accounts.google.com",
     "https:",
   ];
 
@@ -40,7 +37,7 @@ const getSecurityHeaders = () => {
     `connect-src ${connectSrcParts.join(" ")}`,
     "media-src 'self' https:",
     "object-src 'none'",
-    "frame-src 'self' https://auth.privy.io https://*.privy.io",
+    "frame-src 'self' https://accounts.google.com",
     "frame-ancestors 'none'",
     "block-all-mixed-content",
     "upgrade-insecure-requests",
