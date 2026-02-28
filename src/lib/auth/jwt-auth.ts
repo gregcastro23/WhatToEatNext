@@ -6,6 +6,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { logger } from "@/utils/logger";
+import { UserRole, ROLE_PERMISSIONS } from "./roles";
+
+// Re-export so existing consumers don't break
+export { UserRole, ROLE_PERMISSIONS };
+export type { RolePermissions } from "./roles";
 
 export interface AuthConfig {
   jwtSecret: string;
@@ -39,49 +44,6 @@ export interface User {
   createdAt: Date;
   lastLoginAt?: Date;
 }
-
-export enum UserRole {
-  ADMIN = "admin",
-  USER = "user",
-  GUEST = "guest",
-  SERVICE = "service",
-}
-
-export interface RolePermissions {
-  [UserRole.ADMIN]: string[];
-  [UserRole.USER]: string[];
-  [UserRole.GUEST]: string[];
-  [UserRole.SERVICE]: string[];
-}
-
-// Define role-based permissions
-export const ROLE_PERMISSIONS: RolePermissions = {
-  [UserRole.ADMIN]: [
-    "alchemical:*",
-    "kitchen:*",
-    "analytics:*",
-    "user:*",
-    "system:*",
-  ],
-  [UserRole.USER]: [
-    "alchemical:calculate",
-    "alchemical:planetary",
-    "kitchen:recommend",
-    "kitchen:recipes:read",
-    "user:profile:read",
-    "user:profile:update",
-  ],
-  [UserRole.GUEST]: [
-    "alchemical:calculate:basic",
-    "kitchen:recipes:read:public",
-    "kitchen:recommend:limited",
-  ],
-  [UserRole.SERVICE]: [
-    "alchemical:calculate",
-    "kitchen:recommend",
-    "analytics:write",
-  ],
-};
 
 export class JWTAuthService {
   private readonly config: AuthConfig;
