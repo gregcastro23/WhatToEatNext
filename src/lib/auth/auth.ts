@@ -1,91 +1,46 @@
 /**
- * NextAuth.js (Auth.js v5) Configuration
+ * NextAuth.js (Auth.js v5) — Full Server-Side Configuration
  *
- * Provides Google OAuth authentication with JWT session strategy.
- * Compatible with existing JWT infrastructure and PostgreSQL backend.
+ * Extends the edge-safe auth.config.ts with server-only callbacks
+ * that perform database lookups (signIn, jwt).
  *
- * Required environment variables:
- *   AUTH_SECRET          - Random secret for signing tokens (generate with `npx auth secret`)
- *   AUTH_URL             - Canonical app URL (e.g., http://localhost:3000)
- *   AUTH_GOOGLE_ID       - Google OAuth client ID
- *   AUTH_GOOGLE_SECRET   - Google OAuth client secret
+ * This file is imported by:
+ *   - src/app/api/auth/[...nextauth]/route.ts  (server-only, OK)
+ *   - src/lib/auth/validateRequest.ts           (server-only, OK)
  *
- * Optional:
- *   AUTH_ADMIN_EMAIL     - Email that receives ADMIN role on first sign-in
- *   AUTH_TRUST_HOST      - Set to "true" for non-Vercel deployments
- *
- * When AUTH_SECRET is missing (e.g., Vercel preview deployments from dependabot),
- * a placeholder secret is used so the app doesn't crash. Auth functionality
- * will be non-functional but pages will still render.
+ * It must NOT be imported from middleware.ts — use auth.config.ts there.
  *
  * @file src/lib/auth/auth.ts
  */
 
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-import { UserRole } from "@/lib/auth/jwt-auth";
-import { userDatabase } from "@/services/userDatabaseService";
-
-/**
- * Resolve the auth secret. In preview/development environments where AUTH_SECRET
- * is not configured (e.g., dependabot PRs), use a placeholder to prevent
- * MissingSecret crashes. Auth features won't work, but the app won't 500.
- */
-function getAuthSecret(): string | undefined {
-  if (process.env.AUTH_SECRET) {
-    return process.env.AUTH_SECRET;
-  }
-  // On Vercel preview deployments (e.g., dependabot), allow graceful degradation
-  if (process.env.VERCEL_ENV === "preview" || process.env.NODE_ENV === "development") {
-    return `placeholder-secret-${process.env.VERCEL_GIT_COMMIT_SHA || "dev"}`;
-  }
-  // In production, let Auth.js throw MissingSecret so it's caught immediately
-  return undefined;
-}
+import { authConfig } from "./auth.config";
+import { UserRole } from "./roles";
 
 /** The admin email that automatically gets ADMIN role */
 const ADMIN_EMAIL = process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: getAuthSecret(),
-  trustHost: process.env.AUTH_TRUST_HOST === "true" || !!process.env.VERCEL,
-  providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
-    }),
-  ],
-  session: {
-    strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 24 hours
-  },
-  pages: {
-    signIn: "/login",
-  },
+  ...authConfig,
   callbacks: {
-    authorized({ auth: session, request }) {
-      const { pathname } = request.nextUrl;
-
-      // Protect /profile and /onboarding routes
-      const isProtected = pathname.startsWith("/profile") ||
-        pathname.startsWith("/onboarding");
-      if (isProtected && !session?.user) {
-        return Response.redirect(new URL("/login", request.nextUrl.origin));
-      }
-      return true;
-    },
+    // Preserve the edge-safe authorized and session callbacks
+    ...authConfig.callbacks,
 
     async signIn({ user, account }) {
       if (!user.email || !account) return true;
 
       try {
-        // Look up or create the user in our database
+        // Dynamic import keeps Node.js deps (pg) out of the Edge bundle
+        const { userDatabase } = await import(
+          "@/services/userDatabaseService"
+        );
+
         let dbUser = await userDatabase.getUserByEmail(user.email);
 
         if (!dbUser) {
-          // Determine role: admin email or first-ever user gets ADMIN
           const allUsers = await userDatabase.getAllUsers();
-          const isAdmin = user.email === ADMIN_EMAIL || allUsers.length === 0;
+          const isAdmin =
+            user.email === ADMIN_EMAIL || allUsers.length === 0;
 
           dbUser = await userDatabase.createUser({
             email: user.email,
@@ -118,10 +73,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Resolve role and onboarding status from DB (on sign-in or session update)
       if (token.email && (user || trigger === "update")) {
         try {
-          const dbUser = await userDatabase.getUserByEmail(token.email);
+          const { userDatabase } = await import(
+            "@/services/userDatabaseService"
+          );
+
+          const dbUser = await userDatabase.getUserByEmail(
+            token.email as string,
+          );
           if (dbUser) {
             token.userId = dbUser.id;
-            const isAdmin = dbUser.roles.includes(UserRole.ADMIN as any);
+            const isAdmin = dbUser.roles.includes(UserRole.ADMIN as never);
             token.role = isAdmin ? "admin" : "user";
             token.onboardingComplete = !!(
               dbUser.profile.birthData && dbUser.profile.natalChart
@@ -140,17 +101,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
 
-    async session({ session, token }) {
-      // Expose token fields on the session object for client use
-      if (session.user) {
-        session.user.id = token.userId || token.sub || "";
-        session.user.email = token.email || "";
-        session.user.name = token.name || "";
-        session.user.image = token.picture || "";
-        session.user.role = token.role || "user";
-        session.user.onboardingComplete = token.onboardingComplete ?? false;
-      }
-      return session;
-    },
+    // session callback is inherited from authConfig.callbacks
   },
 });
