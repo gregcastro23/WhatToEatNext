@@ -142,14 +142,17 @@ export async function POST(request: NextRequest) {
     const isNewUser = !user;
 
     if (!user) {
-      // Create new user
+      // Determine role: admin email or first-ever user gets ADMIN
+      const adminEmail = process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com";
+      const allUsers = await userDatabase.getAllUsers();
+      const isAdmin = email === adminEmail || allUsers.length === 0;
+
       user = await userDatabase.createUser({
         email,
         name,
-        roles:
-          email === "xalchm@gmail.com"
-            ? [UserRole.ADMIN, UserRole.USER]
-            : [UserRole.USER],
+        roles: isAdmin
+          ? [UserRole.ADMIN, UserRole.USER]
+          : [UserRole.USER],
       });
     }
 

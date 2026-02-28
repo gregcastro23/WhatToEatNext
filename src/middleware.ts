@@ -5,14 +5,44 @@ import type { NextRequest } from "next/server";
 /**
  * Auth middleware for protected routes.
  *
- * Wraps the Auth.js middleware with error handling so that misconfigured
- * environments (e.g., Vercel preview deployments missing AUTH_SECRET)
- * don't produce 500 errors. Instead, unauthenticated users are
- * redirected to /login.
+ * - Unauthenticated users on protected routes -> /login
+ * - Authenticated users who haven't completed onboarding:
+ *     /profile -> redirect to /onboarding
+ * - Authenticated users who HAVE completed onboarding:
+ *     /onboarding -> redirect to /profile
  */
 async function middleware(request: NextRequest) {
   try {
-    return await (auth as any)(request);
+    const session = await auth();
+    const { pathname } = request.nextUrl;
+
+    // Not authenticated -> redirect to login for protected routes
+    if (!session?.user) {
+      if (pathname.startsWith("/profile") || pathname.startsWith("/onboarding") || pathname.startsWith("/admin")) {
+        return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
+      }
+      return NextResponse.next();
+    }
+
+    const user = session.user as any;
+    const onboardingComplete = user.onboardingComplete === true;
+
+    // Authenticated but onboarding incomplete -> force /onboarding
+    if (!onboardingComplete && pathname.startsWith("/profile")) {
+      return NextResponse.redirect(new URL("/onboarding", request.nextUrl.origin));
+    }
+
+    // Authenticated and onboarding complete -> skip onboarding page
+    if (onboardingComplete && pathname.startsWith("/onboarding")) {
+      return NextResponse.redirect(new URL("/profile", request.nextUrl.origin));
+    }
+
+    // Admin route protection
+    if (pathname.startsWith("/admin") && user.role !== "admin") {
+      return NextResponse.redirect(new URL("/profile", request.nextUrl.origin));
+    }
+
+    return NextResponse.next();
   } catch (error) {
     // If auth fails due to missing secret or misconfiguration,
     // redirect to login rather than crashing with a 500
@@ -25,8 +55,8 @@ export default middleware;
 
 export const config = {
   matcher: [
-    // Only run middleware on routes that need auth protection
     '/profile/:path*',
     '/onboarding/:path*',
+    '/admin/:path*',
   ],
 };
