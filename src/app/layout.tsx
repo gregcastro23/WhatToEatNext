@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ClientProviders from "./ClientProviders";
 import PayPalButton from "@/components/PayPalButton";
+import NavAuthLink from "@/components/nav/NavAuthLink";
 
 // Force dynamic rendering for all pages - the app relies on runtime
 // context providers (Chakra, Theme, User, Alchemical) that require
@@ -108,13 +109,7 @@ export default function RootLayout({
                   >
                     🧪 Planetary Agents
                   </Link>
-                  <Link
-                    href="/profile"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-blue-100 text-blue-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-blue-200"
-                    aria-label="View your profile"
-                  >
-                    👤 Profile
-                  </Link>
+                  <NavAuthLink />
                 </nav>
               </div>
             </div>
@@ -181,12 +176,7 @@ export default function RootLayout({
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        href="/profile"
-                        className="text-gray-300 hover:text-blue-300 transition-colors"
-                      >
-                        👤 Profile
-                      </Link>
+                      <NavAuthLink variant="footer" />
                     </li>
                   </ul>
                 </div>
