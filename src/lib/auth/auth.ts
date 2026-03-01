@@ -62,9 +62,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // On initial sign-in, persist user info into the JWT
       if (user) {
         token.userId = user.id;
-        token.email = user.email;
-        token.name = user.name;
-        token.picture = user.image;
+        token.email = user.email ?? undefined;
+        token.name = user.name ?? undefined;
+        token.picture = user.image ?? undefined;
       }
       if (account) {
         token.provider = account.provider;
