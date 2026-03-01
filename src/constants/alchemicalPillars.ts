@@ -1340,35 +1340,62 @@ export function alchemize<T>(input: T): ThermodynamicMetrics {
 }
 
 /**
- * Placeholder for calculateOptimalCookingConditions function.
- * @param monica The monica constant.
- * @param thermodynamicProperties The thermodynamic properties of the method.
- * @returns Optimal cooking conditions.
+ * Calculate optimal cooking conditions based on the Monica constant and
+ * thermodynamic properties. Uses calculatePillarMonicaModifiers for
+ * physics-based temperature/timing adjustments, and derives planetary
+ * hours and lunar phases from thermodynamic and Monica characteristics.
+ *
+ * @param monica The Monica constant value
+ * @param thermodynamicProperties The thermodynamic properties of the cooking method
+ * @returns Optimal cooking conditions including temperature, timing, planetary hours, and lunar phases
  */
 export function calculateOptimalCookingConditions(
   monica: number,
   thermodynamicProperties: { heat: number; entropy: number; reactivity: number; energy?: number; },
 ): { temperature: number; timing: string; planetaryHours: string[]; lunarPhases: string[]; } {
-  console.warn("calculateOptimalCookingConditions function is a placeholder.");
-  // Placeholder logic based on monica and heat
-  let temperature = 350; // Fahrenheit
-  let timing = "steady";
-  const planetaryHours = ["Sun", "Moon"];
-  const lunarPhases = ["new moon", "full moon"];
+  const { heat, entropy, reactivity } = thermodynamicProperties;
 
+  // Use the physics-based Monica modifiers for temperature and timing
+  const monicaModifiers = calculatePillarMonicaModifiers(monica);
+
+  // Base temperature from heat property (200-500F range)
+  const baseTemperature = 200 + heat * 300;
+  const temperature = Math.round(
+    Math.max(200, Math.min(500, baseTemperature + monicaModifiers.temperatureAdjustment))
+  );
+
+  // Timing from Monica classification
+  let timing: string;
   if (monica > 5) {
-    temperature += thermodynamicProperties.heat * 50; // Increase temp with high heat
     timing = "quick";
-  } else if (monica < 1) {
-    temperature -= thermodynamicProperties.heat * 50; // Decrease temp with low heat
+  } else if (monica > 1) {
+    timing = "steady";
+  } else {
     timing = "slow";
   }
 
-  // Adjust temperature for Monica modifiers example (placeholder)
-  if (thermodynamicProperties.heat > 0.8) {
-    temperature += 20;
-  } else if (thermodynamicProperties.heat < 0.2) {
-    temperature -= 20;
+  // Planetary hours from thermodynamic properties
+  const planetaryHours: string[] = [];
+  if (heat > 0.6) {
+    planetaryHours.push("Sun", "Mars");
+  } else if (reactivity > 0.6) {
+    planetaryHours.push("Mercury", "Uranus");
+  } else if (entropy > 0.6) {
+    planetaryHours.push("Neptune", "Pluto");
+  } else {
+    planetaryHours.push("Jupiter");
+  }
+
+  // Lunar phases from Monica sign and magnitude
+  const lunarPhases: string[] = [];
+  if (!isFinite(monica) || isNaN(monica)) {
+    lunarPhases.push("new moon", "full moon", "first quarter", "third quarter");
+  } else if (monica > 0.5) {
+    lunarPhases.push("waxing gibbous", "full moon");
+  } else if (monica < -0.5) {
+    lunarPhases.push("waning crescent", "new moon");
+  } else {
+    lunarPhases.push("first quarter", "third quarter");
   }
 
   return { temperature, timing, planetaryHours, lunarPhases };
