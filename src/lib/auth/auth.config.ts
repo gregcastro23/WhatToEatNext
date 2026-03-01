@@ -47,6 +47,19 @@ export const authConfig = {
   },
   pages: {
     signIn: "/login",
+    error: "/auth/error",
+  },
+  cookies: {
+    pkceCodeVerifier: {
+      name: "authjs.pkce.code_verifier",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 900, // 15 minutes
+      },
+    },
   },
   callbacks: {
     /**
