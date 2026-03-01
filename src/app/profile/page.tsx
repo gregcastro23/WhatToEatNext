@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
-import { AlchemicalDashboard } from '@/components/profile/AlchemicalDashboard';
+import { UserDashboard } from '@/components/dashboard';
 import { FoodPreferences } from '@/components/profile/FoodPreferences';
-import { PersonalizedRecommendations } from '@/components/profile/PersonalizedRecommendations';
 import type { BirthData } from '@/types/natalChart';
 
 type ProfileStep = 'birth-data' | 'preferences' | 'dashboard';
@@ -34,7 +33,7 @@ function getStorageItem(key: string): string | null {
 
 export default function ProfilePage() {
   const { data: session, status, update: updateSession } = useSession();
-  const { state, getDominantElement, getAlchemicalHarmony } = useAlchemical();
+  const { state } = useAlchemical();
 
   const [profileData, setProfileData] = useState<any>(null);
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_PREFERENCES);
@@ -208,111 +207,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-[70vh] bg-gradient-to-br from-purple-50 via-orange-50 to-blue-50 p-4 md:p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-
-        {/* Profile header */}
-        <div className="bg-white p-5 rounded-xl shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600">
-              Your Profile
-            </h1>
-            {session.user?.name && (
-              <p className="text-gray-600 text-sm mt-1">{session.user.name}</p>
-            )}
-            {session.user?.email && (
-              <p className="text-gray-400 text-xs">{session.user.email}</p>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            {/* Step navigation (only when chart exists) */}
-            {profileData?.natalChart && (
-              <div className="flex gap-1">
-                <button
-                  onClick={() => setCurrentStep('dashboard')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    currentStep === 'dashboard'
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'text-gray-500 hover:bg-gray-100'
-                  }`}
-                >
-                  Dashboard
-                </button>
-                <button
-                  onClick={() => setCurrentStep('preferences')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    currentStep === 'preferences'
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'text-gray-500 hover:bg-gray-100'
-                  }`}
-                >
-                  Preferences
-                </button>
-                <button
-                  onClick={() => setCurrentStep('birth-data')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    currentStep === 'birth-data'
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'text-gray-500 hover:bg-gray-100'
-                  }`}
-                >
-                  Birth Data
-                </button>
-              </div>
-            )}
-            <button
-              onClick={() => signOut({ callbackUrl: '/' })}
-              className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium border border-red-200"
-            >
-              Log Out
-            </button>
-          </div>
-        </div>
-
-        {/* Cosmic status bar */}
-        <div className="bg-white rounded-xl shadow-sm p-4 flex flex-wrap items-center justify-center gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-gray-600">Season: <span className="font-medium capitalize text-gray-800">{state.currentSeason}</span></span>
-          </div>
-          <span className="text-gray-300">|</span>
-          <span className="text-gray-600">Time: <span className="font-medium text-gray-800">{state.timeOfDay}</span></span>
-          <span className="text-gray-300">|</span>
-          <span className="text-gray-600">Element: <span className="font-medium text-gray-800">{getDominantElement()}</span></span>
-          <span className="text-gray-300">|</span>
-          <span className="text-gray-600">Harmony: <span className="font-medium text-gray-800">{(getAlchemicalHarmony() * 100).toFixed(0)}%</span></span>
-        </div>
-
-        {/* Step indicator */}
-        <div className="flex items-center justify-center gap-2">
-          {['birth-data', 'preferences', 'dashboard'].map((step, idx) => {
-            const labels = ['Birth Chart', 'Preferences', 'Recommendations'];
-            const isActive = currentStep === step;
-            const isCompleted =
-              (step === 'birth-data' && profileData?.natalChart) ||
-              (step === 'preferences' && prefsCompleted);
-            return (
-              <div key={step} className="flex items-center gap-2">
-                {idx > 0 && <div className="w-8 h-px bg-gray-300" />}
-                <div className="flex items-center gap-1.5">
-                  <div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                      isActive
-                        ? 'bg-purple-600 text-white'
-                        : isCompleted
-                          ? 'bg-green-500 text-white'
-                          : 'bg-gray-200 text-gray-500'
-                    }`}
-                  >
-                    {isCompleted && !isActive ? '\u2713' : idx + 1}
-                  </div>
-                  <span className={`text-xs font-medium hidden sm:inline ${isActive ? 'text-purple-700' : 'text-gray-500'}`}>
-                    {labels[idx]}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      <div className="max-w-5xl mx-auto space-y-6">
 
         {/* Error display */}
         {error && (
@@ -324,36 +219,83 @@ export default function ProfilePage() {
         {/* Main content */}
         {isFetchingProfile ? (
           <div className="space-y-6 animate-pulse">
+            <div className="h-20 bg-white/60 rounded-xl" />
             <div className="grid md:grid-cols-2 gap-6">
               <div className="h-64 bg-white/60 rounded-xl" />
               <div className="h-64 bg-white/60 rounded-xl" />
             </div>
           </div>
         ) : currentStep === 'birth-data' ? (
-          <BirthDataStep
-            birthDateTime={birthDateTime}
-            setBirthDateTime={setBirthDateTime}
-            birthLocation={birthLocation}
-            setBirthLocation={setBirthLocation}
-            onSubmit={handleBirthDataSubmit}
-            isLoading={isLoading}
-            hasExistingChart={!!profileData?.natalChart}
-            onSkip={profileData?.natalChart ? () => setCurrentStep('preferences') : undefined}
-          />
+          <div className="space-y-6">
+            {/* Step indicator for onboarding flow */}
+            <div className="flex items-center justify-center gap-2">
+              {['birth-data', 'preferences', 'dashboard'].map((step, idx) => {
+                const labels = ['Birth Chart', 'Preferences', 'Dashboard'];
+                const isActive = currentStep === step;
+                const isCompleted =
+                  (step === 'birth-data' && profileData?.natalChart) ||
+                  (step === 'preferences' && prefsCompleted);
+                return (
+                  <div key={step} className="flex items-center gap-2">
+                    {idx > 0 && <div className="w-8 h-px bg-gray-300" />}
+                    <div className="flex items-center gap-1.5">
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                          isActive
+                            ? 'bg-purple-600 text-white'
+                            : isCompleted
+                              ? 'bg-green-500 text-white'
+                              : 'bg-gray-200 text-gray-500'
+                        }`}
+                      >
+                        {isCompleted && !isActive ? '\u2713' : idx + 1}
+                      </div>
+                      <span className={`text-xs font-medium hidden sm:inline ${isActive ? 'text-purple-700' : 'text-gray-500'}`}>
+                        {labels[idx]}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <BirthDataStep
+              birthDateTime={birthDateTime}
+              setBirthDateTime={setBirthDateTime}
+              birthLocation={birthLocation}
+              setBirthLocation={setBirthLocation}
+              onSubmit={handleBirthDataSubmit}
+              isLoading={isLoading}
+              hasExistingChart={!!profileData?.natalChart}
+              onSkip={profileData?.natalChart ? () => setCurrentStep('dashboard') : undefined}
+            />
+          </div>
         ) : currentStep === 'preferences' ? (
           <FoodPreferences
             preferences={preferences}
             onSave={handlePreferencesSave}
             onBack={() => setCurrentStep('birth-data')}
           />
+        ) : profileData?.natalChart ? (
+          /* Full User Dashboard — shown after birth data + preferences are complete */
+          <UserDashboard
+            session={session}
+            profileData={profileData}
+            natalChart={profileData.natalChart}
+            preferences={preferences}
+            onEditBirthData={() => setCurrentStep('birth-data')}
+            onEditPreferences={() => setCurrentStep('preferences')}
+          />
         ) : (
-          <div className="space-y-6">
-            <AlchemicalDashboard data={profileData} />
-            <PersonalizedRecommendations
-              email={session.user?.email || ''}
-              natalChart={profileData?.natalChart}
-              preferences={preferences}
-            />
+          /* Fallback if no natal chart (shouldn't happen but safe) */
+          <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+            <p className="text-gray-600">Please complete your birth chart to access the dashboard.</p>
+            <button
+              onClick={() => setCurrentStep('birth-data')}
+              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
+            >
+              Enter Birth Data
+            </button>
           </div>
         )}
       </div>
