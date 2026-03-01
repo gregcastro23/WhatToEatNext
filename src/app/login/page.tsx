@@ -3,10 +3,12 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 export default function LoginPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { state, getDominantElement, getAlchemicalHarmony } = useAlchemical();
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -15,6 +17,8 @@ export default function LoginPage() {
   }, [status, router]);
 
   const loading = status === 'loading';
+  const dominantElement = getDominantElement();
+  const harmony = getAlchemicalHarmony();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
@@ -45,8 +49,12 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="mt-8 text-sm text-gray-500 italic animate-pulse">
-        Calculating current planetary positions...
+      <div className="mt-8 text-sm text-gray-500 flex items-center gap-3">
+        <span className="capitalize">{state.currentSeason}</span>
+        <span className="text-gray-300">|</span>
+        <span>Dominant: {dominantElement}</span>
+        <span className="text-gray-300">|</span>
+        <span>Harmony: {(harmony * 100).toFixed(0)}%</span>
       </div>
     </div>
   );
