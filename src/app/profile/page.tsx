@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AlchemicalDashboard } from '@/components/profile/AlchemicalDashboard';
 import { BirthDataForm } from '@/components/profile/BirthDataForm';
 
-const ProfilePage = () => {
+export default function ProfilePage() {
   const { data: session, status, update: updateSession } = useSession();
   const { state, getDominantElement, getAlchemicalHarmony } = useAlchemical();
   const [natalData, setNatalData] = useState<any>(null);
@@ -55,7 +55,6 @@ const ProfilePage = () => {
     setError(null);
 
     try {
-      // Build ISO dateTime from date + time fields
       const dateTime = new Date(`${formData.birth_date}T${formData.birth_time}:00`).toISOString();
 
       const response = await fetch('/api/onboarding', {
@@ -81,10 +80,8 @@ const ProfilePage = () => {
         throw new Error(result.message || 'Onboarding failed');
       }
 
-      // Refresh NextAuth session so middleware sees onboardingComplete
       await updateSession();
 
-      // Refresh profile from DB to get full natal chart
       const profileRes = await fetch('/api/user/profile', { credentials: 'include' });
       if (profileRes.ok) {
         const profileData = await profileRes.json();
@@ -100,64 +97,37 @@ const ProfilePage = () => {
     }
   };
 
-  // ── Loading state ──
+  // Loading state
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-orange-50 to-blue-50 p-4">
+      <div className="min-h-[70vh] flex items-center justify-center p-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500" />
-        <p className="ml-4 text-gray-700">Loading account...</p>
+        <p className="ml-4 text-gray-700">Loading profile...</p>
       </div>
     );
   }
 
-  // ── Unauthenticated ──
-  if (status === 'unauthenticated') {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-orange-50 to-blue-50 px-4 text-center">
-        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full border border-purple-100">
-          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600 mb-2">
-            Alchemist Profile
-          </h1>
-          <p className="text-gray-600 mb-8">
-            Unlock your cosmic culinary journey. Sign in to access your personalized alchemical dashboard.
-          </p>
-          <button
-            onClick={() => signIn('google', { callbackUrl: '/profile' })}
-            className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-bold shadow-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200"
-          >
-            Sign in with Google
-          </button>
-        </div>
-
-        {/* Current cosmic status */}
-        <div className="mt-6 text-sm text-gray-500 flex items-center gap-3">
-          <span className="capitalize">{state.currentSeason}</span>
-          <span className="text-gray-300">|</span>
-          <span>Dominant: {getDominantElement()}</span>
-          <span className="text-gray-300">|</span>
-          <span>Harmony: {(getAlchemicalHarmony() * 100).toFixed(0)}%</span>
-        </div>
-      </div>
-    );
+  // Unauthenticated - middleware should redirect, but handle gracefully
+  if (status === 'unauthenticated' || !session) {
+    return null;
   }
 
-  // ── Authenticated ──
   const hasNatalChart = !!(natalData?.natalChart);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-orange-50 to-blue-50 p-6">
+    <div className="min-h-[70vh] bg-gradient-to-br from-purple-50 via-orange-50 to-blue-50 p-6">
       <div className="max-w-4xl mx-auto space-y-6">
 
-        {/* Header */}
+        {/* Profile header */}
         <div className="bg-white p-6 rounded-xl shadow-sm flex flex-col md:flex-row justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600">
-              Alchemist Profile
+              Your Profile
             </h1>
-            {session?.user?.name && (
+            {session.user?.name && (
               <p className="text-gray-600 text-sm mt-1">{session.user.name}</p>
             )}
-            {session?.user?.email && (
+            {session.user?.email && (
               <p className="text-gray-400 text-xs">{session.user.email}</p>
             )}
           </div>
@@ -169,7 +139,7 @@ const ProfilePage = () => {
           </button>
         </div>
 
-        {/* Current cosmic status bar */}
+        {/* Cosmic status bar */}
         <div className="bg-white rounded-xl shadow-sm p-4 flex flex-wrap items-center justify-center gap-4 text-sm">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -217,6 +187,4 @@ const ProfilePage = () => {
       </div>
     </div>
   );
-};
-
-export default ProfilePage;
+}
