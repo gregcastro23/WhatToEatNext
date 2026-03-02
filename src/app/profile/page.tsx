@@ -168,20 +168,13 @@ export default function ProfilePage() {
         throw new Error(result.message || 'Chart calculation failed');
       }
 
-      // Store in localStorage as a fallback for the dashboard
-      const enrichedChart = {
-        ...result.natalChart,
-        birthData,
-        ascendant: result.natalChart?.planetaryPositions?.Ascendant || 'aries',
-        dominantModality: 'Cardinal',
-        calculatedAt: new Date().toISOString(),
-      };
+      // Store the full natal chart from the API in localStorage
       localStorage.setItem('userProfile', JSON.stringify({
         userId: session.user.id,
         email: session.user.email,
         name: session.user.name,
         birthData,
-        natalChart: enrichedChart,
+        natalChart: result.natalChart,
       }));
 
       // Update session so middleware knows onboarding is complete
@@ -207,7 +200,7 @@ export default function ProfilePage() {
         email: session.user.email,
         name: session.user.name,
         birthData,
-        natalChart: enrichedChart,
+        natalChart: result.natalChart,
       });
 
       // Go directly to dashboard after birth data is saved

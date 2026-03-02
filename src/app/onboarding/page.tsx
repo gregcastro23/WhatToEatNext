@@ -39,6 +39,31 @@ export default function OnboardingPage() {
     }
   }, [status, router]);
 
+  // Redirect users who already completed onboarding to the dashboard.
+  // Check both the session flag and localStorage for the natal chart.
+  useEffect(() => {
+    if (status !== "authenticated" || !session?.user) return;
+
+    const user = session.user as Record<string, unknown>;
+    if (user.onboardingComplete === true) {
+      router.replace("/profile");
+      return;
+    }
+
+    // Also check localStorage - if natal chart exists, user already onboarded
+    try {
+      const stored = localStorage.getItem("userProfile");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.natalChart?.planetaryPositions) {
+          router.replace("/profile");
+        }
+      }
+    } catch {
+      // Ignore parse errors
+    }
+  }, [status, session, router]);
+
   if (!mounted || status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-purple-50 to-blue-50">
@@ -90,9 +115,8 @@ export default function OnboardingPage() {
         throw new Error(data.message || "Onboarding failed");
       }
 
-      // Store in localStorage for immediate client-side use.
-      // Enrich the API response with fields the dashboard needs
-      // (the API returns a slim payload; the client has the rest).
+      // Store the full natal chart from the API in localStorage
+      // for immediate client-side use on the dashboard.
       localStorage.setItem(
         "userProfile",
         JSON.stringify({
@@ -100,23 +124,18 @@ export default function OnboardingPage() {
           email: data.user.email,
           name: data.user.name,
           birthData,
-          natalChart: {
-            ...data.natalChart,
-            birthData,
-            ascendant: data.natalChart.planetaryPositions?.Ascendant || "aries",
-            dominantModality: "Cardinal",
-            calculatedAt: new Date().toISOString(),
-          },
+          natalChart: data.natalChart,
         }),
       );
 
       // Trigger NextAuth session refresh so middleware sees onboardingComplete=true
       await updateSession();
 
-      // Set a short-lived cookie that the middleware can read immediately.
+      // Set a cookie that the middleware can read immediately.
       // This prevents a redirect loop when the JWT cookie hasn't propagated
       // yet (e.g., different serverless instance, DB unavailable for JWT callback).
-      document.cookie = "onboarding_completed=1; path=/; max-age=300; SameSite=Lax";
+      // Matches session maxAge (30 days) so the user stays logged in.
+      document.cookie = "onboarding_completed=1; path=/; max-age=2592000; SameSite=Lax";
 
       // Use full page navigation (not router.push) to ensure the updated
       // JWT cookie is sent with the request. Client-side navigation can

@@ -98,7 +98,7 @@ export const authConfig = {
         }
 
         // Authenticated and onboarding complete -> skip onboarding page
-        if (onboardingComplete && pathname.startsWith("/onboarding")) {
+        if ((onboardingComplete || onboardingCookie) && pathname.startsWith("/onboarding")) {
           return Response.redirect(
             new URL("/profile", request.nextUrl.origin),
           );

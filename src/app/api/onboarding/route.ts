@@ -8,7 +8,7 @@ import { UserRole } from "@/lib/auth/jwt-auth";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import emailService from "@/services/emailService";
 import { userDatabase } from "@/services/userDatabaseService";
-import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
+import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -68,7 +68,7 @@ function calculateDominantElement(
 // Helper to calculate dominant modality from planetary positions
 function calculateDominantModality(
   planetaryPositions: Record<Planet, ZodiacSignType>,
-): string {
+): Modality {
   const modalityCounts: Record<string, number> = {
     Cardinal: 0,
     Fixed: 0,
@@ -98,11 +98,11 @@ function calculateDominantModality(
   });
 
   let maxCount = 0;
-  let dominantModality = "Cardinal";
+  let dominantModality: Modality = "Cardinal";
   Object.entries(modalityCounts).forEach(([modality, count]) => {
     if (count > maxCount) {
       maxCount = count;
-      dominantModality = modality;
+      dominantModality = modality as Modality;
     }
   });
 
@@ -326,11 +326,7 @@ export async function POST(request: NextRequest) {
         email: updatedUser.email,
         name: updatedUser.profile.name,
       },
-      natalChart: {
-        dominantElement: natalChart.dominantElement,
-        planetaryPositions: natalChart.planetaryPositions,
-        alchemicalProperties: natalChart.alchemicalProperties,
-      },
+      natalChart,
     });
   } catch (error) {
     console.error("Onboarding error:", error);

@@ -127,15 +127,20 @@ class EmailService {
   }
 
   /**
-   * Send admin notification email when a new user signs up
+   * Send admin notification email when a new user signs up.
+   * Sends to all configured notification recipients so the team
+   * has a running list of registered users.
    */
   async sendAdminNotificationEmail(
     userEmail: string,
     userName: string,
     dominantElement?: string,
   ): Promise<boolean> {
-    const adminEmail = "xalchm@gmail.com";
-    const subject = `New User Signup: ${userName} on alchm.kitchen`;
+    const notificationRecipients = [
+      "xalchm@gmail.com",
+      "cookingwithcastrollc@gmail.com",
+    ];
+    const subject = `New User Registration: ${userName} on alchm.kitchen`;
 
     const html = this.getAdminNotificationTemplate(
       userEmail,
@@ -148,7 +153,23 @@ class EmailService {
       dominantElement,
     );
 
-    return this.sendEmail({ to: adminEmail, subject, html, text });
+    const results = await Promise.allSettled(
+      notificationRecipients.map((recipient) =>
+        this.sendEmail({ to: recipient, subject, html, text }),
+      ),
+    );
+
+    const allSucceeded = results.every(
+      (r) => r.status === "fulfilled" && r.value === true,
+    );
+    if (!allSucceeded) {
+      const failed = results
+        .map((r, i) => (r.status === "rejected" || (r.status === "fulfilled" && !r.value)) ? notificationRecipients[i] : null)
+        .filter(Boolean);
+      console.warn(`Registration notification failed for: ${failed.join(", ")}`);
+    }
+
+    return allSucceeded;
   }
 
   /**
@@ -349,7 +370,7 @@ You're receiving this email because you signed up for alchm.kitchen.
     <!-- Main Content -->
     <div style="background: white; padding: 40px 30px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
       <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-        A new user has completed onboarding on alchm.kitchen:
+        A new user has registered and completed onboarding on alchm.kitchen:
       </p>
 
       <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -357,7 +378,10 @@ You're receiving this email because you signed up for alchm.kitchen.
           <strong>Name:</strong> ${userName}
         </p>
         <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
-          <strong>Email:</strong> ${userEmail}
+          <strong>Email:</strong> <a href="mailto:${userEmail}" style="color: #7c3aed;">${userEmail}</a>
+        </p>
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
+          <strong>Registered:</strong> ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
         </p>
         ${
           dominantElement
@@ -372,6 +396,7 @@ You're receiving this email because you signed up for alchm.kitchen.
 
       <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 30px 0 0 0;">
         The user has been added to the system and their natal chart has been calculated.
+        You can reach them at <a href="mailto:${userEmail}" style="color: #7c3aed;">${userEmail}</a>.
       </p>
 
       <div style="text-align: center; margin: 30px 0;">
@@ -407,17 +432,18 @@ You're receiving this email because you signed up for alchm.kitchen.
     dominantElement?: string,
   ): string {
     return `
-New User Signup - alchm.kitchen
+New User Registration - alchm.kitchen
 
-A new user has completed onboarding on alchm.kitchen:
+A new user has registered and completed onboarding on alchm.kitchen:
 
 Name: ${userName}
 Email: ${userEmail}
+Registered: ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
 ${dominantElement ? `Dominant Element: ${dominantElement}\n` : ""}
-
 The user has been added to the system and their natal chart has been calculated.
+You can reach them at ${userEmail}.
 
-View User Profile: ${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/profile
+View Admin Dashboard: ${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin
 
 This is an automated notification from alchm.kitchen.
 
