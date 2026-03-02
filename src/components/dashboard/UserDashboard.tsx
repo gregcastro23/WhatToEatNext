@@ -6,6 +6,7 @@ import type { NatalChart } from '@/types/natalChart';
 import { DashboardOverview } from './DashboardOverview';
 import { NatalTransitChart } from './NatalTransitChart';
 import { RecommendationsPanel } from './RecommendationsPanel';
+import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 
 interface UserPreferences {
   dietaryRestrictions: string[];
@@ -24,10 +25,11 @@ interface UserDashboardProps {
   onEditPreferences: () => void;
 }
 
-type DashboardTab = 'overview' | 'chart' | 'recommendations' | 'settings';
+type DashboardTab = 'overview' | 'transits' | 'chart' | 'recommendations' | 'settings';
 
 const TAB_CONFIG: Array<{ key: DashboardTab; label: string; icon: string }> = [
   { key: 'overview', label: 'Overview', icon: '\u2728' },
+  { key: 'transits', label: 'Transits', icon: '\uD83C\uDF0C' },
   { key: 'chart', label: 'My Chart', icon: '\uD83D\uDD2E' },
   { key: 'recommendations', label: 'Recommendations', icon: '\uD83C\uDF7D\uFE0F' },
   { key: 'settings', label: 'Settings', icon: '\u2699\uFE0F' },
@@ -113,6 +115,10 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
         />
       )}
 
+      {activeTab === 'transits' && (
+        <CurrentTransitAnalysis natalChart={natalChart} />
+      )}
+
       {activeTab === 'chart' && (
         <div className="space-y-4">
           <div className="bg-white rounded-xl shadow-sm p-5">
@@ -132,9 +138,9 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
             <NatalTransitChart natalChart={natalChart} />
           </div>
 
-          {/* Aspect Summary */}
+          {/* Core Chart Summary */}
           <div className="bg-white rounded-xl shadow-sm p-5">
-            <h3 className="text-base font-bold text-gray-800 mb-3">Chart Details</h3>
+            <h3 className="text-base font-bold text-gray-800 mb-3">Chart Summary</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <DetailCard
                 label="Sun Sign"
@@ -163,9 +169,45 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
               />
               <DetailCard
                 label="Chart Date"
-                value={natalChart.calculatedAt ? new Date(natalChart.calculatedAt).toLocaleDateString() : '—'}
+                value={natalChart.calculatedAt ? new Date(natalChart.calculatedAt).toLocaleDateString() : '\u2014'}
                 icon="\uD83D\uDCC5"
               />
+            </div>
+          </div>
+
+          {/* Full Planetary Placements */}
+          <div className="bg-white rounded-xl shadow-sm p-5">
+            <h3 className="text-base font-bold text-gray-800 mb-3">All Natal Placements</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {(['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] as const).map((planet) => {
+                const sign = natalChart.planetaryPositions?.[planet];
+                if (!sign) return null;
+                const planetInfo = natalChart.planets?.find(p => p.name === planet);
+                const degree = planetInfo?.position ? Math.floor(planetInfo.position % 30) : null;
+                const signStr = typeof sign === 'string' ? sign : '';
+                return (
+                  <div key={planet} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                    <span className="text-xl w-8 text-center">{
+                      planet === 'Sun' ? '\u2609' : planet === 'Moon' ? '\u263D' :
+                      planet === 'Mercury' ? '\u263F' : planet === 'Venus' ? '\u2640' :
+                      planet === 'Mars' ? '\u2642' : planet === 'Jupiter' ? '\u2643' :
+                      planet === 'Saturn' ? '\u2644' : planet === 'Uranus' ? '\u2645' :
+                      planet === 'Neptune' ? '\u2646' : '\u2647'
+                    }</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs text-gray-500 font-medium">{planet}</div>
+                      <div className="text-sm font-semibold text-gray-800 capitalize">
+                        {signStr}{degree !== null ? ` ${degree}\u00B0` : ''}
+                      </div>
+                    </div>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+                      {signStr === 'aries' || signStr === 'leo' || signStr === 'sagittarius' ? 'Fire' :
+                       signStr === 'taurus' || signStr === 'virgo' || signStr === 'capricorn' ? 'Earth' :
+                       signStr === 'gemini' || signStr === 'libra' || signStr === 'aquarius' ? 'Air' : 'Water'}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
