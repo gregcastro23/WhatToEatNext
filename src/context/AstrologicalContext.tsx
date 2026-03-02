@@ -84,32 +84,81 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to calculate astrological state based on zodiac sign
-  const calculateAstrologicalState = async (zodiac: string): Promise<void> => {
+  // Zodiac sign to element mapping
+  const signToElement: Record<string, string> = {
+    aries: "Fire", leo: "Fire", sagittarius: "Fire",
+    taurus: "Earth", virgo: "Earth", capricorn: "Earth",
+    gemini: "Air", libra: "Air", aquarius: "Air",
+    cancer: "Water", scorpio: "Water", pisces: "Water",
+  };
+
+  // Function to calculate astrological state from live planetary data
+  const calculateAstrologicalState = async (_zodiac: string): Promise<void> => {
     setLoading(true);
     setError(null);
     try {
-      // Mock calculation - in real implementation this would use actual astrological calculations
-      const elementalProperties: ElementalProperties = {
-        Fire:
-          zodiac === "aries" || zodiac === "leo" || zodiac === "sagittarius"
-            ? 0.7
-            : 0.2,
-        Water:
-          zodiac === "cancer" || zodiac === "scorpio" || zodiac === "pisces"
-            ? 0.7
-            : 0.2,
-        Earth:
-          zodiac === "taurus" || zodiac === "virgo" || zodiac === "capricorn"
-            ? 0.7
-            : 0.2,
-        Air:
-          zodiac === "gemini" || zodiac === "libra" || zodiac === "aquarius"
-            ? 0.7
-            : 0.2,
-      };
+      // Fetch real planetary positions from the astrologize API
+      let planetSigns: Record<string, string> = {};
 
-      // Calculate basic alchemical values from elemental properties
+      try {
+        const response = await fetch("/api/astrologize", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          signal: AbortSignal.timeout(8000),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data._celestialBodies) {
+            const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
+            for (const key of planetKeys) {
+              const body = data._celestialBodies[key];
+              if (body?.Sign?.key) {
+                const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
+                planetSigns[titleKey] = body.Sign.key.toLowerCase();
+              }
+            }
+            // Use Sun sign as the current zodiac
+            if (planetSigns.Sun) {
+              setCurrentZodiac(planetSigns.Sun);
+            }
+          }
+        }
+      } catch {
+        // Silently fall back to zodiac-based calculation
+      }
+
+      // Calculate elemental properties from real planetary positions
+      const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+      const planetValues = Object.values(planetSigns);
+
+      let elementalProperties: ElementalProperties;
+
+      if (planetValues.length > 0) {
+        // Use actual planetary position data
+        planetValues.forEach((sign) => {
+          const element = signToElement[sign];
+          if (element) elementCounts[element]++;
+        });
+        const total = planetValues.length;
+        elementalProperties = {
+          Fire: elementCounts.Fire / total,
+          Water: elementCounts.Water / total,
+          Earth: elementCounts.Earth / total,
+          Air: elementCounts.Air / total,
+        };
+      } else {
+        // Fallback: use zodiac-based approximation
+        const zodiac = _zodiac.toLowerCase();
+        elementalProperties = {
+          Fire: (zodiac === "aries" || zodiac === "leo" || zodiac === "sagittarius") ? 0.7 : 0.2,
+          Water: (zodiac === "cancer" || zodiac === "scorpio" || zodiac === "pisces") ? 0.7 : 0.2,
+          Earth: (zodiac === "taurus" || zodiac === "virgo" || zodiac === "capricorn") ? 0.7 : 0.2,
+          Air: (zodiac === "gemini" || zodiac === "libra" || zodiac === "aquarius") ? 0.7 : 0.2,
+        };
+      }
+
+      // Calculate alchemical values
       const alchemicalValues = {
         Spirit: (elementalProperties.Fire + elementalProperties.Air) * 0.5,
         Essence: (elementalProperties.Water + elementalProperties.Fire) * 0.5,
@@ -117,25 +166,37 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({
         Substance: (elementalProperties.Earth + elementalProperties.Air) * 0.5,
       };
 
-      // Get current planetary hour (simple mock based on time)
+      // Calculate planetary hour
       const currentHour = new Date().getHours();
-      const planetaryHours = [
-        "Sun",
-        "Venus",
-        "Mercury",
-        "Moon",
-        "Saturn",
-        "Jupiter",
-        "Mars",
-      ] as const;
+      const planetaryHours = ["Sun", "Venus", "Mercury", "Moon", "Saturn", "Jupiter", "Mars"] as const;
       const planetaryHour = planetaryHours[currentHour % 7];
 
-      const mockState = {
-        currentZodiac: zodiac,
+      // Calculate lunar phase from Moon's ecliptic longitude relative to Sun
+      let lunarPhase = "new moon";
+      if (planetSigns.Sun && planetSigns.Moon) {
+        // Approximate phase from sign distance
+        const signs = ["aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"];
+        const sunIdx = signs.indexOf(planetSigns.Sun);
+        const moonIdx = signs.indexOf(planetSigns.Moon);
+        if (sunIdx >= 0 && moonIdx >= 0) {
+          const diff = ((moonIdx - sunIdx) + 12) % 12;
+          if (diff <= 1) lunarPhase = "new moon";
+          else if (diff <= 3) lunarPhase = "waxing crescent";
+          else if (diff <= 4) lunarPhase = "first quarter";
+          else if (diff <= 5) lunarPhase = "waxing gibbous";
+          else if (diff <= 7) lunarPhase = "full moon";
+          else if (diff <= 8) lunarPhase = "waning gibbous";
+          else if (diff <= 9) lunarPhase = "last quarter";
+          else lunarPhase = "waning crescent";
+        }
+      }
+
+      const astroState: AstrologicalState = {
+        currentZodiac: planetSigns.Sun || _zodiac,
         elementalProperties,
         alchemicalProperties: alchemicalValues as AlchemicalProperties,
         planetaryHour,
-        lunarPhase: "waxing crescent", // Mock value
+        lunarPhase,
         dominantElement: Object.entries(elementalProperties).reduce(
           (max, [element, value]) =>
             value > max.value ? { element, value } : max,
@@ -144,18 +205,16 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({
         timestamp: Date.now(),
       };
 
-      setAstrologicalState(mockState);
+      setAstrologicalState(astroState);
 
-      // Calculate chakra energies based on elemental properties
+      // Calculate chakra energies
       const chakras: ChakraEnergies = {
         root: elementalProperties.Earth * 0.8 + 0.2,
         sacral: elementalProperties.Water * 0.8 + 0.2,
         solarPlexus: elementalProperties.Fire * 0.8 + 0.2,
-        heart:
-          (elementalProperties.Air + elementalProperties.Water) * 0.4 + 0.2,
+        heart: (elementalProperties.Air + elementalProperties.Water) * 0.4 + 0.2,
         throat: elementalProperties.Air * 0.8 + 0.2,
-        thirdEye:
-          (elementalProperties.Air + elementalProperties.Water) * 0.4 + 0.2,
+        thirdEye: (elementalProperties.Air + elementalProperties.Water) * 0.4 + 0.2,
         crown: (elementalProperties.Fire + elementalProperties.Air) * 0.4 + 0.2,
       };
 
@@ -173,19 +232,19 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({
     void calculateAstrologicalState(zodiac);
   };
 
-  // Initialize with default zodiac sign
+  // Initialize by fetching real planetary data
   useEffect(() => {
     void calculateAstrologicalState(currentZodiac);
   }, []);
 
-  // Periodic updates (every 10 minutes) to refresh planetary hour
+  // Periodic updates (every 30 minutes) to refresh planetary positions
   useEffect(() => {
     const interval = setInterval(
       () => {
         void calculateAstrologicalState(currentZodiac);
       },
-      10 * 60 * 1000,
-    ); // 10 minutes
+      30 * 60 * 1000,
+    );
 
     return () => clearInterval(interval);
   }, [currentZodiac]);

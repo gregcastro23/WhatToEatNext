@@ -146,6 +146,71 @@ function calculateExactLongitude(decimalDegrees: number): number {
 }
 
 /**
+ * Calculate approximate Ascendant (rising sign) from date, time, and location.
+ * Uses simplified Local Sidereal Time (LST) calculation.
+ */
+function calculateApproximateAscendant(
+  requestData: LocalAstrologizeRequest,
+): PlanetPosition {
+  const signs = [
+    "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+    "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
+  ];
+
+  const now = new Date();
+  const year = requestData.year ?? now.getFullYear();
+  const month = requestData.month ?? (now.getMonth() + 1);
+  const day = requestData.date ?? now.getDate();
+  const hour = requestData.hour ?? now.getHours();
+  const minute = requestData.minute ?? now.getMinutes();
+  const longitude = requestData.longitude ?? DEFAULT_LOCATION.longitude;
+  const latitude = requestData.latitude ?? DEFAULT_LOCATION.latitude;
+
+  // Calculate Julian Day Number (simplified)
+  const a = Math.floor((14 - month) / 12);
+  const y = year + 4800 - a;
+  const m = month + 12 * a - 3;
+  const jdn = day + Math.floor((153 * m + 2) / 5) + 365 * y
+    + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+
+  // Calculate Greenwich Sidereal Time (GST) in hours
+  const T = (jdn - 2451545.0) / 36525.0;
+  const gst0 = 280.46061837 + 360.98564736629 * (jdn - 2451545.0)
+    + 0.000387933 * T * T;
+  const utcHours = hour + minute / 60.0;
+  const gst = ((gst0 + utcHours * 1.00273790935 * 15) % 360 + 360) % 360;
+
+  // Convert to Local Sidereal Time using longitude
+  const lst = ((gst + longitude) % 360 + 360) % 360;
+
+  // Apply latitude correction using obliquity of the ecliptic
+  const obliquity = 23.4393 - 0.0130 * T; // degrees
+  const oblRad = obliquity * Math.PI / 180;
+  const latRad = latitude * Math.PI / 180;
+  const lstRad = lst * Math.PI / 180;
+
+  // RAMC to Ascendant conversion
+  const ascRad = Math.atan2(
+    Math.cos(lstRad),
+    -(Math.sin(oblRad) * Math.tan(latRad) + Math.cos(oblRad) * Math.sin(lstRad))
+  );
+  let ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
+
+  const signIndex = Math.floor(ascLongitude / 30);
+  const degreeInSign = ascLongitude - signIndex * 30;
+  const degree = Math.floor(degreeInSign);
+  const minuteVal = Math.floor((degreeInSign - degree) * 60);
+
+  return {
+    sign: signs[signIndex % 12],
+    degree,
+    minute: minuteVal,
+    exactLongitude: ascLongitude,
+    isRetrograde: false,
+  };
+}
+
+/**
  * Call the local astrologize API to get planetary positions with circuit breaker
  */
 export async function fetchPlanetaryPositions(
@@ -340,15 +405,8 @@ export async function fetchPlanetaryPositions(
       }
     });
 
-    // For now, calculate Ascendant from the response if available
-    // This should be extracted from the actual API response in future updates
-    positions["Ascendant"] = {
-      sign: "aries",
-      degree: 16,
-      minute: 16,
-      exactLongitude: 16.27,
-      isRetrograde: false,
-    };
+    // Calculate approximate Ascendant from time and location
+    positions["Ascendant"] = calculateApproximateAscendant(requestData);
 
     log.info(
       "Successfully fetched planetary positions from local API:",

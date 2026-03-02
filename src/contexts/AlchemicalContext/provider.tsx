@@ -240,54 +240,107 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const [planetaryPositions, setPlanetaryPositions] = useState<any>({});
   const [normalizedPositions, setNormalizedPositions] = useState<any>({});
 
-  // Update seasonal values and planetary positions
+  // Update seasonal values
   useEffect(() => {
-    const updateSeasonalValues = () => {
-      const now = new Date();
-      const month = now.getMonth();
+    const now = new Date();
+    const month = now.getMonth();
 
-      let season: "spring" | "summer" | "autumn" | "winter";
-      if (month >= 2 && month <= 4) season = "spring";
-      else if (month >= 5 && month <= 7) season = "summer";
-      else if (month >= 8 && month <= 10) season = "autumn";
-      else season = "winter";
+    let season: "spring" | "summer" | "autumn" | "winter";
+    if (month >= 2 && month <= 4) season = "spring";
+    else if (month >= 5 && month <= 7) season = "summer";
+    else if (month >= 8 && month <= 10) season = "autumn";
+    else season = "winter";
 
-      if (season !== state.currentSeason) {
-        dispatch({ type: "UPDATE_SEASON", payload: season });
-      }
-    };
+    if (season !== state.currentSeason) {
+      dispatch({ type: "UPDATE_SEASON", payload: season });
+    }
+  }, [state.currentSeason]);
 
-    const updatePlanetaryPositions = async () => {
+  // Fetch real planetary positions from the astrologize API
+  useEffect(() => {
+    const fetchLivePlanetaryPositions = async () => {
       try {
-        const astroService = AstrologicalService.getInstance();
-        const astroState = astroService.getCurrentState();
+        logger.info("Fetching live planetary positions from /api/astrologize...");
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-        if (isMountedRef.current) {
-          if (astroState) {
+        const response = await fetch("/api/astrologize", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success && data._celestialBodies) {
+          const positions: Record<string, any> = {};
+          const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
+
+          for (const key of planetKeys) {
+            const body = data._celestialBodies[key];
+            if (body) {
+              const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
+              positions[titleKey] = {
+                sign: body.Sign?.key || "aries",
+                degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? 0,
+                minute: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? 0,
+                exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0,
+                isRetrograde: body.isRetrograde ?? false,
+              };
+            }
+          }
+
+          if (isMountedRef.current && Object.keys(positions).length > 0) {
+            logger.info(`Loaded ${Object.keys(positions).length} live planetary positions`);
+            setPlanetaryPositions(positions);
+            setNormalizedPositions(positions);
+            dispatch({ type: "UPDATE_PLANETARY_POSITIONS", payload: positions });
+            setError(null);
+          }
+        } else {
+          throw new Error("Invalid API response structure");
+        }
+      } catch (err) {
+        logger.warn("Failed to fetch live planetary positions, using AstrologicalService fallback:", err);
+        // Fallback to AstrologicalService
+        try {
+          const astroService = AstrologicalService.getInstance();
+          const astroState = astroService.getCurrentState();
+          if (astroState && isMountedRef.current) {
             const alignment = (astroState as any).currentPlanetaryAlignment;
             if (alignment) {
               setPlanetaryPositions(alignment);
               setNormalizedPositions(alignment);
             }
-            setError(null);
           }
-          setIsLoading(false);
+        } catch (fallbackErr) {
+          logger.error("AstrologicalService fallback also failed:", fallbackErr);
         }
-      } catch (err) {
-        logger.warn(
-          "Failed to load planetary positions — falling back to defaults:",
-          err,
-        );
         if (isMountedRef.current) {
           setError(err instanceof Error ? err.message : "Failed to load planetary positions");
+        }
+      } finally {
+        if (isMountedRef.current) {
           setIsLoading(false);
         }
       }
     };
 
-    updateSeasonalValues();
-    void updatePlanetaryPositions();
-  }, [state.currentSeason]);
+    void fetchLivePlanetaryPositions();
+
+    // Refresh planetary positions every 30 minutes
+    const interval = setInterval(() => {
+      void fetchLivePlanetaryPositions();
+    }, 30 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []); // Run once on mount
 
   // Compute isDaytime from current hour
   const isDaytime = (() => {
@@ -304,16 +357,39 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const refreshPlanetaryPositionsAsync = async (): Promise<Record<string, unknown>> => {
     try {
       setIsLoading(true);
-      const astroService = AstrologicalService.getInstance();
-      const astroState = astroService.getCurrentState();
+      const response = await fetch("/api/astrologize", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(8000),
+      });
 
-      if (astroState) {
-        const alignment = (astroState as any).currentPlanetaryAlignment;
-        if (alignment) {
-          setPlanetaryPositions(alignment);
-          setNormalizedPositions(alignment);
+      if (!response.ok) throw new Error(`API returned ${response.status}`);
+
+      const data = await response.json();
+      if (data.success && data._celestialBodies) {
+        const positions: Record<string, any> = {};
+        const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
+
+        for (const key of planetKeys) {
+          const body = data._celestialBodies[key];
+          if (body) {
+            const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
+            positions[titleKey] = {
+              sign: body.Sign?.key || "aries",
+              degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? 0,
+              minute: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? 0,
+              exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0,
+              isRetrograde: body.isRetrograde ?? false,
+            };
+          }
+        }
+
+        if (Object.keys(positions).length > 0) {
+          setPlanetaryPositions(positions);
+          setNormalizedPositions(positions);
+          dispatch({ type: "UPDATE_PLANETARY_POSITIONS", payload: positions });
           setError(null);
-          return alignment;
+          return positions;
         }
       }
       return planetaryPositions;
