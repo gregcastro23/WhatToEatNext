@@ -1,122 +1,155 @@
-import { NextResponse } from "next/server";
-import { _logger } from "@/lib/logger";
-import type { Recipe } from "@/types/recipe";
+import { NextResponse } from 'next/server';
 
-// Basic fallback recipe that will work without dependencies
-const fallbackRecipe: Recipe = {
-  id: "universal-balance",
-  name: "Universal Balance Bowl",
-  description: "A harmonious blend for any occasion",
-  ingredients: [
-    { name: "Mixed Greens", amount: 2, unit: "cups", category: "vegetables" },
-    { name: "Mixed Seeds", amount: 0.25, unit: "cup", category: "garnish" },
-    { name: "Quinoa", amount: 1, unit: "cup", category: "grains" },
-  ],
-  instructions: [
-    "Combine all ingredients in a bowl",
-    "Season to taste",
-    "Enjoy mindfully",
-  ],
-  timeToMake: "15 minutes",
-  numberOfServings: 2,
-  elementalProperties: {
-    Fire: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
-    Water: 0.25,
-  },
-  season: ["all"],
-  mealType: ["lunch", "dinner"],
-  cuisine: "international",
-  isVegetarian: true,
-  isVegan: true,
-  isGlutenFree: true,
-  isDairyFree: true,
-  astrologicalInfluences: ["all"],
-};
+import { _logger } from '@/lib/logger';
+import type { RecipeQuery } from '@/services/PlanetaryRecipeScorer';
+import { planetaryRecipeScorer } from '@/services/PlanetaryRecipeScorer';
 
-// Basic celestial influence data
-const basicCelestialInfluence = {
-  date: new Date().toISOString(),
-  zodiacSign: "libra",
-  dominantPlanets: [
-    { name: "Sun", influence: 0.5 },
-    { name: "Moon", influence: 0.5 },
-  ],
-  lunarPhase: "full",
-  elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-  aspectInfluences: [],
-  astrologicalInfluences: ["Sun", "Moon", "libra", "all"],
-};
-
-// Simplified GET endpoint that returns basic recipe data
-export async function GET() {
+/**
+ * GET /api/recipes — Smart planetary recipe recommendations
+ *
+ * Query params:
+ *   count    – number of recipes to return (default 5)
+ *   cuisine  – filter by cuisine (e.g. "Italian")
+ *   mealType – filter by meal type (e.g. "dinner")
+ *   dietary  – comma-separated restrictions (e.g. "vegetarian,gluten-free")
+ */
+export async function GET(request: Request) {
   try {
-    // For now, just return the fallback recipe
-    const recipes = [fallbackRecipe];
+    const { searchParams } = new URL(request.url);
+
+    const query: RecipeQuery = {
+      count: parseInt(searchParams.get('count') || '5', 10),
+      cuisine: searchParams.get('cuisine') || undefined,
+      mealType: searchParams.get('mealType') || undefined,
+      dietary: searchParams.get('dietary')
+        ? searchParams.get('dietary')!.split(',').map(d => d.trim())
+        : undefined,
+    };
+
+    const result = await planetaryRecipeScorer.scoreRecipes(query);
 
     return NextResponse.json({
-      recipes,
+      recipes: result.recipes.map(r => ({
+        id: r.id,
+        name: r.name,
+        description: r.description,
+        cuisine: r.cuisine,
+        ingredients: r.ingredients,
+        instructions: r.instructions,
+        timeToMake: r.timeToMake,
+        prepTime: (r as any).prepTime,
+        cookTime: (r as any).cookTime,
+        numberOfServings: r.numberOfServings,
+        elementalProperties: r.elementalProperties,
+        season: r.season,
+        mealType: r.mealType,
+        isVegetarian: r.isVegetarian,
+        isVegan: r.isVegan,
+        isGlutenFree: r.isGlutenFree,
+        isDairyFree: r.isDairyFree,
+        flavorProfile: (r as any).flavorProfile,
+        nutrition: (r as any).nutrition,
+        cookingMethod: (r as any).cookingMethod,
+        cookingMethods: (r as any).cookingMethods,
+        astrologicalInfluences: (r as any).astrologicalInfluences,
+        monicaScore: (r as any).monicaScore,
+        monicaScoreLabel: (r as any).monicaScoreLabel,
+        // Scoring data
+        score: r.score,
+        scoreBreakdown: r.scoreBreakdown,
+      })),
       meta: {
-        total: recipes.length,
-        celestialInfluence: basicCelestialInfluence,
+        total: result.recipes.length,
+        totalRecipesInDatabase: result.totalRecipesInDatabase,
+        celestialContext: result.celestialContext,
         timestamp: Date.now(),
       },
     });
   } catch (error) {
-    _logger.error("Recipe API Error: ", error);
+    _logger.error('Recipe API GET Error:', error);
     return NextResponse.json(
-      { error: "Failed to fetch recipes" },
-      { status: 400 },
+      { error: 'Failed to fetch recipes', details: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 },
     );
   }
 }
 
-// Simplified POST endpoint for adding recipes
+/**
+ * POST /api/recipes — Personalized recommendations (for signed-in users)
+ *
+ * Body:
+ *   count       – number of recipes (default 5)
+ *   cuisine     – filter by cuisine
+ *   mealType    – filter by meal type
+ *   dietary     – array of dietary restrictions
+ *   birthChart  – optional birth chart data for personalization
+ *     { elementalState, planetaryPositions, ascendant, lunarPhase, aspects }
+ *   preferredIngredients – optional array of preferred ingredients
+ */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    // Basic validation
-    if (
-      !body ||
-      typeof body !== "object" ||
-      !body.name ||
-      !Array.isArray(body.ingredients)
-    ) {
-      return NextResponse.json(
-        { error: "Invalid recipe data" },
-        { status: 400 },
-      );
+
+    // Validate body
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
     }
 
-    // Create a simple recipe object from the submitted data
-    const newRecipe = {
-      id: `${body.name.toLowerCase().replace(/\s+/g, "-")}-${Date.now()}`,
-      name: body.name,
-      description: body.description || "",
-      ingredients: body.ingredients || [],
-      instructions: body.instructions || [],
-      timeToMake: body.timeToMake || "30 minutes",
-      numberOfServings: body.numberOfServings || 2,
-      elementalProperties: body.elementalProperties || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      },
-      cuisine: body.cuisine || "international",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    } as const;
+    const query: RecipeQuery = {
+      count: body.count || 5,
+      cuisine: body.cuisine,
+      mealType: body.mealType,
+      dietary: Array.isArray(body.dietary) ? body.dietary : undefined,
+      preferredIngredients: Array.isArray(body.preferredIngredients) ? body.preferredIngredients : undefined,
+      birthChart: body.birthChart || undefined,
+    };
+
+    const result = await planetaryRecipeScorer.scoreRecipes(query);
+
+    const hasPersonalization = !!query.birthChart;
 
     return NextResponse.json({
-      recipe: newRecipe,
-      message: "Recipe added successfully",
+      recipes: result.recipes.map(r => ({
+        id: r.id,
+        name: r.name,
+        description: r.description,
+        cuisine: r.cuisine,
+        ingredients: r.ingredients,
+        instructions: r.instructions,
+        timeToMake: r.timeToMake,
+        prepTime: (r as any).prepTime,
+        cookTime: (r as any).cookTime,
+        numberOfServings: r.numberOfServings,
+        elementalProperties: r.elementalProperties,
+        season: r.season,
+        mealType: r.mealType,
+        isVegetarian: r.isVegetarian,
+        isVegan: r.isVegan,
+        isGlutenFree: r.isGlutenFree,
+        isDairyFree: r.isDairyFree,
+        flavorProfile: (r as any).flavorProfile,
+        nutrition: (r as any).nutrition,
+        cookingMethod: (r as any).cookingMethod,
+        cookingMethods: (r as any).cookingMethods,
+        astrologicalInfluences: (r as any).astrologicalInfluences,
+        monicaScore: (r as any).monicaScore,
+        monicaScoreLabel: (r as any).monicaScoreLabel,
+        // Scoring
+        score: r.score,
+        scoreBreakdown: r.scoreBreakdown,
+      })),
+      meta: {
+        total: result.recipes.length,
+        totalRecipesInDatabase: result.totalRecipesInDatabase,
+        celestialContext: result.celestialContext,
+        personalized: hasPersonalization,
+        timestamp: Date.now(),
+      },
     });
   } catch (error) {
-    _logger.error("Recipe submission error: ", error);
+    _logger.error('Recipe API POST Error:', error);
     return NextResponse.json(
-      { error: "Failed to process recipe" },
+      { error: 'Failed to process recipe request', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 },
     );
   }
