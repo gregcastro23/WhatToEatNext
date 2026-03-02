@@ -53,12 +53,39 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     logger.info("UnifiedContext: Refreshing all data...");
 
     try {
-      // 1. Planetary API fetch disabled pending swisseph migration.
-      // Use a static empty default so child components mount immediately
-      // without waiting on a crashing network call.
-      const astroData: Record<string, PlanetPosition> = {};
+      // 1. Fetch live planetary positions from the astrologize API
+      let astroData: Record<string, PlanetPosition> = {};
+      try {
+        const response = await fetch("/api/astrologize", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          signal: AbortSignal.timeout(8000),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data._celestialBodies) {
+            const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
+            for (const key of planetKeys) {
+              const body = data._celestialBodies[key];
+              if (body) {
+                const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
+                astroData[titleKey] = {
+                  sign: body.Sign?.key || "aries",
+                  degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? 0,
+                  minute: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? 0,
+                  exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0,
+                  isRetrograde: body.isRetrograde ?? false,
+                } as PlanetPosition;
+              }
+            }
+            logger.info(`UnifiedContext: Loaded ${Object.keys(astroData).length} live planetary positions.`);
+          }
+        }
+      } catch (fetchErr) {
+        logger.warn("UnifiedContext: Failed to fetch live positions, continuing with empty defaults.", fetchErr);
+      }
       setAstrologicalData(astroData);
-      logger.info("UnifiedContext: Using static default planetary positions (API fetch disabled).");
 
       // 2. Perform Alchemical Calculation
       const planetaryPositions = {};
@@ -67,7 +94,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       // The data structure shows planets as direct keys: Sun, moon, Mercury, etc.
       const planetMap = {
         Sun: "Sun",
-        moon: "Moon",
+        Moon: "Moon",
         Mercury: "Mercury",
         Venus: "Venus",
         Mars: "Mars",
