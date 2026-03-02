@@ -118,7 +118,7 @@ class EmailService {
     name: string,
     dominantElement?: string,
   ): Promise<boolean> {
-    const subject = "Welcome to alchm.kitchen! 🔮";
+    const subject = "Welcome to alchm.kitchen — A Personal Note from Greg Castro";
 
     const html = this.getWelcomeEmailTemplate(name, dominantElement);
     const text = this.getWelcomeEmailText(name, dominantElement);
@@ -173,7 +173,7 @@ class EmailService {
   }
 
   /**
-   * Get HTML template for welcome email
+   * Get HTML template for welcome email — personal note from Greg Castro
    */
   private getWelcomeEmailTemplate(
     name: string,
@@ -210,85 +210,118 @@ class EmailService {
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f9fafb;">
   <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-    <!-- Header with Gradient -->
+
+    <!-- Header -->
     <div style="background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); border-radius: 16px 16px 0 0; padding: 40px 30px; text-align: center;">
-      <h1 style="color: white; margin: 0; font-size: 32px; font-weight: bold;">
-        Welcome to alchm.kitchen! ${elementIcon}
+      <h1 style="color: white; margin: 0; font-size: 32px; font-weight: bold; letter-spacing: -0.5px;">
+        Welcome to alchm.kitchen ${elementIcon}
       </h1>
-      <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0; font-size: 18px;">
+      <p style="color: rgba(255,255,255,0.9); margin: 12px 0 0 0; font-size: 17px;">
         Your Alchemical Culinary Journey Begins
       </p>
     </div>
 
     <!-- Main Content -->
-    <div style="background: white; padding: 40px 30px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-      <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+    <div style="background: white; padding: 40px 32px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.08);">
+
+      <p style="color: #374151; font-size: 16px; line-height: 1.7; margin: 0 0 18px 0;">
         Hi <strong>${name}</strong>,
       </p>
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-        Thank you for joining alchm.kitchen! We're excited to help you discover personalized food recommendations based on your unique astrological and alchemical profile.
+      <p style="color: #374151; font-size: 16px; line-height: 1.7; margin: 0 0 18px 0;">
+        My name is <strong>Greg Castro</strong>, and I want to personally thank you for joining
+        <strong>alchm.kitchen</strong>. Your interest genuinely means the world to me.
+      </p>
+
+      <p style="color: #374151; font-size: 16px; line-height: 1.7; margin: 0 0 18px 0;">
+        I built this platform around a simple but powerful idea: <em>the stars have always guided
+        what we eat</em>. By weaving together astrological data, alchemical principles, and the
+        elemental nature of food, alchm.kitchen gives you personalized culinary recommendations
+        that are truly in tune with <strong>who you are</strong> — your birth chart, your dominant
+        element, your moment in time.
+      </p>
+
+      <p style="color: #374151; font-size: 16px; line-height: 1.7; margin: 0 0 24px 0;">
+        My mission is to help people eat better, cook with intention, and ultimately live with
+        more vitality and joy. Food is alchemy — and you are the alchemist.
       </p>
 
       ${
         dominantElement
           ? `
-      <div style="background: linear-gradient(135deg, ${elementColor}10 0%, ${elementColor}20 100%); border-left: 4px solid ${elementColor}; padding: 20px; margin: 20px 0; border-radius: 8px;">
-        <p style="color: #1f2937; font-size: 16px; margin: 0; font-weight: 600;">
+      <div style="background: linear-gradient(135deg, ${elementColor}12 0%, ${elementColor}22 100%); border-left: 4px solid ${elementColor}; padding: 20px 22px; margin: 0 0 28px 0; border-radius: 8px;">
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 8px 0; font-weight: 700;">
           ${elementIcon} Your Dominant Element: <span style="color: ${elementColor};">${dominantElement}</span>
         </p>
-        <p style="color: #6b7280; font-size: 14px; margin: 10px 0 0 0; line-height: 1.5;">
-          We've calculated your natal chart and discovered your elemental affinity. This will help us recommend dishes that resonate with your unique energy.
+        <p style="color: #6b7280; font-size: 14px; margin: 0; line-height: 1.6;">
+          Your natal chart reveals a strong ${dominantElement} energy. Use this insight to discover
+          cuisines, ingredients, and cooking methods that resonate deeply with your nature.
         </p>
       </div>
       `
           : ""
       }
 
-      <h2 style="color: #1f2937; font-size: 20px; font-weight: 600; margin: 30px 0 15px 0;">
-        What's Next?
+      <h2 style="color: #1f2937; font-size: 19px; font-weight: 700; margin: 0 0 14px 0;">
+        Start Exploring
       </h2>
 
-      <ul style="color: #374151; font-size: 16px; line-height: 1.8; margin: 0 0 20px 0; padding-left: 20px;">
-        <li><strong>Explore Your Profile:</strong> View your elemental affinities and personalization insights</li>
-        <li><strong>Set Your Preferences:</strong> Tell us about your favorite cuisines and dietary restrictions</li>
-        <li><strong>Get Recommendations:</strong> Discover dishes aligned with your astrological profile</li>
-        <li><strong>Create Dining Groups:</strong> Add friends and family for group-optimized recommendations</li>
+      <ul style="color: #374151; font-size: 15px; line-height: 1.9; margin: 0 0 28px 0; padding-left: 22px;">
+        <li><strong>Your Profile</strong> — explore your elemental affinities and alchemical properties</li>
+        <li><strong>Cuisine Recommendations</strong> — discover foods aligned with today's planetary positions</li>
+        <li><strong>Ingredients &amp; Cooking Methods</strong> — learn how to cook in harmony with your chart</li>
+        <li><strong>Dining Groups</strong> — invite friends and family for shared, group-optimized recommendations</li>
       </ul>
 
-      <div style="text-align: center; margin: 30px 0;">
-        <a href="${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/profile"
-           style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">
-          View Your Profile
-        </a>
-      </div>
-
-      <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 30px 0 0 0;">
-        <p style="color: #6b7280; font-size: 14px; margin: 0; line-height: 1.6;">
-          <strong>🔮 About Our Alchemical System:</strong><br>
-          alchm.kitchen uses a unique combination of astrological data and alchemical principles to create personalized culinary recommendations. Your preferences are analyzed through elemental properties (Fire, Water, Earth, Air) and planetary positions to find dishes that truly match your taste.
+      <!-- Social Media CTA -->
+      <div style="background: linear-gradient(135deg, #fef3c710 0%, #ede9fe30 100%); border: 1px solid #e5e7eb; padding: 22px 24px; margin: 0 0 28px 0; border-radius: 12px;">
+        <p style="color: #1f2937; font-size: 15px; font-weight: 700; margin: 0 0 8px 0;">
+          📸 Share What You Create!
+        </p>
+        <p style="color: #374151; font-size: 14px; line-height: 1.7; margin: 0;">
+          As you cook, learn, and discover new dishes, I'd love for you to share your journey on
+          social media. Tag your meals, your chart insights, your experiments in the kitchen.
+          Not only does it inspire others — it builds a community around mindful, intentional
+          cooking. Use <strong>#alchmkitchen</strong> so we can celebrate your creations together!
         </p>
       </div>
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 30px 0 0 0;">
-        We're here to help you discover your next favorite meal!
+      <div style="text-align: center; margin: 0 0 32px 0;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || "https://alchm.kitchen"}/profile"
+           style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); color: white; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-weight: 700; font-size: 16px; letter-spacing: 0.2px;">
+          Explore Your Profile
+        </a>
+      </div>
+
+      <p style="color: #374151; font-size: 16px; line-height: 1.7; margin: 0 0 6px 0;">
+        I&apos;m genuinely excited to see how alchm.kitchen improves your cooking and quality
+        of life. If you ever have questions, feedback, or just want to share something amazing
+        you made, reach out directly — I read every message.
       </p>
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 10px 0 0 0;">
-        Happy exploring,<br>
-        <strong>The alchm.kitchen Team</strong>
+      <p style="color: #374151; font-size: 15px; line-height: 1.7; margin: 0 0 28px 0;">
+        Email us anytime at
+        <a href="mailto:cookingwithcastrollc@gmail.com" style="color: #7c3aed; font-weight: 600; text-decoration: none;">cookingwithcastrollc@gmail.com</a>
       </p>
+
+      <p style="color: #374151; font-size: 16px; line-height: 1.7; margin: 0;">
+        With gratitude and good food,<br>
+        <strong style="font-size: 17px;">Greg Castro</strong><br>
+        <span style="color: #6b7280; font-size: 14px;">Founder, alchm.kitchen</span>
+      </p>
+
     </div>
 
     <!-- Footer -->
-    <div style="text-align: center; padding: 30px 20px 0 20px;">
+    <div style="text-align: center; padding: 28px 20px 0 20px;">
       <p style="color: #9ca3af; font-size: 12px; margin: 0;">
-        You're receiving this email because you signed up for alchm.kitchen.
+        You&apos;re receiving this email because you signed up for alchm.kitchen.
       </p>
-      <p style="color: #9ca3af; font-size: 12px; margin: 10px 0 0 0;">
-        © ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+      <p style="color: #9ca3af; font-size: 12px; margin: 8px 0 0 0;">
+        © ${new Date().getFullYear()} alchm.kitchen — Cooking With Castrol LLC. All rights reserved.
       </p>
     </div>
+
   </div>
 </body>
 </html>
@@ -296,35 +329,48 @@ class EmailService {
   }
 
   /**
-   * Get plain text version of welcome email
+   * Get plain text version of welcome email — personal note from Greg Castro
    */
   private getWelcomeEmailText(name: string, dominantElement?: string): string {
     return `
-Welcome to alchm.kitchen!
+Welcome to alchm.kitchen — A Personal Note from Greg Castro
 
 Hi ${name},
 
-Thank you for joining alchm.kitchen! We're excited to help you discover personalized food recommendations based on your unique astrological and alchemical profile.
+My name is Greg Castro, and I want to personally thank you for joining alchm.kitchen. Your interest genuinely means the world to me.
 
-${dominantElement ? `Your Dominant Element: ${dominantElement}\n\nWe've calculated your natal chart and discovered your elemental affinity. This will help us recommend dishes that resonate with your unique energy.\n` : ""}
-What's Next?
+I built this platform around a simple but powerful idea: the stars have always guided what we eat. By weaving together astrological data, alchemical principles, and the elemental nature of food, alchm.kitchen gives you personalized culinary recommendations that are truly in tune with who you are — your birth chart, your dominant element, your moment in time.
 
-- Explore Your Profile: View your elemental affinities and personalization insights
-- Set Your Preferences: Tell us about your favorite cuisines and dietary restrictions
-- Get Recommendations: Discover dishes aligned with your astrological profile
-- Create Dining Groups: Add friends and family for group-optimized recommendations
+My mission is to help people eat better, cook with intention, and ultimately live with more vitality and joy. Food is alchemy — and you are the alchemist.
 
-About Our Alchemical System:
-alchm.kitchen uses a unique combination of astrological data and alchemical principles to create personalized culinary recommendations. Your preferences are analyzed through elemental properties (Fire, Water, Earth, Air) and planetary positions to find dishes that truly match your taste.
+${dominantElement ? `Your Dominant Element: ${dominantElement}\n\nYour natal chart reveals a strong ${dominantElement} energy. Use this insight to discover cuisines, ingredients, and cooking methods that resonate deeply with your nature.\n\n` : ""}Start Exploring:
 
-We're here to help you discover your next favorite meal!
+- Your Profile — explore your elemental affinities and alchemical properties
+- Cuisine Recommendations — discover foods aligned with today's planetary positions
+- Ingredients & Cooking Methods — learn how to cook in harmony with your chart
+- Dining Groups — invite friends and family for shared, group-optimized recommendations
 
-Happy exploring,
-The alchm.kitchen Team
+Visit your profile: ${process.env.NEXT_PUBLIC_APP_URL || "https://alchm.kitchen"}/profile
+
+---
+
+Share What You Create!
+
+As you cook, learn, and discover new dishes, I'd love for you to share your journey on social media. Tag your meals, your chart insights, your experiments in the kitchen. Not only does it inspire others — it builds a community around mindful, intentional cooking. Use #alchmkitchen so we can celebrate your creations together!
+
+---
+
+I'm genuinely excited to see how alchm.kitchen improves your cooking and quality of life. If you ever have questions, feedback, or just want to share something amazing you made, reach out directly — I read every message.
+
+Email us anytime at: cookingwithcastrollc@gmail.com
+
+With gratitude and good food,
+Greg Castro
+Founder, alchm.kitchen
 
 ---
 You're receiving this email because you signed up for alchm.kitchen.
-© ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+© ${new Date().getFullYear()} alchm.kitchen — Cooking With Castrol LLC. All rights reserved.
     `.trim();
   }
 

@@ -277,24 +277,24 @@ export async function POST(request: NextRequest) {
       throw new Error("Failed to update user profile");
     }
 
-    // Send welcome email and admin notification concurrently (non-blocking - don't fail onboarding if email fails)
+    // Send onboarding emails concurrently (non-blocking - don't fail onboarding if email fails)
     if (emailService.isConfigured()) {
-      // Send welcome email to new user
-      emailService
-        .sendWelcomeEmail(email, name, dominantElement)
-        .then((success) => {
-          if (success) {
-            console.log(`Welcome email sent successfully to ${email}`);
-          } else {
-            console.error(`Failed to send welcome email to ${email}`);
-          }
-        })
-        .catch((error) => {
-          console.error("Error sending welcome email:", error);
-        });
-
-      // Send admin notification concurrently (only for new users, not profile updates)
       if (isNewUser) {
+        // Send personalized welcome email from Greg Castro to new users only
+        emailService
+          .sendWelcomeEmail(email, name, dominantElement)
+          .then((success) => {
+            if (success) {
+              console.log(`Welcome email sent successfully to ${email}`);
+            } else {
+              console.error(`Failed to send welcome email to ${email}`);
+            }
+          })
+          .catch((error) => {
+            console.error("Error sending welcome email:", error);
+          });
+
+        // Send admin notification for new user registrations
         emailService
           .sendAdminNotificationEmail(email, name, dominantElement)
           .then((success) => {
