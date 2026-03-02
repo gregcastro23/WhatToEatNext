@@ -84,8 +84,13 @@ export const authConfig = {
         const user = session.user as Record<string, unknown>;
         const onboardingComplete = user.onboardingComplete === true;
 
+        // Also check the short-lived cookie set after onboarding completes.
+        // This prevents a redirect loop when the JWT hasn't propagated yet
+        // (e.g., serverless instance isolation, DB unavailable for JWT callback).
+        const onboardingCookie = request.cookies.get("onboarding_completed")?.value === "1";
+
         // Authenticated but onboarding incomplete -> force /onboarding
-        if (!onboardingComplete && pathname.startsWith("/profile")) {
+        if (!onboardingComplete && !onboardingCookie && pathname.startsWith("/profile")) {
           return Response.redirect(
             new URL("/onboarding", request.nextUrl.origin),
           );

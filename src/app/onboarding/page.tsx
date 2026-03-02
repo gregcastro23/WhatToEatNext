@@ -90,7 +90,9 @@ export default function OnboardingPage() {
         throw new Error(data.message || "Onboarding failed");
       }
 
-      // Store in localStorage for immediate client-side use
+      // Store in localStorage for immediate client-side use.
+      // Enrich the API response with fields the dashboard needs
+      // (the API returns a slim payload; the client has the rest).
       localStorage.setItem(
         "userProfile",
         JSON.stringify({
@@ -98,12 +100,23 @@ export default function OnboardingPage() {
           email: data.user.email,
           name: data.user.name,
           birthData,
-          natalChart: data.natalChart,
+          natalChart: {
+            ...data.natalChart,
+            birthData,
+            ascendant: data.natalChart.planetaryPositions?.Ascendant || "aries",
+            dominantModality: "Cardinal",
+            calculatedAt: new Date().toISOString(),
+          },
         }),
       );
 
       // Trigger NextAuth session refresh so middleware sees onboardingComplete=true
       await updateSession();
+
+      // Set a short-lived cookie that the middleware can read immediately.
+      // This prevents a redirect loop when the JWT cookie hasn't propagated
+      // yet (e.g., different serverless instance, DB unavailable for JWT callback).
+      document.cookie = "onboarding_completed=1; path=/; max-age=300; SameSite=Lax";
 
       // Use full page navigation (not router.push) to ensure the updated
       // JWT cookie is sent with the request. Client-side navigation can
