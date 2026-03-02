@@ -57,14 +57,10 @@ export default function ProfilePage() {
   }, []);
 
   // Determine step based on profile data
-  const determineStep = useCallback((profile: any, prefs: UserPreferences, prefsComplete: boolean): ProfileStep => {
+  // After birth data is complete, go directly to dashboard.
+  // Preferences are optional and can be edited from the dashboard settings tab.
+  const determineStep = useCallback((profile: any, _prefs: UserPreferences, _prefsComplete: boolean): ProfileStep => {
     if (!profile?.natalChart) return 'birth-data';
-    const hasPrefs = prefs.dietaryRestrictions.length > 0
-      || prefs.preferredCuisines.length > 0
-      || prefs.dislikedIngredients.length > 0
-      || prefs.spicePreference !== 'medium'
-      || prefs.complexity !== 'moderate';
-    if (!hasPrefs && !prefsComplete) return 'preferences';
     return 'dashboard';
   }, []);
 
@@ -157,8 +153,8 @@ export default function ProfilePage() {
         }
       }
 
-      // Move to preferences step
-      setCurrentStep('preferences');
+      // Go directly to dashboard after birth data is saved
+      setCurrentStep('dashboard');
     } catch (err: any) {
       console.error('Onboarding error:', err);
       setError(err.message || 'An error occurred while calculating your chart');

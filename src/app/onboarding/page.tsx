@@ -105,7 +105,11 @@ export default function OnboardingPage() {
       // Trigger NextAuth session refresh so middleware sees onboardingComplete=true
       await updateSession();
 
-      router.push("/profile");
+      // Use full page navigation (not router.push) to ensure the updated
+      // JWT cookie is sent with the request. Client-side navigation can
+      // race with cookie propagation, causing the middleware to still see
+      // onboardingComplete=false and redirect back to /onboarding.
+      window.location.href = "/profile";
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
