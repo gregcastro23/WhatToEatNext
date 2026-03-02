@@ -71,28 +71,55 @@ export default function ProfilePage() {
         setIsFetchingProfile(false);
         return;
       }
+
+      let profile: any = null;
+
+      // 1. Try server API first
       try {
         const res = await fetch('/api/user/profile', { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.profile) {
-            setProfileData(data.profile);
-
-            // Load preferences from profile or localStorage
-            const storedPrefs = getStorageItem('userFoodPreferences');
-            const loadedPrefs = storedPrefs ? JSON.parse(storedPrefs) : DEFAULT_PREFERENCES;
-            setPreferences(loadedPrefs);
-
-            const prefsComplete = !!getStorageItem('preferencesCompleted');
-            setPrefsCompleted(prefsComplete);
-            setCurrentStep(determineStep(data.profile, loadedPrefs, prefsComplete));
+            profile = data.profile;
           }
         }
       } catch (err) {
-        console.error('Failed to fetch profile:', err);
-      } finally {
-        setIsFetchingProfile(false);
+        console.error('Failed to fetch profile from API:', err);
       }
+
+      // 2. Fall back to localStorage (populated during onboarding)
+      if (!profile?.natalChart) {
+        try {
+          const stored = getStorageItem('userProfile');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed?.natalChart) {
+              profile = {
+                ...parsed,
+                userId: parsed.userId || session.user?.id,
+                name: parsed.name || session.user?.name,
+                email: parsed.email || session.user?.email,
+              };
+            }
+          }
+        } catch {
+          // localStorage parse failed, continue without
+        }
+      }
+
+      if (profile) {
+        setProfileData(profile);
+      }
+
+      // Load preferences from localStorage
+      const storedPrefs = getStorageItem('userFoodPreferences');
+      const loadedPrefs = storedPrefs ? JSON.parse(storedPrefs) : DEFAULT_PREFERENCES;
+      setPreferences(loadedPrefs);
+
+      const prefsComplete = !!getStorageItem('preferencesCompleted');
+      setPrefsCompleted(prefsComplete);
+      setCurrentStep(determineStep(profile, loadedPrefs, prefsComplete));
+      setIsFetchingProfile(false);
     }
     fetchProfile();
   }, [status, session, determineStep]);
@@ -141,17 +168,47 @@ export default function ProfilePage() {
         throw new Error(result.message || 'Chart calculation failed');
       }
 
+      // Store in localStorage as a fallback for the dashboard
+      const enrichedChart = {
+        ...result.natalChart,
+        birthData,
+        ascendant: result.natalChart?.planetaryPositions?.Ascendant || 'aries',
+        dominantModality: 'Cardinal',
+        calculatedAt: new Date().toISOString(),
+      };
+      localStorage.setItem('userProfile', JSON.stringify({
+        userId: session.user.id,
+        email: session.user.email,
+        name: session.user.name,
+        birthData,
+        natalChart: enrichedChart,
+      }));
+
       // Update session so middleware knows onboarding is complete
       await updateSession();
 
-      // Refresh profile
-      const profileRes = await fetch('/api/user/profile', { credentials: 'include' });
-      if (profileRes.ok) {
-        const profileResult = await profileRes.json();
-        if (profileResult.success && profileResult.profile) {
-          setProfileData(profileResult.profile);
+      // Refresh profile from server
+      let serverProfile: any = null;
+      try {
+        const profileRes = await fetch('/api/user/profile', { credentials: 'include' });
+        if (profileRes.ok) {
+          const profileResult = await profileRes.json();
+          if (profileResult.success && profileResult.profile) {
+            serverProfile = profileResult.profile;
+          }
         }
+      } catch {
+        // Server fetch failed — we'll use the localStorage data below
       }
+
+      // Use server profile if available, otherwise fall back to localStorage data
+      setProfileData(serverProfile || {
+        userId: session.user.id,
+        email: session.user.email,
+        name: session.user.name,
+        birthData,
+        natalChart: enrichedChart,
+      });
 
       // Go directly to dashboard after birth data is saved
       setCurrentStep('dashboard');
