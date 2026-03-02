@@ -92,9 +92,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.onboardingComplete = false;
           }
         } catch {
-          // Fallback if DB unavailable
-          token.role = token.email === ADMIN_EMAIL ? "admin" : "user";
-          token.onboardingComplete = false;
+          // Fallback if DB unavailable - preserve existing token values
+          // so returning users don't get incorrectly redirected to onboarding
+          if (!token.role) {
+            token.role = token.email === ADMIN_EMAIL ? "admin" : "user";
+          }
+          if (token.onboardingComplete === undefined) {
+            token.onboardingComplete = false;
+          }
+          // If token already has onboardingComplete=true from a previous
+          // successful DB lookup, keep it rather than resetting to false
         }
       }
 

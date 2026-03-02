@@ -65,6 +65,50 @@ function calculateDominantElement(
   return dominantElement;
 }
 
+// Helper to calculate dominant modality from planetary positions
+function calculateDominantModality(
+  planetaryPositions: Record<Planet, ZodiacSignType>,
+): string {
+  const modalityCounts: Record<string, number> = {
+    Cardinal: 0,
+    Fixed: 0,
+    Mutable: 0,
+  };
+
+  const signToModality: Record<ZodiacSignType, string> = {
+    aries: "Cardinal",
+    cancer: "Cardinal",
+    libra: "Cardinal",
+    capricorn: "Cardinal",
+    taurus: "Fixed",
+    leo: "Fixed",
+    scorpio: "Fixed",
+    aquarius: "Fixed",
+    gemini: "Mutable",
+    virgo: "Mutable",
+    sagittarius: "Mutable",
+    pisces: "Mutable",
+  };
+
+  Object.values(planetaryPositions).forEach((sign) => {
+    const modality = signToModality[sign];
+    if (modality) {
+      modalityCounts[modality]++;
+    }
+  });
+
+  let maxCount = 0;
+  let dominantModality = "Cardinal";
+  Object.entries(modalityCounts).forEach(([modality, count]) => {
+    if (count > maxCount) {
+      maxCount = count;
+      dominantModality = modality;
+    }
+  });
+
+  return dominantModality;
+}
+
 // Helper to calculate elemental balance
 function calculateElementalBalance(
   planetaryPositions: Record<Planet, ZodiacSignType>,
@@ -189,14 +233,21 @@ export async function POST(request: NextRequest) {
     // Calculate dominant element
     const dominantElement = calculateDominantElement(positions);
 
-    // Create a `planets` array from the `positions` object.
+    // Create a `planets` array with real degree positions from the raw planetary data
     const planets: PlanetInfo[] = Object.entries(positions).map(
-      ([name, sign]) => ({
-        name: name as Planet,
-        sign,
-        position: 0, // Simplified for now
-      }),
+      ([name, sign]) => {
+        const rawPosition = planetaryPositions[name];
+        const exactLongitude = rawPosition?.exactLongitude ?? 0;
+        return {
+          name: name as Planet,
+          sign,
+          position: exactLongitude,
+        };
+      },
     );
+
+    // Calculate dominant modality from planetary positions
+    const dominantModality = calculateDominantModality(positions);
 
     // Create natal chart
     const natalChart: NatalChart = {
@@ -210,7 +261,7 @@ export async function POST(request: NextRequest) {
       ascendant: positions.Ascendant,
       planetaryPositions: positions,
       dominantElement,
-      dominantModality: "Cardinal", // Simplified for now
+      dominantModality,
       elementalBalance,
       alchemicalProperties,
       calculatedAt: new Date().toISOString(),
