@@ -3,3 +3,5 @@ export { DashboardOverview } from './DashboardOverview';
 export { NatalTransitChart } from './NatalTransitChart';
 export { RecommendationsPanel } from './RecommendationsPanel';
 export { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
+export { CommensalManager } from './CommensalManager';
+export { FoodLabBook } from './FoodLabBook';

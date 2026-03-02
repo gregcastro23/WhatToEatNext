@@ -7,6 +7,8 @@ import { DashboardOverview } from './DashboardOverview';
 import { NatalTransitChart } from './NatalTransitChart';
 import { RecommendationsPanel } from './RecommendationsPanel';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
+import { CommensalManager } from './CommensalManager';
+import { FoodLabBook } from './FoodLabBook';
 
 interface UserPreferences {
   dietaryRestrictions: string[];
@@ -25,13 +27,15 @@ interface UserDashboardProps {
   onEditPreferences: () => void;
 }
 
-type DashboardTab = 'overview' | 'transits' | 'chart' | 'recommendations' | 'settings';
+type DashboardTab = 'overview' | 'transits' | 'chart' | 'recommendations' | 'commensals' | 'labbook' | 'settings';
 
 const TAB_CONFIG: Array<{ key: DashboardTab; label: string; icon: string }> = [
   { key: 'overview', label: 'Overview', icon: '\u2728' },
   { key: 'transits', label: 'Transits', icon: '\uD83C\uDF0C' },
   { key: 'chart', label: 'My Chart', icon: '\uD83D\uDD2E' },
   { key: 'recommendations', label: 'Recommendations', icon: '\uD83C\uDF7D\uFE0F' },
+  { key: 'commensals', label: 'Companions', icon: '\uD83D\uDC65' },
+  { key: 'labbook', label: 'Lab Book', icon: '\uD83E\uDDEA' },
   { key: 'settings', label: 'Settings', icon: '\u2699\uFE0F' },
 ];
 
@@ -219,6 +223,14 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           natalChart={natalChart}
           preferences={preferences}
         />
+      )}
+
+      {activeTab === 'commensals' && (
+        <CommensalManager />
+      )}
+
+      {activeTab === 'labbook' && (
+        <FoodLabBook />
       )}
 
       {activeTab === 'settings' && (
