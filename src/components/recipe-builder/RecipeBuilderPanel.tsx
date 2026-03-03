@@ -14,7 +14,6 @@ import {
   type MealType,
   type FlavorPreference,
 } from "@/contexts/RecipeBuilderContext";
-import GenerateRecipeButton from "./GenerateRecipeButton";
 import IngredientSearchBar from "./IngredientSearchBar";
 import IngredientSuggestions from "./IngredientSuggestions";
 import RecipeBuilderQueue from "./RecipeBuilderQueue";
@@ -274,9 +273,6 @@ export default function RecipeBuilderPanel({
 
       {/* Queue Display */}
       <RecipeBuilderQueue />
-
-      {/* Generate Button */}
-      <GenerateRecipeButton />
     </div>
   );
 }

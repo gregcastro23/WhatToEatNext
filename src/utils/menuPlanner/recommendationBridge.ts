@@ -65,6 +65,12 @@ export interface DayRecommendationOptions {
   maxRecipesPerMeal?: number;
   preferredCuisines?: string[];
   excludeIngredients?: string[];
+  /** Required ingredients to include in generated recipes */
+  requiredIngredients?: string[];
+  /** Preferred cooking methods to guide recipe generation */
+  preferredCookingMethods?: string[];
+  /** Flavor preferences to guide ingredient and cuisine selection */
+  flavorPreferences?: string[];
   /** User personalization context for chart-based recommendations */
   userContext?: UserPersonalizationContext;
 }
@@ -107,6 +113,9 @@ export async function generateDayRecommendations(
       dietaryRestrictions = [],
       preferredCuisines = [],
       excludeIngredients = [],
+      requiredIngredients = [],
+      preferredCookingMethods = [],
+      flavorPreferences = [],
       userContext,
     } = options;
 
@@ -133,6 +142,9 @@ export async function generateDayRecommendations(
           dietaryRestrictions,
           preferredCuisines,
           excludeIngredients,
+          requiredIngredients,
+          preferredCookingMethods,
+          flavorPreferences,
         },
       );
 
@@ -350,6 +362,9 @@ async function generateMealRecommendations(
     dietaryRestrictions: string[];
     preferredCuisines: string[];
     excludeIngredients: string[];
+    requiredIngredients?: string[];
+    preferredCookingMethods?: string[];
+    flavorPreferences?: string[];
   },
 ): Promise<RecommendedMeal[]> {
   try {
@@ -400,6 +415,9 @@ async function searchRecipesForDay(
     dietaryRestrictions: string[];
     preferredCuisines: string[];
     excludeIngredients: string[];
+    requiredIngredients?: string[];
+    preferredCookingMethods?: string[];
+    flavorPreferences?: string[];
   },
 ): Promise<MonicaOptimizedRecipe[]> {
   try {
@@ -407,29 +425,62 @@ async function searchRecipesForDay(
       planet: dayChar.planet,
       mealType,
       cuisines: dayChar.recommendedCuisines,
+      requiredIngredients: options.requiredIngredients,
     });
 
+    // Determine cuisine: user preference first, then day's recommended cuisine
+    const cuisine =
+      options.preferredCuisines[0] || dayChar.recommendedCuisines[0];
+
     const criteria = {
-      cuisine: options.preferredCuisines[0] || dayChar.recommendedCuisines[0],
+      cuisine,
       mealType: [mealType],
       dietaryRestrictions: options.dietaryRestrictions,
       excludedIngredients: options.excludeIngredients,
+      requiredIngredients:
+        options.requiredIngredients && options.requiredIngredients.length > 0
+          ? options.requiredIngredients
+          : undefined,
+      cookingMethods:
+        options.preferredCookingMethods &&
+        options.preferredCookingMethods.length > 0
+          ? options.preferredCookingMethods
+          : undefined,
+      // Planetary context from the day's characteristics
+      planetaryHour: dayChar.planet as any,
     };
 
+    // Generate primary result + explore alternatives with varied cuisines
+    const results: MonicaOptimizedRecipe[] = [];
     const result = recipeBuilder.generateMonicaOptimizedRecipe(criteria);
 
-    if (!result.recipe) {
-      logger.warn("No recipes generated");
-      return [];
+    if (result.recipe) {
+      results.push(result.recipe);
+      results.push(...result.alternatives);
     }
 
-    const recipes = [result.recipe, ...result.alternatives];
+    // Generate additional variety by cycling through the day's recommended cuisines
+    const additionalCuisines = dayChar.recommendedCuisines.slice(1, 4);
+    for (const altCuisine of additionalCuisines) {
+      if (options.preferredCuisines.length > 0) break; // Don't override user's cuisine choice
+      try {
+        const altResult = recipeBuilder.generateMonicaOptimizedRecipe({
+          ...criteria,
+          cuisine: altCuisine,
+        });
+        if (altResult.recipe) {
+          results.push(altResult.recipe);
+        }
+      } catch {
+        // Skip failed alternatives
+      }
+    }
 
     logger.info(
-      `Found ${recipes.length} recipes for ${mealType} on ${dayChar.planet} day`,
+      `Found ${results.length} recipes for ${mealType} on ${dayChar.planet} day`,
     );
 
-    return recipes;
+    return results;
   } catch (error) {
     logger.error("Failed to search recipes:", error);
     return [];
