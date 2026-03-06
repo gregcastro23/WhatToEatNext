@@ -10,7 +10,10 @@
  */
 
 import { NextResponse } from "next/server";
-import { calculatePlanetaryPositions } from "@/utils/serverPlanetaryCalculations";
+import {
+  calculatePlanetaryPositions,
+  calculateAscendantPosition,
+} from "@/utils/serverPlanetaryCalculations";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -137,10 +140,21 @@ export async function POST(request: NextRequest) {
 
     const response = buildCelestialBodies(positions, requestInfo);
 
+    // Compute accurate Ascendant when lat/lon are provided
+    let ascendant: ReturnType<typeof calculateAscendantPosition> | null = null;
+    if (latitude !== undefined && longitude !== undefined) {
+      try {
+        ascendant = calculateAscendantPosition(targetDate, latitude, longitude);
+      } catch (ascErr) {
+        console.error("[astrologize] Ascendant calculation error:", ascErr);
+      }
+    }
+
     return NextResponse.json(
       {
         success: true,
         ...response,
+        ascendant,
       },
       { status: 200 },
     );
@@ -166,22 +180,33 @@ export async function GET(request: NextRequest) {
     const targetDate = new Date();
     const positions = await calculatePlanetaryPositions(targetDate);
 
+    const lat = latitude ? parseFloat(latitude) : 40.7498;
+    const lon = longitude ? parseFloat(longitude) : -73.7976;
+
     const requestInfo = {
       year: targetDate.getFullYear(),
       month: targetDate.getMonth() + 1,
       date: targetDate.getDate(),
       hour: targetDate.getHours(),
       minute: targetDate.getMinutes(),
-      latitude: latitude ? parseFloat(latitude) : 40.7498,
-      longitude: longitude ? parseFloat(longitude) : -73.7976,
+      latitude: lat,
+      longitude: lon,
     };
 
     const response = buildCelestialBodies(positions, requestInfo);
+
+    let ascendant: ReturnType<typeof calculateAscendantPosition> | null = null;
+    try {
+      ascendant = calculateAscendantPosition(targetDate, lat, lon);
+    } catch (ascErr) {
+      console.error("[astrologize] Ascendant calculation error:", ascErr);
+    }
 
     return NextResponse.json(
       {
         success: true,
         ...response,
+        ascendant,
       },
       { status: 200 },
     );
