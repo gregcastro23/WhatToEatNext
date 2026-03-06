@@ -405,8 +405,28 @@ export async function fetchPlanetaryPositions(
       }
     });
 
-    // Calculate approximate Ascendant from time and location
-    positions["Ascendant"] = calculateApproximateAscendant(requestData);
+    // Use server-computed Ascendant when available (uses Astronomy.SiderealTime —
+    // accurate to sub-arcsecond). Fall back to local approximate calculation.
+    const serverAscendant = (data as any).ascendant;
+    if (
+      serverAscendant &&
+      serverAscendant.sign &&
+      typeof serverAscendant.exactLongitude === "number"
+    ) {
+      positions["Ascendant"] = {
+        sign: normalizeSignName(serverAscendant.sign),
+        degree: serverAscendant.degree ?? 0,
+        minute: serverAscendant.minute ?? 0,
+        exactLongitude: serverAscendant.exactLongitude,
+        isRetrograde: false,
+      };
+      log.info(
+        `Ascendant from server: ${serverAscendant.exactLongitude.toFixed(2)}° (${serverAscendant.sign})`,
+      );
+    } else {
+      positions["Ascendant"] = calculateApproximateAscendant(requestData);
+      log.info("Using approximate local Ascendant calculation");
+    }
 
     log.info(
       "Successfully fetched planetary positions from local API:",

@@ -181,9 +181,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if user already exists
+    // Check if user already exists, and whether they had birth data before
     let user = await userDatabase.getUserByEmail(email);
     const isNewUser = !user;
+    const hadBirthDataBefore = !!(user?.profile?.birthData);
 
     if (!user) {
       // Determine role: admin email or first-ever user gets ADMIN
@@ -278,9 +279,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Send onboarding emails concurrently (non-blocking - don't fail onboarding if email fails)
+    const isFirstTimeBirthData = isNewUser || !hadBirthDataBefore;
+
     if (emailService.isConfigured()) {
-      if (isNewUser) {
-        // Send personalized welcome email from Greg Castro to new users only
+      // Welcome email: send when user is new OR completing birth data for the first time
+      if (isFirstTimeBirthData) {
         emailService
           .sendWelcomeEmail(email, name, dominantElement)
           .then((success) => {
@@ -293,28 +296,28 @@ export async function POST(request: NextRequest) {
           .catch((error) => {
             console.error("Error sending welcome email:", error);
           });
-
-        // Send admin notification for new user registrations
-        emailService
-          .sendAdminNotificationEmail(email, name, dominantElement)
-          .then((success) => {
-            if (success) {
-              console.log(
-                `Admin notification sent successfully for new user: ${email}`,
-              );
-            } else {
-              console.error(
-                `Failed to send admin notification for user: ${email}`,
-              );
-            }
-          })
-          .catch((error) => {
-            console.error("Error sending admin notification:", error);
-          });
       }
+
+      // Admin notification: send whenever onboarding is completed (new user OR birth data update)
+      emailService
+        .sendAdminNotificationEmail(email, name, dominantElement)
+        .then((success) => {
+          if (success) {
+            console.log(
+              `Admin notification sent for onboarding completion: ${email} (new=${isNewUser}, firstBirthData=${isFirstTimeBirthData})`,
+            );
+          } else {
+            console.error(
+              `Failed to send admin notification for user: ${email}`,
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending admin notification:", error);
+        });
     } else {
       console.log(
-        "Email service not configured - skipping welcome email and admin notification. Set SMTP environment variables to enable email notifications.",
+        "Email service not configured - skipping onboarding emails. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS environment variables to enable email notifications.",
       );
     }
 

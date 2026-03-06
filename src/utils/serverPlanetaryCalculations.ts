@@ -168,17 +168,23 @@ function calculatePositionsWithAstronomyEngine(
     try {
       let longitude: number;
 
-      // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
       if (planet.body === Astronomy.Body.Sun) {
-        // The Sun is always at the opposite ecliptic longitude from Earth's heliocentric position
+        // Sun geocentric longitude = Earth heliocentric longitude + 180°
         const earthLong = Astronomy.EclipticLongitude(
           Astronomy.Body.Earth,
           astroTime,
         );
         longitude = (earthLong + 180) % 360;
-      } else {
-        // For other planets, use EclipticLongitude directly
+      } else if (planet.body === Astronomy.Body.Moon) {
+        // Moon: EclipticLongitude already returns geocentric ecliptic longitude
         longitude = Astronomy.EclipticLongitude(planet.body, astroTime);
+      } else {
+        // All other planets: compute GEOCENTRIC ecliptic longitude.
+        // Astronomy.EclipticLongitude() returns HELIOCENTRIC for non-Moon bodies,
+        // which is wrong for astrology. We must use GeoVector → Ecliptic instead.
+        const geoVec = Astronomy.GeoVector(planet.body, astroTime, true);
+        const eclipticCoords = Astronomy.Ecliptic(geoVec);
+        longitude = eclipticCoords.elon;
       }
 
       const zodiacPos = longitudeToZodiacPosition(longitude);
@@ -189,13 +195,13 @@ function calculatePositionsWithAstronomyEngine(
           planet.body !== Astronomy.Body.Sun &&
           planet.body !== Astronomy.Body.Moon
         ) {
-          // Check retrograde by comparing with position 2 days ago
+          // Check retrograde by comparing geocentric longitude 2 days ago vs today
           const prevDate = new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000);
           const prevAstroTime = new Astronomy.AstroTime(prevDate);
-          const prevLongitude = Astronomy.EclipticLongitude(
-            planet.body,
-            prevAstroTime,
-          );
+          let prevLongitude: number;
+          const prevGeoVec = Astronomy.GeoVector(planet.body, prevAstroTime, true);
+          const prevEcliptic = Astronomy.Ecliptic(prevGeoVec);
+          prevLongitude = prevEcliptic.elon;
 
           // Adjust for crossing 0/360 boundary
           let diff = longitude - prevLongitude;
@@ -297,6 +303,55 @@ export async function calculatePlanetaryPositions(
     "All calculation methods failed, using static fallback positions",
   );
   return getFallbackPlanetaryPositions();
+}
+
+/**
+ * Calculate the Ascendant (Rising Sign) using astronomy-engine's accurate
+ * Greenwich Apparent Sidereal Time function, then applying the standard
+ * Ascendant formula (Meeus, "Astronomical Algorithms").
+ *
+ * @param date        The date and time of birth / moment in question (UTC)
+ * @param latitude    Observer's geographic latitude (degrees, positive = N)
+ * @param longitude   Observer's geographic longitude (degrees, positive = E)
+ */
+export function calculateAscendantPosition(
+  date: Date,
+  latitude: number,
+  longitude: number,
+): PlanetPosition {
+  const astroTime = new Astronomy.AstroTime(date);
+
+  // Greenwich Apparent Sidereal Time in hours [0, 24) — precise via astronomy-engine
+  const gast_hours = Astronomy.SiderealTime(astroTime);
+
+  // Local Sidereal Time in degrees [0, 360)
+  const lst_deg = ((gast_hours * 15 + longitude) % 360 + 360) % 360;
+  const lstRad = lst_deg * Math.PI / 180;
+
+  // Obliquity of the ecliptic (degrees → radians)
+  // astroTime.eps is set by astronomy-engine for the given epoch
+  const oblRad = astroTime.eps * Math.PI / 180;
+  const latRad = latitude * Math.PI / 180;
+
+  // Ascendant ecliptic longitude — standard formula
+  // tan(ASC) = cos(LST) / -(sin(ε)·tan(φ) + cos(ε)·sin(LST))
+  const ascRad = Math.atan2(
+    Math.cos(lstRad),
+    -(Math.sin(oblRad) * Math.tan(latRad) + Math.cos(oblRad) * Math.sin(lstRad)),
+  );
+  const ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
+
+  const zodiacPos = longitudeToZodiacPosition(ascLongitude);
+  logger.info(
+    `Ascendant calculated: ${ascLongitude.toFixed(2)}° → ${zodiacPos.degree}°${zodiacPos.sign}`,
+  );
+  return {
+    sign: zodiacPos.sign,
+    degree: zodiacPos.degree,
+    minute: zodiacPos.minute,
+    exactLongitude: ascLongitude,
+    isRetrograde: false,
+  };
 }
 
 /**
