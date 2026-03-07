@@ -118,9 +118,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
       }
 
-      // If no stored profile, check if there's an authenticated session
-      /* 
-      // Disabled - server sync handled via NextAuth session
+      // If no stored profile (or missing natalChart), try fetching from server
       if (!profileLoaded) {
         try {
           const response = await fetch("/api/user/profile", {
@@ -155,7 +153,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           logger.info("No authenticated session found");
         }
       }
-      */
 
       // If no profile was loaded from either source, it's a new user
       if (!profileLoaded) {
