@@ -42,9 +42,32 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const user = userId
+    // Try userId first, then email param
+    let user = userId
       ? await userDatabase.getUserById(userId)
-      : await userDatabase.getUserByEmail(email!);
+      : null;
+
+    // If userId lookup failed (e.g. Google sub vs DB id mismatch), try email
+    // from the auth session before giving up
+    if (!user) {
+      // Try email from query param
+      if (email) {
+        user = await userDatabase.getUserByEmail(email);
+      }
+
+      // Try email from the auth session itself
+      if (!user) {
+        try {
+          const { auth } = await import("@/lib/auth/auth");
+          const session = await auth();
+          if (session?.user?.email) {
+            user = await userDatabase.getUserByEmail(session.user.email);
+          }
+        } catch {
+          // Auth session unavailable
+        }
+      }
+    }
 
     if (!user) {
       return NextResponse.json(

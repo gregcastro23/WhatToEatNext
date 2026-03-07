@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error:
-            "Email service not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS environment variables.",
-          hint: "For Gmail: use smtp.gmail.com:587 with an App Password.",
+            "Email service not configured. Set RESEND_API_KEY (preferred) or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
+          hint: "For Resend: set RESEND_API_KEY and EMAIL_FROM_ADDRESS=noreply@alchm.kitchen",
         },
         { status: 503 },
       );
@@ -105,7 +105,7 @@ export async function GET() {
     configured: emailService.isConfigured(),
     message: emailService.isConfigured()
       ? "Email service is ready. POST to this endpoint to send a test email."
-      : "Email service not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS.",
+      : "Email service not configured. Set RESEND_API_KEY (preferred) or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
     example: {
       method: "POST",
       body: {

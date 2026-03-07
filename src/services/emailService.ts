@@ -1,6 +1,7 @@
 /**
  * Email Service
- * Handles sending emails using nodemailer
+ * Primary: Resend API (via RESEND_API_KEY)
+ * Fallback: Nodemailer SMTP (via SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS)
  */
 
 import nodemailer from "nodemailer";
@@ -13,99 +14,124 @@ interface EmailOptions {
   text?: string;
 }
 
-interface EmailConfig {
-  host: string;
-  port: number;
-  secure: boolean;
-  auth: {
-    user: string;
-    pass: string;
-  };
-  from: {
-    name: string;
-    address: string;
-  };
-}
-
 class EmailService {
-  private transporter: Transporter | null = null;
-  private config: EmailConfig | null = null;
+  private resendApiKey: string | null = null;
+  private smtpTransporter: Transporter | null = null;
+  private fromName: string = "alchm.kitchen";
+  private fromAddress: string = "noreply@alchm.kitchen";
 
   /**
-   * Initialize the email service with SMTP configuration
+   * Initialize the email service.
+   * Prefers Resend API key; falls back to SMTP/nodemailer.
    */
   initialize() {
-    // Get configuration from environment variables
-    const host = process.env.SMTP_HOST;
-    const port = process.env.SMTP_PORT;
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
-    const fromName = process.env.EMAIL_FROM_NAME || "alchm.kitchen";
-    const fromAddress =
+    this.fromName = process.env.EMAIL_FROM_NAME || "alchm.kitchen";
+    this.fromAddress =
       process.env.EMAIL_FROM_ADDRESS || "noreply@alchm.kitchen";
 
-    // Check if email is configured
-    if (!host || !port || !user || !pass) {
-      console.warn(
-        "Email service not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS environment variables.",
+    // 1. Try Resend first
+    const resendKey = process.env.RESEND_API_KEY;
+    if (resendKey) {
+      this.resendApiKey = resendKey;
+      console.log(
+        `Email service initialized with Resend (from: ${this.fromAddress})`,
       );
       return;
     }
 
-    this.config = {
-      host,
-      port: parseInt(port, 10),
-      secure: parseInt(port, 10) === 465, // true for 465, false for other ports
-      auth: {
-        user,
-        pass,
-      },
-      from: {
-        name: fromName,
-        address: fromAddress,
-      },
-    };
+    // 2. Fall back to SMTP / nodemailer
+    const host = process.env.SMTP_HOST;
+    const port = process.env.SMTP_PORT;
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
 
-    // Create transporter
-    this.transporter = nodemailer.createTransport({
-      host: this.config.host,
-      port: this.config.port,
-      secure: this.config.secure,
-      auth: this.config.auth,
-    });
+    if (host && port && user && pass) {
+      const portNum = parseInt(port, 10);
+      this.smtpTransporter = nodemailer.createTransport({
+        host,
+        port: portNum,
+        secure: portNum === 465,
+        auth: { user, pass },
+      });
+      console.log(
+        `Email service initialized with SMTP (${host}:${port}, from: ${this.fromAddress})`,
+      );
+      return;
+    }
 
-    console.log("Email service initialized successfully");
+    console.warn(
+      "Email service not configured. Set RESEND_API_KEY (preferred) or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
+    );
   }
 
   /**
    * Check if email service is configured and ready
    */
   isConfigured(): boolean {
-    return this.transporter !== null;
+    return this.resendApiKey !== null || this.smtpTransporter !== null;
   }
 
   /**
-   * Send an email
+   * Send an email via the configured provider
    */
   async sendEmail(options: EmailOptions): Promise<boolean> {
-    if (!this.transporter || !this.config) {
-      console.error("Email service not configured. Cannot send email.");
+    if (this.resendApiKey) {
+      return this.sendViaResend(options);
+    }
+    if (this.smtpTransporter) {
+      return this.sendViaSMTP(options);
+    }
+    console.error("Email service not configured. Cannot send email.");
+    return false;
+  }
+
+  /** Send via Resend REST API (no SDK needed) */
+  private async sendViaResend(options: EmailOptions): Promise<boolean> {
+    try {
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: `${this.fromName} <${this.fromAddress}>`,
+          to: [options.to],
+          subject: options.subject,
+          html: options.html,
+          text: options.text,
+        }),
+      });
+
+      if (!response.ok) {
+        const body = await response.text();
+        console.error(`Resend API error (${response.status}): ${body}`);
+        return false;
+      }
+
+      const result = await response.json();
+      console.log("Email sent via Resend:", result.id);
+      return true;
+    } catch (error) {
+      console.error("Error sending email via Resend:", error);
       return false;
     }
+  }
 
+  /** Send via nodemailer SMTP */
+  private async sendViaSMTP(options: EmailOptions): Promise<boolean> {
     try {
-      const info = await this.transporter.sendMail({
-        from: `"${this.config.from.name}" <${this.config.from.address}>`,
+      const info = await this.smtpTransporter!.sendMail({
+        from: `"${this.fromName}" <${this.fromAddress}>`,
         to: options.to,
         subject: options.subject,
         html: options.html,
         text: options.text,
       });
-
-      console.log("Email sent successfully:", info.messageId);
+      console.log("Email sent via SMTP:", info.messageId);
       return true;
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error sending email via SMTP:", error);
       return false;
     }
   }
@@ -608,29 +634,46 @@ This is an automated notification from alchm.kitchen.
   }
 
   /**
-   * Verify SMTP connection
+   * Verify email service connectivity
    */
   async verifyConnection(): Promise<boolean> {
-    if (!this.transporter) {
-      console.error("Email service not configured");
-      return false;
+    if (this.resendApiKey) {
+      try {
+        const res = await fetch("https://api.resend.com/domains", {
+          headers: { Authorization: `Bearer ${this.resendApiKey}` },
+        });
+        console.log(
+          res.ok
+            ? "Resend API connection verified"
+            : `Resend API verification failed (${res.status})`,
+        );
+        return res.ok;
+      } catch (error) {
+        console.error("Resend API verification failed:", error);
+        return false;
+      }
     }
 
-    try {
-      await this.transporter.verify();
-      console.log("SMTP connection verified successfully");
-      return true;
-    } catch (error) {
-      console.error("SMTP connection verification failed:", error);
-      return false;
+    if (this.smtpTransporter) {
+      try {
+        await this.smtpTransporter.verify();
+        console.log("SMTP connection verified successfully");
+        return true;
+      } catch (error) {
+        console.error("SMTP connection verification failed:", error);
+        return false;
+      }
     }
+
+    console.error("Email service not configured");
+    return false;
   }
 }
 
 // Create singleton instance
 const emailService = new EmailService();
 
-// Initialize email service if SMTP env vars are configured
+// Initialize on module load
 emailService.initialize();
 
 export default emailService;
