@@ -5,7 +5,10 @@
 
 import { NextResponse } from "next/server";
 import { UserRole } from "@/lib/auth/jwt-auth";
-import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
+import {
+  calculatePlanetaryPositions,
+  calculateAscendantPosition,
+} from "@/utils/serverPlanetaryCalculations";
 import emailService from "@/services/emailService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
@@ -201,15 +204,22 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Calculate natal chart
+    // Calculate natal chart — use server-side calculations directly to avoid
+    // the HTTP call chain in astrologizeApi which can mis-route to the wrong
+    // backend endpoint and fall back to hardcoded static positions.
     const birthDate = new Date(dateTime);
-    const planetaryPositions = await getPlanetaryPositionsForDateTime(
-      birthDate,
-      { latitude, longitude },
-    );
+    const [rawPositions, ascendantPos] = await Promise.all([
+      calculatePlanetaryPositions(birthDate),
+      Promise.resolve(calculateAscendantPosition(birthDate, latitude, longitude)),
+    ]);
+
+    // Merge Ascendant into the positions map
+    const planetaryPositions = {
+      ...rawPositions,
+      Ascendant: ascendantPos,
+    };
 
     // Convert to Record<Planet, ZodiacSignType>
-    // Note: Ascendant is optional as it may not always be calculated
     const positions: Record<Planet, ZodiacSignType> = {
       Sun: planetaryPositions.Sun?.sign,
       Moon: planetaryPositions.Moon?.sign,
@@ -221,8 +231,7 @@ export async function POST(request: NextRequest) {
       Uranus: planetaryPositions.Uranus?.sign,
       Neptune: planetaryPositions.Neptune?.sign,
       Pluto: planetaryPositions.Pluto?.sign,
-      Ascendant:
-        (planetaryPositions.Ascendant?.sign) || "aries", // Default fallback
+      Ascendant: ascendantPos.sign,
     };
 
     // Calculate alchemical properties
