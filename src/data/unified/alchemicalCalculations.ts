@@ -286,8 +286,13 @@ export function normalizeAlchemicalProperties(
   const sum = Spirit + Essence + Matter + Substance;
 
   if (sum === 0) {
-    // Return balanced default if sum is 0;
-    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 };
+    // Return derived default from balanced elementals if sum is 0
+    return deriveAlchemicalFromElemental({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    });
   }
 
   return {
@@ -299,15 +304,17 @@ export function normalizeAlchemicalProperties(
 }
 
 /**
- * Get default alchemical properties for unknown ingredients
+ * Get default alchemical properties for unknown ingredients.
+ * Derived from balanced elemental properties (Fire=Water=Earth=Air=0.25)
+ * using the standard elemental-to-alchemical mapping.
  */
 export function getDefaultAlchemicalProperties(): AlchemicalProperties {
-  return {
-    Spirit: 0.25,
-    Essence: 0.25,
-    Matter: 0.25,
-    Substance: 0.25,
-  };
+  return deriveAlchemicalFromElemental({
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  });
 }
 
 // ===== EXPORT TYPES AND CONSTANTS =====;
