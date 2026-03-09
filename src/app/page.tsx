@@ -20,13 +20,17 @@ export default function Home() {
           <HeroSection />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
-          <DynamicCuisineRecommender />
-        </Suspense>
+        <section id="cuisines">
+          <Suspense fallback={<SectionLoader />}>
+            <DynamicCuisineRecommender />
+          </Suspense>
+        </section>
 
-        <Suspense fallback={<SectionLoader />}>
-          <EnhancedIngredientRecommender />
-        </Suspense>
+        <section id="ingredients">
+          <Suspense fallback={<SectionLoader />}>
+            <EnhancedIngredientRecommender />
+          </Suspense>
+        </section>
 
         <Suspense fallback={<SectionLoader />}>
           <EnhancedCookingMethodRecommender />

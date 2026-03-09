@@ -720,6 +720,60 @@ export const EnhancedIngredientRecommender: React.FC<
             </div>
           )}
 
+        {/* Culinary Uses */}
+        {(ingredient as any).culinaryApplications?.commonUses &&
+          Array.isArray((ingredient as any).culinaryApplications.commonUses) &&
+          (ingredient as any).culinaryApplications.commonUses.length > 0 && (
+            <div className="mb-3">
+              <div className="mb-1 text-xs font-medium text-gray-500">
+                👨‍🍳 Used in:
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {(ingredient as any).culinaryApplications.commonUses
+                  .slice(0, 3)
+                  .map((use: string, idx: number) => (
+                    <span
+                      key={idx}
+                      className="rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-700"
+                    >
+                      {use}
+                    </span>
+                  ))}
+                {(ingredient as any).culinaryApplications.commonUses.length >
+                  3 && (
+                  <span className="text-xs text-gray-400">
+                    +
+                    {(ingredient as any).culinaryApplications.commonUses
+                      .length - 3}{" "}
+                    more
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+        {/* Quick Pairings */}
+        {(ingredient.pairingRecommendations as any)?.complementary &&
+          Array.isArray(
+            (ingredient.pairingRecommendations as any).complementary,
+          ) &&
+          (ingredient.pairingRecommendations as any).complementary.length >
+            0 && (
+            <div className="mb-3 text-xs text-gray-600">
+              <span className="font-medium text-gray-500">🤝 Pairs with: </span>
+              {(ingredient.pairingRecommendations as any).complementary
+                .slice(0, 3)
+                .join(", ")}
+            </div>
+          )}
+
+        {/* Origin */}
+        {ingredient.origin && ingredient.origin.length > 0 && (
+          <div className="mb-2 text-xs text-gray-400">
+            📍 {ingredient.origin.slice(0, 2).join(", ")}
+          </div>
+        )}
+
         {/* Seasonality */}
         {(() => {
           const seasonData =
