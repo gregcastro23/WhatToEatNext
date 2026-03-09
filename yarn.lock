@@ -9888,10 +9888,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.9.16":
-  version: 6.10.1
-  resolution: "nodemailer@npm:6.10.1"
-  checksum: 39e9208e13c40b58c59242205bce855e74def25d953070ab6a5b1c23b0bf37df0725b3c6dea52d4220e2e60dd1fffcd486a697dece79afdf98842aae6395d393
+"nodemailer@npm:^8.0.2":
+  version: 8.0.2
+  resolution: "nodemailer@npm:8.0.2"
+  checksum: c1f25222bd9131b1850e50ca3bbdb7884ec909a1341dfe3ec9048666316d359afb5bcb52b857ecffc1bc54fad2779babae001a2e05b6b3c44183e54f74e48730
   languageName: node
   linkType: hard
 
@@ -13131,7 +13131,7 @@ __metadata:
     next: 15.5.9
     next-auth: beta
     node-fetch: 2
-    nodemailer: ^6.9.16
+    nodemailer: ^8.0.2
     nodemon: ^3.1.10
     open: ^11.0.0
     openapi-typescript: ^7.9.1

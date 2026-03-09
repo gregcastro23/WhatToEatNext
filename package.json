@@ -154,7 +154,7 @@
     "next": "15.5.9",
     "next-auth": "beta",
     "node-fetch": "2",
-    "nodemailer": "^6.9.16",
+    "nodemailer": "^8.0.2",
     "pg": "^8.16.3",
     "postcss": "8.4.24",
     "react": "19.1.2",
