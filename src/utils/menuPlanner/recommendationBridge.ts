@@ -9,9 +9,7 @@
  */
 
 import type { AlchemicalProfile } from "@/contexts/UserContext";
-import { UnifiedRecipeBuildingSystem } from "@/data/unified/recipeBuilding";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding"; // Corrected import path
-import type { AstrologyHookData } from "@/hooks/useAstrologicalState";
 import type { ChartComparison } from "@/services/ChartComparisonService";
 import type { LunarPhase } from "@/types/celestial";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
@@ -19,19 +17,18 @@ import type { NatalChart } from "@/types/natalChart";
 import type { ElementalProperties } from "@/types/recipe";
 import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
 import {
-  getRecipeKAlchm,
-  getUserTargetKAlchm,
+    getRecipeKAlchm,
+    getUserTargetKAlchm,
 } from "@/utils/alchemy/derivedStats";
 import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
 import { createLogger } from "@/utils/logger";
 import {
-  getPlanetaryDayCharacteristics,
-  calculateDayFoodCompatibility,
-  type PlanetaryDayCharacteristics,
+    calculateDayFoodCompatibility,
+    getPlanetaryDayCharacteristics,
+    type PlanetaryDayCharacteristics,
 } from "@/utils/planetaryDayRecommendations";
 
 const logger = createLogger("RecommendationBridge");
-const recipeBuilder = new UnifiedRecipeBuildingSystem();
 
 /**
  * Astrological state interface for recommendations
@@ -451,6 +448,7 @@ async function searchRecipesForDay(
     };
 
     // Generate primary result + explore alternatives with varied cuisines
+    const recipeBuilder = new UnifiedRecipeBuildingSystem();
     const results: MonicaOptimizedRecipe[] = [];
     const result = recipeBuilder.generateMonicaOptimizedRecipe(criteria);
 

@@ -8,9 +8,7 @@
  * @created 2026-01-10
  */
 
-import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import { useToast, Toast } from "@/components/common/Toast";
+import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
 import WeekProgress from "@/components/menu-builder/WeekProgress";
@@ -20,17 +18,19 @@ import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
 import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
-import { InlineNutritionDashboard , WeeklyNutritionDashboard } from "@/components/nutrition";
+import { InlineNutritionDashboard, WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
-  MenuPlannerProvider,
-  useMenuPlanner,
+    MenuPlannerProvider,
+    useMenuPlanner,
 } from "@/contexts/MenuPlannerContext";
 import {
-  RecipeQueueProvider,
-  useRecipeQueue,
+    RecipeQueueProvider,
+    useRecipeQueue,
 } from "@/contexts/RecipeQueueContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import type { Recipe } from "@/types/recipe";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface SavedChart {
   id: string;
@@ -134,7 +134,7 @@ function MenuPlannerContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 via-pink-50 to-blue-50">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="w-full px-4 xl:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -289,37 +289,39 @@ function MenuPlannerContent() {
             />
           </div>
         )}
-        {/* Main Content - Calendar, Queue, and Smart Suggestions */}
-        <div className="flex gap-6">
-          {/* Calendar */}
-          <div className={`min-w-0 ${showRecipeQueue ? "flex-1" : "flex-1"}`}>
-            <WeeklyCalendar />
-          </div>
+        {/* Main Content - Full-width Calendar */}
+        <div className="w-full">
+          <WeeklyCalendar />
+        </div>
 
-          {/* Recipe Queue Sidebar */}
-          {showRecipeQueue && (
-            <div className="hidden md:block w-96 flex-shrink-0">
-              <RecipeQueue
-                onSelectRecipe={(queuedRecipe) => {
-                  console.log("Selected from queue:", queuedRecipe.recipe.name);
-                  showInfo(
-                    "Drag recipes from the queue to meal slots on the calendar!",
-                  );
-                }}
+        {/* Sidebars row - below calendar for better readability */}
+        {(showRecipeQueue || true) && (
+          <div className="flex flex-col lg:flex-row gap-4 mt-6">
+            {/* Recipe Queue */}
+            {showRecipeQueue && (
+              <div className="w-full lg:w-96 flex-shrink-0">
+                <RecipeQueue
+                  onSelectRecipe={(queuedRecipe) => {
+                    console.log("Selected from queue:", queuedRecipe.recipe.name);
+                    showInfo(
+                      "Drag recipes from the queue to meal slots on the calendar!",
+                    );
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Smart Suggestions - right side */}
+            <div className="flex-1 hidden lg:block">
+              <SmartSuggestionsSidebar
+                weekPlan={currentMenu}
+                weeklyNutrition={weeklyNutrition}
+                isCollapsed={sidebarCollapsed}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </div>
-          )}
-
-          {/* Smart Suggestions Sidebar - desktop only */}
-          <div className="hidden lg:block relative flex-shrink-0">
-            <SmartSuggestionsSidebar
-              weekPlan={currentMenu}
-              weeklyNutrition={weeklyNutrition}
-              isCollapsed={sidebarCollapsed}
-              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-            />
           </div>
-        </div>
+        )}
         {/* Mobile: Suggestions Bottom Sheet */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
           <button
