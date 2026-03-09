@@ -12,6 +12,7 @@ import type {
 
 // TODO: Fix import - add what to import from './unifiedTypes.ts'
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
+import { deriveAlchemicalFromElemental } from "./alchemicalCalculations";
 
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
@@ -89,15 +90,27 @@ function enhanceIngredient(
   ingredient: IngredientMapping,
   sourceCategory: string,
 ): UnifiedIngredient {
-  // Create alchemical properties if not present - ensure it's the correct type
+  // Derive alchemical properties from elemental properties when not present
   // ✅ Pattern GG-6: Safe property access for alchemical properties
   const alchemicalData = ingredient.alchemicalProperties as unknown as any;
-  const alchemicalProperties: AlchemicalProperties = {
-    Spirit: Number(alchemicalData?.Spirit) || 0.25,
-    Essence: Number(alchemicalData?.Essence) || 0.25,
-    Matter: Number(alchemicalData?.Matter) || 0.25,
-    Substance: Number(alchemicalData?.Substance) || 0.25,
-  };
+  const hasAlchemicalData =
+    alchemicalData?.Spirit || alchemicalData?.Essence ||
+    alchemicalData?.Matter || alchemicalData?.Substance;
+
+  // Get elemental properties for derivation
+  const elementalProps: ElementalProperties =
+    ((ingredient as any).elementalProperties as ElementalProperties) ||
+    { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+
+  // Use existing alchemical data if present, otherwise derive from elemental properties
+  const alchemicalProperties: AlchemicalProperties = hasAlchemicalData
+    ? {
+        Spirit: Number(alchemicalData?.Spirit) || 0,
+        Essence: Number(alchemicalData?.Essence) || 0,
+        Matter: Number(alchemicalData?.Matter) || 0,
+        Substance: Number(alchemicalData?.Substance) || 0,
+      }
+    : deriveAlchemicalFromElemental(elementalProps);
 
   // Calculate Kalchm value
   const kalchm = calculateKalchm(alchemicalProperties);

@@ -130,21 +130,25 @@ export interface UnifiedIngredient {
 }
 
 /**
- * Helper function to create a basic valid UnifiedIngredient with default values
+ * Helper function to create a basic valid UnifiedIngredient with default values.
+ * Alchemical properties are derived from elemental properties using the
+ * standard elemental-to-alchemical mapping rather than placeholder zeros.
  */
 export function createUnifiedIngredient(
   name: string,
   category: string,
+  elementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 ): UnifiedIngredient {
+  const { Fire, Water, Earth, Air } = elementalProperties;
   return {
     name,
     category,
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    elementalProperties,
     alchemicalProperties: {
-      Spirit: 0,
-      Essence: 0,
-      Matter: 0,
-      Substance: 0,
+      Spirit: Fire * 0.6 + Air * 0.4,
+      Essence: Water * 0.5 + Fire * 0.3 + Air * 0.2,
+      Matter: Earth * 0.7 + Water * 0.3,
+      Substance: Earth * 0.5 + Water * 0.4 + Fire * 0.1,
     },
   };
 }
