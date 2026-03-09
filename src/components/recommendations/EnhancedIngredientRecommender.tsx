@@ -329,6 +329,43 @@ function getDominantElement(elementals: ElementalProperties): string {
   return (sorted[0]?.[0] as string) || "Unknown";
 }
 
+// Taste profile display configuration
+const TASTE_CONFIG: Record<
+  string,
+  { emoji: string; color: string }
+> = {
+  sweet:  { emoji: "🍬", color: "bg-yellow-100 text-yellow-800 border-yellow-200" },
+  salty:  { emoji: "🧂", color: "bg-sky-100 text-sky-800 border-sky-200" },
+  sour:   { emoji: "🍋", color: "bg-lime-100 text-lime-800 border-lime-200" },
+  bitter: { emoji: "🌿", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
+  umami:  { emoji: "🍄", color: "bg-amber-100 text-amber-800 border-amber-200" },
+  spicy:  { emoji: "🌶️", color: "bg-red-100 text-red-800 border-red-200" },
+};
+
+// Extract calories + macros from the several different nutritionalProfile shapes used across ingredient files
+function extractNutrition(np: any): {
+  servingSize?: string;
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+} | null {
+  if (!np) return null;
+  const calories = np.calories ?? np.kcal;
+  const macros = np.macros || {};
+  const protein = macros.protein ?? np.protein_g ?? np.protein;
+  const carbs   = macros.carbs   ?? np.carbs_g   ?? np.carbohydrates;
+  const fat     = macros.fat     ?? np.fat_g      ?? np.fat;
+  if (calories == null && protein == null) return null;
+  return {
+    servingSize: np.serving_size,
+    calories: calories != null ? Math.round(Number(calories)) : undefined,
+    protein: protein != null ? Number(protein) : undefined,
+    carbs:   carbs   != null ? Number(carbs)   : undefined,
+    fat:     fat     != null ? Number(fat)      : undefined,
+  };
+}
+
 export const EnhancedIngredientRecommender: React.FC<
   EnhancedIngredientRecommenderProps
 > = ({
@@ -720,17 +757,110 @@ export const EnhancedIngredientRecommender: React.FC<
             </div>
           )}
 
-        {/* Culinary Uses */}
+        {/* ── TASTE PROFILE ─────────────────────────────────── */}
+        {(() => {
+          const taste = (ingredient as any).sensoryProfile?.taste;
+          if (!taste || typeof taste !== "object" || Array.isArray(taste))
+            return null;
+          const active = Object.entries(taste as Record<string, number>)
+            .filter(([, v]) => v > 0.1)
+            .sort(([, a], [, b]) => b - a);
+          if (active.length === 0) return null;
+          return (
+            <div className="mb-3">
+              <div className="mb-1 text-xs font-medium text-gray-500">
+                Taste profile
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {active.map(([name, value]) => {
+                  const cfg = TASTE_CONFIG[name] ?? {
+                    emoji: "•",
+                    color: "bg-gray-100 text-gray-700 border-gray-200",
+                  };
+                  const dots =
+                    value > 0.7 ? "●●●" : value > 0.4 ? "●●" : "●";
+                  return (
+                    <span
+                      key={name}
+                      className={`rounded-full border px-2 py-0.5 text-xs font-medium ${cfg.color}`}
+                    >
+                      {cfg.emoji} {name} {dots}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ── NUTRITION SNAPSHOT ────────────────────────────── */}
+        {(() => {
+          const n = extractNutrition((ingredient as any).nutritionalProfile);
+          if (!n) return null;
+          return (
+            <div className="mb-3">
+              {n.servingSize && (
+                <div className="mb-0.5 text-xs text-gray-400">
+                  Per {n.servingSize}
+                </div>
+              )}
+              <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs">
+                {n.calories != null && (
+                  <span className="font-semibold text-gray-700">
+                    🔥 {n.calories} cal
+                  </span>
+                )}
+                {n.protein != null && n.protein > 0 && (
+                  <span className="text-blue-600">
+                    💪 {n.protein}g protein
+                  </span>
+                )}
+                {n.carbs != null && n.carbs > 0 && (
+                  <span className="text-amber-600">
+                    🌾 {n.carbs}g carbs
+                  </span>
+                )}
+                {n.fat != null && n.fat > 0 && (
+                  <span className="text-orange-600">
+                    🫒 {n.fat}g fat
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ── SMOKE POINT (oils) ────────────────────────────── */}
+        {(ingredient as any).smokePoint && (
+          <div className="mb-3 text-xs">
+            <span className="font-medium text-orange-600">
+              🌡️ Smoke point:{" "}
+            </span>
+            <span className="text-gray-700">
+              {(ingredient as any).smokePoint.fahrenheit}°F /{" "}
+              {(ingredient as any).smokePoint.celsius}°C
+            </span>
+            <span className="ml-1 text-gray-400">
+              {(ingredient as any).smokePoint.fahrenheit >= 400
+                ? "(high-heat ok)"
+                : (ingredient as any).smokePoint.fahrenheit >= 350
+                  ? "(medium-high heat)"
+                  : "(low-medium heat only)"}
+            </span>
+          </div>
+        )}
+
+        {/* ── CULINARY USES ─────────────────────────────────── */}
         {(ingredient as any).culinaryApplications?.commonUses &&
           Array.isArray((ingredient as any).culinaryApplications.commonUses) &&
           (ingredient as any).culinaryApplications.commonUses.length > 0 && (
             <div className="mb-3">
               <div className="mb-1 text-xs font-medium text-gray-500">
-                👨‍🍳 Used in:
+                👨‍🍳 Used in
               </div>
               <div className="flex flex-wrap gap-1">
                 {(ingredient as any).culinaryApplications.commonUses
-                  .slice(0, 3)
+                  .slice(0, 4)
                   .map((use: string, idx: number) => (
                     <span
                       key={idx}
@@ -740,11 +870,11 @@ export const EnhancedIngredientRecommender: React.FC<
                     </span>
                   ))}
                 {(ingredient as any).culinaryApplications.commonUses.length >
-                  3 && (
+                  4 && (
                   <span className="text-xs text-gray-400">
                     +
                     {(ingredient as any).culinaryApplications.commonUses
-                      .length - 3}{" "}
+                      .length - 4}{" "}
                     more
                   </span>
                 )}
@@ -752,43 +882,61 @@ export const EnhancedIngredientRecommender: React.FC<
             </div>
           )}
 
-        {/* Quick Pairings */}
+        {/* ── BEST COOKING METHODS ──────────────────────────── */}
+        {(() => {
+          const methods: string[] | undefined =
+            (ingredient as any).culinaryProfile?.cookingMethods ||
+            (ingredient as any).cookingMethods ||
+            (ingredient as any).recommendedCookingMethods;
+          if (!methods || !Array.isArray(methods) || methods.length === 0)
+            return null;
+          return (
+            <div className="mb-3 text-xs text-gray-600">
+              <span className="font-medium text-gray-500">🍳 Methods: </span>
+              {methods.slice(0, 4).join(", ")}
+            </div>
+          );
+        })()}
+
+        {/* ── PAIRS WELL WITH ───────────────────────────────── */}
         {(ingredient.pairingRecommendations as any)?.complementary &&
           Array.isArray(
             (ingredient.pairingRecommendations as any).complementary,
           ) &&
           (ingredient.pairingRecommendations as any).complementary.length >
             0 && (
-            <div className="mb-3 text-xs text-gray-600">
+            <div className="mb-2 text-xs text-gray-600">
               <span className="font-medium text-gray-500">🤝 Pairs with: </span>
               {(ingredient.pairingRecommendations as any).complementary
-                .slice(0, 3)
+                .slice(0, 4)
                 .join(", ")}
             </div>
           )}
 
-        {/* Origin */}
-        {ingredient.origin && ingredient.origin.length > 0 && (
-          <div className="mb-2 text-xs text-gray-400">
-            📍 {ingredient.origin.slice(0, 2).join(", ")}
+        {/* ── ORIGIN + SEASONALITY ──────────────────────────── */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-400">
+          {ingredient.origin && ingredient.origin.length > 0 && (
+            <span>📍 {ingredient.origin.slice(0, 2).join(", ")}</span>
+          )}
+          {(() => {
+            const seasonData =
+              ingredient.seasonality || (ingredient as any).season;
+            const normalizedSeasons = normalizeSeasonality(seasonData);
+            if (normalizedSeasons.length === 0) return null;
+            return (
+              <span className="capitalize">
+                🗓️ {normalizedSeasons.slice(0, 2).join(", ")}
+              </span>
+            );
+          })()}
+        </div>
+
+        {/* ── HERB / SPICE TIMING TIP ───────────────────────── */}
+        {(ingredient as any).timing?.notes && (
+          <div className="mt-2 rounded-md bg-indigo-50 px-2 py-1.5 text-xs text-indigo-700">
+            ⏱️ {(ingredient as any).timing.notes}
           </div>
         )}
-
-        {/* Seasonality */}
-        {(() => {
-          const seasonData =
-            ingredient.seasonality || (ingredient as any).season;
-          const normalizedSeasons = normalizeSeasonality(seasonData);
-          if (normalizedSeasons.length === 0) return null;
-          return (
-            <div className="mb-3 text-sm">
-              <span className="font-medium text-gray-700">Season: </span>
-              <span className="text-gray-600 capitalize">
-                {normalizedSeasons.join(", ")}
-              </span>
-            </div>
-          );
-        })()}
 
         {/* Expanded details */}
         {isSelected && (
