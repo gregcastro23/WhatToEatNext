@@ -6,14 +6,20 @@ import { enhancedVegetablesIngredients } from "./enhancedVegetables";
 import { leafyGreens } from "./leafyGreens";
 import { legumes } from "./legumes";
 import { nightshades } from "./nightshades";
+import { _otherVegetables } from "./otherVegetables";
+import { _rootVegetables } from "./rootVegetables";
 import { roots } from "./roots";
 import { squash } from "./squash";
 import { starchyVegetables } from "./starchy";
+import { vegetablesIngredients } from "./vegetables";
 
 // Combine all vegetable categories
 // Enhanced vegetables with comprehensive data take precedence
 export const vegetables: Record<string, IngredientMapping> =
   fixIngredientMappings({
+    ...vegetablesIngredients, // Base vegetables from cuisine files
+    ..._rootVegetables, // Root vegetables
+    ..._otherVegetables, // Other vegetables (asparagus, artichoke, etc.)
     ...leafyGreens,
     ...roots,
     ...cruciferous,
@@ -22,7 +28,7 @@ export const vegetables: Record<string, IngredientMapping> =
     ...squash,
     ...starchyVegetables,
     ...legumes,
-    ...enhancedVegetablesIngredients, // Add our enhanced vegetables with full data
+    ...enhancedVegetablesIngredients, // Enhanced vegetables with full data take highest precedence
   });
 
 // Create enhanced vegetables with additional properties

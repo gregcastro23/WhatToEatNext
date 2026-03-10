@@ -409,5 +409,5 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   },
 };
 
-// Raw spices are merged into the main spices export via spices/index.ts
-// Individual entries are available through the rawSpices constant above
+// Export spices ingredients for use in spices/index.ts
+export const spicesIngredients = rawSpices as Record<string, IngredientMapping>;

@@ -16,16 +16,18 @@ import { deriveAlchemicalFromElemental } from "./alchemicalCalculations";
 
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
+import { beveragesIngredients } from "../ingredients/beverages/beverages";
 import { dairy } from "../ingredients/dairy";
 import { fruits } from "../ingredients/fruits";
 import { grains } from "../ingredients/grains";
 import { herbs } from "../ingredients/herbs";
+import { miscIngredients } from "../ingredients/misc/misc";
 import { oils } from "../ingredients/oils";
-import { meats, plantBased, poultry, seafood } from "../ingredients/proteins";
+import { eggs, legumes, meats, plantBased, poultry, seafood } from "../ingredients/proteins";
 import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
 import { vegetables } from "../ingredients/vegetables";
-import { vinegars } from "../ingredients/vinegars/vinegars";
+import { vinegars } from "../ingredients/vinegars";
 import type { UnifiedIngredient } from "./unifiedTypes";
 
 // Combine all protein types
@@ -34,6 +36,8 @@ const proteins = {
   ...poultry,
   ...seafood,
   ...plantBased,
+  ...eggs,
+  ...legumes,
 };
 
 /**
@@ -232,6 +236,14 @@ export const unifiedProteins = createUnifiedCollection(
   proteins as { [key: string]: IngredientMapping },
   "proteins",
 );
+export const unifiedMisc = createUnifiedCollection(
+  miscIngredients as { [key: string]: IngredientMapping },
+  "misc",
+);
+export const unifiedBeverages = createUnifiedCollection(
+  beveragesIngredients as { [key: string]: IngredientMapping },
+  "beverages",
+);
 
 // Combine all unified collections
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
@@ -245,6 +257,8 @@ export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
   ...unifiedVinegars,
   ...unifiedSeasonings,
   ...unifiedProteins,
+  ...unifiedMisc,
+  ...unifiedBeverages,
 };
 
 // Helper functions for working with unified ingredients

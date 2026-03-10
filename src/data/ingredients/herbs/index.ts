@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { _aromaticHerbs } from "./aromatic";
 import { driedHerbs } from "./driedHerbs";
 import { freshHerbs } from "./freshHerbs";
+import { herbsIngredients } from "./herbs";
 import { medicinalHerbs } from "./medicinalHerbs";
 
 // Define cuisine types as string literals
@@ -100,6 +101,7 @@ function createIngredientMapping(
 
 // Combine all herbs into one record
 export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
+  ...(herbsIngredients as any), // Base herbs from cuisine files
   ...freshHerbs,
   ...driedHerbs,
   ..._aromaticHerbs,
@@ -303,6 +305,7 @@ export {
 
 // Create a comprehensive herb collection that includes all herb variants
 export const allHerbs = fixIngredientMappings({
+  ...(herbsIngredients as any), // Base herbs from cuisine files
   ...freshHerbs,
   ...driedHerbs,
   ..._aromaticHerbs,

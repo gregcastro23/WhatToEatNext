@@ -3,6 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { enhancedSpicesIngredients } from "./enhancedSpices";
 import { groundSpices } from "./groundspices";
 import { spiceBlends } from "./spiceBlends";
+import { spicesIngredients } from "./spices";
+import { warmSpices } from "./warmSpices";
 import { wholeSpices } from "./wholespices";
 import type { Ingredient } from "../types";
 
@@ -71,6 +73,8 @@ export const _addHeatLevels = (
 // Combine all spice categories with heat levels
 // Enhanced spices take precedence (spread first, then legacy data can override if needed)
 export const spices = fixIngredientMappings({
+  ...(spicesIngredients as any), // Base spices extracted from cuisine files
+  ...warmSpices, // Warm spices (cardamom, star anise, etc.)
   ...wholeSpices,
   ...groundSpices,
   ...(spiceBlends as any),

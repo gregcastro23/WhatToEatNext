@@ -3,6 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { berries } from "./berries";
 import { citrus } from "./citrus";
 import { enhancedFruitsIngredients } from "./enhancedFruits";
+import { exotic } from "./exotic";
+import { fruitsIngredients } from "./fruits";
 import { melons } from "./melons";
 import { pome } from "./pome";
 import { _stoneFruit } from "./stoneFruit";
@@ -11,13 +13,15 @@ import { tropical } from "./tropical";
 // Combine all fruit categories
 // Enhanced fruits with comprehensive data take precedence
 export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
+  ...fruitsIngredients, // Base fruits from cuisine files
   ...citrus,
   ...berries,
   ...tropical,
   ..._stoneFruit,
   ...pome,
   ...melons,
-  ...enhancedFruitsIngredients, // Add our enhanced fruits with full data
+  ...exotic, // Exotic fruits (pomegranate, dragon fruit, etc.)
+  ...enhancedFruitsIngredients, // Enhanced fruits with full data take highest precedence
 });
 
 // Export individual categories
