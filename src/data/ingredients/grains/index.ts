@@ -1,5 +1,6 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
+import { grainsIngredients } from "./grains";
 import { _pseudoGrains } from "./pseudoGrains";
 import { refinedGrains } from "./refinedGrains";
 import { wholeGrains } from "./wholeGrains";
@@ -7,6 +8,7 @@ import { wholeGrains } from "./wholeGrains";
 // Create a comprehensive collection of all grain types
 export const allGrains: Record<string, IngredientMapping> =
   fixIngredientMappings({
+    ...(grainsIngredients as any), // Base grains from cuisine files
     ...wholeGrains,
     ...refinedGrains,
     ..._pseudoGrains,
@@ -14,6 +16,7 @@ export const allGrains: Record<string, IngredientMapping> =
 
 // Fix the raw grains object with proper ingredient mapping structure
 const rawGrains = {
+  ...(grainsIngredients as any), // Base grains from cuisine files
   ...wholeGrains,
   ...refinedGrains,
   ..._pseudoGrains,
