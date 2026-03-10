@@ -50,27 +50,45 @@ interface EnhancedIngredientRecommenderProps {
 
 // Category definitions mapped to ingredient categories
 // Note: IDs must match the actual 'category' values in ingredient data (plural forms)
+// altIds capture non-standard category values used by individual ingredients in raw data
 const CATEGORIES = [
   {
     id: "spices",
     name: "Spices",
     icon: "🌶️",
-    altIds: [],
+    altIds: ["spice"],
   },
   {
     id: "herbs",
     name: "Herbs",
     icon: "🌿",
-    altIds: [],
+    altIds: ["herb", "culinary_herb", "medicinal_herb"],
   },
-  { id: "vegetables", name: "Vegetables", icon: "🥬", altIds: [] },
-  { id: "proteins", name: "Proteins", icon: "🥩", altIds: [] },
-  { id: "grains", name: "Grains", icon: "🌾", altIds: [] },
-  { id: "dairy", name: "Dairy", icon: "🧀", altIds: [] },
-  { id: "fruits", name: "Fruits", icon: "🍎", altIds: [] },
-  { id: "oils", name: "Oils", icon: "🫒", altIds: [] },
-  { id: "vinegars", name: "Vinegars", icon: "🍶", altIds: [] },
-  { id: "seasonings", name: "Seasonings", icon: "🍯", altIds: [] },
+  { id: "vegetables", name: "Vegetables", icon: "🥬", altIds: ["vegetable"] },
+  {
+    id: "proteins",
+    name: "Proteins",
+    icon: "🥩",
+    altIds: ["protein", "meats", "meat", "poultry", "seafood", "legumes", "eggs", "plant-based"],
+  },
+  { id: "grains", name: "Grains", icon: "🌾", altIds: ["grain", "pseudo-grain"] },
+  { id: "dairy", name: "Dairy", icon: "🧀", altIds: ["cheese", "milk"] },
+  { id: "fruits", name: "Fruits", icon: "🍎", altIds: ["fruit"] },
+  { id: "oils", name: "Oils", icon: "🫒", altIds: ["oil"] },
+  { id: "vinegars", name: "Vinegars", icon: "🍶", altIds: ["vinegar"] },
+  {
+    id: "seasonings",
+    name: "Seasonings",
+    icon: "🍯",
+    altIds: ["seasoning", "condiments", "condiment", "sweeteners", "sweetener"],
+  },
+  { id: "beverages", name: "Beverages", icon: "🍵", altIds: ["beverage"] },
+  {
+    id: "misc",
+    name: "Miscellaneous",
+    icon: "🧂",
+    altIds: ["desserts", "dessert", "prepared", "nuts", "nut", "seed", "seeds", "rhizome"],
+  },
 ];
 
 /**
@@ -421,15 +439,15 @@ export const EnhancedIngredientRecommender: React.FC<
   const scoredIngredients = useMemo(() => {
     let filtered = ingredients;
 
-    // Filter by category
+    // Filter by category (case-insensitive to handle data inconsistencies)
     if (selectedCategory) {
       const category = CATEGORIES.find((c) => c.id === selectedCategory);
       const allowedCategories = category
-        ? [category.id, ...category.altIds]
-        : [selectedCategory];
+        ? [category.id, ...category.altIds].map((c) => c.toLowerCase())
+        : [selectedCategory.toLowerCase()];
 
       filtered = filtered.filter((ing) =>
-        allowedCategories.includes(ing.category),
+        allowedCategories.includes((ing.category || "").toLowerCase()),
       );
     }
 
