@@ -7,10 +7,11 @@
  *
  * @file src/components/menu-builder/SmartSuggestionsSidebar.tsx
  * @created 2026-01-28
+ * @updated 2026-03-11 — improved visuals, grouping, and UX
  */
 
 import React, { useMemo, useState } from "react";
-import type { WeeklyMenu, MealSlot } from "@/types/menuPlanner";
+import type { WeeklyMenu } from "@/types/menuPlanner";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
 
@@ -52,7 +53,9 @@ function extractAllIngredients(weekPlan: WeeklyMenu | null): string[] {
   return weekPlan.meals
     .filter((m) => m.recipe)
     .flatMap((m) =>
-      (m.recipe!.ingredients || []).map((ing) => (typeof ing === 'string' ? ing : (ing as any).name ?? '').toLowerCase()),
+      (m.recipe!.ingredients || []).map((ing) =>
+        (typeof ing === "string" ? ing : (ing as any).name ?? "").toLowerCase(),
+      ),
     );
 }
 
@@ -82,6 +85,49 @@ function countUniqueCuisines(weekPlan: WeeklyMenu | null): number {
   return cuisines.size;
 }
 
+const CATEGORY_META: Record<
+  Suggestion["type"],
+  { label: string; emoji: string; bg: string; border: string; text: string }
+> = {
+  progress: {
+    label: "Progress",
+    emoji: "📅",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+    text: "text-blue-700",
+  },
+  nutritional: {
+    label: "Nutrition",
+    emoji: "🥗",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+    text: "text-amber-700",
+  },
+  variety: {
+    label: "Variety",
+    emoji: "🌈",
+    bg: "bg-teal-50",
+    border: "border-teal-200",
+    text: "text-teal-700",
+  },
+  planetary: {
+    label: "Planetary",
+    emoji: "✨",
+    bg: "bg-purple-50",
+    border: "border-purple-200",
+    text: "text-purple-700",
+  },
+};
+
+const SEVERITY_ACCENT: Record<
+  Suggestion["severity"],
+  { dot: string; badge: string }
+> = {
+  info: { dot: "bg-blue-400", badge: "bg-blue-100 text-blue-700" },
+  warning: { dot: "bg-amber-400", badge: "bg-amber-100 text-amber-700" },
+  critical: { dot: "bg-red-500", badge: "bg-red-100 text-red-700" },
+};
+
 export default function SmartSuggestionsSidebar({
   weekPlan,
   weeklyNutrition,
@@ -89,6 +135,10 @@ export default function SmartSuggestionsSidebar({
   isCollapsed = false,
   onToggleCollapse,
 }: SmartSuggestionsSidebarProps) {
+  const [expandedCategories, setExpandedCategories] = useState<
+    Set<Suggestion["type"]>
+  >(new Set(["progress", "nutritional", "variety", "planetary"]));
+
   const suggestions = useMemo(() => {
     const result: Suggestion[] = [];
     const plannedMeals = countPlannedMeals(weekPlan);
@@ -104,6 +154,15 @@ export default function SmartSuggestionsSidebar({
         message:
           'Click "Generate Full Week" or drag a recipe to any meal slot to begin planning.',
       });
+    } else if (plannedMeals < 7) {
+      result.push({
+        id: "early-week",
+        type: "progress",
+        severity: "info",
+        icon: "🌱",
+        title: "Just Getting Started",
+        message: `${plannedMeals}/21 meals planned. Try generating suggestions for the remaining slots.`,
+      });
     } else if (plannedMeals < 21) {
       result.push({
         id: "incomplete-week",
@@ -111,7 +170,16 @@ export default function SmartSuggestionsSidebar({
         severity: "info",
         icon: "📅",
         title: "Week in Progress",
-        message: `${plannedMeals}/21 meals planned. Keep going!`,
+        message: `${plannedMeals}/21 meals planned — ${21 - plannedMeals} left to go!`,
+      });
+    } else {
+      result.push({
+        id: "full-week",
+        type: "progress",
+        severity: "info",
+        icon: "🏆",
+        title: "Full Week Planned!",
+        message: "All 21 meals are set. Check nutrition balance and variety.",
       });
     }
 
@@ -121,15 +189,15 @@ export default function SmartSuggestionsSidebar({
       const goals = weeklyNutrition.weeklyGoals;
 
       if (goals.protein > 0) {
-        const proteinGap = goals.protein - totals.protein;
-        if (proteinGap > 50) {
+        const proteinPct = goals.protein > 0 ? totals.protein / goals.protein : 0;
+        if (proteinPct < 0.7) {
           result.push({
             id: "protein-deficiency",
             type: "nutritional",
-            severity: "warning",
+            severity: proteinPct < 0.5 ? "critical" : "warning",
             icon: "🥩",
             title: "Protein Gap",
-            message: `You're ${Math.round(proteinGap)}g short of your weekly protein goal. Add protein-rich meals.`,
+            message: `Only ${Math.round(proteinPct * 100)}% of weekly protein target. Add lean meats, legumes, or dairy.`,
             actionable: true,
           });
         }
@@ -144,7 +212,7 @@ export default function SmartSuggestionsSidebar({
             severity: "warning",
             icon: "🌾",
             title: "Low Fiber",
-            message: `Add ${Math.round(fiberGap)}g more fiber. Try whole grains, legumes, or vegetables.`,
+            message: `${Math.round(fiberGap)}g fiber short. Add whole grains, legumes, or vegetables.`,
             actionable: true,
           });
         }
@@ -156,12 +224,22 @@ export default function SmartSuggestionsSidebar({
           type: "nutritional",
           severity: "warning",
           icon: "⚡",
-          title: "High Calorie Week",
-          message: `${Math.round(totals.calories)} cal planned vs ${Math.round(goals.calories)} target. Consider lighter options.`,
+          title: "Calorie Surplus",
+          message: `${Math.round(((totals.calories - goals.calories) / goals.calories) * 100)}% above target. Consider lighter options for some days.`,
         });
       }
 
-      // Compliance check
+      if (goals.calories > 0 && totals.calories < goals.calories * 0.7 && plannedMeals >= 7) {
+        result.push({
+          id: "calorie-deficit",
+          type: "nutritional",
+          severity: "warning",
+          icon: "🔋",
+          title: "Low Energy Week",
+          message: `Calories only ${Math.round((totals.calories / goals.calories) * 100)}% of target. Add more nutrient-dense meals.`,
+        });
+      }
+
       const compliance = weeklyNutrition.weeklyCompliance;
       if (compliance && plannedMeals >= 14 && compliance.overall >= 0.9) {
         result.push({
@@ -169,8 +247,8 @@ export default function SmartSuggestionsSidebar({
           type: "progress",
           severity: "info",
           icon: "✨",
-          title: "Excellent Week!",
-          message: `${Math.round(compliance.overall * 100)}% nutritional compliance. Great balance!`,
+          title: "Excellent Balance!",
+          message: `${Math.round(compliance.overall * 100)}% nutritional compliance — outstanding week!`,
         });
       }
     }
@@ -186,9 +264,18 @@ export default function SmartSuggestionsSidebar({
           type: "variety",
           severity: "info",
           icon: "🌈",
-          title: "Limited Variety",
-          message: `${uniqueCount} unique ingredients. Aim for 30+ for nutritional diversity.`,
+          title: "Limited Ingredients",
+          message: `${uniqueCount} unique ingredients used. Aim for 30+ for nutritional diversity.`,
           actionable: true,
+        });
+      } else if (uniqueCount >= 30) {
+        result.push({
+          id: "great-variety",
+          type: "variety",
+          severity: "info",
+          icon: "🎨",
+          title: "Great Variety!",
+          message: `${uniqueCount} unique ingredients — excellent diversity for gut health.`,
         });
       }
 
@@ -201,7 +288,7 @@ export default function SmartSuggestionsSidebar({
           severity: "info",
           icon: "🔁",
           title: "Repeated Recipes",
-          message: `${repeated} recipe(s) appear more than once. Consider diversifying.`,
+          message: `${repeated} recipe${repeated > 1 ? "s" : ""} appear more than once this week.`,
         });
       }
 
@@ -213,7 +300,16 @@ export default function SmartSuggestionsSidebar({
           severity: "info",
           icon: "🌍",
           title: "Explore Cuisines",
-          message: `Only ${cuisineCount} cuisine type(s). Try mixing in different regional flavors.`,
+          message: `Only ${cuisineCount} cuisine type${cuisineCount > 1 ? "s" : ""} this week. Mix in different regional flavors.`,
+        });
+      } else if (cuisineCount >= 5) {
+        result.push({
+          id: "great-cuisines",
+          type: "variety",
+          severity: "info",
+          icon: "🗺️",
+          title: "Global Explorer",
+          message: `${cuisineCount} different cuisines this week — keep it up!`,
         });
       }
     }
@@ -221,31 +317,53 @@ export default function SmartSuggestionsSidebar({
     // --- PLANETARY ---
     const now = new Date();
     const dayOfWeek = now.getDay();
+    const hour = now.getHours();
+
     const planetaryRulers: Record<
       number,
-      { planet: string; suggestion: string }
+      { planet: string; emoji: string; suggestion: string; mealTip: string }
     > = {
       0: {
         planet: "Sun",
+        emoji: "☀️",
         suggestion: "Energizing, bold-flavored meals shine today",
+        mealTip: "Citrus, golden spices & vibrant colors align with solar energy",
       },
-      1: { planet: "Moon", suggestion: "Comfort foods and soups are favored" },
-      2: { planet: "Mars", suggestion: "Spicy, protein-rich dishes are ideal" },
+      1: {
+        planet: "Moon",
+        emoji: "🌙",
+        suggestion: "Comfort foods and soups are favored",
+        mealTip: "Creamy textures, broths, and cooling foods support lunar flow",
+      },
+      2: {
+        planet: "Mars",
+        emoji: "🔴",
+        suggestion: "Spicy, protein-rich dishes are ideal",
+        mealTip: "Chili, red meats, and iron-rich foods resonate with Mars",
+      },
       3: {
         planet: "Mercury",
+        emoji: "☿",
         suggestion: "Complex, varied dishes stimulate the mind",
+        mealTip: "Mix textures and flavors; try something new today",
       },
       4: {
         planet: "Jupiter",
+        emoji: "♃",
         suggestion: "Abundant, celebratory meals are auspicious",
+        mealTip: "Generous portions, herbs, and festive preparations suit Jupiter",
       },
       5: {
         planet: "Venus",
+        emoji: "💜",
         suggestion: "Indulgent, beautiful presentations please",
+        mealTip: "Flowers, sweets, and aesthetically plated dishes honor Venus",
       },
       6: {
         planet: "Saturn",
+        emoji: "♄",
         suggestion: "Grounding, traditional dishes provide structure",
+        mealTip: "Root vegetables, ferments, and slow-cooked meals align with Saturn",
       },
     };
 
@@ -255,60 +373,172 @@ export default function SmartSuggestionsSidebar({
         id: "planetary-day",
         type: "planetary",
         severity: "info",
-        icon: "⭐",
+        icon: today.emoji,
         title: `${today.planet} Day`,
         message: today.suggestion,
+      });
+      result.push({
+        id: "planetary-meal-tip",
+        type: "planetary",
+        severity: "info",
+        icon: "🍽️",
+        title: "Meal Alchemy Tip",
+        message: today.mealTip,
+      });
+    }
+
+    // Time-of-day meal guidance
+    const mealWindows: Array<{ start: number; end: number; label: string; tip: string; icon: string }> = [
+      { start: 5, end: 11, label: "Breakfast Time", icon: "🌅", tip: "Light, high-fiber start — fruits, whole grains, eggs." },
+      { start: 11, end: 15, label: "Lunch Time", icon: "☀️", tip: "Your biggest meal. Prioritize protein and complex carbs." },
+      { start: 15, end: 18, label: "Snack Time", icon: "🍎", tip: "Avoid sugar spikes — nuts, seeds, or a small fruit." },
+      { start: 18, end: 22, label: "Dinner Time", icon: "🌙", tip: "Go lighter — lean proteins, steamed veggies, less starch." },
+    ];
+    const activeMealWindow = mealWindows.find((w) => hour >= w.start && hour < w.end);
+    if (activeMealWindow) {
+      result.push({
+        id: "meal-timing-tip",
+        type: "planetary",
+        severity: "info",
+        icon: activeMealWindow.icon,
+        title: activeMealWindow.label,
+        message: activeMealWindow.tip,
       });
     }
 
     return result;
   }, [weekPlan, weeklyNutrition]);
 
+  // Group by type
+  const grouped = useMemo(() => {
+    const groups: Partial<Record<Suggestion["type"], Suggestion[]>> = {};
+    for (const s of suggestions) {
+      if (!groups[s.type]) groups[s.type] = [];
+      groups[s.type]!.push(s);
+    }
+    return groups;
+  }, [suggestions]);
+
+  const categoryOrder: Suggestion["type"][] = [
+    "progress",
+    "nutritional",
+    "variety",
+    "planetary",
+  ];
+
+  const criticalCount = suggestions.filter((s) => s.severity === "critical").length;
+  const warningCount = suggestions.filter((s) => s.severity === "warning").length;
+
+  const toggleCategory = (type: Suggestion["type"]) => {
+    setExpandedCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(type)) next.delete(type);
+      else next.add(type);
+      return next;
+    });
+  };
+
   return (
     <div
-      className={`bg-white border-l border-gray-200 shadow-lg transition-all duration-300 flex flex-col h-full ${
-        isCollapsed ? "w-12" : "w-80"
+      className={`bg-white rounded-2xl border border-gray-200 shadow-md transition-all duration-300 flex flex-col overflow-hidden ${
+        isCollapsed ? "w-12" : "w-full"
       }`}
     >
-      {/* Collapse Toggle */}
-      <button
-        onClick={onToggleCollapse}
-        className="absolute -left-10 top-4 bg-white border border-gray-200 rounded-l-lg p-2 shadow-sm hover:bg-gray-50 z-10 focus:outline-none focus:ring-2 focus:ring-amber-500"
-        aria-label={isCollapsed ? "Expand suggestions" : "Collapse suggestions"}
-      >
-        {isCollapsed ? "◀" : "▶"}
-      </button>
+      {/* Collapse Toggle (desktop sidebar mode) */}
+      {onToggleCollapse && (
+        <button
+          onClick={onToggleCollapse}
+          className="absolute -left-10 top-4 bg-white border border-gray-200 rounded-l-lg p-2 shadow-sm hover:bg-gray-50 z-10 focus:outline-none focus:ring-2 focus:ring-amber-500"
+          aria-label={isCollapsed ? "Expand suggestions" : "Collapse suggestions"}
+        >
+          {isCollapsed ? "◀" : "▶"}
+        </button>
+      )}
 
       {!isCollapsed && (
         <>
           {/* Header */}
-          <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-amber-50 to-amber-100 flex-shrink-0">
-            <h3 className="font-semibold text-gray-800">Smart Suggestions</h3>
-            <p className="text-xs text-gray-600 mt-1">
-              {suggestions.length} active tip
-              {suggestions.length !== 1 ? "s" : ""}
-            </p>
+          <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 flex-shrink-0">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-gray-800 text-sm">
+                  ✨ Smart Suggestions
+                </h3>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {suggestions.length} active tip{suggestions.length !== 1 ? "s" : ""}
+                </p>
+              </div>
+              {/* Alert badges */}
+              <div className="flex gap-1.5">
+                {criticalCount > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-bold">
+                    {criticalCount} critical
+                  </span>
+                )}
+                {warningCount > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">
+                    {warningCount} warnings
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Suggestions List */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {/* Categories */}
+          <div className="flex-1 overflow-y-auto divide-y divide-gray-50">
             {suggestions.length === 0 ? (
-              <div className="text-center py-8 text-gray-400">
-                <span className="text-4xl mb-2 block">✓</span>
-                <p className="text-sm">No suggestions right now</p>
+              <div className="text-center py-10 text-gray-400">
+                <span className="text-4xl mb-3 block">🌟</span>
+                <p className="text-sm font-medium text-gray-500">All looks great!</p>
+                <p className="text-xs text-gray-400 mt-1">No suggestions right now.</p>
               </div>
             ) : (
-              suggestions.map((suggestion) => (
-                <SuggestionCard
-                  key={suggestion.id}
-                  suggestion={suggestion}
-                  onApply={
-                    onApplySuggestion as
-                      | ((s: ApplicableSuggestion) => void)
-                      | undefined
-                  }
-                />
-              ))
+              categoryOrder.map((catType) => {
+                const items = grouped[catType];
+                if (!items || items.length === 0) return null;
+                const meta = CATEGORY_META[catType];
+                const isExpanded = expandedCategories.has(catType);
+
+                return (
+                  <div key={catType}>
+                    {/* Category header */}
+                    <button
+                      className={`w-full flex items-center justify-between px-4 py-2 ${meta.bg} hover:brightness-95 transition-all`}
+                      onClick={() => toggleCategory(catType)}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">{meta.emoji}</span>
+                        <span className={`text-xs font-bold uppercase tracking-wide ${meta.text}`}>
+                          {meta.label}
+                        </span>
+                        <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${meta.bg} ${meta.border} border ${meta.text}`}>
+                          {items.length}
+                        </span>
+                      </div>
+                      <span className={`text-xs ${meta.text}`}>
+                        {isExpanded ? "▲" : "▼"}
+                      </span>
+                    </button>
+
+                    {/* Suggestion cards */}
+                    {isExpanded && (
+                      <div className="px-3 py-2 space-y-2 bg-white">
+                        {items.map((suggestion: Suggestion) => (
+                          <SuggestionCard
+                            key={suggestion.id}
+                            suggestion={suggestion}
+                            onApply={
+                              onApplySuggestion as
+                                | ((s: ApplicableSuggestion) => void)
+                                | undefined
+                            }
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
         </>
@@ -325,31 +555,39 @@ function SuggestionCard({
   suggestion: Suggestion;
   onApply?: (s: ApplicableSuggestion) => void;
 }) {
-  const severityColors = {
-    info: "bg-blue-50 border-blue-200 text-blue-800",
-    warning: "bg-amber-50 border-amber-200 text-amber-800",
-    critical: "bg-red-50 border-red-200 text-red-800",
-  };
+  const accent = SEVERITY_ACCENT[suggestion.severity];
 
   return (
-    <div
-      className={`p-3 rounded-lg border ${severityColors[suggestion.severity]} animate-fade-in`}
-    >
-      <div className="flex items-start gap-2">
-        <span className="text-2xl flex-shrink-0">{suggestion.icon}</span>
-        <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-sm">{suggestion.title}</h4>
-          <p className="text-xs mt-1 opacity-90">{suggestion.message}</p>
+    <div className="flex items-start gap-2.5 p-3 rounded-xl bg-gray-50 border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all group">
+      {/* Severity dot + icon */}
+      <div className="flex flex-col items-center gap-1 flex-shrink-0">
+        <span className="text-xl leading-none">{suggestion.icon}</span>
+        <span className={`w-1.5 h-1.5 rounded-full ${accent.dot}`} />
+      </div>
 
-          {suggestion.autoApply && (
-            <button
-              onClick={suggestion.autoApply}
-              className="mt-2 text-xs px-3 py-1 bg-white bg-opacity-70 rounded-full hover:bg-opacity-100 transition-all font-medium focus:outline-none focus:ring-2 focus:ring-amber-400"
-            >
-              Fix This
-            </button>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="font-semibold text-xs text-gray-800 leading-tight">
+            {suggestion.title}
+          </h4>
+          {suggestion.severity !== "info" && (
+            <span className={`flex-shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-full ${accent.badge}`}>
+              {suggestion.severity}
+            </span>
           )}
         </div>
+        <p className="text-[11px] text-gray-500 mt-0.5 leading-relaxed">
+          {suggestion.message}
+        </p>
+
+        {suggestion.autoApply && (
+          <button
+            onClick={suggestion.autoApply}
+            className="mt-1.5 text-[10px] px-2.5 py-1 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:border-gray-300 transition-all font-semibold text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-400"
+          >
+            Fix This →
+          </button>
+        )}
       </div>
     </div>
   );
