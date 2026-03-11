@@ -90,11 +90,11 @@ function buildWelcomeHtml(name, element) {
       <a href="${NEXT_PUBLIC_APP_URL}/profile" style="display:inline-block;background:linear-gradient(135deg,#8b5cf6 0%,#f59e0b 100%);color:white;text-decoration:none;padding:16px 40px;border-radius:10px;font-weight:700;font-size:16px;">Explore Your Profile →</a>
     </div>
     <p style="color:#374151;font-size:15px;line-height:1.75;margin:0 0 28px;">Questions or ideas? Reach out anytime: <a href="mailto:cookingwithcastrollc@gmail.com" style="color:#7c3aed;font-weight:600;text-decoration:none;">cookingwithcastrollc@gmail.com</a></p>
-    <p style="color:#374151;font-size:16px;line-height:1.75;margin:0;">With gratitude and good food,<br><strong style="font-size:17px;">Greg Castro</strong><br><span style="color:#6b7280;font-size:14px;">Chef &amp; Founder, alchm.kitchen<br>Cooking With Castrol LLC</span></p>
+    <p style="color:#374151;font-size:16px;line-height:1.75;margin:0;">With gratitude and good food,<br><strong style="font-size:17px;">Greg Castro</strong><br><span style="color:#6b7280;font-size:14px;">Chef &amp; Founder, alchm.kitchen<br>Cooking With Castro LLC</span></p>
   </div>
   <div style="text-align:center;padding:28px 20px 0;">
     <p style="color:#9ca3af;font-size:12px;margin:0;">You&apos;re receiving this because you joined alchm.kitchen.</p>
-    <p style="color:#9ca3af;font-size:12px;margin:8px 0 0;">© ${year} alchm.kitchen — Cooking With Castrol LLC. All rights reserved.</p>
+    <p style="color:#9ca3af;font-size:12px;margin:8px 0 0;">© ${year} alchm.kitchen — Cooking With Castro LLC. All rights reserved.</p>
   </div>
 </div>
 </body>
@@ -125,7 +125,7 @@ Questions? cookingwithcastrollc@gmail.com
 
 With gratitude and good food,
 Greg Castro
-Chef & Founder, alchm.kitchen | Cooking With Castrol LLC
+Chef & Founder, alchm.kitchen | Cooking With Castro LLC
 
 © ${year} alchm.kitchen — All rights reserved.`.trim();
 }
