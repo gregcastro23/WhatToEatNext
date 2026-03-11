@@ -52,35 +52,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
         }
 
-        // Send registration emails for new users (non-blocking)
-        if (isNewUser) {
-          try {
-            const emailService = (
-              await import("@/services/emailService")
-            ).default;
+        // Send email notifications (non-blocking — never fail sign-in)
+        try {
+          const emailService = (
+            await import("@/services/emailService")
+          ).default;
 
-            if (emailService.isConfigured()) {
-              const userName = user.name || user.email;
+          // Re-check env vars in case they weren't available at module load
+          emailService.ensureInitialized();
 
-              // Admin notification: tell xalchm@gmail.com and cookingwithcastrollc@gmail.com
-              emailService
-                .sendAdminNotificationEmail(user.email, userName)
-                .then((success) => {
-                  if (success) {
-                    console.log(
-                      `Admin notification sent for new sign-in: ${user.email}`,
-                    );
-                  } else {
-                    console.error(
-                      `Failed to send admin notification for: ${user.email}`,
-                    );
-                  }
-                })
-                .catch((err) => {
-                  console.error("Error sending admin notification:", err);
-                });
+          if (emailService.isConfigured()) {
+            const userName = user.name || user.email;
 
-              // Welcome email to the new user
+            // Login notification to admin team on EVERY sign-in
+            emailService
+              .sendLoginNotificationEmail(user.email, userName, isNewUser)
+              .then((success) => {
+                if (success) {
+                  console.log(
+                    `Login notification sent for ${isNewUser ? "new" : "returning"} user: ${user.email}`,
+                  );
+                } else {
+                  console.error(
+                    `Failed to send login notification for: ${user.email}`,
+                  );
+                }
+              })
+              .catch((err) => {
+                console.error("Error sending login notification:", err);
+              });
+
+            // Welcome email only for brand-new users
+            if (isNewUser) {
               emailService
                 .sendWelcomeEmail(user.email, userName)
                 .then((success) => {
@@ -97,15 +100,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 .catch((err) => {
                   console.error("Error sending welcome email:", err);
                 });
-            } else {
-              console.log(
-                "Email service not configured - skipping sign-in emails",
-              );
             }
-          } catch (emailError) {
-            // Never block sign-in due to email issues
-            console.error("Error initializing email service:", emailError);
+          } else {
+            console.warn(
+              `[auth] Email service not configured - skipping sign-in emails for ${user.email}. Set RESEND_API_KEY or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.`,
+            );
           }
+        } catch (emailError) {
+          // Never block sign-in due to email issues
+          console.error("Error initializing email service:", emailError);
         }
       } catch (error) {
         // Don't block sign-in if DB is unavailable

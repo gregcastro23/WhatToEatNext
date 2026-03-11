@@ -291,6 +291,7 @@ export async function POST(request: NextRequest) {
     // (in auth.ts signIn callback). Here we only send an admin notification about
     // onboarding/birth-data completion, so the team knows the user finished setup.
 
+    emailService.ensureInitialized();
     if (emailService.isConfigured()) {
       // Admin notification: inform team that user completed onboarding with birth data
       emailService
