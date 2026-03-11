@@ -47,6 +47,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Re-check env vars in case they weren't available at module load
+    emailService.ensureInitialized();
+
     if (!emailService.isConfigured()) {
       return NextResponse.json(
         {
@@ -58,9 +61,6 @@ export async function POST(request: NextRequest) {
         { status: 503 },
       );
     }
-
-    // Re-check env vars in case they weren't available at module load
-    emailService.ensureInitialized();
 
     let success: boolean;
     if (type === "admin") {
