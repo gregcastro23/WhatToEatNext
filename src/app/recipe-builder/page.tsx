@@ -253,12 +253,20 @@ export default function RecipeBuilderPage() {
                 : "Cosmically-aligned recipes based on planetary positions"}
             </p>
           </div>
-          <Link
-            href="/"
-            className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-sm text-gray-600"
-          >
-            ← Home
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/recipe-generator"
+              className="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors text-sm text-purple-700 font-medium border border-purple-200"
+            >
+              Recipe Generator
+            </Link>
+            <Link
+              href="/"
+              className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-sm text-gray-600"
+            >
+              Home
+            </Link>
+          </div>
         </div>
 
         {/* Quick Generate Bar */}
