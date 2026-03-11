@@ -36,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
 
         let dbUser = await userDatabase.getUserByEmail(user.email);
+        const isNewUser = !dbUser;
 
         if (!dbUser) {
           const allUsers = await userDatabase.getAllUsers();
@@ -49,6 +50,62 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               ? [UserRole.ADMIN, UserRole.USER]
               : [UserRole.USER],
           });
+        }
+
+        // Send registration emails for new users (non-blocking)
+        if (isNewUser) {
+          try {
+            const emailService = (
+              await import("@/services/emailService")
+            ).default;
+
+            if (emailService.isConfigured()) {
+              const userName = user.name || user.email;
+
+              // Admin notification: tell xalchm@gmail.com and cookingwithcastrollc@gmail.com
+              emailService
+                .sendAdminNotificationEmail(user.email, userName)
+                .then((success) => {
+                  if (success) {
+                    console.log(
+                      `Admin notification sent for new sign-in: ${user.email}`,
+                    );
+                  } else {
+                    console.error(
+                      `Failed to send admin notification for: ${user.email}`,
+                    );
+                  }
+                })
+                .catch((err) => {
+                  console.error("Error sending admin notification:", err);
+                });
+
+              // Welcome email to the new user
+              emailService
+                .sendWelcomeEmail(user.email, userName)
+                .then((success) => {
+                  if (success) {
+                    console.log(
+                      `Welcome email sent to new user: ${user.email}`,
+                    );
+                  } else {
+                    console.error(
+                      `Failed to send welcome email to: ${user.email}`,
+                    );
+                  }
+                })
+                .catch((err) => {
+                  console.error("Error sending welcome email:", err);
+                });
+            } else {
+              console.log(
+                "Email service not configured - skipping sign-in emails",
+              );
+            }
+          } catch (emailError) {
+            // Never block sign-in due to email issues
+            console.error("Error initializing email service:", emailError);
+          }
         }
       } catch (error) {
         // Don't block sign-in if DB is unavailable

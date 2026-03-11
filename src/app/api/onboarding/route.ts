@@ -184,10 +184,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if user already exists, and whether they had birth data before
+    // Check if user already exists
     let user = await userDatabase.getUserByEmail(email);
     const isNewUser = !user;
-    const hadBirthDataBefore = !!(user?.profile?.birthData);
 
     if (!user) {
       // Determine role: admin email or first-ever user gets ADMIN
@@ -288,32 +287,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Send onboarding emails concurrently (non-blocking - don't fail onboarding if email fails)
-    const isFirstTimeBirthData = isNewUser || !hadBirthDataBefore;
+    // NOTE: Welcome email and initial admin notification are now sent at sign-in time
+    // (in auth.ts signIn callback). Here we only send an admin notification about
+    // onboarding/birth-data completion, so the team knows the user finished setup.
 
     if (emailService.isConfigured()) {
-      // Welcome email: send when user is new OR completing birth data for the first time
-      if (isFirstTimeBirthData) {
-        emailService
-          .sendWelcomeEmail(email, name, dominantElement)
-          .then((success) => {
-            if (success) {
-              console.log(`Welcome email sent successfully to ${email}`);
-            } else {
-              console.error(`Failed to send welcome email to ${email}`);
-            }
-          })
-          .catch((error) => {
-            console.error("Error sending welcome email:", error);
-          });
-      }
-
-      // Admin notification: send whenever onboarding is completed (new user OR birth data update)
+      // Admin notification: inform team that user completed onboarding with birth data
       emailService
         .sendAdminNotificationEmail(email, name, dominantElement)
         .then((success) => {
           if (success) {
             console.log(
-              `Admin notification sent for onboarding completion: ${email} (new=${isNewUser}, firstBirthData=${isFirstTimeBirthData})`,
+              `Admin notification sent for onboarding completion: ${email} (new=${isNewUser}, dominantElement=${dominantElement})`,
             );
           } else {
             console.error(

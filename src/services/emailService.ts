@@ -413,12 +413,26 @@ class EmailService {
         <a href="mailto:cookingwithcastrollc@gmail.com" style="color: #7c3aed; font-weight: 600; text-decoration: none;">cookingwithcastrollc@gmail.com</a>
       </p>
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.75; margin: 0;">
+      <p style="color: #374151; font-size: 16px; line-height: 1.75; margin: 0 0 28px 0;">
         With gratitude and good food,<br>
         <strong style="font-size: 17px;">Greg Castro</strong><br>
         <span style="color: #6b7280; font-size: 14px;">Chef &amp; Founder, alchm.kitchen<br>
-        Cooking With Castrol LLC</span>
+        Cooking With Castro LLC</span>
       </p>
+
+      <!-- Whitelist Signup -->
+      <div style="background: linear-gradient(135deg, #ede9fe 0%, #fef3c7 100%); border: 1px solid #c4b5fd; padding: 22px 24px; margin: 0; border-radius: 12px; text-align: center;">
+        <p style="color: #1f2937; font-size: 16px; font-weight: 700; margin: 0 0 8px 0;">
+          Join the alchm.kitchen Whitelist
+        </p>
+        <p style="color: #374151; font-size: 14px; line-height: 1.7; margin: 0 0 16px 0;">
+          Sign up for early access to new features, exclusive updates, and priority invites.
+        </p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSchAM6ARXl_TzZTmQUCBVHvfA4tlR8RNOcyaCbe6Lk86O3t8A/viewform?pli=1"
+           style="display: inline-block; background: linear-gradient(135deg, #7c3aed 0%, #d97706 100%); color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-weight: 700; font-size: 15px;">
+          Sign Up for the Whitelist →
+        </a>
+      </div>
 
     </div>
 
@@ -428,7 +442,7 @@ class EmailService {
         You&apos;re receiving this email because you joined alchm.kitchen.
       </p>
       <p style="color: #9ca3af; font-size: 12px; margin: 8px 0 0 0;">
-        © ${new Date().getFullYear()} alchm.kitchen — Cooking With Castrol LLC. All rights reserved.
+        © ${new Date().getFullYear()} alchm.kitchen — Cooking With Castro LLC. All rights reserved.
       </p>
     </div>
 
@@ -502,11 +516,18 @@ Email: cookingwithcastrollc@gmail.com
 With gratitude and good food,
 Greg Castro
 Chef & Founder, alchm.kitchen
-Cooking With Castrol LLC
+Cooking With Castro LLC
+
+---
+
+JOIN THE ALCHM.KITCHEN WHITELIST
+
+Sign up for early access to new features, exclusive updates, and priority invites:
+https://docs.google.com/forms/d/e/1FAIpQLSchAM6ARXl_TzZTmQUCBVHvfA4tlR8RNOcyaCbe6Lk86O3t8A/viewform?pli=1
 
 ---
 You're receiving this email because you joined alchm.kitchen.
-© ${new Date().getFullYear()} alchm.kitchen — Cooking With Castrol LLC. All rights reserved.
+© ${new Date().getFullYear()} alchm.kitchen — Cooking With Castro LLC. All rights reserved.
     `.trim();
   }
 
