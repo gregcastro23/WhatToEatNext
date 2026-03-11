@@ -18,7 +18,8 @@ import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
 import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
-import { InlineNutritionDashboard, WeeklyNutritionDashboard } from "@/components/nutrition";
+import TodaysMealsWidget from "@/components/menu-planner/TodaysMealsWidget";
+import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
     MenuPlannerProvider,
     useMenuPlanner,
@@ -262,7 +263,7 @@ function MenuPlannerContent() {
             }
           />
         )}
-        {/* Week Progress + Inline Nutrition */}{" "}
+        {/* Week Progress + Today's Meals Widget */}
         <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-1">
             <WeekProgress
@@ -271,9 +272,7 @@ function MenuPlannerContent() {
             />
           </div>
           <div className="lg:col-span-2">
-            {weeklyNutrition && (
-              <InlineNutritionDashboard weeklyResult={weeklyNutrition} />
-            )}
+            <TodaysMealsWidget weekPlan={currentMenu} />
           </div>
         </div>
         {/* Recipe Browser Panel (collapsible) */}
@@ -323,20 +322,23 @@ function MenuPlannerContent() {
           </div>
         )}
         {/* Mobile: Suggestions Bottom Sheet */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-amber-200 shadow-xl z-40">
           <button
             onClick={() => setShowMobileSuggestions(!showMobileSuggestions)}
-            className="w-full flex items-center justify-between px-4 py-3 focus:outline-none"
+            className="w-full flex items-center justify-between px-4 py-3 focus:outline-none bg-gradient-to-r from-amber-50 to-orange-50"
           >
-            <span className="font-semibold text-gray-800 text-sm">
-              Smart Suggestions
-            </span>
-            <span className="text-gray-500">
+            <div className="flex items-center gap-2">
+              <span className="text-base">✨</span>
+              <span className="font-bold text-gray-800 text-sm">
+                Smart Suggestions
+              </span>
+            </div>
+            <span className="text-amber-600 font-bold">
               {showMobileSuggestions ? "▼" : "▲"}
             </span>
           </button>
           {showMobileSuggestions && (
-            <div className="px-4 pb-4 max-h-64 overflow-y-auto animate-fade-in">
+            <div className="max-h-72 overflow-y-auto">
               <SmartSuggestionsSidebar
                 weekPlan={currentMenu}
                 weeklyNutrition={weeklyNutrition}
