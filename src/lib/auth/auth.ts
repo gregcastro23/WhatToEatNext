@@ -52,60 +52,75 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
         }
 
-        // Send registration emails for new users (non-blocking)
-        if (isNewUser) {
-          try {
-            const emailService = (
-              await import("@/services/emailService")
-            ).default;
+        // Send email notifications — AWAITED so they complete before the
+        // serverless function terminates, but wrapped in allSettled so a
+        // failure never blocks sign-in.
+        try {
+          const emailService = (
+            await import("@/services/emailService")
+          ).default;
 
-            if (emailService.isConfigured()) {
-              const userName = user.name || user.email;
+          // Re-check env vars in case they weren't available at module load
+          emailService.ensureInitialized();
 
-              // Admin notification: tell xalchm@gmail.com and cookingwithcastrollc@gmail.com
+          if (emailService.isConfigured()) {
+            const userName = user.name || user.email;
+
+            const emailPromises: Promise<void>[] = [];
+
+            // Login notification to admin team on EVERY sign-in
+            emailPromises.push(
               emailService
-                .sendAdminNotificationEmail(user.email, userName)
+                .sendLoginNotificationEmail(user.email, userName, isNewUser)
                 .then((success) => {
                   if (success) {
                     console.log(
-                      `Admin notification sent for new sign-in: ${user.email}`,
+                      `[auth] Login notification sent for ${isNewUser ? "new" : "returning"} user: ${user.email}`,
                     );
                   } else {
                     console.error(
-                      `Failed to send admin notification for: ${user.email}`,
+                      `[auth] Failed to send login notification for: ${user.email}`,
                     );
                   }
-                })
-                .catch((err) => {
-                  console.error("Error sending admin notification:", err);
-                });
+                }),
+            );
 
-              // Welcome email to the new user
-              emailService
-                .sendWelcomeEmail(user.email, userName)
-                .then((success) => {
-                  if (success) {
-                    console.log(
-                      `Welcome email sent to new user: ${user.email}`,
-                    );
-                  } else {
-                    console.error(
-                      `Failed to send welcome email to: ${user.email}`,
-                    );
-                  }
-                })
-                .catch((err) => {
-                  console.error("Error sending welcome email:", err);
-                });
-            } else {
-              console.log(
-                "Email service not configured - skipping sign-in emails",
+            // Welcome email only for brand-new users
+            if (isNewUser) {
+              emailPromises.push(
+                emailService
+                  .sendWelcomeEmail(user.email, userName)
+                  .then((success) => {
+                    if (success) {
+                      console.log(
+                        `[auth] Welcome email sent to new user: ${user.email}`,
+                      );
+                    } else {
+                      console.error(
+                        `[auth] Failed to send welcome email to: ${user.email}`,
+                      );
+                    }
+                  }),
               );
             }
-          } catch (emailError) {
-            // Never block sign-in due to email issues
-            console.error("Error initializing email service:", emailError);
+
+            // Await all emails — allSettled ensures one failure doesn't cancel the rest
+            const results = await Promise.allSettled(emailPromises);
+            const failures = results.filter((r) => r.status === "rejected");
+            if (failures.length > 0) {
+              console.error(
+                `[auth] ${failures.length} email(s) failed for ${user.email}:`,
+                failures.map((f) => (f as PromiseRejectedResult).reason),
+              );
+            }
+          } else {
+            console.warn(
+              `[auth] Email service not configured - skipping sign-in emails for ${user.email}. Set RESEND_API_KEY or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.`,
+            );
           }
+        } catch (emailError) {
+          // Never block sign-in due to email issues
+          console.error("[auth] Error initializing email service:", emailError);
         }
       } catch (error) {
         // Don't block sign-in if DB is unavailable

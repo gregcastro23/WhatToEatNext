@@ -291,27 +291,30 @@ export async function POST(request: NextRequest) {
     // (in auth.ts signIn callback). Here we only send an admin notification about
     // onboarding/birth-data completion, so the team knows the user finished setup.
 
+    // Await email before returning response so it completes before serverless function terminates
+    emailService.ensureInitialized();
     if (emailService.isConfigured()) {
-      // Admin notification: inform team that user completed onboarding with birth data
-      emailService
-        .sendAdminNotificationEmail(email, name, dominantElement)
-        .then((success) => {
-          if (success) {
-            console.log(
-              `Admin notification sent for onboarding completion: ${email} (new=${isNewUser}, dominantElement=${dominantElement})`,
-            );
-          } else {
-            console.error(
-              `Failed to send admin notification for user: ${email}`,
-            );
-          }
-        })
-        .catch((error) => {
-          console.error("Error sending admin notification:", error);
-        });
+      try {
+        const success = await emailService.sendAdminNotificationEmail(
+          email,
+          name,
+          dominantElement,
+        );
+        if (success) {
+          console.log(
+            `[onboarding] Admin notification sent for onboarding completion: ${email} (new=${isNewUser}, dominantElement=${dominantElement})`,
+          );
+        } else {
+          console.error(
+            `[onboarding] Failed to send admin notification for user: ${email}`,
+          );
+        }
+      } catch (emailError) {
+        console.error("[onboarding] Error sending admin notification:", emailError);
+      }
     } else {
-      console.log(
-        "Email service not configured - skipping onboarding emails. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS environment variables to enable email notifications.",
+      console.warn(
+        "[onboarding] Email service not configured - skipping onboarding emails. Set RESEND_API_KEY or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
       );
     }
 

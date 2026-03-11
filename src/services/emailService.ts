@@ -65,6 +65,17 @@ class EmailService {
   }
 
   /**
+   * Re-check environment variables and initialize if not yet configured.
+   * Useful in serverless environments where env vars may not be available
+   * at initial module load time but are available when the function runs.
+   */
+  ensureInitialized() {
+    if (!this.isConfigured()) {
+      this.initialize();
+    }
+  }
+
+  /**
    * Check if email service is configured and ready
    */
   isConfigured(): boolean {
@@ -196,6 +207,140 @@ class EmailService {
     }
 
     return allSucceeded;
+  }
+
+  /**
+   * Send login notification email to admin recipients.
+   * Sent on every sign-in (new and returning users) so the team
+   * has visibility into who is actively using the platform.
+   */
+  async sendLoginNotificationEmail(
+    userEmail: string,
+    userName: string,
+    isNewUser: boolean,
+  ): Promise<boolean> {
+    const notificationRecipients = [
+      "xalchm@gmail.com",
+      "cookingwithcastrollc@gmail.com",
+    ];
+    const label = isNewUser ? "New User Sign-In" : "User Login";
+    const subject = `${label}: ${userName} on alchm.kitchen`;
+
+    const html = this.getLoginNotificationTemplate(
+      userEmail,
+      userName,
+      isNewUser,
+    );
+    const text = this.getLoginNotificationText(
+      userEmail,
+      userName,
+      isNewUser,
+    );
+
+    const results = await Promise.allSettled(
+      notificationRecipients.map((recipient) =>
+        this.sendEmail({ to: recipient, subject, html, text }),
+      ),
+    );
+
+    const allSucceeded = results.every(
+      (r) => r.status === "fulfilled" && r.value === true,
+    );
+    if (!allSucceeded) {
+      const failed = results
+        .map((r, i) => (r.status === "rejected" || (r.status === "fulfilled" && !r.value)) ? notificationRecipients[i] : null)
+        .filter(Boolean);
+      console.warn(`Login notification failed for: ${failed.join(", ")}`);
+    }
+
+    return allSucceeded;
+  }
+
+  /**
+   * Get HTML template for login notification email
+   */
+  private getLoginNotificationTemplate(
+    userEmail: string,
+    userName: string,
+    isNewUser: boolean,
+  ): string {
+    const label = isNewUser ? "New User Sign-In" : "Returning User Login";
+    const headerColor = isNewUser
+      ? "linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%)"
+      : "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)";
+    const statusBadge = isNewUser
+      ? '<span style="background: #8b5cf6; color: white; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 600;">NEW USER</span>'
+      : '<span style="background: #3b82f6; color: white; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 600;">RETURNING</span>';
+
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${label} - alchm.kitchen</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f9fafb;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+    <div style="background: ${headerColor}; border-radius: 16px 16px 0 0; padding: 32px 30px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 26px; font-weight: bold;">
+        ${label}
+      </h1>
+      <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 16px;">
+        alchm.kitchen Login Notification
+      </p>
+    </div>
+    <div style="background: white; padding: 32px 30px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      <div style="margin: 0 0 20px 0;">
+        ${statusBadge}
+      </div>
+      <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 0 0 20px 0;">
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
+          <strong>Name:</strong> ${userName}
+        </p>
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
+          <strong>Email:</strong> <a href="mailto:${userEmail}" style="color: #7c3aed;">${userEmail}</a>
+        </p>
+        <p style="color: #1f2937; font-size: 16px; margin: 0;">
+          <strong>Login Time:</strong> ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
+        </p>
+      </div>
+      <p style="color: #6b7280; font-size: 14px; line-height: 1.6; margin: 0;">
+        This is an automated login notification from alchm.kitchen.
+      </p>
+    </div>
+    <div style="text-align: center; padding: 24px 20px 0 20px;">
+      <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+        &copy; ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+    `.trim();
+  }
+
+  /**
+   * Get plain text version of login notification email
+   */
+  private getLoginNotificationText(
+    userEmail: string,
+    userName: string,
+    isNewUser: boolean,
+  ): string {
+    const label = isNewUser ? "New User Sign-In" : "Returning User Login";
+    return `
+${label} - alchm.kitchen
+
+Name: ${userName}
+Email: ${userEmail}
+Status: ${isNewUser ? "NEW USER" : "RETURNING"}
+Login Time: ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
+
+This is an automated login notification from alchm.kitchen.
+
+© ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+    `.trim();
   }
 
   /**
@@ -694,7 +839,7 @@ This is an automated notification from alchm.kitchen.
 // Create singleton instance
 const emailService = new EmailService();
 
-// Initialize on module load
+// Initialize on module load (may re-initialize later if env vars weren't available)
 emailService.initialize();
 
 export default emailService;
