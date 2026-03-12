@@ -2,6 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import type { NatalChart } from '@/types/natalChart';
+import { useUser } from '@/contexts/UserContext';
+import { SavedRestaurant } from '@/types/restaurant';
+import { RestaurantBuilder } from '@/components/profile/RestaurantBuilder';
+import { RestaurantSearch } from '@/components/profile/RestaurantSearch';
 
 interface RecommendationsPanelProps {
   email: string;
@@ -15,6 +19,7 @@ interface UserPreferences {
   dislikedIngredients: string[];
   spicePreference: 'mild' | 'medium' | 'hot';
   complexity: 'simple' | 'moderate' | 'complex';
+  savedRestaurants?: SavedRestaurant[];
 }
 
 interface CuisineRecommendation {
@@ -156,6 +161,80 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
   const [expandedCuisine, setExpandedCuisine] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [restaurantView, setRestaurantView] = useState<'build' | 'discover'>('build');
+
+  const { currentUser, updateProfile } = useUser();
+  const currentPrefs = (currentUser?.preferences as UserPreferences | undefined) || preferences;
+  const savedRestaurants = currentPrefs.savedRestaurants || [];
+
+  const handleSaveRestaurant = async (restaurant: SavedRestaurant) => {
+    const newSaved = [...savedRestaurants, restaurant];
+    
+    // Update local storage for ProfilePage fallback
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('userFoodPreferences');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          parsed.savedRestaurants = newSaved;
+          localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
+        } catch (e) {}
+      }
+    }
+
+    await updateProfile({
+      preferences: {
+        ...currentPrefs,
+        savedRestaurants: newSaved
+      }
+    });
+  };
+
+  const handleRemoveRestaurant = async (restaurantId: string) => {
+    const newSaved = savedRestaurants.filter(r => r.id !== restaurantId);
+    
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('userFoodPreferences');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          parsed.savedRestaurants = newSaved;
+          localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
+        } catch (e) {}
+      }
+    }
+
+    await updateProfile({
+      preferences: {
+        ...currentPrefs,
+        savedRestaurants: newSaved
+      }
+    });
+  };
+
+  const handleUpdateRestaurant = async (updatedRestaurant: SavedRestaurant) => {
+    const newSaved = savedRestaurants.map(r => 
+      r.id === updatedRestaurant.id ? updatedRestaurant : r
+    );
+    
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('userFoodPreferences');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          parsed.savedRestaurants = newSaved;
+          localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
+        } catch (e) {}
+      }
+    }
+
+    await updateProfile({
+      preferences: {
+        ...currentPrefs,
+        savedRestaurants: newSaved
+      }
+    });
+  };
 
   useEffect(() => {
     if (!natalChart || !email) {
@@ -421,6 +500,57 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
               </div>
             </div>
           )}
+
+          {/* Restaurant Builder + Search Feature */}
+          <div className="bg-white rounded-xl shadow-sm p-5 mt-6 border border-purple-100">
+            {/* Section Toggle */}
+            <div className="flex gap-1 bg-gray-100 p-1 rounded-lg mb-5">
+              <button
+                onClick={() => setRestaurantView('build')}
+                className={`flex-1 px-4 py-2 rounded-md text-xs font-semibold transition-all ${
+                  restaurantView === 'build'
+                    ? 'bg-white text-purple-700 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                📋 My Menus
+              </button>
+              <button
+                onClick={() => setRestaurantView('discover')}
+                className={`flex-1 px-4 py-2 rounded-md text-xs font-semibold transition-all ${
+                  restaurantView === 'discover'
+                    ? 'bg-white text-blue-700 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                🌍 Discover Restaurants
+              </button>
+            </div>
+
+            {restaurantView === 'build' ? (
+              <>
+                <p className="text-xs text-gray-500 mb-4">
+                  Create custom restaurants and build menus with categories &amp; dietary tags.
+                </p>
+                <RestaurantBuilder
+                  savedRestaurants={savedRestaurants}
+                  onSave={handleSaveRestaurant}
+                  onRemove={handleRemoveRestaurant}
+                  onUpdate={handleUpdateRestaurant}
+                />
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-gray-500 mb-4">
+                  Search real restaurants by name, cuisine, or location and save them to your list.
+                </p>
+                <RestaurantSearch
+                  savedRestaurants={savedRestaurants}
+                  onSave={handleSaveRestaurant}
+                />
+              </>
+            )}
+          </div>
         </div>
       )}
 

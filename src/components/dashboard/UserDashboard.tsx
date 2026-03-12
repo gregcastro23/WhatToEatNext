@@ -9,13 +9,15 @@ import { RecommendationsPanel } from './RecommendationsPanel';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 import { CommensalManager } from './CommensalManager';
 import { FoodLabBook } from './FoodLabBook';
+import { SavedRestaurant } from '@/types/restaurant';
 
-interface UserPreferences {
+export interface UserPreferences {
   dietaryRestrictions: string[];
   preferredCuisines: string[];
   dislikedIngredients: string[];
   spicePreference: 'mild' | 'medium' | 'hot';
   complexity: 'simple' | 'moderate' | 'complex';
+  savedRestaurants?: SavedRestaurant[];
 }
 
 interface UserDashboardProps {
