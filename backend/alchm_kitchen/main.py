@@ -1423,6 +1423,86 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate cooking instruction: {str(e)}")
 
+class AstroBlueprintRequest(BaseModel):
+    year: int
+    month: int
+    day: int
+    hour: int
+    minute: int
+    latitude: float
+    longitude: float
+
+class AstroBlueprintResponse(BaseModel):
+    sun_sign: str
+    moon_sign: str
+    ascendant: str
+    target_elemental_balance: Dict[str, float]
+    cosmic_instructions: List[str]
+
+@app.post("/api/astrological/context-blueprint", response_model=AstroBlueprintResponse)
+async def generate_astro_context_blueprint(request: AstroBlueprintRequest):
+    """
+    Generates a lightweight Astrological Context Blueprint (Sun, Moon, Ascendant,
+    and target elemental ratios) to pass to the Next.js Vercel AI SDK prompt
+    for the advanced HSCA Cosmic Recipe Generation.
+    """
+    try:
+        # 1. Calculate Planetary Positions
+        planetary_positions_data = calculate_planetary_positions_swisseph(
+            request.year, request.month, request.day, request.hour, request.minute
+        )
+        celestial_bodies = planetary_positions_data.get("positions", {})
+
+        # 2. Ascendant Calculation
+        import swisseph as swe
+        swe.set_ephe_path('')
+        julian_day = swe.julday(request.year, request.month, request.day, request.hour + request.minute / 60.0)
+        
+        try:
+            house_cusps_tropical, ascmc_tropical = swe.houses(
+                julian_day, request.latitude, request.longitude, b'P'
+            )
+            ascendant_longitude = ascmc_tropical[0]
+            ascendant_sign_index = int(ascendant_longitude / 30)
+            zodiac_signs_list = [
+                "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+                "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+            ]
+            ascendant_sign = zodiac_signs_list[ascendant_sign_index].title()
+        except Exception:
+            ascendant_sign = "Unknown"
+
+        sun_sign = celestial_bodies.get("Sun", {}).get("sign", "Unknown").title()
+        moon_sign = celestial_bodies.get("Moon", {}).get("sign", "Unknown").title()
+
+        # 3. Dummy elemental logic to instruct the AI (Ideally derived from chart dominance)
+        # Here we assign generic ratios that sum to ~100 based on standard needs,
+        # but in a fuller implementation, this would tally chart weights.
+        target_balance = {
+            "fire": 25.0,
+            "earth": 25.0,
+            "water": 25.0,
+            "air": 25.0
+        }
+        
+        # If fire sign, maybe they need grounding (Earth/Water).
+        # We can pass these explicit rules to the UI generator.
+        instructions = [
+            f"The user's Sun is in {sun_sign}, Moon in {moon_sign}, and Ascendant in {ascendant_sign}.",
+            "Incorporate ingredients that balance these specific placements."
+        ]
+
+        return AstroBlueprintResponse(
+            sun_sign=sun_sign,
+            moon_sign=moon_sign,
+            ascendant=ascendant_sign,
+            target_elemental_balance=target_balance,
+            cosmic_instructions=instructions
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate astro blueprint: {str(e)}")
+
 @app.post("/api/recipe-generator", response_model=RecipeGeneratorResponse)
 async def generate_personalized_recipe(request: RecipeGeneratorRequest, db: Session = Depends(get_db)):
     """
