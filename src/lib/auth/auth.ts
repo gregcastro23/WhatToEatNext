@@ -17,8 +17,15 @@ import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 import { UserRole } from "./roles";
 
-/** The admin email that automatically gets ADMIN role */
-const ADMIN_EMAIL = process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com";
+/** Admin emails that automatically get ADMIN role and full premium access */
+const ADMIN_EMAILS = [
+  process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com",
+  "gregcastro23@gmail.com",
+  "cookingwithcastrollc@gmail.com",
+  "xalchm@gmail.com",
+];
+
+const isAdminEmail = (email: string) => ADMIN_EMAILS.includes(email);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -41,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!dbUser) {
           const allUsers = await userDatabase.getAllUsers();
           const isAdmin =
-            user.email === ADMIN_EMAIL || allUsers.length === 0;
+            isAdminEmail(user.email) || allUsers.length === 0;
 
           dbUser = await userDatabase.createUser({
             email: user.email,
@@ -50,6 +57,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               ? [UserRole.ADMIN, UserRole.USER]
               : [UserRole.USER],
           });
+        }
+
+        // Auto-provision premium access for admin accounts
+        if (isAdminEmail(user.email) && dbUser) {
+          try {
+            const { subscriptionService } = await import(
+              "@/services/subscriptionService"
+            );
+            const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
+            if (sub.tier !== "premium") {
+              const now = new Date();
+              const yearFromNow = new Date(now);
+              yearFromNow.setFullYear(yearFromNow.getFullYear() + 10); // admins get 10-year access
+              await subscriptionService.updateSubscription(dbUser.id, {
+                tier: "premium",
+                status: "active",
+                currentPeriodStart: now.toISOString(),
+                currentPeriodEnd: yearFromNow.toISOString(),
+              });
+            }
+          } catch (subError) {
+            console.warn("[auth] Could not auto-provision admin premium:", subError);
+          }
         }
 
         // Send email notifications — AWAITED so they complete before the
@@ -160,14 +190,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               dbUser.profile.birthData && dbUser.profile.natalChart
             );
           } else {
-            token.role = token.email === ADMIN_EMAIL ? "admin" : "user";
+            token.role = isAdminEmail(token.email as string) ? "admin" : "user";
             token.onboardingComplete = false;
           }
         } catch {
           // Fallback if DB unavailable - preserve existing token values
           // so returning users don't get incorrectly redirected to onboarding
           if (!token.role) {
-            token.role = token.email === ADMIN_EMAIL ? "admin" : "user";
+            token.role = isAdminEmail(token.email as string) ? "admin" : "user";
           }
           if (token.onboardingComplete === undefined) {
             token.onboardingComplete = false;

@@ -49,108 +49,30 @@ export async function POST(request: Request) {
         const userId = session.metadata?.userId;
         const tier = (session.metadata?.tier || "premium") as SubscriptionTier;
 
-        if (userId && session.subscription && session.customer) {
+        if (userId && session.payment_status === "paid" && session.customer) {
+          // One-time payment: grant premium for 1 year from now
+          const now = new Date();
+          const oneYearFromNow = new Date(now);
+          oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+
           await subscriptionService.updateSubscription(userId, {
             tier,
             status: "active",
             stripeCustomerId: session.customer as string,
-            stripeSubscriptionId: session.subscription as string,
+            currentPeriodStart: now.toISOString(),
+            currentPeriodEnd: oneYearFromNow.toISOString(),
           });
           console.log(
-            `[webhook] Checkout completed: user=${userId} tier=${tier}`,
+            `[webhook] One-time payment completed: user=${userId} tier=${tier} valid until=${oneYearFromNow.toISOString()}`,
           );
         }
         break;
       }
 
-      case "invoice.paid": {
-        const invoice = event.data.object;
-        const customerId = invoice.customer as string;
-
-        if (customerId) {
-          const sub =
-            await subscriptionService.getSubscriptionByStripeCustomerId(
-              customerId,
-            );
-          if (sub) {
-            await subscriptionService.updateSubscription(sub.userId, {
-              status: "active",
-              currentPeriodStart: new Date(
-                (invoice.period_start || 0) * 1000,
-              ).toISOString(),
-              currentPeriodEnd: new Date(
-                (invoice.period_end || 0) * 1000,
-              ).toISOString(),
-            });
-            console.log(`[webhook] Invoice paid: user=${sub.userId}`);
-          }
-        }
-        break;
-      }
-
-      case "invoice.payment_failed": {
-        const invoice = event.data.object;
-        const customerId = invoice.customer as string;
-
-        if (customerId) {
-          const sub =
-            await subscriptionService.getSubscriptionByStripeCustomerId(
-              customerId,
-            );
-          if (sub) {
-            await subscriptionService.updateSubscription(sub.userId, {
-              status: "past_due",
-            });
-            console.log(`[webhook] Payment failed: user=${sub.userId}`);
-          }
-        }
-        break;
-      }
-
-      case "customer.subscription.updated": {
-        const subscription = event.data.object as any;
-        const customerId = subscription.customer as string;
-
-        if (customerId) {
-          const sub =
-            await subscriptionService.getSubscriptionByStripeCustomerId(
-              customerId,
-            );
-          if (sub) {
-            await subscriptionService.updateSubscription(sub.userId, {
-              status: subscription.status as "active" | "past_due" | "canceled",
-              cancelAtPeriodEnd: subscription.cancel_at_period_end,
-              currentPeriodStart: new Date(
-                (subscription.current_period_start || 0) * 1000,
-              ).toISOString(),
-              currentPeriodEnd: new Date(
-                (subscription.current_period_end || 0) * 1000,
-              ).toISOString(),
-            });
-            console.log(`[webhook] Subscription updated: user=${sub.userId}`);
-          }
-        }
-        break;
-      }
-
-      case "customer.subscription.deleted": {
-        const subscription = event.data.object;
-        const customerId = subscription.customer as string;
-
-        if (customerId) {
-          const sub =
-            await subscriptionService.getSubscriptionByStripeCustomerId(
-              customerId,
-            );
-          if (sub) {
-            await subscriptionService.updateSubscription(sub.userId, {
-              tier: "free",
-              status: "canceled",
-              stripeSubscriptionId: null as unknown as string,
-            });
-            console.log(`[webhook] Subscription deleted: user=${sub.userId}`);
-          }
-        }
+      case "payment_intent.succeeded": {
+        // Secondary confirmation for one-time payments — no action needed
+        // as checkout.session.completed is the primary handler
+        console.log(`[webhook] payment_intent.succeeded received`);
         break;
       }
 
