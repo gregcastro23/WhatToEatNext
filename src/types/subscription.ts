@@ -72,7 +72,7 @@ export const TIER_LIMITS: Record<
     advancedPlanetaryCharts: true,
     foodLabBook: true,
     diningCompanions: true,
-    price: 9.99,
+    price: 5.00,
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID || null,
   },
 };
