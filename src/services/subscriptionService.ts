@@ -77,7 +77,7 @@ class SubscriptionService {
     const sub: UserSubscription = {
       id: `sub_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       userId,
-      tier: "starter",
+      tier: "free",
       status: "active",
       stripeCustomerId: null,
       stripeSubscriptionId: null,
@@ -264,7 +264,7 @@ class SubscriptionService {
 
   async canUseFeature(
     userId: string,
-    feature: keyof typeof TIER_LIMITS.starter,
+    feature: keyof typeof TIER_LIMITS.free,
   ): Promise<{ allowed: boolean; reason?: string; currentUsage?: number; limit?: number }> {
     const sub = await this.getOrCreateSubscription(userId);
     const limits = TIER_LIMITS[sub.tier];
@@ -287,7 +287,7 @@ class SubscriptionService {
     if (!hasAccess) {
       return {
         allowed: false,
-        reason: `${String(feature)} requires a ${sub.tier === "starter" ? "Premium" : "Cosmic"} subscription.`,
+        reason: `${String(feature)} requires a Premium subscription.`,
       };
     }
 

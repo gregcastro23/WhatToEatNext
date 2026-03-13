@@ -2,7 +2,7 @@
 -- Alchm.kitchen Premium System
 -- Migration 09: user_subscriptions + usage_records tables
 
-CREATE TYPE subscription_tier AS ENUM ('starter', 'premium', 'cosmic');
+CREATE TYPE subscription_tier AS ENUM ('free', 'premium');
 CREATE TYPE subscription_status AS ENUM (
   'active', 'past_due', 'canceled', 'trialing', 'incomplete', 'unpaid'
 );
@@ -11,7 +11,7 @@ CREATE TYPE subscription_status AS ENUM (
 CREATE TABLE IF NOT EXISTS user_subscriptions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    tier subscription_tier NOT NULL DEFAULT 'starter',
+    tier subscription_tier NOT NULL DEFAULT 'free',
     status subscription_status NOT NULL DEFAULT 'active',
     stripe_customer_id VARCHAR(255),
     stripe_subscription_id VARCHAR(255) UNIQUE,

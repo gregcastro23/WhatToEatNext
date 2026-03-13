@@ -144,7 +144,7 @@ export async function POST(request: Request) {
             );
           if (sub) {
             await subscriptionService.updateSubscription(sub.userId, {
-              tier: "starter",
+              tier: "free",
               status: "canceled",
               stripeSubscriptionId: null as unknown as string,
             });

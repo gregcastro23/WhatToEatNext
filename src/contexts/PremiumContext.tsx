@@ -50,7 +50,7 @@ interface PremiumContextValue {
 
 const PremiumContext = createContext<PremiumContextValue>({
   subscription: null,
-  tier: "starter",
+  tier: "free",
   isLoading: true,
   recipeUsage: 0,
   recipeLimit: 10,
@@ -69,7 +69,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [recipeUsage, setRecipeUsage] = useState(0);
 
-  const tier: SubscriptionTier = subscription?.tier || "starter";
+  const tier: SubscriptionTier = subscription?.tier || "free";
   const limits = TIER_LIMITS[tier];
   const recipeLimit = limits.monthlyRecipeGenerations;
 

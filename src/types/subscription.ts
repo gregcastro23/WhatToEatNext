@@ -1,13 +1,12 @@
 /**
  * Subscription & Premium Tier Types
  *
- * Defines the subscription tiers, feature gates, and usage tracking
- * for the Alchm.kitchen premium system.
+ * Two tiers: Free (default) and Premium.
  *
  * @file src/types/subscription.ts
  */
 
-export type SubscriptionTier = "starter" | "premium" | "cosmic";
+export type SubscriptionTier = "free" | "premium";
 
 export type SubscriptionStatus =
   | "active"
@@ -50,46 +49,31 @@ export const TIER_LIMITS: Record<
     advancedPlanetaryCharts: boolean;
     foodLabBook: boolean;
     diningCompanions: boolean;
-    prioritySupport: boolean;
     price: number;
     stripePriceId: string | null;
   }
 > = {
-  starter: {
-    label: "Starter",
+  free: {
+    label: "Free",
     monthlyRecipeGenerations: 10,
     cosmicRecipeAccess: false,
     restaurantCreator: false,
     advancedPlanetaryCharts: false,
     foodLabBook: true,
     diningCompanions: false,
-    prioritySupport: false,
     price: 0,
     stripePriceId: null,
   },
   premium: {
     label: "Premium",
-    monthlyRecipeGenerations: 100,
-    cosmicRecipeAccess: true,
-    restaurantCreator: true,
-    advancedPlanetaryCharts: true,
-    foodLabBook: true,
-    diningCompanions: true,
-    prioritySupport: false,
-    price: 9.99,
-    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID || null,
-  },
-  cosmic: {
-    label: "Cosmic",
     monthlyRecipeGenerations: Infinity,
     cosmicRecipeAccess: true,
     restaurantCreator: true,
     advancedPlanetaryCharts: true,
     foodLabBook: true,
     diningCompanions: true,
-    prioritySupport: true,
-    price: 19.99,
-    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_COSMIC_PRICE_ID || null,
+    price: 9.99,
+    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID || null,
   },
 };
 
@@ -98,50 +82,37 @@ export const FEATURE_LIST = [
   {
     key: "monthlyRecipeGenerations",
     label: "Monthly Recipe Generations",
-    starter: "10",
-    premium: "100",
-    cosmic: "Unlimited",
+    free: "10",
+    premium: "Unlimited",
   },
   {
     key: "cosmicRecipeAccess",
     label: "AI Cosmic Recipe Generator",
-    starter: false,
+    free: false,
     premium: true,
-    cosmic: true,
   },
   {
     key: "restaurantCreator",
     label: "Cosmic Restaurant Creator",
-    starter: false,
+    free: false,
     premium: true,
-    cosmic: true,
   },
   {
     key: "advancedPlanetaryCharts",
     label: "Advanced Planetary Charts",
-    starter: false,
+    free: false,
     premium: true,
-    cosmic: true,
   },
   {
     key: "foodLabBook",
     label: "Food Lab Book",
-    starter: true,
+    free: true,
     premium: true,
-    cosmic: true,
   },
   {
     key: "diningCompanions",
     label: "Dining Companions",
-    starter: false,
+    free: false,
     premium: true,
-    cosmic: true,
-  },
-  {
-    key: "prioritySupport",
-    label: "Priority Support",
-    starter: false,
-    premium: false,
-    cosmic: true,
   },
 ] as const;
