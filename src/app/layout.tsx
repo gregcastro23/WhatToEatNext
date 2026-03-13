@@ -101,6 +101,27 @@ export default function RootLayout({
                     ⚗️ Alchm Quantities
                   </Link>
                   <Link
+                    href="/cosmic-recipe"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-pink-100 text-pink-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-pink-200"
+                    aria-label="AI cosmic recipe generator"
+                  >
+                    🌌 Cosmic Recipes
+                  </Link>
+                  <Link
+                    href="/restaurant-creator"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-rose-100 text-rose-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-rose-200"
+                    aria-label="Create your cosmic restaurant"
+                  >
+                    🏪 Restaurant Creator
+                  </Link>
+                  <Link
+                    href="/premium"
+                    className="px-3 py-2 rounded-lg bg-gradient-to-r from-amber-100 to-yellow-100 hover:from-amber-200 hover:to-yellow-200 text-amber-800 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-300"
+                    aria-label="Premium subscription plans"
+                  >
+                    ⭐ Premium
+                  </Link>
+                  <Link
                     href="https://planetary-agents.vercel.app/planetary-agents"
                     target="_blank"
                     rel="noopener noreferrer"
