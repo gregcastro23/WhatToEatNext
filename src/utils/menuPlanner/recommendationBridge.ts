@@ -9,7 +9,10 @@
  */
 
 import type { AlchemicalProfile } from "@/contexts/UserContext";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding"; // Corrected import path
+import {
+    UnifiedRecipeBuildingSystem,
+    type MonicaOptimizedRecipe,
+} from "@/data/unified/recipeBuilding";
 import type { ChartComparison } from "@/services/ChartComparisonService";
 import type { LunarPhase } from "@/types/celestial";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
