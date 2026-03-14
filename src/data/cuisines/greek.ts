@@ -822,221 +822,127 @@ export const greek: Cuisine = {
     dinner: {
       all: [
         {
-          name: "Moussaka",
-          description:
-            "Layered eggplant casserole with spiced ground meat and béchamel sauce",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "sauce-making",
-              elementalProperties: {
-                Fire: 0.27,
-                Water: 0.33,
-                Earth: 0.2,
-                Air: 0.2,
-              },
-            },
-          ],
-          tools: [
-            "large baking dish",
-            "frying pan",
-            "saucepan",
-            "whisk",
-            "mandoline",
-            "colander",
-          ],
-          preparationSteps: [
-            "Salt and drain eggplants",
-            "Fry eggplant slices",
-            "Prepare meat sauce",
-            "Make béchamel sauce",
-            "Layer ingredients",
-            "Top with béchamel",
-            "Bake until golden",
-          ],
-          ingredients: [
-            {
-              name: "eggplants",
-              amount: "3",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ground lamb",
-              amount: "750",
-              unit: "g",
-              category: "protein",
-              swaps: ["beef", "plant-based meat"],
-            },
-            {
-              name: "tomatoes",
-              amount: "400",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-            },
-            { name: "butter", amount: "100", unit: "g", category: "dairy" },
-            { name: "flour", amount: "100", unit: "g", category: "dry" },
-            { name: "milk", amount: "1", unit: "L", category: "dairy" },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            { name: "nutmeg", amount: "1/4", unit: "tsp", category: "spice" },
-            { name: "cinnamon", amount: "1", unit: "tsp", category: "spice" },
-          ],
-          substitutions: {
-            "ground lamb": ["ground beef", "plant-based meat", "lentils"],
-            milk: ["plant-based milk"],
-            butter: ["olive oil", "vegan butter"],
+          "recipe_name": "Authentic Greek Moussaka",
+          "description": "A structurally complex casserole relying on precise layering and moisture control.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 60,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "autumn"
+            ]
           },
-          servingSize: 8,
-          allergens: ["dairy", "eggs", "gluten"],
-          prepTime: "60 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A refined dish popularized in its current form by chef Nikolaos Tselementes in the 1920s, combining Greek and French culinary traditions",
-          pairingSuggestions: [
-            "Greek red wine",
-            "village salad",
-            "crusty bread",
+          "ingredients": [
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggplants",
+              "notes": "Salted and dried."
+            }
           ],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 520,
-            protein: 28,
-            carbs: 32,
-            fat: 35,
-            fiber: 3,
-            vitamins: ["B12", "A", "D"],
-            minerals: ["Iron", "Calcium", "Zinc"],
+          "instructions": [
+            "Step 1: Fry vegetables.",
+            "Step 2: Make meat sauce.",
+            "Step 3: Make béchamel.",
+            "Step 4: Layer and bake.",
+            "Step 5: Rest before cutting."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "baking"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.33,
-            Water: 0.13,
-            Earth: 0.44,
-            Air: 0.1,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.2,
+            "earth": 0.45,
+            "air": 0.15
           },
-          mealType: ["dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Jupiter"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 650,
+            "protein_g": 32,
+            "carbs_g": 35,
+            "fat_g": 42,
+            "fiber_g": 6
+          },
+          "substitutions": []
         },
         {
-          name: "Spanakopita",
-          description:
-            "Flaky phyllo pastry filled with spinach, herbs, and feta cheese",
-          cuisine: "Greek",
-          cookingMethods: ["layering", "baking", "sautéing"],
-          tools: [
-            "large baking pan",
-            "pastry brush",
-            "mixing bowls",
-            "colander",
-            "sharp knife",
-          ],
-          preparationSteps: [
-            "Wilt and drain spinach well",
-            "Mix with feta and herbs",
-            "Sauté onions until soft",
-            "Combine filling ingredients",
-            "Layer phyllo with oil",
-            "Add filling",
-            "Top with more phyllo",
-            "Score and bake",
-          ],
-          ingredients: [
-            {
-              name: "phyllo dough",
-              amount: "1",
-              unit: "package",
-              category: "pastry",
-              swaps: ["gluten-free phyllo"],
-            },
-            { name: "spinach", amount: "1", unit: "kg", category: "vegetable" },
-            {
-              name: "feta cheese",
-              amount: "400",
-              unit: "g",
-              category: "dairy",
-              swaps: ["tofu feta"],
-            },
-            { name: "dill", amount: "1", unit: "bunch", category: "herb" },
-            {
-              name: "green onions",
-              amount: "6",
-              unit: "whole",
-              category: "vegetable",
-            },
-            {
-              name: "eggs",
-              amount: "2",
-              unit: "large",
-              category: "protein",
-              swaps: ["flax eggs"],
-            },
-            { name: "olive oil", amount: "200", unit: "ml", category: "oil" },
-          ],
-          substitutions: {
-            feta: ["tofu feta", "cashew cheese"],
-            eggs: ["flax eggs", "chickpea water"],
-            phyllo: ["gluten-free phyllo"],
+          "recipe_name": "Authentic Spanakopita",
+          "description": "An ancient, herbaceous pie balancing wild greens and feta.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 45,
+            "cook_time_minutes": 60,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "spring"
+            ]
           },
-          servingSize: 12,
-          allergens: ["dairy", "gluten", "eggs"],
-          prepTime: "45 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A traditional pie that showcases Greece's love for wild greens and feta. Often made by village women using foraged greens",
-          pairingSuggestions: ["Greek white wine", "tzatziki", "village salad"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 320,
-            protein: 12,
-            carbs: 28,
-            fat: 20,
-            fiber: 3,
-            vitamins: ["A", "K", "C"],
-            minerals: ["Iron", "Calcium"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "spinach",
+              "notes": "Massaged to remove water."
+            }
+          ],
+          "instructions": [
+            "Step 1: Massage spinach.",
+            "Step 2: Mix filling.",
+            "Step 3: Layer phyllo with butter/oil.",
+            "Step 4: Bake until crispy."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch"
+            ],
+            "cooking_methods": [
+              "baking"
+            ]
           },
-          season: ["winter", "spring"],
-          mealType: ["lunch", "dinner", "appetizer"],
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.2,
+            "earth": 0.35,
+            "air": 0.25
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 14,
+            "carbs_g": 28,
+            "fat_g": 26,
+            "fiber_g": 4
+          },
+          "substitutions": []
         },
         {
           name: "Pastitsio",
@@ -1313,302 +1219,132 @@ export const greek: Cuisine = {
           mealType: ["appetizer", "side"],
         },
         {
-          name: "Galaktoboureko",
-          description: "Custard-filled phyllo pastry soaked in citrus syrup",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            "custard-making",
-            "syrup-making",
-          ],
-          tools: [
-            "baking dish",
-            "saucepan",
-            "whisk",
-            "pastry brush",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Make semolina custard",
-            "Prepare syrup",
-            "Layer phyllo sheets",
-            "Add custard filling",
-            "Top with more phyllo",
-            "Bake until golden",
-            "Pour cool syrup over hot pastry",
-          ],
-          ingredients: [
-            {
-              name: "phyllo dough",
-              amount: "1",
-              unit: "package",
-              category: "pastry",
-            },
-            {
-              name: "milk",
-              amount: "1",
-              unit: "L",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            { name: "semolina", amount: "150", unit: "g", category: "grain" },
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "butter",
-              amount: "200",
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sugar",
-              amount: "400",
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "orange zest",
-              amount: "1",
-              unit: "orange",
-              category: "citrus",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "vanilla extract",
-              amount: "2",
-              unit: "tsp",
-              category: "flavoring",
-            },
-          ],
-          substitutions: {
-            milk: ["almond milk"],
-            butter: ["vegan butter"],
-            eggs: ["cornstarch mixture"],
+          "recipe_name": "Authentic Greek Galaktoboureko",
+          "description": "A masterpiece of Hellenic pastry alchemy.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 50,
+            "base_serving_size": 12,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 12,
-          allergens: ["dairy", "eggs", "gluten"],
-          prepTime: "45 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A beloved dessert that showcases the Greek mastery of phyllo pastry and custard-making. The name literally means 'milk bourek'",
-          pairingSuggestions: ["Greek coffee", "tea"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 420,
-            protein: 8,
-            carbs: 58,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "package",
+              "name": "phyllo dough",
+              "notes": "Thawed."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "fine semolina flour",
+              "notes": "For custard base."
+            }
+          ],
+          "instructions": [
+            "Step 1: Prepare and cool syrup.",
+            "Step 2: Make semolina custard.",
+            "Step 3: Layer phyllo.",
+            "Step 4: Bake.",
+            "Step 5: Pour cold syrup over hot pastry."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert"
+            ],
+            "cooking_methods": [
+              "baking"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.29,
-            Earth: 0.36,
-            Air: 0.14,
+          "elemental_properties": {
+            "fire": 0.25,
+            "water": 0.3,
+            "earth": 0.3,
+            "air": 0.15
           },
-          mealType: ["dessert"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 9,
+            "carbs_g": 65,
+            "fat_g": 22,
+            "fiber_g": 1
+          },
+          "substitutions": []
         },
         {
-          name: "Fasolada",
-          description: "Traditional Greek white bean soup with vegetables",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "wooden spoon",
-            "colander",
-            "sharp knife",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Soak beans overnight",
-            "Sauté vegetables",
-            "Add beans and stock",
-            "Simmer until tender",
-            "Season to taste",
-            "Finish with olive oil",
-          ],
-          ingredients: [
-            {
-              name: "white beans",
-              amount: "500",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "carrots",
-              amount: "3",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "celery",
-              amount: "3",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "4",
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "olive oil",
-              amount: "120",
-              unit: "ml",
-              category: "oil",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "tomato paste",
-              amount: "70",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "white beans": ["navy beans", "cannellini beans"],
-            celery: ["fennel"],
-            "tomato paste": ["crushed tomatoes"],
+          "recipe_name": "Authentic Fasolada",
+          "description": "Considered the national dish of Greece.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 720,
+            "cook_time_minutes": 120,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 6,
-          allergens: ["none"],
-          prepTime: "overnight + 20 minutes",
-          cookTime: "90 minutes",
-          culturalNotes:
-            "Often called Greece's national dish, this hearty soup has sustained generations through both prosperity and hardship",
-          pairingSuggestions: [
-            "crusty bread",
-            "olives",
-            "feta cheese",
-            "red wine",
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "white beans",
+              "notes": "Soaked."
+            }
           ],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 320,
-            protein: 18,
-            carbs: 45,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["A", "C", "B6"],
-            minerals: ["Iron", "Potassium", "Magnesium"],
+          "instructions": [
+            "Step 1: Boil beans.",
+            "Step 2: Simmer with vegetables.",
+            "Step 3: Emulsify with olive oil at the end."
+          ],
+          "classifications": {
+            "meal_type": [
+              "soup"
+            ],
+            "cooking_methods": [
+              "simmering"
+            ]
           },
-          season: ["autumn", "winter"],
-
-          elementalProperties: {
-            Fire: 0.28,
-            Water: 0.25,
-            Earth: 0.36,
-            Air: 0.11,
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.4,
+            "earth": 0.45,
+            "air": 0.05
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Earth"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 410,
+            "protein_g": 14,
+            "carbs_g": 45,
+            "fat_g": 20,
+            "fiber_g": 12
+          },
+          "substitutions": []
         },
         {
           name: "Youvetsi",

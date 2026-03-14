@@ -1959,307 +1959,108 @@ export const french: Cuisine = {
           numberOfServings: 4,
         },
         {
-          id: "beef-bourguignon",
-          name: "Beef Bourguignon",
-          description:
-            "Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "reducing",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.34,
-                Earth: 0.17,
-                Air: 0.2,
-              },
-            },
-          ],
-          tools: [
-            "Dutch oven",
-            "strainer",
-            "kitchen twine",
-            "cheesecloth",
-            "wooden spoon",
-          ],
-          preparationSteps: [
-            "Cut beef into 2-inch cubes and dry thoroughly",
-            "Cook lardons until crisp, set aside",
-            "Brown beef in batches in the rendered fat",
-            "Sauté carrots and onion",
-            "Deglaze with wine, scraping up browned bits",
-            "Add beef stock, bouquet garni, tomato paste",
-            "Simmer covered in 325°F oven for 2-3 hours",
-            "Meanwhile, brown mushrooms and pearl onions separately",
-            "Add to stew for final 30 minutes of cooking",
-            "Thicken sauce if desired with beurre manié",
-          ],
-          instructions: [
-            "Cut beef into 2-inch cubes and dry thoroughly",
-            "Cook lardons until crisp, set aside",
-            "Brown beef in batches in the rendered fat",
-            "Sauté carrots and onion",
-            "Deglaze with wine, scraping up browned bits",
-            "Add beef stock, bouquet garni, tomato paste",
-            "Simmer covered in 325°F oven for 2-3 hours",
-            "Meanwhile, brown mushrooms and pearl onions separately",
-            "Add to stew for final 30 minutes of cooking",
-            "Thicken sauce if desired with beurre manié",
-          ],
-          ingredients: [
-            {
-              name: "beef chuck",
-              amount: 1.5,
-              unit: "kg",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lardons",
-              amount: 200,
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.15,
-                Earth: 0.45,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "red wine",
-              amount: 750,
-              unit: "ml",
-              category: "wine",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "beef stock",
-              amount: 500,
-              unit: "ml",
-              category: "broth",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.7,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pearl onions",
-              amount: 250,
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cremini mushrooms",
-              amount: 500,
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "carrots",
-              amount: 3,
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "yellow onion",
-              amount: 1,
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: 4,
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tomato paste",
-              amount: 2,
-              unit: "tbsp",
-              category: "condiment",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bouquet garni",
-              amount: 1,
-              unit: "piece",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.15,
-                Earth: 0.15,
-                Air: 0.55,
-              },
-            },
-            {
-              name: "bacon or pancetta",
-              amount: 150,
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.15,
-                Earth: 0.45,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "butter",
-              amount: 30,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "all-purpose flour",
-              amount: 3,
-              unit: "tbsp",
-              category: "thickener",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "thyme",
-              amount: 4,
-              unit: "sprigs",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "bay leaf",
-              amount: 2,
-              unit: "pieces",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.15,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-          ],
-          numberOfServings: 6,
-          allergens: ["alcohol"],
-          prepTime: "45 minutes",
-          cookTime: "3 hours",
-          culturalNotes:
-            "The epitome of French country cooking, this dish represents the marriage of wine and food culture in Burgundy",
-          pairingSuggestions: [
-            "Burgundy red wine",
-            "crusty bread",
-            "mashed potatoes",
-          ],
-          dietaryInfo: ["contains alcohol", "contains pork"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 620,
-            protein: 52,
-            carbs: 18,
-            fat: 38,
-            fiber: 3,
-            vitamins: ["B12", "A", "D"],
-            minerals: ["Iron", "Zinc", "Potassium"],
+          "recipe_name": "Authentic Bœuf Bourguignon",
+          "description": "The quintessential French agrarian stew, elevated to high culinary art. It is an alchemical masterpiece where tough, earth-bound cuts of beef are slowly transmuted into yielding tenderness via the fiery acidity and fruit notes of Burgundy wine.",
+          "details": {
+            "cuisine": "French",
+            "prep_time_minutes": 45,
+            "cook_time_minutes": 180,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "autumn",
+              "winter"
+            ]
           },
-          timeToMake: "3 hours 45 minutes",
-          season: ["autumn", "winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.28,
-            Earth: 0.37,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Saturn - The slow cooking process and aged flavors",
-            "Pluto - The transformative quality and depth",
+          "ingredients": [
+            {
+              "amount": 170,
+              "unit": "g",
+              "name": "slab bacon (lardons)",
+              "notes": "Cut into matchsticks."
+            },
+            {
+              "amount": 1.5,
+              "unit": "kg",
+              "name": "beef chuck",
+              "notes": "Cut into 2-inch cubes."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "red wine",
+              "notes": "Burgundy"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "beef stock",
+              "notes": "Concentrated."
+            },
+            {
+              "amount": 18,
+              "unit": "whole",
+              "name": "pearl onions",
+              "notes": "Braised separately."
+            },
+            {
+              "amount": 450,
+              "unit": "g",
+              "name": "mushrooms",
+              "notes": "Sautéed separately."
+            }
           ],
-          astrologicalAffinities: {
-            planets: ["Saturn", "Pluto"],
-            signs: ["Capricorn", "Scorpio"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "instructions": [
+            "Step 1: Simmer lardons, drain.",
+            "Step 2: Sauté lardons in oil, set aside.",
+            "Step 3: Sear dry beef cubes in bacon fat.",
+            "Step 4: Sauté carrots and onions.",
+            "Step 5: Toss beef with flour, bake 4 mins.",
+            "Step 6: Add wine, stock, aromatics. Braise 3 hours.",
+            "Step 7: Prepare pearl onions and mushrooms separately.",
+            "Step 8: Combine and reduce sauce."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "searing",
+              "braising"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Capricorn", "Scorpio"],
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.4,
+            "earth": 0.35,
+            "air": 0.05
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Saturn"
+            ],
+            "signs": [
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 650,
+            "protein_g": 45,
+            "carbs_g": 15,
+            "fat_g": 38,
+            "fiber_g": 3
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "slab bacon",
+              "substitute_options": [
+                "pancetta"
+              ]
+            }
+          ]
         },
         {
           name: "Duck Confit",

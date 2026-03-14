@@ -835,56 +835,65 @@ export const japanese: Cuisine = {
     dinner: {
       all: [
         {
-          name: "Sushi Selection",
-          description: "Assorted nigiri and maki sushi",
-          cuisine: "Japanese",
-          ingredients: [
+          "recipe_name": "Authentic Sushi Selection",
+          "description": "True sushi is not about the fish; it is entirely about the rice (shari).",
+          "details": {
+            "cuisine": "Japanese",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 30,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "sushi rice",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "assorted fish",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["marinated vegetables"],
-            },
-            { name: "nori", amount: "4", unit: "sheets", category: "seaweed" },
-            { name: "wasabi", amount: "15", unit: "g", category: "condiment" },
-            {
-              name: "pickled ginger",
-              amount: "30",
-              unit: "g",
-              category: "pickle",
-            },
+              "amount": 2,
+              "unit": "cups",
+              "name": "sushi rice",
+              "notes": "Washed thoroughly."
+            }
           ],
-          nutrition: {
-            calories: 550,
-            protein: 30,
-            carbs: 80,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["D", "B12", "A"],
-            minerals: ["Omega-3", "Iodine"],
+          "instructions": [
+            "Step 1: Wash and soak rice.",
+            "Step 2: Cook rice with kombu.",
+            "Step 3: Season with vinegar and fan cool.",
+            "Step 4: Assemble nigiri."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "assembling"
+            ]
           },
-          timeToMake: "60 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.52,
-            Earth: 0.31,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.05,
+            "water": 0.45,
+            "earth": 0.3,
+            "air": 0.2
           },
+          "astrological_affinities": {
+            "planets": [
+              "Moon"
+            ],
+            "signs": [
+              "Pisces"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 20,
+            "carbs_g": 55,
+            "fat_g": 2,
+            "fiber_g": 1
+          },
+          "substitutions": []
         },
       ],
       winter: [
@@ -1047,113 +1056,85 @@ export const japanese: Cuisine = {
           },
         },
         {
-          name: "Oyakodon",
-          description: "Chicken and egg rice bowl with onions in dashi sauce",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            "donburi-style",
-          ],
-          tools: [
-            "donburi pan",
-            "rice cooker",
-            "cooking chopsticks",
-            "sharp knife",
-            "serving bowls",
-          ],
-          preparationSteps: [
-            "Cook rice",
-            "Slice chicken and onions",
-            "Simmer in dashi mixture",
-            "Add beaten eggs",
-            "Cover and steam briefly",
-            "Serve over hot rice",
-          ],
-          ingredients: [
-            {
-              name: "steamed rice",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chicken thigh",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            { name: "dashi", amount: "200", unit: "ml", category: "broth" },
-            { name: "mirin", amount: "2", unit: "tbsp", category: "seasoning" },
-            {
-              name: "soy sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-          ],
-          substitutions: {
-            chicken: ["tofu", "mushrooms"],
-            dashi: ["vegetable stock", "mushroom stock"],
-            eggs: ["Just Egg", "soft tofu"],
+          "recipe_name": "Authentic Oyakodon",
+          "description": "A poetic and highly efficient Japanese comfort dish. The name translates to 'parent and child'.",
+          "details": {
+            "cuisine": "Japanese",
+            "prep_time_minutes": 10,
+            "cook_time_minutes": 10,
+            "base_serving_size": 2,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 2,
-          allergens: ["egg", "soy"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan",
-          pairingSuggestions: ["miso soup", "pickled vegetables", "green tea"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 650,
-            protein: 45,
-            carbs: 70,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["B12", "D", "A"],
-            minerals: ["Iron", "Selenium"],
+          "ingredients": [
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "chicken thighs",
+              "notes": "Bite-sized pieces."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Lightly beaten."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "dashi stock",
+              "notes": "Awase dashi."
+            }
+          ],
+          "instructions": [
+            "Step 1: Mix dashi, soy sauce, mirin, and sugar.",
+            "Step 2: Simmer onions and chicken in the broth until cooked.",
+            "Step 3: Drizzle egg over chicken.",
+            "Step 4: Simmer 30-45 seconds until barely set.",
+            "Step 5: Slide over hot rice."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch"
+            ],
+            "cooking_methods": [
+              "simmering"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.1,
-            Water: 0.5,
-            Earth: 0.3,
-            Air: 0.1,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.4,
+            "earth": 0.35,
+            "air": 0.1
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Moon"
+            ],
+            "signs": [
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 510,
+            "protein_g": 32,
+            "carbs_g": 62,
+            "fat_g": 12,
+            "fiber_g": 2
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "chicken thighs",
+              "substitute_options": [
+                "chicken breast"
+              ]
+            }
+          ]
         },
         {
           name: "Okonomiyaki",
@@ -1909,107 +1890,65 @@ export const japanese: Cuisine = {
           mealType: ["lunch", "dinner"],
         },
         {
-          name: "Katsudon",
-          description: "Breaded pork cutlet with egg over rice",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            "donburi-style",
-          ],
-          tools: [
-            "deep pot",
-            "donburi pan",
-            "rice cooker",
-            { name: "wire rack", category: "coating" },
-            "sharp knife",
-          ],
-          preparationSteps: [
-            "Prepare tonkatsu",
-            "Cook rice",
-            "Simmer dashi mixture",
-            "Add sliced tonkatsu",
-            "Pour beaten eggs",
-            "Steam until set",
-            "Serve over rice",
-          ],
-          ingredients: [
-            {
-              name: "pork cutlet",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["chicken", "tofu"],
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "steamed rice",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-            },
-            { name: "dashi", amount: "200", unit: "ml", category: "broth" },
-            {
-              name: "panko breadcrumbs",
-              amount: "100",
-              unit: "g",
-              category: "coating",
-            },
-          ],
-          substitutions: {
-            pork: ["chicken cutlet", "tofu steak"],
-            dashi: ["vegetable stock"],
-            eggs: ["Just Egg", "soft tofu"],
+          "recipe_name": "Authentic Katsudon",
+          "description": "A dynamic Japanese comfort dish combining Tonkatsu with softly set eggs.",
+          "details": {
+            "cuisine": "Japanese",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 15,
+            "base_serving_size": 2,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 2,
-          allergens: ["wheat", "egg", "soy"],
-          prepTime: "20 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            "A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese",
-          pairingSuggestions: ["miso soup", "pickled vegetables", "green tea"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 850,
-            protein: 45,
-            carbs: 90,
-            fat: 38,
-            fiber: 3,
-            vitamins: ["B1", "B12", "D"],
-            minerals: ["Iron", "Zinc"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "pieces",
+              "name": "pork loin chops",
+              "notes": "Breaded."
+            }
+          ],
+          "instructions": [
+            "Step 1: Fry Tonkatsu.",
+            "Step 2: Simmer onions in broth.",
+            "Step 3: Add Tonkatsu and eggs.",
+            "Step 4: Serve over rice."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch"
+            ],
+            "cooking_methods": [
+              "frying"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.32,
-            Earth: 0.37,
-            Air: 0.1,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.2,
+            "earth": 0.3,
+            "air": 0.1
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Mars"
+            ],
+            "signs": [
+              "Aries"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 750,
+            "protein_g": 38,
+            "carbs_g": 70,
+            "fat_g": 32,
+            "fiber_g": 3
+          },
+          "substitutions": []
         },
         {
           name: "Gyoza",

@@ -670,131 +670,161 @@ export const african: Cuisine = {
     lunch: {
       all: [
         {
-          name: "Jollof Rice",
-          description:
-            "One-pot West African rice dish with tomatoes and spices - a celebratory staple",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            "one-pot cooking",
-          ],
-          ingredients: [
-            {
-              name: "rice",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tomato paste",
-              amount: "1",
-              unit: "can",
-              category: "condiment",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "whole",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bell peppers",
-              amount: "1",
-              unit: "whole",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.6,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "3",
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ginger",
-              amount: "1",
-              unit: "tbsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chicken broth",
-              amount: "4",
-              unit: "cups",
-              category: "broth",
-              swaps: ["vegetable broth"],
-            },
-          ],
-          substitutions: {
-            "chicken broth": ["vegetable broth", "beef broth"],
-            "long grain rice": ["basmati rice", "jasmine rice"],
+          "recipe_name": "Authentic Nigerian Jollof Rice",
+          "description": "A celebratory, deeply savory, and smoky one-pot rice dish. The foundational alchemy relies on reducing a vibrant red pepper, tomato, and onion blend (the 'obe ata') into a concentrated paste, which is then absorbed by the rice. The coveted 'party Jollof' flavor comes from purposefully scorching the bottom layer of rice to infuse the entire pot with a rich, elemental smokiness.",
+          "details": {
+            "cuisine": "West African",
+            "prep_time_minutes": 25,
+            "cook_time_minutes": 60,
+            "base_serving_size": 6,
+            "spice_level": "Medium-Hot",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: [],
-          prepTime: "20 minutes",
-          cookTime: "40 minutes",
-          nutrition: {
-            calories: 500,
-            protein: 15,
-            carbs: 90,
-            fat: 10,
-            fiber: 3,
-          },
-          timeToMake: "60 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.37,
-            Water: 0.3,
-            Earth: 0.24,
-            Air: 0.09,
-          },
-          astrologicalInfluences: [
-            "Sun - The vibrant red color and celebratory nature",
-            "Mars - The spicy, bold character",
+          "ingredients": [
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "long-grain parboiled rice",
+              "notes": "Must be parboiled"
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "red bell peppers (tatashe)",
+              "notes": "Seeds and stems removed."
+            },
+            {
+              "amount": 3,
+              "unit": "medium",
+              "name": "plum tomatoes",
+              "notes": "Used sparingly compared to peppers"
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "red onions",
+              "notes": "Roughly chopped for the blend."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "scotch bonnet peppers (ata rodo)",
+              "notes": "Adjust for heat."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "vegetable oil",
+              "notes": "Essential for frying the tomato paste and base."
+            },
+            {
+              "amount": 6,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "Provides depth of color and umami."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "red onion",
+              "notes": "Thinly sliced, fried in the oil before the paste."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "curry powder",
+              "notes": "Nigerian/Jamaican style curry powder, yellow and earthy."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "dried thyme",
+              "notes": "Crucial aromatic profile for Jollof."
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "bay leaves",
+              "notes": "Dried."
+            },
+            {
+              "amount": 3,
+              "unit": "cubes",
+              "name": "chicken bouillon or Maggi cubes",
+              "notes": "Crushed."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "rich beef or chicken stock",
+              "notes": "Homemade stock preferred."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "Stirred in at the very end for a glossy finish."
+            }
           ],
+          "instructions": [
+            "Step 1: Prepare the pepper base (Obe Ata). Blend bell peppers, tomatoes, roughly chopped onions, and scotch bonnets until smooth. Boil down for 15-20 mins until it becomes a thick paste.",
+            "Step 2: Wash the parboiled rice repeatedly until the water runs clear. Drain well.",
+            "Step 3: Heat oil in a large pot, fry sliced onion for 3-5 mins.",
+            "Step 4: Add tomato paste and fry for 5-8 mins until it separates from oil.",
+            "Step 5: Add pepper base, curry, thyme, bouillon, and bay leaves. Fry for 10 mins.",
+            "Step 6: Add washed rice, stir to coat. Pour in stock (level with rice).",
+            "Step 7: Cover tightly with foil and lid. Simmer on lowest heat.",
+            "Step 8: Steam undisturbed for 30 mins.",
+            "Step 9: Turn heat up to medium-high for 3-5 mins to intentionally scorch the bottom layer.",
+            "Step 10: Stir in butter, let rest covered for 10 mins before serving."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "lunch"
+            ],
+            "cooking_methods": [
+              "blending",
+              "frying",
+              "steaming"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.15,
+            "earth": 0.3,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Leo",
+              "Aries"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 520,
+            "protein_g": 9,
+            "carbs_g": 85,
+            "fat_g": 16,
+            "fiber_g": 5
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "chicken bouillon or stock",
+              "substitute_options": [
+                "vegetable stock"
+              ]
+            }
+          ]
         },
         {
           name: "Doro Wat",

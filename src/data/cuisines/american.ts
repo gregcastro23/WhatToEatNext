@@ -313,165 +313,86 @@ export const american: Cuisine = {
           },
         },
         {
-          name: "Southern Biscuits and Gravy",
-          description:
-            "Flaky buttermilk biscuits smothered in rich sausage gravy",
-          cuisine: "American",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "mixing bowl",
-            "pastry cutter",
-            "baking sheet",
-            "skillet",
-            "wooden spoon",
-          ],
-          preparationSteps: [
-            "Prepare biscuit dough",
-            "Cut in cold butter",
-            "Roll and cut biscuits",
-            "Bake until golden",
-            "Cook sausage",
-            "Make gravy with drippings",
-            "Serve biscuits with gravy",
-          ],
-          ingredients: [
-            {
-              name: "all-purpose flour",
-              amount: "3",
-              unit: "cups",
-              category: "grain",
-              element: "Earth",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "buttermilk",
-              amount: "1",
-              unit: "cup",
-              category: "dairy",
-              element: "Water",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "butter",
-              amount: "1/2",
-              unit: "cup",
-              category: "fat",
-              element: "Earth",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pork sausage",
-              amount: "1",
-              unit: "pound",
-              category: "protein",
-              element: "Fire",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "milk",
-              amount: "2",
-              unit: "cups",
-              category: "dairy",
-              element: "Water",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "black pepper",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-              element: "Fire",
-              elementalProperties: {
-                Fire: 0.6,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "pork sausage": ["turkey sausage", "vegetarian sausage"],
-            butter: ["vegetable shortening", "coconut oil"],
-            milk: ["almond milk", "oat milk"],
+          "recipe_name": "Authentic Southern Buttermilk Biscuits",
+          "description": "The pinnacle of Southern American baking alchemy.",
+          "details": {
+            "cuisine": "American",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 15,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["gluten", "dairy"],
-          prepTime: "20 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A quintessential Southern breakfast dish with roots in early American frontier cooking. Traditionally served as a hearty start to a day of manual labor",
-          pairingSuggestions: ["fried eggs", "grits", "fresh fruit", "coffee"],
-          dietaryInfo: ["contains meat", "high calorie"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 580,
-            protein: 18,
-            carbs: 48,
-            fat: 36,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium", "Iron"],
+          "ingredients": [
+            {
+              "amount": 2.5,
+              "unit": "cups",
+              "name": "all-purpose flour",
+              "notes": "Low-protein preferred."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "unsalted butter",
+              "notes": "Frozen and grated."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "buttermilk",
+              "notes": "Ice cold."
+            }
+          ],
+          "instructions": [
+            "Step 1: Whisk dry ingredients in a chilled bowl.",
+            "Step 2: Grate frozen butter into flour, toss gently.",
+            "Step 3: Add buttermilk, mix just until shaggy.",
+            "Step 4: Fold dough over itself 3 times to create layers.",
+            "Step 5: Cut with biscuit cutter (don't twist).",
+            "Step 6: Bake at 425F for 12-15 mins."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast"
+            ],
+            "cooking_methods": [
+              "baking"
+            ]
           },
-          season: ["autumn", "winter"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.23,
-            Water: 0.28,
-            Earth: 0.4,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.25,
+            "water": 0.1,
+            "earth": 0.45,
+            "air": 0.2
           },
-          // Enhanced with moon phase affinities
-          lunarPhaseInfluences: ["full moon", "waning gibbous"],
-          zodiacInfluences: ["taurus", "cancer", "scorpio"],
-          astrologicalAffinities: {
-            planets: ["mars", "saturn"],
-            signs: ["taurus", "cancer", "scorpio"],
-            lunarPhases: ["full moon", "waning gibbous"],
+          "astrological_affinities": {
+            "planets": [
+              "Moon"
+            ],
+            "signs": [
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 280,
+            "protein_g": 5,
+            "carbs_g": 32,
+            "fat_g": 15,
+            "fiber_g": 1
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "buttermilk",
+              "substitute_options": [
+                "milk with vinegar"
+              ]
+            }
+          ]
         },
       ],
       spring: [
@@ -1342,188 +1263,66 @@ export const american: Cuisine = {
           },
         },
         {
-          name: "New England Clam Chowder",
-          description:
-            "Creamy seafood soup with clams, potatoes, and bacon in a rich milk broth",
-          cuisine: "American",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "wooden spoon",
-            "knife",
-            "cutting board",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Render bacon fat",
-            "Sauté aromatics",
-            "Add potatoes and broth",
-            "Simmer until tender",
-            "Add clams and cream",
-            "Season to taste",
-            "Serve with oyster crackers",
-          ],
-          ingredients: [
-            {
-              name: "clams",
-              amount: "2",
-              unit: "pounds",
-              category: "seafood",
-              element: "Water",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bacon",
-              amount: "4",
-              unit: "slices",
-              category: "protein",
-              element: "Fire",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.15,
-                Earth: 0.45,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "potatoes",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-              element: "Earth",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-              element: "Fire",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "celery",
-              amount: "2",
-              unit: "stalks",
-              category: "vegetable",
-              element: "Water",
-            },
-            {
-              name: "heavy cream",
-              amount: "1",
-              unit: "cup",
-              category: "dairy",
-              element: "Water",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "clam juice",
-              amount: "2",
-              unit: "cups",
-              category: "broth",
-              element: "Water",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.85,
-                Earth: 0.05,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "thyme",
-              amount: "1",
-              unit: "tsp",
-              category: "herb",
-              element: "Air",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-          ],
-          substitutions: {
-            clams: ["canned clams", "white fish"],
-            "heavy cream": ["half and half", "coconut milk"],
-            bacon: ["salt pork", "olive oil"],
+          "recipe_name": "Authentic New England Clam Chowder",
+          "description": "A restorative, elemental stew born of the harsh North Atlantic coast.",
+          "details": {
+            "cuisine": "American",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 45,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy", "shellfish"],
-          prepTime: "20 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A regional specialty from New England dating back to the 18th century. Traditional Friday meal for Catholic New Englanders who avoided meat on Fridays",
-          pairingSuggestions: [
-            "oyster crackers",
-            "sourdough bread",
-            "green salad",
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "kg",
+              "name": "clams",
+              "notes": "Steamed."
+            }
           ],
-          dietaryInfo: ["contains seafood", "contains pork"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 22,
-            carbs: 24,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Zinc", "Iodine"],
+          "instructions": [
+            "Step 1: Steam clams.",
+            "Step 2: Render salt pork.",
+            "Step 3: Sauté aromatics.",
+            "Step 4: Simmer potatoes in clam broth.",
+            "Step 5: Add dairy off heat."
+          ],
+          "classifications": {
+            "meal_type": [
+              "soup"
+            ],
+            "cooking_methods": [
+              "simmering"
+            ]
           },
-          season: ["autumn", "winter"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.17,
-            Water: 0.4,
-            Earth: 0.31,
-            Air: 0.12,
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.5,
+            "earth": 0.35,
+            "air": 0.05
           },
-          lunarPhaseInfluences: ["full moon", "waning gibbous"],
-          zodiacInfluences: ["cancer", "pisces"],
-          astrologicalAffinities: {
-            planets: ["moon", "neptune"],
-            signs: ["cancer", "pisces"],
-            lunarPhases: ["full moon", "waning gibbous"],
+          "astrological_affinities": {
+            "planets": [
+              "Moon"
+            ],
+            "signs": [
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 22,
+            "carbs_g": 34,
+            "fat_g": 30,
+            "fiber_g": 4
+          },
+          "substitutions": []
         },
       ],
       spring: [

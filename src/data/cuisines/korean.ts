@@ -349,134 +349,65 @@ export const korean: Cuisine = {
     lunch: {
       all: [
         {
-          name: "Bibimbap",
-          description: "Mixed rice bowl with vegetables and gochujang",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.44,
-                Water: 0.09,
-                Earth: 0.15,
-                Air: 0.32,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "rice cooker",
-            "multiple small pans",
-            "stone bowl (optional)",
-            "mixing bowls",
-            "sharp knife",
-          ],
-          preparationSteps: [
-            "Cook rice",
-            "Prepare vegetables separately",
-            "Season each component",
-            "Cook egg sunny-side up",
-            "Arrange in bowl",
-            "Add gochujang",
-            "Mix before eating",
-          ],
-          ingredients: [
-            {
-              name: "steamed rice",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bulgogi",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms", "tofu"],
-            },
-            {
-              name: "spinach",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "carrots",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "bean sprouts",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "egg",
-              amount: "1",
-              unit: "large",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            { name: "gochujang", amount: "2", unit: "tbsp", category: "sauce" },
-            { name: "sesame oil", amount: "1", unit: "tbsp", category: "oil" },
-          ],
-          substitutions: {
-            bulgogi: ["marinated mushrooms", "tofu", "tempeh"],
-            gochujang: ["sriracha + miso paste"],
-            egg: ["fried tofu", "avocado"],
+          "recipe_name": "Authentic Korean Bibimbap",
+          "description": "A structurally complex agrarian dish honoring the five elements.",
+          "details": {
+            "cuisine": "Korean",
+            "prep_time_minutes": 45,
+            "cook_time_minutes": 30,
+            "base_serving_size": 2,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 2,
-          allergens: ["egg", "soy"],
-          prepTime: "30 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means "mixed rice"',
-          pairingSuggestions: ["kimchi", "doenjang soup", "korean tea"],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "adjustable",
-          nutrition: {
-            calories: 580,
-            protein: 28,
-            carbs: 82,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["A", "C", "B12"],
-            minerals: ["Iron", "Zinc"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "short-grain white rice",
+              "notes": "Cooked."
+            }
+          ],
+          "instructions": [
+            "Step 1: Marinate beef.",
+            "Step 2: Prepare vegetables individually.",
+            "Step 3: Assemble radially over rice.",
+            "Step 4: Top with egg and gochujang."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch"
+            ],
+            "cooking_methods": [
+              "sautéing"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.13,
-            Water: 0.34,
-            Earth: 0.41,
-            Air: 0.12,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.2,
+            "earth": 0.4,
+            "air": 0.2
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Sun"
+            ],
+            "signs": [
+              "Virgo"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 580,
+            "protein_g": 28,
+            "carbs_g": 75,
+            "fat_g": 18,
+            "fiber_g": 8
+          },
+          "substitutions": []
         },
         {
           name: "Kimchi Jjigae",
@@ -1055,153 +986,63 @@ export const korean: Cuisine = {
           mealType: ["lunch", "dinner"],
         },
         {
-          name: "Bulgogi",
-          description: "Marinated and grilled beef",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-          ],
-          tools: [
-            "grill or skillet",
-            "mixing bowls",
-            "sharp knife",
-            "tongs",
-            "grater",
-          ],
-          preparationSteps: [
-            "Slice beef thinly",
-            "Prepare marinade",
-            "Marinate meat",
-            "Heat grill or pan",
-            "Cook in batches",
-            "Garnish and serve",
-          ],
-          ingredients: [
-            {
-              name: "beef sirloin",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "asian pear",
-              amount: "1",
-              unit: "medium",
-              category: "fruit",
-            },
-            {
-              name: "soy sauce",
-              amount: "4",
-              unit: "tbsp",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sesame oil",
-              amount: "2",
-              unit: "tbsp",
-              category: "oil",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "4",
-              unit: "cloves",
-              category: "aromatic",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "green onions",
-              amount: "2",
-              unit: "stalks",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "beef sirloin": ["mushrooms", "firm tofu", "seitan"],
-            "asian pear": ["apple", "kiwi"],
-            "soy sauce": ["coconut aminos"],
+          "recipe_name": "Authentic Korean Bulgogi",
+          "description": "A study in meat tenderization and rapid caramelization.",
+          "details": {
+            "cuisine": "Korean",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 10,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["soy"],
-          prepTime: "1 hour",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A beloved Korean dish that exemplifies the balance of sweet and savory flavors. The fruit in the marinade helps tenderize the meat",
-          pairingSuggestions: ["lettuce leaves", "rice", "ssamjang", "kimchi"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 420,
-            protein: 35,
-            carbs: 12,
-            fat: 28,
-            fiber: 3,
-            vitamins: ["B12", "B6"],
-            minerals: ["Iron", "Zinc"],
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "beef ribeye",
+              "notes": "Sliced paper-thin."
+            }
+          ],
+          "instructions": [
+            "Step 1: Marinate meat with Asian pear.",
+            "Step 2: Grill rapidly over high heat."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "grilling"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.45,
-            Water: 0.18,
-            Earth: 0.25,
-            Air: 0.12,
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.15,
+            "earth": 0.3,
+            "air": 0.1
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Mars"
+            ],
+            "signs": [
+              "Aries"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 35,
+            "carbs_g": 22,
+            "fat_g": 20,
+            "fiber_g": 2
+          },
+          "substitutions": []
         },
         {
           name: "Dakgalbi",

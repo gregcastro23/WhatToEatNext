@@ -750,100 +750,93 @@ export const chinese = {
           ],
         },
         {
-          name: "Mapo Tofu",
-          description:
-            "Spicy Sichuan dish of soft tofu in a fiery sauce with minced meat and Sichuan pepper",
-          cuisine: "chinese",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.44,
-                Water: 0.09,
-                Earth: 0.15,
-                Air: 0.32,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "soft tofu",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.4,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ground pork",
-              amount: "150",
-              unit: "g",
-              category: "protein",
-              swaps: ["beef", "mushrooms"],
-            },
-            {
-              name: "doubanjiang",
-              amount: "2",
-              unit: "tbsp",
-              category: "sauce",
-            },
-            {
-              name: "Sichuan peppercorns",
-              amount: "1",
-              unit: "tbsp",
-              category: "spice",
-            },
-            { name: "chili oil", amount: "2", unit: "tbsp", category: "oil" },
-            {
-              name: "fermented black beans",
-              amount: "1",
-              unit: "tbsp",
-              category: "sauce",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            doubanjiang: ["Korean gochujang", "miso paste with chili"],
-            "ground pork": ["ground beef", "finely chopped mushrooms"],
-            "soft tofu": ["medium-firm tofu"],
+          "recipe_name": "Authentic Sichuan Mapo Tofu",
+          "description": "A masterpiece of Sichuanese culinary alchemy, defining the 'málà' (numbing and spicy) flavor profile.",
+          "details": {
+            "cuisine": "Chinese",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "Fiery",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 4,
-          allergens: ["soy"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 300,
-            protein: 22,
-            carbs: 8,
-            fat: 20,
-            fiber: 3,
-          },
-          timeToMake: "35 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.37,
-            Earth: 0.35,
-            Air: 0.09,
-          },
-          astrologicalInfluences: [
-            "Mars - The fiery, aggressive flavor profile",
-            "Pluto - The transformative, intense experience",
+          "ingredients": [
+            {
+              "amount": 450,
+              "unit": "g",
+              "name": "soft tofu",
+              "notes": "Cut into cubes."
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "ground beef",
+              "notes": "Minced."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "Pixian doubanjiang",
+              "notes": "Fermented chili broad bean paste."
+            },
+            {
+              "amount": 1.5,
+              "unit": "tsp",
+              "name": "Sichuan peppercorns",
+              "notes": "Toasted and ground."
+            }
           ],
+          "instructions": [
+            "Step 1: Blanch tofu in salted water.",
+            "Step 2: Toast and grind Sichuan peppercorns.",
+            "Step 3: Stir-fry beef until crispy.",
+            "Step 4: Fry doubanjiang until oil turns red.",
+            "Step 5: Add aromatics, stock, and tofu.",
+            "Step 6: Thicken with cornstarch slurry and serve with peppercorns on top."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "stir-frying",
+              "simmering"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.6,
+            "water": 0.15,
+            "earth": 0.15,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars"
+            ],
+            "signs": [
+              "Aries"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 310,
+            "protein_g": 14,
+            "carbs_g": 12,
+            "fat_g": 24,
+            "fiber_g": 3
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "ground beef",
+              "substitute_options": [
+                "mushrooms"
+              ]
+            }
+          ]
         },
         {
           name: "Dim Sum Platter",

@@ -10,92 +10,163 @@ export const russian: Cuisine = {
     breakfast: {
       all: [
         {
-          name: "Syrniki",
-          description: "Farmers cheese pancakes",
-          cuisine: "Russian",
-          cookingMethods: ["frying", "mixing"],
-          tools: [
-            "mixing bowl",
-            "frying pan",
-            "spatula",
-            "cheese grater",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Drain tvorog if needed",
-            "Mix cheese with eggs and sugar",
-            "Add flour and vanilla",
-            "Form into small pancakes",
-            "Fry until golden brown",
-            "Serve with sour cream and jam",
-          ],
-          ingredients: [
-            {
-              name: "tvorog",
-              amount: "500",
-              unit: "g",
-              category: "dairy",
-              swaps: ["firm tofu"],
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "flour",
-              amount: "100",
-              unit: "g",
-              category: "grain",
-              swaps: ["gluten-free flour"],
-            },
-            { name: "sugar", amount: "2", unit: "tbsp", category: "sweetener" },
-            {
-              name: "vanilla extract",
-              amount: "1",
-              unit: "tsp",
-              category: "flavoring",
-            },
-            {
-              name: "sour cream",
-              amount: "100",
-              unit: "g",
-              category: "dairy",
-              swaps: ["coconut yogurt"],
-            },
-          ],
-          substitutions: {
-            tvorog: ["cottage cheese", "firm tofu"],
-            "sour cream": ["greek yogurt", "coconut yogurt"],
-            flour: ["gluten-free flour blend", "almond flour"],
+          "recipe_name": "Authentic Russian Syrniki",
+          "description": "Traditional Eastern European farmer's cheese pancakes. These are delicate, pillowy, and slightly tangy from the lactic acid of the tvorog. Structurally, they walk the line between a pancake and a cheesecake, offering a comforting, grounding energy deeply tied to agrarian dairy traditions.",
+          "details": {
+            "cuisine": "Russian",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all",
+              "spring"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy", "eggs", "gluten"],
-          prepTime: "15 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A beloved breakfast dish that transforms humble farmers cheese into delicate pancakes. Often served during traditional Russian celebrations",
-          pairingSuggestions: [
-            "berry jam",
-            "honey",
-            "fresh berries",
-            "sour cream",
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "tvorog (farmer's cheese)",
+              "notes": "Must be dry. If wet, wrap in cheesecloth and squeeze out excess moisture, otherwise the dough will require too much flour and become heavy."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Lightly beaten. Acts as the primary binder."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "granulated sugar",
+              "notes": "Adjust based on desired sweetness, but traditional syrniki are only mildly sweet."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Essential to balance the sweetness and enhance the cheese flavor."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "pure vanilla extract",
+              "notes": "Adds a warming, aromatic depth."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "all-purpose flour",
+              "notes": "For the dough. Use as little as possible to keep them light and fluffy."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "Reserved for dredging the outside of the pancakes before frying."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "clarified butter (ghee) or neutral oil",
+              "notes": "For pan-frying to a crisp golden brown."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "smetana (sour cream)",
+              "notes": "For serving."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "berry preserves or jam",
+              "notes": "Sour cherry or raspberry is traditional."
+            }
           ],
-          dietaryInfo: ["vegetarian", "adaptable to gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 24,
-            carbs: 32,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Calcium", "Phosphorus"],
+          "instructions": [
+            "Step 1: Prepare the tvorog. Pass the farmer's cheese through a fine-mesh sieve or mash it thoroughly with a fork until smooth and free of large curds. If the cheese is overly moist, wring it out in a clean kitchen towel first.",
+            "Step 2: In a large mixing bowl, combine the smoothed tvorog, lightly beaten eggs, granulated sugar, salt, and vanilla extract. Mix until uniformly incorporated.",
+            "Step 3: Gradually fold the 4 tablespoons of flour into the cheese mixture. The resulting dough should be sticky but hold its shape. Over-mixing or adding too much flour will yield dense, rubbery syrniki.",
+            "Step 4: Scatter the remaining 1/4 cup of flour onto a clean work surface or large plate.",
+            "Step 5: Using lightly floured hands, scoop out roughly 2 tablespoons of dough at a time. Roll into a ball, drop it into the dredging flour, and gently flatten it into a thick medallion (about 1/2-inch thick). Tap off any excess flour.",
+            "Step 6: Heat a large, heavy-bottomed skillet over medium-low heat. Add the clarified butter or neutral oil.",
+            "Step 7: Once the oil is shimmering, carefully place the syrniki in the pan, working in batches to avoid crowding. Fry for 3 to 4 minutes on the first side until a deep golden-brown crust forms.",
+            "Step 8: Carefully flip the syrniki with a thin spatula and fry for another 3 to 4 minutes on the second side. The centers should be set and piping hot.",
+            "Step 9: Transfer the cooked syrniki to a paper towel-lined plate to drain briefly.",
+            "Step 10: Serve immediately while hot, topped generously with cold smetana (sour cream) and a spoonful of berry preserves."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "dessert",
+              "brunch"
+            ],
+            "cooking_methods": [
+              "mixing",
+              "pan-frying"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Earth: 0.4,
-            Water: 0.2,
-            Fire: 0.2,
-            Air: 0.2,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.3,
+            "earth": 0.4,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon",
+              "Waxing Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 22,
+            "carbs_g": 35,
+            "fat_g": 18,
+            "fiber_g": 1
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "tvorog (farmer's cheese)",
+              "substitute_options": [
+                "dry ricotta cheese",
+                "drained firm tofu (vegan)",
+                "cottage cheese (strained overnight)"
+              ]
+            },
+            {
+              "original_ingredient": "eggs",
+              "substitute_options": [
+                "flax egg (vegan)",
+                "applesauce binder"
+              ]
+            },
+            {
+              "original_ingredient": "all-purpose flour",
+              "substitute_options": [
+                "rice flour",
+                "gluten-free baking blend",
+                "semolina flour"
+              ]
+            },
+            {
+              "original_ingredient": "smetana (sour cream)",
+              "substitute_options": [
+                "creme fraiche",
+                "coconut yogurt (vegan)"
+              ]
+            }
+          ]
         },
         {
           name: "Kasha",
@@ -197,123 +268,65 @@ export const russian: Cuisine = {
           },
         },
         {
-          name: "Blini",
-          description: "Thin yeasted pancakes",
-          cuisine: "Russian",
-          cookingMethods: [
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.21,
-                Earth: 0.21,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "fermenting",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.33,
-                Earth: 0.39,
-                Air: 0.22,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "mixing bowls",
-            "whisk",
-            "ladle",
-            "crepe pan or skillet",
-            "spatula",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Activate yeast with warm milk",
-            "Mix batter and let ferment",
-            "Heat pan and grease",
-            "Pour thin layer of batter",
-            "Cook until bubbles form",
-            "Flip and finish cooking",
-            "Keep warm while making more",
-          ],
-          ingredients: [
-            {
-              name: "flour",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              swaps: ["gluten-free flour"],
-            },
-            {
-              name: "milk",
-              amount: "600",
-              unit: "ml",
-              category: "dairy",
-              swaps: ["almond milk"],
-            },
-            { name: "eggs", amount: "3", unit: "large", category: "protein" },
-            { name: "yeast", amount: "7", unit: "g", category: "leavening" },
-            { name: "sugar", amount: "1", unit: "tbsp", category: "sweetener" },
-            {
-              name: "sour cream",
-              amount: "100",
-              unit: "g",
-              category: "dairy",
-              swaps: ["coconut yogurt"],
-            },
-          ],
-          substitutions: {
-            flour: ["gluten-free flour blend", "buckwheat flour"],
-            milk: ["almond milk", "oat milk"],
-            "sour cream": ["coconut yogurt", "cashew cream"],
+          "recipe_name": "Authentic Blini",
+          "description": "Pre-dating Christianity, Blini symbolize the sun.",
+          "details": {
+            "cuisine": "Russian",
+            "prep_time_minutes": 180,
+            "cook_time_minutes": 30,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "spring"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy", "eggs", "gluten"],
-          prepTime: "15 minutes",
-          cookTime: "45 minutes",
-          fermentationTime: "30 minutes",
-          culturalNotes:
-            "Traditional for Maslenitsa festival, symbolizing the sun and the end of winter. Blini are essential for both celebrations and everyday meals",
-          pairingSuggestions: [
-            "caviar",
-            "smoked salmon",
-            "mushroom filling",
-            "sweet condensed milk",
-            "berry preserves",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "tsp",
+              "name": "active dry yeast",
+              "notes": "For the sponge."
+            }
           ],
-          dietaryInfo: [
-            "vegetarian",
-            "adaptable to vegan",
-            "adaptable to gluten-free",
+          "instructions": [
+            "Step 1: Make sponge.",
+            "Step 2: Rise dough.",
+            "Step 3: Scald with boiling water.",
+            "Step 4: Fry."
           ],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 220,
-            protein: 8,
-            carbs: 35,
-            fat: 6,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Iron", "Calcium"],
+          "classifications": {
+            "meal_type": [
+              "breakfast"
+            ],
+            "cooking_methods": [
+              "frying"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast", "dessert"],
-          elementalProperties: {
-            Fire: 0.06,
-            Water: 0.06,
-            Earth: 0.73,
-            Air: 0.16,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.25,
+            "earth": 0.35,
+            "air": 0.2
           },
+          "astrological_affinities": {
+            "planets": [
+              "Sun"
+            ],
+            "signs": [
+              "Leo"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 9,
+            "carbs_g": 42,
+            "fat_g": 12,
+            "fiber_g": 2
+          },
+          "substitutions": []
         },
         {
           name: "Oladi",
@@ -409,128 +422,86 @@ export const russian: Cuisine = {
     lunch: {
       all: [
         {
-          name: "Borscht",
-          description: "Classic beetroot and cabbage soup",
-          cuisine: "Russian",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "large soup pot",
-            "cutting board",
-            "sharp knife",
-            "grater",
-            "ladle",
-            "strainer",
-          ],
-          preparationSteps: [
-            "Prepare beef broth",
-            "Sauté vegetables separately",
-            "Cook beets until tender",
-            "Combine ingredients",
-            "Simmer until flavors meld",
-            "Season to taste",
-            "Serve with sour cream",
-          ],
-          ingredients: [
-            {
-              name: "beef",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            { name: "beets", amount: "500", unit: "g", category: "vegetable" },
-            {
-              name: "cabbage",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "potatoes",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "carrots",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "onion", amount: "200", unit: "g", category: "vegetable" },
-            {
-              name: "tomato paste",
-              amount: "2",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "sour cream",
-              amount: "200",
-              unit: "g",
-              category: "dairy",
-              swaps: ["cashew cream"],
-            },
-          ],
-          substitutions: {
-            beef: ["mushrooms", "seitan", "tempeh"],
-            "sour cream": ["cashew cream", "coconut yogurt"],
-            "beef broth": ["mushroom broth", "vegetable broth"],
+          "recipe_name": "Authentic Traditional Borscht",
+          "description": "A foundational Slavic root-vegetable soup, instantly recognizable by its deep, resonant magenta hue.",
+          "details": {
+            "cuisine": "Russian",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 150,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 8,
-          allergens: ["dairy"],
-          prepTime: "30 minutes",
-          cookTime: "120 minutes",
-          culturalNotes:
-            "A quintessential Slavic soup that varies by region and season. The deep red color from beets is iconic, and the soup often tastes better the next day",
-          pairingSuggestions: ["black bread", "garlic cloves", "salo", "vodka"],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 420,
-            protein: 28,
-            carbs: 42,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["A", "C", "B12"],
-            minerals: ["Iron", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "beef soup bones",
+              "notes": "For stock."
+            },
+            {
+              "amount": 3,
+              "unit": "medium",
+              "name": "beets",
+              "notes": "Julienned."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "white vinegar",
+              "notes": "Preserves red color."
+            }
+          ],
+          "instructions": [
+            "Step 1: Make beef bone broth.",
+            "Step 2: Prepare zazharka (sautéed onions, carrots).",
+            "Step 3: Sauté beets with vinegar and sugar.",
+            "Step 4: Simmer potatoes and cabbage in broth.",
+            "Step 5: Add zazharka to broth, simmer briefly.",
+            "Step 6: Add fresh dill and garlic off heat. Serve with sour cream."
+          ],
+          "classifications": {
+            "meal_type": [
+              "soup"
+            ],
+            "cooking_methods": [
+              "simmering"
+            ]
           },
-          season: ["winter", "autumn"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.23,
-            Water: 0.24,
-            Earth: 0.46,
-            Air: 0.06,
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.5,
+            "earth": 0.35,
+            "air": 0.05
           },
+          "astrological_affinities": {
+            "planets": [
+              "Saturn"
+            ],
+            "signs": [
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 18,
+            "carbs_g": 28,
+            "fat_g": 15,
+            "fiber_g": 6
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "beef bones",
+              "substitute_options": [
+                "mushroom broth"
+              ]
+            }
+          ]
         },
         {
           name: "Pelmeni",

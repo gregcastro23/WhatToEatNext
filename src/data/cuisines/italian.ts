@@ -895,70 +895,64 @@ export const italian: Cuisine = {
     dinner: {
       all: [
         {
-          name: "Osso Buco alla Milanese",
-          description: "Braised veal shanks in white wine and broth",
-          cuisine: "Italian",
-          cookingMethods: ["braising", "sautéing"],
-          tools: ["Dutch oven", "wooden spoon", "kitchen twine", "grater"],
-          preparationSteps: [
-            "Tie veal shanks with twine",
-            "Dredge in flour and brown",
-            "Sauté soffritto",
-            "Add wine and broth",
-            "Braise until tender",
-            "Prepare gremolata",
-          ],
-          ingredients: [
-            {
-              name: "veal shanks",
-              amount: "4",
-              unit: "pieces",
-              category: "protein",
-              swaps: ["beef shanks"],
-            },
-            { name: "white wine", amount: "250", unit: "ml", category: "wine" },
-            { name: "broth", amount: "500", unit: "ml", category: "liquid" },
-            {
-              name: "vegetables",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "gremolata",
-              amount: "1",
-              unit: "portion",
-              category: "garnish",
-            },
-          ],
-          substitutions: {
-            veal: ["beef shanks", "mushroom shanks"],
-            "white wine": ["vegetable stock", "non-alcoholic wine"],
+          "recipe_name": "Authentic Osso Buco alla Milanese",
+          "description": "The pinnacle of Northern Italian braising.",
+          "details": {
+            "cuisine": "Italian",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 150,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 4,
-          allergens: ["celery"],
-          prepTime: "30 minutes",
-          cookTime: "2 hours",
-          culturalNotes:
-            "A signature dish from Milan, traditionally served with risotto alla Milanese",
-          pairingSuggestions: [
-            "risotto alla Milanese",
-            "Barbaresco",
-            "crusty bread",
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "pieces",
+              "name": "veal shanks",
+              "notes": "Tied."
+            }
           ],
-          dietaryInfo: ["contains meat", "contains alcohol"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 450,
-            protein: 35,
-            carbs: 15,
-            fat: 28,
-            fiber: 3,
-            vitamins: ["B12", "A"],
-            minerals: ["Iron", "Zinc"],
+          "instructions": [
+            "Step 1: Sear shanks.",
+            "Step 2: Braise in white wine.",
+            "Step 3: Top with gremolata."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "braising"
+            ]
           },
-          season: ["winter"],
-          mealType: ["dinner"],
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.35,
+            "earth": 0.4,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Jupiter"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 550,
+            "protein_g": 48,
+            "carbs_g": 12,
+            "fat_g": 32,
+            "fiber_g": 2
+          },
+          "substitutions": []
         },
         {
           name: "Risotto ai Funghi",
@@ -1311,185 +1305,136 @@ export const italian: Cuisine = {
           mealType: ["lunch", "dinner"],
         },
         {
-          name: "Melanzane alla Parmigiana",
-          description: "Eggplant Parmesan with tomato sauce",
-          cuisine: "Italian",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "baking dish",
-            "frying pan",
-            "knife",
-            "cutting board",
-            "grater",
-          ],
-          preparationSteps: [
-            "Slice eggplant thinly",
-            "Salt and drain to remove bitterness",
-            "Fry eggplant slices",
-            "Prepare tomato sauce",
-            "Layer eggplant, sauce, and cheese in baking dish",
-            "Bake until golden and bubbly",
-            "Serve with fresh basil",
-          ],
-          ingredients: [
-            {
-              name: "eggplant",
-              amount: "800",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tomato sauce",
-              amount: "500",
-              unit: "ml",
-              category: "sauce",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "mozzarella",
-              amount: "300",
-              unit: "g",
-              category: "dairy",
-              swaps: ["vegan mozzarella"],
-            },
-            {
-              name: "parmigiano",
-              amount: "100",
-              unit: "g",
-              category: "dairy",
-              swaps: ["nutritional yeast"],
-            },
-            { name: "basil", amount: "1", unit: "bunch", category: "herb" },
-          ],
-          substitutions: {
-            mozzarella: ["vegan mozzarella", "cashew cheese"],
-            parmigiano: ["nutritional yeast", "vegan parmesan"],
-            "tomato sauce": ["marinara sauce", "canned tomatoes"],
+          "recipe_name": "Authentic Melanzane alla Parmigiana",
+          "description": "A deeply traditional Southern Italian casserole.",
+          "details": {
+            "cuisine": "Italian",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 45,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy"],
-          prepTime: "30 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A popular Italian-American dish that showcases the versatility of eggplant",
-          pairingSuggestions: ["red wine", "garlic bread"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 420,
-            protein: 22,
-            carbs: 28,
-            fat: 26,
-            fiber: 3,
-            vitamins: ["A", "C", "K"],
-            minerals: ["Calcium", "Iron"],
+          "ingredients": [
+            {
+              "amount": 1.5,
+              "unit": "kg",
+              "name": "eggplants",
+              "notes": "Fried without breading."
+            }
+          ],
+          "instructions": [
+            "Step 1: Salt eggplants.",
+            "Step 2: Fry eggplants.",
+            "Step 3: Layer with sauce and cheese.",
+            "Step 4: Bake and rest."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "baking"
+            ]
           },
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.23,
-            Earth: 0.32,
-            Air: 0.1,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.2,
+            "earth": 0.5,
+            "air": 0.1
           },
-          mealType: ["dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 450,
+            "protein_g": 18,
+            "carbs_g": 22,
+            "fat_g": 35,
+            "fiber_g": 8
+          },
+          "substitutions": []
         },
       ],
     },
     dessert: {
       all: [
         {
-          name: "Tiramisù",
-          description: "Classic coffee-flavored dessert with mascarpone cream",
-          cuisine: "Italian",
-          cookingMethods: ["layering", "whipping"],
-          tools: [
-            "mixing bowls",
-            "electric mixer",
-            "serving dish",
-            "espresso maker",
-          ],
-          preparationSteps: [
-            "Prepare strong coffee",
-            "Whip egg yolks with sugar",
-            "Fold in mascarpone",
-            "Dip ladyfingers in coffee",
-            "Layer cream and cookies",
-            "Dust with cocoa",
-          ],
-          ingredients: [
-            { name: "mascarpone", amount: "500", unit: "g", category: "dairy" },
-            {
-              name: "ladyfingers",
-              amount: "200",
-              unit: "g",
-              category: "pastry",
-              swaps: ["gluten-free ladyfingers"],
-            },
-            { name: "espresso", amount: "300", unit: "ml", category: "coffee" },
-            { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            {
-              name: "cocoa powder",
-              amount: "30",
-              unit: "g",
-              category: "powder",
-            },
-          ],
-          substitutions: {
-            mascarpone: ["dairy-free mascarpone", "cashew cream"],
-            ladyfingers: ["gluten-free ladyfingers", "sponge cake"],
-            eggs: ["aquafaba"],
+          "recipe_name": "Authentic Tiramisù",
+          "description": "A modernist Italian classic born in Treviso.",
+          "details": {
+            "cuisine": "Italian",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 0,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 8,
-          allergens: ["dairy", "eggs", "gluten"],
-          prepTime: "30 minutes",
-          cookTime: "0 minutes",
-          culturalNotes:
-            "Originated in Veneto, now one of Italy's most famous desserts worldwide",
-          pairingSuggestions: ["espresso", "Vin Santo"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 350,
-            protein: 8,
-            carbs: 35,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium"],
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "mascarpone cheese",
+              "notes": "Room temp."
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "Savoiardi (Ladyfingers)",
+              "notes": "Crisp Italian variety."
+            }
+          ],
+          "instructions": [
+            "Step 1: Whisk yolks and sugar.",
+            "Step 2: Fold in mascarpone.",
+            "Step 3: Dip biscuits in espresso.",
+            "Step 4: Layer and chill."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert"
+            ],
+            "cooking_methods": [
+              "assembling"
+            ]
           },
-          season: ["all"],
-          mealType: ["dessert"],
+          "elemental_properties": {
+            "fire": 0.05,
+            "water": 0.4,
+            "earth": 0.15,
+            "air": 0.4
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus"
+            ],
+            "signs": [
+              "Libra"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 8,
+            "carbs_g": 38,
+            "fat_g": 26,
+            "fiber_g": 1
+          },
+          "substitutions": []
         },
       ],
       summer: [

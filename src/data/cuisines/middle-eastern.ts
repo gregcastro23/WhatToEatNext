@@ -10,137 +10,200 @@ export const middleEastern: Cuisine = {
     breakfast: {
       all: [
         {
-          name: "Shakshuka",
-          description:
-            "Eggs poached in spiced tomato sauce with peppers and onions",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "poaching",
-              elementalProperties: {
-                Fire: 0.16,
-                Water: 0.4,
-                Earth: 0.35,
-                Air: 0.09,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "large skillet",
-            "lid",
-            "wooden spoon",
-            "measuring spoons",
-            "knife",
-          ],
-          preparationSteps: [
-            "Sauté onions and peppers",
-            "Add spices and tomatoes",
-            "Simmer sauce until thickened",
-            "Create wells for eggs",
-            "Poach eggs in sauce",
-            "Garnish with herbs",
-          ],
-          ingredients: [
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              swaps: ["soft tofu"],
-            },
-            {
-              name: "tomatoes",
-              amount: "400",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "bell peppers",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "garlic",
-              amount: "3",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "cumin", amount: "1", unit: "tsp", category: "spice" },
-            { name: "paprika", amount: "1", unit: "tsp", category: "spice" },
-            {
-              name: "pita bread",
-              amount: "2",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["gluten-free pita"],
-            },
-          ],
-          substitutions: {
-            eggs: ["soft tofu", "chickpea flour mixture"],
-            "pita bread": ["gluten-free pita", "crusty bread"],
-            "bell peppers": ["roasted red peppers", "zucchini"],
+          "recipe_name": "Authentic Shakshuka",
+          "description": "A deeply aromatic, traditional Middle Eastern and North African dish featuring eggs gently poached in a rich, spiced tomato and pepper stew. Historically rooted in Mediterranean agrarian traditions, it balances the fiery energy of warming spices with the grounding comfort of a savory, simmering sauce.",
+          "details": {
+            "cuisine": "Middle Eastern",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 25,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "spring",
+              "summer",
+              "autumn",
+              "winter"
+            ]
           },
-          servingSize: 2,
-          allergens: ["eggs"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A beloved breakfast dish throughout the Middle East and North Africa, particularly popular in Israel and Palestine. The name means 'mixture' in Arabic dialects",
-          pairingSuggestions: [
-            "pita bread",
-            "hummus",
-            "Israeli salad",
-            "olives",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "extra virgin olive oil",
+              "notes": "Used to extract the fat-soluble flavor compounds from aromatics and spices."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "yellow onion",
+              "notes": "Finely diced."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "red bell peppers",
+              "notes": "Diced; red preferred for sweetness and complementary color."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced or pressed. Add later to prevent bitterness from burning."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground cumin",
+              "notes": "Freshly ground is highly recommended for optimal aromatic release."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "sweet paprika",
+              "notes": "Provides vibrant color and mild fruitiness."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "smoked paprika",
+              "notes": "Imparts depth and a subtle campfire aroma."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "harissa paste",
+              "notes": "Crucial for authentic regional heat and complexity."
+            },
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "crushed tomatoes",
+              "notes": "Or fresh, deeply ripe tomatoes, peeled and crushed by hand."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Adjust to taste."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly cracked."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Room temperature for even poaching."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh cilantro",
+              "notes": "Roughly chopped for finishing."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh parsley",
+              "notes": "Roughly chopped for finishing."
+            },
+            {
+              "amount": 4,
+              "unit": "pieces",
+              "name": "pita bread",
+              "notes": "Warmed, serving as an edible utensil."
+            }
           ],
-          dietaryInfo: [
-            "vegetarian",
-            "adaptable to vegan",
-            "gluten-free option",
+          "instructions": [
+            "Step 1: Place a heavy-bottomed, large skillet (preferably cast iron) over medium heat. Allow the pan to heat for 2 minutes before pouring in the extra virgin olive oil.",
+            "Step 2: Add the diced yellow onions and red bell peppers to the skillet. Sauté gently, stirring occasionally, until the onions are translucent and the peppers have softened (about 8 to 10 minutes).",
+            "Step 3: Clear a small space in the center of the pan and add the minced garlic, ground cumin, sweet paprika, smoked paprika, and harissa paste. Toast the spices in the residual oil for 30 to 60 seconds until highly fragrant. Stir them into the onion and pepper mixture.",
+            "Step 4: Pour in the crushed tomatoes. Season the mixture with kosher salt and freshly cracked black pepper. Stir well to combine, scraping up any fond at the bottom of the skillet.",
+            "Step 5: Reduce the heat to medium-low and allow the sauce to simmer uncovered for 10 to 15 minutes. Wait for the tomatoes to break down and the sauce to thicken slightly, creating a rich, cohesive stew.",
+            "Step 6: Using the back of a wooden spoon, press four evenly spaced indentations (wells) into the thickened sauce. Crack one room-temperature egg into each well.",
+            "Step 7: Cover the skillet with a tight-fitting lid. Poach the eggs in the simmering sauce for 5 to 8 minutes, depending on your preferred level of doneness. The egg whites should be completely opaque and set, while the yolks should remain soft and slightly jiggly.",
+            "Step 8: Remove the skillet from the heat immediately, as the residual heat of the sauce will continue to cook the eggs. Scatter the fresh chopped cilantro and parsley generously over the top.",
+            "Step 9: Serve immediately from the skillet, accompanied by warm pita bread for dipping and scooping the sauce and runny egg yolks."
           ],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 420,
-            protein: 24,
-            carbs: 38,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "C", "D"],
-            minerals: ["Iron", "Calcium"],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "brunch",
+              "dinner"
+            ],
+            "cooking_methods": [
+              "sautéing",
+              "simmering",
+              "poaching"
+            ]
           },
-          timeToMake: "25 minutes",
-          season: ["all"],
-          mealType: ["breakfast", "brunch"],
-          elementalProperties: {
-            Fire: 0.16,
-            Water: 0.4,
-            Earth: 0.35,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.25,
+            "earth": 0.2,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Aries",
+              "Leo",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waxing Gibbous",
+              "Waning Gibbous",
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 12,
+            "carbs_g": 35,
+            "fat_g": 15,
+            "fiber_g": 6
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "eggs",
+              "substitute_options": [
+                "silken tofu chunks (vegan)",
+                "soft-boiled quail eggs",
+                "chickpea scramble"
+              ]
+            },
+            {
+              "original_ingredient": "red bell peppers",
+              "substitute_options": [
+                "roasted red peppers (jarred)",
+                "green bell peppers",
+                "poblano peppers"
+              ]
+            },
+            {
+              "original_ingredient": "harissa paste",
+              "substitute_options": [
+                "chili garlic sauce",
+                "sriracha",
+                "pinch of cayenne pepper"
+              ]
+            },
+            {
+              "original_ingredient": "pita bread",
+              "substitute_options": [
+                "crusty sourdough",
+                "challah bread",
+                "gluten-free flatbread"
+              ]
+            }
+          ]
         },
         {
           name: "Ful Medames",
@@ -1098,132 +1161,87 @@ export const middleEastern: Cuisine = {
           },
         },
         {
-          name: "Mujaddara",
-          description: "Lentils and rice with caramelized onions",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            "combining",
-          ],
-          tools: ["large pot", "skillet", "strainer", "wooden spoon"],
-          preparationSteps: [
-            "Cook lentils until tender",
-            "Prepare rice",
-            "Caramelize onions",
-            "Combine ingredients",
-            "Season with cumin",
-            "Garnish with crispy onions",
-          ],
-          ingredients: [
-            {
-              name: "brown lentils",
-              amount: "250",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "rice",
-              amount: "250",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "onions",
-              amount: "3",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "olive oil",
-              amount: "1/2",
-              unit: "cup",
-              category: "oil",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "cumin",
-              amount: "2",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "brown lentils": ["green lentils", "black lentils"],
-            rice: ["bulgur", "quinoa"],
-            "olive oil": ["vegetable oil", "ghee"],
+          "recipe_name": "Authentic Mujaddara",
+          "description": "An ancient, profoundly comforting Levantine staple.",
+          "details": {
+            "cuisine": "Middle Eastern",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 45,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["none"],
-          prepTime: "15 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A humble yet beloved dish throughout the Middle East, traditionally eaten during Lent. The contrast of textures between the soft lentils and crispy onions is essential",
-          pairingSuggestions: ["yogurt", "Arabic salad", "pickled vegetables"],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 380,
-            protein: 12,
-            carbs: 58,
-            fat: 14,
-            fiber: 3,
-            vitamins: ["B1", "B6"],
-            minerals: ["Iron", "Folate"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "lentils",
+              "notes": "Brown or green."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "rice or bulgur",
+              "notes": "Long-grain."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "onions",
+              "notes": "Sliced thinly for frizzling."
+            }
+          ],
+          "instructions": [
+            "Step 1: Parboil lentils.",
+            "Step 2: Caramelize onions in olive oil until deeply dark and crispy (frizzled).",
+            "Step 3: Remove half the onions for garnish.",
+            "Step 4: Add cumin and coriander.",
+            "Step 5: Add rice, lentils, and water. Simmer until absorbed.",
+            "Step 6: Serve topped with frizzled onions."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "frying"
+            ]
           },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.37,
-            Water: 0.12,
-            Earth: 0.39,
-            Air: 0.12,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.1,
+            "earth": 0.6,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Saturn"
+            ],
+            "signs": [
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 16,
+            "carbs_g": 65,
+            "fat_g": 18,
+            "fiber_g": 12
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "rice",
+              "substitute_options": [
+                "bulgur wheat"
+              ]
+            }
+          ]
         },
       ],
       all: [
@@ -1482,157 +1500,64 @@ export const middleEastern: Cuisine = {
         },
 
         {
-          name: "Falafel",
-          description:
-            "Deep-fried patties made from ground chickpeas or fava beans with herbs and spices",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "grinding",
-              elementalProperties: {
-                Fire: 0.14,
-                Water: 0.07,
-                Earth: 0.57,
-                Air: 0.21,
-              },
-            },
-            "shaping",
-            {
-              name: "deep-frying",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.06,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-          ],
-          tools: [
-            "food processor",
-            "deep fryer",
-            "thermometer",
-            "slotted spoon",
-            "mixing bowls",
-          ],
-          preparationSteps: [
-            "Soak chickpeas overnight",
-            "Process with herbs and spices",
-            "Rest mixture",
-            "Shape into balls",
-            "Deep fry until golden",
-            "Serve with tahini sauce",
-          ],
-          ingredients: [
-            {
-              name: "dried chickpeas",
-              amount: "500",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "parsley",
-              amount: "2",
-              unit: "bunches",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "cilantro",
-              amount: "1",
-              unit: "bunch",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "aromatic",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cumin",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            { name: "coriander", amount: "2", unit: "tbsp", category: "spice" },
-          ],
-          substitutions: {
-            chickpeas: ["fava beans", "split peas"],
-            parsley: ["more cilantro", "mint"],
-            "vegetable oil": ["grapeseed oil", "sunflower oil"],
+          "recipe_name": "Authentic Levantine Falafel",
+          "description": "A triumph of plant-based culinary geometry.",
+          "details": {
+            "cuisine": "Middle Eastern",
+            "prep_time_minutes": 1440,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "Mild",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["none"],
-          prepTime: "12 hours soaking",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A staple street food throughout the Middle East, with origins in Egypt. Each region claims to make the best version",
-          pairingSuggestions: [
-            "pita bread",
-            "tahini sauce",
-            "pickled vegetables",
-            "hummus",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "dried chickpeas",
+              "notes": "NO CANNED CHICKPEAS."
+            }
           ],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 320,
-            protein: 15,
-            carbs: 45,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["C", "K", "B6"],
-            minerals: ["Iron", "Folate"],
+          "instructions": [
+            "Step 1: Soak chickpeas.",
+            "Step 2: Grind with herbs and spices.",
+            "Step 3: Fry in hot oil."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch"
+            ],
+            "cooking_methods": [
+              "frying"
+            ]
           },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.38,
-            Water: 0.08,
-            Earth: 0.31,
-            Air: 0.23,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.1,
+            "earth": 0.4,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Earth"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 12,
+            "carbs_g": 35,
+            "fat_g": 22,
+            "fiber_g": 9
+          },
+          "substitutions": []
         },
 
         {

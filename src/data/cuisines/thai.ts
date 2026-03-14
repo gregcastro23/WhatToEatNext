@@ -10,151 +10,171 @@ export const thai: Cuisine = {
     breakfast: {
       all: [
         {
-          name: "Jok",
-          description:
-            "Comforting rice porridge with ginger, ground pork, and soft-boiled egg",
-          cuisine: "Thai",
-          cookingMethods: [
+          "recipe_name": "Authentic Thai Jok (Congee)",
+          "description": "A deeply comforting and restorative rice porridge, fundamentally rooted in Thai breakfast culture. Jok represents the harmonious alchemy of broken jasmine rice simmered into a silky suspension, enriched with deeply savory pork meatballs, warming ginger, and a suspended soft-boiled egg. It is a dish that grounds the spirit and warms the core.",
+          "details": {
+            "cuisine": "Thai",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 60,
+            "base_serving_size": 2,
+            "spice_level": "Mild",
+            "season": [
+              "all",
+              "winter"
+            ]
+          },
+          "ingredients": [
             {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "cup",
+              "name": "jasmine rice",
+              "notes": "Ideally broken jasmine rice. If using whole, briefly pulse in a food processor or soak overnight to encourage structural breakdown."
             },
             {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
+              "amount": 8,
+              "unit": "cups",
+              "name": "pork or chicken bone broth",
+              "notes": "The foundation of the porridge's flavor; unsalted if possible to control final sodium levels."
             },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "ground pork",
+              "notes": "Not too lean; a 80/20 ratio ensures tender meatballs."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "light soy sauce",
+              "notes": "For seasoning the pork meatballs."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tbsp",
+              "name": "oyster sauce",
+              "notes": "Adds umami depth to the pork."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "granulated sugar",
+              "notes": "Balances the savory notes in the pork."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "ground white pepper",
+              "notes": "Essential for the authentic, slightly floral heat. Divided: half for pork, half for garnishing."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Soft-boiled to a jammy yolk, or cracked raw directly into the boiling hot porridge upon serving."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fresh ginger",
+              "notes": "Peeled and very finely julienned (matchsticks)."
+            },
+            {
+              "amount": 4,
+              "unit": "stalks",
+              "name": "green onions",
+              "notes": "Finely sliced for garnish."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh cilantro",
+              "notes": "Roughly chopped for garnish."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fried garlic",
+              "notes": "Crispy fried garlic bits in oil."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "seasoning sauce (Maggi) or light soy sauce",
+              "notes": "For individual seasoning at the table."
+            }
           ],
-          tools: [
-            "large pot",
-            "wooden spoon",
-            "measuring cups",
-            "small bowls for garnishes",
-            "ladle",
+          "instructions": [
+            "Step 1: Rinse the jasmine rice under cold water just until the water runs mostly clear. If using whole jasmine rice, place it in a mortar and pestle or food processor and briefly crack the grains to release their starches more readily.",
+            "Step 2: In a large, heavy-bottomed pot, combine the cracked rice and the bone broth. Bring to a rolling boil over medium-high heat. Once boiling, immediately reduce the heat to a low simmer.",
+            "Step 3: Simmer the rice uncovered for 45 to 60 minutes, stirring frequently (especially towards the end) to prevent the starches from scorching on the bottom of the pot. The porridge is ready when the grains have completely broken down into a thick, silky, homogenous suspension.",
+            "Step 4: While the porridge simmers, prepare the pork meatballs. In a mixing bowl, combine the ground pork, 1 tablespoon light soy sauce, oyster sauce, sugar, and half of the white pepper. Mix vigorously by hand in one direction for 2-3 minutes until the mixture becomes sticky and cohesive.",
+            "Step 5: Prepare the soft-boiled eggs. Bring a small saucepan of water to a boil. Gently lower the eggs into the water and boil for exactly 6 minutes for a jammy yolk. Transfer immediately to an ice bath, then peel.",
+            "Step 6: When the porridge has reached the correct silky consistency, form the seasoned pork mixture into small, bite-sized meatballs (about 1 teaspoon each) and drop them directly into the simmering porridge.",
+            "Step 7: Allow the meatballs to poach gently in the porridge for 3 to 5 minutes, or until they float and are cooked through. Adjust the consistency of the porridge with hot water if it has become too thick.",
+            "Step 8: To serve, ladle the steaming hot porridge and meatballs into deep bowls. Halve a soft-boiled egg and place it in the center (or crack a raw egg into the very hot porridge).",
+            "Step 9: Garnish generously with the julienned ginger, sliced green onions, cilantro, and crispy fried garlic. Serve immediately, allowing each person to season their bowl with additional white pepper and Maggi seasoning or light soy sauce to taste."
           ],
-          preparationSteps: [
-            "Rinse rice thoroughly",
-            "Simmer rice until very soft",
-            "Cook ground pork separately",
-            "Prepare garnishes",
-            "Season the porridge",
-            "Serve with toppings",
-          ],
-          ingredients: [
-            {
-              name: "jasmine rice",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ginger",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ground pork",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms", "tofu"],
-            },
-            {
-              name: "soft-boiled egg",
-              amount: "2",
-              unit: "large",
-              category: "protein",
-              swaps: ["silken tofu"],
-            },
-            {
-              name: "green onions",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "fried garlic",
-              amount: "2",
-              unit: "tbsp",
-              category: "garnish",
-            },
-            {
-              name: "white pepper",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "soy sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-          ],
-          substitutions: {
-            "ground pork": [
-              "minced mushrooms",
-              "crumbled tofu",
-              "plant-based meat",
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "comfort food"
             ],
-            "soft-boiled egg": ["silken tofu", "century egg"],
-            "soy sauce": ["tamari", "coconut aminos"],
+            "cooking_methods": [
+              "simmering",
+              "poaching",
+              "boiling"
+            ]
           },
-          servingSize: 4,
-          allergens: ["soy", "eggs"],
-          prepTime: "10 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A beloved breakfast dish that showcases the Thai appreciation for rice and comfort food. Often sold by street vendors in the early morning",
-          pairingSuggestions: [
-            "Chinese donuts (Patongo)",
-            "pickled vegetables",
-            "chili vinegar",
-          ],
-          dietaryInfo: [
-            "adaptable to vegetarian/vegan",
-            "gluten-free with substitutions",
-          ],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 380,
-            protein: 22,
-            carbs: 58,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B6", "B12"],
-            minerals: ["Iron", "Zinc"],
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.6,
+            "earth": 0.2,
+            "air": 0.05
           },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.26,
-            Water: 0.38,
-            Earth: 0.26,
-            Air: 0.09,
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "New Moon",
+              "First Quarter"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 450,
+            "protein_g": 28,
+            "carbs_g": 48,
+            "fat_g": 16,
+            "fiber_g": 2
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "ground pork",
+              "substitute_options": [
+                "minced shiitake mushrooms (vegan)",
+                "ground chicken",
+                "crumbled firm tofu"
+              ]
+            },
+            {
+              "original_ingredient": "pork or chicken bone broth",
+              "substitute_options": [
+                "kombu and shiitake dashi (vegan)",
+                "vegetable stock"
+              ]
+            },
+            {
+              "original_ingredient": "eggs",
+              "substitute_options": [
+                "silken tofu pieces (vegan)"
+              ]
+            }
+          ]
         },
         {
           name: "Khao Tom",
@@ -798,248 +818,124 @@ export const thai: Cuisine = {
           },
         },
         {
-          name: "Som Tam",
-          description: "Spicy green papaya salad",
-          cuisine: "Thai",
-          cookingMethods: [
-            "pounding",
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.21,
-                Earth: 0.21,
-                Air: 0.5,
-              },
-            },
-          ],
-          tools: [
-            "mortar and pestle",
-            "grater",
-            "knife",
-            "cutting board",
-            "lime squeezer",
-          ],
-          preparationSteps: [
-            "Shred green papaya",
-            "Pound garlic and chilies",
-            "Add dried shrimp and peanuts",
-            "Mix in vegetables",
-            "Season with lime and fish sauce",
-            "Adjust flavors to taste",
-          ],
-          ingredients: [
-            {
-              name: "green papaya",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.55,
-                Earth: 0.15,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "Thai chilies",
-              amount: "2",
-              unit: "pieces",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.7,
-                Water: 0,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "3",
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "dried shrimp",
-              amount: "2",
-              unit: "tbsp",
-              category: "protein",
-              swaps: ["toasted peanuts"],
-            },
-            {
-              name: "long beans",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "cherry tomatoes",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "lime juice", amount: "3", unit: "tbsp", category: "acid" },
-            {
-              name: "fish sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-              swaps: ["soy sauce"],
-            },
-            {
-              name: "palm sugar",
-              amount: "2",
-              unit: "tbsp",
-              category: "sweetener",
-            },
-          ],
-          substitutions: {
-            "green papaya": ["shredded carrot", "green mango"],
-            "dried shrimp": ["toasted peanuts", "crispy tofu"],
-            "fish sauce": ["soy sauce", "coconut aminos"],
+          "recipe_name": "Authentic Som Tam",
+          "description": "An explosive study in the Thai concept of 'Rot Chat'.",
+          "details": {
+            "cuisine": "Thai",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 0,
+            "base_serving_size": 2,
+            "spice_level": "Fiery",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 2,
-          allergens: ["fish", "shellfish", "peanuts"],
-          prepTime: "20 minutes",
-          cookTime: "0 minutes",
-          culturalNotes:
-            "Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally",
-          pairingSuggestions: ["sticky rice", "grilled chicken", "cold beer"],
-          dietaryInfo: ["raw", "adaptable to vegan", "gluten-free"],
-          spiceLevel: "very hot",
-          nutrition: {
-            calories: 160,
-            protein: 8,
-            carbs: 25,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["C", "A", "K"],
-            minerals: ["Potassium", "Calcium"],
+          "ingredients": [
+            {
+              "amount": 2.5,
+              "unit": "cups",
+              "name": "green papaya",
+              "notes": "Shredded."
+            }
+          ],
+          "instructions": [
+            "Step 1: Pound garlic and chilies.",
+            "Step 2: Bruise beans and tomatoes.",
+            "Step 3: Toss papaya."
+          ],
+          "classifications": {
+            "meal_type": [
+              "salad"
+            ],
+            "cooking_methods": [
+              "pounding"
+            ]
           },
-          season: ["all"],
-          mealType: ["lunch", "dinner", "appetizer"],
-          elementalProperties: {
-            Fire: 0.41,
-            Water: 0.29,
-            Earth: 0.16,
-            Air: 0.14,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.25,
+            "earth": 0.2,
+            "air": 0.2
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mars"
+            ],
+            "signs": [
+              "Aries"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 180,
+            "protein_g": 6,
+            "carbs_g": 28,
+            "fat_g": 7,
+            "fiber_g": 5
+          },
+          "substitutions": []
         },
         {
-          name: "Tom Yum Goong",
-          description: "Spicy and sour shrimp soup",
-          cuisine: "Thai",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "infusing",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.37,
-                Earth: 0.19,
-                Air: 0.31,
-              },
-            },
-          ],
-          tools: ["soup pot", "ladle", "strainer", "knife", "cutting board"],
-          preparationSteps: [
-            "Prepare lemongrass and herbs",
-            "Simmer aromatics in broth",
-            "Add mushrooms",
-            "Cook shrimp",
-            "Season with lime and chili",
-            "Finish with herbs",
-          ],
-          ingredients: [
-            {
-              name: "shrimp",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "lemongrass",
-              amount: "3",
-              unit: "stalks",
-              category: "herb",
-            },
-            {
-              name: "kaffir lime leaves",
-              amount: "4",
-              unit: "pieces",
-              category: "herb",
-            },
-            { name: "galangal", amount: "50", unit: "g", category: "spice" },
-            {
-              name: "mushrooms",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "Thai chilies",
-              amount: "4",
-              unit: "pieces",
-              category: "spice",
-            },
-            { name: "lime juice", amount: "4", unit: "tbsp", category: "acid" },
-            {
-              name: "nam prik pao",
-              amount: "2",
-              unit: "tbsp",
-              category: "paste",
-            },
-          ],
-          substitutions: {
-            shrimp: ["tofu", "mushrooms", "chicken"],
-            "kaffir lime leaves": ["lime zest", "bay leaves"],
-            galangal: ["ginger", "turmeric"],
+          "recipe_name": "Authentic Tom Yum Goong",
+          "description": "An explosive study in Thai flavor balancing.",
+          "details": {
+            "cuisine": "Thai",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "Hot",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 4,
-          allergens: ["shellfish", "fish"],
-          prepTime: "15 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            "Thailand's most famous soup, known worldwide for its complex blend of hot, sour, and aromatic flavors. The name 'tom yum' refers to the boiling process and sour taste",
-          pairingSuggestions: [
-            "jasmine rice",
-            "stir-fried vegetables",
-            "coconut water",
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "prawns",
+              "notes": "Peeled."
+            }
           ],
-          dietaryInfo: ["gluten-free", "adaptable to vegan"],
-          spiceLevel: "hot",
-          nutrition: {
-            calories: 220,
-            protein: 24,
-            carbs: 12,
-            fat: 10,
-            fiber: 3,
-            vitamins: ["B12", "C", "D"],
-            minerals: ["Iodine", "Zinc"],
+          "instructions": [
+            "Step 1: Infuse broth.",
+            "Step 2: Cook prawns.",
+            "Step 3: Add lime juice off heat."
+          ],
+          "classifications": {
+            "meal_type": [
+              "soup"
+            ],
+            "cooking_methods": [
+              "boiling"
+            ]
           },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.65,
-            Earth: 0.16,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.5,
+            "water": 0.35,
+            "earth": 0.05,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mars"
+            ],
+            "signs": [
+              "Aries"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 220,
+            "protein_g": 25,
+            "carbs_g": 12,
+            "fat_g": 8,
+            "fiber_g": 2
+          },
+          "substitutions": []
         },
         {
           name: "Yum Woon Sen",
@@ -1478,141 +1374,64 @@ export const thai: Cuisine = {
     dinner: {
       all: [
         {
-          name: "Pad Thai",
-          description: "Stir-fried rice noodles with tamarind sauce",
-          cuisine: "Thai",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.44,
-                Water: 0.09,
-                Earth: 0.15,
-                Air: 0.32,
-              },
-            },
-            {
-              name: "soaking",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.75,
-                Earth: 0.17,
-                Air: 0.08,
-              },
-            },
-          ],
-          tools: [
-            "wok",
-            "spatula",
-            "strainer",
-            "small bowls for prep",
-            "measuring spoons",
-          ],
-          preparationSteps: [
-            "Soak rice noodles",
-            "Prepare sauce",
-            "Stir-fry aromatics",
-            "Cook proteins",
-            "Add noodles and sauce",
-            "Toss with bean sprouts",
-            "Garnish and serve",
-          ],
-          ingredients: [
-            {
-              name: "rice noodles",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tofu",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["shrimp"],
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "tamarind paste",
-              amount: "3",
-              unit: "tbsp",
-              category: "sauce",
-            },
-            {
-              name: "palm sugar",
-              amount: "3",
-              unit: "tbsp",
-              category: "sweetener",
-            },
-            {
-              name: "fish sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-              swaps: ["soy sauce"],
-            },
-            {
-              name: "bean sprouts",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "garlic chives",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "crushed peanuts",
-              amount: "1/2",
-              unit: "cup",
-              category: "garnish",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            "fish sauce": ["soy sauce", "coconut aminos"],
-            "palm sugar": ["brown sugar", "coconut sugar"],
-            "tamarind paste": ["lime juice + brown sugar"],
+          "recipe_name": "Authentic Pad Thai",
+          "description": "A masterclass in high-heat wok hei and rapid assembly.",
+          "details": {
+            "cuisine": "Thai",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 10,
+            "base_serving_size": 2,
+            "spice_level": "Mild",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["peanuts", "eggs", "soy", "fish"],
-          prepTime: "30 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "Created in the 1930s as part of Thailand's nation-building efforts, Pad Thai has become the country's national dish and a global ambassador of Thai cuisine",
-          pairingSuggestions: [
-            "lime wedges",
-            "chili flakes",
-            "extra peanuts",
-            "bean sprouts",
+          "ingredients": [
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "rice noodles",
+              "notes": "Soaked, not boiled."
+            }
           ],
-          dietaryInfo: ["adaptable to vegan", "gluten-free"],
-          spiceLevel: "mild to adjustable",
-          nutrition: {
-            calories: 480,
-            protein: 18,
-            carbs: 68,
-            fat: 16,
-            fiber: 3,
-            vitamins: ["A", "C", "E"],
-            minerals: ["Iron", "Calcium"],
+          "instructions": [
+            "Step 1: Soak noodles.",
+            "Step 2: Make tamarind sauce.",
+            "Step 3: Stir fry quickly in wok."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch"
+            ],
+            "cooking_methods": [
+              "stir-frying"
+            ]
           },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.18,
-            Water: 0.3,
-            Earth: 0.39,
-            Air: 0.12,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.15,
+            "earth": 0.25,
+            "air": 0.25
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mercury"
+            ],
+            "signs": [
+              "Gemini"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 550,
+            "protein_g": 18,
+            "carbs_g": 75,
+            "fat_g": 22,
+            "fiber_g": 5
+          },
+          "substitutions": []
         },
         {
           name: "Pad Krapow Moo",

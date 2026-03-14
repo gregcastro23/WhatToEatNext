@@ -10,154 +10,222 @@ export const vietnamese: Cuisine = {
     breakfast: {
       all: [
         {
-          name: "Phở Bò",
-          description: "Traditional Vietnamese beef noodle soup",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            "garnishing",
-          ],
-          tools: [
-            "large stock pot",
-            "strainer",
-            "ladle",
-            "serving bowls",
-            "chopsticks",
-          ],
-          preparationSteps: [
-            "Char ginger and onions",
-            "Simmer beef bones",
-            "Toast spices",
-            "Strain broth",
-            "Cook rice noodles",
-            "Assemble bowls",
-            "Add garnishes",
-          ],
-          ingredients: [
-            {
-              name: "beef bones",
-              amount: "2",
-              unit: "kg",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "rice noodles",
-              amount: "500",
-              unit: "g",
-              category: "grain",
-              swaps: ["shirataki noodles"],
-            },
-            {
-              name: "beef slices",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu", "mushrooms"],
-            },
-            {
-              name: "onion",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-            },
-            { name: "ginger", amount: "100", unit: "g", category: "spice" },
-            {
-              name: "star anise",
-              amount: "4",
-              unit: "pieces",
-              category: "spice",
-            },
-            {
-              name: "cinnamon stick",
-              amount: "2",
-              unit: "pieces",
-              category: "spice",
-            },
-            {
-              name: "bean sprouts",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "Thai basil",
-              amount: "1",
-              unit: "bunch",
-              category: "herb",
-            },
-            { name: "cilantro", amount: "1", unit: "bunch", category: "herb" },
-            { name: "lime", amount: "2", unit: "whole", category: "fruit" },
-            {
-              name: "hoisin sauce",
-              amount: "4",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "sriracha",
-              amount: "4",
-              unit: "tbsp",
-              category: "condiment",
-            },
-          ],
-          substitutions: {
-            "beef bones": ["chicken bones", "mushroom broth"],
-            "beef slices": ["chicken", "tofu", "mushrooms"],
-            "hoisin sauce": ["soy sauce", "coconut aminos"],
+          "recipe_name": "Authentic Phở Bò (Vietnamese Beef Noodle Soup)",
+          "description": "A deeply restorative and complex noodle soup that embodies the essence of Vietnamese culinary alchemy. It balances the deep, grounding earthiness of simmered beef bones with the ethereal, volatile aromatics of charred ginger, star anise, and cinnamon. Traditionally served as a morning meal, it invigorates the spirit and aligns the body's internal heat.",
+          "details": {
+            "cuisine": "Vietnamese",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 360,
+            "base_serving_size": 4,
+            "spice_level": "Mild",
+            "season": [
+              "all",
+              "winter"
+            ]
           },
-          servingSize: 6,
-          allergens: ["soy"],
-          prepTime: "30 minutes",
-          cookTime: "6 hours",
-          culturalNotes:
-            "Phở originated in the early 20th century in northern Vietnam and is considered the national dish. The clear broth is a result of careful simmering and skimming",
-          pairingSuggestions: [
-            "Vietnamese coffee",
-            "fresh chili peppers",
-            "pickled garlic",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "kg",
+              "name": "beef leg bones or knuckle bones",
+              "notes": "Parboiled and rinsed rigorously before the main simmer to ensure a crystal-clear broth."
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "beef brisket or chuck",
+              "notes": "Simmered in the broth until tender, then sliced thinly against the grain."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "yellow onion",
+              "notes": "Unpeeled, charred over an open flame until blackened outside and softened inside."
+            },
+            {
+              "amount": 1,
+              "unit": "large piece (about 4 inches)",
+              "name": "fresh ginger",
+              "notes": "Unpeeled, charred over an open flame, then smashed to release volatile oils."
+            },
+            {
+              "amount": 5,
+              "unit": "whole",
+              "name": "star anise pods",
+              "notes": "Lightly toasted in a dry pan until fragrant."
+            },
+            {
+              "amount": 1,
+              "unit": "stick (about 3 inches)",
+              "name": "cinnamon stick (cassia bark)",
+              "notes": "Lightly toasted."
+            },
+            {
+              "amount": 3,
+              "unit": "whole",
+              "name": "cloves",
+              "notes": "Lightly toasted."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "coriander seeds",
+              "notes": "Lightly toasted."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "fennel seeds",
+              "notes": "Lightly toasted."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "fish sauce (nước mắm)",
+              "notes": "Added towards the end of cooking to season the broth without turning it sour."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "yellow rock sugar",
+              "notes": "Crucial for balancing the savory and aromatic elements with a mellow sweetness."
+            },
+            {
+              "amount": 1.5,
+              "unit": "tbsp",
+              "name": "kosher salt",
+              "notes": "Adjust to taste."
+            },
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "dried flat rice noodles (bánh phở)",
+              "notes": "Soaked in warm water, then blanched quickly in boiling water right before serving."
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "beef sirloin or eye of round",
+              "notes": "Sliced paper-thin across the grain. It will cook instantly when the boiling broth is poured over it."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "white onion",
+              "notes": "Sliced paper-thin, soaked in ice water to remove bite, used for garnish."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "scallions (green onions)",
+              "notes": "Finely chopped for garnish."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh cilantro",
+              "notes": "Roughly chopped for garnish."
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "Thai basil",
+              "notes": "Served on the side."
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "fresh mint",
+              "notes": "Served on the side."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "bean sprouts",
+              "notes": "Served on the side."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "lime",
+              "notes": "Cut into wedges, served on the side."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "bird's eye chili",
+              "notes": "Thinly sliced, served on the side for heat."
+            }
           ],
-          dietaryInfo: ["adaptable to gluten-free", "adaptable to vegan"],
-          spiceLevel: "customizable",
-          nutrition: {
-            calories: 480,
-            protein: 32,
-            carbs: 58,
-            fat: 16,
-            fiber: 3,
-            vitamins: ["B12", "C", "A"],
-            minerals: ["Iron", "Zinc"],
+          "instructions": [
+            "Step 1: Parboil the bones. Place the beef bones in a large stockpot and cover with cold water. Bring to a vigorous boil and boil for 5 minutes. Drain the water and vigorously scrub the bones under cold running water to remove all impurities. Rinse the pot clean.",
+            "Step 2: Char the aromatics. Place the unpeeled onion and ginger directly on a gas burner grate or under a broiler. Turn occasionally until deeply blackened and fragrant, about 10-15 minutes. Let cool, then rinse under water to remove the loose ash. Smash the ginger.",
+            "Step 3: Toast the spices. In a dry skillet over medium-low heat, toast the star anise, cinnamon, cloves, coriander seeds, and fennel seeds until highly fragrant (about 3 minutes). Place them in a spice bag or cheesecloth pouch.",
+            "Step 4: Begin the broth. Return the clean bones to the clean stockpot. Add the brisket/chuck, charred onion, charred ginger, rock sugar, and salt. Add 6 liters of cold water. Bring to a gentle boil, then immediately reduce the heat to a bare simmer. Continually skim off any scum or fat that rises to the surface to ensure a clear broth.",
+            "Step 5: Simmer the meat. After 1.5 to 2 hours of simmering, remove the brisket/chuck once it is tender. Submerge it in a bowl of cold water for 10 minutes to stop the cooking and prevent it from turning dark, then cover and refrigerate. Slice thinly before serving.",
+            "Step 6: Continue the broth. Add the spice pouch to the simmering broth. Continue to simmer gently for another 3 to 4 hours. Do not let it boil vigorously, or the broth will become cloudy.",
+            "Step 7: Finish the broth. Remove the bones, onion, ginger, and spice pouch. Strain the broth through a fine-mesh sieve lined with cheesecloth into a clean pot. Bring the strained broth back to a gentle simmer. Stir in the fish sauce and adjust seasoning with salt or sugar if necessary. Keep the broth at a rolling boil right before serving.",
+            "Step 8: Prepare the noodles. Soak the dried rice noodles in warm water for 30 minutes until pliable. Right before serving, blanch the soaked noodles in a separate pot of boiling water for 30-60 seconds until tender but chewy. Drain well and divide among large, deep serving bowls.",
+            "Step 9: Assemble the bowls. Top the noodles in each bowl with slices of the cooked brisket and the raw, paper-thin sirloin. Add the paper-thin raw onion slices, chopped scallions, and cilantro.",
+            "Step 10: Serve. Ladle the boiling hot, clear broth directly over the raw beef slices in the bowls, which will cook them instantly. Serve immediately with a plate of Thai basil, mint, bean sprouts, lime wedges, and sliced chilies for each person to customize their bowl."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "soup",
+              "dinner"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "charring",
+              "toasting",
+              "blanching"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast", "lunch"],
-          elementalProperties: {
-            Fire: 0.15,
-            Water: 0.43,
-            Earth: 0.32,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.25,
+            "water": 0.55,
+            "earth": 0.1,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Jupiter",
+              "Neptune"
+            ],
+            "signs": [
+              "Pisces",
+              "Aries"
+            ],
+            "lunar_phases": [
+              "New Moon",
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 35,
+            "carbs_g": 60,
+            "fat_g": 12,
+            "fiber_g": 4
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "beef bones and meat",
+              "substitute_options": [
+                "whole chicken and chicken bones (Phở Gà)",
+                "charred daikon, shiitake, and vegetable broth (Phở Chay)"
+              ]
+            },
+            {
+              "original_ingredient": "fish sauce",
+              "substitute_options": [
+                "soy sauce (vegan)",
+                "coconut aminos (vegan)"
+              ]
+            }
+          ]
         },
         {
           name: "Cháo Gà",
@@ -417,77 +485,141 @@ export const vietnamese: Cuisine = {
           },
         },
         {
-          name: "Xôi Xéo",
-          description:
-            "Vietnamese sticky rice with mung bean paste and fried shallots, a classic breakfast",
-          cuisine: "Vietnamese",
-          cookingMethods: [
+          "recipe_name": "Authentic Xôi Xéo",
+          "description": "An iconic Northern Vietnamese street food breakfast. Xôi Xéo is a brilliant study in textural contrast and visual warmth. The radiant yellow glutinous rice (dyed naturally with turmeric) provides a chewy, grounding base, topped with a rich, savory paste of steamed mung beans, and crowned with the crispy, aromatic crunch of fried shallots and a drizzle of shallot oil.",
+          "details": {
+            "cuisine": "Vietnamese",
+            "prep_time_minutes": 240,
+            "cook_time_minutes": 45,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all",
+              "autumn"
+            ]
+          },
+          "ingredients": [
             {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.55,
-                Earth: 0.15,
-                Air: 0.15,
-              },
+              "amount": 2,
+              "unit": "cups",
+              "name": "short-grain glutinous rice (sweet rice)",
+              "notes": "Must be soaked for at least 4 hours, preferably overnight, to steam properly."
             },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground turmeric",
+              "notes": "Mixed into the soaking water to give the rice its signature brilliant yellow hue."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Divided; half for the rice, half for the mung beans."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "peeled, split mung beans",
+              "notes": "Soaked for 4 hours until softened."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "neutral oil or rendered chicken fat",
+              "notes": "For mixing into the cooked mung bean paste for richness."
+            },
+            {
+              "amount": 6,
+              "unit": "large",
+              "name": "shallots",
+              "notes": "Thinly and evenly sliced."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "neutral oil",
+              "notes": "For frying the shallots. The resulting shallot-infused oil is used to dress the dish."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "coconut milk",
+              "notes": "Optional, but highly recommended; sprinkled over the rice during the last 5 minutes of steaming for a glossy finish."
+            }
           ],
-          ingredients: [
-            {
-              name: "glutinous rice",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-            },
-            {
-              name: "mung beans",
-              amount: "1",
-              unit: "cup",
-              category: "legume",
-            },
-            {
-              name: "shallots",
-              amount: "4",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "coconut milk",
-              amount: "1/2",
-              unit: "cup",
-              category: "liquid",
-            },
-            {
-              name: "sugar",
-              amount: "2",
-              unit: "tbsp",
-              category: "sweetener",
-            },
+          "instructions": [
+            "Step 1: Soak the rice and beans. Rinse the glutinous rice until the water runs clear. In a large bowl, dissolve the turmeric in plenty of water, add the rice, and soak for 4-8 hours. In a separate bowl, rinse and soak the split mung beans for 4 hours.",
+            "Step 2: Prepare the fried shallots (Hành Phi). In a small saucepan, combine the sliced shallots and the 1/2 cup of neutral oil over medium-low heat. Fry gently, stirring frequently, until the shallots turn golden brown and crispy (about 15-20 minutes). Carefully strain the shallots through a fine-mesh sieve, catching the infused oil in a bowl. Spread the shallots on paper towels to crisp up and cool. Reserve the shallot oil.",
+            "Step 3: Steam the mung beans. Drain the soaked mung beans well. Toss them with 1/2 tsp of salt. Place them in a steamer basket over boiling water and steam for 15-20 minutes until easily mashed between two fingers.",
+            "Step 4: Form the mung bean paste. While the beans are still hot, transfer them to a mortar and pestle, food processor, or use a potato masher. Pound or process them into a completely smooth, fine paste. Mix in 1 tbsp of neutral oil (or rendered chicken fat/shallot oil). While still warm and pliable, tightly compress the paste into a firm, dense ball. Cover with plastic wrap and let it cool and set.",
+            "Step 5: Steam the sticky rice. Drain the turmeric-soaked rice thoroughly. Toss with the remaining 1/2 tsp of salt and 1 tbsp of the reserved shallot oil. Place the rice in a steamer basket lined with cheesecloth or a muslin cloth. Make a few holes in the rice layer to allow steam to escape.",
+            "Step 6: Steam the rice over boiling water for 30-35 minutes. At the 25-minute mark, gently sprinkle the coconut milk (if using) evenly over the rice and fluff it gently with chopsticks. Continue steaming until the rice is tender, sticky, and slightly translucent, but not mushy.",
+            "Step 7: Assemble the dish. Place a portion of the warm yellow sticky rice onto a plate or a banana leaf.",
+            "Step 8: Take the firm ball of mung bean paste and, using a sharp knife, shave off very thin, delicate slices directly over the hot rice. The heat of the rice will slightly soften the mung bean shavings.",
+            "Step 9: Drizzle 1-2 teaspoons of the reserved fragrant shallot oil over the rice and mung beans.",
+            "Step 10: Garnish generously with the crispy fried shallots. Serve immediately while warm."
           ],
-          substitutions: {
-            "glutinous rice": ["jasmine rice"],
-            "coconut milk": ["regular milk"],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "snack",
+              "street food"
+            ],
+            "cooking_methods": [
+              "steaming",
+              "frying",
+              "mashing"
+            ]
           },
-          servingSize: 4,
-          allergens: [],
-          prepTime: "30 minutes",
-          cookTime: "45 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 12,
-            carbs: 68,
-            fat: 8,
-            fiber: 5,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.2,
+            "earth": 0.5,
+            "air": 0.15
           },
-          timeToMake: "75 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.15,
-            Water: 0.35,
-            Earth: 0.4,
-            Air: 0.1,
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Virgo"
+            ],
+            "lunar_phases": [
+              "First Quarter",
+              "Full Moon"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 10,
+            "carbs_g": 65,
+            "fat_g": 14,
+            "fiber_g": 6
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "short-grain glutinous rice",
+              "substitute_options": [
+                "long-grain sweet rice"
+              ]
+            },
+            {
+              "original_ingredient": "split mung beans",
+              "substitute_options": [
+                "split yellow peas",
+                "red lentils (texture will vary slightly)"
+              ]
+            },
+            {
+              "original_ingredient": "coconut milk",
+              "substitute_options": [
+                "omit entirely for a more traditional, savory profile"
+              ]
+            }
+          ]
         },
         {
           name: "Bánh Mì Ốp La",
@@ -636,138 +768,87 @@ export const vietnamese: Cuisine = {
     lunch: {
       all: [
         {
-          name: "Bánh Mì Thịt",
-          description:
-            "Vietnamese sandwich with grilled pork and pickled vegetables",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "pickling",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.44,
-                Earth: 0.31,
-                Air: 0.19,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "grill or grill pan",
-            "knife",
-            "cutting board",
-            "mixing bowls",
-            "mandoline",
-          ],
-          preparationSteps: [
-            "Marinate pork",
-            "Prepare pickled vegetables",
-            "Grill pork",
-            "Toast baguette",
-            "Make spicy mayo",
-            "Assemble sandwich",
-          ],
-          ingredients: [
-            {
-              name: "baguette",
-              amount: "4",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["gluten-free baguette"],
-            },
-            {
-              name: "pork belly",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu", "seitan"],
-            },
-            { name: "daikon", amount: "200", unit: "g", category: "vegetable" },
-            {
-              name: "carrots",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "cucumber",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            { name: "cilantro", amount: "1", unit: "bunch", category: "herb" },
-            {
-              name: "pate",
-              amount: "100",
-              unit: "g",
-              category: "spread",
-              swaps: ["mushroom pate"],
-            },
-            {
-              name: "mayonnaise",
-              amount: "4",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "sriracha",
-              amount: "2",
-              unit: "tbsp",
-              category: "condiment",
-            },
-          ],
-          substitutions: {
-            "pork belly": ["chicken", "tofu", "mushrooms"],
-            pate: ["mushroom pate", "hummus"],
-            mayonnaise: ["vegan mayo"],
+          "recipe_name": "Authentic Bánh Mì Thịt Nướng",
+          "description": "The quintessential Vietnamese-French culinary synthesis.",
+          "details": {
+            "cuisine": "Vietnamese",
+            "prep_time_minutes": 180,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "Mild-Medium",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 4,
-          allergens: ["wheat", "eggs"],
-          prepTime: "30 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "Bánh mì represents the French colonial influence on Vietnamese cuisine, combining French baguettes with Vietnamese flavors",
-          pairingSuggestions: [
-            "Vietnamese iced coffee",
-            "pickled vegetables",
-            "chili sauce",
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "pork shoulder",
+              "notes": "Thinly sliced."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "lemongrass",
+              "notes": "Minced."
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "Vietnamese baguettes",
+              "notes": "Airy inside."
+            }
           ],
-          dietaryInfo: ["adaptable to vegan"],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 550,
-            protein: 28,
-            carbs: 65,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "C"],
-            minerals: ["Iron", "Calcium"],
+          "instructions": [
+            "Step 1: Marinate pork in lemongrass, fish sauce, sugar.",
+            "Step 2: Grill pork quickly over high heat until charred.",
+            "Step 3: Toast baguette.",
+            "Step 4: Spread mayo and pate.",
+            "Step 5: Layer pork, pickled daikon/carrots, cucumber, cilantro, jalapeño.",
+            "Step 6: Drizzle Maggi seasoning."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch"
+            ],
+            "cooking_methods": [
+              "grilling",
+              "assembling"
+            ]
           },
-          season: ["all"],
-          mealType: ["lunch"],
-          elementalProperties: {
-            Fire: 0.27,
-            Water: 0.09,
-            Earth: 0.47,
-            Air: 0.17,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.15,
+            "earth": 0.25,
+            "air": 0.2
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mars"
+            ],
+            "signs": [
+              "Gemini"
+            ],
+            "lunar_phases": [
+              "Waxing Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 520,
+            "protein_g": 28,
+            "carbs_g": 48,
+            "fat_g": 24,
+            "fiber_g": 3
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "pork shoulder",
+              "substitute_options": [
+                "chicken thighs"
+              ]
+            }
+          ]
         },
         {
           name: "Bún Chả",
@@ -1479,176 +1560,86 @@ export const vietnamese: Cuisine = {
           },
         },
         {
-          name: "Cơm Tấm",
-          description: "Broken rice with grilled pork chop and egg",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-          ],
-          tools: [
-            "grill",
-            "rice cooker",
-            "frying pan",
-            "mixing bowls",
-            "serving plates",
-          ],
-          preparationSteps: [
-            "Marinate pork chops",
-            "Cook broken rice",
-            "Grill pork chops",
-            "Prepare bì (shredded pork)",
-            "Fry eggs",
-            "Assemble plate",
-          ],
-          ingredients: [
-            {
-              name: "broken rice",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pork chops",
-              amount: "4",
-              unit: "pieces",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "green onions",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pickled vegetables",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "fish sauce",
-              amount: "4",
-              unit: "tbsp",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lemongrass",
-              amount: "2",
-              unit: "stalks",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "pork chops": ["chicken thighs", "tofu steaks"],
-            "fish sauce": ["soy sauce", "coconut aminos"],
-            "broken rice": ["jasmine rice", "brown rice"],
+          "recipe_name": "Authentic Cơm Tấm",
+          "description": "A working-class breakfast icon from Saigon. The foundation is 'broken rice'.",
+          "details": {
+            "cuisine": "Vietnamese",
+            "prep_time_minutes": 120,
+            "cook_time_minutes": 45,
+            "base_serving_size": 2,
+            "spice_level": "Mild",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["fish", "eggs"],
-          prepTime: "30 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A Saigon specialty that originated from using broken rice grains that couldn't be sold at full price. Now it's a beloved dish throughout Vietnam",
-          pairingSuggestions: ["scallion oil", "chili sauce", "soup broth"],
-          dietaryInfo: ["dairy-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 650,
-            protein: 45,
-            carbs: 70,
-            fat: 25,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Zinc"],
+          "ingredients": [
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "broken rice",
+              "notes": "Rinsed and soaked."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "pork chops",
+              "notes": "Bone-in."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "Scallion Oil",
+              "notes": "Mỡ Hành."
+            }
+          ],
+          "instructions": [
+            "Step 1: Marinate pork chops with lemongrass and fish sauce.",
+            "Step 2: Steam broken rice.",
+            "Step 3: Make scallion oil.",
+            "Step 4: Grill pork chops.",
+            "Step 5: Serve with fried egg, Nước Chấm, and pickled vegetables."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast"
+            ],
+            "cooking_methods": [
+              "grilling",
+              "steaming"
+            ]
           },
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.32,
-            Water: 0.24,
-            Earth: 0.23,
-            Air: 0.21,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.15,
+            "earth": 0.4,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Earth"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 680,
+            "protein_g": 38,
+            "carbs_g": 75,
+            "fat_g": 26,
+            "fiber_g": 4
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "broken rice",
+              "substitute_options": [
+                "jasmine rice"
+              ]
+            }
+          ]
         },
         {
           name: "Thịt Kho Tàu",

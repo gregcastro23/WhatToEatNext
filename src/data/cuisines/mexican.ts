@@ -7,255 +7,257 @@ export const mexican = {
     breakfast: {
       all: [
         {
-          name: "Huevos Rancheros",
-          description:
-            "Fried eggs on tortillas with spicy tomato sauce and black beans",
-          cuisine: "Mexican",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "skillet",
-            "spatula",
-            "small saucepan",
-            "serving plates",
-            "knife",
-          ],
-          preparationSteps: [
-            "Heat ranchero sauce",
-            "Warm black beans",
-            "Fry tortillas lightly",
-            "Fry eggs sunny-side up",
-            "Assemble on plates",
-            "Garnish with avocado and cheese",
-          ],
-          ingredients: [
-            {
-              name: "eggs",
-              amount: "2",
-              unit: "large",
-              category: "protein",
-              swaps: ["tofu scramble"],
-            },
-            {
-              name: "corn tortillas",
-              amount: "2",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["gluten-free tortillas"],
-            },
-            {
-              name: "ranchero sauce",
-              amount: "200",
-              unit: "ml",
-              category: "sauce",
-            },
-            {
-              name: "black beans",
-              amount: "1",
-              unit: "cup",
-              category: "protein",
-            },
-            {
-              name: "avocado",
-              amount: "1/2",
-              unit: "whole",
-              category: "fruit",
-            },
-            {
-              name: "queso fresco",
-              amount: "1/4",
-              unit: "cup",
-              category: "dairy",
-              swaps: ["vegan cheese"],
-            },
-          ],
-          substitutions: {
-            eggs: ["tofu scramble", "chickpea scramble"],
-            "queso fresco": ["vegan cheese", "avocado"],
-            "corn tortillas": ["flour tortillas", "gluten-free tortillas"],
+          "recipe_name": "Authentic Huevos Rancheros",
+          "description": "A robust, deeply flavorful Mexican breakfast historically served to rural farm workers (rancheros). It features lightly fried corn tortillas layered with refried black beans, sunny-side-up eggs, and smothered in a vibrant, slightly spicy roasted tomato and chili salsa. It perfectly balances the elemental fire of the salsa with the earthy sustenance of corn and beans.",
+          "details": {
+            "cuisine": "Mexican",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 25,
+            "base_serving_size": 2,
+            "spice_level": "Medium",
+            "season": [
+              "summer",
+              "autumn"
+            ]
           },
-          servingSize: 1,
-          allergens: ["egg", "dairy"],
-          prepTime: "10 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "A classic Mexican breakfast dish that originated on rural farms. The hearty combination provided energy for a full day of work",
-          pairingSuggestions: ["Mexican rice", "refried beans", "coffee"],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 520,
-            protein: 24,
-            carbs: 48,
-            fat: 28,
-            fiber: 3,
-            vitamins: ["A", "C", "D"],
-            minerals: ["Iron", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "medium",
+              "name": "Roma tomatoes",
+              "notes": "Core removed, left whole for roasting or boiling for the ranchero sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "jalapeño or serrano pepper",
+              "notes": "Stem removed. Seeded if less heat is desired."
+            },
+            {
+              "amount": 0.5,
+              "unit": "medium",
+              "name": "white onion",
+              "notes": "Roughly chopped for the sauce."
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Peeled."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "refried black beans (frijoles refritos)",
+              "notes": "Preferably cooked with epazote and a touch of lard or oil for authenticity."
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "corn tortillas",
+              "notes": "Day-old tortillas work best as they absorb less oil."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Ideally farm-fresh for vibrant, rich yolks."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "neutral oil or pork lard",
+              "notes": "Divided use: for frying tortillas, eggs, and sautéing the sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Divided to taste."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "queso fresco or cotija cheese",
+              "notes": "Crumbled for garnish."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh cilantro",
+              "notes": "Roughly chopped for garnish."
+            },
+            {
+              "amount": 0.5,
+              "unit": "whole",
+              "name": "ripe avocado",
+              "notes": "Sliced for garnish."
+            }
+          ],
+          "instructions": [
+            "Step 1: Prepare the Ranchero Sauce (Salsa Ranchera). Heat a dry cast-iron skillet or comal over medium-high heat. Char the tomatoes, jalapeño, onion, and garlic until blistered and blackened in spots. Alternatively, boil them in water for 10 minutes until soft.",
+            "Step 2: Transfer the charred or boiled vegetables to a blender. Blend until smooth but retaining slightly rustic texture. Season with salt.",
+            "Step 3: In a medium saucepan, heat 1 tablespoon of oil or lard over medium heat. Carefully pour in the blended salsa (it will splatter). Reduce heat and simmer for 10 minutes until the sauce deepens in color and thickens. Keep warm.",
+            "Step 4: In a separate small saucepan, gently warm the refried black beans. Stir in a splash of water if they are too thick to spread easily. Keep warm.",
+            "Step 5: Heat 2 tablespoons of oil in a large skillet over medium-high heat. Briefly fry the corn tortillas one by one, about 10-15 seconds per side. They should become pliable and slightly blistered, but not crispy like a tostada. Drain on paper towels.",
+            "Step 6: In the same skillet, add a little more oil if needed. Fry the eggs sunny-side up (or to your preference), occasionally basting the whites with the hot oil to set them while keeping the yolks runny.",
+            "Step 7: Assemble the dish. Place two fried tortillas on each warm serving plate. Spread a generous layer of warm refried beans over each tortilla.",
+            "Step 8: Carefully transfer one fried egg onto each bean-coated tortilla.",
+            "Step 9: Ladle the hot Ranchero sauce generously over the egg whites, leaving the bright yellow yolk exposed.",
+            "Step 10: Garnish immediately with crumbled queso fresco, chopped cilantro, and slices of avocado. Serve hot."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "brunch"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "frying",
+              "blending",
+              "assembling"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.28,
-            Water: 0.22,
-            Earth: 0.41,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.15,
+            "earth": 0.35,
+            "air": 0.05
           },
-          mealType: ["breakfast", "brunch"],
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "First Quarter",
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 20,
+            "carbs_g": 42,
+            "fat_g": 28,
+            "fiber_g": 12
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "eggs",
+              "substitute_options": [
+                "tofu scramble (vegan)",
+                "just egg"
+              ]
+            },
+            {
+              "original_ingredient": "refried black beans",
+              "substitute_options": [
+                "refried pinto beans",
+                "whole black beans"
+              ]
+            },
+            {
+              "original_ingredient": "queso fresco",
+              "substitute_options": [
+                "mild feta cheese",
+                "vegan cashew cheese crumbles"
+              ]
+            },
+            {
+              "original_ingredient": "pork lard / neutral oil",
+              "substitute_options": [
+                "avocado oil",
+                "canola oil"
+              ]
+            }
+          ]
         },
         {
-          name: "Chilaquiles Verdes",
-          description: "Tortilla chips in salsa verde with eggs and cream",
-          cuisine: "Mexican",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "large skillet",
-            "tongs",
-            "spatula",
-            "serving plates",
-            "knife",
-          ],
-          preparationSteps: [
-            "Cut and fry tortillas until crispy",
-            "Heat salsa verde",
-            "Simmer chips in sauce",
-            "Fry eggs",
-            "Add cream and cheese",
-            "Garnish with onion and epazote",
-          ],
-          ingredients: [
-            {
-              name: "corn tortillas",
-              amount: "6",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["gluten-free tortillas"],
-            },
-            {
-              name: "salsa verde",
-              amount: "2",
-              unit: "cups",
-              category: "sauce",
-            },
-            {
-              name: "eggs",
-              amount: "2",
-              unit: "large",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            {
-              name: "crema",
-              amount: "1/4",
-              unit: "cup",
-              category: "dairy",
-              swaps: ["cashew cream"],
-            },
-            {
-              name: "queso fresco",
-              amount: "1/2",
-              unit: "cup",
-              category: "dairy",
-              swaps: ["vegan cheese"],
-            },
-            {
-              name: "onion",
-              amount: "1/2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            { name: "epazote", amount: "2", unit: "sprigs", category: "herb" },
-          ],
-          substitutions: {
-            eggs: ["tofu scramble", "chickpea scramble"],
-            crema: ["cashew cream", "coconut cream"],
-            "queso fresco": ["vegan cheese", "nutritional yeast"],
+          "recipe_name": "Authentic Chilaquiles Verdes",
+          "description": "A masterclass in textural transformation and zero-waste agrarian cooking.",
+          "details": {
+            "cuisine": "Mexican",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 25,
+            "base_serving_size": 4,
+            "spice_level": "Hot",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 2,
-          allergens: ["dairy", "egg"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A beloved breakfast dish that transforms leftover tortillas into a satisfying meal. The color of the sauce often indicates regional preferences",
-          pairingSuggestions: [
-            "refried beans",
-            "Mexican coffee",
-            "fresh fruit",
+          "ingredients": [
+            {
+              "amount": 12,
+              "unit": "whole",
+              "name": "stale corn tortillas",
+              "notes": "Cut into wedges."
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "tomatillos",
+              "notes": "Husks removed."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "epazote",
+              "notes": "Fresh leaves."
+            }
           ],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 480,
-            protein: 22,
-            carbs: 52,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["A", "C", "K"],
-            minerals: ["Calcium", "Iron"],
+          "instructions": [
+            "Step 1: Fry tortillas until rigid.",
+            "Step 2: Boil tomatillos and serranos.",
+            "Step 3: Blend salsa.",
+            "Step 4: Fry salsa in hot oil, simmer.",
+            "Step 5: Fold chips into simmering salsa for 1-2 minutes until al dente.",
+            "Step 6: Serve with eggs, crema, and cheese."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast"
+            ],
+            "cooking_methods": [
+              "frying",
+              "simmering"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.28,
-            Water: 0.14,
-            Earth: 0.49,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.2,
+            "earth": 0.35,
+            "air": 0.1
           },
-          mealType: ["breakfast", "brunch"],
+          "astrological_affinities": {
+            "planets": [
+              "Sun"
+            ],
+            "signs": [
+              "Leo"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 450,
+            "protein_g": 14,
+            "carbs_g": 45,
+            "fat_g": 26,
+            "fiber_g": 6
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "stale tortillas",
+              "substitute_options": [
+                "thick tortilla chips"
+              ]
+            }
+          ]
         },
         {
           name: "Molletes",
@@ -827,126 +829,64 @@ export const mexican = {
       ],
       winter: [
         {
-          name: "Pozole Rojo",
-          description: "Traditional hominy soup with pork and red chile sauce",
-          cuisine: "Mexican",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "stewing",
-              elementalProperties: {
-                Fire: 0.22,
-                Water: 0.41,
-                Earth: 0.3,
-                Air: 0.08,
-              },
-            },
-            {
-              name: "blending",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.26,
-                Earth: 0.16,
-                Air: 0.48,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "blender",
-            "strainer",
-            "cutting board",
-            "serving bowls",
-          ],
-          preparationSteps: [
-            "Clean and prepare chiles",
-            "Cook pork until tender",
-            "Blend chile sauce",
-            "Add hominy",
-            "Simmer together",
-            "Prepare garnishes",
-            "Serve with condiments",
-          ],
-          ingredients: [
-            {
-              name: "dried hominy",
-              amount: "500",
-              unit: "g",
-              category: "grain",
-            },
-            {
-              name: "pork shoulder",
-              amount: "1",
-              unit: "kg",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "guajillo chiles",
-              amount: "6",
-              unit: "pieces",
-              category: "chile",
-            },
-            {
-              name: "ancho chiles",
-              amount: "3",
-              unit: "pieces",
-              category: "chile",
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "aromatic",
-            },
-            { name: "oregano", amount: "2", unit: "tbsp", category: "herb" },
-          ],
-          substitutions: {
-            "pork shoulder": ["jackfruit", "mushrooms", "seitan"],
-            "dried hominy": ["canned hominy"],
-            "guajillo chiles": ["New Mexico chiles", "California chiles"],
+          "recipe_name": "Authentic Pozole Rojo",
+          "description": "A pre-Columbian ceremonial stew rooted in the deep earthiness of nixtamalized corn.",
+          "details": {
+            "cuisine": "Mexican",
+            "prep_time_minutes": 45,
+            "cook_time_minutes": 180,
+            "base_serving_size": 8,
+            "spice_level": "Medium-Hot",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 8,
-          allergens: ["none"],
-          prepTime: "30 minutes",
-          cookTime: "3 hours",
-          culturalNotes:
-            "A pre-Hispanic dish that remains central to celebrations and holidays. Each region has its variation, with red being most common in central Mexico",
-          pairingSuggestions: [
-            "tostadas",
-            "lime",
-            "radishes",
-            "lettuce",
-            "oregano",
+          "ingredients": [
+            {
+              "amount": 1.5,
+              "unit": "kg",
+              "name": "pork shoulder",
+              "notes": "For broth."
+            }
           ],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 480,
-            protein: 35,
-            carbs: 45,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "C", "B12"],
-            minerals: ["Iron", "Zinc"],
+          "instructions": [
+            "Step 1: Simmer pork.",
+            "Step 2: Blend and fry chiles.",
+            "Step 3: Combine with hominy."
+          ],
+          "classifications": {
+            "meal_type": [
+              "soup"
+            ],
+            "cooking_methods": [
+              "simmering"
+            ]
           },
-          season: ["autumn", "winter"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.31,
-            Earth: 0.4,
-            Air: 0.08,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.35,
+            "earth": 0.25,
+            "air": 0.05
           },
-          mealType: ["lunch", "dinner", "celebration"],
+          "astrological_affinities": {
+            "planets": [
+              "Mars"
+            ],
+            "signs": [
+              "Scorpio"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 520,
+            "protein_g": 38,
+            "carbs_g": 45,
+            "fat_g": 20,
+            "fiber_g": 8
+          },
+          "substitutions": []
         },
       ],
     },
@@ -1601,50 +1541,64 @@ export const mexican = {
           },
         },
         {
-          name: "Churros",
-          description: "Fried dough pastry with cinnamon sugar",
-          cuisine: "Mexican",
-          ingredients: [
+          "recipe_name": "Authentic Churros",
+          "description": "A study in structural pastry tension.",
+          "details": {
+            "cuisine": "Mexican",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "flour",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              swaps: ["gluten-free flour blend"],
-            },
-            { name: "Water", amount: "2", unit: "cups", category: "liquid" },
-            {
-              name: "cinnamon sugar",
-              amount: "1",
-              unit: "cup",
-              category: "sweetener",
-            },
-            {
-              name: "chocolate sauce",
-              amount: "1",
-              unit: "cup",
-              category: "sauce",
-            },
+              "amount": 1,
+              "unit": "cup",
+              "name": "flour",
+              "notes": "Sifted."
+            }
           ],
-          nutrition: {
-            calories: 320,
-            protein: 4,
-            carbs: 52,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["B1", "B2"],
-            minerals: ["Iron"],
+          "instructions": [
+            "Step 1: Scald water and add flour.",
+            "Step 2: Pipe stars into hot oil.",
+            "Step 3: Coat in cinnamon sugar."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert"
+            ],
+            "cooking_methods": [
+              "frying"
+            ]
           },
-          timeToMake: "45 minutes",
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.12,
-            Water: 0.08,
-            Earth: 0.62,
-            Air: 0.18,
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.15,
+            "earth": 0.3,
+            "air": 0.1
           },
-          mealType: ["dessert"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus"
+            ],
+            "signs": [
+              "Aries"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 310,
+            "protein_g": 4,
+            "carbs_g": 42,
+            "fat_g": 15,
+            "fiber_g": 1
+          },
+          "substitutions": []
         },
       ],
       summer: [

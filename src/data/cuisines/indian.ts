@@ -1939,88 +1939,64 @@ export const indian = {
     dessert: {
       all: [
         {
-          name: "Gulab Jamun",
-          description: "Fried milk solids in sugar syrup",
-          cuisine: "Indian",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            "syrup-making",
-          ],
-          tools: [
-            "deep fryer",
-            "saucepan",
-            "slotted spoon",
-            "mixing bowls",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Prepare dough mixture",
-            "Shape into small balls",
-            "Deep fry until golden",
-            "Make sugar syrup",
-            "Soak in hot syrup",
-            "Rest until absorbed",
-          ],
-          ingredients: [
-            {
-              name: "milk powder",
-              amount: "200",
-              unit: "g",
-              category: "dairy",
-              swaps: ["almond flour blend"],
-            },
-            {
-              name: "all-purpose flour",
-              amount: "50",
-              unit: "g",
-              category: "flour",
-            },
-            { name: "sugar", amount: "300", unit: "g", category: "sweetener" },
-            { name: "cardamom", amount: "4", unit: "pods", category: "spice" },
-            { name: "saffron", amount: "1", unit: "pinch", category: "spice" },
-            { name: "ghee", amount: "30", unit: "ml", category: "fat" },
-            { name: "milk", amount: "60", unit: "ml", category: "dairy" },
-          ],
-          substitutions: {
-            "milk powder": ["almond flour blend", "coconut milk powder"],
-            ghee: ["vegetable oil"],
-            milk: ["plant-based milk"],
+          "recipe_name": "Authentic Gulab Jamun",
+          "description": "The quintessential celebratory sweet of the Indian subcontinent.",
+          "details": {
+            "cuisine": "Indian",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 30,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 15,
-          allergens: ["dairy", "gluten"],
-          prepTime: "30 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            'A beloved dessert served at festivals and celebrations. The name means "rose berry" due to the rose-scented syrup traditionally used',
-          pairingSuggestions: ["masala chai", "ice cream", "rabri"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 320,
-            protein: 6,
-            carbs: 65,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["D", "A"],
-            minerals: ["Calcium"],
+          "ingredients": [
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "Khoya",
+              "notes": "Milk solids."
+            }
+          ],
+          "instructions": [
+            "Step 1: Knead dough.",
+            "Step 2: Fry slowly in ghee.",
+            "Step 3: Soak in rose syrup."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert"
+            ],
+            "cooking_methods": [
+              "frying"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.43,
-            Earth: 0.25,
-            Air: 0.13,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.35,
+            "earth": 0.2,
+            "air": 0.1
           },
-          mealType: ["dessert"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus"
+            ],
+            "signs": [
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 8,
+            "carbs_g": 55,
+            "fat_g": 20,
+            "fiber_g": 1
+          },
+          "substitutions": []
         },
         {
           name: "Rasmalai",
