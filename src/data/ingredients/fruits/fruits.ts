@@ -332,33 +332,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.05, iron: 0.03 },
     },
   },
-  lemons: {
-    name: "lemons",
-    elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 },
-    qualities: ["sour", "bright", "refreshing", "cleansing"],
-    category: "fruits",
-    astrologicalProfile: {
-      rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
-    },
-    nutritionalProfile: {
-      serving_size: "1 medium (58g)",
-      calories: 17,
-      macros: {
-        protein: 0.6,
-        carbs: 5.4,
-        fat: 0.2,
-        fiber: 1.6,
-        saturatedFat: 0,
-        sugar: 1.5,
-        potassium: 80,
-        sodium: 1,
-      },
-      vitamins: { C: 0.51, B6: 0.02 },
-      minerals: { potassium: 0.02 },
-    },
-  },
+  // lemons removed — duplicate of lemon above
   coconut_chutney: {
     name: "coconut chutney",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },

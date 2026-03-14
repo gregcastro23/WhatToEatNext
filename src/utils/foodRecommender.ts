@@ -197,11 +197,25 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       ing.astrologicalProfile?.rulingPlanets,
   );
 
+  // Deduplicate by normalized name — keep the first (most specific/complete) entry
+  const seen = new Set<string>();
+  const deduplicated = validIngredients.filter((ing) => {
+    const normalized = ing.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "")
+      .replace(/^(fresh|dried|ground|whole|ripe)\s*/i, "")
+      // Singularise simple trailing 's'
+      .replace(/s$/, "");
+    if (seen.has(normalized)) return false;
+    seen.add(normalized);
+    return true;
+  });
+
   log.info(
-    `Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`,
+    `Total ingredients: ${allIngredients.length}, Valid: ${validIngredients.length}, After dedup: ${deduplicated.length}`,
   );
 
-  return validIngredients;
+  return deduplicated;
 };
 
 /**
