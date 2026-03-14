@@ -48,6 +48,7 @@ interface SavedChart {
  * Menu Planner Content (inner component with context access)
  */
 function MenuPlannerContent() {
+  const menuPlannerActions = useMenuPlanner();
   const {
     currentMenu,
     weeklyStats,
@@ -58,7 +59,7 @@ function MenuPlannerContent() {
     refreshStats,
     syncWithLunarCycle,
     toggleSyncWithLunarCycle,
-  } = useMenuPlanner();
+  } = menuPlannerActions;
 
   const { queueSize } = useRecipeQueue();
 
@@ -272,7 +273,17 @@ function MenuPlannerContent() {
             />
           </div>
           <div className="lg:col-span-2">
-            <TodaysMealsWidget weekPlan={currentMenu} />
+            <TodaysMealsWidget
+              weekPlan={currentMenu}
+              onAddRecipe={(dayOfWeek, mealType, recipe) => {
+                const { addMealToSlot } = menuPlannerActions;
+                addMealToSlot(dayOfWeek, mealType, recipe);
+              }}
+              onGenerateMeal={(dayOfWeek, mealType) => {
+                const { generateMealsForDay } = menuPlannerActions;
+                generateMealsForDay(dayOfWeek, { mealTypes: [mealType] });
+              }}
+            />
           </div>
         </div>
         {/* Recipe Browser Panel (collapsible) */}

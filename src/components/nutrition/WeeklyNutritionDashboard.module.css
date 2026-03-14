@@ -3,9 +3,8 @@
    ============================================ */
 
 .dashboard {
-  position: sticky;
-  top: 80px; /* Below main navigation */
-  z-index: 100;
+  position: relative;
+  z-index: 10;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border: 2px solid #e0e0e0;
   border-radius: 16px;
