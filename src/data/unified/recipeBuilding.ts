@@ -1757,40 +1757,54 @@ export class UnifiedRecipeBuildingSystem {
   ): MonicaOptimizedRecipe[] {
     const alternatives: MonicaOptimizedRecipe[] = [];
 
-    // Generate alternatives based on criteria variations
-    if (
-      criteria.dietaryRestrictions &&
-      criteria.dietaryRestrictions.length > 0
-    ) {
-      // Create dietary-friendly alternative
-      const dietaryAlternative = { ...recipe };
-      ((dietaryAlternative.name = `${recipe.name} (${criteria.dietaryRestrictions.join(", ")} friendly)`),
-        alternatives.push(dietaryAlternative));
+    // ── Strategy: generate genuinely different recipes by varying the
+    // planetary hour and cuisine, which changes cooking methods, ingredients,
+    // and flavour profile through the template system. ──
+
+    const altPlanets: string[] = [];
+    const currentPlanet = (criteria.planetaryHour as string) || "Sun";
+    for (const p of ["Moon", "Venus", "Mars", "Jupiter", "Saturn", "Mercury"]) {
+      if (p !== currentPlanet && altPlanets.length < 3) altPlanets.push(p);
     }
 
-    if ((criteria as { preferredCuisine?: string }).preferredCuisine) {
-      // Create cuisine-adapted alternative
-      const cuisineAlternative = { ...recipe };
-      cuisineAlternative.name = `${recipe.name} (${(criteria as { preferredCuisine: string }).preferredCuisine} style)`;
-      alternatives.push(cuisineAlternative);
-    }
+    // Cuisine variations — pick cuisines different from primary
+    const altCuisines = ["Mediterranean", "Japanese", "Mexican", "Indian", "Thai", "Korean"]
+      .filter((c) => c.toLowerCase() !== (criteria.cuisine || "").toLowerCase())
+      .slice(0, 3);
 
-    if ((criteria as { seasonalPreference?: string }).seasonalPreference) {
-      // Create seasonal alternative
-      const seasonalAlternative = { ...recipe };
-      seasonalAlternative.name = `${recipe.name} (${(criteria as { seasonalPreference: string }).seasonalPreference} seasonal)`;
-      alternatives.push(seasonalAlternative);
-    }
+    for (let i = 0; i < altPlanets.length; i++) {
+      try {
+        const altCriteria = {
+          ...criteria,
+          planetaryHour: altPlanets[i] as any,
+          cuisine: altCuisines[i] || criteria.cuisine,
+          // Clear required ingredients so the alternative can pick freely
+          requiredIngredients: undefined,
+        };
 
-    // Create Monica-optimized alternative
-    if (recipe.monicaOptimization.optimizationScore < 0.9) {
-      const monicaEnhanced = { ...recipe };
-      monicaEnhanced.name = `${recipe.name} (Monica Enhanced)`;
-      monicaEnhanced.monicaOptimization.optimizationScore = Math.min(
-        1.0,
-        recipe.monicaOptimization.optimizationScore + 0.1,
-      );
-      alternatives.push(monicaEnhanced);
+        const baseRecipe = this.createBaseRecipe(altCriteria);
+        const enhanced = RecipeEnhancer.enhanceRecipe(baseRecipe, "alt-generator");
+        const monicaOpt = this.calculateMonicaOptimization(enhanced, altCriteria);
+        const seasonCriteria = altCriteria.currentSeason || altCriteria.season;
+        const seasonalAdapt = this.applySeasonalAdaptation(enhanced, seasonCriteria);
+        const cuisineInteg = this.applyCuisineIntegration(enhanced, altCriteria.cuisine);
+        const nutritionOpt = this.applyNutritionalOptimization(enhanced);
+
+        const altRecipe: MonicaOptimizedRecipe = {
+          ...enhanced,
+          monicaOptimization: monicaOpt,
+          seasonalAdaptation: seasonalAdapt,
+          cuisineIntegration: cuisineInteg,
+          nutritionalOptimization: nutritionOpt,
+        };
+
+        // Only add if it has a different name from the primary recipe
+        if (altRecipe.name !== recipe.name) {
+          alternatives.push(altRecipe);
+        }
+      } catch {
+        // Skip failed alternative
+      }
     }
 
     return alternatives;
@@ -1998,30 +2012,47 @@ export class UnifiedRecipeBuildingSystem {
 
     const selected: EnhancedRecipeIngredient[] = [];
 
-    // 1 protein
+    // Also gather herbs/spices for richer recipes
+    const herbsPool = filteredIngredients.filter(
+      (i) => i.category === "herb" || i.category === "aromatic" || i.category === "spice",
+    );
+    const sauceBase = filteredIngredients.filter(
+      (i) => i.category === "oil" || i.category === "vinegar" || i.category === "seasoning",
+    );
+
+    // 1 protein (primary star ingredient)
     const shuffledProteins = shuffled(proteins);
     if (shuffledProteins.length > 0) selected.push(shuffledProteins[0]);
 
-    // 1-2 vegetables or leafy greens
+    // 2-3 vegetables or leafy greens
     const veggiePool = shuffled([...vegetables, ...leafyGreens]);
-    selected.push(...veggiePool.slice(0, 2));
+    selected.push(...veggiePool.slice(0, Math.min(3, veggiePool.length)));
 
-    // 1 grain (or fruit as aromatic complement)
+    // 1 grain or starch
     const grainPool = shuffled([...grains]);
     if (grainPool.length > 0) selected.push(grainPool[0]);
 
-    // 1 aromatic if nothing selected yet, or always add flavour base
+    // 1-2 aromatics for flavour base
     const aromaticPool = shuffled(aromatics);
-    if (aromaticPool.length > 0) selected.push(aromaticPool[0]);
+    selected.push(...aromaticPool.slice(0, Math.min(2, aromaticPool.length)));
 
-    // If still nothing, pull from fruits
-    if (selected.length === 0 && fruits.length > 0) {
-      selected.push(fruits[0]);
+    // 1-2 herbs/spices for depth
+    const shuffledHerbs = shuffled(herbsPool);
+    selected.push(...shuffledHerbs.slice(0, Math.min(2, shuffledHerbs.length)));
+
+    // 1 sauce/oil base
+    const shuffledSauce = shuffled(sauceBase);
+    if (shuffledSauce.length > 0) selected.push(shuffledSauce[0]);
+
+    // 1 fruit for sweetness/acidity if available
+    if (fruits.length > 0) {
+      const shuffledFruits = shuffled(fruits);
+      selected.push(shuffledFruits[0]);
     }
 
     // Final fallback to all available ingredients
     if (selected.length === 0 && filteredIngredients.length > 0) {
-      selected.push(...shuffled(filteredIngredients).slice(0, 4));
+      selected.push(...shuffled(filteredIngredients).slice(0, 6));
     }
 
     // Last resort: static defaults so we never crash
@@ -2030,6 +2061,9 @@ export class UnifiedRecipeBuildingSystem {
         { name: "Chicken Breast", amount: 1, unit: "piece" },
         { name: "Seasonal Vegetables", amount: 2, unit: "cups" },
         { name: "Quinoa", amount: 1, unit: "cup" },
+        { name: "Garlic", amount: 3, unit: "cloves" },
+        { name: "Olive Oil", amount: 2, unit: "tbsp" },
+        { name: "Fresh Herbs", amount: 1, unit: "bunch" },
       ];
     }
 
@@ -2039,6 +2073,7 @@ export class UnifiedRecipeBuildingSystem {
       unit: i.unit ?? "cup",
       id: i.id,
       seasonality: i.seasonality,
+      category: i.category,
     }));
   }
 
@@ -2104,32 +2139,139 @@ export class UnifiedRecipeBuildingSystem {
     methods: string[],
   ): string[] {
     const instructions: string[] = [];
-    const ingredientNames = ingredients.map((i) => i.name).join(", ");
+    const proteinNames = ingredients
+      .filter((i) => i.category === "protein")
+      .map((i) => i.name);
+    const veggieNames = ingredients
+      .filter((i) => i.category === "vegetable" || i.category === "leafy-green")
+      .map((i) => i.name);
+    const grainNames = ingredients
+      .filter((i) => i.category === "grain")
+      .map((i) => i.name);
+    const aromaticNames = ingredients
+      .filter((i) => i.category === "aromatic")
+      .map((i) => i.name);
+    const allNames = ingredients.map((i) => i.name);
 
-    // Initial prep
-    instructions.push(`Prepare all ingredients: chop ${ingredientNames}.`);
+    // 1. Initial prep
+    instructions.push(
+      `Gather and prepare all ingredients: wash and chop ${allNames.join(", ")}.`,
+    );
 
-    // Method-specific instructions
-    if (methods.includes("Roast") || methods.includes("Bake")) {
+    // 2. Aromatics / mise en place
+    if (aromaticNames.length > 0) {
       instructions.push(
-        `Preheat oven to 400°F (200°C). Toss ingredients with oil and spices, then spread on a baking sheet.`,
-        `Roast for 20-30 minutes, until golden and cooked through.`,
-      );
-    } else if (methods.includes("Sauté")) {
-      instructions.push(
-        `Heat a pan over medium-high heat with a tablespoon of oil.`,
-        `Add ingredients and sauté for 7-10 minutes, stirring occasionally.`,
-      );
-    } else {
-      instructions.push(
-        `Apply the selected cooking method, ${methods.join(", ")}, to the ingredients until cooked through.`,
+        `Mince ${aromaticNames.join(" and ")} finely to build a flavour base.`,
       );
     }
 
-    // Final steps
+    // 3. Method-specific instructions (much more detailed per method)
+    const primaryMethod = methods[0]?.toLowerCase() || "sauté";
+
+    if (primaryMethod.includes("roast") || primaryMethod.includes("bake")) {
+      instructions.push("Preheat oven to 400°F (200°C).");
+      if (proteinNames.length > 0) {
+        instructions.push(
+          `Season ${proteinNames.join(", ")} with salt, pepper, and your preferred spices. Place in a roasting pan.`,
+        );
+      }
+      if (veggieNames.length > 0) {
+        instructions.push(
+          `Toss ${veggieNames.join(", ")} with olive oil, salt, and pepper. Arrange around the protein on the pan.`,
+        );
+      }
+      instructions.push(
+        "Roast for 25-35 minutes, turning halfway, until golden and cooked through.",
+      );
+    } else if (primaryMethod.includes("grill") || primaryMethod.includes("char")) {
+      instructions.push("Preheat grill to medium-high heat (about 400°F / 200°C).");
+      if (proteinNames.length > 0) {
+        instructions.push(
+          `Brush ${proteinNames.join(", ")} with oil and season generously. Grill for 4-6 minutes per side until charred and cooked through.`,
+        );
+      }
+      if (veggieNames.length > 0) {
+        instructions.push(
+          `Grill ${veggieNames.join(", ")} alongside the protein until lightly charred and tender.`,
+        );
+      }
+    } else if (primaryMethod.includes("braise") || primaryMethod.includes("stew") || primaryMethod.includes("slow")) {
+      instructions.push(
+        "Heat a heavy-bottomed pot or Dutch oven over medium-high heat with a splash of oil.",
+      );
+      if (proteinNames.length > 0) {
+        instructions.push(
+          `Sear ${proteinNames.join(", ")} on all sides until well-browned, about 3-4 minutes per side. Remove and set aside.`,
+        );
+      }
+      if (aromaticNames.length > 0 || veggieNames.length > 0) {
+        instructions.push(
+          `Sauté ${[...aromaticNames, ...veggieNames].join(", ")} in the same pot for 3-5 minutes until softened.`,
+        );
+      }
+      instructions.push(
+        "Add broth or stock to cover. Return protein to pot. Bring to a simmer.",
+        "Cover and cook on low heat for 45-60 minutes (or until protein is fork-tender).",
+      );
+    } else if (primaryMethod.includes("stir") || primaryMethod.includes("sauté") || primaryMethod.includes("saute")) {
+      instructions.push(
+        "Heat a wok or large skillet over high heat until smoking. Add a tablespoon of oil.",
+      );
+      if (proteinNames.length > 0) {
+        instructions.push(
+          `Add ${proteinNames.join(", ")} and stir-fry for 3-4 minutes until seared. Remove and set aside.`,
+        );
+      }
+      if (aromaticNames.length > 0) {
+        instructions.push(
+          `Add another splash of oil and toss in ${aromaticNames.join(", ")} for 30 seconds until fragrant.`,
+        );
+      }
+      if (veggieNames.length > 0) {
+        instructions.push(
+          `Add ${veggieNames.join(", ")} and stir-fry for 2-3 minutes until crisp-tender.`,
+        );
+      }
+      instructions.push(
+        "Return the protein to the pan, add sauce, and toss everything together for 1-2 minutes.",
+      );
+    } else if (primaryMethod.includes("steam") || primaryMethod.includes("poach")) {
+      instructions.push("Bring a pot of water (or steamer) to a gentle simmer.");
+      if (proteinNames.length > 0) {
+        instructions.push(
+          `Season ${proteinNames.join(", ")} lightly and place in the steamer basket or gently lower into the poaching liquid.`,
+        );
+      }
+      instructions.push(
+        "Steam/poach for 8-15 minutes (depending on protein thickness) until just cooked through.",
+      );
+      if (veggieNames.length > 0) {
+        instructions.push(
+          `Steam ${veggieNames.join(", ")} alongside or in a separate batch until tender.`,
+        );
+      }
+    } else {
+      // Generic fallback
+      instructions.push(
+        `Apply ${methods.join(" and ")} technique to cook all ingredients until done.`,
+      );
+    }
+
+    // 4. Grain/starch step
+    if (grainNames.length > 0) {
+      instructions.push(
+        `Meanwhile, cook ${grainNames.join(", ")} according to package directions. Fluff with a fork.`,
+      );
+    }
+
+    // 5. Assembly
     instructions.push(
-      "Combine all cooked elements and season to taste.",
-      "Plate the dish and serve immediately.",
+      "Combine all cooked elements. Taste and adjust seasoning with salt, pepper, and a squeeze of citrus if desired.",
+    );
+
+    // 6. Plating
+    instructions.push(
+      "Plate the dish, garnish with fresh herbs or a drizzle of finishing oil, and serve immediately.",
     );
 
     return instructions;

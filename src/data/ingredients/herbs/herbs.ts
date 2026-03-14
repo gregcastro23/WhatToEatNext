@@ -2,20 +2,8 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 // Herbs ingredients extracted from cuisine files
+// NOTE: pork_sausage was removed — it was incorrectly placed here (it's a meat, not an herb)
 const rawHerbs: Record<string, Partial<IngredientMapping>> = {
-  pork_sausage: {
-    name: "pork sausage",
-    // Corrected: pork sausage is a cured meat, not an herb.
-    // Fire-dominant (heat/cooking), secondary Earth (rich, dense texture).
-    elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.35, Air: 0.05 },
-    qualities: ["savory", "rich", "cured", "umami"],
-    category: "meats",
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
-    },
-  },
   thyme: {
     name: "thyme",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
@@ -185,17 +173,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
   },
-  bay_leaves: {
-    name: "bay leaves",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
-    astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
-    },
-  },
+  // bay_leaves removed — duplicate of bay_leaf above
   rosemary: {
     name: "rosemary",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
@@ -223,17 +201,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.04, calcium: 0.02, manganese: 0.02 },
     },
   },
-  mint_leaves: {
-    name: "mint leaves",
-    elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
-    qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
-    astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
-    },
-  },
+  // mint_leaves removed — duplicate of mint and fresh_mint above
   fresh_basil: {
     name: "fresh basil",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
