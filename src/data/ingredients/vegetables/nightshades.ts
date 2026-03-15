@@ -9,6 +9,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 
     // Juicy, balanced, slightly acidic
     elementalProperties: { Water: 0.5, Fire: 0.25, Earth: 0.15, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.19,
+      Essence: 0.33,
+      Matter: 0.25,
+      Substance: 0.23,
+    },
 
     nutritionalProfile: {
       serving_size: "1 medium (123g)",
@@ -162,6 +168,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 
     // Sweet, crisp, vibrant
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.24,
+      Essence: 0.28,
+      Matter: 0.24,
+      Substance: 0.24,
+    },
 
     nutritionalProfile: {
       serving_size: "1 medium (119g)",
@@ -309,6 +321,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     category: "vegetables",
     subcategory: "nightshade",
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.18,
+      Essence: 0.29,
+      Matter: 0.26,
+      Substance: 0.27,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon", "Saturn"],
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
@@ -339,6 +357,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomato_paste: {
     name: "tomato paste",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.18,
+      Essence: 0.26,
+      Matter: 0.31,
+      Substance: 0.25,
+    },
     qualities: ["nutritious", "versatile", "concentrated"],
     category: "vegetables",
     subcategory: "nightshade_fruit",
@@ -368,6 +392,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   cherry_tomatoes: {
     name: "cherry tomatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.17,
+      Essence: 0.28,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "nightshade_fruit",
@@ -381,6 +411,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomato_sauce: {
     name: "tomato sauce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.17,
+      Essence: 0.28,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "nightshade_fruit",
@@ -394,6 +430,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   eggplants: {
     name: "eggplants",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.27,
+      Matter: 0.32,
+      Substance: 0.26,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "nightshade",
@@ -407,6 +449,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   large_eggplant: {
     name: "large eggplant",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.27,
+      Matter: 0.32,
+      Substance: 0.26,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "nightshade",
@@ -420,6 +468,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomatoes: {
     name: "tomatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.17,
+      Essence: 0.28,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "nightshade_fruit",
@@ -433,6 +487,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   bell_peppers: {
     name: "bell peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.18,
+      Essence: 0.26,
+      Matter: 0.30,
+      Substance: 0.26,
+    },
     qualities: ["sweet", "colorful", "crunchy"],
     category: "vegetables",
     subcategory: "nightshade_fruit",
@@ -462,6 +522,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   green_peppers: {
     name: "green peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.18,
+      Essence: 0.26,
+      Matter: 0.30,
+      Substance: 0.26,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "nightshade_fruit",

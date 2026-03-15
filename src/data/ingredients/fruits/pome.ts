@@ -10,6 +10,12 @@ const rawPome = {
       Air: 0.2,
       Fire: 0,
     },
+    alchemicalProperties: {
+      Spirit: 0.08,
+      Essence: 0.19,
+      Matter: 0.44,
+      Substance: 0.29,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn", "libra"],
@@ -182,6 +188,12 @@ const rawPome = {
       Air: 0.2,
       Fire: 0,
     },
+    alchemicalProperties: {
+      Spirit: 0.08,
+      Essence: 0.24,
+      Matter: 0.40,
+      Substance: 0.28,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer", "libra"],
@@ -347,6 +359,12 @@ const rawPome = {
       Water: 0.2,
       Fire: 0,
     },
+    alchemicalProperties: {
+      Spirit: 0.08,
+      Essence: 0.14,
+      Matter: 0.48,
+      Substance: 0.30,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn", "libra"],
@@ -497,6 +515,12 @@ const rawPome = {
       Air: 0.2,
       Fire: 0,
     },
+    alchemicalProperties: {
+      Spirit: 0.08,
+      Essence: 0.29,
+      Matter: 0.36,
+      Substance: 0.27,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["taurus", "gemini", "libra"],
@@ -632,6 +656,12 @@ const rawPome = {
       Air: 0.1,
       Fire: 0,
     },
+    alchemicalProperties: {
+      Spirit: 0.04,
+      Essence: 0.12,
+      Matter: 0.55,
+      Substance: 0.29,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
       favorableZodiac: ["capricorn", "taurus"],
@@ -763,6 +793,12 @@ const rawPome = {
       Earth: 0.3,
       Fire: 0.2,
       Air: 0.1,
+    },
+    alchemicalProperties: {
+      Spirit: 0.16,
+      Essence: 0.26,
+      Matter: 0.33,
+      Substance: 0.25,
     },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],

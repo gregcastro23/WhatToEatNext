@@ -9,6 +9,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
 
     // Delicate, slightly bitter, refined
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.18,
+      Essence: 0.29,
+      Matter: 0.26,
+      Substance: 0.27,
+    },
 
     nutritionalProfile: {
       serving_size: "1 cup (134g)",
@@ -158,6 +164,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.15,
       Air: 0.05,
     },
+    alchemicalProperties: {
+      Spirit: 0.08,
+      Essence: 0.39,
+      Matter: 0.31,
+      Substance: 0.22,
+    },
     category: "vegetables",
     subCategory: "other",
     nutritionalProfile: {
@@ -174,6 +186,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Water: 0.8,
       Earth: 0.05,
       Air: 0.05,
+    },
+    alchemicalProperties: {
+      Spirit: 0.08,
+      Essence: 0.43,
+      Matter: 0.28,
+      Substance: 0.21,
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -196,6 +214,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.4,
       Air: 0.1,
     },
+    alchemicalProperties: {
+      Spirit: 0.16,
+      Essence: 0.23,
+      Matter: 0.37,
+      Substance: 0.24,
+    },
     category: "vegetables",
     subCategory: "other",
     nutritionalProfile: {
@@ -212,6 +236,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Water: 0.7,
       Earth: 0.1,
       Air: 0.1,
+    },
+    alchemicalProperties: {
+      Spirit: 0.10,
+      Essence: 0.38,
+      Matter: 0.28,
+      Substance: 0.24,
     },
     category: "vegetables",
     subCategory: "other",
@@ -230,6 +260,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.25,
       Air: 0.35,
     },
+    alchemicalProperties: {
+      Spirit: 0.20,
+      Essence: 0.23,
+      Matter: 0.27,
+      Substance: 0.30,
+    },
     category: "vegetables",
     subCategory: "other",
     nutritionalProfile: {
@@ -242,6 +278,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   celery: {
     name: "celery",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.28,
+      Matter: 0.31,
+      Substance: 0.26,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "other",
@@ -254,6 +296,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   peas: {
     name: "peas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.14,
+      Essence: 0.22,
+      Matter: 0.34,
+      Substance: 0.30,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "other",
@@ -266,6 +314,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   fresh_peas: {
     name: "fresh peas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.14,
+      Essence: 0.24,
+      Matter: 0.33,
+      Substance: 0.29,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "other",
@@ -278,6 +332,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   sweet_corn: {
     name: "sweet corn",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.14,
+      Essence: 0.22,
+      Matter: 0.34,
+      Substance: 0.30,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "other",
@@ -290,6 +350,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   corn_on_the_cob: {
     name: "corn on the cob",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.14,
+      Essence: 0.22,
+      Matter: 0.34,
+      Substance: 0.30,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "other",
@@ -302,6 +368,12 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   green_beans: {
     name: "green beans",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.26,
+      Matter: 0.32,
+      Substance: 0.27,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "other",

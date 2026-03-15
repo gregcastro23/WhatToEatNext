@@ -5,6 +5,7 @@ const rawSalts = {
   fleur_de_sel: {
     name: "Fleur De Sel",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    alchemicalProperties: { Spirit: 0.10, Essence: 0.22, Matter: 0.31, Substance: 0.37 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
       favorableZodiac: ["Virgo", "Gemini", "Cancer"],
@@ -486,6 +487,7 @@ const rawSalts = {
   maldon_salt: {
     name: "Maldon Salt",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+    alchemicalProperties: { Spirit: 0.10, Essence: 0.18, Matter: 0.35, Substance: 0.37 },
     qualities: ["crisp", "clean", "flaky"],
     nutritionalProfile: {
       serving_size: "1 tsp (4g)",
@@ -596,6 +598,7 @@ const rawSalts = {
   sea_salt: {
     name: "Sea Salt",
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
+    alchemicalProperties: { Spirit: 0.06, Essence: 0.28, Matter: 0.29, Substance: 0.37 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
       favorableZodiac: ["cancer", "pisces"],
@@ -679,6 +682,7 @@ const rawSalts = {
   himalayan_salt: {
     name: "Himalayan Salt",
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
+    alchemicalProperties: { Spirit: 0.12, Essence: 0.09, Matter: 0.40, Substance: 0.39 },
     astrologicalProfile: {
       planetaryRuler: "Mars",
       zodiacRuler: "Aries",
@@ -969,6 +973,7 @@ const rawSalts = {
   kosher_salt: {
     name: "Kosher Salt",
     elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 },
+    alchemicalProperties: { Spirit: 0.06, Essence: 0.10, Matter: 0.43, Substance: 0.41 },
     qualities: ["clean", "consistent", "pure"],
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
@@ -1043,6 +1048,7 @@ const rawSalts = {
   table_salt: {
     name: "Table Salt",
     elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },
+    alchemicalProperties: { Spirit: 0.06, Essence: 0.06, Matter: 0.46, Substance: 0.42 },
     qualities: ["basic", "refined", "uniform"],
     nutritionalProfile: {
       serving_size: "1 tsp (6g)",
