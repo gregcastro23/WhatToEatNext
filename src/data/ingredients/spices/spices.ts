@@ -1,5 +1,5 @@
+import { fixIngredientMappings } from "@/utils/elementalUtils";
 import type { IngredientMapping } from "@/data/ingredients/types";
-
 
 // Spices ingredients extracted from cuisine files
 const rawSpices: Record<string, Partial<IngredientMapping>> = {
@@ -16,7 +16,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tbsp (6g)",
       calories: 5,
-      macros: { protein: 0.1, carbs: 1.1, fat: 0.05, fiber: 0.1 },
+      macros: {
+        protein: 0.1,
+        carbs: 1.1,
+        fat: 0.05,
+        fiber: 0.1,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { C: 0.01, B6: 0.01 },
       minerals: { manganese: 0.02, magnesium: 0.01, potassium: 0.01 },
       source: "USDA FoodData Central",
@@ -35,7 +42,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.6g)",
       calories: 6,
-      macros: { protein: 0.1, carbs: 2.1, fat: 0.03, fiber: 1.4 },
+      macros: {
+        protein: 0.1,
+        carbs: 2.1,
+        fat: 0.03,
+        fiber: 1.4,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { K: 0.01 },
       minerals: { manganese: 0.41, calcium: 0.03, iron: 0.02 },
       source: "USDA FoodData Central",
@@ -54,7 +68,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.2g)",
       calories: 12,
-      macros: { protein: 0.1, carbs: 1.1, fat: 0.8, fiber: 0.5 },
+      macros: {
+        protein: 0.1,
+        carbs: 1.1,
+        fat: 0.8,
+        fiber: 0.5,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { A: 0.01, C: 0.01 },
       minerals: { manganese: 0.04, copper: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
@@ -73,7 +94,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.3g)",
       calories: 6,
-      macros: { protein: 0.3, carbs: 1.2, fat: 0.3, fiber: 0.8 },
+      macros: {
+        protein: 0.3,
+        carbs: 1.2,
+        fat: 0.3,
+        fiber: 0.8,
+        sugar: 0.2,
+        sodium: 2,
+      },
       vitamins: { A: 0.37, E: 0.1, B6: 0.01 },
       minerals: { iron: 0.03, potassium: 0.01 },
       source: "USDA FoodData Central",
@@ -92,7 +120,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tbsp (18g)",
       calories: 38,
-      macros: { protein: 1.2, carbs: 7.8, fat: 0.1, fiber: 0.8 },
+      macros: {
+        protein: 1.2,
+        carbs: 7.8,
+        fat: 0.1,
+        fiber: 0.8,
+        sugar: 6.5,
+        sodium: 1,
+      },
       vitamins: { B1: 0.02, B6: 0.01 },
       minerals: { iron: 0.03, potassium: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
@@ -111,7 +146,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "10 leaves (2g)",
       calories: 5,
-      macros: { protein: 0.3, carbs: 0.8, fat: 0.1, fiber: 0.3 },
+      macros: {
+        protein: 0.3,
+        carbs: 0.8,
+        fat: 0.1,
+        fiber: 0.3,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { A: 0.12, C: 0.04, B6: 0.01 },
       minerals: { iron: 0.05, calcium: 0.05, phosphorus: 0.01 },
       source: "USDA FoodData Central",
@@ -130,7 +172,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (3.3g)",
       calories: 15,
-      macros: { protein: 0.8, carbs: 0.8, fat: 1.0, fiber: 0.4 },
+      macros: {
+        protein: 0.8,
+        carbs: 0.8,
+        fat: 1.0,
+        fiber: 0.4,
+        sugar: 0.2,
+        sodium: 1,
+      },
       vitamins: { B1: 0.02 },
       minerals: {
         selenium: 0.06,
@@ -154,7 +203,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
       calories: 9,
-      macros: { protein: 0.3, carbs: 2.0, fat: 0.1, fiber: 0.7 },
+      macros: {
+        protein: 0.3,
+        carbs: 2.0,
+        fat: 0.1,
+        fiber: 0.7,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { C: 0.01, B6: 0.01 },
       minerals: { manganese: 0.1, iron: 0.05, potassium: 0.02 },
       source: "USDA FoodData Central",
@@ -173,7 +229,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 pepper (45g)",
       calories: 18,
-      macros: { protein: 0.9, carbs: 4.3, fat: 0.1, fiber: 0.7 },
+      macros: {
+        protein: 0.9,
+        carbs: 4.3,
+        fat: 0.1,
+        fiber: 0.7,
+        sugar: 2.4,
+        sodium: 3,
+      },
       vitamins: { C: 1.82, A: 0.1, B6: 0.05 },
       minerals: { potassium: 0.05, iron: 0.02 },
       source: "USDA FoodData Central",
@@ -192,7 +255,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
       calories: 8,
-      macros: { protein: 0.3, carbs: 1.5, fat: 0.2, fiber: 0.5 },
+      macros: {
+        protein: 0.3,
+        carbs: 1.5,
+        fat: 0.2,
+        fiber: 0.5,
+        sugar: 0.1,
+        sodium: 45,
+      },
       vitamins: { C: 0.01 },
       minerals: { iron: 0.03, manganese: 0.02 },
       source: "USDA FoodData Central",
@@ -211,9 +281,16 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
       calories: 5,
-      macros: { protein: 0.2, carbs: 1.0, fat: 0.1, fiber: 0.3 },
+      macros: {
+        protein: 0.2,
+        carbs: 1.0,
+        fat: 0.1,
+        fiber: 0.3,
+        sugar: 0.1,
+        sodium: 150,
+      },
       vitamins: { C: 0.01 },
-      minerals: { iron: 0.02, sodium: 0.15 },
+      minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
   },
@@ -230,7 +307,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.1g)",
       calories: 8,
-      macros: { protein: 0.4, carbs: 0.9, fat: 0.5, fiber: 0.2 },
+      macros: {
+        protein: 0.4,
+        carbs: 0.9,
+        fat: 0.5,
+        fiber: 0.2,
+        sugar: 0.05,
+        sodium: 4,
+      },
       vitamins: { E: 0.01 },
       minerals: { iron: 0.07, manganese: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
@@ -249,7 +333,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.5g)",
       calories: 7,
-      macros: { protein: 0.3, carbs: 1.2, fat: 0.3, fiber: 0.5 },
+      macros: {
+        protein: 0.3,
+        carbs: 1.2,
+        fat: 0.3,
+        fiber: 0.5,
+        sugar: 0.1,
+        sodium: 2,
+      },
       vitamins: { K: 0.01 },
       minerals: { iron: 0.04, manganese: 0.05, calcium: 0.02 },
       source: "USDA FoodData Central",
@@ -268,7 +359,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2g)",
       calories: 6,
-      macros: { protein: 0.2, carbs: 1.4, fat: 0.1, fiber: 0.6 },
+      macros: {
+        protein: 0.2,
+        carbs: 1.4,
+        fat: 0.1,
+        fiber: 0.6,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { C: 0.01, B6: 0.01 },
       minerals: { manganese: 0.04, iron: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
@@ -287,7 +385,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (0.7g)",
       calories: 2,
-      macros: { protein: 0.1, carbs: 0.5, fat: 0.04, fiber: 0.03 },
+      macros: {
+        protein: 0.1,
+        carbs: 0.5,
+        fat: 0.04,
+        fiber: 0.03,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { C: 0.01, B6: 0.01 },
       minerals: { manganese: 0.05, iron: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
@@ -306,9 +411,16 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 serving (20g)",
       calories: 90,
-      macros: { protein: 1.2, carbs: 9.5, fat: 5.5, fiber: 0.8 },
+      macros: {
+        protein: 1.2,
+        carbs: 9.5,
+        fat: 5.5,
+        fiber: 0.8,
+        sugar: 1.5,
+        sodium: 300,
+      },
       vitamins: { B6: 0.02 },
-      minerals: { sodium: 0.3, iron: 0.02 },
+      minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
   },
@@ -325,7 +437,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.7g)",
       calories: 8,
-      macros: { protein: 0.4, carbs: 1.3, fat: 0.4, fiber: 0.9 },
+      macros: {
+        protein: 0.4,
+        carbs: 1.3,
+        fat: 0.4,
+        fiber: 0.9,
+        sugar: 0.2,
+        sodium: 75,
+      },
       vitamins: { A: 0.24, E: 0.02 },
       minerals: { iron: 0.03, manganese: 0.02 },
       source: "USDA FoodData Central",
@@ -344,7 +463,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.1g)",
       calories: 8,
-      macros: { protein: 0.4, carbs: 0.9, fat: 0.5, fiber: 0.2 },
+      macros: {
+        protein: 0.4,
+        carbs: 0.9,
+        fat: 0.5,
+        fiber: 0.2,
+        sugar: 0.05,
+        sodium: 4,
+      },
       vitamins: { E: 0.01 },
       minerals: { iron: 0.07, manganese: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
@@ -363,7 +489,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (1.8g)",
       calories: 5,
-      macros: { protein: 0.2, carbs: 1.0, fat: 0.2, fiber: 0.7 },
+      macros: {
+        protein: 0.2,
+        carbs: 1.0,
+        fat: 0.2,
+        fiber: 0.7,
+        sugar: 0.1,
+        sodium: 1,
+      },
       vitamins: { C: 0.01 },
       minerals: { iron: 0.02, manganese: 0.01 },
       source: "USDA FoodData Central",
@@ -382,7 +515,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 pepper (5g)",
       calories: 2,
-      macros: { protein: 0.1, carbs: 0.4, fat: 0.02, fiber: 0.1 },
+      macros: {
+        protein: 0.1,
+        carbs: 0.4,
+        fat: 0.02,
+        fiber: 0.1,
+        sugar: 0.2,
+        sodium: 1,
+      },
       vitamins: { C: 0.12, A: 0.04 },
       minerals: { potassium: 0.01, iron: 0.01 },
       source: "USDA FoodData Central",
@@ -401,13 +541,23 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (5g)",
       calories: 12,
-      macros: { protein: 2.2, carbs: 0.5, fat: 0.1, fiber: 0 },
+      macros: {
+        protein: 2.2,
+        carbs: 0.5,
+        fat: 0.1,
+        fiber: 0,
+        sugar: 0,
+        sodium: 350,
+      },
       vitamins: { B12: 0.05 },
-      minerals: { sodium: 0.35, iron: 0.02, calcium: 0.01 },
+      minerals: { iron: 0.02, calcium: 0.01 },
       source: "USDA FoodData Central",
     },
   },
 };
 
 // Export spices ingredients for use in spices/index.ts
-export const spicesIngredients = rawSpices as Record<string, IngredientMapping>;
+export const spicesIngredients = fixIngredientMappings(rawSpices) as Record<
+  string,
+  IngredientMapping
+>;

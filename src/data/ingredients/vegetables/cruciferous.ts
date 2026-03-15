@@ -19,18 +19,14 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.95 }, // Cooling effect, gentle force
     astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["virgo", "capricorn"],
+      rulingPlanets: ["Mercury", "Saturn", "Moon"],
+      favorableZodiac: ["Virgo", "Capricorn", "Cancer", "Taurus"],
       elementalAffinity: {
         base: "Air",
-        decanModifiers: {
-          first: { element: "Air", planet: "Mercury" },
-          second: { element: "Earth", planet: "Saturn" },
-          third: { element: "Water", planet: "Moon" },
-        },
       },
+      seasonalAffinity: ["fall", "winter", "summer"],
     },
-    qualities: ["cooling", "drying", "light", "versatile", "transformative"],
+    qualities: ["cooling", "drying", "light", "versatile", "transformative", "nutritious", "fresh"],
     season: ["fall", "winter"],
     category: "vegetables",
     subCategory: "cruciferous",
@@ -54,86 +50,223 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     ],
     nutritionalProfile: {
       fiber: "high",
-      vitamins: ["c", "k", "b6", "folate", "b5"],
-      minerals: ["potassium", "magnesium", "phosphorus", "manganese"],
+      vitamins: { C: 1.0, K: 1.0, B6: 0.1, folate: 0.1, B5: 0.1 },
+      minerals: {
+        potassium: 0.1,
+        magnesium: 0.1,
+        phosphorus: 0.1,
+        manganese: 0.1,
+      },
       calories: 25,
-      protein_g: 2,
-      fiber_g: 3,
-      fat_g: 0.3,
-      saturatedFat_g: 0.1,
-      sugar_g: 1.7,
-      potassium_mg: 316,
-      sodium_mg: 33,
+      macros: { protein: 2, fiber: 3, fat: 0.3, sugar: 1.7 },
       antioxidants: [
         "glucosinolates",
         "flavonoids",
         "carotenoids",
         "isothiocyanates",
       ],
-      digestive_enzymes: "moderate",
     },
     preparation: {
-      washing: true,
-      cutting: "uniform florets",
-      drying: "thoroughly for roasting",
-      notes:
+      methods: ["washing", "cutting", "drying"],
+      tips: [
         "Can be processed into rice substitute or mashed as potato replacement",
-      marinades: "absorbs flavors well if pre-marinated",
-      pre_cooking: "blanching improves texture for some preparations",
+      ],
     },
     varieties: {
       romanesco: {
         characteristics: "lime green, fractal pattern, nutty flavor",
-        uses: "showcase dishes, roasting",
-        best_cooking_methods: ["light steaming", "roasting"],
-        season: "fall and early winter",
-        sensoryProfile: {
-          taste: ["Mild", "Balanced", "Natural"],
-          aroma: ["Fresh", "Clean", "Subtle"],
-          texture: ["Pleasant", "Smooth", "Appealing"],
-          notes: "Characteristic romanesco profile",
-        },
-        culinaryProfile: {
-          flavorProfile: {
-            primary: ["balanced"],
-            secondary: ["versatile"],
-            notes: "Versatile romanesco for various uses",
-          },
-          cookingMethods: ["sautéing", "steaming", "roasting"],
-          cuisineAffinity: ["Global", "International"],
-          preparationTips: ["Use as needed", "Season to taste"],
-        },
-        preparation: {
-          methods: ["standard preparation"],
-          timing: "as needed",
-          notes: "Standard preparation for romanesco",
-        },
+        popular_types: ["standard romanesco"],
       },
     },
+  },
+  broccoli: {
+    name: "broccoli",
+    category: "vegetables",
+    subcategory: "cruciferous",
+
+    // Slightly bitter, nutritious, complex
+    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
+
+    nutritionalProfile: {
+      serving_size: "1 cup chopped (91g)",
+      calories: 31,
+      macros: {
+        protein: 2.5,
+        carbs: 6.0,
+        fat: 0.3,
+        fiber: 2.4,
+        saturatedFat: 0.1,
+        sugar: 1.7,
+        potassium: 316,
+        sodium: 33,
+      },
+      vitamins: {
+        C: 1.35, // 135% RDA
+        K: 1.16, // 116% RDA
+        A: 0.12,
+        folate: 0.14,
+        B6: 0.09,
+      },
+      minerals: {
+        potassium: 0.09,
+        manganese: 0.1,
+        iron: 0.04,
+      },
+      antioxidants: {
+        sulforaphane:
+          "very high - powerful anti-cancer compound, enhanced by chewing raw",
+        indole_3_carbinol: "high - hormone balance and cancer prevention",
+        lutein: "moderate - eye health",
+      },
+      source: "USDA FoodData Central",
+    },
+
     sensoryProfile: {
-      taste: ["mild", "nutty", "versatile"],
-      aroma: ["fresh", "earthy"],
-      texture: ["crisp when raw", "tender when cooked"],
-      notes: "Characteristic cauliflower profile",
-    },
-    culinaryProfile: {
-      flavorProfile: {
-        primary: ["mild", "versatile"],
-        secondary: ["nutty", "earthy"],
-        notes: "Highly adaptable vegetable",
+      taste: {
+        sweet: 0.3,
+        salty: 0.0,
+        sour: 0.0,
+        bitter: 0.5,
+        umami: 0.3,
+        spicy: 0.2, // Slight pungency
       },
-      cookingMethods: ["roasted", "steamed", "raw"],
-      cuisineAffinity: ["Global", "Indian", "Mediterranean"],
-      preparationTips: [
-        "Cut into uniform pieces",
-        "Dry thoroughly for roasting",
+      aroma: {
+        floral: 0.1,
+        fruity: 0.0,
+        herbal: 0.6,
+        spicy: 0.3,
+        earthy: 0.7,
+        woody: 0.3,
+      },
+      texture: {
+        crisp: 0.7,
+        tender: 0.6, // When properly cooked
+        creamy: 0.2, // In purees
+        chewy: 0.3,
+        crunchy: 0.8,
+        silky: 0.0,
+      },
+    },
+
+    storage: {
+      temperature: "refrigerate 32-35°F",
+      duration: "7-10 days",
+      container: "plastic bag in crisper drawer, unwashed",
+      tips: [
+        "Store unwashed with tight florets",
+        "Wrap loosely in damp paper towel",
+        "Yellow florets indicate age - use immediately",
+        "Can blanch and freeze for up to 12 months",
       ],
     },
-    storage: {
-      temperature: "refrigerator",
-      duration: "1-2 weeks",
-      container: "plastic bag",
-      notes: "Store in refrigerator crisper",
+
+    preparation: {
+      methods: [
+        "Cut into florets",
+        "Peel and slice stems (equally delicious)",
+        "Blanch in boiling salted water 2-3 minutes",
+        "Chop raw for salads",
+      ],
+      tips: [
+        "Don't discard stems - peel and slice for cooking",
+        "Blanch then shock in ice water for vibrant color",
+        "Roast at high heat for caramelized edges",
+        "Raw broccoli has more sulforaphane than cooked",
+      ],
+      yields: "1 medium head = 3-4 cups florets",
+    },
+
+    recommendedCookingMethods: [
+      "steaming",
+      "roasting",
+      "stir-frying",
+      "blanching",
+      "raw in salads",
+    ],
+
+    pairingRecommendations: {
+      complementary: [
+        "garlic",
+        "lemon",
+        "parmesan",
+        "olive oil",
+        "ginger",
+        "soy sauce",
+        "cheddar cheese",
+      ],
+      contrasting: ["chili flakes", "anchovies", "mustard"],
+      toAvoid: ["overly sweet sauces", "prolonged cooking"],
+    },
+
+    description:
+      "Broccoli is a cruciferous vegetable packed with nutrients and cancer-fighting compounds. The edible flower buds and stems offer a slightly bitter, earthy flavor that becomes nutty and sweet when roasted. Rich in sulforaphane—a potent antioxidant formed when broccoli is chopped or chewed. Both the florets and stems are edible and nutritious.",
+
+    origin: ["Italy (Mediterranean)", "Cultivated globally"],
+
+    qualities: [
+      "nutritious",
+      "cruciferous",
+      "slightly bitter",
+      "versatile",
+      "healthful",
+      "fibrous",
+    ],
+
+    healthBenefits: [
+      "High in sulforaphane - powerful anti-cancer properties",
+      "Rich in vitamins C and K",
+      "Supports detoxification",
+      "Anti-inflammatory effects",
+      "Supports heart health",
+      "May improve bone health",
+    ],
+
+    season: ["fall", "winter", "spring"],
+
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Mercury"],
+      favorableZodiac: ["Cancer", "Virgo", "Gemini"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+  },
+  cabbage: {
+    name: "cabbage",
+    elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    qualities: ["crunchy", "mild", "versatile"],
+    category: "vegetables",
+    subcategory: "cruciferous",
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup shredded (89g)",
+      calories: 22,
+      macros: {
+        protein: 1.1,
+        carbs: 5.2,
+        fat: 0.1,
+        fiber: 2.2,
+        saturatedFat: 0,
+        sugar: 2.9,
+        potassium: 151,
+        sodium: 16,
+      },
+      vitamins: { C: 0.54, K: 0.68, folate: 0.1 },
+      minerals: { manganese: 0.07, potassium: 0.04 },
+    },
+  },
+  napa_cabbage: {
+    name: "napa cabbage",
+    elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
+    subcategory: "cruciferous",
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
     },
   },
 };

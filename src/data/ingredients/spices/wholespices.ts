@@ -56,7 +56,14 @@ const rawWholeSpices = {
     nutritionalProfile: {
       serving_size: "1 whole star (1g)",
       calories: 3,
-      macros: { protein: 0.04, carbs: 0.5, fat: 0.02, fiber: 0.1 },
+      macros: {
+        protein: 0.04,
+        carbs: 0.5,
+        fat: 0.02,
+        fiber: 0.1,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: { C: 0.01 },
       minerals: { iron: 0.01, calcium: 0.01 },
       source: "USDA FoodData Central",
@@ -129,7 +136,14 @@ const rawWholeSpices = {
     nutritionalProfile: {
       serving_size: "1 tsp pods (2g)",
       calories: 6,
-      macros: { protein: 0.2, carbs: 1.4, fat: 0.1, fiber: 0.6 },
+      macros: {
+        protein: 0.2,
+        carbs: 1.4,
+        fat: 0.1,
+        fiber: 0.6,
+        sugar: 0,
+        sodium: 1,
+      },
       vitamins: { C: 0.01, B6: 0.01 },
       minerals: { manganese: 0.04, iron: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
@@ -197,7 +211,14 @@ const rawWholeSpices = {
     nutritionalProfile: {
       serving_size: "1 tsp (3.3g)",
       calories: 15,
-      macros: { protein: 0.8, carbs: 0.8, fat: 1.0, fiber: 0.4 },
+      macros: {
+        protein: 0.8,
+        carbs: 0.8,
+        fat: 1.0,
+        fiber: 0.4,
+        sugar: 0.2,
+        sodium: 1,
+      },
       vitamins: { B1: 0.02 },
       minerals: {
         selenium: 0.06,
@@ -270,7 +291,14 @@ const rawWholeSpices = {
     nutritionalProfile: {
       serving_size: "1 tsp (2g)",
       calories: 7,
-      macros: { protein: 0.3, carbs: 1.1, fat: 0.3, fiber: 0.8 },
+      macros: {
+        protein: 0.3,
+        carbs: 1.1,
+        fat: 0.3,
+        fiber: 0.8,
+        sugar: 0,
+        sodium: 2,
+      },
       vitamins: { C: 0.01 },
       minerals: { manganese: 0.03, calcium: 0.02, iron: 0.02 },
       source: "USDA FoodData Central",
@@ -327,7 +355,14 @@ const rawWholeSpices = {
     nutritionalProfile: {
       serving_size: "1 tsp (1.8g)",
       calories: 5,
-      macros: { protein: 0.2, carbs: 1.0, fat: 0.2, fiber: 0.7 },
+      macros: {
+        protein: 0.2,
+        carbs: 1.0,
+        fat: 0.2,
+        fiber: 0.7,
+        sugar: 0,
+        sodium: 1,
+      },
       vitamins: { C: 0.01 },
       minerals: { iron: 0.02, manganese: 0.01 },
       source: "USDA FoodData Central",
@@ -396,7 +431,14 @@ const rawWholeSpices = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.1g)",
       calories: 8,
-      macros: { protein: 0.4, carbs: 0.9, fat: 0.5, fiber: 0.2 },
+      macros: {
+        protein: 0.4,
+        carbs: 0.9,
+        fat: 0.5,
+        fiber: 0.2,
+        sugar: 0,
+        sodium: 4,
+      },
       vitamins: { E: 0.01 },
       minerals: { iron: 0.07, manganese: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
@@ -453,7 +495,14 @@ const rawWholeSpices = {
     nutritionalProfile: {
       serving_size: "1 tsp (2.1g)",
       calories: 7,
-      macros: { protein: 0.4, carbs: 1.0, fat: 0.3, fiber: 0.8 },
+      macros: {
+        protein: 0.4,
+        carbs: 1.0,
+        fat: 0.3,
+        fiber: 0.8,
+        sugar: 0.01,
+        sodium: 1,
+      },
       vitamins: { C: 0.01 },
       minerals: { iron: 0.03, calcium: 0.01, manganese: 0.01 },
       source: "USDA FoodData Central",

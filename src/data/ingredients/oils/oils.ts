@@ -17,14 +17,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 207, fahrenheit: 405 },
     qualities: ["healthy", "versatile", "rich"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 119,
-      fat_g: 13.5,
-      saturated_fat_g: 1.9,
-      monounsaturated_fat_g: 9.9,
-      polyunsaturated_fat_g: 1.4,
-      omega_3_g: 0.1,
-      omega_6_g: 1.3,
-      omega_9_g: 9.9,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.5,
+        fiber: 0,
+        saturatedFat: 1.9,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e", "k"],
       antioxidants: ["oleocanthal", "oleuropein", "hydroxytyrosol"],
       notes: "Rich in monounsaturated fats and antioxidants",
@@ -115,14 +118,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 177, fahrenheit: 350 },
     qualities: ["sweet", "tropical", "solid"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 121,
-      fat_g: 13.5,
-      saturated_fat_g: 11.2,
-      monounsaturated_fat_g: 0.8,
-      polyunsaturated_fat_g: 0.2,
-      omega_3_g: 0,
-      omega_6_g: 0.2,
-      omega_9_g: 0.8,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.5,
+        fiber: 0,
+        saturatedFat: 11.2,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: [],
       notes: "High in medium-chain triglycerides (MCTs)",
     },
@@ -188,14 +194,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ["nutty", "aromatic", "warming"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.9,
-      monounsaturated_fat_g: 5.4,
-      polyunsaturated_fat_g: 5.6,
-      omega_3_g: 0.4,
-      omega_6_g: 5.2,
-      omega_9_g: 5.4,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.9,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e", "k", "b6"],
       minerals: ["calcium", "iron", "zinc"],
       antioxidants: ["sesamol", "sesamin", "sesamolin"],
@@ -291,14 +300,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 250, fahrenheit: 482 },
     qualities: ["rich", "nutty", "clarified"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 123,
-      fat_g: 13.9,
-      saturated_fat_g: 8.7,
-      monounsaturated_fat_g: 3.7,
-      polyunsaturated_fat_g: 0.5,
-      omega_3_g: 0.1,
-      omega_6_g: 0.4,
-      omega_9_g: 3.7,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.9,
+        fiber: 0,
+        saturatedFat: 8.7,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["a", "d", "e", "k"],
       notes: "Clarified butter with high smoke point",
     },
@@ -369,14 +381,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 271, fahrenheit: 520 },
     qualities: ["buttery", "neutral", "high-heat"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 124,
-      fat_g: 14,
-      saturated_fat_g: 1.6,
-      monounsaturated_fat_g: 9.9,
-      polyunsaturated_fat_g: 1.9,
-      omega_3_g: 0.1,
-      omega_6_g: 1.8,
-      omega_9_g: 9.9,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 14,
+        fiber: 0,
+        saturatedFat: 1.6,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e"],
       antioxidants: ["lutein"],
       notes: "High smoke point and neutral flavor",
@@ -442,14 +457,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ["nutty", "delicate", "rich"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.2,
-      monounsaturated_fat_g: 3.1,
-      polyunsaturated_fat_g: 8.7,
-      omega_3_g: 1.4,
-      omega_6_g: 7.3,
-      omega_9_g: 3.1,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.2,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e", "k"],
       notes: "Excellent omega-3 to omega-6 ratio, rich nutty flavor",
     },
@@ -515,14 +533,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 107, fahrenheit: 225 },
     qualities: ["nutty", "earthy", "delicate"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.2,
-      monounsaturated_fat_g: 2.5,
-      polyunsaturated_fat_g: 9.2,
-      omega_3_g: 7.3,
-      omega_6_g: 1.9,
-      omega_9_g: 2.5,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.2,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e", "k"],
       notes: "Highest plant source of omega-3 fatty acids, never heat this oil",
     },
@@ -587,14 +608,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["nutty", "neutral", "high-heat"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 119,
-      fat_g: 13.5,
-      saturated_fat_g: 2.3,
-      monounsaturated_fat_g: 6.2,
-      polyunsaturated_fat_g: 4.3,
-      omega_3_g: 0,
-      omega_6_g: 4.3,
-      omega_9_g: 6.2,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.5,
+        fiber: 0,
+        saturatedFat: 2.3,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e"],
       notes: "High smoke point, good for frying",
     },
@@ -621,6 +645,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 254, fahrenheit: 490 },
     qualities: ["pungent", "spicy", "strong"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 124,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 14,
+        fiber: 0,
+        saturatedFat: 1.6,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "3 months",
@@ -644,6 +681,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["mild", "neutral", "versatile"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2.7,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -667,6 +717,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 215, fahrenheit: 420 },
     qualities: ["spicy", "aromatic", "intense"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -690,6 +753,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 165, fahrenheit: 330 },
     qualities: ["nutty", "grassy", "complex"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.1,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -713,6 +789,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 245, fahrenheit: 473 },
     qualities: ["light", "clean", "delicate"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.1,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "3 months",
@@ -737,14 +826,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 216, fahrenheit: 421 },
     qualities: ["light", "clean", "versatile"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.3,
-      monounsaturated_fat_g: 2.2,
-      polyunsaturated_fat_g: 9.5,
-      omega_3_g: 0.1,
-      omega_6_g: 9.4,
-      omega_9_g: 2.2,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.3,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e"],
       antioxidants: ["proanthocyanidins"],
       notes: "Light flavor and high smoke point",
@@ -772,6 +864,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ["buttery", "rich", "smooth"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.6,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "4 months",
@@ -795,6 +900,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 235, fahrenheit: 455 },
     qualities: ["rich", "heavy", "stable"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 6.7,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -818,6 +936,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 252, fahrenheit: 485 },
     qualities: ["light", "clean", "subtle"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.1,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "4 months",
@@ -841,6 +972,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["summer", "fall"],
     smokePoint: { celsius: 170, fahrenheit: 338 },
     qualities: ["herbaceous", "aromatic", "delicate"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.1,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -864,6 +1008,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 185, fahrenheit: 365 },
     qualities: ["nutty", "rich", "exotic"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2.5,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "3 months",
@@ -887,6 +1044,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["fall", "winter"],
     smokePoint: { celsius: 221, fahrenheit: 430 },
     qualities: ["nutty", "sweet", "aromatic"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.1,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "2 months",
@@ -910,6 +1080,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ["nutty", "delicate", "distinctive"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.1,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -933,6 +1116,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 165, fahrenheit: 330 },
     qualities: ["grassy", "nutty", "earthy"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.3,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "2 months",
@@ -956,6 +1152,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 177, fahrenheit: 350 },
     qualities: ["pungent", "bitter", "medicinal"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "2 months",
@@ -980,14 +1189,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 216, fahrenheit: 420 },
     qualities: ["sweet", "delicate", "nutty"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.1,
-      monounsaturated_fat_g: 9.7,
-      polyunsaturated_fat_g: 2.3,
-      omega_3_g: 0,
-      omega_6_g: 2.3,
-      omega_9_g: 9.7,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.1,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e"],
       minerals: ["magnesium", "phosphorus"],
       notes: "Rich in vitamin E and monounsaturated fats",
@@ -1016,14 +1228,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["light", "neutral", "versatile"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 124,
-      fat_g: 14,
-      saturated_fat_g: 1.4,
-      monounsaturated_fat_g: 2.7,
-      polyunsaturated_fat_g: 9.2,
-      omega_3_g: 0,
-      omega_6_g: 9.2,
-      omega_9_g: 2.7,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 14,
+        fiber: 0,
+        saturatedFat: 1.4,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e"],
       notes: "High in vitamin E and polyunsaturated fats",
     },
@@ -1050,6 +1265,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 266, fahrenheit: 510 },
     qualities: ["neutral", "light", "high-heat"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 0.8,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "3 months",
@@ -1076,6 +1304,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["fall", "winter"],
     smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ["intense", "earthy", "aromatic"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -1099,6 +1340,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 235, fahrenheit: 455 },
     qualities: ["rich", "earthy", "robust"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 6.7,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -1122,6 +1376,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["fall", "winter"],
     smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ["nutty", "rich", "dark"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2.5,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "2 months",
@@ -1149,6 +1416,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 254, fahrenheit: 490 },
     qualities: ["pungent", "sharp", "intense"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 124,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 14,
+        fiber: 0,
+        saturatedFat: 1.6,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "3 months",
@@ -1176,6 +1456,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["mild", "nutty", "light"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 11,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -1203,6 +1496,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 204, fahrenheit: 400 },
     qualities: ["sweet", "nutty", "delicate"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 0.9,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "3 months",
@@ -1227,14 +1533,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 204, fahrenheit: 400 },
     qualities: ["neutral", "versatile", "heart-healthy"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 124,
-      fat_g: 14,
-      saturated_fat_g: 1.0,
-      monounsaturated_fat_g: 8.8,
-      polyunsaturated_fat_g: 4.2,
-      omega_3_g: 1.2,
-      omega_6_g: 3.0,
-      omega_9_g: 8.8,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 14,
+        fiber: 0,
+        saturatedFat: 1.0,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e", "k"],
       notes: "Low in saturated fats, good source of omega-3 fatty acids",
     },
@@ -1284,11 +1593,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ["neutral", "odorless", "liquid"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 130,
-      fat_g: 14,
-      saturated_fat_g: 14,
-      monounsaturated_fat_g: 0,
-      polyunsaturated_fat_g: 0,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 14,
+        fiber: 0,
+        saturatedFat: 14,
+        sugar: 0,
+        sodium: 0,
+      },
       medium_chain_triglycerides_g: 14,
       notes:
         "Contains only medium-chain triglycerides, rapidly metabolized by the body",
@@ -1342,6 +1657,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["neutral", "versatile", "economical"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -1372,6 +1700,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer"],
     smokePoint: { celsius: 190, fahrenheit: 374 },
     qualities: ["aromatic", "herbal", "fresh"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 119,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.5,
+        fiber: 0,
+        saturatedFat: 1.9,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -1395,6 +1736,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 190, fahrenheit: 374 },
     qualities: ["savory", "aromatic", "pungent"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 119,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.5,
+        fiber: 0,
+        saturatedFat: 1.9,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "2 weeks",
@@ -1422,6 +1776,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer"],
     smokePoint: { celsius: 190, fahrenheit: 374 },
     qualities: ["bright", "citrus", "fresh"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 119,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.5,
+        fiber: 0,
+        saturatedFat: 1.9,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -1449,6 +1816,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["fall", "winter"],
     smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ["intense", "earthy", "luxurious"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "1 month",
@@ -1472,6 +1852,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["fall", "winter"],
     smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ["nutty", "rich", "dark green"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2.5,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "2 months",
@@ -1496,11 +1889,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 107, fahrenheit: 225 },
     qualities: ["mild", "nutty", "omega-rich"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.5,
-      monounsaturated_fat_g: 2.0,
-      polyunsaturated_fat_g: 9.8,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.5,
+        sugar: 0,
+        sodium: 0,
+      },
       omega_3_g: 7.5,
       omega_6_g: 2.3,
       vitamins: ["e"],
@@ -1529,6 +1928,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 190, fahrenheit: 374 },
     qualities: ["light", "sweet", "stable"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2.5,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -1552,6 +1964,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 177, fahrenheit: 350 },
     qualities: ["bitter", "pungent", "medicinal"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2.5,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "3 months",
@@ -1579,6 +2004,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 216, fahrenheit: 420 },
     qualities: ["neutral", "light", "stable"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 120,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 3.5,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -1603,13 +2041,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["neutral", "versatile", "economical"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 2.0,
-      monounsaturated_fat_g: 3.1,
-      polyunsaturated_fat_g: 7.9,
-      omega_3_g: 0.9,
-      omega_6_g: 7.0,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 2.0,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e", "k"],
       notes: "Good source of omega-3 and omega-6 fatty acids",
     },
@@ -1637,13 +2079,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["neutral", "light", "versatile"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.8,
-      monounsaturated_fat_g: 3.8,
-      polyunsaturated_fat_g: 7.4,
-      omega_3_g: 0.1,
-      omega_6_g: 7.3,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.8,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: ["e"],
       notes: "High in polyunsaturated fats and vitamin E",
     },
@@ -1670,6 +2116,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 204, fahrenheit: 400 },
     qualities: ["neutral", "versatile", "healthy"],
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 124,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 14,
+        fiber: 0,
+        saturatedFat: 1,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
     preparation: {
       fresh: {
         duration: "6 months",
@@ -1698,11 +2157,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 107, fahrenheit: 225 },
     qualities: ["nutty", "rich", "omega-rich"],
     nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
       calories: 120,
-      fat_g: 13.6,
-      saturated_fat_g: 1.0,
-      monounsaturated_fat_g: 1.5,
-      polyunsaturated_fat_g: 10.5,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13.6,
+        fiber: 0,
+        saturatedFat: 1.0,
+        sugar: 0,
+        sodium: 0,
+      },
       omega_3_g: 6.5,
       omega_6_g: 4.0,
       vitamins: ["e"],

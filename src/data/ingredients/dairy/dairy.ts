@@ -180,6 +180,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Gemini", "Virgo", "Pisces"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (245g)",
+      calories: 98,
+      macros: {
+        protein: 8,
+        carbs: 12,
+        fat: 2.2,
+        fiber: 0,
+        sugar: 12,
+        sodium: 260,
+      },
+    },
   },
 
   evaporated_milk: {
@@ -222,6 +234,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["Leo", "Taurus", "Libra"],
       seasonalAffinity: ["autumn", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (252g)",
+      calories: 338,
+      macros: {
+        protein: 17,
+        carbs: 25,
+        fat: 19,
+        fiber: 0,
+        sugar: 25,
+        sodium: 267,
+      },
     },
   },
 
@@ -266,6 +290,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Virgo", "Gemini", "Aquarius"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (245g)",
+      calories: 83,
+      macros: {
+        protein: 8,
+        carbs: 12,
+        fat: 0.2,
+        fiber: 0,
+        sugar: 12,
+        sodium: 103,
+      },
+    },
   },
 
   oat_milk: {
@@ -309,6 +345,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Virgo", "Libra"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 cup (240ml)",
+      calories: 120,
+      macros: {
+        protein: 3,
+        carbs: 16,
+        fat: 5,
+        fiber: 2,
+        sugar: 7,
+        sodium: 100,
+      },
+    },
   },
 
   almond_milk: {
@@ -351,6 +399,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["Gemini", "Libra", "Aquarius"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (240ml)",
+      calories: 40,
+      macros: {
+        protein: 1,
+        carbs: 1,
+        fat: 3,
+        fiber: 1,
+        sugar: 0,
+        sodium: 150,
+      },
     },
   },
 
@@ -520,6 +580,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Virgo", "Gemini"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (15g)",
+      calories: 30,
+      macros: {
+        protein: 0.3,
+        carbs: 0.5,
+        fat: 3,
+        fiber: 0,
+        sugar: 0.5,
+        sodium: 8,
+      },
+    },
   },
 
   creme_fraiche: {
@@ -568,6 +640,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["Libra", "Taurus", "Pisces"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (15g)",
+      calories: 55,
+      macros: {
+        protein: 0.3,
+        carbs: 0.3,
+        fat: 6,
+        fiber: 0,
+        sugar: 0.3,
+        sodium: 8,
+      },
     },
   },
 
@@ -618,6 +702,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Libra", "Cancer"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 120,
+      macros: {
+        protein: 1,
+        carbs: 1,
+        fat: 13,
+        fiber: 0,
+        sugar: 1,
+        sodium: 15,
+      },
+    },
   },
 
   clotted_cream: {
@@ -660,6 +756,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["Taurus", "Capricorn", "Cancer"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 160,
+      macros: {
+        protein: 0.5,
+        carbs: 0.5,
+        fat: 18,
+        fiber: 0,
+        sugar: 0.5,
+        sodium: 10,
+      },
     },
   },
 
@@ -764,6 +872,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Cancer", "Libra"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 102,
+      macros: {
+        protein: 0.1,
+        carbs: 0,
+        fat: 11.5,
+        fiber: 0,
+        sugar: 0,
+        sodium: 2,
+      },
+    },
   },
 
   cold_butter: {
@@ -807,6 +927,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Capricorn", "Taurus", "Virgo"],
       seasonalAffinity: ["winter", "autumn"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 102,
+      macros: {
+        protein: 0.1,
+        carbs: 0,
+        fat: 11.5,
+        fiber: 0,
+        sugar: 0,
+        sodium: 91,
+      },
+    },
   },
 
   french_butter: {
@@ -849,6 +981,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["Libra", "Taurus", "Gemini"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 102,
+      macros: {
+        protein: 0.1,
+        carbs: 0,
+        fat: 11.5,
+        fiber: 0,
+        sugar: 0,
+        sodium: 91,
+      },
     },
   },
 
@@ -898,6 +1042,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Leo", "Aries", "Sagittarius"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 112,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13,
+        fiber: 0,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
   },
 
   ghee: {
@@ -941,6 +1097,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Leo", "Sagittarius", "Aries"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 112,
+      macros: {
+        protein: 0,
+        carbs: 0,
+        fat: 13,
+        fiber: 0,
+        sugar: 0,
+        sodium: 0,
+      },
+    },
   },
 
   brown_butter: {
@@ -983,6 +1151,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["Aries", "Leo", "Scorpio"],
       seasonalAffinity: ["autumn", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (14g)",
+      calories: 102,
+      macros: {
+        protein: 0.1,
+        carbs: 0,
+        fat: 11.5,
+        fiber: 0,
+        sugar: 0,
+        sodium: 91,
+      },
     },
   },
 
@@ -1093,6 +1273,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Pisces", "Taurus"],
       seasonalAffinity: ["spring", "summer"],
     },
+    nutritionalProfile: {
+      serving_size: "1/2 cup (124g)",
+      calories: 216,
+      macros: {
+        protein: 14,
+        carbs: 3.8,
+        fat: 16,
+        fiber: 0,
+        sugar: 0.3,
+        sodium: 104,
+      },
+    },
   },
 
   cottage_cheese: {
@@ -1135,6 +1327,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Moon", "Mercury"],
       favorableZodiac: ["Virgo", "Cancer", "Gemini"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (226g)",
+      calories: 163,
+      macros: {
+        protein: 28,
+        carbs: 6.1,
+        fat: 2.3,
+        fiber: 0,
+        sugar: 6.1,
+        sodium: 819,
+      },
     },
   },
 
@@ -1179,6 +1383,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Virgo", "Gemini", "Cancer"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 73,
+      macros: {
+        protein: 12,
+        carbs: 3.4,
+        fat: 0.2,
+        fiber: 0,
+        sugar: 3.4,
+        sodium: 40,
+      },
+    },
   },
 
   labneh: {
@@ -1222,6 +1438,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Libra"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 45,
+      macros: {
+        protein: 2,
+        carbs: 2,
+        fat: 3.5,
+        fiber: 0,
+        sugar: 1,
+        sodium: 120,
+      },
+    },
   },
 
   paneer: {
@@ -1264,6 +1492,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Moon", "Jupiter"],
       favorableZodiac: ["Cancer", "Sagittarius", "Taurus"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 80,
+      macros: {
+        protein: 5,
+        carbs: 1,
+        fat: 6,
+        fiber: 0,
+        sugar: 0.5,
+        sodium: 5,
+      },
     },
   },
 
@@ -1309,6 +1549,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Capricorn", "Taurus"],
       seasonalAffinity: ["spring", "summer"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 75,
+      macros: {
+        protein: 5,
+        carbs: 0.3,
+        fat: 6,
+        fiber: 0,
+        sugar: 0.3,
+        sodium: 130,
+      },
+    },
   },
 
   brie: {
@@ -1351,6 +1603,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["Libra", "Taurus", "Cancer"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 95,
+      macros: {
+        protein: 6,
+        carbs: 0.1,
+        fat: 8,
+        fiber: 0,
+        sugar: 0.1,
+        sodium: 180,
+      },
     },
   },
 
@@ -1395,6 +1659,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Scorpio", "Taurus", "Libra"],
       seasonalAffinity: ["autumn", "winter"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 85,
+      macros: {
+        protein: 6,
+        carbs: 0.1,
+        fat: 7,
+        fiber: 0,
+        sugar: 0.1,
+        sodium: 240,
+      },
+    },
   },
 
   feta: {
@@ -1438,6 +1714,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Pisces", "Sagittarius"],
       seasonalAffinity: ["summer", "spring"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 75,
+      macros: {
+        protein: 4,
+        carbs: 1.1,
+        fat: 6,
+        fiber: 0,
+        sugar: 1.1,
+        sodium: 316,
+      },
+    },
   },
 
   burrata: {
@@ -1480,6 +1768,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["Taurus", "Libra", "Cancer"],
       seasonalAffinity: ["summer", "spring"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 90,
+      macros: {
+        protein: 5,
+        carbs: 1,
+        fat: 7.8,
+        fiber: 0,
+        sugar: 1,
+        sodium: 85,
+      },
     },
   },
 
@@ -1584,6 +1884,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Libra", "Cancer"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 105,
+      macros: {
+        protein: 6,
+        carbs: 0.2,
+        fat: 9,
+        fiber: 0,
+        sugar: 0.2,
+        sodium: 215,
+      },
+    },
   },
 
   monterey_jack: {
@@ -1626,6 +1938,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["Cancer", "Taurus", "Gemini"],
       seasonalAffinity: ["all"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 105,
+      macros: {
+        protein: 7,
+        carbs: 0.2,
+        fat: 8.5,
+        fiber: 0,
+        sugar: 0.2,
+        sodium: 150,
+      },
     },
   },
 
@@ -1670,6 +1994,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Sagittarius", "Libra"],
       seasonalAffinity: ["autumn", "winter"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 110,
+      macros: {
+        protein: 7,
+        carbs: 0.4,
+        fat: 9,
+        fiber: 0,
+        sugar: 0.4,
+        sodium: 220,
+      },
+    },
   },
 
   halloumi: {
@@ -1712,6 +2048,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["Aries", "Leo", "Sagittarius"],
       seasonalAffinity: ["summer", "spring"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 90,
+      macros: {
+        protein: 6,
+        carbs: 0.5,
+        fat: 7,
+        fiber: 0,
+        sugar: 0.5,
+        sodium: 350,
+      },
     },
   },
 
@@ -1815,6 +2163,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Jupiter", "Venus"],
       favorableZodiac: ["Sagittarius", "Taurus", "Libra"],
       seasonalAffinity: ["autumn", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 117,
+      macros: {
+        protein: 8,
+        carbs: 0.1,
+        fat: 9,
+        fiber: 0,
+        sugar: 0.1,
+        sodium: 95,
+      },
     },
   },
 
@@ -1925,6 +2285,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 110,
+      macros: {
+        protein: 9,
+        carbs: 1,
+        fat: 8,
+        fiber: 0,
+        sugar: 0.5,
+        sodium: 340,
+      },
+    },
   },
 
   manchego: {
@@ -1968,6 +2340,18 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Sagittarius", "Capricorn", "Taurus"],
       seasonalAffinity: ["all"],
     },
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 120,
+      macros: {
+        protein: 7,
+        carbs: 0.1,
+        fat: 10,
+        fiber: 0,
+        sugar: 0.1,
+        sodium: 190,
+      },
+    },
   },
 
   asiago: {
@@ -2002,1535 +2386,32 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       },
     },
     pairingRecommendations: {
-      complementary: ["pasta", "salads", "bread", "polenta"],
-      contrasting: ["fig", "honey", "balsamic"],
-      toAvoid: ["delicate fish", "subtle dishes"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Capricorn", "Taurus"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  provolone: {
-    name: "provolone",
-    elementalProperties: { Fire: 0.2, Water: 0.28, Earth: 0.42, Air: 0.1 },
-    qualities: ["sharp", "smoky", "firm", "Italian", "aged"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.15,
-        salty: 0.5,
-        sour: 0.25,
-        bitter: 0.1,
-        umami: 0.45,
-        spicy: 0.05,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.05,
-        spicy: 0.2,
-        earthy: 0.5,
-        woody: 0.3,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.4,
-        chewy: 0.0,
-        crunchy: 0.5,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["sandwiches", "pizza", "pasta", "salami"],
-      contrasting: ["roasted peppers", "olives"],
-      toAvoid: ["delicate preparations"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Pluto"],
-      favorableZodiac: ["Scorpio", "Aries", "Capricorn"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  // BLUE CHEESES
-  blue_cheese: {
-    name: "blue cheese",
-    elementalProperties: { Fire: 0.22, Water: 0.3, Earth: 0.35, Air: 0.13 },
-    qualities: ["pungent", "tangy", "moldy", "sharp", "complex"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.05,
-        salty: 0.7,
-        sour: 0.4,
-        bitter: 0.3,
-        umami: 0.6,
-        spicy: 0.15,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.1,
-        spicy: 0.2,
-        earthy: 0.7,
-        woody: 0.2,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.6,
-        chewy: 0.0,
-        crunchy: 0.3,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["salads", "buffalo wings", "steak", "pears", "wine"],
-      contrasting: ["honey", "walnuts", "port"],
-      toAvoid: ["delicate fish", "mild vegetables"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Pluto", "Mars"],
-      favorableZodiac: ["Scorpio", "Aries", "Aquarius"],
-      seasonalAffinity: ["autumn", "winter"],
-    },
-  },
-
-  gorgonzola: {
-    name: "gorgonzola",
-    elementalProperties: { Fire: 0.24, Water: 0.32, Earth: 0.32, Air: 0.12 },
-    qualities: ["creamy", "pungent", "Italian", "veined", "rich"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.15,
-        salty: 0.65,
-        sour: 0.35,
-        bitter: 0.25,
-        umami: 0.65,
-        spicy: 0.1,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.05,
-        spicy: 0.15,
-        earthy: 0.75,
-        woody: 0.2,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.75,
-        chewy: 0.0,
-        crunchy: 0.2,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["pasta", "risotto", "polenta", "pears", "wine"],
-      contrasting: ["honey", "walnuts", "fig"],
-      toAvoid: ["delicate dishes", "citrus"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Pluto", "Venus"],
-      favorableZodiac: ["Scorpio", "Taurus", "Pisces"],
-      seasonalAffinity: ["autumn", "winter"],
-    },
-  },
-
-  roquefort: {
-    name: "roquefort",
-    elementalProperties: { Fire: 0.26, Water: 0.28, Earth: 0.33, Air: 0.13 },
-    qualities: ["sharp", "crumbly", "French", "sheep's milk", "intense"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.05,
-        salty: 0.85,
-        sour: 0.45,
-        bitter: 0.35,
-        umami: 0.7,
-        spicy: 0.2,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.05,
-        herbal: 0.1,
-        spicy: 0.25,
-        earthy: 0.8,
-        woody: 0.25,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.5,
-        chewy: 0.0,
-        crunchy: 0.5,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["salads", "steak", "pears", "wine", "bread"],
-      contrasting: ["honey", "walnuts", "port"],
-      toAvoid: ["delicate preparations", "mild dishes"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Pluto"],
-      favorableZodiac: ["Aries", "Scorpio", "Sagittarius"],
-      seasonalAffinity: ["autumn", "winter"],
-    },
-  },
-
-  stilton: {
-    name: "stilton",
-    elementalProperties: { Fire: 0.25, Water: 0.27, Earth: 0.35, Air: 0.13 },
-    qualities: ["rich", "creamy", "English", "veined", "complex"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.1,
-        salty: 0.75,
-        sour: 0.4,
-        bitter: 0.3,
-        umami: 0.65,
-        spicy: 0.15,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.1,
-        spicy: 0.2,
-        earthy: 0.75,
-        woody: 0.25,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.25,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["port", "crackers", "celery", "pears", "walnuts"],
-      contrasting: ["honey", "apples", "chutney"],
-      toAvoid: ["delicate fish", "citrus"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Saturn", "Pluto"],
-      favorableZodiac: ["Capricorn", "Scorpio", "Taurus"],
-      seasonalAffinity: ["winter", "autumn"],
-    },
-  },
-
-  // YOGURTS
-  yogurt: {
-    name: "yogurt",
-    elementalProperties: { Fire: 0.06, Water: 0.52, Earth: 0.22, Air: 0.2 },
-    qualities: ["tangy", "cultured", "creamy", "probiotic", "versatile"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.2,
-        salty: 0.1,
-        sour: 0.6,
-        bitter: 0.0,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.2,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.25,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["granola", "berries", "honey", "cucumber", "dill"],
-      contrasting: ["sweeteners", "fruit", "nuts"],
-      toAvoid: ["citrus", "wine"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo", "Pisces"],
-      seasonalAffinity: ["all"],
-    },
-    nutritionalProfile: {
-      serving_size: "1 cup (245g)",
-      calories: 149,
-      macros: {
-        protein: 9,
-        carbs: 12,
-        fat: 8,
-        fiber: 0,
-        saturatedFat: 5,
-        sugar: 12,
-        potassium: 380,
-        sodium: 113,
-      },
-      vitamins: { B12: 0.38, riboflavin: 0.24, D: 0.02, B6: 0.07 },
-      minerals: {
-        calcium: 0.3,
-        phosphorus: 0.23,
-        zinc: 0.1,
-        selenium: 0.06,
-        magnesium: 0.07,
-      },
-    },
-  },
-
-  greek_yogurt: {
-    name: "greek yogurt",
-    elementalProperties: { Fire: 0.08, Water: 0.48, Earth: 0.28, Air: 0.16 },
-    qualities: ["thick", "tangy", "protein-rich", "strained", "creamy"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.15,
-        salty: 0.15,
-        sour: 0.7,
-        bitter: 0.0,
-        umami: 0.15,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.2,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.3,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.85,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.65,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["honey", "berries", "granola", "tzatziki", "smoothies"],
-      contrasting: ["maple syrup", "nuts", "chocolate"],
-      toAvoid: ["wine", "strong spices"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Capricorn", "Virgo"],
-      seasonalAffinity: ["all"],
-    },
-    nutritionalProfile: {
-      serving_size: "1 cup (245g)",
-      calories: 100,
-      macros: {
-        protein: 17,
-        carbs: 6,
-        fat: 0.7,
-        fiber: 0,
-        saturatedFat: 0.4,
-        sugar: 6,
-        potassium: 240,
-        sodium: 65,
-      },
-      vitamins: { B12: 0.5, riboflavin: 0.15, D: 0.02, B6: 0.05 },
-      minerals: {
-        calcium: 0.18,
-        phosphorus: 0.22,
-        zinc: 0.09,
-        selenium: 0.1,
-        magnesium: 0.05,
-      },
-    },
-  },
-
-  skyr: {
-    name: "skyr",
-    elementalProperties: { Fire: 0.07, Water: 0.5, Earth: 0.26, Air: 0.17 },
-    qualities: ["thick", "mild", "Icelandic", "protein-rich", "smooth"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.25,
-        salty: 0.1,
-        sour: 0.5,
-        bitter: 0.0,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.2,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.8,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.7,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["berries", "honey", "granola", "smoothies"],
-      contrasting: ["chocolate", "nuts"],
-      toAvoid: ["savory dishes", "cooking"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Capricorn", "Aquarius"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  kefir: {
-    name: "kefir",
-    elementalProperties: { Fire: 0.05, Water: 0.56, Earth: 0.18, Air: 0.21 },
-    qualities: ["tangy", "probiotic", "fizzy", "cultured", "drinkable"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.15,
-        salty: 0.1,
-        sour: 0.75,
-        bitter: 0.05,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.25,
-        herbal: 0.05,
-        spicy: 0.0,
-        earthy: 0.25,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.5,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["smoothies", "fruit", "granola", "oatmeal"],
-      contrasting: ["honey", "vanilla"],
-      toAvoid: ["cooking", "wine"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Uranus"],
-      favorableZodiac: ["Aquarius", "Pisces", "Cancer"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  // ICE CREAMS & SPECIALTY
-  vanilla_ice_cream: {
-    name: "vanilla ice cream",
-    elementalProperties: { Fire: 0.08, Water: 0.35, Earth: 0.32, Air: 0.25 },
-    qualities: ["sweet", "creamy", "frozen", "classic", "smooth"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.95,
-        salty: 0.05,
-        sour: 0.0,
-        bitter: 0.0,
-        umami: 0.0,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.3,
-        fruity: 0.2,
-        herbal: 0.0,
-        spicy: 0.5,
-        earthy: 0.1,
-        woody: 0.2,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.95,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.85,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["pie", "cake", "brownies", "fruit", "chocolate"],
-      contrasting: ["hot fudge", "caramel", "berries"],
-      toAvoid: ["savory dishes", "vegetables"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Libra"],
-      seasonalAffinity: ["summer", "all"],
-    },
-  },
-
-  chocolate_ice_cream: {
-    name: "chocolate ice cream",
-    elementalProperties: { Fire: 0.12, Water: 0.33, Earth: 0.35, Air: 0.2 },
-    qualities: ["rich", "sweet", "frozen", "indulgent", "chocolatey"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.9,
-        salty: 0.05,
-        sour: 0.0,
-        bitter: 0.3,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.0,
-        spicy: 0.2,
-        earthy: 0.4,
-        woody: 0.3,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.9,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.8,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["brownies", "cake", "cookies", "banana"],
-      contrasting: ["peanut butter", "caramel", "mint"],
-      toAvoid: ["savory dishes", "vegetables"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Pluto"],
-      favorableZodiac: ["Taurus", "Scorpio", "Libra"],
-      seasonalAffinity: ["summer", "all"],
-    },
-  },
-
-  butter_croissant: {
-    name: "butter croissant",
-    elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
-    qualities: ["flaky", "buttery", "layered", "French", "golden"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.3,
-        salty: 0.25,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.2,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.6,
-        woody: 0.15,
-      },
-      texture: {
-        crisp: 0.6,
-        tender: 0.0,
-        creamy: 0.4,
-        chewy: 0.0,
-        crunchy: 0.7,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["coffee", "jam", "chocolate", "cheese"],
-      contrasting: ["butter", "honey"],
-      toAvoid: ["soup", "sauce"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  // ADDITIONAL MILKS
-  soy_milk: {
-    name: "soy milk",
-    elementalProperties: { Fire: 0.09, Water: 0.54, Earth: 0.24, Air: 0.13 },
-    qualities: ["plant-based", "protein-rich", "creamy", "mild", "versatile"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.25,
-        salty: 0.1,
-        sour: 0.0,
-        bitter: 0.15,
-        umami: 0.2,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.05,
-        herbal: 0.1,
-        spicy: 0.0,
-        earthy: 0.4,
-        woody: 0.1,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.5,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["coffee", "cereal", "smoothies", "baking"],
-      contrasting: ["chocolate", "matcha"],
-      toAvoid: ["delicate teas", "wine"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Aquarius", "Capricorn"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  cashew_milk: {
-    name: "cashew milk",
-    elementalProperties: { Fire: 0.11, Water: 0.53, Earth: 0.23, Air: 0.13 },
-    qualities: ["creamy", "rich", "plant-based", "sweet", "nutty"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.4,
-        salty: 0.05,
-        sour: 0.0,
-        bitter: 0.05,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.05,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.25,
-        woody: 0.25,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.7,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["smoothies", "coffee", "curry", "pasta sauces"],
-      contrasting: ["chocolate", "vanilla"],
-      toAvoid: ["acidic dishes", "citrus"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Libra", "Gemini"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  half_and_half: {
-    name: "half and half",
-    elementalProperties: { Fire: 0.12, Water: 0.48, Earth: 0.28, Air: 0.12 },
-    qualities: ["rich", "creamy", "smooth", "moderate", "versatile"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.35,
-        salty: 0.1,
-        sour: 0.0,
-        bitter: 0.0,
-        umami: 0.15,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.35,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.75,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["coffee", "tea", "soups", "sauces"],
-      contrasting: ["espresso", "dark roasts"],
-      toAvoid: ["light salads", "citrus"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  condensed_milk: {
-    name: "condensed milk",
-    elementalProperties: { Fire: 0.18, Water: 0.36, Earth: 0.36, Air: 0.1 },
-    qualities: ["thick", "sweet", "concentrated", "viscous", "caramelized"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 1.0,
-        salty: 0.05,
-        sour: 0.0,
-        bitter: 0.0,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.1,
-        earthy: 0.45,
-        woody: 0.15,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.6,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.4,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["pie", "flan", "desserts", "coffee", "key lime pie"],
-      contrasting: ["lime", "lemon", "coffee"],
-      toAvoid: ["savory dishes", "vegetables"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  whipped_cream: {
-    name: "whipped cream",
-    elementalProperties: { Fire: 0.14, Water: 0.35, Earth: 0.28, Air: 0.23 },
-    qualities: ["airy", "light", "fluffy", "sweet", "delicate"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.5,
-        salty: 0.05,
-        sour: 0.0,
-        bitter: 0.0,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.05,
-        fruity: 0.1,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.3,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["desserts", "hot chocolate", "pie", "berries", "coffee"],
-      contrasting: ["espresso", "dark chocolate"],
-      toAvoid: ["savory dishes", "acidic foods"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  // ADDITIONAL CHEESES
-  swiss_cheese: {
-    name: "swiss cheese",
-    elementalProperties: { Fire: 0.21, Water: 0.26, Earth: 0.42, Air: 0.11 },
-    qualities: ["mild", "nutty", "holey", "sweet", "firm"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.35,
-        salty: 0.35,
-        sour: 0.1,
-        bitter: 0.05,
-        umami: 0.4,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.2,
-        herbal: 0.0,
-        spicy: 0.05,
-        earthy: 0.5,
-        woody: 0.2,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.45,
-        chewy: 0.0,
-        crunchy: 0.4,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["sandwiches", "fondue", "ham", "crackers", "rye bread"],
-      contrasting: ["mustard", "pickles", "grapes"],
-      toAvoid: ["strong spices", "citrus"],
+      complementary: ["sandwiches", "pasta", "salads", "crackers"],
+      contrasting: ["grapes", "figs"],
+      toAvoid: ["sweet desserts"],
     },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
-      favorableZodiac: ["Sagittarius", "Taurus", "Libra"],
+      favorableZodiac: ["Sagittarius", "Taurus", "Virgo"],
       seasonalAffinity: ["all"],
     },
-  },
-
-  emmental: {
-    name: "emmental",
-    elementalProperties: { Fire: 0.23, Water: 0.24, Earth: 0.43, Air: 0.1 },
-    qualities: ["nutty", "fruity", "firm", "Swiss", "holey"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.4,
-        salty: 0.3,
-        sour: 0.1,
-        bitter: 0.05,
-        umami: 0.45,
-        spicy: 0.0,
+    nutritionalProfile: {
+      serving_size: "1 oz (28g)",
+      calories: 110,
+      macros: {
+        protein: 7,
+        carbs: 0.9,
+        fat: 9,
+        fiber: 0,
+        sugar: 0.5,
+        sodium: 230,
       },
-      aroma: {
-        floral: 0.05,
-        fruity: 0.3,
-        herbal: 0.0,
-        spicy: 0.05,
-        earthy: 0.45,
-        woody: 0.2,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.5,
-        chewy: 0.0,
-        crunchy: 0.35,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["fondue", "sandwiches", "quiche", "wine"],
-      contrasting: ["pears", "apples", "walnuts"],
-      toAvoid: ["strong spices", "overpowering flavors"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Jupiter", "Sun"],
-      favorableZodiac: ["Sagittarius", "Leo", "Taurus"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  jarlsberg: {
-    name: "jarlsberg",
-    elementalProperties: { Fire: 0.22, Water: 0.25, Earth: 0.43, Air: 0.1 },
-    qualities: ["sweet", "nutty", "mild", "Norwegian", "buttery"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.45,
-        salty: 0.25,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.35,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.25,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.4,
-        woody: 0.15,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.55,
-        chewy: 0.0,
-        crunchy: 0.3,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["sandwiches", "crackers", "fruit", "wine"],
-      contrasting: ["grapes", "apples", "honey"],
-      toAvoid: ["strong spices"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Sagittarius", "Libra"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  colby: {
-    name: "colby",
-    elementalProperties: { Fire: 0.18, Water: 0.32, Earth: 0.38, Air: 0.12 },
-    qualities: ["mild", "soft", "creamy", "American", "orange"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.35,
-        salty: 0.3,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.25,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.35,
-        woody: 0.1,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.2,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["sandwiches", "burgers", "crackers", "fruit"],
-      contrasting: ["apples", "grapes"],
-      toAvoid: ["strong spices", "acidic sauces"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Gemini"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  muenster: {
-    name: "muenster",
-    elementalProperties: { Fire: 0.17, Water: 0.36, Earth: 0.36, Air: 0.11 },
-    qualities: ["mild", "smooth", "pale", "buttery", "orange-rind"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.3,
-        salty: 0.3,
-        sour: 0.1,
-        bitter: 0.05,
-        umami: 0.3,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.4,
-        woody: 0.1,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.75,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.65,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["sandwiches", "burgers", "crackers", "apple pie"],
-      contrasting: ["mustard", "pickles"],
-      toAvoid: ["strong spices"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  pepper_jack: {
-    name: "pepper jack",
-    elementalProperties: { Fire: 0.28, Water: 0.35, Earth: 0.28, Air: 0.09 },
-    qualities: ["spicy", "creamy", "melty", "zesty", "hot"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.2,
-        salty: 0.35,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.25,
-        spicy: 0.8,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.05,
-        herbal: 0.1,
-        spicy: 0.7,
-        earthy: 0.3,
-        woody: 0.1,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["nachos", "quesadillas", "burgers", "jalapeños"],
-      contrasting: ["sweet peppers", "honey"],
-      toAvoid: ["delicate dishes", "mild flavors"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Sagittarius", "Leo"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  chevre: {
-    name: "chèvre",
-    elementalProperties: { Fire: 0.1, Water: 0.42, Earth: 0.36, Air: 0.12 },
-    qualities: ["fresh", "tangy", "soft", "white", "spreadable"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.15,
-        salty: 0.25,
-        sour: 0.5,
-        bitter: 0.0,
-        umami: 0.2,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.1,
-        fruity: 0.1,
-        herbal: 0.2,
-        spicy: 0.0,
-        earthy: 0.4,
-        woody: 0.05,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.8,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.7,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["crackers", "beets", "salads", "honey", "herbs"],
-      contrasting: ["fig", "walnuts", "cranberries"],
-      toAvoid: ["heavy meats", "strong spices"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Gemini", "Libra"],
-      seasonalAffinity: ["spring", "summer"],
-    },
-  },
-
-  fresh_mozzarella: {
-    name: "fresh mozzarella",
-    elementalProperties: { Fire: 0.11, Water: 0.5, Earth: 0.28, Air: 0.11 },
-    qualities: ["milky", "soft", "delicate", "fresh", "moist"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.35,
-        salty: 0.15,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.15,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.2,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.8,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: [
-        "tomatoes",
-        "basil",
-        "olive oil",
-        "caprese",
-        "prosciutto",
-      ],
-      contrasting: ["balsamic", "arugula"],
-      toAvoid: ["cooking", "strong spices"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Pisces"],
-      seasonalAffinity: ["summer", "spring"],
-    },
-  },
-
-  buffalo_mozzarella: {
-    name: "buffalo mozzarella",
-    elementalProperties: { Fire: 0.13, Water: 0.48, Earth: 0.28, Air: 0.11 },
-    qualities: ["rich", "creamy", "authentic", "luxurious", "Italian"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.4,
-        salty: 0.2,
-        sour: 0.1,
-        bitter: 0.0,
-        umami: 0.25,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.05,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.3,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.75,
-        creamy: 0.85,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.7,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["tomatoes", "basil", "olive oil", "pizza", "caprese"],
-      contrasting: ["balsamic", "peaches", "prosciutto"],
-      toAvoid: ["heavy cooking", "strong spices"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
-      seasonalAffinity: ["summer", "spring"],
-    },
-  },
-
-  ricotta_salata: {
-    name: "ricotta salata",
-    elementalProperties: { Fire: 0.16, Water: 0.32, Earth: 0.42, Air: 0.1 },
-    qualities: ["salty", "firm", "aged", "crumbly", "mild"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.15,
-        salty: 0.7,
-        sour: 0.1,
-        bitter: 0.0,
-        umami: 0.3,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.05,
-        spicy: 0.0,
-        earthy: 0.35,
-        woody: 0.1,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.2,
-        chewy: 0.0,
-        crunchy: 0.7,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["pasta", "salads", "vegetables", "watermelon"],
-      contrasting: ["honey", "figs", "arugula"],
-      toAvoid: ["heavy sauces", "delicate fish"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Capricorn", "Taurus", "Virgo"],
-      seasonalAffinity: ["summer", "all"],
-    },
-  },
-
-  aged_cheddar: {
-    name: "aged cheddar",
-    elementalProperties: { Fire: 0.28, Water: 0.18, Earth: 0.45, Air: 0.09 },
-    qualities: ["sharp", "crystalline", "intense", "crumbly", "complex"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.1,
-        salty: 0.65,
-        sour: 0.35,
-        bitter: 0.15,
-        umami: 0.6,
-        spicy: 0.1,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.2,
-        herbal: 0.0,
-        spicy: 0.15,
-        earthy: 0.6,
-        woody: 0.2,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.3,
-        chewy: 0.0,
-        crunchy: 0.7,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["crackers", "apples", "wine", "charcuterie"],
-      contrasting: ["fig jam", "honey", "walnuts"],
-      toAvoid: ["delicate flavors", "mild dishes"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Capricorn", "Aries", "Scorpio"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  smoked_gouda: {
-    name: "smoked gouda",
-    elementalProperties: { Fire: 0.32, Water: 0.22, Earth: 0.38, Air: 0.08 },
-    qualities: ["smoky", "rich", "nutty", "Dutch", "caramelized"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.3,
-        salty: 0.4,
-        sour: 0.05,
-        bitter: 0.1,
-        umami: 0.45,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.1,
-        herbal: 0.0,
-        spicy: 0.3,
-        earthy: 0.5,
-        woody: 0.6,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.6,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.5,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["crackers", "beer", "apples", "charcuterie"],
-      contrasting: ["mustard", "pickles", "grapes"],
-      toAvoid: ["delicate dishes", "citrus"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Mars", "Pluto"],
-      favorableZodiac: ["Scorpio", "Aries", "Sagittarius"],
-      seasonalAffinity: ["autumn", "winter"],
-    },
-  },
-
-  gouda: {
-    name: "gouda",
-    elementalProperties: { Fire: 0.19, Water: 0.3, Earth: 0.4, Air: 0.11 },
-    qualities: ["mild", "creamy", "sweet", "Dutch", "yellow"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.4,
-        salty: 0.3,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.3,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.2,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.4,
-        woody: 0.15,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.7,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["crackers", "fruit", "wine", "sandwiches"],
-      contrasting: ["grapes", "pears", "mustard"],
-      toAvoid: ["strong spices"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Sagittarius", "Libra"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  edam: {
-    name: "edam",
-    elementalProperties: { Fire: 0.17, Water: 0.31, Earth: 0.41, Air: 0.11 },
-    qualities: ["mild", "nutty", "firm", "Dutch", "red-wax"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.3,
-        salty: 0.35,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.3,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.4,
-        woody: 0.15,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.5,
-        chewy: 0.0,
-        crunchy: 0.4,
-        silky: 0.0,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["crackers", "fruit", "beer", "sandwiches"],
-      contrasting: ["pears", "apples", "mustard"],
-      toAvoid: ["strong spices", "acidic foods"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["Taurus", "Capricorn", "Libra"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  // ADDITIONAL YOGURTS
-  coconut_yogurt: {
-    name: "coconut yogurt",
-    elementalProperties: { Fire: 0.13, Water: 0.46, Earth: 0.25, Air: 0.16 },
-    qualities: ["tropical", "tangy", "plant-based", "creamy", "exotic"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.4,
-        salty: 0.05,
-        sour: 0.5,
-        bitter: 0.0,
-        umami: 0.05,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.15,
-        fruity: 0.5,
-        herbal: 0.05,
-        spicy: 0.0,
-        earthy: 0.15,
-        woody: 0.15,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.75,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["tropical fruit", "granola", "smoothies", "mango"],
-      contrasting: ["chocolate", "honey"],
-      toAvoid: ["savory dishes", "cooking"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Pisces", "Libra"],
-      seasonalAffinity: ["summer", "all"],
-    },
-  },
-
-  icelandic_yogurt: {
-    name: "icelandic yogurt",
-    elementalProperties: { Fire: 0.08, Water: 0.49, Earth: 0.27, Air: 0.16 },
-    qualities: ["thick", "creamy", "protein-rich", "mild", "traditional"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.2,
-        salty: 0.1,
-        sour: 0.45,
-        bitter: 0.0,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.0,
-        fruity: 0.15,
-        herbal: 0.0,
-        spicy: 0.0,
-        earthy: 0.25,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.85,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.7,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["berries", "honey", "granola", "smoothies"],
-      contrasting: ["chocolate", "nuts"],
-      toAvoid: ["savory dishes", "cooking"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Capricorn", "Aquarius"],
-      seasonalAffinity: ["all"],
-    },
-  },
-
-  australian_yogurt: {
-    name: "australian yogurt",
-    elementalProperties: { Fire: 0.09, Water: 0.47, Earth: 0.28, Air: 0.16 },
-    qualities: ["velvety", "honey-sweetened", "unstrained", "creamy", "smooth"],
-    category: "dairy",
-    sensoryProfile: {
-      taste: {
-        sweet: 0.45,
-        salty: 0.1,
-        sour: 0.4,
-        bitter: 0.0,
-        umami: 0.1,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.1,
-        fruity: 0.2,
-        herbal: 0.0,
-        spicy: 0.05,
-        earthy: 0.25,
-        woody: 0.1,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.8,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.75,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["granola", "berries", "honey", "breakfast bowls"],
-      contrasting: ["nuts", "chocolate"],
-      toAvoid: ["savory dishes", "cooking"],
-    },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Taurus"],
-      seasonalAffinity: ["all"],
     },
   },
 };
 
+// ... more cheese categories could be added here ...
+
 // Export processed ingredients
 export const dairyIngredients = fixIngredientMappings(rawDairy);
+export default dairyIngredients;

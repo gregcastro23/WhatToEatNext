@@ -37,12 +37,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     affinities: ["honey", "ginger", "mint", "thyme", "lavender"],
     cookingMethods: ["raw", "juiced", "preserved", "zested"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "1 medium (58g)",
+      calories: 17,
+      macros: {
+        protein: 0.6,
+        carbs: 5.4,
+        fat: 0.2,
+        fiber: 1.6,
+        sugar: 1.5,
+        sodium: 1,
+      },
       vitamins: ["c", "b6", "folate"],
       minerals: ["potassium", "calcium"],
-      calories: 29,
-      carbs_g: 9,
-      fiber_g: 2.8,
       antioxidants: ["flavonoids", "limonoids"],
     },
     preparation: {
@@ -66,7 +72,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 130, unit: "g" }, // Standard serving: 1 medium orange
-    scaledElemental: { Water: 0.39, Fire: 0.31, Air: 0.2, Earth: 0.1 }, // Scaled for harmony
+    scaledElemental: { Water: 0.39, Air: 0.31, Fire: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
       Spirit: 0.25,
       Essence: 0.345,
@@ -93,12 +99,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     affinities: ["vanilla", "cinnamon", "chocolate", "cranberry", "dates"],
     cookingMethods: ["raw", "juiced", "zested", "candied"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "1 medium (131g)",
+      calories: 62,
+      macros: {
+        protein: 1.2,
+        carbs: 15.4,
+        fat: 0.2,
+        fiber: 3.1,
+        sugar: 12.2,
+        sodium: 0,
+      },
       vitamins: ["c", "a", "b1"],
       minerals: ["calcium", "potassium"],
-      calories: 62,
-      carbs_g: 15,
-      fiber_g: 3.1,
       antioxidants: ["hesperidin", "beta-cryptoxanthin"],
     },
     preparation: {
@@ -138,11 +150,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     affinities: ["mint", "coconut", "chili", "cilantro", "ginger"],
     cookingMethods: ["raw", "juiced", "zested", "preserved"],
     nutritionalProfile: {
+      serving_size: "1 medium (67g)",
+      calories: 20,
+      macros: {
+        protein: 0.5,
+        carbs: 7.1,
+        fat: 0.1,
+        fiber: 1.9,
+        sugar: 1.1,
+        sodium: 1,
+      },
       vitamins: ["c", "b6"],
       minerals: ["potassium", "calcium"],
-      calories: 20,
-      carbs_g: 7,
-      fiber_g: 1.9,
     },
     preparation: {
       washing: true,
@@ -193,12 +212,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     affinities: ["mint", "honey", "avocado", "fennel", "rosemary"],
     cookingMethods: ["raw", "juiced", "broiled", "preserved"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "1/2 medium (123g)",
+      calories: 52,
+      macros: {
+        protein: 0.9,
+        carbs: 13.2,
+        fat: 0.2,
+        fiber: 2.0,
+        sugar: 8.5,
+        sodium: 0,
+      },
       vitamins: ["c", "a", "b6"],
       minerals: ["potassium", "magnesium"],
-      calories: 42,
-      carbs_g: 11,
-      fiber_g: 1.6,
       antioxidants: ["lycopene", "beta-carotene", "naringin"],
     },
     preparation: {
@@ -256,12 +281,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     affinities: ["chocolate", "vanilla", "ginger", "cinnamon", "almond"],
     cookingMethods: ["raw", "juiced", "preserved", "candied"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "1 medium (88g)",
+      calories: 47,
+      macros: {
+        protein: 0.7,
+        carbs: 11.7,
+        fat: 0.3,
+        fiber: 1.6,
+        sugar: 9.3,
+        sodium: 2,
+      },
       vitamins: ["c", "a"],
       minerals: ["potassium"],
-      calories: 53,
-      carbs_g: 13,
-      fiber_g: 1.8,
       antioxidants: ["beta-carotene", "flavonoids"],
     },
     preparation: {
@@ -301,12 +332,18 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     affinities: ["honey", "vanilla", "mint", "cinnamon"],
     cookingMethods: ["raw", "juiced", "preserved"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "1 medium (74g)",
+      calories: 35,
+      macros: {
+        protein: 0.6,
+        carbs: 8.9,
+        fat: 0.1,
+        fiber: 1.3,
+        sugar: 6.8,
+        sodium: 1,
+      },
       vitamins: ["c", "a", "b1"],
       minerals: ["potassium", "calcium"],
-      calories: 47,
-      carbs_g: 12,
-      fiber_g: 1.7,
       antioxidants: ["beta-carotene", "flavonoids"],
     },
     preparation: {
@@ -359,7 +396,14 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup sections (190g)",
       calories: 72,
-      macros: { protein: 1.4, carbs: 18.0, fat: 0.1, fiber: 2.6 },
+      macros: {
+        protein: 1.4,
+        carbs: 18.0,
+        fat: 0.1,
+        fiber: 2.6,
+        sugar: 15.0,
+        sodium: 2,
+      },
       vitamins: { C: 1.93, folate: 0.06 },
       minerals: { potassium: 0.12 },
       source: "USDA FoodData Central",
@@ -438,7 +482,14 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 fruit juice (30ml)",
       calories: 9,
-      macros: { protein: 0.2, carbs: 2.1, fat: 0.0, fiber: 0.1 },
+      macros: {
+        protein: 0.2,
+        carbs: 2.1,
+        fat: 0.0,
+        fiber: 0.1,
+        sugar: 0.5,
+        sodium: 1,
+      },
       vitamins: { C: 0.13 },
       minerals: { potassium: 0.02 },
       source: "USDA FoodData Central",
@@ -499,8 +550,15 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 tsp zest (2g)",
-      calories: 0,
-      macros: { protein: 0.0, carbs: 0.1, fat: 0.0, fiber: 0.1 },
+      calories: 1,
+      macros: {
+        protein: 0.0,
+        carbs: 0.1,
+        fat: 0.0,
+        fiber: 0.1,
+        sugar: 0,
+        sodium: 0,
+      },
       vitamins: { C: 0.01 },
       minerals: {},
       source: "USDA FoodData Central",
@@ -562,7 +620,14 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "5 fruits (95g)",
       calories: 71,
-      macros: { protein: 1.9, carbs: 15.9, fat: 0.9, fiber: 6.5 },
+      macros: {
+        protein: 1.9,
+        carbs: 15.9,
+        fat: 0.9,
+        fiber: 6.5,
+        sugar: 9.0,
+        sodium: 10,
+      },
       vitamins: { C: 0.73 },
       minerals: { calcium: 0.06 },
       source: "USDA FoodData Central",
@@ -624,7 +689,14 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 fruit (15g)",
       calories: 5,
-      macros: { protein: 0.1, carbs: 1.2, fat: 0.0, fiber: 0.3 },
+      macros: {
+        protein: 0.1,
+        carbs: 1.2,
+        fat: 0.0,
+        fiber: 0.3,
+        sugar: 0.2,
+        sodium: 0,
+      },
       vitamins: { C: 0.08 },
       minerals: { potassium: 0.01 },
       source: "USDA FoodData Central",
@@ -686,7 +758,14 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 medium (131g)",
       calories: 70,
-      macros: { protein: 1.3, carbs: 17.6, fat: 0.3, fiber: 2.8 },
+      macros: {
+        protein: 1.3,
+        carbs: 17.6,
+        fat: 0.3,
+        fiber: 2.8,
+        sugar: 13.0,
+        sodium: 0,
+      },
       vitamins: { C: 0.88, folate: 0.09 },
       minerals: { potassium: 0.08, calcium: 0.05 },
       source: "USDA FoodData Central",
@@ -748,7 +827,14 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 medium (88g)",
       calories: 47,
-      macros: { protein: 0.7, carbs: 11.7, fat: 0.3, fiber: 1.6 },
+      macros: {
+        protein: 0.7,
+        carbs: 11.7,
+        fat: 0.3,
+        fiber: 1.6,
+        sugar: 9.3,
+        sodium: 2,
+      },
       vitamins: { C: 0.44, A: 0.14 },
       minerals: { potassium: 0.05 },
       source: "USDA FoodData Central",
