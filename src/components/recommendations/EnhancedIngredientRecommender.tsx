@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
+import { getIngredientSummary } from "@/data/ingredients/ingredientSummaries";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { IngredientService } from "@/services/IngredientService";
 import type { ElementalProperties } from "@/types/alchemy";
@@ -757,6 +758,24 @@ export const EnhancedIngredientRecommender: React.FC<
             </div>
           </div>
         </div>
+
+        {/* Summary Blurb */}
+        {(() => {
+          const summary = getIngredientSummary(ingredient.name);
+          if (!summary) return null;
+          
+          return (
+            <div className="mb-3 text-sm text-gray-700 bg-blue-50/30 p-3 rounded-md border border-blue-100/50">
+              {summary.split('\n\n').map((paragraph, i) => (
+                <p key={i} className={i > 0 ? "mt-2" : ""} dangerouslySetInnerHTML={{ 
+                  __html: paragraph
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                }} />
+              ))}
+            </div>
+          );
+        })()}
 
         {/* Qualities badges */}
         {ingredient.qualities &&

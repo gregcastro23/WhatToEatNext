@@ -11,6 +11,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import type { SelectedIngredient } from "@/contexts/RecipeBuilderContext";
+import { getIngredientSummary } from "@/data/ingredients/ingredientSummaries";
 import { getAllIngredients } from "@/utils/foodRecommender";
 import { createLogger } from "@/utils/logger";
 
@@ -136,6 +137,17 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, isSelected,
         {ingredient.category && (
           <div className="text-xs text-gray-500 truncate">{ingredient.category}</div>
         )}
+        {(() => {
+          const summary = getIngredientSummary(ingredient.name);
+          if (!summary) return null;
+          // Strip markdown for the tiny preview
+          const plainText = summary.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1');
+          return (
+            <div className="text-[10px] text-gray-400 mt-0.5 line-clamp-1" title={plainText}>
+              {plainText}
+            </div>
+          );
+        })()}
       </div>
 
       {/* Right: Mini elemental bars */}
