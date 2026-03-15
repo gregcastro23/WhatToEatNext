@@ -2129,65 +2129,128 @@ export const indian = {
           mealType: ["dessert"],
         },
         {
-          name: "Kulfi",
-          description: "Dense Indian ice cream",
-          cuisine: "Indian",
-          cookingMethods: ["reducing", "freezing"],
-          tools: [
-            "heavy-bottomed pot",
-            "wooden spoon",
-            "kulfi molds",
-            "fine strainer",
-            "blender",
-          ],
-          preparationSteps: [
-            "Reduce milk slowly",
-            "Add nuts and cardamom",
-            "Cool mixture",
-            "Pour into molds",
-            "Freeze until solid",
-            "Dip in warm water to unmold",
-          ],
-          ingredients: [
+          "recipe_name": "Authentic Indian Kulfi",
+          "description": "The traditional, unchurned ice cream of the Indian subcontinent. The alchemy relies on extreme, prolonged evaporation of milk (rabri) rather than whipping air into cream. This slow reduction creates intense caramelization, a dense, fudgy texture, and prevents large ice crystals from forming during freezing.",
+          "details": {
+            "cuisine": "Indian",
+            "prep_time_minutes": 10,
+            "cook_time_minutes": 120,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "summer"
+            ]
+          },
+          "ingredients": [
             {
-              name: "milk",
-              amount: "1",
-              unit: "L",
-              category: "dairy",
-              swaps: ["coconut milk"],
+              "amount": 2,
+              "unit": "liters",
+              "name": "whole milk",
+              "notes": "Must be full-fat. Do not use skim or 2%."
             },
-            { name: "pistachios", amount: "100", unit: "g", category: "nuts" },
-            { name: "cardamom", amount: "5", unit: "pods", category: "spice" },
-            { name: "saffron", amount: "1", unit: "pinch", category: "spice" },
-            { name: "sugar", amount: "150", unit: "g", category: "sweetener" },
-            { name: "almonds", amount: "50", unit: "g", category: "nuts" },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "Added late in the reduction process."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "saffron threads",
+              "notes": "Soaked in 1 tbsp of warm milk to extract color and aroma."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "green cardamom powder",
+              "notes": "Freshly ground from the pods."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "pistachios",
+              "notes": "Unsalted, very finely chopped or ground into a coarse powder."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "almonds",
+              "notes": "Unsalted, very finely chopped or ground into a coarse powder."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "rose water",
+              "notes": "Optional, added off the heat."
+            }
           ],
-          substitutions: {
-            milk: ["coconut milk", "cashew milk"],
-            pistachios: ["any nuts"],
-            sugar: ["jaggery", "date syrup"],
+          "instructions": [
+            "Step 1: The Long Boil (Rabri). Pour the milk into a very wide, heavy-bottomed pan or kadhai. Bring to a boil over medium-high heat. Once boiling, reduce the heat to medium-low.",
+            "Step 2: Evaporation and Scraping. Simmer the milk continuously for 1.5 to 2 hours. A skin (malai) will form on the surface; push this skin to the sides of the pan. Every few minutes, aggressively scrape the bottom and sides of the pan with a spatula to prevent scorching and reintegrate the caramelized milk solids back into the liquid.",
+            "Step 3: The Thickening. Continue this process until the milk has reduced to exactly one-third of its original volume. It should be thick, pale yellow/beige, and coated in tiny granules of milk solids.",
+            "Step 4: Flavoring. Stir in the sugar, soaked saffron (with its milk), and cardamom powder. Simmer for 5 more minutes until the sugar is completely dissolved.",
+            "Step 5: The Nuts. Turn off the heat. Stir in the finely chopped pistachios, almonds, and rose water (if using). Let the mixture cool completely to room temperature.",
+            "Step 6: The Mold. Pour the cooled, thick mixture into traditional conical Kulfi molds, or into small paper cups or popsicle molds.",
+            "Step 7: Freeze. Cover tightly with foil (insert a popsicle stick through the foil if not using molds with lids). Freeze for at least 8 hours, preferably overnight, until rock solid.",
+            "Step 8: Unmold. To serve, run the outside of the mold briefly under warm water or rub it between your palms to loosen the kulfi, then pull it out."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "sweet",
+              "frozen"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "reducing",
+              "freezing"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy", "nuts"],
-          prepTime: "30 minutes",
-          cookTime: "1 hour",
-          freezeTime: "6 hours",
-          culturalNotes:
-            "A traditional frozen dessert predating ice cream in India. The slow reduction of milk creates its signature dense, creamy texture",
-          pairingSuggestions: ["falooda", "rose syrup", "fresh fruit"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 260,
-            protein: 8,
-            carbs: 32,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium", "Phosphorus"],
+          "elemental_properties": {
+            "fire": 0.3,
+            "water": 0.35,
+            "earth": 0.25,
+            "air": 0.1
           },
-          season: ["summer"],
-          mealType: ["dessert"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 280,
+            "protein_g": 10,
+            "carbs_g": 25,
+            "fat_g": 16,
+            "fiber_g": 1,
+            "sodium_mg": 110,
+            "sugar_g": 22,
+            "vitamins": [
+              "Vitamin D",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "whole milk",
+              "substitute_options": [
+                "1 can evaporated milk + 1 can sweetened condensed milk + 1 cup heavy cream (for a 'quick', no-cook version)"
+              ]
+            }
+          ]
         },
       ],
       summer: [],
