@@ -63,9 +63,8 @@ const CATEGORIES = [
     id: "herbs",
     name: "Herbs",
     icon: "🌿",
-    altIds: ["herb", "culinary_herb", "medicinal_herb"],
+    altIds: ["herb", "culinary_herb", "medicinal_herb", "medicinal herb"],
   },
-  { id: "vegetables", name: "Vegetables", icon: "🥬", altIds: ["vegetable"] },
   {
     id: "proteins",
     name: "Proteins",
@@ -922,19 +921,38 @@ export const EnhancedIngredientRecommender: React.FC<
         })()}
 
         {/* ── PAIRS WELL WITH ───────────────────────────────── */}
-        {(ingredient.pairingRecommendations as any)?.complementary &&
-          Array.isArray(
-            (ingredient.pairingRecommendations as any).complementary,
-          ) &&
-          (ingredient.pairingRecommendations as any).complementary.length >
-            0 && (
-            <div className="mb-2 text-xs text-gray-600">
-              <span className="font-medium text-gray-500">🤝 Pairs with: </span>
-              {(ingredient.pairingRecommendations as any).complementary
-                .slice(0, 4)
-                .join(", ")}
-            </div>
-          )}
+        {(() => {
+          const pr = ingredient.pairingRecommendations as any;
+          // Object format: { complementary: [...] }
+          if (pr?.complementary && Array.isArray(pr.complementary) && pr.complementary.length > 0) {
+            return (
+              <div className="mb-2 text-xs text-gray-600">
+                <span className="font-medium text-gray-500">🤝 Pairs with: </span>
+                {pr.complementary.slice(0, 4).join(", ")}
+              </div>
+            );
+          }
+          // Simple string array format
+          if (Array.isArray(pr) && pr.length > 0) {
+            return (
+              <div className="mb-2 text-xs text-gray-600">
+                <span className="font-medium text-gray-500">🤝 Pairs with: </span>
+                {(pr as string[]).slice(0, 4).join(", ")}
+              </div>
+            );
+          }
+          // affinities as fallback pairing display
+          const affinities = (ingredient as any).affinities;
+          if (Array.isArray(affinities) && affinities.length > 0) {
+            return (
+              <div className="mb-2 text-xs text-gray-600">
+                <span className="font-medium text-gray-500">🤝 Pairs with: </span>
+                {(affinities as string[]).slice(0, 4).join(", ")}
+              </div>
+            );
+          }
+          return null;
+        })()}
 
         {/* ── ORIGIN + SEASONALITY ──────────────────────────── */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-400">
@@ -1159,63 +1177,66 @@ export const EnhancedIngredientRecommender: React.FC<
               )}
 
             {/* Pairing Recommendations */}
-            {ingredient.pairingRecommendations &&
-              typeof ingredient.pairingRecommendations === "object" && (
-                <div>
-                  <div className="mb-2 text-sm font-semibold text-gray-800">
-                    Pairings
-                  </div>
-                  <div className="space-y-1 text-sm">
-                    {(ingredient.pairingRecommendations as any)
-                      ?.complementary &&
-                      Array.isArray(
-                        (ingredient.pairingRecommendations as any)
-                          ?.complementary,
-                      ) && (
+            {ingredient.pairingRecommendations && (
+              <div>
+                <div className="mb-2 text-sm font-semibold text-gray-800">
+                  Pairings
+                </div>
+                {(() => {
+                  const pr = ingredient.pairingRecommendations as any;
+                  // Simple string array format
+                  if (Array.isArray(pr) && pr.length > 0) {
+                    return (
+                      <div className="space-y-1 text-sm">
+                        <div>
+                          <span className="font-medium text-green-700">
+                            Pairs well with:{" "}
+                          </span>
+                          <span className="text-gray-600">
+                            {(pr as string[]).join(", ")}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  }
+                  // Object format with complementary/contrasting/toAvoid
+                  return (
+                    <div className="space-y-1 text-sm">
+                      {pr?.complementary && Array.isArray(pr.complementary) && (
                         <div>
                           <span className="font-medium text-green-700">
                             Complementary:{" "}
                           </span>
                           <span className="text-gray-600">
-                            {(
-                              ingredient.pairingRecommendations as any
-                            ).complementary.join(", ")}
+                            {pr.complementary.join(", ")}
                           </span>
                         </div>
                       )}
-                    {(ingredient.pairingRecommendations as any)?.contrasting &&
-                      Array.isArray(
-                        (ingredient.pairingRecommendations as any)?.contrasting,
-                      ) && (
+                      {pr?.contrasting && Array.isArray(pr.contrasting) && (
                         <div>
                           <span className="font-medium text-orange-700">
                             Contrasting:{" "}
                           </span>
                           <span className="text-gray-600">
-                            {(
-                              ingredient.pairingRecommendations as any
-                            ).contrasting.join(", ")}
+                            {pr.contrasting.join(", ")}
                           </span>
                         </div>
                       )}
-                    {(ingredient.pairingRecommendations as any)?.toAvoid &&
-                      Array.isArray(
-                        (ingredient.pairingRecommendations as any)?.toAvoid,
-                      ) && (
+                      {pr?.toAvoid && Array.isArray(pr.toAvoid) && (
                         <div>
                           <span className="font-medium text-red-700">
                             Avoid:{" "}
                           </span>
                           <span className="text-gray-600">
-                            {(
-                              ingredient.pairingRecommendations as any
-                            ).toAvoid.join(", ")}
+                            {pr.toAvoid.join(", ")}
                           </span>
                         </div>
                       )}
-                  </div>
-                </div>
-              )}
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
 
             {/* Elemental Properties */}
             {ingredient.elementalProperties && (
@@ -1241,7 +1262,7 @@ export const EnhancedIngredientRecommender: React.FC<
                           {prop}:
                         </span>
                         <span className="text-gray-600">
-                          {typeof value === "number" ? value.toFixed(3) : value}
+                          {Number(value).toFixed(3)}
                         </span>
                       </div>
                     ),
@@ -1259,7 +1280,7 @@ export const EnhancedIngredientRecommender: React.FC<
                         K<sub>alchm</sub>
                       </span>
                       <span className="text-sm font-bold text-indigo-700">
-                        {typeof kalchmValue === "number" ? kalchmValue.toFixed(4) : kalchmValue}
+                        {Number(kalchmValue).toFixed(4)}
                       </span>
                     </div>
                   );
@@ -1466,13 +1487,149 @@ export const EnhancedIngredientRecommender: React.FC<
                         {prop}:
                       </span>
                       <span className="text-gray-600">
-                        {typeof value === "number" ? value.toFixed(3) : value}
+                        {typeof value === "number" ? Number(value).toFixed(3) : value}
                       </span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
+            {/* Parts Used (medicinal / botanical ingredients) */}
+            {(ingredient as any).parts_used &&
+              Array.isArray((ingredient as any).parts_used) &&
+              (ingredient as any).parts_used.length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Parts Used
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {((ingredient as any).parts_used as string[]).map(
+                      (part: string, idx: number) => (
+                        <span
+                          key={idx}
+                          className="rounded-md bg-violet-100 px-2 py-1 text-xs text-violet-700"
+                        >
+                          {part}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* Medicinal / Herbal Properties */}
+            {(ingredient as any).properties &&
+              typeof (ingredient as any).properties === "object" &&
+              !Array.isArray((ingredient as any).properties) &&
+              Object.keys((ingredient as any).properties).length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Medicinal Properties
+                  </div>
+                  <div className="space-y-1 text-sm">
+                    {Object.entries(
+                      (ingredient as any).properties as Record<string, string>,
+                    ).map(([key, val]) => (
+                      <div key={key}>
+                        <span className="font-medium capitalize text-teal-700">
+                          {key.replace(/_/g, " ")}:{" "}
+                        </span>
+                        <span className="text-gray-600">{String(val)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            {/* Affinities (ingredient pairings stored as simple array) */}
+            {(ingredient as any).affinities &&
+              Array.isArray((ingredient as any).affinities) &&
+              (ingredient as any).affinities.length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Affinities
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {((ingredient as any).affinities as string[]).map(
+                      (affinity: string, idx: number) => (
+                        <span
+                          key={idx}
+                          className="rounded-md bg-green-50 border border-green-200 px-2 py-0.5 text-xs text-green-700"
+                        >
+                          {affinity}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* Flavor / Description text */}
+            {(() => {
+              const desc =
+                (ingredient as any).flavor ||
+                (ingredient as any).description ||
+                (ingredient as any).flavorDescription;
+              if (!desc || typeof desc !== "string") return null;
+              return (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Flavor Notes
+                  </div>
+                  <p className="text-sm italic text-gray-600">{desc}</p>
+                </div>
+              );
+            })()}
+
+            {/* Culinary Uses (flat array format used by some herbs) */}
+            {(() => {
+              const uses: string[] | undefined =
+                (ingredient as any).culinaryUses ||
+                (ingredient as any).culinaryApplications?.uses;
+              if (!uses || !Array.isArray(uses) || uses.length === 0)
+                return null;
+              return (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Culinary Uses
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {uses.map((use: string, idx: number) => (
+                      <span
+                        key={idx}
+                        className="rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-700"
+                      >
+                        {use}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Varieties */}
+            {(ingredient as any).varieties &&
+              typeof (ingredient as any).varieties === "object" &&
+              Object.keys((ingredient as any).varieties).length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Varieties
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {Object.keys((ingredient as any).varieties).map(
+                      (v, idx) => (
+                        <span
+                          key={idx}
+                          className="rounded-md bg-sky-100 px-2 py-0.5 text-xs capitalize text-sky-700"
+                        >
+                          {v.replace(/_/g, " ")}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
           </div>
         )}
       </div>
