@@ -9,6 +9,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 
     // Pungent, tear-inducing, transformative
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.30,
+      Essence: 0.20,
+      Matter: 0.28,
+      Substance: 0.22,
+    },
 
     nutritionalProfile: {
       serving_size: "1 medium (110g)",
@@ -158,6 +164,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 
     // Pungent, powerful, transformative
     elementalProperties: { Fire: 0.45, Earth: 0.3, Air: 0.15, Water: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.38,
+      Essence: 0.18,
+      Matter: 0.24,
+      Substance: 0.20,
+    },
 
     nutritionalProfile: {
       serving_size: "3 cloves (9g)",
@@ -310,6 +322,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   onions: {
     name: "onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.24,
+      Matter: 0.30,
+      Substance: 0.24,
+    },
     qualities: ["pungent", "aromatic", "versatile"],
     category: "vegetables",
     subcategory: "allium_bulb",
@@ -339,6 +357,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   yellow_onions: {
     name: "yellow onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.24,
+      Matter: 0.30,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "allium_bulb",
@@ -352,6 +376,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   pearl_onions: {
     name: "pearl onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.20,
+      Essence: 0.25,
+      Matter: 0.31,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "allium_bulb",
@@ -365,6 +395,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   shallots: {
     name: "shallots",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.24,
+      Essence: 0.24,
+      Matter: 0.28,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "allium_bulb",
@@ -378,6 +414,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   green_onions: {
     name: "green onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.26,
+      Matter: 0.28,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "allium_bulb",
@@ -391,6 +433,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   yellow_onion: {
     name: "yellow onion",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.24,
+      Matter: 0.30,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "allium_bulb",
@@ -404,6 +452,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   red_onion: {
     name: "red onion",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.23,
+      Essence: 0.24,
+      Matter: 0.29,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "allium_bulb",

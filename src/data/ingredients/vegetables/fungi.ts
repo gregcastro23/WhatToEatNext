@@ -5,6 +5,12 @@ const rawFungi: Record<string, Partial<IngredientMapping>> = {
   mushrooms: {
     name: "mushrooms",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.24,
+      Matter: 0.30,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh", "umami"],
     category: "vegetables",
     subcategory: "fungi",
@@ -17,6 +23,12 @@ const rawFungi: Record<string, Partial<IngredientMapping>> = {
   cremini_mushrooms: {
     name: "cremini mushrooms",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.24,
+      Matter: 0.30,
+      Substance: 0.24,
+    },
     qualities: ["nutritious", "versatile", "fresh", "umami"],
     category: "vegetables",
     subcategory: "fungi",

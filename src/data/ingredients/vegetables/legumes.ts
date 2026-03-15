@@ -5,6 +5,12 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   chickpeas: {
     name: "chickpeas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.12,
+      Essence: 0.20,
+      Matter: 0.36,
+      Substance: 0.32,
+    },
     qualities: ["hearty", "protein-rich", "versatile"],
     category: "vegetables",
     subcategory: "legumes",
@@ -40,6 +46,12 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   dried_chickpeas: {
     name: "dried chickpeas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.10,
+      Essence: 0.18,
+      Matter: 0.38,
+      Substance: 0.34,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "legumes",
@@ -52,6 +64,12 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   peanuts: {
     name: "peanuts",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.14,
+      Essence: 0.20,
+      Matter: 0.34,
+      Substance: 0.32,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "legumes",
@@ -64,6 +82,12 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   crushed_peanuts: {
     name: "crushed peanuts",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
+    alchemicalProperties: {
+      Spirit: 0.14,
+      Essence: 0.20,
+      Matter: 0.34,
+      Substance: 0.32,
+    },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetables",
     subcategory: "legumes",

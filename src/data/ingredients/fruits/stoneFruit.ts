@@ -5,6 +5,12 @@ const rawStoneFruit = {
   peach: {
     name: "Peach",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.20,
+      Essence: 0.30,
+      Matter: 0.26,
+      Substance: 0.24,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer"],
@@ -54,6 +60,12 @@ const rawStoneFruit = {
   plum: {
     name: "Plum",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.20,
+      Essence: 0.30,
+      Matter: 0.26,
+      Substance: 0.24,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
       favorableZodiac: ["taurus", "scorpio"],
@@ -103,6 +115,12 @@ const rawStoneFruit = {
   apricot: {
     name: "Apricot",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.26,
+      Essence: 0.28,
+      Matter: 0.23,
+      Substance: 0.23,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra", "Aries"],
@@ -145,6 +163,12 @@ const rawStoneFruit = {
   cherry: {
     name: "Cherry",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.26,
+      Essence: 0.28,
+      Matter: 0.23,
+      Substance: 0.23,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],
@@ -187,6 +211,12 @@ const rawStoneFruit = {
   nectarine: {
     name: "Nectarine",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.20,
+      Essence: 0.30,
+      Matter: 0.26,
+      Substance: 0.24,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],
@@ -229,6 +259,12 @@ const rawStoneFruit = {
   greengage: {
     name: "Greengage",
     elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 },
+    alchemicalProperties: {
+      Spirit: 0.14,
+      Essence: 0.26,
+      Matter: 0.33,
+      Substance: 0.27,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],
@@ -271,6 +307,12 @@ const rawStoneFruit = {
   damson: {
     name: "Damson",
     elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 },
+    alchemicalProperties: {
+      Spirit: 0.20,
+      Essence: 0.25,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],

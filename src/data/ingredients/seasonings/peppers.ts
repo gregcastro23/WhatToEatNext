@@ -5,6 +5,7 @@ const rawPeppers = {
   black_pepper: {
     name: "Black Pepper",
     elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
+    alchemicalProperties: { Spirit: 0.59, Essence: 0.27, Matter: 0.04, Substance: 0.10 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo"],
@@ -116,6 +117,7 @@ const rawPeppers = {
   white_pepper: {
     name: "White Pepper",
     elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0 },
+    alchemicalProperties: { Spirit: 0.46, Essence: 0.19, Matter: 0.18, Substance: 0.17 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Mars"],
       favorableZodiac: ["gemini", "virgo"],
@@ -193,6 +195,7 @@ const rawPeppers = {
   pink_peppercorn: {
     name: "Pink Peppercorn",
     elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
+    alchemicalProperties: { Spirit: 0.44, Essence: 0.30, Matter: 0.11, Substance: 0.15 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mars"],
       favorableZodiac: ["libra", "taurus"],
@@ -261,6 +264,7 @@ const rawPeppers = {
   szechuan_peppercorn: {
     name: "Szechuan Peppercorn",
     elementalProperties: { Fire: 0.56, Water: 0, Earth: 0.11, Air: 0.33 },
+    alchemicalProperties: { Spirit: 0.59, Essence: 0.26, Matter: 0.06, Substance: 0.09 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Uranus"],
       favorableZodiac: ["gemini", "aquarius"],
@@ -317,6 +321,7 @@ const rawPeppers = {
   long_pepper: {
     name: "Long Pepper",
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
+    alchemicalProperties: { Spirit: 0.44, Essence: 0.20, Matter: 0.18, Substance: 0.18 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "capricorn"],
