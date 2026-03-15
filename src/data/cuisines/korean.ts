@@ -349,14 +349,14 @@ export const korean: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Korean Bibimbap",
+          "name": "Authentic Korean Bibimbap",
           "description": "A structurally complex agrarian dish honoring the five elements.",
           "details": {
             "cuisine": "Korean",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 30,
-            "base_serving_size": 2,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 2,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -376,38 +376,38 @@ export const korean: Cuisine = {
             "Step 4: Top with egg and gochujang."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "sautéing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun"
             ],
             "signs": [
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 580,
-            "protein_g": 28,
-            "carbs_g": 75,
-            "fat_g": 18,
-            "fiber_g": 8,
-              "sodium_mg": 308,
-              "sugar_g": 5,
+            "proteinG": 28,
+            "carbsG": 75,
+            "fatG": 18,
+            "fiberG": 8,
+              "sodiumMg": 308,
+              "sugarG": 5,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -990,14 +990,14 @@ export const korean: Cuisine = {
           mealType: ["lunch", "dinner"],
         },
         {
-          "recipe_name": "Authentic Korean Bulgogi",
+          "name": "Authentic Korean Bulgogi",
           "description": "A study in meat tenderization and rapid caramelization.",
           "details": {
             "cuisine": "Korean",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 10,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1015,38 +1015,38 @@ export const korean: Cuisine = {
             "Step 2: Grill rapidly over high heat."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "grilling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.15,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.15,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars"
             ],
             "signs": [
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 35,
-            "carbs_g": 22,
-            "fat_g": 20,
-            "fiber_g": 2,
-              "sodium_mg": 615,
-              "sugar_g": 11,
+            "proteinG": 35,
+            "carbsG": 22,
+            "fatG": 20,
+            "fiberG": 2,
+              "sodiumMg": 615,
+              "sugarG": 11,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -2244,28 +2244,28 @@ export const korean: Cuisine = {
       raw: ["chogochujang", "sesame oil and salt", "gojuchang vinaigrette"],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "hot gochujang sauce",
         "spicy tteokbokki sauce",
         "chili oil",
         "yangnyeom sauce",
         "maewoon sauce",
       ],
-      earth: [
+      Earth: [
         "doenjang",
         "aged ganjang",
         "fermented bean paste sauces",
         "perilla oil",
         "wild sesame sauce",
       ],
-      air: [
+      Air: [
         "vinegar-based sauces",
         "citrus soy",
         "light sesame dressings",
         "yuzu dressing",
         "tangerine soy",
       ],
-      water: [
+      Water: [
         "clear soups",
         "mild doenjang",
         "anchovy broth bases",

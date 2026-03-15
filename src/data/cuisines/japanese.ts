@@ -81,14 +81,14 @@ export const japanese: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Traditional Japanese Breakfast Set (Ichiju Sansai)",
+          "name": "Traditional Japanese Breakfast Set (Ichiju Sansai)",
           "description": "A perfectly balanced structural model of Japanese nutritional philosophy: 'One soup, three sides' (Ichiju Sansai). It provides a complete spectrum of elements—Fire (grilled fish), Water (miso soup), Earth (rice and fermented pickles), and Air (steamed vegetables).",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 1,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 1,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -133,22 +133,22 @@ export const japanese: Cuisine = {
             "Step 5: Assemble. Arrange all bowls on a tray according to traditional placement: rice on the front left, soup on the front right, main dish at the back."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "steaming",
               "grilling",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Sun"
@@ -157,18 +157,18 @@ export const japanese: Cuisine = {
               "Virgo",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 28,
-            "carbs_g": 55,
-            "fat_g": 12,
-            "fiber_g": 4,
-            "sodium_mg": 950,
-            "sugar_g": 2,
+            "proteinG": 28,
+            "carbsG": 55,
+            "fatG": 12,
+            "fiberG": 4,
+            "sodiumMg": 950,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin D",
               "B12",
@@ -182,8 +182,8 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "salmon",
-              "substitute_options": [
+              "originalIngredient": "salmon",
+              "substituteOptions": [
                 "mackerel (Saba)",
                 "fermented natto (for a vegan-centric set)"
               ]
@@ -191,14 +191,14 @@ export const japanese: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Tamagoyaki (Japanese Omelet)",
+          "name": "Authentic Tamagoyaki (Japanese Omelet)",
           "description": "An exercise in precise temperature control and layering. Thin sheets of egg seasoned with dashi, sugar, and soy are rolled consecutively in a square pan (makiyakinabe) to create a multi-layered, dense, yet springy custard block.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -244,25 +244,25 @@ export const japanese: Cuisine = {
             "Step 6: Shape. Press the hot log into a bamboo mat (makisu) for 5 minutes to set the shape and create ridges. Slice into 1-inch pieces."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack",
               "dim sum",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whisking",
               "layering",
               "rolling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.25,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.25,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Moon"
@@ -271,18 +271,18 @@ export const japanese: Cuisine = {
               "Leo",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 250,
-            "protein_g": 14,
-            "carbs_g": 12,
-            "fat_g": 16,
-            "fiber_g": 0,
-            "sodium_mg": 380,
-            "sugar_g": 8,
+            "proteinG": 14,
+            "carbsG": 12,
+            "fatG": 16,
+            "fiberG": 0,
+            "sodiumMg": 380,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin A",
               "Vitamin D"
@@ -294,8 +294,8 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "dashi",
-              "substitute_options": [
+              "originalIngredient": "dashi",
+              "substituteOptions": [
                 "water with a pinch of dashi powder",
                 "vegetable stock"
               ]
@@ -303,14 +303,14 @@ export const japanese: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Natto Gohan",
+          "name": "Authentic Natto Gohan",
           "description": "An alchemical study in bacterial fermentation (Bacillus subtilis). Fermented soybeans develop a unique, sticky, thread-like mucilage (neba-neba) and a pungent aroma. The key is aggressive mechanical agitation (whipping) to aerate the mucilage before combining with hot rice.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 5,
-            "cook_time_minutes": 0,
-            "base_serving_size": 1,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 1,
+            "spiceLevel": "Mild",
             "season": [
               "all"
             ]
@@ -360,23 +360,23 @@ export const japanese: Cuisine = {
             "Step 4: Top. Add the egg yolk and scallions. Mix slightly into the top layer of rice and consume immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "vegetarian",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whipping",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.2,
-            "earth": 0.6,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.2,
+            "Earth": 0.6,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Moon"
@@ -385,18 +385,18 @@ export const japanese: Cuisine = {
               "Capricorn",
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 12,
-            "carbs_g": 48,
-            "fat_g": 10,
-            "fiber_g": 6,
-            "sodium_mg": 450,
-            "sugar_g": 1,
+            "proteinG": 12,
+            "carbsG": 48,
+            "fatG": 10,
+            "fiberG": 6,
+            "sodiumMg": 450,
+            "sugarG": 1,
             "vitamins": [
               "Vitamin K2",
               "Vitamin B12"
@@ -409,8 +409,8 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "egg yolk",
-              "substitute_options": [
+              "originalIngredient": "egg yolk",
+              "substituteOptions": [
                 "omit entirely (vegan)"
               ]
             }
@@ -421,14 +421,14 @@ export const japanese: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Onigiri Selection",
+          "name": "Authentic Onigiri Selection",
           "description": "The quintessential Japanese handheld meal. It relies on the structural properties of short-grain rice (Japonica) which, when compressed while warm, forms a self-supporting matrix. The nori seaweed acts as both a moisture barrier and a structural handle.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 0,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -479,23 +479,23 @@ export const japanese: Cuisine = {
             "Step 5: Wrap. Wrap a strip of nori around the base of the rice shape. Serve immediately while nori is crisp, or wrap in plastic for later."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "snack",
               "street food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "steaming",
               "compressing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.15,
-            "earth": 0.65,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.15,
+            "Earth": 0.65,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Moon"
@@ -504,18 +504,18 @@ export const japanese: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 8,
-            "carbs_g": 62,
-            "fat_g": 2,
-            "fiber_g": 2,
-            "sodium_mg": 550,
-            "sugar_g": 1,
+            "proteinG": 8,
+            "carbsG": 62,
+            "fatG": 2,
+            "fiberG": 2,
+            "sodiumMg": 550,
+            "sugarG": 1,
             "vitamins": [
               "Iodine",
               "Vitamin B12"
@@ -527,8 +527,8 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "umeboshi",
-              "substitute_options": [
+              "originalIngredient": "umeboshi",
+              "substituteOptions": [
                 "pickled ginger",
                 "salted kombu"
               ]
@@ -538,14 +538,14 @@ export const japanese: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic Hiyashi Chuka (Cold Ramen)",
+          "name": "Authentic Hiyashi Chuka (Cold Ramen)",
           "description": "A summer masterpiece of temperature and acidity. Ramen noodles are chilled and dressed in a tart soy-vinegar-sesame emulsion, topped with a geometric arrangement of cooling, colorful ingredients representing the 'five colors' of Japanese cuisine.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -620,24 +620,24 @@ export const japanese: Cuisine = {
             "Step 5: Pour the cold dressing over everything and serve immediately with a dab of karashi mustard."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "noodle"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "chilling",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.55,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.55,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Mercury"
@@ -646,18 +646,18 @@ export const japanese: Cuisine = {
               "Cancer",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 24,
-            "carbs_g": 65,
-            "fat_g": 14,
-            "fiber_g": 3,
-            "sodium_mg": 920,
-            "sugar_g": 8,
+            "proteinG": 24,
+            "carbsG": 65,
+            "fatG": 14,
+            "fiberG": 3,
+            "sodiumMg": 920,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin C",
               "Vitamin A"
@@ -669,22 +669,22 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ham/shrimp",
-              "substitute_options": [
+              "originalIngredient": "ham/shrimp",
+              "substituteOptions": [
                 "fried tofu strips and shiitake (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Soba Salad with Sesame-Ginger Dressing",
+          "name": "Authentic Soba Salad with Sesame-Ginger Dressing",
           "description": "A study in buckwheat chemistry. Soba noodles (buckwheat) have a fragile gluten structure and must be handled with care. They are paired with a high-friction ginger-sesame dressing that clings to the nutty noodles, providing an earthy, airy meal.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 5,
-            "base_serving_size": 2,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 5,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
             "season": [
               "summer",
               "all"
@@ -741,23 +741,23 @@ export const japanese: Cuisine = {
             "Step 4: Combine. Toss the cold noodles with the dressing, edamame, and carrots. Serve immediately chilled."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "vegan",
               "noodle"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "chilling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.3,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Mercury"
@@ -766,18 +766,18 @@ export const japanese: Cuisine = {
               "Virgo",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 16,
-            "carbs_g": 58,
-            "fat_g": 12,
-            "fiber_g": 8,
-            "sodium_mg": 450,
-            "sugar_g": 6,
+            "proteinG": 16,
+            "carbsG": 58,
+            "fatG": 12,
+            "fiberG": 8,
+            "sodiumMg": 450,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin K",
               "Vitamin B1"
@@ -789,8 +789,8 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "soba",
-              "substitute_options": [
+              "originalIngredient": "soba",
+              "substituteOptions": [
                 "buckwheat pasta",
                 "whole wheat spaghetti"
               ]
@@ -800,14 +800,14 @@ export const japanese: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Japanese Curry Rice (Kare Raisu)",
+          "name": "Authentic Japanese Curry Rice (Kare Raisu)",
           "description": "A unique British-influenced Japanese stew. The alchemy involves a 'brown roux' base—flour and butter cooked until toasted—combined with a specific curry powder blend. It is characterized by its thick, glossy consistency and its sweet-savory balance achieved through grated apple and caramelized onions.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "winter"
             ]
@@ -875,22 +875,22 @@ export const japanese: Cuisine = {
             "Step 4: The 'Secret' flavors. Stir in the ketchup, grated apple, and honey. Simmer for another 10 mins until glossy. Serve over hot white rice with Fukujinzuke pickles."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "comfort food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "browning",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.2,
-            "earth": 0.45,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Earth"
@@ -899,18 +899,18 @@ export const japanese: Cuisine = {
               "Taurus",
               "Sagittarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 32,
-            "carbs_g": 62,
-            "fat_g": 24,
-            "fiber_g": 6,
-            "sodium_mg": 850,
-            "sugar_g": 12,
+            "proteinG": 32,
+            "carbsG": 62,
+            "fatG": 24,
+            "fiberG": 6,
+            "sodiumMg": 850,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -922,8 +922,8 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "beef",
-              "substitute_options": [
+              "originalIngredient": "beef",
+              "substituteOptions": [
                 "chickpeas and extra potatoes (vegan)"
               ]
             }
@@ -934,14 +934,14 @@ export const japanese: Cuisine = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Sushi Selection",
+          "name": "Authentic Sushi Selection",
           "description": "True sushi is not about the fish; it is entirely about the rice (shari).",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -961,38 +961,38 @@ export const japanese: Cuisine = {
             "Step 4: Assemble nigiri."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.45,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.45,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon"
             ],
             "signs": [
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 20,
-            "carbs_g": 55,
-            "fat_g": 2,
-            "fiber_g": 1,
-              "sodium_mg": 424,
-              "sugar_g": 14,
+            "proteinG": 20,
+            "carbsG": 55,
+            "fatG": 2,
+            "fiberG": 1,
+              "sodiumMg": 424,
+              "sugarG": 14,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -1001,14 +1001,14 @@ export const japanese: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Sukiyaki",
+          "name": "Authentic Sukiyaki",
           "description": "A ceremonial one-pot 'Nabemono' dish. The alchemy involves 'searing-braising' paper-thin marbled beef in a high-sugar soy broth (Warishita). The ingredients are cooked sequentially in a cast-iron pot at the table, then dipped into raw, whisked egg to provide a cooling, velvety mantle.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -1077,22 +1077,22 @@ export const japanese: Cuisine = {
             "Step 5: The Ritual. Crack a raw egg into a small bowl and whisk it. Dip the hot beef and vegetables into the raw egg before eating."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "searing",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.25,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.25,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -1101,18 +1101,18 @@ export const japanese: Cuisine = {
               "Aries",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 620,
-            "protein_g": 38,
-            "carbs_g": 35,
-            "fat_g": 38,
-            "fiber_g": 4,
-            "sodium_mg": 1400,
-            "sugar_g": 22,
+            "proteinG": 38,
+            "carbsG": 35,
+            "fatG": 38,
+            "fiberG": 4,
+            "sodiumMg": 1400,
+            "sugarG": 22,
             "vitamins": [
               "Vitamin B12",
               "Zinc"
@@ -1124,8 +1124,8 @@ export const japanese: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "beef",
-              "substitute_options": [
+              "originalIngredient": "beef",
+              "substituteOptions": [
                 "sliced seitan",
                 "king oyster mushrooms (vegan)"
               ]
@@ -1239,14 +1239,14 @@ export const japanese: Cuisine = {
           },
         },
         {
-          "recipe_name": "Authentic Oyakodon",
+          "name": "Authentic Oyakodon",
           "description": "A poetic and highly efficient Japanese comfort dish. The name translates to 'parent and child'.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1279,45 +1279,45 @@ export const japanese: Cuisine = {
             "Step 5: Slide over hot rice."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.4,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon"
             ],
             "signs": [
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 510,
-            "protein_g": 32,
-            "carbs_g": 62,
-            "fat_g": 12,
-            "fiber_g": 2,
-              "sodium_mg": 696,
-              "sugar_g": 9,
+            "proteinG": 32,
+            "carbsG": 62,
+            "fatG": 12,
+            "fiberG": 2,
+              "sodiumMg": 696,
+              "sugarG": 9,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "chicken thighs",
-              "substitute_options": [
+              "originalIngredient": "chicken thighs",
+              "substituteOptions": [
                 "chicken breast"
               ]
             }
@@ -2077,14 +2077,14 @@ export const japanese: Cuisine = {
           mealType: ["lunch", "dinner"],
         },
         {
-          "recipe_name": "Authentic Katsudon",
+          "name": "Authentic Katsudon",
           "description": "A dynamic Japanese comfort dish combining Tonkatsu with softly set eggs.",
           "details": {
             "cuisine": "Japanese",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2104,38 +2104,38 @@ export const japanese: Cuisine = {
             "Step 4: Serve over rice."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.2,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars"
             ],
             "signs": [
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 750,
-            "protein_g": 38,
-            "carbs_g": 70,
-            "fat_g": 32,
-            "fiber_g": 3,
-              "sodium_mg": 515,
-              "sugar_g": 13,
+            "proteinG": 38,
+            "carbsG": 70,
+            "fatG": 32,
+            "fiberG": 3,
+              "sodiumMg": 515,
+              "sugarG": 13,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -2509,25 +2509,25 @@ export const japanese: Cuisine = {
       steaming: ["ponzu", "ginger sauce", "yuzu sauce", "dashi vinegar"],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "spicy yuzu kosho",
         "karashi mustard sauce",
         "wasabi dressing",
         "chili oil",
       ],
-      water: [
+      Water: [
         "clear dashi-based sauces",
         "gentle ponzu",
         "light broths",
         "nikiri",
       ],
-      earth: [
+      Earth: [
         "miso-based sauces",
         "thick teriyaki",
         "rich tonkatsu sauce",
         "sesame",
       ],
-      air: [
+      Air: [
         "citrus dressings",
         "light vinaigrettes",
         "delicate herb sauces",

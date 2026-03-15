@@ -198,10 +198,10 @@ export const african: Cuisine = {
       frying: ["shito", "harissa", "berbere"],
     },
     byAstrological: {
-      fire: ["berbere", "harissa", "pili pili"],
-      earth: ["peanut sauce", "duqqa", "suya spice"],
-      air: ["chermoula", "duqqa", "moroccan spice"],
-      water: ["palm oil sauce", "peanut sauce", "dipping sauce"],
+      Fire: ["berbere", "harissa", "pili pili"],
+      Earth: ["peanut sauce", "duqqa", "suya spice"],
+      Air: ["chermoula", "duqqa", "moroccan spice"],
+      Water: ["palm oil sauce", "peanut sauce", "dipping sauce"],
     },
     byRegion: {
       northAfrican: ["harissa", "chermoula", "ras el hanout"],
@@ -220,14 +220,14 @@ export const african: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic East African Mandazi",
+          "name": "Authentic East African Mandazi",
           "description": "A lightly sweetened, cardamom-spiced East African fried dough. The structure relies on coconut milk to tenderize the crumb and provide a subtle tropical aroma. Unlike a heavy doughnut, mandazi are fluffy, slightly hollow inside, and perfect for dipping into chai or coffee.",
           "details": {
             "cuisine": "East African",
-            "prep_time_minutes": 120,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -306,23 +306,23 @@ export const african: Cuisine = {
             "Step 9: Cook. Fry for 2-3 minutes per side until deep golden brown. Remove with a slotted spoon and drain on paper towels. Serve warm."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack",
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "deep-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.15,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.15,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -331,18 +331,18 @@ export const african: Cuisine = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 6,
-            "carbs_g": 58,
-            "fat_g": 18,
-            "fiber_g": 2,
-            "sodium_mg": 280,
-            "sugar_g": 14,
+            "proteinG": 6,
+            "carbsG": 58,
+            "fatG": 18,
+            "fiberG": 2,
+            "sodiumMg": 280,
+            "sugarG": 14,
             "vitamins": [
               "Vitamin A"
             ],
@@ -353,29 +353,29 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "coconut milk",
-              "substitute_options": [
+              "originalIngredient": "coconut milk",
+              "substituteOptions": [
                 "whole milk",
                 "almond milk"
               ]
             },
             {
-              "original_ingredient": "egg",
-              "substitute_options": [
+              "originalIngredient": "egg",
+              "substituteOptions": [
                 "omit entirely (dough will be slightly denser)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic North African Shakshuka",
+          "name": "Authentic North African Shakshuka",
           "description": "A deeply aromatic North African dish featuring eggs gently poached in a rich, spiced tomato and pepper stew. Historically rooted in agrarian traditions, it balances the fiery energy of warming spices with the grounding comfort of a savory, simmering sauce.",
           "details": {
             "cuisine": "North African",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 25,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -445,22 +445,22 @@ export const african: Cuisine = {
             "Step 6: Garnish with cilantro and parsley. Serve with crusty bread."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "brunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "poaching"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.25,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.25,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -469,18 +469,18 @@ export const african: Cuisine = {
               "Aries",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waxing Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 12,
-            "carbs_g": 35,
-            "fat_g": 15,
-            "fiber_g": 6,
-            "sodium_mg": 550,
-            "sugar_g": 8,
+            "proteinG": 12,
+            "carbsG": 35,
+            "fatG": 15,
+            "fiberG": 6,
+            "sodiumMg": 550,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin A",
               "Vitamin C"
@@ -492,28 +492,28 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "silken tofu (vegan)"
               ]
             },
             {
-              "original_ingredient": "harissa paste",
-              "substitute_options": [
+              "originalIngredient": "harissa paste",
+              "substituteOptions": [
                 "chili garlic sauce"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Egyptian Ful Medames",
+          "name": "Authentic Egyptian Ful Medames",
           "description": "The national dish of Egypt. A pre-Islamic peasant staple relying on the extremely slow breakdown of fava beans (ful) into an earthy, dense puree, heavily seasoned with raw cumin, garlic, and brightened with sharp lemon juice and aggressive amounts of olive oil.",
           "details": {
             "cuisine": "North African (Egypt)",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 180,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -584,24 +584,24 @@ export const african: Cuisine = {
             "Step 7: Serve. Ladle the hot ful into shallow bowls. Create a small well in the center and pour in a generous amount of olive oil. Garnish heavily with diced tomatoes, parsley, and serve with warm pita bread and raw onions."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "simmering",
               "mashing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.35,
-            "earth": 0.45,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.35,
+            "Earth": 0.45,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Earth"
@@ -610,18 +610,18 @@ export const african: Cuisine = {
               "Taurus",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 410,
-            "protein_g": 18,
-            "carbs_g": 45,
-            "fat_g": 20,
-            "fiber_g": 15,
-            "sodium_mg": 380,
-            "sugar_g": 4,
+            "proteinG": 18,
+            "carbsG": 45,
+            "fatG": 20,
+            "fiberG": 15,
+            "sodiumMg": 380,
+            "sugarG": 4,
             "vitamins": [
               "Folate",
               "Vitamin C"
@@ -633,8 +633,8 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "dried fava beans",
-              "substitute_options": [
+              "originalIngredient": "dried fava beans",
+              "substituteOptions": [
                 "canned fava beans (for a 15-minute quick version)",
                 "pinto beans (flavor will be completely different)"
               ]
@@ -642,14 +642,14 @@ export const african: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Ethiopian Injera with Firfir",
+          "name": "Authentic Ethiopian Injera with Firfir",
           "description": "A profound study in fermentation and the foundational carbohydrate of the Horn of Africa. Teff flour is fermented over days into a sour, bubbling batter, then cooked on a flat griddle (mitad) to create a spongy, porous flatbread. Firfir re-purposes torn, dried injera by soaking it in a fiercely spicy, berbere-heavy sauce.",
           "details": {
             "cuisine": "East African (Ethiopia/Eritrea)",
-            "prep_time_minutes": 4320,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "Hot",
+            "prepTimeMinutes": 4320,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
             "season": [
               "all"
             ]
@@ -727,24 +727,24 @@ export const african: Cuisine = {
             "Step 8: Serve the Firfir on top of a fresh piece of whole Injera."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "lunch",
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "fermenting",
               "griddling",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.2,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.2,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Saturn"
@@ -753,18 +753,18 @@ export const african: Cuisine = {
               "Aries",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 12,
-            "carbs_g": 70,
-            "fat_g": 18,
-            "fiber_g": 12,
-            "sodium_mg": 450,
-            "sugar_g": 4,
+            "proteinG": 12,
+            "carbsG": 70,
+            "fatG": 18,
+            "fiberG": 12,
+            "sodiumMg": 450,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin A",
               "Vitamin C"
@@ -777,28 +777,28 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "niter kibbeh",
-              "substitute_options": [
+              "originalIngredient": "niter kibbeh",
+              "substituteOptions": [
                 "vegetable oil (for vegan fasting version)"
               ]
             },
             {
-              "original_ingredient": "teff flour",
-              "substitute_options": [
+              "originalIngredient": "teff flour",
+              "substituteOptions": [
                 "50% wheat / 50% teff blend (if pure teff is too difficult to handle)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Nigerian Akara (Black-Eyed Pea Fritters)",
+          "name": "Authentic Nigerian Akara (Black-Eyed Pea Fritters)",
           "description": "A structural marvel of West African street food. Black-eyed peas are meticulously peeled, then vigorously beaten (aerated) with aromatics to incorporate air. When deep-fried, the batter expands rapidly, creating a feather-light, spongy interior encased in a rigid, golden, savory crust.",
           "details": {
             "cuisine": "West African",
-            "prep_time_minutes": 120,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -858,13 +858,13 @@ export const african: Cuisine = {
             "Step 8: Drain on paper towels and serve immediately. Traditionally eaten for breakfast with akamu (pap) or bread."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack",
               "street food",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "soaking",
               "peeling",
               "blending",
@@ -872,13 +872,13 @@ export const african: Cuisine = {
               "deep-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.1,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Mercury"
@@ -887,18 +887,18 @@ export const african: Cuisine = {
               "Aries",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 14,
-            "carbs_g": 40,
-            "fat_g": 16,
-            "fiber_g": 8,
-            "sodium_mg": 520,
-            "sugar_g": 4,
+            "proteinG": 14,
+            "carbsG": 40,
+            "fatG": 16,
+            "fiberG": 8,
+            "sodiumMg": 520,
+            "sugarG": 4,
             "vitamins": [
               "Folate",
               "Vitamin C"
@@ -910,14 +910,14 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "dried black-eyed peas",
-              "substitute_options": [
+              "originalIngredient": "dried black-eyed peas",
+              "substituteOptions": [
                 "brown beans (Ewa Oloyin)"
               ]
             },
             {
-              "original_ingredient": "scotch bonnet",
-              "substitute_options": [
+              "originalIngredient": "scotch bonnet",
+              "substituteOptions": [
                 "jalapeño (for much less heat)"
               ]
             }
@@ -932,14 +932,14 @@ export const african: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Nigerian Jollof Rice",
+          "name": "Authentic Nigerian Jollof Rice",
           "description": "A celebratory, deeply savory, and smoky one-pot rice dish. The foundational alchemy relies on reducing a vibrant red pepper, tomato, and onion blend (the 'obe ata') into a concentrated paste, which is then absorbed by the rice. The coveted 'party Jollof' flavor comes from purposefully scorching the bottom layer of rice to infuse the entire pot with a rich, elemental smokiness.",
           "details": {
             "cuisine": "West African",
-            "prep_time_minutes": 25,
-            "cook_time_minutes": 60,
-            "base_serving_size": 6,
-            "spice_level": "Medium-Hot",
+            "prepTimeMinutes": 25,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "Medium-Hot",
             "season": [
               "all"
             ]
@@ -1043,23 +1043,23 @@ export const african: Cuisine = {
             "Step 10: Stir in butter, let rest covered for 10 mins before serving."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "blending",
               "frying",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.15,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.15,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -1068,39 +1068,39 @@ export const african: Cuisine = {
               "Leo",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 9,
-            "carbs_g": 85,
-            "fat_g": 16,
-            "fiber_g": 5,
-              "sodium_mg": 618,
-              "sugar_g": 14,
+            "proteinG": 9,
+            "carbsG": 85,
+            "fatG": 16,
+            "fiberG": 5,
+              "sodiumMg": 618,
+              "sugarG": 14,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "chicken bouillon or stock",
-              "substitute_options": [
+              "originalIngredient": "chicken bouillon or stock",
+              "substituteOptions": [
                 "vegetable stock"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Ethiopian Doro Wat",
+          "name": "Authentic Ethiopian Doro Wat",
           "description": "The regal centerpiece of Ethiopian cuisine. A deeply complex, fiercely spicy chicken stew. The alchemy involves a massive volume of onions, dry-cooked down to a sweet paste, acting as the thickening matrix for the fiery berbere spice and clarified butter (niter kibbeh), completely eliminating the need for flour or thickeners.",
           "details": {
             "cuisine": "East African (Ethiopia)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 180,
-            "base_serving_size": 4,
-            "spice_level": "Fiery",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 4,
+            "spiceLevel": "Fiery",
             "season": [
               "all"
             ]
@@ -1178,24 +1178,24 @@ export const african: Cuisine = {
             "Step 8: Serve hot with Injera, allowing the flatbread to soak up the fiercely spiced sauce."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stew",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "dry-cooking",
               "sautéing",
               "braising"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.5,
-            "water": 0.15,
-            "earth": 0.25,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.15,
+            "Earth": 0.25,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Pluto"
@@ -1204,18 +1204,18 @@ export const african: Cuisine = {
               "Scorpio",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 48,
-            "carbs_g": 25,
-            "fat_g": 40,
-            "fiber_g": 6,
-            "sodium_mg": 850,
-            "sugar_g": 12,
+            "proteinG": 48,
+            "carbsG": 25,
+            "fatG": 40,
+            "fiberG": 6,
+            "sodiumMg": 850,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin A",
               "Vitamin B6",
@@ -1228,14 +1228,14 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "niter kibbeh",
-              "substitute_options": [
+              "originalIngredient": "niter kibbeh",
+              "substituteOptions": [
                 "ghee mixed with a pinch of cardamom, fenugreek, and clove"
               ]
             },
             {
-              "original_ingredient": "chicken",
-              "substitute_options": [
+              "originalIngredient": "chicken",
+              "substituteOptions": [
                 "beef stew meat (Siga Wat)",
                 "red lentils (Misir Wat)"
               ]
@@ -1243,14 +1243,14 @@ export const african: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Senegalese Yassa Poulet",
+          "name": "Authentic Senegalese Yassa Poulet",
           "description": "A sharp, vibrant West African chicken dish defined by intense acid and aggressive caramelization. The chicken and an enormous quantity of onions are marinated in sharp mustard and lemon juice, then the chicken is grilled over an open fire before being braised in the caramelized, highly acidic onion marmalade.",
           "details": {
             "cuisine": "West African (Senegal)",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 60,
-            "base_serving_size": 4,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "all"
             ]
@@ -1328,24 +1328,24 @@ export const african: Cuisine = {
             "Step 8: Serve hot over a bed of broken rice or couscous."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "poultry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "marinating",
               "grilling",
               "caramelizing",
               "braising"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.25,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.25,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Mercury"
@@ -1354,18 +1354,18 @@ export const african: Cuisine = {
               "Leo",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 580,
-            "protein_g": 42,
-            "carbs_g": 22,
-            "fat_g": 35,
-            "fiber_g": 4,
-            "sodium_mg": 750,
-            "sugar_g": 12,
+            "proteinG": 42,
+            "carbsG": 22,
+            "fatG": 35,
+            "fiberG": 4,
+            "sodiumMg": 750,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin C",
               "Niacin"
@@ -1377,14 +1377,14 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "chicken",
-              "substitute_options": [
+              "originalIngredient": "chicken",
+              "substituteOptions": [
                 "firm white fish (Yassa Poisson)"
               ]
             },
             {
-              "original_ingredient": "peanut oil",
-              "substitute_options": [
+              "originalIngredient": "peanut oil",
+              "substituteOptions": [
                 "canola oil",
                 "sunflower oil"
               ]
@@ -1392,14 +1392,14 @@ export const african: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Senegalese Thieboudienne",
+          "name": "Authentic Senegalese Thieboudienne",
           "description": "The national dish of Senegal and the ancestor of Jambalaya. A structurally complex, one-pot fish and rice stew. The fish is stuffed with an herb paste (roff), simmered in a rich tomato base with large root vegetables, removed, and then broken rice is cooked directly in the highly concentrated, fish-infused broth.",
           "details": {
             "cuisine": "West African (Senegal)",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 90,
-            "base_serving_size": 6,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 90,
+            "baseServingSize": 6,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -1502,25 +1502,25 @@ export const african: Cuisine = {
             "Step 9: Serve. Mound the red rice on a large communal platter. Arrange the fish and vegetables artistically on top. Scrape the crispy rice from the bottom of the pot (the xooñ) and serve alongside."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "seafood",
               "one-pot"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "stuffing",
               "frying",
               "simmering",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.35,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.35,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Neptune",
               "Mars"
@@ -1529,18 +1529,18 @@ export const african: Cuisine = {
               "Pisces",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 680,
-            "protein_g": 38,
-            "carbs_g": 85,
-            "fat_g": 22,
-            "fiber_g": 8,
-            "sodium_mg": 850,
-            "sugar_g": 9,
+            "proteinG": 38,
+            "carbsG": 85,
+            "fatG": 22,
+            "fiberG": 8,
+            "sodiumMg": 850,
+            "sugarG": 9,
             "vitamins": [
               "Vitamin A",
               "Vitamin C",
@@ -1554,14 +1554,14 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "firm white fish",
-              "substitute_options": [
+              "originalIngredient": "firm white fish",
+              "substituteOptions": [
                 "chicken (for Thieboudienne Guinaar)"
               ]
             },
             {
-              "original_ingredient": "broken jasmine rice",
-              "substitute_options": [
+              "originalIngredient": "broken jasmine rice",
+              "substituteOptions": [
                 "regular jasmine rice",
                 "short-grain rice"
               ]
@@ -1569,14 +1569,14 @@ export const african: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Nigerian Suya",
+          "name": "Authentic Nigerian Suya",
           "description": "The zenith of West African street barbecue. Thinly sliced meat is heavily coated in 'Yaji', a complex, peanut-based dry rub that acts as a tenderizer, flavor crust, and heat protectant. The meat is aggressively grilled over open flames, resulting in a smoky, nutty, fiery char.",
           "details": {
             "cuisine": "West African (Nigeria)",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "Fiery",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Fiery",
             "season": [
               "summer",
               "all"
@@ -1672,25 +1672,25 @@ export const african: Cuisine = {
             "Step 7: Serve immediately on newspaper or butcher paper, scattered with copious amounts of raw sliced red onions, tomatoes, and extra Yaji spice on the side."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "street food",
               "snack",
               "dinner",
               "bbq"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "skewering",
               "grilling",
               "dry-rubbing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.6,
-            "water": 0.05,
-            "earth": 0.25,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0.05,
+            "Earth": 0.25,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -1699,18 +1699,18 @@ export const african: Cuisine = {
               "Aries",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 35,
-            "carbs_g": 12,
-            "fat_g": 26,
-            "fiber_g": 3,
-            "sodium_mg": 850,
-            "sugar_g": 4,
+            "proteinG": 35,
+            "carbsG": 12,
+            "fatG": 26,
+            "fiberG": 3,
+            "sodiumMg": 850,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin B6",
               "Niacin"
@@ -1723,29 +1723,29 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "beef sirloin",
-              "substitute_options": [
+              "originalIngredient": "beef sirloin",
+              "substituteOptions": [
                 "chicken breast",
                 "goat meat"
               ]
             },
             {
-              "original_ingredient": "ground peanuts",
-              "substitute_options": [
+              "originalIngredient": "ground peanuts",
+              "substituteOptions": [
                 "almond flour (if peanut allergy)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Egyptian Koshari",
+          "name": "Authentic Egyptian Koshari",
           "description": "The ultimate Egyptian street food and a masterpiece of carbohydrate stacking. It combines rice, lentils, macaroni, and chickpeas into a dense base, heavily dressed with a spiced tomato sauce, a sharp garlic-vinegar splash (Dakka), and crowned with crispy fried onions. It is entirely vegan.",
           "details": {
             "cuisine": "North African (Egypt)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "all"
             ]
@@ -1840,27 +1840,27 @@ export const african: Cuisine = {
             "Step 7: Top. Ladle the spiced tomato sauce over the carbohydrates. Splash the Dakka over the sauce. Finally, crown the dish with a massive handful of the crispy fried onions."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "street food",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "frying",
               "simmering",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.5,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.5,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Earth"
@@ -1869,18 +1869,18 @@ export const african: Cuisine = {
               "Virgo",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 620,
-            "protein_g": 22,
-            "carbs_g": 105,
-            "fat_g": 14,
-            "fiber_g": 16,
-            "sodium_mg": 580,
-            "sugar_g": 10,
+            "proteinG": 22,
+            "carbsG": 105,
+            "fatG": 14,
+            "fiberG": 16,
+            "sodiumMg": 580,
+            "sugarG": 10,
             "vitamins": [
               "Vitamin C",
               "Folate"
@@ -1893,15 +1893,15 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "macaroni",
-              "substitute_options": [
+              "originalIngredient": "macaroni",
+              "substituteOptions": [
                 "broken spaghetti",
                 "vermicelli"
               ]
             },
             {
-              "original_ingredient": "white vinegar",
-              "substitute_options": [
+              "originalIngredient": "white vinegar",
+              "substituteOptions": [
                 "apple cider vinegar"
               ]
             }
@@ -1916,14 +1916,14 @@ export const african: Cuisine = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic South African Bobotie",
+          "name": "Authentic South African Bobotie",
           "description": "A structurally unique, sweet-and-savory Cape Malay meat pie. The alchemy relies on a deeply spiced, fruit-studded minced meat base that is baked beneath a savory egg-and-milk custard topping (similar to a moussaka without the vegetables).",
           "details": {
             "cuisine": "South African (Cape Malay)",
-            "prep_time_minutes": 25,
-            "cook_time_minutes": 45,
-            "base_serving_size": 6,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 25,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "Mild",
             "season": [
               "autumn",
               "winter"
@@ -2007,22 +2007,22 @@ export const african: Cuisine = {
             "Step 7: Serve warm with yellow rice (geelrys) and extra chutney."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "casserole"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "sautéing",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.45,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Sun"
@@ -2031,18 +2031,18 @@ export const african: Cuisine = {
               "Taurus",
               "Sagittarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 35,
-            "carbs_g": 32,
-            "fat_g": 26,
-            "fiber_g": 3,
-            "sodium_mg": 450,
-            "sugar_g": 18,
+            "proteinG": 35,
+            "carbsG": 32,
+            "fatG": 26,
+            "fiberG": 3,
+            "sodiumMg": 450,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -2054,22 +2054,22 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ground beef",
-              "substitute_options": [
+              "originalIngredient": "ground beef",
+              "substituteOptions": [
                 "brown lentils and finely chopped mushrooms (vegan, use plant milk/flax egg for custard)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Cameroonian Ndolé",
+          "name": "Authentic Cameroonian Ndolé",
           "description": "The national dish of Cameroon. A rich, intensely caloric stew built on a base of pureed peanuts and bitter leaves (ndolé leaves). The bitterness is painstakingly washed out of the leaves before they are folded into the rich, oily peanut emulsion, often heavily fortified with meat, dried fish, and prawns.",
           "details": {
             "cuisine": "West African (Cameroon)",
-            "prep_time_minutes": 180,
-            "cook_time_minutes": 60,
-            "base_serving_size": 6,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 180,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -2140,23 +2140,23 @@ export const african: Cuisine = {
             "Step 7: Serve hot with fried plantains or bobolo (fermented cassava)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stew"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "blending",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Pluto"
@@ -2165,18 +2165,18 @@ export const african: Cuisine = {
               "Scorpio",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 780,
-            "protein_g": 45,
-            "carbs_g": 18,
-            "fat_g": 62,
-            "fiber_g": 8,
-            "sodium_mg": 650,
-            "sugar_g": 4,
+            "proteinG": 45,
+            "carbsG": 18,
+            "fatG": 62,
+            "fiberG": 8,
+            "sodiumMg": 650,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin A",
               "Folate"
@@ -2189,28 +2189,28 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Ndolé leaves",
-              "substitute_options": [
+              "originalIngredient": "Ndolé leaves",
+              "substituteOptions": [
                 "spinach mixed with a small amount of kale or collard greens"
               ]
             },
             {
-              "original_ingredient": "beef and fish",
-              "substitute_options": [
+              "originalIngredient": "beef and fish",
+              "substituteOptions": [
                 "extra firm tofu and shiitake mushrooms (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Senegalese Maafe (Peanut Stew)",
+          "name": "Authentic Senegalese Maafe (Peanut Stew)",
           "description": "A rich, velvety West African stew. The alchemy involves breaking down unsweetened peanut butter into a savory tomato-based broth, allowing the peanut oil to separate and rise to the top, signaling the stew's readiness. It balances the heavy fat of the peanuts with sharp tomato acidity and earthy root vegetables.",
           "details": {
             "cuisine": "West African (Senegal/Mali)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 60,
-            "base_serving_size": 6,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "Medium",
             "season": [
               "winter",
               "autumn"
@@ -2295,23 +2295,23 @@ export const african: Cuisine = {
             "Step 8: Serve hot over white rice."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stew"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "searing",
               "simmering",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Jupiter"
@@ -2320,18 +2320,18 @@ export const african: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 35,
-            "carbs_g": 42,
-            "fat_g": 40,
-            "fiber_g": 8,
-            "sodium_mg": 520,
-            "sugar_g": 10,
+            "proteinG": 35,
+            "carbsG": 42,
+            "fatG": 40,
+            "fiberG": 8,
+            "sodiumMg": 520,
+            "sugarG": 10,
             "vitamins": [
               "Vitamin A",
               "Vitamin E"
@@ -2343,22 +2343,22 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "meat",
-              "substitute_options": [
+              "originalIngredient": "meat",
+              "substituteOptions": [
                 "chickpeas and extra root vegetables (for a vegan Maafe)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Moroccan Lamb Tagine with Couscous",
+          "name": "Authentic Moroccan Lamb Tagine with Couscous",
           "description": "A masterclass in North African slow-cooking. The conical lid of the tagine captures steam, condensing it back into the stew, allowing tough cuts of meat to braise in highly concentrated, spiced fruit juices (apricots/prunes) and toasted almonds without drying out.",
           "details": {
             "cuisine": "North African (Morocco)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 120,
-            "base_serving_size": 4,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
             "season": [
               "winter",
               "autumn"
@@ -2443,22 +2443,22 @@ export const african: Cuisine = {
             "Step 8: Garnish and Serve. Top the tagine with toasted almonds and fresh cilantro. Serve the rich, sticky stew over the fluffy couscous."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stew"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "braising",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.35,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.35,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Sun"
@@ -2467,18 +2467,18 @@ export const african: Cuisine = {
               "Sagittarius",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 720,
-            "protein_g": 45,
-            "carbs_g": 65,
-            "fat_g": 28,
-            "fiber_g": 8,
-            "sodium_mg": 600,
-            "sugar_g": 22,
+            "proteinG": 45,
+            "carbsG": 65,
+            "fatG": 28,
+            "fiberG": 8,
+            "sodiumMg": 600,
+            "sugarG": 22,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -2490,8 +2490,8 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "lamb shoulder",
-              "substitute_options": [
+              "originalIngredient": "lamb shoulder",
+              "substituteOptions": [
                 "chicken thighs (reduces cooking time by half)",
                 "root vegetables and chickpeas (vegan)"
               ]
@@ -2499,14 +2499,14 @@ export const african: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic South African Bunny Chow",
+          "name": "Authentic South African Bunny Chow",
           "description": "An iconic Durban street food born of necessity. A half or quarter loaf of unsliced white bread is hollowed out to serve as an edible, highly absorbent bowl for a fiercely spicy, oily, Indian-South African curry. The 'virgin' (the scooped-out bread) is used to dip.",
           "details": {
             "cuisine": "South African (Durban Indian)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 60,
-            "base_serving_size": 2,
-            "spice_level": "Hot",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 2,
+            "spiceLevel": "Hot",
             "season": [
               "all"
             ]
@@ -2577,23 +2577,23 @@ export const african: Cuisine = {
             "Step 7: Garnish with fresh coriander. Place the 'virgin' bread on top of the curry to soak up the gravy. Serve immediately (eaten strictly with hands)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "street food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "hollowing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.2,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Saturn"
@@ -2602,18 +2602,18 @@ export const african: Cuisine = {
               "Aries",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 850,
-            "protein_g": 38,
-            "carbs_g": 95,
-            "fat_g": 35,
-            "fiber_g": 6,
-            "sodium_mg": 920,
-            "sugar_g": 5,
+            "proteinG": 38,
+            "carbsG": 95,
+            "fatG": 35,
+            "fiberG": 6,
+            "sodiumMg": 920,
+            "sugarG": 5,
             "vitamins": [
               "Vitamin C",
               "B Vitamins"
@@ -2625,8 +2625,8 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "lamb",
-              "substitute_options": [
+              "originalIngredient": "lamb",
+              "substituteOptions": [
                 "chicken (Chicken Bunny)",
                 "sugar beans (Broad Bean Bunny - vegetarian)"
               ]
@@ -2634,14 +2634,14 @@ export const african: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Ethiopian Kitfo",
+          "name": "Authentic Ethiopian Kitfo",
           "description": "The pinnacle of Ethiopian raw meat preparation. It is an exercise in extreme ingredient purity. Lean, highest-quality beef is finely minced (never ground in a machine), then gently warmed (not cooked) in aggressively spiced clarified butter (niter kibbeh) and mitmita spice.",
           "details": {
             "cuisine": "East African (Ethiopia)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 5,
-            "base_serving_size": 2,
-            "spice_level": "Fiery",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 5,
+            "baseServingSize": 2,
+            "spiceLevel": "Fiery",
             "season": [
               "all",
               "celebration"
@@ -2688,23 +2688,23 @@ export const african: Cuisine = {
             "Step 6: Accompaniments. Serve with injera, kocho (fermented false banana bread), and ayibe (mild, crumbly cheese to cut the heat)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "raw",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "mincing",
               "massaging"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.6,
-            "water": 0,
-            "earth": 0.4,
-            "air": 0
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0,
+            "Earth": 0.4,
+            "Air": 0
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Pluto"
@@ -2713,18 +2713,18 @@ export const african: Cuisine = {
               "Scorpio",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 52,
-            "carbs_g": 2,
-            "fat_g": 28,
-            "fiber_g": 1,
-            "sodium_mg": 650,
-            "sugar_g": 0,
+            "proteinG": 52,
+            "carbsG": 2,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 650,
+            "sugarG": 0,
             "vitamins": [
               "Vitamin B12",
               "Niacin"
@@ -2736,8 +2736,8 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "raw beef",
-              "substitute_options": [
+              "originalIngredient": "raw beef",
+              "substituteOptions": [
                 "no substitute. Do not attempt with standard grocery ground beef."
               ]
             }
@@ -2752,14 +2752,14 @@ export const african: Cuisine = {
     dessert: {
       all: [
         {
-          "recipe_name": "Authentic South African Malva Pudding",
+          "name": "Authentic South African Malva Pudding",
           "description": "A dense, sponge-like Cape Dutch dessert. The alchemy involves baking a batter enriched with apricot jam and vinegar (which activates the baking soda for lift), then immediately pouring a massive volume of boiling cream-and-butter syrup over the hot cake. The spongy crumb acts as a reservoir, absorbing the liquid to create a sticky, caramelized, pudding-like consistency.",
           "details": {
             "cuisine": "South African",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 45,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -2850,23 +2850,23 @@ export const african: Cuisine = {
             "Step 8: Rest. Let the pudding sit in a warm place for 15 minutes to fully absorb the sauce before serving hot with custard or ice cream."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "baking"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "boiling",
               "soaking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.45,
-            "earth": 0.25,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.45,
+            "Earth": 0.25,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -2875,18 +2875,18 @@ export const african: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 4,
-            "carbs_g": 58,
-            "fat_g": 28,
-            "fiber_g": 1,
-            "sodium_mg": 280,
-            "sugar_g": 42,
+            "proteinG": 4,
+            "carbsG": 58,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 280,
+            "sugarG": 42,
             "vitamins": [
               "Vitamin A"
             ],
@@ -2896,28 +2896,28 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "apricot jam",
-              "substitute_options": [
+              "originalIngredient": "apricot jam",
+              "substituteOptions": [
                 "peach preserve"
               ]
             },
             {
-              "original_ingredient": "heavy cream",
-              "substitute_options": [
+              "originalIngredient": "heavy cream",
+              "substituteOptions": [
                 "evaporated milk (for a lighter sauce)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Nigerian Coconut Chin Chin",
+          "name": "Authentic Nigerian Coconut Chin Chin",
           "description": "A structurally resilient, deep-fried West African snack. The dough is intentionally low-hydration and heavily kneaded to develop gluten, ensuring the resulting squares fry into rigid, fiercely crunchy, biscuit-like nuggets that can be stored for weeks. Coconut milk adds a subtle, tropical lipid profile.",
           "details": {
             "cuisine": "West African (Nigeria)",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 20,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "all",
               "celebration"
@@ -2985,23 +2985,23 @@ export const african: Cuisine = {
             "Step 9: Cool. Fry until golden brown (they will darken slightly after removing). Drain on paper towels. They will harden significantly as they cool completely."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "snack",
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "rolling",
               "deep-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.1,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Mars"
@@ -3010,18 +3010,18 @@ export const african: Cuisine = {
               "Taurus",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 5,
-            "carbs_g": 48,
-            "fat_g": 16,
-            "fiber_g": 1,
-            "sodium_mg": 85,
-            "sugar_g": 18,
+            "proteinG": 5,
+            "carbsG": 48,
+            "fatG": 16,
+            "fiberG": 1,
+            "sodiumMg": 85,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin A"
             ],
@@ -3031,29 +3031,29 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "coconut milk",
-              "substitute_options": [
+              "originalIngredient": "coconut milk",
+              "substituteOptions": [
                 "evaporated milk",
                 "water"
               ]
             },
             {
-              "original_ingredient": "butter",
-              "substitute_options": [
+              "originalIngredient": "butter",
+              "substituteOptions": [
                 "margarine (very common in West Africa for this)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic South African Koeksister",
+          "name": "Authentic South African Koeksister",
           "description": "An intense feat of pastry engineering. A deeply braided dough is deep-fried to a crisp golden brown, then plunged instantly from the boiling oil into ice-cold spiced syrup. The extreme temperature shock causes the dough to violently absorb the syrup, resulting in a crunchy exterior that gushes sweet liquid when bitten.",
           "details": {
             "cuisine": "South African",
-            "prep_time_minutes": 180,
-            "cook_time_minutes": 30,
-            "base_serving_size": 12,
-            "spice_level": "None",
+            "prepTimeMinutes": 180,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 12,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -3131,24 +3131,24 @@ export const african: Cuisine = {
             "Step 8: Soak. Leave it in the cold syrup for 1 minute to absorb the liquid. Remove and place on a wire rack to drain. Keep refrigerated; they are eaten cold and sticky."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "sweet",
               "pastry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "braiding",
               "deep-frying",
               "shock-soaking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.3,
-            "water": 0.4,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.4,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Pluto"
@@ -3157,18 +3157,18 @@ export const african: Cuisine = {
               "Scorpio",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 3,
-            "carbs_g": 65,
-            "fat_g": 14,
-            "fiber_g": 1,
-            "sodium_mg": 120,
-            "sugar_g": 48,
+            "proteinG": 3,
+            "carbsG": 65,
+            "fatG": 14,
+            "fiberG": 1,
+            "sodiumMg": 120,
+            "sugarG": 48,
             "vitamins": [
               "None"
             ],
@@ -3178,8 +3178,8 @@ export const african: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "cream of tartar",
-              "substitute_options": [
+              "originalIngredient": "cream of tartar",
+              "substituteOptions": [
                 "1 tsp lemon juice (to prevent crystallization)"
               ]
             }

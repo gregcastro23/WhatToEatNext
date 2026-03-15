@@ -10,14 +10,14 @@ export const vietnamese: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Phở Bò (Vietnamese Beef Noodle Soup)",
+          "name": "Authentic Phở Bò (Vietnamese Beef Noodle Soup)",
           "description": "A deeply restorative and complex noodle soup that embodies the essence of Vietnamese culinary alchemy. It balances the deep, grounding earthiness of simmered beef bones with the ethereal, volatile aromatics of charred ginger, star anise, and cinnamon. Traditionally served as a morning meal, it invigorates the spirit and aligns the body's internal heat.",
           "details": {
             "cuisine": "Vietnamese",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 360,
-            "base_serving_size": 4,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 360,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
             "season": [
               "all",
               "winter"
@@ -170,25 +170,25 @@ export const vietnamese: Cuisine = {
             "Step 10: Serve. Ladle the boiling hot, clear broth directly over the raw beef slices in the bowls, which will cook them instantly. Serve immediately with a plate of Thai basil, mint, bean sprouts, lime wedges, and sliced chilies for each person to customize their bowl."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "soup",
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "charring",
               "toasting",
               "blanching"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.55,
-            "earth": 0.1,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.55,
+            "Earth": 0.1,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Jupiter",
@@ -198,33 +198,33 @@ export const vietnamese: Cuisine = {
               "Pisces",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon",
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 35,
-            "carbs_g": 60,
-            "fat_g": 12,
-            "fiber_g": 4,
-              "sodium_mg": 742,
-              "sugar_g": 10,
+            "proteinG": 35,
+            "carbsG": 60,
+            "fatG": 12,
+            "fiberG": 4,
+              "sodiumMg": 742,
+              "sugarG": 10,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "beef bones and meat",
-              "substitute_options": [
+              "originalIngredient": "beef bones and meat",
+              "substituteOptions": [
                 "whole chicken and chicken bones (Phở Gà)",
                 "charred daikon, shiitake, and vegetable broth (Phở Chay)"
               ]
             },
             {
-              "original_ingredient": "fish sauce",
-              "substitute_options": [
+              "originalIngredient": "fish sauce",
+              "substituteOptions": [
                 "soy sauce (vegan)",
                 "coconut aminos (vegan)"
               ]
@@ -489,14 +489,14 @@ export const vietnamese: Cuisine = {
           },
         },
         {
-          "recipe_name": "Authentic Xôi Xéo",
+          "name": "Authentic Xôi Xéo",
           "description": "An iconic Northern Vietnamese street food breakfast. Xôi Xéo is a brilliant study in textural contrast and visual warmth. The radiant yellow glutinous rice (dyed naturally with turmeric) provides a chewy, grounding base, topped with a rich, savory paste of steamed mung beans, and crowned with the crispy, aromatic crunch of fried shallots and a drizzle of shallot oil.",
           "details": {
             "cuisine": "Vietnamese",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all",
               "autumn"
@@ -565,24 +565,24 @@ export const vietnamese: Cuisine = {
             "Step 10: Garnish generously with the crispy fried shallots. Serve immediately while warm."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack",
               "street food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "steaming",
               "frying",
               "mashing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.2,
-            "earth": 0.5,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.2,
+            "Earth": 0.5,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Sun"
@@ -591,39 +591,39 @@ export const vietnamese: Cuisine = {
               "Taurus",
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter",
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 10,
-            "carbs_g": 65,
-            "fat_g": 14,
-            "fiber_g": 6,
-              "sodium_mg": 526,
-              "sugar_g": 9,
+            "proteinG": 10,
+            "carbsG": 65,
+            "fatG": 14,
+            "fiberG": 6,
+              "sodiumMg": 526,
+              "sugarG": 9,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "short-grain glutinous rice",
-              "substitute_options": [
+              "originalIngredient": "short-grain glutinous rice",
+              "substituteOptions": [
                 "long-grain sweet rice"
               ]
             },
             {
-              "original_ingredient": "split mung beans",
-              "substitute_options": [
+              "originalIngredient": "split mung beans",
+              "substituteOptions": [
                 "split yellow peas",
                 "red lentils (texture will vary slightly)"
               ]
             },
             {
-              "original_ingredient": "coconut milk",
-              "substitute_options": [
+              "originalIngredient": "coconut milk",
+              "substituteOptions": [
                 "omit entirely for a more traditional, savory profile"
               ]
             }
@@ -776,14 +776,14 @@ export const vietnamese: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Bánh Mì Thịt Nướng",
+          "name": "Authentic Bánh Mì Thịt Nướng",
           "description": "The quintessential Vietnamese-French culinary synthesis.",
           "details": {
             "cuisine": "Vietnamese",
-            "prep_time_minutes": 180,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 180,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "summer"
             ]
@@ -817,46 +817,46 @@ export const vietnamese: Cuisine = {
             "Step 6: Drizzle Maggi seasoning."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "grilling",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.15,
-            "earth": 0.25,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.15,
+            "Earth": 0.25,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars"
             ],
             "signs": [
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waxing Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 28,
-            "carbs_g": 48,
-            "fat_g": 24,
-            "fiber_g": 3,
-              "sodium_mg": 335,
-              "sugar_g": 16,
+            "proteinG": 28,
+            "carbsG": 48,
+            "fatG": 24,
+            "fiberG": 3,
+              "sodiumMg": 335,
+              "sugarG": 16,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "pork shoulder",
-              "substitute_options": [
+              "originalIngredient": "pork shoulder",
+              "substituteOptions": [
                 "chicken thighs"
               ]
             }
@@ -1572,14 +1572,14 @@ export const vietnamese: Cuisine = {
           },
         },
         {
-          "recipe_name": "Authentic Cơm Tấm",
+          "name": "Authentic Cơm Tấm",
           "description": "A working-class breakfast icon from Saigon. The foundation is 'broken rice'.",
           "details": {
             "cuisine": "Vietnamese",
-            "prep_time_minutes": 120,
-            "cook_time_minutes": 45,
-            "base_serving_size": 2,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
             "season": [
               "all"
             ]
@@ -1612,46 +1612,46 @@ export const vietnamese: Cuisine = {
             "Step 5: Serve with fried egg, Nước Chấm, and pickled vegetables."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "grilling",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.15,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.15,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 680,
-            "protein_g": 38,
-            "carbs_g": 75,
-            "fat_g": 26,
-            "fiber_g": 4,
-              "sodium_mg": 479,
-              "sugar_g": 13,
+            "proteinG": 38,
+            "carbsG": 75,
+            "fatG": 26,
+            "fiberG": 4,
+              "sodiumMg": 479,
+              "sugarG": 13,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "broken rice",
-              "substitute_options": [
+              "originalIngredient": "broken rice",
+              "substituteOptions": [
                 "jasmine rice"
               ]
             }
@@ -2597,28 +2597,28 @@ export const vietnamese: Cuisine = {
       ],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "sa tế",
         "tương ớt",
         "spicy nước chấm",
         "chili oil",
         "black pepper sauce",
       ],
-      water: [
+      Water: [
         "simple nước mắm",
         "sour tamarind sauce",
         "lime juice dressings",
         "mild nước chấm",
         "coconut sauces",
       ],
-      earth: [
+      Earth: [
         "tương đen",
         "peanut sauce",
         "fermented bean curd",
         "mắm nêm",
         "mắm ruốc",
       ],
-      air: [
+      Air: [
         "herb-infused dressings",
         "lime-pepper-salt dip",
         "citrus vinaigrettes",

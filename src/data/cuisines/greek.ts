@@ -10,14 +10,14 @@ export const greek: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Greek Bougatsa",
+          "name": "Authentic Greek Bougatsa",
           "description": "A Northern Greek breakfast icon from Thessaloniki. It consists of multiple layers of ultra-thin phyllo pastry wrapping a warm, creamy semolina custard. It is defined by its presentation: cut into small bite-sized squares and heavily dusted with powdered sugar and cinnamon while still hot.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 30,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -79,22 +79,22 @@ export const greek: Cuisine = {
             "Step 4: Finish. While hot, use a pizza cutter to chop into 1-inch squares. Heavily dust with powdered sugar and cinnamon. Serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whisking",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -103,18 +103,18 @@ export const greek: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 8,
-            "carbs_g": 48,
-            "fat_g": 18,
-            "fiber_g": 1,
-            "sodium_mg": 150,
-            "sugar_g": 22,
+            "proteinG": 8,
+            "carbsG": 48,
+            "fatG": 18,
+            "fiberG": 1,
+            "sodiumMg": 150,
+            "sugarG": 22,
             "vitamins": [
               "B Vitamins"
             ],
@@ -124,8 +124,8 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "semolina custard",
-              "substitute_options": [
+              "originalIngredient": "semolina custard",
+              "substituteOptions": [
                 "savory spiced meat (for savory Bougatsa)",
                 "feta cheese"
               ]
@@ -133,14 +133,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Greek Yogurt with Honey and Walnuts",
+          "name": "Authentic Greek Yogurt with Honey and Walnuts",
           "description": "The simplest and purest expression of Greek dairy and apiary. It relies entirely on the quality of three raw ingredients. The yogurt must be authentic, full-fat, sheep or goat's milk yogurt (strained/straggisto) to provide a tart, thick, spackle-like base for the floral sweetness of raw thyme honey and the bitter tannin of walnuts.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 5,
-            "cook_time_minutes": 0,
-            "base_serving_size": 1,
-            "spice_level": "None",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 1,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -173,23 +173,23 @@ export const greek: Cuisine = {
             "Step 5: Serve immediately. The diner should dig through the layers to get a combination of tart, sweet, and crunch in every bite."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "dessert",
               "snack",
               "raw"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.4,
-            "earth": 0.4,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.4,
+            "Earth": 0.4,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -198,18 +198,18 @@ export const greek: Cuisine = {
               "Cancer",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 20,
-            "carbs_g": 38,
-            "fat_g": 16,
-            "fiber_g": 2,
-            "sodium_mg": 85,
-            "sugar_g": 35,
+            "proteinG": 20,
+            "carbsG": 38,
+            "fatG": 16,
+            "fiberG": 2,
+            "sodiumMg": 85,
+            "sugarG": 35,
             "vitamins": [
               "Riboflavin",
               "Vitamin B12"
@@ -222,14 +222,14 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Greek yogurt",
-              "substitute_options": [
+              "originalIngredient": "Greek yogurt",
+              "substituteOptions": [
                 "coconut or almond milk thick yogurt (vegan)"
               ]
             },
             {
-              "original_ingredient": "walnuts",
-              "substitute_options": [
+              "originalIngredient": "walnuts",
+              "substituteOptions": [
                 "pistachios",
                 "almonds"
               ]
@@ -237,14 +237,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Greek Strapatsada",
+          "name": "Authentic Greek Strapatsada",
           "description": "The quintessential Greek island summer breakfast. It is an alchemical emulsion of ripe, summer tomato water and eggs. The secret is to grate the tomatoes and boil them until their water is almost completely gone, concentrating the lycopene and sweetness before the eggs are added.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 15,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -301,23 +301,23 @@ export const greek: Cuisine = {
             "Step 5: Serve hot over toasted country bread with a final drizzle of raw olive oil."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "lunch",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "scrambling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.35,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.35,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -326,18 +326,18 @@ export const greek: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 18,
-            "carbs_g": 12,
-            "fat_g": 26,
-            "fiber_g": 3,
-            "sodium_mg": 520,
-            "sugar_g": 6,
+            "proteinG": 18,
+            "carbsG": 12,
+            "fatG": 26,
+            "fiberG": 3,
+            "sodiumMg": 520,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin C",
               "Vitamin A",
@@ -350,8 +350,8 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "tofu scramble (vegan)"
               ]
             }
@@ -360,14 +360,14 @@ export const greek: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic Paximadia (Greek Barley Rusks)",
+          "name": "Authentic Paximadia (Greek Barley Rusks)",
           "description": "An ancient Greek survival bread. These twice-baked barley rusks are intensely hard and dehydrated, designed to last for months. The alchemy lies in the fermentation of barley and whole wheat, followed by a slow drying process that creates a rigid, crystalline starch structure that must be briefly rehydrated in water or tomato juice to be eaten.",
           "details": {
             "cuisine": "Greek (Crete)",
-            "prep_time_minutes": 180,
-            "cook_time_minutes": 120,
-            "base_serving_size": 12,
-            "spice_level": "None",
+            "prepTimeMinutes": 180,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 12,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -426,23 +426,23 @@ export const greek: Cuisine = {
             "Step 7: To serve, briefly dip in water or top with grated tomato and feta (Dakos)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "baking",
               "dehydrating"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.05,
-            "earth": 0.6,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.05,
+            "Earth": 0.6,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Earth"
@@ -451,18 +451,18 @@ export const greek: Cuisine = {
               "Capricorn",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 8,
-            "carbs_g": 52,
-            "fat_g": 8,
-            "fiber_g": 12,
-            "sodium_mg": 320,
-            "sugar_g": 1,
+            "proteinG": 8,
+            "carbsG": 52,
+            "fatG": 8,
+            "fiberG": 12,
+            "sodiumMg": 320,
+            "sugarG": 1,
             "vitamins": [
               "B Vitamins"
             ],
@@ -473,8 +473,8 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "barley flour",
-              "substitute_options": [
+              "originalIngredient": "barley flour",
+              "substituteOptions": [
                 "rye flour"
               ]
             }
@@ -485,14 +485,14 @@ export const greek: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Greek Souvlaki (Pork Skewers)",
+          "name": "Authentic Greek Souvlaki (Pork Skewers)",
           "description": "The quintessential Greek street food. Success relies on selecting a cut of pork with sufficient intramuscular fat (neck or shoulder) and marinating it heavily in an acidic, herbaceous lemon-oregano bath to tenderize the meat before subjecting it to aggressive, high-heat charcoal grilling.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 120,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer",
               "spring"
@@ -564,24 +564,24 @@ export const greek: Cuisine = {
             "Step 7: Serve immediately. Traditionally served either on the stick with a squeeze of fresh lemon, or wrapped inside the grilled pita with tzatziki, tomatoes, red onions, and french fries."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "street food",
               "bbq"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "marinating",
               "grilling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.5,
-            "water": 0.1,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -590,18 +590,18 @@ export const greek: Cuisine = {
               "Aries",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 35,
-            "carbs_g": 28,
-            "fat_g": 26,
-            "fiber_g": 2,
-            "sodium_mg": 650,
-            "sugar_g": 3,
+            "proteinG": 35,
+            "carbsG": 28,
+            "fatG": 26,
+            "fiberG": 2,
+            "sodiumMg": 650,
+            "sugarG": 3,
             "vitamins": [
               "Vitamin C",
               "Niacin"
@@ -613,8 +613,8 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pork neck",
-              "substitute_options": [
+              "originalIngredient": "pork neck",
+              "substituteOptions": [
                 "chicken thighs (for Souvlaki Kotopoulo)",
                 "lamb shoulder",
                 "firm tofu chunks (vegan)"
@@ -623,14 +623,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Horiatiki (Greek Village Salad)",
+          "name": "Authentic Horiatiki (Greek Village Salad)",
           "description": "The quintessential Greek summer salad. 'Horiatiki' means 'village style'. It is defined by what it lacks: there is absolutely no lettuce. It is a crude, rustic amalgamation of sun-ripened tomatoes, crisp cucumbers, and pungent onions, crowned with a massive, unbroken slab of feta and drowned in robust extra virgin olive oil.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 0,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -708,23 +708,23 @@ export const greek: Cuisine = {
             "Step 8: Serve immediately. Do not toss before serving. It must be served with thick slices of crusty country bread to mop up the oil and tomato juices (papara)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "salad",
               "appetizer",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.5,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -733,18 +733,18 @@ export const greek: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 8,
-            "carbs_g": 12,
-            "fat_g": 28,
-            "fiber_g": 4,
-            "sodium_mg": 750,
-            "sugar_g": 6,
+            "proteinG": 8,
+            "carbsG": 12,
+            "fatG": 28,
+            "fiberG": 4,
+            "sodiumMg": 750,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin C",
               "Vitamin K"
@@ -756,14 +756,14 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "feta cheese",
-              "substitute_options": [
+              "originalIngredient": "feta cheese",
+              "substituteOptions": [
                 "firm tofu marinated in olive oil, lemon, and oregano (vegan)"
               ]
             },
             {
-              "original_ingredient": "Kalamata olives",
-              "substitute_options": [
+              "originalIngredient": "Kalamata olives",
+              "substituteOptions": [
                 "Throubes (wrinkled black olives)",
                 "green olives"
               ]
@@ -773,14 +773,14 @@ export const greek: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic Greek Gemista",
+          "name": "Authentic Greek Gemista",
           "description": "The art of summer vegetable stuffing. Firm tomatoes and bell peppers are hollowed out, their flesh pureed and combined with short-grain rice and an abundance of fresh herbs. They are then baked slowly until the rice absorbs the vegetable juices and the shells collapse into sweet, caramelized submission.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 75,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 75,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -871,25 +871,25 @@ export const greek: Cuisine = {
             "Step 9: Rest. Let them rest at room temperature for at least 30 minutes before serving. They are often eaten lukewarm or cold."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "lunch",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "hollowing",
               "simmering",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.4,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -898,18 +898,18 @@ export const greek: Cuisine = {
               "Leo",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 6,
-            "carbs_g": 48,
-            "fat_g": 16,
-            "fiber_g": 8,
-            "sodium_mg": 620,
-            "sugar_g": 10,
+            "proteinG": 6,
+            "carbsG": 48,
+            "fatG": 16,
+            "fiberG": 8,
+            "sodiumMg": 620,
+            "sugarG": 10,
             "vitamins": [
               "Vitamin C",
               "Vitamin A",
@@ -922,15 +922,15 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "short-grain rice",
-              "substitute_options": [
+              "originalIngredient": "short-grain rice",
+              "substituteOptions": [
                 "quinoa",
                 "bulgur wheat"
               ]
             },
             {
-              "original_ingredient": "potatoes",
-              "substitute_options": [
+              "originalIngredient": "potatoes",
+              "substituteOptions": [
                 "zucchini wedges"
               ]
             }
@@ -941,14 +941,14 @@ export const greek: Cuisine = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Greek Moussaka",
+          "name": "Authentic Greek Moussaka",
           "description": "A structurally complex casserole relying on precise layering and moisture control.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 60,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "autumn"
             ]
@@ -969,52 +969,52 @@ export const greek: Cuisine = {
             "Step 5: Rest before cutting."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.45,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 32,
-            "carbs_g": 35,
-            "fat_g": 42,
-            "fiber_g": 6,
-              "sodium_mg": 269,
-              "sugar_g": 10,
+            "proteinG": 32,
+            "carbsG": 35,
+            "fatG": 42,
+            "fiberG": 6,
+              "sodiumMg": 269,
+              "sugarG": 10,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": []
         },
         {
-          "recipe_name": "Authentic Spanakopita",
+          "name": "Authentic Spanakopita",
           "description": "An ancient, herbaceous pie balancing wild greens and feta.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 60,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "spring"
             ]
@@ -1034,52 +1034,52 @@ export const greek: Cuisine = {
             "Step 4: Bake until crispy."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.35,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.35,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 14,
-            "carbs_g": 28,
-            "fat_g": 26,
-            "fiber_g": 4,
-              "sodium_mg": 363,
-              "sugar_g": 13,
+            "proteinG": 14,
+            "carbsG": 28,
+            "fatG": 26,
+            "fiberG": 4,
+              "sodiumMg": 363,
+              "sugarG": 13,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": []
         },
         {
-          "recipe_name": "Authentic Greek Pastitsio",
+          "name": "Authentic Greek Pastitsio",
           "description": "The majestic cousin of Moussaka. A highly architectural baked pasta dish featuring three distinct layers: a thick base of tubular pasta bound with egg and cheese, a fiercely spiced, cinnamon-heavy meat ragù, and a towering, cloud-like crown of nutmeg-scented béchamel sauce.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 60,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -1188,24 +1188,24 @@ export const greek: Cuisine = {
             "Step 8: Rest. Crucial step. The Pastitsio MUST rest at room temperature for at least 45 minutes before slicing, or the layers will slide apart."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "casserole"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "boiling",
               "whisking",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.45,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Venus"
@@ -1214,18 +1214,18 @@ export const greek: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 720,
-            "protein_g": 38,
-            "carbs_g": 58,
-            "fat_g": 36,
-            "fiber_g": 4,
-            "sodium_mg": 820,
-            "sugar_g": 9,
+            "proteinG": 38,
+            "carbsG": 58,
+            "fatG": 36,
+            "fiberG": 4,
+            "sodiumMg": 820,
+            "sugarG": 9,
             "vitamins": [
               "Vitamin A",
               "Riboflavin"
@@ -1237,14 +1237,14 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ground beef",
-              "substitute_options": [
+              "originalIngredient": "ground beef",
+              "substituteOptions": [
                 "lentil and walnut ragù (vegetarian)"
               ]
             },
             {
-              "original_ingredient": "Kefalotyri cheese",
-              "substitute_options": [
+              "originalIngredient": "Kefalotyri cheese",
+              "substituteOptions": [
                 "Parmigiano-Reggiano",
                 "Pecorino Romano"
               ]
@@ -1252,14 +1252,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Greek Dolmades",
+          "name": "Authentic Greek Dolmades",
           "description": "An ancient Mediterranean art form of encasing a heavily herbed, pine-nut and currant-studded rice filling within slightly bitter, brined grape leaves. The bundles are then tightly packed and steamed in an olive oil and lemon emulsion, creating tender, self-contained flavor capsules.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 45,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "spring",
               "summer"
@@ -1351,24 +1351,24 @@ export const greek: Cuisine = {
             "Step 9: Cool. Remove from heat and let them cool completely in the pot. Dolmades are traditionally served at room temperature or chilled."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "appetizer",
               "meze",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "blanching",
               "rolling",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.3,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Venus"
@@ -1377,18 +1377,18 @@ export const greek: Cuisine = {
               "Virgo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 4,
-            "carbs_g": 32,
-            "fat_g": 16,
-            "fiber_g": 5,
-            "sodium_mg": 580,
-            "sugar_g": 6,
+            "proteinG": 4,
+            "carbsG": 32,
+            "fatG": 16,
+            "fiberG": 5,
+            "sodiumMg": 580,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin A",
               "Vitamin C",
@@ -1401,29 +1401,29 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "grape leaves",
-              "substitute_options": [
+              "originalIngredient": "grape leaves",
+              "substituteOptions": [
                 "blanched cabbage leaves",
                 "Swiss chard leaves"
               ]
             },
             {
-              "original_ingredient": "pine nuts and currants",
-              "substitute_options": [
+              "originalIngredient": "pine nuts and currants",
+              "substituteOptions": [
                 "ground lamb or beef (for a meat version, omit currants)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Greek Galaktoboureko",
+          "name": "Authentic Greek Galaktoboureko",
           "description": "A masterpiece of Hellenic pastry alchemy.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 50,
-            "base_serving_size": 12,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 50,
+            "baseServingSize": 12,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1450,52 +1450,52 @@ export const greek: Cuisine = {
             "Step 5: Pour cold syrup over hot pastry."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.3,
-            "earth": 0.3,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 9,
-            "carbs_g": 65,
-            "fat_g": 22,
-            "fiber_g": 1,
-              "sodium_mg": 111,
-              "sugar_g": 24,
+            "proteinG": 9,
+            "carbsG": 65,
+            "fatG": 22,
+            "fiberG": 1,
+              "sodiumMg": 111,
+              "sugarG": 24,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": []
         },
         {
-          "recipe_name": "Authentic Fasolada",
+          "name": "Authentic Fasolada",
           "description": "Considered the national dish of Greece.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 120,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -1514,52 +1514,52 @@ export const greek: Cuisine = {
             "Step 3: Emulsify with olive oil at the end."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.4,
-            "earth": 0.45,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.4,
+            "Earth": 0.45,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 410,
-            "protein_g": 14,
-            "carbs_g": 45,
-            "fat_g": 20,
-            "fiber_g": 12,
-              "sodium_mg": 391,
-              "sugar_g": 8,
+            "proteinG": 14,
+            "carbsG": 45,
+            "fatG": 20,
+            "fiberG": 12,
+              "sodiumMg": 391,
+              "sugarG": 8,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": []
         },
         {
-          "recipe_name": "Authentic Greek Youvetsi",
+          "name": "Authentic Greek Youvetsi",
           "description": "A profound, slow-baked, one-pot Sunday staple. It involves braising bone-in meat (usually beef or lamb) in a spiced tomato sauce until meltingly tender, then adding kritharaki (orzo) directly into the boiling meat juices in the oven. The pasta absorbs all the fat and liquid, swelling into a dense, savory, almost risotto-like mass.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 150,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 150,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -1650,23 +1650,23 @@ export const greek: Cuisine = {
             "Step 8: The Finish. Remove from the oven and immediately cover it with a towel for 10 minutes. The pasta will continue to absorb liquid. Serve hot, buried under a mountain of grated Kefalotyri cheese."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "casserole"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "searing",
               "braising",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.25,
-            "earth": 0.45,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.25,
+            "Earth": 0.45,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Saturn"
@@ -1675,18 +1675,18 @@ export const greek: Cuisine = {
               "Taurus",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 680,
-            "protein_g": 42,
-            "carbs_g": 55,
-            "fat_g": 32,
-            "fiber_g": 5,
-            "sodium_mg": 950,
-            "sugar_g": 8,
+            "proteinG": 42,
+            "carbsG": 55,
+            "fatG": 32,
+            "fiberG": 5,
+            "sodiumMg": 950,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -1699,15 +1699,15 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "beef chuck",
-              "substitute_options": [
+              "originalIngredient": "beef chuck",
+              "substituteOptions": [
                 "lamb shoulder",
                 "whole chicken legs (requires less braising time)"
               ]
             },
             {
-              "original_ingredient": "Kefalotyri cheese",
-              "substitute_options": [
+              "originalIngredient": "Kefalotyri cheese",
+              "substituteOptions": [
                 "Pecorino Romano",
                 "Parmigiano-Reggiano"
               ]
@@ -1715,14 +1715,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Greek Revithia (Chickpea Stew)",
+          "name": "Authentic Greek Revithia (Chickpea Stew)",
           "description": "A humble, slow-cooked agrarian stew primarily consumed on the island of Sifnos. It relies on the prolonged baking of soaked chickpeas in a clay pot (skepastaria) with massive quantities of onions and olive oil, resulting in a sweet, starchy, golden emulsion.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 240,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 240,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -1789,25 +1789,25 @@ export const greek: Cuisine = {
             "Step 9: Add the lemon juice off the heat. Serve hot with rustic bread and olives."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup",
               "stew",
               "vegan",
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "soaking",
               "baking",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.45,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.45,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Saturn"
@@ -1816,18 +1816,18 @@ export const greek: Cuisine = {
               "Capricorn",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 14,
-            "carbs_g": 45,
-            "fat_g": 28,
-            "fiber_g": 12,
-            "sodium_mg": 550,
-            "sugar_g": 6,
+            "proteinG": 14,
+            "carbsG": 45,
+            "fatG": 28,
+            "fiberG": 12,
+            "sodiumMg": 550,
+            "sugarG": 6,
             "vitamins": [
               "Folate",
               "Vitamin C"
@@ -1840,28 +1840,28 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "dried chickpeas",
-              "substitute_options": [
+              "originalIngredient": "dried chickpeas",
+              "substituteOptions": [
                 "no direct substitute for this specific textural breakdown"
               ]
             },
             {
-              "original_ingredient": "yellow onions",
-              "substitute_options": [
+              "originalIngredient": "yellow onions",
+              "substituteOptions": [
                 "white onions"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Greek Gigantes Plaki",
+          "name": "Authentic Greek Gigantes Plaki",
           "description": "A slow-baked, magnificent agrarian dish utilizing giant white beans (Gigantes or Corona). The beans are first boiled until tender, then transferred to a pan and baked slowly in a rich, olive-oil-heavy tomato and herb sauce until the sauce caramelizes and the top layer of beans becomes crusty and slightly charred.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 180,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -1945,25 +1945,25 @@ export const greek: Cuisine = {
             "Step 7: Serve warm or at room temperature. It is essential to serve with crusty bread to mop up the seasoned olive oil."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "lunch",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "baking",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Saturn"
@@ -1972,18 +1972,18 @@ export const greek: Cuisine = {
               "Taurus",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 18,
-            "carbs_g": 52,
-            "fat_g": 18,
-            "fiber_g": 14,
-            "sodium_mg": 480,
-            "sugar_g": 9,
+            "proteinG": 18,
+            "carbsG": 52,
+            "fatG": 18,
+            "fiberG": 14,
+            "sodiumMg": 480,
+            "sugarG": 9,
             "vitamins": [
               "Folate",
               "Vitamin C"
@@ -1996,15 +1996,15 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Gigantes beans",
-              "substitute_options": [
+              "originalIngredient": "Gigantes beans",
+              "substituteOptions": [
                 "butter beans",
                 "large lima beans"
               ]
             },
             {
-              "original_ingredient": "honey",
-              "substitute_options": [
+              "originalIngredient": "honey",
+              "substituteOptions": [
                 "maple syrup (vegan)",
                 "granulated sugar"
               ]
@@ -2012,14 +2012,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Keftedes (Greek Meatballs)",
+          "name": "Authentic Keftedes (Greek Meatballs)",
           "description": "Crispy, intensely aromatic Greek meatballs. The alchemy lies in the heavy hydration of the meat with grated onions and soaked bread (panade), combined with an aggressive amount of fresh mint and oregano. They are pan-fried in olive oil to create a deeply crusted, rigid exterior that shatters to reveal a light, steaming interior.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2121,23 +2121,23 @@ export const greek: Cuisine = {
             "Step 8: Drain. Remove to a paper towel-lined plate to drain. Serve hot or at room temperature with tzatziki and pita."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "appetizer",
               "meze",
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "shallow-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.2,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Venus"
@@ -2146,18 +2146,18 @@ export const greek: Cuisine = {
               "Aries",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 24,
-            "carbs_g": 18,
-            "fat_g": 32,
-            "fiber_g": 2,
-            "sodium_mg": 680,
-            "sugar_g": 2,
+            "proteinG": 24,
+            "carbsG": 18,
+            "fatG": 32,
+            "fiberG": 2,
+            "sodiumMg": 680,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin B12",
               "Niacin"
@@ -2169,15 +2169,15 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ground beef",
-              "substitute_options": [
+              "originalIngredient": "ground beef",
+              "substituteOptions": [
                 "ground lamb",
                 "lentil and mushroom mix (vegan)"
               ]
             },
             {
-              "original_ingredient": "stale bread",
-              "substitute_options": [
+              "originalIngredient": "stale bread",
+              "substituteOptions": [
                 "panko breadcrumbs",
                 "gluten-free bread"
               ]
@@ -2185,14 +2185,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Galatopita",
+          "name": "Authentic Galatopita",
           "description": "A rustic, crustless Greek milk pie. It is an exercise in simple agrarian alchemy: milk is thickened with semolina into a dense custard, enriched with eggs and butter, and baked until the top forms a naturally scorched, caramelized skin, requiring no phyllo pastry.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 50,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 50,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2265,22 +2265,22 @@ export const greek: Cuisine = {
             "Step 9: Garnish. Dust generously with ground cinnamon before cutting into squares or wedges."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "snack"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whisking",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.35,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.35,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -2289,18 +2289,18 @@ export const greek: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 250,
-            "protein_g": 8,
-            "carbs_g": 35,
-            "fat_g": 9,
-            "fiber_g": 1,
-            "sodium_mg": 85,
-            "sugar_g": 22,
+            "proteinG": 8,
+            "carbsG": 35,
+            "fatG": 9,
+            "fiberG": 1,
+            "sodiumMg": 85,
+            "sugarG": 22,
             "vitamins": [
               "Vitamin D",
               "Riboflavin"
@@ -2312,28 +2312,28 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "semolina flour",
-              "substitute_options": [
+              "originalIngredient": "semolina flour",
+              "substituteOptions": [
                 "farina (Cream of Wheat)"
               ]
             },
             {
-              "original_ingredient": "whole milk",
-              "substitute_options": [
+              "originalIngredient": "whole milk",
+              "substituteOptions": [
                 "oat milk (will be less rich and may require slightly more semolina)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Greek Skordalia",
+          "name": "Authentic Greek Skordalia",
           "description": "A fiercely pungent, elemental Greek garlic dip. It relies on the mechanical emulsification of raw garlic, starches (either potatoes or stale bread), and high-quality olive oil. The result is a dense, creamy, heavily aerated paste that bites aggressively and is traditionally served alongside fried salt cod (Bakalarios) or boiled beets.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 25,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2386,25 +2386,25 @@ export const greek: Cuisine = {
             "Step 7: Serve at room temperature or slightly chilled, heavily drizzled with more olive oil."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "appetizer",
               "meze",
               "dip",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "mashing",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.1,
-            "earth": 0.35,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.35,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Earth"
@@ -2413,18 +2413,18 @@ export const greek: Cuisine = {
               "Aries",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 3,
-            "carbs_g": 25,
-            "fat_g": 32,
-            "fiber_g": 3,
-            "sodium_mg": 450,
-            "sugar_g": 2,
+            "proteinG": 3,
+            "carbsG": 25,
+            "fatG": 32,
+            "fiberG": 3,
+            "sodiumMg": 450,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin C",
               "Vitamin B6"
@@ -2436,14 +2436,14 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "potatoes",
-              "substitute_options": [
+              "originalIngredient": "potatoes",
+              "substituteOptions": [
                 "3 thick slices of stale country bread (crusts removed, soaked in water, and squeezed dry)"
               ]
             },
             {
-              "original_ingredient": "white wine vinegar",
-              "substitute_options": [
+              "originalIngredient": "white wine vinegar",
+              "substituteOptions": [
                 "red wine vinegar",
                 "fresh lemon juice"
               ]
@@ -2451,14 +2451,14 @@ export const greek: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Melitzanosalata (Greek Eggplant Dip)",
+          "name": "Authentic Melitzanosalata (Greek Eggplant Dip)",
           "description": "A rustic, elemental dip. Unlike the smooth, tahini-heavy Baba Ganoush of the Levant, Greek Melitzanosalata is coarse, chunky, and relies entirely on the aggressive char of the eggplant skin to infuse the flesh with smoke. It is heavily acidulated with vinegar or lemon and bound with raw garlic and olive oil.",
           "details": {
             "cuisine": "Greek",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer",
               "autumn"
@@ -2531,24 +2531,24 @@ export const greek: Cuisine = {
             "Step 8: Rest. Cover and refrigerate for at least 1 hour before serving to allow the raw garlic and onion to mellow and the flavors to meld. Garnish with crushed walnuts and a drizzle of olive oil."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "appetizer",
               "meze",
               "vegan",
               "dip"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "charring",
               "mashing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.2,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Pluto",
               "Mars"
@@ -2557,18 +2557,18 @@ export const greek: Cuisine = {
               "Scorpio",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 180,
-            "protein_g": 2,
-            "carbs_g": 12,
-            "fat_g": 15,
-            "fiber_g": 5,
-            "sodium_mg": 320,
-            "sugar_g": 4,
+            "proteinG": 2,
+            "carbsG": 12,
+            "fatG": 15,
+            "fiberG": 5,
+            "sodiumMg": 320,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin C",
               "Folate"
@@ -2580,14 +2580,14 @@ export const greek: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "red wine vinegar",
-              "substitute_options": [
+              "originalIngredient": "red wine vinegar",
+              "substituteOptions": [
                 "fresh lemon juice"
               ]
             },
             {
-              "original_ingredient": "walnuts",
-              "substitute_options": [
+              "originalIngredient": "walnuts",
+              "substituteOptions": [
                 "pine nuts",
                 "omit entirely"
               ]
@@ -2792,25 +2792,25 @@ export const greek: Cuisine = {
       baking: ["ladolemono", "yogurt sauce", "lemon sauce"],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "spicy yogurt sauce",
         "red pepper-based sauce",
         "garlic oil",
         "htipiti",
       ],
-      earth: [
+      Earth: [
         "skordalia",
         "mushroom-based sauce",
         "tahini sauce",
         "olive tapenade",
       ],
-      air: [
+      Air: [
         "ladolemono",
         "herb-infused oil",
         "light yogurt sauce",
         "lemon vinaigrette",
       ],
-      water: ["avgolemono", "tzatziki", "cucumber-based sauce", "fish sauce"],
+      Water: ["avgolemono", "tzatziki", "cucumber-based sauce", "fish sauce"],
     },
     byRegion: {
       mainland: ["skordalia", "tomato-based sauces", "avgolemono", "htipiti"],

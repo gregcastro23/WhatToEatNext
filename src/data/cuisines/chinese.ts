@@ -177,10 +177,10 @@ export const chinese = {
       boiling: ["dipping sauce", "chili oil", "sesame sauce"],
     },
     byAstrological: {
-      fire: ["chili oil", "spicy bean paste", "XO sauce"],
-      earth: ["dark soy sauce", "black bean sauce", "hoisin sauce"],
-      air: ["white pepper sauce", "light vinegar dressing", "clear broths"],
-      water: ["oyster sauce", "ginger sauce", "delicate seafood-based sauces"],
+      Fire: ["chili oil", "spicy bean paste", "XO sauce"],
+      Earth: ["dark soy sauce", "black bean sauce", "hoisin sauce"],
+      Air: ["white pepper sauce", "light vinegar dressing", "clear broths"],
+      Water: ["oyster sauce", "ginger sauce", "delicate seafood-based sauces"],
     },
     byRegion: {
       cantonese: ["oyster sauce", "hoisin sauce", "sweet soy sauce"],
@@ -200,14 +200,14 @@ export const chinese = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Chinese Congee (Jook)",
+          "name": "Authentic Chinese Congee (Jook)",
           "description": "The ultimate restorative foundation of Chinese comfort food. It relies on the prolonged, violent boiling of rice grains in excess liquid until the structural integrity of the starch completely breaks down, resulting in a thick, velvety, homogenized suspension.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 90,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 90,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "all"
@@ -278,23 +278,23 @@ export const chinese = {
             "Step 6: Serve hot. Diners customize their bowls with scallions, white pepper, soy sauce, sesame oil, and crispy Youtiao."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "comfort food",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.6,
-            "earth": 0.25,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.6,
+            "Earth": 0.25,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -303,18 +303,18 @@ export const chinese = {
               "Cancer",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 210,
-            "protein_g": 5,
-            "carbs_g": 42,
-            "fat_g": 4,
-            "fiber_g": 1,
-            "sodium_mg": 580,
-            "sugar_g": 0,
+            "proteinG": 5,
+            "carbsG": 42,
+            "fatG": 4,
+            "fiberG": 1,
+            "sodiumMg": 580,
+            "sugarG": 0,
             "vitamins": [
               "B Vitamins"
             ],
@@ -324,29 +324,29 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "chicken broth",
-              "substitute_options": [
+              "originalIngredient": "chicken broth",
+              "substituteOptions": [
                 "water",
                 "vegetable broth"
               ]
             },
             {
-              "original_ingredient": "jasmine rice",
-              "substitute_options": [
+              "originalIngredient": "jasmine rice",
+              "substituteOptions": [
                 "short grain white rice"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Youtiao (Chinese Fried Dough)",
+          "name": "Authentic Youtiao (Chinese Fried Dough)",
           "description": "A structural engineering marvel of the breakfast world. The dough utilizes the explosive chemical reaction of baking powder, baking soda, and ammonium bicarbonate (alum). When a pair of the dough strips are pressed together and violently stretched into screaming hot oil, they expand rapidly, creating massive internal air pockets within a shatteringly crisp exterior.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -407,24 +407,24 @@ export const chinese = {
             "Step 9: Agitate. Immediately and continuously flip the dough back and forth in the oil using chopsticks. It will puff up massively and rapidly. Fry until deep golden brown. Drain and serve hot."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack",
               "street food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "resting",
               "deep-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.1,
-            "earth": 0.2,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Uranus"
@@ -433,18 +433,18 @@ export const chinese = {
               "Aries",
               "Aquarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 7,
-            "carbs_g": 52,
-            "fat_g": 16,
-            "fiber_g": 2,
-            "sodium_mg": 380,
-            "sugar_g": 1,
+            "proteinG": 7,
+            "carbsG": 52,
+            "fatG": 16,
+            "fiberG": 2,
+            "sodiumMg": 380,
+            "sugarG": 1,
             "vitamins": [
               "Vitamin E"
             ],
@@ -455,22 +455,22 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "egg",
-              "substitute_options": [
+              "originalIngredient": "egg",
+              "substituteOptions": [
                 "extra 2 tbsp of water (for vegan youtiao)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Sweet/Savory Soy Milk Soup (Dou Jiang)",
+          "name": "Authentic Sweet/Savory Soy Milk Soup (Dou Jiang)",
           "description": "The essential pairing for Youtiao. True Chinese breakfast soy milk is made from scratch, utilizing the slow, methodical soaking and grinding of raw yellow soybeans. It is served either sweetened with sugar, or in a highly complex savory version (Xian Dou Jiang) where the hot milk is deliberately curdled with black vinegar, creating a silken tofu-like soup.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -548,25 +548,25 @@ export const chinese = {
             "Step 8: Top with torn pieces of Youtiao and a drizzle of chili oil."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "beverage",
               "soup"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "soaking",
               "blending",
               "boiling",
               "curdling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.6,
-            "earth": 0.15,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.6,
+            "Earth": 0.15,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Uranus"
@@ -575,18 +575,18 @@ export const chinese = {
               "Cancer",
               "Aquarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 250,
-            "protein_g": 18,
-            "carbs_g": 15,
-            "fat_g": 12,
-            "fiber_g": 4,
-            "sodium_mg": 480,
-            "sugar_g": 6,
+            "proteinG": 18,
+            "carbsG": 15,
+            "fatG": 12,
+            "fiberG": 4,
+            "sodiumMg": 480,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin K",
               "B Vitamins"
@@ -598,22 +598,22 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "black vinegar",
-              "substitute_options": [
+              "originalIngredient": "black vinegar",
+              "substituteOptions": [
                 "rice vinegar (will alter the flavor slightly, but will still curdle)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Jianbing (Chinese Crepe)",
+          "name": "Authentic Jianbing (Chinese Crepe)",
           "description": "The king of Chinese street food breakfasts. It is an architectural performance art: a thin, slightly elastic mung bean and wheat crepe is poured on a hot cast-iron griddle, coated in egg, slathered in fermented sweet and spicy sauces, and wrapped around a crispy, violently crunchy fried cracker (baocui) or youtiao.",
           "details": {
             "cuisine": "Chinese (Northern)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "all"
             ]
@@ -691,24 +691,24 @@ export const chinese = {
             "Step 8: The Crunch and Fold. Place the crispy baocui or youtiao directly in the center. Fold the sides of the crepe over the crunch, then fold the top and bottom to create a neat, sealed rectangular package. Serve immediately while hot and crispy."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "street food",
               "snack"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "griddling",
               "assembling",
               "folding"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.15,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.15,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mercury",
               "Mars"
@@ -717,18 +717,18 @@ export const chinese = {
               "Gemini",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 14,
-            "carbs_g": 62,
-            "fat_g": 16,
-            "fiber_g": 5,
-            "sodium_mg": 850,
-            "sugar_g": 6,
+            "proteinG": 14,
+            "carbsG": 62,
+            "fatG": 16,
+            "fiberG": 5,
+            "sodiumMg": 850,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin A",
               "Vitamin K"
@@ -740,29 +740,29 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "mung bean flour",
-              "substitute_options": [
+              "originalIngredient": "mung bean flour",
+              "substituteOptions": [
                 "all-purpose flour (will change texture significantly)",
                 "buckwheat flour"
               ]
             },
             {
-              "original_ingredient": "sweet bean sauce",
-              "substitute_options": [
+              "originalIngredient": "sweet bean sauce",
+              "substituteOptions": [
                 "hoisin sauce"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Scallion Pancakes (Cong You Bing)",
+          "name": "Authentic Scallion Pancakes (Cong You Bing)",
           "description": "A masterclass in Chinese hot-water dough lamination. Boiling water denatures the flour proteins, preventing heavy gluten formation and ensuring a tender dough. The dough is then smeared with a flour-oil roux (you酥) and massive amounts of scallions, coiled into a snail shape, and flattened to create dozens of distinct, flaky, shatteringly crisp layers when pan-fried.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -829,25 +829,25 @@ export const chinese = {
             "Step 9: The Fluff. Remove from the pan and use two spatulas (or your hands) to smash the edges inward toward the center to separate and fluff the flaky layers. Serve hot."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "appetizer",
               "snack",
               "dim sum",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "laminating",
               "pan-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.1,
-            "earth": 0.4,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Mars"
@@ -856,18 +856,18 @@ export const chinese = {
               "Taurus",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 310,
-            "protein_g": 6,
-            "carbs_g": 48,
-            "fat_g": 10,
-            "fiber_g": 2,
-            "sodium_mg": 480,
-            "sugar_g": 1,
+            "proteinG": 6,
+            "carbsG": 48,
+            "fatG": 10,
+            "fiberG": 2,
+            "sodiumMg": 480,
+            "sugarG": 1,
             "vitamins": [
               "Vitamin K"
             ],
@@ -878,8 +878,8 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "scallions",
-              "substitute_options": [
+              "originalIngredient": "scallions",
+              "substituteOptions": [
                 "chives",
                 "wild garlic"
               ]
@@ -895,14 +895,14 @@ export const chinese = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Sichuan Dan Dan Noodles",
+          "name": "Authentic Sichuan Dan Dan Noodles",
           "description": "The quintessential street food of Chengdu. It is not a soup, but rather a dry noodle dish characterized by intense stratification. Fresh noodles are placed over a violently red, highly complex sauce of chili oil, sesame paste, and Sichuan peppercorns, then topped with deeply savory, dry-fried pork and preserved vegetables (ya cai).",
           "details": {
             "cuisine": "Chinese (Sichuan)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 2,
-            "spice_level": "Fiery",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "Fiery",
             "season": [
               "all"
             ]
@@ -998,25 +998,25 @@ export const chinese = {
             "Step 8: Serve. The dish is served layered. The diner must vigorously stir the noodles to coat them in the fiery sauce hidden at the bottom immediately before eating."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "street food",
               "noodle"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "stir-frying",
               "boiling",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.6,
-            "water": 0.1,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Pluto"
@@ -1025,18 +1025,18 @@ export const chinese = {
               "Scorpio",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 580,
-            "protein_g": 24,
-            "carbs_g": 55,
-            "fat_g": 28,
-            "fiber_g": 4,
-            "sodium_mg": 1100,
-            "sugar_g": 4,
+            "proteinG": 24,
+            "carbsG": 55,
+            "fatG": 28,
+            "fiberG": 4,
+            "sodiumMg": 1100,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin A",
               "Vitamin K"
@@ -1048,28 +1048,28 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ground pork",
-              "substitute_options": [
+              "originalIngredient": "ground pork",
+              "substituteOptions": [
                 "minced shiitake mushrooms and extra ya cai (vegan)"
               ]
             },
             {
-              "original_ingredient": "Chinese sesame paste",
-              "substitute_options": [
+              "originalIngredient": "Chinese sesame paste",
+              "substituteOptions": [
                 "tahini mixed with a drop of toasted sesame oil"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Sichuan Mapo Tofu",
+          "name": "Authentic Sichuan Mapo Tofu",
           "description": "A masterpiece of Sichuanese culinary alchemy, defining the 'málà' (numbing and spicy) flavor profile.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "Fiery",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Fiery",
             "season": [
               "winter"
             ]
@@ -1109,60 +1109,60 @@ export const chinese = {
             "Step 6: Thicken with cornstarch slurry and serve with peppercorns on top."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "stir-frying",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.6,
-            "water": 0.15,
-            "earth": 0.15,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0.15,
+            "Earth": 0.15,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars"
             ],
             "signs": [
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 310,
-            "protein_g": 14,
-            "carbs_g": 12,
-            "fat_g": 24,
-            "fiber_g": 3,
-              "sodium_mg": 608,
-              "sugar_g": 16,
+            "proteinG": 14,
+            "carbsG": 12,
+            "fatG": 24,
+            "fiberG": 3,
+              "sodiumMg": 608,
+              "sugarG": 16,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "ground beef",
-              "substitute_options": [
+              "originalIngredient": "ground beef",
+              "substituteOptions": [
                 "mushrooms"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Har Gow (Shrimp Dumplings)",
+          "name": "Authentic Har Gow (Shrimp Dumplings)",
           "description": "The benchmark of a Dim Sum chef's skill. Har Gow relies on a highly specialized dough made from wheat starch and tapioca starch, which turns completely translucent when steamed. The filling is pure, violently mixed shrimp and pork fat, engineered for an explosive, snappy texture rather than a soft paste.",
           "details": {
             "cuisine": "Chinese (Cantonese)",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 10,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1240,25 +1240,25 @@ export const chinese = {
             "Step 8: Serve immediately. They become tough as they cool."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dim sum",
               "appetizer",
               "seafood"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "mixing",
               "kneading",
               "pleating",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.45,
-            "earth": 0.25,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.45,
+            "Earth": 0.25,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Neptune"
@@ -1267,18 +1267,18 @@ export const chinese = {
               "Cancer",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 14,
-            "carbs_g": 35,
-            "fat_g": 10,
-            "fiber_g": 0,
-            "sodium_mg": 450,
-            "sugar_g": 2,
+            "proteinG": 14,
+            "carbsG": 35,
+            "fatG": 10,
+            "fiberG": 0,
+            "sodiumMg": 450,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin B12",
               "Selenium"
@@ -1290,28 +1290,28 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "wheat starch",
-              "substitute_options": [
+              "originalIngredient": "wheat starch",
+              "substituteOptions": [
                 "cornstarch (wrapper will be softer and less translucent)"
               ]
             },
             {
-              "original_ingredient": "pork fat",
-              "substitute_options": [
+              "originalIngredient": "pork fat",
+              "substituteOptions": [
                 "bamboo shoots and extra sesame oil (for a pescatarian version)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Cantonese Char Siu (BBQ Pork)",
+          "name": "Authentic Cantonese Char Siu (BBQ Pork)",
           "description": "The pinnacle of Cantonese roasting. Char Siu utilizes long strips of pork shoulder (providing the ideal fat-to-meat ratio) marinated in a complex, high-sugar, fermented bean matrix. High-heat roasting renders the fat, while a maltose glaze applied at the end creates a sticky, lacquer-like, slightly charred exterior.",
           "details": {
             "cuisine": "Chinese (Cantonese)",
-            "prep_time_minutes": 1440,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1395,24 +1395,24 @@ export const chinese = {
             "Step 8: Rest. Remove from the oven and let rest for 10 minutes before slicing thinly against the grain. Serve with rice or use in steamed buns."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "bbq",
               "meat"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "marinating",
               "roasting",
               "glazing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.5,
-            "water": 0.1,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -1421,18 +1421,18 @@ export const chinese = {
               "Leo",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 38,
-            "carbs_g": 32,
-            "fat_g": 28,
-            "fiber_g": 1,
-            "sodium_mg": 1200,
-            "sugar_g": 26,
+            "proteinG": 38,
+            "carbsG": 32,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 1200,
+            "sugarG": 26,
             "vitamins": [
               "Vitamin B6",
               "Niacin"
@@ -1444,30 +1444,30 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pork shoulder",
-              "substitute_options": [
+              "originalIngredient": "pork shoulder",
+              "substituteOptions": [
                 "pork belly (richer)",
                 "chicken thighs",
                 "firm seitan (vegan)"
               ]
             },
             {
-              "original_ingredient": "fermented red bean curd",
-              "substitute_options": [
+              "originalIngredient": "fermented red bean curd",
+              "substituteOptions": [
                 "omit and use a drop of red food coloring (authenticity will suffer)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Cantonese Wonton Soup",
+          "name": "Authentic Cantonese Wonton Soup",
           "description": "A paradigm of delicate Chinese comfort. The alchemy lies in the contrast: a pristine, crystal-clear, intensely savory broth (often made from chicken, pork, and dried flounder) housing delicate, slippery wrappers that enclose a snappy, violently mixed filling of shrimp and pork fat.",
           "details": {
             "cuisine": "Chinese (Cantonese)",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 180,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "all"
@@ -1544,25 +1544,25 @@ export const chinese = {
             "Step 6: Garnish with yellow chives and a drop of sesame oil. Serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup",
               "lunch",
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "mixing",
               "wrapping",
               "boiling",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.6,
-            "earth": 0.15,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.6,
+            "Earth": 0.15,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Neptune"
@@ -1571,18 +1571,18 @@ export const chinese = {
               "Cancer",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 24,
-            "carbs_g": 45,
-            "fat_g": 12,
-            "fiber_g": 2,
-            "sodium_mg": 950,
-            "sugar_g": 2,
+            "proteinG": 24,
+            "carbsG": 45,
+            "fatG": 12,
+            "fiberG": 2,
+            "sodiumMg": 950,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin B12",
               "Selenium"
@@ -1594,15 +1594,15 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "shrimp and pork",
-              "substitute_options": [
+              "originalIngredient": "shrimp and pork",
+              "substituteOptions": [
                 "minced chicken",
                 "shiitake and bok choy paste (vegan)"
               ]
             },
             {
-              "original_ingredient": "supreme broth",
-              "substitute_options": [
+              "originalIngredient": "supreme broth",
+              "substituteOptions": [
                 "high-quality chicken broth simmered with ginger and scallion"
               ]
             }
@@ -1617,14 +1617,14 @@ export const chinese = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Peking Duck",
+          "name": "Authentic Peking Duck",
           "description": "The imperial masterpiece of Chinese roasting. The skin is separated from the meat using compressed air, blanched to tighten pores, coated in a maltose-vinegar glaze, and air-dried for 24 hours. The resulting roast yields skin that shatters like glass, served with thin pancakes, hoisin, and scallions.",
           "details": {
             "cuisine": "Chinese (Beijing)",
-            "prep_time_minutes": 2880,
-            "cook_time_minutes": 75,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 2880,
+            "cookTimeMinutes": 75,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all",
               "celebration"
@@ -1696,25 +1696,25 @@ export const chinese = {
             "Step 7: Carve and Serve. Let rest for 15 minutes. The carving is an art: the skin should be sliced off separately from the meat. Serve the crispy skin and meat with the warm pancakes, scallion brushes, cucumber, and sweet bean sauce."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "celebration",
               "poultry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "scalding",
               "air-drying",
               "glazing",
               "roasting"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.1,
-            "earth": 0.1,
-            "air": 0.4
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.1,
+            "Air": 0.4
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Jupiter"
@@ -1723,18 +1723,18 @@ export const chinese = {
               "Leo",
               "Sagittarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 680,
-            "protein_g": 35,
-            "carbs_g": 28,
-            "fat_g": 48,
-            "fiber_g": 2,
-            "sodium_mg": 750,
-            "sugar_g": 12,
+            "proteinG": 35,
+            "carbsG": 28,
+            "fatG": 48,
+            "fiberG": 2,
+            "sodiumMg": 750,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin A",
               "Niacin"
@@ -1746,22 +1746,22 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "whole duck",
-              "substitute_options": [
+              "originalIngredient": "whole duck",
+              "substituteOptions": [
                 "no substitute. Technique is specific to duck skin."
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Kung Pao Chicken (Gong Bao Ji Ding)",
+          "name": "Authentic Kung Pao Chicken (Gong Bao Ji Ding)",
           "description": "A classic Sichuan stir-fry requiring intense wok hei and the precise balance of the 'lychee flavor' profile—sweet, sour, and fiercely spicy. It utilizes the 'ma la' combination of numbing Sichuan peppercorns and scorching dried chilies.",
           "details": {
             "cuisine": "Chinese (Sichuan)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 10,
-            "base_serving_size": 4,
-            "spice_level": "Fiery",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "Fiery",
             "season": [
               "all"
             ]
@@ -1851,22 +1851,22 @@ export const chinese = {
             "Step 8: Finish. Turn off the heat. Stir in the roasted peanuts immediately before serving to maintain their crunch."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stir-fry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "velveting",
               "stir-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.6,
-            "water": 0.1,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -1875,18 +1875,18 @@ export const chinese = {
               "Aries",
               "Scorpio"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 25,
-            "carbs_g": 12,
-            "fat_g": 24,
-            "fiber_g": 3,
-            "sodium_mg": 680,
-            "sugar_g": 6,
+            "proteinG": 25,
+            "carbsG": 12,
+            "fatG": 24,
+            "fiberG": 3,
+            "sodiumMg": 680,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin E",
               "Niacin"
@@ -1898,29 +1898,29 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "chicken thigh",
-              "substitute_options": [
+              "originalIngredient": "chicken thigh",
+              "substituteOptions": [
                 "extra firm tofu cubes (vegan)",
                 "shrimp"
               ]
             },
             {
-              "original_ingredient": "peanuts",
-              "substitute_options": [
+              "originalIngredient": "peanuts",
+              "substituteOptions": [
                 "cashews"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Xiaolongbao (Soup Dumplings)",
+          "name": "Authentic Xiaolongbao (Soup Dumplings)",
           "description": "An architectural marvel of Shanghainese dim sum. The secret is incorporating a rich, gelatinous pork aspic (made from boiled pork skin/bones) directly into the meat filling. Upon steaming, the aspic melts, creating a pocket of scalding, savory soup trapped within a delicate, un-yeasted wheat wrapper.",
           "details": {
             "cuisine": "Chinese (Shanghai)",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 10,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1991,24 +1991,24 @@ export const chinese = {
             "Step 7: Serve immediately. To eat, place on a soup spoon, bite a tiny hole to let steam escape, slurp the soup, then dip in black vinegar and julienned ginger."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dim sum",
               "appetizer"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "kneading",
               "pleating",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.5,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Neptune"
@@ -2017,18 +2017,18 @@ export const chinese = {
               "Cancer",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 22,
-            "carbs_g": 35,
-            "fat_g": 20,
-            "fiber_g": 1,
-            "sodium_mg": 650,
-            "sugar_g": 2,
+            "proteinG": 22,
+            "carbsG": 35,
+            "fatG": 20,
+            "fiberG": 1,
+            "sodiumMg": 650,
+            "sugarG": 2,
             "vitamins": [
               "B Vitamins"
             ],
@@ -2039,22 +2039,22 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pork skin aspic",
-              "substitute_options": [
+              "originalIngredient": "pork skin aspic",
+              "substituteOptions": [
                 "agar agar set vegetable broth (for vegan version, using mushroom filling)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Sweet and Sour Pork (Tang Cu Li Ji)",
+          "name": "Authentic Sweet and Sour Pork (Tang Cu Li Ji)",
           "description": "A classic dish defined by its contrasting textures and flavors. Lean pork is coated in a heavy wet starch batter and double-fried for maximum crispness, then rapidly tossed in a bright, glossy sauce balanced precisely between sugar and black vinegar, without the heavy use of ketchup found in Westernized versions.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2131,22 +2131,22 @@ export const chinese = {
             "Step 7: Glaze. Immediately toss the crispy pork into the thickened sauce. Toss rapidly to coat, then remove from heat immediately so the crust doesn't become soggy. Serve."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stir-fry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "deep-frying",
               "stir-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.2,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -2155,18 +2155,18 @@ export const chinese = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 26,
-            "carbs_g": 35,
-            "fat_g": 26,
-            "fiber_g": 2,
-            "sodium_mg": 550,
-            "sugar_g": 18,
+            "proteinG": 26,
+            "carbsG": 35,
+            "fatG": 26,
+            "fiberG": 2,
+            "sodiumMg": 550,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin C"
             ],
@@ -2176,8 +2176,8 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pork tenderloin",
-              "substitute_options": [
+              "originalIngredient": "pork tenderloin",
+              "substituteOptions": [
                 "chicken breast",
                 "cauliflower florets (vegan)"
               ]
@@ -2185,14 +2185,14 @@ export const chinese = {
           ]
         },
         {
-          "recipe_name": "Authentic Beef with Broccoli",
+          "name": "Authentic Beef with Broccoli",
           "description": "A staple of Chinese-American cuisine relying on the 'velveting' technique (passing meat through oil or water after an alkaline marinade) to render tough cuts of beef incredibly tender, contrasting with the bright crunch of briefly blanched broccoli.",
           "details": {
             "cuisine": "Chinese-American",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 10,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2268,23 +2268,23 @@ export const chinese = {
             "Step 6: Combine. Return the beef and add the blanched broccoli to the wok. Give the sauce a stir and pour it over. Toss continuously over high heat for 1 minute until the sauce thickens into a glossy glaze coating the meat and vegetables. Serve immediately over rice."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stir-fry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "velveting",
               "blanching",
               "stir-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.2,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.2,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Mars"
@@ -2293,18 +2293,18 @@ export const chinese = {
               "Taurus",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 26,
-            "carbs_g": 18,
-            "fat_g": 16,
-            "fiber_g": 4,
-            "sodium_mg": 850,
-            "sugar_g": 4,
+            "proteinG": 26,
+            "carbsG": 18,
+            "fatG": 16,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin C",
               "Vitamin K"
@@ -2316,8 +2316,8 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "flank steak",
-              "substitute_options": [
+              "originalIngredient": "flank steak",
+              "substituteOptions": [
                 "chicken breast",
                 "seitan (vegan, omit oyster sauce for mushroom stir-fry sauce)"
               ]
@@ -2333,14 +2333,14 @@ export const chinese = {
     dessert: {
       all: [
         {
-          "recipe_name": "Authentic Egg Custard Tarts (Dan Tat)",
+          "name": "Authentic Egg Custard Tarts (Dan Tat)",
           "description": "A staple of Cantonese dim sum, combining Western pastry techniques with Chinese custard. The crust must be a highly laminated, flaky puff pastry (or a shortcrust cookie base in some regions), cradling a glassy, barely-set, brilliant yellow egg custard.",
           "details": {
             "cuisine": "Chinese (Cantonese)",
-            "prep_time_minutes": 120,
-            "cook_time_minutes": 20,
-            "base_serving_size": 12,
-            "spice_level": "None",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 12,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2394,23 +2394,23 @@ export const chinese = {
             "Step 8: Cool slightly before unmolding. They are best served warm."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dim sum",
               "dessert",
               "baking"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whisking",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.25,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.25,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -2419,18 +2419,18 @@ export const chinese = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 210,
-            "protein_g": 4,
-            "carbs_g": 22,
-            "fat_g": 12,
-            "fiber_g": 0,
-            "sodium_mg": 110,
-            "sugar_g": 10,
+            "proteinG": 4,
+            "carbsG": 22,
+            "fatG": 12,
+            "fiberG": 0,
+            "sodiumMg": 110,
+            "sugarG": 10,
             "vitamins": [
               "Vitamin A",
               "Vitamin D"
@@ -2441,22 +2441,22 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "evaporated milk",
-              "substitute_options": [
+              "originalIngredient": "evaporated milk",
+              "substituteOptions": [
                 "whole milk (custard will be slightly less rich)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Eight Treasure Rice Pudding (Ba Bao Fan)",
+          "name": "Authentic Eight Treasure Rice Pudding (Ba Bao Fan)",
           "description": "A highly decorative, ceremonial dessert served at Lunar New Year. Sticky glutinous rice is steamed with sugar and lard/oil, then molded in a bowl lined with exactly eight types of dried fruits, nuts, and seeds (representing fortune), filled with red bean paste, and steamed again to set the structure.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 45,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "celebration"
@@ -2524,23 +2524,23 @@ export const chinese = {
             "Step 9: Unmold and Serve. Invert a serving plate over the bowl and carefully flip it over. Lift off the bowl to reveal the jewel-encrusted dome. Pour the clear glaze over the top and serve hot."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "holiday",
               "sweet"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "steaming",
               "molding"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.3,
-            "earth": 0.5,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.3,
+            "Earth": 0.5,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Venus"
@@ -2549,18 +2549,18 @@ export const chinese = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 6,
-            "carbs_g": 85,
-            "fat_g": 8,
-            "fiber_g": 4,
-            "sodium_mg": 10,
-            "sugar_g": 35,
+            "proteinG": 6,
+            "carbsG": 85,
+            "fatG": 8,
+            "fiberG": 4,
+            "sodiumMg": 10,
+            "sugarG": 35,
             "vitamins": [
               "Vitamin C",
               "B Vitamins"
@@ -2572,14 +2572,14 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pork lard",
-              "substitute_options": [
+              "originalIngredient": "pork lard",
+              "substituteOptions": [
                 "coconut oil (vegan)"
               ]
             },
             {
-              "original_ingredient": "red bean paste",
-              "substitute_options": [
+              "originalIngredient": "red bean paste",
+              "substituteOptions": [
                 "lotus seed paste",
                 "black sesame paste"
               ]
@@ -2587,14 +2587,14 @@ export const chinese = {
           ]
         },
         {
-          "recipe_name": "Authentic Mango Pomelo Sago",
+          "name": "Authentic Mango Pomelo Sago",
           "description": "A modern Hong Kong dessert soup utilizing suspended carbohydrate pearls (sago) in a tropical fluid matrix. The alchemy involves balancing the thick, sweet puree of mango and coconut milk with the acidic, bursting vesicles of pomelo citrus.",
           "details": {
             "cuisine": "Chinese (Hong Kong)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -2646,24 +2646,24 @@ export const chinese = {
             "Step 6: Chill. Stir gently to combine. Refrigerate for at least 1 hour before serving. It must be served ice cold."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "soup",
               "sweet"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "blending",
               "chilling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.65,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.65,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -2672,18 +2672,18 @@ export const chinese = {
               "Cancer",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 4,
-            "carbs_g": 52,
-            "fat_g": 12,
-            "fiber_g": 4,
-            "sodium_mg": 45,
-            "sugar_g": 38,
+            "proteinG": 4,
+            "carbsG": 52,
+            "fatG": 12,
+            "fiberG": 4,
+            "sodiumMg": 45,
+            "sugarG": 38,
             "vitamins": [
               "Vitamin C",
               "Vitamin A"
@@ -2694,28 +2694,28 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pomelo",
-              "substitute_options": [
+              "originalIngredient": "pomelo",
+              "substituteOptions": [
                 "pink grapefruit"
               ]
             },
             {
-              "original_ingredient": "evaporated milk",
-              "substitute_options": [
+              "originalIngredient": "evaporated milk",
+              "substituteOptions": [
                 "extra coconut milk or almond milk (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Sesame Balls (Jian Dui)",
+          "name": "Authentic Sesame Balls (Jian Dui)",
           "description": "A masterpiece of deep-fried pastry physics. A dough made of glutinous rice flour expands drastically when fried, creating a massive, hollow, balloon-like interior lined with chewy mochi, encasing a small center of sweet red bean paste, with a rigid, seed-crusted exterior.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2769,25 +2769,25 @@ export const chinese = {
             "Step 8: Finish. Once they are fully expanded and golden brown, increase the heat for 30 seconds to crisp the outside. Remove and drain."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dim sum",
               "dessert",
               "snack",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "filling",
               "deep-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.1,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Uranus"
@@ -2796,18 +2796,18 @@ export const chinese = {
               "Taurus",
               "Aquarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 6,
-            "carbs_g": 52,
-            "fat_g": 18,
-            "fiber_g": 3,
-            "sodium_mg": 10,
-            "sugar_g": 24,
+            "proteinG": 6,
+            "carbsG": 52,
+            "fatG": 18,
+            "fiberG": 3,
+            "sodiumMg": 10,
+            "sugarG": 24,
             "vitamins": [
               "B Vitamins"
             ],
@@ -2818,8 +2818,8 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "red bean paste",
-              "substitute_options": [
+              "originalIngredient": "red bean paste",
+              "substituteOptions": [
                 "lotus seed paste",
                 "black sesame paste"
               ]
@@ -2827,14 +2827,14 @@ export const chinese = {
           ]
         },
         {
-          "recipe_name": "Authentic Tangyuan (Glutinous Rice Balls in Syrup)",
+          "name": "Authentic Tangyuan (Glutinous Rice Balls in Syrup)",
           "description": "A ceremonial dessert eaten during the Lantern Festival symbolizing family unity. The alchemy involves creating an emulsion of black sesame, sugar, and solid fat (lard), freezing it, and wrapping it in glutinous rice dough. When boiled, the fat melts, creating a liquid, molten lava center within a chewy mochi-like shell.",
           "details": {
             "cuisine": "Chinese",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 10,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "celebration"
@@ -2900,24 +2900,24 @@ export const chinese = {
             "Step 7: Serve hot. Place 3-4 balls in a small bowl and ladle the sweet ginger broth over them. Warn diners that the center is molten hot."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "sweet",
               "holiday"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "freezing",
               "kneading",
               "boiling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.5,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -2926,18 +2926,18 @@ export const chinese = {
               "Cancer",
               "Libra"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 6,
-            "carbs_g": 45,
-            "fat_g": 16,
-            "fiber_g": 3,
-            "sodium_mg": 5,
-            "sugar_g": 18,
+            "proteinG": 6,
+            "carbsG": 45,
+            "fatG": 16,
+            "fiberG": 3,
+            "sodiumMg": 5,
+            "sugarG": 18,
             "vitamins": [
               "B Vitamins"
             ],
@@ -2948,15 +2948,15 @@ export const chinese = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pork lard",
-              "substitute_options": [
+              "originalIngredient": "pork lard",
+              "substituteOptions": [
                 "coconut oil (solid, refined to avoid strong coconut flavor)",
                 "butter"
               ]
             },
             {
-              "original_ingredient": "black sesame",
-              "substitute_options": [
+              "originalIngredient": "black sesame",
+              "substituteOptions": [
                 "crushed peanuts",
                 "red bean paste (no fat required for this)"
               ]

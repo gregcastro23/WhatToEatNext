@@ -10,14 +10,14 @@ export const indian = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Masala Dosa",
+          "name": "Authentic Masala Dosa",
           "description": "A marvel of South Indian fermentation. A batter of rice and black lentils (urad dal) is fermented for 12+ hours to develop complex lactic acid tang and carbonation. When spread on a hot griddle, the proteins and starches Maillard-caramelize into a shatteringly crisp, paper-thin crepe that encases a soft, turmeric-stained potato mash.",
           "details": {
             "cuisine": "Indian (South)",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -88,24 +88,24 @@ export const indian = {
             "Step 7: Assemble. Place a scoop of potato masala in the center. Fold the dosa over and serve immediately with coconut chutney and sambar."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "lunch",
               "dinner",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "fermenting",
               "griddling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.15,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.15,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mercury",
               "Sun"
@@ -114,18 +114,18 @@ export const indian = {
               "Gemini",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 9,
-            "carbs_g": 65,
-            "fat_g": 14,
-            "fiber_g": 6,
-            "sodium_mg": 550,
-            "sugar_g": 2,
+            "proteinG": 9,
+            "carbsG": 65,
+            "fatG": 14,
+            "fiberG": 6,
+            "sodiumMg": 550,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin C",
               "B Vitamins"
@@ -137,22 +137,22 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "urad dal",
-              "substitute_options": [
+              "originalIngredient": "urad dal",
+              "substituteOptions": [
                 "moong dal (milder)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Aloo Paratha",
+          "name": "Authentic Aloo Paratha",
           "description": "The quintessential North Indian breakfast. A whole wheat unleavened dough (atta) is used to encapsulate a heavily spiced, citrusy potato mash. The alchemy involves rolling the two layers together without tearing, ensuring the potato filling reaches the absolute edges of the bread.",
           "details": {
             "cuisine": "Indian (North)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "winter",
               "all"
@@ -217,23 +217,23 @@ export const indian = {
             "Step 6: Serve hot with a massive knob of white butter and spicy mango pickle."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "lunch",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "griddling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.1,
-            "earth": 0.6,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.1,
+            "Earth": 0.6,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Mars"
@@ -242,18 +242,18 @@ export const indian = {
               "Taurus",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 8,
-            "carbs_g": 62,
-            "fat_g": 18,
-            "fiber_g": 8,
-            "sodium_mg": 480,
-            "sugar_g": 2,
+            "proteinG": 8,
+            "carbsG": 62,
+            "fatG": 18,
+            "fiberG": 8,
+            "sodiumMg": 480,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin C"
             ],
@@ -264,28 +264,28 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "atta",
-              "substitute_options": [
+              "originalIngredient": "atta",
+              "substituteOptions": [
                 "whole wheat pastry flour"
               ]
             },
             {
-              "original_ingredient": "ghee",
-              "substitute_options": [
+              "originalIngredient": "ghee",
+              "substituteOptions": [
                 "neutral oil (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Idli Sambar",
+          "name": "Authentic Idli Sambar",
           "description": "A paradigm of South Indian health and fermentation. Idlis are feather-light, steamed fermented cakes of rice and dal, engineered for maximum digestibility. They are paired with Sambar, a complex, tamarind-based vegetable and lentil stew characterized by a unique toasted spice profile.",
           "details": {
             "cuisine": "Indian (South)",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -349,24 +349,24 @@ export const indian = {
             "Step 6: Serve the soft idlis submerged in the hot sambar."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "fermenting",
               "steaming",
               "boiling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.4,
-            "earth": 0.25,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.4,
+            "Earth": 0.25,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Jupiter"
@@ -375,18 +375,18 @@ export const indian = {
               "Cancer",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 16,
-            "carbs_g": 62,
-            "fat_g": 6,
-            "fiber_g": 12,
-            "sodium_mg": 650,
-            "sugar_g": 4,
+            "proteinG": 16,
+            "carbsG": 62,
+            "fatG": 6,
+            "fiberG": 12,
+            "sodiumMg": 650,
+            "sugarG": 4,
             "vitamins": [
               "Folate",
               "Vitamin C"
@@ -398,8 +398,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "idli rice",
-              "substitute_options": [
+              "originalIngredient": "idli rice",
+              "substituteOptions": [
                 "quinoa (for a modern high-protein version)"
               ]
             }
@@ -408,14 +408,14 @@ export const indian = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic Poha (Spiced Flattened Rice)",
+          "name": "Authentic Poha (Spiced Flattened Rice)",
           "description": "A rapid, light breakfast from Maharashtra. It utilizes flattened parboiled rice (poha) which requires zero boiling; it is hydrated by a brief rinse and then steamed in its own residual moisture alongside a turmeric and mustard seed tempering.",
           "details": {
             "cuisine": "Indian (West)",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "all"
             ]
@@ -485,23 +485,23 @@ export const indian = {
             "Step 6: Finish. Turn off heat. Stir in the lemon juice and garnish heavily with fresh cilantro and sev (crispy chickpea noodles)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "steaming",
               "tempering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.15,
-            "earth": 0.45,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.15,
+            "Earth": 0.45,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mercury",
               "Earth"
@@ -510,18 +510,18 @@ export const indian = {
               "Virgo",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 310,
-            "protein_g": 6,
-            "carbs_g": 55,
-            "fat_g": 10,
-            "fiber_g": 4,
-            "sodium_mg": 380,
-            "sugar_g": 6,
+            "proteinG": 6,
+            "carbsG": 55,
+            "fatG": 10,
+            "fiberG": 4,
+            "sodiumMg": 380,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin C",
               "B1"
@@ -533,8 +533,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "flattened rice",
-              "substitute_options": [
+              "originalIngredient": "flattened rice",
+              "substituteOptions": [
                 "quinoa flakes"
               ]
             }
@@ -545,14 +545,14 @@ export const indian = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Dal Tadka",
+          "name": "Authentic Dal Tadka",
           "description": "A foundational study in pulse preparation and aromatic layering. Yellow lentils are boiled to a smooth, creamy puree, then finished with a 'tadka' (tempering) of whole spices and aromatics sizzled in ghee, which is poured over the dal just before serving to preserve the volatile oils.",
           "details": {
             "cuisine": "Indian",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -615,23 +615,23 @@ export const indian = {
             "Step 5: The Infusion. Pour the hot, sizzling tadka directly into the simmering dal. Cover the pot immediately for 2 minutes to trap the smoke and aromatics. Garnish with cilantro."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "tempering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.2,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.2,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Mars"
@@ -640,18 +640,18 @@ export const indian = {
               "Leo",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 14,
-            "carbs_g": 35,
-            "fat_g": 12,
-            "fiber_g": 10,
-            "sodium_mg": 450,
-            "sugar_g": 2,
+            "proteinG": 14,
+            "carbsG": 35,
+            "fatG": 12,
+            "fiberG": 10,
+            "sodiumMg": 450,
+            "sugarG": 2,
             "vitamins": [
               "Folate",
               "Vitamin B1"
@@ -663,22 +663,22 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ghee",
-              "substitute_options": [
+              "originalIngredient": "ghee",
+              "substituteOptions": [
                 "coconut oil (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Gujarati Kadhi",
+          "name": "Authentic Gujarati Kadhi",
           "description": "A brilliant exercise in dairy stabilization. This sweet-and-sour soup utilizes buttermilk or thinned yogurt stabilized with chickpea flour (besan), preventing it from curdling when boiled. It is characterized by its thin, silky consistency and the aggressive use of ginger, green chilies, and jaggery.",
           "details": {
             "cuisine": "Indian (Gujarat)",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "all"
             ]
@@ -740,25 +740,25 @@ export const indian = {
             "Step 4: Combine. Pour the tadka into the boiling kadhi. Garnish with cilantro and serve with khichdi or rice."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "soup",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whisking",
               "boiling",
               "tempering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.5,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.5,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -767,18 +767,18 @@ export const indian = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 180,
-            "protein_g": 8,
-            "carbs_g": 22,
-            "fat_g": 8,
-            "fiber_g": 2,
-            "sodium_mg": 520,
-            "sugar_g": 12,
+            "proteinG": 8,
+            "carbsG": 22,
+            "fatG": 8,
+            "fiberG": 2,
+            "sodiumMg": 520,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin B12",
               "Riboflavin"
@@ -790,8 +790,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "yogurt",
-              "substitute_options": [
+              "originalIngredient": "yogurt",
+              "substituteOptions": [
                 "coconut yogurt (vegan, but adjust cooking time)"
               ]
             }
@@ -800,14 +800,14 @@ export const indian = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Dal Makhani",
+          "name": "Authentic Dal Makhani",
           "description": "The king of North Indian dal. The alchemy relies on extreme prolonged slow-cooking (traditionally overnight on dying coals) of whole black lentils (urad) and kidney beans. The friction of the long simmer breaks down the dal's structure into a naturally creamy emulsion, which is then further enriched with butter and cream.",
           "details": {
             "cuisine": "Indian (Punjabi)",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 360,
-            "base_serving_size": 6,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 360,
+            "baseServingSize": 6,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "winter"
             ]
@@ -872,25 +872,25 @@ export const indian = {
             "Step 7: Serve hot with Garlic Naan."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "vegetarian",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "mashing",
               "simmering",
               "smoking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.25,
-            "earth": 0.5,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.25,
+            "Earth": 0.5,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Jupiter"
@@ -899,18 +899,18 @@ export const indian = {
               "Capricorn",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 18,
-            "carbs_g": 42,
-            "fat_g": 38,
-            "fiber_g": 14,
-            "sodium_mg": 680,
-            "sugar_g": 4,
+            "proteinG": 18,
+            "carbsG": 42,
+            "fatG": 38,
+            "fiberG": 14,
+            "sodiumMg": 680,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -923,8 +923,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "heavy cream",
-              "substitute_options": [
+              "originalIngredient": "heavy cream",
+              "substituteOptions": [
                 "cashew cream (vegan)"
               ]
             }
@@ -935,14 +935,14 @@ export const indian = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Butter Chicken (Murgh Makhani)",
+          "name": "Authentic Butter Chicken (Murgh Makhani)",
           "description": "The masterpiece of Punjabi restaurant cuisine. The alchemy involves a two-stage process: first, chicken is yogurt-marinated and charred in a tandoor (Fire), then submerged in a 'Makhani' sauce—a velvet emulsion of tomatoes, butter, and cream, stabilized with pureed cashews.",
           "details": {
             "cuisine": "Indian (Delhi)",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
             "season": [
               "winter",
               "all"
@@ -1013,23 +1013,23 @@ export const indian = {
             "Step 6: Finish. Crush kasuri methi between your palms and stir it in. Serve with Naan."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "marinating",
               "grilling",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.3,
-            "water": 0.3,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Mars"
@@ -1038,18 +1038,18 @@ export const indian = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 620,
-            "protein_g": 42,
-            "carbs_g": 15,
-            "fat_g": 48,
-            "fiber_g": 2,
-            "sodium_mg": 850,
-            "sugar_g": 10,
+            "proteinG": 42,
+            "carbsG": 15,
+            "fatG": 48,
+            "fiberG": 2,
+            "sodiumMg": 850,
+            "sugarG": 10,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -1061,8 +1061,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "chicken",
-              "substitute_options": [
+              "originalIngredient": "chicken",
+              "substituteOptions": [
                 "paneer (Paneer Makhani)",
                 "roasted cauliflower (vegan, use cashew/coconut cream)"
               ]
@@ -1070,14 +1070,14 @@ export const indian = {
           ]
         },
         {
-          "recipe_name": "Authentic Hyderabadi Biryani",
+          "name": "Authentic Hyderabadi Biryani",
           "description": "The 'Kacchi' method of biryani construction. Raw, marinated meat is layered with 70% cooked long-grain basmati rice in a heavy pot, sealed with a flour dough (Dum), and cooked over slow heat. The meat steams in its own juices while the rice absorbs the rising aromatic steam, creating a perfect vertical stratification of flavor.",
           "details": {
             "cuisine": "Indian (Hyderabad)",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 60,
-            "base_serving_size": 6,
-            "spice_level": "Hot",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "Hot",
             "season": [
               "all",
               "celebration"
@@ -1149,23 +1149,23 @@ export const indian = {
             "Step 7: Serve. Break the seal. Scoop from the bottom to get both meat and fragrant rice. Serve with Salan and Raita."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "marinating",
               "steaming",
               "dum-cooking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.15,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.15,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Mars"
@@ -1174,18 +1174,18 @@ export const indian = {
               "Sagittarius",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 750,
-            "protein_g": 38,
-            "carbs_g": 85,
-            "fat_g": 32,
-            "fiber_g": 4,
-            "sodium_mg": 950,
-            "sugar_g": 4,
+            "proteinG": 38,
+            "carbsG": 85,
+            "fatG": 32,
+            "fiberG": 4,
+            "sodiumMg": 950,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin B12",
               "Niacin"
@@ -1197,8 +1197,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "goat meat",
-              "substitute_options": [
+              "originalIngredient": "goat meat",
+              "substituteOptions": [
                 "chicken",
                 "mixed vegetables (for Veg Biryani - requires pre-cooking the veg slightly)"
               ]
@@ -1206,14 +1206,14 @@ export const indian = {
           ]
         },
         {
-          "recipe_name": "Authentic Palak Paneer",
+          "name": "Authentic Palak Paneer",
           "description": "A refined North Indian classic. Fresh spinach is blanched and rapidly cooled to preserve its vibrant green color (chlorophyll protection), then pureed and simmered with a delicate tempering of ginger, garlic, and cumin, providing a verdant, silky bed for cubes of fresh paneer cheese.",
           "details": {
             "cuisine": "Indian (Punjabi)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "Mild-Medium",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild-Medium",
             "season": [
               "all"
             ]
@@ -1282,23 +1282,23 @@ export const indian = {
             "Step 5: Finish. Stir in garam masala and heavy cream. Remove from heat immediately to keep the color bright green."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "lunch",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "blanching",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -1307,18 +1307,18 @@ export const indian = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 18,
-            "carbs_g": 12,
-            "fat_g": 24,
-            "fiber_g": 6,
-            "sodium_mg": 450,
-            "sugar_g": 2,
+            "proteinG": 18,
+            "carbsG": 12,
+            "fatG": 24,
+            "fiberG": 6,
+            "sodiumMg": 450,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin K",
               "Vitamin A",
@@ -1332,8 +1332,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "paneer",
-              "substitute_options": [
+              "originalIngredient": "paneer",
+              "substituteOptions": [
                 "tofu cubes (vegan)",
                 "halloumi (saltier)"
               ]
@@ -1341,14 +1341,14 @@ export const indian = {
           ]
         },
         {
-          "recipe_name": "Authentic Chole Bhature",
+          "name": "Authentic Chole Bhature",
           "description": "The ultimate Punjabi street food duo. Chole is a dark, intensely spiced chickpea curry (dyed with black tea), paired with Bhature—large, fermented, deep-fried leavened bread that puffs into a golden balloon.",
           "details": {
             "cuisine": "Indian (Punjabi)",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 60,
-            "base_serving_size": 4,
-            "spice_level": "Hot",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
             "season": [
               "winter",
               "all"
@@ -1407,25 +1407,25 @@ export const indian = {
             "Step 6: Serve hot with pickled onions and green chilies."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "brunch",
               "street food",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "fermenting",
               "boiling",
               "deep-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.15,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.15,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Jupiter"
@@ -1434,18 +1434,18 @@ export const indian = {
               "Aries",
               "Sagittarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 680,
-            "protein_g": 18,
-            "carbs_g": 85,
-            "fat_g": 32,
-            "fiber_g": 12,
-            "sodium_mg": 850,
-            "sugar_g": 4,
+            "proteinG": 18,
+            "carbsG": 85,
+            "fatG": 32,
+            "fiberG": 12,
+            "sodiumMg": 850,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin C",
               "Folate"
@@ -1457,22 +1457,22 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "yogurt (bhature)",
-              "substitute_options": [
+              "originalIngredient": "yogurt (bhature)",
+              "substituteOptions": [
                 "lemon juice and warm water (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Malai Kofta",
+          "name": "Authentic Malai Kofta",
           "description": "The peak of Mughlai luxury. Deep-fried dumplings (koftas) made of paneer and potato are submerged in a 'Malai' sauce—a rich, creamy, and slightly sweet onion-cashew gravy scented with saffron and cardamom.",
           "details": {
             "cuisine": "Indian (Mughlai)",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
             "season": [
               "winter",
               "celebration"
@@ -1524,23 +1524,23 @@ export const indian = {
             "Step 5: Assemble. Place the hot koftas in a serving dish and pour the gravy over them right before serving. (If you simmer them in the gravy, they will disintegrate)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "celebration",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "deep-frying",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.35,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.35,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -1549,18 +1549,18 @@ export const indian = {
               "Libra",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 14,
-            "carbs_g": 35,
-            "fat_g": 42,
-            "fiber_g": 4,
-            "sodium_mg": 520,
-            "sugar_g": 12,
+            "proteinG": 14,
+            "carbsG": 35,
+            "fatG": 42,
+            "fiberG": 4,
+            "sodiumMg": 520,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -1572,22 +1572,22 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "paneer",
-              "substitute_options": [
+              "originalIngredient": "paneer",
+              "substituteOptions": [
                 "extra firm tofu (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Pani Puri (Golgappa)",
+          "name": "Authentic Pani Puri (Golgappa)",
           "description": "The quintessential Indian street food experience. It is an interactive study in flavor and texture explosion: a fragile, crispy semolina sphere (puri) is filled with a cooling potato-chickpea mash and submerged in a 'Pani'—a violently tart, spicy, and herbaceous mint water.",
           "details": {
             "cuisine": "Indian",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "Hot",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
             "season": [
               "summer",
               "all"
@@ -1643,23 +1643,23 @@ export const indian = {
             "Step 3: The Ritual. Gently crack the top of a puri with your thumb. Stuff with a little filling. Dip the entire puri into the chilled spicy water. Consume in one single bite to experience the flavor explosion."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "snack",
               "street food",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "blending",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.4,
-            "earth": 0.1,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.4,
+            "Earth": 0.1,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Mercury"
@@ -1668,18 +1668,18 @@ export const indian = {
               "Aries",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 250,
-            "protein_g": 6,
-            "carbs_g": 45,
-            "fat_g": 8,
-            "fiber_g": 6,
-            "sodium_mg": 950,
-            "sugar_g": 8,
+            "proteinG": 6,
+            "carbsG": 45,
+            "fatG": 8,
+            "fiberG": 6,
+            "sodiumMg": 950,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin C"
             ],
@@ -1690,22 +1690,22 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "puris",
-              "substitute_options": [
+              "originalIngredient": "puris",
+              "substituteOptions": [
                 "no direct substitute"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Baingan Bharta",
+          "name": "Authentic Baingan Bharta",
           "description": "A rustic North Indian dish where the alchemy relies on the direct fire charring of a large eggplant. The skin is carbonized to infuse the flesh with a profound smokiness, then mashed and sautéed with aromatics to create a dense, earthy, and sweet-savory vegetable mash.",
           "details": {
             "cuisine": "Indian (Punjabi)",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "autumn",
               "winter"
@@ -1757,25 +1757,25 @@ export const indian = {
             "Step 5: Finish. Garnish with fresh cilantro and serve with hot Phulkas (rotis)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "charring",
               "sautéing",
               "mashing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.1,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.1,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Saturn"
@@ -1784,18 +1784,18 @@ export const indian = {
               "Scorpio",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 180,
-            "protein_g": 4,
-            "carbs_g": 22,
-            "fat_g": 10,
-            "fiber_g": 8,
-            "sodium_mg": 350,
-            "sugar_g": 8,
+            "proteinG": 4,
+            "carbsG": 22,
+            "fatG": 10,
+            "fiberG": 8,
+            "sodiumMg": 350,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin C",
               "Vitamin B6"
@@ -1807,8 +1807,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "eggplant",
-              "substitute_options": [
+              "originalIngredient": "eggplant",
+              "substituteOptions": [
                 "no substitute for this specific smoky profile"
               ]
             }
@@ -1817,14 +1817,14 @@ export const indian = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Rogan Josh",
+          "name": "Authentic Rogan Josh",
           "description": "The crown jewel of Kashmiri cuisine. It is a brilliant study in the color red, using either Kashmiri red chilies or Ratan Jot (alkanet root) to achieve a deep crimson hue. The alchemy involves a thin, oil-based gravy flavored with fennel and dry ginger (sonth), excluding onions and garlic in its most traditional Brahman form.",
           "details": {
             "cuisine": "Indian (Kashmiri)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 90,
-            "base_serving_size": 4,
-            "spice_level": "Medium-Hot",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 90,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium-Hot",
             "season": [
               "winter"
             ]
@@ -1881,22 +1881,22 @@ export const indian = {
             "Step 5: Serve with steamed white rice (Saffron rice)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "searing",
               "braising"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.15,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.15,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Saturn"
@@ -1905,18 +1905,18 @@ export const indian = {
               "Aries",
               "Scorpio"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 580,
-            "protein_g": 42,
-            "carbs_g": 12,
-            "fat_g": 40,
-            "fiber_g": 2,
-            "sodium_mg": 620,
-            "sugar_g": 4,
+            "proteinG": 42,
+            "carbsG": 12,
+            "fatG": 40,
+            "fiberG": 2,
+            "sodiumMg": 620,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin B12",
               "Niacin"
@@ -1928,8 +1928,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "lamb",
-              "substitute_options": [
+              "originalIngredient": "lamb",
+              "substituteOptions": [
                 "beef",
                 "jackfruit (requires adjusted cooking time)"
               ]
@@ -1941,14 +1941,14 @@ export const indian = {
     dessert: {
       all: [
         {
-          "recipe_name": "Authentic Gulab Jamun",
+          "name": "Authentic Gulab Jamun",
           "description": "The quintessential celebratory sweet of the Indian subcontinent.",
           "details": {
             "cuisine": "Indian",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 30,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1967,52 +1967,52 @@ export const indian = {
             "Step 3: Soak in rose syrup."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.35,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.35,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 8,
-            "carbs_g": 55,
-            "fat_g": 20,
-            "fiber_g": 1,
-              "sodium_mg": 185,
-              "sugar_g": 29,
+            "proteinG": 8,
+            "carbsG": 55,
+            "fatG": 20,
+            "fiberG": 1,
+              "sodiumMg": 185,
+              "sugarG": 29,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": []
         },
         {
-          "recipe_name": "Authentic Rasmalai",
+          "name": "Authentic Rasmalai",
           "description": "A sophisticated Bengali sweet. Fresh milk solids are curdled into Chenna (cheese), kneaded into discs, poached in light syrup, and finally submerged in a 'Ras'—a thick, saffron-and-cardamom-infused reduced milk.",
           "details": {
             "cuisine": "Indian (Bengali)",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 60,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "all",
               "celebration"
@@ -2064,25 +2064,25 @@ export const indian = {
             "Step 5: The Soak. Gently squeeze the syrup out of the chenna discs and drop them into the hot rabri. Let them soak for 4 hours. Chill and serve."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "sweet",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "kneading",
               "poaching",
               "reducing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.45,
-            "earth": 0.25,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.45,
+            "Earth": 0.25,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -2091,18 +2091,18 @@ export const indian = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 12,
-            "carbs_g": 38,
-            "fat_g": 14,
-            "fiber_g": 0,
-            "sodium_mg": 120,
-            "sugar_g": 32,
+            "proteinG": 12,
+            "carbsG": 38,
+            "fatG": 14,
+            "fiberG": 0,
+            "sodiumMg": 120,
+            "sugarG": 32,
             "vitamins": [
               "Vitamin D",
               "Riboflavin"
@@ -2114,22 +2114,22 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "whole milk",
-              "substitute_options": [
+              "originalIngredient": "whole milk",
+              "substituteOptions": [
                 "store-bought ricotta (for a quick cheat version)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Indian Kulfi",
+          "name": "Authentic Indian Kulfi",
           "description": "The traditional, unchurned ice cream of the Indian subcontinent. The alchemy relies on extreme, prolonged evaporation of milk (rabri) rather than whipping air into cream. This slow reduction creates intense caramelization, a dense, fudgy texture, and prevents large ice crystals from forming during freezing.",
           "details": {
             "cuisine": "Indian",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 120,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -2189,24 +2189,24 @@ export const indian = {
             "Step 8: Unmold. To serve, run the outside of the mold briefly under warm water or rub it between your palms to loosen the kulfi, then pull it out."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "sweet",
               "frozen"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "reducing",
               "freezing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.3,
-            "water": 0.35,
-            "earth": 0.25,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.35,
+            "Earth": 0.25,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -2215,18 +2215,18 @@ export const indian = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 10,
-            "carbs_g": 25,
-            "fat_g": 16,
-            "fiber_g": 1,
-            "sodium_mg": 110,
-            "sugar_g": 22,
+            "proteinG": 10,
+            "carbsG": 25,
+            "fatG": 16,
+            "fiberG": 1,
+            "sodiumMg": 110,
+            "sugarG": 22,
             "vitamins": [
               "Vitamin D",
               "Riboflavin"
@@ -2238,8 +2238,8 @@ export const indian = {
           },
           "substitutions": [
             {
-              "original_ingredient": "whole milk",
-              "substitute_options": [
+              "originalIngredient": "whole milk",
+              "substituteOptions": [
                 "1 can evaporated milk + 1 can sweetened condensed milk + 1 cup heavy cream (for a 'quick', no-cook version)"
               ]
             }
@@ -2632,28 +2632,28 @@ export const indian = {
       ],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "laal maas sauce",
         "vindaloo paste",
         "phaal curry sauce",
         "chettinad masala",
         "achari sauce",
       ],
-      earth: [
+      Earth: [
         "dal makhani sauce",
         "korma paste",
         "malai sauce",
         "shahi gravy",
         "tempering oil",
       ],
-      air: [
+      Air: [
         "raita",
         "green chutney",
         "kadhi sauce",
         "tamarind chutney",
         "coriander_mint_chutney",
       ],
-      water: [
+      Water: [
         "coconut curry sauce",
         "moilee gravy",
         "dahi wali gravy",

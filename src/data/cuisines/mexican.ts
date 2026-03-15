@@ -7,14 +7,14 @@ export const mexican = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Huevos Rancheros",
+          "name": "Authentic Huevos Rancheros",
           "description": "A robust, deeply flavorful Mexican breakfast historically served to rural farm workers (rancheros). It features lightly fried corn tortillas layered with refried black beans, sunny-side-up eggs, and smothered in a vibrant, slightly spicy roasted tomato and chili salsa. It perfectly balances the elemental fire of the salsa with the earthy sustenance of corn and beans.",
           "details": {
             "cuisine": "Mexican",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 25,
-            "base_serving_size": 2,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 2,
+            "spiceLevel": "Medium",
             "season": [
               "summer",
               "autumn"
@@ -107,24 +107,24 @@ export const mexican = {
             "Step 10: Garnish immediately with crumbled queso fresco, chopped cilantro, and slices of avocado. Serve hot."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "brunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "frying",
               "blending",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.15,
-            "earth": 0.35,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.15,
+            "Earth": 0.35,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -133,47 +133,47 @@ export const mexican = {
               "Aries",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter",
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 20,
-            "carbs_g": 42,
-            "fat_g": 28,
-            "fiber_g": 12,
-              "sodium_mg": 576,
-              "sugar_g": 4,
+            "proteinG": 20,
+            "carbsG": 42,
+            "fatG": 28,
+            "fiberG": 12,
+              "sodiumMg": 576,
+              "sugarG": 4,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "tofu scramble (vegan)",
                 "just egg"
               ]
             },
             {
-              "original_ingredient": "refried black beans",
-              "substitute_options": [
+              "originalIngredient": "refried black beans",
+              "substituteOptions": [
                 "refried pinto beans",
                 "whole black beans"
               ]
             },
             {
-              "original_ingredient": "queso fresco",
-              "substitute_options": [
+              "originalIngredient": "queso fresco",
+              "substituteOptions": [
                 "mild feta cheese",
                 "vegan cashew cheese crumbles"
               ]
             },
             {
-              "original_ingredient": "pork lard / neutral oil",
-              "substitute_options": [
+              "originalIngredient": "pork lard / neutral oil",
+              "substituteOptions": [
                 "avocado oil",
                 "canola oil"
               ]
@@ -181,14 +181,14 @@ export const mexican = {
           ]
         },
         {
-          "recipe_name": "Authentic Chilaquiles Verdes",
+          "name": "Authentic Chilaquiles Verdes",
           "description": "A masterclass in textural transformation and zero-waste agrarian cooking.",
           "details": {
             "cuisine": "Mexican",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 25,
-            "base_serving_size": 4,
-            "spice_level": "Hot",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
             "season": [
               "summer"
             ]
@@ -222,46 +222,46 @@ export const mexican = {
             "Step 6: Serve with eggs, crema, and cheese."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "frying",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.2,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.2,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun"
             ],
             "signs": [
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 14,
-            "carbs_g": 45,
-            "fat_g": 26,
-            "fiber_g": 6,
-              "sodium_mg": 677,
-              "sugar_g": 7,
+            "proteinG": 14,
+            "carbsG": 45,
+            "fatG": 26,
+            "fiberG": 6,
+              "sodiumMg": 677,
+              "sugarG": 7,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "stale tortillas",
-              "substitute_options": [
+              "originalIngredient": "stale tortillas",
+              "substituteOptions": [
                 "thick tortilla chips"
               ]
             }
@@ -837,14 +837,14 @@ export const mexican = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Pozole Rojo",
+          "name": "Authentic Pozole Rojo",
           "description": "A pre-Columbian ceremonial stew rooted in the deep earthiness of nixtamalized corn.",
           "details": {
             "cuisine": "Mexican",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 180,
-            "base_serving_size": 8,
-            "spice_level": "Medium-Hot",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 8,
+            "spiceLevel": "Medium-Hot",
             "season": [
               "winter"
             ]
@@ -863,38 +863,38 @@ export const mexican = {
             "Step 3: Combine with hominy."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.35,
-            "earth": 0.25,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.35,
+            "Earth": 0.25,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars"
             ],
             "signs": [
               "Scorpio"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 38,
-            "carbs_g": 45,
-            "fat_g": 20,
-            "fiber_g": 8,
-              "sodium_mg": 521,
-              "sugar_g": 10,
+            "proteinG": 38,
+            "carbsG": 45,
+            "fatG": 20,
+            "fiberG": 8,
+              "sodiumMg": 521,
+              "sugarG": 10,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -1553,14 +1553,14 @@ export const mexican = {
           },
         },
         {
-          "recipe_name": "Authentic Churros",
+          "name": "Authentic Churros",
           "description": "A study in structural pastry tension.",
           "details": {
             "cuisine": "Mexican",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1579,38 +1579,38 @@ export const mexican = {
             "Step 3: Coat in cinnamon sugar."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.15,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.15,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus"
             ],
             "signs": [
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 310,
-            "protein_g": 4,
-            "carbs_g": 42,
-            "fat_g": 15,
-            "fiber_g": 1,
-              "sodium_mg": 83,
-              "sugar_g": 26,
+            "proteinG": 4,
+            "carbsG": 42,
+            "fatG": 15,
+            "fiberG": 1,
+              "sodiumMg": 83,
+              "sugarG": 26,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -1879,10 +1879,10 @@ export const mexican = {
         "Mole Coloradito",
       ],
       elementalProperties: {
-        earth: 0.4,
-        fire: 0.3,
-        water: 0.2,
-        air: 0.1,
+        Earth: 0.4,
+        Fire: 0.3,
+        Water: 0.2,
+        Air: 0.1,
       },
       astrologicalInfluences: ["pluto", "mars", "scorpio"],
       seasonality: "all",
@@ -1915,10 +1915,10 @@ export const mexican = {
         "Cremosa (creamy with avocado)",
       ],
       elementalProperties: {
-        water: 0.4,
-        fire: 0.3,
-        air: 0.2,
-        earth: 0.1,
+        Water: 0.4,
+        Fire: 0.3,
+        Air: 0.2,
+        Earth: 0.1,
       },
       astrologicalInfluences: ["venus", "mercury", "gemini"],
       seasonality: "spring, summer",
@@ -1944,10 +1944,10 @@ export const mexican = {
         "Chile de Árbol",
       ],
       elementalProperties: {
-        fire: 0.5,
-        earth: 0.3,
-        water: 0.1,
-        air: 0.1,
+        Fire: 0.5,
+        Earth: 0.3,
+        Water: 0.1,
+        Air: 0.1,
       },
       astrologicalInfluences: ["mars", "sun", "aries"],
       seasonality: "summer, autumn",
@@ -1980,10 +1980,10 @@ export const mexican = {
         "Seco (dry rub)",
       ],
       elementalProperties: {
-        fire: 0.4,
-        air: 0.3,
-        earth: 0.2,
-        water: 0.1,
+        Fire: 0.4,
+        Air: 0.3,
+        Earth: 0.2,
+        Water: 0.1,
       },
       astrologicalInfluences: ["mars", "mercury", "sagittarius"],
       seasonality: "all",
@@ -2016,10 +2016,10 @@ export const mexican = {
         "Blanco (white)",
       ],
       elementalProperties: {
-        earth: 0.5,
-        water: 0.2,
-        air: 0.2,
-        fire: 0.1,
+        Earth: 0.5,
+        Water: 0.2,
+        Air: 0.2,
+        Fire: 0.1,
       },
       astrologicalInfluences: ["saturn", "moon", "capricorn"],
       seasonality: "autumn, winter",
@@ -2142,28 +2142,28 @@ export const mexican = {
       ],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "salsa macha",
         "habanero-based sauces",
         "chile de árbol salsa",
         "adobo picante",
         "chipotle salsas",
       ],
-      earth: [
+      Earth: [
         "mole poblano",
         "pipián",
         "salsa de cacahuate",
         "recado negro",
         "adobo seco",
       ],
-      water: [
+      Water: [
         "aguachile",
         "salsa verde",
         "avocado crema",
         "salsa veracruzana",
         "mole verde",
       ],
-      air: [
+      Air: [
         "pico de gallo",
         "salsa bandera",
         "lime-cilantro dressing",
@@ -2244,7 +2244,7 @@ export const mexican = {
       name: "Nixtamalización",
       description:
         "Ancient process of treating corn with calcium hydroxide to enhance nutritional value and flavor",
-      elementalProperties: { earth: 0.5, water: 0.3, fire: 0.1, air: 0.1 },
+      elementalProperties: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: [
         "large pot",
         "calcium hydroxide (cal)",
@@ -2263,14 +2263,14 @@ export const mexican = {
       name: "Asado",
       description:
         "Open-fire grilling technique creating distinctive smoky flavors",
-      elementalProperties: { fire: 0.7, air: 0.2, earth: 0.1, water: 0.0 },
+      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ["grill", "mesquite wood", "tongs", "comal"],
       bestFor: ["meats", "nopal cactus", "vegetables", "salsas", "chiles"],
     },
     {
       name: "Guisado",
       description: "Slow-simmered stew technique for developing deep flavors",
-      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: [
         "clay pot",
         "cazuela",
@@ -2288,14 +2288,14 @@ export const mexican = {
       name: "Tatemado",
       description:
         "Charring technique for vegetables and chiles to develop smoky depth",
-      elementalProperties: { fire: 0.6, earth: 0.2, air: 0.1, water: 0.1 },
+      elementalProperties: { Fire: 0.6, Earth: 0.2, Air: 0.1, Water: 0.1 },
       toolsRequired: ["comal", "direct flame", "tongs", "roasting basket"],
       bestFor: ["chiles", "tomatoes", "tomatillos", "onions", "salsas"],
     },
     {
       name: "Ahumado",
       description: "Smoking technique using various woods for distinct flavors",
-      elementalProperties: { air: 0.4, fire: 0.3, earth: 0.2, water: 0.1 },
+      elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
       toolsRequired: [
         "smoking chamber",
         "various woods",
@@ -2317,7 +2317,7 @@ export const mexican = {
         "quesillo",
         "tamales oaxaqueños",
       ],
-      elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 },
+      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ["moon", "saturn", "taurus"],
       seasonality: "highly seasonal with ceremonial dishes",
     },
@@ -2332,7 +2332,7 @@ export const mexican = {
         "poc chuc",
         "panuchos",
       ],
-      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ["venus", "mercury", "gemini"],
       seasonality: "tropical seasonal patterns",
     },
@@ -2347,7 +2347,7 @@ export const mexican = {
         "chihuahua cheese",
         "burritos",
       ],
-      elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 },
+      elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 },
       astrologicalInfluences: ["mars", "sun", "aries"],
       seasonality: "desert and ranching seasonal patterns",
     },
@@ -2362,7 +2362,7 @@ export const mexican = {
         "mole poblano",
         "street corn",
       ],
-      elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 },
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ["jupiter", "mercury", "virgo"],
       seasonality: "highland seasonal patterns with ceremonial dishes",
     },
@@ -2377,16 +2377,16 @@ export const mexican = {
         "zarandeado",
         "camarones",
       ],
-      elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 },
+      elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
       astrologicalInfluences: ["neptune", "venus", "pisces"],
       seasonality: "coastal seasonal patterns with monsoon influence",
     },
   },
   elementalProperties: {
-    fire: 0.3, // Represents chiles and grilling,
-    earth: 0.3, // Represents corn and beans,
-    water: 0.2, // Represents sauces and stews,
-    air: 0.2, // Represents herbs and light dishes
+    Fire: 0.3, // Represents chiles and grilling,
+    Earth: 0.3, // Represents corn and beans,
+    Water: 0.2, // Represents sauces and stews,
+    Air: 0.2, // Represents herbs and light dishes
   },
 };
 

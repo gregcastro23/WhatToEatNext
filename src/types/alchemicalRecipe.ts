@@ -1,3 +1,5 @@
+import type { ZodiacSignType, LunarPhase } from "./alchemy";
+
 export interface AlchemicalIngredient {
   amount: number;
   unit: string;
@@ -6,46 +8,47 @@ export interface AlchemicalIngredient {
 }
 
 export interface AlchemicalRecipe {
-  recipe_name: string;
+  id?: string;
+  name: string;
   description: string;
   details: {
     cuisine: string;
-    prep_time_minutes: number;
-    cook_time_minutes: number;
-    base_serving_size: number;
-    spice_level: string;
+    prepTimeMinutes: number;
+    cookTimeMinutes: number;
+    baseServingSize: number;
+    spiceLevel: string;
     season: string[];
   };
   ingredients: AlchemicalIngredient[];
   instructions: string[];
   classifications: {
-    meal_type: string[];
-    cooking_methods: string[];
+    mealType: string[];
+    cookingMethods: string[];
   };
-  elemental_properties: {
-    fire: number;
-    water: number;
-    earth: number;
-    air: number;
+  elementalProperties: {
+    Fire: number; // Capitalized to match project interface
+    Water: number;
+    Earth: number;
+    Air: number;
   };
-  astrological_affinities: {
+  astrologicalAffinities: {
     planets: string[];
-    signs: string[];
-    lunar_phases: string[];
+    signs: ZodiacSignType[];
+    lunarPhases: string[];
   };
-  nutrition_per_serving: {
+  nutritionPerServing: {
     calories: number;
-    protein_g: number;
-    carbs_g: number;
-    fat_g: number;
-    fiber_g: number;
-    sodium_mg: number;
-    sugar_g: number;
+    proteinG: number;
+    carbsG: number;
+    fatG: number;
+    fiberG: number;
+    sodiumMg: number;
+    sugarG: number;
     vitamins: string[];
     minerals: string[];
   };
   substitutions: Array<{
-    original_ingredient: string;
-    substitute_options: string[];
+    originalIngredient: string;
+    substituteOptions: string[];
   }>;
 }

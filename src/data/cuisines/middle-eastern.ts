@@ -10,14 +10,14 @@ export const middleEastern: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Shakshuka",
+          "name": "Authentic Shakshuka",
           "description": "A deeply aromatic, traditional Middle Eastern and North African dish featuring eggs gently poached in a rich, spiced tomato and pepper stew. Historically rooted in Mediterranean agrarian traditions, it balances the fiery energy of warming spices with the grounding comfort of a savory, simmering sauce.",
           "details": {
             "cuisine": "Middle Eastern",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 25,
-            "base_serving_size": 4,
-            "spice_level": "Medium",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
             "season": [
               "spring",
               "summer",
@@ -129,24 +129,24 @@ export const middleEastern: Cuisine = {
             "Step 9: Serve immediately from the skillet, accompanied by warm pita bread for dipping and scooping the sauce and runny egg yolks."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "brunch",
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "sautéing",
               "simmering",
               "poaching"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.45,
-            "water": 0.25,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.45,
+            "Water": 0.25,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun",
@@ -157,51 +157,51 @@ export const middleEastern: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waxing Gibbous",
               "Waning Gibbous",
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 12,
-            "carbs_g": 35,
-            "fat_g": 15,
-            "fiber_g": 6,
-              "sodium_mg": 381,
-              "sugar_g": 9,
+            "proteinG": 12,
+            "carbsG": 35,
+            "fatG": 15,
+            "fiberG": 6,
+              "sodiumMg": 381,
+              "sugarG": 9,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "silken tofu chunks (vegan)",
                 "soft-boiled quail eggs",
                 "chickpea scramble"
               ]
             },
             {
-              "original_ingredient": "red bell peppers",
-              "substitute_options": [
+              "originalIngredient": "red bell peppers",
+              "substituteOptions": [
                 "roasted red peppers (jarred)",
                 "green bell peppers",
                 "poblano peppers"
               ]
             },
             {
-              "original_ingredient": "harissa paste",
-              "substitute_options": [
+              "originalIngredient": "harissa paste",
+              "substituteOptions": [
                 "chili garlic sauce",
                 "sriracha",
                 "pinch of cayenne pepper"
               ]
             },
             {
-              "original_ingredient": "pita bread",
-              "substitute_options": [
+              "originalIngredient": "pita bread",
+              "substituteOptions": [
                 "crusty sourdough",
                 "challah bread",
                 "gluten-free flatbread"
@@ -1165,14 +1165,14 @@ export const middleEastern: Cuisine = {
           },
         },
         {
-          "recipe_name": "Authentic Mujaddara",
+          "name": "Authentic Mujaddara",
           "description": "An ancient, profoundly comforting Levantine staple.",
           "details": {
             "cuisine": "Middle Eastern",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1206,46 +1206,46 @@ export const middleEastern: Cuisine = {
             "Step 6: Serve topped with frizzled onions."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.1,
-            "earth": 0.6,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.1,
+            "Earth": 0.6,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn"
             ],
             "signs": [
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 16,
-            "carbs_g": 65,
-            "fat_g": 18,
-            "fiber_g": 12,
-              "sodium_mg": 246,
-              "sugar_g": 12,
+            "proteinG": 16,
+            "carbsG": 65,
+            "fatG": 18,
+            "fiberG": 12,
+              "sodiumMg": 246,
+              "sugarG": 12,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "rice",
-              "substitute_options": [
+              "originalIngredient": "rice",
+              "substituteOptions": [
                 "bulgur wheat"
               ]
             }
@@ -1508,14 +1508,14 @@ export const middleEastern: Cuisine = {
         },
 
         {
-          "recipe_name": "Authentic Levantine Falafel",
+          "name": "Authentic Levantine Falafel",
           "description": "A triumph of plant-based culinary geometry.",
           "details": {
             "cuisine": "Middle Eastern",
-            "prep_time_minutes": 1440,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
             "season": [
               "all"
             ]
@@ -1534,38 +1534,38 @@ export const middleEastern: Cuisine = {
             "Step 3: Fry in hot oil."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.1,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 12,
-            "carbs_g": 35,
-            "fat_g": 22,
-            "fiber_g": 9,
-              "sodium_mg": 419,
-              "sugar_g": 2,
+            "proteinG": 12,
+            "carbsG": 35,
+            "fatG": 22,
+            "fiberG": 9,
+              "sodiumMg": 419,
+              "sugarG": 2,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -2605,28 +2605,28 @@ export const middleEastern: Cuisine = {
       ],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "harissa",
         "zhug",
         "chermoula",
         "hot pepper paste",
         "garlic-chili oil",
       ],
-      earth: [
+      Earth: [
         "tahini",
         "hummus",
         "baba ganoush",
         "walnut-pomegranate",
         "chickpea-olive",
       ],
-      water: [
+      Water: [
         "yogurt sauces",
         "tarator",
         "cucumber-mint",
         "lemon-herb",
         "rosewater-honey",
       ],
-      air: [
+      Air: [
         "za'atar oil",
         "herb-infused oils",
         "citrus dressings",

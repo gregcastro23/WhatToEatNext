@@ -10,14 +10,14 @@ export const italian: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Cornetto e Cappuccino",
+          "name": "Authentic Cornetto e Cappuccino",
           "description": "The foundation of the Italian morning ritual. The Cornetto (often confused with the French croissant) is structurally different—it contains less butter, incorporates eggs, and is slightly sweeter, resulting in a softer, more brioche-like interior that pairs perfectly with the intensely aerated, dry foam of a traditional Italian Cappuccino.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 20,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -97,25 +97,25 @@ export const italian: Cuisine = {
             "Step 10: Pour the milk. Pour the steamed milk over the espresso, holding back the foam with a spoon, then dollop the thick foam heavily on top. Serve immediately with the warm cornetto."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "pastry",
               "beverage"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "fermenting",
               "baking",
               "steaming"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.25,
-            "earth": 0.3,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.25,
+            "Earth": 0.3,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -124,18 +124,18 @@ export const italian: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 12,
-            "carbs_g": 52,
-            "fat_g": 24,
-            "fiber_g": 2,
-            "sodium_mg": 180,
-            "sugar_g": 18,
+            "proteinG": 12,
+            "carbsG": 52,
+            "fatG": 24,
+            "fiberG": 2,
+            "sodiumMg": 180,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin A",
               "Riboflavin"
@@ -147,28 +147,28 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "00 flour",
-              "substitute_options": [
+              "originalIngredient": "00 flour",
+              "substituteOptions": [
                 "all-purpose flour"
               ]
             },
             {
-              "original_ingredient": "whole milk (for cappuccino)",
-              "substitute_options": [
+              "originalIngredient": "whole milk (for cappuccino)",
+              "substituteOptions": [
                 "oat milk (froths best among plant milks)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Maritozzo con Panna",
+          "name": "Authentic Maritozzo con Panna",
           "description": "The quintessential Roman breakfast pastry. A heavily enriched, highly elastic brioche bun (often studded with pine nuts and raisins) is sliced open and violently over-stuffed with freshly whipped, barely sweetened heavy cream. The contrast between the structural bread and the ethereal cream is paramount.",
           "details": {
             "cuisine": "Italian (Rome)",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -253,24 +253,24 @@ export const italian: Cuisine = {
             "Step 9: Assemble. Slice the cooled buns diagonally down the center, being careful not to cut all the way through the bottom hinge. Open the bun like a clam and over-fill it massively with the whipped cream. Use a straight spatula to scrape the exposed cream flush with the edges of the bun."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "pastry",
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "kneading",
               "baking",
               "whipping"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.3,
-            "earth": 0.25,
-            "air": 0.3
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.3,
+            "Earth": 0.25,
+            "Air": 0.3
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -279,18 +279,18 @@ export const italian: Cuisine = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 8,
-            "carbs_g": 48,
-            "fat_g": 34,
-            "fiber_g": 2,
-            "sodium_mg": 180,
-            "sugar_g": 14,
+            "proteinG": 8,
+            "carbsG": 48,
+            "fatG": 34,
+            "fiberG": 2,
+            "sodiumMg": 180,
+            "sugarG": 14,
             "vitamins": [
               "Vitamin A"
             ],
@@ -301,22 +301,22 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pine nuts/raisins",
-              "substitute_options": [
+              "originalIngredient": "pine nuts/raisins",
+              "substituteOptions": [
                 "omit entirely (for a modern plain brioche)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Fette Biscottate con Marmellata",
+          "name": "Authentic Fette Biscottate con Marmellata",
           "description": "The ubiquitous, austere Italian breakfast. Fette Biscottate translates to 'twice-baked slices'. It is essentially a slightly sweet, highly aerated brioche loaf that is baked, sliced, and baked again until completely dehydrated and shatteringly crisp, providing a rigid structural canvas for high-quality fruit marmalade.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 75,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 75,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -389,23 +389,23 @@ export const italian: Cuisine = {
             "Step 9: Serve the brittle slices spread generously with high-quality marmalade."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "dehydrating",
               "kneading"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.05,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.05,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Sun"
@@ -414,18 +414,18 @@ export const italian: Cuisine = {
               "Capricorn",
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 310,
-            "protein_g": 8,
-            "carbs_g": 52,
-            "fat_g": 8,
-            "fiber_g": 2,
-            "sodium_mg": 320,
-            "sugar_g": 18,
+            "proteinG": 8,
+            "carbsG": 52,
+            "fatG": 8,
+            "fiberG": 2,
+            "sodiumMg": 320,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin C (from marmalade)"
             ],
@@ -436,8 +436,8 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "marmalade",
-              "substitute_options": [
+              "originalIngredient": "marmalade",
+              "substituteOptions": [
                 "Nutella",
                 "butter and honey"
               ]
@@ -447,14 +447,14 @@ export const italian: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic Granita con Brioche",
+          "name": "Authentic Granita con Brioche",
           "description": "The definitive Sicilian breakfast. It is a brilliant textural contrast: a semi-frozen, crystalline, deeply flavored water-ice (usually lemon, almond, or coffee) paired with an impossibly light, warm, egg-rich brioche bun crowned with a topknot (tuppo). The brioche is designed to be torn and dipped directly into the melting ice.",
           "details": {
             "cuisine": "Italian (Sicily)",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -539,24 +539,24 @@ export const italian: Cuisine = {
             "Step 9: Serve. Serve the Granita in a glass goblet alongside the warm Brioche col Tuppo. The diner tears off the topknot first to dip into the ice."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "freezing",
               "scraping",
               "kneading",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.5,
-            "earth": 0.15,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.15,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Moon"
@@ -565,18 +565,18 @@ export const italian: Cuisine = {
               "Leo",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 10,
-            "carbs_g": 85,
-            "fat_g": 12,
-            "fiber_g": 2,
-            "sodium_mg": 280,
-            "sugar_g": 45,
+            "proteinG": 10,
+            "carbsG": 85,
+            "fatG": 12,
+            "fiberG": 2,
+            "sodiumMg": 280,
+            "sugarG": 45,
             "vitamins": [
               "Vitamin C"
             ],
@@ -587,8 +587,8 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "lemon juice",
-              "substitute_options": [
+              "originalIngredient": "lemon juice",
+              "substituteOptions": [
                 "almond milk/paste (for Granita di Mandorla)",
                 "strong espresso (for Granita di Caffè)"
               ]
@@ -596,14 +596,14 @@ export const italian: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Ricotta e Fichi (Ricotta and Figs)",
+          "name": "Authentic Ricotta e Fichi (Ricotta and Figs)",
           "description": "A late-summer Mediterranean archetype. It involves zero cooking, relying entirely on the alchemical pairing of high-moisture fresh ricotta with the honeyed, floral pulp of sun-warmed figs, bound with high-quality honey and textural crunch.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 5,
-            "cook_time_minutes": 0,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -647,23 +647,23 @@ export const italian: Cuisine = {
             "Step 4: The Glaze. Drizzle heavily with honey and serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "dessert",
               "snack",
               "raw"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.4,
-            "earth": 0.4,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.4,
+            "Earth": 0.4,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -672,18 +672,18 @@ export const italian: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 12,
-            "carbs_g": 32,
-            "fat_g": 14,
-            "fiber_g": 4,
-            "sodium_mg": 150,
-            "sugar_g": 24,
+            "proteinG": 12,
+            "carbsG": 32,
+            "fatG": 14,
+            "fiberG": 4,
+            "sodiumMg": 150,
+            "sugarG": 24,
             "vitamins": [
               "Vitamin B12",
               "Vitamin K"
@@ -695,8 +695,8 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ricotta",
-              "substitute_options": [
+              "originalIngredient": "ricotta",
+              "substituteOptions": [
                 "Greek yogurt",
                 "cashew cream (vegan)"
               ]
@@ -706,14 +706,14 @@ export const italian: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Cioccolata Calda con Biscotti",
+          "name": "Authentic Cioccolata Calda con Biscotti",
           "description": "True Italian hot chocolate is an exercise in viscosity, closer to a molten pudding than an American-style watery drink. The structural trick relies on cornstarch acting as a gelatinous matrix when heated, binding whole milk and intense dark chocolate into a spoonable, luxurious emulsion.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 5,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -773,23 +773,23 @@ export const italian: Cuisine = {
             "Step 8: Serve immediately in small cups, accompanied by the hard biscotti for dipping."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "beverage",
               "dessert",
               "snack"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whisking",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.5,
-            "earth": 0.25,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.5,
+            "Earth": 0.25,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Pluto"
@@ -798,18 +798,18 @@ export const italian: Cuisine = {
               "Scorpio",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 9,
-            "carbs_g": 55,
-            "fat_g": 18,
-            "fiber_g": 4,
-            "sodium_mg": 180,
-            "sugar_g": 35,
+            "proteinG": 9,
+            "carbsG": 55,
+            "fatG": 18,
+            "fiberG": 4,
+            "sodiumMg": 180,
+            "sugarG": 35,
             "vitamins": [
               "Vitamin D",
               "Calcium"
@@ -821,14 +821,14 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "whole milk",
-              "substitute_options": [
+              "originalIngredient": "whole milk",
+              "substituteOptions": [
                 "oat milk (works very well with cornstarch)"
               ]
             },
             {
-              "original_ingredient": "cornstarch",
-              "substitute_options": [
+              "originalIngredient": "cornstarch",
+              "substituteOptions": [
                 "potato starch"
               ]
             }
@@ -839,14 +839,14 @@ export const italian: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Pasta al Pomodoro",
+          "name": "Authentic Pasta al Pomodoro",
           "description": "The ultimate test of an Italian cook. It is not just tomato sauce on noodles; it is an emulsion. The pasta must finish cooking directly in the pan with the tomato sauce and a ladle of starchy pasta water, aggressively tossed to create a glossy, binding mantle of sauce that clings to every strand.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer",
               "all"
@@ -905,26 +905,26 @@ export const italian: Cuisine = {
             "Step 6: Finish. Turn off the heat. Tear the fresh basil over the pasta. Add a drizzle of raw olive oil and toss one final time. Serve immediately with Parmigiano."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "pasta",
               "vegetarian",
               "vegan"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "boiling",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.35,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.35,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -933,18 +933,18 @@ export const italian: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 12,
-            "carbs_g": 70,
-            "fat_g": 14,
-            "fiber_g": 4,
-            "sodium_mg": 350,
-            "sugar_g": 6,
+            "proteinG": 12,
+            "carbsG": 70,
+            "fatG": 14,
+            "fiberG": 4,
+            "sodiumMg": 350,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin C",
               "Lycopene"
@@ -956,28 +956,28 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "San Marzano tomatoes",
-              "substitute_options": [
+              "originalIngredient": "San Marzano tomatoes",
+              "substituteOptions": [
                 "fresh ripe cherry tomatoes (requires longer cooking to break down)"
               ]
             },
             {
-              "original_ingredient": "Spaghetti",
-              "substitute_options": [
+              "originalIngredient": "Spaghetti",
+              "substituteOptions": [
                 "gluten-free pasta (must have high starch content to emulsify)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Insalata Caprese",
+          "name": "Authentic Insalata Caprese",
           "description": "The edible manifestation of the Italian flag. It requires absolutely no cooking, relying 100% on the perfection of its ingredients: weeping, sun-warmed tomatoes, milky Buffalo mozzarella, pungent basil, and peppery olive oil. Balsamic vinegar is strictly prohibited in an authentic Caprese.",
           "details": {
             "cuisine": "Italian (Campania)",
-            "prep_time_minutes": 5,
-            "cook_time_minutes": 0,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -1029,23 +1029,23 @@ export const italian: Cuisine = {
             "Step 6: Serve immediately with crusty bread to mop up the juices."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "salad",
               "appetizer",
               "vegetarian",
               "raw"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.5,
-            "earth": 0.25,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.5,
+            "Earth": 0.25,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -1054,18 +1054,18 @@ export const italian: Cuisine = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 18,
-            "carbs_g": 8,
-            "fat_g": 28,
-            "fiber_g": 2,
-            "sodium_mg": 450,
-            "sugar_g": 5,
+            "proteinG": 18,
+            "carbsG": 8,
+            "fatG": 28,
+            "fiberG": 2,
+            "sodiumMg": 450,
+            "sugarG": 5,
             "vitamins": [
               "Vitamin C",
               "Vitamin A",
@@ -1078,29 +1078,29 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "buffalo mozzarella",
-              "substitute_options": [
+              "originalIngredient": "buffalo mozzarella",
+              "substituteOptions": [
                 "burrata",
                 "cashew mozzarella (vegan)"
               ]
             },
             {
-              "original_ingredient": "olive oil",
-              "substitute_options": [
+              "originalIngredient": "olive oil",
+              "substituteOptions": [
                 "no substitute. Essential."
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Panzanella (Tuscan Bread Salad)",
+          "name": "Authentic Panzanella (Tuscan Bread Salad)",
           "description": "The ultimate Tuscan agrarian recycling technique. Stale, saltless Tuscan bread is soaked in water, squeezed dry, and then used as a sponge to absorb the volatile juices of overripe tomatoes, sharp red onions, and pungent vinegar.",
           "details": {
             "cuisine": "Italian (Tuscany)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 0,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -1171,24 +1171,24 @@ export const italian: Cuisine = {
             "Step 7: The Rest (Crucial). Toss vigorously with your hands, mashing some of the bread into the tomatoes. Let the salad rest at room temperature for at least 30 minutes (up to 2 hours) before serving so the bread fully hydrates with the dressing."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "salad",
               "lunch",
               "vegan",
               "appetizer"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "soaking",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.4,
-            "earth": 0.45,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.4,
+            "Earth": 0.45,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Venus"
@@ -1197,18 +1197,18 @@ export const italian: Cuisine = {
               "Virgo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 6,
-            "carbs_g": 38,
-            "fat_g": 18,
-            "fiber_g": 4,
-            "sodium_mg": 450,
-            "sugar_g": 6,
+            "proteinG": 6,
+            "carbsG": 38,
+            "fatG": 18,
+            "fiberG": 4,
+            "sodiumMg": 450,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin C",
               "Lycopene"
@@ -1220,8 +1220,8 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Tuscan bread",
-              "substitute_options": [
+              "originalIngredient": "Tuscan bread",
+              "substituteOptions": [
                 "stale ciabatta",
                 "stale sourdough (note: these contain salt, adjust seasoning accordingly)"
               ]
@@ -1231,14 +1231,14 @@ export const italian: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Ribollita (Tuscan Bean Soup)",
+          "name": "Authentic Ribollita (Tuscan Bean Soup)",
           "description": "The ultimate Tuscan peasant re-cook (ribollita means 'reboiled'). It is a structurally dense stew characterized by its base of Lacinato kale (cavolo nero), white beans, and stale bread, which absorbs all the liquid until the soup can literally stand a spoon vertically.",
           "details": {
             "cuisine": "Italian (Tuscany)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 120,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -1283,24 +1283,24 @@ export const italian: Cuisine = {
             "Step 5: The Rest. Let it sit overnight. Reboil the next day with a heavy drizzle of raw olive oil."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "soup",
               "vegan",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "soaking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.35,
-            "earth": 0.5,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.35,
+            "Earth": 0.5,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Earth"
@@ -1309,18 +1309,18 @@ export const italian: Cuisine = {
               "Capricorn",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 16,
-            "carbs_g": 52,
-            "fat_g": 18,
-            "fiber_g": 14,
-            "sodium_mg": 650,
-            "sugar_g": 4,
+            "proteinG": 16,
+            "carbsG": 52,
+            "fatG": 18,
+            "fiberG": 14,
+            "sodiumMg": 650,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin K",
               "Vitamin A",
@@ -1333,22 +1333,22 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "stale bread",
-              "substitute_options": [
+              "originalIngredient": "stale bread",
+              "substituteOptions": [
                 "potatoes (not traditional, but adds similar starch)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Pasta e Fagioli",
+          "name": "Authentic Pasta e Fagioli",
           "description": "A comfort classic balancing the grounding energy of beans with the structure of short pasta. The key is to cook the pasta directly in the bean broth, allowing the released wheat starches to emulsify with the bean liquid, creating a thick, creamy sauce without any dairy.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -1394,25 +1394,25 @@ export const italian: Cuisine = {
             "Step 5: Finish. Turn off heat when pasta is al dente. Drizzle with raw olive oil and black pepper. Remove Parmesan rind."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "soup",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "simmering",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Saturn"
@@ -1421,18 +1421,18 @@ export const italian: Cuisine = {
               "Taurus",
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 14,
-            "carbs_g": 58,
-            "fat_g": 12,
-            "fiber_g": 10,
-            "sodium_mg": 480,
-            "sugar_g": 3,
+            "proteinG": 14,
+            "carbsG": 58,
+            "fatG": 12,
+            "fiberG": 10,
+            "sodiumMg": 480,
+            "sugarG": 3,
             "vitamins": [
               "Vitamin B1",
               "Vitamin K"
@@ -1445,8 +1445,8 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Parmesan rind",
-              "substitute_options": [
+              "originalIngredient": "Parmesan rind",
+              "substituteOptions": [
                 "miso paste (for vegan umami)"
               ]
             }
@@ -1457,14 +1457,14 @@ export const italian: Cuisine = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Osso Buco alla Milanese",
+          "name": "Authentic Osso Buco alla Milanese",
           "description": "The pinnacle of Northern Italian braising.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 150,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 150,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -1483,52 +1483,52 @@ export const italian: Cuisine = {
             "Step 3: Top with gremolata."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "braising"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 48,
-            "carbs_g": 12,
-            "fat_g": 32,
-            "fiber_g": 2,
-              "sodium_mg": 209,
-              "sugar_g": 15,
+            "proteinG": 48,
+            "carbsG": 12,
+            "fatG": 32,
+            "fiberG": 2,
+              "sodiumMg": 209,
+              "sugarG": 15,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": []
         },
         {
-          "recipe_name": "Authentic Risotto ai Funghi (Mushroom Risotto)",
+          "name": "Authentic Risotto ai Funghi (Mushroom Risotto)",
           "description": "A study in creamy, earthy emulsification. The starch from Arborio or Carnaroli rice is released through continuous agitation and precise hydration with hot mushroom stock, binding together with butter and Parmesan into a thick, flowing mantle ('all'onda') that perfectly supports the intense umami of wild porcini.",
           "details": {
             "cuisine": "Italian (Lombardy)",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -1593,23 +1593,23 @@ export const italian: Cuisine = {
             "Step 6: Mantecatura. Remove from heat. Vigorously stir in cold butter and Parmesan until creamy. Let rest for 2 mins before serving."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "lunch",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "stirring"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Moon"
@@ -1618,18 +1618,18 @@ export const italian: Cuisine = {
               "Virgo",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 9,
-            "carbs_g": 52,
-            "fat_g": 18,
-            "fiber_g": 4,
-            "sodium_mg": 550,
-            "sugar_g": 2,
+            "proteinG": 9,
+            "carbsG": 52,
+            "fatG": 18,
+            "fiberG": 4,
+            "sodiumMg": 550,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin D",
               "B Vitamins"
@@ -1642,22 +1642,22 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "butter/Parmesan",
-              "substitute_options": [
+              "originalIngredient": "butter/Parmesan",
+              "substituteOptions": [
                 "miso paste and olive oil (vegan)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Gnocchi alla Sorrentina",
+          "name": "Authentic Gnocchi alla Sorrentina",
           "description": "A Campanian classic relying on the structural perfection of potato gnocchi. The gnocchi must be light enough to float but sturdy enough to withstand being aggressively baked in a rapidly bubbling, basil-heavy tomato sauce, buried under a thick mantle of stretching mozzarella.",
           "details": {
             "cuisine": "Italian (Campania)",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer",
               "autumn"
@@ -1731,26 +1731,26 @@ export const italian: Cuisine = {
             "Step 9: Bake. Bake or broil for 5-10 minutes until the cheese is violently bubbling, melted, and slightly browned on top. Serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "lunch",
               "pasta",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "kneading",
               "simmering",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.25,
-            "earth": 0.45,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.25,
+            "Earth": 0.45,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -1759,18 +1759,18 @@ export const italian: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 22,
-            "carbs_g": 72,
-            "fat_g": 18,
-            "fiber_g": 6,
-            "sodium_mg": 450,
-            "sugar_g": 8,
+            "proteinG": 22,
+            "carbsG": 72,
+            "fatG": 18,
+            "fiberG": 6,
+            "sodiumMg": 450,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin C",
               "Vitamin A"
@@ -1782,14 +1782,14 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "starchy potatoes",
-              "substitute_options": [
+              "originalIngredient": "starchy potatoes",
+              "substituteOptions": [
                 "ricotta cheese (to make Gnudi instead)"
               ]
             },
             {
-              "original_ingredient": "fresh mozzarella",
-              "substitute_options": [
+              "originalIngredient": "fresh mozzarella",
+              "substituteOptions": [
                 "scamorza",
                 "provolone"
               ]
@@ -1799,14 +1799,14 @@ export const italian: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic Acqua Pazza (Crazy Water Fish)",
+          "name": "Authentic Acqua Pazza (Crazy Water Fish)",
           "description": "A Neapolitan method of poaching whole white fish in 'crazy water'—a brief, vibrant emulsion of sea water (or salted water), cherry tomatoes, garlic, and extra virgin olive oil. The alchemy lies in the rapid reduction of the tomato juices and oil into a light, briny sauce that remains transparent yet intensely flavored.",
           "details": {
             "cuisine": "Italian (Campania)",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 20,
-            "base_serving_size": 2,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
             "season": [
               "summer",
               "spring"
@@ -1864,22 +1864,22 @@ export const italian: Cuisine = {
             "Step 5: Finish. Once the fish flakes easily, remove from heat. Stir in the parsley and a final drizzle of raw oil. Serve the fish whole, swimming in its juices."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "seafood"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "poaching",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.6,
-            "earth": 0.1,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.6,
+            "Earth": 0.1,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Neptune",
               "Moon"
@@ -1888,18 +1888,18 @@ export const italian: Cuisine = {
               "Pisces",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 35,
-            "carbs_g": 8,
-            "fat_g": 16,
-            "fiber_g": 2,
-            "sodium_mg": 620,
-            "sugar_g": 2,
+            "proteinG": 35,
+            "carbsG": 8,
+            "fatG": 16,
+            "fiberG": 2,
+            "sodiumMg": 620,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin B12",
               "Selenium"
@@ -1911,8 +1911,8 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Sea Bass",
-              "substitute_options": [
+              "originalIngredient": "Sea Bass",
+              "substituteOptions": [
                 "Cod",
                 "Snapper",
                 "Haddock"
@@ -1921,14 +1921,14 @@ export const italian: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Melanzane alla Parmigiana",
+          "name": "Authentic Melanzane alla Parmigiana",
           "description": "A deeply traditional Southern Italian casserole.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 45,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -1948,38 +1948,38 @@ export const italian: Cuisine = {
             "Step 4: Bake and rest."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.5,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.5,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus"
             ],
             "signs": [
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 18,
-            "carbs_g": 22,
-            "fat_g": 35,
-            "fiber_g": 8,
-              "sodium_mg": 528,
-              "sugar_g": 14,
+            "proteinG": 18,
+            "carbsG": 22,
+            "fatG": 35,
+            "fiberG": 8,
+              "sodiumMg": 528,
+              "sugarG": 14,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -1990,14 +1990,14 @@ export const italian: Cuisine = {
     dessert: {
       all: [
         {
-          "recipe_name": "Authentic Tiramisù",
+          "name": "Authentic Tiramisù",
           "description": "A modernist Italian classic born in Treviso.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 0,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2023,38 +2023,38 @@ export const italian: Cuisine = {
             "Step 4: Layer and chill."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.4,
-            "earth": 0.15,
-            "air": 0.4
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.4,
+            "Earth": 0.15,
+            "Air": 0.4
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus"
             ],
             "signs": [
               "Libra"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 8,
-            "carbs_g": 38,
-            "fat_g": 26,
-            "fiber_g": 1,
-              "sodium_mg": 104,
-              "sugar_g": 21,
+            "proteinG": 8,
+            "carbsG": 38,
+            "fatG": 26,
+            "fiberG": 1,
+              "sodiumMg": 104,
+              "sugarG": 21,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -2063,14 +2063,14 @@ export const italian: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic Gelato Artigianale (Fior di Latte)",
+          "name": "Authentic Gelato Artigianale (Fior di Latte)",
           "description": "The purest expression of Italian gelato engineering. Unlike American ice cream, true gelato contains less fat (using more milk than cream), utilizes less incorporated air (overrun), and is served at a slightly warmer temperature. The 'Fior di Latte' (flower of milk) flavor relies entirely on a scientifically balanced ratio of sugars to lower the freezing point, creating a dense, elastic texture without eggs or heavy flavorings.",
           "details": {
             "cuisine": "Italian",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer",
               "spring"
@@ -2131,24 +2131,24 @@ export const italian: Cuisine = {
             "Step 8: Serving. True gelato is served at around 10°F (-12°C), which is warmer than standard freezer temperature (-0°F/-18°C). Let it temper slightly before serving so it is elastic and soft."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "sweet",
               "frozen"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "pasteurizing",
               "churning",
               "freezing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.6,
-            "earth": 0.15,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.6,
+            "Earth": 0.15,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -2157,18 +2157,18 @@ export const italian: Cuisine = {
               "Cancer",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 7,
-            "carbs_g": 45,
-            "fat_g": 10,
-            "fiber_g": 0,
-            "sodium_mg": 120,
-            "sugar_g": 38,
+            "proteinG": 7,
+            "carbsG": 45,
+            "fatG": 10,
+            "fiberG": 0,
+            "sodiumMg": 120,
+            "sugarG": 38,
             "vitamins": [
               "Vitamin D",
               "Vitamin A"
@@ -2180,14 +2180,14 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "dextrose",
-              "substitute_options": [
+              "originalIngredient": "dextrose",
+              "substituteOptions": [
                 "light corn syrup"
               ]
             },
             {
-              "original_ingredient": "whole milk",
-              "substitute_options": [
+              "originalIngredient": "whole milk",
+              "substituteOptions": [
                 "macadamia nut milk (for vegan gelato, though ratios of fat/sugar must be drastically altered)"
               ]
             }
@@ -2196,14 +2196,14 @@ export const italian: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Panettone",
+          "name": "Authentic Panettone",
           "description": "The Everest of Italian baking. True Milanese Panettone is not a cake; it is a highly enriched, naturally leavened (sourdough) bread. It requires a stiff sourdough starter (Lieveto Madre), multiple long fermentations to build an impossibly airy, shreddable gluten structure that can support the weight of butter, egg yolks, and candied fruit, ending with the iconic upside-down cooling hang.",
           "details": {
             "cuisine": "Italian (Milan)",
-            "prep_time_minutes": 2880,
-            "cook_time_minutes": 55,
-            "base_serving_size": 12,
-            "spice_level": "None",
+            "prepTimeMinutes": 2880,
+            "cookTimeMinutes": 55,
+            "baseServingSize": 12,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -2281,25 +2281,25 @@ export const italian: Cuisine = {
             "Step 8: The Hang. Immediately upon removing from the oven, pierce the base of the Panettone with two long metal skewers. Hang it upside down between two pots or chairs to cool completely (12 hours). If cooled upright, the delicate, butter-heavy structure will collapse."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "holiday",
               "baking"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "fermenting",
               "kneading",
               "baking",
               "hanging"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.1,
-            "earth": 0.2,
-            "air": 0.5
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.5
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -2308,18 +2308,18 @@ export const italian: Cuisine = {
               "Leo",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 8,
-            "carbs_g": 65,
-            "fat_g": 18,
-            "fiber_g": 2,
-            "sodium_mg": 150,
-            "sugar_g": 35,
+            "proteinG": 8,
+            "carbsG": 65,
+            "fatG": 18,
+            "fiberG": 2,
+            "sodiumMg": 150,
+            "sugarG": 35,
             "vitamins": [
               "Vitamin A",
               "Riboflavin"
@@ -2330,8 +2330,8 @@ export const italian: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "candied peel",
-              "substitute_options": [
+              "originalIngredient": "candied peel",
+              "substituteOptions": [
                 "dark chocolate chunks (for modern variation)"
               ]
             }
@@ -2590,15 +2590,15 @@ export const italian: Cuisine = {
       raw: ["pinzimonio", "olio nuovo", "citronette", "bagna cauda"],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "arrabiata",
         "puttanesca",
         "aglio e olio with peperoncino",
         "spicy pomodoro",
       ],
-      earth: ["mushroom ragu", "tartufo", "carbonara", "ragù alla Bolognese"],
-      air: ["lemon sauces", "herb oils", "white wine sauce", "pesto"],
-      water: ["seafood sauces", "acqua pazza", "clam sauce", "besciamella"],
+      Earth: ["mushroom ragu", "tartufo", "carbonara", "ragù alla Bolognese"],
+      Air: ["lemon sauces", "herb oils", "white wine sauce", "pesto"],
+      Water: ["seafood sauces", "acqua pazza", "clam sauce", "besciamella"],
     },
     byRegion: {
       northern: [

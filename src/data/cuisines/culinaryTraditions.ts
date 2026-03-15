@@ -16,7 +16,7 @@ export interface CuisineProfile {
 // The simplified culinary traditions profiles
 export const culinaryTraditions: Record<string, CuisineProfile> = {
   french: {
-    elementalAlignment: { earth: 0.55, fire: 0.25, air: 0.1, water: 0.1 },
+    elementalAlignment: { Earth: 0.55, Fire: 0.25, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["venus", "moon"],
       favorableZodiac: ["taurus", "libra", "cancer"],
@@ -33,7 +33,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   japanese: {
-    elementalAlignment: { water: 0.65, earth: 0.2, fire: 0.05, air: 0.1 },
+    elementalAlignment: { Water: 0.65, Earth: 0.2, Fire: 0.05, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["moon", "mercury"],
       favorableZodiac: ["pisces", "virgo", "scorpio"],
@@ -48,7 +48,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   mexican: {
-    elementalAlignment: { fire: 0.55, earth: 0.25, air: 0.1, water: 0.1 },
+    elementalAlignment: { Fire: 0.55, Earth: 0.25, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["sun", "mars"],
       favorableZodiac: ["leo", "aries", "sagittarius"],
@@ -63,7 +63,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   italian: {
-    elementalAlignment: { earth: 0.5, fire: 0.3, water: 0.1, air: 0.1 },
+    elementalAlignment: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["jupiter", "venus"],
       favorableZodiac: ["taurus", "leo", "libra"],
@@ -78,7 +78,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   mediterranean: {
-    elementalAlignment: { fire: 0.3, earth: 0.3, water: 0.3, air: 0.1 },
+    elementalAlignment: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["sun", "mercury", "neptune"],
       favorableZodiac: ["leo", "gemini", "pisces"],
@@ -93,7 +93,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   korean: {
-    elementalAlignment: { fire: 0.5, earth: 0.3, water: 0.1, air: 0.1 },
+    elementalAlignment: { Fire: 0.5, Earth: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["mars", "pluto", "jupiter"],
       favorableZodiac: ["aries", "scorpio", "sagittarius"],
@@ -108,7 +108,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   sichuanese: {
-    elementalAlignment: { fire: 0.7, earth: 0.1, water: 0.1, air: 0.1 },
+    elementalAlignment: { Fire: 0.7, Earth: 0.1, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["mars", "uranus", "pluto"],
       favorableZodiac: ["aries", "aquarius", "scorpio"],
@@ -123,7 +123,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   chinese: {
-    elementalAlignment: { fire: 0.3, earth: 0.3, water: 0.2, air: 0.2 },
+    elementalAlignment: { Fire: 0.3, Earth: 0.3, Water: 0.2, Air: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["jupiter", "mercury", "saturn"],
       favorableZodiac: ["sagittarius", "gemini", "capricorn"],
@@ -138,7 +138,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   thai: {
-    elementalAlignment: { fire: 0.3, water: 0.3, earth: 0.2, air: 0.2 },
+    elementalAlignment: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["venus", "mars", "mercury"],
       favorableZodiac: ["libra", "aries", "gemini"],
@@ -153,7 +153,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   indian: {
-    elementalAlignment: { fire: 0.4, earth: 0.2, water: 0.2, air: 0.2 },
+    elementalAlignment: { Fire: 0.4, Earth: 0.2, Water: 0.2, Air: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["mars", "saturn", "jupiter"],
       favorableZodiac: ["aries", "capricorn", "sagittarius"],
@@ -168,7 +168,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   vietnamese: {
-    elementalAlignment: { water: 0.3, air: 0.3, earth: 0.2, fire: 0.2 },
+    elementalAlignment: { Water: 0.3, Air: 0.3, Earth: 0.2, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["mercury", "venus", "neptune"],
       favorableZodiac: ["gemini", "libra", "pisces"],
@@ -183,7 +183,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
     },
   },
   african: {
-    elementalAlignment: { fire: 0.4, earth: 0.3, water: 0.2, air: 0.1 },
+    elementalAlignment: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["mars", "sun", "saturn"],
       favorableZodiac: ["aries", "leo", "capricorn"],

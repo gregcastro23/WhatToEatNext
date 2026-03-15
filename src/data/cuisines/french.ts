@@ -170,10 +170,10 @@ export const french: Cuisine = {
       braising: ["espagnole", "romesco", "chasseur"],
     },
     byAstrological: {
-      fire: ["espagnole", "bearnaise", "spicy tomato"],
-      earth: ["bechamel", "mornay", "mushroom"],
-      air: ["vinaigrette", "ravigote", "herb-infused"],
-      water: ["veloute", "hollandaise", "beurre blanc"],
+      Fire: ["espagnole", "bearnaise", "spicy tomato"],
+      Earth: ["bechamel", "mornay", "mushroom"],
+      Air: ["vinaigrette", "ravigote", "herb-infused"],
+      Water: ["veloute", "hollandaise", "beurre blanc"],
     },
     byDietary: {
       vegetarian: ["bechamel", "tomato", "romesco"],
@@ -192,14 +192,14 @@ export const french: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Parisian Breakfast",
+          "name": "Authentic Parisian Breakfast",
           "description": "An exercise in extreme carbohydrate minimalism and ingredient perfection. A true Parisian breakfast is not a heavy cooked meal; it relies entirely on the structural integrity of freshly baked, laminated butter pastries (viennoiserie), a segment of fresh baguette, high-quality butter, preserves, and the sharp bitterness of espresso or café au lait.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 5,
-            "cook_time_minutes": 0,
-            "base_serving_size": 1,
-            "spice_level": "None",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 1,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -249,20 +249,20 @@ export const french: Cuisine = {
             "Step 4: The Ritual. Consume the croissant plain, tearing it gently to appreciate the lamination. Dip the tartine (buttered baguette) directly into the hot coffee. Serve alongside cold orange juice."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.2,
-            "earth": 0.45,
-            "air": 0.3
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.3
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -271,18 +271,18 @@ export const french: Cuisine = {
               "Taurus",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 9,
-            "carbs_g": 62,
-            "fat_g": 26,
-            "fiber_g": 3,
-            "sodium_mg": 380,
-            "sugar_g": 24,
+            "proteinG": 9,
+            "carbsG": 62,
+            "fatG": 26,
+            "fiberG": 3,
+            "sodiumMg": 380,
+            "sugarG": 24,
             "vitamins": [
               "Vitamin C"
             ],
@@ -293,22 +293,22 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Croissant",
-              "substitute_options": [
+              "originalIngredient": "Croissant",
+              "substituteOptions": [
                 "Pain au Chocolat"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Oeufs en Cocotte (Baked Eggs)",
+          "name": "Authentic Oeufs en Cocotte (Baked Eggs)",
           "description": "A refined French breakfast technique. Eggs are gently baked in individual ramekins within a water bath (bain-marie) with heavy cream and herbs. The goal is a perfectly set, opaque white with a warm, completely fluid yolk that mixes into the cream to form a rich sauce.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 15,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -373,23 +373,23 @@ export const french: Cuisine = {
             "Step 7: Serve. Carefully remove the ramekins from the water bath (they will continue to cook slightly). Garnish generously with chives and tarragon. Serve immediately with toasted baguette soldiers for dipping."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "brunch",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "water bath"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.45,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.45,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -398,18 +398,18 @@ export const french: Cuisine = {
               "Cancer",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 14,
-            "carbs_g": 15,
-            "fat_g": 28,
-            "fiber_g": 1,
-            "sodium_mg": 450,
-            "sugar_g": 2,
+            "proteinG": 14,
+            "carbsG": 15,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 450,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin D",
               "Vitamin B12"
@@ -421,22 +421,22 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "crème fraîche",
-              "substitute_options": [
+              "originalIngredient": "crème fraîche",
+              "substituteOptions": [
                 "heavy cream"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic French Toast",
+          "name": "Authentic French Toast",
           "description": "An essential technique for utilizing stale bread. The bread must be sufficiently dehydrated to absorb the egg-and-milk custard without disintegrating, then cooked slowly in butter to create a caramelized, slightly crisp exterior and a molten, custardy interior.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -506,23 +506,23 @@ export const french: Cuisine = {
             "Step 6: Serve immediately with powdered sugar and real maple syrup."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "brunch",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "soaking",
               "pan-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.35,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.35,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -531,18 +531,18 @@ export const french: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 12,
-            "carbs_g": 42,
-            "fat_g": 26,
-            "fiber_g": 2,
-            "sodium_mg": 380,
-            "sugar_g": 12,
+            "proteinG": 12,
+            "carbsG": 42,
+            "fatG": 26,
+            "fiberG": 2,
+            "sodiumMg": 380,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin A",
               "Calcium"
@@ -553,8 +553,8 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "brioche",
-              "substitute_options": [
+              "originalIngredient": "brioche",
+              "substituteOptions": [
                 "stale sourdough (for a tangier profile)",
                 "gluten-free bread"
               ]
@@ -562,14 +562,14 @@ export const french: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Quiche Lorraine",
+          "name": "Authentic Quiche Lorraine",
           "description": "The definitive savory tart from the Lorraine region. It eschews cheese entirely in its traditional form, relying instead on a heavily reduced, ultra-rich egg and crème fraîche custard suspended over crisp lardons in a blind-baked shortcrust pastry.",
           "details": {
             "cuisine": "French (Lorraine)",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 45,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -635,23 +635,23 @@ export const french: Cuisine = {
             "Step 8: Rest. Let it cool on a wire rack for at least 30 minutes before slicing. It is traditionally served warm or at room temperature, never piping hot."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "brunch",
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "whisking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Moon"
@@ -660,18 +660,18 @@ export const french: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 14,
-            "carbs_g": 22,
-            "fat_g": 42,
-            "fiber_g": 1,
-            "sodium_mg": 580,
-            "sugar_g": 2,
+            "proteinG": 14,
+            "carbsG": 22,
+            "fatG": 42,
+            "fiberG": 1,
+            "sodiumMg": 580,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -683,22 +683,22 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "bacon",
-              "substitute_options": [
+              "originalIngredient": "bacon",
+              "substituteOptions": [
                 "sautéed mushrooms and leeks (for a vegetarian Quiche aux Champignons)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Brioche Perdue",
+          "name": "Authentic Brioche Perdue",
           "description": "The luxurious, dessert-like iteration of French toast. Using enriched brioche bread allows the crumb to absorb an immense amount of a vanilla-heavy custard without disintegrating. It is cooked slowly in clarified butter to develop a deep, resonant caramel crust.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -762,22 +762,22 @@ export const french: Cuisine = {
             "Step 6: The Caramelization. The exterior should become deeply brown and caramelized. Serve immediately with fresh fruit and chantilly cream."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "brunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "soaking",
               "pan-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -786,18 +786,18 @@ export const french: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 620,
-            "protein_g": 14,
-            "carbs_g": 55,
-            "fat_g": 38,
-            "fiber_g": 2,
-            "sodium_mg": 450,
-            "sugar_g": 22,
+            "proteinG": 14,
+            "carbsG": 55,
+            "fatG": 38,
+            "fiberG": 2,
+            "sodiumMg": 450,
+            "sugarG": 22,
             "vitamins": [
               "Vitamin A",
               "Riboflavin"
@@ -809,8 +809,8 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "brioche",
-              "substitute_options": [
+              "originalIngredient": "brioche",
+              "substituteOptions": [
                 "challah bread"
               ]
             }
@@ -821,14 +821,14 @@ export const french: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Croque Monsieur",
+          "name": "Authentic Croque Monsieur",
           "description": "A structural masterpiece of the Parisian café. It is a pressed sandwich that utilizes a thick béchamel sauce both inside (as moisture) and outside (as a gratin layer), combining with Gruyère cheese and Jambon de Paris to form a molten, savory, crispy brick.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -895,25 +895,25 @@ export const french: Cuisine = {
             "Step 8: Serve immediately. (Top with a fried egg to make it a Croque Madame)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "sandwich",
               "bistro food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "assembling",
               "baking",
               "broiling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.2,
-            "earth": 0.4,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -922,18 +922,18 @@ export const french: Cuisine = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 680,
-            "protein_g": 35,
-            "carbs_g": 45,
-            "fat_g": 40,
-            "fiber_g": 2,
-            "sodium_mg": 1200,
-            "sugar_g": 8,
+            "proteinG": 35,
+            "carbsG": 45,
+            "fatG": 40,
+            "fiberG": 2,
+            "sodiumMg": 1200,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -945,8 +945,8 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Gruyère cheese",
-              "substitute_options": [
+              "originalIngredient": "Gruyère cheese",
+              "substituteOptions": [
                 "Comté",
                 "Emmental"
               ]
@@ -954,14 +954,14 @@ export const french: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Salade Niçoise",
+          "name": "Authentic Salade Niçoise",
           "description": "A pristine, composed salad from the French Riviera. The authenticity of this dish is fiercely debated; a traditional Niçoise uses only raw, crisp vegetables (tomatoes, radishes, broad beans), hard-boiled eggs, anchovies, and tuna, dressed solely in olive oil. Cooked potatoes and green beans are technically a Parisian bastardization, though widely accepted today.",
           "details": {
             "cuisine": "French (Provence)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 10,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -1049,24 +1049,24 @@ export const french: Cuisine = {
             "Step 6: Serve immediately. The diner mixes the salad on their own plate."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "salad",
               "lunch",
               "dinner",
               "low carb"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.5,
-            "earth": 0.3,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Neptune"
@@ -1075,18 +1075,18 @@ export const french: Cuisine = {
               "Virgo",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 22,
-            "carbs_g": 12,
-            "fat_g": 32,
-            "fiber_g": 4,
-            "sodium_mg": 850,
-            "sugar_g": 6,
+            "proteinG": 22,
+            "carbsG": 12,
+            "fatG": 32,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin C",
               "Vitamin K",
@@ -1099,28 +1099,28 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "canned tuna and anchovies",
-              "substitute_options": [
+              "originalIngredient": "canned tuna and anchovies",
+              "substituteOptions": [
                 "chickpeas and capers (vegan)"
               ]
             },
             {
-              "original_ingredient": "Niçoise olives",
-              "substitute_options": [
+              "originalIngredient": "Niçoise olives",
+              "substituteOptions": [
                 "Kalamata olives"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Soupe à l'Oignon Gratinée (French Onion Soup)",
+          "name": "Authentic Soupe à l'Oignon Gratinée (French Onion Soup)",
           "description": "An exercise in extreme patience and reduction. A mountain of yellow onions is dry-cooked over hours until they collapse into a sweet, dark mahogany paste. This deep caramelization acts as the flavor engine for a rich beef broth, all sealed beneath a crusty bread raft and a violently bubbling mantle of Gruyère cheese.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 120,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -1211,24 +1211,24 @@ export const french: Cuisine = {
             "Step 8: Broil. Place the crocks under the broiler for 3-5 minutes until the cheese is bubbling, molten, and deeply browned with scorched spots. Serve immediately (carefully, as the bowls are molten hot)."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup",
               "dinner",
               "comfort food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "caramelizing",
               "simmering",
               "broiling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.45,
-            "earth": 0.25,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.45,
+            "Earth": 0.25,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Sun"
@@ -1237,18 +1237,18 @@ export const french: Cuisine = {
               "Capricorn",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 22,
-            "carbs_g": 35,
-            "fat_g": 26,
-            "fiber_g": 5,
-            "sodium_mg": 950,
-            "sugar_g": 12,
+            "proteinG": 22,
+            "carbsG": 35,
+            "fatG": 26,
+            "fiberG": 5,
+            "sodiumMg": 950,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin C",
               "Vitamin B12"
@@ -1261,14 +1261,14 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "beef stock",
-              "substitute_options": [
+              "originalIngredient": "beef stock",
+              "substituteOptions": [
                 "rich mushroom and kombu broth (for a vegetarian version)"
               ]
             },
             {
-              "original_ingredient": "Gruyère cheese",
-              "substitute_options": [
+              "originalIngredient": "Gruyère cheese",
+              "substituteOptions": [
                 "Comté",
                 "Emmental"
               ]
@@ -1276,14 +1276,14 @@ export const french: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Salade Lyonnaise",
+          "name": "Authentic Salade Lyonnaise",
           "description": "A robust bistro classic from Lyon. It balances the bitter, sturdy greens of frisée with the intense, fatty richness of crispy pork lardons and a hot, bacon-fat vinaigrette. The dish is crowned with a perfectly poached egg, the yolk of which breaks to create a secondary, rich dressing.",
           "details": {
             "cuisine": "French (Lyon)",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "spring"
@@ -1354,25 +1354,25 @@ export const french: Cuisine = {
             "Step 6: Assemble. Divide the dressed salad between two plates. Carefully place one warm poached egg on top of each mound. Serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "salad",
               "bistro food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "frying",
               "poaching",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Earth"
@@ -1381,18 +1381,18 @@ export const french: Cuisine = {
               "Taurus",
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 20,
-            "carbs_g": 18,
-            "fat_g": 38,
-            "fiber_g": 4,
-            "sodium_mg": 850,
-            "sugar_g": 2,
+            "proteinG": 20,
+            "carbsG": 18,
+            "fatG": 38,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin A",
               "Folate",
@@ -1405,29 +1405,29 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "frisée lettuce",
-              "substitute_options": [
+              "originalIngredient": "frisée lettuce",
+              "substituteOptions": [
                 "escarole",
                 "curly endive"
               ]
             },
             {
-              "original_ingredient": "bacon",
-              "substitute_options": [
+              "originalIngredient": "bacon",
+              "substituteOptions": [
                 "smoked duck breast"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Crêpes Complètes (Galette Bretonne)",
+          "name": "Authentic Crêpes Complètes (Galette Bretonne)",
           "description": "The iconic savory street food of Brittany. True Breton galettes are made exclusively with buckwheat flour and water, creating an earthy, nutty, naturally gluten-free batter. It is cooked on a blazing hot flat griddle (billig) and filled with a 'complète' matrix of ham, Gruyère, and an egg with a runny yolk.",
           "details": {
             "cuisine": "French (Brittany)",
-            "prep_time_minutes": 120,
-            "cook_time_minutes": 5,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 5,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1499,25 +1499,25 @@ export const french: Cuisine = {
             "Step 8: Serve immediately while the edges are crispy and the yolk is fluid. Brush the folded edges with a little extra melted butter."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "street food",
               "gluten-free"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "resting",
               "griddling",
               "folding"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.45,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Venus"
@@ -1526,18 +1526,18 @@ export const french: Cuisine = {
               "Taurus",
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 26,
-            "carbs_g": 45,
-            "fat_g": 22,
-            "fiber_g": 6,
-            "sodium_mg": 950,
-            "sugar_g": 2,
+            "proteinG": 26,
+            "carbsG": 45,
+            "fatG": 22,
+            "fiberG": 6,
+            "sodiumMg": 950,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin B12",
               "Riboflavin"
@@ -1550,15 +1550,15 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ham and egg",
-              "substitute_options": [
+              "originalIngredient": "ham and egg",
+              "substituteOptions": [
                 "spinach and goat cheese",
                 "sautéed mushrooms and onions (vegetarian)"
               ]
             },
             {
-              "original_ingredient": "buckwheat flour",
-              "substitute_options": [
+              "originalIngredient": "buckwheat flour",
+              "substituteOptions": [
                 "all-purpose flour (creates a sweet crêpe, not a savory galette)"
               ]
             }
@@ -1569,14 +1569,14 @@ export const french: Cuisine = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Coq au Vin",
+          "name": "Authentic Coq au Vin",
           "description": "A classic rustic French braise from Burgundy. Originally designed to tenderize a tough, old rooster (coq), modern recipes use chicken, relying on a prolonged marination and braising in red Burgundy wine to transform the flesh to a deep purple, infused with the earthy funk of bacon, mushrooms, and pearl onions.",
           "details": {
             "cuisine": "French (Burgundy)",
-            "prep_time_minutes": 1440,
-            "cook_time_minutes": 90,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 90,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -1680,25 +1680,25 @@ export const french: Cuisine = {
             "Step 9: Finish. Remove the chicken from the pot. Strain the sauce into a saucepan, discarding the mushy braising vegetables. Boil the sauce until it reduces and thickens enough to coat a spoon. Pour the glossy sauce over the chicken and top with the caramelized pearl onions and mushrooms."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "stew",
               "poultry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "marinating",
               "searing",
               "braising",
               "reducing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.4,
-            "earth": 0.35,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Pluto"
@@ -1707,18 +1707,18 @@ export const french: Cuisine = {
               "Scorpio",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 45,
-            "carbs_g": 18,
-            "fat_g": 38,
-            "fiber_g": 3,
-            "sodium_mg": 750,
-            "sugar_g": 8,
+            "proteinG": 45,
+            "carbsG": 18,
+            "fatG": 38,
+            "fiberG": 3,
+            "sodiumMg": 750,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin A",
               "Vitamin B6",
@@ -1731,28 +1731,28 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "chicken",
-              "substitute_options": [
+              "originalIngredient": "chicken",
+              "substituteOptions": [
                 "beef chuck (to make Boeuf Bourguignon)"
               ]
             },
             {
-              "original_ingredient": "red wine",
-              "substitute_options": [
+              "originalIngredient": "red wine",
+              "substituteOptions": [
                 "white wine (for Coq au Riesling)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Sole Meunière",
+          "name": "Authentic Sole Meunière",
           "description": "A classic of French coastal cuisine. The alchemy lies in the 'Meunière' (miller's wife) style: dredging delicate flatfish in flour and frying it in 'beurre noisette' (brown butter). The nutty, toasted milk solids of the butter are instantly brightened by a final splash of lemon juice, creating a sophisticated yet simple emulsion.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -1810,23 +1810,23 @@ export const french: Cuisine = {
             "Step 6: Finish. Pour the hot brown butter sauce directly over the fish. Garnish with lemon slices and serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "seafood"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "dredging",
               "pan-frying",
               "browning"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.4,
-            "earth": 0.15,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.15,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -1835,18 +1835,18 @@ export const french: Cuisine = {
               "Pisces",
               "Libra"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Crescent"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 28,
-            "carbs_g": 12,
-            "fat_g": 22,
-            "fiber_g": 1,
-            "sodium_mg": 450,
-            "sugar_g": 1,
+            "proteinG": 28,
+            "carbsG": 12,
+            "fatG": 22,
+            "fiberG": 1,
+            "sodiumMg": 450,
+            "sugarG": 1,
             "vitamins": [
               "Vitamin B12",
               "Selenium"
@@ -1858,8 +1858,8 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Dover sole",
-              "substitute_options": [
+              "originalIngredient": "Dover sole",
+              "substituteOptions": [
                 "flounder",
                 "lemon sole",
                 "cod (texture will be flakier)"
@@ -1868,14 +1868,14 @@ export const french: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Bœuf Bourguignon",
+          "name": "Authentic Bœuf Bourguignon",
           "description": "The quintessential French agrarian stew, elevated to high culinary art. It is an alchemical masterpiece where tough, earth-bound cuts of beef are slowly transmuted into yielding tenderness via the fiery acidity and fruit notes of Burgundy wine.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 180,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -1930,60 +1930,60 @@ export const french: Cuisine = {
             "Step 8: Combine and reduce sauce."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "searing",
               "braising"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.4,
-            "earth": 0.35,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn"
             ],
             "signs": [
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 45,
-            "carbs_g": 15,
-            "fat_g": 38,
-            "fiber_g": 3,
-              "sodium_mg": 526,
-              "sugar_g": 4,
+            "proteinG": 45,
+            "carbsG": 15,
+            "fatG": 38,
+            "fiberG": 3,
+              "sodiumMg": 526,
+              "sugarG": 4,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "slab bacon",
-              "substitute_options": [
+              "originalIngredient": "slab bacon",
+              "substituteOptions": [
                 "pancetta"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Duck Confit (Confit de Canard)",
+          "name": "Authentic Duck Confit (Confit de Canard)",
           "description": "An ancient Gascon method of preservation transformed into a luxury staple. Duck legs are cured in salt and aromatics to remove moisture, then submerged in rendered duck fat and 'poached' at a sub-simmering temperature for hours. This creates meat that is meltingly tender, which is then pan-seared to achieve a shatteringly crisp skin.",
           "details": {
             "cuisine": "French (Gascony)",
-            "prep_time_minutes": 1440,
-            "cook_time_minutes": 180,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -2036,22 +2036,22 @@ export const french: Cuisine = {
             "Step 6: The Crisp. To serve, remove legs from the fat. Place skin-side down in a cold skillet. Turn heat to medium. Fry until the fat renders out and the skin becomes deeply golden and incredibly crispy (about 10 mins). Do not flip. Serve hot."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "curing",
               "confit",
               "searing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.1,
-            "earth": 0.6,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.1,
+            "Earth": 0.6,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Mars"
@@ -2060,18 +2060,18 @@ export const french: Cuisine = {
               "Capricorn",
               "Scorpio"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 32,
-            "carbs_g": 0,
-            "fat_g": 58,
-            "fiber_g": 0,
-            "sodium_mg": 920,
-            "sugar_g": 0,
+            "proteinG": 32,
+            "carbsG": 0,
+            "fatG": 58,
+            "fiberG": 0,
+            "sodiumMg": 920,
+            "sugarG": 0,
             "vitamins": [
               "Vitamin B12",
               "Iron"
@@ -2083,22 +2083,22 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "rendered duck fat",
-              "substitute_options": [
+              "originalIngredient": "rendered duck fat",
+              "substituteOptions": [
                 "rendered pork lard (authentic but changes flavor profile)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Cassoulet de Castelnaudary",
+          "name": "Authentic Cassoulet de Castelnaudary",
           "description": "The 'God of French stews'. A slow-baked masterpiece involving white beans, duck confit, pork sausage, and pork skin. The alchemy lies in the repeated breaking of the 'crust' (the skin that forms on top) during the long bake, folding it back into the stew to create a profound, gelatinous depth of flavor.",
           "details": {
             "cuisine": "French (Occitanie)",
-            "prep_time_minutes": 1440,
-            "cook_time_minutes": 360,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 360,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -2170,24 +2170,24 @@ export const french: Cuisine = {
             "Step 8: Serve bubbling hot. The beans should be creamy, the meat falling apart, and the liquid reduced to a thick, savory glaze."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "celebration"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "searing",
               "braising",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.25,
-            "earth": 0.55,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.25,
+            "Earth": 0.55,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Jupiter"
@@ -2196,18 +2196,18 @@ export const french: Cuisine = {
               "Capricorn",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 850,
-            "protein_g": 52,
-            "carbs_g": 45,
-            "fat_g": 48,
-            "fiber_g": 12,
-            "sodium_mg": 1100,
-            "sugar_g": 4,
+            "proteinG": 52,
+            "carbsG": 45,
+            "fatG": 48,
+            "fiberG": 12,
+            "sodiumMg": 1100,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin B12",
               "Folate"
@@ -2220,8 +2220,8 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Tarbais beans",
-              "substitute_options": [
+              "originalIngredient": "Tarbais beans",
+              "substituteOptions": [
                 "Cannellini beans",
                 "Great Northern beans"
               ]
@@ -2233,14 +2233,14 @@ export const french: Cuisine = {
     dessert: {
       all: [
         {
-          "recipe_name": "Authentic Crème Brûlée",
+          "name": "Authentic Crème Brûlée",
           "description": "A paradigm of French pastry physics. The base is a heavy-fat custard (crème liquide and egg yolks) baked at a very low temperature to ensure a perfectly smooth, non-porous set. The dish is defined by the final alchemical transformation: the rapid pyrolysis of sugar into a thin, brittle glass sheet using extreme heat.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2288,22 +2288,22 @@ export const french: Cuisine = {
             "Step 8: The Brûlée. Just before serving, sprinkle a thin, even layer of sugar over the top. Use a blowtorch to melt the sugar until it bubbles and turns a dark amber glass. Let it sit for 2 minutes to harden before serving."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "infusing",
               "baking",
               "torching"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.35,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.35,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -2312,18 +2312,18 @@ export const french: Cuisine = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 6,
-            "carbs_g": 28,
-            "fat_g": 35,
-            "fiber_g": 0,
-            "sodium_mg": 85,
-            "sugar_g": 24,
+            "proteinG": 6,
+            "carbsG": 28,
+            "fatG": 35,
+            "fiberG": 0,
+            "sodiumMg": 85,
+            "sugarG": 24,
             "vitamins": [
               "Vitamin A"
             ],
@@ -2334,22 +2334,22 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "heavy cream",
-              "substitute_options": [
+              "originalIngredient": "heavy cream",
+              "substituteOptions": [
                 "coconut cream (for a vegan version, requires cornstarch or agar agar to set)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Tarte Tatin",
+          "name": "Authentic Tarte Tatin",
           "description": "An accidental masterpiece of upside-down baking. Apples are violently caramelized in butter and sugar directly in a pan before being capped with pastry and baked. The alchemy involves the high-heat reduction of apple juices into a thick, sticky toffee that glazes the fruit when inverted.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 45,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -2396,21 +2396,21 @@ export const french: Cuisine = {
             "Step 6: The Inversion. Place a large plate over the pan. In one quick, confident motion, flip the pan and plate together. Lift the pan to reveal the caramelized apple dome. Serve warm with crème fraîche."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "caramelizing",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.15,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.15,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -2419,18 +2419,18 @@ export const french: Cuisine = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 3,
-            "carbs_g": 48,
-            "fat_g": 22,
-            "fiber_g": 4,
-            "sodium_mg": 150,
-            "sugar_g": 32,
+            "proteinG": 3,
+            "carbsG": 48,
+            "fatG": 22,
+            "fiberG": 4,
+            "sodiumMg": 150,
+            "sugarG": 32,
             "vitamins": [
               "Vitamin C"
             ],
@@ -2441,8 +2441,8 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "apples",
-              "substitute_options": [
+              "originalIngredient": "apples",
+              "substituteOptions": [
                 "firm pears",
                 "quinces"
               ]
@@ -2450,14 +2450,14 @@ export const french: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Chocolate Profiteroles",
+          "name": "Authentic Chocolate Profiteroles",
           "description": "An exercise in steam-based leavening. The choux pastry (pâte à choux) is cooked twice: once on the stove to gelatinize the starches so they can trap steam, and once in the oven where the moisture explodes, hollowing out the interior to create a light, airy shell for vanilla cream and bitter chocolate.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 30,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2515,22 +2515,22 @@ export const french: Cuisine = {
             "Step 6: The Ganache. Melt chocolate with hot cream until glossy. Pour generously over the puffs before serving."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling",
               "whisking",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.25,
-            "earth": 0.2,
-            "air": 0.35
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.25,
+            "Earth": 0.2,
+            "Air": 0.35
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Mercury"
@@ -2539,18 +2539,18 @@ export const french: Cuisine = {
               "Libra",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 8,
-            "carbs_g": 35,
-            "fat_g": 28,
-            "fiber_g": 2,
-            "sodium_mg": 180,
-            "sugar_g": 18,
+            "proteinG": 8,
+            "carbsG": 35,
+            "fatG": 28,
+            "fiberG": 2,
+            "sodiumMg": 180,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin A"
             ],
@@ -2561,22 +2561,22 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "no easy substitute for choux expansion"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Mousse au Chocolat",
+          "name": "Authentic Mousse au Chocolat",
           "description": "A study in structural aeration. True French mousse contains no cream in the base; it relies on the physical emulsion of chocolate and egg yolks, lightened by the mechanical folding of air trapped within stiff-peaked egg whites. The texture must be both rich and impossibly light.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 0,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2621,23 +2621,23 @@ export const french: Cuisine = {
             "Step 5: Chill. Spoon into glasses. Refrigerate for at least 4 hours to allow the chocolate to set and the texture to stabilize."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "melting",
               "whisking",
               "folding",
               "chilling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.2,
-            "earth": 0.25,
-            "air": 0.5
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.2,
+            "Earth": 0.25,
+            "Air": 0.5
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Pluto"
@@ -2646,18 +2646,18 @@ export const french: Cuisine = {
               "Libra",
               "Scorpio"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 9,
-            "carbs_g": 18,
-            "fat_g": 24,
-            "fiber_g": 4,
-            "sodium_mg": 120,
-            "sugar_g": 12,
+            "proteinG": 9,
+            "carbsG": 18,
+            "fatG": 24,
+            "fiberG": 4,
+            "sodiumMg": 120,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin B12"
             ],
@@ -2668,22 +2668,22 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "whipped aquafaba (chickpea water) for a vegan version"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Mille-Feuille",
+          "name": "Authentic Mille-Feuille",
           "description": "The 'thousand-layer' pastry. It is a mathematical exercise in pastry crispness and custard stability. Three layers of intensely caramelized, compressed puff pastry are sandwiched with two layers of dense, vanilla-scented pastry cream (crème pâtissière), topped with iconic fondant marbling.",
           "details": {
             "cuisine": "French",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 30,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -2740,23 +2740,23 @@ export const french: Cuisine = {
             "Step 5: Glaze. Decorate the top with white fondant and draw lines of chocolate to create the classic chevron pattern. Serve immediately while pastry is shatteringly crisp."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "pastry"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "whisking",
               "piping"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.2,
-            "earth": 0.25,
-            "air": 0.4
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.2,
+            "Earth": 0.25,
+            "Air": 0.4
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Mercury"
@@ -2765,18 +2765,18 @@ export const french: Cuisine = {
               "Libra",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 7,
-            "carbs_g": 52,
-            "fat_g": 28,
-            "fiber_g": 1,
-            "sodium_mg": 210,
-            "sugar_g": 28,
+            "proteinG": 7,
+            "carbsG": 52,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 210,
+            "sugarG": 28,
             "vitamins": [
               "Vitamin A"
             ],
@@ -2786,8 +2786,8 @@ export const french: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "egg yolks",
-              "substitute_options": [
+              "originalIngredient": "egg yolks",
+              "substituteOptions": [
                 "custard powder (not authentic)"
               ]
             }

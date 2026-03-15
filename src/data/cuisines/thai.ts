@@ -10,14 +10,14 @@ export const thai: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Thai Jok (Congee)",
+          "name": "Authentic Thai Jok (Congee)",
           "description": "A deeply comforting and restorative rice porridge, fundamentally rooted in Thai breakfast culture. Jok represents the harmonious alchemy of broken jasmine rice simmered into a silky suspension, enriched with deeply savory pork meatballs, warming ginger, and a suspended soft-boiled egg. It is a dish that grounds the spirit and warms the core.",
           "details": {
             "cuisine": "Thai",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 60,
-            "base_serving_size": 2,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
             "season": [
               "all",
               "winter"
@@ -115,23 +115,23 @@ export const thai: Cuisine = {
             "Step 9: Garnish generously with the julienned ginger, sliced green onions, cilantro, and crispy fried garlic. Serve immediately, allowing each person to season their bowl with additional white pepper and Maggi seasoning or light soy sauce to taste."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "comfort food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "poaching",
               "boiling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.6,
-            "earth": 0.2,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.6,
+            "Earth": 0.2,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Venus"
@@ -140,41 +140,41 @@ export const thai: Cuisine = {
               "Cancer",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon",
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 450,
-            "protein_g": 28,
-            "carbs_g": 48,
-            "fat_g": 16,
-            "fiber_g": 2,
-              "sodium_mg": 433,
-              "sugar_g": 14,
+            "proteinG": 28,
+            "carbsG": 48,
+            "fatG": 16,
+            "fiberG": 2,
+              "sodiumMg": 433,
+              "sugarG": 14,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "ground pork",
-              "substitute_options": [
+              "originalIngredient": "ground pork",
+              "substituteOptions": [
                 "minced shiitake mushrooms (vegan)",
                 "ground chicken",
                 "crumbled firm tofu"
               ]
             },
             {
-              "original_ingredient": "pork or chicken bone broth",
-              "substitute_options": [
+              "originalIngredient": "pork or chicken bone broth",
+              "substituteOptions": [
                 "kombu and shiitake dashi (vegan)",
                 "vegetable stock"
               ]
             },
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "silken tofu pieces (vegan)"
               ]
             }
@@ -822,14 +822,14 @@ export const thai: Cuisine = {
           },
         },
         {
-          "recipe_name": "Authentic Som Tam",
+          "name": "Authentic Som Tam",
           "description": "An explosive study in the Thai concept of 'Rot Chat'.",
           "details": {
             "cuisine": "Thai",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 0,
-            "base_serving_size": 2,
-            "spice_level": "Fiery",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 2,
+            "spiceLevel": "Fiery",
             "season": [
               "summer"
             ]
@@ -848,52 +848,52 @@ export const thai: Cuisine = {
             "Step 3: Toss papaya."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "salad"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "pounding"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.25,
-            "earth": 0.2,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.25,
+            "Earth": 0.2,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars"
             ],
             "signs": [
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 180,
-            "protein_g": 6,
-            "carbs_g": 28,
-            "fat_g": 7,
-            "fiber_g": 5,
-              "sodium_mg": 530,
-              "sugar_g": 15,
+            "proteinG": 6,
+            "carbsG": 28,
+            "fatG": 7,
+            "fiberG": 5,
+              "sodiumMg": 530,
+              "sugarG": 15,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": []
         },
         {
-          "recipe_name": "Authentic Tom Yum Goong",
+          "name": "Authentic Tom Yum Goong",
           "description": "An explosive study in Thai flavor balancing.",
           "details": {
             "cuisine": "Thai",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "Hot",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
             "season": [
               "summer"
             ]
@@ -912,38 +912,38 @@ export const thai: Cuisine = {
             "Step 3: Add lime juice off heat."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "boiling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.5,
-            "water": 0.35,
-            "earth": 0.05,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.35,
+            "Earth": 0.05,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars"
             ],
             "signs": [
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 220,
-            "protein_g": 25,
-            "carbs_g": 12,
-            "fat_g": 8,
-            "fiber_g": 2,
-              "sodium_mg": 402,
-              "sugar_g": 12,
+            "proteinG": 25,
+            "carbsG": 12,
+            "fatG": 8,
+            "fiberG": 2,
+              "sodiumMg": 402,
+              "sugarG": 12,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -1386,14 +1386,14 @@ export const thai: Cuisine = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Pad Thai",
+          "name": "Authentic Pad Thai",
           "description": "A masterclass in high-heat wok hei and rapid assembly.",
           "details": {
             "cuisine": "Thai",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
             "season": [
               "all"
             ]
@@ -1412,38 +1412,38 @@ export const thai: Cuisine = {
             "Step 3: Stir fry quickly in wok."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "stir-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.35,
-            "water": 0.15,
-            "earth": 0.25,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.15,
+            "Earth": 0.25,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mercury"
             ],
             "signs": [
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 18,
-            "carbs_g": 75,
-            "fat_g": 22,
-            "fiber_g": 5,
-              "sodium_mg": 422,
-              "sugar_g": 9,
+            "proteinG": 18,
+            "carbsG": 75,
+            "fatG": 22,
+            "fiberG": 5,
+              "sodiumMg": 422,
+              "sugarG": 9,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -3426,28 +3426,28 @@ export const thai: Cuisine = {
       ],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "nam phrik",
         "jungle curry",
         "dried chili dip",
         "sriracha",
         "prik king",
       ],
-      water: [
+      Water: [
         "green curry",
         "nam jim seafood",
         "coconut-based sauces",
         "fish sauce blends",
         "herb infusions",
       ],
-      earth: [
+      Earth: [
         "massaman curry",
         "peanut sauce",
         "tamarind-based sauces",
         "nam phrik ong",
         "sweet soy",
       ],
-      air: [
+      Air: [
         "lime-based dressings",
         "herb-infused oils",
         "light nam pla prik",

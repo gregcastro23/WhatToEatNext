@@ -10,14 +10,14 @@ export const american: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Buttermilk Pancakes",
+          "name": "Authentic Buttermilk Pancakes",
           "description": "The quintessential American diner breakfast. The chemical interaction between acidic buttermilk and alkaline baking soda creates violent carbon dioxide expansion when hitting a hot griddle, resulting in a soaring, fluffy structure with a deeply browned, slightly crisp edge.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -89,21 +89,21 @@ export const american: Cuisine = {
             "Step 8: Serve immediately on warm plates, drenched in real maple syrup and butter."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "mixing",
               "griddling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.35,
-            "air": 0.25
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.35,
+            "Air": 0.25
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -112,18 +112,18 @@ export const american: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 12,
-            "carbs_g": 55,
-            "fat_g": 18,
-            "fiber_g": 2,
-            "sodium_mg": 650,
-            "sugar_g": 12,
+            "proteinG": 12,
+            "carbsG": 55,
+            "fatG": 18,
+            "fiberG": 2,
+            "sodiumMg": 650,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin A",
               "Calcium"
@@ -135,28 +135,28 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "buttermilk",
-              "substitute_options": [
+              "originalIngredient": "buttermilk",
+              "substituteOptions": [
                 "2 cups whole milk + 2 tbsp white vinegar (rest 5 mins)"
               ]
             },
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "flax eggs (texture will be much denser)"
               ]
             }
           ]
         },
         {
-          "recipe_name": "Authentic Avocado Toast with Poached Eggs",
+          "name": "Authentic Avocado Toast with Poached Eggs",
           "description": "A modern Californian staple. The key is structural integrity: thick-cut, heavily toasted sourdough provides the rigid foundation for the rich, high-fat avocado mash and the unctuous, liquid gold of a perfectly poached egg.",
           "details": {
             "cuisine": "American (Californian)",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 5,
-            "base_serving_size": 2,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 5,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
             "season": [
               "all"
             ]
@@ -214,22 +214,22 @@ export const american: Cuisine = {
             "Step 6: Garnish immediately with flaky sea salt, black pepper, and red pepper flakes. Serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "brunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "toasting",
               "poaching"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Venus"
@@ -238,18 +238,18 @@ export const american: Cuisine = {
               "Leo",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 14,
-            "carbs_g": 32,
-            "fat_g": 24,
-            "fiber_g": 8,
-            "sodium_mg": 450,
-            "sugar_g": 2,
+            "proteinG": 14,
+            "carbsG": 32,
+            "fatG": 24,
+            "fiberG": 8,
+            "sodiumMg": 450,
+            "sugarG": 2,
             "vitamins": [
               "Vitamin C",
               "Folate"
@@ -261,15 +261,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "marinated tofu slices (vegan)",
                 "smoked salmon"
               ]
             },
             {
-              "original_ingredient": "sourdough bread",
-              "substitute_options": [
+              "originalIngredient": "sourdough bread",
+              "substituteOptions": [
                 "gluten-free bread",
                 "sweet potato toast"
               ]
@@ -277,14 +277,14 @@ export const american: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Southern Buttermilk Biscuits",
+          "name": "Authentic Southern Buttermilk Biscuits",
           "description": "The pinnacle of Southern American baking alchemy.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 15,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -318,45 +318,45 @@ export const american: Cuisine = {
             "Step 6: Bake at 425F for 12-15 mins."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.1,
-            "earth": 0.45,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.1,
+            "Earth": 0.45,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon"
             ],
             "signs": [
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 5,
-            "carbs_g": 32,
-            "fat_g": 15,
-            "fiber_g": 1,
-              "sodium_mg": 259,
-              "sugar_g": 11,
+            "proteinG": 5,
+            "carbsG": 32,
+            "fatG": 15,
+            "fiberG": 1,
+              "sodiumMg": 259,
+              "sugarG": 11,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "buttermilk",
-              "substitute_options": [
+              "originalIngredient": "buttermilk",
+              "substituteOptions": [
                 "milk with vinegar"
               ]
             }
@@ -365,14 +365,14 @@ export const american: Cuisine = {
       ],
       spring: [
         {
-          "recipe_name": "Authentic Spring Vegetable Frittata",
+          "name": "Authentic Spring Vegetable Frittata",
           "description": "A structurally sound, baked Italian-American egg dish. The key is to pre-cook the water-heavy spring vegetables to prevent a soggy frittata, then bake it gently so the eggs form a tender, custardy matrix rather than a rubbery sponge.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "spring"
             ]
@@ -443,24 +443,24 @@ export const american: Cuisine = {
             "Step 7: Serve warm or at room temperature. Slide a spatula around the edges to release it, then cut into wedges."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "brunch",
               "lunch",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "sautéing",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -469,18 +469,18 @@ export const american: Cuisine = {
               "Taurus",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 18,
-            "carbs_g": 8,
-            "fat_g": 24,
-            "fiber_g": 2,
-            "sodium_mg": 450,
-            "sugar_g": 3,
+            "proteinG": 18,
+            "carbsG": 8,
+            "fatG": 24,
+            "fiberG": 2,
+            "sodiumMg": 450,
+            "sugarG": 3,
             "vitamins": [
               "Vitamin A",
               "Vitamin K",
@@ -493,15 +493,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "fontina cheese",
-              "substitute_options": [
+              "originalIngredient": "fontina cheese",
+              "substituteOptions": [
                 "cheddar",
                 "goat cheese crumbles"
               ]
             },
             {
-              "original_ingredient": "heavy cream",
-              "substitute_options": [
+              "originalIngredient": "heavy cream",
+              "substituteOptions": [
                 "unsweetened almond milk (will be slightly less rich)"
               ]
             }
@@ -510,14 +510,14 @@ export const american: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Berry Breakfast Smoothie Bowl",
+          "name": "Berry Breakfast Smoothie Bowl",
           "description": "A modern, nutrient-dense breakfast utilizing high-speed mechanical blending to emulsify frozen fruit into a thick, ice-cream-like suspension. The alchemy here is purely physical, focusing on low water content to maintain structural viscosity, topped with varied textural crunch.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 0,
-            "base_serving_size": 1,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 1,
+            "spiceLevel": "None",
             "season": [
               "summer",
               "spring"
@@ -576,23 +576,23 @@ export const american: Cuisine = {
             "Step 6: Garnish. Immediately arrange the granola, fresh berries, and coconut flakes in neat lines across the top. Serve immediately before it melts."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack",
               "vegan",
               "raw"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "blending"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.6,
-            "earth": 0.2,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.6,
+            "Earth": 0.2,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Mercury"
@@ -601,18 +601,18 @@ export const american: Cuisine = {
               "Cancer",
               "Aquarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 350,
-            "protein_g": 8,
-            "carbs_g": 55,
-            "fat_g": 12,
-            "fiber_g": 14,
-            "sodium_mg": 85,
-            "sugar_g": 28,
+            "proteinG": 8,
+            "carbsG": 55,
+            "fatG": 12,
+            "fiberG": 14,
+            "sodiumMg": 85,
+            "sugarG": 28,
             "vitamins": [
               "Vitamin C",
               "Antioxidants"
@@ -624,15 +624,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "banana",
-              "substitute_options": [
+              "originalIngredient": "banana",
+              "substituteOptions": [
                 "frozen mango",
                 "frozen avocado chunks (for lower sugar)"
               ]
             },
             {
-              "original_ingredient": "almond milk",
-              "substitute_options": [
+              "originalIngredient": "almond milk",
+              "substituteOptions": [
                 "coconut water",
                 "regular milk"
               ]
@@ -642,14 +642,14 @@ export const american: Cuisine = {
       ],
       autumn: [
         {
-          "recipe_name": "Pumpkin Spice Oatmeal",
+          "name": "Pumpkin Spice Oatmeal",
           "description": "A rapid, warming autumnal breakfast. It leverages the gelatinous properties of rolled oats cooked in milk, enriched with pumpkin puree and the classic American spice blend, providing sustained, grounding energy.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 5,
-            "cook_time_minutes": 10,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -714,21 +714,21 @@ export const american: Cuisine = {
             "Step 6: Serve hot, topped with chopped nuts, an extra drizzle of maple syrup, and a splash of cold milk if desired."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.4,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.4,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Moon"
@@ -737,18 +737,18 @@ export const american: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 280,
-            "protein_g": 9,
-            "carbs_g": 42,
-            "fat_g": 8,
-            "fiber_g": 6,
-            "sodium_mg": 150,
-            "sugar_g": 12,
+            "proteinG": 9,
+            "carbsG": 42,
+            "fatG": 8,
+            "fiberG": 6,
+            "sodiumMg": 150,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin A",
               "Vitamin B1"
@@ -760,15 +760,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "old-fashioned rolled oats",
-              "substitute_options": [
+              "originalIngredient": "old-fashioned rolled oats",
+              "substituteOptions": [
                 "steel-cut oats (require longer cooking time)",
                 "quinoa flakes"
               ]
             },
             {
-              "original_ingredient": "whole milk",
-              "substitute_options": [
+              "originalIngredient": "whole milk",
+              "substituteOptions": [
                 "oat milk",
                 "water (less creamy)"
               ]
@@ -778,14 +778,14 @@ export const american: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Cranberry Orange Breakfast Bread",
+          "name": "Cranberry Orange Breakfast Bread",
           "description": "A sweet, tart, quick bread relying on the chemical leavening of baking powder and baking soda, balanced by the acidity of fresh cranberries and orange juice. The structural matrix is a simple muffin method.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 55,
-            "base_serving_size": 10,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 55,
+            "baseServingSize": 10,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -870,23 +870,23 @@ export const american: Cuisine = {
             "Step 8: Cool in the pan for 10 minutes before transferring to a wire rack to cool completely."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "snack",
               "baking"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "mixing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.4,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun",
               "Mercury"
@@ -895,18 +895,18 @@ export const american: Cuisine = {
               "Leo",
               "Sagittarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 240,
-            "protein_g": 3,
-            "carbs_g": 38,
-            "fat_g": 8,
-            "fiber_g": 2,
-            "sodium_mg": 210,
-            "sugar_g": 20,
+            "proteinG": 3,
+            "carbsG": 38,
+            "fatG": 8,
+            "fiberG": 2,
+            "sodiumMg": 210,
+            "sugarG": 20,
             "vitamins": [
               "Vitamin C"
             ],
@@ -916,15 +916,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "cranberries",
-              "substitute_options": [
+              "originalIngredient": "cranberries",
+              "substituteOptions": [
                 "blueberries",
                 "tart cherries"
               ]
             },
             {
-              "original_ingredient": "pecans",
-              "substitute_options": [
+              "originalIngredient": "pecans",
+              "substituteOptions": [
                 "walnuts",
                 "pumpkin seeds"
               ]
@@ -936,14 +936,14 @@ export const american: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Classic Cheeseburger",
+          "name": "Authentic Classic Cheeseburger",
           "description": "The masterpiece of American fast-casual gastronomy. It relies on the 'smash' technique: aggressively pressing a high-fat ground beef puck onto a screaming hot steel griddle to maximize the Maillard reaction, sealing the juices under a crusted, lacquered surface, topped with hyper-melting American cheese.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 6,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 6,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer",
               "spring",
@@ -1030,24 +1030,24 @@ export const american: Cuisine = {
             "Step 9: Assemble. Spread the sauce on the bottom bun. Add the lettuce, then the tomato. Place the hot, cheesy patty on top. Crown with the top bun and serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "bbq",
               "fast food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "searing",
               "smashing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.5,
-            "water": 0.1,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -1056,18 +1056,18 @@ export const american: Cuisine = {
               "Aries",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 680,
-            "protein_g": 32,
-            "carbs_g": 35,
-            "fat_g": 45,
-            "fiber_g": 2,
-            "sodium_mg": 1100,
-            "sugar_g": 8,
+            "proteinG": 32,
+            "carbsG": 35,
+            "fatG": 45,
+            "fiberG": 2,
+            "sodiumMg": 1100,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin B12",
               "Niacin"
@@ -1080,15 +1080,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ground beef (80/20)",
-              "substitute_options": [
+              "originalIngredient": "ground beef (80/20)",
+              "substituteOptions": [
                 "ground turkey (requires added fat)",
                 "Beyond/Impossible meat (vegan)"
               ]
             },
             {
-              "original_ingredient": "American cheese",
-              "substitute_options": [
+              "originalIngredient": "American cheese",
+              "substituteOptions": [
                 "Cheddar cheese",
                 "Pepper Jack",
                 "vegan cheese slice"
@@ -1097,14 +1097,14 @@ export const american: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Cobb Salad",
+          "name": "Authentic Cobb Salad",
           "description": "An organized, high-protein American culinary invention from the Brown Derby in Hollywood. The defining characteristic is its presentation: ingredients are chopped into uniform, bite-sized pieces and arranged in distinct, meticulous rows over a bed of crisp greens, mixed only at the moment of dining.",
           "details": {
             "cuisine": "American (Californian)",
-            "prep_time_minutes": 25,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 25,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "spring",
               "summer"
@@ -1204,26 +1204,26 @@ export const american: Cuisine = {
             "Step 5: The Toss. Just before eating, drizzle the dressing generously over the top and use salad tongs to vigorously toss and combine all the ingredients together."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "salad",
               "low carb"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "chopping",
               "boiling",
               "frying",
               "emulsifying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.4,
-            "earth": 0.35,
-            "air": 0.15
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.15
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mercury",
               "Earth"
@@ -1232,18 +1232,18 @@ export const american: Cuisine = {
               "Virgo",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 580,
-            "protein_g": 35,
-            "carbs_g": 12,
-            "fat_g": 45,
-            "fiber_g": 5,
-            "sodium_mg": 850,
-            "sugar_g": 4,
+            "proteinG": 35,
+            "carbsG": 12,
+            "fatG": 45,
+            "fiberG": 5,
+            "sodiumMg": 850,
+            "sugarG": 4,
             "vitamins": [
               "Vitamin A",
               "Vitamin K",
@@ -1256,22 +1256,22 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "roasted chicken breast",
-              "substitute_options": [
+              "originalIngredient": "roasted chicken breast",
+              "substituteOptions": [
                 "turkey breast",
                 "chickpeas (vegan)"
               ]
             },
             {
-              "original_ingredient": "Roquefort cheese",
-              "substitute_options": [
+              "originalIngredient": "Roquefort cheese",
+              "substituteOptions": [
                 "feta cheese",
                 "vegan blue cheese crumble"
               ]
             },
             {
-              "original_ingredient": "bacon",
-              "substitute_options": [
+              "originalIngredient": "bacon",
+              "substituteOptions": [
                 "turkey bacon",
                 "coconut bacon (vegan)"
               ]
@@ -1279,14 +1279,14 @@ export const american: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic New England Clam Chowder",
+          "name": "Authentic New England Clam Chowder",
           "description": "A restorative, elemental stew born of the harsh North Atlantic coast.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 45,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -1307,38 +1307,38 @@ export const american: Cuisine = {
             "Step 5: Add dairy off heat."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.5,
-            "earth": 0.35,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.35,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon"
             ],
             "signs": [
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 22,
-            "carbs_g": 34,
-            "fat_g": 30,
-            "fiber_g": 4,
-              "sodium_mg": 676,
-              "sugar_g": 11,
+            "proteinG": 22,
+            "carbsG": 34,
+            "fatG": 30,
+            "fiberG": 4,
+              "sodiumMg": 676,
+              "sugarG": 11,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -1347,14 +1347,14 @@ export const american: Cuisine = {
       ],
       spring: [
         {
-          "recipe_name": "Asparagus and Goat Cheese Tart",
+          "name": "Asparagus and Goat Cheese Tart",
           "description": "A vibrant celebration of early spring. This tart contrasts the sharp, lactic tang of fresh goat cheese with the grassy, verdant notes of asparagus, bound together by a delicate puff pastry shell.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 25,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "spring"
             ]
@@ -1414,24 +1414,24 @@ export const american: Cuisine = {
             "Step 8: Serve warm or at room temperature."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "brunch",
               "lunch",
               "appetizer",
               "vegetarian"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "whisking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.2,
-            "earth": 0.3,
-            "air": 0.3
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.3
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Mercury"
@@ -1440,18 +1440,18 @@ export const american: Cuisine = {
               "Taurus",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 10,
-            "carbs_g": 24,
-            "fat_g": 22,
-            "fiber_g": 2,
-            "sodium_mg": 280,
-            "sugar_g": 3,
+            "proteinG": 10,
+            "carbsG": 24,
+            "fatG": 22,
+            "fiberG": 2,
+            "sodiumMg": 280,
+            "sugarG": 3,
             "vitamins": [
               "Vitamin K",
               "Vitamin A",
@@ -1464,15 +1464,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "goat cheese",
-              "substitute_options": [
+              "originalIngredient": "goat cheese",
+              "substituteOptions": [
                 "ricotta cheese mixed with a splash of lemon",
                 "vegan cashew spread"
               ]
             },
             {
-              "original_ingredient": "puff pastry",
-              "substitute_options": [
+              "originalIngredient": "puff pastry",
+              "substituteOptions": [
                 "gluten-free puff pastry",
                 "shortcrust pastry"
               ]
@@ -1482,14 +1482,14 @@ export const american: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Authentic New England Lobster Roll",
+          "name": "Authentic New England Lobster Roll",
           "description": "An exercise in extreme restraint. A true Maine lobster roll highlights the sweet, delicate brine of the meat with only a microscopic coating of mayonnaise, served chilled inside a warm, butter-drenched, top-split hot dog bun. The temperature and texture contrast is paramount.",
           "details": {
             "cuisine": "American (New England)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 5,
-            "base_serving_size": 2,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 5,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -1559,24 +1559,24 @@ export const american: Cuisine = {
             "Step 6: Finish. Garnish with a tiny sprinkle of fresh chives. Serve immediately. The contrast between the cold, sweet lobster and the hot, buttery, crispy bun must be experienced instantly."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "dinner",
               "sandwich",
               "seafood"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "toasting",
               "mixing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.5,
-            "earth": 0.15,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.5,
+            "Earth": 0.15,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Neptune"
@@ -1585,18 +1585,18 @@ export const american: Cuisine = {
               "Cancer",
               "Pisces"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 38,
-            "carbs_g": 26,
-            "fat_g": 18,
-            "fiber_g": 1,
-            "sodium_mg": 850,
-            "sugar_g": 3,
+            "proteinG": 38,
+            "carbsG": 26,
+            "fatG": 18,
+            "fiberG": 1,
+            "sodiumMg": 850,
+            "sugarG": 3,
             "vitamins": [
               "Vitamin B12",
               "Selenium"
@@ -1608,16 +1608,16 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "lobster meat",
-              "substitute_options": [
+              "originalIngredient": "lobster meat",
+              "substituteOptions": [
                 "crab meat",
                 "shrimp",
                 "hearts of palm (vegan)"
               ]
             },
             {
-              "original_ingredient": "mayonnaise",
-              "substitute_options": [
+              "originalIngredient": "mayonnaise",
+              "substituteOptions": [
                 "melted butter (for a Connecticut-style hot roll)"
               ]
             }
@@ -1626,14 +1626,14 @@ export const american: Cuisine = {
       ],
       autumn: [
         {
-          "recipe_name": "Authentic Turkey and Cranberry Sandwich",
+          "name": "Authentic Turkey and Cranberry Sandwich",
           "description": "The iconic post-Thanksgiving reconstruction. It is an exercise in textural and flavor contrast: savory, dense turkey meat layered with tart, gelatinous cranberry sauce, bound by mayonnaise and structurally supported by hearty, toasted bread.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 10,
-            "cook_time_minutes": 0,
-            "base_serving_size": 1,
-            "spice_level": "None",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 1,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -1693,21 +1693,21 @@ export const american: Cuisine = {
             "Step 7: Cap and cut. Place the top piece of bread on the sandwich. Press down firmly with the palm of your hand to compress the layers. Cut diagonally and serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "lunch",
               "sandwich"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "assembling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.05,
-            "water": 0.25,
-            "earth": 0.5,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.25,
+            "Earth": 0.5,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Earth",
               "Mercury"
@@ -1716,18 +1716,18 @@ export const american: Cuisine = {
               "Virgo",
               "Gemini"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 38,
-            "carbs_g": 55,
-            "fat_g": 16,
-            "fiber_g": 5,
-            "sodium_mg": 680,
-            "sugar_g": 18,
+            "proteinG": 38,
+            "carbsG": 55,
+            "fatG": 16,
+            "fiberG": 5,
+            "sodiumMg": 680,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin B3",
               "Vitamin C"
@@ -1739,15 +1739,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "roast turkey",
-              "substitute_options": [
+              "originalIngredient": "roast turkey",
+              "substituteOptions": [
                 "roasted chicken breast",
                 "sliced seitan (vegan)"
               ]
             },
             {
-              "original_ingredient": "mayonnaise",
-              "substitute_options": [
+              "originalIngredient": "mayonnaise",
+              "substituteOptions": [
                 "cream cheese",
                 "vegan mayo"
               ]
@@ -1757,14 +1757,14 @@ export const american: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Loaded Baked Potato Soup",
+          "name": "Authentic Loaded Baked Potato Soup",
           "description": "A dense, comforting emulsion relying on the starch of baked Russet potatoes suspended in a roux-thickened dairy base, engineered to deliver the exact flavor profile of a fully loaded steakhouse baked potato.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 60,
-            "cook_time_minutes": 30,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -1859,24 +1859,24 @@ export const american: Cuisine = {
             "Step 7: Serve immediately, ladled into warm bowls. Top each serving with the remaining cheddar cheese, crispy bacon bits, and chopped chives."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup",
               "dinner",
               "comfort food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "rendering",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.4,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Saturn"
@@ -1885,18 +1885,18 @@ export const american: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 620,
-            "protein_g": 18,
-            "carbs_g": 45,
-            "fat_g": 42,
-            "fiber_g": 4,
-            "sodium_mg": 950,
-            "sugar_g": 8,
+            "proteinG": 18,
+            "carbsG": 45,
+            "fatG": 42,
+            "fiberG": 4,
+            "sodiumMg": 950,
+            "sugarG": 8,
             "vitamins": [
               "Vitamin A",
               "Vitamin C"
@@ -1908,15 +1908,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "bacon",
-              "substitute_options": [
+              "originalIngredient": "bacon",
+              "substituteOptions": [
                 "smoked tempeh strips (vegan)",
                 "omit entirely"
               ]
             },
             {
-              "original_ingredient": "chicken broth",
-              "substitute_options": [
+              "originalIngredient": "chicken broth",
+              "substituteOptions": [
                 "vegetable broth (vegetarian)"
               ]
             }
@@ -1927,14 +1927,14 @@ export const american: Cuisine = {
     dinner: {
       all: [
         {
-          "recipe_name": "Authentic Southern BBQ Ribs",
+          "name": "Authentic Southern BBQ Ribs",
           "description": "A masterclass in low-and-slow wood smoking. These ribs rely on the '3-2-1 method': 3 hours of open smoking for bark formation, 2 hours wrapped in foil with liquid for tenderization, and 1 hour unwrapped and basted to caramelize the sauce. The result is a deep, elemental fusion of wood smoke, rendered pork fat, and sweet-tart spices.",
           "details": {
             "cuisine": "American (Southern)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 360,
-            "base_serving_size": 4,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 360,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
             "season": [
               "summer",
               "autumn"
@@ -2005,23 +2005,23 @@ export const american: Cuisine = {
             "Step 6: Rest. Let the ribs rest for 15 minutes before slicing between the bones. They should bite cleanly off the bone, not fall off entirely."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "bbq"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "smoking",
               "braising",
               "glazing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.5,
-            "water": 0.15,
-            "earth": 0.25,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.15,
+            "Earth": 0.25,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Sun"
@@ -2030,18 +2030,18 @@ export const american: Cuisine = {
               "Aries",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 850,
-            "protein_g": 45,
-            "carbs_g": 35,
-            "fat_g": 60,
-            "fiber_g": 1,
-            "sodium_mg": 1200,
-            "sugar_g": 28,
+            "proteinG": 45,
+            "carbsG": 35,
+            "fatG": 60,
+            "fiberG": 1,
+            "sodiumMg": 1200,
+            "sugarG": 28,
             "vitamins": [
               "Vitamin B6",
               "Vitamin B12"
@@ -2053,15 +2053,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pork spare ribs",
-              "substitute_options": [
+              "originalIngredient": "pork spare ribs",
+              "substituteOptions": [
                 "beef ribs",
                 "jackfruit (for a completely different vegan BBQ application)"
               ]
             },
             {
-              "original_ingredient": "apple cider",
-              "substitute_options": [
+              "originalIngredient": "apple cider",
+              "substituteOptions": [
                 "apple cider vinegar mixed with water",
                 "beer"
               ]
@@ -2069,14 +2069,14 @@ export const american: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Meatloaf with Mashed Potatoes",
+          "name": "Authentic Meatloaf with Mashed Potatoes",
           "description": "A classic American diner staple. The structural integrity relies on a 'panade' (milk-soaked breadcrumbs) to retain moisture, while a three-meat blend (beef, pork, veal) provides complex flavor. The iconic ketchup glaze caramelizes in the oven, creating a sweet-tart crust.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 60,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -2180,24 +2180,24 @@ export const american: Cuisine = {
             "Step 9: Rest. Let the meatloaf rest for 10 minutes before slicing to allow the juices to redistribute. Serve thick slices alongside the mashed potatoes."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "comfort food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "mixing",
               "boiling",
               "mashing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.25,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.25,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Earth"
@@ -2206,18 +2206,18 @@ export const american: Cuisine = {
               "Taurus",
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 38,
-            "carbs_g": 45,
-            "fat_g": 35,
-            "fiber_g": 4,
-            "sodium_mg": 920,
-            "sugar_g": 12,
+            "proteinG": 38,
+            "carbsG": 45,
+            "fatG": 35,
+            "fiberG": 4,
+            "sodiumMg": 920,
+            "sugarG": 12,
             "vitamins": [
               "Vitamin B12",
               "Vitamin C"
@@ -2229,15 +2229,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "ground pork",
-              "substitute_options": [
+              "originalIngredient": "ground pork",
+              "substituteOptions": [
                 "ground veal",
                 "all ground beef"
               ]
             },
             {
-              "original_ingredient": "panko breadcrumbs",
-              "substitute_options": [
+              "originalIngredient": "panko breadcrumbs",
+              "substituteOptions": [
                 "crushed saltine crackers",
                 "quick oats"
               ]
@@ -2245,14 +2245,14 @@ export const american: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Fried Chicken with Buttermilk Biscuits",
+          "name": "Fried Chicken with Buttermilk Biscuits",
           "description": "The masterpiece of Southern American frying alchemy. A buttermilk brine tenderizes the meat via lactic acid, while a seasoned flour dredge creates an intensely shaggy, crisp crust through rapid moisture evaporation in hot oil. Paired with cloud-like layered biscuits.",
           "details": {
             "cuisine": "American (Southern)",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 30,
-            "base_serving_size": 4,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
             "season": [
               "all"
             ]
@@ -2336,23 +2336,23 @@ export const american: Cuisine = {
             "Step 8: Serve hot alongside freshly baked buttermilk biscuits, drizzled with honey."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "lunch",
               "comfort food"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "brining",
               "deep-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.2,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Mars",
               "Venus"
@@ -2361,18 +2361,18 @@ export const american: Cuisine = {
               "Taurus",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 850,
-            "protein_g": 42,
-            "carbs_g": 55,
-            "fat_g": 45,
-            "fiber_g": 3,
-            "sodium_mg": 1400,
-            "sugar_g": 18,
+            "proteinG": 42,
+            "carbsG": 55,
+            "fatG": 45,
+            "fiberG": 3,
+            "sodiumMg": 1400,
+            "sugarG": 18,
             "vitamins": [
               "Niacin",
               "Vitamin B6"
@@ -2384,15 +2384,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "chicken",
-              "substitute_options": [
+              "originalIngredient": "chicken",
+              "substituteOptions": [
                 "oyster mushrooms (for vegan fried 'chicken')",
                 "cauliflower blossoms"
               ]
             },
             {
-              "original_ingredient": "buttermilk",
-              "substitute_options": [
+              "originalIngredient": "buttermilk",
+              "substituteOptions": [
                 "kefir",
                 "milk mixed with lemon juice"
               ]
@@ -2402,14 +2402,14 @@ export const american: Cuisine = {
       ],
       spring: [
         {
-          "recipe_name": "Spring Pea Risotto with Grilled Lamb Chops",
+          "name": "Spring Pea Risotto with Grilled Lamb Chops",
           "description": "An elegant integration of Italian technique and American spring ingredients. The risotto utilizes continuous agitation to release arborio starches, creating a creamy emulsion without heavy cream. It serves as a verdant, earthy bed for aggressively charred, medium-rare lamb.",
           "details": {
             "cuisine": "American (New American)",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 45,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "spring"
             ]
@@ -2488,23 +2488,23 @@ export const american: Cuisine = {
             "Step 9: Serve immediately. The risotto should spread slightly on the plate. Top with the rested lamb chops and a sprinkle of fresh mint."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "fine dining"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering",
               "stirring",
               "grilling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.35,
-            "earth": 0.3,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.35,
+            "Earth": 0.3,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Mars"
@@ -2513,18 +2513,18 @@ export const american: Cuisine = {
               "Taurus",
               "Aries"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 650,
-            "protein_g": 38,
-            "carbs_g": 48,
-            "fat_g": 32,
-            "fiber_g": 6,
-            "sodium_mg": 600,
-            "sugar_g": 5,
+            "proteinG": 38,
+            "carbsG": 48,
+            "fatG": 32,
+            "fiberG": 6,
+            "sodiumMg": 600,
+            "sugarG": 5,
             "vitamins": [
               "Vitamin K",
               "Vitamin C"
@@ -2536,15 +2536,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "lamb chops",
-              "substitute_options": [
+              "originalIngredient": "lamb chops",
+              "substituteOptions": [
                 "scallops",
                 "grilled king oyster mushrooms (vegan)"
               ]
             },
             {
-              "original_ingredient": "Arborio rice",
-              "substitute_options": [
+              "originalIngredient": "Arborio rice",
+              "substituteOptions": [
                 "Carnaroli rice",
                 "Vialone Nano"
               ]
@@ -2554,14 +2554,14 @@ export const american: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "Grilled Cedar Plank Salmon with Summer Vegetables",
+          "name": "Grilled Cedar Plank Salmon with Summer Vegetables",
           "description": "A Native American-inspired grilling technique from the Pacific Northwest. The wet cedar plank acts as a buffer against direct flame, allowing the salmon to gently roast/steam while infusing the flesh with a profound, aromatic wood smoke.",
           "details": {
             "cuisine": "American (Pacific Northwest)",
-            "prep_time_minutes": 120,
-            "cook_time_minutes": 20,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -2640,23 +2640,23 @@ export const american: Cuisine = {
             "Step 9: Serve the salmon directly from the smoking plank at the table."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "bbq"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "grilling",
               "smoking",
               "glazing"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.4,
-            "water": 0.3,
-            "earth": 0.2,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.3,
+            "Earth": 0.2,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Neptune",
               "Sun"
@@ -2665,18 +2665,18 @@ export const american: Cuisine = {
               "Pisces",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "First Quarter"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 420,
-            "protein_g": 35,
-            "carbs_g": 12,
-            "fat_g": 25,
-            "fiber_g": 3,
-            "sodium_mg": 450,
-            "sugar_g": 6,
+            "proteinG": 35,
+            "carbsG": 12,
+            "fatG": 25,
+            "fiberG": 3,
+            "sodiumMg": 450,
+            "sugarG": 6,
             "vitamins": [
               "Vitamin D",
               "Vitamin B12"
@@ -2688,15 +2688,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "salmon fillet",
-              "substitute_options": [
+              "originalIngredient": "salmon fillet",
+              "substituteOptions": [
                 "arctic char",
                 "steelhead trout"
               ]
             },
             {
-              "original_ingredient": "maple syrup",
-              "substitute_options": [
+              "originalIngredient": "maple syrup",
+              "substituteOptions": [
                 "honey",
                 "brown sugar"
               ]
@@ -2706,14 +2706,14 @@ export const american: Cuisine = {
       ],
       autumn: [
         {
-          "recipe_name": "Authentic Beef Pot Roast with Root Vegetables",
+          "name": "Authentic Beef Pot Roast with Root Vegetables",
           "description": "The quintessential Sunday dinner. An exercise in prolonged, gentle heat that transforms a tough, heavily exercised cut of beef (chuck) into yielding, gelatinous perfection. The vegetables are added late in the braise to retain structural integrity while absorbing the profound, meaty essence of the broth.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 25,
-            "cook_time_minutes": 180,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 25,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "winter",
               "autumn"
@@ -2797,21 +2797,21 @@ export const american: Cuisine = {
             "Step 7: Finish. The roast is done when a fork slides into the meat with zero resistance. Transfer meat and vegetables to a platter. Skim fat from the pan juices and serve the juices as an au jus or thicken with cornstarch for a gravy."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "searing",
               "braising"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.45,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.45,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Jupiter"
@@ -2820,18 +2820,18 @@ export const american: Cuisine = {
               "Capricorn",
               "Taurus"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Waning Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 42,
-            "carbs_g": 28,
-            "fat_g": 24,
-            "fiber_g": 4,
-            "sodium_mg": 680,
-            "sugar_g": 5,
+            "proteinG": 42,
+            "carbsG": 28,
+            "fatG": 24,
+            "fiberG": 4,
+            "sodiumMg": 680,
+            "sugarG": 5,
             "vitamins": [
               "Vitamin A",
               "Vitamin B12"
@@ -2843,15 +2843,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "beef chuck roast",
-              "substitute_options": [
+              "originalIngredient": "beef chuck roast",
+              "substituteOptions": [
                 "brisket",
                 "portobello mushrooms and whole roasted celery root (vegan)"
               ]
             },
             {
-              "original_ingredient": "red wine",
-              "substitute_options": [
+              "originalIngredient": "red wine",
+              "substituteOptions": [
                 "additional beef broth and 1 tbsp balsamic vinegar"
               ]
             }
@@ -2860,14 +2860,14 @@ export const american: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Roast Turkey with Cranberry Sauce",
+          "name": "Authentic Roast Turkey with Cranberry Sauce",
           "description": "The centerpiece of the American Thanksgiving table. Success relies on a wet brine to ensure moisture retention and a slow, low-temperature roast to perfectly cook both the delicate breast meat and the tougher dark meat.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 720,
-            "cook_time_minutes": 240,
-            "base_serving_size": 12,
-            "spice_level": "None",
+            "prepTimeMinutes": 720,
+            "cookTimeMinutes": 240,
+            "baseServingSize": 12,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -2952,23 +2952,23 @@ export const american: Cuisine = {
             "Step 8: Make the Sauce. While resting, combine cranberries, sugar, and orange juice in a saucepan. Simmer for 10-15 minutes until the berries burst and the sauce thickens. Serve alongside the carved turkey."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dinner",
               "holiday"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "brining",
               "roasting",
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.3,
-            "water": 0.2,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Jupiter",
               "Sun"
@@ -2977,18 +2977,18 @@ export const american: Cuisine = {
               "Sagittarius",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 550,
-            "protein_g": 65,
-            "carbs_g": 25,
-            "fat_g": 22,
-            "fiber_g": 2,
-            "sodium_mg": 850,
-            "sugar_g": 20,
+            "proteinG": 65,
+            "carbsG": 25,
+            "fatG": 22,
+            "fiberG": 2,
+            "sodiumMg": 850,
+            "sugarG": 20,
             "vitamins": [
               "Vitamin B6",
               "Vitamin C"
@@ -3000,15 +3000,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "turkey",
-              "substitute_options": [
+              "originalIngredient": "turkey",
+              "substituteOptions": [
                 "large roasting chicken",
                 "tofurkey roast (vegan)"
               ]
             },
             {
-              "original_ingredient": "cranberries",
-              "substitute_options": [
+              "originalIngredient": "cranberries",
+              "substituteOptions": [
                 "tart cherries"
               ]
             }
@@ -3019,14 +3019,14 @@ export const american: Cuisine = {
     dessert: {
       all: [
         {
-          "recipe_name": "Authentic American Apple Pie",
+          "name": "Authentic American Apple Pie",
           "description": "The quintessential American harvest dessert. An exercise in mastering the all-butter flaky pie crust (pâte brisée) and balancing the tartness of Granny Smith apples with the warm, elemental grounding of cinnamon and nutmeg. It uses a precooked filling method to ensure a structurally sound, gap-free pie.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 45,
-            "cook_time_minutes": 60,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -3098,21 +3098,21 @@ export const american: Cuisine = {
             "Step 7: Cool completely before slicing to let the pectin set."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "laminating"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.25,
-            "water": 0.15,
-            "earth": 0.5,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.15,
+            "Earth": 0.5,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Sun"
@@ -3121,18 +3121,18 @@ export const american: Cuisine = {
               "Taurus",
               "Virgo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 410,
-            "protein_g": 3,
-            "carbs_g": 52,
-            "fat_g": 22,
-            "fiber_g": 4,
-            "sodium_mg": 120,
-            "sugar_g": 25,
+            "proteinG": 3,
+            "carbsG": 52,
+            "fatG": 22,
+            "fiberG": 4,
+            "sodiumMg": 120,
+            "sugarG": 25,
             "vitamins": [
               "Vitamin C"
             ],
@@ -3143,16 +3143,16 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "Granny Smith apples",
-              "substitute_options": [
+              "originalIngredient": "Granny Smith apples",
+              "substituteOptions": [
                 "Honeycrisp apples",
                 "Braeburn apples",
                 "Bosc apples"
               ]
             },
             {
-              "original_ingredient": "unsalted butter",
-              "substitute_options": [
+              "originalIngredient": "unsalted butter",
+              "substituteOptions": [
                 "vegetable shortening",
                 "vegan butter block"
               ]
@@ -3160,14 +3160,14 @@ export const american: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic Chocolate Chip Cookies",
+          "name": "Authentic Chocolate Chip Cookies",
           "description": "The quintessential American drop cookie. It relies on the Maillard reaction and the precise ratio of brown sugar (for moisture and chew) to white sugar (for crisp edges). Resting the dough hydrates the starches and intensifies the caramel flavors.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 12,
-            "base_serving_size": 24,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 12,
+            "baseServingSize": 24,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -3247,24 +3247,24 @@ export const american: Cuisine = {
             "Step 10: Finish. Immediately sprinkle lightly with flaky sea salt. Let cool on the pan for 5 minutes before transferring to a wire rack."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "snack",
               "baking"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "creaming",
               "baking",
               "chilling"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.1,
-            "earth": 0.5,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.1,
+            "Earth": 0.5,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Earth"
@@ -3273,18 +3273,18 @@ export const american: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 190,
-            "protein_g": 2,
-            "carbs_g": 25,
-            "fat_g": 10,
-            "fiber_g": 1,
-            "sodium_mg": 120,
-            "sugar_g": 16,
+            "proteinG": 2,
+            "carbsG": 25,
+            "fatG": 10,
+            "fiberG": 1,
+            "sodiumMg": 120,
+            "sugarG": 16,
             "vitamins": [
               "Vitamin A"
             ],
@@ -3295,16 +3295,16 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "semi-sweet chocolate chips",
-              "substitute_options": [
+              "originalIngredient": "semi-sweet chocolate chips",
+              "substituteOptions": [
                 "dark chocolate chunks",
                 "butterscotch chips",
                 "raisins (controversial)"
               ]
             },
             {
-              "original_ingredient": "butter",
-              "substitute_options": [
+              "originalIngredient": "butter",
+              "substituteOptions": [
                 "margarine (will change texture and flavor significantly)",
                 "coconut oil (solid)"
               ]
@@ -3312,14 +3312,14 @@ export const american: Cuisine = {
           ]
         },
         {
-          "recipe_name": "Authentic New York Cheesecake",
+          "name": "Authentic New York Cheesecake",
           "description": "The titan of American desserts. A true New York cheesecake is exceptionally dense, rich, and tall. It eschews light, aerated textures in favor of a heavy cream cheese and sour cream emulsion, baked very slowly in a water bath to prevent cracking and ensure a perfectly smooth, velvety custard.",
           "details": {
             "cuisine": "American (New York)",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 90,
-            "base_serving_size": 12,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 90,
+            "baseServingSize": 12,
+            "spiceLevel": "None",
             "season": [
               "all"
             ]
@@ -3381,23 +3381,23 @@ export const american: Cuisine = {
             "Step 10: Chill. Remove from the water bath, remove the foil, and chill in the refrigerator uncovered for at least 6 hours, preferably overnight, before slicing with a hot knife."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "baking"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "mixing",
               "baking",
               "water bath"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.4,
-            "earth": 0.35,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -3406,18 +3406,18 @@ export const american: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 8,
-            "carbs_g": 42,
-            "fat_g": 34,
-            "fiber_g": 1,
-            "sodium_mg": 320,
-            "sugar_g": 32,
+            "proteinG": 8,
+            "carbsG": 42,
+            "fatG": 34,
+            "fiberG": 1,
+            "sodiumMg": 320,
+            "sugarG": 32,
             "vitamins": [
               "Vitamin A"
             ],
@@ -3428,15 +3428,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "graham cracker crumbs",
-              "substitute_options": [
+              "originalIngredient": "graham cracker crumbs",
+              "substituteOptions": [
                 "crushed digestive biscuits",
                 "crushed ginger snaps"
               ]
             },
             {
-              "original_ingredient": "sour cream",
-              "substitute_options": [
+              "originalIngredient": "sour cream",
+              "substituteOptions": [
                 "heavy cream",
                 "full-fat plain yogurt"
               ]
@@ -3446,14 +3446,14 @@ export const american: Cuisine = {
       ],
       spring: [
         {
-          "recipe_name": "Authentic Strawberry Shortcake",
+          "name": "Authentic Strawberry Shortcake",
           "description": "A classic American early-summer dessert. It demands a structurally dense, slightly salty biscuit (not sponge cake) to absorb the macerated strawberry juices without disintegrating. The heavy cream must be softly whipped, maintaining a fluid, cloud-like texture.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 15,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "spring",
               "summer"
@@ -3531,23 +3531,23 @@ export const american: Cuisine = {
             "Step 7: Assemble. Split a warm biscuit in half horizontally. Spoon a generous amount of macerated strawberries and their syrup over the bottom half. Dollop with soft whipped cream. Cap with the top half of the biscuit and serve immediately."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "baking"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "macerating",
               "baking",
               "whipping"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -3556,18 +3556,18 @@ export const american: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 480,
-            "protein_g": 6,
-            "carbs_g": 45,
-            "fat_g": 32,
-            "fiber_g": 3,
-            "sodium_mg": 380,
-            "sugar_g": 18,
+            "proteinG": 6,
+            "carbsG": 45,
+            "fatG": 32,
+            "fiberG": 3,
+            "sodiumMg": 380,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin C",
               "Vitamin A"
@@ -3578,15 +3578,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "strawberries",
-              "substitute_options": [
+              "originalIngredient": "strawberries",
+              "substituteOptions": [
                 "peaches",
                 "mixed berries"
               ]
             },
             {
-              "original_ingredient": "heavy cream (topping)",
-              "substitute_options": [
+              "originalIngredient": "heavy cream (topping)",
+              "substituteOptions": [
                 "whipped coconut cream (vegan)"
               ]
             }
@@ -3595,14 +3595,14 @@ export const american: Cuisine = {
       ],
       summer: [
         {
-          "recipe_name": "S'mores Ice Cream Pie",
+          "name": "S'mores Ice Cream Pie",
           "description": "A modern American frozen dessert layering the distinct components of a campfire s'more into a structured pie. It relies on a compacted graham cracker crust, a dense chocolate ganache barrier to prevent sogginess, packed marshmallow ice cream, and a scorched meringue/marshmallow crown.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 240,
-            "cook_time_minutes": 10,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "summer"
             ]
@@ -3667,24 +3667,24 @@ export const american: Cuisine = {
             "Step 7: The Torch. Use a kitchen blowtorch to deeply scorch the meringue peaks until they look like toasted marshmallows. Serve immediately, or freeze until ready to serve."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "frozen"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "baking",
               "freezing",
               "whipping",
               "torching"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.3,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Moon",
               "Sun"
@@ -3693,18 +3693,18 @@ export const american: Cuisine = {
               "Cancer",
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 520,
-            "protein_g": 6,
-            "carbs_g": 65,
-            "fat_g": 28,
-            "fiber_g": 2,
-            "sodium_mg": 280,
-            "sugar_g": 45,
+            "proteinG": 6,
+            "carbsG": 65,
+            "fatG": 28,
+            "fiberG": 2,
+            "sodiumMg": 280,
+            "sugarG": 45,
             "vitamins": [
               "Vitamin A"
             ],
@@ -3714,8 +3714,8 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "meringue topping",
-              "substitute_options": [
+              "originalIngredient": "meringue topping",
+              "substituteOptions": [
                 "marshmallow fluff (torched)"
               ]
             }
@@ -3724,14 +3724,14 @@ export const american: Cuisine = {
       ],
       autumn: [
         {
-          "recipe_name": "Authentic Pumpkin Pie",
+          "name": "Authentic Pumpkin Pie",
           "description": "An iconic American Thanksgiving custard. The alchemy lies in the suspension of rich pumpkin puree and aromatic baking spices within an egg-and-dairy matrix, baked gently in a flaky crust to achieve a smooth, slightly trembling set without curdling.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 20,
-            "cook_time_minutes": 55,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 55,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "autumn",
               "winter"
@@ -3822,22 +3822,22 @@ export const american: Cuisine = {
             "Step 8: Cool. Transfer to a wire rack and cool completely (at least 3 hours) to allow the custard to set firmly before slicing."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "holiday"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "whisking",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.35,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Earth"
@@ -3846,18 +3846,18 @@ export const american: Cuisine = {
               "Virgo",
               "Libra"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 5,
-            "carbs_g": 35,
-            "fat_g": 18,
-            "fiber_g": 2,
-            "sodium_mg": 210,
-            "sugar_g": 18,
+            "proteinG": 5,
+            "carbsG": 35,
+            "fatG": 18,
+            "fiberG": 2,
+            "sodiumMg": 210,
+            "sugarG": 18,
             "vitamins": [
               "Vitamin A",
               "Vitamin K"
@@ -3869,15 +3869,15 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "pumpkin puree",
-              "substitute_options": [
+              "originalIngredient": "pumpkin puree",
+              "substituteOptions": [
                 "roasted and mashed butternut squash",
                 "sweet potato puree"
               ]
             },
             {
-              "original_ingredient": "heavy cream",
-              "substitute_options": [
+              "originalIngredient": "heavy cream",
+              "substituteOptions": [
                 "evaporated milk",
                 "coconut cream (vegan)"
               ]
@@ -3887,14 +3887,14 @@ export const american: Cuisine = {
       ],
       winter: [
         {
-          "recipe_name": "Authentic Gingerbread Cookies",
+          "name": "Authentic Gingerbread Cookies",
           "description": "A dense, deeply spiced holiday classic. The structural alchemy relies on molasses, which acts as a humectant to keep the cookies slightly chewy, while providing a profound, slightly bitter caramel depth that balances the aggressive ginger bite.",
           "details": {
             "cuisine": "American",
-            "prep_time_minutes": 180,
-            "cook_time_minutes": 10,
-            "base_serving_size": 24,
-            "spice_level": "Mild",
+            "prepTimeMinutes": 180,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 24,
+            "spiceLevel": "Mild",
             "season": [
               "winter"
             ]
@@ -3986,24 +3986,24 @@ export const american: Cuisine = {
             "Step 10: Cool on the baking sheet for 5 minutes before transferring to a wire rack. Decorate with royal icing when completely cool."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "dessert",
               "baking",
               "holiday"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "creaming",
               "rolling",
               "baking"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.15,
-            "water": 0.1,
-            "earth": 0.55,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.1,
+            "Earth": 0.55,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn",
               "Jupiter"
@@ -4012,18 +4012,18 @@ export const american: Cuisine = {
               "Capricorn",
               "Sagittarius"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 140,
-            "protein_g": 2,
-            "carbs_g": 22,
-            "fat_g": 6,
-            "fiber_g": 1,
-            "sodium_mg": 85,
-            "sugar_g": 9,
+            "proteinG": 2,
+            "carbsG": 22,
+            "fatG": 6,
+            "fiberG": 1,
+            "sodiumMg": 85,
+            "sugarG": 9,
             "vitamins": [
               "Iron"
             ],
@@ -4034,14 +4034,14 @@ export const american: Cuisine = {
           },
           "substitutions": [
             {
-              "original_ingredient": "unsulphured molasses",
-              "substitute_options": [
+              "originalIngredient": "unsulphured molasses",
+              "substituteOptions": [
                 "dark corn syrup (will be sweeter and lack the bitter depth)"
               ]
             },
             {
-              "original_ingredient": "butter",
-              "substitute_options": [
+              "originalIngredient": "butter",
+              "substituteOptions": [
                 "vegan butter block (must be cold and firm)"
               ]
             }
@@ -4247,10 +4247,10 @@ export const american: Cuisine = {
       steaming: ["lemon butter", "hollandaise", "herb oil", "remoulade"],
     },
     byAstrological: {
-      fire: ["hotSauce", "bbqSauce", "spicy aioli", "chipotle sauce"],
-      earth: ["gravySauce", "mushroom sauce", "herb butter", "cheese sauce"],
-      air: ["light vinaigrettes", "herb oils", "lemon butter", "citrus sauce"],
-      water: ["ranchDressing", "cream sauces", "tartar sauce", "remoulade"],
+      Fire: ["hotSauce", "bbqSauce", "spicy aioli", "chipotle sauce"],
+      Earth: ["gravySauce", "mushroom sauce", "herb butter", "cheese sauce"],
+      Air: ["light vinaigrettes", "herb oils", "lemon butter", "citrus sauce"],
+      Water: ["ranchDressing", "cream sauces", "tartar sauce", "remoulade"],
     },
     byRegion: {
       southern: ["bbqSauce", "gravySauce", "hot sauce", "remoulade"],

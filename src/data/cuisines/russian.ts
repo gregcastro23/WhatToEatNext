@@ -10,14 +10,14 @@ export const russian: Cuisine = {
     breakfast: {
       all: [
         {
-          "recipe_name": "Authentic Russian Syrniki",
+          "name": "Authentic Russian Syrniki",
           "description": "Traditional Eastern European farmer's cheese pancakes. These are delicate, pillowy, and slightly tangy from the lactic acid of the tvorog. Structurally, they walk the line between a pancake and a cheesecake, offering a comforting, grounding energy deeply tied to agrarian dairy traditions.",
           "details": {
             "cuisine": "Russian",
-            "prep_time_minutes": 15,
-            "cook_time_minutes": 15,
-            "base_serving_size": 4,
-            "spice_level": "None",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
             "season": [
               "all",
               "spring"
@@ -98,23 +98,23 @@ export const russian: Cuisine = {
             "Step 10: Serve immediately while hot, topped generously with cold smetana (sour cream) and a spoonful of berry preserves."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast",
               "dessert",
               "brunch"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "mixing",
               "pan-frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.3,
-            "earth": 0.4,
-            "air": 0.1
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Venus",
               "Moon"
@@ -123,49 +123,49 @@ export const russian: Cuisine = {
               "Taurus",
               "Cancer"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon",
               "Waxing Gibbous"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 380,
-            "protein_g": 22,
-            "carbs_g": 35,
-            "fat_g": 18,
-            "fiber_g": 1,
-              "sodium_mg": 258,
-              "sugar_g": 7,
+            "proteinG": 22,
+            "carbsG": 35,
+            "fatG": 18,
+            "fiberG": 1,
+              "sodiumMg": 258,
+              "sugarG": 7,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "tvorog (farmer's cheese)",
-              "substitute_options": [
+              "originalIngredient": "tvorog (farmer's cheese)",
+              "substituteOptions": [
                 "dry ricotta cheese",
                 "drained firm tofu (vegan)",
                 "cottage cheese (strained overnight)"
               ]
             },
             {
-              "original_ingredient": "eggs",
-              "substitute_options": [
+              "originalIngredient": "eggs",
+              "substituteOptions": [
                 "flax egg (vegan)",
                 "applesauce binder"
               ]
             },
             {
-              "original_ingredient": "all-purpose flour",
-              "substitute_options": [
+              "originalIngredient": "all-purpose flour",
+              "substituteOptions": [
                 "rice flour",
                 "gluten-free baking blend",
                 "semolina flour"
               ]
             },
             {
-              "original_ingredient": "smetana (sour cream)",
-              "substitute_options": [
+              "originalIngredient": "smetana (sour cream)",
+              "substituteOptions": [
                 "creme fraiche",
                 "coconut yogurt (vegan)"
               ]
@@ -272,14 +272,14 @@ export const russian: Cuisine = {
           },
         },
         {
-          "recipe_name": "Authentic Blini",
+          "name": "Authentic Blini",
           "description": "Pre-dating Christianity, Blini symbolize the sun.",
           "details": {
             "cuisine": "Russian",
-            "prep_time_minutes": 180,
-            "cook_time_minutes": 30,
-            "base_serving_size": 6,
-            "spice_level": "None",
+            "prepTimeMinutes": 180,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
             "season": [
               "spring"
             ]
@@ -299,38 +299,38 @@ export const russian: Cuisine = {
             "Step 4: Fry."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "breakfast"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "frying"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.2,
-            "water": 0.25,
-            "earth": 0.35,
-            "air": 0.2
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.25,
+            "Earth": 0.35,
+            "Air": 0.2
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Sun"
             ],
             "signs": [
               "Leo"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "Full Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 9,
-            "carbs_g": 42,
-            "fat_g": 12,
-            "fiber_g": 2,
-              "sodium_mg": 493,
-              "sugar_g": 12,
+            "proteinG": 9,
+            "carbsG": 42,
+            "fatG": 12,
+            "fiberG": 2,
+              "sodiumMg": 493,
+              "sugarG": 12,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
@@ -430,14 +430,14 @@ export const russian: Cuisine = {
     lunch: {
       all: [
         {
-          "recipe_name": "Authentic Traditional Borscht",
+          "name": "Authentic Traditional Borscht",
           "description": "A foundational Slavic root-vegetable soup, instantly recognizable by its deep, resonant magenta hue.",
           "details": {
             "cuisine": "Russian",
-            "prep_time_minutes": 30,
-            "cook_time_minutes": 150,
-            "base_serving_size": 8,
-            "spice_level": "None",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 150,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
             "season": [
               "winter"
             ]
@@ -471,45 +471,45 @@ export const russian: Cuisine = {
             "Step 6: Add fresh dill and garlic off heat. Serve with sour cream."
           ],
           "classifications": {
-            "meal_type": [
+            "mealType": [
               "soup"
             ],
-            "cooking_methods": [
+            "cookingMethods": [
               "simmering"
             ]
           },
-          "elemental_properties": {
-            "fire": 0.1,
-            "water": 0.5,
-            "earth": 0.35,
-            "air": 0.05
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.35,
+            "Air": 0.05
           },
-          "astrological_affinities": {
+          "astrologicalAffinities": {
             "planets": [
               "Saturn"
             ],
             "signs": [
               "Capricorn"
             ],
-            "lunar_phases": [
+            "lunarPhases": [
               "New Moon"
             ]
           },
-          "nutrition_per_serving": {
+          "nutritionPerServing": {
             "calories": 320,
-            "protein_g": 18,
-            "carbs_g": 28,
-            "fat_g": 15,
-            "fiber_g": 6,
-              "sodium_mg": 1067,
-              "sugar_g": 3,
+            "proteinG": 18,
+            "carbsG": 28,
+            "fatG": 15,
+            "fiberG": 6,
+              "sodiumMg": 1067,
+              "sugarG": 3,
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
           "substitutions": [
             {
-              "original_ingredient": "beef bones",
-              "substitute_options": [
+              "originalIngredient": "beef bones",
+              "substituteOptions": [
                 "mushroom broth"
               ]
             }
@@ -2351,28 +2351,28 @@ export const russian: Cuisine = {
       ],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "adjika",
         "hot mustard",
         "pepper sauce",
         "horseradish cream",
         "spicy tomato",
       ],
-      earth: [
+      Earth: [
         "mushroom sauce",
         "potato sauce",
         "beet sauce",
         "dill-sour cream",
         "cabbage sauce",
       ],
-      water: [
+      Water: [
         "fish sauce",
         "sorrel sauce",
         "sour cream",
         "kvass sauce",
         "berry sauce",
       ],
-      air: [
+      Air: [
         "light herb oils",
         "vinaigrettes",
         "whipped smetana",
