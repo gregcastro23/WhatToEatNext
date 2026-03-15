@@ -39,6 +39,10 @@ export interface AlchemicalRecipe {
     carbs_g: number;
     fat_g: number;
     fiber_g: number;
+    sodium_mg: number;
+    sugar_g: number;
+    vitamins: string[];
+    minerals: string[];
   };
   substitutions: Array<{
     original_ingredient: string;

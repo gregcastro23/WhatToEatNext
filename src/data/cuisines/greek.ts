@@ -89,85 +89,108 @@ export const greek: Cuisine = {
           },
         },
         {
-          name: "Greek Yogurt with Honey",
-          description:
-            "Thick strained yogurt with honey, walnuts and seasonal fruit",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: ["serving bowl", "honey dipper", "knife", "measuring spoons"],
-          preparationSteps: [
-            "Layer yogurt in bowl",
-            "Drizzle with honey",
-            "Top with crushed walnuts",
-            "Add fresh figs or seasonal fruit",
-            "Optional: dust with cinnamon",
-          ],
-          ingredients: [
-            {
-              name: "Greek yogurt",
-              amount: "200",
-              unit: "g",
-              category: "dairy",
-              swaps: ["coconut yogurt"],
-            },
-            { name: "honey", amount: "2", unit: "tbsp", category: "sweetener" },
-            { name: "walnuts", amount: "30", unit: "g", category: "nuts" },
-            {
-              name: "fresh figs",
-              amount: "2",
-              unit: "whole",
-              category: "fruit",
-              swaps: ["any seasonal fruit"],
-            },
-            {
-              name: "cinnamon",
-              amount: "1/4",
-              unit: "tsp",
-              category: "spice",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            "Greek yogurt": ["coconut yogurt", "almond yogurt"],
-            honey: ["maple syrup", "date syrup"],
-            walnuts: ["almonds", "pistachios"],
+          "recipe_name": "Authentic Greek Yogurt with Honey and Walnuts",
+          "description": "The simplest and purest expression of Greek dairy and apiary. It relies entirely on the quality of three raw ingredients. The yogurt must be authentic, full-fat, sheep or goat's milk yogurt (strained/straggisto) to provide a tart, thick, spackle-like base for the floral sweetness of raw thyme honey and the bitter tannin of walnuts.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 5,
+            "cook_time_minutes": 0,
+            "base_serving_size": 1,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 1,
-          allergens: ["dairy", "tree nuts"],
-          prepTime: "5 minutes",
-          cookTime: "0 minutes",
-          culturalNotes:
-            "A traditional Greek breakfast that showcases the country's famous thick strained yogurt and local honey. Often served as a healthy dessert option as well",
-          pairingSuggestions: ["Greek coffee", "fresh fruit", "rusks"],
-          dietaryInfo: ["vegetarian", "gluten-free", "probiotic"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 280,
-            protein: 18,
-            carbs: 32,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Calcium", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "authentic Greek strained yogurt",
+              "notes": "Full-fat (5-10%). Sheep's milk is traditional and preferred for its slight tang."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "raw Greek honey",
+              "notes": "Thyme honey or pine honey is traditional. It should be thick and intensely floral."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "walnuts",
+              "notes": "Roughly chopped. Briefly toasted if desired, but raw is common."
+            }
+          ],
+          "instructions": [
+            "Step 1: Chill the serving bowl. The yogurt must be served very cold.",
+            "Step 2: Spoon the thick, strained yogurt into the bowl. Do not stir or whip it; keep the dense, spackle-like texture intact.",
+            "Step 3: Generously drizzle the raw honey over the top. The honey should sit heavily on the surface.",
+            "Step 4: Scatter the chopped walnuts over the honey.",
+            "Step 5: Serve immediately. The diner should dig through the layers to get a combination of tart, sweet, and crunch in every bite."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "dessert",
+              "snack",
+              "raw"
+            ],
+            "cooking_methods": [
+              "assembling"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast", "dessert"],
-          elementalProperties: {
-            Fire: 0.1,
-            Water: 0.48,
-            Earth: 0.32,
-            Air: 0.11,
+          "elemental_properties": {
+            "fire": 0.05,
+            "water": 0.4,
+            "earth": 0.4,
+            "air": 0.15
           },
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 350,
+            "protein_g": 20,
+            "carbs_g": 38,
+            "fat_g": 16,
+            "fiber_g": 2,
+            "sodium_mg": 85,
+            "sugar_g": 35,
+            "vitamins": [
+              "Riboflavin",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "Greek yogurt",
+              "substitute_options": [
+                "coconut or almond milk thick yogurt (vegan)"
+              ]
+            },
+            {
+              "original_ingredient": "walnuts",
+              "substitute_options": [
+                "pistachios",
+                "almonds"
+              ]
+            }
+          ]
         },
         {
           name: "Strapatsada",
@@ -639,183 +662,168 @@ export const greek: Cuisine = {
       ],
       summer: [
         {
-          name: "Gemista",
-          description: "Stuffed vegetables with rice, herbs, and optional meat",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "stuffing",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.54,
-                Air: 0.23,
-              },
-            },
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "baking dish",
-            "sharp knife",
-            "spoon for stuffing",
-            "mixing bowl",
-            "cutting board",
-          ],
-          preparationSteps: [
-            "Hollow out vegetables",
-            "Prepare rice filling",
-            "Stuff vegetables",
-            "Arrange in baking dish",
-            "Add potato wedges",
-            "Bake until tender",
-          ],
-          ingredients: [
-            {
-              name: "tomatoes",
-              amount: "6",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bell peppers",
-              amount: "6",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.6,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "rice",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "parsley",
-              amount: "1",
-              unit: "bunch",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "mint",
-              amount: "1/2",
-              unit: "bunch",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "olive oil",
-              amount: "150",
-              unit: "ml",
-              category: "oil",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "potatoes",
-              amount: "4",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            rice: ["quinoa", "bulgur"],
-            "bell peppers": ["zucchini", "eggplant"],
-            potatoes: ["sweet potatoes"],
+          "recipe_name": "Authentic Greek Gemista",
+          "description": "The art of summer vegetable stuffing. Firm tomatoes and bell peppers are hollowed out, their flesh pureed and combined with short-grain rice and an abundance of fresh herbs. They are then baked slowly until the rice absorbs the vegetable juices and the shells collapse into sweet, caramelized submission.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 75,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 6,
-          allergens: ["none"],
-          prepTime: "45 minutes",
-          cookTime: "90 minutes",
-          culturalNotes:
-            "A summer favorite that makes use of garden vegetables. Each Greek household has its own version of the filling",
-          pairingSuggestions: ["feta cheese", "crusty bread", "Greek yogurt"],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 8,
-            carbs: 52,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["C", "A", "K"],
-            minerals: ["Potassium", "Iron"],
+          "ingredients": [
+            {
+              "amount": 6,
+              "unit": "large",
+              "name": "firm beefsteak tomatoes",
+              "notes": "Tops sliced off (reserved), flesh scooped out and reserved."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "bell peppers",
+              "notes": "Tops sliced off (reserved), seeds removed."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "short-grain rice (Carolina or Arborio)",
+              "notes": "Rinsed well."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "Divided use. High quality is essential."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "yellow onion",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh parsley",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh mint",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "For depth."
+            },
+            {
+              "amount": 1.5,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Peeled and cut into thick wedges, to fill the gaps in the baking pan."
+            }
+          ],
+          "instructions": [
+            "Step 1: Hollow the vegetables. Cut the tops off the tomatoes and peppers. Set the caps aside. Use a spoon to carefully hollow out the tomatoes. Place the tomato flesh in a blender and puree it.",
+            "Step 2: Prepare the base. Arrange the empty tomatoes and peppers in a large, deep baking dish. Fill any large empty spaces between them with the potato wedges.",
+            "Step 3: The Filling. In a large skillet, heat half the olive oil over medium heat. Sauté the onions and garlic until soft. Add the rinsed rice and toast for 1 minute.",
+            "Step 4: Incorporate the liquids. Pour half of the reserved tomato puree into the skillet. Add the tomato paste, parsley, mint, salt, and pepper. Simmer for 5 minutes until the liquid is slightly absorbed. The rice will only be partially cooked.",
+            "Step 5: Stuff. Spoon the rice mixture loosely into the hollowed vegetables, filling them only 3/4 of the way to the top (the rice will expand significantly). Place the reserved caps back on top.",
+            "Step 6: The Bath. Pour the remaining tomato puree and the remaining olive oil over the top of all the vegetables and the potatoes. Add 1/2 cup of water to the bottom of the pan.",
+            "Step 7: Bake. Preheat oven to 375°F (190°C). Cover the pan tightly with aluminum foil. Bake for 45 minutes.",
+            "Step 8: Caramelize. Remove the foil and bake for another 30 minutes. The vegetables should look wrinkled, slightly charred on the edges, and the potatoes should be tender and golden.",
+            "Step 9: Rest. Let them rest at room temperature for at least 30 minutes before serving. They are often eaten lukewarm or cold."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "lunch",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "hollowing",
+              "simmering",
+              "baking"
+            ]
           },
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.28,
-            Water: 0.19,
-            Earth: 0.33,
-            Air: 0.2,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.4,
+            "earth": 0.3,
+            "air": 0.1
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Leo",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 350,
+            "protein_g": 6,
+            "carbs_g": 48,
+            "fat_g": 16,
+            "fiber_g": 8,
+            "sodium_mg": 620,
+            "sugar_g": 10,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A",
+              "Potassium"
+            ],
+            "minerals": [
+              "Iron",
+              "Manganese"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "short-grain rice",
+              "substitute_options": [
+                "quinoa",
+                "bulgur wheat"
+              ]
+            },
+            {
+              "original_ingredient": "potatoes",
+              "substitute_options": [
+                "zucchini wedges"
+              ]
+            }
+          ]
         },
       ],
     },
@@ -1065,158 +1073,168 @@ export const greek: Cuisine = {
           mealType: ["dinner"],
         },
         {
-          name: "Dolmades",
-          description:
-            "Grape leaves stuffed with rice, herbs, and optional meat",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "stuffing",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.54,
-                Air: 0.23,
-              },
-            },
-            "rolling",
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "mixing bowl",
-            "measuring cups",
-            "colander",
-            "plate for rolling",
-          ],
-          preparationSteps: [
-            "Rinse grape leaves",
-            "Prepare rice filling",
-            "Roll leaves with filling",
-            "Layer in pot",
-            "Simmer until tender",
-            "Cool before serving",
-          ],
-          ingredients: [
-            {
-              name: "grape leaves",
-              amount: "60",
-              unit: "pieces",
-              category: "vegetable",
-            },
-            {
-              name: "rice",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "dill",
-              amount: "1",
-              unit: "bunch",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "mint",
-              amount: "1/2",
-              unit: "bunch",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "lemon juice",
-              amount: "60",
-              unit: "ml",
-              category: "acid",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "olive oil",
-              amount: "120",
-              unit: "ml",
-              category: "oil",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-          ],
-          substitutions: {
-            "grape leaves": ["swiss chard leaves"],
-            rice: ["quinoa", "bulgur"],
-            dill: ["fennel fronds"],
+          "recipe_name": "Authentic Greek Dolmades",
+          "description": "An ancient Mediterranean art form of encasing a heavily herbed, pine-nut and currant-studded rice filling within slightly bitter, brined grape leaves. The bundles are then tightly packed and steamed in an olive oil and lemon emulsion, creating tender, self-contained flavor capsules.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 45,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "spring",
+              "summer"
+            ]
           },
-          servingSize: 6,
-          allergens: ["none"],
-          prepTime: "60 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A dish with ancient origins, dolmades are found throughout the Mediterranean and Middle East, each region having its own variation",
-          pairingSuggestions: ["tzatziki", "lemon wedges", "Greek white wine"],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 220,
-            protein: 4,
-            carbs: 35,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["K", "C"],
-            minerals: ["Iron", "Magnesium"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "jar (about 60 leaves)",
+              "name": "grape leaves in brine",
+              "notes": "Carefully unrolled, rinsed, and stems snipped off."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "short-grain rice (e.g., Arborio or Carolina)",
+              "notes": "Rinsed well."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "Divided; half for the filling, half for the cooking liquid."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "yellow onion",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "fresh dill",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 0.5,
+              "unit": "bunch",
+              "name": "fresh mint",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "pine nuts",
+              "notes": "Lightly toasted."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "dried currants",
+              "notes": "For a subtle sweetness."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh lemon juice",
+              "notes": "Crucial for the cooking broth."
+            },
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "hot water or vegetable broth",
+              "notes": "For steaming."
+            }
+          ],
+          "instructions": [
+            "Step 1: Prep the leaves. Bring a large pot of water to a boil. Blanch the rinsed grape leaves in batches for 2 minutes to soften them further. Drain and set aside.",
+            "Step 2: The Filling. In a skillet, heat 1/4 cup of olive oil. Sauté the minced onions until soft. Remove from heat. Stir in the raw rinsed rice, dill, mint, pine nuts, currants, salt, and pepper. Mix thoroughly.",
+            "Step 3: Rolling. Lay a grape leaf flat on a cutting board, shiny side down, vein side up. Place 1 heaping teaspoon of the rice mixture near the stem end. Fold the bottom two lobes up over the filling. Fold the sides inward tightly. Roll tightly toward the tip of the leaf, like a small cigar. Repeat until filling is gone.",
+            "Step 4: The Base. Line the bottom of a wide, heavy pot or Dutch oven with any torn or unused grape leaves. This prevents the dolmades from burning.",
+            "Step 5: Pack the pot. Arrange the rolled dolmades seam-side down in the pot, packing them very tightly together in concentric circles. Create a second layer if necessary.",
+            "Step 6: The Emulsion. Pour the remaining 1/4 cup olive oil, the lemon juice, and the hot water over the dolmades. The liquid should just barely cover the top layer.",
+            "Step 7: The Weight. Place an inverted, heat-proof dinner plate directly on top of the dolmades to weigh them down and prevent them from unrolling during cooking.",
+            "Step 8: Cook. Bring the liquid to a gentle simmer over medium heat. Reduce heat to low, cover the pot, and simmer for 40-45 minutes until the rice is completely tender and has absorbed the liquid.",
+            "Step 9: Cool. Remove from heat and let them cool completely in the pot. Dolmades are traditionally served at room temperature or chilled."
+          ],
+          "classifications": {
+            "meal_type": [
+              "appetizer",
+              "meze",
+              "vegan"
+            ],
+            "cooking_methods": [
+              "blanching",
+              "rolling",
+              "steaming"
+            ]
           },
-          season: ["spring", "summer"],
-
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.32,
-            Earth: 0.23,
-            Air: 0.25,
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.3,
+            "earth": 0.4,
+            "air": 0.2
           },
-          mealType: ["appetizer", "side"],
+          "astrological_affinities": {
+            "planets": [
+              "Earth",
+              "Venus"
+            ],
+            "signs": [
+              "Virgo",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 280,
+            "protein_g": 4,
+            "carbs_g": 32,
+            "fat_g": 16,
+            "fiber_g": 5,
+            "sodium_mg": 580,
+            "sugar_g": 6,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Manganese",
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "grape leaves",
+              "substitute_options": [
+                "blanched cabbage leaves",
+                "Swiss chard leaves"
+              ]
+            },
+            {
+              "original_ingredient": "pine nuts and currants",
+              "substitute_options": [
+                "ground lamb or beef (for a meat version, omit currants)"
+              ]
+            }
+          ]
         },
         {
           "recipe_name": "Authentic Greek Galaktoboureko",
@@ -1610,112 +1628,162 @@ export const greek: Cuisine = {
           mealType: ["lunch", "dinner"],
         },
         {
-          name: "Gigantes Plaki",
-          description: "Baked giant beans in tomato sauce with herbs",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "baking dish",
-            "large pot",
-            "colander",
-            "wooden spoon",
-            "sharp knife",
-          ],
-          preparationSteps: [
-            "Soak beans overnight",
-            "Cook beans until tender",
-            "Prepare tomato sauce",
-            "Combine beans and sauce",
-            "Bake until thickened",
-            "Rest before serving",
-          ],
-          ingredients: [
-            {
-              name: "giant beans",
-              amount: "500",
-              unit: "g",
-              category: "legume",
-              swaps: ["lima beans"],
-            },
-            {
-              name: "tomatoes",
-              amount: "800",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "carrots",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "celery",
-              amount: "2",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            { name: "parsley", amount: "1", unit: "bunch", category: "herb" },
-            { name: "olive oil", amount: "120", unit: "ml", category: "oil" },
-            {
-              name: "honey",
-              amount: "1",
-              unit: "tbsp",
-              category: "sweetener",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            "giant beans": ["lima beans", "butter beans"],
-            "fresh tomatoes": ["canned tomatoes"],
-            honey: ["sugar", "omit"],
+          "recipe_name": "Authentic Greek Gigantes Plaki",
+          "description": "A slow-baked, magnificent agrarian dish utilizing giant white beans (Gigantes or Corona). The beans are first boiled until tender, then transferred to a pan and baked slowly in a rich, olive-oil-heavy tomato and herb sauce until the sauce caramelizes and the top layer of beans becomes crusty and slightly charred.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 720,
+            "cook_time_minutes": 180,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 6,
-          allergens: ["none"],
-          prepTime: "overnight + 20 minutes",
-          cookTime: "2 hours",
-          culturalNotes:
-            "A classic dish from Macedonia and northern Greece, showcasing the region's famous giant beans",
-          pairingSuggestions: ["feta cheese", "crusty bread", "Greek wine"],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 320,
-            protein: 16,
-            carbs: 45,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["A", "C", "K"],
-            minerals: ["Iron", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "dried Gigantes beans or large Lima/Corona beans",
+              "notes": "Must be soaked overnight."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "Divided use. High quality."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "red onions",
+              "notes": "Thinly sliced."
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "crushed tomatoes",
+              "notes": "Canned or fresh."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "For depth."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh parsley",
+              "notes": "Roughly chopped."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh dill",
+              "notes": "Roughly chopped."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "honey or sugar",
+              "notes": "To balance the acidity of the tomatoes."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Added late."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground."
+            }
+          ],
+          "instructions": [
+            "Step 1: Soak. Soak the dried beans in plenty of cold water overnight (12-24 hours). Drain and rinse.",
+            "Step 2: Boil. Place the beans in a large pot, cover with fresh water by 2 inches. Bring to a boil, skim the foam, reduce heat, and simmer until they are just tender but still hold their shape completely (about 45-60 mins). Drain, reserving 1 cup of the cooking water.",
+            "Step 3: The Sauce. In a skillet, heat half the olive oil over medium heat. Sauté the sliced onions until deeply softened and golden (10 mins). Add the garlic and tomato paste, cooking for 1 minute.",
+            "Step 4: Combine. Add the crushed tomatoes, honey, parsley, dill, salt, and pepper to the skillet. Simmer for 5 minutes.",
+            "Step 5: Assemble for baking. Preheat oven to 375°F (190°C). Transfer the boiled beans to a 9x13-inch baking dish. Pour the tomato/onion sauce evenly over the beans. Add the reserved 1 cup of bean cooking water. Drizzle the remaining 1/4 cup of olive oil over the top.",
+            "Step 6: Bake (Plaki). Bake uncovered for 1 hour to 1 hour and 15 minutes. The liquid should reduce to a thick, oily glaze, and the beans on the top layer should develop a darkened, crusty exterior. Do not stir them while baking.",
+            "Step 7: Serve warm or at room temperature. It is essential to serve with crusty bread to mop up the seasoned olive oil."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "lunch",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "baking",
+              "simmering"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.09,
-            Water: 0.18,
-            Earth: 0.64,
-            Air: 0.08,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.3,
+            "earth": 0.4,
+            "air": 0.1
           },
-          mealType: ["main", "meze"],
+          "astrological_affinities": {
+            "planets": [
+              "Earth",
+              "Saturn"
+            ],
+            "signs": [
+              "Taurus",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 18,
+            "carbs_g": 52,
+            "fat_g": 18,
+            "fiber_g": 14,
+            "sodium_mg": 480,
+            "sugar_g": 9,
+            "vitamins": [
+              "Folate",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium",
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "Gigantes beans",
+              "substitute_options": [
+                "butter beans",
+                "large lima beans"
+              ]
+            },
+            {
+              "original_ingredient": "honey",
+              "substitute_options": [
+                "maple syrup (vegan)",
+                "granulated sugar"
+              ]
+            }
+          ]
         },
         {
           name: "Keftedes",
@@ -1821,131 +1889,145 @@ export const greek: Cuisine = {
           mealType: ["appetizer", "main"],
         },
         {
-          name: "Galatopita",
-          description: "Traditional milk pie with phyllo and vanilla custard",
-          cuisine: "Greek",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            "custard-making",
-          ],
-          tools: [
-            "baking dish",
-            "saucepan",
-            "whisk",
-            "mixing bowls",
-            "pastry brush",
-          ],
-          preparationSteps: [
-            "Prepare custard base",
-            "Layer phyllo sheets",
-            "Pour custard mixture",
-            "Top with phyllo",
-            "Bake until golden",
-            "Cool completely",
-          ],
-          ingredients: [
-            {
-              name: "milk",
-              amount: "1",
-              unit: "L",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            { name: "semolina", amount: "100", unit: "g", category: "grain" },
-            {
-              name: "sugar",
-              amount: "200",
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "vanilla extract",
-              amount: "2",
-              unit: "tsp",
-              category: "flavoring",
-            },
-            {
-              name: "phyllo dough",
-              amount: "8",
-              unit: "sheets",
-              category: "pastry",
-            },
-            {
-              name: "butter",
-              amount: "100",
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            milk: ["almond milk"],
-            butter: ["vegan butter"],
-            eggs: ["cornstarch mixture"],
+          "recipe_name": "Authentic Galatopita",
+          "description": "A rustic, crustless Greek milk pie. It is an exercise in simple agrarian alchemy: milk is thickened with semolina into a dense custard, enriched with eggs and butter, and baked until the top forms a naturally scorched, caramelized skin, requiring no phyllo pastry.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 50,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 8,
-          allergens: ["dairy", "eggs", "gluten"],
-          prepTime: "30 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A comforting dessert that combines the Greek love of custard with phyllo pastry. Often served room temperature",
-          pairingSuggestions: ["Greek coffee", "cinnamon", "powdered sugar"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 340,
-            protein: 9,
-            carbs: 48,
-            fat: 14,
-            fiber: 3,
-            vitamins: ["A", "D", "B12"],
-            minerals: ["Calcium", "Iron"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "liter",
+              "name": "whole milk",
+              "notes": "Must be whole milk for proper texture."
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "fine semolina flour",
+              "notes": "The primary thickener."
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For sweetness and caramelization."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Lightly beaten."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "pure vanilla extract",
+              "notes": "Aromatic."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "lemon zest",
+              "notes": "Freshly grated."
+            },
+            {
+              "amount": 50,
+              "unit": "g",
+              "name": "unsalted butter",
+              "notes": "Stirred into the hot custard."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "For heavily greasing the baking pan."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ground cinnamon",
+              "notes": "For heavy dusting before serving."
+            }
+          ],
+          "instructions": [
+            "Step 1: Preheat oven to 350°F (175°C). Heavily butter a 9-inch round or square baking dish.",
+            "Step 2: Heat the milk. In a medium saucepan, warm the milk over medium heat until it begins to steam (do not boil).",
+            "Step 3: Thicken. Slowly whisk in the semolina and sugar in a steady stream. Continue whisking constantly for 5-8 minutes until the mixture thickens into a heavy porridge. Remove from heat.",
+            "Step 4: Enrich. Immediately stir in the 50g of butter, vanilla extract, and lemon zest until the butter melts completely.",
+            "Step 5: Temper the eggs. In a small bowl, have the beaten eggs ready. Slowly whisk about 1/2 cup of the hot semolina mixture into the eggs to temper them. Then, rapidly whisk the egg mixture back into the main saucepan until completely smooth.",
+            "Step 6: Bake. Pour the custard into the prepared baking dish. Smooth the top with a spatula.",
+            "Step 7: The Crust. Bake for 45-50 minutes. The pie will puff up significantly and the top must become deeply golden brown with dark, almost burnt-looking patches. This scorched skin is the signature of the dish.",
+            "Step 8: Cool. Remove from the oven. It will deflate as it cools. You must let it cool completely to room temperature (at least 2 hours) so the semolina sets firmly enough to slice.",
+            "Step 9: Garnish. Dust generously with ground cinnamon before cutting into squares or wedges."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "snack"
+            ],
+            "cooking_methods": [
+              "whisking",
+              "baking"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.26,
-            Earth: 0.41,
-            Air: 0.12,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.35,
+            "earth": 0.35,
+            "air": 0.1
           },
-          mealType: ["dessert"],
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 250,
+            "protein_g": 8,
+            "carbs_g": 35,
+            "fat_g": 9,
+            "fiber_g": 1,
+            "sodium_mg": 85,
+            "sugar_g": 22,
+            "vitamins": [
+              "Vitamin D",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "semolina flour",
+              "substitute_options": [
+                "farina (Cream of Wheat)"
+              ]
+            },
+            {
+              "original_ingredient": "whole milk",
+              "substitute_options": [
+                "oat milk (will be less rich and may require slightly more semolina)"
+              ]
+            }
+          ]
         },
         {
           name: "Skordalia",
