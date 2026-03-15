@@ -301,6 +301,266 @@ function SpiceMeter({ level }: { level: string }) {
   );
 }
 
+// ===== Alchemical Score Components =====
+
+const ESMS_CONFIG = {
+  Spirit:    { color: "#f59e0b", stroke: "stroke-amber-400",    text: "text-amber-400",    label: "Spirit",    symbol: "\u2609" },
+  Essence:   { color: "#6366f1", stroke: "stroke-indigo-400",   text: "text-indigo-400",   label: "Essence",   symbol: "\u2640" },
+  Matter:    { color: "#10b981", stroke: "stroke-emerald-400",  text: "text-emerald-400",  label: "Matter",    symbol: "\u2295" },
+  Substance: { color: "#a855f7", stroke: "stroke-purple-400",   text: "text-purple-400",   label: "Substance", symbol: "\u2641" },
+} as const;
+
+const MONICA_COMPONENT_CONFIG = {
+  Heat:       { color: "#f97316", stroke: "stroke-orange-400",  text: "text-orange-400",  label: "Heat",       symbol: "\u{1F525}" },
+  Entropy:    { color: "#3b82f6", stroke: "stroke-blue-400",    text: "text-blue-400",    label: "Entropy",    symbol: "\u{1F4A7}" },
+  Reactivity: { color: "#eab308", stroke: "stroke-yellow-400",  text: "text-yellow-400",  label: "Reactivity", symbol: "\u26A1" },
+} as const;
+
+// Segmented SVG donut: renders stacked circles using stroke-dasharray + offset
+interface DonutSegment { value: number; color: string; label: string; }
+
+function SegmentedDonut({
+  segments,
+  centerLabel,
+  centerSublabel,
+}: {
+  segments: DonutSegment[];
+  centerLabel: string;
+  centerSublabel?: string;
+}) {
+  // r = 15.9155 → circumference ≈ 100, convenient for percentage math
+  const r = 15.9155;
+  const total = segments.reduce((s, seg) => s + seg.value, 0);
+  if (total === 0) return null;
+
+  let accumulated = 0;
+  return (
+    <div className="relative w-28 h-28 mx-auto">
+      <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+        {/* Background track */}
+        <circle cx="18" cy="18" r={r} fill="none" stroke="rgb(30,41,59)" strokeWidth="3.5" />
+        {segments.map((seg, i) => {
+          const pct = (seg.value / total) * 100;
+          const dashOffset = 100 - accumulated;
+          accumulated += pct;
+          return (
+            <circle
+              key={i}
+              cx="18" cy="18" r={r}
+              fill="none"
+              stroke={seg.color}
+              strokeWidth="3.5"
+              strokeDasharray={`${pct} ${100 - pct}`}
+              strokeDashoffset={dashOffset}
+              strokeLinecap="butt"
+            />
+          );
+        })}
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-xl font-bold text-slate-100 leading-tight">{centerLabel}</span>
+        {centerSublabel && <span className="text-xs text-slate-500 leading-tight">{centerSublabel}</span>}
+      </div>
+    </div>
+  );
+}
+
+function DonutLegend({ segments, total }: { segments: DonutSegment[]; total: number }) {
+  return (
+    <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mt-3">
+      {segments.map((seg) => (
+        <div key={seg.label} className="flex items-center gap-1.5 text-xs">
+          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: seg.color }} />
+          <span className="text-slate-400 truncate">{seg.label}</span>
+          <span className="text-slate-300 font-medium ml-auto">
+            {total > 0 ? Math.round((seg.value / total) * 100) : 0}%
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function computeMonicaComponents(
+  spirit: number, essence: number, matter: number, substance: number,
+  fire: number, water: number, earth: number, air: number,
+) {
+  const denomHeat = Math.max(0.0001, substance + essence + matter + water + air + earth);
+  const Heat = (spirit * spirit + fire * fire) / (denomHeat * denomHeat);
+
+  const denomEntropy = Math.max(0.0001, essence + matter + earth + water);
+  const Entropy = (spirit * spirit + substance * substance + fire * fire + air * air) / (denomEntropy * denomEntropy);
+
+  const denomReactivity = Math.max(0.0001, matter + earth);
+  const Reactivity = (spirit * spirit + substance * substance + essence * essence + fire * fire + air * air + water * water) / (denomReactivity * denomReactivity);
+
+  return { Heat, Entropy, Reactivity };
+}
+
+function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
+  const spirit    = (recipe as any).spirit    ?? 0;
+  const essence   = (recipe as any).essence   ?? 0;
+  const matter    = (recipe as any).matter    ?? 0;
+  const substance = (recipe as any).substance ?? 0;
+  const aSharp    = spirit + essence + matter + substance;
+
+  const fire  = recipe.elementalProperties?.Fire  ?? 0;
+  const water = recipe.elementalProperties?.Water ?? 0;
+  const earth = recipe.elementalProperties?.Earth ?? 0;
+  const air   = recipe.elementalProperties?.Air   ?? 0;
+
+  const { Heat, Entropy, Reactivity } = computeMonicaComponents(
+    spirit, essence, matter, substance, fire, water, earth, air
+  );
+  const monicaComponentTotal = Heat + Entropy + Reactivity;
+
+  const aSharpSegments: DonutSegment[] = (
+    [
+      { key: "Spirit"    as const, value: spirit    },
+      { key: "Essence"   as const, value: essence   },
+      { key: "Matter"    as const, value: matter    },
+      { key: "Substance" as const, value: substance },
+    ] as Array<{ key: keyof typeof ESMS_CONFIG; value: number }>
+  )
+    .filter((s) => s.value > 0)
+    .map((s) => ({ value: s.value, color: ESMS_CONFIG[s.key].color, label: ESMS_CONFIG[s.key].label }));
+
+  const monicaSegments: DonutSegment[] = (
+    [
+      { key: "Heat"       as const, value: Heat       },
+      { key: "Entropy"    as const, value: Entropy    },
+      { key: "Reactivity" as const, value: Reactivity },
+    ] as Array<{ key: keyof typeof MONICA_COMPONENT_CONFIG; value: number }>
+  )
+    .filter((s) => s.value > 0)
+    .map((s) => ({ value: s.value, color: MONICA_COMPONENT_CONFIG[s.key].color, label: MONICA_COMPONENT_CONFIG[s.key].label }));
+
+  const monicaScore  = recipe.monicaScore;
+  const monicaLabel  = recipe.monicaScoreLabel;
+  const rawMonica    = (recipe as any).monicaOptimization?.optimizedMonica as number | null | undefined;
+
+  const hasASharp = aSharp > 0;
+  const hasMonicaDisplay = monicaScore != null || monicaComponentTotal > 0;
+
+  if (!hasASharp && !hasMonicaDisplay) return null;
+
+  return (
+    <SectionCard title="Alchemical Scores" icon="\u2697\uFE0F">
+      <div className="space-y-6">
+
+        {/* ── A# gauge ── */}
+        {hasASharp && (
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <span className="text-sm font-semibold text-slate-300">A<sup className="text-amber-400">#</sup></span>
+                <span className="text-xs text-slate-500 ml-2">Alchemical Sum</span>
+              </div>
+              <span className="text-xs text-slate-500 font-mono">
+                S+E+M+Sb = <span className="text-amber-300 font-bold">{aSharp.toFixed(2)}</span>
+              </span>
+            </div>
+
+            <SegmentedDonut
+              segments={aSharpSegments}
+              centerLabel={aSharp.toFixed(1)}
+              centerSublabel="A#"
+            />
+
+            {/* ESMS value row */}
+            <div className="grid grid-cols-2 gap-1.5 mt-3">
+              {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
+                const val = prop === "Spirit" ? spirit : prop === "Essence" ? essence : prop === "Matter" ? matter : substance;
+                const cfg = ESMS_CONFIG[prop];
+                if (val === 0) return null;
+                return (
+                  <div key={prop} className="flex items-center gap-1.5 text-xs">
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
+                    <span className="text-slate-400">{cfg.label}</span>
+                    <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {hasASharp && hasMonicaDisplay && (
+          <div className="border-t border-slate-800" />
+        )}
+
+        {/* ── Monica gauge ── */}
+        {hasMonicaDisplay && (
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <span className="text-sm font-semibold text-slate-300">Monica</span>
+                <span className="text-xs text-slate-500 ml-2">Constant</span>
+              </div>
+              {rawMonica != null && (
+                <span className="text-xs text-slate-500 font-mono">
+                  M = <span className="text-indigo-300 font-bold">{rawMonica.toFixed(3)}</span>
+                </span>
+              )}
+            </div>
+
+            {monicaComponentTotal > 0 ? (
+              <>
+                <SegmentedDonut
+                  segments={monicaSegments}
+                  centerLabel={monicaScore != null ? String(Math.round(monicaScore)) : "—"}
+                  centerSublabel="/100"
+                />
+                <DonutLegend segments={monicaSegments} total={monicaComponentTotal} />
+              </>
+            ) : monicaScore != null ? (
+              // Fallback: simple single-arc gauge if components are zero
+              <div className="relative w-28 h-28 mx-auto">
+                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                  <circle cx="18" cy="18" r={15.9155} fill="none" stroke="rgb(30,41,59)" strokeWidth="3.5" />
+                  <circle
+                    cx="18" cy="18" r={15.9155}
+                    fill="none" stroke="#f59e0b" strokeWidth="3.5"
+                    strokeDasharray={`${monicaScore} ${100 - monicaScore}`}
+                    strokeDashoffset="100"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-xl font-bold text-amber-300">{Math.round(monicaScore)}</span>
+                  <span className="text-xs text-slate-500">/100</span>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Component values */}
+            {monicaComponentTotal > 0 && (
+              <div className="grid grid-cols-3 gap-1.5 mt-3">
+                {(["Heat", "Entropy", "Reactivity"] as const).map((comp) => {
+                  const val = comp === "Heat" ? Heat : comp === "Entropy" ? Entropy : Reactivity;
+                  const cfg = MONICA_COMPONENT_CONFIG[comp];
+                  return (
+                    <div key={comp} className="bg-slate-800/50 rounded-lg p-2 text-center">
+                      <div className={`text-sm font-bold ${cfg.text}`}>{val.toFixed(3)}</div>
+                      <div className="text-xs text-slate-500 mt-0.5">{cfg.label}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {monicaLabel && (
+              <p className="text-center text-xs font-medium text-amber-400/80 mt-3 italic">
+                {monicaLabel}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    </SectionCard>
+  );
+}
+
 function NutritionGrid({ nutrition }: { nutrition: Record<string, any> }) {
   const macros = [
     { label: "Calories", value: nutrition.calories, unit: "", color: "text-amber-400" },
@@ -453,8 +713,6 @@ export default function RecipePage(props: any) {
   const nutrition = getNutrition(recipe);
   const substitutions = getSubstitutions(recipe);
   const pairings = getPairingRecommendations(recipe);
-  const monicaScore = recipe.monicaScore;
-  const monicaLabel = recipe.monicaScoreLabel;
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -778,43 +1036,8 @@ export default function RecipePage(props: any) {
               </SectionCard>
             )}
 
-            {/* Monica Score */}
-            {monicaScore != null && (
-              <SectionCard title="Alchemical Score" icon="&#x2B50;">
-                <div className="text-center">
-                  <div className="relative w-24 h-24 mx-auto">
-                    <svg className="w-24 h-24 -rotate-90" viewBox="0 0 36 36">
-                      <path
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke="rgb(51,65,85)"
-                        strokeWidth="3"
-                      />
-                      <path
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke="url(#score-gradient)"
-                        strokeWidth="3"
-                        strokeDasharray={`${monicaScore}, 100`}
-                        strokeLinecap="round"
-                      />
-                      <defs>
-                        <linearGradient id="score-gradient">
-                          <stop offset="0%" stopColor="#fbbf24" />
-                          <stop offset="100%" stopColor="#f97316" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-amber-300">{Math.round(monicaScore)}</span>
-                    </div>
-                  </div>
-                  {monicaLabel && (
-                    <p className="mt-2 text-sm font-medium text-amber-400/80">{monicaLabel}</p>
-                  )}
-                </div>
-              </SectionCard>
-            )}
+            {/* Alchemical Scores: A# and Monica */}
+            <AlchemicalScoreSection recipe={recipe} />
 
             {/* Astrological Affinities */}
             {(planets.length > 0 || signs.length > 0 || lunarPhases.length > 0) && (
