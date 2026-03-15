@@ -208,8 +208,12 @@ export const vietnamese: Cuisine = {
             "protein_g": 35,
             "carbs_g": 60,
             "fat_g": 12,
-            "fiber_g": 4
-          },
+            "fiber_g": 4,
+              "sodium_mg": 742,
+              "sugar_g": 10,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "beef bones and meat",
@@ -597,8 +601,12 @@ export const vietnamese: Cuisine = {
             "protein_g": 10,
             "carbs_g": 65,
             "fat_g": 14,
-            "fiber_g": 6
-          },
+            "fiber_g": 6,
+              "sodium_mg": 526,
+              "sugar_g": 9,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "short-grain glutinous rice",
@@ -839,8 +847,12 @@ export const vietnamese: Cuisine = {
             "protein_g": 28,
             "carbs_g": 48,
             "fat_g": 24,
-            "fiber_g": 3
-          },
+            "fiber_g": 3,
+              "sodium_mg": 335,
+              "sugar_g": 16,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "pork shoulder",
@@ -1630,8 +1642,12 @@ export const vietnamese: Cuisine = {
             "protein_g": 38,
             "carbs_g": 75,
             "fat_g": 26,
-            "fiber_g": 4
-          },
+            "fiber_g": 4,
+              "sodium_mg": 479,
+              "sugar_g": 13,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "broken rice",

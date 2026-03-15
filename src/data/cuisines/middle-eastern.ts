@@ -168,8 +168,12 @@ export const middleEastern: Cuisine = {
             "protein_g": 12,
             "carbs_g": 35,
             "fat_g": 15,
-            "fiber_g": 6
-          },
+            "fiber_g": 6,
+              "sodium_mg": 381,
+              "sugar_g": 9,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "eggs",
@@ -1232,8 +1236,12 @@ export const middleEastern: Cuisine = {
             "protein_g": 16,
             "carbs_g": 65,
             "fat_g": 18,
-            "fiber_g": 12
-          },
+            "fiber_g": 12,
+              "sodium_mg": 246,
+              "sugar_g": 12,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "rice",
@@ -1555,8 +1563,12 @@ export const middleEastern: Cuisine = {
             "protein_g": 12,
             "carbs_g": 35,
             "fat_g": 22,
-            "fiber_g": 9
-          },
+            "fiber_g": 9,
+              "sodium_mg": 419,
+              "sugar_g": 2,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
 

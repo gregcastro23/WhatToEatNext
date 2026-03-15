@@ -891,8 +891,12 @@ export const japanese: Cuisine = {
             "protein_g": 20,
             "carbs_g": 55,
             "fat_g": 2,
-            "fiber_g": 1
-          },
+            "fiber_g": 1,
+              "sodium_mg": 424,
+              "sugar_g": 14,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
       ],
@@ -1125,8 +1129,12 @@ export const japanese: Cuisine = {
             "protein_g": 32,
             "carbs_g": 62,
             "fat_g": 12,
-            "fiber_g": 2
-          },
+            "fiber_g": 2,
+              "sodium_mg": 696,
+              "sugar_g": 9,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "chicken thighs",
@@ -1946,8 +1954,12 @@ export const japanese: Cuisine = {
             "protein_g": 38,
             "carbs_g": 70,
             "fat_g": 32,
-            "fiber_g": 3
-          },
+            "fiber_g": 3,
+              "sodium_mg": 515,
+              "sugar_g": 13,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {

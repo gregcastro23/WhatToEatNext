@@ -827,8 +827,12 @@ export const chinese = {
             "protein_g": 14,
             "carbs_g": 12,
             "fat_g": 24,
-            "fiber_g": 3
-          },
+            "fiber_g": 3,
+              "sodium_mg": 608,
+              "sugar_g": 16,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "ground beef",

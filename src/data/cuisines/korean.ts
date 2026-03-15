@@ -405,8 +405,12 @@ export const korean: Cuisine = {
             "protein_g": 28,
             "carbs_g": 75,
             "fat_g": 18,
-            "fiber_g": 8
-          },
+            "fiber_g": 8,
+              "sodium_mg": 308,
+              "sugar_g": 5,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -1040,8 +1044,12 @@ export const korean: Cuisine = {
             "protein_g": 35,
             "carbs_g": 22,
             "fat_g": 20,
-            "fiber_g": 2
-          },
+            "fiber_g": 2,
+              "sodium_mg": 615,
+              "sugar_g": 11,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {

@@ -1994,8 +1994,12 @@ export const indian = {
             "protein_g": 8,
             "carbs_g": 55,
             "fat_g": 20,
-            "fiber_g": 1
-          },
+            "fiber_g": 1,
+              "sodium_mg": 185,
+              "sugar_g": 29,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {

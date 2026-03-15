@@ -887,8 +887,12 @@ export const greek: Cuisine = {
             "protein_g": 32,
             "carbs_g": 35,
             "fat_g": 42,
-            "fiber_g": 6
-          },
+            "fiber_g": 6,
+              "sodium_mg": 269,
+              "sugar_g": 10,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -948,8 +952,12 @@ export const greek: Cuisine = {
             "protein_g": 14,
             "carbs_g": 28,
             "fat_g": 26,
-            "fiber_g": 4
-          },
+            "fiber_g": 4,
+              "sodium_mg": 363,
+              "sugar_g": 13,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -1300,8 +1308,12 @@ export const greek: Cuisine = {
             "protein_g": 9,
             "carbs_g": 65,
             "fat_g": 22,
-            "fiber_g": 1
-          },
+            "fiber_g": 1,
+              "sodium_mg": 111,
+              "sugar_g": 24,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -1360,8 +1372,12 @@ export const greek: Cuisine = {
             "protein_g": 14,
             "carbs_g": 45,
             "fat_g": 20,
-            "fiber_g": 12
-          },
+            "fiber_g": 12,
+              "sodium_mg": 391,
+              "sugar_g": 8,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {

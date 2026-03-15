@@ -950,8 +950,12 @@ export const italian: Cuisine = {
             "protein_g": 48,
             "carbs_g": 12,
             "fat_g": 32,
-            "fiber_g": 2
-          },
+            "fiber_g": 2,
+              "sodium_mg": 209,
+              "sugar_g": 15,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -1361,8 +1365,12 @@ export const italian: Cuisine = {
             "protein_g": 18,
             "carbs_g": 22,
             "fat_g": 35,
-            "fiber_g": 8
-          },
+            "fiber_g": 8,
+              "sodium_mg": 528,
+              "sugar_g": 14,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
       ],
@@ -1432,8 +1440,12 @@ export const italian: Cuisine = {
             "protein_g": 8,
             "carbs_g": 38,
             "fat_g": 26,
-            "fiber_g": 1
-          },
+            "fiber_g": 1,
+              "sodium_mg": 104,
+              "sugar_g": 21,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
       ],

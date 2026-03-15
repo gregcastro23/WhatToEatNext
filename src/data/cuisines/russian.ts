@@ -133,8 +133,12 @@ export const russian: Cuisine = {
             "protein_g": 22,
             "carbs_g": 35,
             "fat_g": 18,
-            "fiber_g": 1
-          },
+            "fiber_g": 1,
+              "sodium_mg": 258,
+              "sugar_g": 7,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "tvorog (farmer's cheese)",
@@ -324,8 +328,12 @@ export const russian: Cuisine = {
             "protein_g": 9,
             "carbs_g": 42,
             "fat_g": 12,
-            "fiber_g": 2
-          },
+            "fiber_g": 2,
+              "sodium_mg": 493,
+              "sugar_g": 12,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -492,8 +500,12 @@ export const russian: Cuisine = {
             "protein_g": 18,
             "carbs_g": 28,
             "fat_g": 15,
-            "fiber_g": 6
-          },
+            "fiber_g": 6,
+              "sodium_mg": 1067,
+              "sugar_g": 3,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "beef bones",

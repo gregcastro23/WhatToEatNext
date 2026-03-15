@@ -143,8 +143,12 @@ export const mexican = {
             "protein_g": 20,
             "carbs_g": 42,
             "fat_g": 28,
-            "fiber_g": 12
-          },
+            "fiber_g": 12,
+              "sodium_mg": 576,
+              "sugar_g": 4,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "eggs",
@@ -248,8 +252,12 @@ export const mexican = {
             "protein_g": 14,
             "carbs_g": 45,
             "fat_g": 26,
-            "fiber_g": 6
-          },
+            "fiber_g": 6,
+              "sodium_mg": 677,
+              "sugar_g": 7,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "stale tortillas",
@@ -884,8 +892,12 @@ export const mexican = {
             "protein_g": 38,
             "carbs_g": 45,
             "fat_g": 20,
-            "fiber_g": 8
-          },
+            "fiber_g": 8,
+              "sodium_mg": 521,
+              "sugar_g": 10,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
       ],
@@ -1596,8 +1608,12 @@ export const mexican = {
             "protein_g": 4,
             "carbs_g": 42,
             "fat_g": 15,
-            "fiber_g": 1
-          },
+            "fiber_g": 1,
+              "sodium_mg": 83,
+              "sugar_g": 26,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
       ],

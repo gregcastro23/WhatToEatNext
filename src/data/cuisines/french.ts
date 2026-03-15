@@ -2051,8 +2051,12 @@ export const french: Cuisine = {
             "protein_g": 45,
             "carbs_g": 15,
             "fat_g": 38,
-            "fiber_g": 3
-          },
+            "fiber_g": 3,
+              "sodium_mg": 526,
+              "sugar_g": 4,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "slab bacon",

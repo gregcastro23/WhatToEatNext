@@ -347,8 +347,12 @@ export const american: Cuisine = {
             "protein_g": 5,
             "carbs_g": 32,
             "fat_g": 15,
-            "fiber_g": 1
-          },
+            "fiber_g": 1,
+              "sodium_mg": 259,
+              "sugar_g": 11,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "buttermilk",
@@ -1332,8 +1336,12 @@ export const american: Cuisine = {
             "protein_g": 22,
             "carbs_g": 34,
             "fat_g": 30,
-            "fiber_g": 4
-          },
+            "fiber_g": 4,
+              "sodium_mg": 676,
+              "sugar_g": 11,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
       ],

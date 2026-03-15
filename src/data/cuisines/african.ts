@@ -815,8 +815,12 @@ export const african: Cuisine = {
             "protein_g": 9,
             "carbs_g": 85,
             "fat_g": 16,
-            "fiber_g": 5
-          },
+            "fiber_g": 5,
+              "sodium_mg": 618,
+              "sugar_g": 14,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "chicken bouillon or stock",

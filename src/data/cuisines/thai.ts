@@ -150,8 +150,12 @@ export const thai: Cuisine = {
             "protein_g": 28,
             "carbs_g": 48,
             "fat_g": 16,
-            "fiber_g": 2
-          },
+            "fiber_g": 2,
+              "sodium_mg": 433,
+              "sugar_g": 14,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": [
             {
               "original_ingredient": "ground pork",
@@ -873,8 +877,12 @@ export const thai: Cuisine = {
             "protein_g": 6,
             "carbs_g": 28,
             "fat_g": 7,
-            "fiber_g": 5
-          },
+            "fiber_g": 5,
+              "sodium_mg": 530,
+              "sugar_g": 15,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -933,8 +941,12 @@ export const thai: Cuisine = {
             "protein_g": 25,
             "carbs_g": 12,
             "fat_g": 8,
-            "fiber_g": 2
-          },
+            "fiber_g": 2,
+              "sodium_mg": 402,
+              "sugar_g": 12,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
@@ -1429,8 +1441,12 @@ export const thai: Cuisine = {
             "protein_g": 18,
             "carbs_g": 75,
             "fat_g": 22,
-            "fiber_g": 5
-          },
+            "fiber_g": 5,
+              "sodium_mg": 422,
+              "sugar_g": 9,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
           "substitutions": []
         },
         {
