@@ -10,83 +10,127 @@ export const greek: Cuisine = {
     breakfast: {
       all: [
         {
-          name: "Bougatsa",
-          description:
-            "Phyllo pastry filled with semolina custard and cinnamon",
-          cuisine: "Greek (Thessaloniki)",
-          cookingMethods: ["layering", "baking", "custard-making"],
-          tools: [
-            "baking pan",
-            "pastry brush",
-            "saucepan",
-            "whisk",
-            "mixing bowls",
-          ],
-          preparationSteps: [
-            "Prepare semolina custard and cool",
-            "Layer phyllo sheets with butter",
-            "Spread custard filling",
-            "Top with more phyllo layers",
-            "Bake until golden",
-            "Dust with cinnamon and sugar",
-          ],
-          ingredients: [
-            {
-              name: "phyllo dough",
-              amount: "12",
-              unit: "sheets",
-              category: "pastry",
-              swaps: ["gluten-free phyllo"],
-            },
-            { name: "semolina", amount: "200", unit: "g", category: "grain" },
-            {
-              name: "milk",
-              amount: "750",
-              unit: "ml",
-              category: "dairy",
-              swaps: ["almond milk"],
-            },
-            { name: "eggs", amount: "3", unit: "large", category: "protein" },
-            {
-              name: "butter",
-              amount: "100",
-              unit: "g",
-              category: "fat",
-              swaps: ["olive oil"],
-            },
-            { name: "cinnamon", amount: "2", unit: "tsp", category: "spice" },
-          ],
-          substitutions: {
-            phyllo: ["gluten-free phyllo"],
-            milk: ["almond milk", "soy milk"],
-            butter: ["olive oil"],
+          "recipe_name": "Authentic Greek Bougatsa",
+          "description": "A Northern Greek breakfast icon from Thessaloniki. It consists of multiple layers of ultra-thin phyllo pastry wrapping a warm, creamy semolina custard. It is defined by its presentation: cut into small bite-sized squares and heavily dusted with powdered sugar and cinnamon while still hot.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 30,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 8,
-          allergens: ["gluten", "dairy", "eggs"],
-          prepTime: "25 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A beloved Greek breakfast pastry with origins in Byzantine cuisine, particularly associated with Thessaloniki",
-          pairingSuggestions: ["Greek coffee", "fresh orange juice", "honey"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 10,
-            carbs: 48,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium", "Iron"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "package",
+              "name": "phyllo dough",
+              "notes": "Must be very fresh."
+            },
+            {
+              "amount": 1,
+              "unit": "liter",
+              "name": "whole milk",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fine semolina",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 150,
+              "unit": "g",
+              "name": "unsalted butter",
+              "notes": "Melted, for brushing."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "vanilla extract",
+              "notes": "Aromatic."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "powdered sugar",
+              "notes": "For heavy dusting."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ground cinnamon",
+              "notes": "For heavy dusting."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Custard. Whisk semolina, sugar, and milk in a saucepan. Cook over medium heat until thick like porridge. Stir in vanilla and 1 tbsp butter. Let cool slightly.",
+            "Step 2: The Wrap. Butter two sheets of phyllo. Place a large spoonful of custard in the center. Fold the phyllo over the custard to create a large rectangular envelope. Wrap this envelope in another 2 buttered sheets of phyllo to ensure strength.",
+            "Step 3: Bake. Place seam-side down on a baking sheet. Bake at 375°F (190°C) for 20-25 mins until deeply golden and crisp.",
+            "Step 4: Finish. While hot, use a pizza cutter to chop into 1-inch squares. Heavily dust with powdered sugar and cinnamon. Serve immediately."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "snack"
+            ],
+            "cooking_methods": [
+              "whisking",
+              "baking"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Earth: 0.5,
-            Water: 0.2,
-            Air: 0.2,
-            Fire: 0.1,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.3,
+            "earth": 0.3,
+            "air": 0.2
           },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 8,
+            "carbs_g": 48,
+            "fat_g": 18,
+            "fiber_g": 1,
+            "sodium_mg": 150,
+            "sugar_g": 22,
+            "vitamins": [
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Calcium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "semolina custard",
+              "substitute_options": [
+                "savory spiced meat (for savory Bougatsa)",
+                "feta cheese"
+              ]
+            }
+          ]
         },
         {
           "recipe_name": "Authentic Greek Yogurt with Honey and Walnuts",
@@ -193,104 +237,125 @@ export const greek: Cuisine = {
           ]
         },
         {
-          name: "Strapatsada",
-          description:
-            "Traditional scrambled eggs with tomatoes, feta, and olive oil",
-          cuisine: "Greek (Peloponnese)",
-          cookingMethods: [
-            "scrambling",
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "non-stick pan",
-            "sharp knife",
-            "grater",
-            "wooden spoon",
-            "serving plates",
-          ],
-          preparationSteps: [
-            "Grate ripe tomatoes",
-            "Heat olive oil in pan",
-            "Cook tomatoes until reduced",
-            "Add beaten eggs",
-            "Scramble until just set",
-            "Crumble feta on top",
-            "Finish with oregano",
-          ],
-          ingredients: [
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              swaps: ["tofu scramble"],
-            },
-            {
-              name: "ripe tomatoes",
-              amount: "3",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "feta cheese",
-              amount: "100",
-              unit: "g",
-              category: "dairy",
-              swaps: ["vegan feta"],
-            },
-            { name: "olive oil", amount: "3", unit: "tbsp", category: "oil" },
-            {
-              name: "dried oregano",
-              amount: "1",
-              unit: "tsp",
-              category: "herb",
-            },
-            {
-              name: "black pepper",
-              amount: "1/4",
-              unit: "tsp",
-              category: "seasoning",
-            },
-          ],
-          substitutions: {
-            eggs: ["tofu scramble", "chickpea flour mixture"],
-            feta: ["vegan feta", "nutritional yeast"],
-            tomatoes: ["canned tomatoes", "roasted red peppers"],
+          "recipe_name": "Authentic Greek Strapatsada",
+          "description": "The quintessential Greek island summer breakfast. It is an alchemical emulsion of ripe, summer tomato water and eggs. The secret is to grate the tomatoes and boil them until their water is almost completely gone, concentrating the lycopene and sweetness before the eggs are added.",
+          "details": {
+            "cuisine": "Greek",
+            "prep_time_minutes": 10,
+            "cook_time_minutes": 15,
+            "base_serving_size": 2,
+            "spice_level": "None",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 2,
-          allergens: ["eggs", "dairy"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A rustic breakfast dish that makes use of Greece's abundant tomatoes and olive oil. Popular throughout the Peloponnese region",
-          pairingSuggestions: ["crusty bread", "olives", "Greek coffee"],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 420,
-            protein: 24,
-            carbs: 12,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["A", "C", "D"],
-            minerals: ["Calcium", "Iron"],
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "vine-ripened tomatoes",
+              "notes": "Grated on a box grater, skin discarded."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Lightly beaten."
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "High quality."
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "Greek feta cheese",
+              "notes": "Crumbled."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "dried oregano",
+              "notes": "Rigani."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Reduction. Place the grated tomato pulp and olive oil in a skillet over medium-high heat. Simmer for 10-12 minutes, stirring occasionally, until all the watery juice has evaporated and you are left with a thick, fragrant tomato jam.",
+            "Step 2: The Eggs. Lower the heat to medium. Pour the beaten eggs into the tomato reduction.",
+            "Step 3: The Scramble. Stir continuously for 2-3 minutes. You want the eggs to remain soft and custardy, infused with the red oil of the tomatoes.",
+            "Step 4: The Cheese. Just before the eggs are fully set, stir in the crumbled feta and oregano. Cook for 30 more seconds so the cheese softens but doesn't melt completely.",
+            "Step 5: Serve hot over toasted country bread with a final drizzle of raw olive oil."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "lunch",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "scrambling"
+            ]
           },
-          season: ["summer", "autumn"],
-          mealType: ["breakfast", "lunch"],
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.29,
-            Earth: 0.42,
-            Air: 0.1,
+          "elemental_properties": {
+            "fire": 0.25,
+            "water": 0.35,
+            "earth": 0.3,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Leo",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 350,
+            "protein_g": 18,
+            "carbs_g": 12,
+            "fat_g": 26,
+            "fiber_g": 3,
+            "sodium_mg": 520,
+            "sugar_g": 6,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A",
+              "Lycopene"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "eggs",
+              "substitute_options": [
+                "tofu scramble (vegan)"
+              ]
+            }
+          ]
         },
       ],
       summer: [

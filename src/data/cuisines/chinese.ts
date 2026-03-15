@@ -1754,347 +1754,575 @@ export const chinese = {
           ]
         },
         {
-          name: "Kung Pao Chicken",
-          description:
-            "Spicy stir-fried dish from Sichuan featuring chicken, peanuts, vegetables, and chilis",
-          cuisine: "chinese",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.44,
-                Water: 0.09,
-                Earth: 0.15,
-                Air: 0.32,
-              },
-            },
-            "velveting",
-          ],
-          ingredients: [
-            {
-              name: "chicken thighs",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu", "tempeh"],
-            },
-            {
-              name: "dried red chilies",
-              amount: "10",
-              unit: "pieces",
-              category: "spice",
-            },
-            {
-              name: "Sichuan peppercorns",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "peanuts",
-              amount: "1/2",
-              unit: "cup",
-              category: "nut",
-              swaps: ["cashews"],
-            },
-            { name: "soy sauce", amount: "2", unit: "tbsp", category: "sauce" },
-            {
-              name: "rice vinegar",
-              amount: "1",
-              unit: "tbsp",
-              category: "acid",
-            },
-            {
-              name: "bell peppers",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "scallions",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            "chicken thighs": ["tofu", "tempeh", "seitan"],
-            peanuts: ["cashews", "almonds"],
-            "Sichuan peppercorns": ["black pepper with lime zest"],
+          "recipe_name": "Authentic Kung Pao Chicken (Gong Bao Ji Ding)",
+          "description": "A classic Sichuan stir-fry requiring intense wok hei and the precise balance of the 'lychee flavor' profile—sweet, sour, and fiercely spicy. It utilizes the 'ma la' combination of numbing Sichuan peppercorns and scorching dried chilies.",
+          "details": {
+            "cuisine": "Chinese (Sichuan)",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 10,
+            "base_serving_size": 4,
+            "spice_level": "Fiery",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["peanuts", "soy"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes",
-          nutrition: {
-            calories: 450,
-            protein: 35,
-            carbs: 18,
-            fat: 28,
-            fiber: 3,
-          },
-          timeToMake: "35 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.34,
-            Water: 0.21,
-            Earth: 0.3,
-            Air: 0.14,
-          },
-          astrologicalInfluences: [
-            "Mars - The fiery, aggressive spice",
-            "aries - The bold, direct flavors",
+          "ingredients": [
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "chicken thigh meat",
+              "notes": "Cut into 1/2 inch cubes. Dark meat is essential for juiciness."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "light soy sauce",
+              "notes": "For the marinade."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Shaoxing wine",
+              "notes": "For the marinade."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cornstarch",
+              "notes": "For 'velveting' the chicken."
+            },
+            {
+              "amount": 10,
+              "unit": "whole",
+              "name": "dried red chilies",
+              "notes": "Sniped in half, seeds shaken out."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "Sichuan peppercorns",
+              "notes": "Whole."
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Sliced."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh ginger",
+              "notes": "Sliced."
+            },
+            {
+              "amount": 4,
+              "unit": "stalks",
+              "name": "scallions",
+              "notes": "White parts only, cut into 1/2 inch rounds."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "roasted unsalted peanuts",
+              "notes": "Added at the very end to retain crunch."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "black rice vinegar (Chinkiang)",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "For the sauce."
+            }
           ],
+          "instructions": [
+            "Step 1: Velvet the chicken. Mix the chicken cubes with light soy sauce, Shaoxing wine, and cornstarch. Let sit for 15 minutes.",
+            "Step 2: Prepare the sauce. In a small bowl, mix the black vinegar, sugar, 1 tbsp light soy sauce, 1 tsp dark soy sauce, 1 tsp cornstarch, and 1 tbsp water. Stir until sugar dissolves.",
+            "Step 3: Heat the wok. Heat a wok over high heat until smoking. Add 2 tbsp of peanut oil.",
+            "Step 4: Sear the chicken. Add the chicken and stir-fry aggressively until just cooked and slightly browned. Remove from wok.",
+            "Step 5: Bloom the spices. In the remaining oil, turn heat to medium-low. Add the dried chilies and Sichuan peppercorns. Fry for 15 seconds until the chilies darken but do not burn.",
+            "Step 6: Aromatics. Add the ginger, garlic, and scallions. Stir-fry for 30 seconds until fragrant.",
+            "Step 7: Combine and glaze. Return the chicken to the wok. Give the sauce mixture a stir and pour it in. Toss vigorously over high heat until the sauce thickens and glazes the chicken (about 30 seconds).",
+            "Step 8: Finish. Turn off the heat. Stir in the roasted peanuts immediately before serving to maintain their crunch."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "stir-fry"
+            ],
+            "cooking_methods": [
+              "velveting",
+              "stir-frying"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.6,
+            "water": 0.1,
+            "earth": 0.2,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Scorpio"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 25,
+            "carbs_g": 12,
+            "fat_g": 24,
+            "fiber_g": 3,
+            "sodium_mg": 680,
+            "sugar_g": 6,
+            "vitamins": [
+              "Vitamin E",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "chicken thigh",
+              "substitute_options": [
+                "extra firm tofu cubes (vegan)",
+                "shrimp"
+              ]
+            },
+            {
+              "original_ingredient": "peanuts",
+              "substitute_options": [
+                "cashews"
+              ]
+            }
+          ]
         },
         {
-          name: "Xiaolongbao (Soup Dumplings)",
-          description:
-            "Steamed dumplings filled with meat and flavorful soup, from Shanghai",
-          cuisine: "chinese",
-          cookingMethods: [
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            "dough-making",
-            {
-              name: "folding",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.18,
-                Earth: 0.18,
-                Air: 0.61,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "ground pork",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-              swaps: ["ground chicken"],
-            },
-            {
-              name: "pork skin gelatin",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "dumpling wrappers",
-              amount: "24",
-              unit: "pieces",
-              category: "dough",
-            },
-            { name: "ginger", amount: "2", unit: "tbsp", category: "aromatic" },
-            {
-              name: "scallions",
-              amount: "3",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "Shaoxing wine",
-              amount: "1",
-              unit: "tbsp",
-              category: "wine",
-              swaps: ["dry sherry"],
-            },
-            { name: "soy sauce", amount: "2", unit: "tsp", category: "sauce" },
-          ],
-          substitutions: {
-            "ground pork": ["ground chicken", "ground beef"],
-            "pork skin gelatin": ["unflavored gelatin with chicken stock"],
-            "Shaoxing wine": ["dry sherry", "mirin"],
+          "recipe_name": "Authentic Xiaolongbao (Soup Dumplings)",
+          "description": "An architectural marvel of Shanghainese dim sum. The secret is incorporating a rich, gelatinous pork aspic (made from boiled pork skin/bones) directly into the meat filling. Upon steaming, the aspic melts, creating a pocket of scalding, savory soup trapped within a delicate, un-yeasted wheat wrapper.",
+          "details": {
+            "cuisine": "Chinese (Shanghai)",
+            "prep_time_minutes": 240,
+            "cook_time_minutes": 10,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["gluten", "soy"],
-          prepTime: "3 hours",
-          cookTime: "15 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 22,
-            carbs: 40,
-            fat: 14,
-            fiber: 3,
-          },
-          timeToMake: "3 hours 15 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.16,
-            Water: 0.42,
-            Earth: 0.33,
-            Air: 0.09,
-          },
-          astrologicalInfluences: [
-            "Neptune - The mysterious, hidden soup within",
-            "cancer - The nurturing, comforting quality",
+          "ingredients": [
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "pork skin",
+              "notes": "Boiled for hours to create the aspic."
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "ground pork",
+              "notes": "Must be relatively fatty."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Shaoxing wine",
+              "notes": "For the filling."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "light soy sauce",
+              "notes": "For the filling."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "fresh ginger",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "all-purpose flour",
+              "notes": "For the wrappers."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "warm water",
+              "notes": "To hydrate the dough."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "Chinkiang black vinegar",
+              "notes": "For the dipping sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh ginger",
+              "notes": "Finely julienned, for the dipping sauce."
+            }
           ],
+          "instructions": [
+            "Step 1: The Aspic. Boil the pork skin in water with ginger and scallion for 2-3 hours until the liquid reduces and becomes sticky. Strain and chill the liquid in the fridge until it sets into a firm, solid gelatin (aspic). Mince the solid aspic finely.",
+            "Step 2: The Filling. Vigorously mix the ground pork with soy sauce, wine, ginger, salt, and pepper until it becomes a sticky paste. Gently fold the minced aspic into the meat mixture. Keep refrigerated.",
+            "Step 3: The Dough. Mix the flour and warm water into a smooth, elastic dough. Rest for 30 minutes.",
+            "Step 4: The Wrappers. Divide dough into small 10g pieces. Roll each out into a circle, making the edges thinner than the center.",
+            "Step 5: Pleating. Place a spoonful of the cold meat/aspic filling in the center. Pleat the edges together tightly at the top (aiming for 18+ pleats) to seal completely. A leak ruins the dumpling.",
+            "Step 6: Steam. Line a bamboo steamer with perforated parchment or cabbage leaves. Steam over boiling water for 6-8 minutes until the wrappers are slightly translucent and the interior feels liquid.",
+            "Step 7: Serve immediately. To eat, place on a soup spoon, bite a tiny hole to let steam escape, slurp the soup, then dip in black vinegar and julienned ginger."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dim sum",
+              "appetizer"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "kneading",
+              "pleating",
+              "steaming"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.5,
+            "earth": 0.2,
+            "air": 0.2
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Neptune"
+            ],
+            "signs": [
+              "Cancer",
+              "Pisces"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 22,
+            "carbs_g": 35,
+            "fat_g": 20,
+            "fiber_g": 1,
+            "sodium_mg": 650,
+            "sugar_g": 2,
+            "vitamins": [
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "pork skin aspic",
+              "substitute_options": [
+                "agar agar set vegetable broth (for vegan version, using mushroom filling)"
+              ]
+            }
+          ]
         },
         {
-          name: "Sweet and Sour Pork",
-          description:
-            "Crispy battered pork in tangy pineapple and bell pepper sauce, a Cantonese classic",
-          cuisine: "chinese",
-          cookingMethods: [
+          "recipe_name": "Authentic Sweet and Sour Pork (Tang Cu Li Ji)",
+          "description": "A classic dish defined by its contrasting textures and flavors. Lean pork is coated in a heavy wet starch batter and double-fried for maximum crispness, then rapidly tossed in a bright, glossy sauce balanced precisely between sugar and black vinegar, without the heavy use of ketchup found in Westernized versions.",
+          "details": {
+            "cuisine": "Chinese",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "deep-frying",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.09,
-                Earth: 0.14,
-                Air: 0.32,
-              },
+              "amount": 400,
+              "unit": "g",
+              "name": "pork tenderloin",
+              "notes": "Cut into bite-sized chunks."
             },
             {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.48,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.35,
-              },
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "sweet potato starch or cornstarch",
+              "notes": "For the batter."
             },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "egg white",
+              "notes": "For the batter."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "Chinkiang black vinegar",
+              "notes": "Provides authentic complex sourness, not harsh white vinegar."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "light soy sauce",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Shaoxing wine",
+              "notes": "For the marinade."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "bell peppers",
+              "notes": "Cut into chunks."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "pineapple or lychee",
+              "notes": "Optional, but common for fruitiness."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "neutral oil",
+              "notes": "For deep frying."
+            }
           ],
-          ingredients: [
-            {
-              name: "pork loin",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-            },
-            { name: "pineapple", amount: "1", unit: "cup", category: "fruit" },
-            {
-              name: "bell peppers",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "rice vinegar",
-              amount: "3",
-              unit: "tbsp",
-              category: "vinegar",
-            },
-            {
-              name: "ketchup",
-              amount: "4",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "cornstarch",
-              amount: "1/2",
-              unit: "cup",
-              category: "starch",
-            },
+          "instructions": [
+            "Step 1: Marinate. Toss the pork with Shaoxing wine, a pinch of salt, and white pepper. Let sit 15 mins.",
+            "Step 2: The Batter. Mix the starch and egg white with just enough water to create a thick, sticky batter. Coat the pork pieces completely.",
+            "Step 3: The First Fry. Heat oil to 320°F (160°C). Fry the pork in batches until the coating is set and pale golden (about 4 mins). Remove and drain. This cooks the meat.",
+            "Step 4: The Second Fry (Crucial). Increase oil heat to 390°F (200°C). Return all the pork to the wok. Fry for 1 minute until deeply golden and intensely crispy. Remove and drain.",
+            "Step 5: The Sauce. Mix sugar, vinegar, soy sauce, and 1 tsp cornstarch with a splash of water.",
+            "Step 6: Combine. Leave 1 tbsp oil in the wok. Quickly stir-fry the bell peppers. Pour in the sauce mixture; it will bubble and thicken instantly.",
+            "Step 7: Glaze. Immediately toss the crispy pork into the thickened sauce. Toss rapidly to coat, then remove from heat immediately so the crust doesn't become soggy. Serve."
           ],
-          substitutions: {
-            "pork loin": ["chicken breast", "tofu"],
-            pineapple: ["mango"],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "stir-fry"
+            ],
+            "cooking_methods": [
+              "deep-frying",
+              "stir-frying"
+            ]
           },
-          servingSize: 4,
-          allergens: [],
-          prepTime: "25 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 28,
-            carbs: 38,
-            fat: 18,
-            fiber: 2,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.2,
+            "earth": 0.2,
+            "air": 0.2
           },
-          timeToMake: "45 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.2,
-            Earth: 0.3,
-            Air: 0.15,
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 26,
+            "carbs_g": 35,
+            "fat_g": 26,
+            "fiber_g": 2,
+            "sodium_mg": 550,
+            "sugar_g": 18,
+            "vitamins": [
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "pork tenderloin",
+              "substitute_options": [
+                "chicken breast",
+                "cauliflower florets (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Beef with Broccoli",
-          description:
-            "Tender sliced beef stir-fried with fresh broccoli in savory oyster sauce",
-          cuisine: "chinese",
-          cookingMethods: [
+          "recipe_name": "Authentic Beef with Broccoli",
+          "description": "A staple of Chinese-American cuisine relying on the 'velveting' technique (passing meat through oil or water after an alkaline marinade) to render tough cuts of beef incredibly tender, contrasting with the bright crunch of briefly blanched broccoli.",
+          "details": {
+            "cuisine": "Chinese-American",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 10,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.48,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.35,
-              },
+              "amount": 400,
+              "unit": "g",
+              "name": "flank steak",
+              "notes": "Sliced thinly against the grain."
             },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "baking soda",
+              "notes": "For the velveting marinade. Tenderizes the meat fibers."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "cornstarch",
+              "notes": "For the marinade, creates a protective coating."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Shaoxing wine",
+              "notes": "For the marinade."
+            },
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "broccoli florets",
+              "notes": "Cut into uniform bite-sized pieces."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "oyster sauce",
+              "notes": "The primary flavor of the brown sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "light soy sauce",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "dark soy sauce",
+              "notes": "For color."
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh ginger",
+              "notes": "Minced."
+            }
           ],
-          ingredients: [
-            {
-              name: "beef sirloin",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "broccoli",
-              amount: "4",
-              unit: "cups",
-              category: "vegetable",
-            },
-            {
-              name: "oyster sauce",
-              amount: "3",
-              unit: "tbsp",
-              category: "sauce",
-            },
-            {
-              name: "soy sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "garlic",
-              amount: "4",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "ginger", amount: "1", unit: "inch", category: "spice" },
+          "instructions": [
+            "Step 1: Velvet the beef. Toss the sliced beef with baking soda, cornstarch, Shaoxing wine, and a splash of water. Let marinate for 20-30 minutes.",
+            "Step 2: Blanch broccoli. Bring a pot of water to a boil with a pinch of salt and a drop of oil. Blanch the broccoli for exactly 60 seconds. Drain and rinse under cold water to stop the cooking. It must remain bright green and crunchy.",
+            "Step 3: Prepare the sauce. Whisk the oyster sauce, light soy, dark soy, 1 tsp cornstarch, and 1/3 cup of water or broth.",
+            "Step 4: Sear the beef. Heat a wok with 2 tbsp oil over high heat. Add the beef. Spread it out and let it sear without moving for 30 seconds, then stir-fry until just browned. Remove beef from wok.",
+            "Step 5: Aromatics. In the remaining oil, stir-fry the garlic and ginger for 15 seconds.",
+            "Step 6: Combine. Return the beef and add the blanched broccoli to the wok. Give the sauce a stir and pour it over. Toss continuously over high heat for 1 minute until the sauce thickens into a glossy glaze coating the meat and vegetables. Serve immediately over rice."
           ],
-          substitutions: {
-            "beef sirloin": ["chicken", "tofu"],
-            broccoli: ["gai lan", "bok choy"],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "stir-fry"
+            ],
+            "cooking_methods": [
+              "velveting",
+              "blanching",
+              "stir-frying"
+            ]
           },
-          servingSize: 4,
-          allergens: ["soy", "shellfish"],
-          prepTime: "15 minutes",
-          cookTime: "10 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 35,
-            carbs: 15,
-            fat: 20,
-            fiber: 4,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.2,
+            "earth": 0.35,
+            "air": 0.1
           },
-          timeToMake: "25 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.4,
-            Water: 0.15,
-            Earth: 0.35,
-            Air: 0.1,
+          "astrological_affinities": {
+            "planets": [
+              "Earth",
+              "Mars"
+            ],
+            "signs": [
+              "Taurus",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 26,
+            "carbs_g": 18,
+            "fat_g": 16,
+            "fiber_g": 4,
+            "sodium_mg": 850,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "flank steak",
+              "substitute_options": [
+                "chicken breast",
+                "seitan (vegan, omit oyster sauce for mushroom stir-fry sauce)"
+              ]
+            }
+          ]
         },
       ],
       spring: [],
@@ -2105,466 +2333,635 @@ export const chinese = {
     dessert: {
       all: [
         {
-          name: "Egg Custard Tarts",
-          description:
-            "Flaky pastry shells filled with silky smooth egg custard, popular in Canton and Hong Kong",
-          cuisine: "chinese",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "pastry-making",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.13,
-                Earth: 0.37,
-                Air: 0.31,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "pastry dough",
-              amount: "1",
-              unit: "recipe",
-              category: "dough",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.1,
-                Earth: 0.55,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "evaporated milk",
-              amount: "1",
-              unit: "cup",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sugar",
-              amount: "100",
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "vanilla extract",
-              amount: "1",
-              unit: "tsp",
-              category: "flavoring",
-            },
-          ],
-          substitutions: {
-            "pastry dough": ["puff pastry", "shortcrust pastry"],
-            "evaporated milk": ["whole milk", "half-and-half"],
+          "recipe_name": "Authentic Egg Custard Tarts (Dan Tat)",
+          "description": "A staple of Cantonese dim sum, combining Western pastry techniques with Chinese custard. The crust must be a highly laminated, flaky puff pastry (or a shortcrust cookie base in some regions), cradling a glassy, barely-set, brilliant yellow egg custard.",
+          "details": {
+            "cuisine": "Chinese (Cantonese)",
+            "prep_time_minutes": 120,
+            "cook_time_minutes": 20,
+            "base_serving_size": 12,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 12,
-          allergens: ["eggs", "dairy", "gluten"],
-          prepTime: "45 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 220,
-            protein: 5,
-            carbs: 28,
-            fat: 10,
-            fiber: 3,
-          },
-          timeToMake: "65 minutes",
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.26,
-            Earth: 0.39,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Venus - The rich, indulgent quality",
-            "taurus - The sensual, grounded experience",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "sheet",
+              "name": "puff pastry or shortcrust pastry",
+              "notes": "Rolled and cut to fit tartlet tins."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "hot water",
+              "notes": "To dissolve the sugar."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "evaporated milk",
+              "notes": "Provides richness without the heaviness of cream."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Beaten gently."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "pure vanilla extract",
+              "notes": "Optional, but common."
+            }
           ],
+          "instructions": [
+            "Step 1: The Syrup. Dissolve the sugar in the hot water. Let it cool completely to room temperature. If you pour hot syrup into eggs, they will scramble.",
+            "Step 2: The Custard Base. In a bowl, whisk the eggs, evaporated milk, and vanilla. Slowly pour in the cooled sugar syrup while whisking.",
+            "Step 3: The Strain (Crucial). Strain the custard mixture through a fine-mesh sieve into a pouring jug. This removes chalazae and any unmixed egg white, ensuring a glass-smooth set.",
+            "Step 4: Prep the tins. Preheat oven to 400°F (200°C). Press the pastry circles into individual metal tartlet tins.",
+            "Step 5: Fill. Pour the custard into the pastry shells, filling them about 80% full.",
+            "Step 6: Bake Phase 1. Bake for 10-12 minutes until the edges of the pastry begin to brown.",
+            "Step 7: Bake Phase 2. Reduce the oven temperature to 350°F (175°C). Crack the oven door open slightly (to prevent the custard from boiling and puffing up, which ruins the smooth surface). Bake for another 10 minutes until the custard is just set but still jiggles in the center.",
+            "Step 8: Cool slightly before unmolding. They are best served warm."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dim sum",
+              "dessert",
+              "baking"
+            ],
+            "cooking_methods": [
+              "whisking",
+              "baking"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.35,
+            "earth": 0.25,
+            "air": 0.25
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 210,
+            "protein_g": 4,
+            "carbs_g": 22,
+            "fat_g": 12,
+            "fiber_g": 0,
+            "sodium_mg": 110,
+            "sugar_g": 10,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin D"
+            ],
+            "minerals": [
+              "Calcium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "evaporated milk",
+              "substitute_options": [
+                "whole milk (custard will be slightly less rich)"
+              ]
+            }
+          ]
         },
         {
-          name: "Eight Treasure Rice Pudding",
-          description:
-            "Glutinous rice dessert filled with sweet red bean paste and topped with dried fruits and nuts",
-          cuisine: "chinese",
-          cookingMethods: [
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "glutinous rice",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "red bean paste",
-              amount: "1",
-              unit: "cup",
-              category: "filling",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "dried fruits",
-              amount: "1",
-              unit: "cup",
-              category: "fruit",
-              notes: "various types",
-            },
-            {
-              name: "nuts",
-              amount: "1/2",
-              unit: "cup",
-              category: "nut",
-              notes: "various types",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "sugar",
-              amount: "1/4",
-              unit: "cup",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "lard",
-              amount: "2",
-              unit: "tbsp",
-              category: "fat",
-              swaps: ["vegetable shortening"],
-            },
-          ],
-          substitutions: {
-            lard: ["vegetable shortening", "coconut oil"],
-            "red bean paste": ["lotus seed paste", "date paste"],
-            "glutinous rice": ["sushi rice"],
+          "recipe_name": "Authentic Eight Treasure Rice Pudding (Ba Bao Fan)",
+          "description": "A highly decorative, ceremonial dessert served at Lunar New Year. Sticky glutinous rice is steamed with sugar and lard/oil, then molded in a bowl lined with exactly eight types of dried fruits, nuts, and seeds (representing fortune), filled with red bean paste, and steamed again to set the structure.",
+          "details": {
+            "cuisine": "Chinese",
+            "prep_time_minutes": 240,
+            "cook_time_minutes": 45,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "winter",
+              "celebration"
+            ]
           },
-          servingSize: 8,
-          allergens: ["tree nuts"],
-          prepTime: "30 minutes",
-          cookTime: "1 hour",
-          nutrition: {
-            calories: 380,
-            protein: 6,
-            carbs: 75,
-            fat: 8,
-            fiber: 3,
-          },
-          timeToMake: "1 hour 30 minutes",
-          season: ["winter", "lunar new year"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.18,
-            Water: 0.28,
-            Earth: 0.41,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Jupiter - The abundance and prosperity symbolism",
-            "Venus - The sweet, luxurious nature",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "short-grain glutinous rice (sweet rice)",
+              "notes": "Soaked overnight."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "pork lard or coconut oil",
+              "notes": "Mixed into the cooked rice for gloss and flavor."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "Mixed into the cooked rice."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "sweetened red bean paste",
+              "notes": "The hidden center."
+            },
+            {
+              "amount": 8,
+              "unit": "types",
+              "name": "dried fruits and nuts ('Treasures')",
+              "notes": "E.g., jujubes (red dates), lotus seeds, goji berries, candied winter melon, pumpkin seeds, walnuts, raisins, dried apricots."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "water",
+              "notes": "For the finishing syrup."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "For the finishing syrup."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cornstarch",
+              "notes": "For the finishing syrup."
+            }
           ],
+          "instructions": [
+            "Step 1: Steam the rice. Drain the soaked sticky rice. Steam it in a basket lined with cheesecloth for 30 minutes until fully cooked and translucent.",
+            "Step 2: Season the rice. While the rice is still piping hot, transfer it to a bowl and fold in the lard/coconut oil and 1/2 cup sugar until completely absorbed and glossy.",
+            "Step 3: The Architecture. Generously grease a medium-sized, heatproof, dome-shaped bowl. Arrange the 'eight treasures' (dried fruits and nuts) in a decorative, geometric pattern on the bottom and sides of the bowl. This will be the top when unmolded.",
+            "Step 4: Layering. Carefully press a layer of the warm sticky rice into the bowl over the decorations, making a well in the center.",
+            "Step 5: The Center. Fill the well with the red bean paste.",
+            "Step 6: Seal. Cover the bean paste with the remaining sticky rice, pressing down firmly to compact the entire pudding so it holds its shape.",
+            "Step 7: Second Steam. Place the bowl back into the steamer and steam for another 15 minutes to fuse everything together.",
+            "Step 8: The Glaze. While steaming, boil the water, 2 tbsp sugar, and cornstarch slurry to make a clear, sweet glaze.",
+            "Step 9: Unmold and Serve. Invert a serving plate over the bowl and carefully flip it over. Lift off the bowl to reveal the jewel-encrusted dome. Pour the clear glaze over the top and serve hot."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "holiday",
+              "sweet"
+            ],
+            "cooking_methods": [
+              "steaming",
+              "molding"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.3,
+            "earth": 0.5,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Jupiter",
+              "Venus"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 6,
+            "carbs_g": 85,
+            "fat_g": 8,
+            "fiber_g": 4,
+            "sodium_mg": 10,
+            "sugar_g": 35,
+            "vitamins": [
+              "Vitamin C",
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "pork lard",
+              "substitute_options": [
+                "coconut oil (vegan)"
+              ]
+            },
+            {
+              "original_ingredient": "red bean paste",
+              "substitute_options": [
+                "lotus seed paste",
+                "black sesame paste"
+              ]
+            }
+          ]
         },
         {
-          name: "Mango Pomelo Sago",
-          description:
-            "Refreshing Hong Kong dessert with fresh mangoes, pomelo segments, and tapioca pearls in sweetened coconut milk",
-          cuisine: "chinese",
-          cookingMethods: [
-            {
-              name: "chilling",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.54,
-                Earth: 0.15,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "ripe mangoes",
-              amount: "2",
-              unit: "large",
-              category: "fruit",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.5,
-                Earth: 0.15,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pomelo",
-              amount: "1/2",
-              unit: "medium",
-              category: "fruit",
-              swaps: ["grapefruit"],
-            },
-            {
-              name: "sago pearls",
-              amount: "1/4",
-              unit: "cup",
-              category: "grain",
-              swaps: ["tapioca pearls"],
-            },
-            {
-              name: "coconut milk",
-              amount: "1",
-              unit: "cup",
-              category: "liquid",
-            },
-            { name: "sugar", amount: "3", unit: "tbsp", category: "sweetener" },
-            {
-              name: "condensed milk",
-              amount: "2",
-              unit: "tbsp",
-              category: "dairy",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            pomelo: ["grapefruit", "orange"],
-            "sago pearls": ["tapioca pearls", "chia seeds"],
-            "coconut milk": ["half-and-half", "almond milk"],
+          "recipe_name": "Authentic Mango Pomelo Sago",
+          "description": "A modern Hong Kong dessert soup utilizing suspended carbohydrate pearls (sago) in a tropical fluid matrix. The alchemy involves balancing the thick, sweet puree of mango and coconut milk with the acidic, bursting vesicles of pomelo citrus.",
+          "details": {
+            "cuisine": "Chinese (Hong Kong)",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy (if using condensed milk)"],
-          prepTime: "20 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 280,
-            protein: 3,
-            carbs: 45,
-            fat: 12,
-            fiber: 3,
-          },
-          timeToMake: "40 minutes plus chilling",
-          season: ["summer"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.6,
-            Earth: 0.11,
-            Air: 0.08,
-          },
-          astrologicalInfluences: [
-            "Moon - The cooling, refreshing quality",
-            "Venus - The sweet, tropical indulgence",
+          "ingredients": [
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "small sago pearls (tapioca pearls)",
+              "notes": "Must be boiled until translucent."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "ripe mangoes",
+              "notes": "Two pureed, one diced for texture."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "coconut milk",
+              "notes": "Provides richness."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "evaporated milk",
+              "notes": "Thins the puree and adds dairy sweetness."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "simple syrup or condensed milk",
+              "notes": "To taste, depending on the sweetness of the mangoes."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "pomelo segments",
+              "notes": "Separated into individual teardrop-shaped vesicles (juice sacs). Grapefruit can be used if pomelo is unavailable."
+            }
           ],
+          "instructions": [
+            "Step 1: Boil the Sago. Bring a large pot of water to a rolling boil. Stir in the sago pearls. Boil for 10 minutes. Turn off the heat, cover, and let sit for another 10 minutes until the pearls are completely translucent with no white dots in the center.",
+            "Step 2: Rinse. Drain the sago in a fine-mesh sieve and rinse thoroughly under cold running water to remove the excess starch. This stops the cooking and prevents them from clumping. Set aside in a bowl of cold water.",
+            "Step 3: The Puree. Cube the flesh of two mangoes. Place them in a blender with the coconut milk, evaporated milk, and simple syrup. Blend until completely smooth and thick.",
+            "Step 4: Prep the texture. Dice the remaining mango. Carefully separate the pomelo flesh into individual little sacs.",
+            "Step 5: Assemble. In a large serving bowl or individual glasses, combine the chilled mango puree, the drained sago pearls, the diced mango, and the pomelo sacs.",
+            "Step 6: Chill. Stir gently to combine. Refrigerate for at least 1 hour before serving. It must be served ice cold."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "soup",
+              "sweet"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "blending",
+              "chilling"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.05,
+            "water": 0.65,
+            "earth": 0.2,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Pisces"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 4,
+            "carbs_g": 52,
+            "fat_g": 12,
+            "fiber_g": 4,
+            "sodium_mg": 45,
+            "sugar_g": 38,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "pomelo",
+              "substitute_options": [
+                "pink grapefruit"
+              ]
+            },
+            {
+              "original_ingredient": "evaporated milk",
+              "substitute_options": [
+                "extra coconut milk or almond milk (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Sesame Balls",
-          description:
-            "Crispy fried glutinous rice balls filled with sweet red bean paste, coated in sesame seeds",
-          cuisine: "chinese",
-          cookingMethods: [
+          "recipe_name": "Authentic Sesame Balls (Jian Dui)",
+          "description": "A masterpiece of deep-fried pastry physics. A dough made of glutinous rice flour expands drastically when fried, creating a massive, hollow, balloon-like interior lined with chewy mochi, encasing a small center of sweet red bean paste, with a rigid, seed-crusted exterior.",
+          "details": {
+            "cuisine": "Chinese",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "deep-frying",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.09,
-                Earth: 0.14,
-                Air: 0.32,
-              },
+              "amount": 2,
+              "unit": "cups",
+              "name": "glutinous rice flour (sweet rice flour)",
+              "notes": "Essential for the chewy texture and expansion."
             },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "brown sugar or slab sugar",
+              "notes": "Dissolved in boiling water to bind the dough."
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "boiling water",
+              "notes": "Must be hot to partially cook the rice flour during mixing."
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "sweetened red bean paste",
+              "notes": "Rolled into small balls for the filling."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "white sesame seeds",
+              "notes": "For coating."
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "neutral oil",
+              "notes": "For deep frying."
+            }
           ],
-          ingredients: [
-            {
-              name: "glutinous rice flour",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-            },
-            {
-              name: "red bean paste",
-              amount: "1",
-              unit: "cup",
-              category: "filling",
-            },
-            {
-              name: "sesame seeds",
-              amount: "1/2",
-              unit: "cup",
-              category: "coating",
-            },
-            {
-              name: "sugar",
-              amount: "1/2",
-              unit: "cup",
-              category: "sweetener",
-            },
-            {
-              name: "vegetable oil",
-              amount: "4",
-              unit: "cups",
-              category: "oil",
-            },
+          "instructions": [
+            "Step 1: The Syrup. Dissolve the sugar in the boiling water.",
+            "Step 2: The Dough. Place the glutinous rice flour in a bowl. Slowly pour the hot sugar water into the flour, stirring continuously with chopsticks. Once cool enough to handle, knead it into a smooth, pliable dough. If it's too crumbly, add a teaspoon of hot water; if too sticky, add a little flour.",
+            "Step 3: Shaping. Pinch off a ping-pong sized piece of dough. Roll it into a ball, then use your thumb to press a deep indentation into it, forming a cup.",
+            "Step 4: Filling. Place a small ball of red bean paste into the cup. Carefully pinch the dough closed around the filling and roll it between your palms until perfectly smooth. There must be NO cracks, or they will explode in the oil.",
+            "Step 5: Coating. Dip the dough ball very quickly into a bowl of water, then roll it in the sesame seeds, pressing firmly so the seeds adhere to the dough.",
+            "Step 6: The Fry (Crucial Technique). Heat the oil to only 275°F-300°F (135°C-150°C). It must be a low temperature to start. Carefully drop the balls in.",
+            "Step 7: The Expansion. As they fry, they will begin to float. Use a spatula to gently but firmly press the balls down against the side of the wok. This pressing action forces the air inside to expand, causing the ball to balloon up to 3 times its original size.",
+            "Step 8: Finish. Once they are fully expanded and golden brown, increase the heat for 30 seconds to crisp the outside. Remove and drain."
           ],
-          substitutions: {
-            "red bean paste": ["lotus seed paste", "black sesame paste"],
+          "classifications": {
+            "meal_type": [
+              "dim sum",
+              "dessert",
+              "snack",
+              "vegan"
+            ],
+            "cooking_methods": [
+              "kneading",
+              "filling",
+              "deep-frying"
+            ]
           },
-          servingSize: 12,
-          allergens: ["sesame"],
-          prepTime: "30 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 180,
-            protein: 3,
-            carbs: 32,
-            fat: 6,
-            fiber: 2,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.1,
+            "earth": 0.3,
+            "air": 0.2
           },
-          timeToMake: "50 minutes",
-          season: ["all"],
-          mealType: ["dessert", "snack"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.15,
-            Earth: 0.35,
-            Air: 0.15,
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Uranus"
+            ],
+            "signs": [
+              "Taurus",
+              "Aquarius"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 6,
+            "carbs_g": 52,
+            "fat_g": 18,
+            "fiber_g": 3,
+            "sodium_mg": 10,
+            "sugar_g": 24,
+            "vitamins": [
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "red bean paste",
+              "substitute_options": [
+                "lotus seed paste",
+                "black sesame paste"
+              ]
+            }
+          ]
         },
         {
-          name: "Tangyuan",
-          description:
-            "Sweet glutinous rice balls in ginger syrup, traditionally eaten during Lantern Festival",
-          cuisine: "chinese",
-          cookingMethods: [
+          "recipe_name": "Authentic Tangyuan (Glutinous Rice Balls in Syrup)",
+          "description": "A ceremonial dessert eaten during the Lantern Festival symbolizing family unity. The alchemy involves creating an emulsion of black sesame, sugar, and solid fat (lard), freezing it, and wrapping it in glutinous rice dough. When boiled, the fat melts, creating a liquid, molten lava center within a chewy mochi-like shell.",
+          "details": {
+            "cuisine": "Chinese",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 10,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "winter",
+              "celebration"
+            ]
+          },
+          "ingredients": [
             {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "black sesame seeds",
+              "notes": "Toasted and ground into a fine powder."
             },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the filling."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "pork lard or solid coconut oil",
+              "notes": "Crucial. Must be solid at room temperature to create the molten center effect."
+            },
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "glutinous rice flour",
+              "notes": "For the dough."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "warm water",
+              "notes": "To hydrate the dough."
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "water",
+              "notes": "For the soup base."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "rock sugar or osmanthus syrup",
+              "notes": "To sweeten the soup base."
+            },
+            {
+              "amount": 1,
+              "unit": "piece",
+              "name": "fresh ginger",
+              "notes": "Sliced, infused into the soup base."
+            }
           ],
-          ingredients: [
-            {
-              name: "glutinous rice flour",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-            },
-            {
-              name: "black sesame paste",
-              amount: "1/2",
-              unit: "cup",
-              category: "filling",
-            },
-            { name: "ginger", amount: "3", unit: "inches", category: "spice" },
-            {
-              name: "rock sugar",
-              amount: "1/2",
-              unit: "cup",
-              category: "sweetener",
-            },
-            { name: "water", amount: "6", unit: "cups", category: "liquid" },
+          "instructions": [
+            "Step 1: The Molten Filling. In a food processor, blend the toasted black sesame seeds and sugar into a paste. Add the solid lard (or coconut oil) and pulse until it forms a cohesive, fatty dough. Roll this mixture into small, marble-sized balls. Freeze them for 30 minutes until rock solid.",
+            "Step 2: The Dough. Mix the glutinous rice flour and warm water. Knead into a smooth, play-dough-like consistency. It should not stick to your hands.",
+            "Step 3: Wrapping. Pinch off a piece of dough slightly larger than the filling balls. Flatten it into a disc. Place a frozen sesame ball in the center. Carefully stretch and pinch the dough around the filling to seal it completely. Roll it smoothly between your palms.",
+            "Step 4: The Soup. In a pot, bring the 4 cups of water, rock sugar, and ginger slices to a boil. Simmer for 5 minutes to infuse the ginger.",
+            "Step 5: Boil the Tangyuan. Gently drop the filled rice balls into the gently boiling soup. Stir carefully to prevent them from sticking to the bottom.",
+            "Step 6: The Float. Cook until the balls float to the surface (about 3-5 minutes), then simmer for 1 more minute to ensure the fat inside has melted into liquid.",
+            "Step 7: Serve hot. Place 3-4 balls in a small bowl and ladle the sweet ginger broth over them. Warn diners that the center is molten hot."
           ],
-          substitutions: {
-            "black sesame paste": ["peanut butter", "red bean paste"],
-            "rock sugar": ["brown sugar"],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "sweet",
+              "holiday"
+            ],
+            "cooking_methods": [
+              "freezing",
+              "kneading",
+              "boiling"
+            ]
           },
-          servingSize: 6,
-          allergens: ["sesame"],
-          prepTime: "40 minutes",
-          cookTime: "15 minutes",
-          nutrition: {
-            calories: 220,
-            protein: 4,
-            carbs: 42,
-            fat: 5,
-            fiber: 1,
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.5,
+            "earth": 0.3,
+            "air": 0.1
           },
-          timeToMake: "55 minutes",
-          season: ["winter"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.1,
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Libra"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 350,
+            "protein_g": 6,
+            "carbs_g": 45,
+            "fat_g": 16,
+            "fiber_g": 3,
+            "sodium_mg": 5,
+            "sugar_g": 18,
+            "vitamins": [
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "pork lard",
+              "substitute_options": [
+                "coconut oil (solid, refined to avoid strong coconut flavor)",
+                "butter"
+              ]
+            },
+            {
+              "original_ingredient": "black sesame",
+              "substitute_options": [
+                "crushed peanuts",
+                "red bean paste (no fat required for this)"
+              ]
+            }
+          ]
         },
       ],
       spring: [],
