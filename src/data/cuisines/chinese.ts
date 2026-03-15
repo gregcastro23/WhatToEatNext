@@ -2324,7 +2324,399 @@ export const chinese = {
             }
           ]
         },
-      ],
+            {
+              "name": "Authentic Lion's Head Meatballs",
+              "description": "Huaiyang's structural masterpiece. Massive, airy pork meatballs are gently braised in a clear broth with cabbage leaves, designed to resemble a lion's head and mane, achieving a 'melt-in-mouth' texture through high fat content and minimal binding.",
+              "details": {
+                "cuisine": "Chinese (Huaiyang)",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 90,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "winter"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Pork belly",
+                  "notes": "Hand-chopped into 3mm cubes."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "lb",
+                  "name": "Napa cabbage",
+                  "notes": "Large leaves."
+                }
+              ],
+              "instructions": [
+                "Step 1: Hand-chop pork to maintain texture.",
+                "Step 2: Gently mix with water chestnuts and aromatics.",
+                "Step 3: Form into 4 massive spheres.",
+                "Step 4: Briefly sear, then cover with cabbage leaves.",
+                "Step 5: Braise in clear stock for 1.5 hours."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "braising"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.45,
+                "Earth": 0.3,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Moon"
+                ],
+                "signs": [
+                  "cancer"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 580,
+                "proteinG": 22,
+                "carbsG": 8,
+                "fatG": 52,
+                "fiberG": 3,
+                "sodiumMg": 750,
+                "sugarG": 2,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Zinc"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Scallion Oil Noodles",
+              "description": "The essence of Shanghai. A study in aromatic extraction where scallions are slowly fried in oil until charred and brittle, creating a deep, umami-rich base for perfectly chewy wheat noodles.",
+              "details": {
+                "cuisine": "Chinese (Shanghai)",
+                "prepTimeMinutes": 5,
+                "cookTimeMinutes": 15,
+                "baseServingSize": 2,
+                "spiceLevel": "None",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "portions",
+                  "name": "Fresh wheat noodles",
+                  "notes": "Thin."
+                },
+                {
+                  "amount": 1,
+                  "unit": "bunch",
+                  "name": "Scallions",
+                  "notes": "Whites and greens separated."
+                }
+              ],
+              "instructions": [
+                "Step 1: Fry scallion whites in oil until golden.",
+                "Step 2: Add greens and fry until dark brown and brittle.",
+                "Step 3: Remove scallions; stir soy sauce and sugar into oil.",
+                "Step 4: Boil noodles until al dente.",
+                "Step 5: Toss noodles in the aromatic oil; top with crispy scallions."
+              ],
+              "classifications": {
+                "mealType": [
+                  "lunch",
+                  "breakfast"
+                ],
+                "cookingMethods": [
+                  "infusing",
+                  "boiling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.3,
+                "Water": 0.1,
+                "Earth": 0.4,
+                "Air": 0.2
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mercury"
+                ],
+                "signs": [
+                  "gemini"
+                ],
+                "lunarPhases": [
+                  "New Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 450,
+                "proteinG": 12,
+                "carbsG": 65,
+                "fatG": 24,
+                "fiberG": 3,
+                "sodiumMg": 950,
+                "sugarG": 5,
+                "vitamins": [
+                  "Vitamin B6"
+                ],
+                "minerals": [
+                  "Manganese"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Biang Biang Noodles",
+              "description": "The architectural giant of Shaanxi. Massive, belt-thick noodles are hand-pulled and 'biang-ed' against the counter, then topped with raw garlic and chili flakes which are violently flash-cooked by a pour of smoking hot oil.",
+              "details": {
+                "cuisine": "Chinese (Shaanxi)",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 5,
+                "baseServingSize": 2,
+                "spiceLevel": "High",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "cups",
+                  "name": "High-gluten flour",
+                  "notes": "For elasticity."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "cup",
+                  "name": "Chili flakes",
+                  "notes": "Coarse."
+                }
+              ],
+              "instructions": [
+                "Step 1: Knead a high-hydration dough until elastic.",
+                "Step 2: Roll and pull into wide belts, slapping the counter.",
+                "Step 3: Boil belts for 2 minutes.",
+                "Step 4: Top with raw garlic, scallions, and chili flakes.",
+                "Step 5: Pour 400°F oil directly onto the spices."
+              ],
+              "classifications": {
+                "mealType": [
+                  "lunch",
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "pulling",
+                  "boiling",
+                  "flash-frying"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.5,
+                "Water": 0.15,
+                "Earth": 0.25,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mars",
+                  "Jupiter"
+                ],
+                "signs": [
+                  "aries",
+                  "sagittarius"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 520,
+                "proteinG": 14,
+                "carbsG": 75,
+                "fatG": 22,
+                "fiberG": 4,
+                "sodiumMg": 850,
+                "sugarG": 2,
+                "vitamins": [
+                  "Niacin"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Squirrel-Shaped Mandarin Fish",
+              "description": "A triumph of Suzhou knife work and temperature control. A whole fish is carved into deep diamonds that expand like fur when deep-fried, then drenched in a vibrant, high-viscosity sweet and sour sauce.",
+              "details": {
+                "cuisine": "Chinese (Jiangsu)",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 10,
+                "baseServingSize": 2,
+                "spiceLevel": "None",
+                "season": [
+                  "spring"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "whole",
+                  "name": "Mandarin fish",
+                  "notes": "Deboned but head/tail intact."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Tomato sauce/Vinegar",
+                  "notes": "For the glaze."
+                }
+              ],
+              "instructions": [
+                "Step 1: Execute 45-degree diamond cuts on the fillets.",
+                "Step 2: Dredge in starch, ensuring it enters all cuts.",
+                "Step 3: Deep fry until the diamond cubes fan out.",
+                "Step 4: Prepare a high-gloss sweet and sour sauce.",
+                "Step 5: Pour sauce over the 'furry' fish while hot."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner",
+                  "celebration"
+                ],
+                "cookingMethods": [
+                  "deep-frying",
+                  "knife-work"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.4,
+                "Water": 0.25,
+                "Earth": 0.15,
+                "Air": 0.2
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Venus"
+                ],
+                "signs": [
+                  "libra"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 480,
+                "proteinG": 32,
+                "carbsG": 45,
+                "fatG": 18,
+                "fiberG": 1,
+                "sodiumMg": 650,
+                "sugarG": 32,
+                "vitamins": [
+                  "Vitamin C"
+                ],
+                "minerals": [
+                  "Selenium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Dongpo Pork",
+              "description": "The alchemical reduction of Hangzhou. Thick cubes of pork belly are slow-braised in a dark, aromatic matrix of Shaoxing wine and soy sauce until the fat becomes purely structural jelly and the meat can be eaten with a spoon.",
+              "details": {
+                "cuisine": "Chinese (Zhejiang)",
+                "prepTimeMinutes": 15,
+                "cookTimeMinutes": 180,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "winter"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "lbs",
+                  "name": "Pork belly",
+                  "notes": "Skin-on."
+                },
+                {
+                  "amount": 2,
+                  "unit": "cups",
+                  "name": "Shaoxing wine",
+                  "notes": "High quality."
+                }
+              ],
+              "instructions": [
+                "Step 1: Blanch pork belly and cut into massive cubes.",
+                "Step 2: Tie with twine to maintain structural shape.",
+                "Step 3: Place skin-side down on ginger and scallions.",
+                "Step 4: Cover with wine and soy; simmer for 3 hours.",
+                "Step 5: Steam for final 30 minutes to render fat to jelly."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "braising",
+                  "steaming"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.1,
+                "Water": 0.45,
+                "Earth": 0.4,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Saturn",
+                  "Moon"
+                ],
+                "signs": [
+                  "capricorn",
+                  "cancer"
+                ],
+                "lunarPhases": [
+                  "Waning Gibbous"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 850,
+                "proteinG": 22,
+                "carbsG": 12,
+                "fatG": 78,
+                "fiberG": 1,
+                "sodiumMg": 1100,
+                "sugarG": 15,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Zinc"
+                ]
+              },
+              "substitutions": []
+            }
+        ],
       spring: [],
       summer: [],
       autumn: [],

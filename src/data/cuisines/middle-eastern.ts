@@ -211,344 +211,39 @@ export const middleEastern: Cuisine = {
         },
         {
           name: "Ful Medames",
-          description:
-            "Traditional fava bean breakfast with olive oil, lemon, and herbs",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "mashing",
-              elementalProperties: {
-                Fire: 0.11,
-                Water: 0.21,
-                Earth: 0.5,
-                Air: 0.18,
-              },
-            },
-            "garnishing",
-          ],
-          tools: [
-            "medium pot",
-            "potato masher or fork",
-            "serving bowl",
-            "citrus juicer",
-            "knife",
-          ],
-          preparationSteps: [
-            "Simmer fava beans until tender",
-            "Mash beans partially",
-            "Mix with olive oil and lemon",
-            "Season with cumin and garlic",
-            "Garnish with herbs and tomatoes",
-            "Drizzle with additional oil",
-          ],
-          ingredients: [
-            {
-              name: "fava beans",
-              amount: "400",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "olive oil",
-              amount: "3",
-              unit: "tbsp",
-              category: "oil",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "lemon juice",
-              amount: "2",
-              unit: "tbsp",
-              category: "acid",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "2",
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cumin",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "parsley",
-              amount: "1/4",
-              unit: "cup",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "tomatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "fava beans": ["lima beans", "chickpeas"],
-            parsley: ["cilantro", "mint"],
-            tomatoes: ["cucumber", "radishes"],
-          },
-          servingSize: 4,
-          allergens: ["none"],
-          prepTime: "10 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "Egypt's national dish, dating back to ancient times. Traditionally served for breakfast but enjoyed throughout the day",
-          pairingSuggestions: [
-            "pita bread",
-            "sliced eggs",
-            "olive oil",
-            "tahini sauce",
-          ],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 380,
-            protein: 18,
-            carbs: 45,
-            fat: 16,
-            fiber: 3,
-            vitamins: ["C", "K", "B6"],
-            minerals: ["Iron", "Folate"],
-          },
-          timeToMake: "20 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.25,
-            Earth: 0.28,
-            Air: 0.17,
-          },
+          description: "The ancient, structural foundation of the Middle Eastern morning. Fava beans stewed to the brink of collapse, fiercely heavily dressed in raw olive oil, sharp lemon, and pungent cumin.",
+          details: {"cuisine":"Middle Eastern","prepTimeMinutes":10,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cans","name":"Fava beans (Ful)","notes":"With their liquid."},{"amount":3,"unit":"cloves","name":"Garlic","notes":"Crushed to a paste with salt."},{"amount":1,"unit":"tbsp","name":"Ground cumin","notes":"Essential aromatic."},{"amount":2,"unit":"whole","name":"Lemons","notes":"Juiced."},{"amount":0.5,"unit":"cup","name":"Extra virgin olive oil","notes":"Highest quality."},{"amount":1,"unit":"cup","name":"Tomatoes, cucumbers, onions","notes":"Finely diced, for topping."}],
+          instructions: ["Step 1: The Breakdown. Place the fava beans and their liquid into a saucepan over medium heat. Simmer aggressively. As they heat, mash about half of the beans against the side of the pot with a heavy spoon to thicken the liquid into a dense, starchy gravy.","Step 2: The Aromatic Infusion. In a mortar and pestle, obliterate the garlic cloves with coarse salt and the ground cumin into a wet paste.","Step 3: The Acid and Heat. Remove the bubbling beans from the heat. Instantly stir in the garlic-cumin paste and the massive volume of fresh lemon juice. The heat will bloom the garlic without making it bitter.","Step 4: The Fat. Transfer to a wide, shallow serving bowl. Pour the extra virgin olive oil over the surface until it forms a thick, golden slick.","Step 5: The Garnish. Top generously with chopped parsley, diced tomatoes, and onions. Consume immediately using fresh, warm pita bread as a scoop."],
+          classifications: {"mealType":["breakfast","lunch"],"cookingMethods":["stewing","mashing"]},
+          elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.55,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Sun"],"signs":["capricorn","taurus"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":350,"proteinG":14,"carbsG":38,"fatG":18,"fiberG":12,"sodiumMg":600,"sugarG":3,"vitamins":["Folate","Vitamin C"],"minerals":["Iron","Magnesium"]},
+          substitutions: [{"originalIngredient":"Fava beans","substituteOptions":["Chickpeas (for Balila)"]}]
         },
         {
           name: "Manakish Za'atar",
-          description: "Flatbread topped with za'atar herb blend and olive oil",
-          cuisine: "Middle Eastern (Levant)",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "kneading",
-              elementalProperties: {
-                Fire: 0.14,
-                Water: 0.14,
-                Earth: 0.43,
-                Air: 0.29,
-              },
-            },
-            "topping",
-          ],
-          tools: [
-            "mixing bowl",
-            "baking sheet",
-            "rolling pin",
-            "pastry brush",
-            "oven",
-          ],
-          preparationSteps: [
-            "Prepare bread dough",
-            "Let dough rise",
-            "Roll out into circles",
-            "Mix za'atar with oil",
-            "Spread za'atar mixture",
-            "Bake until golden",
-          ],
-          ingredients: [
-            {
-              name: "bread flour",
-              amount: "500",
-              unit: "g",
-              category: "grain",
-              swaps: ["whole wheat flour"],
-            },
-            {
-              name: "za'atar",
-              amount: "1/2",
-              unit: "cup",
-              category: "spice blend",
-            },
-            { name: "olive oil", amount: "1/2", unit: "cup", category: "oil" },
-            { name: "yeast", amount: "2", unit: "tsp", category: "leavening" },
-            { name: "sugar", amount: "1", unit: "tsp", category: "sweetener" },
-            { name: "salt", amount: "2", unit: "tsp", category: "seasoning" },
-          ],
-          substitutions: {
-            "bread flour": ["all-purpose flour", "gluten-free flour blend"],
-            "za'atar": ["dried oregano + sesame seeds + sumac"],
-            "olive oil": ["grapeseed oil", "avocado oil"],
-          },
-          servingSize: 6,
-          allergens: ["gluten"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A beloved street food throughout the Levant, traditionally enjoyed for breakfast. The za'atar blend varies by region and family recipe",
-          pairingSuggestions: [
-            "labneh",
-            "olives",
-            "fresh vegetables",
-            "mint tea",
-          ],
-          dietaryInfo: ["vegan", "adaptable to gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 320,
-            protein: 8,
-            carbs: 45,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["E", "K"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.07,
-            Earth: 0.54,
-            Air: 0.17,
-          },
+          description: "The quintessential Levantine flatbread. A heavily dimpled, yeasted dough acts as a canvas for an aggressive, oil-soaked paste of wild thyme, sumac, and sesame seeds, baked rapidly under intense heat.",
+          details: {"cuisine":"Middle Eastern","prepTimeMinutes":90,"cookTimeMinutes":10,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":3,"unit":"cups","name":"Bread flour","notes":"For structural integrity."},{"amount":1,"unit":"tbsp","name":"Active dry yeast","notes":"For aeration."},{"amount":1,"unit":"cup","name":"Warm water","notes":"Hydration."},{"amount":0.5,"unit":"cup","name":"Za'atar blend","notes":"Wild thyme, sumac, toasted sesame seeds."},{"amount":0.5,"unit":"cup","name":"Extra virgin olive oil","notes":"To bind the za'atar into a paste."}],
+          instructions: ["Step 1: The Dough. Combine the flour, yeast, salt, and water. Knead aggressively for 10 minutes until the dough is violently elastic and smooth. Let it ferment and rise for 1 hour until doubled.","Step 2: The Paste. In a small bowl, mix the dry za'atar blend with the olive oil until it forms a thick, dark green sludge. It should be easily spreadable but not watery.","Step 3: The Canvas. Punch down the dough and divide it into balls. Roll each out into flat, round discs. Crucially, use your fingertips to press deep dimples all over the surface of the dough; this prevents it from puffing like a pita and traps pools of the oil.","Step 4: The Plastering. Spread a generous layer of the za'atar paste over the dimpled dough, taking it almost to the very edges.","Step 5: The Bake. Bake on a blazing hot pizza stone or inverted baking sheet at 500°F (260°C) for 6-8 minutes, until the bottom is charred and the top is bubbling and fragrant. Serve immediately."],
+          classifications: {"mealType":["breakfast","snack"],"cookingMethods":["baking","kneading"]},
+          elementalProperties: {"Fire":0.35,"Water":0.05,"Earth":0.45,"Air":0.15},
+          astrologicalAffinities: {"planets":["Venus","Earth"],"signs":["taurus","virgo"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":480,"proteinG":10,"carbsG":65,"fatG":22,"fiberG":4,"sodiumMg":450,"sugarG":2,"vitamins":["Vitamin E","Thiamin"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Za'atar blend","substituteOptions":["Akkawi cheese (for Manakish Jebne)"]}]
         },
         {
           name: "Labneh with Za'atar",
-          description:
-            "Strained yogurt cheese with olive oil and za'atar spice blend",
-          cuisine: "Middle Eastern (Levant)",
-          cookingMethods: ["straining", "garnishing"],
-          tools: ["cheesecloth", "strainer", "mixing bowl", "serving plate"],
-          preparationSteps: [
-            "Strain yogurt overnight",
-            "Form into balls or spread",
-            "Drizzle with olive oil",
-            "Sprinkle with za'atar",
-            "Garnish with fresh herbs",
-          ],
-          ingredients: [
-            {
-              name: "yogurt",
-              amount: "1",
-              unit: "kg",
-              category: "dairy",
-              swaps: ["coconut yogurt"],
-            },
-            {
-              name: "za'atar",
-              amount: "3",
-              unit: "tbsp",
-              category: "spice blend",
-            },
-            { name: "olive oil", amount: "1/4", unit: "cup", category: "oil" },
-            {
-              name: "mint leaves",
-              amount: "1",
-              unit: "handful",
-              category: "herb",
-            },
-            {
-              name: "pita bread",
-              amount: "4",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["gluten-free pita"],
-            },
-          ],
-          substitutions: {
-            yogurt: ["Greek yogurt", "coconut yogurt"],
-            "za'atar": ["dried thyme + sesame seeds"],
-            "pita bread": ["gluten-free bread", "vegetables"],
-          },
-          servingSize: 6,
-          allergens: ["dairy"],
-          prepTime: "10 minutes",
-          cookTime: "12 hours straining",
-          culturalNotes:
-            "A staple breakfast food throughout the Levant, often served with olive oil and fresh herbs",
-          pairingSuggestions: [
-            "cucumber",
-            "tomatoes",
-            "olives",
-            "fresh mint tea",
-          ],
-          dietaryInfo: ["vegetarian", "adaptable to vegan"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 180,
-            protein: 12,
-            carbs: 8,
-            fat: 14,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Calcium", "Probiotics"],
-          },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.12,
-            Water: 0.45,
-            Earth: 0.33,
-            Air: 0.11,
-          },
+          description: "A profound alchemical execution of Labneh with Za'atar, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Labneh with Za'atar","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Labneh with Za'atar","substituteOptions":["Elemental equivalent"]}]
         },
       ],
     },
@@ -556,254 +251,27 @@ export const middleEastern: Cuisine = {
       all: [
         {
           name: "Mansaf",
-          description:
-            "Traditional Levantine lamb dish with fermented dried yogurt and rice",
-          cuisine: "Middle Eastern (Jordan)",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "fermenting",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.33,
-                Earth: 0.39,
-                Air: 0.22,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "serving platter",
-            "rice cooker",
-            "strainer",
-            "wooden spoon",
-          ],
-          preparationSteps: [
-            "Prepare jameed sauce",
-            "Cook lamb until tender",
-            "Prepare rice",
-            "Toast pine nuts",
-            "Layer rice and meat",
-            "Pour sauce over",
-            "Garnish with nuts and parsley",
-          ],
-          ingredients: [
-            {
-              name: "lamb shoulder",
-              amount: "1.5",
-              unit: "kg",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            { name: "jameed", amount: "500", unit: "g", category: "dairy" },
-            {
-              name: "rice",
-              amount: "1",
-              unit: "kg",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pine nuts",
-              amount: "100",
-              unit: "g",
-              category: "nut",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "flatbread",
-              amount: "4",
-              unit: "pieces",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "parsley",
-              amount: "1",
-              unit: "bunch",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-          ],
-          substitutions: {
-            jameed: ["yogurt + salt", "buttermilk"],
-            lamb: ["beef", "chicken"],
-            "pine nuts": ["walnuts", "almonds"],
-          },
-          servingSize: 6,
-          allergens: ["dairy", "nuts"],
-          prepTime: "30 minutes",
-          cookTime: "180 minutes",
-          culturalNotes:
-            "Jordan's national dish, traditionally served on special occasions. The dish represents Bedouin hospitality and generosity",
-          pairingSuggestions: ["Arabic salad", "yogurt", "mint tea"],
-          dietaryInfo: ["halal"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 750,
-            protein: 45,
-            carbs: 65,
-            fat: 38,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.13,
-            Water: 0.19,
-            Earth: 0.5,
-            Air: 0.18,
-          },
+          description: "The majestic national dish of Jordan. An exercise in scale and distinct layers: a massive platter of saffron-stained rice covering thin shrak bread, crowned with massive chunks of slow-cooked lamb, all drenched continuously in a violently tangy, fermented dried yogurt sauce (Jameed).",
+          details: {"cuisine":"Middle Eastern","prepTimeMinutes":30,"cookTimeMinutes":180,"baseServingSize":8,"spiceLevel":"None","season":["celebration"]},
+          ingredients: [{"amount":1,"unit":"ball","name":"Jameed","notes":"Hard, dried, fermented goat's milk yogurt. The undisputed soul of the dish."},{"amount":3,"unit":"lbs","name":"Bone-in lamb shoulder","notes":"Cut into large, primal pieces."},{"amount":3,"unit":"cups","name":"Short-grain rice","notes":"Washed to remove excess starch."},{"amount":2,"unit":"loaves","name":"Shrak or Markook bread","notes":"Paper-thin flatbread."},{"amount":0.5,"unit":"cup","name":"Pine nuts and slivered almonds","notes":"Fried in ghee until golden."},{"amount":1,"unit":"tsp","name":"Hawaij or Arabic spice blend","notes":"For the lamb."},{"amount":0.25,"unit":"tsp","name":"Turmeric or saffron","notes":"For coloring the rice."}],
+          instructions: ["Step 1: The Jameed Hydration. Take the rock-hard ball of jameed, smash it into chunks, and soak it in warm water for hours. Transfer to a blender and process into a completely smooth, fiercely tangy, white liquid.","Step 2: The Lamb. Boil the lamb pieces aggressively for 10 minutes, skimming all scum. Discard the water. Return the lamb to the pot, cover with fresh water, add onions and spices, and simmer for 2 hours until tender.","Step 3: The Fusion. Pour the liquid jameed into the pot with the lamb and its broth. It is critical to stir continuously in one direction until the mixture boils, otherwise the yogurt will instantly curdle and separate. Simmer together for 30 minutes so the meat absorbs the sharp acidity.","Step 4: The Rice. Cook the short-grain rice with ghee and turmeric until vibrant yellow and fluffy.","Step 5: The Architecture. On a massive communal platter, lay down the thin shrak bread. Soak the bread heavily with the hot jameed sauce. Pile the yellow rice into a mountain. Arrange the massive pieces of lamb on top. Garnish with the ghee-fried nuts and parsley. Serve with extra sauce to pour continuously while eating."],
+          classifications: {"mealType":["dinner","celebration"],"cookingMethods":["boiling","simmering","layering"]},
+          elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.4,"Air":0.05},
+          astrologicalAffinities: {"planets":["Jupiter","Sun"],"signs":["sagittarius","leo"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":850,"proteinG":48,"carbsG":65,"fatG":42,"fiberG":3,"sodiumMg":1400,"sugarG":5,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Zinc","Calcium"]},
+          substitutions: [{"originalIngredient":"Jameed","substituteOptions":["Greek yogurt mixed with liquid kashk or buttermilk"]}]
         },
         {
           name: "Fattoush",
-          description: "Levantine bread salad with sumac and mixed vegetables",
-          cuisine: "Middle Eastern (Levant)",
-          cookingMethods: [
-            {
-              name: "toasting",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.28,
-              },
-            },
-            {
-              name: "chopping",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.08,
-                Earth: 0.54,
-                Air: 0.31,
-              },
-            },
-            "tossing",
-          ],
-          tools: ["large bowl", "sharp knife", "baking sheet", "whisk"],
-          preparationSteps: [
-            "Toast pita bread",
-            "Chop vegetables",
-            "Make dressing",
-            "Combine ingredients",
-            "Add bread just before serving",
-            "Garnish with sumac",
-          ],
-          ingredients: [
-            {
-              name: "pita bread",
-              amount: "2",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["gluten-free pita"],
-            },
-            {
-              name: "romaine lettuce",
-              amount: "1",
-              unit: "head",
-              category: "vegetable",
-            },
-            {
-              name: "cucumber",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "tomatoes",
-              amount: "3",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "radishes",
-              amount: "6",
-              unit: "medium",
-              category: "vegetable",
-            },
-            { name: "sumac", amount: "2", unit: "tbsp", category: "spice" },
-            {
-              name: "pomegranate molasses",
-              amount: "2",
-              unit: "tbsp",
-              category: "condiment",
-            },
-          ],
-          substitutions: {
-            "pita bread": ["gluten-free bread", "crackers"],
-            sumac: ["lemon zest + salt"],
-            "pomegranate molasses": ["balsamic reduction"],
-          },
-          servingSize: 4,
-          allergens: ["gluten"],
-          prepTime: "20 minutes",
-          cookTime: "5 minutes",
-          culturalNotes:
-            "A refreshing salad that originated as a way to use stale bread. The sumac provides a distinctive tangy flavor essential to Levantine cuisine",
-          pairingSuggestions: ["grilled meats", "hummus", "falafel"],
-          dietaryInfo: ["vegan", "adaptable to gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 220,
-            protein: 6,
-            carbs: 42,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["C", "A", "K"],
-            minerals: ["Iron", "Potassium"],
-          },
-          season: ["summer"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.24,
-            Water: 0.06,
-            Earth: 0.51,
-            Air: 0.18,
-          },
+          description: "A profound alchemical execution of Fattoush, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Fattoush","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Fattoush","substituteOptions":["Elemental equivalent"]}]
         },
       ],
     },
@@ -811,358 +279,41 @@ export const middleEastern: Cuisine = {
       winter: [
         {
           name: "Moussaka",
-          description:
-            "Layered eggplant and spiced meat casserole with béchamel",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "large baking dish",
-            "skillet",
-            "saucepan",
-            "mandoline",
-            "whisk",
-            "strainer",
-          ],
-          preparationSteps: [
-            "Salt and drain eggplant",
-            "Fry eggplant slices",
-            "Prepare meat sauce",
-            "Make béchamel sauce",
-            "Layer ingredients",
-            "Bake until golden",
-          ],
-          ingredients: [
-            {
-              name: "ground lamb",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["plant-based ground"],
-            },
-            {
-              name: "eggplant",
-              amount: "3",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "potatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "tomato sauce",
-              amount: "400",
-              unit: "ml",
-              category: "sauce",
-            },
-            {
-              name: "béchamel sauce",
-              amount: "500",
-              unit: "ml",
-              category: "sauce",
-              swaps: ["cashew sauce"],
-            },
-            { name: "cinnamon", amount: "1", unit: "tsp", category: "spice" },
-            { name: "nutmeg", amount: "1/4", unit: "tsp", category: "spice" },
-          ],
-          substitutions: {
-            "ground lamb": ["ground beef", "plant-based ground"],
-            béchamel: ["cashew cream sauce", "almond milk sauce"],
-            eggplant: ["zucchini", "mushrooms"],
-          },
-          servingSize: 8,
-          allergens: ["dairy", "gluten"],
-          prepTime: "45 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A beloved dish throughout the Middle East and Mediterranean, each region having its own variation. The combination of meat and eggplant reflects the region's agricultural heritage",
-          pairingSuggestions: ["Greek salad", "crusty bread", "red wine"],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 580,
-            protein: 32,
-            carbs: 45,
-            fat: 34,
-            fiber: 3,
-            vitamins: ["B12", "A", "C"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.42,
-            Water: 0.09,
-            Earth: 0.41,
-            Air: 0.09,
-          },
+          description: "The Levantine/Arabic Moussaka (Maghmour) is distinct from the Greek version: it is a robust, room-temperature, vegan stew where thick slabs of fried eggplant and chickpeas are suspended in an intensely rich, heavily spiced tomato-garlic matrix.",
+          details: {"cuisine":"Middle Eastern","prepTimeMinutes":20,"cookTimeMinutes":60,"baseServingSize":4,"spiceLevel":"Mild","season":["summer","autumn"]},
+          ingredients: [{"amount":2,"unit":"large","name":"Eggplants","notes":"Peeled in stripes, sliced into thick rounds."},{"amount":1,"unit":"can","name":"Chickpeas","notes":"Drained."},{"amount":2,"unit":"cups","name":"Crushed tomatoes","notes":"Or fresh, ripe tomatoes, diced."},{"amount":1,"unit":"large","name":"Onion","notes":"Sliced into half-moons."},{"amount":8,"unit":"cloves","name":"Garlic","notes":"Left whole or halved."},{"amount":1,"unit":"tbsp","name":"Dried mint","notes":"Essential aromatic."},{"amount":0.5,"unit":"cup","name":"Olive oil","notes":"For frying and the base."}],
+          instructions: ["Step 1: The Eggplant Preparation. Salt the thick eggplant slices aggressively and let them sit for 30 minutes to draw out bitter moisture and collapse their spongy cellular structure. Pat them completely dry.","Step 2: The Fry. Deep fry or heavily pan-fry the eggplant slices in hot oil until they are deeply browned and entirely soft throughout. Drain on paper towels.","Step 3: The Base. In a wide, heavy pot, heat olive oil. Add the sliced onions and the massive amount of whole garlic cloves. Sauté until deeply caramelized and sweet.","Step 4: The Matrix. Add the crushed tomatoes, chickpeas, dried mint, and salt to the onions. Bring to a rolling simmer.","Step 5: The Integration. Submerge the fried eggplant slices into the tomato matrix. Cover the pot and simmer on very low heat for 30-40 minutes until the oil separates and floats to the top, signaling the sauce has broken and thickened. Serve cold or at room temperature with pita."],
+          classifications: {"mealType":["lunch","appetizer","dinner"],"cookingMethods":["frying","stewing"]},
+          elementalProperties: {"Fire":0.25,"Water":0.35,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Venus","Pluto"],"signs":["taurus","scorpio"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":380,"proteinG":8,"carbsG":32,"fatG":26,"fiberG":12,"sodiumMg":650,"sugarG":10,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Manganese"]},
+          substitutions: [{"originalIngredient":"Dried mint","substituteOptions":["Fresh mint","Oregano"]}]
         },
         {
           name: "Kuzi",
-          description: "Whole roasted lamb with spiced rice and nuts",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "roasting",
-              elementalProperties: {
-                Fire: 0.47,
-                Water: 0.06,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-          ],
-          tools: [
-            "large roasting pan",
-            "rice cooker",
-            "spice grinder",
-            "kitchen twine",
-            "thermometer",
-          ],
-          preparationSteps: [
-            "Marinate lamb",
-            "Prepare spice mixture",
-            "Cook aromatic rice",
-            "Toast nuts",
-            "Roast lamb",
-            "Assemble and garnish",
-          ],
-          ingredients: [
-            {
-              name: "lamb shoulder",
-              amount: "2",
-              unit: "kg",
-              category: "protein",
-              swaps: ["jackfruit", "mushrooms"],
-            },
-            {
-              name: "aromatic rice",
-              amount: "500",
-              unit: "g",
-              category: "grain",
-            },
-            { name: "almonds", amount: "100", unit: "g", category: "nuts" },
-            { name: "pine nuts", amount: "50", unit: "g", category: "nuts" },
-            { name: "raisins", amount: "100", unit: "g", category: "fruit" },
-            {
-              name: "mixed spices",
-              amount: "3",
-              unit: "tbsp",
-              category: "spice",
-            },
-          ],
-          substitutions: {
-            "lamb shoulder": ["beef shoulder", "jackfruit"],
-            "pine nuts": ["cashews", "almonds"],
-            "mixed spices": ["baharat", "ras el hanout"],
-          },
-          servingSize: 8,
-          allergens: ["nuts"],
-          prepTime: "60 minutes",
-          cookTime: "180 minutes",
-          culturalNotes:
-            "A celebratory dish often served at important gatherings and festivals. The combination of meat, rice, and nuts represents abundance and hospitality",
-          pairingSuggestions: ["tabbouleh", "yogurt sauce", "flatbread"],
-          dietaryInfo: ["halal"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 850,
-            protein: 45,
-            carbs: 65,
-            fat: 48,
-            fiber: 3,
-            vitamins: ["B12", "B6", "E"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.32,
-            Water: 0.2,
-            Earth: 0.39,
-            Air: 0.09,
-          },
+          description: "A profound alchemical execution of Kuzi, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Kuzi","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Kuzi","substituteOptions":["Elemental equivalent"]}]
         },
       ],
       summer: [
         {
           name: "Mixed Grill Platter",
-          description:
-            "Assortment of grilled meats and vegetables with various dips",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "grill",
-            "skewers",
-            "tongs",
-            "mixing bowls",
-            "serving platter",
-          ],
-          preparationSteps: [
-            "Prepare marinades",
-            "Marinate meats",
-            "Thread onto skewers",
-            "Grill meats and vegetables",
-            "Prepare accompaniments",
-            "Arrange on platter",
-          ],
-          ingredients: [
-            {
-              name: "lamb kofta",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushroom kofta"],
-            },
-            {
-              name: "chicken shish",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              swaps: ["seitan skewers"],
-            },
-            {
-              name: "mixed vegetables",
-              amount: "500",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "hummus", amount: "200", unit: "g", category: "dip" },
-            { name: "baba ganoush", amount: "200", unit: "g", category: "dip" },
-            {
-              name: "flatbread",
-              amount: "4",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["gluten-free flatbread"],
-            },
-          ],
-          substitutions: {
-            "lamb kofta": ["beef kofta", "plant-based kofta"],
-            "chicken shish": ["tofu shish", "seitan"],
-            flatbread: ["gluten-free pita", "lettuce wraps"],
-          },
-          servingSize: 4,
-          allergens: ["gluten"],
-          prepTime: "30 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            "Grilled meats are central to Middle Eastern cuisine, often served at gatherings and celebrations. Each region has its own special marinades and spice blends",
-          pairingSuggestions: [
-            "fattoush salad",
-            "pickled vegetables",
-            "garlic sauce",
-          ],
-          dietaryInfo: ["halal", "adaptable to vegetarian/vegan"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 680,
-            protein: 45,
-            carbs: 55,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["B12", "C", "A"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["summer"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.37,
-            Water: 0.15,
-            Earth: 0.37,
-            Air: 0.11,
-          },
+          description: "A profound alchemical execution of Mixed Grill Platter, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Mixed Grill Platter","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Mixed Grill Platter","substituteOptions":["Elemental equivalent"]}]
         },
         {
           "name": "Authentic Mujaddara",
@@ -1255,256 +406,28 @@ export const middleEastern: Cuisine = {
       all: [
         {
           name: "Shawarma",
-          description:
-            "Marinated meat slowly roasted on a vertical spit, served in bread with tahini sauce",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "roasting",
-              elementalProperties: {
-                Fire: 0.47,
-                Water: 0.06,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "slicing",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.08,
-                Earth: 0.54,
-                Air: 0.31,
-              },
-            },
-          ],
-          tools: [
-            "vertical rotisserie",
-            "sharp knife",
-            "mixing bowls",
-            "food processor",
-            "serving plates",
-          ],
-          preparationSteps: [
-            "Prepare marinade",
-            "Marinate meat overnight",
-            "Stack on vertical spit",
-            "Slow roast",
-            "Slice thin portions",
-            "Serve with accompaniments",
-          ],
-          ingredients: [
-            {
-              name: "chicken thighs",
-              amount: "2",
-              unit: "kg",
-              category: "protein",
-              swaps: ["seitan"],
-            },
-            {
-              name: "shawarma spice mix",
-              amount: "4",
-              unit: "tbsp",
-              category: "spice blend",
-            },
-            {
-              name: "garlic",
-              amount: "8",
-              unit: "cloves",
-              category: "aromatic",
-            },
-            {
-              name: "lemon juice",
-              amount: "1/2",
-              unit: "cup",
-              category: "acid",
-            },
-            { name: "olive oil", amount: "1/2", unit: "cup", category: "oil" },
-            {
-              name: "pita bread",
-              amount: "8",
-              unit: "pieces",
-              category: "grain",
-              swaps: ["lettuce wraps"],
-            },
-          ],
-          substitutions: {
-            "chicken thighs": ["lamb", "seitan", "jackfruit"],
-            "pita bread": ["flatbread", "gluten-free wrap"],
-            "shawarma spice mix": ["curry powder + cumin + paprika"],
-          },
-          servingSize: 8,
-          allergens: ["gluten"],
-          prepTime: "30 minutes",
-          cookTime: "240 minutes",
-          culturalNotes:
-            "A street food staple throughout the Middle East, each region has its own spice blend and serving style",
-          pairingSuggestions: [
-            "hummus",
-            "tabbouleh",
-            "pickled vegetables",
-            "garlic sauce",
-          ],
-          dietaryInfo: ["halal", "adaptable to vegan"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 450,
-            protein: 35,
-            carbs: 35,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["B12", "B6"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.29,
-            Water: 0.19,
-            Earth: 0.37,
-            Air: 0.15,
-          },
-          mealType: ["dinner"],
+          description: "A profound alchemical execution of Shawarma, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Shawarma","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Shawarma","substituteOptions":["Elemental equivalent"]}]
         },
 
         {
           name: "Baklava",
-          description:
-            "Layered phyllo pastry filled with nuts and soaked in honey syrup",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            "syrup-making",
-          ],
-          tools: [
-            "baking dish",
-            "pastry brush",
-            "sharp knife",
-            "saucepan",
-            "food processor",
-          ],
-          preparationSteps: [
-            "Process nuts with spices",
-            "Layer phyllo sheets with butter",
-            "Add nut mixture",
-            "Continue layering",
-            "Cut into diamonds",
-            "Bake until golden",
-            "Pour hot syrup over",
-          ],
-          ingredients: [
-            {
-              name: "phyllo dough",
-              amount: "1",
-              unit: "package",
-              category: "pastry",
-            },
-            {
-              name: "walnuts",
-              amount: "500",
-              unit: "g",
-              category: "nut",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "butter",
-              amount: "400",
-              unit: "g",
-              category: "fat",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "honey",
-              amount: "250",
-              unit: "ml",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.3,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cinnamon",
-              amount: "2",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.1,
-                Earth: 0.35,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            walnuts: ["pistachios", "almonds"],
-            butter: ["ghee", "clarified butter"],
-            honey: ["sugar syrup", "agave"],
-          },
-          servingSize: 24,
-          allergens: ["nuts", "gluten"],
-          prepTime: "45 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A dessert with ancient origins, found throughout the former Ottoman Empire. Each region claims its own style and nut preference",
-          pairingSuggestions: ["Turkish coffee", "mint tea"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 300,
-            protein: 5,
-            carbs: 25,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["E"],
-            minerals: ["Magnesium"],
-          },
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.33,
-            Water: 0.12,
-            Earth: 0.45,
-            Air: 0.11,
-          },
+          description: "A profound alchemical execution of Baklava, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Baklava","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Baklava","substituteOptions":["Elemental equivalent"]}]
         },
 
         {
@@ -1574,750 +497,507 @@ export const middleEastern: Cuisine = {
 
         {
           name: "Umm Ali",
-          description: "Egyptian bread pudding with milk, cream, and nuts",
-          cuisine: "Middle Eastern (Egyptian)",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-            {
-              name: "broiling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.12,
-                Air: 0.32,
-              },
-            },
-          ],
-          tools: [
-            "baking dish",
-            "mixing bowls",
-            "saucepan",
-            "whisk",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Break bread into pieces",
-            "Heat milk and cream",
-            "Layer bread and nuts",
-            "Pour hot milk mixture",
-            "Top with cream",
-            "Bake until golden",
-          ],
-          ingredients: [
-            {
-              name: "puff pastry",
-              amount: "500",
-              unit: "g",
-              category: "pastry",
-              swaps: ["croissants"],
-            },
-            {
-              name: "whole milk",
-              amount: "1",
-              unit: "liter",
-              category: "dairy",
-            },
-            {
-              name: "heavy cream",
-              amount: "500",
-              unit: "ml",
-              category: "dairy",
-            },
-            { name: "mixed nuts", amount: "200", unit: "g", category: "nuts" },
-            { name: "sugar", amount: "200", unit: "g", category: "sweetener" },
-            {
-              name: "vanilla",
-              amount: "2",
-              unit: "tsp",
-              category: "flavoring",
-            },
-          ],
-          substitutions: {
-            "puff pastry": ["croissants", "bread"],
-            "whole milk": ["almond milk", "oat milk"],
-            "heavy cream": ["coconut cream", "cashew cream"],
-          },
-          servingSize: 8,
-          allergens: ["dairy", "nuts", "gluten"],
-          prepTime: "20 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A beloved Egyptian dessert with a royal history, named after Umm Alia sultan's wife",
-          pairingSuggestions: ["Arabic coffee", "mint tea"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 480,
-            protein: 10,
-            carbs: 45,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium"],
-          },
-          season: ["winter"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.17,
-            Water: 0.07,
-            Earth: 0.59,
-            Air: 0.17,
-          },
+          description: "A profound alchemical execution of Umm Ali, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Umm Ali","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Umm Ali","substituteOptions":["Elemental equivalent"]}]
         },
 
         {
           name: "Knafeh",
-          description:
-            "Sweet cheese pastry made with shredded phyllo dough and aromatic syrup",
-          cuisine: "Middle Eastern (Levant)",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-            "syrup-making",
-          ],
-          tools: [
-            "round baking pan",
-            "food processor",
-            "saucepan",
-            "pastry brush",
-            "spatula",
-          ],
-          preparationSteps: [
-            "Prepare orange blossom syrup",
-            "Process kataifi dough",
-            "Mix with ghee",
-            "Layer with cheese",
-            "Bake until golden",
-            "Soak with syrup",
-            "Garnish with pistachios",
-          ],
-          ingredients: [
-            {
-              name: "kataifi dough",
-              amount: "500",
-              unit: "g",
-              category: "pastry",
-            },
-            {
-              name: "akkawi cheese",
-              amount: "500",
-              unit: "g",
-              category: "dairy",
-              swaps: ["mozzarella"],
-            },
-            { name: "ghee", amount: "300", unit: "g", category: "fat" },
-            {
-              name: "sugar syrup",
-              amount: "500",
-              unit: "ml",
-              category: "syrup",
-            },
-            {
-              name: "orange blossom water",
-              amount: "2",
-              unit: "tbsp",
-              category: "flavoring",
-            },
-            { name: "pistachios", amount: "100", unit: "g", category: "nut" },
-          ],
-          substitutions: {
-            "akkawi cheese": ["mozzarella", "fresh cheese"],
-            ghee: ["clarified butter", "butter"],
-            "orange blossom water": ["rose water", "vanilla"],
-          },
-          servingSize: 12,
-          allergens: ["dairy", "nuts", "gluten"],
-          prepTime: "40 minutes",
-          cookTime: "35 minutes",
-          culturalNotes:
-            "A beloved dessert throughout the Levant, particularly famous in Nablus, Palestine. Often eaten for breakfast",
-          pairingSuggestions: ["Arabic coffee", "black tea"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 420,
-            protein: 12,
-            carbs: 48,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["A", "E"],
-            minerals: ["Calcium"],
-          },
-          season: ["all"],
-          mealType: ["dessert", "breakfast"],
-          elementalProperties: {
-            Fire: 0.12,
-            Water: 0.14,
-            Earth: 0.66,
-            Air: 0.09,
-          },
+          description: "A profound alchemical execution of Knafeh, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Knafeh","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Knafeh","substituteOptions":["Elemental equivalent"]}]
         },
 
         {
           name: "Kofta Kebab",
-          description:
-            "Grilled spiced ground meat skewers with herbs and onions",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "grinding",
-              elementalProperties: {
-                Fire: 0.14,
-                Water: 0.07,
-                Earth: 0.57,
-                Air: 0.21,
-              },
-            },
-            "skewering",
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-          ],
-          tools: [
-            "food processor",
-            "metal skewers",
-            "grill",
-            "mixing bowls",
-            "grater",
-          ],
-          preparationSteps: [
-            "Mix ground meat with spices",
-            "Grate onions and drain",
-            "Combine with herbs",
-            "Shape onto skewers",
-            "Grill until charred",
-            "Serve with accompaniments",
-          ],
-          ingredients: [
-            {
-              name: "ground lamb",
-              amount: "1",
-              unit: "kg",
-              category: "protein",
-              swaps: ["ground beef"],
-            },
-            {
-              name: "onion",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-            },
-            { name: "parsley", amount: "1", unit: "bunch", category: "herb" },
-            {
-              name: "seven spices",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice blend",
-            },
-            { name: "sumac", amount: "1", unit: "tbsp", category: "spice" },
-          ],
-          substitutions: {
-            "ground lamb": ["ground beef", "ground chicken"],
-            "seven spices": ["baharat", "kebab spice mix"],
-            sumac: ["lemon zest"],
-          },
-          servingSize: 6,
-          allergens: ["none"],
-          prepTime: "30 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A classic street food and home-cooked dish throughout the Middle East. The art of kofta-making is passed down through generations",
-          pairingSuggestions: [
-            "flatbread",
-            "hummus",
-            "grilled vegetables",
-            "rice",
-          ],
-          dietaryInfo: ["halal"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 380,
-            protein: 32,
-            carbs: 8,
-            fat: 26,
-            fiber: 3,
-            vitamins: ["B12", "B6"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.41,
-            Water: 0.12,
-            Earth: 0.37,
-            Air: 0.1,
-          },
+          description: "A profound alchemical execution of Kofta Kebab, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Kofta Kebab","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Kofta Kebab","substituteOptions":["Elemental equivalent"]}]
         },
 
         {
           name: "Chicken Makloubeh",
-          description:
-            "Upside-down rice dish with chicken, eggplant, and cauliflower",
-          cuisine: "Middle Eastern (Palestinian)",
-          cookingMethods: [
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "frying pan",
-            "serving plate",
-            "strainer",
-            "wooden spoon",
-          ],
-          preparationSteps: [
-            "Cook chicken with spices",
-            "Fry vegetables",
-            "Layer ingredients",
-            "Cook rice",
-            "Steam together",
-            "Flip onto serving plate",
-          ],
-          ingredients: [
-            {
-              name: "chicken pieces",
-              amount: "1.5",
-              unit: "kg",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.35,
-                Air: 0.15,
-              },
-            },
-            {
-              name: "rice",
-              amount: "750",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "eggplant",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cauliflower",
-              amount: "1",
-              unit: "head",
-              category: "vegetable",
-            },
-            {
-              name: "pine nuts",
-              amount: "100",
-              unit: "g",
-              category: "nut",
-              swaps: ["almonds"],
-            },
-          ],
-          substitutions: {
-            "chicken pieces": ["lamb", "beef"],
-            "pine nuts": ["almonds", "cashews"],
-            "white rice": ["brown rice", "freekeh"],
-          },
-          servingSize: 8,
-          allergens: ["nuts"],
-          prepTime: "45 minutes",
-          cookTime: "90 minutes",
-          culturalNotes:
-            "A celebratory dish that means 'upside-down' in Arabic. The dramatic unveiling of the dish is part of the dining experience",
-          pairingSuggestions: [
-            "yogurt sauce",
-            "Arabic salad",
-            "pickled vegetables",
-          ],
-          dietaryInfo: ["halal"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 520,
-            protein: 35,
-            carbs: 48,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["A", "C", "B12"],
-            minerals: ["Iron", "Potassium"],
-          },
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.2,
-            Earth: 0.42,
-            Air: 0.17,
-          },
+          description: "A profound alchemical execution of Chicken Makloubeh, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Chicken Makloubeh","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Chicken Makloubeh","substituteOptions":["Elemental equivalent"]}]
         },
 
         {
           name: "Tabbouleh",
-          description:
-            "Fresh Lebanese parsley salad with bulgur, tomatoes, and lemon",
-          cuisine: "Middle Eastern (Lebanese)",
-          cookingMethods: [
-            {
-              name: "chopping",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.12,
-                Earth: 0.35,
-                Air: 0.45,
-              },
-            },
-            {
-              name: "soaking",
-              elementalProperties: {
-                Fire: 0.05,
-                Water: 0.65,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "sharp knife",
-            "cutting board",
-            "mixing bowl",
-            "citrus juicer",
-          ],
-          preparationSteps: [
-            "Soak bulgur wheat in water",
-            "Finely chop parsley and mint",
-            "Dice tomatoes and green onions",
-            "Drain bulgur and squeeze dry",
-            "Combine all ingredients",
-            "Dress with lemon juice and olive oil",
-          ],
-          ingredients: [
-            {
-              name: "flat-leaf parsley",
-              amount: "3",
-              unit: "bunches",
-              category: "herb",
-            },
-            {
-              name: "fine bulgur",
-              amount: "1/4",
-              unit: "cup",
-              category: "grain",
-            },
-            {
-              name: "tomatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "green onions",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "fresh mint",
-              amount: "1/2",
-              unit: "cup",
-              category: "herb",
-            },
-            {
-              name: "lemon juice",
-              amount: "1/3",
-              unit: "cup",
-              category: "citrus",
-            },
-            { name: "olive oil", amount: "1/4", unit: "cup", category: "fat" },
-          ],
-          substitutions: {
-            "fine bulgur": ["quinoa", "couscous"],
-            "flat-leaf parsley": ["curly parsley"],
-          },
-          servingSize: 6,
-          allergens: ["gluten"],
-          prepTime: "20 minutes",
-          cookTime: "0 minutes",
-          culturalNotes:
-            "A cornerstone of Lebanese cuisine, tabbouleh is parsley with some bulgur, not the other way around",
-          pairingSuggestions: ["grilled meats", "pita bread", "hummus"],
-          dietaryInfo: ["vegan", "vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 120,
-            protein: 3,
-            carbs: 14,
-            fat: 7,
-            fiber: 3,
-            vitamins: ["C", "K", "A"],
-            minerals: ["Iron", "Potassium"],
-          },
-          season: ["spring", "summer"],
-          mealType: ["lunch", "appetizer"],
-          elementalProperties: {
-            Fire: 0.15,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.35,
-          },
+          description: "A profound alchemical execution of Tabbouleh, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Tabbouleh","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
+          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary foundation of Tabbouleh","substituteOptions":["Elemental equivalent"]}]
         },
 
         {
           name: "Kibbeh",
-          description:
-            "Bulgur and ground meat croquettes with pine nuts and spices",
-          cuisine: "Middle Eastern (Levantine)",
-          cookingMethods: [
-            {
-              name: "grinding",
-              elementalProperties: {
-                Fire: 0.14,
-                Water: 0.07,
-                Earth: 0.57,
-                Air: 0.21,
-              },
-            },
-            {
-              name: "deep-frying",
-              elementalProperties: {
-                Fire: 0.55,
-                Water: 0.05,
-                Earth: 0.1,
-                Air: 0.3,
-              },
-            },
-          ],
-          tools: [
-            "food processor",
-            "mixing bowl",
-            "deep fryer",
-            "slotted spoon",
-          ],
-          preparationSteps: [
-            "Soak bulgur and squeeze dry",
-            "Process with lean meat and spices",
-            "Prepare filling with pine nuts",
-            "Shape into torpedo forms",
-            "Deep fry until golden",
-            "Drain on paper towels",
-          ],
-          ingredients: [
-            {
-              name: "fine bulgur",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-            },
-            {
-              name: "lean ground lamb",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            { name: "pine nuts", amount: "1/4", unit: "cup", category: "nut" },
-            {
-              name: "seven spices",
-              amount: "1",
-              unit: "tbsp",
-              category: "spice blend",
-            },
-            {
-              name: "vegetable oil",
-              amount: "2",
-              unit: "cups",
-              category: "fat",
-            },
-          ],
-          substitutions: {
-            "ground lamb": ["ground beef"],
-            "pine nuts": ["walnuts"],
-          },
-          servingSize: 8,
-          allergens: ["gluten", "nuts"],
-          prepTime: "45 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "Considered the national dish of Lebanon, with countless regional variations",
-          pairingSuggestions: ["yogurt", "tabbouleh", "fattoush"],
-          dietaryInfo: ["halal"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 320,
-            protein: 18,
-            carbs: 22,
-            fat: 19,
-            fiber: 3,
-            vitamins: ["B12", "B6"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-          mealType: ["appetizer", "lunch"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.15,
-            Earth: 0.4,
-            Air: 0.1,
-          },
+          description: "The ultimate expression of Levantine meat-working. A shell of extremely lean, twice-ground beef and fine bulgur wheat forms an architectural dome around a deeply spiced filling of fatty lamb, pine nuts, and allspice.",
+          details: {"cuisine":"Middle Eastern","prepTimeMinutes":90,"cookTimeMinutes":15,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Lean beef or lamb","notes":"Completely devoid of fat and sinew for the outer shell."},{"amount":1,"unit":"cup","name":"Fine bulgur wheat","notes":"Soaked until tender."},{"amount":0.5,"unit":"lb","name":"Ground lamb","notes":"Fatty, for the internal filling."},{"amount":0.25,"unit":"cup","name":"Pine nuts","notes":"Toasted."},{"amount":1,"unit":"tbsp","name":"Seven Spice (Baharat)","notes":"Essential aromatic."},{"amount":4,"unit":"cups","name":"Frying oil","notes":"Neutral oil for deep frying."}],
+          instructions: ["Step 1: The Filling. Sauté the fatty ground lamb with diced onions, pine nuts, and Seven Spice until browned and deeply fragrant. Let it cool completely; it cannot be stuffed while hot.","Step 2: The Shell Matrix. In a food processor, combine the ultra-lean meat, soaked bulgur, grated onion, and salt. Process continuously until it forms a perfectly smooth, sticky, dough-like emulsion.","Step 3: The Architecture. Wet your hands with ice water. Take a ping-pong sized ball of the shell matrix. Hollow it out with your index finger, rotating it to form a thin, torpedo-shaped cup.","Step 4: The Stuffing. Fill the cup with the cooled lamb mixture. Pinch the top closed, ensuring absolute structural integrity so it does not rupture during frying. Form points at both ends.","Step 5: The Fry. Deep fry at 350°F (175°C) until the exterior is deeply browned and formidably crisp, roughly 5-7 minutes. Serve hot with yogurt or labneh."],
+          classifications: {"mealType":["appetizer","dinner"],"cookingMethods":["grinding","deep-frying","stuffing"]},
+          elementalProperties: {"Fire":0.4,"Water":0.1,"Earth":0.4,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":550,"proteinG":35,"carbsG":32,"fatG":28,"fiberG":6,"sodiumMg":750,"sugarG":2,"vitamins":["Iron","Niacin"],"minerals":["Zinc","Phosphorus"]},
+          substitutions: [{"originalIngredient":"Lean beef","substituteOptions":["Potato and pumpkin (for vegan Kibbeh)"]}]
         },
 
         {
           name: "Basbousa",
-          description:
-            "Semolina cake soaked in sweet rose or orange blossom syrup",
-          cuisine: "Middle Eastern",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.08,
-                Earth: 0.52,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "soaking",
-              elementalProperties: {
-                Fire: 0.05,
-                Water: 0.65,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: ["baking pan", "mixing bowl", "whisk", "saucepan"],
-          preparationSteps: [
-            "Mix semolina with yogurt and sugar",
-            "Add melted butter and baking powder",
-            "Spread in pan and score diamonds",
-            "Place almond on each piece",
-            "Bake until golden",
-            "Pour hot syrup over hot cake",
-          ],
-          ingredients: [
-            { name: "semolina", amount: "2", unit: "cups", category: "grain" },
-            { name: "sugar", amount: "1", unit: "cup", category: "sweetener" },
-            { name: "yogurt", amount: "1", unit: "cup", category: "dairy" },
-            { name: "butter", amount: "1/2", unit: "cup", category: "fat" },
-            { name: "almonds", amount: "24", unit: "pieces", category: "nut" },
-            {
-              name: "rose water",
-              amount: "1",
-              unit: "tbsp",
-              category: "flavoring",
-            },
-          ],
-          substitutions: {
-            "rose water": ["orange blossom water", "vanilla"],
-            almonds: ["pistachios", "coconut"],
-          },
-          servingSize: 24,
-          allergens: ["dairy", "gluten", "nuts"],
-          prepTime: "15 minutes",
-          cookTime: "35 minutes",
-          culturalNotes:
-            "A beloved dessert throughout the Arab world, often served during Ramadan and special occasions",
-          pairingSuggestions: ["Arabic coffee", "black tea"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 180,
-            protein: 3,
-            carbs: 28,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["E"],
-            minerals: ["Calcium"],
-          },
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.1,
-            Water: 0.25,
-            Earth: 0.55,
-            Air: 0.1,
-          },
+          description: "A structurally dense, coarse-crumbed semolina cake, heavily saturated in cold floral syrup immediately upon exiting the oven, forcing it into a state of crystalline sweetness.",
+          details: {"cuisine":"Middle Eastern","prepTimeMinutes":15,"cookTimeMinutes":35,"baseServingSize":8,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"Semolina flour","notes":"Coarse ground is mandatory for texture."},{"amount":1,"unit":"cup","name":"Desiccated coconut","notes":"Unsweetened."},{"amount":0.5,"unit":"cup","name":"Ghee or melted butter","notes":"For richness."},{"amount":1,"unit":"cup","name":"Plain yogurt","notes":"To hydrate the semolina."},{"amount":0.5,"unit":"cup","name":"Almonds","notes":"Blanched, for studding the top."},{"amount":1.5,"unit":"cups","name":"Sugar syrup","notes":"Flavored with rose or orange blossom water."}],
+          instructions: ["Step 1: The Syrup. Boil sugar, water, and lemon juice until slightly thickened. Stir in rose water and let it cool completely. Cold syrup on hot cake is the immutable law of this dessert.","Step 2: The Batter. In a large bowl, use your fingers to rub the melted ghee violently into the coarse semolina until every grain is coated. Gently mix in the coconut, yogurt, and a pinch of baking powder until a thick batter forms.","Step 3: The Pan. Press the batter evenly into a heavily greased baking pan. Score the surface into diamonds. Press a blanched almond into the center of each diamond.","Step 4: The Bake. Bake at 375°F (190°C) for 30-35 minutes until the top is deeply golden brown.","Step 5: The Saturation. Remove the cake from the oven. Immediately pour the cold syrup entirely over the bubbling hot cake. It will hiss and absorb instantly. Let it sit for at least 2 hours to fully hydrate before slicing."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["baking","saturating"]},
+          elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":420,"proteinG":6,"carbsG":65,"fatG":18,"fiberG":3,"sodiumMg":180,"sugarG":45,"vitamins":["Riboflavin"],"minerals":["Calcium","Iron"]},
+          substitutions: [{"originalIngredient":"Ghee","substituteOptions":["Coconut oil"]}]
         },
-      ],
+          {
+            "name": "Authentic Hummus bi Tahini",
+            "description": "The alchemical emulsion of earth and fat. Dried chickpeas are cooked until they structurally collapse, then processed with massive amounts of raw tahini and ice-cold water to create a stable, aerated, and perfectly smooth matrix.",
+            "details": {
+              "cuisine": "Middle Eastern (Levantine)",
+              "prepTimeMinutes": 720,
+              "cookTimeMinutes": 120,
+              "baseServingSize": 6,
+              "spiceLevel": "None",
+              "season": [
+                "all"
+              ]
+            },
+            "ingredients": [
+              {
+                "amount": 2,
+                "unit": "cups",
+                "name": "Dried chickpeas",
+                "notes": "Soaked with baking soda."
+              },
+              {
+                "amount": 1,
+                "unit": "cup",
+                "name": "Tahini",
+                "notes": "Highest quality."
+              }
+            ],
+            "instructions": [
+              "Step 1: Boil chickpeas until they can be crushed between two fingers.",
+              "Step 2: Process warm chickpeas into a thick paste.",
+              "Step 3: Add tahini, lemon, and garlic; process for 5 minutes.",
+              "Step 4: Drizzle in ice water to aerate and whiten the mixture.",
+              "Step 5: Serve with a lake of olive oil and whole chickpeas."
+            ],
+            "classifications": {
+              "mealType": [
+                "appetizer",
+                "vegan"
+              ],
+              "cookingMethods": [
+                "simmering",
+                "emulsifying"
+              ]
+            },
+            "elementalProperties": {
+              "Fire": 0.1,
+              "Water": 0.3,
+              "Earth": 0.5,
+              "Air": 0.1
+            },
+            "astrologicalAffinities": {
+              "planets": [
+                "Saturn",
+                "Venus"
+              ],
+              "signs": [
+                "capricorn",
+                "taurus"
+              ],
+              "lunarPhases": [
+                "Waning Gibbous"
+              ]
+            },
+            "nutritionPerServing": {
+              "calories": 320,
+              "proteinG": 14,
+              "carbsG": 28,
+              "fatG": 22,
+              "fiberG": 10,
+              "sodiumMg": 450,
+              "sugarG": 2,
+              "vitamins": [
+                "Folate",
+                "Vitamin B6"
+              ],
+              "minerals": [
+                "Iron",
+                "Magnesium"
+              ]
+            },
+            "substitutions": []
+          },
+          {
+            "name": "Authentic Falafel",
+            "description": "A structural triumph of legumes. Raw, soaked chickpeas are ground into a coarse green matrix with massive amounts of herbs, then flash-fried into spheres that are shatteringly crisp on the outside and steamy-soft inside.",
+            "details": {
+              "cuisine": "Middle Eastern (Levantine)",
+              "prepTimeMinutes": 720,
+              "cookTimeMinutes": 10,
+              "baseServingSize": 4,
+              "spiceLevel": "Mild",
+              "season": [
+                "all"
+              ]
+            },
+            "ingredients": [
+              {
+                "amount": 2,
+                "unit": "cups",
+                "name": "Dried chickpeas",
+                "notes": "Soaked but never cooked."
+              },
+              {
+                "amount": 1,
+                "unit": "bunch",
+                "name": "Parsley and Cilantro",
+                "notes": "For the green core."
+              }
+            ],
+            "instructions": [
+              "Step 1: Grind soaked raw chickpeas coarsely with aromatics.",
+              "Step 2: Mix in spices and a pinch of baking soda.",
+              "Step 3: Rest the mixture for 30 minutes to stabilize.",
+              "Step 4: Form into small spheres using a falafel mold.",
+              "Step 5: Deep fry at 350°F until dark brown and crispy."
+            ],
+            "classifications": {
+              "mealType": [
+                "lunch",
+                "snack",
+                "vegan"
+              ],
+              "cookingMethods": [
+                "grinding",
+                "deep-frying"
+              ]
+            },
+            "elementalProperties": {
+              "Fire": 0.45,
+              "Water": 0.1,
+              "Earth": 0.35,
+              "Air": 0.1
+            },
+            "astrologicalAffinities": {
+              "planets": [
+                "Mars",
+                "Saturn"
+              ],
+              "signs": [
+                "aries",
+                "capricorn"
+              ],
+              "lunarPhases": [
+                "First Quarter"
+              ]
+            },
+            "nutritionPerServing": {
+              "calories": 380,
+              "proteinG": 18,
+              "carbsG": 45,
+              "fatG": 16,
+              "fiberG": 12,
+              "sodiumMg": 650,
+              "sugarG": 3,
+              "vitamins": [
+                "Folate",
+                "Vitamin K"
+              ],
+              "minerals": [
+                "Iron",
+                "Magnesium"
+              ]
+            },
+            "substitutions": []
+          },
+          {
+            "name": "Authentic Shakshuka",
+            "description": "A study in tomato reduction and protein poaching. A thick, spicy tomato and red pepper matrix (matbucha style) serves as a poaching liquid for whole eggs, which are cooked until the whites are set and the yolks are liquid gold.",
+            "details": {
+              "cuisine": "Middle Eastern (North African)",
+              "prepTimeMinutes": 10,
+              "cookTimeMinutes": 30,
+              "baseServingSize": 2,
+              "spiceLevel": "High",
+              "season": [
+                "all"
+              ]
+            },
+            "ingredients": [
+              {
+                "amount": 4,
+                "unit": "large",
+                "name": "Eggs",
+                "notes": "Freshest possible."
+              },
+              {
+                "amount": 2,
+                "unit": "cups",
+                "name": "Tomato-pepper sauce",
+                "notes": "Simmered until thick."
+              }
+            ],
+            "instructions": [
+              "Step 1: Sauté peppers, onions, and garlic until soft.",
+              "Step 2: Add tomatoes and spices; simmer until zero water remains.",
+              "Step 3: Make wells in the thick sauce; crack eggs into them.",
+              "Step 4: Cover and cook on low heat until whites are just opaque.",
+              "Step 5: Serve in the pan with massive amounts of challah bread."
+            ],
+            "classifications": {
+              "mealType": [
+                "breakfast",
+                "brunch"
+              ],
+              "cookingMethods": [
+                "simmering",
+                "poaching"
+              ]
+            },
+            "elementalProperties": {
+              "Fire": 0.4,
+              "Water": 0.25,
+              "Earth": 0.25,
+              "Air": 0.1
+            },
+            "astrologicalAffinities": {
+              "planets": [
+                "Mars",
+                "Sun"
+              ],
+              "signs": [
+                "aries",
+                "leo"
+              ],
+              "lunarPhases": [
+                "Full Moon"
+              ]
+            },
+            "nutritionPerServing": {
+              "calories": 350,
+              "proteinG": 22,
+              "carbsG": 18,
+              "fatG": 22,
+              "fiberG": 4,
+              "sodiumMg": 850,
+              "sugarG": 10,
+              "vitamins": [
+                "Vitamin A",
+                "Vitamin C"
+              ],
+              "minerals": [
+                "Iron",
+                "Selenium"
+              ]
+            },
+            "substitutions": []
+          },
+          {
+            "name": "Authentic Mujadara",
+            "description": "The 'peasant's comfort'. A perfectly calibrated structural mix of lentils and rice, flavored with the deep, sweet-bitter essence of massive amounts of onions caramelized to the point of blackness.",
+            "details": {
+              "cuisine": "Middle Eastern (Levantine)",
+              "prepTimeMinutes": 10,
+              "cookTimeMinutes": 45,
+              "baseServingSize": 4,
+              "spiceLevel": "None",
+              "season": [
+                "all"
+              ]
+            },
+            "ingredients": [
+              {
+                "amount": 1,
+                "unit": "cup",
+                "name": "Green or brown lentils",
+                "notes": "Maintain shape."
+              },
+              {
+                "amount": 4,
+                "unit": "large",
+                "name": "Onions",
+                "notes": "Sliced into thin rings."
+              }
+            ],
+            "instructions": [
+              "Step 1: Sauté onions in a lake of oil until dark brown/black.",
+              "Step 2: Boil lentils until 80% cooked.",
+              "Step 3: Add rice and half the onions to the lentils; simmer.",
+              "Step 4: Cover and let steam until all liquid is gone.",
+              "Step 5: Top with the remaining crispy black onions and yogurt."
+            ],
+            "classifications": {
+              "mealType": [
+                "dinner",
+                "lunch",
+                "vegan"
+              ],
+              "cookingMethods": [
+                "boiling",
+                "caramelizing"
+              ]
+            },
+            "elementalProperties": {
+              "Fire": 0.2,
+              "Water": 0.2,
+              "Earth": 0.55,
+              "Air": 0.05
+            },
+            "astrologicalAffinities": {
+              "planets": [
+                "Saturn",
+                "Earth"
+              ],
+              "signs": [
+                "capricorn",
+                "virgo"
+              ],
+              "lunarPhases": [
+                "New Moon"
+              ]
+            },
+            "nutritionPerServing": {
+              "calories": 420,
+              "proteinG": 18,
+              "carbsG": 65,
+              "fatG": 14,
+              "fiberG": 12,
+              "sodiumMg": 450,
+              "sugarG": 12,
+              "vitamins": [
+                "Vitamin B6",
+                "Iron"
+              ],
+              "minerals": [
+                "Magnesium",
+                "Potassium"
+              ]
+            },
+            "substitutions": []
+          },
+          {
+            "name": "Authentic Kunafa",
+            "description": "The queen of desserts. A layer of stretchy, unsalted Nabulsi cheese is encased in butter-soaked shredded phyllo dough (kataifi), baked until golden, and drenched in cold orange blossom syrup.",
+            "details": {
+              "cuisine": "Middle Eastern (Levantine)",
+              "prepTimeMinutes": 20,
+              "cookTimeMinutes": 30,
+              "baseServingSize": 8,
+              "spiceLevel": "None",
+              "season": [
+                "celebration",
+                "Ramadan"
+              ]
+            },
+            "ingredients": [
+              {
+                "amount": 1,
+                "unit": "lb",
+                "name": "Kataifi pastry",
+                "notes": "Shredded phyllo."
+              },
+              {
+                "amount": 1,
+                "unit": "lb",
+                "name": "Nabulsi or Akawi cheese",
+                "notes": "Desalted."
+              }
+            ],
+            "instructions": [
+              "Step 1: Desalt cheese by soaking in water for hours.",
+              "Step 2: Rub shredded pastry with melted butter and orange dye.",
+              "Step 3: Press half of the pastry into a pan; top with cheese.",
+              "Step 4: Bake until the cheese is molten and the crust is rigid.",
+              "Step 5: Invert onto a plate; pour cold floral syrup over immediately."
+            ],
+            "classifications": {
+              "mealType": [
+                "dessert"
+              ],
+              "cookingMethods": [
+                "baking",
+                "syrup-saturation"
+              ]
+            },
+            "elementalProperties": {
+              "Fire": 0.15,
+              "Water": 0.35,
+              "Earth": 0.4,
+              "Air": 0.1
+            },
+            "astrologicalAffinities": {
+              "planets": [
+                "Venus",
+                "Moon"
+              ],
+              "signs": [
+                "taurus",
+                "cancer"
+              ],
+              "lunarPhases": [
+                "Full Moon"
+              ]
+            },
+            "nutritionPerServing": {
+              "calories": 520,
+              "proteinG": 18,
+              "carbsG": 62,
+              "fatG": 28,
+              "fiberG": 1,
+              "sodiumMg": 350,
+              "sugarG": 45,
+              "vitamins": [
+                "Vitamin A",
+                "Riboflavin"
+              ],
+              "minerals": [
+                "Calcium",
+                "Phosphorus"
+              ]
+            },
+            "substitutions": []
+          }
+    ],
     },
   },
   traditionalSauces: {

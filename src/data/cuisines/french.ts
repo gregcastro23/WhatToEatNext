@@ -2228,7 +2228,393 @@ export const french: Cuisine = {
             }
           ]
         },
-      ],
+            {
+              "name": "Authentic Beef Bourguignon",
+              "description": "The definitive French stew. Beef is slow-braised in a full-bodied Burgundy wine, transforming tough fibers into melting tenderness, enriched with pearl onions, mushrooms, and lardons.",
+              "details": {
+                "cuisine": "French (Burgundy)",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 180,
+                "baseServingSize": 6,
+                "spiceLevel": "None",
+                "season": [
+                  "winter"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 3,
+                  "unit": "lbs",
+                  "name": "Beef chuck",
+                  "notes": "Cut into large cubes."
+                },
+                {
+                  "amount": 1,
+                  "unit": "bottle",
+                  "name": "Red Burgundy wine",
+                  "notes": "Pinot Noir."
+                }
+              ],
+              "instructions": [
+                "Step 1: Fry lardons until crisp; reserve fat.",
+                "Step 2: Sear beef cubes in lardon fat.",
+                "Step 3: Sauté aromatics; add flour to create a roux.",
+                "Step 4: Pour in wine and stock; return beef.",
+                "Step 5: Simmer for 3 hours; add mushrooms and onions at the end."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "braising"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.35,
+                "Earth": 0.45,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Saturn"
+                ],
+                "signs": [
+                  "capricorn"
+                ],
+                "lunarPhases": [
+                  "Waning Gibbous"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 620,
+                "proteinG": 48,
+                "carbsG": 15,
+                "fatG": 38,
+                "fiberG": 3,
+                "sodiumMg": 850,
+                "sugarG": 4,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Bouillabaisse",
+              "description": "The soul of Marseille. A complex fisherman's stew utilizing at least four types of Mediterranean fish, flavored with saffron, fennel, and orange zest, served with 'rouille'—a fierce chili-garlic-saffron emulsion.",
+              "details": {
+                "cuisine": "French (Provence)",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 45,
+                "baseServingSize": 4,
+                "spiceLevel": "Medium",
+                "season": [
+                  "summer"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "lbs",
+                  "name": "Mixed white fish",
+                  "notes": "Rascasse, sea robin, etc."
+                },
+                {
+                  "amount": 1,
+                  "unit": "pinch",
+                  "name": "Saffron",
+                  "notes": "High quality."
+                }
+              ],
+              "instructions": [
+                "Step 1: Sauté leeks, onions, and fennel.",
+                "Step 2: Add tomatoes, aromatics, and saffron.",
+                "Step 3: Boil fish heads/bones to create base stock.",
+                "Step 4: Poach large fish pieces in the stock.",
+                "Step 5: Serve broth over bread; fish on the side."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "simmering",
+                  "poaching"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.2,
+                "Water": 0.6,
+                "Earth": 0.1,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Neptune"
+                ],
+                "signs": [
+                  "pisces"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 450,
+                "proteinG": 52,
+                "carbsG": 18,
+                "fatG": 14,
+                "fiberG": 4,
+                "sodiumMg": 1200,
+                "sugarG": 6,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Selenium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Quiche Lorraine",
+              "description": "A structural triumph of fat and air. A shortcrust pastry shell holds a rich, aerated custard of heavy cream and eggs, punctuated only by smoky bacon (lardons), strictly omitting cheese in its original form.",
+              "details": {
+                "cuisine": "French (Lorraine)",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 40,
+                "baseServingSize": 6,
+                "spiceLevel": "None",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "shell",
+                  "name": "Pâte Brisée",
+                  "notes": "Shortcrust pastry."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Crème Fraîche",
+                  "notes": "Or heavy cream."
+                }
+              ],
+              "instructions": [
+                "Step 1: Blind bake the pastry shell.",
+                "Step 2: Fry lardons until crisp.",
+                "Step 3: Whisk eggs and cream; season with nutmeg.",
+                "Step 4: Place lardons in shell; pour in custard.",
+                "Step 5: Bake at 375°F until just set and jiggly."
+              ],
+              "classifications": {
+                "mealType": [
+                  "brunch",
+                  "lunch"
+                ],
+                "cookingMethods": [
+                  "baking"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.25,
+                "Earth": 0.35,
+                "Air": 0.25
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Venus"
+                ],
+                "signs": [
+                  "taurus"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 480,
+                "proteinG": 18,
+                "carbsG": 25,
+                "fatG": 38,
+                "fiberG": 1,
+                "sodiumMg": 750,
+                "sugarG": 2,
+                "vitamins": [
+                  "Vitamin A"
+                ],
+                "minerals": [
+                  "Calcium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Ratatouille (Confit Byaldi)",
+              "description": "The refined, structural version of the Provencal stew. Paper-thin rounds of summer vegetables are layered in an infinite spiral over a 'piperade' base, slow-roasted until their flavors unify into a sweet, concentrated essence.",
+              "details": {
+                "cuisine": "French (Provence)",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 90,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "summer"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "whole",
+                  "name": "Zucchini/Eggplant",
+                  "notes": "Sliced into 1mm rounds."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Piperade",
+                  "notes": "Roasted pepper and tomato sauce."
+                }
+              ],
+              "instructions": [
+                "Step 1: Create a thick piperade base in a round dish.",
+                "Step 2: Slice vegetables with a mandoline for precision.",
+                "Step 3: Layer vegetables in an overlapping spiral.",
+                "Step 4: Top with parchment paper to steam-roast.",
+                "Step 5: Bake at 300°F for 90 minutes."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner",
+                  "side",
+                  "vegan"
+                ],
+                "cookingMethods": [
+                  "roasting"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.1,
+                "Water": 0.4,
+                "Earth": 0.4,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Sun"
+                ],
+                "signs": [
+                  "leo"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 220,
+                "proteinG": 6,
+                "carbsG": 28,
+                "fatG": 8,
+                "fiberG": 12,
+                "sodiumMg": 450,
+                "sugarG": 14,
+                "vitamins": [
+                  "Vitamin C",
+                  "Vitamin A"
+                ],
+                "minerals": [
+                  "Potassium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Soufflé au Chocolat",
+              "description": "The most fragile structure in French pastry. A rich chocolate base is lightened with an intense volume of whipped egg whites, relying on the physical expansion of trapped air to rise high above the ramekin.",
+              "details": {
+                "cuisine": "French",
+                "prepTimeMinutes": 20,
+                "cookTimeMinutes": 15,
+                "baseServingSize": 2,
+                "spiceLevel": "None",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 100,
+                  "unit": "g",
+                  "name": "Dark chocolate",
+                  "notes": "70% cocoa."
+                },
+                {
+                  "amount": 3,
+                  "unit": "large",
+                  "name": "Egg whites",
+                  "notes": "Whipped to stiff peaks."
+                }
+              ],
+              "instructions": [
+                "Step 1: Melt chocolate with butter; stir in yolks.",
+                "Step 2: Whip egg whites with sugar until glossy.",
+                "Step 3: Fold whites into chocolate matrix in thirds.",
+                "Step 4: Butter and sugar ramekins; pour in batter.",
+                "Step 5: Bake at 400°F; do not open the door."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dessert"
+                ],
+                "cookingMethods": [
+                  "baking",
+                  "whipping"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.1,
+                "Earth": 0.25,
+                "Air": 0.5
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mercury"
+                ],
+                "signs": [
+                  "gemini"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 350,
+                "proteinG": 12,
+                "carbsG": 32,
+                "fatG": 22,
+                "fiberG": 4,
+                "sodiumMg": 110,
+                "sugarG": 24,
+                "vitamins": [
+                  "Magnesium"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            }
+        ],
     },
     dessert: {
       all: [

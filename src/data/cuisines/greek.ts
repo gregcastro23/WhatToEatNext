@@ -2594,7 +2594,403 @@ export const greek: Cuisine = {
             }
           ]
         },
-      ],
+            {
+              "name": "Authentic Moussaka",
+              "description": "The architectural giant of Greek cuisine. Layers of fried eggplant and spiced lamb ragu are topped with a massive, 2-inch thick layer of stiff Greek béchamel, baked until the surface forms a dark, scorched crust.",
+              "details": {
+                "cuisine": "Greek",
+                "prepTimeMinutes": 60,
+                "cookTimeMinutes": 60,
+                "baseServingSize": 8,
+                "spiceLevel": "Mild",
+                "season": [
+                  "autumn",
+                  "winter"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "large",
+                  "name": "Eggplants",
+                  "notes": "Sliced and fried."
+                },
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Ground lamb",
+                  "notes": "Spiced with cinnamon."
+                }
+              ],
+              "instructions": [
+                "Step 1: Fry eggplant slices until golden.",
+                "Step 2: Prepare a thick lamb ragu with tomato and wine.",
+                "Step 3: Make a stiff béchamel enriched with egg yolks.",
+                "Step 4: Layer eggplant, then meat, then béchamel.",
+                "Step 5: Bake at 375°F until the top is deeply browned."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "layering",
+                  "baking"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.2,
+                "Water": 0.2,
+                "Earth": 0.5,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Saturn"
+                ],
+                "signs": [
+                  "capricorn"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 680,
+                "proteinG": 32,
+                "carbsG": 45,
+                "fatG": 48,
+                "fiberG": 8,
+                "sodiumMg": 850,
+                "sugarG": 10,
+                "vitamins": [
+                  "Vitamin A",
+                  "Vitamin K"
+                ],
+                "minerals": [
+                  "Potassium",
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Spanakopita",
+              "description": "A study in paper-thin stratification. Dozens of layers of buttered phyllo pastry encapsulate a moisture-controlled filling of spinach, feta, and dill, baked until the exterior shatters at the touch.",
+              "details": {
+                "cuisine": "Greek",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 45,
+                "baseServingSize": 8,
+                "spiceLevel": "None",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Phyllo pastry",
+                  "notes": "Defrosted."
+                },
+                {
+                  "amount": 2,
+                  "unit": "lbs",
+                  "name": "Fresh spinach",
+                  "notes": "Wilted and squeezed completely dry."
+                }
+              ],
+              "instructions": [
+                "Step 1: Wring spinach until zero water remains.",
+                "Step 2: Mix with feta, eggs, and massive amounts of dill.",
+                "Step 3: Layer 10 sheets of phyllo, brushing each with butter.",
+                "Step 4: Spread filling; top with 10 more buttered sheets.",
+                "Step 5: Score top layers; bake until golden and crisp."
+              ],
+              "classifications": {
+                "mealType": [
+                  "lunch",
+                  "appetizer"
+                ],
+                "cookingMethods": [
+                  "baking",
+                  "layering"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.25,
+                "Water": 0.1,
+                "Earth": 0.35,
+                "Air": 0.3
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Venus"
+                ],
+                "signs": [
+                  "libra"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 420,
+                "proteinG": 14,
+                "carbsG": 38,
+                "fatG": 28,
+                "fiberG": 6,
+                "sodiumMg": 950,
+                "sugarG": 2,
+                "vitamins": [
+                  "Vitamin K",
+                  "Vitamin A"
+                ],
+                "minerals": [
+                  "Calcium",
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Pastitsio",
+              "description": "The Greek pasta bake. Tubular pasta is aligned horizontally, bonded by egg and cheese, topped with a rich meat sauce and a dense, structural layer of béchamel, creating a perfect cross-section when sliced.",
+              "details": {
+                "cuisine": "Greek",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 60,
+                "baseServingSize": 8,
+                "spiceLevel": "None",
+                "season": [
+                  "winter"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 500,
+                  "unit": "g",
+                  "name": "Pastitsio pasta",
+                  "notes": "Long tubes (No. 2)."
+                },
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Ground beef",
+                  "notes": "Spiced with cloves and cinnamon."
+                }
+              ],
+              "instructions": [
+                "Step 1: Boil pasta; toss with egg whites and kefalotyri.",
+                "Step 2: Prepare meat sauce with tomato and warm spices.",
+                "Step 3: Align pasta tubes in a deep baking dish.",
+                "Step 4: Layer meat sauce, then a thick béchamel.",
+                "Step 5: Bake at 350°F until the surface is rigid and golden."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "baking",
+                  "layering"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.2,
+                "Water": 0.2,
+                "Earth": 0.55,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Jupiter"
+                ],
+                "signs": [
+                  "sagittarius"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 720,
+                "proteinG": 38,
+                "carbsG": 75,
+                "fatG": 42,
+                "fiberG": 4,
+                "sodiumMg": 1100,
+                "sugarG": 8,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Calcium",
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Gemista",
+              "description": "Vegetables filled with the essence of summer. Tomatoes and peppers are hollowed and stuffed with a kinetic mixture of rice, herbs, and the vegetable's own pulp, then slow-roasted until the skins collapse and caramelize.",
+              "details": {
+                "cuisine": "Greek",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 90,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "summer"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 8,
+                  "unit": "whole",
+                  "name": "Tomatoes/Bell Peppers",
+                  "notes": "Large and firm."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Short-grain rice",
+                  "notes": "Raw."
+                }
+              ],
+              "instructions": [
+                "Step 1: Hollow out vegetables; reserve the pulp.",
+                "Step 2: Sauté onion, garlic, and rice; add vegetable pulp.",
+                "Step 3: Fold in massive amounts of parsley and mint.",
+                "Step 4: Stuff vegetables 3/4 full (rice will expand).",
+                "Step 5: Bake with potatoes in a lake of olive oil."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner",
+                  "lunch",
+                  "vegan"
+                ],
+                "cookingMethods": [
+                  "roasting",
+                  "stuffing"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.35,
+                "Earth": 0.45,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Sun"
+                ],
+                "signs": [
+                  "leo"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 450,
+                "proteinG": 8,
+                "carbsG": 62,
+                "fatG": 22,
+                "fiberG": 8,
+                "sodiumMg": 550,
+                "sugarG": 12,
+                "vitamins": [
+                  "Vitamin C",
+                  "Vitamin A"
+                ],
+                "minerals": [
+                  "Potassium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Galaktoboureko",
+              "description": "The supreme Greek dessert. A thick semolina custard is encased in buttered phyllo, baked until golden, and then drowned in a cold lemon-scented syrup, resulting in a dual texture of shattering pastry and silken cream.",
+              "details": {
+                "cuisine": "Greek",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 45,
+                "baseServingSize": 12,
+                "spiceLevel": "None",
+                "season": [
+                  "celebration"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "quart",
+                  "name": "Whole milk",
+                  "notes": "For the custard."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Fine semolina",
+                  "notes": "Thickener."
+                }
+              ],
+              "instructions": [
+                "Step 1: Cook milk, sugar, and semolina until very thick.",
+                "Step 2: Temper in egg yolks and butter.",
+                "Step 3: Line dish with buttered phyllo; pour in custard.",
+                "Step 4: Cover with more phyllo; bake until dark golden.",
+                "Step 5: Pour cold lemon syrup over the bubbling hot pastry."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dessert"
+                ],
+                "cookingMethods": [
+                  "boiling",
+                  "baking",
+                  "syrup-saturation"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.4,
+                "Earth": 0.35,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Venus"
+                ],
+                "signs": [
+                  "taurus"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 420,
+                "proteinG": 10,
+                "carbsG": 65,
+                "fatG": 18,
+                "fiberG": 1,
+                "sodiumMg": 180,
+                "sugarG": 45,
+                "vitamins": [
+                  "Riboflavin"
+                ],
+                "minerals": [
+                  "Calcium"
+                ]
+              },
+              "substitutions": []
+            }
+        ],
     },
     dessert: {
       all: [

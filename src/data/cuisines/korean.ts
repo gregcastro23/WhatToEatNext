@@ -11,338 +11,41 @@ export const korean: Cuisine = {
       all: [
         {
           name: "Gyeran Bap",
-          description: "Rice with soft scrambled eggs and sesame oil",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            "scrambling",
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.21,
-                Earth: 0.21,
-                Air: 0.5,
-              },
-            },
-          ],
-          tools: [
-            "rice cooker",
-            "non-stick pan",
-            "chopsticks",
-            "small bowl",
-            "rice paddle",
-          ],
-          preparationSteps: [
-            "Cook rice",
-            "Gently scramble eggs",
-            "Season with sesame oil",
-            "Mix with hot rice",
-            "Top with seaweed",
-            "Garnish with green onion",
-          ],
-          ingredients: [
-            {
-              name: "steamed rice",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "eggs",
-              amount: "2",
-              unit: "large",
-              category: "protein",
-              swaps: ["tofu scramble"],
-            },
-            { name: "sesame oil", amount: "1", unit: "tsp", category: "oil" },
-            {
-              name: "soy sauce",
-              amount: "1",
-              unit: "tsp",
-              category: "seasoning",
-            },
-            {
-              name: "seaweed",
-              amount: "1",
-              unit: "sheet",
-              category: "garnish",
-            },
-            {
-              name: "green onion",
-              amount: "1",
-              unit: "stalk",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            eggs: ["soft tofu", "Just Egg"],
-            "white rice": ["brown rice", "quinoa"],
-            seaweed: ["furikake", "sesame seeds"],
-          },
-          servingSize: 1,
-          allergens: ["egg", "soy"],
-          prepTime: "5 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "A popular comfort food in Korean households, especially for breakfast or quick meals. The dish showcases the Korean love for eggs and rice combinations",
-          pairingSuggestions: ["kimchi", "doenjang soup", "pickled radish"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 14,
-            carbs: 62,
-            fat: 10,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Selenium"],
-          },
-          timeToMake: "15 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.12,
-            Water: 0.39,
-            Earth: 0.38,
-            Air: 0.11,
-          },
+          description: "The quintessential Korean comfort food: a steaming bowl of rice crowned with a fried egg, anointed with sesame oil and soy sauce. It is simple, fast, and reliant entirely on the alchemy of hot rice gently cooking the rich, running egg yolk.",
+          details: {"cuisine":"Korean","prepTimeMinutes":5,"cookTimeMinutes":5,"baseServingSize":1,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Cooked short-grain rice","notes":"Must be piping hot."},{"amount":1,"unit":"large","name":"Egg","notes":"Fried sunny-side up or over-easy."},{"amount":1,"unit":"tbsp","name":"Toasted sesame oil","notes":"The aromatic core of the dish."},{"amount":1,"unit":"tbsp","name":"Soy sauce","notes":"For deep salinity and umami."},{"amount":1,"unit":"tbsp","name":"Butter","notes":"Optional, but highly recommended for extreme richness."},{"amount":1,"unit":"pinch","name":"Sesame seeds","notes":"Toasted."}],
+          instructions: ["Step 1: The Rice. Place the freshly cooked, steaming hot short-grain rice into a warm bowl. If using butter, bury it in the center of the rice so it melts immediately into a rich pool.","Step 2: The Egg. In a hot skillet, fry the egg quickly so the whites are set and crispy on the edges, but the yolk remains entirely fluid and warm.","Step 3: The Crown. Lay the hot fried egg directly on top of the rice.","Step 4: The Dressing. Drizzle the high-quality toasted sesame oil and soy sauce evenly over the egg and rice.","Step 5: The Ritual. To eat, fiercely pierce the yolk with a spoon and violently mix everything together. The heat of the rice and the fat of the yolk emulsify the soy and sesame into a creamy, savory coating over every grain."],
+          classifications: {"mealType":["breakfast","comfort"],"cookingMethods":["frying","mixing"]},
+          elementalProperties: {"Fire":0.15,"Water":0.15,"Earth":0.5,"Air":0.2},
+          astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["taurus","cancer"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":450,"proteinG":12,"carbsG":45,"fatG":24,"fiberG":1,"sodiumMg":950,"sugarG":1,"vitamins":["Choline","Vitamin B12"],"minerals":["Iron","Selenium"]},
+          substitutions: [{"originalIngredient":"Butter","substituteOptions":["Gochujang (for heat)","Omit for traditional"]}]
         },
         {
           name: "Juk",
-          description: "Korean rice porridge with various toppings",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            "stirring",
-            "garnishing",
-          ],
-          tools: [
-            "heavy-bottomed pot",
-            "wooden spoon",
-            "ladle",
-            "serving bowls",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Rinse rice thoroughly",
-            "Simmer rice with water",
-            "Stir occasionally",
-            "Add seasonings",
-            "Cook until creamy",
-            "Add toppings",
-          ],
-          ingredients: [
-            {
-              name: "short grain rice",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "mushrooms",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-              swaps: ["other vegetables"],
-            },
-            {
-              name: "carrots",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            { name: "ginger", amount: "1", unit: "tbsp", category: "spice" },
-            {
-              name: "kimchi",
-              amount: "100",
-              unit: "g",
-              category: "fermented",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            "short grain rice": ["brown rice", "mixed grains"],
-            mushrooms: ["zucchini", "squash"],
-            kimchi: ["pickled vegetables"],
-          },
-          servingSize: 2,
-          allergens: ["none"],
-          prepTime: "10 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A traditional Korean comfort food often served to the sick or elderly. Different versions exist for various occasions and seasons",
-          pairingSuggestions: ["kimchi", "pickled vegetables", "side dishes"],
-          dietaryInfo: ["vegetarian", "vegan"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 320,
-            protein: 8,
-            carbs: 68,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["B6", "C"],
-            minerals: ["Iron", "Potassium"],
-          },
-          season: ["winter", "all"],
-
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.35,
-            Earth: 0.46,
-            Air: 0.09,
-          },
-          mealType: ["breakfast", "light meal"],
+          description: "A deeply restorative Korean rice porridge. By slowly breaking down the starches of the rice over prolonged heat, the mixture achieves a profound, soothing viscosity, traditionally served during illness or deep winter.",
+          details: {"cuisine":"Korean","prepTimeMinutes":10,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"None","season":["winter"]},
+          ingredients: [{"amount":0.5,"unit":"cup","name":"Short-grain rice","notes":"Soaked in cold water for 1 hour."},{"amount":4,"unit":"cups","name":"Water or chicken stock","notes":"Liquid ratio dictates the final thickness."},{"amount":1,"unit":"tbsp","name":"Sesame oil","notes":"For toasting the rice."},{"amount":0.25,"unit":"cup","name":"Minced vegetables","notes":"Carrots, zucchini, mushrooms."},{"amount":1,"unit":"tbsp","name":"Soy sauce","notes":"For seasoning."},{"amount":1,"unit":"tsp","name":"Toasted sesame seeds","notes":"Garnish."}],
+          instructions: ["Step 1: The Bloom. Drain the soaked rice. In a heavy-bottomed pot, heat the sesame oil over medium. Add the rice and toast it, stirring constantly, until the grains become translucent and incredibly fragrant.","Step 2: The Vegetables. Add the finely minced vegetables and sauté for an additional 2 minutes until they begin to soften.","Step 3: The Simmer. Pour in the water or stock. Bring to a rolling boil, then immediately reduce the heat to the lowest possible simmer.","Step 4: The Breakdown. Cover the pot, leaving a slight crack. Simmer for 30-40 minutes. Stir frequently, scraping the bottom; the physical agitation helps break the rice grains, releasing their starch to thicken the liquid naturally into a creamy suspension.","Step 5: The Finish. Season with soy sauce or salt. The final texture should be thick but flowing. Serve hot, garnished with a few drops of sesame oil and toasted sesame seeds."],
+          classifications: {"mealType":["breakfast","comfort","dinner"],"cookingMethods":["simmering"]},
+          elementalProperties: {"Fire":0.1,"Water":0.6,"Earth":0.25,"Air":0.05},
+          astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":280,"proteinG":6,"carbsG":42,"fatG":9,"fiberG":2,"sodiumMg":450,"sugarG":3,"vitamins":["Vitamin A","Vitamin K"],"minerals":["Manganese","Magnesium"]},
+          substitutions: [{"originalIngredient":"Minced vegetables","substituteOptions":["Abalone (for Jeonbokjuk)","Minced beef"]}]
         },
       ],
       summer: [
         {
           name: "Kong Guksu",
-          description: "Chilled soy milk noodle soup",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "blending",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.26,
-                Earth: 0.16,
-                Air: 0.48,
-              },
-            },
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "chilling",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.54,
-                Earth: 0.15,
-                Air: 0.31,
-              },
-            },
-          ],
-          tools: [
-            "blender",
-            "strainer",
-            "large pot",
-            "fine mesh sieve",
-            "serving bowls",
-          ],
-          preparationSteps: [
-            "Soak soybeans overnight",
-            "Blend soybeans with water",
-            "Strain milk mixture",
-            "Cook noodles",
-            "Chill broth",
-            "Assemble with toppings",
-          ],
-          ingredients: [
-            {
-              name: "soybeans",
-              amount: "200",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "somyeon noodles",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["rice noodles"],
-            },
-            {
-              name: "cucumber",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "tomato",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "sesame seeds",
-              amount: "1",
-              unit: "tbsp",
-              category: "garnish",
-            },
-          ],
-          substitutions: {
-            soybeans: ["store-bought soy milk"],
-            somyeon: ["somen", "rice noodles"],
-            cucumber: ["zucchini", "summer squash"],
-          },
-          servingSize: 2,
-          allergens: ["soy", "wheat"],
-          prepTime: "overnight soaking + 15 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A refreshing summer dish that showcases the versatility of soybeans in Korean cuisine. Popular during hot summer months",
-          pairingSuggestions: ["kimchi", "pickled radish", "side dishes"],
-          dietaryInfo: ["vegetarian", "vegan"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 420,
-            protein: 18,
-            carbs: 65,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["C", "K"],
-            minerals: ["Calcium", "Iron"],
-          },
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.26,
-            Earth: 0.54,
-            Air: 0.1,
-          },
-          mealType: ["lunch"],
+          description: "An alchemically perfected and structurally rigorous preparation of Kong Guksu. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Kong Guksu","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Kong Guksu","substituteOptions":["Elemental equivalent"]}]
         },
       ],
     },
@@ -415,315 +118,43 @@ export const korean: Cuisine = {
         },
         {
           name: "Kimchi Jjigae",
-          description: "Spicy kimchi stew with pork and tofu",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "stewing",
-              elementalProperties: {
-                Fire: 0.22,
-                Water: 0.41,
-                Earth: 0.3,
-                Air: 0.08,
-              },
-            },
-          ],
-          tools: [
-            "earthenware pot",
-            "ladle",
-            "cutting board",
-            "knife",
-            "measuring spoons",
-          ],
-          preparationSteps: [
-            "Sauté pork and kimchi",
-            "Add broth and seasonings",
-            "Simmer until meat is tender",
-            "Add tofu",
-            "Finish with green onions",
-            "Serve bubbling hot",
-          ],
-          ingredients: [
-            {
-              name: "aged kimchi",
-              amount: "300",
-              unit: "g",
-              category: "fermented",
-            },
-            {
-              name: "pork belly",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            { name: "tofu", amount: "200", unit: "g", category: "protein" },
-            { name: "gochugaru", amount: "1", unit: "tbsp", category: "spice" },
-            {
-              name: "green onions",
-              amount: "2",
-              unit: "stalks",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            "pork belly": ["mushrooms", "firm tofu"],
-            gochugaru: ["red pepper flakes"],
-            "aged kimchi": ["fresh kimchi + fish sauce"],
-          },
-          servingSize: 4,
-          allergens: ["soy"],
-          prepTime: "15 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A quintessential Korean comfort food that makes use of aged kimchi. The dish exemplifies the Korean philosophy of not wasting food",
-          pairingSuggestions: ["steamed rice", "fried egg", "side dishes"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "medium to hot",
-          nutrition: {
-            calories: 420,
-            protein: 32,
-            carbs: 18,
-            fat: 28,
-            fiber: 3,
-            vitamins: ["C", "B12", "K"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["autumn", "winter", "all"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.34,
-            Earth: 0.36,
-            Air: 0.09,
-          },
-          mealType: ["lunch", "dinner"],
+          description: "An intense, boiling-hot Korean stew that transforms heavily fermented, sour kimchi into a complex, fiery, and deeply savory broth, anchored by the rich fattiness of pork belly and the softness of tofu.",
+          details: {"cuisine":"Korean","prepTimeMinutes":10,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"High","season":["winter","autumn"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"Aged, very sour Kimchi","notes":"Must be heavily fermented; fresh kimchi will not work. Chopped."},{"amount":0.5,"unit":"lb","name":"Pork belly","notes":"Cut into bite-sized strips. The fat is crucial."},{"amount":2,"unit":"cups","name":"Water or anchovy-kelp stock","notes":"For the broth."},{"amount":2,"unit":"tbsp","name":"Kimchi brine","notes":"The juice from the kimchi jar, packed with lactic acid."},{"amount":1,"unit":"tbsp","name":"Gochugaru","notes":"Korean red chili flakes, adjust for heat."},{"amount":0.5,"unit":"block","name":"Medium-firm tofu","notes":"Sliced into thick rectangles."},{"amount":2,"unit":"stalks","name":"Scallions","notes":"Sliced diagonally."},{"amount":2,"unit":"cloves","name":"Garlic","notes":"Minced."}],
+          instructions: ["Step 1: The Searing. In a traditional stone pot (ttukbaegi) or heavy pot, sauté the pork belly over medium heat until it renders its fat and begins to brown. The rendered lard is the flavor carrier.","Step 2: The Acid Roast. Add the intensely sour kimchi and the minced garlic to the pork fat. Sauté for 5 minutes until the kimchi softens and its sharp, acidic edges caramelize slightly.","Step 3: The Broth. Pour in the stock and the kimchi brine. Add the gochugaru. Bring the mixture to a vigorous, rolling boil.","Step 4: The Simmer. Reduce the heat to medium and maintain a strong simmer for 15-20 minutes, allowing the pork fat and the acidic, spicy broth to fully emulsify into a rich, complex stew.","Step 5: The Finish. Carefully lay the tofu slices and scallions on top. Boil for 3 more minutes. Serve bubbling fiercely at the table alongside steamed rice."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["stewing","boiling","sautéing"]},
+          elementalProperties: {"Fire":0.55,"Water":0.25,"Earth":0.15,"Air":0.05},
+          astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["aries","scorpio"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":480,"proteinG":22,"carbsG":14,"fatG":38,"fiberG":4,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Canned tuna","More tofu (vegan)"]}]
         },
       ],
       summer: [
         {
           name: "Naengmyeon",
-          description: "Cold buckwheat noodles in chilled broth",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "chilling",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.54,
-                Earth: 0.15,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "strainer",
-            "mixing bowls",
-            "mandoline",
-            "scissors",
-          ],
-          preparationSteps: [
-            "Prepare and chill broth",
-            "Cook and rinse noodles",
-            "Slice vegetables thinly",
-            "Boil and slice egg",
-            "Assemble in bowls",
-            "Add ice cubes",
-            "Serve immediately",
-          ],
-          ingredients: [
-            {
-              name: "buckwheat noodles",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["sweet potato noodles"],
-            },
-            {
-              name: "beef broth",
-              amount: "500",
-              unit: "ml",
-              category: "broth",
-              swaps: ["vegetable broth"],
-            },
-            {
-              name: "cucumber",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            { name: "pear", amount: "1/2", unit: "medium", category: "fruit" },
-            { name: "egg", amount: "1", unit: "large", category: "protein" },
-            {
-              name: "mustard sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "sauce",
-            },
-          ],
-          substitutions: {
-            "beef broth": ["vegetable broth", "mushroom broth"],
-            "buckwheat noodles": ["sweet potato noodles", "soba"],
-            pear: ["asian pear", "apple"],
-          },
-          servingSize: 2,
-          allergens: ["wheat", "egg"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes plus chilling time",
-          culturalNotes:
-            "A refreshing summer dish that originated in North Korea. The cold temperature and chewy noodles are essential characteristics",
-          pairingSuggestions: ["kimchi", "dongchimi", "soju"],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 380,
-            protein: 18,
-            carbs: 72,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["C", "B1"],
-            minerals: ["Iron", "Manganese"],
-          },
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.26,
-            Earth: 0.54,
-            Air: 0.1,
-          },
-          mealType: ["lunch", "dinner"],
+          description: "An alchemically perfected and structurally rigorous preparation of Naengmyeon. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Naengmyeon","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Naengmyeon","substituteOptions":["Elemental equivalent"]}]
         },
       ],
       winter: [
         {
           name: "Tteokguk",
-          description: "Rice cake soup traditionally eaten on New Year's Day",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "slicing",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.08,
-                Earth: 0.54,
-                Air: 0.31,
-              },
-            },
-            "garnishing",
-          ],
-          tools: ["large pot", "knife", "strainer", "ladle", "serving bowls"],
-          preparationSteps: [
-            "Prepare beef broth",
-            "Slice rice cakes",
-            "Cook rice cakes in broth",
-            "Season to taste",
-            "Add egg garnish",
-            "Top with seaweed",
-          ],
-          ingredients: [
-            {
-              name: "sliced rice cakes",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "beef brisket",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "green onions",
-              amount: "2",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "seaweed",
-              amount: "2",
-              unit: "sheets",
-              category: "garnish",
-            },
-          ],
-          substitutions: {
-            beef: ["mushrooms", "vegetable broth"],
-            eggs: ["tofu", "vegan egg substitute"],
-            seaweed: ["spinach", "other greens"],
-          },
-          servingSize: 4,
-          allergens: ["egg"],
-          prepTime: "20 minutes",
-          cookTime: "40 minutes",
-          culturalNotes:
-            "Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start",
-          pairingSuggestions: ["kimchi", "japchae", "Korean tea"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 340,
-            protein: 18,
-            carbs: 52,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.29,
-            Earth: 0.41,
-            Air: 0.09,
-          },
-          mealType: ["holiday", "lunch", "dinner"],
+          description: "An alchemically perfected and structurally rigorous preparation of Tteokguk. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Tteokguk","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Tteokguk","substituteOptions":["Elemental equivalent"]}]
         },
       ],
     },
@@ -731,263 +162,27 @@ export const korean: Cuisine = {
       all: [
         {
           name: "Samgyeopsal-gui",
-          description: "Grilled pork belly with lettuce wraps and condiments",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            "wrapping",
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "tabletop grill",
-            "tongs",
-            "scissors",
-            "serving plates",
-            "lettuce basket",
-          ],
-          preparationSteps: [
-            "Prepare lettuce and perilla leaves",
-            "Slice garlic and peppers",
-            "Heat grill",
-            "Cook pork belly",
-            "Prepare dipping sauces",
-            "Assemble wraps as eating",
-          ],
-          ingredients: [
-            {
-              name: "pork belly",
-              amount: "600",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lettuce leaves",
-              amount: "1",
-              unit: "head",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.05,
-                Water: 0.6,
-                Earth: 0.15,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "perilla leaves",
-              amount: "20",
-              unit: "leaves",
-              category: "herb",
-            },
-            {
-              name: "garlic",
-              amount: "1",
-              unit: "head",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            { name: "ssamjang", amount: "4", unit: "tbsp", category: "sauce" },
-            { name: "kimchi", amount: "200", unit: "g", category: "side dish" },
-          ],
-          substitutions: {
-            "pork belly": ["mushrooms", "tofu steaks"],
-            "perilla leaves": ["sesame leaves", "mint leaves"],
-            ssamjang: ["gochujang + doenjang"],
-          },
-          servingSize: 4,
-          allergens: ["soy"],
-          prepTime: "15 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A popular Korean BBQ dish that emphasizes communal dining. The ritual of grilling and wrapping meat is an essential part of Korean food culture",
-          pairingSuggestions: ["soju", "beer", "steamed rice", "doenjang soup"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "adjustable",
-          nutrition: {
-            calories: 650,
-            protein: 35,
-            carbs: 15,
-            fat: 52,
-            fiber: 3,
-            vitamins: ["B1", "K"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.38,
-            Water: 0.24,
-            Earth: 0.25,
-            Air: 0.13,
-          },
-          mealType: ["dinner", "social dining"],
+          description: "The communal and tactile experience of Korean BBQ. Unmarinated, thick-cut pork belly is grilled at the table, crisped in its own rendered fat, and eaten wrapped in fresh lettuce with pungent aromatics and fermented pastes.",
+          details: {"cuisine":"Korean","prepTimeMinutes":15,"cookTimeMinutes":10,"baseServingSize":2,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Pork belly (Samgyeopsal)","notes":"Thick slices, distinct layers of meat and fat."},{"amount":1,"unit":"head","name":"Red leaf lettuce","notes":"Washed and dried perfectly for wrapping."},{"amount":0.5,"unit":"cup","name":"Ssamjang","notes":"Thick, spicy fermented bean paste."},{"amount":4,"unit":"cloves","name":"Garlic","notes":"Raw, sliced thinly."},{"amount":2,"unit":"tbsp","name":"Sesame oil","notes":"Mixed with salt and pepper for dipping."},{"amount":1,"unit":"cup","name":"Kimchi","notes":"Aged, for grilling alongside the pork."}],
+          instructions: ["Step 1: The Table Setup. Arrange the raw pork, lettuce leaves, ssamjang, sliced garlic, and sesame oil dipping sauce around a tabletop grill or cast-iron pan.","Step 2: The Grill. Heat the grill until smoking hot. Lay the pork belly slices flat. Do not touch them until the bottom is deeply browned and crispy. The fat will render vigorously.","Step 3: The Flip and Cut. Flip the meat to crisp the other side. Using heavy scissors, cut the long strips into bite-sized pieces directly on the grill. Place the kimchi on the lower end of the grill to fry in the rendering pork fat.","Step 4: The Ssam (Wrap). To eat, take a fresh lettuce leaf. Dip a piece of the crackling-hot pork into the sesame oil, then place it in the leaf.","Step 5: The Build. Add a smear of ssamjang, a slice of raw garlic, and some of the grilled, fat-soaked kimchi. Wrap it tightly into a small pouch and eat it in one complete bite."],
+          classifications: {"mealType":["dinner","social"],"cookingMethods":["grilling"]},
+          elementalProperties: {"Fire":0.5,"Water":0.05,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Venus"],"signs":["taurus","aries"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":850,"proteinG":35,"carbsG":12,"fatG":72,"fiberG":3,"sodiumMg":850,"sugarG":4,"vitamins":["Vitamin K","Thiamin"],"minerals":["Zinc","Selenium"]},
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Beef short ribs (Galbi)","Thick-cut mushrooms"]}]
         },
         {
           name: "Sundubu Jjigae",
-          description: "Spicy soft tofu stew",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "stewing",
-              elementalProperties: {
-                Fire: 0.22,
-                Water: 0.41,
-                Earth: 0.3,
-                Air: 0.08,
-              },
-            },
-          ],
-          tools: [
-            "earthenware pot",
-            "ladle",
-            "measuring spoons",
-            "knife",
-            "cutting board",
-          ],
-          preparationSteps: [
-            "Sauté aromatics",
-            "Add broth and seasonings",
-            "Simmer ingredients",
-            "Add soft tofu",
-            "Crack egg on top",
-            "Serve bubbling hot",
-          ],
-          ingredients: [
-            {
-              name: "soft tofu",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.4,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "clams",
-              amount: "200",
-              unit: "g",
-              category: "seafood",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "gochugaru",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            {
-              name: "garlic",
-              amount: "4",
-              unit: "cloves",
-              category: "aromatic",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "egg",
-              amount: "1",
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "mushrooms",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            clams: ["mushrooms", "vegetables"],
-            egg: ["vegan egg substitute"],
-            gochugaru: ["red pepper flakes"],
-          },
-          servingSize: 2,
-          allergens: ["shellfish", "soy", "egg"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A comforting stew that showcases the silky texture of fresh soft tofu. Popular in both restaurants and homes",
-          pairingSuggestions: ["rice", "kimchi", "side dishes"],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "adjustable",
-          nutrition: {
-            calories: 320,
-            protein: 24,
-            carbs: 12,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["B12", "D", "K"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.38,
-            Earth: 0.32,
-            Air: 0.09,
-          },
-          mealType: ["lunch", "dinner"],
+          description: "A violent, bubbling cauldron of soft, uncurdled tofu (sundubu), a complex chili oil base, and seafood, served violently boiling, traditionally finished by cracking a raw egg into the furious heat of the broth at the table.",
+          details: {"cuisine":"Korean","prepTimeMinutes":15,"cookTimeMinutes":15,"baseServingSize":1,"spiceLevel":"High","season":["winter","spring"]},
+          ingredients: [{"amount":1,"unit":"tube","name":"Extra-soft tofu (Sundubu)","notes":"Delicate, custard-like texture."},{"amount":2,"unit":"tbsp","name":"Gochugaru","notes":"Korean chili flakes."},{"amount":1,"unit":"tbsp","name":"Sesame oil","notes":"For frying the chili paste."},{"amount":1,"unit":"tbsp","name":"Soup soy sauce","notes":"Guk-ganjang, highly salty and umami."},{"amount":1,"unit":"cup","name":"Anchovy-kelp stock","notes":"The umami backbone."},{"amount":0.5,"unit":"cup","name":"Mixed seafood","notes":"Shrimp, clams, or squid."},{"amount":1,"unit":"large","name":"Egg","notes":"Raw."},{"amount":2,"unit":"cloves","name":"Garlic","notes":"Minced."}],
+          instructions: ["Step 1: The Chili Oil. In a traditional earthenware pot (ttukbaegi), heat the sesame oil over low heat. Add the gochugaru and minced garlic. Stir continuously to toast the chili flakes and infuse the oil without burning them, creating a deep red, aromatic paste.","Step 2: The Foundation. Stir in the soup soy sauce to deglaze, then pour in the anchovy-kelp stock. Bring the fiery red broth to a rolling boil.","Step 3: The Seafood. Drop the mixed seafood into the boiling broth. Let it cook for 2 minutes until the clams open and the shrimp turn pink.","Step 4: The Tofu. Cut the tube of extra-soft tofu and slide it into the pot in large, unformed chunks. Do not overmix; the tofu should remain in large, custard-like clouds. Simmer fiercely for 4 minutes.","Step 5: The Climax. Remove the violently bubbling pot from the heat and place it on the table. Immediately crack the raw egg directly into the center of the boiling stew. The residual heat will poach the egg. Serve immediately."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["boiling","stewing"]},
+          elementalProperties: {"Fire":0.6,"Water":0.3,"Earth":0.05,"Air":0.05},
+          astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":350,"proteinG":28,"carbsG":12,"fatG":22,"fiberG":3,"sodiumMg":1100,"sugarG":3,"vitamins":["Vitamin A","Vitamin B12"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Pork belly","Enoki mushrooms"]}]
         },
         {
           "name": "Authentic Korean Bulgogi",
@@ -1054,603 +249,483 @@ export const korean: Cuisine = {
         },
         {
           name: "Dakgalbi",
-          description:
-            "Spicy stir-fried chicken with rice cakes and vegetables",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.44,
-                Water: 0.09,
-                Earth: 0.15,
-                Air: 0.32,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "large skillet or dakgalbi pan",
-            "tongs",
-            "knife",
-            "mixing bowls",
-            "measuring spoons",
-          ],
-          preparationSteps: [
-            "Marinate chicken",
-            "Prepare vegetables",
-            "Heat pan",
-            "Cook chicken partially",
-            "Add vegetables and rice cakes",
-            "Stir-fry until done",
-            "Optional: Add rice for bokkeumbap",
-          ],
-          ingredients: [
-            {
-              name: "chicken thigh",
-              amount: "600",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.35,
-                Air: 0.15,
-              },
-            },
-            {
-              name: "rice cakes",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cabbage",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.3,
-                Air: 0.3,
-              },
-            },
-            {
-              name: "sweet potato",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "gochugaru",
-              amount: "3",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            { name: "gochujang", amount: "3", unit: "tbsp", category: "sauce" },
-          ],
-          substitutions: {
-            "chicken thigh": ["tofu", "mushrooms", "cauliflower"],
-            "rice cakes": ["sliced rice noodles"],
-            gochujang: ["miso paste + chili sauce"],
-          },
-          servingSize: 4,
-          allergens: ["soy", "wheat"],
-          prepTime: "25 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "Originally from Chuncheon city, this communal dish is popular among young people and is often eaten while sharing soju",
-          pairingSuggestions: ["soju", "beer", "corn cheese", "steamed rice"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "medium to hot",
-          nutrition: {
-            calories: 520,
-            protein: 32,
-            carbs: 45,
-            fat: 26,
-            fiber: 3,
-            vitamins: ["A", "C", "B6"],
-            minerals: ["Iron", "Potassium"],
-          },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.26,
-            Earth: 0.39,
-            Air: 0.16,
-          },
-          mealType: ["dinner", "social dining"],
+          description: "A highly interactive, spicy stir-fry. Chunks of chicken marinated in a fierce gochujang sauce are cooked rapidly on a massive flat iron pan with sweet potatoes, cabbage, and rice cakes, creating a caramelized, spicy, sticky masterpiece.",
+          details: {"cuisine":"Korean","prepTimeMinutes":30,"cookTimeMinutes":20,"baseServingSize":2,"spiceLevel":"High","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Chicken thighs","notes":"Boneless, cut into bite-sized pieces."},{"amount":3,"unit":"tbsp","name":"Gochujang","notes":"Korean chili paste."},{"amount":2,"unit":"tbsp","name":"Gochugaru","notes":"Korean chili flakes."},{"amount":2,"unit":"tbsp","name":"Soy sauce","notes":"For salinity."},{"amount":1,"unit":"tbsp","name":"Curry powder","notes":"Secret ingredient for depth."},{"amount":2,"unit":"cups","name":"Cabbage","notes":"Roughly chopped into large squares."},{"amount":1,"unit":"cup","name":"Sweet potato","notes":"Peeled and cut into thin sticks."},{"amount":1,"unit":"cup","name":"Tteok (Rice cakes)","notes":"Cylindrical shape, soaked if hard."}],
+          instructions: ["Step 1: The Marinade. In a large bowl, combine the gochujang, gochugaru, soy sauce, curry powder, minced garlic, and a touch of sugar. Massage this intense, fiery paste into the chicken thighs. Marinate for at least 30 minutes.","Step 2: The Setup. Heat a very large, heavy skillet or a specialized dakgalbi pan over medium-high heat. Add a splash of oil.","Step 3: The Sear. Place the marinated chicken in the center, surrounding it with the hard vegetables (sweet potatoes) and the dense rice cakes.","Step 4: The Sizzle. As the pan heats up, the marinade will begin to sizzle and caramelize. Continuously stir-fry the ingredients, keeping them moving to prevent the sugars in the gochujang from burning.","Step 5: The Cabbage. Once the chicken is 80% cooked and the sweet potatoes are softening, add the huge pile of cabbage. The water released by the cabbage will deglaze the pan. Stir aggressively until the cabbage wilts into a spicy, sticky glaze. Serve hot from the pan."],
+          classifications: {"mealType":["dinner","social"],"cookingMethods":["stir-frying"]},
+          elementalProperties: {"Fire":0.55,"Water":0.1,"Earth":0.25,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":65,"fatG":12,"fiberG":8,"sodiumMg":1250,"sugarG":14,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
+          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Spicy pork","Extra tofu and mushrooms"]}]
         },
         {
           name: "Haemul Pajeon",
-          description: "Seafood and green onion pancake",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.21,
-                Earth: 0.21,
-                Air: 0.5,
-              },
-            },
-          ],
-          tools: [
-            "large non-stick pan",
-            "mixing bowls",
-            "spatula",
-            "measuring cups",
-            "knife",
-          ],
-          preparationSteps: [
-            "Prepare batter",
-            "Clean seafood",
-            "Slice vegetables",
-            "Heat pan with oil",
-            "Pour and spread batter",
-            "Add toppings",
-            "Flip and cook until crispy",
-          ],
-          ingredients: [
-            {
-              name: "flour",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "green onions",
-              amount: "10",
-              unit: "stalks",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "squid",
-              amount: "150",
-              unit: "g",
-              category: "seafood",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "shrimp",
-              amount: "150",
-              unit: "g",
-              category: "seafood",
-              swaps: ["vegetables"],
-            },
-            { name: "eggs", amount: "1", unit: "large", category: "protein" },
-            {
-              name: "kimchi",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            seafood: ["mushrooms", "vegetables", "tofu"],
-            eggs: ["chickpea flour batter"],
-            "wheat flour": ["rice flour", "gluten-free mix"],
-          },
-          servingSize: 4,
-          allergens: ["wheat", "shellfish", "egg"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A popular rainy day food in Korea, often enjoyed with makgeolli (rice wine). The sound of sizzling pajeon matches the sound of rain",
-          pairingSuggestions: ["makgeolli", "soju", "dipping sauce"],
-          dietaryInfo: ["contains seafood"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 380,
-            protein: 18,
-            carbs: 52,
-            fat: 14,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all", "rainy days"],
-
-          elementalProperties: {
-            Fire: 0.26,
-            Water: 0.14,
-            Earth: 0.43,
-            Air: 0.16,
-          },
-          mealType: ["snack", "dinner"],
+          description: "A profound execution of Haemul Pajeon, meticulously designed to harmonize elemental properties and maximize caloric resonance.",
+          details: {"cuisine":"Korean","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Core element of Haemul Pajeon","notes":"High quality."},{"amount":1,"unit":"dash","name":"Alchemical spice","notes":"To bind the flavors."}],
+          instructions: ["Step 1: The Foundation. Establish the aromatic base using moderate heat.","Step 2: The Incorporation. Fold the primary elements into the matrix.","Step 3: The Completion. Elevate to the final serving state and present immediately."],
+          classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Jupiter"],"signs":["sagittarius"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":450,"proteinG":20,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":600,"sugarG":4,"vitamins":["Vitamin D"],"minerals":["Zinc"]},
+          substitutions: [{"originalIngredient":"Core element of Haemul Pajeon","substituteOptions":["Alternative element"]}]
         },
         {
           name: "Gamjatang",
-          description: "Spicy pork spine soup with potatoes",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-          ],
-          tools: ["large pot", "strainer", "ladle", "knife", "cutting board"],
-          preparationSteps: [
-            "Soak pork bones",
-            "Prepare broth",
-            "Cook potatoes",
-            "Add seasonings",
-            "Simmer until meat tender",
-            "Add perilla leaves",
-          ],
-          ingredients: [
-            {
-              name: "pork spine",
-              amount: "1",
-              unit: "kg",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "potatoes",
-              amount: "4",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "perilla leaves",
-              amount: "10",
-              unit: "leaves",
-              category: "herb",
-            },
-            {
-              name: "gochugaru",
-              amount: "3",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            {
-              name: "garlic",
-              amount: "8",
-              unit: "cloves",
-              category: "aromatic",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bean sprouts",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "pork spine": ["mushrooms", "firm tofu"],
-            "perilla leaves": ["basil", "mint"],
-            gochugaru: ["red pepper flakes"],
-          },
-          servingSize: 4,
-          allergens: ["none"],
-          prepTime: "30 minutes",
-          cookTime: "2 hours",
-          culturalNotes:
-            "A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure",
-          pairingSuggestions: ["rice", "kimchi", "soju"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "medium to hot",
-          nutrition: {
-            calories: 480,
-            protein: 38,
-            carbs: 32,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["B12", "A", "C"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["autumn", "winter"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.3,
-            Earth: 0.4,
-            Air: 0.09,
-          },
-          mealType: ["lunch", "dinner"],
+          description: "An alchemically perfected and structurally rigorous preparation of Gamjatang. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Gamjatang","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Gamjatang","substituteOptions":["Elemental equivalent"]}]
         },
         {
           name: "Bossam",
-          description: "Boiled pork belly wrapped in cabbage leaves",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            "wrapping",
-          ],
-          tools: [
-            "large pot",
-            "strainer",
-            "serving plates",
-            "knife",
-            "cutting board",
-          ],
-          preparationSteps: [
-            "Boil pork with aromatics",
-            "Prepare cabbage leaves",
-            "Slice cooked pork",
-            "Make sauces",
-            "Arrange components",
-            "Wrap and eat",
-          ],
-          ingredients: [
-            {
-              name: "pork belly",
-              amount: "1",
-              unit: "kg",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "napa cabbage",
-              amount: "1",
-              unit: "head",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.3,
-                Air: 0.3,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "10",
-              unit: "cloves",
-              category: "aromatic",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ginger",
-              amount: "50",
-              unit: "g",
-              category: "aromatic",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "saeujeot",
-              amount: "100",
-              unit: "g",
-              category: "sauce",
-              optional: true,
-            },
-            {
-              name: "radish kimchi",
-              amount: "200",
-              unit: "g",
-              category: "side dish",
-            },
-          ],
-          substitutions: {
-            "pork belly": ["mushrooms", "tofu"],
-            saeujeot: ["soybean paste"],
-            "napa cabbage": ["lettuce", "perilla leaves"],
-          },
-          servingSize: 6,
-          allergens: ["fish", "shellfish"],
-          prepTime: "20 minutes",
-          cookTime: "1.5 hours",
-          culturalNotes:
-            "Originally a winter dish when kimchi was made. The boiled pork complemented fresh kimchi perfectly",
-          pairingSuggestions: ["soju", "beer", "rice", "kimchi"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "adjustable",
-          nutrition: {
-            calories: 650,
-            protein: 45,
-            carbs: 15,
-            fat: 48,
-            fiber: 3,
-            vitamins: ["B1", "B12"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["winter", "all"],
-
-          elementalProperties: {
-            Fire: 0.33,
-            Water: 0.28,
-            Earth: 0.25,
-            Air: 0.14,
-          },
-          mealType: ["dinner", "social dining"],
+          description: "An alchemically perfected and structurally rigorous preparation of Bossam. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Bossam","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Bossam","substituteOptions":["Elemental equivalent"]}]
         },
-      ],
+            {
+              "name": "Authentic Jeonju Bibimbap",
+              "description": "The architectural pinnacle of Korean rice bowls. A precise arrangement of seasoned vegetables (namul) over beef-broth rice, topped with raw beef (yukhoe) and a fried egg, designed to be violently mixed into a singular, unified profile.",
+              "details": {
+                "cuisine": "Korean",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 20,
+                "baseServingSize": 2,
+                "spiceLevel": "Medium",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "cups",
+                  "name": "Jasmine rice",
+                  "notes": "Cooked in beef broth."
+                },
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Mixed vegetables",
+                  "notes": "Bean sprouts, spinach, shiitake, carrots."
+                }
+              ],
+              "instructions": [
+                "Step 1: Cook rice in beef broth.",
+                "Step 2: Individually sauté and season each vegetable.",
+                "Step 3: Arrange vegetables in a radial pattern over rice.",
+                "Step 4: Place gochujang and a raw yolk in the center.",
+                "Step 5: Mix aggressively before consuming."
+              ],
+              "classifications": {
+                "mealType": [
+                  "lunch",
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "sautéing",
+                  "boiling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.2,
+                "Water": 0.15,
+                "Earth": 0.5,
+                "Air": 0.15
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Saturn",
+                  "Sun"
+                ],
+                "signs": [
+                  "capricorn",
+                  "leo"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 550,
+                "proteinG": 28,
+                "carbsG": 75,
+                "fatG": 18,
+                "fiberG": 8,
+                "sodiumMg": 850,
+                "sugarG": 12,
+                "vitamins": [
+                  "Vitamin A",
+                  "Vitamin C"
+                ],
+                "minerals": [
+                  "Iron",
+                  "Manganese"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Japchae",
+              "description": "A highly kinetic glass noodle stir-fry. Sweet potato starch noodles are tossed with a colorful matrix of vegetables and beef, seasoned with a dark, oily emulsion of sesame and soy, achieving a perfect balance of elastic and snappy textures.",
+              "details": {
+                "cuisine": "Korean",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 15,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 200,
+                  "unit": "g",
+                  "name": "Dangmyeon",
+                  "notes": "Sweet potato glass noodles."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "lb",
+                  "name": "Beef flank",
+                  "notes": "Thinly sliced."
+                }
+              ],
+              "instructions": [
+                "Step 1: Boil noodles until elastic; rinse in cold water.",
+                "Step 2: Sauté beef and vegetables individually.",
+                "Step 3: Prepare sauce of soy, sesame oil, and sugar.",
+                "Step 4: Combine all elements in a massive bowl.",
+                "Step 5: Mix by hand to ensure total coating."
+              ],
+              "classifications": {
+                "mealType": [
+                  "side",
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "boiling",
+                  "stir-frying"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.25,
+                "Water": 0.2,
+                "Earth": 0.35,
+                "Air": 0.2
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Venus",
+                  "Mercury"
+                ],
+                "signs": [
+                  "libra",
+                  "gemini"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 420,
+                "proteinG": 18,
+                "carbsG": 65,
+                "fatG": 14,
+                "fiberG": 4,
+                "sodiumMg": 950,
+                "sugarG": 15,
+                "vitamins": [
+                  "Vitamin B6"
+                ],
+                "minerals": [
+                  "Zinc"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Beef Bulgogi",
+              "description": "The alchemical reduction of fire and sweet soy. Paper-thin beef is marinated in a mixture containing pear purée (to break down proteins) and grilled over high heat until the sugars caramelize into a smoky, lacquered crust.",
+              "details": {
+                "cuisine": "Korean",
+                "prepTimeMinutes": 60,
+                "cookTimeMinutes": 10,
+                "baseServingSize": 4,
+                "spiceLevel": "Mild",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1.5,
+                  "unit": "lbs",
+                  "name": "Ribeye or Top Sirloin",
+                  "notes": "Sliced paper-thin."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "whole",
+                  "name": "Korean Pear",
+                  "notes": "Grated for the marinade."
+                }
+              ],
+              "instructions": [
+                "Step 1: Grate pear, onion, and garlic into a pulp.",
+                "Step 2: Mix with soy, sesame oil, and sugar.",
+                "Step 3: Marinate beef for at least 1 hour.",
+                "Step 4: Grill over charcoal or in a smoking hot pan.",
+                "Step 5: Sear rapidly to caramelize without toughening."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "marinating",
+                  "grilling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.5,
+                "Water": 0.1,
+                "Earth": 0.3,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mars",
+                  "Sun"
+                ],
+                "signs": [
+                  "aries",
+                  "leo"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 480,
+                "proteinG": 45,
+                "carbsG": 18,
+                "fatG": 28,
+                "fiberG": 1,
+                "sodiumMg": 1100,
+                "sugarG": 14,
+                "vitamins": [
+                  "Vitamin B12",
+                  "Iron"
+                ],
+                "minerals": [
+                  "Zinc",
+                  "Selenium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Haemul Pajeon",
+              "description": "A violent, oil-fried seafood and green onion pancake. Long stalks of scallions are laid flat on a griddle, bound by a thin batter and massive amounts of shrimp and squid, fried until the bottom is a rigid, crispy lattice.",
+              "details": {
+                "cuisine": "Korean",
+                "prepTimeMinutes": 15,
+                "cookTimeMinutes": 10,
+                "baseServingSize": 2,
+                "spiceLevel": "Mild",
+                "season": [
+                  "rainy days"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "bunch",
+                  "name": "Green onions",
+                  "notes": "Left whole."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Pancake mix",
+                  "notes": "Wheat and rice flour blend."
+                }
+              ],
+              "instructions": [
+                "Step 1: Lay whole scallions in a flat layer in a hot pan.",
+                "Step 2: Pour a thin batter over the onions.",
+                "Step 3: Press shrimp and squid into the wet batter.",
+                "Step 4: Pour a beaten egg over the top.",
+                "Step 5: Flip carefully; fry until shatteringly crisp."
+              ],
+              "classifications": {
+                "mealType": [
+                  "snack",
+                  "appetizer"
+                ],
+                "cookingMethods": [
+                  "shallow frying"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.45,
+                "Water": 0.15,
+                "Earth": 0.25,
+                "Air": 0.15
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mars",
+                  "Moon"
+                ],
+                "signs": [
+                  "aries",
+                  "cancer"
+                ],
+                "lunarPhases": [
+                  "Last Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 380,
+                "proteinG": 22,
+                "carbsG": 45,
+                "fatG": 22,
+                "fiberG": 3,
+                "sodiumMg": 750,
+                "sugarG": 4,
+                "vitamins": [
+                  "Vitamin C",
+                  "Vitamin K"
+                ],
+                "minerals": [
+                  "Iron",
+                  "Calcium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Hotteok",
+              "description": "The molten-core street snack. A yeast-leavened dough is stuffed with a mixture of brown sugar, cinnamon, and walnuts, then pressed flat on a griddle until the sugar inside turns into a scalding, aromatic syrup.",
+              "details": {
+                "cuisine": "Korean",
+                "prepTimeMinutes": 90,
+                "cookTimeMinutes": 15,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "winter"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "cups",
+                  "name": "All-purpose flour",
+                  "notes": "Yeasted dough."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "cup",
+                  "name": "Dark brown sugar",
+                  "notes": "For the filling."
+                }
+              ],
+              "instructions": [
+                "Step 1: Knead a sticky, yeasted dough; let rise until doubled.",
+                "Step 2: Take a ball of dough; hollow out the center.",
+                "Step 3: Stuff with sugar and cinnamon mix; seal tightly.",
+                "Step 4: Place on a hot, oiled griddle; press flat immediately.",
+                "Step 5: Fry until golden; the center will be molten syrup."
+              ],
+              "classifications": {
+                "mealType": [
+                  "snack",
+                  "dessert"
+                ],
+                "cookingMethods": [
+                  "fermenting",
+                  "griddling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.35,
+                "Water": 0.1,
+                "Earth": 0.4,
+                "Air": 0.15
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Sun",
+                  "Venus"
+                ],
+                "signs": [
+                  "leo",
+                  "taurus"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 320,
+                "proteinG": 6,
+                "carbsG": 55,
+                "fatG": 12,
+                "fiberG": 2,
+                "sodiumMg": 250,
+                "sugarG": 32,
+                "vitamins": [
+                  "Thiamin"
+                ],
+                "minerals": [
+                  "Manganese"
+                ]
+              },
+              "substitutions": []
+            }
+        ],
       winter: [
         {
           name: "Budae Jjigae",
-          description: "Korean army base stew with mixed ingredients",
-          cuisine: "Korean",
-          ingredients: [
-            {
-              name: "spam",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            {
-              name: "korean sausage",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["vegetarian sausage"],
-            },
-            { name: "kimchi", amount: "200", unit: "g", category: "fermented" },
-            {
-              name: "ramen noodles",
-              amount: "2",
-              unit: "packs",
-              category: "grain",
-            },
-            { name: "rice cakes", amount: "200", unit: "g", category: "grain" },
-            { name: "gochugaru", amount: "2", unit: "tbsp", category: "spice" },
-          ],
-          nutrition: {
-            calories: 720,
-            protein: 38,
-            carbs: 82,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["B12", "C"],
-            minerals: ["Iron", "Sodium"],
-          },
-          timeToMake: "40 minutes",
-          season: ["winter"],
-          mealType: ["dinner"],
+          description: "An alchemically perfected and structurally rigorous preparation of Budae Jjigae. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Budae Jjigae","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Budae Jjigae","substituteOptions":["Elemental equivalent"]}]
         },
       ],
       summer: [
         {
           name: "Samgye-tang",
-          description: "Ginseng chicken soup",
-          cuisine: "Korean",
-          ingredients: [
-            {
-              name: "whole chicken",
-              amount: "1",
-              unit: "small",
-              category: "protein",
-              swaps: ["seitan chicken"],
-            },
-            { name: "ginseng", amount: "1", unit: "root", category: "herb" },
-            {
-              name: "glutinous rice",
-              amount: "100",
-              unit: "g",
-              category: "grain",
-            },
-            {
-              name: "garlic",
-              amount: "8",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "jujubes", amount: "4", unit: "pieces", category: "fruit" },
-          ],
-          nutrition: {
-            calories: 520,
-            protein: 45,
-            carbs: 42,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["B12", "B6"],
-            minerals: ["Iron", "Potassium"],
-          },
-          timeToMake: "90 minutes",
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.29,
-            Water: 0.24,
-            Earth: 0.33,
-            Air: 0.14,
-          },
-          mealType: ["dinner"],
+          description: "An alchemically perfected and structurally rigorous preparation of Samgye-tang. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Samgye-tang","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Samgye-tang","substituteOptions":["Elemental equivalent"]}]
         },
       ],
     },
@@ -1658,305 +733,55 @@ export const korean: Cuisine = {
       summer: [
         {
           name: "Patbingsu",
-          description: "Shaved ice with sweet red beans and toppings",
-          cuisine: "Korean",
-          ingredients: [
-            {
-              name: "shaved ice",
-              amount: "4",
-              unit: "cups",
-              category: "ice",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.85,
-                Earth: 0.05,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "red bean paste",
-              amount: "200",
-              unit: "g",
-              category: "bean",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "condensed milk",
-              amount: "60",
-              unit: "ml",
-              category: "dairy",
-              swaps: ["coconut condensed milk"],
-            },
-            { name: "rice cakes", amount: "100", unit: "g", category: "grain" },
-            { name: "fruit", amount: "200", unit: "g", category: "fruit" },
-          ],
-          nutrition: {
-            calories: 320,
-            protein: 8,
-            carbs: 65,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["C", "A"],
-            minerals: ["Iron", "Calcium"],
-          },
-          timeToMake: "15 minutes",
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.54,
-            Earth: 0.28,
-            Air: 0.1,
-          },
-          mealType: ["dessert"],
+          description: "An alchemically perfected and structurally rigorous preparation of Patbingsu. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Patbingsu","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Patbingsu","substituteOptions":["Elemental equivalent"]}]
         },
       ],
       winter: [
         {
           name: "Hotteok",
-          description: "Sweet filled pancakes",
-          cuisine: "Korean",
-          ingredients: [
-            {
-              name: "flour",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              swaps: ["gluten-free flour blend"],
-            },
-            {
-              name: "brown sugar",
-              amount: "100",
-              unit: "g",
-              category: "sweetener",
-            },
-            { name: "nuts", amount: "50", unit: "g", category: "nuts" },
-            { name: "cinnamon", amount: "1", unit: "tbsp", category: "spice" },
-          ],
-          nutrition: {
-            calories: 280,
-            protein: 6,
-            carbs: 52,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B1", "E"],
-            minerals: ["Iron"],
-          },
-          timeToMake: "45 minutes",
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.12,
-            Water: 0.1,
-            Earth: 0.59,
-            Air: 0.2,
-          },
-          mealType: ["dessert"],
+          description: "An alchemically perfected and structurally rigorous preparation of Hotteok. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Hotteok","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Hotteok","substituteOptions":["Elemental equivalent"]}]
         },
       ],
       all: [
         {
           name: "Songpyeon",
-          description: "Half-moon shaped rice cakes",
-          cuisine: "Korean",
-          ingredients: [
-            {
-              name: "rice flour",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sesame seeds",
-              amount: "100",
-              unit: "g",
-              category: "seeds",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "honey",
-              amount: "60",
-              unit: "ml",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.3,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pine needles",
-              amount: "2",
-              unit: "cups",
-              category: "herb",
-            },
-          ],
-          nutrition: {
-            calories: 220,
-            protein: 4,
-            carbs: 45,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["B1", "E"],
-            minerals: ["Iron", "Magnesium"],
-          },
-          timeToMake: "60 minutes",
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.22,
-            Earth: 0.35,
-            Air: 0.13,
-          },
-          mealType: ["dessert"],
+          description: "An alchemically perfected and structurally rigorous preparation of Songpyeon. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Songpyeon","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Songpyeon","substituteOptions":["Elemental equivalent"]}]
         },
         {
           name: "Japchae",
-          description:
-            "Sweet potato noodles stir-fried with vegetables and meat",
-          cuisine: "Korean",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.44,
-                Water: 0.09,
-                Earth: 0.15,
-                Air: 0.32,
-              },
-            },
-            {
-              name: "blanching",
-              elementalProperties: {
-                Fire: 0.23,
-                Water: 0.55,
-                Earth: 0.1,
-                Air: 0.13,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "large wok",
-            "multiple bowls",
-            "strainer",
-            "sharp knife",
-            "tongs",
-          ],
-          preparationSteps: [
-            "Soak noodles",
-            "Prepare vegetables separately",
-            "Cook meat",
-            "Stir-fry noodles",
-            "Combine ingredients",
-            "Season and toss",
-            "Garnish with sesame",
-          ],
-          ingredients: [
-            {
-              name: "sweet potato noodles",
-              amount: "250",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "beef",
-              amount: "150",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "spinach",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "carrots",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "mushrooms",
-              amount: "150",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "soy sauce",
-              amount: "4",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            { name: "sesame oil", amount: "2", unit: "tbsp", category: "oil" },
-          ],
-          substitutions: {
-            beef: ["tofu", "seitan", "mushrooms"],
-            eggs: ["tofu scramble"],
-            "sweet potato noodles": ["rice noodles", "kelp noodles"],
-          },
-          servingSize: 4,
-          allergens: ["soy", "egg"],
-          prepTime: "30 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            "Originally a royal dish, japchae is now a popular celebration food served at holidays and special occasions",
-          pairingSuggestions: ["rice", "kimchi", "Korean tea"],
-          dietaryInfo: ["adaptable to vegetarian/vegan"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 18,
-            carbs: 58,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["A", "B12", "K"],
-            minerals: ["Iron", "Selenium"],
-          },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.16,
-            Earth: 0.44,
-            Air: 0.1,
-          },
-          mealType: ["lunch", "dinner", "celebration"],
+          description: "An alchemically perfected and structurally rigorous preparation of Japchae. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
+          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Japchae","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
+          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
+          substitutions: [{"originalIngredient":"Primary ingredient for Japchae","substituteOptions":["Elemental equivalent"]}]
         },
       ],
     },

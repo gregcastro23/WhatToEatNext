@@ -2743,7 +2743,391 @@ export const african: Cuisine = {
             }
           ]
         },
-      ],
+            {
+              "name": "Authentic Bobotie",
+              "description": "The national dish of South Africa. A complex, spiced minced meat bake topped with a savory egg custard and baked until the surface is golden and set, reflecting a fusion of Dutch and Indonesian influences.",
+              "details": {
+                "cuisine": "South African",
+                "prepTimeMinutes": 20,
+                "cookTimeMinutes": 45,
+                "baseServingSize": 6,
+                "spiceLevel": "Medium",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Ground beef",
+                  "notes": "Lean."
+                },
+                {
+                  "amount": 2,
+                  "unit": "slices",
+                  "name": "White bread",
+                  "notes": "Soaked in milk."
+                }
+              ],
+              "instructions": [
+                "Step 1: Sauté meat with aromatics and curry spices.",
+                "Step 2: Fold in soaked bread.",
+                "Step 3: Spread into baking dish.",
+                "Step 4: Pour egg-milk custard over the top.",
+                "Step 5: Bake at 350°F until golden."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "baking"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.25,
+                "Water": 0.2,
+                "Earth": 0.45,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Jupiter"
+                ],
+                "signs": [
+                  "sagittarius"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 420,
+                "proteinG": 28,
+                "carbsG": 12,
+                "fatG": 32,
+                "fiberG": 2,
+                "sodiumMg": 650,
+                "sugarG": 8,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Peri-Peri Chicken",
+              "description": "A high-kinetic, fiercely spicy Mozambican/Portuguese fusion. Chicken is marinated in a violent emulsion of bird's eye chilies, lemon, and garlic, then grilled over high heat until charred and electric.",
+              "details": {
+                "cuisine": "African (Mozambican)",
+                "prepTimeMinutes": 60,
+                "cookTimeMinutes": 20,
+                "baseServingSize": 4,
+                "spiceLevel": "Very High",
+                "season": [
+                  "summer"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "whole",
+                  "name": "Chicken",
+                  "notes": "Spatchcocked."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "cup",
+                  "name": "Peri-Peri sauce",
+                  "notes": "Homemade with bird's eye chilies."
+                }
+              ],
+              "instructions": [
+                "Step 1: Spatchcock the chicken.",
+                "Step 2: Marinate in peri-peri sauce for 24 hours.",
+                "Step 3: Grill over high heat, skin-side down first.",
+                "Step 4: Baste continuously with marinade.",
+                "Step 5: Rest before carving."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "grilling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.65,
+                "Water": 0.05,
+                "Earth": 0.2,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mars"
+                ],
+                "signs": [
+                  "aries"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 480,
+                "proteinG": 42,
+                "carbsG": 2,
+                "fatG": 34,
+                "fiberG": 0,
+                "sodiumMg": 850,
+                "sugarG": 1,
+                "vitamins": [
+                  "Vitamin C"
+                ],
+                "minerals": [
+                  "Zinc"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Bunny Chow",
+              "description": "Durban's structural masterpiece. A hollowed-out loaf of white bread serves as a vessel for a fiercely hot, slow-simmered lamb or bean curry, designed to be eaten entirely with the hands.",
+              "details": {
+                "cuisine": "South African (Durban)",
+                "prepTimeMinutes": 15,
+                "cookTimeMinutes": 60,
+                "baseServingSize": 2,
+                "spiceLevel": "High",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "loaf",
+                  "name": "White bread",
+                  "notes": "Unsliced."
+                },
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Lamb or mutton",
+                  "notes": "Curried."
+                }
+              ],
+              "instructions": [
+                "Step 1: Prepare a thick, spicy lamb curry.",
+                "Step 2: Hollow out a half-loaf of bread.",
+                "Step 3: Fill the cavity with curry.",
+                "Step 4: Place the removed bread 'plug' on top.",
+                "Step 5: Serve with carrot salad."
+              ],
+              "classifications": {
+                "mealType": [
+                  "lunch"
+                ],
+                "cookingMethods": [
+                  "simmering",
+                  "assembling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.4,
+                "Water": 0.1,
+                "Earth": 0.45,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Saturn"
+                ],
+                "signs": [
+                  "capricorn"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 750,
+                "proteinG": 35,
+                "carbsG": 85,
+                "fatG": 38,
+                "fiberG": 6,
+                "sodiumMg": 1200,
+                "sugarG": 4,
+                "vitamins": [
+                  "Iron"
+                ],
+                "minerals": [
+                  "Zinc"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Suya",
+              "description": "The iconic West African street food. Skewered beef is coated in 'Yaji'—a potent, high-protein spice matrix made from ground peanuts, ginger, and chilies—then grilled rapidly to a smoky finish.",
+              "details": {
+                "cuisine": "West African (Nigerian)",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 10,
+                "baseServingSize": 2,
+                "spiceLevel": "High",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Beef flank",
+                  "notes": "Sliced paper-thin."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Kuli-Kuli powder",
+                  "notes": "Ground peanut cake."
+                }
+              ],
+              "instructions": [
+                "Step 1: Slice beef against the grain thinly.",
+                "Step 2: Coat slices heavily in Yaji spice mix.",
+                "Step 3: Skewer the meat.",
+                "Step 4: Grill over charcoal until charred.",
+                "Step 5: Serve with raw onions and extra spice."
+              ],
+              "classifications": {
+                "mealType": [
+                  "snack",
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "grilling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.55,
+                "Water": 0.05,
+                "Earth": 0.3,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mars"
+                ],
+                "signs": [
+                  "aries"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 420,
+                "proteinG": 45,
+                "carbsG": 8,
+                "fatG": 22,
+                "fiberG": 2,
+                "sodiumMg": 750,
+                "sugarG": 2,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Ndolé",
+              "description": "Cameroon's nutritional titan. A dense, savory stew of bitterleaves, ground peanuts, and crayfish, resulting in a complex, creamy, and slightly bitter profile that is deeply restorative.",
+              "details": {
+                "cuisine": "Cameroonian",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 60,
+                "baseServingSize": 4,
+                "spiceLevel": "Medium",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "cups",
+                  "name": "Bitterleaves",
+                  "notes": "Washed multiple times to reduce bitterness."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Ground peanuts",
+                  "notes": "Freshly boiled and blended."
+                }
+              ],
+              "instructions": [
+                "Step 1: Wash bitterleaves vigorously.",
+                "Step 2: Blend boiled peanuts into a paste.",
+                "Step 3: Sauté meat/shrimp with aromatics.",
+                "Step 4: Stir in peanut paste and bitterleaves.",
+                "Step 5: Simmer until thick and creamy."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "simmering"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.3,
+                "Earth": 0.5,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Saturn"
+                ],
+                "signs": [
+                  "virgo"
+                ],
+                "lunarPhases": [
+                  "Waning Crescent"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 520,
+                "proteinG": 38,
+                "carbsG": 15,
+                "fatG": 38,
+                "fiberG": 12,
+                "sodiumMg": 850,
+                "sugarG": 4,
+                "vitamins": [
+                  "Vitamin A",
+                  "Vitamin K"
+                ],
+                "minerals": [
+                  "Iron",
+                  "Magnesium"
+                ]
+              },
+              "substitutions": []
+            }
+        ],
       spring: [],
       summer: [],
       autumn: [],

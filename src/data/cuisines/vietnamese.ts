@@ -233,260 +233,27 @@ export const vietnamese: Cuisine = {
         },
         {
           name: "Cháo Gà",
-          description: "Vietnamese chicken rice porridge",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "poaching",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.5,
-                Earth: 0.13,
-                Air: 0.19,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "ladle",
-            "knife",
-            "cutting board",
-            "small bowls for garnishes",
-          ],
-          preparationSteps: [
-            "Cook rice until very soft",
-            "Poach chicken",
-            "Prepare garnishes",
-            "Season porridge",
-            "Shred chicken",
-            "Assemble bowls",
-          ],
-          ingredients: [
-            {
-              name: "jasmine rice",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chicken",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            { name: "ginger", amount: "50", unit: "g", category: "spice" },
-            {
-              name: "green onions",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "fish sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-              swaps: ["soy sauce"],
-            },
-            {
-              name: "black pepper",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "fried shallots",
-              amount: "4",
-              unit: "tbsp",
-              category: "garnish",
-            },
-            { name: "cilantro", amount: "1/2", unit: "cup", category: "herb" },
-          ],
-          substitutions: {
-            chicken: ["turkey", "tofu", "mushrooms"],
-            "fish sauce": ["soy sauce", "coconut aminos"],
-            "fried shallots": ["fried garlic", "crispy onions"],
-          },
-          servingSize: 4,
-          allergens: ["fish"],
-          prepTime: "15 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "Cháo is a comforting breakfast dish often served when someone is feeling unwell. Each region has its own variation",
-          pairingSuggestions: [
-            "youtiao (fried dough)",
-            "pickled vegetables",
-            "century eggs",
-          ],
-          dietaryInfo: ["dairy-free", "adaptable to gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 320,
-            protein: 28,
-            carbs: 42,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B6", "B12"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.48,
-            Earth: 0.3,
-            Air: 0.11,
-          },
+          description: "Vietnamese chicken rice porridge. The rice is heavily broken down through prolonged simmering in a rich, ginger-fortified chicken broth, resulting in a silken, restorative matrix designed for healing.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":10,"cookTimeMinutes":60,"baseServingSize":4,"spiceLevel":"None","season":["winter","comfort"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Jasmine rice","notes":"Washed and toasted."},{"amount":0.25,"unit":"cup","name":"Glutinous rice","notes":"Adds viscosity."},{"amount":8,"unit":"cups","name":"Strong chicken broth","notes":"Homemade with ginger and onion."},{"amount":2,"unit":"cups","name":"Shredded chicken","notes":"Poached."},{"amount":2,"unit":"tbsp","name":"Fish sauce","notes":"For seasoning."},{"amount":1,"unit":"inch","name":"Ginger","notes":"Julienned finely."},{"amount":0.5,"unit":"cup","name":"Scallions and cilantro","notes":"Chopped."},{"amount":1,"unit":"pinch","name":"Black pepper","notes":"White or black, heavily applied."},{"amount":1,"unit":"batch","name":"Youtiao (Quẩy)","notes":"Fried dough sticks for dipping."}],
+          instructions: ["Step 1: The Toast. In a dry pan, toast the washed jasmine and glutinous rice until dry and slightly fragrant. This prevents the grains from completely dissolving into glue during the long simmer.","Step 2: The Boil. Add the toasted rice to a large pot with the boiling chicken broth.","Step 3: The Breakdown. Reduce the heat to the lowest possible simmer. Cover partially. Cook for 45-60 minutes, stirring occasionally to scrape the bottom. The grains will burst, releasing their starch to naturally thicken the liquid into a silken, suspended porridge.","Step 4: The Seasoning. Stir in the fish sauce. The texture should be thick but pourable.","Step 5: The Assembly. Ladle the hot porridge into bowls. Top generously with the shredded chicken, julienned ginger, scallions, cilantro, and a massive amount of black pepper. Serve with crispy fried dough sticks."],
+          classifications: {"mealType":["breakfast","comfort","dinner"],"cookingMethods":["toasting","simmering"]},
+          elementalProperties: {"Fire":0.1,"Water":0.6,"Earth":0.25,"Air":0.05},
+          astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":350,"proteinG":22,"carbsG":48,"fatG":6,"fiberG":2,"sodiumMg":850,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus"]},
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork ribs (for Cháo Sườn)"]}]
         },
         {
           name: "Bánh Cuốn",
-          description:
-            "Steamed rice rolls filled with ground pork and mushrooms",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            "filling",
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "steamer",
-            "non-stick pan",
-            "spatula",
-            "mixing bowls",
-            "serving plates",
-          ],
-          preparationSteps: [
-            "Make rice batter",
-            "Prepare filling",
-            "Steam thin layers",
-            "Fill and roll",
-            "Make dipping sauce",
-            "Garnish and serve",
-          ],
-          ingredients: [
-            {
-              name: "rice flour",
-              amount: "300",
-              unit: "g",
-              category: "flour",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tapioca starch",
-              amount: "50",
-              unit: "g",
-              category: "starch",
-            },
-            {
-              name: "ground pork",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "wood ear mushrooms",
-              amount: "50",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "shallots",
-              amount: "4",
-              unit: "whole",
-              category: "vegetable",
-            },
-            {
-              name: "fish sauce",
-              amount: "3",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            {
-              name: "fried shallots",
-              amount: "4",
-              unit: "tbsp",
-              category: "garnish",
-            },
-            {
-              name: "Vietnamese herbs",
-              amount: "1",
-              unit: "bunch",
-              category: "herb",
-            },
-          ],
-          substitutions: {
-            "ground pork": ["minced mushrooms", "tofu"],
-            "fish sauce": ["soy sauce", "coconut aminos"],
-            "wood ear mushrooms": ["shiitake mushrooms"],
-          },
-          servingSize: 4,
-          allergens: ["fish"],
-          prepTime: "30 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A beloved breakfast dish from Northern Vietnam, often served with nước chấm dipping sauce and chả lụa (Vietnamese pork sausage)",
-          pairingSuggestions: [
-            "Vietnamese coffee",
-            "fresh herbs",
-            "chili sauce",
-          ],
-          dietaryInfo: ["dairy-free", "adaptable to vegan"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 280,
-            protein: 15,
-            carbs: 45,
-            fat: 6,
-            fiber: 3,
-            vitamins: ["B1", "B6"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.45,
-            Earth: 0.33,
-            Air: 0.11,
-          },
+          description: "The delicate art of Vietnamese steaming. A fermented rice batter is spread gossamer-thin over a taut cloth suspended above boiling water, steamed into a translucent sheet, and carefully rolled around a savory pork and wood-ear mushroom filling.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":60,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Bánh cuốn flour mix","notes":"Rice flour and tapioca starch."},{"amount":3,"unit":"cups","name":"Water","notes":"For the batter."},{"amount":0.5,"unit":"lb","name":"Ground pork","notes":"Finely minced."},{"amount":0.5,"unit":"cup","name":"Wood ear mushrooms","notes":"Rehydrated and finely minced."},{"amount":0.5,"unit":"cup","name":"Shallots","notes":"Minced."},{"amount":0.5,"unit":"cup","name":"Fried shallots","notes":"For garnish."},{"amount":0.5,"unit":"cup","name":"Nước Chấm","notes":"Sweet, sour, salty dipping sauce."},{"amount":4,"unit":"slices","name":"Chả lụa","notes":"Vietnamese pork sausage."}],
+          instructions: ["Step 1: The Batter and Rest. Whisk the flour mix, water, a pinch of salt, and a dash of oil. It is crucial to let this batter rest for at least 30 minutes (or overnight) so the starches fully hydrate, ensuring elasticity.","Step 2: The Filling. Sauté the minced pork, wood ear mushrooms, and shallots with fish sauce and black pepper until dry and fragrant.","Step 3: The Steam Drum. Prepare a specialized steaming pot with a taut cloth stretched tightly over the boiling water. (Alternatively, use a non-stick crepe pan).","Step 4: The Casting. Pour a very small ladle of batter onto the hot cloth. Quickly spread it into a massive, paper-thin circle using the back of the ladle. Cover with a domed lid and steam for exactly 60 seconds until the sheet bubbles and becomes translucent.","Step 5: The Roll. Using a flat bamboo stick, carefully lift the fragile sheet off the cloth onto an oiled tray. Place a line of filling in the center and roll it into a neat cylinder. Serve topped with fried shallots, accompanied by chả lụa and a bowl of warm nước chấm."],
+          classifications: {"mealType":["breakfast","lunch"],"cookingMethods":["steaming","rolling"]},
+          elementalProperties: {"Fire":0.1,"Water":0.45,"Earth":0.25,"Air":0.2},
+          astrologicalAffinities: {"planets":["Venus","Mercury"],"signs":["libra","gemini"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":420,"proteinG":18,"carbsG":55,"fatG":14,"fiberG":4,"sodiumMg":950,"sugarG":8,"vitamins":["Thiamin","Niacin"],"minerals":["Iron","Manganese"]},
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["More mushrooms and tofu (vegetarian)"]}]
         },
         {
           "name": "Authentic Xôi Xéo",
@@ -631,145 +398,29 @@ export const vietnamese: Cuisine = {
         },
         {
           name: "Bánh Mì Ốp La",
-          description:
-            "Vietnamese baguette with sunny-side up eggs, pâté, and fresh vegetables",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "toasting",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.28,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "baguette",
-              amount: "1",
-              unit: "whole",
-              category: "grain",
-            },
-            {
-              name: "eggs",
-              amount: "2",
-              unit: "large",
-              category: "protein",
-            },
-            {
-              name: "pâté",
-              amount: "2",
-              unit: "tbsp",
-              category: "protein",
-            },
-            {
-              name: "cucumber",
-              amount: "1/4",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "cilantro",
-              amount: "1/4",
-              unit: "cup",
-              category: "herb",
-            },
-            {
-              name: "soy sauce",
-              amount: "1",
-              unit: "tbsp",
-              category: "condiment",
-            },
-          ],
-          substitutions: {
-            pâté: ["butter", "mayo"],
-            baguette: ["ciabatta"],
-          },
-          servingSize: 1,
-          allergens: ["gluten", "eggs"],
-          prepTime: "5 minutes",
-          cookTime: "10 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 18,
-            carbs: 45,
-            fat: 20,
-            fiber: 2,
-          },
-          timeToMake: "15 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.35,
-            Air: 0.15,
-          },
+          description: "An alchemically precise execution of Bánh Mì Ốp La, balancing extreme thermal application with structural integrity.",
+          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Bánh Mì Ốp La","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
+          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+          substitutions: [{"originalIngredient":"Foundation of Bánh Mì Ốp La","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
       winter: [
         {
           name: "Cháo",
-          description: "Vietnamese rice porridge with chicken",
-          cuisine: "Vietnamese",
-          ingredients: [
-            {
-              name: "rice",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chicken",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            { name: "ginger", amount: "30", unit: "g", category: "spice" },
-            {
-              name: "green onions",
-              amount: "2",
-              unit: "stalks",
-              category: "vegetable",
-            },
-          ],
-          nutrition: {
-            calories: 350,
-            protein: 25,
-            carbs: 45,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B1", "B2"],
-            minerals: ["Iron", "Zinc"],
-          },
-          timeToMake: "45 minutes",
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.17,
-            Water: 0.32,
-            Earth: 0.37,
-            Air: 0.13,
-          },
-          mealType: ["breakfast"],
+          description: "An alchemically precise execution of Cháo, balancing extreme thermal application with structural integrity.",
+          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Cháo","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
+          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+          substitutions: [{"originalIngredient":"Foundation of Cháo","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
     },
@@ -864,583 +515,63 @@ export const vietnamese: Cuisine = {
         },
         {
           name: "Bún Chả",
-          description: "Grilled pork meatballs with rice noodles and herbs",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-          ],
-          tools: ["grill", "mixing bowls", "pot", "strainer", "serving bowls"],
-          preparationSteps: [
-            "Form meatballs",
-            "Make dipping sauce",
-            "Grill meatballs",
-            "Cook noodles",
-            "Prepare herbs",
-            "Assemble bowls",
-          ],
-          ingredients: [
-            {
-              name: "ground pork",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "rice noodles",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "fish sauce",
-              amount: "4",
-              unit: "tbsp",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "shallots",
-              amount: "4",
-              unit: "pieces",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.25,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lettuce",
-              amount: "1",
-              unit: "head",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.05,
-                Water: 0.6,
-                Earth: 0.15,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "herbs mix",
-              amount: "2",
-              unit: "cups",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "green papaya",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.55,
-                Earth: 0.15,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lime",
-              amount: "2",
-              unit: "pieces",
-              category: "fruit",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-          ],
-          substitutions: {
-            "ground pork": ["chicken", "turkey", "plant-based meat"],
-            "fish sauce": ["soy sauce", "coconut aminos"],
-            "green papaya": ["carrots", "daikon"],
-          },
-          servingSize: 4,
-          allergens: ["fish"],
-          prepTime: "45 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A Hanoi specialty that gained international recognition when Anthony Bourdain and Barack Obama enjoyed it together",
-          pairingSuggestions: ["Vietnamese beer", "pickled garlic", "chili"],
-          dietaryInfo: ["dairy-free", "adaptable to gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 480,
-            protein: 32,
-            carbs: 55,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["B12", "C"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["spring", "summer"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.42,
-            Earth: 0.18,
-            Air: 0.18,
-          },
+          description: "The smoky, caramelized scent of Hanoi. Fatty pork patties and belly slices are aggressively grilled over charcoal, then submerged entirely in a warm, acidic, sweet-savory broth of diluted fish sauce and green papaya, eaten with cold rice noodles.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":0.5,"unit":"lb","name":"Pork belly","notes":"Thinly sliced."},{"amount":0.5,"unit":"lb","name":"Ground pork","notes":"Formed into small patties."},{"amount":2,"unit":"tbsp","name":"Caramel sauce (Nước màu)","notes":"Essential for color and sweetness."},{"amount":2,"unit":"tbsp","name":"Fish sauce","notes":"For marinade."},{"amount":1,"unit":"tbsp","name":"Minced lemongrass and garlic","notes":"Aromatics."},{"amount":1,"unit":"cup","name":"Warm Nước Chấm","notes":"Dipping broth: fish sauce, sugar, lime, water."},{"amount":0.5,"unit":"cup","name":"Green papaya and carrot","notes":"Pickled, floating in the broth."},{"amount":8,"unit":"oz","name":"Bún (Rice vermicelli)","notes":"Cooked and cooled."},{"amount":1,"unit":"basket","name":"Fresh herbs","notes":"Mint, perilla, lettuce."}],
+          instructions: ["Step 1: The Marinade. Massage the sliced pork belly and the ground pork patties with the caramel sauce, fish sauce, lemongrass, garlic, and a pinch of sugar. The caramel sauce is non-negotiable for the dark, lacquered exterior.","Step 2: The Charcoal Fire. Grill the meats over a fiercely hot charcoal fire. The rendering fat will drip onto the coals, creating a heavy smoke that aggressively perfumes the meat.","Step 3: The Broth. In a bowl, prepare the dipping broth. It must be warm, a delicate balance of sweet, sour, and salty, acting as a soup rather than a pure condiment. Add the pickled papaya and carrots.","Step 4: The Submersion. Take the violently sizzling, charred meats directly from the grill and plunge them straight into the bowl of warm broth.","Step 5: The Ritual. To eat, take a pinch of cold bún noodles and fresh herbs, dip them into the meat-infused broth, and eat in a single bite. The contrast of hot, smoky meat, warm broth, and cold noodles is the defining feature."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["grilling","marinating"]},
+          elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":680,"proteinG":32,"carbsG":65,"fatG":34,"fiberG":4,"sodiumMg":1800,"sugarG":18,"vitamins":["Vitamin C","Niacin"],"minerals":["Zinc","Iron"]},
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Chicken thighs"]}]
         },
         {
           name: "Bún Bò Huế",
-          description: "Spicy beef noodle soup from Hue",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            "spice preparation",
-          ],
-          tools: [
-            "large stock pot",
-            "strainer",
-            "ladle",
-            "serving bowls",
-            "chopsticks",
-          ],
-          preparationSteps: [
-            "Prepare lemongrass broth",
-            "Cook beef and pork",
-            "Make chili oil",
-            "Cook noodles",
-            "Assemble bowls",
-            "Add garnishes",
-          ],
-          ingredients: [
-            {
-              name: "beef shank",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pork knuckles",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "thick rice noodles",
-              amount: "500",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lemongrass",
-              amount: "4",
-              unit: "stalks",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "shrimp paste",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "annatto seeds",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "Vietnamese herbs",
-              amount: "2",
-              unit: "cups",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "banana flower",
-              amount: "1",
-              unit: "whole",
-              category: "vegetable",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.4,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "beef shank": ["brisket", "tofu"],
-            "pork knuckles": ["pork belly", "mushrooms"],
-            "shrimp paste": ["miso paste"],
-          },
-          servingSize: 6,
-          allergens: ["shellfish"],
-          prepTime: "40 minutes",
-          cookTime: "3 hours",
-          culturalNotes:
-            "A regional specialty from the imperial city of Hue, known for its spicy broth and complex flavors",
-          pairingSuggestions: ["lime wedges", "chili sauce", "fresh herbs"],
-          dietaryInfo: ["dairy-free"],
-          spiceLevel: "hot",
-          nutrition: {
-            calories: 520,
-            protein: 35,
-            carbs: 65,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["B12", "C"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.5,
-            Earth: 0.21,
-            Air: 0.18,
-          },
+          description: "The dark, fiery, and fiercely aromatic beef noodle soup of Central Vietnam. It relies on a violently heavy broth extracted from beef bones and pork knuckles, tinted blood-red with annatto and heavily perfumed with massive stalks of bruised lemongrass and fermented shrimp paste.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":240,"baseServingSize":4,"spiceLevel":"High","season":["winter","all"]},
+          ingredients: [{"amount":2,"unit":"lbs","name":"Beef and pork bones","notes":"Oxtail, pork knuckles (giò heo)."},{"amount":1,"unit":"lb","name":"Beef shank or brisket","notes":"For slicing."},{"amount":6,"unit":"stalks","name":"Lemongrass","notes":"Heavily bruised."},{"amount":2,"unit":"tbsp","name":"Mắm ruốc","notes":"Fermented shrimp paste. The funky soul of the broth."},{"amount":2,"unit":"tbsp","name":"Annatto oil","notes":"Oil infused with achiote seeds for the fiery red color."},{"amount":1,"unit":"tbsp","name":"Chili flakes","notes":"Fried in the annatto oil."},{"amount":1,"unit":"package","name":"Thick round rice noodles (Bún bò)","notes":"Thicker than standard pho noodles."},{"amount":1,"unit":"basket","name":"Banana blossom, mint, lime","notes":"For garnish."},{"amount":4,"unit":"cubes","name":"Congealed pork blood (Huyết)","notes":"Traditional authentic inclusion."}],
+          instructions: ["Step 1: The Blanch. Violently boil all bones and meat for 10 minutes. Discard the foul water and wash the bones completely. This ensures the final heavy broth remains clean.","Step 2: The Long Extraction. Place the clean bones, beef shank, bruised lemongrass stalks, and a charred onion in a massive pot of fresh water. Simmer aggressively. Remove the beef shank after 2 hours when tender. Continue simmering the bones for another 2 hours.","Step 3: The Funk. Dissolve the dense, pungent shrimp paste (mắm ruốc) in water, let the sediment settle, and pour only the clear, highly aromatic liquid into the broth.","Step 4: The Fire Oil. In a small pan, heat oil and annatto seeds until the oil is deeply red. Discard seeds. Fry minced lemongrass and chili flakes in this red oil, then dump the entire violently sizzling mixture into the broth.","Step 5: The Assembly. Place hot, thick noodles in a bowl. Top with thin slices of the beef shank, pieces of pork knuckle, and cubes of blood. Ladle the boiling, fiery-red, lemongrass-scented broth over everything. Serve with a mountain of shredded banana blossom."],
+          classifications: {"mealType":["soup","dinner"],"cookingMethods":["simmering","infusing"]},
+          elementalProperties: {"Fire":0.4,"Water":0.45,"Earth":0.1,"Air":0.05},
+          astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":650,"proteinG":45,"carbsG":68,"fatG":22,"fiberG":4,"sodiumMg":2100,"sugarG":5,"vitamins":["Vitamin B12","Iron"],"minerals":["Zinc","Sodium"]},
+          substitutions: [{"originalIngredient":"Congealed pork blood","substituteOptions":["Omit entirely (common in diaspora)"]}]
         },
         {
           name: "Gỏi Cuốn",
-          description:
-            "Vietnamese fresh spring rolls with shrimp, pork, rice noodles, and herbs",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "rolling",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.35,
-                Air: 0.25,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "rice paper",
-              amount: "12",
-              unit: "sheets",
-              category: "grain",
-            },
-            {
-              name: "shrimp",
-              amount: "12",
-              unit: "medium",
-              category: "protein",
-            },
-            {
-              name: "pork belly",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "rice vermicelli",
-              amount: "100",
-              unit: "g",
-              category: "grain",
-            },
-            {
-              name: "lettuce",
-              amount: "1",
-              unit: "head",
-              category: "vegetable",
-            },
-            {
-              name: "mint",
-              amount: "1",
-              unit: "bunch",
-              category: "herb",
-            },
-          ],
-          substitutions: {
-            shrimp: ["tofu", "chicken"],
-            "pork belly": ["chicken breast"],
-          },
-          servingSize: 4,
-          allergens: ["shellfish"],
-          prepTime: "30 minutes",
-          cookTime: "15 minutes",
-          nutrition: {
-            calories: 220,
-            protein: 18,
-            carbs: 25,
-            fat: 6,
-            fiber: 3,
-          },
-          timeToMake: "45 minutes",
-          season: ["spring", "summer"],
-          mealType: ["lunch", "appetizer"],
-          elementalProperties: {
-            Fire: 0.1,
-            Water: 0.35,
-            Earth: 0.3,
-            Air: 0.25,
-          },
+          description: "The aesthetic architecture of a Vietnamese summer roll. A translucent sheet of rice paper tightly binds a hyper-fresh matrix of cold vermicelli, snappy shrimp, pork, and sharp herbs, offering a purely clean flavor meant to be dragged through a heavy, fatty peanut sauce.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":10,"baseServingSize":4,"spiceLevel":"None","season":["summer","spring"]},
+          ingredients: [{"amount":8,"unit":"sheets","name":"Rice paper (Bánh tráng)","notes":"For wrapping."},{"amount":0.5,"unit":"lb","name":"Pork belly or lean pork","notes":"Boiled and sliced paper-thin."},{"amount":0.5,"unit":"lb","name":"Shrimp","notes":"Boiled, peeled, and sliced in half horizontally."},{"amount":4,"unit":"oz","name":"Rice vermicelli (Bún)","notes":"Cooked and cooled."},{"amount":1,"unit":"head","name":"Lettuce","notes":"Soft leaves."},{"amount":1,"unit":"bunch","name":"Mint, cilantro, and garlic chives","notes":"Fresh herbs are the core flavor."},{"amount":0.5,"unit":"cup","name":"Peanut sauce (Tương đậu phộng)","notes":"Hoisin, peanut butter, garlic, chili."}],
+          instructions: ["Step 1: The Boiling. Boil the pork until fully cooked. Let it cool, then slice it impossibly thin. Boil the shrimp just until pink, peel, and slice them directly down the center to create two thin halves.","Step 2: The Hydration. Take a sheet of rigid rice paper. Quickly dip it entirely into warm water and immediately place it flat on a damp surface. Do not soak it; it will hydrate and become sticky and pliable in about 10 seconds.","Step 3: The Architecture. On the lower third of the paper, lay a piece of lettuce. Top with a small pinch of noodles, herbs, and pork slices. Roll the paper over this pile once to form a tight core.","Step 4: The Display. Just above the core, lay 3-4 shrimp halves, pink side facing down (against the paper). Fold the left and right sides of the paper inward to seal the edges.","Step 5: The Seal. Continue rolling forward, wrapping tightly over the shrimp. The final roll should be an impossibly tight, translucent cylinder displaying the pink shrimp clearly through the skin. Serve immediately with the dense, fatty peanut dipping sauce."],
+          classifications: {"mealType":["appetizer","snack"],"cookingMethods":["boiling","rolling","raw"]},
+          elementalProperties: {"Fire":0,"Water":0.5,"Earth":0.2,"Air":0.3},
+          astrologicalAffinities: {"planets":["Venus","Mercury"],"signs":["libra","gemini"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":280,"proteinG":18,"carbsG":35,"fatG":8,"fiberG":3,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Calcium","Iron"]},
+          substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Fried tofu (for vegetarian)"]}]
         },
         {
           name: "Cơm Gà Hội An",
-          description:
-            "Hội An chicken rice with turmeric-infused rice and tender poached chicken",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "poaching",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.5,
-                Earth: 0.13,
-                Air: 0.19,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.55,
-                Earth: 0.15,
-                Air: 0.15,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "chicken",
-              amount: "1",
-              unit: "whole",
-              category: "protein",
-            },
-            {
-              name: "jasmine rice",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-            },
-            {
-              name: "turmeric",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "ginger",
-              amount: "2",
-              unit: "inches",
-              category: "spice",
-            },
-            {
-              name: "papaya salad",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            "whole chicken": ["chicken thighs"],
-            "papaya salad": ["cucumber salad"],
-          },
-          servingSize: 4,
-          allergens: [],
-          prepTime: "15 minutes",
-          cookTime: "45 minutes",
-          nutrition: {
-            calories: 480,
-            protein: 35,
-            carbs: 55,
-            fat: 12,
-            fiber: 2,
-          },
-          timeToMake: "60 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.35,
-            Earth: 0.35,
-            Air: 0.1,
-          },
+          description: "The luminous yellow chicken rice of Hoi An. Rice is toasted in chicken fat and violently dyed with turmeric, then cooked in a rich chicken broth, served with hand-shredded poached chicken mixed with sharp, acidic herbs and onions.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":20,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":1,"unit":"whole","name":"Free-range chicken","notes":"Essential for tight meat texture and yellow fat."},{"amount":2,"unit":"cups","name":"Jasmine rice","notes":"Washed and drained well."},{"amount":1,"unit":"tbsp","name":"Turmeric powder","notes":"For the intensely vibrant yellow color."},{"amount":2,"unit":"tbsp","name":"Chicken fat","notes":"Rendered from the chicken skin."},{"amount":1,"unit":"whole","name":"Onion","notes":"Sliced paper-thin and soaked in ice water to remove bite."},{"amount":1,"unit":"bunch","name":"Vietnamese coriander (Rau răm)","notes":"Essential sharp, peppery herb."},{"amount":2,"unit":"tbsp","name":"Lime juice and salt","notes":"To dress the chicken salad."}],
+          instructions: ["Step 1: The Poach. Poach the whole chicken gently with ginger and shallots. Remove, plunge into an ice bath to tighten the skin, and reserve the golden broth.","Step 2: The Fat Rendering. Cut excess skin and fat from the chicken and fry it in a pan until it renders into a pool of liquid chicken fat.","Step 3: The Golden Grain. Heat the rendered fat in a pot. Add the raw, dry rice and turmeric powder. Toast aggressively for 5 minutes until every grain is coated in fat and violently yellow.","Step 4: The Broth Absorption. Pour the reserved chicken broth over the yellow rice. Cook like standard rice until the liquid is absorbed and the grains are fluffy and distinct.","Step 5: The Salad. Hand-shred the cooled chicken meat (do not chop it). Toss the shredded meat vigorously with the ice-cold sliced onions, rau răm, lime juice, salt, and pepper. Serve the acidic chicken salad over a mound of the rich, fatty yellow rice."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["poaching","toasting","mixing"]},
+          elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.4,"Air":0.15},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":550,"proteinG":35,"carbsG":65,"fatG":15,"fiberG":2,"sodiumMg":750,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc"]},
+          substitutions: [{"originalIngredient":"Free-range chicken","substituteOptions":["Standard chicken (though less authentic in texture)"]}]
         },
         {
           name: "Bánh Xèo",
-          description:
-            "Vietnamese sizzling crepes filled with pork, shrimp, and bean sprouts",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "rice flour",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-            },
-            {
-              name: "turmeric powder",
-              amount: "1/2",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "coconut milk",
-              amount: "1/2",
-              unit: "cup",
-              category: "liquid",
-            },
-            {
-              name: "pork",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "shrimp",
-              amount: "150",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "bean sprouts",
-              amount: "2",
-              unit: "cups",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            shrimp: ["tofu"],
-            pork: ["chicken", "mushrooms"],
-          },
-          servingSize: 4,
-          allergens: ["shellfish"],
-          prepTime: "20 minutes",
-          cookTime: "30 minutes",
-          nutrition: {
-            calories: 350,
-            protein: 22,
-            carbs: 35,
-            fat: 15,
-            fiber: 3,
-          },
-          timeToMake: "50 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.2,
-            Earth: 0.3,
-            Air: 0.15,
-          },
+          description: "A wildly crisp, violently yellow Vietnamese crepe. The batter, colored with turmeric and enriched with coconut milk, is poured into a smoking hot wok to fry aggressively, trapping shrimp, pork, and bean sprouts in a brittle, lacy shell.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":20,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Rice flour","notes":"Do not use wheat flour."},{"amount":0.5,"unit":"tsp","name":"Turmeric powder","notes":"For the yellow color."},{"amount":0.5,"unit":"cup","name":"Coconut milk","notes":"Adds slight richness."},{"amount":1,"unit":"cup","name":"Water or beer","notes":"Beer adds carbonation for extra crispness."},{"amount":0.25,"unit":"lb","name":"Pork belly","notes":"Sliced thinly."},{"amount":0.25,"unit":"lb","name":"Shrimp","notes":"Small, left whole."},{"amount":1,"unit":"cup","name":"Bean sprouts","notes":"For internal crunch."},{"amount":1,"unit":"basket","name":"Lettuce and herbs","notes":"Mustard greens, mint, perilla, for wrapping."}],
+          instructions: ["Step 1: The Slurry. Whisk the rice flour, turmeric, coconut milk, water/beer, and a pinch of salt into a very thin, watery liquid. Let it rest for 30 minutes.","Step 2: The Sizzle. Heat a large skillet or wok over extremely high heat. Add oil, a few slices of pork, and shrimp. Sear aggressively.","Step 3: The Searing Lace. Vigorously stir the batter (the flour sinks). Pour a ladle of the thin batter into the violently hot pan, swirling immediately to coat the entire surface. It must hiss loudly and form a thin, lacy edge.","Step 4: The Steam. Throw a handful of bean sprouts onto one half of the crepe. Cover the pan immediately for exactly 1 minute to steam the sprouts and cook the top of the batter.","Step 5: The Crisp. Remove the lid. Lower the heat slightly and wait (about 2-3 minutes) for the bottom to become entirely rigid, brittle, and deeply brown. Fold in half. Slide onto a plate. To eat, rip off a piece of the crispy crepe, wrap it in a mustard green leaf with fresh herbs, and plunge it into dipping sauce."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["shallow frying","steaming"]},
+          elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.25,"Air":0.2},
+          astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":480,"proteinG":18,"carbsG":55,"fatG":22,"fiberG":4,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Calcium","Iron"]},
+          substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Mushrooms and tofu"]}]
         },
       ],
     },
@@ -1448,128 +579,15 @@ export const vietnamese: Cuisine = {
       all: [
         {
           name: "Cá Kho Tộ",
-          description: "Caramelized fish in clay pot",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "caramelizing",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.19,
-              },
-            },
-          ],
-          tools: [
-            "clay pot or heavy pot",
-            "wooden spoon",
-            "knife",
-            "cutting board",
-            "measuring spoons",
-          ],
-          preparationSteps: [
-            "Clean and cut fish",
-            "Make caramel sauce",
-            "Layer ingredients",
-            "Simmer fish",
-            "Reduce sauce",
-            "Garnish and serve",
-          ],
-          ingredients: [
-            {
-              name: "catfish steaks",
-              amount: "800",
-              unit: "g",
-              category: "protein",
-              swaps: ["salmon", "mackerel"],
-            },
-            { name: "sugar", amount: "3", unit: "tbsp", category: "sweetener" },
-            {
-              name: "fish sauce",
-              amount: "4",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            {
-              name: "coconut water",
-              amount: "1",
-              unit: "cup",
-              category: "liquid",
-            },
-            {
-              name: "shallots",
-              amount: "4",
-              unit: "whole",
-              category: "vegetable",
-            },
-            {
-              name: "garlic",
-              amount: "4",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "ginger", amount: "2", unit: "inches", category: "spice" },
-            {
-              name: "green onions",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "black pepper",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "chili",
-              amount: "2",
-              unit: "pieces",
-              category: "spice",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            catfish: ["salmon", "mackerel", "tofu"],
-            "fish sauce": ["soy sauce", "coconut aminos"],
-            "coconut water": ["water", "stock"],
-          },
-          servingSize: 4,
-          allergens: ["fish"],
-          prepTime: "20 minutes",
-          cookTime: "40 minutes",
-          culturalNotes:
-            "A homestyle dish that exemplifies the Vietnamese caramelization technique. The clay pot helps develop deep flavors and keeps the fish moist",
-          pairingSuggestions: ["steamed rice", "water spinach", "soup"],
-          dietaryInfo: ["dairy-free", "gluten-free"],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 420,
-            protein: 35,
-            carbs: 15,
-            fat: 25,
-            fiber: 3,
-            vitamins: ["D", "B12"],
-            minerals: ["Omega-3", "Iron"],
-          },
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.09,
-            Water: 0.68,
-            Earth: 0.16,
-            Air: 0.08,
-          },
+          description: "The essence of Vietnamese peasant cooking. Catfish steaks are violently braised in a traditional clay pot, utilizing a thick, boiling matrix of fish sauce, coconut water, and dark caramel to shellack the fish in a deeply salty, sweet, sticky glaze.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":15,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Catfish steaks","notes":"Bone-in, skin-on. The fat is crucial."},{"amount":3,"unit":"tbsp","name":"Sugar","notes":"For creating the dark caramel (Nước màu)."},{"amount":4,"unit":"tbsp","name":"Fish sauce","notes":"High salinity."},{"amount":1,"unit":"cup","name":"Coconut water","notes":"Natural sweetness and braising liquid."},{"amount":1,"unit":"tbsp","name":"Black pepper","notes":"Coarsely ground, massive quantity."},{"amount":3,"unit":"whole","name":"Shallots and garlic","notes":"Minced."},{"amount":2,"unit":"whole","name":"Thai chilies","notes":"Left whole or halved."}],
+          instructions: ["Step 1: The Caramel Burn. In a traditional clay pot (tộ) or a heavy Dutch oven, heat the sugar and a splash of water over medium heat. Do not stir. Let it boil until it turns into a dark, smoking, reddish-black caramel. Work fast before it turns to bitter ash.","Step 2: The Searing. Immediately add the minced shallots and garlic to the dark caramel to stop the cooking. Add the fish sauce (it will spit violently).","Step 3: The Coating. Lay the catfish steaks flat in the bubbling dark liquid. Turn them once so they are coated in the intensely dark caramel-fish sauce glaze.","Step 4: The Braise. Pour in the coconut water, add the chilies and a massive dose of black pepper. Bring to a vigorous boil.","Step 5: The Reduction. Reduce the heat and simmer uncovered for 30-40 minutes. The liquid must reduce down into a thick, sticky, intensely salty-sweet glaze that clings to the rich fish fat. Serve directly in the clay pot alongside plain white rice."],
+          classifications: {"mealType":["dinner","comfort"],"cookingMethods":["caramelizing","braising"]},
+          elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
+          astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":350,"proteinG":22,"carbsG":18,"fatG":18,"fiberG":1,"sodiumMg":1600,"sugarG":15,"vitamins":["Vitamin D","Vitamin B12"],"minerals":["Potassium","Phosphorus"]},
+          substitutions: [{"originalIngredient":"Catfish","substituteOptions":["Salmon","Pork belly (for Thịt Kho)"]}]
         },
         {
           "name": "Authentic Cơm Tấm",
@@ -1659,640 +677,485 @@ export const vietnamese: Cuisine = {
         },
         {
           name: "Thịt Kho Tàu",
-          description:
-            "Vietnamese caramelized pork belly with hard-boiled eggs in coconut water",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "caramelizing",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.19,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "pork belly",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "eggs",
-              amount: "6",
-              unit: "large",
-              category: "protein",
-            },
-            {
-              name: "coconut water",
-              amount: "2",
-              unit: "cups",
-              category: "liquid",
-            },
-            {
-              name: "fish sauce",
-              amount: "3",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "sugar",
-              amount: "4",
-              unit: "tbsp",
-              category: "sweetener",
-            },
-          ],
-          substitutions: {
-            "pork belly": ["pork shoulder"],
-            "coconut water": ["water with sugar"],
-          },
-          servingSize: 6,
-          allergens: ["eggs", "fish"],
-          prepTime: "15 minutes",
-          cookTime: "90 minutes",
-          nutrition: {
-            calories: 520,
-            protein: 28,
-            carbs: 15,
-            fat: 42,
-            fiber: 0,
-          },
-          timeToMake: "105 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.3,
-            Earth: 0.3,
-            Air: 0.1,
-          },
+          description: "An alchemically precise execution of Thịt Kho Tàu, balancing extreme thermal application with structural integrity.",
+          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Thịt Kho Tàu","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
+          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+          substitutions: [{"originalIngredient":"Foundation of Thịt Kho Tàu","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Lẩu Thái",
-          description:
-            "Vietnamese-Thai fusion hot pot with seafood, vegetables, and aromatic broth",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "shrimp",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "squid",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "fish balls",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "lemongrass",
-              amount: "3",
-              unit: "stalks",
-              category: "herb",
-            },
-            {
-              name: "Thai chili",
-              amount: "5",
-              unit: "whole",
-              category: "vegetable",
-            },
-            {
-              name: "vegetables",
-              amount: "500",
-              unit: "g",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            shrimp: ["tofu", "chicken"],
-            squid: ["fish fillets"],
-          },
-          servingSize: 4,
-          allergens: ["shellfish", "fish"],
-          prepTime: "30 minutes",
-          cookTime: "30 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 42,
-            carbs: 25,
-            fat: 12,
-            fiber: 6,
-          },
-          timeToMake: "60 minutes",
-          season: ["winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.4,
-            Earth: 0.15,
-            Air: 0.1,
-          },
+          description: "An alchemically precise execution of Lẩu Thái, balancing extreme thermal application with structural integrity.",
+          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Lẩu Thái","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
+          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+          substitutions: [{"originalIngredient":"Foundation of Lẩu Thái","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Bò Lúc Lắc",
-          description:
-            "Vietnamese shaking beef with cubed sirloin, garlic, and watercress",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.48,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.35,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "beef sirloin",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            {
-              name: "watercress",
-              amount: "2",
-              unit: "bunches",
-              category: "vegetable",
-            },
-            {
-              name: "tomatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "soy sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "oyster sauce",
-              amount: "1",
-              unit: "tbsp",
-              category: "condiment",
-            },
-          ],
-          substitutions: {
-            "beef sirloin": ["chicken breast", "tofu"],
-            watercress: ["arugula", "spinach"],
-          },
-          servingSize: 4,
-          allergens: ["soy"],
-          prepTime: "15 minutes",
-          cookTime: "10 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 38,
-            carbs: 12,
-            fat: 24,
-            fiber: 2,
-          },
-          timeToMake: "25 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.4,
-            Water: 0.15,
-            Earth: 0.3,
-            Air: 0.15,
-          },
+          description: "Violently agitated beef. 'Shaking Beef' is defined by the absolute maximum heat of the wok, searing marinated beef cubes so fast that a caramelized crust forms while the interior remains completely rare, tossed with raw onions and acidic tomatoes.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":20,"cookTimeMinutes":5,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Beef tenderloin or sirloin","notes":"Cut into precise 1-inch cubes."},{"amount":1,"unit":"tbsp","name":"Oyster sauce","notes":"For the marinade."},{"amount":1,"unit":"tbsp","name":"Soy sauce","notes":"For the marinade."},{"amount":1,"unit":"tsp","name":"Sugar","notes":"To aid caramelization."},{"amount":5,"unit":"cloves","name":"Garlic","notes":"Minced."},{"amount":0.5,"unit":"whole","name":"Red onion","notes":"Cut into thick petals."},{"amount":1,"unit":"whole","name":"Tomato","notes":"Cut into wedges."},{"amount":1,"unit":"bunch","name":"Watercress or lettuce","notes":"For plating."}],
+          instructions: ["Step 1: The Matrix. Toss the beef cubes with oyster sauce, soy sauce, sugar, garlic, and a splash of oil. Marinate for 30 minutes. Do not salt, or the beef will bleed moisture.","Step 2: The Fire. Heat a heavy wok or cast-iron pan over the absolute highest heat possible. It must be smoking heavily.","Step 3: The Shake. Add a splash of oil. Dump the beef cubes in a single layer. Do not touch them for 60 seconds to allow a fierce, dark crust to form.","Step 4: The Agitation. Once crusted, violently shake the wok (lúc lắc), tossing the beef cubes rapidly. Add the onion petals and toss for just 30 more seconds.","Step 5: The Acid. Turn off the heat. Immediately toss in the tomato wedges; the residual heat will barely soften them. Serve the aggressively seared beef directly over a bed of cool, peppery watercress, accompanied by a lime-salt-pepper dipping sauce."],
+          classifications: {"mealType":["dinner","celebration"],"cookingMethods":["wok-searing","tossing"]},
+          elementalProperties: {"Fire":0.6,"Water":0.1,"Earth":0.2,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":450,"proteinG":45,"carbsG":12,"fatG":22,"fiberG":2,"sodiumMg":850,"sugarG":8,"vitamins":["Vitamin B12","Vitamin K"],"minerals":["Zinc","Iron"]},
+          substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Firm tofu (cut large and deep-fried first)"]}]
         },
-      ],
+            {
+              "name": "Authentic Phở Bò",
+              "description": "The alchemical core of Vietnam. A crystal-clear beef broth extracted through 12 hours of simmering charred aromatics and marrow bones, designed to extract the 'essence of beef', served over elastic rice noodles.",
+              "details": {
+                "cuisine": "Vietnamese",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 720,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 3,
+                  "unit": "lbs",
+                  "name": "Beef leg bones",
+                  "notes": "Marrow bones."
+                },
+                {
+                  "amount": 1,
+                  "unit": "whole",
+                  "name": "Ginger/Onion",
+                  "notes": "Charred until black."
+                }
+              ],
+              "instructions": [
+                "Step 1: Parboil and wash bones to ensure broth clarity.",
+                "Step 2: Simmer bones with charred aromatics and star anise.",
+                "Step 3: Remove scum continuously; do not boil aggressively.",
+                "Step 4: Flash-boil rice noodles until elastic.",
+                "Step 5: Assemble: noodles, rare beef, boiling broth, herbs."
+              ],
+              "classifications": {
+                "mealType": [
+                  "breakfast",
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "simmering"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.1,
+                "Water": 0.65,
+                "Earth": 0.15,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Moon",
+                  "Jupiter"
+                ],
+                "signs": [
+                  "cancer",
+                  "sagittarius"
+                ],
+                "lunarPhases": [
+                  "Waning Crescent"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 450,
+                "proteinG": 35,
+                "carbsG": 65,
+                "fatG": 8,
+                "fiberG": 2,
+                "sodiumMg": 1500,
+                "sugarG": 4,
+                "vitamins": [
+                  "Vitamin B12",
+                  "Iron"
+                ],
+                "minerals": [
+                  "Zinc",
+                  "Potassium"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Bánh Mì",
+              "description": "A structural fusion of cultures. A high-kinetic baguette with a rice-flour fortified crust shatters into airy crumbs, encapsulating fatty liver pâté, charred pork, and highly acidic pickled vegetables.",
+              "details": {
+                "cuisine": "Vietnamese",
+                "prepTimeMinutes": 20,
+                "cookTimeMinutes": 10,
+                "baseServingSize": 1,
+                "spiceLevel": "Medium",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "whole",
+                  "name": "Vietnamese Baguette",
+                  "notes": "Rice flour/wheat blend."
+                },
+                {
+                  "amount": 2,
+                  "unit": "tbsp",
+                  "name": "Liver Pâté",
+                  "notes": "For fatty moisture."
+                }
+              ],
+              "instructions": [
+                "Step 1: Split baguette; spread with mayo and pâté.",
+                "Step 2: Layer grilled pork, cucumber slices, and cilantro.",
+                "Step 3: Add a massive amount of pickled daikon/carrot (đồ chua).",
+                "Step 4: Season with Maggi liquid seasoning and bird's eye chilies.",
+                "Step 5: Serve immediately while the crust is still rigid."
+              ],
+              "classifications": {
+                "mealType": [
+                  "lunch",
+                  "snack"
+                ],
+                "cookingMethods": [
+                  "assembling",
+                  "grilling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.3,
+                "Water": 0.1,
+                "Earth": 0.35,
+                "Air": 0.25
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mercury",
+                  "Mars"
+                ],
+                "signs": [
+                  "gemini",
+                  "aries"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 520,
+                "proteinG": 24,
+                "carbsG": 65,
+                "fatG": 22,
+                "fiberG": 4,
+                "sodiumMg": 1100,
+                "sugarG": 8,
+                "vitamins": [
+                  "Vitamin C",
+                  "Niacin"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Bún Thịt Nướng",
+              "description": "The contrast bowl of the South. Cold rice vermicelli acts as a neutral base for hot, lemongrass-marinated grilled pork, crunchy spring rolls, and a massive volume of fresh herbs, unified by a sweet-savory fish sauce dressing.",
+              "details": {
+                "cuisine": "Vietnamese (South)",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 15,
+                "baseServingSize": 2,
+                "spiceLevel": "Medium",
+                "season": [
+                  "summer"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 8,
+                  "unit": "oz",
+                  "name": "Rice vermicelli",
+                  "notes": "Cold."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "lb",
+                  "name": "Lemongrass pork",
+                  "notes": "Grilled."
+                }
+              ],
+              "instructions": [
+                "Step 1: Marinate pork in lemongrass, fish sauce, and sugar.",
+                "Step 2: Grill pork over high heat until caramelized.",
+                "Step 3: Place cold noodles in a bowl; top with shredded lettuce.",
+                "Step 4: Add grilled pork, herbs, peanuts, and spring roll.",
+                "Step 5: Pour warm Nước Chấm over the entire bowl."
+              ],
+              "classifications": {
+                "mealType": [
+                  "lunch",
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "grilling",
+                  "assembling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.35,
+                "Water": 0.3,
+                "Earth": 0.2,
+                "Air": 0.15
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mercury",
+                  "Venus"
+                ],
+                "signs": [
+                  "gemini",
+                  "libra"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 580,
+                "proteinG": 28,
+                "carbsG": 75,
+                "fatG": 24,
+                "fiberG": 6,
+                "sodiumMg": 1200,
+                "sugarG": 12,
+                "vitamins": [
+                  "Vitamin C",
+                  "Vitamin A"
+                ],
+                "minerals": [
+                  "Potassium",
+                  "Zinc"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Chả Cá Lã Vọng",
+              "description": "The legendary turmeric fish of Hanoi. Firm white fish is marinated in galangal and turmeric, then fried at the table in a massive amount of fresh dill and scallions, creating an intensely aromatic and electric green oil.",
+              "details": {
+                "cuisine": "Vietnamese (Hanoi)",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 15,
+                "baseServingSize": 2,
+                "spiceLevel": "Medium",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "lb",
+                  "name": "Snakehead fish or Catfish",
+                  "notes": "Firm white fish."
+                },
+                {
+                  "amount": 2,
+                  "unit": "bunches",
+                  "name": "Fresh Dill",
+                  "notes": "Essential aromatic."
+                }
+              ],
+              "instructions": [
+                "Step 1: Marinate fish in turmeric, galangal, and shrimp paste.",
+                "Step 2: Grill fish pieces until 80% cooked.",
+                "Step 3: Place fish in a frying pan at the table with oil.",
+                "Step 4: Dump massive amounts of dill and scallions into the pan.",
+                "Step 5: Serve with vermicelli, peanuts, and Mắm Tôm (shrimp paste)."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner",
+                  "celebration"
+                ],
+                "cookingMethods": [
+                  "frying",
+                  "grilling"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.45,
+                "Water": 0.25,
+                "Earth": 0.1,
+                "Air": 0.2
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Jupiter",
+                  "Uranus"
+                ],
+                "signs": [
+                  "sagittarius",
+                  "aquarius"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 420,
+                "proteinG": 35,
+                "carbsG": 12,
+                "fatG": 28,
+                "fiberG": 2,
+                "sodiumMg": 1400,
+                "sugarG": 2,
+                "vitamins": [
+                  "Vitamin C",
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Selenium",
+                  "Iron"
+                ]
+              },
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Chè Trôi Nước",
+              "description": "The 'Floating in Water' dessert. Glutinous rice balls with a savory mung bean core are suspended in a warm ginger-syrup matrix, embodying the alchemical balance of chewy structure and liquid heat.",
+              "details": {
+                "cuisine": "Vietnamese",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 30,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "celebration"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Glutinous rice flour",
+                  "notes": "For the shell."
+                },
+                {
+                  "amount": 0.5,
+                  "unit": "cup",
+                  "name": "Mung bean paste",
+                  "notes": "For the filling."
+                }
+              ],
+              "instructions": [
+                "Step 1: Steam and mash mung beans into balls.",
+                "Step 2: Wrap mung bean core in glutinous rice dough.",
+                "Step 3: Boil balls until they float to the surface.",
+                "Step 4: Prepare a heavy syrup of ginger and palm sugar.",
+                "Step 5: Transfer balls to the syrup; top with coconut cream."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dessert"
+                ],
+                "cookingMethods": [
+                  "boiling",
+                  "simmering"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.55,
+                "Earth": 0.25,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Moon",
+                  "Neptune"
+                ],
+                "signs": [
+                  "cancer",
+                  "pisces"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 350,
+                "proteinG": 8,
+                "carbsG": 65,
+                "fatG": 8,
+                "fiberG": 4,
+                "sodiumMg": 150,
+                "sugarG": 28,
+                "vitamins": [
+                  "Vitamin B6"
+                ],
+                "minerals": [
+                  "Magnesium",
+                  "Potassium"
+                ]
+              },
+              "substitutions": []
+            }
+        ],
     },
     dessert: {
       all: [
         {
           name: "Chè Ba Màu",
-          description:
-            "Three-color dessert with beans, jelly, and coconut milk",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            "cooking beans",
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-          ],
-          tools: [
-            "saucepans",
-            "strainer",
-            "tall glasses",
-            "measuring cups",
-            "spoons",
-          ],
-          preparationSteps: [
-            "Cook red beans",
-            "Prepare mung beans",
-            "Make pandan jelly",
-            "Prepare coconut milk",
-            "Layer ingredients",
-            "Chill before serving",
-          ],
-          ingredients: [
-            {
-              name: "red beans",
-              amount: "200",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "mung beans",
-              amount: "200",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pandan jelly",
-              amount: "200",
-              unit: "g",
-              category: "jelly",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "coconut milk",
-              amount: "400",
-              unit: "ml",
-              category: "liquid",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "palm sugar",
-              amount: "100",
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pandan leaves",
-              amount: "2",
-              unit: "pieces",
-              category: "herb",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "crushed ice",
-              amount: "2",
-              unit: "cups",
-              category: "ice",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.85,
-                Earth: 0.05,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "palm sugar": ["brown sugar", "coconut sugar"],
-            "pandan jelly": ["grass jelly", "agar jelly"],
-            "coconut milk": ["almond milk", "oat milk"],
-          },
-          servingSize: 4,
-          allergens: ["tree nuts (coconut)"],
-          prepTime: "30 minutes",
-          cookTime: "1 hour",
-          chillTime: "2 hours",
-          culturalNotes:
-            "A beloved Vietnamese dessert where the three colors represent different textures and flavors. Often enjoyed during hot summer days",
-          pairingSuggestions: ["Vietnamese coffee", "additional coconut milk"],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 320,
-            protein: 8,
-            carbs: 52,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["B1", "E"],
-            minerals: ["Iron", "Magnesium"],
-          },
-          season: ["summer"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.1,
-            Water: 0.43,
-            Earth: 0.25,
-            Air: 0.22,
-          },
+          description: "An alchemically precise execution of Chè Ba Màu, balancing extreme thermal application with structural integrity.",
+          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Chè Ba Màu","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
+          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
+          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+          substitutions: [{"originalIngredient":"Foundation of Chè Ba Màu","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Chè Chuối",
-          description: "Sweet banana in coconut milk soup",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cooking",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.33,
-                Earth: 0.29,
-                Air: 0.14,
-              },
-            },
-          ],
-          tools: [
-            "pot",
-            "wooden spoon",
-            "measuring cups",
-            "serving bowls",
-            "knife",
-          ],
-          preparationSteps: [
-            "Prepare bananas",
-            "Make tapioca pearls",
-            "Cook coconut milk",
-            "Combine ingredients",
-            "Add toppings",
-            "Serve warm or cold",
-          ],
-          ingredients: [
-            {
-              name: "ripe bananas",
-              amount: "6",
-              unit: "medium",
-              category: "fruit",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.4,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "coconut milk",
-              amount: "400",
-              unit: "ml",
-              category: "liquid",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tapioca pearls",
-              amount: "100",
-              unit: "g",
-              category: "starch",
-            },
-            {
-              name: "palm sugar",
-              amount: "80",
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pandan leaves",
-              amount: "2",
-              unit: "pieces",
-              category: "herb",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "sesame seeds",
-              amount: "2",
-              unit: "tbsp",
-              category: "garnish",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "crushed peanuts",
-              amount: "1/2",
-              unit: "cup",
-              category: "garnish",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
-            },
-          ],
-          substitutions: {
-            "palm sugar": ["brown sugar", "coconut sugar"],
-            "coconut milk": ["almond milk", "oat milk"],
-            "pandan leaves": ["vanilla extract"],
-          },
-          servingSize: 6,
-          allergens: ["tree nuts (coconut)", "peanuts"],
-          prepTime: "15 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            "A comforting dessert soup that's often served both hot and cold. The combination of bananas and coconut milk is a classic Vietnamese pairing",
-          pairingSuggestions: ["Vietnamese coffee", "sesame crackers"],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 280,
-            protein: 4,
-            carbs: 42,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["B6", "C"],
-            minerals: ["Potassium", "Magnesium"],
-          },
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.16,
-            Water: 0.39,
-            Earth: 0.26,
-            Air: 0.19,
-          },
+          description: "A thick, violently rich dessert soup relying on the suspension of sweet bananas and tapioca pearls within a heavy, salted coconut cream matrix.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":10,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":4,"unit":"whole","name":"Saba bananas (Chuối sứ)","notes":"Small, starchy bananas. Cavendish will turn to mush."},{"amount":1,"unit":"can","name":"Coconut milk","notes":"Full fat."},{"amount":0.25,"unit":"cup","name":"Small tapioca pearls (Bột báng)","notes":"Soaked in water."},{"amount":0.25,"unit":"cup","name":"Sugar","notes":"To taste."},{"amount":0.5,"unit":"tsp","name":"Salt","notes":"Crucial to cut the extreme richness of the coconut."},{"amount":2,"unit":"tbsp","name":"Roasted peanuts","notes":"Crushed, for garnish."},{"amount":1,"unit":"tbsp","name":"Toasted sesame seeds","notes":"For garnish."}],
+          instructions: ["Step 1: The Banana Preparation. Peel the starchy bananas and slice them diagonally into thick pieces. Toss them lightly in sugar to draw out a little moisture and firm them up.","Step 2: The Liquid Matrix. In a pot, bring the full-fat coconut milk and a splash of water to a gentle simmer. Do not boil violently or the coconut milk will break and separate into oil.","Step 3: The Suspension. Drain the soaked tapioca pearls and stir them into the simmering coconut milk. Cook for 10 minutes until the pearls turn translucent, thickening the liquid into a viscous syrup.","Step 4: The Integration. Add the sliced bananas, the remaining sugar, and the crucial half-teaspoon of salt. Simmer for 5 minutes until the bananas are tender but completely retain their structural shape.","Step 5: The Contrast. Serve warm in small bowls. The dessert must be heavily garnished with roasted crushed peanuts and sesame seeds to provide sharp, brittle contrast against the soft, rich matrix."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["simmering"]},
+          elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.35,"Air":0.05},
+          astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":350,"proteinG":3,"carbsG":55,"fatG":16,"fiberG":4,"sodiumMg":300,"sugarG":28,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Potassium","Manganese"]},
+          substitutions: [{"originalIngredient":"Saba bananas","substituteOptions":["Plantains"]}]
         },
         {
           name: "Bánh Flan",
-          description:
-            "Vietnamese caramel custard with coffee-infused caramel sauce, a French-Vietnamese fusion",
-          cuisine: "Vietnamese",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.55,
-                Earth: 0.15,
-                Air: 0.15,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "eggs",
-              amount: "6",
-              unit: "large",
-              category: "protein",
-            },
-            {
-              name: "condensed milk",
-              amount: "1",
-              unit: "can",
-              category: "dairy",
-            },
-            {
-              name: "evaporated milk",
-              amount: "1",
-              unit: "can",
-              category: "dairy",
-            },
-            {
-              name: "sugar",
-              amount: "1",
-              unit: "cup",
-              category: "sweetener",
-            },
-            {
-              name: "Vietnamese coffee",
-              amount: "2",
-              unit: "tbsp",
-              category: "flavoring",
-            },
-            {
-              name: "vanilla extract",
-              amount: "1",
-              unit: "tsp",
-              category: "flavoring",
-            },
-          ],
-          substitutions: {
-            "Vietnamese coffee": ["espresso"],
-            "condensed milk": ["coconut condensed milk"],
-          },
-          servingSize: 8,
-          allergens: ["eggs", "dairy"],
-          prepTime: "20 minutes",
-          cookTime: "60 minutes",
-          nutrition: {
-            calories: 320,
-            protein: 8,
-            carbs: 45,
-            fat: 12,
-            fiber: 0,
-          },
-          timeToMake: "80 minutes",
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.35,
-            Earth: 0.35,
-            Air: 0.1,
-          },
+          description: "The Vietnamese interpretation of caramel custard. It is distinct from its Mexican cousin due to the incorporation of dark coffee over the caramel, resulting in a bitter, complex edge that balances the dense, sweet egg matrix.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":15,"cookTimeMinutes":40,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":0.5,"unit":"cup","name":"Sugar","notes":"For the caramel."},{"amount":3,"unit":"large","name":"Eggs","notes":"Plus 2 extra yolks for extreme richness."},{"amount":1,"unit":"cup","name":"Whole milk","notes":"Warmed."},{"amount":0.5,"unit":"cup","name":"Sweetened condensed milk","notes":"The primary sweetener."},{"amount":1,"unit":"tsp","name":"Vanilla extract","notes":"Aromatic."},{"amount":2,"unit":"tbsp","name":"Strong Vietnamese coffee","notes":"Poured over the flan before serving."},{"amount":1,"unit":"cup","name":"Crushed ice","notes":"Served underneath or around the flan."}],
+          instructions: ["Step 1: The Glass. Melt the sugar in a dry saucepan until it reaches a dark, smoking amber. Immediately pour a thin layer into the bottom of individual ramekins, swirling to coat before it solidifies into glass.","Step 2: The Egg Matrix. In a bowl, gently whisk the whole eggs and extra yolks. Do not beat violently; incorporating air bubbles will ruin the silken texture.","Step 3: The Emulsion. Whisk the warm milk and condensed milk together, then slowly pour this hot mixture into the eggs, whisking continuously (tempering). Strain the entire mixture through a fine sieve to remove any unmixed chalazae.","Step 4: The Steam. Pour the strained matrix into the caramel-lined ramekins. Cover each tightly with foil. Steam gently over barely simmering water for 30-40 minutes until set but trembling. Chill completely.","Step 5: The Bitter Finish. Invert the cold flan onto a plate of crushed ice. The caramel will have liquefied into a sauce. Pour a shot of dark, bitter Vietnamese espresso directly over the flan, letting it mix with the sweet caramel."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["caramelizing","steaming"]},
+          elementalProperties: {"Fire":0.15,"Water":0.45,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","capricorn"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":280,"proteinG":8,"carbsG":38,"fatG":10,"fiberG":0,"sodiumMg":95,"sugarG":35,"vitamins":["Riboflavin","Vitamin B12"],"minerals":["Calcium","Phosphorus"]},
+          substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Evaporated milk"]}]
         },
       ],
     },
