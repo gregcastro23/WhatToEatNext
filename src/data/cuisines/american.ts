@@ -3595,129 +3595,131 @@ export const american: Cuisine = {
       ],
       summer: [
         {
-          name: "S'mores Ice Cream Pie",
-          description:
-            "Graham cracker crust filled with chocolate ice cream and topped with toasted marshmallow",
-          cuisine: "American",
-          cookingMethods: [
+          "recipe_name": "S'mores Ice Cream Pie",
+          "description": "A modern American frozen dessert layering the distinct components of a campfire s'more into a structured pie. It relies on a compacted graham cracker crust, a dense chocolate ganache barrier to prevent sogginess, packed marshmallow ice cream, and a scorched meringue/marshmallow crown.",
+          "details": {
+            "cuisine": "American",
+            "prep_time_minutes": 240,
+            "cook_time_minutes": 10,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "summer"
+            ]
+          },
+          "ingredients": [
             {
-              name: "freezing",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.64,
-                Earth: 0.21,
-                Air: 0.14,
-              },
+              "amount": 2,
+              "unit": "cups",
+              "name": "graham cracker crumbs",
+              "notes": "The foundation."
             },
             {
-              name: "toasting",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.28,
-              },
+              "amount": 6,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "Melted, to bind the crust."
             },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For the ganache layer."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "semi-sweet chocolate chips",
+              "notes": "For the ganache layer."
+            },
+            {
+              "amount": 1.5,
+              "unit": "quarts",
+              "name": "marshmallow or vanilla ice cream",
+              "notes": "Softened slightly to spread."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "egg whites",
+              "notes": "For the meringue topping."
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the meringue topping."
+            },
+            {
+              "amount": 0.25,
+              "unit": "tsp",
+              "name": "cream of tartar",
+              "notes": "Stabilizes the egg whites."
+            }
           ],
-          ingredients: [
-            {
-              name: "graham crackers",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              element: "Earth",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.25,
-                Earth: 0.5,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "chocolate ice cream",
-              amount: "1.5",
-              unit: "quarts",
-              category: "dairy",
-              element: "Water",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "marshmallows",
-              amount: "3",
-              unit: "cups",
-              category: "candy",
-              element: "Air",
-            },
-            {
-              name: "butter",
-              amount: "6",
-              unit: "tbsp",
-              category: "fat",
-              element: "Earth",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chocolate sauce",
-              amount: "1/4",
-              unit: "cup",
-              category: "topping",
-              element: "Earth",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sea salt",
-              amount: "1/4",
-              unit: "tsp",
-              category: "seasoning",
-              element: "Earth",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.15,
-                Earth: 0.65,
-                Air: 0.1,
-              },
-            },
+          "instructions": [
+            "Step 1: The Crust. Mix graham crumbs and melted butter. Press firmly into a 9-inch pie dish. Bake at 350°F (175°C) for 10 minutes to set. Cool completely.",
+            "Step 2: The Ganache Barrier. Heat the heavy cream until steaming. Pour over the chocolate chips. Let sit for 5 minutes, then whisk until smooth. Pour a thin layer over the bottom of the cooled crust. Freeze for 20 minutes to set.",
+            "Step 3: The Ice Cream Layer. Spread the slightly softened ice cream smoothly over the ganache layer. Freeze until rock solid (at least 4 hours).",
+            "Step 4: The Meringue. In a heatproof bowl set over a pot of simmering water (double boiler), whisk the egg whites, sugar, and cream of tartar constantly until the sugar dissolves and the mixture is warm to the touch (160°F).",
+            "Step 5: Whip. Remove from heat and whip with an electric mixer on high speed until stiff, glossy peaks form (about 5-7 minutes).",
+            "Step 6: The Crown. Spread the meringue thickly over the frozen ice cream pie, using the back of a spoon to create dramatic swoops and peaks. Ensure the meringue seals all the way to the crust edges.",
+            "Step 7: The Torch. Use a kitchen blowtorch to deeply scorch the meringue peaks until they look like toasted marshmallows. Serve immediately, or freeze until ready to serve."
           ],
-          nutrition: {
-            calories: 440,
-            protein: 5,
-            carbs: 56,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium", "Iron"],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "frozen"
+            ],
+            "cooking_methods": [
+              "baking",
+              "freezing",
+              "whipping",
+              "torching"
+            ]
           },
-          timeToMake: "30 minutes plus freezing time",
-          season: ["summer"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.23,
-            Earth: 0.49,
-            Air: 0.08,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.3,
+            "earth": 0.3,
+            "air": 0.2
           },
-          lunarPhaseInfluences: ["full moon", "waxing gibbous"],
-          zodiacInfluences: ["cancer", "leo"],
-          astrologicalAffinities: {
-            planets: ["moon", "sun"],
-            signs: ["cancer", "leo"],
-            lunarPhases: ["full moon", "waxing gibbous"],
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Sun"
+            ],
+            "signs": [
+              "Cancer",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 520,
+            "protein_g": 6,
+            "carbs_g": 65,
+            "fat_g": 28,
+            "fiber_g": 2,
+            "sodium_mg": 280,
+            "sugar_g": 45,
+            "vitamins": [
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Calcium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "meringue topping",
+              "substitute_options": [
+                "marshmallow fluff (torched)"
+              ]
+            }
+          ]
         },
       ],
       autumn: [

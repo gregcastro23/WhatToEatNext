@@ -220,446 +220,708 @@ export const african: Cuisine = {
     breakfast: {
       all: [
         {
-          name: "Mandazi",
-          description:
-            "East African fried bread similar to doughnuts, lightly spiced with cardamom",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "dough-kneading",
-              elementalProperties: {
-                Fire: 0.14,
-                Water: 0.14,
-                Earth: 0.43,
-                Air: 0.29,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "flour",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "sugar",
-              amount: "1/4",
-              unit: "cup",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "coconut milk",
-              amount: "1",
-              unit: "cup",
-              category: "dairy",
-              swaps: ["regular milk"],
-            },
-            { name: "yeast", amount: "2", unit: "tsp", category: "leavening" },
-            {
-              name: "cardamom",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-              swaps: ["cinnamon"],
-            },
-          ],
-          substitutions: {
-            "coconut milk": ["regular milk", "almond milk"],
-            cardamom: ["cinnamon", "nutmeg"],
+          "recipe_name": "Authentic East African Mandazi",
+          "description": "A lightly sweetened, cardamom-spiced East African fried dough. The structure relies on coconut milk to tenderize the crumb and provide a subtle tropical aroma. Unlike a heavy doughnut, mandazi are fluffy, slightly hollow inside, and perfect for dipping into chai or coffee.",
+          "details": {
+            "cuisine": "East African",
+            "prep_time_minutes": 120,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 12,
-          allergens: ["gluten"],
-          prepTime: "15 minutes",
-          cookTime: "30 minutes",
-          nutrition: {
-            calories: 300,
-            protein: 6,
-            carbs: 50,
-            fat: 8,
-            fiber: 3,
-          },
-          timeToMake: "45 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.25,
-            Water: 0.18,
-            Earth: 0.39,
-            Air: 0.18,
-          },
-          astrologicalInfluences: [
-            "Venus - The sweetness and cardamom fragrance",
-            "Jupiter - The rising, expansive quality of the dough",
+          "ingredients": [
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "all-purpose flour",
+              "notes": "Sifted."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "Adjust to taste."
+            },
+            {
+              "amount": 2.25,
+              "unit": "tsp",
+              "name": "active dry yeast",
+              "notes": "For the airy structure."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground cardamom",
+              "notes": "The defining aromatic profile."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To balance the sweetness."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "coconut milk",
+              "notes": "Warm. Provides fat and tenderizes the dough."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "water",
+              "notes": "Warm, for the dough."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "vegetable oil",
+              "notes": "Added to the dough."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "egg",
+              "notes": "Lightly beaten. Binder."
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "neutral oil",
+              "notes": "For deep frying."
+            }
           ],
+          "instructions": [
+            "Step 1: The Sponge. In a small bowl, dissolve the yeast and 1 tsp of sugar in the warm water. Let sit for 10 minutes until frothy.",
+            "Step 2: Dry Ingredients. In a large bowl, whisk together the flour, remaining sugar, cardamom, and salt.",
+            "Step 3: The Dough. Make a well in the center of the dry ingredients. Pour in the yeast mixture, warm coconut milk, oil, and the beaten egg.",
+            "Step 4: Knead. Mix until a shaggy dough forms. Turn out onto a floured surface and knead vigorously for 10-15 minutes until smooth, elastic, and no longer sticky.",
+            "Step 5: First Rise. Place the dough in a lightly oiled bowl, cover with a damp cloth, and let rise in a warm place for 1.5 to 2 hours until doubled in volume.",
+            "Step 6: Shape. Punch down the dough. Divide into 4 equal pieces. Roll each piece into a circle about 1/4-inch thick. Cut each circle into 4 triangles (like cutting a pizza).",
+            "Step 7: Second Rise. Place the triangles on a lightly floured tray. Cover and let rise for 20-30 minutes until puffy.",
+            "Step 8: Fry. Heat the frying oil in a deep pot to 350°F (175°C). Carefully drop the dough triangles into the hot oil in small batches. They should puff up immediately.",
+            "Step 9: Cook. Fry for 2-3 minutes per side until deep golden brown. Remove with a slotted spoon and drain on paper towels. Serve warm."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "snack",
+              "dessert"
+            ],
+            "cooking_methods": [
+              "kneading",
+              "deep-frying"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.15,
+            "earth": 0.3,
+            "air": 0.2
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 6,
+            "carbs_g": 58,
+            "fat_g": 18,
+            "fiber_g": 2,
+            "sodium_mg": 280,
+            "sugar_g": 14,
+            "vitamins": [
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Iron",
+              "Calcium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "coconut milk",
+              "substitute_options": [
+                "whole milk",
+                "almond milk"
+              ]
+            },
+            {
+              "original_ingredient": "egg",
+              "substitute_options": [
+                "omit entirely (dough will be slightly denser)"
+              ]
+            }
+          ]
         },
         {
-          name: "Shakshuka",
-          description:
-            "North African eggs poached in spiced tomato sauce with peppers and onions",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "poaching",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.5,
-                Earth: 0.13,
-                Air: 0.19,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              swaps: ["firm tofu"],
-            },
-            {
-              name: "tomatoes",
-              amount: "4",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "bell peppers",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-              swaps: ["roasted red peppers"],
-            },
-            {
-              name: "garlic",
-              amount: "3",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "cumin", amount: "1", unit: "tsp", category: "spice" },
-            { name: "paprika", amount: "1", unit: "tsp", category: "spice" },
-          ],
-          substitutions: {
-            eggs: ["firm tofu"],
-            "bell peppers": ["roasted red peppers"],
+          "recipe_name": "Authentic North African Shakshuka",
+          "description": "A deeply aromatic North African dish featuring eggs gently poached in a rich, spiced tomato and pepper stew. Historically rooted in agrarian traditions, it balances the fiery energy of warming spices with the grounding comfort of a savory, simmering sauce.",
+          "details": {
+            "cuisine": "North African",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 25,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["eggs"],
-          prepTime: "15 minutes",
-          cookTime: "25 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 22,
-            carbs: 15,
-            fat: 28,
-            fiber: 3,
-          },
-          timeToMake: "40 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.16,
-            Water: 0.4,
-            Earth: 0.35,
-            Air: 0.08,
-          },
-          astrologicalInfluences: [
-            "Mars - The bold, spicy tomato base",
-            "Sun - The bright egg yolks and life-giving energy",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "olive oil",
+              "notes": "Used to extract fat-soluble flavors."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "yellow onion",
+              "notes": "Finely diced."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "red bell peppers",
+              "notes": "Diced."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground cumin",
+              "notes": "Freshly ground."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "sweet paprika",
+              "notes": "Vibrant color."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "harissa paste",
+              "notes": "Crucial for authentic heat."
+            },
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "crushed tomatoes",
+              "notes": "Peeled and crushed by hand."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Room temperature."
+            }
           ],
+          "instructions": [
+            "Step 1: Sauté onions and peppers in olive oil until soft.",
+            "Step 2: Add garlic, cumin, paprika, and harissa. Toast the spices in the oil.",
+            "Step 3: Pour in crushed tomatoes. Simmer for 15 minutes to thicken the stew.",
+            "Step 4: Create wells in the sauce. Crack an egg into each well.",
+            "Step 5: Cover and poach the eggs for 5-8 minutes.",
+            "Step 6: Garnish with cilantro and parsley. Serve with crusty bread."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "brunch"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "poaching"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.25,
+            "earth": 0.2,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "Waxing Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 12,
+            "carbs_g": 35,
+            "fat_g": 15,
+            "fiber_g": 6,
+            "sodium_mg": 550,
+            "sugar_g": 8,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "eggs",
+              "substitute_options": [
+                "silken tofu (vegan)"
+              ]
+            },
+            {
+              "original_ingredient": "harissa paste",
+              "substitute_options": [
+                "chili garlic sauce"
+              ]
+            }
+          ]
         },
         {
-          name: "Ful Medames",
-          description:
-            "Egyptian breakfast of stewed fava beans with olive oil, lemon, and herbs",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "stewing",
-              elementalProperties: {
-                Fire: 0.22,
-                Water: 0.41,
-                Earth: 0.3,
-                Air: 0.08,
-              },
-            },
-            {
-              name: "mashing",
-              elementalProperties: {
-                Fire: 0.11,
-                Water: 0.21,
-                Earth: 0.5,
-                Air: 0.18,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "fava beans",
-              amount: "2",
-              unit: "cups",
-              category: "legume",
-              swaps: ["canned fava beans"],
-            },
-            {
-              name: "olive oil",
-              amount: "3",
-              unit: "tbsp",
-              category: "oil",
-              swaps: ["vegetable oil"],
-            },
-            {
-              name: "lemon juice",
-              amount: "2",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "garlic",
-              amount: "2",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "cumin", amount: "1", unit: "tsp", category: "spice" },
-          ],
-          substitutions: {
-            "fava beans": ["canned fava beans", "broad beans"],
-            "olive oil": ["vegetable oil", "ghee"],
+          "recipe_name": "Authentic Egyptian Ful Medames",
+          "description": "The national dish of Egypt. A pre-Islamic peasant staple relying on the extremely slow breakdown of fava beans (ful) into an earthy, dense puree, heavily seasoned with raw cumin, garlic, and brightened with sharp lemon juice and aggressive amounts of olive oil.",
+          "details": {
+            "cuisine": "North African (Egypt)",
+            "prep_time_minutes": 720,
+            "cook_time_minutes": 180,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["legumes"],
-          prepTime: "10 minutes",
-          cookTime: "30 minutes",
-          nutrition: {
-            calories: 320,
-            protein: 18,
-            carbs: 45,
-            fat: 12,
-            fiber: 3,
-          },
-          timeToMake: "40 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.17,
-            Earth: 0.62,
-            Air: 0.09,
-          },
-          astrologicalInfluences: [
-            "Saturn - The grounding, sustaining energy of beans",
-            "Mercury - The bright lemon and herb notes",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "dried small fava beans",
+              "notes": "Must be dried, soaked overnight."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "red lentils",
+              "notes": "Optional, added during boiling to help thicken the stew naturally."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Mashed into a paste with salt."
+            },
+            {
+              "amount": 1.5,
+              "unit": "tsp",
+              "name": "ground cumin",
+              "notes": "The primary aromatic."
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "Poured generously over the top when serving."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh lemon juice",
+              "notes": "Stirred in at the end."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh parsley",
+              "notes": "Chopped, for garnish."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "tomato",
+              "notes": "Finely diced, for garnish."
+            }
           ],
+          "instructions": [
+            "Step 1: Soak the beans. Soak the dried fava beans in plenty of cold water for 12-24 hours. Drain and rinse.",
+            "Step 2: Boil. Place the beans (and lentils, if using) in a heavy pot. Cover with 3 inches of water. Bring to a boil, skim the foam, cover tightly, and reduce heat to the lowest setting.",
+            "Step 3: The Long Simmer. Simmer the beans for 2 to 4 hours until they are incredibly tender and easily crushed between two fingers. Do not add salt during this process.",
+            "Step 4: The Mash. Use a wooden spoon or potato masher to roughly mash about half of the beans directly in the pot. It should be a thick, rustic porridge, not a smooth soup.",
+            "Step 5: Flavor. Stir the garlic paste, ground cumin, and salt into the hot bean mash. Let it sit for 5 minutes off the heat.",
+            "Step 6: The Acid. Stir in the fresh lemon juice.",
+            "Step 7: Serve. Ladle the hot ful into shallow bowls. Create a small well in the center and pour in a generous amount of olive oil. Garnish heavily with diced tomatoes, parsley, and serve with warm pita bread and raw onions."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "simmering",
+              "mashing"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.35,
+            "earth": 0.45,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Earth"
+            ],
+            "signs": [
+              "Taurus",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 410,
+            "protein_g": 18,
+            "carbs_g": 45,
+            "fat_g": 20,
+            "fiber_g": 15,
+            "sodium_mg": 380,
+            "sugar_g": 4,
+            "vitamins": [
+              "Folate",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Manganese"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "dried fava beans",
+              "substitute_options": [
+                "canned fava beans (for a 15-minute quick version)",
+                "pinto beans (flavor will be completely different)"
+              ]
+            }
+          ]
         },
         {
-          name: "Injera with Firfir",
-          description:
-            "Ethiopian sourdough flatbread topped with spiced tomato sauce and berbere",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "fermenting",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.4,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "injera bread",
-              amount: "4",
-              unit: "pieces",
-              category: "grain",
-            },
-            {
-              name: "tomatoes",
-              amount: "3",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "berbere spice",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "niter kibbeh",
-              amount: "3",
-              unit: "tbsp",
-              category: "fat",
-              swaps: ["ghee", "butter"],
-            },
-          ],
-          substitutions: {
-            "injera bread": ["flatbread", "naan"],
-            "niter kibbeh": ["ghee", "clarified butter"],
+          "recipe_name": "Authentic Ethiopian Injera with Firfir",
+          "description": "A profound study in fermentation and the foundational carbohydrate of the Horn of Africa. Teff flour is fermented over days into a sour, bubbling batter, then cooked on a flat griddle (mitad) to create a spongy, porous flatbread. Firfir re-purposes torn, dried injera by soaking it in a fiercely spicy, berbere-heavy sauce.",
+          "details": {
+            "cuisine": "East African (Ethiopia/Eritrea)",
+            "prep_time_minutes": 4320,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "Hot",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["gluten"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 280,
-            protein: 8,
-            carbs: 45,
-            fat: 10,
-            fiber: 4,
-          },
-          timeToMake: "35 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.4,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Mars - The bold berbere spice",
-            "Saturn - The fermented, earthy quality",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "teff flour",
+              "notes": "Must be 100% teff for authentic sourness and texture."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "water",
+              "notes": "For the fermentation batter."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "active dry yeast",
+              "notes": "Often used to kickstart fermentation if not using a wild starter."
+            },
+            {
+              "amount": 3,
+              "unit": "whole",
+              "name": "leftover/dry injera",
+              "notes": "Torn into bite-sized pieces for the Firfir."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "red onions",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "niter kibbeh (spiced clarified butter)",
+              "notes": "Essential. Oil can be used for a vegan version, but lacks the complex aromatic depth."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "berbere spice blend",
+              "notes": "The fiery, foundational spice of Ethiopian cuisine."
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ginger",
+              "notes": "Minced."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "water or broth",
+              "notes": "To create the sauce for the firfir."
+            }
           ],
+          "instructions": [
+            "Step 1: The Fermentation (Injera). In a large glass bowl, mix the teff flour, yeast, and 3 cups of water into a smooth batter. Cover with a breathable cloth and let sit at room temperature for 2 to 3 days. It will bubble, separate, and develop a deeply sour smell.",
+            "Step 2: The Absit. On baking day, carefully pour off the dark water on top. Boil 1/2 cup of water, stir in 1/2 cup of the batter to cook it slightly (making a paste called absit), and stir it back into the main batter. Let rest for 2 hours.",
+            "Step 3: Cook the Injera. Heat a large non-stick crepe pan or mitad over medium-high heat. Pour the batter in a spiral from the outside in. Do not spread it. Wait for thousands of 'eyes' (bubbles) to form and pop. Cover the pan with a lid to steam the top for 1 minute. Remove the injera without flipping it. Let cool on a towel.",
+            "Step 4: The Firfir Base. In a skillet, dry-cook the minced onions until they soften and lose moisture (about 5 mins). Add the niter kibbeh (or oil).",
+            "Step 5: The Spice. Add the berbere spice, garlic, and ginger to the butter/onions. Fry for 2 minutes to toast the spices and release their oils.",
+            "Step 6: The Sauce. Pour in the water or broth. Simmer for 10 minutes to create a rich, dark red, spicy sauce.",
+            "Step 7: The Soak. Toss the torn pieces of leftover/dry injera into the simmering sauce. Stir well to coat. Let the injera absorb the liquid completely (about 2-3 minutes). It should be moist and spongy, but not complete mush.",
+            "Step 8: Serve the Firfir on top of a fresh piece of whole Injera."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "lunch",
+              "dinner"
+            ],
+            "cooking_methods": [
+              "fermenting",
+              "griddling",
+              "simmering"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.2,
+            "earth": 0.35,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Saturn"
+            ],
+            "signs": [
+              "Aries",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 12,
+            "carbs_g": 70,
+            "fat_g": 18,
+            "fiber_g": 12,
+            "sodium_mg": 450,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Calcium",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "niter kibbeh",
+              "substitute_options": [
+                "vegetable oil (for vegan fasting version)"
+              ]
+            },
+            {
+              "original_ingredient": "teff flour",
+              "substitute_options": [
+                "50% wheat / 50% teff blend (if pure teff is too difficult to handle)"
+              ]
+            }
+          ]
         },
         {
-          name: "Akara",
-          description:
-            "Nigerian black-eyed pea fritters, crispy on the outside and fluffy inside",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "blending",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.25,
-                Earth: 0.35,
-                Air: 0.25,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "black-eyed peas",
-              amount: "2",
-              unit: "cups",
-              category: "legume",
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "scotch bonnet pepper",
-              amount: "1",
-              unit: "small",
-              category: "vegetable",
-              swaps: ["habanero", "jalapeño"],
-            },
-            {
-              name: "vegetable oil",
-              amount: "2",
-              unit: "cups",
-              category: "oil",
-            },
-            {
-              name: "salt",
-              amount: "1",
-              unit: "tsp",
-              category: "seasoning",
-            },
-          ],
-          substitutions: {
-            "black-eyed peas": ["cannellini beans"],
-            "scotch bonnet": ["habanero", "serrano pepper"],
+          "recipe_name": "Authentic Nigerian Akara (Black-Eyed Pea Fritters)",
+          "description": "A structural marvel of West African street food. Black-eyed peas are meticulously peeled, then vigorously beaten (aerated) with aromatics to incorporate air. When deep-fried, the batter expands rapidly, creating a feather-light, spongy interior encased in a rigid, golden, savory crust.",
+          "details": {
+            "cuisine": "West African",
+            "prep_time_minutes": 120,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["legumes"],
-          prepTime: "30 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 220,
-            protein: 12,
-            carbs: 28,
-            fat: 8,
-            fiber: 6,
-          },
-          timeToMake: "50 minutes",
-          season: ["all"],
-          mealType: ["breakfast", "snack"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.15,
-            Earth: 0.35,
-            Air: 0.15,
-          },
-          astrologicalInfluences: [
-            "Jupiter - The protein-rich, nourishing quality",
-            "Mars - The crispy, fiery frying method",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "dried black-eyed peas",
+              "notes": "Must be dried, soaked, and peeled."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "onion",
+              "notes": "Roughly chopped."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "scotch bonnet or habanero peppers",
+              "notes": "Seeds removed if less heat is desired."
+            },
+            {
+              "amount": 1,
+              "unit": "cube",
+              "name": "chicken bouillon or Maggi",
+              "notes": "Crushed. The primary umami source."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "water",
+              "notes": "Used only to aid blending. Too much water ruins the batter."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "vegetable or palm oil",
+              "notes": "For deep frying."
+            }
           ],
+          "instructions": [
+            "Step 1: The Peel (Crucial). Soak the dried black-eyed peas in warm water for 15-30 minutes. Use your hands to aggressively rub the beans together to loosen and remove the translucent skins. The skins will float to the top; pour them off. The beans must be completely skinless.",
+            "Step 2: The Grind. Place the peeled beans, onion, scotch bonnet peppers, and just enough water to get the blender moving (about 1/4 cup) into a blender. Blend into a completely smooth, thick paste.",
+            "Step 3: The Aeration (The Secret). Transfer the paste to a mortar or a deep bowl. Using a wooden pestle or a whisk, beat the batter vigorously for 5 to 10 minutes. This incorporates air, making the batter light and fluffy (like whipping egg whites). It will visibly expand.",
+            "Step 4: Season. Gently fold in the crushed bouillon cube and salt. Do not deflate the batter.",
+            "Step 5: Heat the oil. Heat the oil in a deep pan to 350°F (175°C).",
+            "Step 6: Fry. Using a tablespoon, scoop the aerated batter and gently drop it into the hot oil. They should form neat, round balls.",
+            "Step 7: The Crisp. Fry until the bottom is deep golden brown, then flip and fry the other side (about 3-4 minutes total).",
+            "Step 8: Drain on paper towels and serve immediately. Traditionally eaten for breakfast with akamu (pap) or bread."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "snack",
+              "street food",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "soaking",
+              "peeling",
+              "blending",
+              "whipping",
+              "deep-frying"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.1,
+            "earth": 0.3,
+            "air": 0.2
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Mercury"
+            ],
+            "signs": [
+              "Aries",
+              "Gemini"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 350,
+            "protein_g": 14,
+            "carbs_g": 40,
+            "fat_g": 16,
+            "fiber_g": 8,
+            "sodium_mg": 520,
+            "sugar_g": 4,
+            "vitamins": [
+              "Folate",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "dried black-eyed peas",
+              "substitute_options": [
+                "brown beans (Ewa Oloyin)"
+              ]
+            },
+            {
+              "original_ingredient": "scotch bonnet",
+              "substitute_options": [
+                "jalapeño (for much less heat)"
+              ]
+            }
+          ]
         },
       ],
       spring: [],
@@ -831,474 +1093,819 @@ export const african: Cuisine = {
           ]
         },
         {
-          name: "Doro Wat",
-          description:
-            "Spicy Ethiopian chicken stew with berbere spice and boiled eggs",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "stewing",
-              elementalProperties: {
-                Fire: 0.22,
-                Water: 0.41,
-                Earth: 0.3,
-                Air: 0.08,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "chicken legs",
-              amount: "1",
-              unit: "kg",
-              category: "protein",
-              swaps: ["chicken thighs"],
-            },
-            {
-              name: "berbere spice",
-              amount: "1/4",
-              unit: "cup",
-              category: "spice",
-              swaps: ["mild paprika + cayenne"],
-            },
-            {
-              name: "onions",
-              amount: "3",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "garlic",
-              amount: "8",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "ginger", amount: "2", unit: "tbsp", category: "spice" },
-            { name: "eggs", amount: "6", unit: "whole", category: "protein" },
-            {
-              name: "niter kibbeh",
-              amount: "1/2",
-              unit: "cup",
-              category: "fat",
-              swaps: ["ghee", "butter"],
-            },
-          ],
-          substitutions: {
-            "niter kibbeh": ["ghee", "butter"],
-            berbere: ["mix of paprika, cayenne, and warm spices"],
-            "chicken legs": ["chicken thighs", "chicken breast"],
+          "recipe_name": "Authentic Ethiopian Doro Wat",
+          "description": "The regal centerpiece of Ethiopian cuisine. A deeply complex, fiercely spicy chicken stew. The alchemy involves a massive volume of onions, dry-cooked down to a sweet paste, acting as the thickening matrix for the fiery berbere spice and clarified butter (niter kibbeh), completely eliminating the need for flour or thickeners.",
+          "details": {
+            "cuisine": "East African (Ethiopia)",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 180,
+            "base_serving_size": 4,
+            "spice_level": "Fiery",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["eggs", "dairy"],
-          prepTime: "45 minutes",
-          cookTime: "75 minutes",
-          nutrition: {
-            calories: 450,
-            protein: 35,
-            carbs: 15,
-            fat: 28,
-            fiber: 3,
-          },
-          timeToMake: "120 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.26,
-            Water: 0.26,
-            Earth: 0.35,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Mars - The intense heat of berbere spice",
-            "Saturn - The slow, transformative cooking process",
+          "ingredients": [
+            {
+              "amount": 6,
+              "unit": "large",
+              "name": "red onions",
+              "notes": "Finely minced in a food processor. The sheer volume of onions is the foundation of the dish."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "niter kibbeh",
+              "notes": "Ethiopian spiced clarified butter. Essential for authentic flavor."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "berbere spice blend",
+              "notes": "Must be high quality. Provides the dark red color and intense heat."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "ginger",
+              "notes": "Minced."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "chicken",
+              "notes": "Cut into 8 or 10 pieces. Skin removed (traditional)."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "lemon juice",
+              "notes": "Used to clean the chicken."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "water or chicken broth",
+              "notes": "For simmering."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Hard-boiled. Pierced with a fork and steeped in the sauce at the end."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            }
           ],
+          "instructions": [
+            "Step 1: Clean the chicken. Soak the skinless chicken pieces in water and lemon juice for 15 minutes. Rinse and pat dry.",
+            "Step 2: The Onion Base (The most critical step). Place the finely minced red onions in a large, heavy-bottomed dry pot (no oil or butter). Cook over medium-low heat for 30-45 minutes, stirring frequently. The onions will release their water, steam, and eventually reduce into a dark, sweet, jam-like paste.",
+            "Step 3: The Fat. Once the onions are reduced and dry, add the niter kibbeh. Sauté the onion paste in the butter for 10 minutes.",
+            "Step 4: The Spice. Add the berbere, minced garlic, and ginger. Cook for another 10-15 minutes over low heat. The mixture should be a thick, intensely dark red, fragrant mud.",
+            "Step 5: The Braise. Add a splash of water/broth if the paste is sticking. Add the chicken pieces. Stir to coat them completely in the paste. Cook for 10 minutes, allowing the meat to absorb the spices.",
+            "Step 6: Simmer. Pour in the remaining water/broth. Bring to a boil, then reduce to a low simmer. Cover and cook for 45-60 minutes until the chicken is tender and the sauce is thick and oily on top.",
+            "Step 7: The Eggs. During the last 10 minutes of cooking, take the peeled hard-boiled eggs, score them lightly with a knife (so the sauce penetrates), and submerge them in the simmering stew.",
+            "Step 8: Serve hot with Injera, allowing the flatbread to soak up the fiercely spiced sauce."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "stew",
+              "celebration"
+            ],
+            "cooking_methods": [
+              "dry-cooking",
+              "sautéing",
+              "braising"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.5,
+            "water": 0.15,
+            "earth": 0.25,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Pluto"
+            ],
+            "signs": [
+              "Scorpio",
+              "Aries"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 650,
+            "protein_g": 48,
+            "carbs_g": 25,
+            "fat_g": 40,
+            "fiber_g": 6,
+            "sodium_mg": 850,
+            "sugar_g": 12,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B6",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "niter kibbeh",
+              "substitute_options": [
+                "ghee mixed with a pinch of cardamom, fenugreek, and clove"
+              ]
+            },
+            {
+              "original_ingredient": "chicken",
+              "substitute_options": [
+                "beef stew meat (Siga Wat)",
+                "red lentils (Misir Wat)"
+              ]
+            }
+          ]
         },
         {
-          name: "Yassa Poulet",
-          description:
-            "Senegalese marinated chicken with caramelized onions and lemon",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "chicken",
-              amount: "1",
-              unit: "whole",
-              category: "protein",
-              swaps: ["chicken pieces"],
-            },
-            {
-              name: "onions",
-              amount: "4",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "lemon juice",
-              amount: "1/2",
-              unit: "cup",
-              category: "acid",
-            },
-            {
-              name: "dijon mustard",
-              amount: "2",
-              unit: "tbsp",
-              category: "condiment",
-              swaps: ["yellow mustard"],
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            "whole chicken": ["chicken pieces", "chicken thighs"],
-            "dijon mustard": ["yellow mustard", "grain mustard"],
+          "recipe_name": "Authentic Senegalese Yassa Poulet",
+          "description": "A sharp, vibrant West African chicken dish defined by intense acid and aggressive caramelization. The chicken and an enormous quantity of onions are marinated in sharp mustard and lemon juice, then the chicken is grilled over an open fire before being braised in the caramelized, highly acidic onion marmalade.",
+          "details": {
+            "cuisine": "West African (Senegal)",
+            "prep_time_minutes": 240,
+            "cook_time_minutes": 60,
+            "base_serving_size": 4,
+            "spice_level": "Mild-Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["mustard"],
-          prepTime: "30 minutes",
-          cookTime: "60 minutes",
-          nutrition: {
-            calories: 450,
-            protein: 35,
-            carbs: 25,
-            fat: 22,
-            fiber: 3,
-          },
-          timeToMake: "90 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.33,
-            Water: 0.21,
-            Earth: 0.34,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Mercury - The bright citrus notes",
-            "Venus - The sweet caramelized onions",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "chicken",
+              "notes": "Cut into pieces, skin on."
+            },
+            {
+              "amount": 6,
+              "unit": "large",
+              "name": "yellow onions",
+              "notes": "Thinly sliced. They are the main body of the sauce."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh lemon juice",
+              "notes": "The primary acid."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "Dijon mustard",
+              "notes": "Provides tang and acts as an emulsifier."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "peanut oil",
+              "notes": "For sautéing the onions."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "habanero or scotch bonnet pepper",
+              "notes": "Pierced, left whole for aroma, or minced for intense heat."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Generous amount needed."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "chicken broth or water",
+              "notes": "For the braise."
+            }
           ],
+          "instructions": [
+            "Step 1: The Marinade. In a very large bowl, combine the chicken pieces, sliced onions, lemon juice, Dijon mustard, garlic, black pepper, and salt. Massage everything together vigorously. Cover and refrigerate for at least 3 hours, preferably overnight. The acid will begin to 'cook' the onions and tenderize the meat.",
+            "Step 2: Separate. Remove the chicken pieces from the marinade, shaking off the onions. Reserve all the onions and the marinade liquid.",
+            "Step 3: The Grill/Sear. Prepare a charcoal grill or heat a grill pan. Grill the chicken pieces over high heat until the skin is deeply charred and blistered. The chicken does not need to be cooked through. Set aside.",
+            "Step 4: Caramelize the Onions. In a large Dutch oven or heavy pot, heat the peanut oil over medium heat. Add the reserved marinated onions (and all the liquid). Sauté slowly.",
+            "Step 5: The Marmalade. Cook the onions, stirring frequently, for 30-40 minutes. They will soften, reduce, and turn a deep, golden brown. This slow caramelization balances the sharp acidity of the lemon and mustard.",
+            "Step 6: The Braise. Nestle the grilled chicken pieces into the caramelized onions. Add the habanero pepper and the chicken broth. Bring to a simmer.",
+            "Step 7: Cook. Cover the pot and simmer over low heat for 30 minutes, or until the chicken is completely tender and the sauce is thick and glossy.",
+            "Step 8: Serve hot over a bed of broken rice or couscous."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "poultry"
+            ],
+            "cooking_methods": [
+              "marinating",
+              "grilling",
+              "caramelizing",
+              "braising"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.25,
+            "earth": 0.2,
+            "air": 0.2
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Sun",
+              "Mercury"
+            ],
+            "signs": [
+              "Leo",
+              "Gemini"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 580,
+            "protein_g": 42,
+            "carbs_g": 22,
+            "fat_g": 35,
+            "fiber_g": 4,
+            "sodium_mg": 750,
+            "sugar_g": 12,
+            "vitamins": [
+              "Vitamin C",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "chicken",
+              "substitute_options": [
+                "firm white fish (Yassa Poisson)"
+              ]
+            },
+            {
+              "original_ingredient": "peanut oil",
+              "substitute_options": [
+                "canola oil",
+                "sunflower oil"
+              ]
+            }
+          ]
         },
         {
-          name: "Thieboudienne",
-          description:
-            "Senegalese national dish of fish and rice cooked in tomato sauce with vegetables",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "white fish",
-              amount: "1",
-              unit: "kg",
-              category: "protein",
-              swaps: ["grouper", "sea bass"],
-            },
-            {
-              name: "rice",
-              amount: "3",
-              unit: "cups",
-              category: "grain",
-            },
-            {
-              name: "tomato paste",
-              amount: "4",
-              unit: "tbsp",
-              category: "condiment",
-            },
-            {
-              name: "cabbage",
-              amount: "1/4",
-              unit: "head",
-              category: "vegetable",
-            },
-            {
-              name: "cassava",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "eggplant",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            "white fish": ["tilapia", "cod"],
-            cassava: ["potato", "yam"],
+          "recipe_name": "Authentic Senegalese Thieboudienne",
+          "description": "The national dish of Senegal and the ancestor of Jambalaya. A structurally complex, one-pot fish and rice stew. The fish is stuffed with an herb paste (roff), simmered in a rich tomato base with large root vegetables, removed, and then broken rice is cooked directly in the highly concentrated, fish-infused broth.",
+          "details": {
+            "cuisine": "West African (Senegal)",
+            "prep_time_minutes": 45,
+            "cook_time_minutes": 90,
+            "base_serving_size": 6,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["fish"],
-          prepTime: "30 minutes",
-          cookTime: "60 minutes",
-          nutrition: {
-            calories: 480,
-            protein: 32,
-            carbs: 65,
-            fat: 12,
-            fiber: 5,
-          },
-          timeToMake: "90 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.25,
-            Water: 0.35,
-            Earth: 0.3,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Neptune - The oceanic fish essence",
-            "Jupiter - The abundant, celebratory nature",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "firm white fish steaks (grouper, snapper)",
+              "notes": "Bone-in for flavor."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh parsley",
+              "notes": "For the 'roff' (stuffing)."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "For the roff."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "scotch bonnet pepper",
+              "notes": "Minced, for the roff."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "peanut oil",
+              "notes": "For frying."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Chopped."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "Provides the red base."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "crushed tomatoes",
+              "notes": "Canned or fresh."
+            },
+            {
+              "amount": 2,
+              "unit": "pieces",
+              "name": "dried smoked fish or yete (cured mollusk)",
+              "notes": "Essential for the authentic, deep umami funk."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "carrots",
+              "notes": "Cut into large chunks."
+            },
+            {
+              "amount": 0.5,
+              "unit": "small",
+              "name": "cabbage",
+              "notes": "Cut into 2 large wedges."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "eggplant",
+              "notes": "Cut into 2 large wedges."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "cassava (yuca) or sweet potato",
+              "notes": "Peeled and chunked."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "broken jasmine rice",
+              "notes": "Washed thoroughly."
+            }
           ],
+          "instructions": [
+            "Step 1: The Roff. In a mortar, pound the parsley, garlic, scotch bonnet, salt, and pepper into a paste. Cut deep slits into the fish steaks and stuff the slits with this paste.",
+            "Step 2: Fry the fish. Heat the peanut oil in a large, heavy pot. Briefly fry the stuffed fish steaks until golden on both sides. Remove and set aside.",
+            "Step 3: The Base. In the same oil, fry the chopped onions until soft. Add the tomato paste and fry for 5 minutes until dark red. Add the crushed tomatoes.",
+            "Step 4: The Broth. Pour in 6 cups of water. Add the smoked fish/yete. Bring to a boil.",
+            "Step 5: Simmer vegetables. Add the large chunks of carrots, cabbage, eggplant, and cassava to the boiling broth. Reduce heat and simmer for 30 minutes until vegetables are tender.",
+            "Step 6: Poach fish. Gently return the fried fish to the pot. Simmer for 10-15 minutes until cooked through. Carefully remove the fish and all the vegetables to a platter. Keep warm.",
+            "Step 7: The Rice. You should have about 4 cups of deep red, fish-infused liquid left in the pot. Bring it to a boil. Add the washed broken rice. Stir once.",
+            "Step 8: Steam. Reduce heat to the absolute lowest setting. Cover tightly with foil and a lid. Steam the rice for 30-40 minutes until it has absorbed all the liquid and is fluffy.",
+            "Step 9: Serve. Mound the red rice on a large communal platter. Arrange the fish and vegetables artistically on top. Scrape the crispy rice from the bottom of the pot (the xooñ) and serve alongside."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "seafood",
+              "one-pot"
+            ],
+            "cooking_methods": [
+              "stuffing",
+              "frying",
+              "simmering",
+              "steaming"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.25,
+            "water": 0.35,
+            "earth": 0.3,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Neptune",
+              "Mars"
+            ],
+            "signs": [
+              "Pisces",
+              "Aries"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 680,
+            "protein_g": 38,
+            "carbs_g": 85,
+            "fat_g": 22,
+            "fiber_g": 8,
+            "sodium_mg": 850,
+            "sugar_g": 9,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Iodine",
+              "Potassium",
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "firm white fish",
+              "substitute_options": [
+                "chicken (for Thieboudienne Guinaar)"
+              ]
+            },
+            {
+              "original_ingredient": "broken jasmine rice",
+              "substitute_options": [
+                "regular jasmine rice",
+                "short-grain rice"
+              ]
+            }
+          ]
         },
         {
-          name: "Suya",
-          description:
-            "Nigerian spiced meat skewers grilled over open flame with ground peanut coating",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "beef sirloin",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["chicken", "lamb"],
-            },
-            {
-              name: "suya spice",
-              amount: "4",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "ground peanuts",
-              amount: "1/2",
-              unit: "cup",
-              category: "nut",
-            },
-            {
-              name: "vegetable oil",
-              amount: "3",
-              unit: "tbsp",
-              category: "oil",
-            },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            "beef sirloin": ["chicken breast", "lamb leg"],
-            "ground peanuts": ["ground cashews"],
+          "recipe_name": "Authentic Nigerian Suya",
+          "description": "The zenith of West African street barbecue. Thinly sliced meat is heavily coated in 'Yaji', a complex, peanut-based dry rub that acts as a tenderizer, flavor crust, and heat protectant. The meat is aggressively grilled over open flames, resulting in a smoky, nutty, fiery char.",
+          "details": {
+            "cuisine": "West African (Nigeria)",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "Fiery",
+            "season": [
+              "summer",
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["peanuts"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 35,
-            carbs: 8,
-            fat: 24,
-            fiber: 2,
-          },
-          timeToMake: "35 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner", "snack"],
-          elementalProperties: {
-            Fire: 0.45,
-            Water: 0.1,
-            Earth: 0.3,
-            Air: 0.15,
-          },
-          astrologicalInfluences: [
-            "Mars - The intense grilling heat and spice",
-            "Sun - The smoky, primal energy",
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "beef sirloin or flank steak",
+              "notes": "Sliced as thinly as possible against the grain. Semi-freezing helps with slicing."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "roasted peanuts (Kuli Kuli base)",
+              "notes": "Ground into a fine powder (but not turned into peanut butter; must remain dry)."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "cayenne pepper or chili powder",
+              "notes": "Adjust for heat."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "paprika",
+              "notes": "For color."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "onion powder",
+              "notes": "Aromatic."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "garlic powder",
+              "notes": "Aromatic."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground ginger",
+              "notes": "Warmth."
+            },
+            {
+              "amount": 1,
+              "unit": "cube",
+              "name": "chicken bouillon or Maggi",
+              "notes": "Crushed into a fine powder."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "vegetable oil",
+              "notes": "For brushing."
+            },
+            {
+              "amount": 10,
+              "unit": "whole",
+              "name": "bamboo skewers",
+              "notes": "Soaked in water."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "red onion",
+              "notes": "Thinly sliced, for serving."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "tomatoes",
+              "notes": "Sliced, for serving."
+            }
           ],
+          "instructions": [
+            "Step 1: Make the Yaji (Suya Spice). In a bowl, combine the finely ground peanut powder, cayenne, paprika, onion powder, garlic powder, ginger, crushed bouillon, and salt. Mix thoroughly.",
+            "Step 2: Prep the meat. Thread the paper-thin slices of beef onto the soaked bamboo skewers, accordion-style, so they lay relatively flat.",
+            "Step 3: The Coating. Lay the skewers on a baking sheet. Generously coat both sides of the meat with the Yaji spice blend. Press the spice firmly into the meat with your fingers so it adheres like a crust.",
+            "Step 4: Rest. Cover and let the meat marinate at room temperature for 30-45 minutes. The salt will draw out slightly moisture, hydrating the peanut powder into a paste.",
+            "Step 5: Heat the grill. Prepare a charcoal grill for high, direct heat. (A very hot grill pan can be used indoors, but lacks the smoke).",
+            "Step 6: Grill. Lightly dab or brush the skewers with a little vegetable oil. Grill the skewers directly over the flames. Because the meat is so thin, they will cook in 2-3 minutes per side. You want the peanut crust to char and blacken slightly.",
+            "Step 7: Serve immediately on newspaper or butcher paper, scattered with copious amounts of raw sliced red onions, tomatoes, and extra Yaji spice on the side."
+          ],
+          "classifications": {
+            "meal_type": [
+              "street food",
+              "snack",
+              "dinner",
+              "bbq"
+            ],
+            "cooking_methods": [
+              "skewering",
+              "grilling",
+              "dry-rubbing"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.6,
+            "water": 0.05,
+            "earth": 0.25,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 35,
+            "carbs_g": 12,
+            "fat_g": 26,
+            "fiber_g": 3,
+            "sodium_mg": 850,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin B6",
+              "Niacin"
+            ],
+            "minerals": [
+              "Zinc",
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "beef sirloin",
+              "substitute_options": [
+                "chicken breast",
+                "goat meat"
+              ]
+            },
+            {
+              "original_ingredient": "ground peanuts",
+              "substitute_options": [
+                "almond flour (if peanut allergy)"
+              ]
+            }
+          ]
         },
         {
-          name: "Koshari",
-          description:
-            "Egyptian comfort food of rice, lentils, and pasta topped with spiced tomato sauce and crispy onions",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "rice",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-            },
-            {
-              name: "brown lentils",
-              amount: "1",
-              unit: "cup",
-              category: "legume",
-            },
-            {
-              name: "elbow macaroni",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-            },
-            {
-              name: "chickpeas",
-              amount: "1",
-              unit: "cup",
-              category: "legume",
-            },
-            {
-              name: "onions",
-              amount: "3",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "tomato sauce",
-              amount: "2",
-              unit: "cups",
-              category: "sauce",
-            },
-          ],
-          substitutions: {
-            "brown lentils": ["green lentils"],
-            "elbow macaroni": ["small shells", "ditalini"],
+          "recipe_name": "Authentic Egyptian Koshari",
+          "description": "The ultimate Egyptian street food and a masterpiece of carbohydrate stacking. It combines rice, lentils, macaroni, and chickpeas into a dense base, heavily dressed with a spiced tomato sauce, a sharp garlic-vinegar splash (Dakka), and crowned with crispy fried onions. It is entirely vegan.",
+          "details": {
+            "cuisine": "North African (Egypt)",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 45,
+            "base_serving_size": 4,
+            "spice_level": "Mild-Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["gluten", "legumes"],
-          prepTime: "20 minutes",
-          cookTime: "40 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 18,
-            carbs: 75,
-            fat: 8,
-            fiber: 12,
-          },
-          timeToMake: "60 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.25,
-            Earth: 0.45,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Saturn - The grounding legumes and grains",
-            "Venus - The comforting, satisfying quality",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "brown lentils",
+              "notes": "Rinsed."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "short-grain white rice",
+              "notes": "Rinsed well."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "macaroni or ditalini pasta",
+              "notes": "Dry."
+            },
+            {
+              "amount": 1,
+              "unit": "can (15oz)",
+              "name": "chickpeas",
+              "notes": "Rinsed and drained."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "yellow onions",
+              "notes": "Very thinly sliced, for frying."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "vegetable oil",
+              "notes": "For frying the onions."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "tomato passata",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced. Divided between sauce and Dakka."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "white vinegar",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "white vinegar",
+              "notes": "For the Dakka (garlic sauce)."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground cumin",
+              "notes": "Divided."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "ground coriander",
+              "notes": "Aromatic."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "red pepper flakes",
+              "notes": "For heat."
+            }
           ],
+          "instructions": [
+            "Step 1: Crispy Onions (The most important step). Heat the oil in a large skillet. Fry the sliced onions over medium-high heat, stirring frequently, until deeply browned and crispy (15 mins). Remove with a slotted spoon to a paper towel. Reserve the onion-infused oil.",
+            "Step 2: Lentils and Rice. Boil the lentils in 3 cups of water for 15 minutes until mostly tender. Add the washed rice directly to the lentils (add a little more water if dry). Add 1 tbsp of the reserved onion oil and salt. Cover and simmer for 15 mins until rice is cooked.",
+            "Step 3: Pasta. In a separate pot, boil the macaroni in salted water until al dente. Drain and toss with 1 tbsp of the reserved onion oil to prevent sticking.",
+            "Step 4: The Tomato Sauce. In a saucepan, heat 1 tbsp onion oil. Sauté half the minced garlic until fragrant. Add the tomato passata, 1 tbsp vinegar, cumin, coriander, red pepper flakes, salt, and pepper. Simmer for 15 minutes until thick.",
+            "Step 5: The Dakka (Garlic Vinegar). In a small bowl, mix the remaining minced garlic, 2 tbsp white vinegar, a pinch of cumin, and 2 tbsp warm water.",
+            "Step 6: Assemble. In deep bowls, layer the base: a large scoop of the lentil/rice mixture, followed by a scoop of macaroni, and a handful of chickpeas.",
+            "Step 7: Top. Ladle the spiced tomato sauce over the carbohydrates. Splash the Dakka over the sauce. Finally, crown the dish with a massive handful of the crispy fried onions."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch",
+              "dinner",
+              "street food",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "frying",
+              "simmering",
+              "assembling"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.2,
+            "earth": 0.5,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Earth"
+            ],
+            "signs": [
+              "Virgo",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 620,
+            "protein_g": 22,
+            "carbs_g": 105,
+            "fat_g": 14,
+            "fiber_g": 16,
+            "sodium_mg": 580,
+            "sugar_g": 10,
+            "vitamins": [
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium",
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "macaroni",
+              "substitute_options": [
+                "broken spaghetti",
+                "vermicelli"
+              ]
+            },
+            {
+              "original_ingredient": "white vinegar",
+              "substitute_options": [
+                "apple cider vinegar"
+              ]
+            }
+          ]
         },
       ],
       spring: [],
@@ -1309,501 +1916,832 @@ export const african: Cuisine = {
     dinner: {
       all: [
         {
-          name: "Bobotie",
-          description:
-            "South African curried meatloaf with egg custard topping",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "ground lamb",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["ground beef"],
-            },
-            {
-              name: "bread",
-              amount: "2",
-              unit: "slices",
-              category: "grain",
-              swaps: ["gluten-free bread"],
-            },
-            { name: "milk", amount: "2", unit: "cups", category: "dairy" },
-            { name: "eggs", amount: "3", unit: "large", category: "protein" },
-            {
-              name: "curry powder",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            { name: "raisins", amount: "1/2", unit: "cup", category: "fruit" },
-          ],
-          substitutions: {
-            "ground lamb": ["ground beef", "ground turkey"],
-            bread: ["gluten-free bread", "breadcrumbs"],
+          "recipe_name": "Authentic South African Bobotie",
+          "description": "A structurally unique, sweet-and-savory Cape Malay meat pie. The alchemy relies on a deeply spiced, fruit-studded minced meat base that is baked beneath a savory egg-and-milk custard topping (similar to a moussaka without the vegetables).",
+          "details": {
+            "cuisine": "South African (Cape Malay)",
+            "prep_time_minutes": 25,
+            "cook_time_minutes": 45,
+            "base_serving_size": 6,
+            "spice_level": "Mild",
+            "season": [
+              "autumn",
+              "winter"
+            ]
           },
-          servingSize: 8,
-          allergens: ["dairy", "eggs", "wheat", "tree nuts"],
-          prepTime: "30 minutes",
-          cookTime: "60 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 28,
-            carbs: 25,
-            fat: 20,
-            fiber: 3,
-          },
-          timeToMake: "90 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.13,
-            Earth: 0.43,
-            Air: 0.08,
-          },
-          astrologicalInfluences: [
-            "Jupiter - The complex spices and cultural fusion",
-            "Moon - The comforting, nurturing quality",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "ground beef or lamb",
+              "notes": "Lamb is traditional, beef is common."
+            },
+            {
+              "amount": 2,
+              "unit": "slices",
+              "name": "white bread",
+              "notes": "Soaked in milk, squeezed dry. Acts as the panade."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "milk",
+              "notes": "Divided use: soaking bread and for the custard topping."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "yellow onions",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "mild curry powder",
+              "notes": "Cape Malay style."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "turmeric",
+              "notes": "For color and earthiness."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fruit chutney or apricot jam",
+              "notes": "Crucial for the sweet-savory balance."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "raisins or sultanas",
+              "notes": "Plumped in warm water."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "vinegar or lemon juice",
+              "notes": "For acidity."
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "bay leaves or lemon leaves",
+              "notes": "Inserted vertically into the meat before baking."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "For the custard topping."
+            }
           ],
+          "instructions": [
+            "Step 1: The Panade. Soak the bread in 1/2 cup of the milk. Squeeze it completely dry and crumble it. Reserve the squeezed milk.",
+            "Step 2: The Base. In a large pan, sauté the onions until soft. Add the curry powder and turmeric, cooking for 1 minute until fragrant.",
+            "Step 3: The Meat. Add the ground meat and brown it thoroughly. Stir in the crumbled soaked bread, chutney, raisins, vinegar, salt, and pepper.",
+            "Step 4: Bake Phase 1. Preheat oven to 350°F (175°C). Transfer the meat mixture to an oiled baking dish. Press it down flat. Insert the bay leaves vertically into the meat. Bake for 20 minutes.",
+            "Step 5: The Custard. Whisk the 2 eggs with the remaining 1/2 cup of milk (plus any reserved milk from soaking). Season with a pinch of salt.",
+            "Step 6: Bake Phase 2. Remove the dish from the oven. Pour the egg custard evenly over the hot meat. Return to the oven and bake for another 20-25 minutes until the custard is set and golden brown.",
+            "Step 7: Serve warm with yellow rice (geelrys) and extra chutney."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "casserole"
+            ],
+            "cooking_methods": [
+              "sautéing",
+              "baking"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.2,
+            "earth": 0.45,
+            "air": 0.15
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Jupiter",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Sagittarius"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 520,
+            "protein_g": 35,
+            "carbs_g": 32,
+            "fat_g": 26,
+            "fiber_g": 3,
+            "sodium_mg": 450,
+            "sugar_g": 18,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Calcium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "ground beef",
+              "substitute_options": [
+                "brown lentils and finely chopped mushrooms (vegan, use plant milk/flax egg for custard)"
+              ]
+            }
+          ]
         },
         {
-          name: "Ndolé",
-          description: "Cameroonian stew with bitter leaves and peanuts",
-          cuisine: "african",
-          cookingMethods: ["stewing", "simmering"],
-          ingredients: [
+          "recipe_name": "Authentic Cameroonian Ndolé",
+          "description": "The national dish of Cameroon. A rich, intensely caloric stew built on a base of pureed peanuts and bitter leaves (ndolé leaves). The bitterness is painstakingly washed out of the leaves before they are folded into the rich, oily peanut emulsion, often heavily fortified with meat, dried fish, and prawns.",
+          "details": {
+            "cuisine": "West African (Cameroon)",
+            "prep_time_minutes": 180,
+            "cook_time_minutes": 60,
+            "base_serving_size": 6,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "bitter leaves",
-              amount: "500",
-              unit: "g",
-              category: "vegetable",
-              swaps: ["collard greens"],
-            },
-            { name: "beef", amount: "500", unit: "g", category: "protein" },
-            {
-              name: "raw peanuts",
-              amount: "2",
-              unit: "cups",
-              category: "protein",
+              "amount": 500,
+              "unit": "g",
+              "name": "Ndolé leaves (bitterleaf)",
+              "notes": "If fresh, must be washed and squeezed repeatedly to remove extreme bitterness. Often bought frozen/pre-washed."
             },
             {
-              name: "dried shrimp",
-              amount: "100",
-              unit: "g",
-              category: "seafood",
-              swaps: ["shrimp paste"],
+              "amount": 2,
+              "unit": "cups",
+              "name": "raw peanuts (groundnuts)",
+              "notes": "Boiled until soft, then pureed."
             },
-            { name: "stock", amount: "4", unit: "cups", category: "liquid" },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "beef stew meat or goat",
+              "notes": "Cut into chunks."
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "dried smoked fish (stockfish)",
+              "notes": "For deep umami funk."
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "fresh or dried shrimp",
+              "notes": "Added late in the cooking process."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "peanut oil or palm oil",
+              "notes": "Large quantity required for the emulsion."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "onions",
+              "notes": "Divided; half blended with peanuts, half sliced for the final oil garnish."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Blended."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "habanero pepper",
+              "notes": "Blended."
+            }
           ],
-          substitutions: {
-            "bitter leaves": ["collard greens", "kale"],
-            "dried shrimp": ["shrimp paste", "fish sauce"],
-          },
-          servingSize: 6,
-          allergens: ["peanuts", "shellfish"],
-          prepTime: "45 minutes",
-          cookTime: "90 minutes",
-          nutrition: {
-            calories: 520,
-            protein: 42,
-            carbs: 28,
-            fat: 32,
-            fiber: 3,
-          },
-          timeToMake: "135 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Earth: 0.6,
-            Water: 0.2,
-            Fire: 0.1,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Saturn - The bitterness and depth of flavor",
-            "Jupiter - The richness of the peanuts",
+          "instructions": [
+            "Step 1: Prep the peanuts. Boil the raw peanuts for 15 minutes to soften them. Drain. Blend the peanuts with half the onions, garlic, and habanero into a very smooth paste. Add water as needed to blend.",
+            "Step 2: Boil the meat. In a large pot, boil the beef/goat and dried fish with salt and water until tender (about 1 hour). Do not drain the broth.",
+            "Step 3: The Peanut Base. Pour the blended peanut paste into the pot with the meat and its broth. Stir well. Simmer uncovered for 20-30 minutes. The mixture will thicken significantly.",
+            "Step 4: The Leaves. Add the pre-washed, chopped Ndolé leaves to the pot. Stir to combine. Simmer for 15 minutes.",
+            "Step 5: The Shrimp. Add the shrimp to the stew.",
+            "Step 6: The Oil Garnish. In a separate skillet, heat the oil until hot. Sauté the remaining sliced onions until golden brown. Pour the hot oil and onions directly over the simmering pot of Ndolé. Do not stir it in completely; let it sit on the surface.",
+            "Step 7: Serve hot with fried plantains or bobolo (fermented cassava)."
           ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "stew"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "blending",
+              "simmering"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.3,
+            "earth": 0.4,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Pluto"
+            ],
+            "signs": [
+              "Scorpio",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 780,
+            "protein_g": 45,
+            "carbs_g": 18,
+            "fat_g": 62,
+            "fiber_g": 8,
+            "sodium_mg": 650,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin A",
+              "Folate"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "Ndolé leaves",
+              "substitute_options": [
+                "spinach mixed with a small amount of kale or collard greens"
+              ]
+            },
+            {
+              "original_ingredient": "beef and fish",
+              "substitute_options": [
+                "extra firm tofu and shiitake mushrooms (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Maafe",
-          description: "West African peanut stew with meat and vegetables",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "stewing",
-              elementalProperties: {
-                Fire: 0.22,
-                Water: 0.41,
-                Earth: 0.3,
-                Air: 0.08,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "lamb",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["chicken"],
-            },
-            {
-              name: "peanut butter",
-              amount: "1",
-              unit: "cup",
-              category: "protein",
-            },
-            {
-              name: "sweet potatoes",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-            },
-            {
-              name: "tomatoes",
-              amount: "3",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "spinach",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            lamb: ["chicken", "beef"],
-            "sweet potatoes": ["regular potatoes", "butternut squash"],
+          "recipe_name": "Authentic Senegalese Maafe (Peanut Stew)",
+          "description": "A rich, velvety West African stew. The alchemy involves breaking down unsweetened peanut butter into a savory tomato-based broth, allowing the peanut oil to separate and rise to the top, signaling the stew's readiness. It balances the heavy fat of the peanuts with sharp tomato acidity and earthy root vegetables.",
+          "details": {
+            "cuisine": "West African (Senegal/Mali)",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 60,
+            "base_serving_size": 6,
+            "spice_level": "Medium",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 6,
-          allergens: ["peanuts"],
-          prepTime: "25 minutes",
-          cookTime: "50 minutes",
-          nutrition: {
-            calories: 520,
-            protein: 38,
-            carbs: 35,
-            fat: 28,
-            fiber: 3,
-          },
-          timeToMake: "75 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.31,
-            Water: 0.2,
-            Earth: 0.4,
-            Air: 0.09,
-          },
-          astrologicalInfluences: [
-            "Jupiter - The richness and abundance",
-            "Taurus - The earthy, satisfying quality",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "lamb, beef, or chicken",
+              "notes": "Cut into chunks."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "peanut oil",
+              "notes": "For browning the meat."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Chopped."
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "Fried to provide the red base."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "unsweetened, natural peanut butter",
+              "notes": "Must contain ONLY peanuts (no added sugar or palm oil). Smooth preferred."
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "water or broth",
+              "notes": "For the stew base."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "sweet potatoes or yams",
+              "notes": "Peeled and chunked."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "carrots",
+              "notes": "Cut into thick rounds."
+            },
+            {
+              "amount": 0.5,
+              "unit": "small",
+              "name": "cabbage",
+              "notes": "Chopped."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "scotch bonnet pepper",
+              "notes": "Pierced, left whole for flavor without extreme heat."
+            }
           ],
+          "instructions": [
+            "Step 1: Sear the meat. Heat the peanut oil in a large, heavy pot. Brown the meat chunks on all sides. Remove and set aside.",
+            "Step 2: The Base. In the same oil, sauté the onions until soft. Add the garlic and tomato paste, frying for 3-4 minutes until the paste darkens.",
+            "Step 3: The Broth. Gradually whisk the water/broth into the pot, scraping up any browned bits.",
+            "Step 4: The Peanut Emulsion. In a separate bowl, whisk the peanut butter with 1 cup of hot water until it becomes a smooth, pourable liquid. Stir this into the pot.",
+            "Step 5: Simmer. Return the meat to the pot. Add the scotch bonnet pepper. Bring to a gentle boil, then reduce heat to low, cover partially, and simmer for 30 minutes.",
+            "Step 6: Add Vegetables. Add the sweet potatoes, carrots, and cabbage. Simmer for another 20-30 minutes until the meat and vegetables are tender.",
+            "Step 7: The Oil Rise. The stew is done when the natural oils from the peanut butter separate and float to the surface as a reddish-orange layer.",
+            "Step 8: Serve hot over white rice."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "stew"
+            ],
+            "cooking_methods": [
+              "searing",
+              "simmering",
+              "emulsifying"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.35,
+            "earth": 0.4,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Earth",
+              "Jupiter"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 650,
+            "protein_g": 35,
+            "carbs_g": 42,
+            "fat_g": 40,
+            "fiber_g": 8,
+            "sodium_mg": 520,
+            "sugar_g": 10,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin E"
+            ],
+            "minerals": [
+              "Potassium",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "meat",
+              "substitute_options": [
+                "chickpeas and extra root vegetables (for a vegan Maafe)"
+              ]
+            }
+          ]
         },
         {
-          name: "Lamb Tagine with Couscous",
-          description:
-            "Moroccan slow-cooked lamb with apricots, almonds, and warm spices served over fluffy couscous",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.55,
-                Earth: 0.15,
-                Air: 0.15,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "lamb shoulder",
-              amount: "1",
-              unit: "kg",
-              category: "protein",
-              swaps: ["beef chuck", "chicken thighs"],
-            },
-            {
-              name: "couscous",
-              amount: "2",
-              unit: "cups",
-              category: "grain",
-            },
-            {
-              name: "dried apricots",
-              amount: "1",
-              unit: "cup",
-              category: "fruit",
-            },
-            {
-              name: "almonds",
-              amount: "1/2",
-              unit: "cup",
-              category: "nut",
-            },
-            {
-              name: "ras el hanout",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "honey",
-              amount: "2",
-              unit: "tbsp",
-              category: "sweetener",
-            },
-          ],
-          substitutions: {
-            "lamb shoulder": ["beef chuck", "chicken thighs"],
-            couscous: ["rice", "quinoa"],
+          "recipe_name": "Authentic Moroccan Lamb Tagine with Couscous",
+          "description": "A masterclass in North African slow-cooking. The conical lid of the tagine captures steam, condensing it back into the stew, allowing tough cuts of meat to braise in highly concentrated, spiced fruit juices (apricots/prunes) and toasted almonds without drying out.",
+          "details": {
+            "cuisine": "North African (Morocco)",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 120,
+            "base_serving_size": 4,
+            "spice_level": "Mild",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 6,
-          allergens: ["gluten", "tree nuts"],
-          prepTime: "30 minutes",
-          cookTime: "120 minutes",
-          nutrition: {
-            calories: 580,
-            protein: 42,
-            carbs: 55,
-            fat: 22,
-            fiber: 6,
-          },
-          timeToMake: "150 minutes",
-          season: ["autumn", "winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.4,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Jupiter - The abundant, celebratory feast",
-            "Venus - The sweet fruit and honey notes",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "lamb shoulder",
+              "notes": "Cut into 2-inch chunks."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely grated, to melt into the sauce."
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Ras el Hanout",
+              "notes": "Complex Moroccan spice blend."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground ginger",
+              "notes": "Aromatic."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ground cinnamon",
+              "notes": "Aromatic."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "saffron threads",
+              "notes": "Steeped in 2 tbsp warm water."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "beef or lamb broth",
+              "notes": "Liquid base."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "dried apricots or prunes",
+              "notes": "Provides the essential sweet-savory balance."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "blanched almonds",
+              "notes": "Toasted, for garnish."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "couscous",
+              "notes": "Steamed separately, never boiled in the stew."
+            }
           ],
+          "instructions": [
+            "Step 1: The Spice Rub. Toss the lamb chunks with Ras el Hanout, ginger, cinnamon, salt, and pepper. Let marinate for 1 hour.",
+            "Step 2: The Sear. Heat olive oil in the base of a tagine (or a heavy Dutch oven). Brown the lamb on all sides. Remove meat.",
+            "Step 3: The Base. Add the grated onion and garlic to the pot. Sauté until soft. Return the meat to the pot.",
+            "Step 4: The Braise. Pour in the broth and the saffron water. Bring to a simmer.",
+            "Step 5: The Tagine Effect. Cover tightly with the conical lid. Reduce heat to the absolute lowest setting. Braise undisturbed for 1.5 hours.",
+            "Step 6: The Fruit. Add the dried apricots/prunes. Cover and cook for another 30 minutes until the meat falls apart and the fruit is plump.",
+            "Step 7: The Couscous. In a separate bowl, pour 2 cups of boiling water over 2 cups of couscous. Cover with plastic wrap for 5 minutes. Fluff vigorously with a fork.",
+            "Step 8: Garnish and Serve. Top the tagine with toasted almonds and fresh cilantro. Serve the rich, sticky stew over the fluffy couscous."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "stew"
+            ],
+            "cooking_methods": [
+              "braising",
+              "steaming"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.3,
+            "earth": 0.35,
+            "air": 0.15
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Jupiter",
+              "Sun"
+            ],
+            "signs": [
+              "Sagittarius",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 720,
+            "protein_g": 45,
+            "carbs_g": 65,
+            "fat_g": 28,
+            "fiber_g": 8,
+            "sodium_mg": 600,
+            "sugar_g": 22,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "lamb shoulder",
+              "substitute_options": [
+                "chicken thighs (reduces cooking time by half)",
+                "root vegetables and chickpeas (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Bunny Chow",
-          description:
-            "South African street food of hollowed bread loaf filled with spicy curry",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "stewing",
-              elementalProperties: {
-                Fire: 0.22,
-                Water: 0.41,
-                Earth: 0.3,
-                Air: 0.08,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "bread loaf",
-              amount: "1",
-              unit: "whole",
-              category: "grain",
-            },
-            {
-              name: "chicken",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["lamb", "beans"],
-            },
-            {
-              name: "curry powder",
-              amount: "3",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "potatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "tomatoes",
-              amount: "3",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "garam masala",
-              amount: "1",
-              unit: "tbsp",
-              category: "spice",
-            },
-          ],
-          substitutions: {
-            chicken: ["lamb", "mutton", "beans"],
-            "bread loaf": ["rice"],
+          "recipe_name": "Authentic South African Bunny Chow",
+          "description": "An iconic Durban street food born of necessity. A half or quarter loaf of unsliced white bread is hollowed out to serve as an edible, highly absorbent bowl for a fiercely spicy, oily, Indian-South African curry. The 'virgin' (the scooped-out bread) is used to dip.",
+          "details": {
+            "cuisine": "South African (Durban Indian)",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 60,
+            "base_serving_size": 2,
+            "spice_level": "Hot",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["gluten"],
-          prepTime: "20 minutes",
-          cookTime: "45 minutes",
-          nutrition: {
-            calories: 520,
-            protein: 35,
-            carbs: 58,
-            fat: 18,
-            fiber: 5,
-          },
-          timeToMake: "65 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.35,
-            Water: 0.25,
-            Earth: 0.3,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Mars - The bold curry spices",
-            "Saturn - The substantial, filling bread bowl",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "loaf",
+              "name": "unsliced white bread",
+              "notes": "Must be a standard, square, flat-topped sandwich loaf. Hollowed out."
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "lamb or mutton",
+              "notes": "Bone-in preferred for a richer gravy, chopped into small pieces."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "vegetable oil",
+              "notes": "A layer of oil on top of the curry is authentic."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "Durban curry masala",
+              "notes": "A specific, fiery, red chili-heavy blend. Alternatively, use hot Madras curry powder mixed with cayenne."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ginger-garlic paste",
+              "notes": "Equal parts crushed."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "tomatoes",
+              "notes": "Grated or pureed."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "potatoes",
+              "notes": "Peeled and cut into large chunks. They thicken the gravy."
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "fresh coriander (cilantro)",
+              "notes": "For garnish."
+            }
           ],
+          "instructions": [
+            "Step 1: The Spice Base. Heat the oil in a heavy pot over medium heat. Fry the chopped onions until golden. Add the ginger-garlic paste and the Durban masala. Fry for 1 minute to bloom the spices.",
+            "Step 2: The Meat. Add the lamb pieces to the pot. Stir well to coat in the spices. Cook until the meat is browned.",
+            "Step 3: The Gravy. Add the grated tomatoes and a splash of water. Reduce heat, cover, and simmer for 30 minutes.",
+            "Step 4: The Potatoes. Add the potato chunks and enough hot water to just cover the meat. Cover and simmer for another 20-30 minutes until the potatoes are soft and beginning to break down, thickening the sauce. The meat must be tender.",
+            "Step 5: The Bread Bowl. Cut the loaf of bread in half horizontally. Hollow out the center of the half-loaf, leaving a thick wall and base. Keep the scooped-out bread (the 'virgin').",
+            "Step 6: Assemble. Ladle the hot, oily curry directly into the hollowed-out bread bowl.",
+            "Step 7: Garnish with fresh coriander. Place the 'virgin' bread on top of the curry to soak up the gravy. Serve immediately (eaten strictly with hands)."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "hollowing"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.2,
+            "earth": 0.3,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Saturn"
+            ],
+            "signs": [
+              "Aries",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 850,
+            "protein_g": 38,
+            "carbs_g": 95,
+            "fat_g": 35,
+            "fiber_g": 6,
+            "sodium_mg": 920,
+            "sugar_g": 5,
+            "vitamins": [
+              "Vitamin C",
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "lamb",
+              "substitute_options": [
+                "chicken (Chicken Bunny)",
+                "sugar beans (Broad Bean Bunny - vegetarian)"
+              ]
+            }
+          ]
         },
         {
-          name: "Kitfo",
-          description:
-            "Ethiopian minced raw beef seasoned with mitmita spice and niter kibbeh butter",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "raw preparation",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.35,
-                Earth: 0.45,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.25,
-                Earth: 0.35,
-                Air: 0.25,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "beef tenderloin",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "mitmita spice",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "niter kibbeh",
-              amount: "4",
-              unit: "tbsp",
-              category: "fat",
-              swaps: ["ghee"],
-            },
-            {
-              name: "ayib cheese",
-              amount: "100",
-              unit: "g",
-              category: "dairy",
-              swaps: ["cottage cheese"],
-            },
-            {
-              name: "collard greens",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            "niter kibbeh": ["ghee", "clarified butter"],
-            "ayib cheese": ["cottage cheese", "ricotta"],
+          "recipe_name": "Authentic Ethiopian Kitfo",
+          "description": "The pinnacle of Ethiopian raw meat preparation. It is an exercise in extreme ingredient purity. Lean, highest-quality beef is finely minced (never ground in a machine), then gently warmed (not cooked) in aggressively spiced clarified butter (niter kibbeh) and mitmita spice.",
+          "details": {
+            "cuisine": "East African (Ethiopia)",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 5,
+            "base_serving_size": 2,
+            "spice_level": "Fiery",
+            "season": [
+              "all",
+              "celebration"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy"],
-          prepTime: "15 minutes",
-          cookTime: "0 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 38,
-            carbs: 5,
-            fat: 28,
-            fiber: 2,
-          },
-          timeToMake: "15 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.4,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Mars - The fiery mitmita spice",
-            "Pluto - The raw, primal energy",
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "beef tenderloin or extreme high-quality lean beef",
+              "notes": "Must be fresh and safe for raw consumption. All fat and sinew meticulously removed."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "niter kibbeh",
+              "notes": "Ethiopian spiced clarified butter. Must be warm and liquid."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "mitmita",
+              "notes": "A fiery Ethiopian spice blend (hotter than berbere, heavy on bird's eye chili, cardamom, and salt)."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "korarima (Ethiopian cardamom)",
+              "notes": "Ground."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "kosher salt",
+              "notes": "To taste."
+            }
           ],
+          "instructions": [
+            "Step 1: Mince the beef. Using a very sharp, heavy knife, finely mince the cold beef by hand. Do not use a meat grinder, which crushes the fibers into a paste. The texture should be small, distinct pieces.",
+            "Step 2: Prepare the butter. In a small saucepan, gently melt the niter kibbeh over very low heat until it is warm and liquid, but absolutely NOT hot. If it is hot, it will cook the beef.",
+            "Step 3: Combine. Place the minced raw beef in a bowl. Pour the warm niter kibbeh over the meat.",
+            "Step 4: Spice. Add the mitmita, korarima, and salt. Use your hands or a spoon to gently massage and mix the spiced butter evenly throughout the meat.",
+            "Step 5: Serve. Serve immediately. 'Tire' (completely raw) is traditional. For 'Leb leb' (slightly warmed), place the bowl over a pot of barely simmering water for 1-2 minutes while stirring. It must not turn brown.",
+            "Step 6: Accompaniments. Serve with injera, kocho (fermented false banana bread), and ayibe (mild, crumbly cheese to cut the heat)."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "raw",
+              "celebration"
+            ],
+            "cooking_methods": [
+              "mincing",
+              "massaging"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.6,
+            "water": 0,
+            "earth": 0.4,
+            "air": 0
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Pluto"
+            ],
+            "signs": [
+              "Scorpio",
+              "Aries"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 52,
+            "carbs_g": 2,
+            "fat_g": 28,
+            "fiber_g": 1,
+            "sodium_mg": 650,
+            "sugar_g": 0,
+            "vitamins": [
+              "Vitamin B12",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "raw beef",
+              "substitute_options": [
+                "no substitute. Do not attempt with standard grocery ground beef."
+              ]
+            }
+          ]
         },
       ],
       spring: [],
@@ -1814,295 +2752,438 @@ export const african: Cuisine = {
     dessert: {
       all: [
         {
-          name: "Malva Pudding",
-          description:
-            "Sweet and sticky South African baked dessert with a caramelized exterior",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "sauce-making",
-              elementalProperties: {
-                Fire: 0.27,
-                Water: 0.33,
-                Earth: 0.2,
-                Air: 0.2,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "flour",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "sugar",
-              amount: "1",
-              unit: "cup",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "milk",
-              amount: "1",
-              unit: "cup",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "eggs",
-              amount: "2",
-              unit: "whole",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "apricot jam",
-              amount: "1/2",
-              unit: "cup",
-              category: "spread",
-              swaps: ["peach jam"],
-            },
-            { name: "butter", amount: "1/2", unit: "cup", category: "dairy" },
-            {
-              name: "vanilla extract",
-              amount: "1",
-              unit: "tsp",
-              category: "flavoring",
-            },
-            { name: "vinegar", amount: "1", unit: "tsp", category: "acid" },
-          ],
-          substitutions: {
-            "apricot jam": ["peach jam", "orange marmalade"],
-            "heavy cream": ["evaporated milk"],
-            "white vinegar": ["apple cider vinegar"],
+          "recipe_name": "Authentic South African Malva Pudding",
+          "description": "A dense, sponge-like Cape Dutch dessert. The alchemy involves baking a batter enriched with apricot jam and vinegar (which activates the baking soda for lift), then immediately pouring a massive volume of boiling cream-and-butter syrup over the hot cake. The spongy crumb acts as a reservoir, absorbing the liquid to create a sticky, caramelized, pudding-like consistency.",
+          "details": {
+            "cuisine": "South African",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 45,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 8,
-          allergens: ["eggs", "dairy", "gluten"],
-          prepTime: "20 minutes",
-          cookTime: "45 minutes",
-          nutrition: {
-            calories: 450,
-            protein: 8,
-            carbs: 70,
-            fat: 15,
-            fiber: 3,
-          },
-          timeToMake: "65 minutes",
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.21,
-            Earth: 0.43,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
-            "Sun - The warm, comforting quality",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "For the batter."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the batter."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "egg",
+              "notes": "Room temperature."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "apricot jam",
+              "notes": "Crucial for the signature flavor."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "Melted, for the batter."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "baking soda",
+              "notes": "Leavening agent."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "milk",
+              "notes": "For the batter."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "vinegar (white or brown)",
+              "notes": "Reacts with the baking soda."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "butter",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "sugar",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "water or brandy",
+              "notes": "For the sauce."
+            }
           ],
+          "instructions": [
+            "Step 1: The Batter. Preheat oven to 350°F (175°C). Grease an 8x8 inch baking dish.",
+            "Step 2: Creaming. Beat the sugar and egg together until pale and thick. Beat in the apricot jam.",
+            "Step 3: Melt the 1 tbsp butter and whisk in the vinegar.",
+            "Step 4: Mix. Sift the flour and baking soda together. Fold the dry ingredients into the egg mixture alternately with the milk. Lastly, fold in the butter/vinegar mixture.",
+            "Step 5: Bake. Pour the batter into the greased dish. Bake for 30-40 minutes until deeply browned and a skewer comes out clean.",
+            "Step 6: The Sauce (The Shock). Five minutes before the pudding is done, combine the heavy cream, 1/2 cup butter, 1/2 cup sugar, and water/brandy in a saucepan. Bring to a rolling boil until the sugar dissolves.",
+            "Step 7: The Pour. Remove the baked pudding from the oven. Using a skewer, poke holes all over the surface. Immediately pour the boiling hot sauce slowly and evenly over the hot pudding. It will look like too much liquid, but the sponge will absorb it all.",
+            "Step 8: Rest. Let the pudding sit in a warm place for 15 minutes to fully absorb the sauce before serving hot with custard or ice cream."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "baking"
+            ],
+            "cooking_methods": [
+              "baking",
+              "boiling",
+              "soaking"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.45,
+            "earth": 0.25,
+            "air": 0.15
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 480,
+            "protein_g": 4,
+            "carbs_g": 58,
+            "fat_g": 28,
+            "fiber_g": 1,
+            "sodium_mg": 280,
+            "sugar_g": 42,
+            "vitamins": [
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Calcium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "apricot jam",
+              "substitute_options": [
+                "peach preserve"
+              ]
+            },
+            {
+              "original_ingredient": "heavy cream",
+              "substitute_options": [
+                "evaporated milk (for a lighter sauce)"
+              ]
+            }
+          ]
         },
         {
-          name: "Coconut Chin Chin",
-          description: "West African fried pastry snack with coconut",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            "dough-making",
-          ],
-          ingredients: [
-            {
-              name: "flour",
-              amount: "3",
-              unit: "cups",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "coconut",
-              amount: "1",
-              unit: "cup",
-              category: "nut",
-              swaps: ["desiccated coconut"],
-            },
-            {
-              name: "sugar",
-              amount: "1/2",
-              unit: "cup",
-              category: "sweetener",
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "nutmeg",
-              amount: "1/2",
-              unit: "tsp",
-              category: "spice",
-              swaps: ["cinnamon"],
-            },
-          ],
-          substitutions: {
-            coconut: ["desiccated coconut", "coconut flour"],
-            nutmeg: ["cinnamon", "cardamom"],
+          "recipe_name": "Authentic Nigerian Coconut Chin Chin",
+          "description": "A structurally resilient, deep-fried West African snack. The dough is intentionally low-hydration and heavily kneaded to develop gluten, ensuring the resulting squares fry into rigid, fiercely crunchy, biscuit-like nuggets that can be stored for weeks. Coconut milk adds a subtle, tropical lipid profile.",
+          "details": {
+            "cuisine": "West African (Nigeria)",
+            "prep_time_minutes": 45,
+            "cook_time_minutes": 20,
+            "base_serving_size": 8,
+            "spice_level": "None",
+            "season": [
+              "all",
+              "celebration"
+            ]
           },
-          servingSize: 8,
-          allergens: ["eggs", "wheat"],
-          prepTime: "30 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 300,
-            protein: 6,
-            carbs: 45,
-            fat: 12,
-            fiber: 3,
-          },
-          timeToMake: "50 minutes",
-          season: ["all"],
-          mealType: ["dessert", "snack"],
-          elementalProperties: {
-            Fire: 0.16,
-            Water: 0.19,
-            Earth: 0.49,
-            Air: 0.16,
-          },
-          astrologicalInfluences: [
-            "Venus - The sweet indulgence",
-            "Mercury - The crisp texture and intricate shapes",
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "all-purpose flour",
+              "notes": "Sifted."
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For sweetness."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "baking powder",
+              "notes": "Provides a very slight lift so they aren't rock hard."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "ground nutmeg",
+              "notes": "Essential signature aromatic."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "unsalted butter or margarine",
+              "notes": "Cold, cut into small cubes."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "egg",
+              "notes": "Binder."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "coconut milk",
+              "notes": "Used sparingly to bind the dry dough."
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "vegetable oil",
+              "notes": "For deep frying."
+            }
           ],
+          "instructions": [
+            "Step 1: Dry Mix. In a large bowl, mix the flour, sugar, baking powder, and nutmeg.",
+            "Step 2: Cut in Fat. Add the cold butter cubes. Use your fingertips to rub the butter into the flour until the mixture resembles coarse breadcrumbs.",
+            "Step 3: Bind. Make a well in the center. Add the egg and the coconut milk. Mix with your hands until it forms a stiff dough. It should be much harder and less sticky than bread dough. If it's too crumbly, add 1 tbsp of water.",
+            "Step 4: Knead and Rest. Turn the dough out and knead it until smooth (about 3 minutes). Let it rest for 15 minutes to relax the gluten for easier rolling.",
+            "Step 5: Roll. Divide the dough into 4 sections. On a floured surface, roll one section out flat to about 1/4-inch thickness.",
+            "Step 6: Cut. Using a pizza cutter or sharp knife, cut the dough into a grid of small 1/2-inch squares (or thin rectangles).",
+            "Step 7: Heat Oil. Heat the oil in a deep pot to 350°F (175°C).",
+            "Step 8: Fry. Drop a handful of the cut dough pieces into the oil. They will sink, then rise. Stir continuously with a slotted spoon to ensure they brown evenly.",
+            "Step 9: Cool. Fry until golden brown (they will darken slightly after removing). Drain on paper towels. They will harden significantly as they cool completely."
+          ],
+          "classifications": {
+            "meal_type": [
+              "snack",
+              "dessert"
+            ],
+            "cooking_methods": [
+              "kneading",
+              "rolling",
+              "deep-frying"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.1,
+            "earth": 0.4,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Mars"
+            ],
+            "signs": [
+              "Taurus",
+              "Aries"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 350,
+            "protein_g": 5,
+            "carbs_g": 48,
+            "fat_g": 16,
+            "fiber_g": 1,
+            "sodium_mg": 85,
+            "sugar_g": 18,
+            "vitamins": [
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "coconut milk",
+              "substitute_options": [
+                "evaporated milk",
+                "water"
+              ]
+            },
+            {
+              "original_ingredient": "butter",
+              "substitute_options": [
+                "margarine (very common in West Africa for this)"
+              ]
+            }
+          ]
         },
         {
-          name: "Koeksister",
-          description:
-            "South African braided doughnut soaked in cold sugar syrup, sticky and sweet",
-          cuisine: "african",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "braiding",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.4,
-                Air: 0.3,
-              },
-            },
-          ],
-          ingredients: [
-            {
-              name: "flour",
-              amount: "4",
-              unit: "cups",
-              category: "grain",
-            },
-            {
-              name: "sugar",
-              amount: "3",
-              unit: "cups",
-              category: "sweetener",
-            },
-            {
-              name: "butter",
-              amount: "2",
-              unit: "tbsp",
-              category: "fat",
-            },
-            {
-              name: "eggs",
-              amount: "2",
-              unit: "large",
-              category: "protein",
-            },
-            {
-              name: "cinnamon",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "ginger",
-              amount: "1/2",
-              unit: "tsp",
-              category: "spice",
-            },
-          ],
-          substitutions: {
-            butter: ["margarine", "coconut oil"],
+          "recipe_name": "Authentic South African Koeksister",
+          "description": "An intense feat of pastry engineering. A deeply braided dough is deep-fried to a crisp golden brown, then plunged instantly from the boiling oil into ice-cold spiced syrup. The extreme temperature shock causes the dough to violently absorb the syrup, resulting in a crunchy exterior that gushes sweet liquid when bitten.",
+          "details": {
+            "cuisine": "South African",
+            "prep_time_minutes": 180,
+            "cook_time_minutes": 30,
+            "base_serving_size": 12,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 12,
-          allergens: ["gluten", "eggs", "dairy"],
-          prepTime: "45 minutes",
-          cookTime: "30 minutes",
-          nutrition: {
-            calories: 280,
-            protein: 4,
-            carbs: 52,
-            fat: 8,
-            fiber: 1,
-          },
-          timeToMake: "75 minutes",
-          season: ["all"],
-          mealType: ["dessert", "snack"],
-          elementalProperties: {
-            Fire: 0.25,
-            Water: 0.2,
-            Earth: 0.35,
-            Air: 0.2,
-          },
-          astrologicalInfluences: [
-            "Venus - The sticky sweetness",
-            "Neptune - The syrup-soaked indulgence",
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "granulated sugar",
+              "notes": "For the syrup. Made the day before."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "water",
+              "notes": "For the syrup."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "cream of tartar",
+              "notes": "Prevents the heavy syrup from crystallizing."
+            },
+            {
+              "amount": 1,
+              "unit": "piece",
+              "name": "fresh ginger",
+              "notes": "Bruised, for the syrup."
+            },
+            {
+              "amount": 1,
+              "unit": "stick",
+              "name": "cinnamon",
+              "notes": "For the syrup."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "all-purpose flour",
+              "notes": "For the dough."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "Rubbed into the flour."
+            },
+            {
+              "amount": 2,
+              "unit": "tsp",
+              "name": "baking powder",
+              "notes": "Leavening."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "milk or water",
+              "notes": "To bind the dough."
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "neutral oil",
+              "notes": "For frying."
+            }
           ],
+          "instructions": [
+            "Step 1: The Syrup (Day Before). Boil sugar, water, ginger, and cinnamon stick until the sugar dissolves. Add the cream of tartar. Simmer for 10 mins. Remove from heat, let cool, and place in the freezer or refrigerator overnight. It MUST be ice cold when used.",
+            "Step 2: The Dough. Rub the butter into the flour and baking powder. Add the milk/water and knead until a smooth, pliable dough forms. Let rest under a damp cloth for 1 hour.",
+            "Step 3: Shaping. Roll the dough out to a 1/4-inch thickness. Cut into rectangles (2x3 inches). Make two longitudinal cuts in each rectangle, leaving one end intact, to create three 'legs'.",
+            "Step 4: The Braid. Plait the three legs tightly together, pinching the loose ends firmly to seal them. Cover the braided dough while you heat the oil.",
+            "Step 5: The Setup. Have your deep fryer at 350°F (175°C). Place the bowl of ice-cold syrup right next to the stove. (Keep the syrup bowl sitting in a larger bowl of ice to keep it cold).",
+            "Step 6: Fry. Fry the braided dough until golden brown and crispy on both sides (about 3 mins).",
+            "Step 7: The Shock. Using a slotted spoon, lift a hot koeksister from the oil, let it drain for 1 second, and plunge it completely into the ice-cold syrup. Push it down so it submerges.",
+            "Step 8: Soak. Leave it in the cold syrup for 1 minute to absorb the liquid. Remove and place on a wire rack to drain. Keep refrigerated; they are eaten cold and sticky."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "sweet",
+              "pastry"
+            ],
+            "cooking_methods": [
+              "braiding",
+              "deep-frying",
+              "shock-soaking"
+            ]
+          },
+          "elemental_properties": {
+            "fire": 0.3,
+            "water": 0.4,
+            "earth": 0.2,
+            "air": 0.1
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Pluto"
+            ],
+            "signs": [
+              "Scorpio",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 3,
+            "carbs_g": 65,
+            "fat_g": 14,
+            "fiber_g": 1,
+            "sodium_mg": 120,
+            "sugar_g": 48,
+            "vitamins": [
+              "None"
+            ],
+            "minerals": [
+              "Iron"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "cream of tartar",
+              "substitute_options": [
+                "1 tsp lemon juice (to prevent crystallization)"
+              ]
+            }
+          ]
         },
       ],
       spring: [],
