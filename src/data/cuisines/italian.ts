@@ -596,59 +596,112 @@ export const italian: Cuisine = {
           ]
         },
         {
-          name: "Ricotta e Fichi",
-          description: "Fresh ricotta with figs and honey",
-          cuisine: "Italian",
-          cookingMethods: ["assembling"],
-          tools: ["serving bowl", "honey dipper", "knife", "spoon"],
-          preparationSteps: [
-            "Place ricotta in serving bowl",
-            "Quarter fresh figs",
-            "Arrange figs around ricotta",
-            "Drizzle with honey",
-            "Sprinkle with pistachios",
-          ],
-          ingredients: [
+          "recipe_name": "Authentic Ricotta e Fichi (Ricotta and Figs)",
+          "description": "A late-summer Mediterranean archetype. It involves zero cooking, relying entirely on the alchemical pairing of high-moisture fresh ricotta with the honeyed, floral pulp of sun-warmed figs, bound with high-quality honey and textural crunch.",
+          "details": {
+            "cuisine": "Italian",
+            "prep_time_minutes": 5,
+            "cook_time_minutes": 0,
+            "base_serving_size": 2,
+            "spice_level": "None",
+            "season": [
+              "summer"
+            ]
+          },
+          "ingredients": [
             {
-              name: "ricotta",
-              amount: "200",
-              unit: "g",
-              category: "dairy",
-              swaps: ["almond ricotta"],
+              "amount": 250,
+              "unit": "g",
+              "name": "fresh sheep's milk ricotta",
+              "notes": "Must be very fresh and drained."
             },
             {
-              name: "fresh figs",
-              amount: "4",
-              unit: "whole",
-              category: "fruit",
+              "amount": 4,
+              "unit": "whole",
+              "name": "ripe mission or brown turkey figs",
+              "notes": "At room temperature."
             },
-            { name: "honey", amount: "2", unit: "tbsp", category: "sweetener" },
-            { name: "pistachios", amount: "30", unit: "g", category: "nuts" },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "chestnut or acacia honey",
+              "notes": "For drizzling."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "pistachios or walnuts",
+              "notes": "Toasted and crushed."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "flaky sea salt",
+              "notes": "Essential to activate the sweetness."
+            }
           ],
-          substitutions: {
-            ricotta: ["almond ricotta", "cashew ricotta"],
-            honey: ["agave nectar", "maple syrup"],
+          "instructions": [
+            "Step 1: The Base. Dollop cold ricotta into small bowls. Do not whip; keep the rustic texture.",
+            "Step 2: The Fruit. Quarter the figs lengthwise. Nestle them into the ricotta.",
+            "Step 3: Season. Sprinkle salt and nuts over the top.",
+            "Step 4: The Glaze. Drizzle heavily with honey and serve immediately."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "dessert",
+              "snack",
+              "raw"
+            ],
+            "cooking_methods": [
+              "assembling"
+            ]
           },
-          servingSize: 2,
-          allergens: ["dairy", "nuts"],
-          prepTime: "5 minutes",
-          cookTime: "0 minutes",
-          culturalNotes:
-            "A simple summer breakfast that showcases Italy's love for fresh, seasonal ingredients",
-          pairingSuggestions: ["fresh mint tea", "crusty bread"],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 18,
-            carbs: 42,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["A", "B12", "K"],
-            minerals: ["Calcium", "Magnesium"],
+          "elemental_properties": {
+            "fire": 0.05,
+            "water": 0.4,
+            "earth": 0.4,
+            "air": 0.15
           },
-          season: ["summer"],
-          mealType: ["breakfast"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 280,
+            "protein_g": 12,
+            "carbs_g": 32,
+            "fat_g": 14,
+            "fiber_g": 4,
+            "sodium_mg": 150,
+            "sugar_g": 24,
+            "vitamins": [
+              "Vitamin B12",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Calcium",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "ricotta",
+              "substitute_options": [
+                "Greek yogurt",
+                "cashew cream (vegan)"
+              ]
+            }
+          ]
         },
       ],
       winter: [
@@ -1178,189 +1231,226 @@ export const italian: Cuisine = {
       ],
       winter: [
         {
-          name: "Ribollita",
-          description: "Hearty Tuscan bread and vegetable soup",
-          cuisine: "Italian",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: ["large pot", "wooden spoon", "knife", "cutting board"],
-          preparationSteps: [
-            "Sauté vegetables and herbs",
-            "Add beans and tomatoes",
-            "Simmer with broth",
-            "Add bread chunks",
-            "Continue cooking until thickened",
-            "Rest overnight for best results",
-          ],
-          ingredients: [
-            {
-              name: "stale bread",
-              amount: "300",
-              unit: "g",
-              category: "bread",
-              swaps: ["gluten-free bread"],
-            },
-            {
-              name: "cannellini beans",
-              amount: "400",
-              unit: "g",
-              category: "legume",
-            },
-            {
-              name: "cavolo nero",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-              swaps: ["kale"],
-            },
-            {
-              name: "vegetables",
-              amount: "500",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "olive oil", amount: "60", unit: "ml", category: "oil" },
-          ],
-          substitutions: {
-            "cavolo nero": ["kale", "Swiss chard"],
-            "stale bread": ["gluten-free bread", "crusty bread"],
-            "cannellini beans": ["navy beans", "great northern beans"],
+          "recipe_name": "Authentic Ribollita (Tuscan Bean Soup)",
+          "description": "The ultimate Tuscan peasant re-cook (ribollita means 'reboiled'). It is a structurally dense stew characterized by its base of Lacinato kale (cavolo nero), white beans, and stale bread, which absorbs all the liquid until the soup can literally stand a spoon vertically.",
+          "details": {
+            "cuisine": "Italian (Tuscany)",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 120,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 6,
-          allergens: ["gluten"],
-          prepTime: "30 minutes",
-          cookTime: "1 hour",
-          culturalNotes:
-            "A peasant dish from Tuscany that exemplifies the Italian tradition of not wasting food",
-          pairingSuggestions: [
-            "Chianti wine",
-            "extra virgin olive oil drizzle",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "Cavolo Nero (Lacinato Kale)",
+              "notes": "Tough stems removed, chopped."
+            },
+            {
+              "amount": 2,
+              "unit": "cans (15oz)",
+              "name": "Cannellini beans",
+              "notes": "One can pureed, one can left whole."
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "stale Tuscan bread",
+              "notes": "Torn into chunks."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "For depth."
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "Massive amounts needed for the finish."
+            }
           ],
-          dietaryInfo: ["vegetarian", "vegan"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 380,
-            protein: 15,
-            carbs: 58,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["A", "C", "K"],
-            minerals: ["Iron", "Fiber"],
+          "instructions": [
+            "Step 1: Soffritto. Sauté onion, carrot, celery in oil. Add tomato paste.",
+            "Step 2: The Greens. Add kale, chard, and cabbage. Sauté until wilted.",
+            "Step 3: The Beans. Add pureed beans and whole beans. Cover with water/broth. Simmer for 1 hour.",
+            "Step 4: The Ribollita. Add torn stale bread to the soup. Simmer for 10 mins while stirring. Let the bread dissolve into the soup.",
+            "Step 5: The Rest. Let it sit overnight. Reboil the next day with a heavy drizzle of raw olive oil."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "soup",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "soaking"
+            ]
           },
-          season: ["winter", "autumn"],
-
-          elementalProperties: {
-            Fire: 0.17,
-            Water: 0.11,
-            Earth: 0.54,
-            Air: 0.17,
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.35,
+            "earth": 0.5,
+            "air": 0.05
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Earth"
+            ],
+            "signs": [
+              "Capricorn",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 16,
+            "carbs_g": 52,
+            "fat_g": 18,
+            "fiber_g": 14,
+            "sodium_mg": 650,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin K",
+              "Vitamin A",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Manganese"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "stale bread",
+              "substitute_options": [
+                "potatoes (not traditional, but adds similar starch)"
+              ]
+            }
+          ]
         },
         {
-          name: "Pasta e Fagioli",
-          description: "Classic pasta and bean soup",
-          cuisine: "Italian",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: ["large pot", "wooden spoon", "knife", "cutting board"],
-          preparationSteps: [
-            "Sauté vegetables and herbs",
-            "Add beans and pasta",
-            "Simmer with broth",
-            "Season with salt and pepper",
-            "Serve with grated parmesan",
-          ],
-          ingredients: [
-            {
-              name: "small pasta",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["gluten-free pasta"],
-            },
-            {
-              name: "borlotti beans",
-              amount: "400",
-              unit: "g",
-              category: "legume",
-            },
-            {
-              name: "tomato passata",
-              amount: "200",
-              unit: "ml",
-              category: "sauce",
-            },
-            { name: "rosemary", amount: "2", unit: "sprigs", category: "herb" },
-            {
-              name: "pancetta",
-              amount: "50",
-              unit: "g",
-              category: "protein",
-              swaps: ["smoked tofu"],
-            },
-          ],
-          substitutions: {
-            "small pasta": ["gluten-free pasta", "rice pasta"],
-            "borlotti beans": ["cannellini beans", "kidney beans"],
-            "tomato passata": ["tomato sauce", "diced tomatoes"],
-            rosemary: ["thyme", "oregano"],
-            pancetta: ["bacon", "smoked tofu"],
+          "recipe_name": "Authentic Pasta e Fagioli",
+          "description": "A comfort classic balancing the grounding energy of beans with the structure of short pasta. The key is to cook the pasta directly in the bean broth, allowing the released wheat starches to emulsify with the bean liquid, creating a thick, creamy sauce without any dairy.",
+          "details": {
+            "cuisine": "Italian",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 45,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 4,
-          allergens: ["gluten"],
-          prepTime: "20 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A hearty and comforting soup that's perfect for cold winter days",
-          pairingSuggestions: ["Chianti wine", "crusty bread"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 440,
-            protein: 22,
-            carbs: 68,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["B1", "B12", "C"],
-            minerals: ["Iron", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "dried Borlotti or Cannellini beans",
+              "notes": "Soaked overnight."
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "Ditalini or other short pasta",
+              "notes": "Must be a small, sturdy shape."
+            },
+            {
+              "amount": 1,
+              "unit": "piece",
+              "name": "Parmesan rind",
+              "notes": "Simmered in the soup for intense savory depth (remove before serving)."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "For color."
+            },
+            {
+              "amount": 1,
+              "unit": "sprig",
+              "name": "fresh rosemary",
+              "notes": "Essential aromatic."
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil Beans. Cook soaked beans with rosemary and garlic until tender. Mash 1/3 of the beans into the water.",
+            "Step 2: Flavor. Add tomato paste and the Parmesan rind to the pot.",
+            "Step 3: The Pasta. Add the dry pasta directly into the boiling bean liquid. Stir frequently.",
+            "Step 4: The Emulsion. As the pasta cooks, the liquid will become very thick. Add hot water if necessary to keep it loose.",
+            "Step 5: Finish. Turn off heat when pasta is al dente. Drizzle with raw olive oil and black pepper. Remove Parmesan rind."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch",
+              "dinner",
+              "soup",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "simmering",
+              "emulsifying"
+            ]
           },
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.22,
-            Earth: 0.62,
-            Air: 0.08,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.35,
+            "earth": 0.4,
+            "air": 0.1
           },
-          mealType: ["lunch"],
+          "astrological_affinities": {
+            "planets": [
+              "Earth",
+              "Saturn"
+            ],
+            "signs": [
+              "Taurus",
+              "Virgo"
+            ],
+            "lunar_phases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 14,
+            "carbs_g": 58,
+            "fat_g": 12,
+            "fiber_g": 10,
+            "sodium_mg": 480,
+            "sugar_g": 3,
+            "vitamins": [
+              "Vitamin B1",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "Parmesan rind",
+              "substitute_options": [
+                "miso paste (for vegan umami)"
+              ]
+            }
+          ]
         },
       ],
     },
@@ -1431,91 +1521,133 @@ export const italian: Cuisine = {
           "substitutions": []
         },
         {
-          name: "Risotto ai Funghi",
-          description: "Creamy mushroom risotto",
-          cuisine: "Italian",
-          cookingMethods: [
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            "gradual-liquid-addition",
-          ],
-          tools: ["heavy-bottomed pan", "wooden spoon", "ladle", "saucepan"],
-          preparationSteps: [
-            "Prepare mushroom broth",
-            "Toast rice with onions",
-            "Add wine and reduce",
-            "Gradually add hot broth",
-            "Finish with butter and cheese",
-            "Rest before serving",
-          ],
-          ingredients: [
-            {
-              name: "arborio rice",
-              amount: "320",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "porcini mushrooms",
-              amount: "30",
-              unit: "g",
-              category: "fungi",
-              swaps: ["other mushrooms"],
-            },
-            { name: "white wine", amount: "120", unit: "ml", category: "wine" },
-            {
-              name: "parmigiano",
-              amount: "80",
-              unit: "g",
-              category: "dairy",
-              swaps: ["nutritional yeast"],
-            },
-          ],
-          substitutions: {
-            parmigiano: ["nutritional yeast", "vegan parmesan"],
-            "white wine": ["vegetable stock", "mushroom stock"],
-            butter: ["olive oil", "vegan butter"],
+          "recipe_name": "Authentic Risotto ai Funghi (Mushroom Risotto)",
+          "description": "A study in creamy, earthy emulsification. The starch from Arborio or Carnaroli rice is released through continuous agitation and precise hydration with hot mushroom stock, binding together with butter and Parmesan into a thick, flowing mantle ('all'onda') that perfectly supports the intense umami of wild porcini.",
+          "details": {
+            "cuisine": "Italian (Lombardy)",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 30,
+            "base_serving_size": 4,
+            "spice_level": "None",
+            "season": [
+              "autumn",
+              "winter"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy"],
-          prepTime: "15 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            "A northern Italian specialty that showcases the region's love for rice dishes",
-          pairingSuggestions: ["Barolo", "simple green salad"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 12,
-            carbs: 65,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["D", "B12"],
-            minerals: ["Iron", "Calcium"],
+          "ingredients": [
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "Arborio or Carnaroli rice",
+              "notes": "Never rinse the rice."
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "fresh mixed mushrooms (Porcini, Cremini, Shiitake)",
+              "notes": "Sliced."
+            },
+            {
+              "amount": 30,
+              "unit": "g",
+              "name": "dried Porcini mushrooms",
+              "notes": "Soaked in hot water; reserve the liquid for the stock."
+            },
+            {
+              "amount": 6,
+              "unit": "cups",
+              "name": "mushroom or vegetable stock",
+              "notes": "Must be kept at a bare simmer."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "dry white wine (Pinot Grigio)",
+              "notes": "For deglazing."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "shallot",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "Cold, for finishing."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "Parmigiano-Reggiano",
+              "notes": "Freshly grated."
+            }
+          ],
+          "instructions": [
+            "Step 1: Prep mushrooms. Sauté fresh mushrooms until browned. Set aside. Soak dried porcini, chop, and strain soaking liquid into the stock.",
+            "Step 2: The Soffritto. Sauté shallots in 1 tbsp butter/oil until soft.",
+            "Step 3: Tostatura. Add rice. Stir for 2 mins until edges are translucent and it smells nutty.",
+            "Step 4: Sfumatura. Pour in wine. Stir until absorbed.",
+            "Step 5: The Ladle. Add hot stock one ladle at a time. Stir continuously. Wait for absorption before adding more. Repeat for 18-20 mins.",
+            "Step 6: Mantecatura. Remove from heat. Vigorously stir in cold butter and Parmesan until creamy. Let rest for 2 mins before serving."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "lunch",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "simmering",
+              "stirring"
+            ]
           },
-          season: ["autumn"],
-
-          elementalProperties: {
-            Fire: 0.09,
-            Water: 0.27,
-            Earth: 0.55,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.35,
+            "earth": 0.4,
+            "air": 0.1
           },
-          mealType: ["dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Moon"
+            ],
+            "signs": [
+              "Virgo",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 9,
+            "carbs_g": 52,
+            "fat_g": 18,
+            "fiber_g": 4,
+            "sodium_mg": 550,
+            "sugar_g": 2,
+            "vitamins": [
+              "Vitamin D",
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Selenium",
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "butter/Parmesan",
+              "substitute_options": [
+                "miso paste and olive oil (vegan)"
+              ]
+            }
+          ]
         },
         {
           "recipe_name": "Authentic Gnocchi alla Sorrentina",
@@ -1667,102 +1799,126 @@ export const italian: Cuisine = {
       ],
       summer: [
         {
-          name: "Acqua Pazza",
-          description: "Neapolitan style fish in 'crazy water'",
-          cuisine: "Italian (Neapolitan)",
-          cookingMethods: [
-            {
-              name: "poaching",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.5,
-                Earth: 0.13,
-                Air: 0.19,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: ["large skillet", "fish spatula", "knife", "cutting board"],
-          preparationSteps: [
-            "Clean and prepare fish",
-            "Sauté garlic and herbs",
-            "Add tomatoes and wine",
-            "Poach fish in liquid",
-            "Garnish with fresh herbs",
-          ],
-          ingredients: [
-            {
-              name: "fresh fish",
-              amount: "600",
-              unit: "g",
-              category: "protein",
-              swaps: ["sea bass", "cod"],
-            },
-            {
-              name: "cherry tomatoes",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "white wine",
-              amount: "150",
-              unit: "ml",
-              category: "wine",
-              swaps: ["fish stock"],
-            },
-            {
-              name: "garlic",
-              amount: "4",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            { name: "parsley", amount: "1", unit: "bunch", category: "herb" },
-          ],
-          substitutions: {
-            "fresh fish": ["sea bass", "cod", "halibut"],
-            "white wine": ["fish stock", "vegetable stock"],
-            "cherry tomatoes": ["diced tomatoes", "grape tomatoes"],
+          "recipe_name": "Authentic Acqua Pazza (Crazy Water Fish)",
+          "description": "A Neapolitan method of poaching whole white fish in 'crazy water'—a brief, vibrant emulsion of sea water (or salted water), cherry tomatoes, garlic, and extra virgin olive oil. The alchemy lies in the rapid reduction of the tomato juices and oil into a light, briny sauce that remains transparent yet intensely flavored.",
+          "details": {
+            "cuisine": "Italian (Campania)",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 20,
+            "base_serving_size": 2,
+            "spice_level": "Mild",
+            "season": [
+              "summer",
+              "spring"
+            ]
           },
-          servingSize: 4,
-          allergens: ["fish", "sulfites"],
-          prepTime: "15 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            'A traditional Neapolitan fisherman\'s dish, where fish is cooked in "crazy water" (acqua pazza) - a fragrant broth of tomatoes, herbs, and wine',
-          pairingSuggestions: [
-            "Falanghina wine",
-            "crusty bread",
-            "sautéed greens",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "Sea Bass or Orata",
+              "notes": "Scaled and gutted, about 600g. Head on for maximum flavor."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "cherry tomatoes",
+              "notes": "Halved."
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Smashed."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "dry white wine",
+              "notes": "For the liquid base."
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "High quality."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "capers",
+              "notes": "Rinsed."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh parsley",
+              "notes": "Roughly torn."
+            }
           ],
-          dietaryInfo: ["contains fish", "gluten-free", "dairy-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 320,
-            protein: 42,
-            carbs: 12,
-            fat: 14,
-            fiber: 3,
-            vitamins: ["D", "B12", "C"],
-            minerals: ["Selenium", "Iodine", "Potassium"],
+          "instructions": [
+            "Step 1: Prep. Season the fish cavity with salt and pepper.",
+            "Step 2: The Base. In a large skillet, sauté garlic in olive oil. Add cherry tomatoes and capers. Cook for 3 mins until tomatoes begin to collapse.",
+            "Step 3: The Poach. Add the fish to the pan. Pour in the wine and 1/2 cup of water. The liquid should come halfway up the fish.",
+            "Step 4: Cook. Cover and simmer over medium-low heat for 12-15 minutes. Occasionally spoon the hot 'crazy water' over the fish.",
+            "Step 5: Finish. Once the fish flakes easily, remove from heat. Stir in the parsley and a final drizzle of raw oil. Serve the fish whole, swimming in its juices."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "seafood"
+            ],
+            "cooking_methods": [
+              "poaching",
+              "simmering"
+            ]
           },
-          season: ["summer", "spring"],
-
-          elementalProperties: {
-            Fire: 0.05,
-            Water: 0.72,
-            Earth: 0.15,
-            Air: 0.07,
+          "elemental_properties": {
+            "fire": 0.1,
+            "water": 0.6,
+            "earth": 0.1,
+            "air": 0.2
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Neptune",
+              "Moon"
+            ],
+            "signs": [
+              "Pisces",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 35,
+            "carbs_g": 8,
+            "fat_g": 16,
+            "fiber_g": 2,
+            "sodium_mg": 620,
+            "sugar_g": 2,
+            "vitamins": [
+              "Vitamin B12",
+              "Selenium"
+            ],
+            "minerals": [
+              "Iodine",
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "Sea Bass",
+              "substitute_options": [
+                "Cod",
+                "Snapper",
+                "Haddock"
+              ]
+            }
+          ]
         },
         {
           "recipe_name": "Authentic Melanzane alla Parmigiana",

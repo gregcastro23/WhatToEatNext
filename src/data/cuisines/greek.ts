@@ -360,65 +360,125 @@ export const greek: Cuisine = {
       ],
       summer: [
         {
-          name: "Paximadia",
-          description: "Twice-baked bread rusks with olive oil and tomatoes",
-          cuisine: "Greek (Cretan)",
-          ingredients: [
+          "recipe_name": "Authentic Paximadia (Greek Barley Rusks)",
+          "description": "An ancient Greek survival bread. These twice-baked barley rusks are intensely hard and dehydrated, designed to last for months. The alchemy lies in the fermentation of barley and whole wheat, followed by a slow drying process that creates a rigid, crystalline starch structure that must be briefly rehydrated in water or tomato juice to be eaten.",
+          "details": {
+            "cuisine": "Greek (Crete)",
+            "prep_time_minutes": 180,
+            "cook_time_minutes": 120,
+            "base_serving_size": 12,
+            "spice_level": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "barley rusks",
-              amount: "4",
-              unit: "pieces",
-              category: "bread",
-              swaps: ["gluten-free rusks"],
+              "amount": 500,
+              "unit": "g",
+              "name": "barley flour",
+              "notes": "Must be high-quality whole grain barley."
             },
             {
-              name: "tomatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
+              "amount": 500,
+              "unit": "g",
+              "name": "whole wheat flour",
+              "notes": "For structural strength."
             },
-            { name: "olive oil", amount: "4", unit: "tbsp", category: "oil" },
-            { name: "oregano", amount: "2", unit: "tsp", category: "herb" },
+            {
+              "amount": 2,
+              "unit": "tsp",
+              "name": "active dry yeast",
+              "notes": "Leavening."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Flavor."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "Shortens the gluten for a crumbly interior."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "lukewarm water",
+              "notes": "Hydration."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "anise seeds",
+              "notes": "Optional aromatic."
+            }
           ],
-          nutrition: {
-            calories: 320,
-            protein: 8,
-            carbs: 42,
-            fat: 16,
-            fiber: 3,
-            vitamins: ["C", "E"],
-            minerals: ["Iron", "Fiber"],
-          },
-          timeToMake: "10 minutes",
-          season: ["summer"],
-          mealType: ["breakfast"],
-          cookingMethods: ["assembling"],
-          tools: ["serving plate", "grater", "knife"],
-          preparationSteps: [
-            "Grate tomatoes",
-            "Drizzle rusks with olive oil",
-            "Top with tomatoes",
-            "Sprinkle with oregano",
+          "instructions": [
+            "Step 1: The Dough. Mix yeast in warm water. Combine flours and salt. Add olive oil and water. Knead for 10 minutes until a very stiff, dense dough forms.",
+            "Step 2: First Rise. Let rise in a warm place for 2 hours. It will not double in size due to the heavy barley.",
+            "Step 3: Shaping. Shape into thick, elongated loaves (like a large biscotti log). Score the top deeply with a knife into 1-inch thick slices, but do not cut all the way through.",
+            "Step 4: First Bake. Bake at 375°F (190°C) for 1 hour until hard.",
+            "Step 5: The Slicing. Remove from oven. While still warm, cut all the way through the pre-scored slices.",
+            "Step 6: The Second Bake (Paximadi). Lower oven to 250°F (120°C). Lay the slices flat on the oven rack. Bake for 2-3 hours until they are completely dehydrated and rock hard. Let cool completely in the oven.",
+            "Step 7: To serve, briefly dip in water or top with grated tomato and feta (Dakos)."
           ],
-          substitutions: {
-            "barley rusks": ["gluten-free rusks", "toasted bread"],
-            tomatoes: ["sun-dried tomatoes"],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "snack"
+            ],
+            "cooking_methods": [
+              "kneading",
+              "baking",
+              "dehydrating"
+            ]
           },
-          servingSize: 2,
-          allergens: ["gluten"],
-          prepTime: "5 minutes",
-          cookTime: "5 minutes",
-          culturalNotes:
-            "A traditional Cretan breakfast, originally made to preserve bread",
-          pairingSuggestions: ["Greek coffee", "olives"],
-          dietaryInfo: ["vegan"],
-          spiceLevel: "none",
-          elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
-            Water: 0.1,
+          "elemental_properties": {
+            "fire": 0.25,
+            "water": 0.05,
+            "earth": 0.6,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Earth"
+            ],
+            "signs": [
+              "Capricorn",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 280,
+            "protein_g": 8,
+            "carbs_g": 52,
+            "fat_g": 8,
+            "fiber_g": 12,
+            "sodium_mg": 320,
+            "sugar_g": 1,
+            "vitamins": [
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "barley flour",
+              "substitute_options": [
+                "rye flour"
+              ]
+            }
+          ]
         },
       ],
     },

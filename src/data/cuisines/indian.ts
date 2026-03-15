@@ -10,1929 +10,1931 @@ export const indian = {
     breakfast: {
       all: [
         {
-          name: "Masala Dosa",
-          description: "Crispy fermented rice crepe with spiced potato filling",
-          cuisine: "Indian (South)",
-          cookingMethods: ["fermenting", "griddle-cooking", "filling"],
-          tools: ["dosa griddle", "spatula", "mixing bowls", "ladle"],
-          preparationSteps: [
-            "Heat griddle to medium-high",
-            "Ladle and spread dosa batter",
-            "Add oil to edges",
-            "Place potato filling",
-            "Fold and serve with accompaniments",
+          "recipe_name": "Authentic Masala Dosa",
+          "description": "A marvel of South Indian fermentation. A batter of rice and black lentils (urad dal) is fermented for 12+ hours to develop complex lactic acid tang and carbonation. When spread on a hot griddle, the proteins and starches Maillard-caramelize into a shatteringly crisp, paper-thin crepe that encases a soft, turmeric-stained potato mash.",
+          "details": {
+            "cuisine": "Indian (South)",
+            "prep_time_minutes": 720,
+            "cook_time_minutes": 30,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "parboiled rice",
+              "notes": "Must be idli/dosa rice."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "whole skinless urad dal",
+              "notes": "Black lentils."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "fenugreek seeds",
+              "notes": "Aids in fermentation and color."
+            },
+            {
+              "amount": 3,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Boiled and mashed for the masala filling."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Sliced for the filling."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "mustard seeds",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "turmeric",
+              "notes": "For color."
+            },
+            {
+              "amount": 1,
+              "unit": "sprig",
+              "name": "curry leaves",
+              "notes": "Essential aromatic."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "ghee or neutral oil",
+              "notes": "For the griddle."
+            }
           ],
-          ingredients: [
-            {
-              name: "dosa batter",
-              amount: "200",
-              unit: "ml",
-              category: "grain",
-              swaps: ["quinoa dosa batter"],
-            },
-            {
-              name: "potato masala",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "sambar", amount: "200", unit: "ml", category: "soup" },
-            {
-              name: "coconut chutney",
-              amount: "50",
-              unit: "g",
-              category: "condiment",
-            },
-            {
-              name: "ghee",
-              amount: "1",
-              unit: "tbsp",
-              category: "fat",
-              swaps: ["oil"],
-            },
+          "instructions": [
+            "Step 1: The Soak. Soak rice and dal separately with fenugreek for 6 hours.",
+            "Step 2: The Grind. Grind dal into a fluffy paste, then grind rice into a slightly gritty paste. Combine.",
+            "Step 3: The Fermentation. Add salt. Cover and ferment in a warm place for 12 hours until the batter doubles and smells sour.",
+            "Step 4: The Masala. Sauté mustard seeds, curry leaves, onions, and turmeric. Add mashed potatoes and salt. Mix well. Set aside.",
+            "Step 5: The Dosa. Heat a flat cast-iron griddle. Pour a ladle of batter in the center and spread in a thin spiral motion to the edges.",
+            "Step 6: The Crisp. Drizzle ghee around the edges. Cook over medium-high until the bottom is deeply golden and crispy.",
+            "Step 7: Assemble. Place a scoop of potato masala in the center. Fold the dosa over and serve immediately with coconut chutney and sambar."
           ],
-          substitutions: {
-            "dosa batter": ["quinoa dosa batter", "mung bean dosa batter"],
-            ghee: ["oil", "vegan butter"],
-            "potato filling": [
-              "cauliflower filling",
-              "mixed vegetable filling",
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "lunch",
+              "dinner",
+              "vegan"
             ],
+            "cooking_methods": [
+              "fermenting",
+              "griddling"
+            ]
           },
-          servingSize: 2,
-          allergens: ["none"],
-          prepTime: "15 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A South Indian breakfast staple, traditionally served with filter coffee. The art of dosa-making is passed down through generations",
-          pairingSuggestions: [
-            "filter coffee",
-            "coconut chutney",
-            "sambar",
-            "mint chutney",
-          ],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 450,
-            protein: 12,
-            carbs: 85,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B12", "C", "D"],
-            minerals: ["Iron", "Potassium"],
+          "elemental_properties": {
+            "fire": 0.25,
+            "water": 0.15,
+            "earth": 0.4,
+            "air": 0.2
           },
-          season: ["all"],
-          mealType: ["breakfast", "lunch"],
-          elementalProperties: {
-            Earth: 0.3,
-            Fire: 0.4,
-            Air: 0.2,
-            Water: 0.1,
+          "astrological_affinities": {
+            "planets": [
+              "Mercury",
+              "Sun"
+            ],
+            "signs": [
+              "Gemini",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
           },
+          "nutrition_per_serving": {
+            "calories": 380,
+            "protein_g": 9,
+            "carbs_g": 65,
+            "fat_g": 14,
+            "fiber_g": 6,
+            "sodium_mg": 550,
+            "sugar_g": 2,
+            "vitamins": [
+              "Vitamin C",
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Iron",
+              "Calcium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "urad dal",
+              "substitute_options": [
+                "moong dal (milder)"
+              ]
+            }
+          ]
         },
         {
-          name: "Aloo Paratha",
-          description: "Whole wheat flatbread stuffed with spiced potatoes",
-          cuisine: "Indian (North)",
-          cookingMethods: [
-            {
-              name: "kneading",
-              elementalProperties: {
-                Fire: 0.14,
-                Water: 0.14,
-                Earth: 0.43,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "stuffing",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.54,
-                Air: 0.23,
-              },
-            },
-            "griddle-cooking",
-          ],
-          tools: [
-            "rolling pin",
-            "griddle",
-            "mixing bowls",
-            "spatula",
-            "potato masher",
-          ],
-          preparationSteps: [
-            "Prepare potato filling",
-            "Make wheat dough",
-            "Stuff and seal parathas",
-            "Cook on griddle with butter",
-            "Serve hot with accompaniments",
-          ],
-          ingredients: [
-            {
-              name: "whole wheat flour",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["gluten-free flour blend"],
-            },
-            {
-              name: "potatoes",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "spices", amount: "2", unit: "tbsp", category: "spice" },
-            {
-              name: "yogurt",
-              amount: "100",
-              unit: "g",
-              category: "dairy",
-              swaps: ["plant-based yogurt"],
-            },
-            {
-              name: "butter",
-              amount: "30",
-              unit: "g",
-              category: "fat",
-              swaps: ["oil"],
-            },
-          ],
-          substitutions: {
-            "whole wheat flour": ["gluten-free flour blend", "millet flour"],
-            butter: ["oil", "ghee", "vegan butter"],
-            yogurt: ["plant-based yogurt", "mashed pumpkin"],
+          "recipe_name": "Authentic Aloo Paratha",
+          "description": "The quintessential North Indian breakfast. A whole wheat unleavened dough (atta) is used to encapsulate a heavily spiced, citrusy potato mash. The alchemy involves rolling the two layers together without tearing, ensuring the potato filling reaches the absolute edges of the bread.",
+          "details": {
+            "cuisine": "Indian (North)",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "winter",
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["gluten", "dairy"],
-          prepTime: "30 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A hearty North Indian breakfast, popular among farmers and laborers. Each region has its own variation of stuffed parathas",
-          pairingSuggestions: ["butter", "pickle", "yogurt", "mint chutney"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 380,
-            protein: 10,
-            carbs: 65,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["B1", "C"],
-            minerals: ["Iron", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "whole wheat flour (atta)",
+              "notes": "Must be finely milled Indian atta."
+            },
+            {
+              "amount": 3,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Boiled, peeled, and mashed smooth."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "amchur (dried mango powder)",
+              "notes": "Provides essential sourness."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "roasted cumin powder",
+              "notes": "Warmth."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "garam masala",
+              "notes": "Complexity."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "green chilies",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "fresh cilantro",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "ghee or butter",
+              "notes": "For roasting on the tawa."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Dough. Mix flour, water, and a pinch of salt. Knead into a soft, elastic dough. Rest for 20 minutes.",
+            "Step 2: The Filling. Mix mashed potatoes with amchur, cumin, garam masala, chilies, cilantro, and salt. It must be completely smooth.",
+            "Step 3: The Stuffing. Take a ball of dough, flatten it. Place a ball of potato filling in the center. Pinch the edges of the dough over the filling to seal it completely.",
+            "Step 4: The Roll. Flatten the stuffed ball. Gently roll it out into an 8-inch circle. If the dough tears, use a little dry flour to seal.",
+            "Step 5: The Roast. Heat a tawa or skillet. Cook the paratha for 1 minute per side until brown spots appear. Apply ghee generously to both sides and fry until crispy and golden.",
+            "Step 6: Serve hot with a massive knob of white butter and spicy mango pickle."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "lunch",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "kneading",
+              "griddling"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.12,
-            Water: 0.08,
-            Earth: 0.61,
-            Air: 0.19,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.1,
+            "earth": 0.6,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Earth",
+              "Mars"
+            ],
+            "signs": [
+              "Taurus",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 420,
+            "protein_g": 8,
+            "carbs_g": 62,
+            "fat_g": 18,
+            "fiber_g": 8,
+            "sodium_mg": 480,
+            "sugar_g": 2,
+            "vitamins": [
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "atta",
+              "substitute_options": [
+                "whole wheat pastry flour"
+              ]
+            },
+            {
+              "original_ingredient": "ghee",
+              "substitute_options": [
+                "neutral oil (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Idli Sambar",
-          description: "Steamed rice cakes with lentil soup",
-          cuisine: "Indian (South)",
-          cookingMethods: [
-            {
-              name: "fermenting",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.33,
-                Earth: 0.39,
-                Air: 0.22,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "idli steamer",
-            "mixing bowls",
-            "pressure cooker",
-            "ladle",
-            "wet grinder",
-          ],
-          preparationSteps: [
-            "Ferment idli batter",
-            "Prepare sambar",
-            "Grease idli molds",
-            "Steam idlis",
-            "Serve hot with accompaniments",
-          ],
-          ingredients: [
-            {
-              name: "idli rice",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            { name: "urad dal", amount: "100", unit: "g", category: "legume" },
-            { name: "toor dal", amount: "200", unit: "g", category: "legume" },
-            {
-              name: "sambar powder",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "vegetables",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "coconut chutney",
-              amount: "100",
-              unit: "g",
-              category: "condiment",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "idli rice": ["parboiled rice"],
-            "urad dal": ["quick idli mix"],
-            "sambar powder": ["homemade spice blend"],
+          "recipe_name": "Authentic Idli Sambar",
+          "description": "A paradigm of South Indian health and fermentation. Idlis are feather-light, steamed fermented cakes of rice and dal, engineered for maximum digestibility. They are paired with Sambar, a complex, tamarind-based vegetable and lentil stew characterized by a unique toasted spice profile.",
+          "details": {
+            "cuisine": "Indian (South)",
+            "prep_time_minutes": 720,
+            "cook_time_minutes": 45,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["none"],
-          prepTime: "8 hours",
-          cookTime: "30 minutes",
-          fermentTime: "8-12 hours",
-          culturalNotes:
-            "A quintessential South Indian breakfast that perfectly balances protein and carbohydrates. The fermentation process is crucial for the soft, fluffy texture",
-          pairingSuggestions: [
-            "coconut chutney",
-            "sambar",
-            "filter coffee",
-            "podi",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "idli rice",
+              "notes": "Short grain, parboiled."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "split skinless urad dal",
+              "notes": "Fermentation engine."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "toor dal (pigeon peas)",
+              "notes": "For the sambar base."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sambar powder",
+              "notes": "Toasted and ground coriander, fenugreek, and chilies."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "tamarind paste",
+              "notes": "Provides the essential tartness."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "mixed vegetables",
+              "notes": "Drumstick, carrot, pumpkin, pearl onions."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "mustard seeds",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 1,
+              "unit": "sprig",
+              "name": "curry leaves",
+              "notes": "Essential."
+            }
           ],
-          dietaryInfo: ["vegetarian", "vegan", "gluten-free"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 320,
-            protein: 12,
-            carbs: 58,
-            fat: 6,
-            fiber: 3,
-            vitamins: ["B12", "C"],
-            minerals: ["Iron", "Calcium"],
+          "instructions": [
+            "Step 1: Ferment the Idlis. (Same as Dosa, but grind dal very fluffy and rice into a coarse semolina texture). Steam in idli molds for 10-12 minutes.",
+            "Step 2: Cook the lentils. Pressure cook toor dal with turmeric and water until mushy.",
+            "Step 3: The Sambar Base. Boil the mixed vegetables in tamarind water with sambar powder and salt until tender.",
+            "Step 4: Combine. Add the cooked, mashed dal to the vegetable broth. Simmer for 10 minutes to meld flavors.",
+            "Step 5: The Tadka (Tempering). Heat oil, crackle mustard seeds, add dried red chilies and curry leaves. Pour this hot mixture into the sambar. Cover immediately to trap the aromatics.",
+            "Step 6: Serve the soft idlis submerged in the hot sambar."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "fermenting",
+              "steaming",
+              "boiling"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.06,
-            Water: 0.5,
-            Earth: 0.37,
-            Air: 0.08,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.4,
+            "earth": 0.25,
+            "air": 0.2
           },
+          "astrological_affinities": {
+            "planets": [
+              "Moon",
+              "Jupiter"
+            ],
+            "signs": [
+              "Cancer",
+              "Pisces"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 350,
+            "protein_g": 16,
+            "carbs_g": 62,
+            "fat_g": 6,
+            "fiber_g": 12,
+            "sodium_mg": 650,
+            "sugar_g": 4,
+            "vitamins": [
+              "Folate",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Manganese"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "idli rice",
+              "substitute_options": [
+                "quinoa (for a modern high-protein version)"
+              ]
+            }
+          ]
         },
       ],
       summer: [
         {
-          name: "Poha",
-          description: "Flattened rice with peanuts and spices",
-          cuisine: "Indian (Central)",
-          cookingMethods: [
-            {
-              name: "stir-frying",
-              elementalProperties: {
-                Fire: 0.44,
-                Water: 0.09,
-                Earth: 0.15,
-                Air: 0.32,
-              },
-            },
-            {
-              name: "tempering",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.21,
-                Earth: 0.29,
-                Air: 0.21,
-              },
-            },
-          ],
-          tools: [
-            "kadai or wok",
-            "colander",
-            "spatula",
-            "small tempering pan",
-            "knife",
-          ],
-          preparationSteps: [
-            "Wash and soak poha",
-            "Prepare tempering",
-            "Sauté vegetables",
-            "Add soaked poha",
-            "Season and garnish",
-            "Serve hot",
-          ],
-          ingredients: [
-            {
-              name: "flattened rice",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "peanuts",
-              amount: "50",
-              unit: "g",
-              category: "nuts",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "onions",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "curry leaves",
-              amount: "10",
-              unit: "pieces",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.55,
-                Water: 0.1,
-                Earth: 0.25,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "mustard seeds",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.55,
-                Water: 0.1,
-                Earth: 0.25,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "turmeric",
-              amount: "1/2",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.15,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "green chilies",
-              amount: "2",
-              unit: "pieces",
-              category: "spice",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.7,
-                Water: 0,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-          ],
-          substitutions: {
-            peanuts: ["cashews", "roasted chana"],
-            "curry leaves": ["bay leaves"],
-            "flattened rice": ["quinoa flakes"],
+          "recipe_name": "Authentic Poha (Spiced Flattened Rice)",
+          "description": "A rapid, light breakfast from Maharashtra. It utilizes flattened parboiled rice (poha) which requires zero boiling; it is hydrated by a brief rinse and then steamed in its own residual moisture alongside a turmeric and mustard seed tempering.",
+          "details": {
+            "cuisine": "Indian (West)",
+            "prep_time_minutes": 10,
+            "cook_time_minutes": 10,
+            "base_serving_size": 2,
+            "spice_level": "Mild-Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 2,
-          allergens: ["peanuts"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A popular breakfast in Maharashtra and Madhya Pradesh, poha is valued for its quick preparation and light yet satisfying nature",
-          pairingSuggestions: ["chai", "jalebi", "sev", "lemon wedges"],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 340,
-            protein: 10,
-            carbs: 52,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["B1", "E"],
-            minerals: ["Iron", "Magnesium"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "thick flattened rice (poha)",
+              "notes": "Must be the thick variety; thin poha will turn to mush."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "onion",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "potato",
+              "notes": "Diced into very small 1/4-inch cubes."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "peanuts",
+              "notes": "Raw."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "mustard seeds",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "turmeric",
+              "notes": "For the brilliant yellow color."
+            },
+            {
+              "amount": 1,
+              "unit": "sprig",
+              "name": "curry leaves",
+              "notes": "Essential."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "lemon juice",
+              "notes": "Freshly squeezed."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "sugar",
+              "notes": "To balance the acidity."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Rinse. Place poha in a colander. Rinse under cold water for 30 seconds. Drain and let it sit. Do not soak. It should become soft but remain as individual grains.",
+            "Step 2: Tempering. Heat oil in a skillet. Fry peanuts until golden. Add mustard seeds until they pop. Add curry leaves and chilies.",
+            "Step 3: Sauté. Add the tiny potato cubes and fry until tender. Add the onions and sauté until translucent.",
+            "Step 4: The Color. Stir in the turmeric, salt, and sugar.",
+            "Step 5: Combine. Add the hydrated poha to the skillet. Toss gently with a spatula. Cover and cook on the lowest heat for 2 minutes to steam through.",
+            "Step 6: Finish. Turn off heat. Stir in the lemon juice and garnish heavily with fresh cilantro and sev (crispy chickpea noodles)."
+          ],
+          "classifications": {
+            "meal_type": [
+              "breakfast",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "steaming",
+              "tempering"
+            ]
           },
-          season: ["all"],
-          mealType: ["breakfast", "snack"],
-          elementalProperties: {
-            Fire: 0.56,
-            Water: 0.08,
-            Earth: 0.25,
-            Air: 0.11,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.15,
+            "earth": 0.45,
+            "air": 0.2
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mercury",
+              "Earth"
+            ],
+            "signs": [
+              "Virgo",
+              "Gemini"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 310,
+            "protein_g": 6,
+            "carbs_g": 55,
+            "fat_g": 10,
+            "fiber_g": 4,
+            "sodium_mg": 380,
+            "sugar_g": 6,
+            "vitamins": [
+              "Vitamin C",
+              "B1"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "flattened rice",
+              "substitute_options": [
+                "quinoa flakes"
+              ]
+            }
+          ]
         },
       ],
     },
     lunch: {
       all: [
         {
-          name: "Dal Tadka",
-          description: "Yellow lentils with spice-infused oil",
-          cuisine: "Indian (North)",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "tempering",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.21,
-                Earth: 0.29,
-                Air: 0.21,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "pressure cooker",
-            "tempering pan",
-            "ladle",
-            "whisk",
-            "measuring spoons",
-          ],
-          preparationSteps: [
-            "Wash and sort lentils",
-            "Pressure cook with turmeric",
-            "Prepare tempering",
-            "Add tempering to dal",
-            "Simmer to combine flavors",
-            "Garnish with cilantro",
-          ],
-          ingredients: [
-            {
-              name: "yellow lentils",
-              amount: "200",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ghee",
-              amount: "2",
-              unit: "tbsp",
-              category: "fat",
-              swaps: ["oil"],
-            },
-            {
-              name: "cumin seeds",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            {
-              name: "tomatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            { name: "turmeric", amount: "1/2", unit: "tsp", category: "spice" },
-            {
-              name: "asafoetida",
-              amount: "1/4",
-              unit: "tsp",
-              category: "spice",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            ghee: ["oil", "vegan butter"],
-            asafoetida: ["garlic powder", "omit"],
-            "yellow lentils": ["red lentils", "split mung dal"],
+          "recipe_name": "Authentic Dal Tadka",
+          "description": "A foundational study in pulse preparation and aromatic layering. Yellow lentils are boiled to a smooth, creamy puree, then finished with a 'tadka' (tempering) of whole spices and aromatics sizzled in ghee, which is poured over the dal just before serving to preserve the volatile oils.",
+          "details": {
+            "cuisine": "Indian",
+            "prep_time_minutes": 10,
+            "cook_time_minutes": 30,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["none"],
-          prepTime: "10 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A daily staple in North Indian homes, dal tadka represents the art of tempering in Indian cuisine. The sound of tadka being added to dal is a familiar comfort in Indian kitchens",
-          pairingSuggestions: ["steamed rice", "roti", "pickles", "papad"],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 280,
-            protein: 16,
-            carbs: 42,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B1", "C"],
-            minerals: ["Iron", "Zinc"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "yellow lentils (Toor Dal or Moong Dal)",
+              "notes": "Rinsed well."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "turmeric",
+              "notes": "Added during boiling."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "ghee",
+              "notes": "For the tempering. Essential for authentic flavor."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cumin seeds",
+              "notes": "Whole."
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "dried red chilies",
+              "notes": "For the tadka."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "Kashmiri red chili powder",
+              "notes": "For the vibrant red oil color."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "asafoetida (hing)",
+              "notes": "Aids digestion and adds umami funk."
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil. Pressure cook or boil the lentils with turmeric and salt until they are completely soft and mushy. Whisk until smooth.",
+            "Step 2: Simmer. Adjust consistency with water and simmer gently while you prepare the tempering.",
+            "Step 3: The Tadka. In a small pan, heat the ghee until smoking. Add the cumin seeds; they should sizzle instantly. Add the dried red chilies and garlic. Fry until garlic is golden.",
+            "Step 4: The Color. Turn off the heat. Immediately stir in the red chili powder and hing (this prevent them from burning).",
+            "Step 5: The Infusion. Pour the hot, sizzling tadka directly into the simmering dal. Cover the pot immediately for 2 minutes to trap the smoke and aromatics. Garnish with cilantro."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch",
+              "dinner",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "tempering"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.23,
-            Water: 0.23,
-            Earth: 0.43,
-            Air: 0.11,
+          "elemental_properties": {
+            "fire": 0.35,
+            "water": 0.2,
+            "earth": 0.35,
+            "air": 0.1
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Sun",
+              "Mars"
+            ],
+            "signs": [
+              "Leo",
+              "Aries"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 280,
+            "protein_g": 14,
+            "carbs_g": 35,
+            "fat_g": 12,
+            "fiber_g": 10,
+            "sodium_mg": 450,
+            "sugar_g": 2,
+            "vitamins": [
+              "Folate",
+              "Vitamin B1"
+            ],
+            "minerals": [
+              "Iron",
+              "Manganese"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "ghee",
+              "substitute_options": [
+                "coconut oil (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Gujarati Kadhi",
-          description: "Yogurt-based curry with gram flour",
-          cuisine: "Indian (Gujarat)",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tempering",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.21,
-                Earth: 0.29,
-                Air: 0.21,
-              },
-            },
-            {
-              name: "whisking",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.24,
-                Earth: 0.1,
-                Air: 0.59,
-              },
-            },
-          ],
-          tools: [
-            "heavy-bottomed pot",
-            "whisk",
-            "tempering pan",
-            "ladle",
-            "measuring spoons",
-          ],
-          preparationSteps: [
-            "Whisk yogurt and gram flour",
-            "Simmer the mixture",
-            "Prepare tempering",
-            "Add tempering to kadhi",
-            "Simmer until thickened",
-            "Garnish with cilantro",
-          ],
-          ingredients: [
-            {
-              name: "yogurt",
-              amount: "500",
-              unit: "ml",
-              category: "dairy",
-              swaps: ["coconut yogurt"],
-            },
-            {
-              name: "gram flour",
-              amount: "3",
-              unit: "tbsp",
-              category: "flour",
-            },
-            {
-              name: "curry leaves",
-              amount: "10",
-              unit: "leaves",
-              category: "herb",
-            },
-            {
-              name: "mustard seeds",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            { name: "ginger", amount: "1", unit: "inch", category: "spice" },
-            {
-              name: "green chilies",
-              amount: "2",
-              unit: "pieces",
-              category: "spice",
-              optional: true,
-            },
-            { name: "turmeric", amount: "1/2", unit: "tsp", category: "spice" },
-          ],
-          substitutions: {
-            yogurt: ["coconut yogurt", "cashew yogurt"],
-            "curry leaves": ["bay leaves"],
-            "gram flour": ["chickpea flour"],
+          "recipe_name": "Authentic Gujarati Kadhi",
+          "description": "A brilliant exercise in dairy stabilization. This sweet-and-sour soup utilizes buttermilk or thinned yogurt stabilized with chickpea flour (besan), preventing it from curdling when boiled. It is characterized by its thin, silky consistency and the aggressive use of ginger, green chilies, and jaggery.",
+          "details": {
+            "cuisine": "Indian (Gujarat)",
+            "prep_time_minutes": 10,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy"],
-          prepTime: "15 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A cooling dish popular in Gujarati thalis, this kadhi is sweeter and milder than other regional versions. Often served during summer months",
-          pairingSuggestions: ["steamed rice", "khichdi", "papad", "thepla"],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 220,
-            protein: 12,
-            carbs: 28,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Calcium", "Phosphorus"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "sour buttermilk or whisked yogurt",
+              "notes": "Must be sour for the authentic profile."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "besan (chickpea flour)",
+              "notes": "The stabilizer."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "jaggery or sugar",
+              "notes": "Gujarati cuisine is defined by its subtle sweetness."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger-green chili paste",
+              "notes": "Crushed."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "mustard seeds",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cumin seeds",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 1,
+              "unit": "stick",
+              "name": "cinnamon",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "cloves",
+              "notes": "For tempering."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Mix. In a large bowl, whisk the yogurt/buttermilk, besan, and 2 cups of water until perfectly smooth with no lumps.",
+            "Step 2: The Simmer. Pour the mixture into a pot. Add jaggery, ginger-chili paste, and salt. Bring to a gentle boil, stirring constantly. Once it boils, it won't curdle. Simmer for 10 minutes.",
+            "Step 3: The Tadka. Heat ghee. Crackle mustard and cumin seeds. Add cinnamon, cloves, dried red chilies, and curry leaves.",
+            "Step 4: Combine. Pour the tadka into the boiling kadhi. Garnish with cilantro and serve with khichdi or rice."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch",
+              "dinner",
+              "soup",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "whisking",
+              "boiling",
+              "tempering"
+            ]
           },
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.51,
-            Earth: 0.3,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.2,
+            "water": 0.5,
+            "earth": 0.2,
+            "air": 0.1
           },
-          mealType: ["lunch"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 180,
+            "protein_g": 8,
+            "carbs_g": 22,
+            "fat_g": 8,
+            "fiber_g": 2,
+            "sodium_mg": 520,
+            "sugar_g": 12,
+            "vitamins": [
+              "Vitamin B12",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "yogurt",
+              "substitute_options": [
+                "coconut yogurt (vegan, but adjust cooking time)"
+              ]
+            }
+          ]
         },
       ],
       winter: [
         {
-          name: "Dal Makhani",
-          description: "Creamy black lentils simmered overnight",
-          cuisine: "Indian (Punjab)",
-          cookingMethods: [
-            {
-              name: "slow-cooking",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.39,
-                Earth: 0.33,
-                Air: 0.08,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tempering",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.21,
-                Earth: 0.29,
-                Air: 0.21,
-              },
-            },
-          ],
-          tools: [
-            "heavy-bottomed pot",
-            "pressure cooker",
-            "ladle",
-            "whisk",
-            "tempering pan",
-          ],
-          preparationSteps: [
-            "Soak lentils overnight",
-            "Pressure cook lentils",
-            "Prepare tomato base",
-            "Slow cook with cream",
-            "Add tempering",
-            "Finish with butter",
-          ],
-          ingredients: [
-            {
-              name: "black lentils",
-              amount: "300",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "kidney beans",
-              amount: "100",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cream",
-              amount: "200",
-              unit: "ml",
-              category: "dairy",
-              swaps: ["cashew cream"],
-            },
-            {
-              name: "butter",
-              amount: "100",
-              unit: "g",
-              category: "fat",
-              swaps: ["plant butter"],
-            },
-            {
-              name: "garam masala",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "tomatoes",
-              amount: "400",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "ginger-garlic paste",
-              amount: "2",
-              unit: "tbsp",
-              category: "paste",
-            },
-          ],
-          substitutions: {
-            cream: ["cashew cream", "coconut cream"],
-            butter: ["vegan butter", "oil"],
-            "black lentils": ["brown lentils"],
+          "recipe_name": "Authentic Dal Makhani",
+          "description": "The king of North Indian dal. The alchemy relies on extreme prolonged slow-cooking (traditionally overnight on dying coals) of whole black lentils (urad) and kidney beans. The friction of the long simmer breaks down the dal's structure into a naturally creamy emulsion, which is then further enriched with butter and cream.",
+          "details": {
+            "cuisine": "Indian (Punjabi)",
+            "prep_time_minutes": 720,
+            "cook_time_minutes": 360,
+            "base_serving_size": 6,
+            "spice_level": "Mild-Medium",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy"],
-          prepTime: "overnight + 30 minutes",
-          cookTime: "8 hours",
-          culturalNotes:
-            "Originally from the kitchens of Punjab, this dish gained popularity post-partition. The long, slow cooking process is essential for its signature creamy texture",
-          pairingSuggestions: ["naan", "rice", "onion rings", "butter chicken"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 420,
-            protein: 18,
-            carbs: 45,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "K"],
-            minerals: ["Iron", "Zinc"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "whole black gram (urad dal)",
+              "notes": "Must be whole, with skin. Soaked overnight."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "red kidney beans (rajma)",
+              "notes": "Soaked overnight."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "Makhani means 'buttery'."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For the finishing richness."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "tomato puree",
+              "notes": "Fresh or canned."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "Crushed."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "Kashmiri red chili powder",
+              "notes": "For the deep red color."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "kasuri methi (dried fenugreek leaves)",
+              "notes": "Crucial finishing aromatic."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Boil. Pressure cook or boil the soaked dal and rajma with 5 cups of water and salt until tender. Do not drain.",
+            "Step 2: The Mash. Use a heavy spoon to mash about 20% of the dal against the side of the pot. This releases the internal starches to thicken the gravy.",
+            "Step 3: The Base. In a separate pan, sauté ginger-garlic paste in 2 tbsp butter. Add tomato puree and chili powder. Cook until the oil separates.",
+            "Step 4: The Long Simmer. Combine the tomato base with the dal. Add 2 cups of hot water. Simmer on the absolute lowest heat for at least 2 hours (the longer the better). Stir frequently to prevent sticking.",
+            "Step 5: Enrich. Stir in the remaining butter and the heavy cream. Add the crushed kasuri methi.",
+            "Step 6: The Dhungar (Optional). Place a piece of lit charcoal in a small metal bowl inside the dal pot. Pour a drop of ghee on the coal and cover the pot for 5 minutes to infuse a smoky flavor.",
+            "Step 7: Serve hot with Garlic Naan."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "vegetarian",
+              "celebration"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "mashing",
+              "simmering",
+              "smoking"
+            ]
           },
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.31,
-            Earth: 0.5,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.25,
+            "earth": 0.5,
+            "air": 0.1
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Saturn",
+              "Jupiter"
+            ],
+            "signs": [
+              "Capricorn",
+              "Taurus"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 550,
+            "protein_g": 18,
+            "carbs_g": 42,
+            "fat_g": 38,
+            "fiber_g": 14,
+            "sodium_mg": 680,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "heavy cream",
+              "substitute_options": [
+                "cashew cream (vegan)"
+              ]
+            }
+          ]
         },
       ],
     },
     dinner: {
       all: [
         {
-          name: "Butter Chicken",
-          description: "Tandoor-cooked chicken in rich tomato-cream sauce",
-          cuisine: "Indian (North)",
-          cookingMethods: [
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-            "tandoor-cooking",
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "tandoor or oven",
-            "heavy-bottomed pot",
-            "blender",
-            "strainer",
-            "tongs",
-          ],
-          preparationSteps: [
-            "Marinate chicken overnight",
-            "Cook chicken in tandoor",
-            "Prepare tomato-cream sauce",
-            "Simmer chicken in sauce",
-            "Finish with butter and cream",
-            "Garnish with kasuri methi",
-          ],
-          ingredients: [
-            {
-              name: "chicken",
-              amount: "800",
-              unit: "g",
-              category: "protein",
-              swaps: ["cauliflower", "seitan"],
-            },
-            {
-              name: "tomatoes",
-              amount: "500",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "cream",
-              amount: "200",
-              unit: "ml",
-              category: "dairy",
-              swaps: ["cashew cream"],
-            },
-            {
-              name: "butter",
-              amount: "100",
-              unit: "g",
-              category: "fat",
-              swaps: ["ghee"],
-            },
-            {
-              name: "garam masala",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            {
-              name: "kasuri methi",
-              amount: "1",
-              unit: "tbsp",
-              category: "herb",
-            },
-            {
-              name: "honey",
-              amount: "1",
-              unit: "tbsp",
-              category: "sweetener",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            chicken: ["cauliflower", "seitan", "paneer"],
-            cream: ["cashew cream", "coconut cream"],
-            butter: ["vegan butter", "oil"],
+          "recipe_name": "Authentic Butter Chicken (Murgh Makhani)",
+          "description": "The masterpiece of Punjabi restaurant cuisine. The alchemy involves a two-stage process: first, chicken is yogurt-marinated and charred in a tandoor (Fire), then submerged in a 'Makhani' sauce—a velvet emulsion of tomatoes, butter, and cream, stabilized with pureed cashews.",
+          "details": {
+            "cuisine": "Indian (Delhi)",
+            "prep_time_minutes": 240,
+            "cook_time_minutes": 45,
+            "base_serving_size": 4,
+            "spice_level": "Mild",
+            "season": [
+              "winter",
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy"],
-          prepTime: "overnight + 30 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "Created in Delhi's Moti Mahal restaurant, this dish represents the evolution of Indian cuisine in the post-independence era",
-          pairingSuggestions: [
-            "naan",
-            "jeera rice",
-            "dal makhani",
-            "onion salad",
+          "ingredients": [
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "boneless chicken thighs",
+              "notes": "Tandoori charred or pan-seared."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "Greek yogurt",
+              "notes": "For the marinade."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "For the marinade."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "tomato passata",
+              "notes": "Smooth puree."
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "unsalted butter",
+              "notes": "Essential."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For finishing."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "cashew paste",
+              "notes": "Raw cashews soaked and ground. Thickens and stabilizes the sauce."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "honey or sugar",
+              "notes": "To balance tomato acidity."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "kasuri methi",
+              "notes": "Dried fenugreek leaves. The signature aroma."
+            }
           ],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 650,
-            protein: 35,
-            carbs: 28,
-            fat: 42,
-            fiber: 3,
-            vitamins: ["A", "D", "B12"],
-            minerals: ["Iron", "Calcium"],
+          "instructions": [
+            "Step 1: Marinate. Mix chicken with yogurt, ginger-garlic paste, chili powder, and salt. Refrigerate for at least 4 hours.",
+            "Step 2: The Char. Grill the chicken at high heat until charred on the outside but slightly undercooked inside. Set aside.",
+            "Step 3: The Sauce. Simmer tomato passata with a little water for 15 minutes. Add the cashew paste and honey.",
+            "Step 4: The Emulsion. Whisk in the cold butter cubes one by one into the simmering sauce. Stir in the heavy cream.",
+            "Step 5: Combine. Add the charred chicken pieces to the sauce. Simmer for 10 minutes until chicken is cooked through.",
+            "Step 6: Finish. Crush kasuri methi between your palms and stir it in. Serve with Naan."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "celebration"
+            ],
+            "cooking_methods": [
+              "marinating",
+              "grilling",
+              "emulsifying"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.24,
-            Water: 0.29,
-            Earth: 0.33,
-            Air: 0.14,
+          "elemental_properties": {
+            "fire": 0.3,
+            "water": 0.3,
+            "earth": 0.3,
+            "air": 0.1
           },
-          mealType: ["dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Mars"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 620,
+            "protein_g": 42,
+            "carbs_g": 15,
+            "fat_g": 48,
+            "fiber_g": 2,
+            "sodium_mg": 850,
+            "sugar_g": 10,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "chicken",
+              "substitute_options": [
+                "paneer (Paneer Makhani)",
+                "roasted cauliflower (vegan, use cashew/coconut cream)"
+              ]
+            }
+          ]
         },
         {
-          name: "Hyderabadi Biryani",
-          description: "Layered rice with spiced meat and aromatics",
-          cuisine: "Indian (Hyderabad)",
-          cookingMethods: [
-            {
-              name: "layering",
-              elementalProperties: {
-                Fire: 0.08,
-                Water: 0.15,
-                Earth: 0.46,
-                Air: 0.31,
-              },
-            },
-            "dum cooking",
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-          ],
-          tools: [
-            "heavy-bottomed pot",
-            "dum lid",
-            "mixing bowls",
-            "spice grinder",
-            "cheesecloth for bouquet garni",
-          ],
-          preparationSteps: [
-            "Marinate meat",
-            "Par-boil rice",
-            "Layer meat and rice",
-            "Add saffron milk",
-            "Seal pot with dough",
-            "Cook on dum",
-            "Rest before serving",
-          ],
-          ingredients: [
-            {
-              name: "basmati rice",
-              amount: "500",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lamb",
-              amount: "600",
-              unit: "g",
-              category: "protein",
-              swaps: ["chicken", "jackfruit"],
-            },
-            { name: "yogurt", amount: "200", unit: "ml", category: "dairy" },
-            { name: "onions", amount: "300", unit: "g", category: "vegetable" },
-            { name: "saffron", amount: "1", unit: "pinch", category: "spice" },
-            { name: "ghee", amount: "100", unit: "ml", category: "fat" },
-            {
-              name: "whole spices",
-              amount: "30",
-              unit: "g",
-              category: "spice",
-            },
-          ],
-          substitutions: {
-            lamb: ["chicken", "jackfruit", "mushrooms"],
-            ghee: ["oil", "vegan butter"],
-            yogurt: ["coconut yogurt", "cashew yogurt"],
+          "recipe_name": "Authentic Hyderabadi Biryani",
+          "description": "The 'Kacchi' method of biryani construction. Raw, marinated meat is layered with 70% cooked long-grain basmati rice in a heavy pot, sealed with a flour dough (Dum), and cooked over slow heat. The meat steams in its own juices while the rice absorbs the rising aromatic steam, creating a perfect vertical stratification of flavor.",
+          "details": {
+            "cuisine": "Indian (Hyderabad)",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 60,
+            "base_serving_size": 6,
+            "spice_level": "Hot",
+            "season": [
+              "all",
+              "celebration"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy"],
-          prepTime: "2 hours",
-          cookTime: "1 hour",
-          culturalNotes:
-            "A royal dish from the Nizam's kitchen, Hyderabadi biryani is distinguished by its layering technique and use of saffron",
-          pairingSuggestions: [
-            "mirchi ka salan",
-            "raita",
-            "boiled eggs",
-            "onion salad",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "goat meat or chicken",
+              "notes": "Bone-in chunks."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "extra-long grain basmati rice",
+              "notes": "Must be high-quality aged rice."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "fried onions (birista)",
+              "notes": "Thinly sliced and deep-fried until dark brown."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "Greek yogurt",
+              "notes": "For the meat marinade."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "For the marinade."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "shahi jeera (black cumin)",
+              "notes": "For the rice and marinade."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "saffron threads",
+              "notes": "Soaked in 1/4 cup warm milk."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh mint and cilantro",
+              "notes": "Chopped."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "ghee",
+              "notes": "For layering."
+            }
           ],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "medium to hot",
-          nutrition: {
-            calories: 720,
-            protein: 42,
-            carbs: 85,
-            fat: 28,
-            fiber: 3,
-            vitamins: ["B12", "B6"],
-            minerals: ["Iron", "Zinc"],
+          "instructions": [
+            "Step 1: Marinate (Raw). Mix raw meat with yogurt, ginger-garlic paste, birista, mint, cilantro, salt, and spices. Marinate for at least 4 hours (overnight for goat).",
+            "Step 2: Parboil Rice. Boil rice in salted water with whole spices until only 70% cooked (grain should have a firm core). Drain.",
+            "Step 3: Layering. In a heavy bottomed pot, layer the raw marinated meat at the bottom. Spread the parboiled rice over the meat.",
+            "Step 4: Garnish. Drizzle saffron milk and ghee over the rice. Add more mint and birista.",
+            "Step 5: The Dum (Seal). Seal the pot lid with a long rope of dough (wheat flour and water).",
+            "Step 6: Cook. Cook on high for 15 mins, then place the pot on a tawa (griddle) and cook on lowest heat for 45 mins. The steam trapped inside is the alchemy.",
+            "Step 7: Serve. Break the seal. Scoop from the bottom to get both meat and fragrant rice. Serve with Salan and Raita."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "celebration"
+            ],
+            "cooking_methods": [
+              "marinating",
+              "steaming",
+              "dum-cooking"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.24,
-            Earth: 0.45,
-            Air: 0.1,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.15,
+            "earth": 0.35,
+            "air": 0.1
           },
-          mealType: ["dinner", "special occasion"],
+          "astrological_affinities": {
+            "planets": [
+              "Jupiter",
+              "Mars"
+            ],
+            "signs": [
+              "Sagittarius",
+              "Leo"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 750,
+            "protein_g": 38,
+            "carbs_g": 85,
+            "fat_g": 32,
+            "fiber_g": 4,
+            "sodium_mg": 950,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin B12",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "goat meat",
+              "substitute_options": [
+                "chicken",
+                "mixed vegetables (for Veg Biryani - requires pre-cooking the veg slightly)"
+              ]
+            }
+          ]
         },
         {
-          name: "Palak Paneer",
-          description: "Fresh spinach curry with cottage cheese",
-          cuisine: "Indian (North)",
-          cookingMethods: [
-            {
-              name: "blanching",
-              elementalProperties: {
-                Fire: 0.23,
-                Water: 0.55,
-                Earth: 0.1,
-                Air: 0.13,
-              },
-            },
-            {
-              name: "pureeing",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.33,
-                Earth: 0.27,
-                Air: 0.3,
-              },
-            },
-            {
-              name: "tempering",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.21,
-                Earth: 0.29,
-                Air: 0.21,
-              },
-            },
-          ],
-          tools: [
-            "heavy-bottomed pot",
-            "blender",
-            "strainer",
-            "tempering pan",
-            "wooden spoon",
-          ],
-          preparationSteps: [
-            "Blanch spinach briefly",
-            "Puree into smooth paste",
-            "Pan-fry paneer cubes",
-            "Prepare tempering",
-            "Cook spinach gravy",
-            "Add paneer and finish",
-          ],
-          ingredients: [
-            {
-              name: "spinach",
-              amount: "500",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.2,
-                Air: 0.4,
-              },
-            },
-            {
-              name: "paneer",
-              amount: "250",
-              unit: "g",
-              category: "dairy",
-              swaps: ["tofu"],
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "tomatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "ginger-garlic paste",
-              amount: "2",
-              unit: "tbsp",
-              category: "paste",
-            },
-            {
-              name: "garam masala",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "cream",
-              amount: "50",
-              unit: "ml",
-              category: "dairy",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            paneer: ["firm tofu", "tempeh"],
-            cream: ["cashew cream", "coconut cream"],
-            spinach: ["swiss chard", "mustard greens"],
+          "recipe_name": "Authentic Palak Paneer",
+          "description": "A refined North Indian classic. Fresh spinach is blanched and rapidly cooled to preserve its vibrant green color (chlorophyll protection), then pureed and simmered with a delicate tempering of ginger, garlic, and cumin, providing a verdant, silky bed for cubes of fresh paneer cheese.",
+          "details": {
+            "cuisine": "Indian (Punjabi)",
+            "prep_time_minutes": 20,
+            "cook_time_minutes": 20,
+            "base_serving_size": 4,
+            "spice_level": "Mild-Medium",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy"],
-          prepTime: "20 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A nutritious dish that makes eating greens delicious. Popular among vegetarians and non-vegetarians alike",
-          pairingSuggestions: ["naan", "roti", "jeera rice", "dal"],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 280,
-            protein: 16,
-            carbs: 12,
-            fat: 20,
-            fiber: 3,
-            vitamins: ["A", "K", "C"],
-            minerals: ["Iron", "Calcium"],
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "fresh spinach",
+              "notes": "Washed and stems removed."
+            },
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "paneer cheese",
+              "notes": "Cut into 1-inch cubes. Pan-fried if desired."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "onion",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "Crushed."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "green chilies",
+              "notes": "Slit."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For the silky finish."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cumin seeds",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "garam masala",
+              "notes": "Added at the end."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "butter or ghee",
+              "notes": "For sautéing."
+            }
+          ],
+          "instructions": [
+            "Step 1: Blanch. Boil spinach in water for 2 mins. Immediately plunge into an ice bath. Drain and puree until smooth with green chilies.",
+            "Step 2: Sauté. Heat ghee. Sizzle cumin seeds. Add onions and sauté until translucent. Add ginger-garlic paste and fry for 1 min.",
+            "Step 3: The Green. Pour in the spinach puree. Add a little water if too thick. Simmer for 5 mins. Season with salt.",
+            "Step 4: The Cheese. Gently fold in the paneer cubes. Simmer for 2 mins.",
+            "Step 5: Finish. Stir in garam masala and heavy cream. Remove from heat immediately to keep the color bright green."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "lunch",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "blanching",
+              "simmering"
+            ]
           },
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.13,
-            Water: 0.26,
-            Earth: 0.22,
-            Air: 0.39,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.35,
+            "earth": 0.4,
+            "air": 0.1
           },
-          mealType: ["lunch", "dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "First Quarter"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 18,
+            "carbs_g": 12,
+            "fat_g": 24,
+            "fiber_g": 6,
+            "sodium_mg": 450,
+            "sugar_g": 2,
+            "vitamins": [
+              "Vitamin K",
+              "Vitamin A",
+              "Folate"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "paneer",
+              "substitute_options": [
+                "tofu cubes (vegan)",
+                "halloumi (saltier)"
+              ]
+            }
+          ]
         },
         {
-          name: "Chole Bhature",
-          description: "Spiced chickpeas with deep-fried bread",
-          cuisine: "Indian (Punjab)",
-          cookingMethods: [
-            "pressure-cooking",
-            {
-              name: "deep-frying",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.06,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "pressure cooker",
-            "deep fryer",
-            "rolling pin",
-            "mixing bowls",
-            "spice grinder",
-          ],
-          preparationSteps: [
-            "Soak chickpeas overnight",
-            "Pressure cook with tea bag",
-            "Prepare spice blend",
-            "Make bhatura dough",
-            "Cook chole gravy",
-            "Deep fry bhature",
-          ],
-          ingredients: [
-            {
-              name: "chickpeas",
-              amount: "500",
-              unit: "g",
-              category: "legume",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "all-purpose flour",
-              amount: "300",
-              unit: "g",
-              category: "flour",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "yogurt",
-              amount: "100",
-              unit: "ml",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tea bags",
-              amount: "2",
-              unit: "pieces",
-              category: "other",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "onions",
-              amount: "3",
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tomatoes",
-              amount: "4",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chole masala",
-              amount: "3",
-              unit: "tbsp",
-              category: "spice",
-            },
-          ],
-          substitutions: {
-            "all-purpose flour": ["whole wheat flour"],
-            yogurt: ["plant-based yogurt"],
-            ghee: ["oil"],
+          "recipe_name": "Authentic Chole Bhature",
+          "description": "The ultimate Punjabi street food duo. Chole is a dark, intensely spiced chickpea curry (dyed with black tea), paired with Bhature—large, fermented, deep-fried leavened bread that puffs into a golden balloon.",
+          "details": {
+            "cuisine": "Indian (Punjabi)",
+            "prep_time_minutes": 720,
+            "cook_time_minutes": 60,
+            "base_serving_size": 4,
+            "spice_level": "Hot",
+            "season": [
+              "winter",
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["gluten", "dairy"],
-          prepTime: "overnight + 30 minutes",
-          cookTime: "1 hour",
-          culturalNotes:
-            "A beloved street food from Punjab, now popular across India. The tea bag adds color and depth to the chickpeas",
-          pairingSuggestions: ["onion rings", "pickle", "green chutney"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "medium to hot",
-          nutrition: {
-            calories: 520,
-            protein: 18,
-            carbs: 82,
-            fat: 16,
-            fiber: 3,
-            vitamins: ["B6", "C"],
-            minerals: ["Iron", "Folate"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "dried chickpeas (kabuli chana)",
+              "notes": "Soaked overnight with a black tea bag for color."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "all-purpose flour (maida)",
+              "notes": "For the bhature."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "yogurt",
+              "notes": "For the bhature dough fermentation."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "baking powder",
+              "notes": "For the bhature lift."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "anardana powder (dried pomegranate seeds)",
+              "notes": "The secret to the authentic sourness of Chole."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "For the curry."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "tomatoes",
+              "notes": "Pureed."
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil Chana. Pressure cook soaked chickpeas with a tea bag, salt, and water until tender. Discard tea bag.",
+            "Step 2: Bhature Dough. Mix flour, yogurt, baking powder, sugar, salt, and oil. Knead into a soft dough. Let ferment for 4-6 hours.",
+            "Step 3: Chole Base. Sauté onions, ginger-garlic paste, and tomato puree. Add Chole Masala and anardana powder. Fry until oil separates.",
+            "Step 4: Combine. Add chickpeas to the base with some of their cooking water. Simmer until the gravy is thick and dark.",
+            "Step 5: Fry Bhature. Roll dough into large ovals. Deep fry in very hot oil. Press down with a slotted spoon so they puff up like balloons.",
+            "Step 6: Serve hot with pickled onions and green chilies."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch",
+              "brunch",
+              "street food",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "fermenting",
+              "boiling",
+              "deep-frying"
+            ]
           },
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.22,
-            Earth: 0.35,
-            Air: 0.13,
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.15,
+            "earth": 0.3,
+            "air": 0.1
           },
-          mealType: ["breakfast", "lunch"],
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Jupiter"
+            ],
+            "signs": [
+              "Aries",
+              "Sagittarius"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 680,
+            "protein_g": 18,
+            "carbs_g": 85,
+            "fat_g": 32,
+            "fiber_g": 12,
+            "sodium_mg": 850,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "yogurt (bhature)",
+              "substitute_options": [
+                "lemon juice and warm water (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Malai Kofta",
-          description: "Paneer and potato dumplings in rich cream sauce",
-          cuisine: "Indian (Mughlai)",
-          cookingMethods: ["frying", "simmering", "grinding"],
-          tools: [
-            "deep fryer",
-            "heavy-bottomed pot",
-            "grinder",
-            "mixing bowls",
-            "strainer",
-          ],
-          preparationSteps: [
-            "Prepare kofta mixture",
-            "Shape into balls",
-            "Deep fry koftas",
-            "Make creamy gravy",
-            "Add koftas before serving",
-            "Garnish with cream",
-          ],
-          ingredients: [
-            {
-              name: "paneer",
-              amount: "250",
-              unit: "g",
-              category: "dairy",
-              swaps: ["tofu"],
-            },
-            {
-              name: "potatoes",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "cashews", amount: "100", unit: "g", category: "nuts" },
-            { name: "cream", amount: "200", unit: "ml", category: "dairy" },
-            {
-              name: "tomatoes",
-              amount: "400",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "garam masala",
-              amount: "2",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "saffron",
-              amount: "1",
-              unit: "pinch",
-              category: "spice",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            paneer: ["tofu", "mixed vegetables"],
-            cream: ["cashew cream", "coconut cream"],
-            cashews: ["almonds", "sunflower seeds"],
+          "recipe_name": "Authentic Malai Kofta",
+          "description": "The peak of Mughlai luxury. Deep-fried dumplings (koftas) made of paneer and potato are submerged in a 'Malai' sauce—a rich, creamy, and slightly sweet onion-cashew gravy scented with saffron and cardamom.",
+          "details": {
+            "cuisine": "Indian (Mughlai)",
+            "prep_time_minutes": 45,
+            "cook_time_minutes": 30,
+            "base_serving_size": 4,
+            "spice_level": "Mild",
+            "season": [
+              "winter",
+              "celebration"
+            ]
           },
-          servingSize: 4,
-          allergens: ["dairy", "nuts"],
-          prepTime: "45 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A royal Mughlai dish that showcases the rich, creamy gravies of North Indian cuisine. Often served at special occasions",
-          pairingSuggestions: ["naan", "pulao", "raita", "mint chutney"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 480,
-            protein: 16,
-            carbs: 32,
-            fat: 34,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium", "Iron"],
+          "ingredients": [
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "paneer",
+              "notes": "Grated."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Boiled and mashed."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "raisins and cashews",
+              "notes": "Finely chopped, for the kofta center."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "cashew paste",
+              "notes": "For the gravy base."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For the finishing touch."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "onion-tomato puree",
+              "notes": "Boiled and ground for a smooth white/gold gravy."
+            }
+          ],
+          "instructions": [
+            "Step 1: Make Koftas. Mix paneer, potato, cornstarch, and salt. Form into balls, stuffing the center with chopped raisins/nuts. Deep fry until golden.",
+            "Step 2: The Gravy. Sauté whole spices (cardamom, cinnamon). Add the boiled onion-tomato-cashew paste. Simmer until the sauce is velvety.",
+            "Step 3: Season. Add salt, a pinch of sugar, and crushed kasuri methi.",
+            "Step 4: Finish. Stir in the heavy cream.",
+            "Step 5: Assemble. Place the hot koftas in a serving dish and pour the gravy over them right before serving. (If you simmer them in the gravy, they will disintegrate)."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "celebration",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "deep-frying",
+              "simmering"
+            ]
           },
-          season: ["winter"],
-          mealType: ["dinner", "special occasion"],
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.35,
+            "earth": 0.35,
+            "air": 0.15
+          },
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Libra",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 550,
+            "protein_g": 14,
+            "carbs_g": 35,
+            "fat_g": 42,
+            "fiber_g": 4,
+            "sodium_mg": 520,
+            "sugar_g": 12,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "paneer",
+              "substitute_options": [
+                "extra firm tofu (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Pani Puri",
-          description: "Crispy hollow spheres with spiced water and fillings",
-          cuisine: "Indian (Street Food)",
-          cookingMethods: [
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.21,
-                Earth: 0.21,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "chilling",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.54,
-                Earth: 0.15,
-                Air: 0.31,
-              },
-            },
-          ],
-          tools: [
-            "mixing bowls",
-            "strainer",
-            "blender",
-            "measuring cups",
-            "serving stand",
-          ],
-          preparationSteps: [
-            "Prepare mint-cilantro water",
-            "Make potato filling",
-            "Soak tamarind",
-            "Chill spiced water",
-            "Assemble just before serving",
-            "Serve immediately",
-          ],
-          ingredients: [
-            {
-              name: "puri shells",
-              amount: "24",
-              unit: "pieces",
-              category: "bread",
-            },
-            {
-              name: "mint leaves",
-              amount: "100",
-              unit: "g",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.1,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "potatoes",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tamarind",
-              amount: "30",
-              unit: "g",
-              category: "fruit",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.5,
-                Earth: 0.25,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "black salt",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.7,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chaat masala",
-              amount: "2",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "sprouted moong",
-              amount: "100",
-              unit: "g",
-              category: "legume",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            "black salt": ["regular salt"],
-            tamarind: ["lime juice"],
-            "sprouted moong": ["boiled chickpeas"],
+          "recipe_name": "Authentic Pani Puri (Golgappa)",
+          "description": "The quintessential Indian street food experience. It is an interactive study in flavor and texture explosion: a fragile, crispy semolina sphere (puri) is filled with a cooling potato-chickpea mash and submerged in a 'Pani'—a violently tart, spicy, and herbaceous mint water.",
+          "details": {
+            "cuisine": "Indian",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 15,
+            "base_serving_size": 4,
+            "spice_level": "Hot",
+            "season": [
+              "summer",
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["gluten"],
-          prepTime: "30 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A beloved street food that originated in North India but has unique regional variations across the country",
-          pairingSuggestions: ["masala chai", "lassi"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "medium to hot",
-          nutrition: {
-            calories: 220,
-            protein: 6,
-            carbs: 42,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["C", "B6"],
-            minerals: ["Iron", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 24,
+              "unit": "whole",
+              "name": "crispy puris",
+              "notes": "Made from semolina and flour."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "fresh mint leaves",
+              "notes": "For the spicy water."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh cilantro",
+              "notes": "For the spicy water."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "tamarind paste",
+              "notes": "For the sweet-sour balance."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "chaat masala",
+              "notes": "Essential for the 'zing'."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kala namak (black salt)",
+              "notes": "Essential for the authentic sulfuric umami."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Boiled and mashed for the filling."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Pani. Blend mint, cilantro, green chilies, and ginger with a little water. Strain into a large jug. Add 4 cups of chilled water, tamarind, chaat masala, and black salt. Refrigerate.",
+            "Step 2: The Filling. Mix mashed potatoes with boiled chickpeas, chili powder, and cumin powder.",
+            "Step 3: The Ritual. Gently crack the top of a puri with your thumb. Stuff with a little filling. Dip the entire puri into the chilled spicy water. Consume in one single bite to experience the flavor explosion."
+          ],
+          "classifications": {
+            "meal_type": [
+              "snack",
+              "street food",
+              "vegan"
+            ],
+            "cooking_methods": [
+              "blending",
+              "assembling"
+            ]
           },
-          season: ["summer"],
-
-          elementalProperties: {
-            Fire: 0.13,
-            Water: 0.24,
-            Earth: 0.43,
-            Air: 0.21,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.4,
+            "earth": 0.1,
+            "air": 0.1
           },
-          mealType: ["snack", "appetizer"],
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Mercury"
+            ],
+            "signs": [
+              "Aries",
+              "Gemini"
+            ],
+            "lunar_phases": [
+              "New Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 250,
+            "protein_g": 6,
+            "carbs_g": 45,
+            "fat_g": 8,
+            "fiber_g": 6,
+            "sodium_mg": 950,
+            "sugar_g": 8,
+            "vitamins": [
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Manganese"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "puris",
+              "substitute_options": [
+                "no direct substitute"
+              ]
+            }
+          ]
         },
         {
-          name: "Baingan Bharta",
-          description: "Smoky roasted eggplant mash with spices",
-          cuisine: "Indian (North)",
-          cookingMethods: [
-            {
-              name: "roasting",
-              elementalProperties: {
-                Fire: 0.47,
-                Water: 0.06,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "mashing",
-              elementalProperties: {
-                Fire: 0.11,
-                Water: 0.21,
-                Earth: 0.5,
-                Air: 0.18,
-              },
-            },
-          ],
-          tools: [
-            "grill or stovetop",
-            "heavy pan",
-            "knife",
-            "cutting board",
-            "masher",
-          ],
-          preparationSteps: [
-            "Roast eggplant",
-            "Peel and mash",
-            "Prepare tempering",
-            "Cook spices",
-            "Combine ingredients",
-            "Garnish and serve",
-          ],
-          ingredients: [
-            {
-              name: "large eggplant",
-              amount: "2",
-              unit: "whole",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "onion",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tomatoes",
-              amount: "3",
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "ginger",
-              amount: "2",
-              unit: "inches",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cumin seeds",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garam masala",
-              amount: "1",
-              unit: "tsp",
-              category: "spice",
-            },
-            {
-              name: "turmeric",
-              amount: "1/2",
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.15,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "green chilies",
-              amount: "2",
-              unit: "whole",
-              category: "spice",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.7,
-                Water: 0,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-          ],
-          substitutions: {
-            eggplant: ["zucchini", "mushrooms"],
-            "green chilies": ["red chili powder", "black pepper"],
-            "fresh tomatoes": ["canned tomatoes"],
+          "recipe_name": "Authentic Baingan Bharta",
+          "description": "A rustic North Indian dish where the alchemy relies on the direct fire charring of a large eggplant. The skin is carbonized to infuse the flesh with a profound smokiness, then mashed and sautéed with aromatics to create a dense, earthy, and sweet-savory vegetable mash.",
+          "details": {
+            "cuisine": "Indian (Punjabi)",
+            "prep_time_minutes": 15,
+            "cook_time_minutes": 30,
+            "base_serving_size": 4,
+            "spice_level": "Medium",
+            "season": [
+              "autumn",
+              "winter"
+            ]
           },
-          servingSize: 4,
-          allergens: [],
-          prepTime: "20 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "A popular North Indian dish that showcases the smoky flavor of fire-roasted eggplant. Often served with fresh rotis or naan",
-          pairingSuggestions: ["roti", "naan", "rice", "dal"],
-          dietaryInfo: ["vegan", "gluten-free"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 180,
-            protein: 4,
-            carbs: 24,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["C", "K", "B6"],
-            minerals: ["Potassium", "Manganese"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "globe eggplant",
+              "notes": "Roasted over an open flame until collapsed."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "onions",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "tomatoes",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "Crushed."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cumin seeds",
+              "notes": "For tempering."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "red chili powder",
+              "notes": "Adjust for heat."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Char. Prick eggplant. Roast directly on gas burner until skin is charred and flesh is soft. Steam in a bowl for 10 mins. Peel and mash flesh.",
+            "Step 2: Sauté. Heat oil. Crackle cumin. Sauté onions until golden. Add ginger-garlic paste and fry for 1 min.",
+            "Step 3: The Base. Add tomatoes and spices. Cook until tomatoes turn mushy and oil separates.",
+            "Step 4: Combine. Stir in the smoky mashed eggplant. Cook for 10 minutes on low heat to meld flavors.",
+            "Step 5: Finish. Garnish with fresh cilantro and serve with hot Phulkas (rotis)."
+          ],
+          "classifications": {
+            "meal_type": [
+              "lunch",
+              "dinner",
+              "vegan",
+              "vegetarian"
+            ],
+            "cooking_methods": [
+              "charring",
+              "sautéing",
+              "mashing"
+            ]
           },
-          season: ["summer", "autumn"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.57,
-            Water: 0.11,
-            Earth: 0.23,
-            Air: 0.09,
+          "elemental_properties": {
+            "fire": 0.45,
+            "water": 0.1,
+            "earth": 0.35,
+            "air": 0.1
           },
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Saturn"
+            ],
+            "signs": [
+              "Scorpio",
+              "Capricorn"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 180,
+            "protein_g": 4,
+            "carbs_g": 22,
+            "fat_g": 10,
+            "fiber_g": 8,
+            "sodium_mg": 350,
+            "sugar_g": 8,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin B6"
+            ],
+            "minerals": [
+              "Potassium",
+              "Manganese"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "eggplant",
+              "substitute_options": [
+                "no substitute for this specific smoky profile"
+              ]
+            }
+          ]
         },
       ],
       winter: [
         {
-          name: "Rogan Josh",
-          description: "Kashmiri lamb curry with yogurt base",
-          cuisine: "Indian (Kashmir)",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tempering",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.21,
-                Earth: 0.29,
-                Air: 0.21,
-              },
-            },
-          ],
-          tools: [
-            "heavy-bottomed pot",
-            "spice grinder",
-            "wooden spoon",
-            "measuring spoons",
-            "mortar and pestle",
-          ],
-          preparationSteps: [
-            "Toast and grind spices",
-            "Marinate lamb in yogurt",
-            "Brown meat in batches",
-            "Prepare gravy base",
-            "Simmer until tender",
-            "Finish with garam masala",
-          ],
-          ingredients: [
-            {
-              name: "lamb",
-              amount: "800",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms", "seitan"],
-            },
-            {
-              name: "yogurt",
-              amount: "300",
-              unit: "ml",
-              category: "dairy",
-              swaps: ["coconut yogurt"],
-            },
-            {
-              name: "kashmiri chilies",
-              amount: "4",
-              unit: "whole",
-              category: "spice",
-            },
-            {
-              name: "whole spices",
-              amount: "2",
-              unit: "tbsp",
-              category: "spice",
-            },
-            { name: "ginger", amount: "2", unit: "tbsp", category: "spice" },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            {
-              name: "onions",
-              amount: "2",
-              unit: "large",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            lamb: ["beef", "mushrooms", "seitan"],
-            yogurt: ["coconut yogurt", "cashew yogurt"],
-            "kashmiri chilies": ["paprika + cayenne"],
+          "recipe_name": "Authentic Rogan Josh",
+          "description": "The crown jewel of Kashmiri cuisine. It is a brilliant study in the color red, using either Kashmiri red chilies or Ratan Jot (alkanet root) to achieve a deep crimson hue. The alchemy involves a thin, oil-based gravy flavored with fennel and dry ginger (sonth), excluding onions and garlic in its most traditional Brahman form.",
+          "details": {
+            "cuisine": "Indian (Kashmiri)",
+            "prep_time_minutes": 30,
+            "cook_time_minutes": 90,
+            "base_serving_size": 4,
+            "spice_level": "Medium-Hot",
+            "season": [
+              "winter"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy"],
-          prepTime: "30 minutes",
-          cookTime: "2 hours",
-          culturalNotes:
-            "A signature Kashmiri dish known for its vibrant red color from mild Kashmiri chilies. Originally brought to Kashmir by the Mughals",
-          pairingSuggestions: ["steamed rice", "naan", "onion salad", "raita"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "medium",
-          nutrition: {
-            calories: 580,
-            protein: 45,
-            carbs: 12,
-            fat: 38,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Zinc"],
+          "ingredients": [
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "lamb or mutton",
+              "notes": "Cut into chunks, bone-in."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "mustard oil",
+              "notes": "Essential for authentic Kashmiri flavor. Must be heated to smoking point then cooled slightly."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "Greek yogurt",
+              "notes": "Whisked. The primary liquid base."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "Kashmiri red chili powder",
+              "notes": "Provides intense color with mild-medium heat."
+            },
+            {
+              "amount": 1.5,
+              "unit": "tbsp",
+              "name": "fennel powder (saunf)",
+              "notes": "The dominant aromatic."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "dry ginger powder (sonth)",
+              "notes": "Essential."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "asafoetida (hing)",
+              "notes": "Replaces onions/garlic."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Oil. Heat mustard oil to smoking point. Turn off heat, let cool slightly. Add whole spices (cardamom, cloves).",
+            "Step 2: Sear. Add lamb pieces and hing. Brown meat thoroughly.",
+            "Step 3: The Infusion. Whisk chili powder, fennel, and ginger into the yogurt. Add this mixture to the meat. Stir constantly to prevent curdling.",
+            "Step 4: Braise. Add a splash of water. Cover and simmer over lowest heat for 1 to 1.5 hours until the meat is falling off the bone and the oil separates and floats to the top (Rogan).",
+            "Step 5: Serve with steamed white rice (Saffron rice)."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dinner",
+              "celebration"
+            ],
+            "cooking_methods": [
+              "searing",
+              "braising"
+            ]
           },
-          season: ["winter"],
-
-          elementalProperties: {
-            Fire: 0.33,
-            Water: 0.22,
-            Earth: 0.39,
-            Air: 0.07,
+          "elemental_properties": {
+            "fire": 0.4,
+            "water": 0.15,
+            "earth": 0.35,
+            "air": 0.1
           },
-          mealType: ["dinner"],
+          "astrological_affinities": {
+            "planets": [
+              "Mars",
+              "Saturn"
+            ],
+            "signs": [
+              "Aries",
+              "Scorpio"
+            ],
+            "lunar_phases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 580,
+            "protein_g": 42,
+            "carbs_g": 12,
+            "fat_g": 40,
+            "fiber_g": 2,
+            "sodium_mg": 620,
+            "sugar_g": 4,
+            "vitamins": [
+              "Vitamin B12",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "lamb",
+              "substitute_options": [
+                "beef",
+                "jackfruit (requires adjusted cooking time)"
+              ]
+            }
+          ]
         },
       ],
     },
@@ -2003,130 +2005,121 @@ export const indian = {
           "substitutions": []
         },
         {
-          name: "Rasmalai",
-          description: "Cheese dumplings in saffron milk",
-          cuisine: "Indian (Bengal)",
-          cookingMethods: [
-            "curdling",
-            {
-              name: "poaching",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.5,
-                Earth: 0.13,
-                Air: 0.19,
-              },
-            },
-            {
-              name: "reducing",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.34,
-                Earth: 0.17,
-                Air: 0.2,
-              },
-            },
-          ],
-          tools: [
-            "heavy-bottomed pot",
-            "cheesecloth",
-            "slotted spoon",
-            "measuring cups",
-            "fine strainer",
-          ],
-          preparationSteps: [
-            "Curdle milk for chenna",
-            "Knead chenna until smooth",
-            "Shape into discs",
-            "Poach in sugar syrup",
-            "Prepare saffron milk",
-            "Soak in flavored milk",
-          ],
-          ingredients: [
-            {
-              name: "milk",
-              amount: "2",
-              unit: "L",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sugar",
-              amount: "200",
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "cardamom",
-              amount: "6",
-              unit: "pods",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.15,
-                Earth: 0.25,
-                Air: 0.2,
-              },
-            },
-            { name: "pistachios", amount: "50", unit: "g", category: "nuts" },
-            { name: "saffron", amount: "1", unit: "pinch", category: "spice" },
-            {
-              name: "rose water",
-              amount: "1",
-              unit: "tsp",
-              category: "flavoring",
-              optional: true,
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.9,
-                Earth: 0,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            milk: ["full-fat plant milk + agar"],
-            pistachios: ["almonds", "cashews"],
-            "rose water": ["kewra water", "vanilla"],
+          "recipe_name": "Authentic Rasmalai",
+          "description": "A sophisticated Bengali sweet. Fresh milk solids are curdled into Chenna (cheese), kneaded into discs, poached in light syrup, and finally submerged in a 'Ras'—a thick, saffron-and-cardamom-infused reduced milk.",
+          "details": {
+            "cuisine": "Indian (Bengali)",
+            "prep_time_minutes": 60,
+            "cook_time_minutes": 60,
+            "base_serving_size": 6,
+            "spice_level": "None",
+            "season": [
+              "all",
+              "celebration"
+            ]
           },
-          servingSize: 8,
-          allergens: ["dairy", "nuts"],
-          prepTime: "45 minutes",
-          cookTime: "1 hour",
-          culturalNotes:
-            "A refined Bengali dessert that showcases the region's expertise in milk-based sweets. Often served at weddings and special occasions",
-          pairingSuggestions: ["masala chai", "paan"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 280,
-            protein: 12,
-            carbs: 42,
-            fat: 10,
-            fiber: 3,
-            vitamins: ["D", "B12"],
-            minerals: ["Calcium", "Potassium"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "liters",
+              "name": "whole milk",
+              "notes": "Divided use: half for chenna, half for rabri."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "lemon juice",
+              "notes": "To curdle the milk."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the poaching syrup."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "sugar",
+              "notes": "For the reduced milk (rabri)."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "saffron threads",
+              "notes": "For color and aroma."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "cardamom powder",
+              "notes": "Aromatic."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Chenna. Curdle boiling milk with lemon juice. Strain in cheesecloth, rinse, and hang for 30 mins.",
+            "Step 2: Knead. Knead the chenna with the heel of your hand for 10 mins until perfectly smooth. Form into small, flat discs.",
+            "Step 3: Poach. Boil discs in a light 1:3 sugar-water syrup for 15 mins until they double in size. Let cool in syrup.",
+            "Step 4: The Rabri. Boil the second liter of milk until reduced by half. Add sugar, saffron, and cardamom.",
+            "Step 5: The Soak. Gently squeeze the syrup out of the chenna discs and drop them into the hot rabri. Let them soak for 4 hours. Chill and serve."
+          ],
+          "classifications": {
+            "meal_type": [
+              "dessert",
+              "sweet",
+              "celebration"
+            ],
+            "cooking_methods": [
+              "boiling",
+              "kneading",
+              "poaching",
+              "reducing"
+            ]
           },
-          season: ["all"],
-
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.51,
-            Earth: 0.17,
-            Air: 0.14,
+          "elemental_properties": {
+            "fire": 0.15,
+            "water": 0.45,
+            "earth": 0.25,
+            "air": 0.15
           },
-          mealType: ["dessert"],
+          "astrological_affinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunar_phases": [
+              "Full Moon"
+            ]
+          },
+          "nutrition_per_serving": {
+            "calories": 320,
+            "protein_g": 12,
+            "carbs_g": 38,
+            "fat_g": 14,
+            "fiber_g": 0,
+            "sodium_mg": 120,
+            "sugar_g": 32,
+            "vitamins": [
+              "Vitamin D",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "substitutions": [
+            {
+              "original_ingredient": "whole milk",
+              "substitute_options": [
+                "store-bought ricotta (for a quick cheat version)"
+              ]
+            }
+          ]
         },
         {
           "recipe_name": "Authentic Indian Kulfi",
