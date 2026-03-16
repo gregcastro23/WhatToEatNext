@@ -1,14 +1,55 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-alchm-gold: #ffd700;
+  --color-alchm-purple: #8b5cf6;
+  --color-alchm-orange: #f97316;
+  --color-alchm-green: #10b981;
+
+  /* Custom animations (migrated from tailwind.config.cjs) */
+  --animate-fade-in-up: fade-in-up 0.3s ease-in-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-shake: shake 0.3s ease-in-out;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 255, 255, 255;
-  --alchm-gold: #ffd700;
-  --alchm-purple: #8b5cf6;
-  --alchm-orange: #f97316;
-  --alchm-green: #10b981;
 }
 
 [data-theme="dark"] {
