@@ -40,6 +40,10 @@ export interface CookingMethodKineticProfile {
 export interface CookingMethodData {
   name: CookingMethod;
   description: string;
+  /** 1-sentence "Alchemist's Hook" for quick visual scanning */
+  shortDescription?: string;
+  /** Archetypal identity (e.g., "The Forger", "The Purifier") */
+  culinaryArchetype?: string;
   elementalEffect: ElementalProperties;
   elementalProperties?: ElementalProperties; // Some methods use this property name instead
   duration: {

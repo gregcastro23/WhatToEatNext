@@ -8,6 +8,8 @@ export const smoking = {
   name: "Smoking",
   description:
     "A cooking and preservation method that exposes food to smoke from burning wood, herbs, or other materials, imparting flavor and helping preserve the food.",
+  shortDescription: "Infuses ingredients with aromatic wood smoke for complex, layered flavor.",
+  culinaryArchetype: "The Smoke Mystic",
   history:
     "Smoking has been used for thousands of years across many cultures as a way to preserve and flavor food, particularly meats and fish. It was an essential preservation technique before refrigeration.",
   science:

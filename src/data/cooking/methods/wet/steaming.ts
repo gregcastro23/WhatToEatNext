@@ -10,6 +10,8 @@ export const steaming: CookingMethodData = {
   name: "steaming",
   description:
     "Cooking food by suspending it above simmering water where rising vapor gently cooks the food, preserving nutrients and moisture",
+  shortDescription: "Envelops food in gentle vapor to preserve nutrients and natural color.",
+  culinaryArchetype: "The Purifier",
   elementalEffect: {
     Water: 0.6,
     Air: 0.3,

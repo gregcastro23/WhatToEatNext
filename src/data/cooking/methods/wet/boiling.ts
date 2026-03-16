@@ -11,6 +11,8 @@ export const boiling: CookingMethodData = {
   name: "boiling",
   description:
     "Cooking food by immersing it in water or other liquid that has reached a rapid, rolling boil, quickly transferring heat and creating fast, even cooking. The rapid bubbling action and convection currents ensure consistent temperature throughout the cooking medium.",
+  shortDescription: "Submerges ingredients in turbulent Water to extract and redistribute essence.",
+  culinaryArchetype: "The Dissolver",
   elementalEffect: {
     Water: 0.7,
     Fire: 0.2,

@@ -9,6 +9,8 @@ export const curing: CookingMethodData = {
   name: "Curing" as CookingMethod,
   description:
     "A preservation technique that draws moisture out of food through the use of salt, sugar, nitrates, or other compounds, thereby inhibiting bacterial growth and enhancing flavor.",
+  shortDescription: "Uses salt and time to deeply transform texture and develop umami.",
+  culinaryArchetype: "The Salt Sage",
   elementalEffect: {
     Fire: 0.1,
     Water: 0.2,

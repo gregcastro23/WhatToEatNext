@@ -10,6 +10,8 @@ export const gelification: CookingMethodData = {
   name: "gelification",
   description:
     "Creating edible gels using hydrocolloids like agar-agar and gellan gum to control texture and encapsulate flavors",
+  shortDescription: "Transforms liquids into solid structures through molecular architecture.",
+  culinaryArchetype: "The Architect",
   elementalEffect: {
     Earth: 0.5,
     Water: 0.4,

@@ -9,6 +9,8 @@ export const infusing: CookingMethodData = {
   name: "Infusing" as CookingMethod,
   description:
     "A technique that transfers flavors, colors, aromasor medicinal properties from herbs, spices, fruitsor other ingredients into a liquid base such as oil, water, alcohol, or vinegar.",
+  shortDescription: "Extracts and transfers aromatic essences through gentle steeping.",
+  culinaryArchetype: "The Essence Distiller",
   elementalEffect: {
     Fire: 0.1,
     Water: 0.7,
