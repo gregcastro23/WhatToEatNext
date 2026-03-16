@@ -151,12 +151,12 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
               <DetailCard
                 label="Sun Sign"
                 value={natalChart.planetaryPositions?.Sun}
-                icon="\u2609"
+                icon={"\u2609"}
               />
               <DetailCard
                 label="Moon Sign"
                 value={natalChart.planetaryPositions?.Moon}
-                icon="\u263D"
+                icon={"\u263D"}
               />
               <DetailCard
                 label="Rising Sign"
@@ -166,17 +166,17 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
               <DetailCard
                 label="Dominant Element"
                 value={natalChart.dominantElement}
-                icon="\u2B50"
+                icon={"\u2B50"}
               />
               <DetailCard
                 label="Modality"
                 value={natalChart.dominantModality}
-                icon="\u2B53"
+                icon={"\u2B53"}
               />
               <DetailCard
                 label="Chart Date"
-                value={natalChart.calculatedAt ? new Date(natalChart.calculatedAt).toLocaleDateString() : '\u2014'}
-                icon="\uD83D\uDCC5"
+                value={natalChart.calculatedAt ? new Date(natalChart.calculatedAt).toLocaleDateString() : "\u2014"}
+                icon={"\uD83D\uDCC5"}
               />
             </div>
           </div>

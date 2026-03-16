@@ -462,7 +462,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
   if (!hasASharp && !hasIngASharp && !hasMonicaDisplay) return null;
 
   return (
-    <SectionCard title="Alchemical Scores" icon="\u2697\uFE0F">
+    <SectionCard title="Alchemical Scores" icon={"\u2697\uFE0F"}>
       <div className="space-y-6">
 
         {/* ── Ingredient-Summed A# ── */}

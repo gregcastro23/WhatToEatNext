@@ -318,9 +318,9 @@ export default function PremiumPage() {
                           {typeof value === "string" ? (
                             <span className="font-bold text-slate-800">{value}</span>
                           ) : value ? (
-                            <span className="text-green-600 font-bold text-lg">\u2713</span>
+                            <span className="text-green-600 font-bold text-lg">{"\u2713"}</span>
                           ) : (
-                            <span className="text-slate-300 text-lg">\u2014</span>
+                            <span className="text-slate-300 text-lg">{"\u2014"}</span>
                           )}
                         </td>
                       );
