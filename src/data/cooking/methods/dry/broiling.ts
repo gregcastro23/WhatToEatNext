@@ -10,6 +10,8 @@ export const broiling: CookingMethodData = {
   name: "broiling",
   description:
     "Cooking food by exposing it to direct radiant heat from above, typically in an oven broiler, creating a browned exterior while maintaining moisture inside",
+  shortDescription: "Blasts radiant heat from above to create quick crusts and caramelization.",
+  culinaryArchetype: "The Scorcher",
   elementalEffect: {
     Fire: 0.8,
     Air: 0.1,

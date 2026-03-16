@@ -9,6 +9,8 @@ export const _distilling: CookingMethodData = {
   name: "Distilling" as CookingMethod,
   description:
     "A process that separates and concentrates volatile compounds by vaporizing them and then recondensing the vapor, used to extract essential flavors, aromas, and alcohols.",
+  shortDescription: "Separates and purifies volatile essences through controlled evaporation.",
+  culinaryArchetype: "The Purifier of Spirits",
   elementalEffect: {
     Fire: 0.8,
     Water: 0.3,

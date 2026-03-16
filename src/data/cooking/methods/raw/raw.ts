@@ -10,6 +10,8 @@ export const raw: CookingMethodData = {
   name: "raw",
   description:
     "Preparing and serving food without applying heat, preserving natural enzymes, nutrients, and flavors while utilizing techniques like chopping, blending, dehydrating, fermenting, sprouting, and marinating to create textures and enhance digestibility.",
+  shortDescription: "Honors the ingredient in its unaltered state, preserving pure elemental essence.",
+  culinaryArchetype: "The Purist",
   elementalEffect: {
     Water: 0.3,
     Air: 0.5,

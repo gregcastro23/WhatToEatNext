@@ -9,6 +9,8 @@ export const _marinating: CookingMethodData = {
   name: "Marinating" as CookingMethod,
   description:
     "A technique that immerses food in a seasoned liquid mixture to enhance flavor, tenderize textures, and sometimes begin the preservation or cooking process.",
+  shortDescription: "Soaks ingredients in flavor-rich liquids to tenderize and infuse essence.",
+  culinaryArchetype: "The Infuser",
   elementalEffect: {
     Fire: 0.2,
     Water: 0.7,

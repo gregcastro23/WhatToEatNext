@@ -11,6 +11,8 @@ export const simmering: CookingMethodData = {
   name: "simmering",
   description:
     "A gentle cooking technique where food is cooked in liquid maintained just below the boiling point. Small bubbles occasionally break the surface, creating a gentle agitation that slowly tenderizes food while maintaining its structural integrity. Ideal for delicate ingredients and long, slow cooking.",
+  shortDescription: "Maintains a gentle, steady heat to coax flavors into slow harmony.",
+  culinaryArchetype: "The Mediator",
   elementalEffect: {
     Water: 0.8,
     Fire: 0.1,

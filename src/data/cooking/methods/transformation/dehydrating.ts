@@ -9,6 +9,8 @@ export const _dehydrating: CookingMethodData = {
   name: "Dehydrating" as CookingMethod,
   description:
     "A preservation method that removes moisture from food through controlled evaporation, concentrating flavors and nutrients while extending shelf life.",
+  shortDescription: "Strips away moisture to concentrate flavor and extend preservation.",
+  culinaryArchetype: "The Concentrator",
   elementalEffect: {
     Fire: 0.4,
     Water: 0.1,

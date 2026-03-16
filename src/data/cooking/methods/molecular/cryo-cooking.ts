@@ -9,6 +9,8 @@ export const _cryoCooking: CookingMethodData = {
   name: "Cryo-Cooking" as CookingMethod,
   description:
     "A molecular gastronomy technique that utilizes extreme cold, typically from liquid nitrogen or dry ice to rapidly freeze foods, create unique textures, and prepare novel culinary creations.",
+  shortDescription: "Flash-freezes ingredients to lock in texture and create crystalline effects.",
+  culinaryArchetype: "The Frost Alchemist",
   elementalEffect: {
     Fire: 0.0,
     Water: 0.3,
