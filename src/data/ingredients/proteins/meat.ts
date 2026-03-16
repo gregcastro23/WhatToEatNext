@@ -23,11 +23,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 200, unit: "g" }, // Standard serving: 7oz steak
     scaledElemental: { Fire: 0.67, Water: 0.11, Earth: 0.22, Air: 0.0 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.335,
-      Essence: 0.055,
-      Matter: 0.11,
-      Substance: 0.22,
-    }, // Derived from scaled elemental
+      Spirit: 0.15,
+      Essence: 0.40,
+      Matter: 0.85,
+      Substance: 0.80,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.25, forceMagnitude: 1.18 }, // Strong warming, high force
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -98,11 +98,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 180, unit: "g" }, // Standard serving: 6oz chop
     scaledElemental: { Fire: 0.39, Water: 0.41, Earth: 0.2, Air: 0.0 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.195,
-      Essence: 0.305,
-      Matter: 0.205,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.20,
+      Essence: 0.50,
+      Matter: 0.75,
+      Substance: 0.70,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.18, forceMagnitude: 1.08 }, // Moderate warming, moderate force
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -162,11 +162,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 160, unit: "g" }, // Standard serving: 5.5oz chop
     scaledElemental: { Fire: 0.58, Earth: 0.31, Air: 0.11, Water: 0.0 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.345,
-      Essence: 0.0,
-      Matter: 0.155,
-      Substance: 0.31,
-    }, // Derived from scaled elemental
+      Spirit: 0.35,
+      Essence: 0.45,
+      Matter: 0.80,
+      Substance: 0.75,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.22, forceMagnitude: 1.15 }, // Strong warming, high force
     nutritionalProfile: {
       serving_size: "3 oz (85g)",

@@ -76,7 +76,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   whole_milk: {
     name: "whole milk",
     elementalProperties: { Fire: 0.08, Water: 0.55, Earth: 0.25, Air: 0.12 },
-    alchemicalProperties: { Spirit: 0.07, Essence: 0.36, Matter: 0.28, Substance: 0.29 },
+    alchemicalProperties: { Spirit: 0.08, Essence: 0.75, Matter: 0.35, Substance: 0.30 },
     quantityBase: { amount: 244, unit: "g" },
     scaledElemental: { Fire: 0.08, Water: 0.55, Earth: 0.25, Air: 0.12 },
     kineticsImpact: { thermalDirection: -0.4, forceMagnitude: 0.53 },
@@ -578,7 +578,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   sour_cream: {
     name: "sour cream",
     elementalProperties: { Fire: 0.08, Water: 0.42, Earth: 0.28, Air: 0.22 },
-    alchemicalProperties: { Spirit: 0.19, Essence: 0.26, Matter: 0.3, Substance: 0.25 },
+    alchemicalProperties: { Spirit: 0.12, Essence: 0.55, Matter: 0.50, Substance: 0.40 },
     quantityBase: { amount: 115, unit: "g" },
     scaledElemental: { Fire: 0.08, Water: 0.42, Earth: 0.28, Air: 0.22 },
     kineticsImpact: { thermalDirection: -0.28, forceMagnitude: 0.45 },
@@ -637,7 +637,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   creme_fraiche: {
     name: "crème fraîche",
     elementalProperties: { Fire: 0.12, Water: 0.4, Earth: 0.32, Air: 0.16 },
-    alchemicalProperties: { Spirit: 0.18, Essence: 0.25, Matter: 0.31, Substance: 0.26 },
+    alchemicalProperties: { Spirit: 0.12, Essence: 0.60, Matter: 0.50, Substance: 0.42 },
     quantityBase: { amount: 110, unit: "g" },
     scaledElemental: { Fire: 0.12, Water: 0.4, Earth: 0.32, Air: 0.16 },
     kineticsImpact: { thermalDirection: -0.26, forceMagnitude: 0.46 },
@@ -702,7 +702,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   mascarpone: {
     name: "mascarpone",
     elementalProperties: { Fire: 0.15, Water: 0.32, Earth: 0.42, Air: 0.11 },
-    alchemicalProperties: { Spirit: 0.12, Essence: 0.23, Matter: 0.35, Substance: 0.3 },
+    alchemicalProperties: { Spirit: 0.10, Essence: 0.55, Matter: 0.62, Substance: 0.48 },
     quantityBase: { amount: 112, unit: "g" },
     scaledElemental: { Fire: 0.15, Water: 0.32, Earth: 0.42, Air: 0.11 },
     kineticsImpact: { thermalDirection: -0.2, forceMagnitude: 0.46 },
@@ -827,7 +827,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   butter: {
     name: "butter",
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.5, Air: 0.1 },
-    alchemicalProperties: { Spirit: 0.16, Essence: 0.12, Matter: 0.44, Substance: 0.28 },
+    alchemicalProperties: { Spirit: 0.15, Essence: 0.50, Matter: 0.78, Substance: 0.60 },
     quantityBase: { amount: 14, unit: "g" },
     scaledElemental: { Fire: 0.25, Water: 0.15, Earth: 0.5, Air: 0.1 },
     kineticsImpact: { thermalDirection: 0.0, forceMagnitude: 0.46 },
@@ -1131,7 +1131,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   ghee: {
     name: "ghee",
     elementalProperties: { Fire: 0.4, Water: 0.03, Earth: 0.52, Air: 0.05 },
-    alchemicalProperties: { Spirit: 0.22, Essence: 0.1, Matter: 0.42, Substance: 0.26 },
+    alchemicalProperties: { Spirit: 0.38, Essence: 0.48, Matter: 0.75, Substance: 0.65 },
     quantityBase: { amount: 14, unit: "g" },
     scaledElemental: { Fire: 0.4, Water: 0.03, Earth: 0.52, Air: 0.05 },
     kineticsImpact: { thermalDirection: 0.2, forceMagnitude: 0.59 },
@@ -1250,7 +1250,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   cream_cheese: {
     name: "cream cheese",
     elementalProperties: { Fire: 0.1, Water: 0.38, Earth: 0.42, Air: 0.1 },
-    alchemicalProperties: { Spirit: 0.09, Essence: 0.23, Matter: 0.36, Substance: 0.32 },
+    alchemicalProperties: { Spirit: 0.08, Essence: 0.50, Matter: 0.55, Substance: 0.45 },
     quantityBase: { amount: 28, unit: "g" },
     scaledElemental: { Fire: 0.1, Water: 0.38, Earth: 0.42, Air: 0.1 },
     kineticsImpact: { thermalDirection: -0.29, forceMagnitude: 0.51 },
@@ -1319,7 +1319,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   ricotta: {
     name: "ricotta",
     elementalProperties: { Fire: 0.06, Water: 0.5, Earth: 0.32, Air: 0.12 },
-    alchemicalProperties: { Spirit: 0.07, Essence: 0.28, Matter: 0.34, Substance: 0.31 },
+    alchemicalProperties: { Spirit: 0.08, Essence: 0.62, Matter: 0.45, Substance: 0.40 },
     quantityBase: { amount: 124, unit: "g" },
     scaledElemental: { Fire: 0.06, Water: 0.5, Earth: 0.32, Air: 0.12 },
     kineticsImpact: { thermalDirection: -0.39, forceMagnitude: 0.54 },
@@ -1378,7 +1378,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   cottage_cheese: {
     name: "cottage cheese",
     elementalProperties: { Fire: 0.05, Water: 0.55, Earth: 0.28, Air: 0.12 },
-    alchemicalProperties: { Spirit: 0.07, Essence: 0.31, Matter: 0.31, Substance: 0.31 },
+    alchemicalProperties: { Spirit: 0.08, Essence: 0.58, Matter: 0.42, Substance: 0.45 },
     quantityBase: { amount: 113, unit: "g" },
     scaledElemental: { Fire: 0.05, Water: 0.55, Earth: 0.28, Air: 0.12 },
     kineticsImpact: { thermalDirection: -0.43, forceMagnitude: 0.55 },
@@ -1496,7 +1496,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   labneh: {
     name: "labneh",
     elementalProperties: { Fire: 0.07, Water: 0.45, Earth: 0.35, Air: 0.13 },
-    alchemicalProperties: { Spirit: 0.12, Essence: 0.25, Matter: 0.35, Substance: 0.28 },
+    alchemicalProperties: { Spirit: 0.18, Essence: 0.55, Matter: 0.52, Substance: 0.48 },
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Fire: 0.07, Water: 0.45, Earth: 0.35, Air: 0.13 },
     kineticsImpact: { thermalDirection: -0.35, forceMagnitude: 0.52 },
@@ -1555,7 +1555,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   paneer: {
     name: "paneer",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.42, Air: 0.08 },
-    alchemicalProperties: { Spirit: 0.1, Essence: 0.23, Matter: 0.36, Substance: 0.31 },
+    alchemicalProperties: { Spirit: 0.08, Essence: 0.45, Matter: 0.65, Substance: 0.60 },
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Fire: 0.15, Water: 0.35, Earth: 0.42, Air: 0.08 },
     kineticsImpact: { thermalDirection: -0.23, forceMagnitude: 0.48 },
@@ -1615,7 +1615,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   goat_cheese: {
     name: "goat cheese",
     elementalProperties: { Fire: 0.12, Water: 0.4, Earth: 0.35, Air: 0.13 },
-    alchemicalProperties: { Spirit: 0.11, Essence: 0.25, Matter: 0.31, Substance: 0.33 },
+    alchemicalProperties: { Spirit: 0.40, Essence: 0.52, Matter: 0.55, Substance: 0.50 },
     quantityBase: { amount: 28, unit: "g" },
     scaledElemental: { Fire: 0.12, Water: 0.4, Earth: 0.35, Air: 0.13 },
     kineticsImpact: { thermalDirection: -0.27, forceMagnitude: 0.48 },
@@ -1674,7 +1674,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   brie: {
     name: "brie",
     elementalProperties: { Fire: 0.15, Water: 0.42, Earth: 0.32, Air: 0.11 },
-    alchemicalProperties: { Spirit: 0.11, Essence: 0.26, Matter: 0.3, Substance: 0.33 },
+    alchemicalProperties: { Spirit: 0.42, Essence: 0.52, Matter: 0.58, Substance: 0.50 },
     quantityBase: { amount: 28, unit: "g" },
     scaledElemental: { Fire: 0.15, Water: 0.42, Earth: 0.32, Air: 0.11 },
     kineticsImpact: { thermalDirection: -0.26, forceMagnitude: 0.47 },
@@ -1733,7 +1733,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   camembert: {
     name: "camembert",
     elementalProperties: { Fire: 0.18, Water: 0.4, Earth: 0.3, Air: 0.12 },
-    alchemicalProperties: { Spirit: 0.13, Essence: 0.26, Matter: 0.28, Substance: 0.33 },
+    alchemicalProperties: { Spirit: 0.48, Essence: 0.50, Matter: 0.55, Substance: 0.48 },
     quantityBase: { amount: 28, unit: "g" },
     scaledElemental: { Fire: 0.18, Water: 0.4, Earth: 0.3, Air: 0.12 },
     kineticsImpact: { thermalDirection: -0.21, forceMagnitude: 0.44 },
@@ -1792,7 +1792,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   feta: {
     name: "feta",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.32, Air: 0.13 },
-    alchemicalProperties: { Spirit: 0.09, Essence: 0.25, Matter: 0.3, Substance: 0.36 },
+    alchemicalProperties: { Spirit: 0.30, Essence: 0.50, Matter: 0.60, Substance: 0.55 },
     quantityBase: { amount: 28, unit: "g" },
     scaledElemental: { Fire: 0.1, Water: 0.45, Earth: 0.32, Air: 0.13 },
     kineticsImpact: { thermalDirection: -0.32, forceMagnitude: 0.5 },
@@ -1851,7 +1851,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   burrata: {
     name: "burrata",
     elementalProperties: { Fire: 0.12, Water: 0.48, Earth: 0.3, Air: 0.1 },
-    alchemicalProperties: { Spirit: 0.1, Essence: 0.29, Matter: 0.31, Substance: 0.3 },
+    alchemicalProperties: { Spirit: 0.15, Essence: 0.68, Matter: 0.45, Substance: 0.42 },
     quantityBase: { amount: 56, unit: "g" },
     scaledElemental: { Fire: 0.12, Water: 0.48, Earth: 0.3, Air: 0.1 },
     kineticsImpact: { thermalDirection: -0.33, forceMagnitude: 0.5 },
@@ -1911,7 +1911,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   mozzarella: {
     name: "mozzarella",
     elementalProperties: { Fire: 0.14, Water: 0.46, Earth: 0.28, Air: 0.12 },
-    alchemicalProperties: { Spirit: 0.11, Essence: 0.29, Matter: 0.31, Substance: 0.29 },
+    alchemicalProperties: { Spirit: 0.10, Essence: 0.60, Matter: 0.55, Substance: 0.50 },
     quantityBase: { amount: 28, unit: "g" },
     scaledElemental: { Fire: 0.14, Water: 0.46, Earth: 0.28, Air: 0.12 },
     kineticsImpact: { thermalDirection: -0.29, forceMagnitude: 0.48 },
@@ -2151,7 +2151,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   halloumi: {
     name: "halloumi",
     elementalProperties: { Fire: 0.28, Water: 0.32, Earth: 0.32, Air: 0.08 },
-    alchemicalProperties: { Spirit: 0.17, Essence: 0.22, Matter: 0.28, Substance: 0.33 },
+    alchemicalProperties: { Spirit: 0.18, Essence: 0.42, Matter: 0.75, Substance: 0.70 },
     quantityBase: { amount: 56, unit: "g" },
     scaledElemental: { Fire: 0.28, Water: 0.32, Earth: 0.32, Air: 0.08 },
     kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 0.39 },
@@ -2211,7 +2211,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
   cheddar_cheese: {
     name: "cheddar cheese",
     elementalProperties: { Fire: 0.22, Water: 0.25, Earth: 0.42, Air: 0.11 },
-    alchemicalProperties: { Spirit: 0.13, Essence: 0.18, Matter: 0.31, Substance: 0.38 },
+    alchemicalProperties: { Spirit: 0.35, Essence: 0.40, Matter: 0.80, Substance: 0.75 },
     quantityBase: { amount: 28, unit: "g" },
     scaledElemental: { Fire: 0.22, Water: 0.25, Earth: 0.42, Air: 0.11 },
     kineticsImpact: { thermalDirection: -0.09, forceMagnitude: 0.41 },

@@ -21,11 +21,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 170, unit: "g" }, // Standard serving: 6oz fillet
     scaledElemental: { Water: 0.58, Earth: 0.21, Fire: 0.11, Air: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.105,
-      Essence: 0.395,
-      Matter: 0.21,
-      Substance: 0.105,
-    }, // Derived from scaled elemental
+      Spirit: 0.20,
+      Essence: 0.75,
+      Matter: 0.55,
+      Substance: 0.60,
+    },
     kineticsImpact: { thermalDirection: -0.1, forceMagnitude: 1.05 }, // Cooling effect, moderate force
 
     qualities: [
@@ -280,11 +280,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 150, unit: "g" }, // Standard serving: 5oz steak
     scaledElemental: { Fire: 0.29, Water: 0.41, Air: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.19,
-      Essence: 0.31,
-      Matter: 0.1,
-      Substance: 0.2,
-    }, // Derived from scaled elemental
+      Spirit: 0.25,
+      Essence: 0.60,
+      Matter: 0.65,
+      Substance: 0.70,
+    },
     kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 1.12 }, // Warming effect, strong force
 
     qualities: ["meaty", "firm", "versatile", "protein-rich", "omega-3"],
@@ -339,11 +339,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" }, // Standard serving: 3.5oz
     scaledElemental: { Water: 0.49, Air: 0.31, Fire: 0.1, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.155,
-      Essence: 0.345,
-      Matter: 0.1,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.20,
+      Essence: 0.65,
+      Matter: 0.35,
+      Substance: 0.45,
+    },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.95 }, // Mild warming, gentle force
 
     qualities: ["sweet", "tender", "versatile", "quick-cooking", "low-calorie"],
@@ -394,11 +394,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 140, unit: "g" }, // Standard serving: 5oz fillet
     scaledElemental: { Water: 0.58, Air: 0.21, Earth: 0.11, Fire: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.155,
-      Essence: 0.395,
-      Matter: 0.105,
-      Substance: 0.105,
-    }, // Derived from scaled elemental
+      Spirit: 0.10,
+      Essence: 0.55,
+      Matter: 0.45,
+      Substance: 0.50,
+    },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 1.02 }, // Cooling effect, slight force
 
     qualities: ["mild", "flaky", "lean", "versatile", "sustainable"],
@@ -449,11 +449,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 160, unit: "g" }, // Standard serving: 6oz fillet
     scaledElemental: { Water: 0.39, Air: 0.31, Earth: 0.2, Fire: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.205,
-      Essence: 0.295,
-      Matter: 0.1,
-      Substance: 0.2,
-    }, // Derived from scaled elemental
+      Spirit: 0.15,
+      Essence: 0.60,
+      Matter: 0.60,
+      Substance: 0.65,
+    },
     kineticsImpact: { thermalDirection: 0.02, forceMagnitude: 1.08 }, // Neutral temperature, moderate force
 
     qualities: ["firm", "meaty", "mild", "versatile", "premium"],
@@ -504,11 +504,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 80, unit: "g" }, // Standard serving: 4 large scallops
     scaledElemental: { Water: 0.49, Air: 0.31, Fire: 0.1, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.155,
-      Essence: 0.345,
-      Matter: 0.1,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.25,
+      Essence: 0.70,
+      Matter: 0.30,
+      Substance: 0.40,
+    },
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.92 }, // Mild warming, gentle force
 
     qualities: ["sweet", "tender", "succulent", "briny", "luxurious"],
@@ -557,10 +557,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 140, unit: "g" },
     scaledElemental: { Water: 0.49, Air: 0.26, Earth: 0.15, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.175,
-      Essence: 0.37,
-      Matter: 0.15,
-      Substance: 0.1,
+      Spirit: 0.08,
+      Essence: 0.50,
+      Matter: 0.45,
+      Substance: 0.50,
     },
     kineticsImpact: { thermalDirection: -0.03, forceMagnitude: 0.95 },
 
@@ -610,10 +610,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 150, unit: "g" },
     scaledElemental: { Water: 0.54, Earth: 0.21, Air: 0.15, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.125,
-      Essence: 0.375,
-      Matter: 0.21,
-      Substance: 0.105,
+      Spirit: 0.18,
+      Essence: 0.65,
+      Matter: 0.50,
+      Substance: 0.55,
     },
     kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 1.0 },
 
@@ -663,10 +663,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 85, unit: "g" },
     scaledElemental: { Water: 0.49, Fire: 0.2, Earth: 0.21, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.15,
-      Essence: 0.345,
-      Matter: 0.21,
-      Substance: 0.1,
+      Spirit: 0.30,
+      Essence: 0.60,
+      Matter: 0.55,
+      Substance: 0.65,
     },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.98 },
 
@@ -716,10 +716,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 140, unit: "g" },
     scaledElemental: { Water: 0.44, Fire: 0.26, Earth: 0.15, Air: 0.15 },
     alchemicalProperties: {
-      Spirit: 0.205,
-      Essence: 0.305,
-      Matter: 0.15,
-      Substance: 0.15,
+      Spirit: 0.35,
+      Essence: 0.65,
+      Matter: 0.55,
+      Substance: 0.60,
     },
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 1.08 },
 
@@ -769,10 +769,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.54, Earth: 0.21, Air: 0.15, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.125,
-      Essence: 0.375,
-      Matter: 0.21,
-      Substance: 0.1,
+      Spirit: 0.22,
+      Essence: 0.70,
+      Matter: 0.40,
+      Substance: 0.50,
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.98 },
 
@@ -822,10 +822,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 145, unit: "g" },
     scaledElemental: { Water: 0.49, Fire: 0.2, Earth: 0.21, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.15,
-      Essence: 0.345,
-      Matter: 0.21,
-      Substance: 0.1,
+      Spirit: 0.25,
+      Essence: 0.72,
+      Matter: 0.50,
+      Substance: 0.55,
     },
     kineticsImpact: { thermalDirection: 0.02, forceMagnitude: 1.02 },
 
@@ -875,10 +875,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 150, unit: "g" },
     scaledElemental: { Water: 0.59, Earth: 0.21, Air: 0.1, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.1,
-      Essence: 0.4,
-      Matter: 0.21,
-      Substance: 0.1,
+      Spirit: 0.15,
+      Essence: 0.68,
+      Matter: 0.45,
+      Substance: 0.50,
     },
     kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 0.95 },
 
@@ -928,10 +928,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.49, Air: 0.26, Fire: 0.15, Earth: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.205,
-      Essence: 0.345,
-      Matter: 0.1,
-      Substance: 0.15,
+      Spirit: 0.20,
+      Essence: 0.55,
+      Matter: 0.40,
+      Substance: 0.45,
     },
     kineticsImpact: { thermalDirection: 0.03, forceMagnitude: 0.98 },
 
@@ -981,10 +981,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 30, unit: "g" },
     scaledElemental: { Water: 0.39, Fire: 0.31, Earth: 0.2, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.205,
-      Essence: 0.29,
-      Matter: 0.2,
-      Substance: 0.1,
+      Spirit: 0.55,
+      Essence: 0.50,
+      Matter: 0.45,
+      Substance: 0.60,
     },
     kineticsImpact: { thermalDirection: 0.1, forceMagnitude: 1.05 },
 

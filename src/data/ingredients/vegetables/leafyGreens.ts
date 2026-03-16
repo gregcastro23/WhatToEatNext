@@ -34,11 +34,11 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 67, unit: "g" }, // Standard serving: 1 cup chopped
     scaledElemental: { Air: 0.38, Earth: 0.34, Water: 0.22, Fire: 0.06 }, // Scaled for harmony (already balanced)
     alchemicalProperties: {
-      Spirit: 0.32,
-      Essence: 0.19,
-      Matter: 0.2,
-      Substance: 0.29,
-    }, // Derived from scaled elemental
+      Spirit: 0.25,
+      Essence: 0.70,
+      Matter: 0.30,
+      Substance: 0.35,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: 0.1, forceMagnitude: 0.95 }, // Mild warming, gentle force
     qualities: [
       "cleansing",

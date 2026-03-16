@@ -6,10 +6,10 @@ const rawStoneFruit = {
     name: "Peach",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
-      Spirit: 0.20,
-      Essence: 0.30,
-      Matter: 0.26,
-      Substance: 0.24,
+      Spirit: 0.38,
+      Essence: 0.80,
+      Matter: 0.28,
+      Substance: 0.22,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
@@ -61,10 +61,10 @@ const rawStoneFruit = {
     name: "Plum",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
-      Spirit: 0.20,
-      Essence: 0.30,
-      Matter: 0.26,
-      Substance: 0.24,
+      Spirit: 0.32,
+      Essence: 0.75,
+      Matter: 0.30,
+      Substance: 0.25,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
@@ -116,10 +116,10 @@ const rawStoneFruit = {
     name: "Apricot",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
-      Spirit: 0.26,
-      Essence: 0.28,
-      Matter: 0.23,
-      Substance: 0.23,
+      Spirit: 0.42,
+      Essence: 0.78,
+      Matter: 0.25,
+      Substance: 0.20,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
@@ -164,10 +164,10 @@ const rawStoneFruit = {
     name: "Cherry",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
-      Spirit: 0.26,
-      Essence: 0.28,
-      Matter: 0.23,
-      Substance: 0.23,
+      Spirit: 0.35,
+      Essence: 0.82,
+      Matter: 0.22,
+      Substance: 0.20,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
@@ -212,9 +212,9 @@ const rawStoneFruit = {
     name: "Nectarine",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
-      Spirit: 0.20,
-      Essence: 0.30,
-      Matter: 0.26,
+      Spirit: 0.36,
+      Essence: 0.78,
+      Matter: 0.30,
       Substance: 0.24,
     },
     astrologicalProfile: {
@@ -260,10 +260,10 @@ const rawStoneFruit = {
     name: "Greengage",
     elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 },
     alchemicalProperties: {
-      Spirit: 0.14,
-      Essence: 0.26,
-      Matter: 0.33,
-      Substance: 0.27,
+      Spirit: 0.25,
+      Essence: 0.72,
+      Matter: 0.28,
+      Substance: 0.22,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
@@ -308,10 +308,10 @@ const rawStoneFruit = {
     name: "Damson",
     elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 },
     alchemicalProperties: {
-      Spirit: 0.20,
-      Essence: 0.25,
-      Matter: 0.30,
-      Substance: 0.25,
+      Spirit: 0.28,
+      Essence: 0.60,
+      Matter: 0.40,
+      Substance: 0.35,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],

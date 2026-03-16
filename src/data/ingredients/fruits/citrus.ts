@@ -12,11 +12,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 60, unit: "g" }, // Standard serving: 1 medium lemon
     scaledElemental: { Water: 0.39, Air: 0.31, Fire: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.345,
-      Matter: 0.1,
-      Substance: 0.205,
-    }, // Derived from scaled elemental
+      Spirit: 0.65,
+      Essence: 0.75,
+      Matter: 0.20,
+      Substance: 0.18,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 0.88 }, // Cooling effect, gentle force
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
@@ -74,11 +74,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 130, unit: "g" }, // Standard serving: 1 medium orange
     scaledElemental: { Water: 0.39, Air: 0.31, Fire: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.345,
-      Matter: 0.155,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.45,
+      Essence: 0.78,
+      Matter: 0.25,
+      Substance: 0.20,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: 0.12, forceMagnitude: 1.02 }, // Warming effect, moderate force
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
@@ -136,11 +136,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 67, unit: "g" }, // Standard serving: 1 medium lime
     scaledElemental: { Water: 0.49, Air: 0.21, Fire: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.205,
-      Essence: 0.395,
-      Matter: 0.1,
-      Substance: 0.2,
-    }, // Derived from scaled elemental
+      Spirit: 0.68,
+      Essence: 0.72,
+      Matter: 0.18,
+      Substance: 0.15,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: -0.12, forceMagnitude: 0.85 }, // Cooling effect, gentle force
 
     qualities: ["sour", "cooling", "refreshing"],
@@ -198,11 +198,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 230, unit: "g" }, // Standard serving: 1 medium grapefruit
     scaledElemental: { Water: 0.39, Air: 0.31, Fire: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.345,
-      Matter: 0.155,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.50,
+      Essence: 0.70,
+      Matter: 0.30,
+      Substance: 0.22,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.95 }, // Mild warming, balanced force
 
     qualities: ["bitter-sweet", "tart", "refreshing"],
@@ -267,11 +267,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 88, unit: "g" }, // Standard serving: 1 medium mandarin
     scaledElemental: { Water: 0.39, Fire: 0.31, Air: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.345,
-      Matter: 0.155,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.40,
+      Essence: 0.75,
+      Matter: 0.22,
+      Substance: 0.18,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: 0.1, forceMagnitude: 0.9 }, // Mild warming, gentle force
 
     qualities: ["sweet", "delicate", "aromatic"],
@@ -318,11 +318,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 74, unit: "g" }, // Standard serving: 1 medium clementine
     scaledElemental: { Water: 0.39, Fire: 0.31, Air: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.345,
-      Matter: 0.155,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.42,
+      Essence: 0.76,
+      Matter: 0.20,
+      Substance: 0.17,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.88 }, // Mild warming, gentle force
 
     qualities: ["sweet", "juicy", "easy-to-peel", "seedless"],
@@ -380,11 +380,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 609, unit: "g" }, // Standard serving: 1/4 large pomelo
     scaledElemental: { Water: 0.49, Air: 0.21, Fire: 0.2, Earth: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.205,
-      Essence: 0.395,
-      Matter: 0.1,
-      Substance: 0.2,
-    }, // Derived from scaled elemental
+      Spirit: 0.35,
+      Essence: 0.65,
+      Matter: 0.35,
+      Substance: 0.25,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 1.05 }, // Cooling effect, moderate force
 
     qualities: ["mild", "sweet", "aromatic", "large", "juicy"],

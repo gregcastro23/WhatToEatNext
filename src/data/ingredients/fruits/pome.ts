@@ -11,10 +11,10 @@ const rawPome = {
       Fire: 0,
     },
     alchemicalProperties: {
-      Spirit: 0.08,
-      Essence: 0.19,
-      Matter: 0.44,
-      Substance: 0.29,
+      Spirit: 0.20,
+      Essence: 0.70,
+      Matter: 0.40,
+      Substance: 0.35,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
@@ -189,10 +189,10 @@ const rawPome = {
       Fire: 0,
     },
     alchemicalProperties: {
-      Spirit: 0.08,
-      Essence: 0.24,
-      Matter: 0.40,
-      Substance: 0.28,
+      Spirit: 0.18,
+      Essence: 0.72,
+      Matter: 0.35,
+      Substance: 0.30,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
@@ -360,10 +360,10 @@ const rawPome = {
       Fire: 0,
     },
     alchemicalProperties: {
-      Spirit: 0.08,
-      Essence: 0.14,
-      Matter: 0.48,
-      Substance: 0.30,
+      Spirit: 0.38,
+      Essence: 0.40,
+      Matter: 0.70,
+      Substance: 0.60,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
@@ -516,10 +516,10 @@ const rawPome = {
       Fire: 0,
     },
     alchemicalProperties: {
-      Spirit: 0.08,
-      Essence: 0.29,
-      Matter: 0.36,
-      Substance: 0.27,
+      Spirit: 0.15,
+      Essence: 0.75,
+      Matter: 0.32,
+      Substance: 0.28,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
@@ -657,10 +657,10 @@ const rawPome = {
       Fire: 0,
     },
     alchemicalProperties: {
-      Spirit: 0.04,
-      Essence: 0.12,
-      Matter: 0.55,
-      Substance: 0.29,
+      Spirit: 0.12,
+      Essence: 0.35,
+      Matter: 0.60,
+      Substance: 0.50,
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
@@ -795,9 +795,9 @@ const rawPome = {
       Air: 0.1,
     },
     alchemicalProperties: {
-      Spirit: 0.16,
-      Essence: 0.26,
-      Matter: 0.33,
+      Spirit: 0.22,
+      Essence: 0.68,
+      Matter: 0.28,
       Substance: 0.25,
     },
     astrologicalProfile: {
