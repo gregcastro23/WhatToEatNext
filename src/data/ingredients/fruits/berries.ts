@@ -13,10 +13,10 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     scaledElemental: { Water: 0.39, Air: 0.31, Earth: 0.2, Fire: 0.1 }, // Scaled for harmony
     alchemicalProperties: {
       Spirit: 0.25,
-      Essence: 0.345,
-      Matter: 0.1,
-      Substance: 0.205,
-    }, // Derived from scaled elemental
+      Essence: 0.80,
+      Matter: 0.20,
+      Substance: 0.25,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.95 }, // Mild cooling, gentle force
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],

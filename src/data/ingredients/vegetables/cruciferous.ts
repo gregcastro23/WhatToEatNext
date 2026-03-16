@@ -12,11 +12,11 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" }, // Standard serving: 1 cup chopped
     scaledElemental: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }, // Scaled for harmony (already balanced)
     alchemicalProperties: {
-      Spirit: 0.35,
-      Essence: 0.15,
-      Matter: 0.25,
-      Substance: 0.25,
-    }, // Derived from scaled elemental
+      Spirit: 0.15,
+      Essence: 0.55,
+      Matter: 0.50,
+      Substance: 0.45,
+    }, // Independent dimensions (0.0-1.0 each)
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.95 }, // Cooling effect, gentle force
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn", "Moon"],

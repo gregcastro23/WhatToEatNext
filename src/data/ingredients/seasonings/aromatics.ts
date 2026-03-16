@@ -5,7 +5,7 @@ const rawAromatics = {
   onion: {
     name: "Onion",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
-    alchemicalProperties: { Spirit: 0.32, Essence: 0.23, Matter: 0.23, Substance: 0.22 },
+    alchemicalProperties: { Spirit: 0.55, Essence: 0.50, Matter: 0.55, Substance: 0.45 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "capricorn"],
@@ -63,7 +63,7 @@ const rawAromatics = {
   garlic: {
     name: "Garlic",
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
-    alchemicalProperties: { Spirit: 0.43, Essence: 0.20, Matter: 0.19, Substance: 0.18 },
+    alchemicalProperties: { Spirit: 0.82, Essence: 0.55, Matter: 0.45, Substance: 0.38 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
       favorableZodiac: ["aries", "scorpio"],
@@ -121,7 +121,7 @@ const rawAromatics = {
   ginger: {
     name: "Ginger",
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
-    alchemicalProperties: { Spirit: 0.51, Essence: 0.23, Matter: 0.12, Substance: 0.14 },
+    alchemicalProperties: { Spirit: 0.85, Essence: 0.58, Matter: 0.40, Substance: 0.35 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo"],
@@ -198,7 +198,7 @@ const rawAromatics = {
   lemongrass: {
     name: "Lemongrass",
     elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
-    alchemicalProperties: { Spirit: 0.43, Essence: 0.36, Matter: 0.08, Substance: 0.13 },
+    alchemicalProperties: { Spirit: 0.78, Essence: 0.65, Matter: 0.15, Substance: 0.18 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["gemini", "libra"],
@@ -260,7 +260,7 @@ const rawAromatics = {
   shallot: {
     name: "Shallot",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
-    alchemicalProperties: { Spirit: 0.25, Essence: 0.19, Matter: 0.30, Substance: 0.26 },
+    alchemicalProperties: { Spirit: 0.48, Essence: 0.52, Matter: 0.48, Substance: 0.40 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["virgo", "taurus"],
@@ -312,7 +312,7 @@ const rawAromatics = {
   scallion: {
     name: "Scallion",
     elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
-    alchemicalProperties: { Spirit: 0.29, Essence: 0.28, Matter: 0.22, Substance: 0.21 },
+    alchemicalProperties: { Spirit: 0.38, Essence: 0.62, Matter: 0.22, Substance: 0.25 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
       favorableZodiac: ["gemini", "cancer"],
@@ -364,7 +364,7 @@ const rawAromatics = {
   saffron: {
     name: "Saffron",
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
-    alchemicalProperties: { Spirit: 0.51, Essence: 0.23, Matter: 0.12, Substance: 0.14 },
+    alchemicalProperties: { Spirit: 0.90, Essence: 0.70, Matter: 0.08, Substance: 0.10 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
       favorableZodiac: ["gemini", "libra"],

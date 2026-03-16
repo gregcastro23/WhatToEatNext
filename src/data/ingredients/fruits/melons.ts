@@ -14,9 +14,9 @@ const rawMelons = {
     scaledElemental: { Water: 0.8, Fire: 0.1, Earth: 0.1, Air: 0 },
     alchemicalProperties: {
       Spirit: 0.10,
-      Essence: 0.46,
-      Matter: 0.28,
-      Substance: 0.16,
+      Essence: 0.85,
+      Matter: 0.15,
+      Substance: 0.10,
     },
     kineticsImpact: { thermalDirection: -0.15, forceMagnitude: 0.95 },
     sensoryProfile: {
@@ -200,10 +200,10 @@ const rawMelons = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.14,
-      Essence: 0.38,
-      Matter: 0.28,
-      Substance: 0.20,
+      Spirit: 0.25,
+      Essence: 0.78,
+      Matter: 0.20,
+      Substance: 0.15,
     },
     kineticsImpact: { thermalDirection: -0.10, forceMagnitude: 0.90 },
     sensoryProfile: {
@@ -350,10 +350,10 @@ const rawMelons = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.7, Air: 0.2, Earth: 0.1, Fire: 0 },
     alchemicalProperties: {
-      Spirit: 0.12,
-      Essence: 0.42,
-      Matter: 0.24,
-      Substance: 0.22,
+      Spirit: 0.15,
+      Essence: 0.80,
+      Matter: 0.18,
+      Substance: 0.12,
     },
     kineticsImpact: { thermalDirection: -0.15, forceMagnitude: 0.90 },
     sensoryProfile: {
@@ -509,9 +509,9 @@ const rawMelons = {
     scaledElemental: { Water: 0.6, Earth: 0.3, Air: 0.1, Fire: 0 },
     alchemicalProperties: {
       Spirit: 0.08,
-      Essence: 0.36,
-      Matter: 0.32,
-      Substance: 0.24,
+      Essence: 0.65,
+      Matter: 0.25,
+      Substance: 0.18,
     },
     kineticsImpact: { thermalDirection: -0.10, forceMagnitude: 0.80 },
     sensoryProfile: {
@@ -644,10 +644,10 @@ const rawMelons = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.14,
-      Essence: 0.34,
-      Matter: 0.30,
-      Substance: 0.22,
+      Spirit: 0.22,
+      Essence: 0.75,
+      Matter: 0.22,
+      Substance: 0.15,
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.80 },
     sensoryProfile: {
@@ -771,10 +771,10 @@ const rawMelons = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.14,
-      Essence: 0.38,
-      Matter: 0.28,
-      Substance: 0.20,
+      Spirit: 0.28,
+      Essence: 0.78,
+      Matter: 0.20,
+      Substance: 0.14,
     },
     kineticsImpact: { thermalDirection: -0.10, forceMagnitude: 0.90 },
     sensoryProfile: {
@@ -907,10 +907,10 @@ const rawMelons = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.6, Earth: 0.3, Air: 0.1, Fire: 0 },
     alchemicalProperties: {
-      Spirit: 0.08,
-      Essence: 0.34,
-      Matter: 0.34,
-      Substance: 0.24,
+      Spirit: 0.05,
+      Essence: 0.55,
+      Matter: 0.40,
+      Substance: 0.30,
     },
     kineticsImpact: { thermalDirection: -0.15, forceMagnitude: 0.75 },
     sensoryProfile: {
@@ -1053,10 +1053,10 @@ const rawMelons = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.6, Air: 0.2, Earth: 0.1, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.18,
-      Essence: 0.38,
-      Matter: 0.22,
-      Substance: 0.22,
+      Spirit: 0.32,
+      Essence: 0.80,
+      Matter: 0.18,
+      Substance: 0.14,
     },
     kineticsImpact: { thermalDirection: -0.10, forceMagnitude: 0.90 },
     sensoryProfile: {

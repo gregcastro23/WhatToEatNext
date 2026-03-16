@@ -8,10 +8,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.30,
-      Essence: 0.32,
-      Matter: 0.19,
-      Substance: 0.19,
+      Spirit: 0.55,
+      Essence: 0.85,
+      Matter: 0.30,
+      Substance: 0.22,
     },
     kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 0.85 },
     astrologicalProfile: {
@@ -104,10 +104,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 165, unit: "g" },
     scaledElemental: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.28,
-      Essence: 0.30,
-      Matter: 0.19,
-      Substance: 0.23,
+      Spirit: 0.60,
+      Essence: 0.80,
+      Matter: 0.28,
+      Substance: 0.25,
     },
     kineticsImpact: { thermalDirection: 0.20, forceMagnitude: 0.80 },
     astrologicalProfile: {
@@ -175,10 +175,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 145, unit: "g" },
     scaledElemental: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.22,
-      Essence: 0.35,
-      Matter: 0.22,
-      Substance: 0.21,
+      Spirit: 0.35,
+      Essence: 0.75,
+      Matter: 0.25,
+      Substance: 0.20,
     },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.90 },
     astrologicalProfile: {
@@ -246,10 +246,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 18, unit: "g" },
     scaledElemental: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.32,
-      Essence: 0.30,
-      Matter: 0.16,
-      Substance: 0.22,
+      Spirit: 0.72,
+      Essence: 0.78,
+      Matter: 0.15,
+      Substance: 0.18,
     },
     kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.90 },
     astrologicalProfile: {
@@ -324,10 +324,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 55, unit: "g" },
     scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.22,
-      Essence: 0.28,
-      Matter: 0.27,
-      Substance: 0.23,
+      Spirit: 0.48,
+      Essence: 0.75,
+      Matter: 0.30,
+      Substance: 0.25,
     },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
@@ -395,10 +395,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 227, unit: "g" },
     scaledElemental: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.20,
-      Essence: 0.33,
-      Matter: 0.26,
-      Substance: 0.21,
+      Spirit: 0.15,
+      Essence: 0.65,
+      Matter: 0.25,
+      Substance: 0.20,
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
@@ -466,10 +466,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 190, unit: "g" },
     scaledElemental: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.28,
-      Essence: 0.34,
+      Spirit: 0.55,
+      Essence: 0.80,
       Matter: 0.18,
-      Substance: 0.20,
+      Substance: 0.15,
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
@@ -537,10 +537,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.22,
-      Essence: 0.33,
-      Matter: 0.22,
-      Substance: 0.23,
+      Spirit: 0.40,
+      Essence: 0.75,
+      Matter: 0.20,
+      Substance: 0.18,
     },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
@@ -608,10 +608,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.35,
+      Spirit: 0.35,
+      Essence: 0.72,
       Matter: 0.18,
-      Substance: 0.22,
+      Substance: 0.16,
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
@@ -679,10 +679,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 108, unit: "g" },
     scaledElemental: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.26,
-      Essence: 0.33,
+      Spirit: 0.38,
+      Essence: 0.70,
       Matter: 0.18,
-      Substance: 0.23,
+      Substance: 0.15,
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
@@ -750,10 +750,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 168, unit: "g" },
     scaledElemental: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.20,
-      Essence: 0.28,
-      Matter: 0.28,
-      Substance: 0.24,
+      Spirit: 0.22,
+      Essence: 0.65,
+      Matter: 0.40,
+      Substance: 0.35,
     },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
@@ -821,10 +821,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 69, unit: "g" },
     scaledElemental: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.22,
-      Essence: 0.31,
-      Matter: 0.24,
-      Substance: 0.23,
+      Spirit: 0.42,
+      Essence: 0.78,
+      Matter: 0.22,
+      Substance: 0.20,
     },
     kineticsImpact: { thermalDirection: 0.00, forceMagnitude: 0.85 },
     astrologicalProfile: {
@@ -893,9 +893,9 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: {
       Spirit: 0.18,
-      Essence: 0.27,
-      Matter: 0.30,
-      Substance: 0.25,
+      Essence: 0.55,
+      Matter: 0.60,
+      Substance: 0.50,
     },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.75 },
     astrologicalProfile: {
@@ -963,10 +963,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.18,
-      Essence: 0.24,
-      Matter: 0.33,
-      Substance: 0.25,
+      Spirit: 0.85,
+      Essence: 0.60,
+      Matter: 0.55,
+      Substance: 0.45,
     },
     kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 0.70 },
     astrologicalProfile: {
@@ -1034,10 +1034,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 80, unit: "g" },
     scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: {
-      Spirit: 0.20,
-      Essence: 0.30,
-      Matter: 0.27,
-      Substance: 0.23,
+      Spirit: 0.25,
+      Essence: 0.55,
+      Matter: 0.65,
+      Substance: 0.60,
     },
     kineticsImpact: { thermalDirection: 0.00, forceMagnitude: 0.75 },
     astrologicalProfile: {
