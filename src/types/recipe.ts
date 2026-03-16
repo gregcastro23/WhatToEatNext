@@ -198,6 +198,29 @@ export interface Recipe {
   essence?: number;
   matter?: number;
   substance?: number;
+
+  // Ingredient-summed alchemical quantities
+  // A# = sum of all ingredient (Spirit + Essence + Matter + Substance)
+  ingredientAlchemicalSummary?: {
+    totalSpirit: number;
+    totalEssence: number;
+    totalMatter: number;
+    totalSubstance: number;
+    totalASharp: number;
+    matchRate: number;
+    perIngredient: Array<{
+      ingredientName: string;
+      matchedKey: string | null;
+      alchemical: {
+        Spirit: number;
+        Essence: number;
+        Matter: number;
+        Substance: number;
+        aSharp: number;
+      };
+      isDefaultValue: boolean;
+    }>;
+  };
   isEnvironmentalMatch?: boolean;
   environmentalMatchDetails?: string;
   optimal_cooking_window?: OptimalCookingWindow;

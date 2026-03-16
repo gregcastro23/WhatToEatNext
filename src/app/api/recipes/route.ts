@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { _logger } from '@/lib/logger';
 import type { RecipeQuery } from '@/services/PlanetaryRecipeScorer';
 import { planetaryRecipeScorer } from '@/services/PlanetaryRecipeScorer';
+import { calculateRecipeAlchemicalQuantities } from '@/utils/recipeAlchemicalQuantities';
 
 /**
  * GET /api/recipes — Smart planetary recipe recommendations
@@ -29,35 +30,46 @@ export async function GET(request: Request) {
     const result = await planetaryRecipeScorer.scoreRecipes(query);
 
     return NextResponse.json({
-      recipes: result.recipes.map(r => ({
-        id: r.id,
-        name: r.name,
-        description: r.description,
-        cuisine: r.cuisine,
-        ingredients: r.ingredients,
-        instructions: r.instructions,
-        timeToMake: r.timeToMake,
-        prepTime: (r as any).prepTime,
-        cookTime: (r as any).cookTime,
-        numberOfServings: r.numberOfServings,
-        elementalProperties: r.elementalProperties,
-        season: r.season,
-        mealType: r.mealType,
-        isVegetarian: r.isVegetarian,
-        isVegan: r.isVegan,
-        isGlutenFree: r.isGlutenFree,
-        isDairyFree: r.isDairyFree,
-        flavorProfile: (r as any).flavorProfile,
-        nutrition: (r as any).nutrition,
-        cookingMethod: (r as any).cookingMethod,
-        cookingMethods: (r as any).cookingMethods,
-        astrologicalInfluences: (r as any).astrologicalInfluences,
-        monicaScore: (r as any).monicaScore,
-        monicaScoreLabel: (r as any).monicaScoreLabel,
-        // Scoring data
-        score: r.score,
-        scoreBreakdown: r.scoreBreakdown,
-      })),
+      recipes: result.recipes.map(r => {
+        const ingredientNames: string[] = Array.isArray(r.ingredients)
+          ? r.ingredients.map((ing: any) => (typeof ing === 'string' ? ing : (ing.name ?? ''))).filter(Boolean)
+          : [];
+        const ingredientAlchemicalSummary = ingredientNames.length > 0
+          ? calculateRecipeAlchemicalQuantities(ingredientNames)
+          : undefined;
+
+        return {
+          id: r.id,
+          name: r.name,
+          description: r.description,
+          cuisine: r.cuisine,
+          ingredients: r.ingredients,
+          instructions: r.instructions,
+          timeToMake: r.timeToMake,
+          prepTime: (r as any).prepTime,
+          cookTime: (r as any).cookTime,
+          numberOfServings: r.numberOfServings,
+          elementalProperties: r.elementalProperties,
+          season: r.season,
+          mealType: r.mealType,
+          isVegetarian: r.isVegetarian,
+          isVegan: r.isVegan,
+          isGlutenFree: r.isGlutenFree,
+          isDairyFree: r.isDairyFree,
+          flavorProfile: (r as any).flavorProfile,
+          nutrition: (r as any).nutrition,
+          cookingMethod: (r as any).cookingMethod,
+          cookingMethods: (r as any).cookingMethods,
+          astrologicalInfluences: (r as any).astrologicalInfluences,
+          monicaScore: (r as any).monicaScore,
+          monicaScoreLabel: (r as any).monicaScoreLabel,
+          // Ingredient-summed alchemical quantities
+          ingredientAlchemicalSummary,
+          // Scoring data
+          score: r.score,
+          scoreBreakdown: r.scoreBreakdown,
+        };
+      }),
       meta: {
         total: result.recipes.length,
         totalRecipesInDatabase: result.totalRecipesInDatabase,
@@ -109,35 +121,46 @@ export async function POST(request: Request) {
     const hasPersonalization = !!query.birthChart;
 
     return NextResponse.json({
-      recipes: result.recipes.map(r => ({
-        id: r.id,
-        name: r.name,
-        description: r.description,
-        cuisine: r.cuisine,
-        ingredients: r.ingredients,
-        instructions: r.instructions,
-        timeToMake: r.timeToMake,
-        prepTime: (r as any).prepTime,
-        cookTime: (r as any).cookTime,
-        numberOfServings: r.numberOfServings,
-        elementalProperties: r.elementalProperties,
-        season: r.season,
-        mealType: r.mealType,
-        isVegetarian: r.isVegetarian,
-        isVegan: r.isVegan,
-        isGlutenFree: r.isGlutenFree,
-        isDairyFree: r.isDairyFree,
-        flavorProfile: (r as any).flavorProfile,
-        nutrition: (r as any).nutrition,
-        cookingMethod: (r as any).cookingMethod,
-        cookingMethods: (r as any).cookingMethods,
-        astrologicalInfluences: (r as any).astrologicalInfluences,
-        monicaScore: (r as any).monicaScore,
-        monicaScoreLabel: (r as any).monicaScoreLabel,
-        // Scoring
-        score: r.score,
-        scoreBreakdown: r.scoreBreakdown,
-      })),
+      recipes: result.recipes.map(r => {
+        const ingredientNames: string[] = Array.isArray(r.ingredients)
+          ? r.ingredients.map((ing: any) => (typeof ing === 'string' ? ing : (ing.name ?? ''))).filter(Boolean)
+          : [];
+        const ingredientAlchemicalSummary = ingredientNames.length > 0
+          ? calculateRecipeAlchemicalQuantities(ingredientNames)
+          : undefined;
+
+        return {
+          id: r.id,
+          name: r.name,
+          description: r.description,
+          cuisine: r.cuisine,
+          ingredients: r.ingredients,
+          instructions: r.instructions,
+          timeToMake: r.timeToMake,
+          prepTime: (r as any).prepTime,
+          cookTime: (r as any).cookTime,
+          numberOfServings: r.numberOfServings,
+          elementalProperties: r.elementalProperties,
+          season: r.season,
+          mealType: r.mealType,
+          isVegetarian: r.isVegetarian,
+          isVegan: r.isVegan,
+          isGlutenFree: r.isGlutenFree,
+          isDairyFree: r.isDairyFree,
+          flavorProfile: (r as any).flavorProfile,
+          nutrition: (r as any).nutrition,
+          cookingMethod: (r as any).cookingMethod,
+          cookingMethods: (r as any).cookingMethods,
+          astrologicalInfluences: (r as any).astrologicalInfluences,
+          monicaScore: (r as any).monicaScore,
+          monicaScoreLabel: (r as any).monicaScoreLabel,
+          // Ingredient-summed alchemical quantities
+          ingredientAlchemicalSummary,
+          // Scoring
+          score: r.score,
+          scoreBreakdown: r.scoreBreakdown,
+        };
+      }),
       meta: {
         total: result.recipes.length,
         totalRecipesInDatabase: result.totalRecipesInDatabase,
