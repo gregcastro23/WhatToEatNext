@@ -2,43 +2,53 @@
 
 import { useState } from 'react';
 import { experimental_useObject as useObject } from '@ai-sdk/react';
+import type { z } from 'zod';
 import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { useUser } from '@/contexts/UserContext';
 import { SparklesIcon, Cog6ToothIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'; // Need to ensure heroicons is present, or fallback to text if not
 
+type CosmicRecipe = z.infer<typeof cosmicRecipeSchema>;
+
 export default function CosmicRecipeGenerator() {
-  const { user } = useUser();
-  
+  const { currentUser } = useUser();
+
   const [prompt, setPrompt] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [ingredientsMain, setIngredientsMain] = useState("");
   const [disallowedIngredients, setDisallowedIngredients] = useState("");
-  
+
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
 
   // Parse birthData from UserContext if available
-  const birthData = user?.birthDate && user?.birthTime ? {
-      year: parseInt(user.birthDate.split('-')[0]),
-      month: parseInt(user.birthDate.split('-')[1]),
-      day: parseInt(user.birthDate.split('-')[2]),
-      hour: parseInt(user.birthTime.split(':')[0]),
-      minute: parseInt(user.birthTime.split(':')[1]),
-      latitude: user.birthLocation?.latitude || 40.7128,
-      longitude: user.birthLocation?.longitude || -74.0060,
-  } : undefined;
+  const bd = currentUser?.birthData;
+  const birthData = bd?.dateTime ? (() => {
+      const dt = new Date(bd.dateTime);
+      return {
+        year: dt.getFullYear(),
+        month: dt.getMonth() + 1,
+        day: dt.getDate(),
+        hour: dt.getHours(),
+        minute: dt.getMinutes(),
+        latitude: bd.latitude ?? 40.7128,
+        longitude: bd.longitude ?? -74.0060,
+      };
+  })() : undefined;
 
-  const diet = user?.dietaryRestrictions?.length ? user.dietaryRestrictions.join(", ") : "no-restrictions";
+  const preferences = currentUser?.preferences;
+  const dietArray = (preferences?.dietaryRestrictions ?? []) as string[];
+  const diet = dietArray.length ? dietArray.join(", ") : "no-restrictions";
 
-  const { object, submit, isLoading } = useObject({
+  const { object: rawObject, submit, isLoading } = useObject({
     api: '/api/generate-cosmic-recipe',
-    schema: cosmicRecipeSchema,
-    onFinish: async (event) => {
+    schema: cosmicRecipeSchema as any,
+    onFinish: async (event: any) => {
        if (event.object?.title) {
           await generateImage(event.object?.title, event.object?.short_description || "");
        }
     }
   });
+  const object = rawObject as Partial<CosmicRecipe> | undefined;
 
   const handleGenerate = () => {
     setImageUrl(null);

@@ -13,6 +13,41 @@ import { headers } from "next/headers";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
 import type Stripe from "stripe";
 
+/**
+ * Extract current_period_start/end from a Stripe Subscription.
+ * In Stripe SDK v20+ these fields live on SubscriptionItem, not Subscription.
+ */
+function getSubscriptionPeriod(subscription: Stripe.Subscription): {
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+} {
+  const firstItem = subscription.items?.data?.[0];
+  if (firstItem) {
+    return {
+      currentPeriodStart: new Date(firstItem.current_period_start * 1000).toISOString(),
+      currentPeriodEnd: new Date(firstItem.current_period_end * 1000).toISOString(),
+    };
+  }
+  // Fallback: default to now → +1 year
+  return {
+    currentPeriodStart: new Date().toISOString(),
+    currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+  };
+}
+
+/**
+ * Extract the subscription ID from a Stripe Invoice (Stripe SDK v20+).
+ * In v20 the `subscription` top-level field was removed; the data now lives
+ * under `invoice.parent.subscription_details.subscription`.
+ */
+function getInvoiceSubscriptionId(invoice: Stripe.Invoice): string | null {
+  const subDetails = invoice.parent?.subscription_details;
+  if (!subDetails?.subscription) return null;
+  return typeof subDetails.subscription === "string"
+    ? subDetails.subscription
+    : subDetails.subscription.id;
+}
+
 export async function POST(request: Request) {
   const body = await request.text();
   const headersList = await headers();
@@ -59,13 +94,16 @@ export async function POST(request: Request) {
           // If it was a subscription, retrieve it to get current period info
           let currentPeriodStart = new Date().toISOString();
           let currentPeriodEnd = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
-          let stripeSubscriptionId = null;
+          let stripeSubscriptionId: string | null = null;
 
           if (session.subscription) {
-            stripeSubscriptionId = session.subscription as string;
+            stripeSubscriptionId = typeof session.subscription === "string"
+              ? session.subscription
+              : session.subscription.id;
             const sub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
-            currentPeriodStart = new Date(sub.current_period_start * 1000).toISOString();
-            currentPeriodEnd = new Date(sub.current_period_end * 1000).toISOString();
+            const period = getSubscriptionPeriod(sub);
+            currentPeriodStart = period.currentPeriodStart;
+            currentPeriodEnd = period.currentPeriodEnd;
           }
 
           await subscriptionService.updateSubscription(userId, {
@@ -86,14 +124,15 @@ export async function POST(request: Request) {
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         const stripeCustomerId = subscription.customer as string;
-        
+        const period = getSubscriptionPeriod(subscription);
+
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
         if (sub) {
           await subscriptionService.updateSubscription(sub.userId, {
             status: subscription.status as SubscriptionStatus,
             stripeSubscriptionId: subscription.id,
-            currentPeriodStart: new Date(subscription.current_period_start * 1000).toISOString(),
-            currentPeriodEnd: new Date(subscription.current_period_end * 1000).toISOString(),
+            currentPeriodStart: period.currentPeriodStart,
+            currentPeriodEnd: period.currentPeriodEnd,
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
           });
           console.log(`[webhook] Subscription updated: ${subscription.id} status=${subscription.status}`);
@@ -119,18 +158,20 @@ export async function POST(request: Request) {
 
       case "invoice.payment_succeeded": {
         const invoice = event.data.object as Stripe.Invoice;
-        if (invoice.subscription) {
-          const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+        const subscriptionId = getInvoiceSubscriptionId(invoice);
+        if (subscriptionId) {
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId);
           const stripeCustomerId = invoice.customer as string;
+          const period = getSubscriptionPeriod(subscription);
 
           const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
           if (sub) {
             await subscriptionService.updateSubscription(sub.userId, {
               status: "active",
-              currentPeriodStart: new Date(subscription.current_period_start * 1000).toISOString(),
-              currentPeriodEnd: new Date(subscription.current_period_end * 1000).toISOString(),
+              currentPeriodStart: period.currentPeriodStart,
+              currentPeriodEnd: period.currentPeriodEnd,
             });
-            console.log(`[webhook] Invoice paid, period extended: ${invoice.subscription}`);
+            console.log(`[webhook] Invoice paid, period extended: ${subscriptionId}`);
           }
         }
         break;

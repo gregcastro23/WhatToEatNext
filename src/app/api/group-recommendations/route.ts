@@ -83,7 +83,7 @@ function buildCompositeChart(members: GroupMember[]): CompositeNatalChart {
 
 /** Score a cuisine against composite ESMS (0-1 scale) */
 function scoreCuisine(
-  cuisine: (typeof CUISINES)[string],
+  cuisine: (typeof CUISINES)[keyof typeof CUISINES],
   composite: CompositeNatalChart,
 ): number {
   const props = (cuisine as any).alchemical_properties ?? {};

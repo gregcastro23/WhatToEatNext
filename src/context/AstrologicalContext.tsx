@@ -9,21 +9,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-
-// Type definitions
-interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-}
-
-interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
+import type { ElementalProperties, AlchemicalProperties } from "@/types/celestial";
 
 interface ChakraEnergies {
   root: number;

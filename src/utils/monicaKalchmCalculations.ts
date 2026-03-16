@@ -9,16 +9,12 @@
 
 import { calculateKinetics } from "@/calculations/kinetics";
 import type { ElementalProperties } from "@/types/alchemy";
+import type { AlchemicalProperties } from "@/types/celestial";
 import type { KineticMetrics } from "@/types/kinetics";
 
 // ========== INTERFACES ==========
 
-export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
+export type { AlchemicalProperties };
 
 export interface ThermodynamicMetrics {
   heat: number;

@@ -6,17 +6,10 @@
  */
 
 import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
+import type { AlchemicalProperties } from "@/types/celestial";
 import { getCachedCalculation } from "../../utils/calculationCache";
 
-/**
- * Core alchemical properties derived from planetary positions
- */
-export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
+export type { AlchemicalProperties };
 
 /**
  * Elemental values derived from zodiac signs and planetary influences

@@ -119,7 +119,7 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {
   calculationError: false,
   elementalBalance: DEFAULT_ELEMENTAL_PROPERTIES,
   alchemicalValues: DEFAULT_ALCHEMICAL_VALUES,
-} as AstrologicalState;
+} as unknown as AstrologicalState;
 
 /**
  * Default zodiac energies
