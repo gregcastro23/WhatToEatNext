@@ -59,7 +59,7 @@ export async function POST(request: Request) {
 
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
-      mode: "payment",
+      mode: "subscription",
       line_items: [{ price: tierConfig.stripePriceId, quantity: 1 }],
       success_url: `${appUrl}/premium?checkout=success&tier=${targetTier}`,
       cancel_url: `${appUrl}/premium?checkout=canceled`,

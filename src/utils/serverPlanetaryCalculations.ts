@@ -329,8 +329,9 @@ export function calculateAscendantPosition(
   const lstRad = lst_deg * Math.PI / 180;
 
   // Obliquity of the ecliptic (degrees → radians)
-  // astroTime.eps is set by astronomy-engine for the given epoch
-  const oblRad = astroTime.eps * Math.PI / 180;
+  // mean obliquity of ecliptic for J2000
+  const OBLIQUITY_J2000 = 23.4392911;
+  const oblRad = OBLIQUITY_J2000 * Math.PI / 180;
   const latRad = latitude * Math.PI / 180;
 
   // Ascendant ecliptic longitude — standard formula

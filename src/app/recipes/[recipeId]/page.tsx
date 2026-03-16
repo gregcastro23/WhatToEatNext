@@ -1264,7 +1264,7 @@ export default function RecipePage(props: any) {
             {recipe.flavorProfile && (
               <SectionCard title="Flavor Profile" icon="&#x1F444;">
                 <div className="space-y-3 text-sm">
-                  {recipe.flavorProfile.primary?.length > 0 && (
+                  {recipe.flavorProfile.primary && recipe.flavorProfile.primary.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Primary</h3>
                       <div className="flex flex-wrap gap-1.5">
@@ -1274,7 +1274,7 @@ export default function RecipePage(props: any) {
                       </div>
                     </div>
                   )}
-                  {recipe.flavorProfile.accent?.length > 0 && (
+                  {recipe.flavorProfile.accent && recipe.flavorProfile.accent.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Accent</h3>
                       <div className="flex flex-wrap gap-1.5">

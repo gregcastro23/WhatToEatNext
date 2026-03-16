@@ -56,6 +56,7 @@ Your goal is to generate unique, health-conscious recipes that include an "Eleme
 
 Ensure your response conforms exactly to the required JSON schema, calculating the elemental balance and nutritional information as a functional part of the dish's identity.`;
 
+    // @ts-expect-error - Type instantiation is excessively deep due to complex schema
     const result = await streamObject({
       model: openai('gpt-4o'),
       schema: cosmicRecipeSchema,

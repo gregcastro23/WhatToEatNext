@@ -80,7 +80,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const res = await fetch("/api/subscription");
+      const res = await fetch("/api/user/subscription");
       if (res.ok) {
         const data = await res.json();
         setSubscription(data.subscription);

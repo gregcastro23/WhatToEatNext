@@ -213,7 +213,7 @@ export async function POST(request: NextRequest) {
     ]);
 
     // Merge Ascendant into the positions map
-    const planetaryPositions = {
+    const planetaryPositions: any = {
       ...rawPositions,
       Ascendant: ascendantPos,
     };
