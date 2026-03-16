@@ -1,6 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-alchm-gold: #ffd700;
+  --color-alchm-purple: #8b5cf6;
+  --color-alchm-orange: #f97316;
+  --color-alchm-green: #10b981;
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;

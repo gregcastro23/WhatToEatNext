@@ -141,6 +141,7 @@
     "@mui/material": "^5.13.6",
     "@radix-ui/react-tabs": "^1.1.12",
     "@stripe/stripe-js": "^8.9.0",
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/jsonwebtoken": "^9.0.10",
     "ai": "^6.0.116",
     "astronomy-engine": "^2.1.17",
@@ -155,7 +156,7 @@
     "jsonwebtoken": "^9.0.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.462.0",
-    "next": "15.5.9",
+    "next": "^15.5.12",
     "next-auth": "beta",
     "node-fetch": "2",
     "nodemailer": "^8.0.2",
@@ -171,7 +172,7 @@
     "stripe": "^20.4.1",
     "suncalc": "^1.9.0",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^4.2.1",
     "zod": "^3.23.0"
   },
   "devDependencies": {
