@@ -155,7 +155,7 @@ function calculateApproximateAscendant(
   const signs = [
     "aries", "taurus", "gemini", "cancer", "leo", "virgo",
     "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
-  ];
+  ] as const;
 
   const now = new Date();
   const year = requestData.year ?? now.getFullYear();

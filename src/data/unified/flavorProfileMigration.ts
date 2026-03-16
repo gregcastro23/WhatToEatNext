@@ -787,7 +787,7 @@ export class FlavorProfileMigration {
 
   // ===== DEFAULT VALUES =====
 
-  private getDefaultAlchemicalProperties(): AlchemicalValues {
+  private getDefaultAlchemicalProperties(): AlchemicalProperties {
     return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 };
   }
 

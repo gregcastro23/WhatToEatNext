@@ -17,13 +17,9 @@
 
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type { ElementalProperties } from "@/types/alchemy";
+import type { AlchemicalProperties } from "@/types/celestial";
 
-export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
+export type { AlchemicalProperties };
 
 /**
  * Planetary Alchemy Values (Authoritative from Alchemizer Engine)

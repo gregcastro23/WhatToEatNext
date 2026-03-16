@@ -67,8 +67,8 @@ export class CuisineEnhancer {
   static calculateCuisineKalchm(cuisine: {}): {
     totalKalchm: number;
     averageRecipeKalchm: number;
-    ingredientKalchmProfile: Ingredient | UnifiedIngredient;
-    cookingMethodInfluence: Record<string, number>;
+    ingredientKalchmProfile: Record<string, unknown>;
+    cookingMethodInfluence: Record<string, unknown>;
     recipesAnalyzed: number;
     ingredientsAnalyzed: number;
   } {
@@ -100,11 +100,11 @@ export class CuisineEnhancer {
         const unifiedIngredient = RecipeEnhancer.findUnifiedIngredient(ingredientName);
         if (unifiedIngredient) {
           ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm || 1.0);
-        } else if ((ingredient as Record<string, unknown>).element) {
+        } else if ((ingredient as unknown as Record<string, unknown>).element) {
           ingredientKalchms.set(
             ingredientName,
             RecipeEnhancer.estimateKalchmFromElement(
-              (ingredient as Record<string, unknown>).element as Element,
+              (ingredient as unknown as Record<string, unknown>).element as Element,
             ),
           );
         }
@@ -134,8 +134,9 @@ export class CuisineEnhancer {
     // Calculate total cuisine Kalchm (weighted average of recipe Kalchm and ingredient profile)
     const ingredientKalchmWeight = 0.6;
     const recipeKalchmWeight = 0.4;
+    const profileData = ingredientKalchmProfile as unknown as { kalchmRange: { average: number } };
     const totalKalchm =
-      (ingredientKalchmProfile as Record<string, unknown>).kalchmRange.average *
+      (profileData.kalchmRange?.average ?? 1.0) *
         ingredientKalchmWeight +
       averageRecipeKalchm * recipeKalchmWeight;
 
@@ -370,7 +371,7 @@ export class CuisineEnhancer {
    * Calculate cuisine optimization data
    */
   static calculateCuisineOptimization(
-    cuisine: CuisineType,
+    cuisine: Record<string, unknown>,
     kalchm: number,
     elementalBalance: ElementalProperties,
   ): Record<string, unknown> {
@@ -429,7 +430,7 @@ export class CuisineEnhancer {
   /**
    * Enhance a cuisine with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceCuisine(cuisine: CuisineType, sourceFile: string = 'unknown'): EnhancedCuisine {
+  static enhanceCuisine(cuisine: Record<string, unknown>, sourceFile: string = 'unknown'): EnhancedCuisine {
     // Calculate cuisine Kalchm and analysis
     const kalchmAnalysis = this.calculateCuisineKalchm(cuisine);
 
@@ -439,7 +440,7 @@ export class CuisineEnhancer {
     // Determine alchemical classification
     const alchemicalClassification = this.determineCuisineAlchemicalClassification(
       kalchmAnalysis.totalKalchm,
-      (kalchmAnalysis.cookingMethodInfluence?.primaryMethods as string[]) || [],
+      (kalchmAnalysis.cookingMethodInfluence?.primaryMethods as unknown as string[]) || [],
     );
 
     // Calculate cuisine optimization
@@ -457,10 +458,10 @@ export class CuisineEnhancer {
       alchemicalProperties: {
         totalKalchm: kalchmAnalysis.totalKalchm,
         averageRecipeKalchm: kalchmAnalysis.averageRecipeKalchm,
-        ingredientKalchmProfile: kalchmAnalysis.ingredientKalchmProfile as
+        ingredientKalchmProfile: kalchmAnalysis.ingredientKalchmProfile as unknown as
           | Ingredient
           | UnifiedIngredient,
-        cookingMethodInfluence: kalchmAnalysis.cookingMethodInfluence as Record<string, number>,
+        cookingMethodInfluence: kalchmAnalysis.cookingMethodInfluence as unknown as Record<string, number>,
         alchemicalClassification,
       },
 
@@ -476,7 +477,7 @@ export class CuisineEnhancer {
         enhancedAt: new Date().toISOString(),
         sourceFile,
       },
-    } as EnhancedCuisine;
+    } as unknown as EnhancedCuisine;
 
     return enhancedCuisine;
   }
@@ -666,7 +667,7 @@ export class CuisineAnalyzer {
           ...cuisine.cuisineOptimization,
           kalchmCompatibleCuisines: compatibleCuisines,
         },
-      };
+      } as EnhancedCuisine;
     });
   }
 }

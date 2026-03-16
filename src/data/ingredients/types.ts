@@ -181,13 +181,9 @@ export type ProteinSubcategory =
 export type SeasoningSubcategory = "salt" | "pepper" | "aromatic" | "blend";
 export type OilSubcategory = "cooking" | "finishing" | "infused";
 export type VinegarSubcategory = "wine" | "fruit" | "grain" | "specialty";
-// Updated AlchemicalProperties interface with more accurate values
-export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
+
+import type { AlchemicalProperties } from "@/types/celestial";
+export type { AlchemicalProperties };
 
 // Updated ThermodynamicProperties interface based on the FoodAlchemySystem
 export interface ThermodynamicProperties {

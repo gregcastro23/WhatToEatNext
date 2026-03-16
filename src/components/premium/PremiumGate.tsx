@@ -11,6 +11,7 @@
 
 import React, { useState } from "react";
 import { usePremium } from "@/contexts/PremiumContext";
+import type { SubscriptionTier } from "@/types/subscription";
 
 interface PremiumGateProps {
   children: React.ReactNode;
@@ -24,8 +25,9 @@ export default function PremiumGate({
   preview,
   featureName = "this feature",
 }: PremiumGateProps) {
-  const { isPremium, isLoading, upgradeToPremium } = usePremium();
+  const { tier, isLoading, openCheckout } = usePremium();
   const [showModal, setShowModal] = useState(false);
+  const isPremium = tier !== "free";
 
   if (isLoading) return null;
   if (isPremium) return <>{children}</>;
@@ -76,7 +78,7 @@ export default function PremiumGate({
         <PremiumModal
           onClose={() => setShowModal(false)}
           onUpgrade={() => {
-            upgradeToPremium();
+            void openCheckout("premium" as SubscriptionTier);
             setShowModal(false);
           }}
         />
