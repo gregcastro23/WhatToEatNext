@@ -439,22 +439,90 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
   const monicaLabel  = recipe.monicaScoreLabel;
   const rawMonica    = (recipe as any).monicaOptimization?.optimizedMonica as number | null | undefined;
 
+  // Ingredient-summed alchemical quantities
+  const ingAlch = recipe.ingredientAlchemicalSummary;
+  const ingTotalASharp = ingAlch?.totalASharp ?? 0;
+  const ingASharpSegments: DonutSegment[] = ingAlch
+    ? (
+        [
+          { key: "Spirit"    as const, value: ingAlch.totalSpirit    },
+          { key: "Essence"   as const, value: ingAlch.totalEssence   },
+          { key: "Matter"    as const, value: ingAlch.totalMatter    },
+          { key: "Substance" as const, value: ingAlch.totalSubstance },
+        ] as Array<{ key: keyof typeof ESMS_CONFIG; value: number }>
+      )
+        .filter((s) => s.value > 0)
+        .map((s) => ({ value: s.value, color: ESMS_CONFIG[s.key].color, label: ESMS_CONFIG[s.key].label }))
+    : [];
+
   const hasASharp = aSharp > 0;
+  const hasIngASharp = ingTotalASharp > 0;
   const hasMonicaDisplay = monicaScore != null || monicaComponentTotal > 0;
 
-  if (!hasASharp && !hasMonicaDisplay) return null;
+  if (!hasASharp && !hasIngASharp && !hasMonicaDisplay) return null;
 
   return (
     <SectionCard title="Alchemical Scores" icon="\u2697\uFE0F">
       <div className="space-y-6">
 
-        {/* ── A# gauge ── */}
+        {/* ── Ingredient-Summed A# ── */}
+        {hasIngASharp && (
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <span className="text-sm font-semibold text-slate-300">A<sup className="text-amber-400">#</sup></span>
+                <span className="text-xs text-slate-500 ml-2">Ingredient Sum</span>
+              </div>
+              <span className="text-xs text-slate-500 font-mono">
+                Σ ingredients = <span className="text-amber-300 font-bold">{ingTotalASharp.toFixed(2)}</span>
+              </span>
+            </div>
+
+            <SegmentedDonut
+              segments={ingASharpSegments}
+              centerLabel={ingTotalASharp.toFixed(1)}
+              centerSublabel="A#"
+            />
+
+            {/* Per-component totals */}
+            <div className="grid grid-cols-2 gap-1.5 mt-3">
+              {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
+                const val = prop === "Spirit" ? (ingAlch?.totalSpirit ?? 0)
+                  : prop === "Essence" ? (ingAlch?.totalEssence ?? 0)
+                  : prop === "Matter" ? (ingAlch?.totalMatter ?? 0)
+                  : (ingAlch?.totalSubstance ?? 0);
+                const cfg = ESMS_CONFIG[prop];
+                if (val === 0) return null;
+                return (
+                  <div key={prop} className="flex items-center gap-1.5 text-xs">
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
+                    <span className="text-slate-400">{cfg.label}</span>
+                    <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Match rate indicator */}
+            {ingAlch && ingAlch.matchRate < 1 && (
+              <p className="text-xs text-slate-600 mt-2">
+                {Math.round(ingAlch.matchRate * 100)}% of ingredients matched in alchemical database
+              </p>
+            )}
+          </div>
+        )}
+
+        {hasIngASharp && (hasASharp || hasMonicaDisplay) && (
+          <div className="border-t border-slate-800" />
+        )}
+
+        {/* ── Planetary A# gauge ── */}
         {hasASharp && (
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
                 <span className="text-sm font-semibold text-slate-300">A<sup className="text-amber-400">#</sup></span>
-                <span className="text-xs text-slate-500 ml-2">Alchemical Sum</span>
+                <span className="text-xs text-slate-500 ml-2">Planetary</span>
               </div>
               <span className="text-xs text-slate-500 font-mono">
                 S+E+M+Sb = <span className="text-amber-300 font-bold">{aSharp.toFixed(2)}</span>
