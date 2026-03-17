@@ -657,8 +657,8 @@ export const french: Cuisine = {
               "Moon"
             ],
             "signs": [
-              "Taurus",
-              "Cancer"
+              "taurus",
+              "cancer"
             ],
             "lunarPhases": [
               "Full Moon"
@@ -1704,8 +1704,8 @@ export const french: Cuisine = {
               "Pluto"
             ],
             "signs": [
-              "Scorpio",
-              "Capricorn"
+              "scorpio",
+              "capricorn"
             ],
             "lunarPhases": [
               "Waning Gibbous"
@@ -2565,8 +2565,8 @@ export const french: Cuisine = {
               "Moon"
             ],
             "signs": [
-              "Taurus",
-              "Leo"
+              "taurus",
+              "leo"
             ],
             "lunarPhases": [
               "Full Moon"
