@@ -12,7 +12,6 @@ import type {
 
 // TODO: Fix import - add what to import from './unifiedTypes.ts'
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
-import { deriveAlchemicalFromElemental } from "./alchemicalCalculations";
 
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
@@ -21,13 +20,22 @@ import { dairy } from "../ingredients/dairy";
 import { fruits } from "../ingredients/fruits";
 import { grains } from "../ingredients/grains";
 import { herbs } from "../ingredients/herbs";
+import { getIngredientSummary } from "../ingredients/ingredientSummaries";
 import { miscIngredients } from "../ingredients/misc/misc";
 import { oils } from "../ingredients/oils";
-import { eggs, legumes, meats, plantBased, poultry, seafood } from "../ingredients/proteins";
+import {
+  eggs,
+  legumes,
+  meats,
+  plantBased,
+  poultry,
+  seafood,
+} from "../ingredients/proteins";
 import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
 import { vegetables } from "../ingredients/vegetables";
 import { vinegars } from "../ingredients/vinegars";
+import { deriveAlchemicalFromElemental } from "./alchemicalCalculations";
 import type { UnifiedIngredient } from "./unifiedTypes";
 
 // Combine all protein types
@@ -98,13 +106,19 @@ function enhanceIngredient(
   // ✅ Pattern GG-6: Safe property access for alchemical properties
   const alchemicalData = ingredient.alchemicalProperties as unknown as any;
   const hasAlchemicalData =
-    alchemicalData?.Spirit || alchemicalData?.Essence ||
-    alchemicalData?.Matter || alchemicalData?.Substance;
+    alchemicalData?.Spirit ||
+    alchemicalData?.Essence ||
+    alchemicalData?.Matter ||
+    alchemicalData?.Substance;
 
   // Get elemental properties for derivation
-  const elementalProps: ElementalProperties =
-    ((ingredient as any).elementalProperties as ElementalProperties) ||
-    { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const elementalProps: ElementalProperties = ((ingredient as any)
+    .elementalProperties as ElementalProperties) || {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  };
 
   // Use existing alchemical data if present, otherwise derive from elemental properties
   const alchemicalProperties: AlchemicalProperties = hasAlchemicalData
@@ -160,6 +174,10 @@ function enhanceIngredient(
     // New calculated values
     kalchm,
     monica,
+
+    // Add description from summary database
+    description:
+      getIngredientSummary(String((ingredient as any).name || "")) || undefined,
 
     // Add energy profile if thermodynamics exist
     ...(thermodynamics && {
