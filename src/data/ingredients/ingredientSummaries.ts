@@ -2072,6 +2072,81 @@ export const ingredientSummaries: Record<string, string> = {
   sweet_basil_genovese: `The ubiquitous culinary herb (*Ocimum basilicum*) central to Italian cuisine, specifically the Genovese cultivar. It features highly tender, bright green leaves that offer a complex, sweet, and incredibly pungent aroma defined by notes of clove, anise, and mint, serving as the absolute foundation of traditional pesto.
 
 **Selection & Storage:** Highly sensitive to cold, which turns the leaves black. Store stems in a glass of water at room temperature, like a bouquet of flowers, loosely draped with a plastic bag.`,
+  sweet_soy: `Also known as kecap manis, an Indonesian sweet soy sauce characterized by a profoundly thick, syrupy consistency and an intensely rich, caramel-like flavor derived from a massive addition of palm sugar. It acts as both a marinade and a finishing glaze, essential for iconic dishes like Nasi Goreng.
+
+**Selection & Storage:** Keep tightly sealed in a cool, dark pantry; its extremely high sugar content makes it immune to spoiling.`,
+
+  szechuan_peppercorn: `The dried berry husks of the prickly ash tree (*Zanthoxylum*), completely unrelated to black pepper or chili peppers. They contain hydroxy-alpha sanshool, a compound that creates a unique vibrating, numbing, and tingling sensation (málà) on the tongue, accompanied by a bright citrus aroma.
+
+**Selection & Storage:** Look for brightly colored husks without many black seeds inside (the seeds are gritty and tasteless). Store in an airtight container in a cool, dark place.`,
+
+  table_salt: `A highly refined, fine-grained salt consisting of nearly 100% pure sodium chloride, typically mined from underground salt deposits. Because its grains are uniformly small and dense, it dissolves instantly in water, though it is incredibly easy to over-salt dishes if measuring by volume instead of weight.
+
+**Selection & Storage:** Most table salt contains added iodine (for health) and anti-caking agents. Store in a dry cupboard; it will last indefinitely.`,
+
+  tamarind: `The sticky, highly acidic pulp extracted from the seed pods of the *Tamarindus indica* tree. It provides a profoundly complex, fruity, and intensely tart flavor profile that acts as the primary souring agent in Pad Thai, Indian chutneys, and Worcestershire sauce.
+
+**Selection & Storage:** Sold as a compressed block (which requires soaking and straining) or a pre-made paste/concentrate. Store blocks wrapped tightly in a cool pantry, and keep opened pastes in the refrigerator.`,
+
+  tangerine: `A specific variety of mandarin orange (*Citrus tangerina*) characterized by its deep red-orange hue and pebbly skin. It is exceptionally sweet, juicy, and highly aromatic, with a more pronounced, complex citrus bite than standard navel oranges.
+
+**Selection & Storage:** Choose fruit that feels heavy and firm, with bright, glossy skin. Store in the crisper drawer to maintain optimal freshness.`,
+
+  tea_seed_oil: `Also known as camellia oil, this pale, golden oil is cold-pressed from the seeds of *Camellia oleifera* (closely related to the tea plant). It boasts an incredibly high smoke point (485°F / 252°C) and a very delicate, slightly herbaceous and sweet flavor, making it a premium oil for delicate Asian stir-fries.
+
+**Selection & Storage:** Highly stable and resistant to rancidity. Store tightly sealed in a cool, dark cupboard.`,
+
+  tellicherry: `The highest grade of black peppercorn (*Piper nigrum*), sourced from the Malabar coast of India. They are left on the vine longer than standard black peppercorns, allowing them to grow larger and develop a profoundly deep, complex, and slightly sweet/fruity flavor with reduced harsh heat.
+
+**Selection & Storage:** Buy whole peppercorns and grind them immediately before use to protect their highly volatile essential oils. Store in an airtight container in a dark pantry.`,
+
+  thai_basil: `A distinct cultivar of sweet basil (*Ocimum basilicum var. thyrsiflora*) essential to Southeast Asian cuisine. It features sturdy, narrow leaves and a striking purple stem, offering a highly robust, spicy, and anise/licorice-forward flavor that holds up exceptionally well to high-heat stir-frying.
+
+**Selection & Storage:** Look for crisp leaves without black spots. Store fresh stems in a glass of water at room temperature, loosely covered with a plastic bag.`,
+
+  tilapia: `A highly resilient, fast-growing freshwater cichlid fish heavily utilized in commercial aquaculture. It provides incredibly lean, firm, white flesh with a profoundly mild (almost nonexistent) flavor, making it a perfect, neutral protein carrier for aggressive spice rubs or heavy cream sauces.
+
+**Selection & Storage:** Because of its mild flavor, any 'fishy' smell indicates severe spoilage. Store fresh fillets on ice in the refrigerator and consume within a day or two.`,
+
+  triticale: `A hybrid grain created by crossing wheat (*Triticum*) and rye (*Secale*), aiming to combine the yield potential and grain quality of wheat with the disease and environmental tolerance of rye. It offers a dense, chewy texture and a flavor that is sweeter than rye but more complex and earthy than standard wheat.
+
+**Selection & Storage:** Available as whole berries, flakes, or flour. Store the flour in the refrigerator or freezer, as the intact germ oils can go rancid at room temperature.`,
+
+  white_cornmeal: `A coarse flour milled from dried white dent corn. Compared to yellow cornmeal, it offers a more delicate, less aggressively sweet, and slightly more floral flavor profile, serving as the foundational ingredient for Southern US staples like grits and traditional cornbread.
+
+**Selection & Storage:** Stone-ground white cornmeal retains the nutrient-rich germ and must be stored in the refrigerator or freezer. Degerminated cornmeal is shelf-stable in the pantry.`,
+
+  white_truffle_oil: `A finishing oil meant to mimic the incredibly rare, pungent aroma of the white Alba truffle (*Tuber magnatum*). It relies on synthesized aromatic compounds (primarily bis(methylthio)methane) to provide a piercing, garlicky, and deeply musky aroma intended to elevate neutral dishes like risotto or mashed potatoes.
+
+**Selection & Storage:** Use exceptionally sparingly, as the synthesized aroma can quickly become cloying and metallic. Store tightly sealed in a dark, cool cupboard.`,
+
+  winter_melon: `A massive, vine-grown fruit (*Benincasa hispida*) covered in a waxy, chalky coating that allows it to be stored for many months. While technically a fruit, it is treated strictly as a vegetable in Asian cooking, featuring a dense, stark-white flesh that absorbs profound amounts of broth in long-simmering soups.
+
+**Selection & Storage:** Whole winter melons can be kept in a cool, dark place for months. Once cut, wrap tightly in plastic and store in the refrigerator.`,
+
+  yellow_lentils: `Hulled and split lentils (*Lens culinaris*), often referred to as Moong Dal when derived from mung beans or Chana Dal when derived from chickpeas. Without their seed coats, they disintegrate completely when boiled, creating a remarkably thick, creamy, and mildly sweet puree essential for Indian dals.
+
+**Selection & Storage:** Look for a bright, uniform yellow color. Store in an airtight container in a dark pantry, as prolonged exposure to light will cause them to fade.`,
+
+  yuzu: `A highly aromatic, bumpy, and tart citrus fruit (*Citrus junos*) native to East Asia. It produces very little juice, but its intensely fragrant zest offers a profoundly complex, floral aroma that tastes like a hybrid of lemon, mandarin, and grapefruit, famously used to flavor ponzu sauce.
+
+**Selection & Storage:** Fresh yuzu is extremely rare and expensive outside of Japan; most often purchased as bottled juice or preserved zest. Keep bottled juice refrigerated after opening.`,
+
+  za_atar: `A vibrant, aromatic Middle Eastern spice blend featuring a base of dried wild thyme or oregano mixed with toasted sesame seeds, salt, and the defining tart, citrusy zing of sumac. It provides a profoundly earthy, nutty, and bright flavor profile perfect for dusting over hummus, flatbreads, or roasted chicken.
+
+**Selection & Storage:** Because it relies heavily on volatile dried herbs and oil-rich seeds, it should be stored in an airtight container in a dark pantry and replaced every six months.`,
+
+  almond_milk: `A popular plant-based milk alternative created by blending almonds with water and straining out the solids. It offers a very thin, watery texture and a subtly sweet, distinctly nutty flavor, but it lacks the protein structure to properly foam or emulsify in hot sauces without chemical stabilizers.
+
+**Selection & Storage:** Unsweetened varieties are best for savory cooking. Store commercial almond milk in the pantry until opened, then refrigerate; homemade almond milk must be kept refrigerated and used within 3-4 days.`,
+
+  annatto_seeds: `The small, deeply red, triangular seeds of the achiote tree (*Bixa orellana*), native to the tropical Americas. While they offer a very mild, slightly peppery, and earthy flavor, their primary culinary function is to impart a brilliant yellow-orange dye to dishes like Mexican cochinita pibil and cheddar cheese.
+
+**Selection & Storage:** Usually steeped in hot oil or water to extract their color before the seeds are discarded. Store the dried seeds in an airtight container in a dark pantry.`,
+
+  banana_flower: `The massive, tear-shaped, purplish-red blossom that hangs at the end of a cluster of bananas. Commonly used in Southeast Asian and Indian cuisines, its tender inner bracts provide a crunchy, flaky texture and a mild, slightly bitter, and highly astringent flavor that mimics the texture of artichoke hearts or fish.
+
+**Selection & Storage:** Choose tight, firm flowers without bruising. Must be soaked in acidic water immediately after slicing to prevent severe oxidation (browning). Store whole flowers in the refrigerator.`,
 };
 
 /**
