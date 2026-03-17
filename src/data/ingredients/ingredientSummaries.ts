@@ -2025,6 +2025,53 @@ export const ingredientSummaries: Record<string, string> = {
   red_palm_oil: `An unrefined, highly saturated oil extracted from the fruit of the oil palm (*Elaeis guineensis*). Its striking, vibrant red-orange color comes from an incredibly high concentration of carotenes, and it imparts a strong, earthy, and slightly smoky flavor essential to authentic West African and Brazilian cuisines.
 
 **Selection & Storage:** Unrefined red palm oil is solid at room temperature. Store tightly sealed in a cool, dark pantry; it is highly stable due to its saturated fat content.`,
+  red_lentils: `Small legumes (*Lens culinaris*) that have been hulled and split. Because they lack a protective seed coat, they cook incredibly fast (about 15 minutes) and break down completely into a thick, creamy, and comforting puree, acting as the foundational ingredient for traditional Indian dal.
+
+**Selection & Storage:** Look for a bright, uniform salmon-orange color. Store in an airtight container in a dark pantry, as light will cause their vibrant color to fade over time.`,
+
+  rice_bran_oil: `A highly stable oil extracted from the hard outer brown layer (bran) of rice grains. It boasts an exceptionally high smoke point (450°F / 232°C) and a very mild, slightly nutty flavor, making it a highly prized, premium oil for deep-frying delicate foods like Japanese tempura without imparting greasy flavors.
+
+**Selection & Storage:** Rich in natural antioxidants (oryzanol) that prevent it from breaking down quickly under heat. Store tightly sealed in a cool, dark cupboard.`,
+
+  rye_berries: `The whole, unprocessed grain of rye (*Secale cereale*), containing the bran, germ, and endosperm. They require long soaking and simmering to soften but offer a profoundly chewy, dense texture and a distinctively sour, earthy, and complex flavor that makes an incredibly hearty grain salad.
+
+**Selection & Storage:** Because the natural oils in the germ are fully intact, they are prone to going rancid. Store them in an airtight container in the freezer for maximum shelf life.`,
+
+  sacha_inchi_oil: `A highly specialized oil cold-pressed from the star-shaped seed pods of the *Plukenetia volubilis* plant native to the Amazon rainforest. It boasts one of the highest plant-based concentrations of omega-3 fatty acids and features a distinct, earthy, and strongly herbaceous/nutty flavor, used strictly as a finishing oil.
+
+**Selection & Storage:** It oxidizes rapidly when exposed to heat or light. Keep in a dark glass bottle in the refrigerator and never use it for cooking.`,
+
+  sapote_mamey: `A large, tropical fruit (*Pouteria sapota*) native to Central America, featuring a rough, sandpaper-like brown skin. Its striking, deeply orange-red flesh is incredibly soft and creamy, tasting remarkably like a baked sweet potato mixed with almond extract, pumpkin spice, and dark honey.
+
+**Selection & Storage:** Look for fruit that yields to gentle pressure and has a bright orange hue when the skin is lightly scratched. Store at room temperature until fully ripe.`,
+
+  sea_salt: `A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.
+
+**Selection & Storage:** Fine sea salt is excellent for general cooking and baking, while coarse or flaky sea salt is best reserved for finishing dishes. Store in a dry place to prevent clumping.`,
+
+  shichimi_togarashi: `A traditional Japanese seven-spice blend designed to add bright, complex heat and texture to noodles and soups. While recipes vary, it almost universally includes coarsely ground red chili pepper, sansho (Japanese pepper), roasted orange peel, black and white sesame seeds, hemp seed, ginger, and nori (seaweed).
+
+**Selection & Storage:** Because it contains high-oil seeds and citrus peel, it can go stale quickly. Store in an airtight jar in the refrigerator to preserve the bright, volatile aromatics.`,
+
+  shiso_oil: `An oil cold-pressed from the seeds of the *Perilla frutescens* plant (shiso/perilla), predominantly used in East Asian cuisine. It offers a deeply complex, savory, and distinctly herbaceous flavor that pairs flawlessly with raw fish and delicate vegetables.
+
+**Selection & Storage:** Extraordinarily high in delicate omega-3 fatty acids, meaning it must never be subjected to heat. Store tightly sealed in the refrigerator and use quickly.`,
+
+  short_grain_brown_rice: `A variety of rice (*Oryza sativa*) featuring short, squat grains that retain their bran layer. Because short-grain rice naturally contains higher levels of amylopectin starch than long-grain varieties, the cooked grains are profoundly sticky, chewy, and plump, offering an incredibly dense, earthy, and nutty bite.
+
+**Selection & Storage:** The intact bran layer contains oils that can spoil. Store in an airtight container in the refrigerator or freezer.`,
+
+  soybean_oil: `A highly processed, neutral vegetable oil extracted from the seeds of the soybean (*Glycine max*). It is one of the most widely consumed cooking oils globally, offering a very high smoke point (450°F / 232°C) and a completely flavorless profile that acts purely as a structural cooking fat for frying and baking.
+
+**Selection & Storage:** Often labeled generically in the US simply as 'Vegetable Oil.' Highly stable; store in a dark, cool pantry.`,
+
+  spelt_berries: `The whole, unprocessed grains of an ancient wheat subspecies (*Triticum spelta*). They possess a tough outer hull that must be mechanically removed before cooking, yielding a grain with a satisfying, popping chew and a distinctly sweet, intensely nutty flavor profile that is more complex than standard wheat berries.
+
+**Selection & Storage:** Because the nutrient-dense germ is intact, they should be stored in the freezer or refrigerator to prevent rancidity.`,
+
+  sweet_basil_genovese: `The ubiquitous culinary herb (*Ocimum basilicum*) central to Italian cuisine, specifically the Genovese cultivar. It features highly tender, bright green leaves that offer a complex, sweet, and incredibly pungent aroma defined by notes of clove, anise, and mint, serving as the absolute foundation of traditional pesto.
+
+**Selection & Storage:** Highly sensitive to cold, which turns the leaves black. Store stems in a glass of water at room temperature, like a bouquet of flowers, loosely draped with a plastic bag.`,
 };
 
 /**
