@@ -546,85 +546,102 @@ export const russian: Cuisine = {
               substitutions: [{"originalIngredient":"smetana","substituteOptions":["creme fraiche","heavy whipped cream sweetened with sugar","mascarpone mixed with sour cream"]},{"originalIngredient":"dark honey","substituteOptions":["maple syrup (different flavor profile but works)"]}]
             },
             {
-              "name": "Authentic Syrniki",
-              "description": "The dense, protein-heavy Slavic breakfast. Small, thick patties made from farmer's cheese (Tvorog) and minimal flour, pan-fried to a crisp exterior while the interior remains a soft, warm, slightly tart cheesecake.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 15,
-                "cookTimeMinutes": 10,
-                "baseServingSize": 2,
-                "spiceLevel": "None",
-                "season": [
-                  "all"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 500,
-                  "unit": "g",
-                  "name": "Tvorog (Farmer's Cheese)",
-                  "notes": "Dry, curdled cheese."
-                },
-                {
-                  "amount": 2,
-                  "unit": "tbsp",
-                  "name": "Semolina",
-                  "notes": "For binding."
-                }
+              name: "Okroshka",
+              description: "The cold summer soup that defies Western logic. A sharp, fermented kvas or kefir base is poured over a precisely diced mixture of boiled potatoes, hard-boiled eggs, cucumbers, radishes, and boiled beef or smoked sausage. No cooking occurs after assembly; the dish is assembled like a salad and the liquid is added tableside. The result is an intensely refreshing, bracingly sour, and deeply savory cold soup that is one of the most effective antidotes to summer heat in the Russian culinary repertoire.",
+              details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":25,"baseServingSize":4,"spiceLevel":"None","season":["summer"]},
+              ingredients: [
+                {"amount":3,"unit":"medium","name":"waxy potatoes","notes":"Boiled whole in their skins until tender, cooled, peeled, and diced small."},
+                {"amount":3,"unit":"large","name":"eggs","notes":"Hard-boiled; whites diced small, yolks reserved for the base dressing."},
+                {"amount":200,"unit":"g","name":"boiled beef or cooked sausage","notes":"Diced small. Doktorskaya sausage is traditional; boiled chicken also works."},
+                {"amount":2,"unit":"small","name":"fresh cucumbers","notes":"Diced small. Do not use pickled cucumbers here."},
+                {"amount":5,"unit":"whole","name":"radishes","notes":"Thinly sliced then halved; provide crunch and a peppery bite."},
+                {"amount":3,"unit":"stalks","name":"spring onions","notes":"Thinly sliced; mash slightly with a pinch of salt to release their oils."},
+                {"amount":1,"unit":"bunch","name":"fresh dill","notes":"Finely chopped; essential and not optional."},
+                {"amount":1,"unit":"liter","name":"cold kvas","notes":"Traditional fermented bread kvas for a tangy, slightly sweet base. Cold kefir thinned with water is a common alternative."},
+                {"amount":0.5,"unit":"cup","name":"smetana (sour cream)","notes":"Whisked into the yolks to form the base dressing."},
+                {"amount":1,"unit":"tbsp","name":"prepared horseradish or mustard","notes":"Stirred into the yolk and smetana base for bite."},
+                {"amount":1,"unit":"tsp","name":"salt","notes":"Plus more to taste."}
               ],
-              "instructions": [
-                "Step 1: Mash tvorog until smooth; mix with egg and sugar.",
-                "Step 2: Add semolina; let sit for 10 minutes to hydrate.",
-                "Step 3: Form into thick, small discs; dredge in flour.",
-                "Step 4: Pan-fry in butter over medium-low heat.",
-                "Step 5: Serve hot with smetana and blackcurrant jam."
+              instructions: [
+                "Step 1: Boil the potatoes whole in salted water until a skewer passes through easily, about 20 to 25 minutes. Drain and let cool completely. Peel and dice into small, uniform cubes. Hard-boil the eggs for 10 minutes in boiling water, then cool in ice water. Peel and separate whites from yolks.",
+                "Step 2: Make the base. In the bottom of a large serving bowl, mash the egg yolks with the smetana, mustard, and a pinch of salt until a smooth paste forms. This enriches the broth when the kvas is added.",
+                "Step 3: Add the diced potatoes, diced egg whites, diced meat, diced cucumbers, sliced radishes, and scallions to the bowl. Season with salt. Toss gently.",
+                "Step 4: Refrigerate the bowl of diced ingredients for at least 30 minutes until everything is very cold.",
+                "Step 5: At the table or just before serving, pour the very cold kvas or kefir mixture over the ingredients, stirring it into the yolk-smetana base. The liquid should be generous; okroshka is a soup, not a salad.",
+                "Step 6: Scatter the chopped dill over the top. Serve immediately with additional smetana on the side and a wedge of dark bread."
               ],
-              "classifications": {
-                "mealType": [
-                  "breakfast",
-                  "dessert"
-                ],
-                "cookingMethods": [
-                  "pan-frying"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.25,
-                "Water": 0.25,
-                "Earth": 0.35,
-                "Air": 0.15
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Moon",
-                  "Venus"
-                ],
-                "signs": [
-                  "cancer",
-                  "taurus"
-                ],
-                "lunarPhases": [
-                  "First Quarter"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 380,
-                "proteinG": 32,
-                "carbsG": 25,
-                "fatG": 18,
-                "fiberG": 1,
-                "sodiumMg": 150,
-                "sugarG": 12,
-                "vitamins": [
-                  "Vitamin D",
-                  "Riboflavin"
-                ],
-                "minerals": [
-                  "Calcium",
-                  "Phosphorus"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["boiling","assembling","chilling"]},
+              elementalProperties: {"Fire":0.05,"Water":0.55,"Earth":0.3,"Air":0.1},
+              astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent","New Moon"]},
+              nutritionPerServing: {"calories":285,"proteinG":18,"carbsG":28,"fatG":11,"fiberG":4,"sodiumMg":720,"sugarG":6,"vitamins":["Vitamin C","Vitamin B12","Folate"],"minerals":["Potassium","Iron","Phosphorus"]},
+              substitutions: [{"originalIngredient":"kvas","substituteOptions":["kefir thinned with water and lemon juice","sparkling mineral water with sour cream base only"]},{"originalIngredient":"boiled beef","substituteOptions":["cooked chicken breast","smoked salmon"]}]
+            },
+            {
+              name: "Rassolnik",
+              description: "A rich, tangy, restorative soup built on beef broth and distinguished by two defining ingredients: briny dill pickles and pearl barley. The pickle brine is added directly to the broth, giving the soup its characteristic sharp, saline backbone. The barley absorbs the fat and broth as it cooks, becoming tender and slightly gelatinous, binding the soup into a hearty, sustaining meal. It is a soup of contrasts: the sharp acid of the pickles against the richness of the meat and grain.",
+              details: {"cuisine":"Russian","prepTimeMinutes":20,"cookTimeMinutes":90,"baseServingSize":6,"spiceLevel":"None","season":["winter","autumn"]},
+              ingredients: [
+                {"amount":1,"unit":"lb","name":"beef kidney or beef chuck","notes":"Kidney is traditional; soak in cold water for 30 minutes and change water twice to remove bitterness. Chuck is a milder alternative."},
+                {"amount":0.5,"unit":"cup","name":"pearl barley","notes":"Rinsed and soaked in cold water for 30 minutes for faster, more even cooking."},
+                {"amount":4,"unit":"whole","name":"Russian dill pickles","notes":"Medium-sized, heavily brined, not vinegar-pickled. Diced into small cubes."},
+                {"amount":0.5,"unit":"cup","name":"pickle brine","notes":"The liquid from the pickle jar; added to sharpen the broth at the end."},
+                {"amount":2,"unit":"medium","name":"potatoes","notes":"Peeled and diced into 2 cm cubes."},
+                {"amount":1,"unit":"large","name":"onion","notes":"Finely diced."},
+                {"amount":2,"unit":"medium","name":"carrots","notes":"Diced or grated."},
+                {"amount":2,"unit":"stalks","name":"celery","notes":"Diced; adds a clean aromatic note."},
+                {"amount":2,"unit":"tbsp","name":"butter or oil","notes":"For the saute."},
+                {"amount":2,"unit":"leaves","name":"bay leaf","notes":"For the broth."},
+                {"amount":1,"unit":"bunch","name":"fresh parsley and dill","notes":"Chopped, for finishing."},
+                {"amount":1,"unit":"cup","name":"smetana (sour cream)","notes":"For serving."}
+              ],
+              instructions: [
+                "Step 1: If using kidney, trim the fat and tubes, slice it, and soak in cold water for 30 minutes, changing the water twice. Bring a fresh pot of water to a boil, add the kidney, boil for 5 minutes, drain, and rinse. This step removes the strong gamey flavor. If using chuck, skip the soaking.",
+                "Step 2: Place the meat (kidney or chuck) in a large pot. Cover with 2 liters of cold water. Add the bay leaves and bring to a gentle simmer, skimming foam. Simmer for 45 minutes for kidney or 60 minutes for chuck until tender. Remove the meat, dice it, and return to the broth.",
+                "Step 3: Add the drained soaked barley directly to the simmering broth. Cook for 20 minutes.",
+                "Step 4: Meanwhile, saute the onion and carrot in butter over medium heat for 7 minutes until softened. Add the diced pickles and cook for another 5 minutes. Add this mixture to the soup pot.",
+                "Step 5: Add the diced potatoes to the pot. Cook for another 15 minutes until the potatoes are tender and the barley is fully soft and swollen.",
+                "Step 6: Pour in the pickle brine. Taste and adjust salt; remember the brine is very salty. Simmer for 5 more minutes.",
+                "Step 7: Off the heat, add the chopped parsley and dill. Serve with a generous spoonful of smetana."
+              ],
+              classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["simmering","sauteing","braising"]},
+              elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
+              astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","scorpio"],"lunarPhases":["Waning Gibbous","Last Quarter"]},
+              nutritionPerServing: {"calories":340,"proteinG":22,"carbsG":32,"fatG":14,"fiberG":5,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Selenium","Potassium"]},
+              substitutions: [{"originalIngredient":"beef kidney","substituteOptions":["beef chuck (milder)","chicken thighs","pork ribs"]},{"originalIngredient":"pearl barley","substituteOptions":["brown rice","whole wheat berries"]}]
+            },
+            {
+              name: "Plov",
+              description: "The Central Asian rice pilaf that became beloved throughout Russia and the former Soviet republics. Fragrant long-grain rice is cooked in an extraordinary amount of rendered lamb fat and oil alongside grated carrot, whole heads of garlic, and a robust combination of cumin and coriander. The defining technique is the zirvak: the meat, onion, and carrot base is cooked to a deep caramelization before the rice is laid on top and steamed to completion with the lid sealed. The result is a golden, aromatic, magnificently fatty and satisfying communal dish.",
+              details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":90,"baseServingSize":6,"spiceLevel":"Mild","season":["all","winter"]},
+              ingredients: [
+                {"amount":1,"unit":"kg","name":"bone-in lamb shoulder or lamb leg","notes":"Cut into large 5 cm chunks. Bone-in provides the most flavor; beef can substitute."},
+                {"amount":2,"unit":"cups","name":"long-grain white rice","notes":"Devzira rice is the Uzbek traditional variety; basmati is an acceptable substitute. Rinse until water runs clear, then soak for 30 minutes."},
+                {"amount":500,"unit":"g","name":"carrots","notes":"Cut into large matchsticks (julienne), not grated. The large pieces hold their shape during the long cook and sweeten the rice."},
+                {"amount":2,"unit":"large","name":"onions","notes":"Sliced into thin half-moons; cooked until very dark and almost blackened for deep caramelization."},
+                {"amount":2,"unit":"whole heads","name":"garlic","notes":"Left completely whole with the papery outer skin mostly removed but the head intact. Pressed into the rice."},
+                {"amount":0.5,"unit":"cup","name":"neutral oil or rendered lamb tail fat","notes":"The traditional fat is from the fat-tailed sheep; oil works fine but loses some richness."},
+                {"amount":1,"unit":"tbsp","name":"ground cumin","notes":"The defining aromatic spice of plov."},
+                {"amount":1,"unit":"tsp","name":"coriander seeds","notes":"Crushed in a mortar."},
+                {"amount":1,"unit":"tsp","name":"black pepper","notes":"Freshly ground."},
+                {"amount":2,"unit":"tsp","name":"salt","notes":"Plus more to taste."},
+                {"amount":2.5,"unit":"cups","name":"hot water or light broth","notes":"Must be boiling when added to the rice."}
+              ],
+              instructions: [
+                "Step 1: Heat the oil (or render the lamb fat) in a very large, heavy-bottomed pot or traditional kazan (cast-iron cauldron) over the highest heat possible until it begins to smoke lightly. This extreme heat is essential to create the correct flavor.",
+                "Step 2: Add the lamb pieces to the smoking oil and sear without stirring for 4 to 5 minutes until a deep, dark brown crust forms on all sides. The caramelized crust is fundamental to the flavor. Remove the lamb and set aside.",
+                "Step 3: Add the sliced onions to the hot fat. Fry, stirring occasionally, over high heat for 10 to 15 minutes until they are a deep mahogany brown. Do not rush this step; the onions must almost blacken.",
+                "Step 4: Add the carrot matchsticks to the caramelized onions. Fry for another 10 minutes, stirring occasionally, until the carrots soften and turn golden. This is the zirvak base.",
+                "Step 5: Return the lamb to the pot. Add the cumin, crushed coriander, pepper, and salt. Stir to coat everything. Pour in enough hot water to just cover the meat. Bring to a boil, reduce to a simmer, and cook the zirvak for 30 minutes.",
+                "Step 6: Taste the zirvak broth and season heavily; it should taste slightly over-seasoned, as the rice will absorb much of the salt.",
+                "Step 7: Spread the drained rice in an even layer directly over the zirvak. Do not stir. Press the whole garlic heads deep into the rice. Pour the boiling water carefully over the back of a spoon to distribute it evenly. The water should come 2 cm above the rice surface.",
+                "Step 8: Bring to a boil uncovered over high heat until the surface water is absorbed, about 10 minutes. Reduce heat to the absolute minimum, cover with a tight lid or seal with foil, and cook for 20 minutes undisturbed.",
+                "Step 9: Remove from heat. Let rest, covered, for 10 minutes. Uncover, remove the garlic heads, and use a large spoon to gently turn the rice from the bottom up, mixing it with the zirvak. Serve the garlic as a centerpiece garnish."
+              ],
+              classifications: {"mealType":["dinner","lunch","celebration"],"cookingMethods":["searing","sauteing","steaming","braising"]},
+              elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
+              astrologicalAffinities: {"planets":["Jupiter","Mars","Saturn"],"signs":["sagittarius","aries","capricorn"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":58,"fatG":32,"fiberG":5,"sodiumMg":820,"sugarG":7,"vitamins":["Niacin","Vitamin B12","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
+              substitutions: [{"originalIngredient":"bone-in lamb","substituteOptions":["beef chuck","chicken thighs (shorter cook time)"]},{"originalIngredient":"devzira or basmati rice","substituteOptions":["jasmine rice"]}]
             }
         ],
       winter: [
