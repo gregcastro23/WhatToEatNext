@@ -843,7 +843,7 @@ export const thai: Cuisine = {
       all: [
         {
           name: "Khao Niao Mamuang",
-          description: "Thailand's most beloved dessert and a masterpiece of textural and flavor contrast. Glutinous sticky rice is steamed until tender, then soaked in a warm, salted coconut cream sauce that penetrates each grain. It is served alongside perfectly ripe, fragrant Ataulfo or Nam Dok Mai mangoes, with an additional drizzle of rich coconut cream and a garnish of toasted mung beans.",
+          description: "The most beloved dessert in Thailand and a masterpiece of textural and flavor contrast. Glutinous sticky rice is steamed until tender, then soaked in a warm, salted coconut cream sauce that penetrates each grain. It is served alongside perfectly ripe, fragrant Ataulfo or Nam Dok Mai mangoes, with an additional drizzle of rich coconut cream and a garnish of toasted mung beans.",
           details: {"cuisine":"Thai","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"None","season":["summer","spring"]},
           ingredients: [
             {"amount":2,"unit":"cups","name":"glutinous sticky rice","notes":"Soaked in cold water for at least 4 hours or overnight. Do not substitute with regular jasmine rice."},
