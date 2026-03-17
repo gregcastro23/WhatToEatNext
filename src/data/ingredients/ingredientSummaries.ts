@@ -1930,6 +1930,101 @@ export const ingredientSummaries: Record<string, string> = {
   mustard_oil: `An intensely pungent, deeply yellow oil extracted from mustard seeds, forming the culinary backbone of traditional Bengali and Northern Indian cuisines. It contains extraordinarily high levels of allyl isothiocyanate, providing a sharp, vaporous, horseradish-like heat that must be brought to a smoking point before cooking to mellow its aggressive bite.
 
 **Selection & Storage:** In many Western countries, it is sold 'for external use only' due to erucic acid regulations, though it is a staple cooking oil in Asia. Store tightly sealed in a cool, dark cupboard.`,
+  long_pepper: `An exotic flowering vine (*Piper longum*) closely related to black pepper, producing tiny fruit clusters that look like slender catkins. It possesses a complex, sweet, and incredibly pungent heat that is earthier and more aromatic than black pepper, boasting notes of nutmeg, cinnamon, and cardamom.
+
+**Selection & Storage:** Often found in specialty spice shops. Keep the whole, unground catkins in an airtight container in a dark pantry, and crush them in a mortar and pestle just before using.`,
+
+  longan: `A small tropical fruit (*Dimocarpus longan*) closely related to the lychee, often referred to as 'dragon eye' due to the appearance of its translucent flesh encasing a single black seed. It offers a deeply sweet, slightly musky, and floral flavor profile that is less acidic and more earthy than a lychee.
+
+**Selection & Storage:** Look for fruit with a dry, tan, unblemished shell. Store unpeeled in a plastic bag in the refrigerator for up to two weeks.`,
+
+  loquat: `A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.
+
+**Selection & Storage:** They are highly delicate and bruise easily. Choose bright orange fruit that gives slightly to pressure. Store in the refrigerator and eat quickly.`,
+
+  lovage: `A robust, towering herb (*Levisticum officinale*) whose large, dark green leaves pack an intensely concentrated, meaty flavor that tastes like a profound amplification of celery and parsley. Because of its powerful, savory essence, it is the ultimate foundational herb for hearty beef broths and slow-cooked stews.
+
+**Selection & Storage:** Look for bright, crisp leaves without any yellowing. Store wrapped in a slightly damp paper towel in the refrigerator, or freeze the leaves for long-term use.`,
+
+  maldon_salt: `A highly esteemed, artisanal sea salt harvested in the coastal town of Maldon, England. It is famous for its unique, large, hollow pyramid-shaped crystals that provide an exceptionally clean, bright minerality and a dramatic, shattering crunch when sprinkled over finished steaks or chocolate chip cookies.
+
+**Selection & Storage:** Keep in a dry, dark place, ideally in a salt cellar. Never put Maldon salt in a grinder, as its specific geometric texture is its primary culinary value.`,
+
+  mandarin: `A small, loose-skinned citrus fruit (*Citrus reticulata*) considered one of the core ancestral species of modern citrus. They are incredibly sweet, far less acidic than a standard orange, and distinctly floral, making them perfect for eating out of hand or sectioning into delicate salads.
+
+**Selection & Storage:** Choose fruit that feels heavy for its size with bright, relatively loose skin. Store in the crisper drawer to prevent them from drying out.`,
+
+  moringa_oil: `An incredibly stable, nutrient-dense oil cold-pressed from the seeds of the *Moringa oleifera* tree. It possesses a mild, pleasant, slightly nutty flavor resembling peanut oil and an extraordinarily high smoke point, making it suitable for both delicate salad dressings and high-heat frying.
+
+**Selection & Storage:** Highly resistant to rancidity due to its powerful natural antioxidants. Store tightly sealed in a cool, dark cupboard.`,
+
+  neem_oil_culinary_grade: `A potent, highly bitter oil pressed from the seeds and fruits of the *Azadirachta indica* tree. While heavily utilized in Ayurvedic medicine and agriculture, culinary-grade neem oil is used extremely sparingly in specific Indian dishes to provide an astringent, intensely bitter palate cleanser.
+
+**Selection & Storage:** Must explicitly say 'Culinary Grade' or 'Food Grade,' as agricultural neem oil is often toxic. Store tightly sealed in a cool, dark place.`,
+
+  nicoise_olives: `Small, incredibly dark, and intensely flavorful olives (*Olea europaea*) grown strictly in the French Riviera region. They are brine-cured to produce a firm texture and a complex, slightly sour, and deeply savory flavor profile that is the defining characteristic of a traditional Salade Niçoise.
+
+**Selection & Storage:** Look for olives packed in brine rather than oil, often sold with their pits still in (which preserves their structural integrity). Store in the refrigerator in their brine.`,
+
+  palm_oil: `A highly saturated, semi-solid fat extracted from the fleshy fruit of oil palms (*Elaeis guineensis*). Refined palm oil is completely neutral in flavor and boasts incredible oxidative stability, making it the globally dominant, workhorse fat used in commercial baking and processed snack foods.
+
+**Selection & Storage:** Look for RSPO-certified (Roundtable on Sustainable Palm Oil) products to ensure environmental responsibility. Store in a cool, dark pantry; it is highly stable.`,
+
+  pearl_barley: `A form of barley (*Hordeum vulgare*) that has been scoured (pearled) to remove both its inedible outer hull and its bran layer. This processing significantly reduces its cooking time and allows it to release massive amounts of viscous starches, perfectly thickening heavy winter beef stews and risottos.
+
+**Selection & Storage:** Store in an airtight container in a cool, dark pantry. It cooks faster and is less chewy than hulled barley.`,
+
+  perilla_oil: `A deeply toasted, powerfully aromatic oil pressed from the seeds of the *Perilla frutescens* plant, essential to Korean cuisine. It boasts an intensely rich, nutty, and distinctly earthy flavor profile (often compared to toasted sesame oil but deeper), used exclusively as a finishing oil over namul (vegetable side dishes).
+
+**Selection & Storage:** Because it is rich in delicate omega-3 fatty acids, it spoils extremely quickly. Always store tightly sealed in the refrigerator.`,
+
+  persian_melon: `A large, ancient variety of melon (*Cucumis melo*) closely related to the cantaloupe, featuring a dark green, un-netted rind. It offers an intensely sweet, dense, and floral orange flesh that is profoundly fragrant, requiring no accompaniment beyond a squeeze of fresh lime juice.
+
+**Selection & Storage:** It should feel extremely heavy and smell powerfully sweet at the blossom end. Store at room temperature until fully ripe, then refrigerate.`,
+
+  pink_peppercorn: `The dried berries of the *Schinus molle* (Peruvian peppertree) or *Schinus terebinthifolia* (Brazilian peppertree), entirely unrelated to true black pepper. They offer a very mild, slightly sweet, and profoundly floral heat with notes of rose and citrus, providing brilliant color and delicate crunch to light cream sauces or fish.
+
+**Selection & Storage:** They belong to the cashew family and can cause severe allergic reactions in individuals with tree nut allergies. Store in an airtight jar in a dark pantry.`,
+
+  pistachio_oil: `A luxurious, deep green finishing oil pressed from pistachios (*Pistacia vera*). It delivers a profoundly rich, earthy, and distinctly roasted pistachio flavor that acts as a stunning drizzle over fresh burrata, delicate white fish, or simple citrus salads.
+
+**Selection & Storage:** Highly delicate and prone to oxidation. Purchase in small, dark glass bottles and store strictly in the refrigerator to protect its complex aromatics.`,
+
+  polished_farro: `An ancient wheat grain (*Triticum dicoccum*) that has undergone 'pearling' to completely remove its tough bran layer. While this reduces its nutritional density compared to whole farro, it drastically cuts the cooking time to under 20 minutes, yielding a soft, starchy grain perfect for quick risottos (farrotto).
+
+**Selection & Storage:** Store in an airtight container in a cool, dark place. Ensure you know whether you bought polished or whole farro, as their cooking times are vastly different.`,
+
+  pomelo: `The massive, thick-rinded ancestor of the grapefruit (*Citrus maxima*). It lacks the aggressive, sharp bitterness of a grapefruit, offering instead a milder, highly floral sweetness and large, firm juice vesicles that separate cleanly, making it the perfect structural addition to Southeast Asian salads.
+
+**Selection & Storage:** Look for fruit that feels incredibly heavy for its size (the rind can be very thick). Store at room temperature for a few days, or in the crisper drawer for up to two weeks.`,
+
+  pumpkin_seed_oil: `An intensely dark green-red oil pressed from roasted pumpkin seeds (*Cucurbita pepo*), heavily utilized in Austrian cuisine. It boasts an incredibly profound, nutty, and slightly sweet flavor profile that is utterly ruined by heat, meaning it must only be used raw as a drizzle over soups, salads, or vanilla ice cream.
+
+**Selection & Storage:** Highly sensitive to light and heat. Store exclusively in the refrigerator in a dark glass bottle to prevent it from going rancid quickly.`,
+
+  quail_egg: `The tiny, speckled egg of the quail bird (*Coturnix coturnix*). Despite their small size, they feature an incredibly high yolk-to-white ratio, resulting in a profoundly rich, creamy, and decadent bite, commonly soft-boiled and served as elegant garnishes on salads, sushi, or tartares.
+
+**Selection & Storage:** Handle with extreme care, as their shells are very fragile. Store in the refrigerator in their protective carton.`,
+
+  quince: `An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).
+
+**Selection & Storage:** Choose firm, bright yellow fruit that emits a powerful, floral, and rosy aroma. Store at room temperature for several days, or in the refrigerator for up to a month.`,
+
+  rambutan: `A tropical fruit (*Nephelium lappaceum*) covered in a striking, hairy, bright red rind. The translucent white flesh inside is similar to a lychee but is generally sweeter, creamier, and slightly less acidic, making it a highly refreshing raw snack.
+
+**Selection & Storage:** Look for bright red skin; the 'hairs' should be green or red, not black and brittle. Highly perishable; store wrapped in a damp paper towel in the refrigerator.`,
+
+  ras_el_hanout: `A highly complex, profoundly aromatic spice blend originating from North Africa (meaning 'head of the shop'). There is no set recipe, but it often contains over a dozen premium spices—including cardamom, clove, cinnamon, coriander, cumin, mace, and rose petals—providing incredible savory and sweet depth to Moroccan tagines.
+
+**Selection & Storage:** Store in an airtight container in a cool, dark pantry. Because of the vast array of ground, volatile spices, it should be replaced every 6 months for maximum flavor.`,
+
+  red_currant: `Small, brightly colored, translucent berries (*Ribes rubrum*) that grow in delicate clusters. They possess a sharp, highly acidic, and tart flavor profile that is frequently balanced with massive amounts of sugar to create crystal-clear, pectin-heavy jellies traditionally served with roasted meats.
+
+**Selection & Storage:** Choose firm, plump clusters attached to their stems. Store unwashed in the refrigerator and use within a few days.`,
+
+  red_palm_oil: `An unrefined, highly saturated oil extracted from the fruit of the oil palm (*Elaeis guineensis*). Its striking, vibrant red-orange color comes from an incredibly high concentration of carotenes, and it imparts a strong, earthy, and slightly smoky flavor essential to authentic West African and Brazilian cuisines.
+
+**Selection & Storage:** Unrefined red palm oil is solid at room temperature. Store tightly sealed in a cool, dark pantry; it is highly stable due to its saturated fat content.`,
 };
 
 /**
