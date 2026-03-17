@@ -1489,69 +1489,35 @@ export const japanese: Cuisine = {
           substitutions: [{"originalIngredient":"Primary ingredient for Miso Ramen","substituteOptions":["Elemental equivalent"]}]
         },
         {
-          "name": "Authentic Katsudon",
-          "description": "A dynamic Japanese comfort dish combining Tonkatsu with softly set eggs.",
-          "details": {
-            "cuisine": "Japanese",
-            "prepTimeMinutes": 20,
-            "cookTimeMinutes": 15,
-            "baseServingSize": 2,
-            "spiceLevel": "None",
-            "season": [
-              "all"
-            ]
-          },
-          "ingredients": [
-            {
-              "amount": 2,
-              "unit": "pieces",
-              "name": "pork loin chops",
-              "notes": "Breaded."
-            }
+          name: "Katsudon (Breaded Pork Cutlet Rice Bowl)",
+          description: "A triumphant Japanese rice bowl that takes the already-spectacular Tonkatsu and transforms it into something even more comforting: the fried cutlet is sliced and simmered briefly in a sweet dashi-soy broth with onions and softly set egg before being poured over rice. The panko crust softens slightly to absorb the broth while retaining its character.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":20,"cookTimeMinutes":20,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [
+            {"amount":2,"unit":"cuts","name":"pork loin chops","notes":"About 3/4 inch thick, fat scored. Used to make Tonkatsu first."},
+            {"amount":0.5,"unit":"cup","name":"all-purpose flour","notes":"For dredging the pork."},
+            {"amount":1,"unit":"large","name":"egg for breading","notes":"Beaten, for the breading stage."},
+            {"amount":1.5,"unit":"cups","name":"panko breadcrumbs","notes":"Fresh, large-flake panko for maximum crunch."},
+            {"amount":3,"unit":"cups","name":"frying oil","notes":"Neutral oil for deep-frying the cutlets."},
+            {"amount":1,"unit":"medium","name":"onion","notes":"Halved and thinly sliced."},
+            {"amount":4,"unit":"large","name":"eggs for topping","notes":"Lightly beaten, for the egg finish."},
+            {"amount":0.5,"unit":"cup","name":"dashi stock","notes":"The braising liquid base."},
+            {"amount":3,"unit":"tbsp","name":"soy sauce","notes":"For the braising broth."},
+            {"amount":2,"unit":"tbsp","name":"mirin","notes":"For sweetness and gloss."},
+            {"amount":1,"unit":"tsp","name":"sugar","notes":"Rounds the broth flavor."},
+            {"amount":2,"unit":"cups","name":"steamed Japanese rice","notes":"Hot, freshly cooked."}
           ],
-          "instructions": [
-            "Step 1: Fry Tonkatsu.",
-            "Step 2: Simmer onions in broth.",
-            "Step 3: Add Tonkatsu and eggs.",
-            "Step 4: Serve over rice."
+          instructions: [
+            "Step 1: The Tonkatsu. Score the fat cap of each pork chop. Season with salt and pepper. Bread in flour, beaten egg, and panko, pressing firmly. Deep-fry in oil at 340 degrees F (170 degrees C) for 5-6 minutes until deeply golden. Rest on a wire rack for 3 minutes, then slice into 1-inch strips.",
+            "Step 2: The Broth. In a wide, shallow oyakodon pan, combine dashi, soy sauce, mirin, and sugar. Bring to a simmer over medium heat.",
+            "Step 3: The Onions. Add the sliced onions to the broth and simmer for 3-4 minutes until they are soft and sweet.",
+            "Step 4: The Katsu. Lay the sliced Tonkatsu strips over the onions in the pan. Let them sit in the simmering broth for 1 minute to absorb flavor. The crust will soften slightly and soak up the savory liquid.",
+            "Step 5: The Egg and Serve. Pour the beaten egg in a circular motion over the katsu. Cover immediately and cook for 45-60 seconds until the egg is barely set and still trembling in the center. Slide the entire contents over a bowl of hot rice. Serve immediately."
           ],
-          "classifications": {
-            "mealType": [
-              "lunch"
-            ],
-            "cookingMethods": [
-              "frying"
-            ]
-          },
-          "elementalProperties": {
-            "Fire": 0.4,
-            "Water": 0.2,
-            "Earth": 0.3,
-            "Air": 0.1
-          },
-          "astrologicalAffinities": {
-            "planets": [
-              "Mars"
-            ],
-            "signs": [
-              "Aries"
-            ],
-            "lunarPhases": [
-              "First Quarter"
-            ]
-          },
-          "nutritionPerServing": {
-            "calories": 750,
-            "proteinG": 38,
-            "carbsG": 70,
-            "fatG": 32,
-            "fiberG": 3,
-              "sodiumMg": 515,
-              "sugarG": 13,
-              "vitamins": ["Vitamin C","Vitamin A"],
-              "minerals": ["Iron","Calcium"]
-        },
-          "substitutions": []
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["deep-frying","simmering","breading"]},
+          elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":820,"proteinG":46,"carbsG":72,"fatG":36,"fiberG":4,"sodiumMg":920,"sugarG":9,"vitamins":["Thiamin","Vitamin B6","Choline"],"minerals":["Zinc","Iron","Phosphorus"]},
+          substitutions: [{"originalIngredient":"pork loin chops","substituteOptions":["chicken breast (for chicken katsudon)","firm tofu (for vegan katsudon)"]},{"originalIngredient":"panko breadcrumbs","substituteOptions":["crushed cornflakes","regular breadcrumbs"]}]
         },
         {
           name: "Gyoza",

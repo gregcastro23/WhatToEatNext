@@ -2305,158 +2305,28 @@ export const french: Cuisine = {
               "substitutions": []
             },
             {
-              "name": "Authentic Bouillabaisse",
-              "description": "The soul of Marseille. A complex fisherman's stew utilizing at least four types of Mediterranean fish, flavored with saffron, fennel, and orange zest, served with 'rouille'—a fierce chili-garlic-saffron emulsion.",
-              "details": {
-                "cuisine": "French (Provence)",
-                "prepTimeMinutes": 45,
-                "cookTimeMinutes": 45,
-                "baseServingSize": 4,
-                "spiceLevel": "Medium",
-                "season": [
-                  "summer"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 2,
-                  "unit": "lbs",
-                  "name": "Mixed white fish",
-                  "notes": "Rascasse, sea robin, etc."
-                },
-                {
-                  "amount": 1,
-                  "unit": "pinch",
-                  "name": "Saffron",
-                  "notes": "High quality."
-                }
-              ],
-              "instructions": [
-                "Step 1: Sauté leeks, onions, and fennel.",
-                "Step 2: Add tomatoes, aromatics, and saffron.",
-                "Step 3: Boil fish heads/bones to create base stock.",
-                "Step 4: Poach large fish pieces in the stock.",
-                "Step 5: Serve broth over bread; fish on the side."
-              ],
-              "classifications": {
-                "mealType": [
-                  "dinner"
-                ],
-                "cookingMethods": [
-                  "simmering",
-                  "poaching"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.2,
-                "Water": 0.6,
-                "Earth": 0.1,
-                "Air": 0.1
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Neptune"
-                ],
-                "signs": [
-                  "pisces"
-                ],
-                "lunarPhases": [
-                  "Full Moon"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 450,
-                "proteinG": 52,
-                "carbsG": 18,
-                "fatG": 14,
-                "fiberG": 4,
-                "sodiumMg": 1200,
-                "sugarG": 6,
-                "vitamins": [
-                  "Vitamin B12"
-                ],
-                "minerals": [
-                  "Selenium"
-                ]
-              },
-              "substitutions": []
+              name: "Bouillabaisse",
+              description: "The defining dish of Marseille, a Provencal fisherman's stew built in two distinct stages: first a concentrated fish stock made from bony rockfish and aromatics, then the poaching of premium fish portions in that same broth. The dish is governed by the Charter of Bouillabaisse requiring at least four specific Mediterranean species including rascasse. Saffron, fennel, and orange zest provide the hallmark aromatic signature. It is served deconstructed: the broth ladled over rouille-spread croutons, with the fish presented separately.",
+              details: {"cuisine":"French","prepTimeMinutes":45,"cookTimeMinutes":60,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+              ingredients: [{"amount":1,"unit":"kg","name":"Mixed firm white fish fillets","notes":"Such as monkfish, sea bass, or red mullet, cut into large pieces."},{"amount":500,"unit":"g","name":"Small bony fish for stock","notes":"Such as rascasse, gurnard, or sea robin, gutted and cleaned."},{"amount":500,"unit":"g","name":"Shellfish","notes":"Mussels and clams, scrubbed clean."},{"amount":1,"unit":"large","name":"Fennel bulb","notes":"Thinly sliced, fronds reserved."},{"amount":1,"unit":"large","name":"White onion","notes":"Diced."},{"amount":4,"unit":"cloves","name":"Garlic","notes":"Smashed, for the broth."},{"amount":400,"unit":"g","name":"Canned whole tomatoes","notes":"Crushed by hand."},{"amount":1,"unit":"generous pinch","name":"Saffron threads","notes":"Steeped in 2 tbsp warm water for 10 minutes before use."},{"amount":1,"unit":"strip","name":"Orange zest","notes":"About 5cm long, dried or fresh."},{"amount":3,"unit":"tbsp","name":"Extra virgin olive oil","notes":"For building the base."},{"amount":4,"unit":"thick slices","name":"Baguette","notes":"Toasted, for serving."},{"amount":4,"unit":"tbsp","name":"Rouille","notes":"Saffron and garlic mayonnaise, spread on the toasted croutons."}],
+              instructions: ["Step 1: Build the stock base. Heat olive oil in a large, heavy pot over medium-high heat. Add the sliced fennel and onion and cook, stirring often, for 8 minutes until softened and beginning to caramelize. Add the garlic and cook for 1 minute. Add the small bony fish and stir well, breaking them apart slightly with a spoon.","Step 2: Add the crushed tomatoes, orange zest, steeped saffron with its water, and enough cold water to cover everything by about 5cm (approximately 1.5 liters). Bring to a vigorous boil and cook on high heat for 20 minutes, skimming any foam that rises to the surface. The aggressive boil emulsifies the olive oil into the broth, creating its characteristic rich consistency.","Step 3: Strain the stock through a fine-mesh sieve or food mill, pressing hard on all the solids to extract maximum flavor. Discard the solids. Return the strained broth to the pot. Taste and season aggressively with salt and pepper. The broth should be intensely flavored.","Step 4: Bring the strained broth back to a simmer. Add the shellfish first and cook for 3 minutes until they begin to open. Add the firm fish fillet pieces and poach gently for 5 to 8 minutes until just cooked through. Do not stir; use a spoon to submerge the fish gently. Discard any shellfish that have not opened.","Step 5: To serve, place 1 to 2 rouille-spread croutons in each warmed soup bowl. Ladle the fragrant saffron broth over the croutons first, then carefully transfer the poached fish and shellfish pieces alongside. Garnish with reserved fennel fronds and serve immediately."],
+              classifications: {"mealType":["dinner"],"cookingMethods":["simmering","poaching","straining"]},
+              elementalProperties: {"Fire":0.20,"Water":0.50,"Earth":0.20,"Air":0.10},
+              astrologicalAffinities: {"planets":["Neptune","Moon"],"signs":["pisces","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":480,"proteinG":55,"carbsG":22,"fatG":18,"fiberG":4,"sodiumMg":1150,"sugarG":6,"vitamins":["Vitamin B12","Vitamin C","Vitamin D"],"minerals":["Selenium","Iodine","Iron","Zinc"]},
+              substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}]
             },
             {
-              "name": "Authentic Quiche Lorraine",
-              "description": "A structural triumph of fat and air. A shortcrust pastry shell holds a rich, aerated custard of heavy cream and eggs, punctuated only by smoky bacon (lardons), strictly omitting cheese in its original form.",
-              "details": {
-                "cuisine": "French (Lorraine)",
-                "prepTimeMinutes": 30,
-                "cookTimeMinutes": 40,
-                "baseServingSize": 6,
-                "spiceLevel": "None",
-                "season": [
-                  "all"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 1,
-                  "unit": "shell",
-                  "name": "Pâte Brisée",
-                  "notes": "Shortcrust pastry."
-                },
-                {
-                  "amount": 1,
-                  "unit": "cup",
-                  "name": "Crème Fraîche",
-                  "notes": "Or heavy cream."
-                }
-              ],
-              "instructions": [
-                "Step 1: Blind bake the pastry shell.",
-                "Step 2: Fry lardons until crisp.",
-                "Step 3: Whisk eggs and cream; season with nutmeg.",
-                "Step 4: Place lardons in shell; pour in custard.",
-                "Step 5: Bake at 375°F until just set and jiggly."
-              ],
-              "classifications": {
-                "mealType": [
-                  "brunch",
-                  "lunch"
-                ],
-                "cookingMethods": [
-                  "baking"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.15,
-                "Water": 0.25,
-                "Earth": 0.35,
-                "Air": 0.25
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Venus"
-                ],
-                "signs": [
-                  "taurus"
-                ],
-                "lunarPhases": [
-                  "First Quarter"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 480,
-                "proteinG": 18,
-                "carbsG": 25,
-                "fatG": 38,
-                "fiberG": 1,
-                "sodiumMg": 750,
-                "sugarG": 2,
-                "vitamins": [
-                  "Vitamin A"
-                ],
-                "minerals": [
-                  "Calcium"
-                ]
-              },
-              "substitutions": []
+              name: "Quiche Lorraine",
+              description: "The definitive savory tart from the Lorraine region of northeastern France. The classic preparation strictly omits cheese, relying instead on the richness of a heavily fatted egg and cream custard called the migaine. The custard is suspended over a base of lardons in a blind-baked shortcrust shell. The chemistry of the dish centers on egg protein coagulation: the high fat content of the cream inhibits coagulation, keeping the set silky rather than rubbery. The quiche is correctly served warm or at room temperature, never hot.",
+              details: {"cuisine":"French","prepTimeMinutes":60,"cookTimeMinutes":45,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+              ingredients: [{"amount":1,"unit":"sheet","name":"Pate brisee shortcrust pastry","notes":"Chilled, rolled to 3mm thickness. Blind-baked before filling."},{"amount":200,"unit":"g","name":"Smoked bacon lardons","notes":"Thick-cut slab bacon, cut into matchsticks. Blanched and then fried."},{"amount":3,"unit":"large","name":"Eggs","notes":"Room temperature."},{"amount":2,"unit":"large","name":"Egg yolks","notes":"Extra yolks for added richness and a silkier set."},{"amount":300,"unit":"ml","name":"Creme fraiche or heavy cream","notes":"Must be 35 percent fat or higher for correct texture."},{"amount":100,"unit":"ml","name":"Whole milk","notes":"To lighten the custard slightly."},{"amount":0.25,"unit":"tsp","name":"Freshly grated nutmeg","notes":"Essential aromatic for the migaine."},{"amount":0.5,"unit":"tsp","name":"White pepper","notes":"Freshly ground, milder than black pepper."},{"amount":0.5,"unit":"tsp","name":"Fine sea salt","notes":"Adjusted based on the saltiness of the bacon."}, {"amount":1,"unit":"tbsp","name":"Unsalted butter","notes":"For greasing the tart pan."}],
+              instructions: ["Step 1: Preheat the oven to 190C (375F). Line a 23cm tart tin with the chilled shortcrust pastry, pressing it into the base and sides without stretching. Trim the excess. Line with parchment paper, fill with ceramic baking beans or dried rice, and blind bake for 15 minutes. Remove the weights and parchment and bake for a further 8 to 10 minutes until the base is dry and faintly golden. Let cool slightly.","Step 2: Blanch the lardons in boiling water for 1 minute to reduce harsh smokiness, then drain thoroughly. In a dry skillet, fry the blanched lardons over medium heat until the fat has rendered and they are just beginning to crisp, about 5 to 6 minutes. Remove with a slotted spoon and drain on paper towels.","Step 3: Prepare the migaine custard. In a large bowl, whisk together the whole eggs, egg yolks, creme fraiche, and whole milk until just combined. Do not whisk vigorously, as incorporated air bubbles will cause an uneven texture. Season with the salt, white pepper, and freshly grated nutmeg.","Step 4: Scatter the cooked lardons evenly over the base of the warm blind-baked pastry shell. Set the tart tin on the oven rack, then carefully pour the migaine custard over the lardons until it reaches just below the top of the pastry rim. This in-oven pouring method prevents spillage.","Step 5: Bake at 180C (350F) for 28 to 35 minutes. The quiche is correctly done when the outer edge is fully puffed and set but the center still has a distinct wobble when the tin is gently shaken. It will continue to set as it cools. Rest on a wire rack for at least 20 minutes before unmolding and slicing. Serve warm or at room temperature."],
+              classifications: {"mealType":["lunch","dinner","brunch"],"cookingMethods":["baking","blind-baking","whisking"]},
+              elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.35,"Air":0.15},
+              astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":510,"proteinG":15,"carbsG":24,"fatG":40,"fiberG":1,"sodiumMg":620,"sugarG":2,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Phosphorus"]},
+              substitutions: [{"originalIngredient":"Smoked bacon lardons","substituteOptions":["Sauteed mushrooms and leeks for a vegetarian version","Ham (cooked, diced)"]},{"originalIngredient":"Creme fraiche","substituteOptions":["Heavy whipping cream","Sour cream mixed with cream"]}]
             },
             {
               "name": "Authentic Ratatouille (Confit Byaldi)",
