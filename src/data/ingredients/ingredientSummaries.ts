@@ -1736,6 +1736,200 @@ export const ingredientSummaries: Record<string, string> = {
   einkorn: `An ancient species of wheat (*Triticum monococcum*), considered the first domesticated wheat in human history. It has a significantly simpler gluten structure than modern wheat (making it easier for some to digest) and offers a profoundly rich, nutty, and slightly sweet flavor when baked into dense, rustic breads.
 
 **Selection & Storage:** Available as whole berries or milled flour. Because it is unrefined and contains natural oils, the flour should be stored in the freezer to prevent rancidity.`,
+  echinacea: `A genus of herbaceous flowering plants in the daisy family, traditionally used by Native Americans for its purported immune-boosting properties. When brewed as a tea or tincture, it provides an earthy, slightly floral, and numbing sensation on the tongue due to its high concentration of alkamides.
+
+**Selection & Storage:** Often sold dried as tea or in liquid tinctures. Store dried echinacea in a cool, dark place.`,
+
+  feijoa_pineapple_guava: `A small, green, egg-shaped fruit (*Acca sellowiana*) native to South America. It possesses a uniquely complex flavor profile that tastes like a blend of pineapple, apple, and mint, with a gritty, pear-like texture near the skin and a jelly-like center.
+
+**Selection & Storage:** Wait until the fruit yields slightly to pressure and gives off a highly perfumed aroma. Store in the refrigerator to prolong shelf life, as it spoils quickly at room temperature.`,
+
+  fennel_seeds: `The dried seeds of the fennel plant (*Foeniculum vulgare*), providing a highly aromatic, sweet, and warm licorice flavor. They are a crucial component of Chinese Five Spice, Indian Panch Phoron, and traditional sweet Italian sausages.
+
+**Selection & Storage:** Whole seeds retain their volatile oils much longer than ground fennel. Store in an airtight container in a dark pantry, and toast lightly before using to amplify their aroma.`,
+
+  fig_vinegar: `A rich, fruity vinegar made by fermenting crushed figs. It provides a sweet, jammy, and deeply complex acidity that perfectly balances bitter winter greens (like radicchio) or acts as a reduction glaze for roasted pork.
+
+**Selection & Storage:** Keep tightly capped in a cool, dark cupboard to maintain its sweet, fruity aromatics.`,
+
+  finger_lime: `A highly unusual micro-citrus (*Citrus australasica*) native to Australia. When the thin, elongated fruit is cut open, it reveals hundreds of tiny, spherical juice vesicles that resemble caviar; when bitten, they explode with an intense, tart, and floral lime flavor.
+
+**Selection & Storage:** Choose firm, unblemished fruit. They are highly perishable; store them in the crisper drawer of the refrigerator and consume within a week.`,
+
+  flaxseed: `A small, flat, teardrop-shaped seed (*Linum usitatissimum*) known for its high concentration of alpha-linolenic acid (an omega-3) and mucilaginous fiber. When ground and mixed with water, it forms a thick, gel-like paste that is heavily utilized as a vegan egg substitute in baking.
+
+**Selection & Storage:** Whole seeds pass through the digestive system intact; buy whole seeds and grind them yourself in a spice mill just before use. Store whole and ground seeds in the refrigerator or freezer.`,
+
+  flaxseed_oil: `An oil cold-pressed from flaxseeds, prized for its exceptionally high levels of omega-3 fatty acids. Because of its extremely low smoke point and delicate chemical structure, it must never be heated; it is used strictly as a finishing oil or nutritional supplement in smoothies.
+
+**Selection & Storage:** It oxidizes and goes rancid incredibly fast. Always store in a dark glass bottle in the refrigerator, and use within a few weeks of opening.`,
+
+  fleur_de_sel: `A rare, highly prized sea salt translated as 'flower of salt.' It is meticulously hand-harvested by scraping the delicate, pyramid-shaped crystals that form on the surface of seawater evaporation ponds. It provides a clean, oceanic minerality and a delicate, shattering crunch, used exclusively as a finishing salt.
+
+**Selection & Storage:** Authentic Fleur de Sel from Guérande, France, is slightly damp and grey/pink. Store in a salt cellar; its natural moisture prevents it from being used in a grinder.`,
+
+  french_butter: `Premium butter cultured with lactic acid bacteria before churning, and required by French law to contain at least 82% butterfat (compared to the US standard of 80%). The culturing process provides a distinct, complex tanginess, while the higher fat content yields flakier pastries and richer sauces.
+
+**Selection & Storage:** Keep tightly wrapped in its original foil or parchment to prevent it from absorbing refrigerator odors.`,
+
+  galangal: `A tough, woody rhizome (*Alpinia galanga*) closely related to ginger, but with a profoundly different flavor profile. It lacks ginger's sweet heat, offering instead a sharp, citrusy, piney, and almost medicinal earthiness that is absolutely essential to authentic Thai Tom Yum and Tom Kha soups.
+
+**Selection & Storage:** Look for pale, firm skin without shriveling. It is much harder than ginger and must be sliced thinly or pounded into a paste. Store wrapped in plastic in the refrigerator.`,
+
+  galia_melon: `A hybrid melon (*Cucumis melo var. reticulatus*) featuring the netted rind of a cantaloupe but the pale green, incredibly sweet flesh of a honeydew. It offers a highly perfumed, tropical aroma and a dense, juicy texture perfect for raw summer salads.
+
+**Selection & Storage:** It should smell intensely sweet at the blossom end and give slightly to pressure. Store at room temperature until ripe, then refrigerate.`,
+
+  "garlic-infused_olive_oil": `A finishing oil created by gently heating garlic cloves in extra virgin olive oil until their sulfur compounds mellow and infuse the fat with a deep, savory, and roasted garlic flavor. It provides the essence of garlic without the harsh bite of the raw bulb.
+
+**Selection & Storage:** Homemade garlic oil presents a severe risk of botulism if stored improperly. Always store homemade infusions in the refrigerator and use within a week, or purchase commercially stabilized versions.`,
+
+  ghee: `A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.
+
+**Selection & Storage:** Because the milk solids and water have been removed, ghee is highly stable. Store in a tightly sealed glass jar in a cool, dark pantry.`,
+
+  goji_berry: `The bright red-orange fruit of the *Lycium barbarum* shrub, typically sold dried. They possess a complex, slightly sour, and earthy sweetness (reminiscent of a cross between a cranberry and a cherry tomato), commonly steeped in Chinese healing broths or used as a nutrient-dense topping for oatmeal.
+
+**Selection & Storage:** Look for plump, pliable dried berries without added sugar. Store in an airtight container in a cool, dark pantry.`,
+
+  greek_yogurt: `Yogurt that has been extensively strained to remove its whey, resulting in a significantly thicker, creamier texture and a higher concentration of protein. Its dense structure and sharp lactic tang make it an excellent structural substitute for sour cream or mayonnaise in dips and baked goods.
+
+**Selection & Storage:** Choose full-fat, plain varieties for the best culinary performance, as low-fat versions often contain added thickeners. Store tightly sealed in the refrigerator.`,
+
+  green_lentils_french_lentils_puy: `Small, mottled green-blue legumes (*Lens culinaris*) famously grown in the volcanic soil of Le Puy, France. They have an exceptionally thick seed coat and hold their shape flawlessly during cooking, offering a robust, peppery, and earthy flavor ideal for structured salads and side dishes.
+
+**Selection & Storage:** Look for uniform color and lack of debris. Store in an airtight container in a cool, dark pantry.`,
+
+  greengage: `A cultivar of plum (*Prunus domestica subsp. italica*) featuring a pale, green-yellow skin even when fully ripe. They are widely considered to be the finest dessert plum in the world, boasting an unimaginably rich, honeyed sweetness and a dense, jammy texture.
+
+**Selection & Storage:** They are highly seasonal and delicate. Look for fruit that gives to gentle pressure; store in the refrigerator and consume quickly.`,
+
+  ground_cinnamon: `A warm, sweet spice derived from the inner bark of trees (*Cinnamomum*) that has been milled into a fine powder. It provides an immediate, profound aromatic warmth that rapidly integrates into batters, doughs, and complex savory spice blends like Garam Masala.
+
+**Selection & Storage:** Because it has been ground, its volatile essential oils evaporate quickly. Store in an airtight container in a dark pantry, and replace every 6-8 months for maximum flavor.`,
+
+  gruyere_cheese: `A firm, raw cow's milk cheese from Switzerland, renowned as one of the finest melting cheeses in the world due to its high water-to-oil ratio. It possesses a complex flavor profile that is sweet but slightly salty, with profound notes of earth, mushrooms, and toasted nuts.
+
+**Selection & Storage:** Look for a dense, slightly granular paste; older varieties will have small cracks and a darker color. Store wrapped in parchment or wax paper in the warmest part of the refrigerator.`,
+
+  guerande: `A reference to the highly prized sea salts (like Fleur de Sel and Sel Gris) harvested from the salt marshes of the Guérande Peninsula in France. These unrefined salts retain trace minerals (magnesium, calcium) from the clay lining the ponds, providing a distinct grey color, damp texture, and complex oceanic flavor.
+
+**Selection & Storage:** These salts contain natural moisture and should not be used in a grinder. Keep in a ceramic or glass salt cellar.`,
+
+  hazelnut_oil: `A specialty finishing oil pressed from hazelnuts, boasting an intense, deeply roasted, and slightly astringent hazelnut flavor. Because heat destroys its delicate, volatile aromatics, it should never be used for cooking, but rather drizzled over roasted squash, blue cheese, or fresh pastas.
+
+**Selection & Storage:** Hazelnut oil goes rancid very quickly. Always buy it in small quantities, ideally in a tin or dark glass, and store it strictly in the refrigerator.`,
+
+  hemp_seed_oil: `An oil cold-pressed from hemp seeds (*Cannabis sativa*), known for its dark green color and earthy, distinctly grassy, and nutty flavor. It is rich in polyunsaturated fats and possesses a very low smoke point, making it suitable only as a finishing oil for salads or hummus.
+
+**Selection & Storage:** Highly sensitive to light and heat. Store exclusively in the refrigerator in a dark glass bottle.`,
+
+  herbes_de_provence: `A classic French herb blend representing the flavors of the Provence region. It typically includes savory, marjoram, rosemary, thyme, and oregano, and in the North American market, culinary lavender is often added, providing a highly aromatic, floral, and woody profile perfect for roasting whole chickens.
+
+**Selection & Storage:** Because it relies on dried, volatile herbs, store in an airtight container in a cool, dark place and replace annually.`,
+
+  highbush_blueberry: `The most common commercially cultivated blueberry (*Vaccinium corymbosum*), known for producing large, plump berries. While they lack the intense, concentrated tartness of wild (lowbush) blueberries, they offer an excellent, consistent sweetness and a sturdy structure that holds up well in baking.
+
+**Selection & Storage:** Look for firm, dry berries with a powdery, silvery-white 'bloom' indicating freshness. Store unwashed in the refrigerator.`,
+
+  himalayan_red_rice: `A complex, whole-grain rice cultivated in the Himalayan mountains. It retains its bran layer, providing a distinctive reddish-brown color, a chewy, structured texture, and a profoundly nutty, earthy flavor that stands up to heavy, complex curries.
+
+**Selection & Storage:** Because it is unrefined, the natural oils in the bran can go rancid. Store in an airtight container in a cool, dark pantry or the refrigerator.`,
+
+  himalayan_salt: `A rock salt mined from the Punjab region of Pakistan, characterized by its distinct pink color, which is derived from trace minerals like iron, magnesium, and calcium. While nutrally similar to table salt, its large, coarse crystals make it an excellent visual and textural finishing salt.
+
+**Selection & Storage:** Available in large, hard blocks (for grating) or pre-ground. Store in a dry place; as a rock, it will never spoil.`,
+
+  holy_basil_tulsi: `A deeply revered, aromatic plant (*Ocimum tenuiflorum*) native to the Indian subcontinent, heavily utilized in Ayurvedic medicine and Thai cooking (as *krapow*). It possesses a significantly more aggressive, peppery, and clove-forward flavor profile than sweet Italian basil, retaining its flavor exceptionally well under high heat.
+
+**Selection & Storage:** Look for vibrant green or purple leaves without wilting. Store fresh stems in a glass of water at room temperature, loosely covered with a bag.`,
+
+  hummus: `A smooth, creamy Middle Eastern dip or spread made from cooked, mashed chickpeas blended with tahini, lemon juice, and garlic. The high fat content of the tahini emulsifies the chickpea starches, creating a velvety texture and an incredibly rich, nutty, and savory flavor profile.
+
+**Selection & Storage:** Store-bought hummus contains preservatives to extend its life; fresh or homemade hummus must be kept tightly sealed in the refrigerator and consumed within 4-5 days.`,
+
+  jackfruit: `The largest tree-borne fruit in the world (*Artocarpus heterophyllus*). When ripe, the golden bulbs are intensely sweet and taste like a blend of mango, banana, and pineapple; when unripe (green), the flesh is neutral, stringy, and fibrous, acting as an incredibly popular vegan substitute for pulled pork or braised chicken.
+
+**Selection & Storage:** Unripe jackfruit is usually purchased canned in brine or water; rinse thoroughly before cooking. Fresh, ripe jackfruit is highly perishable and should be refrigerated immediately after cutting.`,
+  jerk_seasoning: `A highly assertive, intensely spicy, and aromatic dry rub or wet marinade originating in Jamaica. It is fundamentally defined by the fiery heat of Scotch bonnet peppers paired with the warm, sweet, and woodsy depth of allspice (pimento), thyme, and scallions, creating a deeply complex crust on grilled meats.
+
+**Selection & Storage:** Store dry jerk rubs in an airtight container in a dark pantry. Wet jerk marinades must be kept in the refrigerator and used within a few weeks.`,
+
+  jerusalem_artichoke: `Also known as a sunchoke, this lumpy tuber (*Helianthus tuberosus*) is actually the root of a species of sunflower. It provides a sweet, intensely nutty flavor and a texture that ranges from water-chestnut crunchy when raw, to remarkably creamy and silken when roasted or pureed.
+
+**Selection & Storage:** Look for firm, smooth tubers without sprouting or soft spots. Store in a paper bag in the crisper drawer to control moisture.`,
+
+  kiwano_horned_melon: `An exotic, striking fruit (*Cucumis metuliferus*) featuring a bright orange rind covered in spiky 'horns.' The interior consists of a vivid green, jelly-like pulp filled with edible seeds, offering a highly refreshing, tart flavor profile reminiscent of cucumber, kiwi, and lime.
+
+**Selection & Storage:** Look for fruit with a bright orange rind, which indicates ripeness. Store at room temperature; refrigeration can damage its delicate texture.`,
+
+  kumquat: `A tiny, bite-sized citrus fruit (*Citrus japonica*) possessing a unique biological inversion: its rind is incredibly sweet and floral, while its juice and flesh are sharply, intensely sour. This contrast makes them perfect for eating whole (raw) or boiling down into deeply complex, sweet-and-sour marmalades.
+
+**Selection & Storage:** Choose firm, bright orange fruits without soft spots. Keep them in a plastic bag in the crisper drawer, where they will last for a couple of weeks.`,
+
+  lemon_basil: `A hybrid variety of basil (*Ocimum × africanum*) characterized by a strong, distinct aroma of lemon. It lacks the heavy anise and clove notes of sweet basil, offering instead a bright, citrusy perfume that pairs exceptionally well with grilled fish, delicate Thai curries, and fruit salads.
+
+**Selection & Storage:** Highly perishable. Store stems in a glass of water at room temperature, loosely covered with a plastic bag.`,
+
+  lemon_verbena: `A woody shrub (*Aloysia citrodora*) featuring incredibly rough, sandpaper-like leaves that contain an overwhelmingly potent, pure lemon essential oil. Because the leaves are too tough to eat raw, they are almost exclusively used to infuse syrups, custards, or teas with a brilliant, floral citrus flavor before being strained out.
+
+**Selection & Storage:** Fresh leaves dry beautifully without losing their essential oils. Store dried leaves in an airtight container in a dark pantry.`,
+
+  "lemon-infused_olive_oil": `A bright, finishing oil created by pressing olives simultaneously with whole lemons (Agrumato method), or by steeping lemon zest in extra virgin olive oil. It provides a rich, fatty mouthfeel combined with the sharp, aromatic, and volatile essential oils of citrus, perfect for drizzling over grilled asparagus or delicate seafood.
+
+**Selection & Storage:** True Agrumato (co-milled) oils are vastly superior to steeped oils. Store tightly capped in a cool, dark cupboard to preserve the delicate lemon aromatics.`,
+
+  long_grain_brown_rice: `A variety of rice (*Oryza sativa*) milled to remove the inedible hull but retaining the nutrient-rich bran layer and germ. Its long, slender grains remain distinctly separate and fluffy after cooking, offering a profound, earthy chew and a deep, nutty flavor that acts as a robust foundation for heavy sauces.
+
+**Selection & Storage:** The natural oils in the bran make it highly susceptible to rancidity. Store in an airtight container in the refrigerator or freezer for optimal shelf life.`,
+
+  maca_powder: `A finely ground powder made from the dried root of the maca plant (*Lepidium meyenii*), a cruciferous vegetable native to the high Andes of Peru. Highly regarded as an adaptogen, it boasts a deeply earthy, malty, and slightly butterscotch or caramel-like flavor, commonly blended into smoothies or oatmeal.
+
+**Selection & Storage:** Often sold raw or gelatinized (cooked for easier digestion). Store in an airtight container in a cool, dark, and dry pantry.`,
+
+  macadamia_oil: `A highly prized, golden culinary oil cold-pressed from macadamia nuts. It features an extraordinarily high concentration of monounsaturated fats (making it highly stable at high temperatures) and an intensely buttery, slightly sweet, and luxurious nutty flavor that shines in both baking and searing.
+
+**Selection & Storage:** Because of its high stability, it resists rancidity better than most nut oils. Store tightly sealed in a cool, dark cupboard.`,
+
+  mace: `A highly aromatic, deeply crimson spice made from the lacy, web-like aril (covering) that encases the nutmeg seed (*Myristica fragrans*). While fundamentally similar to nutmeg, mace is significantly more delicate, floral, and slightly sweeter, with pronounced notes of citrus and coriander.
+
+**Selection & Storage:** Whole mace 'blades' retain flavor far longer than ground mace. Store in an airtight container in a dark pantry and grind immediately before use.`,
+
+  mackerel: `A highly pelagic, torpedo-shaped forage fish known for its intense oil content and aggressively rich, dark, and meaty flavor. Because it is so fatty and robust, it is almost immune to drying out when subjected to extreme high heat, pairing brilliantly with sharp acidic glazes or heavy wood smoke.
+
+**Selection & Storage:** Mackerel spoils incredibly quickly due to its high oil content. Look for stiff, firm fish with clear eyes, keep heavily iced, and cook the exact day of purchase.`,
+
+  mahi_mahi: `A predatory fish (*Coryphaena hippurus*) boasting a lean, firm, and moderately dense texture with large, moist flakes. Its flavor is remarkably sweet, mild, and clean, making it a highly versatile canvas for aggressive spice rubs (like blackened seasoning) or bright tropical fruit salsas.
+
+**Selection & Storage:** Fresh fillets should be translucent pinkish-white with bright red bloodlines (never brown). Keep highly refrigerated and consume within two days.`,
+
+  marcona_almonds: `A premium, highly sought-after variety of almond imported exclusively from Spain. They are significantly shorter, rounder, and plumper than traditional Californian almonds, offering an incredibly soft, buttery, and yielding texture with a profound, sweet, and delicate flavor often described as resembling macadamia nuts.
+
+**Selection & Storage:** Often sold blanched, roasted in olive oil, and heavily salted. Store in an airtight container in the refrigerator to prevent their delicate oils from oxidizing.`,
+
+  marshmallow: `A highly aerated, spongy confection originally made from the mucilaginous sap of the marsh-mallow plant (*Althaea officinalis*), but modernly constructed from a whipped matrix of sugar, corn syrup, and gelatin. It is a structural marvel, trapping massive amounts of air that expand and violently caramelize when exposed to the intense heat of an open flame.
+
+**Selection & Storage:** Keep tightly sealed in a dry pantry; exposure to ambient humidity will cause them to become sticky, while extreme dryness will turn them stale and hard.`,
+
+  matcha_powder: `A brilliant, neon-green powder created by finely milling specially shade-grown green tea leaves (*Camellia sinensis*). Because you consume the entire leaf rather than just steeping it, it delivers an intensely concentrated, deeply vegetal, slightly sweet, and highly astringent umami flavor profile.
+
+**Selection & Storage:** 'Ceremonial grade' is intended for drinking pure, while 'culinary grade' is more astringent and meant for baking. It oxidizes incredibly quickly; store tightly sealed in the refrigerator and use within a month of opening.`,
+
+  medjool_dates: `The crown jewel of the date palm (*Phoenix dactylifera*), distinguished by their massive size, dark mahogany color, and incredibly soft, yielding texture. Consisting almost entirely of natural invert sugars, they act as a profound, natural caramel substitute in raw vegan baking, offering intense notes of molasses and toffee.
+
+**Selection & Storage:** Look for plump dates with slightly wrinkled, glossy skin. Store in an airtight container in the refrigerator, where they will retain their moisture for months.`,
+
+  meyer_lemon: `A natural hybrid citrus fruit believed to be a cross between a true lemon and a mandarin orange. They feature a smoother, darker yellow-orange rind and a flavor profile that is significantly sweeter, less aggressively acidic, and far more floral than a standard Eureka lemon, eliminating the need for heavy sugaring in desserts.
+
+**Selection & Storage:** Their thin, delicate skin makes them highly perishable and difficult to transport. Store them loosely wrapped in the crisper drawer and use quickly.`,
+
+  mirasol_chile: `A brightly colored, moderately spicy chili pepper (*Capsicum annuum*) whose name translates to 'looking at the sun,' referring to its upward-pointing growth habit. When fresh, it offers a sharp, fruity bite; when dried, it becomes the ubiquitous Guajillo chili, essential for complex, red Mexican mole sauces.
+
+**Selection & Storage:** Fresh Mirasol chilies should be firm and glossy; store unwashed in the crisper drawer. The dried Guajillo form should be kept in a dark, dry pantry.`,
+
+  mustard_oil: `An intensely pungent, deeply yellow oil extracted from mustard seeds, forming the culinary backbone of traditional Bengali and Northern Indian cuisines. It contains extraordinarily high levels of allyl isothiocyanate, providing a sharp, vaporous, horseradish-like heat that must be brought to a smoking point before cooking to mellow its aggressive bite.
+
+**Selection & Storage:** In many Western countries, it is sold 'for external use only' due to erucic acid regulations, though it is a staple cooking oil in Asia. Store tightly sealed in a cool, dark cupboard.`,
 };
 
 /**
