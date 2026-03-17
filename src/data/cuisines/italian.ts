@@ -2574,75 +2574,16 @@ export const italian: Cuisine = {
     dessert: {
       all: [
         {
-          "name": "Authentic Tiramisù",
-          "description": "A modernist Italian classic born in Treviso.",
-          "details": {
-            "cuisine": "Italian",
-            "prepTimeMinutes": 30,
-            "cookTimeMinutes": 0,
-            "baseServingSize": 8,
-            "spiceLevel": "None",
-            "season": [
-              "all"
-            ]
-          },
-          "ingredients": [
-            {
-              "amount": 500,
-              "unit": "g",
-              "name": "mascarpone cheese",
-              "notes": "Room temp."
-            },
-            {
-              "amount": 300,
-              "unit": "g",
-              "name": "Savoiardi (Ladyfingers)",
-              "notes": "Crisp Italian variety."
-            }
-          ],
-          "instructions": [
-            "Step 1: Whisk yolks and sugar.",
-            "Step 2: Fold in mascarpone.",
-            "Step 3: Dip biscuits in espresso.",
-            "Step 4: Layer and chill."
-          ],
-          "classifications": {
-            "mealType": [
-              "dessert"
-            ],
-            "cookingMethods": [
-              "assembling"
-            ]
-          },
-          "elementalProperties": {
-            "Fire": 0.05,
-            "Water": 0.4,
-            "Earth": 0.15,
-            "Air": 0.4
-          },
-          "astrologicalAffinities": {
-            "planets": [
-              "Venus"
-            ],
-            "signs": [
-              "Libra"
-            ],
-            "lunarPhases": [
-              "Waning Gibbous"
-            ]
-          },
-          "nutritionPerServing": {
-            "calories": 420,
-            "proteinG": 8,
-            "carbsG": 38,
-            "fatG": 26,
-            "fiberG": 1,
-              "sodiumMg": 104,
-              "sugarG": 21,
-              "vitamins": ["Vitamin C","Vitamin A"],
-              "minerals": ["Iron","Calcium"]
-        },
-          "substitutions": []
+          name: "Tiramisu",
+          description: "A classic Italian dessert originating in Treviso, Veneto, in which espresso-soaked Savoiardi biscuits are layered with a rich zabaione-mascarpone cream. The dessert relies on the science of emulsification: egg yolks whisked with sugar over a bain-marie create a stable foam that, when folded with cold mascarpone, forms a mousse-like structure that sets overnight in the refrigerator. The contrast of bitter espresso, sweet cream, and bitter cocoa powder creates a complex layered flavor profile.",
+          details: {"cuisine":"Italian","prepTimeMinutes":40,"cookTimeMinutes":0,"baseServingSize":8,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":500,"unit":"g","name":"Mascarpone cheese","notes":"Full-fat, at room temperature for smooth incorporation."},{"amount":300,"unit":"g","name":"Savoiardi ladyfinger biscuits","notes":"Crisp Italian variety, not soft sponge fingers."},{"amount":6,"unit":"large","name":"Egg yolks","notes":"Fresh, pasteurized or from a known source."},{"amount":150,"unit":"g","name":"Caster sugar","notes":"Fine white sugar for smooth zabaione."},{"amount":300,"unit":"ml","name":"Strong espresso coffee","notes":"Cooled to room temperature before use."},{"amount":2,"unit":"tbsp","name":"Marsala wine or dark rum","notes":"Added to the espresso for soaking."},{"amount":4,"unit":"tbsp","name":"Unsweetened cocoa powder","notes":"High-quality Dutch-process, for dusting between layers."},{"amount":1,"unit":"pinch","name":"Fine sea salt","notes":"Enhances the sweetness of the cream."}],
+          instructions: ["Step 1: Prepare the zabaione base. Place egg yolks and caster sugar in a heatproof bowl set over a pot of barely simmering water, ensuring the bowl does not touch the water. Whisk vigorously and continuously for 8 to 10 minutes until the mixture is pale, thick, and has doubled in volume, reaching the ribbon stage where it falls from the whisk in a slow, thick ribbon.","Step 2: Remove the bowl from the heat and continue whisking for another 2 minutes to cool slightly. Transfer to a large clean bowl. Add the mascarpone in three additions, folding gently with a spatula after each addition until the mixture is completely smooth and homogeneous with no white streaks remaining.","Step 3: Combine the cooled espresso and Marsala wine in a shallow bowl wide enough to dip the biscuits. Working quickly, dip each Savoiardo biscuit briefly into the espresso mixture, about 1 to 2 seconds per side. The biscuit should be moistened but not waterlogged or it will disintegrate.","Step 4: Arrange a single layer of dipped biscuits in a rectangular dish approximately 30x20cm. Spread half of the mascarpone cream over the biscuit layer using an offset spatula, smoothing it to an even thickness. Dust generously and evenly with cocoa powder through a fine sieve.","Step 5: Arrange a second layer of espresso-dipped biscuits on top, then spread the remaining mascarpone cream over the surface. Smooth the top completely. Dust with a final, even layer of cocoa powder. Cover tightly with plastic wrap and refrigerate for a minimum of 4 hours, and ideally overnight, to allow the cream to firm and the flavors to meld before serving."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["whisking","assembling","chilling"]},
+          elementalProperties: {"Fire":0.10,"Water":0.35,"Earth":0.30,"Air":0.25},
+          astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","libra"],"lunarPhases":["Waning Gibbous","Full Moon"]},
+          nutritionPerServing: {"calories":430,"proteinG":9,"carbsG":40,"fatG":26,"fiberG":1,"sodiumMg":110,"sugarG":28,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Phosphorus","Iron"]},
+          substitutions: [{"originalIngredient":"Mascarpone cheese","substituteOptions":["Full-fat cream cheese blended with heavy cream (less rich result)"]},{"originalIngredient":"Marsala wine","substituteOptions":["Dark rum","Coffee liqueur","Omit for an alcohol-free version"]},{"originalIngredient":"Egg yolks (raw)","substituteOptions":["Pasteurized liquid egg yolks for food safety"]}]
         },
       ],
       summer: [
