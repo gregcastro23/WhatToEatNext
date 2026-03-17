@@ -5,13 +5,13 @@
  */
 export const ingredientSummaries: Record<string, string> = {
   garlic: `A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows into a deep, sweet nuttiness when roasted or sautéed.\n\n**Selection & Storage:** Look for firm, heavy bulbs with dry, unbroken papery skins and no green shoots. Store in a cool, dark, and well-ventilated space, rather than the refrigerator, to prevent premature sprouting.`,
-  
+
   rosemary: `A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\n\n**Selection & Storage:** Choose sprigs that are vibrantly green and pliable; avoid any that are brittle, darkened, or overly woody at the tips. Fresh rosemary keeps best when wrapped loosely in a damp paper towel in the refrigerator, or it can be dried for long-term pantry storage.`,
-  
+
   salmon: `A silver-skinned, anadromous fish (*Salmo salar*) celebrated for its rich, buttery texture and high concentration of heart-healthy omega-3 fatty acids (EPA and DHA). Its distinct pink-to-orange flesh color comes from astaxanthin, a powerful antioxidant derived from its natural diet.\n\n**Selection & Storage:** Fresh fillets should look moist and brightly colored without dry edges, and smell faintly of the clean ocean, never "fishy." When buying whole fish, look for clear, bright eyes and bright red gills. Keep refrigerated over ice and consume within a day or two of purchase.`,
-  
+
   tomato: `A plum tomato variety (*Solanum lycopersicum*) specifically bred for cooking and canning, characterized by its elongated shape, thick flesh, and low moisture content. Because it contains fewer seeds and less water than slicing tomatoes, it reduces down into a rich, concentrated sauce much faster, making it the culinary standard for pastes and purees.\n\n**Selection & Storage:** Select fruits that feel heavy for their size with smooth, deeply red, unblemished skin and a subtle earthy fragrance at the stem. Never refrigerate fresh tomatoes, as temperatures below 55°F (13°C) permanently halt the enzyme activity that creates their flavor.`,
-  
+
   roma_tomato: `A plum tomato variety (*Solanum lycopersicum*) specifically bred for cooking and canning, characterized by its elongated shape, thick flesh, and low moisture content. Because it contains fewer seeds and less water than slicing tomatoes, it reduces down into a rich, concentrated sauce much faster, making it the culinary standard for pastes and purees.\n\n**Selection & Storage:** Select fruits that feel heavy for their size with smooth, deeply red, unblemished skin and a subtle earthy fragrance at the stem. Never refrigerate fresh tomatoes, as temperatures below 55°F (13°C) permanently halt the enzyme activity that creates their flavor.`,
   onion: `A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds that, when exposed to heat, undergo the Maillard reaction to create deep, sweet, and complex flavors ranging from sharp when raw to caramel-like when slow-cooked.
 
@@ -1447,31 +1447,301 @@ export const ingredientSummaries: Record<string, string> = {
   erythritol: `A sugar alcohol (polyol) that occurs naturally in some fruits. It provides about 70% of the sweetness of sugar with almost zero calories, but when dissolved in the mouth, it creates a distinct, endothermic 'cooling' sensation that can be jarring in certain baked goods.
 
 **Selection & Storage:** Does not caramelize or attract moisture like regular sugar. Store in an airtight container at room temperature.`,
+  acai_berry: `A small, dark purple fruit (*Euterpe oleracea*) native to the Amazon rainforest. Highly perishable when fresh, it is usually sold as a frozen puree or freeze-dried powder, providing an earthy, unsweetened flavor profile with deep notes of blackberry and dark, unsweetened chocolate.
 
+**Selection & Storage:** Unsweetened frozen puree packets provide the most authentic flavor and highest nutritional integrity. Keep strictly frozen until ready to blend into bowls or smoothies.`,
+
+  aged_balsamic_vinegar: `A dark, highly concentrated vinegar (*Aceto Balsamico Tradizionale*) made from the reduced must of white Trebbiano grapes and aged in a succession of wooden casks for 12 to 25+ years. It boasts a thick, syrupy texture and a profoundly complex, sweet-and-sour flavor profile with notes of fig, molasses, and wood, meant exclusively for finishing dishes, never cooking.
+
+**Selection & Storage:** True traditional balsamic will be expensive and carry a DOP seal. Store tightly capped in a cool, dark cupboard; it lasts indefinitely.`,
+
+  "all-purpose_flour": `A highly refined, versatile wheat flour milled from a blend of hard and soft wheat, resulting in a moderate protein content (typically 10-12%). It offers sufficient gluten development for structural breads while remaining delicate enough for tender cakes and flaky pie crusts.
+
+**Selection & Storage:** Unbleached all-purpose flour provides a slightly better structure and flavor than bleached varieties. Store in an airtight container in a cool, dry place to prevent moisture absorption and pests.`,
+
+  almonds: `The edible seeds of the *Prunus dulcis* tree, highly valued for their subtle sweetness, firm crunch, and woody flavor. Blanched almonds (skins removed) are often ground into fine flours for delicate pastries like macarons, while skin-on, roasted almonds provide robust texture and bitterness to savory dishes.
+
+**Selection & Storage:** Choose almonds that smell sweet and nutty, avoiding any that smell sharp or like paint (a sign of rancidity). Store them in an airtight container in the refrigerator or freezer to preserve their volatile oils.`,
+
+  anchovies: `Small, oily forage fish (*Engraulis encrasicolus*) primarily preserved through heavy salt-curing and packing in oil. While aggressively fishy and salty on their own, they dissolve completely when heated, acting as a secret, umami-rich backbone for Caesar dressings, tomato sauces, and braises.
+
+**Selection & Storage:** Oil-packed fillets in glass jars are generally superior to those in tins. Once opened, ensure the fillets are fully submerged in oil and keep refrigerated for several months.`,
+
+  anise: `The seed of the *Pimpinella anisum* plant, yielding a distinctively sweet, highly aromatic, and slightly spicy licorice flavor. It shares the volatile compound anethole with fennel and star anise, making it a foundational flavoring for classic Mediterranean spirits like Ouzo, Sambuca, and Absinthe.
+
+**Selection & Storage:** Buy whole seeds and grind them as needed, as their volatile oils dissipate quickly once crushed. Store in an airtight glass jar in a dark pantry.`,
+
+  apricot_kernel_oil: `A pale, delicate oil pressed from the kernels (seeds) of apricots. It possesses a very mild, slightly sweet, and nutty flavor profile (reminiscent of almonds) and a high smoke point, making it suitable for both high-heat sautéing and delicate salad dressings.
+
+**Selection & Storage:** Highly susceptible to oxidation. Keep tightly sealed in a dark glass bottle in the refrigerator to extend its shelf life.`,
+
+  argan_oil: `A highly prized, intensely nutty oil pressed from the kernels of the argan tree (*Argania spinosa*), endemic to Morocco. Culinary argan oil is made from lightly roasted kernels, resulting in a profound, toasted hazelnut flavor that is used exclusively as a finishing oil over couscous, dips, or desserts.
+
+**Selection & Storage:** Do not confuse culinary argan oil (roasted, dark) with cosmetic argan oil (unroasted, pale). Store in a cool, dark place.`,
+
+  asian_pear: `A crisp, exceptionally juicy fruit (*Pyrus pyrifolia*) that looks like a round apple but retains the delicate, floral sweetness of a pear. Unlike European pears, they do not soften after picking; their granular, water-dense texture makes them perfect for eating raw or grating into Korean meat marinades to tenderize beef.
+
+**Selection & Storage:** Look for firm, unblemished fruit; they bruise very easily. Store them in the refrigerator crisper drawer, where they will keep for several weeks.`,
+
+  bbq_sauce: `A thick, highly complex condiment built on a foundation of sweetness (molasses or brown sugar), acidity (vinegar), umami (ketchup or tomato paste), and often liquid smoke. Its high sugar content makes it an exceptional glazing agent that caramelizes beautifully over indirect heat, though it will scorch quickly over open flames.
+
+**Selection & Storage:** Once opened, store tightly sealed in the refrigerator, where its high acid and sugar content will keep it fresh for months.`,
+
+  babassu_oil: `A clear, light oil extracted from the seeds of the babassu palm (*Attalea speciosa*) native to the Amazon region. It is chemically very similar to coconut oil—solid at room temperature and melting quickly upon skin contact—but lacks the distinct tropical coconut aroma, making it a versatile, neutral fat for baking and frying.
+
+**Selection & Storage:** Store in a cool, dark pantry; like coconut oil, it is highly stable and resistant to rancidity.`,
+
+  "basil-infused_olive_oil": `A finishing oil created by steeping fresh basil leaves (*Ocimum basilicum*) in high-quality extra virgin olive oil. It captures the bright, peppery, and sweet anise notes of the herb, providing an immediate burst of summer flavor when drizzled over caprese salads or fresh pasta.
+
+**Selection & Storage:** Commercially infused oils are stable in the pantry. If homemade, it must be stored in the refrigerator and used within a week to prevent the risk of botulism from the fresh leaves.`,
+
+  berbere: `A fiery, complex, and highly aromatic spice blend that forms the foundational flavor profile of Ethiopian and Eritrean cuisines. It is a deeply red, textured mix typically containing chili peppers, garlic, ginger, basil, korarima, rue, ajwain or radhuni, nigella, and fenugreek, offering immense savory depth and sustained heat.
+
+**Selection & Storage:** Store in a highly airtight container in a dark, cool pantry to preserve the volatile aromatics of the diverse spices.`,
+
+  bergamot: `A highly aromatic, bitter citrus fruit (*Citrus bergamia*) primarily cultivated for its essential oils extracted from the rind. This intensely fragrant, floral, and slightly spicy oil is the defining flavor of Earl Grey tea and adds a profoundly sophisticated, perfumed note to marmalades and delicate pastries.
+
+**Selection & Storage:** Fresh bergamot is extremely rare; you will usually buy the pure essential oil. Ensure it is food-grade, and store it tightly sealed in a cool, dark place.`,
+
+  black_beans: `A dense, meaty legume (*Phaseolus vulgaris*) with a dark, almost black skin and a creamy, pale interior. They are rich in anthocyanins (which provide their dark color) and yield a sweet, earthy, and slightly mushroom-like flavor when slow-cooked or pureed.
+
+**Selection & Storage:** Choose dried beans that are shiny and whole without shriveling. Store dried beans in an airtight container in a cool, dry place; keep in mind that older beans will require significantly longer soaking and cooking times.`,
+
+  black_currant: `A small, dark berry (*Ribes nigrum*) known for its incredibly intense, astringent, and musky flavor profile. Because of its sharp tartness, it is rarely eaten raw but excels when cooked down with sugar into deep, rich jams, syrups (like Crème de Cassis), and sauces for wild game.
+
+**Selection & Storage:** Look for plump, deeply colored berries attached to their stems. Store unwashed in the refrigerator and use quickly, or freeze them.`,
+
+  black_lentils_beluga: `Tiny, glistening, black legumes (*Lens culinaris*) that strongly resemble Beluga caviar. They have a thick skin that prevents them from turning mushy when cooked, offering a firm, satisfying chew and an incredibly rich, earthy flavor perfect for absorbing strong vinaigrettes in salads.
+
+**Selection & Storage:** Look for uniform, shiny black lentils without debris. Store dried lentils in an airtight container in a cool, dark place.`,
+
+  black_radish: `A large, winter root vegetable (*Raphanus sativus var. niger*) with a tough, coal-black exterior and a stark white interior. It possesses a remarkably sharp, aggressively spicy, and pungent bite when raw, which mellows dramatically into a sweet, earthy flavor when roasted or braised.
+
+**Selection & Storage:** Choose firm, heavy roots without cracks or spongy spots. Remove the green tops and store the roots loosely wrapped in plastic in the crisper drawer.`,
+
+  black_seed_oil: `A potent oil pressed from the seeds of *Nigella sativa*, featuring a dark amber color and a highly distinct, aggressive flavor profile described as a mix of cumin, black pepper, and oregano. Because of its intense bitterness and pungency, it is used very sparingly as a finishing oil or for medicinal purposes.
+
+**Selection & Storage:** Look for cold-pressed, unrefined oil in dark glass bottles. Store in the refrigerator to maintain its complex compounds.`,
+
+  black_truffle_oil: `A finishing oil meant to mimic the incredibly rare, earthy, and musky aroma of black truffles (*Tuber melanosporum*). Most commercial truffle oils are synthesized using the chemical compound 2,4-dithiapentane rather than real truffles, providing an intense, sometimes overpowering burst of umami aroma.
+
+**Selection & Storage:** A little goes a very long way; use drops, not glugs. Store tightly sealed in a cool, dark cupboard to prevent the highly volatile aromas from dissipating.`,
+
+  boysenberry: `A large, highly perishable aggregate fruit that is a complex cross between a European raspberry, a European blackberry, an American dewberry, and a loganberry. It offers a spectacular balance of sweet and tart flavors with a softer, juicier texture than a standard blackberry, making it unparalleled for jams and pies.
+
+**Selection & Storage:** Extremely fragile and prone to molding. Look for plump, dark maroon berries; keep them unwashed in the refrigerator and consume within a day or two.`,
+
+  breadfruit: `A massive, starchy, tropical fruit (*Artocarpus altilis*) related to the jackfruit. When unripe and green, its flesh is hard and starchy, tasting remarkably like freshly baked bread or potatoes when roasted; as it ripens, the starches convert to sugar, becoming soft, sweet, and custard-like.
+
+**Selection & Storage:** Choose green, firm fruit for savory applications (like frying or boiling) and yellow-brown, yielding fruit for sweet desserts. Store at room temperature until it reaches the desired ripeness.`,
+  brown_basmati_rice: `A highly aromatic, extra-long-grain rice originating from the Indian subcontinent, retaining its nutrient-dense bran and germ layers. It boasts a chewier texture, a distinctly nutty and floral flavor profile (stronger than its white counterpart), and grains that elongate and remain separate when cooked.
+
+**Selection & Storage:** High-quality basmati is aged to reduce moisture. Store in an airtight container in a cool, dark pantry or the refrigerator to prevent the natural oils in the bran from going rancid.`,
+
+  brown_jasmine_rice: `A fragrant, long-grain rice primarily cultivated in Thailand, processed to leave its healthy bran layer intact. It retains the delicate, pandan-like floral aroma of white jasmine rice but offers a more robust, earthy flavor and a sticky, chewy texture that holds up well in hearty grain bowls.
+
+**Selection & Storage:** Look for rice from the most recent harvest for the strongest aroma. Store in an airtight container in the refrigerator to maximize shelf life.`,
+
+  brown_lentils: `Small, lens-shaped legumes (*Lens culinaris*) that are left whole with their seed coat intact. They offer an incredibly mild, earthy flavor and hold their shape moderately well during cooking, making them a highly versatile, quick-cooking base for warm salads, vegetarian shepherd's pies, and hearty soups.
+
+**Selection & Storage:** Look for uniformly colored, debris-free lentils. Store dried lentils in an airtight container in a cool, dark place, where they will retain their best quality for up to a year.`,
+
+  cactus_pear_prickly_pear: `The vividly colored, oval fruit of the *Opuntia* cactus, protected by a thick skin covered in tiny, irritating glochids (spines). Inside, the intensely vibrant magenta or pale green flesh is incredibly juicy, very sweet (resembling bubblegum or watermelon), and studded with small, hard, edible seeds.
+
+**Selection & Storage:** Usually sold with spines removed; choose firm, deeply colored fruit. Store at room temperature until fully soft and ripe, then refrigerate.`,
+
+  caraway_seeds: `The dried, crescent-shaped fruit of a biennial plant (*Carum carvi*) in the parsley family. They provide a highly pungent, slightly sweet, and distinctively anise/licorice flavor profile that cuts through rich, fatty dishes, acting as the essential defining flavor of rye bread and sauerkraut.
+
+**Selection & Storage:** Buy whole seeds rather than ground powder. Store in an airtight container in a cool, dark pantry away from heat and moisture.`,
+
+  cardamom_pods: `A highly aromatic, resinous spice (*Elettaria cardamomum*) enclosed in small green or black pods. Green cardamom offers a complex, cooling, eucalyptus-and-citrus sweetness essential for Scandinavian baking and Indian sweets, while black cardamom is heavily smoked and deeply savory.
+
+**Selection & Storage:** Always buy cardamom in its whole pod; ground cardamom loses its delicate essential oils extremely fast. Keep the pods stored in an airtight glass jar away from light and heat.`,
+
+  cashew_cream: `A rich, dairy-free emulsion created by soaking raw cashews and blending them with water until perfectly smooth. Because cashews are naturally high in starch and fat, the resulting cream is incredibly thick, velvety, and neutral in flavor, serving as the premier vegan substitute for heavy cream in savory sauces.
+
+**Selection & Storage:** Use raw, unsalted cashews for the most neutral flavor. Store the finished cream in a tightly sealed container in the refrigerator for up to 5 days.`,
+
+  chamomile: `The delicate, daisy-like flowers of the *Matricaria* family, most commonly dried and consumed as a tisane (herbal tea). They impart a remarkably gentle, floral, and distinctively apple-like sweetness that infuses beautifully into light custards, panna cottas, and clear broths.
+
+**Selection & Storage:** Look for dried whole flowers rather than crushed tea bags for the purest flavor. Store in an airtight container in a cool, dark pantry away from strongly scented spices.`,
+
+  champagne_vinegar: `A pale, elegant vinegar made by fermenting wine derived from the same grape varieties used to produce Champagne (Chardonnay, Pinot Noir, and Pinot Meunier). It is significantly softer, more delicate, and more floral than standard white wine vinegar, making it the ideal acid for subtle vinaigrettes and delicate fish dishes.
+
+**Selection & Storage:** Store tightly capped in a cool, dark place to maintain its delicate aromatics.`,
+
+  chervil: `A delicate, highly perishable spring herb (*Anthriscus cerefolium*) featuring lacy, fern-like leaves. It is a cornerstone of the classic French *fines herbes* blend, offering a subtle, refined flavor profile combining parsley and faint anise, which must be added at the absolute last second to avoid destroying its volatile oils.
+
+**Selection & Storage:** Fresh chervil is highly perishable and difficult to find; look for vibrant, perky leaves. Store wrapped in a damp paper towel in the crisper drawer.`,
+
+  chia_seed_oil: `A highly nutritious oil cold-pressed from chia seeds (*Salvia hispanica*), boasting one of the highest botanical concentrations of omega-3 fatty acids. It has a very mild, slightly nutty flavor and a low smoke point, meaning it should never be heated but instead used as a finishing oil or in smoothies.
+
+**Selection & Storage:** Because of its high polyunsaturated fat content, it is extremely prone to oxidation. Always store in a dark glass bottle in the refrigerator.`,
+
+  chia_seeds: `A microscopic, ancient seed (*Salvia hispanica*) renowned for its hydrophilic properties; it can absorb up to 12 times its weight in liquid. When soaked, it develops a gelatinous, mucilaginous coating, making it an excellent natural thickener for puddings, jams, and vegan baking (as an egg substitute).
+
+**Selection & Storage:** Look for a mix of black and white seeds, avoiding strictly brown ones which may be immature. Chia seeds are highly stable and can be stored in an airtight container in a dark pantry for years.`,
+
+  chicken_egg: `The highly versatile, nutrient-dense unfertilized egg of the domestic fowl (*Gallus gallus domesticus*). It is a culinary miracle: the yolk provides fat and the emulsifier lecithin (essential for mayonnaise and custards), while the whites provide pure protein that can be aerated into massive structural foams (meringues).
+
+**Selection & Storage:** In the US, commercially washed eggs must be kept refrigerated; unwashed farm eggs can be stored at room temperature. Store in the main body of the fridge, not the door.`,
+
+  chickpeas: `Also known as garbanzo beans (*Cicer arietinum*), these versatile legumes maintain a firm, meaty texture even after long cooking. Their mild, nutty flavor and high starch-to-protein ratio make them ideal for blending into creamy hummus, roasting until crispy, or bulking up stews.
+
+**Selection & Storage:** Dried chickpeas should be uniform in color and unbroken. Store dried beans in an airtight container in a dark pantry; canned chickpeas should be stored at room temperature until opened.`,
+
+  chili_oil: `A vibrant red, infused condiment made by gently heating a neutral oil and pouring it over crushed chili flakes, aromatics (like garlic and star anise), and often Sichuan peppercorns. It provides immense depth, slow-building heat, and a glossy, fiery finish to dumplings, noodles, and broths.
+
+**Selection & Storage:** Ensure the chilies are completely submerged in the oil to prevent spoiling. Store commercially made oils in the pantry, and homemade versions in the refrigerator.`,
+
+  chimichurri: `An uncooked, vibrant green sauce originating from Argentina, typically composed of finely chopped parsley, minced garlic, olive oil, oregano, and red wine vinegar. Its sharp, herbaceous, and highly acidic profile acts as the ultimate palate-cleansing contrast to heavy, rich, and fatty grilled steaks.
+
+**Selection & Storage:** Best made fresh and used within a day or two to preserve the bright green color of the herbs. Keep refrigerated in a sealed container.`,
+
+  chinese_five_spice: `A potent, highly aromatic spice blend encompassing all five tastes (sweet, sour, bitter, salty, and umami). The classic formulation includes star anise, cloves, Chinese cinnamon, Sichuan peppercorns, and fennel seeds, providing a complex, licorice-heavy warmth crucial for roasted meats like Char Siu.
+
+**Selection & Storage:** Because it relies heavily on volatile spices, it loses its punch quickly. Store in a highly airtight container in a cool, dark place and replace every 6 months.`,
+
+  clementine: `A small, exceptionally sweet, and generally seedless citrus fruit (*Citrus × clementina*) resulting from a cross between a sweet orange and a willowleaf mandarin. Its skin is incredibly loose and easy to peel, making it a perfect raw snack, though its juice is also excellent for bright, acidic vinaigrettes.
+
+**Selection & Storage:** Look for fruit that feels heavy for its size with bright, firm skin. Store them in the crisper drawer of the refrigerator to extend their shelf life significantly.`,
+
+  cloudberry: `A highly prized, rare wild berry (*Rubus chamaemorus*) native to alpine and arctic tundras, resembling an amber-colored raspberry. They possess a completely unique, tart flavor profile reminiscent of baked apples and floral honey, most commonly preserved in jams or served warm over Swedish cheese.
+
+**Selection & Storage:** Fresh cloudberries are almost impossible to find outside of Nordic regions; look for high-quality jams or frozen berries. Keep jams refrigerated once opened.`,
+
+  coconut_vinegar: `A cloudy, distinctively sharp vinegar made by fermenting the sap of the coconut palm flower (not the coconut water itself). It offers a sharp, yeasty, and slightly sweet flavor profile that is significantly less harsh than white vinegar, serving as a staple acid in Filipino adobo and dipping sauces.
+
+**Selection & Storage:** Unfiltered varieties containing the 'mother' offer the most complex flavor. Store at room temperature in a dark pantry.`,
+
+  coriander_seeds: `The dried seeds of the cilantro plant (*Coriandrum sativum*), yielding a completely different flavor profile than its leaves. The seeds provide a warm, floral, and slightly citrusy sweetness that is a crucial balancing component in heavy, spicy curry blends and pickling brines.
+
+**Selection & Storage:** Buy whole coriander seeds, as the ground version quickly loses its bright citrus notes. Toast lightly before grinding to amplify their floral aroma, and store in an airtight container.`,
+
+  corn_oil: `A highly refined oil extracted from the germ of corn kernels. Because it is highly processed, it is almost entirely flavorless and boasts a very high smoke point (450°F / 232°C), making it a stable, workhorse fat ideal for deep-frying and high-heat stovetop cooking.
+
+**Selection & Storage:** Highly stable and resistant to rancidity. Store in a cool, dark cupboard tightly sealed.`,
+
+  cottonseed_oil: `A highly processed, neutral-tasting vegetable oil extracted from the seeds of the cotton plant. Like corn oil, it has an incredibly high smoke point and is chemically stable, making it a very common (though increasingly less popular) choice for commercial deep-frying and processed snack foods.
+
+**Selection & Storage:** Highly stable at room temperature. Keep tightly sealed in a dark pantry.`,
+
+  cumin_seeds: `A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.
+
+**Selection & Storage:** Purchase whole cumin seeds, as pre-ground cumin quickly loses its essential oils and takes on a stale, dusty flavor. Store in an airtight container in a dark pantry, and toast and grind only what you need.`,
+  curry_leaf: `The fresh, distinctively aromatic leaves of the *Murraya koenigii* tree, native to India. When quickly fried in hot oil (tempering/tadka), they release an incredibly complex, savory, and slightly citrusy aroma that provides the essential foundational flavor for South Indian dals and curries.
+
+**Selection & Storage:** Dried curry leaves lose almost all of their flavor; always buy fresh. Store them tightly wrapped in the refrigerator for a week, or freeze them indefinitely in an airtight bag.`,
+
+  custard_apple_cherimoya: `A tropical, heart-shaped fruit (*Annona squamosa* or *Annona cherimola*) with a scaly green exterior. Its pure white flesh is incredibly creamy and sweet, tasting remarkably like a blend of banana, pineapple, and strawberry folded into thick vanilla custard.
+
+**Selection & Storage:** Look for fruit that yields to gentle pressure, similar to an avocado. Store at room temperature until ripe, then refrigerate for a few days.`,
+
+  damson: `A small, oval plum (*Prunus insititia*) with dark blue-black skin and yellow-green flesh. Because it is highly astringent and tart when raw, it is almost exclusively cooked down into intensely flavored, deeply colored jams, jellies, and traditional fruit cheeses.
+
+**Selection & Storage:** Look for firm, unblemished fruit with a cloudy, powdery 'bloom' on the skin. Store in the refrigerator until ready to process.`,
+
+  date_vinegar: `A rich, complex, and dark vinegar traditionally made in the Middle East by fermenting dates. It offers a mellow acidity and a profound, fruity sweetness (resembling a less syrupy balsamic), making it an excellent marinade for lamb or a glaze for roasted root vegetables.
+
+**Selection & Storage:** Store tightly sealed in a cool, dark pantry. Because of its sugar content, refrigeration can extend its optimal flavor, though it is not strictly necessary.`,
+
+  dried_basil: `The dehydrated leaves of the sweet basil plant (*Ocimum basilicum*). Unlike oregano or thyme, basil loses almost all of its complex, sweet, and anise-like volatile oils during the drying process, leaving behind a muted, slightly minty flavor that requires long simmering in tomato sauces to rehydrate and extract.
+
+**Selection & Storage:** Store in an airtight container in a dark, cool pantry. Replace every six months, as the already weak flavor degrades rapidly.`,
+
+  dried_bay_leaves: `The dehydrated leaves of the sweet bay tree (*Laurus nobilis*). While fresh bay leaves can be overwhelmingly astringent and menthol-heavy, drying them mellows their bite and concentrates their complex, woody, and floral notes, which release slowly during long braises and stews.
+
+**Selection & Storage:** Look for unbroken leaves with a distinct green hue; brown, brittle leaves are devoid of flavor. Store in an airtight container in the dark.`,
+
+  dried_chervil: `The dried version of the delicate spring herb (*Anthriscus cerefolium*). Because its subtle parsley-anise flavor is extremely fragile, it survives the drying process poorly; it is best used in large quantities in light, cream-based sauces where it won't be overpowered by other ingredients.
+
+**Selection & Storage:** Keep tightly sealed in a cool, dark place. Use generously, as its flavor is very faint.`,
+
+  dried_chives: `The dehydrated hollow stalks of the smallest onion species (*Allium schoenoprasum*). Drying preserves their distinctively mild, sweet onion flavor surprisingly well, making them a convenient stir-in for sour cream dips, baked potatoes, and savory scones.
+
+**Selection & Storage:** Look for a bright green color; brown chives are stale. Store in an airtight jar away from heat and light.`,
+
+  dried_cilantro: `The dehydrated leaves of the coriander plant (*Coriandrum sativum*). The drying process almost completely destroys the bright, citrusy, and pungent volatile oils that define fresh cilantro, leaving a very subtle, grassy herb that functions mostly as a visual garnish rather than a primary flavoring agent.
+
+**Selection & Storage:** Keep tightly sealed in a dark pantry, but always use fresh cilantro if flavor is the primary goal.`,
+
+  dried_dill: `The dehydrated, feathery fronds of *Anethum graveolens*. It retains its signature sweet, grassy, and slightly anise-like flavor reasonably well when dried, making it a reliable addition to long-simmering fish chowders, yogurt sauces, and potato salads.
+
+**Selection & Storage:** Store in a dark glass jar in a cool pantry. Its flavor fades quickly, so purchase in small amounts.`,
+
+  dried_fennel: `The dehydrated fronds (leaves) of the fennel plant (*Foeniculum vulgare*), not to be confused with fennel seeds. They offer a very mild, sweet licorice/anise flavor that is exceptionally delicate, typically used to lightly season fish broths or delicate pork dishes.
+
+**Selection & Storage:** Keep in an airtight container in a dark, cool place. Crush between your fingers before adding to a dish to release the remaining oils.`,
+
+  dried_lavender: `The dehydrated, highly aromatic flowers of the *Lavandula* plant, most commonly *Lavandula angustifolia* (English lavender) for culinary use. It imparts a profoundly strong, perfumed, and sweet floral flavor that must be used incredibly sparingly to avoid making food taste like soap.
+
+**Selection & Storage:** Ensure you purchase 'culinary grade' lavender, which is bred for flavor rather than essential oil production. Store tightly sealed in a dark pantry.`,
+
+  dried_lemon_balm: `The dehydrated leaves of *Melissa officinalis*, a member of the mint family. It retains a bright, distinctively sweet lemon aroma and a mild minty undertone, making it a soothing, aromatic addition to herbal teas, delicate fruit salads, and light chicken marinades.
+
+**Selection & Storage:** Store in an airtight container in a dark, cool pantry to preserve its volatile citrus oils.`,
+
+  dried_lovage: `The dehydrated leaves of *Levisticum officinale*, an herb that tastes like an intense, highly concentrated cross between celery and parsley. Because its flavor is so robust and meaty, it survives the drying process exceptionally well and is a powerhouse addition to beef stews and heavy broths.
+
+**Selection & Storage:** Keep tightly sealed in a cool, dark place. Use sparingly, as its intense celery flavor can easily dominate a dish.`,
+
+  dried_marjoram: `The dehydrated leaves of *Origanum majorana*. It is closely related to oregano but is significantly sweeter, more floral, and less aggressive. Drying concentrates its mild, pine-and-citrus flavor, making it a staple in traditional German sausages and delicate poultry seasonings.
+
+**Selection & Storage:** Store in an airtight container in a dark pantry. Because its flavor is subtle, it degrades faster than dried oregano.`,
+
+  dried_mint: `The dehydrated leaves of various *Mentha* species, most commonly spearmint. While it loses the sharp, cooling 'freshness' of raw mint, it develops a deeper, sweeter, and more earthy profile that is absolutely essential for traditional Middle Eastern lamb meatballs (kofta) and yogurt sauces.
+
+**Selection & Storage:** Look for a vibrant green color. Store in an airtight container in a dark, cool place.`,
+
+  dried_oregano: `The dehydrated leaves of *Origanum vulgare*. It is one of the few herbs that is generally considered superior when dried rather than fresh; the drying process tames its aggressive bitterness and concentrates its pungent, earthy, and peppery flavor, making it the defining herb of Mediterranean pizza and pasta sauces.
+
+**Selection & Storage:** Greek and Turkish oregano are savory and earthy, while Mexican oregano is sharper and more citrusy. Store in an airtight container in a dark pantry.`,
+
+  dried_parsley: `The dehydrated leaves of *Petroselinum crispum*. Much like dried basil or cilantro, parsley loses almost all of its bright, fresh, and mineral-heavy flavor during the drying process, functioning primarily as a mild, slightly grassy visual garnish.
+
+**Selection & Storage:** Keep tightly sealed in a dark cupboard. For actual flavor impact in cooking, fresh parsley is always recommended over dried.`,
+
+  dried_rosemary: `The dehydrated, needle-like leaves of *Salvia rosmarinus*. Because the leaves are tough and resinous, they retain their powerful pine, wood, and citrus flavor flawlessly when dried. Due to their sharp, brittle texture, they should be minced finely or crushed in a mortar before being added to roasted meats or breads.
+
+**Selection & Storage:** Store in an airtight container in a dark, cool pantry. It is highly stable and retains its flavor for a long time.`,
+
+  dried_sage: `The dehydrated leaves of *Salvia officinalis*. Drying significantly amplifies its already assertive, earthy, slightly astringent, and musky flavor profile. It is incredibly potent and must be used with a light hand, acting as the foundational seasoning for Thanksgiving stuffing and heavy pork sausages.
+
+**Selection & Storage:** Rubbed sage (lightly crushed) is fluffier and milder; powdered sage is extremely intense. Store tightly sealed in a dark pantry.`,
+
+  dried_savory: `The dehydrated leaves of the *Satureja* plant, specifically Winter Savory or Summer Savory. It offers a highly pungent, peppery, and robust flavor profile—somewhere between thyme and mint—and is historically famous for its ability to flavor and aid in the digestion of heavy bean stews.
+
+**Selection & Storage:** Store in an airtight container in a cool, dark place. Summer savory is sweeter and lighter; winter savory is more piney and aggressive.`,
+
+  dried_tarragon: `The dehydrated leaves of *Artemisia dracunculus*. While it loses some of the bright, fresh nuance of the raw herb, it retains its distinct, sweet anise and licorice flavor reasonably well, making it a convenient pantry staple for classic French cream sauces and chicken salads.
+
+**Selection & Storage:** Look for a bright green color; brown tarragon is devoid of flavor. Store tightly sealed in a dark pantry.`,
+
+  dried_thyme: `The dehydrated leaves of *Thymus vulgaris*. Because thyme is a woody, resinous herb, it dries exceptionally well, concentrating its sharp, earthy, and distinctly floral/minty flavor. It is a workhorse pantry staple, providing the aromatic backbone for countless stocks, stews, and roasted meats.
+
+**Selection & Storage:** Store in an airtight container in a dark, cool pantry. Crush the dried leaves between your fingers before adding to a dish to release the essential oils.`,
+
+  duck_egg: `The unfertilized egg of a domestic duck, significantly larger than a chicken egg. It boasts a massive, intensely rich yolk with a higher fat content, and a thicker, more protein-dense egg white, making it highly prized by bakers for creating exceptionally rich, structured cakes and custards.
+
+**Selection & Storage:** Often found at farmers' markets or specialty grocers. Store in the main body of the refrigerator and cook thoroughly.`,
+
+  dukkah: `A traditional Egyptian condiment consisting of a coarse mixture of roasted nuts (usually hazelnuts), sesame seeds, coriander, cumin, and salt. It provides an immediate, incredibly satisfying, crunchy, and savory-spicy burst of flavor, traditionally eaten by dipping bread in olive oil and then into the mixture.
+
+**Selection & Storage:** Because it contains high amounts of roasted nuts and seeds, it goes rancid quickly. Store in an airtight container in the refrigerator or freezer.`,
+
+  durian: `A massive, spiky tropical fruit native to Southeast Asia, famously known for its overpowering, highly divisive odor (often compared to rotting onions or raw sewage). However, the custard-like flesh inside is incredibly rich, buttery, and profoundly sweet, tasting of almond, caramel, and complex savory notes.
+
+**Selection & Storage:** Usually sold frozen or tightly plastic-wrapped in specialty Asian markets to contain the smell. Store strictly in an airtight container in the refrigerator or freezer.`,
+
+  einkorn: `An ancient species of wheat (*Triticum monococcum*), considered the first domesticated wheat in human history. It has a significantly simpler gluten structure than modern wheat (making it easier for some to digest) and offers a profoundly rich, nutty, and slightly sweet flavor when baked into dense, rustic breads.
+
+**Selection & Storage:** Available as whole berries or milled flour. Because it is unrefined and contains natural oils, the flour should be stored in the freezer to prevent rancidity.`,
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Helper to get an ingredient summary, with a fallback if none exists.
  */
 export function getIngredientSummary(ingredientName: string): string | null {
-  const key = ingredientName.toLowerCase().replace(/\s+/g, '_');
+  const key = ingredientName.toLowerCase().replace(/\s+/g, "_");
   return ingredientSummaries[key] || null;
 }
