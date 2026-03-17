@@ -2147,6 +2147,21 @@ export const ingredientSummaries: Record<string, string> = {
   banana_flower: `The massive, tear-shaped, purplish-red blossom that hangs at the end of a cluster of bananas. Commonly used in Southeast Asian and Indian cuisines, its tender inner bracts provide a crunchy, flaky texture and a mild, slightly bitter, and highly astringent flavor that mimics the texture of artichoke hearts or fish.
 
 **Selection & Storage:** Choose tight, firm flowers without bruising. Must be soaked in acidic water immediately after slicing to prevent severe oxidation (browning). Store whole flowers in the refrigerator.`,
+  kosher_salt: `A coarse-grained, additive-free salt that features large, irregular, flat crystals. Originally designed for the Jewish dietary practice of dry-brining (koshering) meat, its large surface area draws out moisture effectively and makes it exceptionally easy for chefs to pinch and accurately judge quantities by feel, compared to dense table salt.
+
+**Selection & Storage:** Diamond Crystal and Morton are the two main brands, but Diamond Crystal is much lighter and flakier, meaning 1 cup of Diamond Crystal is less salty than 1 cup of Morton. Store in a salt cellar or dry pantry.`,
+
+  mct_oil: `A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.
+
+**Selection & Storage:** It has a very low smoke point (320°F / 160°C) and should never be used for cooking. Store at room temperature.`,
+
+  mapo_tofu: `A spectacularly vibrant and fiery traditional dish from the Sichuan province of China. It consists of soft, trembling silken tofu set in a violently bright red, oily sauce heavily flavored with fermented broad bean and chili paste (doubanjiang), fermented black beans (douchi), and the aggressive numbing sensation of ground Sichuan peppercorns.
+
+**Selection & Storage:** For authentic texture, use extremely soft or silken tofu, and ensure your doubanjiang is sourced from Pixian for the correct fermented depth.`,
+
+  malt_aioli: `A dense, rich emulsion consisting of traditional garlic mayonnaise (aioli) heavily spiked with malt vinegar. This creates a deeply savory, slightly toasty, and intensely acidic dipping sauce designed specifically to cut through the extreme fat of deep-fried fish and chips.
+
+**Selection & Storage:** Highly perishable if made with raw eggs. Store in an airtight container in the refrigerator and use within 2-3 days.`,
 };
 
 /**
