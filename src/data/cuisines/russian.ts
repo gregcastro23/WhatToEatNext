@@ -173,81 +173,47 @@ export const russian: Cuisine = {
           ]
         },
         {
-          name: "Kasha",
-          description: "The primordial staple of Russian existence. Buckwheat groats are aggressively toasted to seal their structure before being steamed, resulting in separated, fiercely earthy grains dressed heavily in butter.",
-          details: {"cuisine":"Russian","prepTimeMinutes":5,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"None","season":["winter","autumn"]},
-          ingredients: [{"amount":1,"unit":"cup","name":"Buckwheat groats","notes":"Roasted (grechka)."},{"amount":1,"unit":"large","name":"Egg","notes":"Optional, used historically to coat grains before boiling."},{"amount":2,"unit":"cups","name":"Water or broth","notes":"Boiling."},{"amount":4,"unit":"tbsp","name":"Butter","notes":"Unsalted, added aggressively at the end."},{"amount":1,"unit":"tsp","name":"Salt","notes":"Kosher."}],
-          instructions: ["Step 1: The Toast. Place the dry buckwheat groats in a heavy skillet over high heat. Stir continuously until they emit a highly fragrant, nutty aroma. This prevents them from turning into mush during boiling.","Step 2: The Egg Matrix (Optional). Remove from heat and stir a beaten egg violently into the hot grains, coating them completely, then return to heat to dry the egg. This ancient technique guarantees individual, fluffy grains.","Step 3: The Steam. Pour the boiling water or broth over the hot buckwheat (it will spit violently). Add salt.","Step 4: The Submersion. Cover the pot with a tight-fitting lid, reduce the heat to the absolute minimum, and do not disturb it for 15-20 minutes until all liquid is absorbed.","Step 5: The Buttering. Remove from heat. Bury the massive pats of butter into the hot grains. Cover and let sit for 5 minutes, then fluff with a fork. It should be rich, separate, and earthy."],
-          classifications: {"mealType":["breakfast","side","comfort"],"cookingMethods":["toasting","steaming"]},
-          elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.6,"Air":0.05},
-          astrologicalAffinities: {"planets":["Saturn","Ceres"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":280,"proteinG":6,"carbsG":32,"fatG":14,"fiberG":4,"sodiumMg":500,"sugarG":1,"vitamins":["Niacin","Riboflavin"],"minerals":["Magnesium","Zinc"]},
-          substitutions: [{"originalIngredient":"Buckwheat","substituteOptions":["Millet","Oats"]}]
+          name: "Grechnevaya Kasha",
+          description: "The primordial grain of Russia, buckwheat porridge is a staple eaten at breakfast, as a side dish, or as a meal on its own. Whole roasted buckwheat groats are steamed in a precise ratio of water until every grain swells separately, then finished with a lavish knob of butter that melts into the nutty, earthy mass. The optional egg-coating technique, used for generations, guarantees each grain remains distinct rather than clumping.",
+          details: {"cuisine":"Russian","prepTimeMinutes":5,"cookTimeMinutes":25,"baseServingSize":4,"spiceLevel":"None","season":["winter","autumn","all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"roasted buckwheat groats (grechka)","notes":"Must be pre-roasted for full nutty flavor. Raw green buckwheat will not taste authentic."},{"amount":1,"unit":"large","name":"egg","notes":"Optional. Beat lightly and use to coat grains before boiling to guarantee separation."},{"amount":2,"unit":"cups","name":"water or light beef broth","notes":"Must be boiling when added to the hot buckwheat."},{"amount":3,"unit":"tbsp","name":"unsalted butter","notes":"Added generously at the end. Do not reduce."},{"amount":1,"unit":"tsp","name":"kosher salt","notes":"Added with the boiling water."}],
+          instructions: ["Step 1: Dry-toast the buckwheat groats in a heavy-bottomed saucepan over medium-high heat, stirring constantly, for 2 to 3 minutes until they deepen in color and release a strong toasted, nutty aroma. This step is essential to prevent mushiness.","Step 2 (Optional egg matrix): Remove the pan from heat and immediately pour the lightly beaten egg over the hot grains, stirring rapidly to coat every single groat. Return to medium heat and stir for 1 minute until the egg coating dries completely and each grain is sealed.","Step 3: Carefully pour the boiling water or broth over the hot grains. It will hiss and steam violently. Add the salt and stir once to combine.","Step 4: Bring the mixture back to a full boil, then reduce the heat to the absolute minimum. Cover the pot with a tight-fitting lid. Cook undisturbed for 15 to 18 minutes until all the liquid is fully absorbed. Do not lift the lid during this time.","Step 5: Remove the pan from heat. Drop the butter in pats directly onto the hot buckwheat. Cover again and let rest off the heat for 5 minutes to allow the butter to melt fully into the grains.","Step 6: Fluff gently with a fork, folding the melted butter through. Serve hot as a breakfast porridge with additional butter, as a side dish to kotlety or goulash, or topped with a fried egg and sauteed mushrooms."],
+          classifications: {"mealType":["breakfast","side","comfort"],"cookingMethods":["toasting","steaming","simmering"]},
+          elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.55,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":290,"proteinG":8,"carbsG":38,"fatG":12,"fiberG":5,"sodiumMg":480,"sugarG":1,"vitamins":["Niacin","Riboflavin","Thiamin"],"minerals":["Magnesium","Zinc","Iron"]},
+          substitutions: [{"originalIngredient":"roasted buckwheat groats","substituteOptions":["millet","whole oats","brown rice (longer cook time)"]},{"originalIngredient":"butter","substituteOptions":["ghee","cold-pressed sunflower oil (traditional vegan)"]}]
         },
         {
-          "name": "Authentic Blini",
-          "description": "Pre-dating Christianity, Blini symbolize the sun.",
-          "details": {
-            "cuisine": "Russian",
-            "prepTimeMinutes": 180,
-            "cookTimeMinutes": 30,
-            "baseServingSize": 6,
-            "spiceLevel": "None",
-            "season": [
-              "spring"
-            ]
-          },
-          "ingredients": [
-            {
-              "amount": 2,
-              "unit": "tsp",
-              "name": "active dry yeast",
-              "notes": "For the sponge."
-            }
+          name: "Blini",
+          description: "Thin yeasted buckwheat pancakes that pre-date Christianity in Russia, traditionally eaten during Maslenitsa (Butter Week) to symbolize the sun. A proper blin is made from a yeasted sponge fermented for at least an hour, then enriched with separated eggs and scalded with boiling milk. The result is a paper-thin, slightly sour, deeply aerated disc riddled with characteristic bubbles. They are meant to be eaten immediately, brushed with butter and loaded with smetana, smoked salmon, or red caviar.",
+          details: {"cuisine":"Russian","prepTimeMinutes":90,"cookTimeMinutes":30,"baseServingSize":6,"spiceLevel":"None","season":["spring","all"]},
+          ingredients: [
+            {"amount":1,"unit":"cup","name":"buckwheat flour","notes":"Provides the characteristic earthy, slightly sour flavor of authentic blini."},
+            {"amount":1,"unit":"cup","name":"all-purpose flour","notes":"Balances the buckwheat and gives structure."},
+            {"amount":2,"unit":"tsp","name":"active dry yeast","notes":"For the sponge. Dissolve in warm milk first."},
+            {"amount":2,"unit":"cups","name":"whole milk","notes":"Divided. Half warmed for the sponge, half scalded and added later."},
+            {"amount":3,"unit":"large","name":"eggs","notes":"Separated. Yolks go into the batter, whites beaten stiff and folded in last."},
+            {"amount":1,"unit":"tsp","name":"sugar","notes":"To feed the yeast and add slight sweetness."},
+            {"amount":1,"unit":"tsp","name":"kosher salt","notes":"Essential."},
+            {"amount":4,"unit":"tbsp","name":"unsalted butter, melted","notes":"Plus extra for brushing the pan between each blin."},
+            {"amount":0.5,"unit":"cup","name":"smetana or creme fraiche","notes":"For serving."},
+            {"amount":100,"unit":"g","name":"smoked salmon or red caviar","notes":"Traditional toppings for serving."}
           ],
-          "instructions": [
-            "Step 1: Make sponge.",
-            "Step 2: Rise dough.",
-            "Step 3: Scald with boiling water.",
-            "Step 4: Fry."
+          instructions: [
+            "Step 1: Make the sponge. Warm 1 cup of the milk to 110F (just warm to the touch). Dissolve the yeast and sugar in it. Add the buckwheat flour and whisk into a smooth paste. Cover with a clean towel and let ferment in a warm place for 1 hour until the sponge is doubled, bubbly, and smells faintly sour.",
+            "Step 2: Scald the remaining 1 cup of milk in a small saucepan until it just comes to a boil. Remove from heat and let cool for 2 minutes until it is hot but not boiling (around 160F).",
+            "Step 3: Whisk the egg yolks, salt, and melted butter into the fermented sponge. Gradually add the all-purpose flour, alternating with the hot scalded milk, whisking until completely smooth. The scalded milk gelatinizes the starch slightly, which is what gives blini their unique, slightly glossy texture.",
+            "Step 4: Beat the egg whites with a clean whisk or stand mixer until they hold stiff peaks. Gently fold the beaten whites into the batter in two additions, preserving as much air as possible. Let the final batter rest for 15 minutes.",
+            "Step 5: Heat a small (6-inch) non-stick pan or crepe pan over medium-high heat. Brush lightly with melted butter. Pour in just enough batter (about 3 tablespoons) to coat the bottom in a thin, even layer, swirling the pan immediately. Bubbles should begin appearing on the surface within 30 seconds.",
+            "Step 6: Cook until the surface is set and covered in burst bubbles, about 1 to 1.5 minutes. Flip carefully and cook for 30 seconds more on the second side. The first blin is traditionally discarded as a test (hence the Russian saying).",
+            "Step 7: Stack the finished blini on a warm plate, brushing each one immediately with melted butter to keep them pliable. Serve warm with smetana, smoked salmon, and red caviar."
           ],
-          "classifications": {
-            "mealType": [
-              "breakfast"
-            ],
-            "cookingMethods": [
-              "frying"
-            ]
-          },
-          "elementalProperties": {
-            "Fire": 0.2,
-            "Water": 0.25,
-            "Earth": 0.35,
-            "Air": 0.2
-          },
-          "astrologicalAffinities": {
-            "planets": [
-              "Sun"
-            ],
-            "signs": [
-              "Leo"
-            ],
-            "lunarPhases": [
-              "Full Moon"
-            ]
-          },
-          "nutritionPerServing": {
-            "calories": 320,
-            "proteinG": 9,
-            "carbsG": 42,
-            "fatG": 12,
-            "fiberG": 2,
-              "sodiumMg": 493,
-              "sugarG": 12,
-              "vitamins": ["Vitamin C","Vitamin A"],
-              "minerals": ["Iron","Calcium"]
-        },
-          "substitutions": []
+          classifications: {"mealType":["breakfast","celebration","appetizer"],"cookingMethods":["fermenting","griddling","folding"]},
+          elementalProperties: {"Fire":0.25,"Water":0.2,"Earth":0.3,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+          nutritionPerServing: {"calories":340,"proteinG":13,"carbsG":44,"fatG":13,"fiberG":3,"sodiumMg":460,"sugarG":5,"vitamins":["Thiamin","Riboflavin","Vitamin D"],"minerals":["Manganese","Selenium","Calcium"]},
+          substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}]
         },
         {
           name: "Oladi",
@@ -266,90 +232,41 @@ export const russian: Cuisine = {
     lunch: {
       all: [
         {
-          "name": "Authentic Traditional Borscht",
-          "description": "A foundational Slavic root-vegetable soup, instantly recognizable by its deep, resonant magenta hue.",
-          "details": {
-            "cuisine": "Russian",
-            "prepTimeMinutes": 30,
-            "cookTimeMinutes": 150,
-            "baseServingSize": 8,
-            "spiceLevel": "None",
-            "season": [
-              "winter"
-            ]
-          },
-          "ingredients": [
-            {
-              "amount": 1,
-              "unit": "kg",
-              "name": "beef soup bones",
-              "notes": "For stock."
-            },
-            {
-              "amount": 3,
-              "unit": "medium",
-              "name": "beets",
-              "notes": "Julienned."
-            },
-            {
-              "amount": 2,
-              "unit": "tbsp",
-              "name": "white vinegar",
-              "notes": "Preserves red color."
-            }
+          name: "Borscht",
+          description: "The defining soup of Russian and Eastern European cuisine. A deeply layered, magenta-hued broth built on a slow-simmered beef bone stock, then enriched with sauteed beets preserved in vinegar, a golden zazharka of onions and carrots, shredded cabbage, and earthy potatoes. The acid-preserved beet color is the signature of a properly made borscht; the tang of smetana stirred in at the table completes the alchemy of this restorative dish.",
+          details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":150,"baseServingSize":8,"spiceLevel":"None","season":["winter","autumn"]},
+          ingredients: [
+            {"amount":1,"unit":"kg","name":"beef soup bones with marrow","notes":"Blanch in cold water first to remove impurities; this produces a clear, deep stock."},
+            {"amount":500,"unit":"g","name":"beef chuck or brisket","notes":"Cut into large pieces; this becomes the soup meat."},
+            {"amount":3,"unit":"medium","name":"beets","notes":"Peeled and julienned into matchsticks; do not grate, as julienne retains more texture."},
+            {"amount":2,"unit":"tbsp","name":"white wine vinegar or lemon juice","notes":"Added during beet saute to preserve their crimson color through acid fixation."},
+            {"amount":1,"unit":"tsp","name":"sugar","notes":"Balances the acid in the beet saute."},
+            {"amount":2,"unit":"tbsp","name":"tomato paste","notes":"Sauteed with the beets for depth and color."},
+            {"amount":1,"unit":"large","name":"onion","notes":"Finely diced for the zazharka."},
+            {"amount":2,"unit":"medium","name":"carrots","notes":"Grated for the zazharka."},
+            {"amount":3,"unit":"tbsp","name":"neutral oil or lard","notes":"For frying the zazharka and beets."},
+            {"amount":3,"unit":"medium","name":"waxy potatoes","notes":"Peeled and cut into 3 cm cubes."},
+            {"amount":0.5,"unit":"small head","name":"white cabbage","notes":"Thinly shredded; add in the last 20 minutes to retain some texture."},
+            {"amount":4,"unit":"cloves","name":"garlic","notes":"Crushed and stirred in off the heat at the end."},
+            {"amount":1,"unit":"bunch","name":"fresh dill","notes":"Stirred in off the heat; do not boil."},
+            {"amount":1,"unit":"tsp","name":"black peppercorns","notes":"For the stock."},
+            {"amount":2,"unit":"leaves","name":"bay leaf","notes":"For the stock."},
+            {"amount":1,"unit":"cup","name":"smetana (sour cream)","notes":"For serving at the table."}
           ],
-          "instructions": [
-            "Step 1: Make beef bone broth.",
-            "Step 2: Prepare zazharka (sautéed onions, carrots).",
-            "Step 3: Sauté beets with vinegar and sugar.",
-            "Step 4: Simmer potatoes and cabbage in broth.",
-            "Step 5: Add zazharka to broth, simmer briefly.",
-            "Step 6: Add fresh dill and garlic off heat. Serve with sour cream."
+          instructions: [
+            "Step 1: Make the stock. Place the bones and beef chunks in a large pot, cover with cold water, and bring to a rapid boil. Drain entirely and rinse the bones and pot. This blanching step removes impurities and guarantees a clear, clean stock. Return to the pot, cover with 3 liters of fresh cold water, and add peppercorns and bay leaves. Bring to a gentle simmer and cook for 90 minutes, skimming any foam that rises. Remove the beef, shred it, and set aside. Strain the stock.",
+            "Step 2: Make the zazharka. Heat 2 tbsp oil in a heavy skillet over medium heat. Saute the diced onion until softened and translucent, about 7 minutes. Add the grated carrot and cook for another 5 minutes until both are lightly golden. Remove from skillet and set aside.",
+            "Step 3: Saute the beets. In the same skillet, heat the remaining oil over medium heat. Add the julienned beets and saute for 5 minutes, stirring. Add the tomato paste and cook for 2 minutes. Pour in the vinegar and add the sugar. The beets will sizzle and deepen in color. Stir well and cook for another 3 minutes. The acid fixes the pigment so the soup remains red.",
+            "Step 4: Build the soup. Bring the strained stock to a boil. Add the potato cubes and cook for 10 minutes.",
+            "Step 5: Add the zazharka and the acid-fixed beets to the simmering stock. Stir to combine. Add the shredded cabbage. Cook for another 20 minutes until the potatoes are fully tender and the cabbage has softened but retains a slight bite.",
+            "Step 6: Off the heat, add the shredded reserved beef, crushed garlic, and chopped fresh dill. Taste and adjust salt. Cover and let rest for 10 minutes for the flavors to marry.",
+            "Step 7: Serve in deep bowls with a large spoonful of cold smetana stirred in at the table, alongside a thick slice of dark rye bread."
           ],
-          "classifications": {
-            "mealType": [
-              "soup"
-            ],
-            "cookingMethods": [
-              "simmering"
-            ]
-          },
-          "elementalProperties": {
-            "Fire": 0.1,
-            "Water": 0.5,
-            "Earth": 0.35,
-            "Air": 0.05
-          },
-          "astrologicalAffinities": {
-            "planets": [
-              "Saturn"
-            ],
-            "signs": [
-              "Capricorn"
-            ],
-            "lunarPhases": [
-              "New Moon"
-            ]
-          },
-          "nutritionPerServing": {
-            "calories": 320,
-            "proteinG": 18,
-            "carbsG": 28,
-            "fatG": 15,
-            "fiberG": 6,
-              "sodiumMg": 1067,
-              "sugarG": 3,
-              "vitamins": ["Vitamin C","Vitamin A"],
-              "minerals": ["Iron","Calcium"]
-        },
-          "substitutions": [
-            {
-              "originalIngredient": "beef bones",
-              "substituteOptions": [
-                "mushroom broth"
-              ]
-            }
-          ]
+          classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["simmering","sauteing","braising"]},
+          elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":310,"proteinG":20,"carbsG":26,"fatG":14,"fiberG":6,"sodiumMg":980,"sugarG":8,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Iron","Potassium","Manganese"]},
+          substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}]
         },
         {
           name: "Pelmeni",
@@ -536,246 +453,97 @@ export const russian: Cuisine = {
               "substitutions": []
             },
             {
-              "name": "Authentic Blini",
-              "description": "The sun-symbol of Slavic spring. Yeasted, aerated pancakes made with buckwheat and wheat flour, relying on a long fermentation to develop their characteristic 'holes' and slightly sour flavor, designed to be vessels for fat and brine.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 120,
-                "cookTimeMinutes": 20,
-                "baseServingSize": 4,
-                "spiceLevel": "None",
-                "season": [
-                  "spring",
-                  "Maslenitsa"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 1,
-                  "unit": "cup",
-                  "name": "Buckwheat flour",
-                  "notes": "For earthy depth."
-                },
-                {
-                  "amount": 1,
-                  "unit": "tbsp",
-                  "name": "Active dry yeast",
-                  "notes": "For aeration."
-                }
+              name: "Vinegret",
+              description: "The quintessential Russian beet salad, a mosaic of boiled root vegetables, sauerkraut, and pickled cucumber bound lightly with sunflower oil. Unlike mayonnaise-dressed salads, vinegret relies on natural acidity and the bold earthy sweetness of beet to create a dish that is simultaneously tart, rich, and deeply satisfying. It is the cornerstone of any zakuski spread and a staple of Soviet-era home cooking that has endured because its flavors are genuinely exceptional.",
+              details: {"cuisine":"Russian","prepTimeMinutes":20,"cookTimeMinutes":40,"baseServingSize":6,"spiceLevel":"None","season":["winter","all"]},
+              ingredients: [
+                {"amount":3,"unit":"medium","name":"beets","notes":"Boiled whole in their skins until a knife slides through easily, about 40 minutes. Peel and dice after cooling."},
+                {"amount":3,"unit":"medium","name":"waxy potatoes","notes":"Boiled whole in their skins, then peeled and diced. Waxy varieties hold their shape."},
+                {"amount":2,"unit":"medium","name":"carrots","notes":"Boiled whole in their skins until tender. Peel and dice."},
+                {"amount":1,"unit":"cup","name":"sauerkraut","notes":"Drained and roughly chopped. The primary acid element."},
+                {"amount":2,"unit":"whole","name":"Russian dill pickles","notes":"Diced to the same size as other vegetables. Squeeze out excess brine."},
+                {"amount":1,"unit":"can","name":"cooked green peas","notes":"Drained. Added last to prevent discoloration."},
+                {"amount":1,"unit":"small","name":"white onion","notes":"Very finely minced or pickled for 10 minutes in cold water to remove sharpness."},
+                {"amount":3,"unit":"tbsp","name":"cold-pressed sunflower oil","notes":"The traditional dressing. Olive oil is not authentic."},
+                {"amount":1,"unit":"tsp","name":"salt","notes":"To taste."},
+                {"amount":0.5,"unit":"tsp","name":"black pepper","notes":"Freshly ground."}
               ],
-              "instructions": [
-                "Step 1: Prepare a yeasted sponge; let ferment for 1 hour.",
-                "Step 2: Whisk in remaining flour, yolks, and warm milk.",
-                "Step 3: Fold in stiffly beaten egg whites for extreme lightness.",
-                "Step 4: Fry in a hot buttered skillet into large, paper-thin discs.",
-                "Step 5: Brush each hot blin with melted butter immediately."
+              instructions: [
+                "Step 1: Boil the beets, potatoes, and carrots separately (beets take longest, about 40 minutes). A key technique: boil each vegetable whole and in its skin to prevent waterlogging. Let all cool completely before peeling.",
+                "Step 2: Dice all boiled vegetables into uniform 1 cm cubes. Consistency in size is important for both texture and presentation.",
+                "Step 3: Important step: dress the diced beets with 1 tbsp of the sunflower oil immediately before combining them with the other vegetables. This oil coating prevents the intensely pigmented beet juice from staining everything else uniformly red.",
+                "Step 4: Combine the oil-coated beets with the potatoes, carrots, drained sauerkraut, diced pickles, and minced onion. Toss gently.",
+                "Step 5: Add the remaining sunflower oil and season with salt and pepper. Fold in the drained peas last.",
+                "Step 6: Press the salad into a serving bowl and refrigerate for at least 1 hour before serving. The resting period allows the flavors to unify. Serve cold as a zakuska (appetizer) or side dish."
               ],
-              "classifications": {
-                "mealType": [
-                  "breakfast",
-                  "celebration"
-                ],
-                "cookingMethods": [
-                  "fermenting",
-                  "griddling"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.25,
-                "Water": 0.15,
-                "Earth": 0.35,
-                "Air": 0.25
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Sun",
-                  "Venus"
-                ],
-                "signs": [
-                  "leo",
-                  "taurus"
-                ],
-                "lunarPhases": [
-                  "New Moon"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 350,
-                "proteinG": 12,
-                "carbsG": 45,
-                "fatG": 14,
-                "fiberG": 4,
-                "sodiumMg": 450,
-                "sugarG": 4,
-                "vitamins": [
-                  "Thiamin"
-                ],
-                "minerals": [
-                  "Manganese",
-                  "Selenium"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["appetizer","side","lunch"],"cookingMethods":["boiling","mixing"]},
+              elementalProperties: {"Fire":0.05,"Water":0.3,"Earth":0.55,"Air":0.1},
+              astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
+              nutritionPerServing: {"calories":195,"proteinG":5,"carbsG":32,"fatG":7,"fiberG":7,"sodiumMg":620,"sugarG":9,"vitamins":["Vitamin C","Folate","Vitamin K"],"minerals":["Potassium","Manganese","Iron"]},
+              substitutions: [{"originalIngredient":"sauerkraut","substituteOptions":["fresh shredded cabbage marinated in vinegar","pickled red cabbage"]},{"originalIngredient":"sunflower oil","substituteOptions":["light olive oil","rapeseed oil"]}]
             },
             {
-              "name": "Authentic Piroshki",
-              "description": "The portable survival pockets of Russia. A soft, rich yeasted dough encapsulates a variety of fillings (meat, cabbage, or potato), then either deep-fried or baked until the structure is pillowy and golden.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 120,
-                "cookTimeMinutes": 20,
-                "baseServingSize": 6,
-                "spiceLevel": "None",
-                "season": [
-                  "all"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 3,
-                  "unit": "cups",
-                  "name": "All-purpose flour",
-                  "notes": "Enriched dough."
-                },
-                {
-                  "amount": 1,
-                  "unit": "lb",
-                  "name": "Ground beef and onion",
-                  "notes": "For the filling."
-                }
+              name: "Pirozhki",
+              description: "The iconic stuffed buns of Russian street food and home kitchens alike. A soft, enriched yeasted dough, slightly sweet from milk and egg, envelops a filling of seasoned ground beef and onion or braised cabbage and hard-boiled egg. They can be fried in oil for a crisp, golden shell or baked in the oven for a pillowy, bread-like exterior. Either way they are best eaten warm, brushed with butter, and consumed in multiples.",
+              details: {"cuisine":"Russian","prepTimeMinutes":120,"cookTimeMinutes":30,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+              ingredients: [
+                {"amount":3,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for kneading. Sifted for a lighter dough."},
+                {"amount":2,"unit":"tsp","name":"active dry yeast","notes":"Proofed in warm milk with the sugar first."},
+                {"amount":0.75,"unit":"cup","name":"whole milk","notes":"Warmed to 110F to activate yeast without killing it."},
+                {"amount":1,"unit":"tsp","name":"sugar","notes":"For the yeast proof and slight sweetness."},
+                {"amount":1,"unit":"tsp","name":"salt","notes":"For the dough."},
+                {"amount":1,"unit":"large","name":"egg","notes":"Beaten into the dough for richness."},
+                {"amount":3,"unit":"tbsp","name":"unsalted butter, softened","notes":"Folded into the dough after first rise for tenderness."},
+                {"amount":0.75,"unit":"lb","name":"ground beef","notes":"For the meat filling."},
+                {"amount":1,"unit":"large","name":"onion","notes":"Finely diced and cooked with the beef until the liquid has fully evaporated. A wet filling tears the dough."},
+                {"amount":2,"unit":"hard-boiled","name":"eggs","notes":"Chopped; added to the meat filling off heat."},
+                {"amount":1,"unit":"tbsp","name":"fresh dill","notes":"Chopped and mixed into the filling."},
+                {"amount":1,"unit":"egg yolk","name":"for glaze","notes":"Beaten with 1 tbsp water and brushed on before baking."},
+                {"amount":1,"unit":"cup","name":"neutral oil","notes":"For frying, if using the frying method."}
               ],
-              "instructions": [
-                "Step 1: Knead an enriched yeast dough; let rise twice.",
-                "Step 2: Prepare a dry filling of sautéed meat, cabbage, and egg.",
-                "Step 3: Flatten dough circles; stuff and pinch into ovals.",
-                "Step 4: Deep fry until golden or bake at 375°F.",
-                "Step 5: Rest under a towel to soften the crust."
+              instructions: [
+                "Step 1: Make the dough. Combine the warm milk, yeast, and sugar. Let stand 10 minutes until foamy. In a large bowl, combine the flour, salt, beaten egg, and the yeast mixture. Knead for 8 minutes until smooth and slightly tacky. Flatten the dough, place the softened butter in the center, fold and knead for another 3 minutes to incorporate. The dough should be soft, smooth, and not sticky. Cover with a towel and let rise in a warm place for 1 hour until doubled.",
+                "Step 2: Make the filling. In a skillet over high heat, cook the ground beef, breaking it up, until all liquid evaporates and the meat begins to brown. Add the diced onion and cook for another 5 minutes. Season generously with salt and pepper. Remove from heat. Fold in the chopped hard-boiled eggs and dill. The filling must be completely cool and dry before use.",
+                "Step 3: Shape. Punch down the risen dough. On a lightly floured surface, divide it into 16 equal pieces. Flatten each piece into a 4-inch circle. Place a generous tablespoon of filling in the center. Bring the edges of the dough circle up and over the filling, pinching them firmly together to seal. Shape into an oval, seam-side down.",
+                "Step 4, Baking method: Arrange the pirozhki seam-side down on a parchment-lined baking sheet. Let rest, covered, for 20 minutes. Brush generously with egg yolk glaze. Bake at 375F (190C) for 20 to 25 minutes until a deep, glossy golden brown.",
+                "Step 5, Frying method: Heat 1 inch of neutral oil in a heavy skillet to 350F. Fry the pirozhki seam-side down first, in batches, for 2 to 3 minutes per side until deep golden. Drain on paper towels. Brush immediately with melted butter.",
+                "Step 6: Serve warm. Pirozhki are best eaten the day they are made."
               ],
-              "classifications": {
-                "mealType": [
-                  "lunch",
-                  "snack"
-                ],
-                "cookingMethods": [
-                  "baking",
-                  "deep-frying"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.35,
-                "Water": 0.1,
-                "Earth": 0.4,
-                "Air": 0.15
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Jupiter",
-                  "Saturn"
-                ],
-                "signs": [
-                  "sagittarius",
-                  "capricorn"
-                ],
-                "lunarPhases": [
-                  "First Quarter"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 420,
-                "proteinG": 18,
-                "carbsG": 48,
-                "fatG": 22,
-                "fiberG": 3,
-                "sodiumMg": 650,
-                "sugarG": 5,
-                "vitamins": [
-                  "Vitamin B12"
-                ],
-                "minerals": [
-                  "Zinc",
-                  "Iron"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["lunch","snack","dinner"],"cookingMethods":["baking","deep-frying","yeasting","kneading"]},
+              elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
+              astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["First Quarter","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":450,"proteinG":20,"carbsG":50,"fatG":19,"fiberG":3,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin B12","Niacin"],"minerals":["Zinc","Iron","Selenium"]},
+              substitutions: [{"originalIngredient":"ground beef","substituteOptions":["braised cabbage with hard-boiled egg (vegetarian)","mashed potato and cheese","sauteed mushrooms with onion"]},{"originalIngredient":"all-purpose flour","substituteOptions":["half whole wheat flour for a nuttier dough"]}]
             },
             {
-              "name": "Authentic Medovik",
-              "description": "The 'Honey Cake' architectural titan. Eight to twelve layers of honey-infused biscuit are stacked with a tangy sour cream frosting, then rested for 24 hours until the layers structurally merge into a singular, melting texture.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 90,
-                "cookTimeMinutes": 30,
-                "baseServingSize": 12,
-                "spiceLevel": "None",
-                "season": [
-                  "celebration"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 0.5,
-                  "unit": "cup",
-                  "name": "Honey",
-                  "notes": "Heated until dark amber."
-                },
-                {
-                  "amount": 3,
-                  "unit": "cups",
-                  "name": "Sour cream",
-                  "notes": "For the frosting."
-                }
+              name: "Medovik",
+              description: "The honey layer cake that became a national obsession. Ten or more paper-thin honey-infused biscuit layers are stacked with a generous sour cream and condensed milk frosting, then the entire structure is pressed under weight and refrigerated for a full 24 hours. During this rest the biscuits absorb the cream entirely, transforming from rigid discs into a unified, impossibly moist, melting torte that is nothing like its components. The crushed biscuit crumb coating is made from the cake trimmings themselves, completing a recipe with zero waste.",
+              details: {"cuisine":"Russian","prepTimeMinutes":90,"cookTimeMinutes":60,"baseServingSize":12,"spiceLevel":"None","season":["celebration","winter"]},
+              ingredients: [
+                {"amount":0.5,"unit":"cup","name":"dark honey","notes":"Use a strong buckwheat or forest honey; mild clover honey produces a blander cake."},
+                {"amount":0.5,"unit":"cup","name":"granulated sugar","notes":"For the dough."},
+                {"amount":3,"unit":"tbsp","name":"unsalted butter","notes":"Melted into the honey mixture over a double boiler."},
+                {"amount":2,"unit":"tsp","name":"baking soda","notes":"Stirred into the hot honey mixture, which will foam and caramelize; do not skip this step."},
+                {"amount":3,"unit":"large","name":"eggs","notes":"Beaten and whisked into the cooled honey mixture."},
+                {"amount":3,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for rolling. Added until a soft, pliable dough forms."},
+                {"amount":700,"unit":"g","name":"smetana (sour cream)","notes":"Full-fat, at least 20 percent fat. The foundation of the frosting."},
+                {"amount":0.5,"unit":"cup","name":"powdered sugar","notes":"Sifted and whisked into the sour cream for the frosting."},
+                {"amount":1,"unit":"tsp","name":"pure vanilla extract","notes":"For the frosting."}
               ],
-              "instructions": [
-                "Step 1: Melt honey, sugar, and butter; stir in baking soda.",
-                "Step 2: Roll out 10 paper-thin dough discs; bake for 5 mins each.",
-                "Step 3: Frost each layer heavily with sweetened sour cream.",
-                "Step 4: Coat the entire cake in crushed biscuit crumbs.",
-                "Step 5: Rest in fridge for 24 hours (Mandatory structural step)."
+              instructions: [
+                "Step 1: Make the honey dough. In a heatproof bowl set over a pot of barely simmering water (double boiler), melt together the honey, sugar, and butter, stirring until combined. Add the baking soda and stir constantly for 2 to 3 minutes; the mixture will foam vigorously and turn a light amber. Remove from heat. Whisk in the beaten eggs quickly. Let cool to room temperature.",
+                "Step 2: Stir in the flour gradually until a soft, slightly sticky dough forms. It will be warm and pliable. Wrap and refrigerate for 30 minutes to firm up.",
+                "Step 3: Make the frosting. Whisk the cold smetana, sifted powdered sugar, and vanilla together until smooth and thick. Refrigerate until needed.",
+                "Step 4: Bake the layers. Preheat oven to 375F (190C). Line a baking sheet with parchment. Divide the dough into 10 equal balls. On a well-floured surface, roll each ball into an extremely thin, 9-inch circle. Using a plate as a template, cut a clean circle. Preserve the trimmings. Transfer each circle to the lined baking sheet and bake for 4 to 5 minutes until just golden at the edges. They burn quickly; watch them carefully. Let cool completely on a rack.",
+                "Step 5: Bake the trimmings on the same sheet until golden and crisp. Let cool, then crush them to fine crumbs in a food processor or zip-lock bag. These become the crumb coating.",
+                "Step 6: Assemble. Place the first cake layer on a serving plate. Spread a generous, even layer of frosting on top. Continue stacking, pressing each layer down gently and spreading frosting between each one. Spread the remaining frosting over the top and sides of the cake. Press the biscuit crumbs firmly onto the top and sides.",
+                "Step 7: Refrigerate the assembled cake under a light weight for a minimum of 8 hours, ideally 24 hours. The layers will absorb the cream and the cake will transform into a unified, moist, sliceable structure. Serve cold, sliced with a sharp knife."
               ],
-              "classifications": {
-                "mealType": [
-                  "dessert"
-                ],
-                "cookingMethods": [
-                  "baking",
-                  "layering"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.15,
-                "Water": 0.3,
-                "Earth": 0.4,
-                "Air": 0.15
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Venus",
-                  "Saturn"
-                ],
-                "signs": [
-                  "taurus",
-                  "capricorn"
-                ],
-                "lunarPhases": [
-                  "Full Moon"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 580,
-                "proteinG": 8,
-                "carbsG": 75,
-                "fatG": 34,
-                "fiberG": 1,
-                "sodiumMg": 250,
-                "sugarG": 52,
-                "vitamins": [
-                  "Vitamin A"
-                ],
-                "minerals": [
-                  "Calcium"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["dessert","celebration"],"cookingMethods":["baking","layering","double boiler"]},
+              elementalProperties: {"Fire":0.2,"Water":0.25,"Earth":0.45,"Air":0.1},
+              astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":560,"proteinG":9,"carbsG":72,"fatG":28,"fiberG":1,"sodiumMg":210,"sugarG":48,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
+              substitutions: [{"originalIngredient":"smetana","substituteOptions":["creme fraiche","heavy whipped cream sweetened with sugar","mascarpone mixed with sour cream"]},{"originalIngredient":"dark honey","substituteOptions":["maple syrup (different flavor profile but works)"]}]
             },
             {
               "name": "Authentic Syrniki",
