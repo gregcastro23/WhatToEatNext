@@ -1,16 +1,6 @@
-@import "tailwindcss";
-
-@theme {
-  --color-alchm-gold: #ffd700;
-  --color-alchm-purple: #8b5cf6;
-  --color-alchm-orange: #f97316;
-  --color-alchm-green: #10b981;
-
-  /* Custom animations (migrated from tailwind.config.cjs) */
-  --animate-fade-in-up: fade-in-up 0.3s ease-in-out;
-  --animate-slide-up: slide-up 0.3s ease-out;
-  --animate-shake: shake 0.3s ease-in-out;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @keyframes fade-in-up {
   from {
