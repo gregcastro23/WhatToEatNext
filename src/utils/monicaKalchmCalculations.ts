@@ -655,6 +655,8 @@ export function performEnhancedAnalysisWithKinetics(
 /**
  * Result of the Monica scoring algorithm for a recipe
  */
+import { COOKING_METHOD_PILLAR_MAPPING, ALCHEMICAL_PILLARS } from "@/constants/alchemicalPillars";
+
 export interface MonicaScoreResult {
   /** Overall Monica score on a 0-100 scale */
   score: number;
@@ -669,6 +671,8 @@ export interface MonicaScoreResult {
     /** Monica Constant Alignment component (30% weight) */
     monicaAlignment: number;
   };
+  /** Sum of Monica constants for all methods (Circuit Theory Total Potential) */
+  monicaSum: number;
   /** Per-method details */
   methodScores: Array<{
     method: string;
@@ -797,16 +801,12 @@ export function calculateMonicaOptimizationScore(
     };
   }
 
-  // Import pillar mapping dynamically to avoid circular deps
-  const { COOKING_METHOD_PILLAR_MAPPING, ALCHEMICAL_PILLARS } =
-     
-    require("@/constants/alchemicalPillars");
-
   const methodScores: MonicaScoreResult["methodScores"] = [];
   let totalWeight = 0;
   let weightedGregsEnergy = 0;
   let weightedKalchm = 0;
   let weightedMonica = 0;
+  let monicaSum = 0;
 
   for (const method of cookingMethods) {
     const normalizedMethod = method.toLowerCase().replace(/\s+/g, "-");
@@ -866,6 +866,7 @@ export function calculateMonicaOptimizationScore(
     weightedGregsEnergy += gregsEnergy * weight;
     weightedKalchm += kalchm * weight;
     weightedMonica += monica * weight;
+    monicaSum += monica;
 
     methodScores.push({
       method: normalizedMethod,
@@ -899,6 +900,7 @@ export function calculateMonicaOptimizationScore(
       alchemicalEquilibrium: Math.round(normalized.alchemicalEquilibrium * 100) / 100,
       monicaAlignment: Math.round(normalized.monicaAlignment * 100) / 100,
     },
+    monicaSum: Math.round(monicaSum * 1000) / 1000,
     methodScores,
   };
 }
@@ -919,6 +921,7 @@ export function buildMonicaOptimization(
   originalMonica: number | null;
   optimizedMonica: number;
   optimizationScore: number;
+  monicaSum: number;
   temperatureAdjustments: number[];
   timingAdjustments: number[];
   intensityModifications: string[];
@@ -966,6 +969,7 @@ export function buildMonicaOptimization(
     originalMonica: avgMonica,
     optimizedMonica: result.score,
     optimizationScore: result.score,
+    monicaSum: result.monicaSum,
     temperatureAdjustments,
     timingAdjustments,
     intensityModifications,
