@@ -6,8 +6,16 @@ Computes and injects alchemicalProperties (Spirit, Essence, Matter, Substance)
 and thermodynamicProperties (heat, entropy, reactivity, gregsEnergy, kalchm, monica)
 into all AlchemicalRecipe objects across all 14 cuisine data files.
 
-ESMS is derived from each recipe's astrologicalAffinities.planets using the
-canonical planetary alchemy mapping from CLAUDE.md.
+Correct derivation (per project spec):
+  alchemicalProperties = SUM of ESMS values of each ingredient in the recipe
+                         (looked up from src/data/ingredients/**/*.ts)
+  ASharp (A#) = Spirit + Essence + Matter + Substance
+
+  thermodynamicProperties.monica = SUM of Monica constants of the cooking
+                                    methods used in the recipe (from pillar definitions)
+
+  Other thermo fields (heat, entropy, reactivity, gregsEnergy, kalchm) are
+  computed from ESMS + elementalProperties via CLAUDE.md formulas.
 
 Thermodynamic formulas from CLAUDE.md:
   Heat       = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
@@ -15,39 +23,263 @@ Thermodynamic formulas from CLAUDE.md:
   Reactivity = (Spirit² + Substance² + Essence² + Fire² + Air² + Water²) / (Matter + Earth)²
   GregsEnergy= Heat - (Entropy × Reactivity)
   Kalchm     = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
-  Monica     = -GregsEnergy / (Reactivity × ln(Kalchm))  if Kalchm > 0 and ≠ 1, else 1.0
+  Monica     = SUM of cooking-method Monica constants (NOT the CLAUDE.md formula)
 """
 
 import re
 import math
 import sys
 import os
+import glob
 
-# ── Planetary ESMS mapping (from CLAUDE.md) ───────────────────────────────────
-PLANETARY_ESMS = {
-    "Sun":     {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
-    "Moon":    {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
-    "Mercury": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 1},
-    "Venus":   {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
-    "Mars":    {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
-    "Jupiter": {"Spirit": 1, "Essence": 1, "Matter": 0, "Substance": 0},
-    "Saturn":  {"Spirit": 1, "Essence": 0, "Matter": 1, "Substance": 0},
-    "Uranus":  {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
-    "Neptune": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 1},
-    "Pluto":   {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
+# ── Pillar Monica constants (derived from each pillar's elemental thermo) ──────
+# Computed as: GregsEnergy = heat - entropy * reactivity
+# where heat/entropy/reactivity come from blending primary(70%) + secondary(30%)
+# elemental thermodynamic properties for each pillar.
+#
+# ELEMENTAL_THERMO = {Fire: (h=1.0, e=0.7, r=0.8), Air: (h=0.3, e=0.9, r=0.7),
+#                     Water: (h=0.1, e=0.4, r=0.6), Earth: (h=0.2, e=0.1, r=0.2)}
+
+def _pillar_monica(primary, secondary=None):
+    thermo = {
+        "Fire":  (1.0, 0.7, 0.8),
+        "Air":   (0.3, 0.9, 0.7),
+        "Water": (0.1, 0.4, 0.6),
+        "Earth": (0.2, 0.1, 0.2),
+    }
+    ph, pe, pr = thermo[primary]
+    if secondary:
+        sh, se, sr = thermo[secondary]
+        h = ph * 0.7 + sh * 0.3
+        e = pe * 0.7 + se * 0.3
+        r = pr * 0.7 + sr * 0.3
+    else:
+        h, e, r = ph, pe, pr
+    return round(h - e * r, 4)
+
+# Pillar id → Monica constant
+PILLAR_MONICA = {
+    1:  _pillar_monica("Water", "Earth"),      # Solution
+    2:  _pillar_monica("Air",   "Water"),      # Filtration
+    3:  _pillar_monica("Air",   "Fire"),       # Evaporation
+    4:  _pillar_monica("Water", "Air"),        # Distillation
+    5:  _pillar_monica("Fire",  "Water"),      # Separation
+    6:  _pillar_monica("Fire"),                # Rectification
+    7:  _pillar_monica("Fire",  "Earth"),      # Calcination
+    8:  _pillar_monica("Earth", "Air"),        # Comixion
+    9:  _pillar_monica("Fire",  "Air"),        # Purification
+    10: _pillar_monica("Earth", "Water"),      # Inhibition
+    11: _pillar_monica("Water", "Fire"),       # Fermentation
+    12: _pillar_monica("Earth", "Air"),        # Fixation  (same elements as Comixion)
+    13: _pillar_monica("Fire",  "Water"),      # Multiplication (same as Separation)
+    14: _pillar_monica("Fire",  "Earth"),      # Protection (same as Calcination)
 }
 
+# ── Cooking method → pillar id mapping ────────────────────────────────────────
+COOKING_METHOD_PILLAR = {
+    # Wet methods
+    "boiling": 1, "poaching": 1, "simmering": 1, "ceviche": 1,
+    "steaming": 3, "drying": 3, "foam": 3,
+    "marinating": 4,
+    "braising": 11, "stewing": 11, "fermenting": 11, "pickling": 11,
+    "sous_vide": 12, "curing": 12, "gelification": 12, "sous vide": 12,
+    # Dry methods
+    "baking": 7, "roasting": 7, "broiling": 7, "grilling": 7,
+    "frying": 7, "deep-frying": 7, "deep frying": 7,
+    "sauteing": 5, "sautéing": 5, "stir-frying": 5, "stir frying": 5,
+    "smoking": 13,
+    # Modern / no-heat
+    "spherification": 6, "emulsification": 8, "cryo_cooking": 10,
+    "raw": 9, "purifying": 9,
+    # Additional common methods (map to nearest pillar)
+    "kneading": 8,          # Comixion – mixing/blending
+    "mixing": 8,
+    "blending": 8,
+    "whipping": 3,          # Evaporation – incorporating air
+    "folding": 8,
+    "chilling": 10,         # Inhibition – slowing transformation
+    "freezing": 10,
+    "pressing": 12,         # Fixation – stabilising
+    "straining": 2,         # Filtration
+    "infusing": 4,          # Distillation – flavor extraction
+    "toasting": 7,
+    "charring": 7,
+    "caramelizing": 5,      # Separation (Maillard)
+    "caramelising": 5,
+    "reducing": 3,          # Evaporation
+    "blanching": 1,         # Solution
+    "boil": 1,
+    "grill": 7,
+    "bake": 7,
+    "roast": 7,
+    "fry": 7,
+    "saute": 5,
+    "sauté": 5,
+    "steam": 3,
+    "braise": 11,
+    "stew": 11,
+    "smoke": 13,
+    "cure": 12,
+    "ferment": 11,
+    "pickle": 11,
+    "marinate": 4,
+    "deep frying": 7,
+    "pan-frying": 7,
+    "pan frying": 7,
+    "wok cooking": 5,
+    "wok frying": 5,
+    "wok-frying": 5,
+    "pressure cooking": 1,
+    "slow cooking": 11,
+    "slow-cooking": 11,
+    "tempering": 12,
+    "candying": 5,
+    "clarifying": 2,
+    "rendering": 7,
+    "charbroiling": 7,
+}
 
-def compute_esms(planets):
-    s, e, m, sub = 0, 0, 0, 0
-    for p in planets:
-        if p in PLANETARY_ESMS:
-            s   += PLANETARY_ESMS[p]["Spirit"]
-            e   += PLANETARY_ESMS[p]["Essence"]
-            m   += PLANETARY_ESMS[p]["Matter"]
-            sub += PLANETARY_ESMS[p]["Substance"]
-    return s, e, m, sub
+DEFAULT_PILLAR_ID = 7  # Calcination — fallback for unknown methods
 
+
+def get_method_monica(method):
+    key = method.lower().strip()
+    pid = COOKING_METHOD_PILLAR.get(key, DEFAULT_PILLAR_ID)
+    return PILLAR_MONICA[pid]
+
+
+# ── Load ingredient ESMS database from TypeScript files ──────────────────────
+
+def load_ingredient_db(ingredients_dir):
+    """Parse all ingredient TS files and build name→ESMS lookup."""
+    db = {}  # lowercased_key → {Spirit, Essence, Matter, Substance}
+
+    ts_files = glob.glob(
+        os.path.join(ingredients_dir, "**", "*.ts"), recursive=True
+    )
+
+    # Pattern: find top-level object entries with alchemicalProperties
+    entry_re = re.compile(
+        r'(?m)^  (\w[\w]*)\s*:\s*\{',  # key: {
+    )
+    alchm_re = re.compile(
+        r'alchemicalProperties\s*:\s*\{([^}]+)\}'
+    )
+    name_re = re.compile(r'name\s*:\s*["\']([^"\']+)["\']')
+
+    for fpath in ts_files:
+        with open(fpath, "r", encoding="utf-8") as f:
+            text = f.read()
+
+        key_positions = list(entry_re.finditer(text))
+        alchm_positions = list(alchm_re.finditer(text))
+
+        for ap in alchm_positions:
+            esms_text = ap.group(1)
+            s = re.search(r'Spirit\s*:\s*([\d.]+)', esms_text)
+            e = re.search(r'Essence\s*:\s*([\d.]+)', esms_text)
+            m = re.search(r'Matter\s*:\s*([\d.]+)', esms_text)
+            sub = re.search(r'Substance\s*:\s*([\d.]+)', esms_text)
+            if not (s and e and m and sub):
+                continue
+
+            esms = {
+                "Spirit":    float(s.group(1)),
+                "Essence":   float(e.group(1)),
+                "Matter":    float(m.group(1)),
+                "Substance": float(sub.group(1)),
+            }
+
+            # Find the nearest preceding key
+            pos = ap.start()
+            closest_key = None
+            for kp in key_positions:
+                if kp.start() <= pos:
+                    closest_key = kp
+            if not closest_key:
+                continue
+
+            raw_key = closest_key.group(1).lower().replace("_", " ")
+
+            # Also try to get the `name` field from within the same block
+            block_start = closest_key.start()
+            # Find the corresponding closing brace (heuristic: next top-level key or EOF)
+            if closest_key in key_positions:
+                idx = key_positions.index(closest_key)
+                block_end = key_positions[idx + 1].start() if idx + 1 < len(key_positions) else len(text)
+            else:
+                block_end = ap.end() + 200
+
+            block_text = text[block_start:block_end]
+            name_m = name_re.search(block_text)
+            canonical_name = name_m.group(1).lower() if name_m else raw_key
+
+            for lookup_key in {raw_key, canonical_name}:
+                if lookup_key not in db:
+                    db[lookup_key] = esms
+
+    return db
+
+
+def normalize(s):
+    """Lowercase, strip punctuation, collapse spaces."""
+    s = s.lower()
+    s = re.sub(r'[(),./\\]', ' ', s)
+    s = re.sub(r'\s+', ' ', s).strip()
+    return s
+
+
+def build_lookup_index(db):
+    """Build a word→[keys] index for fast partial matching."""
+    index = {}
+    for key in db:
+        for word in key.split():
+            if len(word) > 2:
+                index.setdefault(word, []).append(key)
+    return index
+
+
+def find_esms(ingredient_name, db, index):
+    """
+    Look up ESMS for an ingredient name from the database.
+    Returns a dict {Spirit, Essence, Matter, Substance} or None if not found.
+    """
+    norm = normalize(ingredient_name)
+
+    # 1. Direct match
+    if norm in db:
+        return db[norm]
+
+    # 2. DB key is substring of ingredient name
+    for key in db:
+        if key in norm:
+            return db[key]
+
+    # 3. Ingredient name is substring of DB key
+    for key in db:
+        if norm in key:
+            return db[key]
+
+    # 4. Word-overlap scoring
+    words = [w for w in norm.split() if len(w) > 2]
+    candidates = {}
+    for word in words:
+        for key in index.get(word, []):
+            candidates[key] = candidates.get(key, 0) + 1
+
+    if candidates:
+        best_key = max(candidates, key=lambda k: candidates[k])
+        if candidates[best_key] >= 1:
+            return db[best_key]
+
+    return None
+
+
+# ── Default ESMS for unknown ingredients ─────────────────────────────────────
+DEFAULT_ESMS = {"Spirit": 0.35, "Essence": 0.35, "Matter": 0.35, "Substance": 0.35}
+
+
+# ── Math helpers ──────────────────────────────────────────────────────────────
 
 def safe_pow(base, exp):
     """x^x with the convention 0^0 = 1."""
@@ -56,7 +288,7 @@ def safe_pow(base, exp):
     return base ** exp
 
 
-def compute_thermodynamics(s, e, m, sub, fire, water, earth, air):
+def compute_thermodynamics(s, e, m, sub, fire, water, earth, air, monica_val):
     # Heat
     denom1 = sub + e + m + water + air + earth
     heat = (s**2 + fire**2) / (denom1**2) if denom1 != 0 else 0.0
@@ -67,21 +299,17 @@ def compute_thermodynamics(s, e, m, sub, fire, water, earth, air):
 
     # Reactivity
     denom3 = m + earth
-    reactivity = (s**2 + sub**2 + e**2 + fire**2 + air**2 + water**2) / (denom3**2) if denom3 != 0 else 0.0
+    reactivity = (
+        (s**2 + sub**2 + e**2 + fire**2 + air**2 + water**2) / (denom3**2)
+        if denom3 != 0 else 0.0
+    )
 
     gregs_energy = heat - (entropy * reactivity)
 
-    # Kalchm = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
+    # Kalchm
     numerator   = safe_pow(s, s) * safe_pow(e, e)
     denominator = safe_pow(m, m) * safe_pow(sub, sub)
     kalchm = numerator / denominator if denominator != 0 else 1.0
-
-    # Monica
-    if kalchm > 0 and kalchm != 1.0 and reactivity != 0:
-        log_k = math.log(kalchm)
-        monica = -gregs_energy / (reactivity * log_k) if log_k != 0 else 1.0
-    else:
-        monica = 1.0
 
     def r4(x):
         return round(x, 4)
@@ -92,62 +320,57 @@ def compute_thermodynamics(s, e, m, sub, fire, water, earth, air):
         "reactivity":  r4(reactivity),
         "gregsEnergy": r4(gregs_energy),
         "kalchm":      r4(kalchm),
-        "monica":      r4(monica),
+        "monica":      r4(monica_val),
     }
 
 
-# ── Regex helpers ─────────────────────────────────────────────────────────────
+# ── Regex helpers for cuisine files ──────────────────────────────────────────
 
-# Match planet strings inside an astrologicalAffinities block.
-# Handles both multi-line JSON and inline JS object forms.
-PLANET_IN_ARRAY_RE = re.compile(r'"([A-Z][a-z]+)"')
+# Match the whole substitutions line (used as anchor)
+SUBS_RE = re.compile(r'(\n)([ \t]*)(?:"substitutions"|substitutions)\s*:')
 
-# Extract the value of a numeric field like "Fire": 0.35  or  Fire:0.35
-def extract_float(text, key):
-    m = re.search(
-        r'["\']?' + key + r'["\']?\s*:\s*([0-9]*\.?[0-9]+)',
-        text
-    )
-    return float(m.group(1)) if m else 0.0
-
-
-# Extract a list of planet strings from an astrologicalAffinities block
-ASTRO_BLOCK_RE = re.compile(
-    r'(?:"astrologicalAffinities"|astrologicalAffinities)\s*:\s*\{(.*?)\}',
-    re.DOTALL
+# Match existing alchemicalProperties block (to remove/overwrite).
+# The trailing \n? is optional because the very last line before the SUBS_RE
+# match has its \n consumed as match.group(1), so it appears without \n in segment.
+ALCHM_LINE_RE = re.compile(
+    r'[ \t]*(?:"alchemicalProperties"|alchemicalProperties)\s*:[^\n]*\n?'
+)
+THERMO_LINE_RE = re.compile(
+    r'[ \t]*(?:"thermodynamicProperties"|thermodynamicProperties)\s*:[^\n]*\n?'
 )
 
 ELEMENTAL_BLOCK_RE = re.compile(
     r'(?:"elementalProperties"|elementalProperties)\s*:\s*\{(.*?)\}',
     re.DOTALL
 )
-
-PLANETS_LIST_RE = re.compile(
-    r'(?:"planets"|planets)\s*:\s*\[(.*?)\]',
+INGREDIENTS_BLOCK_RE = re.compile(
+    r'(?:"ingredients"|ingredients)\s*:\s*\[(.*?)\](?=\s*,)',
+    re.DOTALL
+)
+COOKING_METHODS_RE = re.compile(
+    r'(?:"cookingMethods"|cookingMethods)\s*:\s*\[(.*?)\]',
     re.DOTALL
 )
 
-# Detect whether alchemicalProperties is already present (to avoid doubling)
-ALREADY_HAS_ALCHM_RE = re.compile(
-    r'(?:"alchemicalProperties"|alchemicalProperties)\s*:'
-)
+def extract_float(text, key):
+    m = re.search(r'["\']?' + key + r'["\']?\s*:\s*([0-9]*\.?[0-9]+)', text)
+    return float(m.group(1)) if m else 0.0
 
-ALREADY_HAS_THERMO_RE = re.compile(
-    r'(?:"thermodynamicProperties"|thermodynamicProperties)\s*:'
-)
+
+def extract_string_list(bracket_content):
+    return re.findall(r'"([^"]+)"', bracket_content)
 
 
 def build_alchm_block(indent, s, e, m, sub):
-    i = indent
     return (
-        f'{i}alchemicalProperties: {{"Spirit":{s},"Essence":{e},"Matter":{m},"Substance":{sub}}},\n'
+        f'{indent}alchemicalProperties: {{"Spirit":{s},"Essence":{e},'
+        f'"Matter":{m},"Substance":{sub}}},\n'
     )
 
 
 def build_thermo_block(indent, td):
-    i = indent
     return (
-        f'{i}thermodynamicProperties: {{'
+        f'{indent}thermodynamicProperties: {{'
         f'"heat":{td["heat"]},'
         f'"entropy":{td["entropy"]},'
         f'"reactivity":{td["reactivity"]},'
@@ -158,69 +381,41 @@ def build_thermo_block(indent, td):
     )
 
 
-def process_file(filepath):
+def process_file(filepath, db, index):
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
-
-    # We'll rebuild the file by splitting on "substitutions" occurrences
-    # and inserting alchemicalProperties + thermodynamicProperties before each.
-    #
-    # Strategy: find all indices of the pattern  \n<indent>substitutions
-    # and for each, look backward to find the nearest elementalProperties and
-    # astrologicalAffinities blocks to extract the needed data.
-
-    SUBS_RE = re.compile(r'(\n)([ \t]*)(?:"substitutions"|substitutions)\s*:')
 
     result_parts = []
     prev_end = 0
     matches = list(SUBS_RE.finditer(content))
     injected = 0
     skipped = 0
+    no_data = 0
 
     for match in matches:
         segment = content[prev_end:match.start()]
 
-        # Check if this recipe already has alchemicalProperties
-        # (look in the segment from the previous substitutions boundary)
-        if ALREADY_HAS_ALCHM_RE.search(segment):
-            result_parts.append(segment)
-            result_parts.append(match.group(0))
-            prev_end = match.end()
-            skipped += 1
-            continue
+        # Extract ingredients from this recipe segment
+        ing_match = None
+        for m in INGREDIENTS_BLOCK_RE.finditer(segment):
+            ing_match = m
 
-        # Extract astrologicalAffinities block from this segment
-        astro_match = None
-        for m in ASTRO_BLOCK_RE.finditer(segment):
-            astro_match = m  # take the last one (closest to substitutions)
+        # Extract cooking methods
+        cm_match = None
+        for m in COOKING_METHODS_RE.finditer(segment):
+            cm_match = m
 
-        # Extract elementalProperties block from this segment
+        # Extract elemental properties
         elem_match = None
         for m in ELEMENTAL_BLOCK_RE.finditer(segment):
-            elem_match = m  # take the last one
+            elem_match = m
 
-        if not astro_match or not elem_match:
-            # Can't find the required data - skip this recipe
+        if not elem_match:
             result_parts.append(segment)
             result_parts.append(match.group(0))
             prev_end = match.end()
             skipped += 1
             continue
-
-        # Parse planets
-        planets_text = astro_match.group(1)
-        planets_list_m = PLANETS_LIST_RE.search(planets_text)
-        if not planets_list_m:
-            result_parts.append(segment)
-            result_parts.append(match.group(0))
-            prev_end = match.end()
-            skipped += 1
-            continue
-
-        planet_strings = planets_list_m.group(1)
-        planets = re.findall(r'"([A-Za-z]+)"', planet_strings)
-        # Filter to known planets only
-        planets = [p for p in planets if p in PLANETARY_ESMS]
 
         # Parse elemental values
         elem_text = elem_match.group(1)
@@ -229,29 +424,83 @@ def process_file(filepath):
         earth = extract_float(elem_text, "Earth")
         air   = extract_float(elem_text, "Air")
 
-        # Compute ESMS
-        s, e, m, sub = compute_esms(planets)
+        # Compute ESMS from ingredient sums
+        total_s, total_e, total_m, total_sub = 0.0, 0.0, 0.0, 0.0
+        matched_count = 0
+        total_count = 0
 
-        # Compute thermodynamics
-        td = compute_thermodynamics(s, e, m, sub, fire, water, earth, air)
+        if ing_match:
+            ing_text = ing_match.group(1)
+            # Find all ingredient name fields
+            ing_names = re.findall(
+                r'"name"\s*:\s*"([^"]+)"', ing_text
+            )
+            total_count = len(ing_names)
+            for iname in ing_names:
+                esms = find_esms(iname, db, index)
+                if esms:
+                    total_s   += esms["Spirit"]
+                    total_e   += esms["Essence"]
+                    total_m   += esms["Matter"]
+                    total_sub += esms["Substance"]
+                    matched_count += 1
+                else:
+                    # Use default ESMS for unmatched ingredients
+                    total_s   += DEFAULT_ESMS["Spirit"]
+                    total_e   += DEFAULT_ESMS["Essence"]
+                    total_m   += DEFAULT_ESMS["Matter"]
+                    total_sub += DEFAULT_ESMS["Substance"]
 
-        # Build insertion blocks (use same indent as the substitutions line)
+        if total_count == 0:
+            # No ingredient data — use fallback values
+            total_s, total_e, total_m, total_sub = 1.5, 1.5, 1.5, 1.5
+
+        # Compute Monica from cooking methods sum
+        monica_sum = 0.0
+        if cm_match:
+            methods = extract_string_list(cm_match.group(1))
+            for method in methods:
+                monica_sum += get_method_monica(method)
+            if not methods:
+                monica_sum = get_method_monica("baking")  # fallback
+        else:
+            monica_sum = get_method_monica("baking")  # fallback
+
+        # Round ESMS to 4 decimal places
+        total_s   = round(total_s, 4)
+        total_e   = round(total_e, 4)
+        total_m   = round(total_m, 4)
+        total_sub = round(total_sub, 4)
+        monica_sum = round(monica_sum, 4)
+
+        # Compute thermodynamic properties
+        td = compute_thermodynamics(
+            total_s, total_e, total_m, total_sub,
+            fire, water, earth, air,
+            monica_sum
+        )
+
+        # Remove existing alchemicalProperties and thermodynamicProperties lines from segment
+        clean_segment = ALCHM_LINE_RE.sub('', segment)
+        clean_segment = THERMO_LINE_RE.sub('', clean_segment)
+
+        # Build insertion blocks
         indent = match.group(2)
-        alchm_block  = build_alchm_block(indent, s, e, m, sub)
+        alchm_block  = build_alchm_block(indent, total_s, total_e, total_m, total_sub)
         thermo_block = build_thermo_block(indent, td)
 
-        result_parts.append(segment)
-        result_parts.append(match.group(1))  # the newline before substitutions
+        result_parts.append(clean_segment)
+        result_parts.append(match.group(1))  # newline before substitutions
         result_parts.append(alchm_block)
         result_parts.append(thermo_block)
-        # Now append the substitutions line (without the leading newline, already added)
-        result_parts.append(match.group(2) + content[match.start() + len(match.group(1)):match.end()])
+        # Re-append the substitutions line (without leading newline already added)
+        result_parts.append(
+            content[match.start() + len(match.group(1)):match.end()]
+        )
         prev_end = match.end()
         injected += 1
 
-    # Append the remainder
     result_parts.append(content[prev_end:])
-
     new_content = "".join(result_parts)
 
     with open(filepath, "w", encoding="utf-8") as f:
@@ -261,13 +510,21 @@ def process_file(filepath):
 
 
 def main():
-    cuisine_dir = os.path.join(
-        os.path.dirname(__file__), "..", "src", "data", "cuisines"
-    )
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    src_root = os.path.join(script_dir, "..", "src")
+
+    ingredients_dir = os.path.join(src_root, "data", "ingredients")
+    cuisine_dir     = os.path.join(src_root, "data", "cuisines")
+
+    print("Loading ingredient ESMS database...")
+    db = load_ingredient_db(ingredients_dir)
+    index = build_lookup_index(db)
+    print(f"  Loaded {len(db)} ingredient entries.")
+
     cuisine_files = [
         "african.ts", "american.ts", "chinese.ts", "french.ts", "greek.ts",
         "indian.ts", "italian.ts", "japanese.ts", "korean.ts", "mexican.ts",
-        "middle-eastern.ts", "russian.ts", "thai.ts", "vietnamese.ts"
+        "middle-eastern.ts", "russian.ts", "thai.ts", "vietnamese.ts",
     ]
 
     total_injected = 0
@@ -278,12 +535,12 @@ def main():
         if not os.path.exists(fpath):
             print(f"  MISSING: {fname}")
             continue
-        injected, skipped = process_file(fpath)
-        print(f"  {fname}: injected={injected}, already_present/skipped={skipped}")
+        injected, skipped = process_file(fpath, db, index)
+        print(f"  {fname}: processed={injected}, skipped={skipped}")
         total_injected += injected
         total_skipped  += skipped
 
-    print(f"\nTotal: injected={total_injected}, skipped={total_skipped}")
+    print(f"\nTotal: processed={total_injected}, skipped={total_skipped}")
 
 
 if __name__ == "__main__":

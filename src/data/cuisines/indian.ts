@@ -135,9 +135,10 @@ export const indian = {
               "Calcium"
             ]
           },
-          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":0,"Substance":1},
-          thermodynamicProperties: {"heat":1.3265,"entropy":16.8678,"reactivity":32.0312,"gregsEnergy":-538.9692,"kalchm":4.0,"monica":12.1376},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.32,"Essence":3.9,"Matter":4.6,"Substance":4.22},
+          thermodynamicProperties: {"heat":0.0611,"entropy":0.3533,"reactivity":1.7666,"gregsEnergy":-0.563,"kalchm":0.0223,"monica":0.4842},
+          "substitutions": [
             {
               "originalIngredient": "urad dal",
               "substituteOptions": [
@@ -264,9 +265,10 @@ export const indian = {
               "Potassium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0051,"entropy":0.0069,"reactivity":0.4141,"gregsEnergy":0.0023,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.75,"Essence":3.47,"Matter":3.55,"Substance":3.06},
+          thermodynamicProperties: {"heat":0.0262,"entropy":0.2093,"reactivity":1.4241,"gregsEnergy":-0.2719,"kalchm":0.0726,"monica":0.5486},
+          "substitutions": [
             {
               "originalIngredient": "atta",
               "substituteOptions": [
@@ -400,9 +402,10 @@ export const indian = {
               "Manganese"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.069,"entropy":0.0798,"reactivity":3.3424,"gregsEnergy":-0.1976,"kalchm":4.0,"monica":0.0426},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.3,"Essence":2.99,"Matter":3.29,"Substance":3.07},
+          thermodynamicProperties: {"heat":0.1049,"entropy":0.4243,"reactivity":2.3523,"gregsEnergy":-0.8932,"kalchm":0.8635,"monica":-0.0754},
+          "substitutions": [
             {
               "originalIngredient": "idli rice",
               "substituteOptions": [
@@ -537,9 +540,10 @@ export const indian = {
               "Magnesium"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":1},
-          thermodynamicProperties: {"heat":0.321,"entropy":5.7778,"reactivity":10.3827,"gregsEnergy":-59.668,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.65,"Essence":3.62,"Matter":4.04,"Substance":3.77},
+          thermodynamicProperties: {"heat":0.0893,"entropy":0.4048,"reactivity":2.0209,"gregsEnergy":-0.7286,"kalchm":0.2833,"monica":0.0078},
+          "substitutions": [
             {
               "originalIngredient": "flattened rice",
               "substituteOptions": [
@@ -669,9 +673,10 @@ export const indian = {
               "Manganese"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1598,"entropy":0.1742,"reactivity":1.192,"gregsEnergy":-0.0478,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.75,"Essence":2.99,"Matter":3.52,"Substance":3.32},
+          thermodynamicProperties: {"heat":0.07,"entropy":0.3755,"reactivity":1.8493,"gregsEnergy":-0.6245,"kalchm":0.0947,"monica":0.0922},
+          "substitutions": [
             {
               "originalIngredient": "ghee",
               "substituteOptions": [
@@ -798,9 +803,10 @@ export const indian = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.8884,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.36,"Essence":3.21,"Matter":3.0,"Substance":2.91},
+          thermodynamicProperties: {"heat":0.1151,"entropy":0.4148,"reactivity":2.965,"gregsEnergy":-1.1149,"kalchm":4.1029,"monica":0.5298},
+          "substitutions": [
             {
               "originalIngredient": "yogurt",
               "substituteOptions": [
@@ -933,9 +939,10 @@ export const indian = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.4952,"entropy":0.5332,"reactivity":2.2644,"gregsEnergy":-0.7122,"kalchm":4.0,"monica":0.2269},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.71,"Essence":3.24,"Matter":2.49,"Substance":2.29},
+          thermodynamicProperties: {"heat":0.0936,"entropy":0.3006,"reactivity":2.5929,"gregsEnergy":-0.6857,"kalchm":10.3981,"monica":0.6786},
+          "substitutions": [
             {
               "originalIngredient": "heavy cream",
               "substituteOptions": [
@@ -1073,9 +1080,10 @@ export const indian = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0041,"entropy":0.0047,"reactivity":0.7921,"gregsEnergy":0.0003,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.95,"Essence":3.68,"Matter":3.89,"Substance":3.53},
+          thermodynamicProperties: {"heat":0.0631,"entropy":0.3186,"reactivity":1.9877,"gregsEnergy":-0.57,"kalchm":0.1737,"monica":0.6887},
+          "substitutions": [
             {
               "originalIngredient": "chicken",
               "substituteOptions": [
@@ -1211,9 +1219,10 @@ export const indian = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0895,"entropy":0.0955,"reactivity":2.8491,"gregsEnergy":-0.1826,"kalchm":4.0,"monica":0.0462},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.75,"Essence":3.93,"Matter":3.91,"Substance":3.7},
+          thermodynamicProperties: {"heat":0.0965,"entropy":0.4014,"reactivity":2.3909,"gregsEnergy":-0.8633,"kalchm":1.1771,"monica":0.1479},
+          "substitutions": [
             {
               "originalIngredient": "goat meat",
               "substituteOptions": [
@@ -1348,9 +1357,10 @@ export const indian = {
               "Magnesium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.7214,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.67,"Essence":3.51,"Matter":4.08,"Substance":3.6},
+          thermodynamicProperties: {"heat":0.0493,"entropy":0.2893,"reactivity":1.6225,"gregsEnergy":-0.42,"kalchm":0.0362,"monica":-0.0376},
+          "substitutions": [
             {
               "originalIngredient": "paneer",
               "substituteOptions": [
@@ -1475,9 +1485,10 @@ export const indian = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0954,"entropy":0.1019,"reactivity":3.0976,"gregsEnergy":-0.2201,"kalchm":4.0,"monica":0.0513},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.53,"Essence":3.08,"Matter":2.59,"Substance":2.28},
+          thermodynamicProperties: {"heat":0.0914,"entropy":0.3154,"reactivity":2.5527,"gregsEnergy":-0.7136,"kalchm":4.346,"monica":0.4654},
+          "substitutions": [
             {
               "originalIngredient": "yogurt (bhature)",
               "substituteOptions": [
@@ -1592,9 +1603,10 @@ export const indian = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.002,"reactivity":0.7546,"gregsEnergy":-0.0006,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.28,"Essence":2.61,"Matter":3.2,"Substance":2.89},
+          thermodynamicProperties: {"heat":0.0182,"entropy":0.2368,"reactivity":1.3466,"gregsEnergy":-0.3007,"kalchm":0.0189,"monica":0.4188},
+          "substitutions": [
             {
               "originalIngredient": "paneer",
               "substituteOptions": [
@@ -1712,9 +1724,10 @@ export const indian = {
               "Manganese"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0895,"entropy":0.3472,"reactivity":2.7521,"gregsEnergy":-0.866,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.88,"Essence":2.27,"Matter":2.91,"Substance":2.74},
+          thermodynamicProperties: {"heat":0.0509,"entropy":0.3475,"reactivity":1.8239,"gregsEnergy":-0.583,"kalchm":0.0595,"monica":0.5486},
+          "substitutions": [
             {
               "originalIngredient": "puris",
               "substituteOptions": [
@@ -1831,9 +1844,10 @@ export const indian = {
               "Manganese"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0954,"entropy":0.1019,"reactivity":0.4024,"gregsEnergy":0.0544,"kalchm":0.25,"monica":0.0975},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.37,"Essence":2.83,"Matter":2.44,"Substance":2.13},
+          thermodynamicProperties: {"heat":0.0921,"entropy":0.3168,"reactivity":2.3619,"gregsEnergy":-0.6563,"kalchm":3.3268,"monica":1.1538},
+          "substitutions": [
             {
               "originalIngredient": "eggplant",
               "substituteOptions": [
@@ -1951,9 +1965,10 @@ export const indian = {
                   "Potassium"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.1598,"entropy":0.1742,"reactivity":1.192,"gregsEnergy":-0.0478,"kalchm":1.0,"monica":1.0},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":3.1,"Essence":2.74,"Matter":2.94,"Substance":2.85},
+              thermodynamicProperties: {"heat":0.1155,"entropy":0.4603,"reactivity":2.3478,"gregsEnergy":-0.9652,"kalchm":1.1205,"monica":0.4842},
+              "substitutions": [
                 {
                   "originalIngredient": "Lamb shoulder",
                   "substituteOptions": [
@@ -2068,9 +2083,10 @@ export const indian = {
                   "Iron"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.1716,"entropy":0.1872,"reactivity":1.203,"gregsEnergy":-0.0536,"kalchm":1.0,"monica":1.0},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":1.75,"Essence":2.9,"Matter":2.53,"Substance":2.25},
+              thermodynamicProperties: {"heat":0.047,"entropy":0.2359,"reactivity":2.0167,"gregsEnergy":-0.4287,"kalchm":0.8994,"monica":0.8752},
+              "substitutions": [
                 {
                   "originalIngredient": "Butter",
                   "substituteOptions": [
@@ -2189,9 +2205,10 @@ export const indian = {
                   "Iron"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-              thermodynamicProperties: {"heat":0.0098,"entropy":0.0984,"reactivity":4.0284,"gregsEnergy":-0.3865,"kalchm":4.0,"monica":0.0692},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":2.78,"Essence":2.95,"Matter":3.12,"Substance":2.95},
+              thermodynamicProperties: {"heat":0.0866,"entropy":0.3854,"reactivity":2.3811,"gregsEnergy":-0.8311,"kalchm":0.4928,"monica":0.4188},
+              "substitutions": [
                 {
                   "originalIngredient": "Prawns",
                   "substituteOptions": [
@@ -2306,9 +2323,10 @@ export const indian = {
                   "Iron"
                 ]
               },
-              alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.5372,"entropy":0.5799,"reactivity":2.1155,"gregsEnergy":-0.6896,"kalchm":4.0,"monica":0.2352},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":1.55,"Essence":2.97,"Matter":2.93,"Substance":2.61},
+              thermodynamicProperties: {"heat":0.0287,"entropy":0.2165,"reactivity":1.4961,"gregsEnergy":-0.2951,"kalchm":0.1753,"monica":0.5486},
+              "substitutions": [
                 {
                   "originalIngredient": "Atta",
                   "substituteOptions": [
@@ -2420,9 +2438,10 @@ export const indian = {
                   "Phosphorus"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-              thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.7592,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":2.41,"Essence":2.68,"Matter":2.53,"Substance":2.4},
+              thermodynamicProperties: {"heat":0.0815,"entropy":0.3266,"reactivity":2.2838,"gregsEnergy":-0.6644,"kalchm":1.3667,"monica":0.8752},
+              "substitutions": [
                 {
                   "originalIngredient": "Khoya",
                   "substituteOptions": [
@@ -2543,9 +2562,10 @@ export const indian = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0895,"entropy":0.0955,"reactivity":0.397,"gregsEnergy":0.0516,"kalchm":0.25,"monica":0.0937},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.1,"Essence":2.74,"Matter":2.94,"Substance":2.85},
+          thermodynamicProperties: {"heat":0.1172,"entropy":0.4687,"reactivity":2.3496,"gregsEnergy":-0.9842,"kalchm":1.1205,"monica":0.4842},
+          "substitutions": [
             {
               "originalIngredient": "lamb",
               "substituteOptions": [
@@ -2565,9 +2585,10 @@ export const indian = {
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Jupiter","Sun"],"signs":["capricorn","sagittarius","leo"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":320,"proteinG":16,"carbsG":42,"fatG":10,"fiberG":12,"sodiumMg":480,"sugarG":4,"vitamins":["Folate","Thiamin","Vitamin B6"],"minerals":["Iron","Magnesium","Potassium"]},
-          alchemicalProperties: {"Spirit":3,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":1.2469,"entropy":1.3462,"reactivity":6.5424,"gregsEnergy":-7.5602,"kalchm":27.0,"monica":0.3506},
-                    substitutions: [{"originalIngredient":"Toor dal","substituteOptions":["Red lentils (masoor dal)","Chana dal (chickpea lentils)"]},{"originalIngredient":"Ghee","substituteOptions":["Coconut oil","Butter"]}]
+
+          alchemicalProperties: {"Spirit":4.5,"Essence":4.16,"Matter":4.14,"Substance":3.74},
+          thermodynamicProperties: {"heat":0.1253,"entropy":0.4335,"reactivity":2.686,"gregsEnergy":-1.0391,"kalchm":6.576,"monica":0.5298},
+          substitutions: [{"originalIngredient":"Toor dal","substituteOptions":["Red lentils (masoor dal)","Chana dal (chickpea lentils)"]},{"originalIngredient":"Ghee","substituteOptions":["Coconut oil","Butter"]}]
         },
         {
           name: "Palak Paneer",
@@ -2579,9 +2600,10 @@ export const indian = {
           elementalProperties: {"Fire":0.25,"Water":0.3,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon","Jupiter"],"signs":["taurus","cancer","pisces"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":18,"fatG":30,"fiberG":5,"sodiumMg":540,"sugarG":8,"vitamins":["Vitamin A","Vitamin C","Vitamin K","Folate"],"minerals":["Calcium","Iron","Magnesium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":3,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0321,"entropy":0.0336,"reactivity":1.8402,"gregsEnergy":-0.0297,"kalchm":6.75,"monica":0.0084},
-                    substitutions: [{"originalIngredient":"Paneer","substituteOptions":["Extra-firm tofu","Halloumi cheese"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew cream"]}]
+
+          alchemicalProperties: {"Spirit":3.02,"Essence":3.93,"Matter":4.08,"Substance":3.68},
+          thermodynamicProperties: {"heat":0.0593,"entropy":0.3032,"reactivity":1.9501,"gregsEnergy":-0.5318,"kalchm":0.1628,"monica":0.241},
+          substitutions: [{"originalIngredient":"Paneer","substituteOptions":["Extra-firm tofu","Halloumi cheese"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew cream"]}]
         },
         {
           name: "Chicken Tikka Masala",
@@ -2593,9 +2615,10 @@ export const indian = {
           elementalProperties: {"Fire":0.35,"Water":0.25,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Sun","Jupiter"],"signs":["aries","leo","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":520,"proteinG":42,"carbsG":18,"fatG":32,"fiberG":4,"sodiumMg":720,"sugarG":10,"vitamins":["Vitamin A","Vitamin C","Niacin"],"minerals":["Iron","Calcium","Potassium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.3094,"entropy":0.3384,"reactivity":5.2528,"gregsEnergy":-1.4679,"kalchm":16.0,"monica":0.1008},
-                    substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Paneer cubes","Cauliflower florets","Shrimp"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew paste"]}]
+
+          alchemicalProperties: {"Spirit":2.9,"Essence":3.69,"Matter":3.69,"Substance":3.47},
+          thermodynamicProperties: {"heat":0.0645,"entropy":0.3317,"reactivity":2.2079,"gregsEnergy":-0.6678,"kalchm":0.2924,"monica":0.6974},
+          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Paneer cubes","Cauliflower florets","Shrimp"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew paste"]}]
         },
         {
           name: "Biryani",
@@ -2607,9 +2630,10 @@ export const indian = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Saturn","Sun"],"signs":["sagittarius","capricorn","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":72,"fatG":26,"fiberG":4,"sodiumMg":780,"sugarG":6,"vitamins":["Niacin","Vitamin B6","Folate"],"minerals":["Iron","Zinc","Potassium"]},
-          alchemicalProperties: {"Spirit":3,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":1.2469,"entropy":1.4014,"reactivity":5.5706,"gregsEnergy":-6.5597,"kalchm":27.0,"monica":0.3573},
-                    substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Lamb (raan biryani)","Vegetables and paneer (veg biryani)"]},{"originalIngredient":"Saffron","substituteOptions":["Turmeric for color only (flavor differs)"]}]
+
+          alchemicalProperties: {"Spirit":3.11,"Essence":3.73,"Matter":3.94,"Substance":3.68},
+          thermodynamicProperties: {"heat":0.0672,"entropy":0.3452,"reactivity":2.0256,"gregsEnergy":-0.6321,"kalchm":0.1723,"monica":1.3128},
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Lamb (raan biryani)","Vegetables and paneer (veg biryani)"]},{"originalIngredient":"Saffron","substituteOptions":["Turmeric for color only (flavor differs)"]}]
         },
         {
           name: "Aloo Chaat",
@@ -2621,9 +2645,10 @@ export const indian = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Mercury","Sun"],"signs":["aries","gemini","leo"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":320,"proteinG":8,"carbsG":48,"fatG":12,"fiberG":6,"sodiumMg":580,"sugarG":12,"vitamins":["Vitamin C","Vitamin B6","Folate"],"minerals":["Potassium","Iron","Magnesium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.2988,"entropy":0.7862,"reactivity":3.3759,"gregsEnergy":-2.3555,"kalchm":4.0,"monica":0.5033},
-                    substitutions: [{"originalIngredient":"Sev","substituteOptions":["Crushed papdi","Crushed puffed rice (murmura)"]},{"originalIngredient":"Pomegranate seeds","substituteOptions":["Diced mango","Diced apple"]}]
+
+          alchemicalProperties: {"Spirit":3.13,"Essence":4.31,"Matter":4.68,"Substance":4.3},
+          thermodynamicProperties: {"heat":0.0505,"entropy":0.312,"reactivity":1.8583,"gregsEnergy":-0.5293,"kalchm":0.0266,"monica":0.8564},
+          substitutions: [{"originalIngredient":"Sev","substituteOptions":["Crushed papdi","Crushed puffed rice (murmura)"]},{"originalIngredient":"Pomegranate seeds","substituteOptions":["Diced mango","Diced apple"]}]
         },
       ],
     },
@@ -2691,9 +2716,10 @@ export const indian = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0174,"entropy":0.0204,"reactivity":0.8715,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
-                    "substitutions": []
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.0848,"entropy":0.2416,"reactivity":2.0579,"gregsEnergy":-0.4124,"kalchm":1.0,"monica":0.4376},
+          "substitutions": []
         },
         {
           "name": "Authentic Rasmalai",
@@ -2803,9 +2829,10 @@ export const indian = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.002,"reactivity":0.839,"gregsEnergy":-0.0008,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.68,"Essence":3.25,"Matter":1.68,"Substance":1.63},
+          thermodynamicProperties: {"heat":0.1312,"entropy":0.3118,"reactivity":5.5436,"gregsEnergy":-1.5975,"kalchm":122.0778,"monica":-0.0298},
+          "substitutions": [
             {
               "originalIngredient": "whole milk",
               "substituteOptions": [
@@ -2929,9 +2956,10 @@ export const indian = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0041,"entropy":0.0047,"reactivity":0.8341,"gregsEnergy":0.0001,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.48,"Essence":3.14,"Matter":1.98,"Substance":1.86},
+          thermodynamicProperties: {"heat":0.1058,"entropy":0.2968,"reactivity":3.9599,"gregsEnergy":-1.0694,"kalchm":28.1779,"monica":-0.0128},
+          "substitutions": [
             {
               "originalIngredient": "whole milk",
               "substituteOptions": [

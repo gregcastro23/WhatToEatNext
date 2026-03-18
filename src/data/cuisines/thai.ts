@@ -156,9 +156,10 @@ export const thai: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.0011,"reactivity":0.906,"gregsEnergy":-0.0,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":4.96,"Essence":6.04,"Matter":5.46,"Substance":5.21},
+          thermodynamicProperties: {"heat":0.0799,"entropy":0.3422,"reactivity":2.7661,"gregsEnergy":-0.8667,"kalchm":2.5542,"monica":-0.0564},
+          "substitutions": [
             {
               "originalIngredient": "ground pork",
               "substituteOptions": [
@@ -192,9 +193,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["Waning Crescent","New Moon"]},
           nutritionPerServing: {"calories":285,"proteinG":18,"carbsG":35,"fatG":8,"fiberG":1,"sodiumMg":820,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Phosphorus","Potassium","Selenium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0664,"entropy":0.0683,"reactivity":0.4376,"gregsEnergy":0.0365,"kalchm":0.25,"monica":0.0602},
-                    substitutions: [{"originalIngredient":"ground pork","substituteOptions":["chicken breast, poached and shredded","firm tofu, crumbled (vegetarian)"]},{"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian/vegan)","tamari (gluten-free)"]}]
+
+          alchemicalProperties: {"Spirit":4.13,"Essence":4.61,"Matter":4.23,"Substance":4.14},
+          thermodynamicProperties: {"heat":0.0886,"entropy":0.3643,"reactivity":2.7174,"gregsEnergy":-0.9014,"kalchm":2.5103,"monica":-0.0376},
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["chicken breast, poached and shredded","firm tofu, crumbled (vegetarian)"]},{"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian/vegan)","tamari (gluten-free)"]}]
         },
         {
           name: "Patongo with Sangkaya",
@@ -206,9 +208,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.25,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Jupiter"],"signs":["leo","sagittarius"],"lunarPhases":["Waxing Crescent","Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":10,"carbsG":48,"fatG":22,"fiberG":1,"sodiumMg":380,"sugarG":18,"vitamins":["Riboflavin","Folate"],"minerals":["Manganese","Phosphorus","Iron"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
-          thermodynamicProperties: {"heat":1.5142,"entropy":1.7201,"reactivity":57.7222,"gregsEnergy":-97.7728,"kalchm":4.0,"monica":1.2219},
-                    substitutions: [{"originalIngredient":"palm sugar in custard","substituteOptions":["light brown sugar","coconut sugar"]},{"originalIngredient":"pandan leaves","substituteOptions":["pandan extract (a few drops)","vanilla bean (different flavor profile, but similar aromatic function)"]}]
+
+          alchemicalProperties: {"Spirit":2.04,"Essence":2.74,"Matter":3.89,"Substance":3.18},
+          thermodynamicProperties: {"heat":0.0392,"entropy":0.2795,"reactivity":1.2518,"gregsEnergy":-0.3107,"kalchm":0.0087,"monica":0.3344},
+          substitutions: [{"originalIngredient":"palm sugar in custard","substituteOptions":["light brown sugar","coconut sugar"]},{"originalIngredient":"pandan leaves","substituteOptions":["pandan extract (a few drops)","vanilla bean (different flavor profile, but similar aromatic function)"]}]
         },
         {
           name: "Khao Kai Jeow",
@@ -220,9 +223,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Mars"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
           nutritionPerServing: {"calories":480,"proteinG":16,"carbsG":45,"fatG":26,"fiberG":1,"sodiumMg":920,"sugarG":2,"vitamins":["Vitamin A","Riboflavin","Vitamin B12"],"minerals":["Selenium","Phosphorus","Choline"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1716,"entropy":0.1872,"reactivity":1.3077,"gregsEnergy":-0.0732,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a few drops of lime juice (vegetarian)","tamari"]},{"originalIngredient":"vegetable oil","substituteOptions":["lard (more traditional)","pork fat","coconut oil"]}]
+
+          alchemicalProperties: {"Spirit":1.68,"Essence":2.24,"Matter":2.17,"Substance":2.04},
+          thermodynamicProperties: {"heat":0.06,"entropy":0.2967,"reactivity":2.0016,"gregsEnergy":-0.534,"kalchm":0.6329,"monica":0.7162},
+          substitutions: [{"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a few drops of lime juice (vegetarian)","tamari"]},{"originalIngredient":"vegetable oil","substituteOptions":["lard (more traditional)","pork fat","coconut oil"]}]
         },
         {
           name: "Khao Tom Moo",
@@ -234,9 +238,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent","New Moon"]},
           nutritionPerServing: {"calories":310,"proteinG":22,"carbsG":36,"fatG":9,"fiberG":1,"sodiumMg":880,"sugarG":2,"vitamins":["Niacin","Vitamin B6","Thiamin"],"minerals":["Phosphorus","Potassium","Selenium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0664,"entropy":0.0683,"reactivity":0.4376,"gregsEnergy":0.0365,"kalchm":0.25,"monica":0.0602},
-                    substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp (added in last 2 minutes)"]},{"originalIngredient":"chai poh (preserved mustard greens)","substituteOptions":["sliced pickled ginger","finely chopped kimchi"]}]
+
+          alchemicalProperties: {"Spirit":4.68,"Essence":5.26,"Matter":5.21,"Substance":5.01},
+          thermodynamicProperties: {"heat":0.0817,"entropy":0.3669,"reactivity":2.4699,"gregsEnergy":-0.8245,"kalchm":0.4878,"monica":-0.0376},
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp (added in last 2 minutes)"]},{"originalIngredient":"chai poh (preserved mustard greens)","substituteOptions":["sliced pickled ginger","finely chopped kimchi"]}]
         },
       ],
     },
@@ -252,9 +257,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
           nutritionPerServing: {"calories":520,"proteinG":32,"carbsG":48,"fatG":22,"fiberG":2,"sodiumMg":1180,"sugarG":6,"vitamins":["Niacin","Vitamin B6","Vitamin K"],"minerals":["Zinc","Iron","Selenium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.2,"entropy":0.2188,"reactivity":1.4608,"gregsEnergy":-0.1195,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","firm tofu crumbled (vegetarian)"]},{"originalIngredient":"holy basil (kra pao)","substituteOptions":["Italian basil plus a few Thai sweet basil leaves (approximate substitute)","no perfect substitute - the dish is fundamentally different without it"]}]
+
+          alchemicalProperties: {"Spirit":3.79,"Essence":5.01,"Matter":3.85,"Substance":3.59},
+          thermodynamicProperties: {"heat":0.0871,"entropy":0.3209,"reactivity":3.1312,"gregsEnergy":-0.9175,"kalchm":28.3411,"monica":0.5572},
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","firm tofu crumbled (vegetarian)"]},{"originalIngredient":"holy basil (kra pao)","substituteOptions":["Italian basil plus a few Thai sweet basil leaves (approximate substitute)","no perfect substitute - the dish is fundamentally different without it"]}]
         },
         {
           name: "Khao Soi",
@@ -266,9 +272,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":58,"fatG":32,"fiberG":4,"sodiumMg":980,"sugarG":10,"vitamins":["Niacin","Vitamin A","Vitamin B6"],"minerals":["Iron","Potassium","Phosphorus"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.587,"entropy":0.6355,"reactivity":3.3424,"gregsEnergy":-1.5371,"kalchm":4.0,"monica":0.3317},
-                    substitutions: [{"originalIngredient":"chicken drumsticks","substituteOptions":["firm tofu (vegetarian)","beef shank slices","shrimp (much shorter cooking time)"]},{"originalIngredient":"egg noodles","substituteOptions":["rice noodles (gluten-free)","ramen noodles"]}]
+
+          alchemicalProperties: {"Spirit":3.25,"Essence":4.37,"Matter":4.76,"Substance":4.55},
+          thermodynamicProperties: {"heat":0.052,"entropy":0.3351,"reactivity":2.0153,"gregsEnergy":-0.6232,"kalchm":0.0175,"monica":0.4654},
+          substitutions: [{"originalIngredient":"chicken drumsticks","substituteOptions":["firm tofu (vegetarian)","beef shank slices","shrimp (much shorter cooking time)"]},{"originalIngredient":"egg noodles","substituteOptions":["rice noodles (gluten-free)","ramen noodles"]}]
         },
         {
           "name": "Authentic Som Tam",
@@ -332,9 +339,10 @@ export const thai: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0174,"entropy":0.0271,"reactivity":0.8507,"gregsEnergy":-0.0056,"kalchm":1.0,"monica":1.0},
-                    "substitutions": []
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.75,"Matter":0.25,"Substance":0.2},
+          thermodynamicProperties: {"heat":0.0716,"entropy":0.1546,"reactivity":4.6914,"gregsEnergy":-0.6536,"kalchm":1.089,"monica":0.4376},
+          "substitutions": []
         },
         {
           name: "Tom Yum Goong",
@@ -366,9 +374,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.35,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Neptune"],"signs":["aries","pisces"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":185,"proteinG":24,"carbsG":9,"fatG":5,"fiberG":2,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Iodine"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0098,"entropy":0.1019,"reactivity":4.4091,"gregsEnergy":-0.4394,"kalchm":4.0,"monica":0.0719},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":4.1,"Essence":5.47,"Matter":3.67,"Substance":3.61},
+          thermodynamicProperties: {"heat":0.0962,"entropy":0.3268,"reactivity":4.2284,"gregsEnergy":-1.2856,"kalchm":291.2588,"monica":-0.2241},
+          substitutions: [
             {"originalIngredient":"shrimp","substituteOptions":["chicken pieces (simmer longer)","squid rings","mixed seafood"]},
             {"originalIngredient":"straw mushrooms","substituteOptions":["oyster mushrooms","shiitake mushrooms"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus nori flakes (vegetarian)"]}
@@ -384,9 +393,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.2,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Mars"],"signs":["gemini","aries"],"lunarPhases":["Waxing Crescent","First Quarter"]},
           nutritionPerServing: {"calories":285,"proteinG":22,"carbsG":28,"fatG":9,"fiberG":3,"sodiumMg":980,"sugarG":6,"vitamins":["Vitamin C","Niacin","Vitamin B12"],"minerals":["Selenium","Iodine","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0796,"entropy":0.3249,"reactivity":2.2465,"gregsEnergy":-0.6502,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"glass noodles","substituteOptions":["rice vermicelli","shirataki noodles (low-carb)"]},{"originalIngredient":"dried shrimp","substituteOptions":["1 tbsp fish sauce plus toasted sesame seeds","nori flakes for umami (vegetarian)"]}]
+
+          alchemicalProperties: {"Spirit":3.29,"Essence":5.59,"Matter":4.89,"Substance":4.62},
+          thermodynamicProperties: {"heat":0.0437,"entropy":0.2653,"reactivity":2.4568,"gregsEnergy":-0.6082,"kalchm":0.2743,"monica":0.5298},
+          substitutions: [{"originalIngredient":"glass noodles","substituteOptions":["rice vermicelli","shirataki noodles (low-carb)"]},{"originalIngredient":"dried shrimp","substituteOptions":["1 tbsp fish sauce plus toasted sesame seeds","nori flakes for umami (vegetarian)"]}]
         },
       ],
       summer: [
@@ -400,9 +410,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.3,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["New Moon","Waxing Crescent"]},
           nutritionPerServing: {"calories":175,"proteinG":8,"carbsG":24,"fatG":6,"fiberG":4,"sodiumMg":780,"sugarG":14,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Potassium","Iron","Calcium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0895,"entropy":0.3472,"reactivity":2.2639,"gregsEnergy":-0.6965,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"green papaya","substituteOptions":["green mango (more sour)","kohlrabi (firm and mild)","cucumber (softer result)"]},{"originalIngredient":"dried shrimp","substituteOptions":["nori flakes plus toasted sesame (vegetarian)","no substitute if omitting - it creates a different dish"]}]
+
+          alchemicalProperties: {"Spirit":4.08,"Essence":5.49,"Matter":3.7,"Substance":3.38},
+          thermodynamicProperties: {"heat":0.0969,"entropy":0.3008,"reactivity":3.8442,"gregsEnergy":-1.0593,"kalchm":458.8395,"monica":0.5486},
+          substitutions: [{"originalIngredient":"green papaya","substituteOptions":["green mango (more sour)","kohlrabi (firm and mild)","cucumber (softer result)"]},{"originalIngredient":"dried shrimp","substituteOptions":["nori flakes plus toasted sesame (vegetarian)","no substitute if omitting - it creates a different dish"]}]
         },
       ],
       winter: [
@@ -416,9 +427,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.4,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Jupiter"],"signs":["capricorn","taurus"],"lunarPhases":["Waning Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":620,"proteinG":38,"carbsG":55,"fatG":26,"fiberG":2,"sodiumMg":1080,"sugarG":12,"vitamins":["Niacin","Vitamin B12","Vitamin B6"],"minerals":["Iron","Zinc","Potassium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.5153,"entropy":0.5345,"reactivity":2.8546,"gregsEnergy":-1.0106,"kalchm":4.0,"monica":0.2554},
-                    substitutions: [{"originalIngredient":"pork leg","substituteOptions":["pork belly (richer)","chicken thighs (shorter braise, 45 minutes)"]},{"originalIngredient":"palm sugar","substituteOptions":["brown sugar","rock sugar (traditional Chinese substitute)"]}]
+
+          alchemicalProperties: {"Spirit":4.43,"Essence":5.54,"Matter":5.48,"Substance":4.89},
+          thermodynamicProperties: {"heat":0.0704,"entropy":0.3146,"reactivity":2.1899,"gregsEnergy":-0.6185,"kalchm":0.3659,"monica":0.0278},
+          substitutions: [{"originalIngredient":"pork leg","substituteOptions":["pork belly (richer)","chicken thighs (shorter braise, 45 minutes)"]},{"originalIngredient":"palm sugar","substituteOptions":["brown sugar","rock sugar (traditional Chinese substitute)"]}]
         },
         {
           name: "Tom Kha Gai",
@@ -451,9 +463,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":26,"carbsG":10,"fatG":28,"fiberG":2,"sodiumMg":820,"sugarG":5,"vitamins":["Vitamin C","Niacin"],"minerals":["Potassium","Phosphorus"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.84,"gregsEnergy":-0.0002,"kalchm":1.0,"monica":1.0},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":4.21,"Essence":5.66,"Matter":4.53,"Substance":4.3},
+          thermodynamicProperties: {"heat":0.076,"entropy":0.3058,"reactivity":2.9981,"gregsEnergy":-0.8408,"kalchm":15.6002,"monica":-0.2053},
+          substitutions: [
             {"originalIngredient":"chicken thighs","substituteOptions":["tofu (firm, pressed - vegan)","shrimp","mushrooms only (vegetarian)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"full-fat coconut milk","substituteOptions":["light coconut milk (less rich result)"]}
@@ -469,9 +482,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.45,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Pluto"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous","Dark Moon"]},
           nutritionPerServing: {"calories":380,"proteinG":28,"carbsG":42,"fatG":12,"fiberG":2,"sodiumMg":1050,"sugarG":8,"vitamins":["Niacin","Vitamin B12","Iron"],"minerals":["Iron","Zinc","Potassium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0796,"entropy":0.082,"reactivity":0.4742,"gregsEnergy":0.0407,"kalchm":0.25,"monica":0.062},
-                    substitutions: [{"originalIngredient":"pork blood","substituteOptions":["extra dark soy sauce and a splash of balsamic for color and depth (vegetarian-adjacent)","omit entirely for a cleaner broth"]},{"originalIngredient":"pork","substituteOptions":["beef brisket and beef balls (Thai-Chinese beef boat noodles variant)","chicken"]}]
+
+          alchemicalProperties: {"Spirit":3.8,"Essence":5.72,"Matter":6.01,"Substance":5.41},
+          thermodynamicProperties: {"heat":0.0457,"entropy":0.2858,"reactivity":1.9895,"gregsEnergy":-0.5229,"kalchm":0.0077,"monica":0.4},
+          substitutions: [{"originalIngredient":"pork blood","substituteOptions":["extra dark soy sauce and a splash of balsamic for color and depth (vegetarian-adjacent)","omit entirely for a cleaner broth"]},{"originalIngredient":"pork","substituteOptions":["beef brisket and beef balls (Thai-Chinese beef boat noodles variant)","chicken"]}]
         },
       ],
     },
@@ -511,9 +525,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Mars"],"signs":["gemini","aries"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":560,"proteinG":28,"carbsG":72,"fatG":18,"fiberG":4,"sodiumMg":1350,"sugarG":10,"vitamins":["Vitamin B12","Niacin"],"minerals":["Selenium","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0895,"entropy":0.3636,"reactivity":1.8964,"gregsEnergy":-0.6,"kalchm":1.0,"monica":1.0},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":4.54,"Essence":6.14,"Matter":4.98,"Substance":4.78},
+          thermodynamicProperties: {"heat":0.0763,"entropy":0.326,"reactivity":2.9186,"gregsEnergy":-0.8752,"kalchm":12.6625,"monica":0.5572},
+          substitutions: [
             {"originalIngredient":"shrimp","substituteOptions":["chicken breast (sliced thin)","extra tofu (vegan)","pork tenderloin"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a pinch of salt (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice mixed with a small amount of rice vinegar (less depth)"]}
@@ -529,9 +544,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.55,"Water":0.05,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":520,"proteinG":32,"carbsG":8,"fatG":38,"fiberG":1,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin B6","Niacin"],"minerals":["Zinc","Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.217,"entropy":0.2505,"reactivity":1.4896,"gregsEnergy":-0.1561,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Holy basil","substituteOptions":["Thai sweet basil (though structurally incorrect, it is common)"]}]
+
+          alchemicalProperties: {"Spirit":3.29,"Essence":4.2,"Matter":3.2,"Substance":2.97},
+          thermodynamicProperties: {"heat":0.095,"entropy":0.3368,"reactivity":3.1601,"gregsEnergy":-0.9693,"kalchm":19.8909,"monica":0.7162},
+          substitutions: [{"originalIngredient":"Holy basil","substituteOptions":["Thai sweet basil (though structurally incorrect, it is common)"]}]
         },
         {
           name: "Pla Neung Manao",
@@ -543,9 +559,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.5,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Mercury"],"signs":["pisces","virgo"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":280,"proteinG":45,"carbsG":12,"fatG":4,"fiberG":1,"sodiumMg":1500,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Potassium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":2},
-          thermodynamicProperties: {"heat":0.0796,"entropy":1.9922,"reactivity":635.0,"gregsEnergy":-1264.9594,"kalchm":0.25,"monica":-1.437},
-                    substitutions: [{"originalIngredient":"Whole fish","substituteOptions":["Fish fillets (reduce steaming time)"]}]
+
+          alchemicalProperties: {"Spirit":4.03,"Essence":3.6,"Matter":2.18,"Substance":1.99},
+          thermodynamicProperties: {"heat":0.2276,"entropy":0.4987,"reactivity":6.4464,"gregsEnergy":-2.9875,"kalchm":1286.8134,"monica":-0.1032},
+          substitutions: [{"originalIngredient":"Whole fish","substituteOptions":["Fish fillets (reduce steaming time)"]}]
         },
         {
           name: "Gaeng Keow Wan Gai",
@@ -576,9 +593,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.3,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":420,"proteinG":28,"carbsG":12,"fatG":30,"fiberG":4,"sodiumMg":880,"sugarG":7,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Potassium","Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0895,"entropy":0.3472,"reactivity":2.2639,"gregsEnergy":-0.6965,"kalchm":1.0,"monica":1.0},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":3.55,"Essence":4.77,"Matter":3.89,"Substance":3.63},
+          thermodynamicProperties: {"heat":0.0768,"entropy":0.3093,"reactivity":2.9168,"gregsEnergy":-0.8253,"kalchm":7.2858,"monica":0.6974},
+          substitutions: [
             {"originalIngredient":"chicken thighs","substituteOptions":["shrimp (reduce cook time)","firm tofu (vegan)","beef sirloin strips"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"Thai eggplant","substituteOptions":["zucchini","bamboo shoots","baby corn"]}
@@ -613,9 +631,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":440,"proteinG":30,"carbsG":10,"fatG":32,"fiberG":3,"sodiumMg":920,"sugarG":6,"vitamins":["Vitamin B12","Niacin"],"minerals":["Zinc","Potassium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0843,"entropy":0.0899,"reactivity":0.439,"gregsEnergy":0.0448,"kalchm":0.25,"monica":0.0736},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":4.0,"Essence":4.74,"Matter":3.71,"Substance":3.59},
+          thermodynamicProperties: {"heat":0.1001,"entropy":0.3583,"reactivity":3.2891,"gregsEnergy":-1.0783,"kalchm":32.0821,"monica":0.6974},
+          substitutions: [
             {"originalIngredient":"pork tenderloin","substituteOptions":["chicken breast","duck breast","firm tofu (vegan)"]},
             {"originalIngredient":"bamboo shoots","substituteOptions":["hearts of palm","Thai eggplant","zucchini"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
@@ -649,9 +668,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","virgo"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":310,"proteinG":36,"carbsG":14,"fatG":12,"fiberG":2,"sodiumMg":980,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Iron","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0895,"entropy":0.3636,"reactivity":2.0624,"gregsEnergy":-0.6604,"kalchm":1.0,"monica":1.0},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":2.51,"Essence":4.46,"Matter":3.88,"Substance":3.51},
+          thermodynamicProperties: {"heat":0.0417,"entropy":0.2434,"reactivity":2.2709,"gregsEnergy":-0.511,"kalchm":0.5018,"monica":0.8272},
+          substitutions: [
             {"originalIngredient":"ground chicken","substituteOptions":["ground pork","ground turkey","minced mushrooms (vegan)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"toasted rice powder","substituteOptions":["panko breadcrumbs, toasted (different texture but similar function)"]}
@@ -688,9 +708,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Jupiter"],"signs":["leo","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":480,"proteinG":34,"carbsG":22,"fatG":30,"fiberG":4,"sodiumMg":760,"sugarG":10,"vitamins":["Niacin","Vitamin B6"],"minerals":["Zinc","Magnesium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
-          thermodynamicProperties: {"heat":1.5142,"entropy":1.7201,"reactivity":42.2245,"gregsEnergy":-71.1154,"kalchm":4.0,"monica":1.2149},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":4.34,"Essence":5.08,"Matter":4.78,"Substance":4.59},
+          thermodynamicProperties: {"heat":0.0831,"entropy":0.3694,"reactivity":2.5034,"gregsEnergy":-0.8417,"kalchm":1.1671,"monica":0.2323},
+          substitutions: [
             {"originalIngredient":"chicken thighs","substituteOptions":["pork loin strips","beef sirloin","king oyster mushroom strips (vegan)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"roasted peanuts","substituteOptions":["cashews (nut allergy note)","sunflower seed butter (nut-free)"]}
@@ -725,9 +746,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":590,"proteinG":32,"carbsG":65,"fatG":20,"fiberG":3,"sodiumMg":1450,"sugarG":8,"vitamins":["Vitamin C","Iron","Vitamin B12"],"minerals":["Zinc","Selenium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1849,"entropy":0.202,"reactivity":1.3225,"gregsEnergy":-0.0822,"kalchm":1.0,"monica":1.0},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":3.25,"Essence":4.25,"Matter":4.03,"Substance":3.76},
+          thermodynamicProperties: {"heat":0.0679,"entropy":0.3269,"reactivity":2.2933,"gregsEnergy":-0.6817,"kalchm":0.5397,"monica":0.9948},
+          substitutions: [
             {"originalIngredient":"pork tenderloin","substituteOptions":["chicken breast sliced thin","shrimp","extra-firm tofu (vegan)"]},
             {"originalIngredient":"Chinese broccoli","substituteOptions":["broccolini","bok choy","regular broccoli florets"]},
             {"originalIngredient":"fresh wide rice noodles","substituteOptions":["dried wide rice noodles, soaked"]}
@@ -763,9 +785,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.1,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["scorpio","aries"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":545,"proteinG":30,"carbsG":52,"fatG":24,"fiberG":2,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin B6","Niacin"],"minerals":["Iron","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.2,"entropy":0.2188,"reactivity":1.3432,"gregsEnergy":-0.0938,"kalchm":1.0,"monica":1.0},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":4.04,"Essence":5.23,"Matter":4.4,"Substance":4.14},
+          thermodynamicProperties: {"heat":0.0814,"entropy":0.3352,"reactivity":2.7652,"gregsEnergy":-0.8455,"kalchm":6.637,"monica":0.9948},
+          substitutions: [
             {"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","crumbled extra-firm tofu (vegan)"]},
             {"originalIngredient":"holy basil","substituteOptions":["Thai sweet basil (less peppery result)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
@@ -801,9 +824,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":45,"carbsG":8,"fatG":22,"fiberG":1,"sodiumMg":1050,"sugarG":5,"vitamins":["Vitamin B12","Niacin","Iron"],"minerals":["Zinc","Phosphorus"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0954,"entropy":0.1019,"reactivity":0.4225,"gregsEnergy":0.0524,"kalchm":0.25,"monica":0.0894},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":4.21,"Essence":5.41,"Matter":4.8,"Substance":4.4},
+          thermodynamicProperties: {"heat":0.078,"entropy":0.3282,"reactivity":2.5601,"gregsEnergy":-0.7622,"kalchm":3.1166,"monica":0.2511},
+          substitutions: [
             {"originalIngredient":"beef sirloin","substituteOptions":["pork shoulder steak","lamb leg steak","portobello mushrooms (vegetarian)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice plus a touch of brown sugar"]}
@@ -821,9 +845,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0,"Water":0.7,"Earth":0.15,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":250,"proteinG":4,"carbsG":55,"fatG":4,"fiberG":2,"sodiumMg":80,"sugarG":45,"vitamins":["Calcium"],"minerals":["Phosphorus"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0,"entropy":0.069,"reactivity":4.1682,"gregsEnergy":-0.2875,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
+
+          alchemicalProperties: {"Spirit":0.96,"Essence":1.67,"Matter":1.64,"Substance":1.53},
+          thermodynamicProperties: {"heat":0.027,"entropy":0.1898,"reactivity":2.0486,"gregsEnergy":-0.3618,"kalchm":0.5248,"monica":0.8752},
+          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
         },
         {
           name: "Yum Woon Sen",
@@ -835,9 +860,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.4,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mercury","Uranus"],"signs":["gemini","aquarius"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":320,"proteinG":22,"carbsG":45,"fatG":8,"fiberG":2,"sodiumMg":1200,"sugarG":12,"vitamins":["Vitamin C","Niacin"],"minerals":["Selenium","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0843,"entropy":0.328,"reactivity":2.4896,"gregsEnergy":-0.7322,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Minced pork","substituteOptions":["Minced chicken","More seafood"]}]
+
+          alchemicalProperties: {"Spirit":2.64,"Essence":3.71,"Matter":3.46,"Substance":3.19},
+          thermodynamicProperties: {"heat":0.0585,"entropy":0.2899,"reactivity":2.3943,"gregsEnergy":-0.6356,"kalchm":0.5664,"monica":0.0922},
+          substitutions: [{"originalIngredient":"Minced pork","substituteOptions":["Minced chicken","More seafood"]}]
         },
       ],
       winter: [
@@ -851,9 +877,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.25,"Earth":0.45,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":650,"proteinG":38,"carbsG":28,"fatG":45,"fiberG":5,"sodiumMg":950,"sugarG":14,"vitamins":["Iron","Vitamin B12"],"minerals":["Zinc","Potassium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.5153,"entropy":0.5556,"reactivity":2.4316,"gregsEnergy":-0.8356,"kalchm":4.0,"monica":0.2479},
-                    substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Chicken thighs (reduce braise time)"]}]
+
+          alchemicalProperties: {"Spirit":2.59,"Essence":3.53,"Matter":4.71,"Substance":4.15},
+          thermodynamicProperties: {"heat":0.0388,"entropy":0.3,"reactivity":1.371,"gregsEnergy":-0.3726,"kalchm":0.0019,"monica":0.4842},
+          substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Chicken thighs (reduce braise time)"]}]
         },
         {
           name: "Tom Yum Goong Nam Khon",
@@ -865,9 +892,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.4,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Neptune"],"signs":["aries","pisces"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":280,"proteinG":24,"carbsG":12,"fatG":14,"fiberG":2,"sodiumMg":1400,"sugarG":6,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Selenium","Iodine"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0076,"entropy":0.0955,"reactivity":4.405,"gregsEnergy":-0.4132,"kalchm":4.0,"monica":0.0677},
-                    substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}]
+
+          alchemicalProperties: {"Spirit":3.81,"Essence":5.26,"Matter":3.07,"Substance":2.86},
+          thermodynamicProperties: {"heat":0.1056,"entropy":0.2933,"reactivity":5.0447,"gregsEnergy":-1.3739,"kalchm":1603.1993,"monica":-0.2241},
+          substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}]
         },
         {
           name: "Gaeng Panang Neua",
@@ -879,9 +907,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Foundation of Gaeng Panang Neua","substituteOptions":["Alternate protein or vegetable"]}]
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Foundation of Gaeng Panang Neua","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Khao Soi Gai",
@@ -893,9 +922,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Foundation of Khao Soi Gai","substituteOptions":["Alternate protein or vegetable"]}]
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Foundation of Khao Soi Gai","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
     },
@@ -925,9 +955,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.05,"Water":0.45,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":5,"carbsG":72,"fatG":14,"fiberG":3,"sodiumMg":280,"sugarG":28,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Potassium","Magnesium"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0001,"entropy":0.0005,"reactivity":0.7318,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
-                    substitutions: [
+
+          alchemicalProperties: {"Spirit":2.21,"Essence":2.86,"Matter":3.36,"Substance":3.19},
+          thermodynamicProperties: {"heat":0.0455,"entropy":0.3015,"reactivity":1.659,"gregsEnergy":-0.4547,"kalchm":0.0491,"monica":-0.122},
+          substitutions: [
             {"originalIngredient":"ripe mangoes","substituteOptions":["ripe peaches (summer)","ripe jackfruit","durian (for a richer result)"]},
             {"originalIngredient":"toasted mung beans","substituteOptions":["toasted sesame seeds","crispy fried shallots"]}
           ]
@@ -942,9 +973,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Foundation of Tub Tim Grob","substituteOptions":["Alternate protein or vegetable"]}]
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Foundation of Tub Tim Grob","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Bua Loi",
@@ -956,9 +988,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Foundation of Bua Loi","substituteOptions":["Alternate protein or vegetable"]}]
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Foundation of Bua Loi","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Sangkaya Fak Thong",
@@ -970,9 +1003,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Foundation of Sangkaya Fak Thong","substituteOptions":["Alternate protein or vegetable"]}]
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Foundation of Sangkaya Fak Thong","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
       summer: [
@@ -986,9 +1020,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0,"Water":0.7,"Earth":0.15,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":250,"proteinG":4,"carbsG":55,"fatG":4,"fiberG":2,"sodiumMg":80,"sugarG":45,"vitamins":["Calcium"],"minerals":["Phosphorus"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0,"entropy":0.069,"reactivity":4.1682,"gregsEnergy":-0.2875,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
+
+          alchemicalProperties: {"Spirit":0.96,"Essence":1.67,"Matter":1.64,"Substance":1.53},
+          thermodynamicProperties: {"heat":0.027,"entropy":0.1898,"reactivity":2.0486,"gregsEnergy":-0.3618,"kalchm":0.5248,"monica":0.8752},
+          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
         },
       ],
     },
@@ -1004,9 +1039,10 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
-                    substitutions: [{"originalIngredient":"Foundation of Kluay Tod","substituteOptions":["Alternate protein or vegetable"]}]
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Foundation of Kluay Tod","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
     },

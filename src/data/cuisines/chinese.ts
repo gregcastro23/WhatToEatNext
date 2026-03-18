@@ -322,9 +322,10 @@ export const chinese = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0004,"entropy":0.0005,"reactivity":0.8637,"gregsEnergy":-0.0,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.51,"Essence":4.21,"Matter":4.21,"Substance":3.91},
+          thermodynamicProperties: {"heat":0.0704,"entropy":0.3214,"reactivity":2.2977,"gregsEnergy":-0.6681,"kalchm":0.3968,"monica":-0.0376},
+          "substitutions": [
             {
               "originalIngredient": "chicken broth",
               "substituteOptions": [
@@ -455,9 +456,10 @@ export const chinese = {
               "Calcium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0098,"entropy":0.0143,"reactivity":0.8833,"gregsEnergy":-0.0029,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.02,"Essence":1.82,"Matter":3.28,"Substance":2.76},
+          thermodynamicProperties: {"heat":0.0176,"entropy":0.306,"reactivity":1.0111,"gregsEnergy":-0.2918,"kalchm":0.0037,"monica":0.9862},
+          "substitutions": [
             {
               "originalIngredient": "egg",
               "substituteOptions": [
@@ -600,9 +602,10 @@ export const chinese = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.9502,"gregsEnergy":-0.0004,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.25,"Essence":4.51,"Matter":3.67,"Substance":3.65},
+          thermodynamicProperties: {"heat":0.0658,"entropy":0.2999,"reactivity":3.0576,"gregsEnergy":-0.8512,"kalchm":3.0851,"monica":0.9674},
+          "substitutions": [
             {
               "originalIngredient": "black vinegar",
               "substituteOptions": [
@@ -744,9 +747,10 @@ export const chinese = {
               "Calcium"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.3233,"reactivity":1.5944,"gregsEnergy":-0.44,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.62,"Essence":3.67,"Matter":3.14,"Substance":3.03},
+          thermodynamicProperties: {"heat":0.1174,"entropy":0.4133,"reactivity":2.8631,"gregsEnergy":-1.0659,"kalchm":11.9047,"monica":0.9862},
+          "substitutions": [
             {
               "originalIngredient": "mung bean flour",
               "substituteOptions": [
@@ -884,9 +888,10 @@ export const chinese = {
               "Selenium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0057,"entropy":0.0072,"reactivity":0.7214,"gregsEnergy":0.0005,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.76,"Essence":2.93,"Matter":3.06,"Substance":2.9},
+          thermodynamicProperties: {"heat":0.0354,"entropy":0.2767,"reactivity":1.6913,"gregsEnergy":-0.4325,"kalchm":0.0939,"monica":0.9862},
+          "substitutions": [
             {
               "originalIngredient": "scallions",
               "substituteOptions": [
@@ -1056,9 +1061,10 @@ export const chinese = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0186,"entropy":0.02,"reactivity":0.905,"gregsEnergy":0.0005,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":5.09,"Essence":5.45,"Matter":5.04,"Substance":4.74},
+          thermodynamicProperties: {"heat":0.1075,"entropy":0.4187,"reactivity":2.8574,"gregsEnergy":-1.0889,"kalchm":7.364,"monica":0.6974},
+          "substitutions": [
             {
               "originalIngredient": "ground pork",
               "substituteOptions": [
@@ -1157,9 +1163,10 @@ export const chinese = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0625,"entropy":0.0699,"reactivity":1.0529,"gregsEnergy":-0.0111,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.2,"Essence":1.45,"Matter":1.9,"Substance":1.85},
+          thermodynamicProperties: {"heat":0.0574,"entropy":0.3928,"reactivity":1.7507,"gregsEnergy":-0.6302,"kalchm":0.2019,"monica":0.2598},
+          "substitutions": [
             {
               "originalIngredient": "ground beef",
               "substituteOptions": [
@@ -1302,9 +1309,10 @@ export const chinese = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0004,"entropy":0.0767,"reactivity":3.3616,"gregsEnergy":-0.2574,"kalchm":4.0,"monica":0.0552},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.62,"Essence":3.79,"Matter":5.79,"Substance":5.56},
+          thermodynamicProperties: {"heat":0.0267,"entropy":0.358,"reactivity":1.4362,"gregsEnergy":-0.4874,"kalchm":0.0,"monica":0.5564},
+          "substitutions": [
             {
               "originalIngredient": "wheat starch",
               "substituteOptions": [
@@ -1458,9 +1466,10 @@ export const chinese = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.2,"entropy":0.2188,"reactivity":1.3432,"gregsEnergy":-0.0938,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.72,"Essence":4.82,"Matter":4.1,"Substance":3.83},
+          thermodynamicProperties: {"heat":0.0802,"entropy":0.3312,"reactivity":2.6865,"gregsEnergy":-0.8095,"kalchm":4.6627,"monica":0.6887},
+          "substitutions": [
             {
               "originalIngredient": "pork shoulder",
               "substituteOptions": [
@@ -1610,9 +1619,10 @@ export const chinese = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.0734,"reactivity":4.0775,"gregsEnergy":-0.2984,"kalchm":4.0,"monica":0.0528},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":4.28,"Essence":4.56,"Matter":4.28,"Substance":4.1},
+          thermodynamicProperties: {"heat":0.0964,"entropy":0.3823,"reactivity":2.8695,"gregsEnergy":-1.0006,"kalchm":3.1079,"monica":0.511},
+          "substitutions": [
             {
               "originalIngredient": "shrimp and pork",
               "substituteOptions": [
@@ -1764,9 +1774,10 @@ export const chinese = {
               "Selenium"
             ]
           },
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
-          thermodynamicProperties: {"heat":1.625,"entropy":3.0,"reactivity":533.0,"gregsEnergy":-1597.375,"kalchm":4.0,"monica":2.1618},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.64,"Essence":4.21,"Matter":3.59,"Substance":3.39},
+          thermodynamicProperties: {"heat":0.0513,"entropy":0.2935,"reactivity":2.6818,"gregsEnergy":-0.7357,"kalchm":0.8935,"monica":1.7504},
+          "substitutions": [
             {
               "originalIngredient": "whole duck",
               "substituteOptions": [
@@ -1918,9 +1929,10 @@ export const chinese = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.2361,"entropy":0.259,"reactivity":1.6528,"gregsEnergy":-0.1919,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":4.25,"Essence":4.76,"Matter":4.18,"Substance":4.29},
+          thermodynamicProperties: {"heat":0.0992,"entropy":0.4315,"reactivity":3.1017,"gregsEnergy":-1.2391,"kalchm":3.8575,"monica":0.7162},
+          "substitutions": [
             {
               "originalIngredient": "chicken thigh",
               "substituteOptions": [
@@ -2061,9 +2073,10 @@ export const chinese = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0004,"entropy":0.0767,"reactivity":3.6806,"gregsEnergy":-0.2819,"kalchm":4.0,"monica":0.0552},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.37,"Essence":4.04,"Matter":3.75,"Substance":3.48},
+          thermodynamicProperties: {"heat":0.0767,"entropy":0.3263,"reactivity":2.5694,"gregsEnergy":-0.7616,"kalchm":1.5509,"monica":0.4266},
+          "substitutions": [
             {
               "originalIngredient": "pork skin aspic",
               "substituteOptions": [
@@ -2200,9 +2213,10 @@ export const chinese = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1716,"entropy":0.2083,"reactivity":1.5556,"gregsEnergy":-0.1525,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.95,"Essence":4.6,"Matter":4.19,"Substance":3.96},
+          thermodynamicProperties: {"heat":0.0497,"entropy":0.2911,"reactivity":2.3757,"gregsEnergy":-0.6418,"kalchm":0.2889,"monica":0.7162},
+          "substitutions": [
             {
               "originalIngredient": "pork tenderloin",
               "substituteOptions": [
@@ -2342,9 +2356,10 @@ export const chinese = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0174,"entropy":0.0204,"reactivity":0.6433,"gregsEnergy":0.0043,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.98,"Essence":4.22,"Matter":3.74,"Substance":3.38},
+          thermodynamicProperties: {"heat":0.111,"entropy":0.3783,"reactivity":2.7048,"gregsEnergy":-0.9122,"kalchm":12.476,"monica":0.6974},
+          "substitutions": [
             {
               "originalIngredient": "flank steak",
               "substituteOptions": [
@@ -2428,9 +2443,10 @@ export const chinese = {
                   "Zinc"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.0028,"entropy":0.0043,"reactivity":0.7308,"gregsEnergy":-0.0004,"kalchm":1.0,"monica":1.0},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.55,"Essence":0.85,"Matter":1.1,"Substance":1.05},
+              thermodynamicProperties: {"heat":0.0219,"entropy":0.1972,"reactivity":1.2054,"gregsEnergy":-0.2158,"kalchm":0.5363,"monica":0.0466},
+              "substitutions": []
             },
             {
               "name": "Authentic Scallion Oil Noodles",
@@ -2508,9 +2524,10 @@ export const chinese = {
                   "Manganese"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":1},
-              thermodynamicProperties: {"heat":0.3772,"entropy":8.52,"reactivity":13.375,"gregsEnergy":-113.5778,"kalchm":1.0,"monica":1.0},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.52,"Essence":0.86,"Matter":0.55,"Substance":0.54},
+              thermodynamicProperties: {"heat":0.0513,"entropy":0.1897,"reactivity":1.5973,"gregsEnergy":-0.2517,"kalchm":1.2114,"monica":-0.2053},
+              "substitutions": []
             },
             {
               "name": "Authentic Biang Biang Noodles",
@@ -2591,9 +2608,10 @@ export const chinese = {
                   "Iron"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.102,"entropy":0.109,"reactivity":3.3808,"gregsEnergy":-0.2665,"kalchm":4.0,"monica":0.0569},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":1.13,"Essence":0.8,"Matter":0.9,"Substance":0.83},
+              thermodynamicProperties: {"heat":0.1663,"entropy":0.5047,"reactivity":2.184,"gregsEnergy":-0.936,"kalchm":1.2325,"monica":0.8564},
+              "substitutions": []
             },
             {
               "name": "Authentic Squirrel-Shaped Mandarin Fish",
@@ -2671,9 +2689,10 @@ export const chinese = {
                   "Selenium"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.0237,"entropy":0.0347,"reactivity":0.9546,"gregsEnergy":-0.0095,"kalchm":1.0,"monica":1.0},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.7,"Essence":1.45,"Matter":0.57,"Substance":0.48},
+              thermodynamicProperties: {"heat":0.0676,"entropy":0.1572,"reactivity":5.9518,"gregsEnergy":-0.8678,"kalchm":2.6164,"monica":0.8752},
+              "substitutions": []
             },
             {
               "name": "Authentic Dongpo Pork",
@@ -2752,9 +2771,10 @@ export const chinese = {
                   "Zinc"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-              thermodynamicProperties: {"heat":0.0664,"entropy":0.0683,"reactivity":0.3845,"gregsEnergy":0.0401,"kalchm":0.25,"monica":0.0753},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.5,"Essence":0.78,"Matter":0.94,"Substance":0.93},
+              thermodynamicProperties: {"heat":0.0206,"entropy":0.1707,"reactivity":1.0795,"gregsEnergy":-0.1636,"kalchm":0.6605,"monica":-0.0566},
+              "substitutions": []
             }
         ,
         {
@@ -2767,9 +2787,10 @@ export const chinese = {
           elementalProperties: {"Fire":0.1,"Water":0.4,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","taurus","virgo"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":220,"proteinG":18,"carbsG":28,"fatG":4,"fiberG":1,"sodiumMg":580,"sugarG":1,"vitamins":["Vitamin B12","Niacin","Selenium"],"minerals":["Phosphorus","Potassium","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":2,"Substance":1},
-          thermodynamicProperties: {"heat":0.029,"entropy":0.0901,"reactivity":1.1213,"gregsEnergy":-0.072,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Scallop and shrimp blend","Crab meat"]},{"originalIngredient":"Wheat starch","substituteOptions":["Tapioca starch alone (slightly different texture)"]}]
+
+          alchemicalProperties: {"Spirit":2.39,"Essence":2.91,"Matter":3.87,"Substance":3.71},
+          thermodynamicProperties: {"heat":0.0441,"entropy":0.3441,"reactivity":1.58,"gregsEnergy":-0.4995,"kalchm":0.0074,"monica":0.0078},
+          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Scallop and shrimp blend","Crab meat"]},{"originalIngredient":"Wheat starch","substituteOptions":["Tapioca starch alone (slightly different texture)"]}]
         },
         {
           name: "Mapo Tofu",
@@ -2781,9 +2802,10 @@ export const chinese = {
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Pluto","Uranus"],"signs":["aries","scorpio","aquarius"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":320,"proteinG":22,"carbsG":12,"fatG":22,"fiberG":3,"sodiumMg":980,"sugarG":3,"vitamins":["Calcium","Vitamin B12","Iron"],"minerals":["Iron","Magnesium","Potassium"]},
-          alchemicalProperties: {"Spirit":0,"Essence":3,"Matter":3,"Substance":0},
-          thermodynamicProperties: {"heat":0.0047,"entropy":0.0051,"reactivity":0.9375,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Shiitake mushrooms (vegetarian version)"]},{"originalIngredient":"Doubanjiang","substituteOptions":["Gochujang plus soy sauce (different flavor profile)"]}]
+
+          alchemicalProperties: {"Spirit":3.55,"Essence":3.98,"Matter":4.75,"Substance":4.45},
+          thermodynamicProperties: {"heat":0.0679,"entropy":0.387,"reactivity":2.022,"gregsEnergy":-0.7147,"kalchm":0.0174,"monica":0.3064},
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Shiitake mushrooms (vegetarian version)"]},{"originalIngredient":"Doubanjiang","substituteOptions":["Gochujang plus soy sauce (different flavor profile)"]}]
         },
         {
           name: "Zhajiangmian",
@@ -2795,9 +2817,10 @@ export const chinese = {
           elementalProperties: {"Fire":0.2,"Water":0.2,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Earth","Jupiter"],"signs":["capricorn","taurus","virgo"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":560,"proteinG":28,"carbsG":64,"fatG":22,"fiberG":4,"sodiumMg":1200,"sugarG":8,"vitamins":["Thiamin","Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.5153,"entropy":0.5556,"reactivity":2.2622,"gregsEnergy":-0.7415,"kalchm":4.0,"monica":0.2364},
-                    substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Firm tofu crumbled (vegetarian)"]},{"originalIngredient":"Yellow soybean paste","substituteOptions":["Miso paste plus soy sauce"]}]
+
+          alchemicalProperties: {"Spirit":2.64,"Essence":3.34,"Matter":3.85,"Substance":3.35},
+          thermodynamicProperties: {"heat":0.0545,"entropy":0.293,"reactivity":1.5557,"gregsEnergy":-0.4014,"kalchm":0.0707,"monica":0.3252},
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Firm tofu crumbled (vegetarian)"]},{"originalIngredient":"Yellow soybean paste","substituteOptions":["Miso paste plus soy sauce"]}]
         },
         {
           name: "Congee",
@@ -2809,9 +2832,10 @@ export const chinese = {
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn","Neptune"],"signs":["cancer","capricorn","pisces"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":240,"proteinG":16,"carbsG":32,"fatG":6,"fiberG":1,"sodiumMg":680,"sugarG":1,"vitamins":["Niacin","Vitamin B6","Vitamin B12"],"minerals":["Potassium","Phosphorus","Selenium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":2,"Substance":1},
-          thermodynamicProperties: {"heat":0.029,"entropy":0.0856,"reactivity":1.134,"gregsEnergy":-0.068,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork (pork congee)","Fish fillet","Shrimp"]},{"originalIngredient":"Chicken broth","substituteOptions":["Pork bone broth","Vegetable broth"]}]
+
+          alchemicalProperties: {"Spirit":4.27,"Essence":4.68,"Matter":3.61,"Substance":3.26},
+          thermodynamicProperties: {"heat":0.1177,"entropy":0.3456,"reactivity":3.2538,"gregsEnergy":-1.0069,"kalchm":138.9912,"monica":0.4188},
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork (pork congee)","Fish fillet","Shrimp"]},{"originalIngredient":"Chicken broth","substituteOptions":["Pork bone broth","Vegetable broth"]}]
         },
         {
           name: "Wonton Soup",
@@ -2823,9 +2847,10 @@ export const chinese = {
           elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Mercury","Neptune"],"signs":["cancer","gemini","pisces"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":340,"proteinG":24,"carbsG":38,"fatG":10,"fiberG":2,"sodiumMg":860,"sugarG":2,"vitamins":["Niacin","Vitamin B12","Vitamin C"],"minerals":["Iron","Potassium","Phosphorus"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":2},
-          thermodynamicProperties: {"heat":0.0299,"entropy":0.3579,"reactivity":5.9408,"gregsEnergy":-2.0961,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Wonton wrappers","substituteOptions":["Gyoza wrappers","Homemade egg dough wrappers"]},{"originalIngredient":"Ground pork","substituteOptions":["Chicken and shrimp","Tofu and water chestnuts"]}]
+
+          alchemicalProperties: {"Spirit":3.28,"Essence":4.35,"Matter":3.81,"Substance":3.87},
+          thermodynamicProperties: {"heat":0.065,"entropy":0.3246,"reactivity":2.7264,"gregsEnergy":-0.8199,"kalchm":0.9588,"monica":0.0734},
+          substitutions: [{"originalIngredient":"Wonton wrappers","substituteOptions":["Gyoza wrappers","Homemade egg dough wrappers"]},{"originalIngredient":"Ground pork","substituteOptions":["Chicken and shrimp","Tofu and water chestnuts"]}]
         },
         ],
       spring: [],
@@ -2942,9 +2967,10 @@ export const chinese = {
               "Calcium"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1259,"entropy":0.1605,"reactivity":1.4128,"gregsEnergy":-0.1009,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.54,"Essence":2.12,"Matter":2.06,"Substance":1.88},
+          thermodynamicProperties: {"heat":0.0501,"entropy":0.2622,"reactivity":1.988,"gregsEnergy":-0.4711,"kalchm":0.6586,"monica":0.8752},
+          "substitutions": [
             {
               "originalIngredient": "evaporated milk",
               "substituteOptions": [
@@ -3075,9 +3101,10 @@ export const chinese = {
               "Magnesium"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":2.2711,"gregsEnergy":-0.094,"kalchm":4.0,"monica":0.0299},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.92,"Essence":2.94,"Matter":3.18,"Substance":2.96},
+          thermodynamicProperties: {"heat":0.0371,"entropy":0.2604,"reactivity":1.5656,"gregsEnergy":-0.3705,"kalchm":0.0847,"monica":0.3344},
+          "substitutions": [
             {
               "originalIngredient": "pork lard",
               "substituteOptions": [
@@ -3199,9 +3226,10 @@ export const chinese = {
               "Potassium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0001,"entropy":0.0005,"reactivity":0.9163,"gregsEnergy":-0.0004,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.35,"Essence":3.17,"Matter":1.91,"Substance":1.64},
+          thermodynamicProperties: {"heat":0.031,"entropy":0.1287,"reactivity":3.3683,"gregsEnergy":-0.4024,"kalchm":7.5022,"monica":0.2014},
+          "substitutions": [
             {
               "originalIngredient": "pomelo",
               "substituteOptions": [
@@ -3325,9 +3353,10 @@ export const chinese = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0076,"entropy":0.0103,"reactivity":0.7958,"gregsEnergy":-0.0007,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.43,"Essence":2.26,"Matter":2.28,"Substance":1.93},
+          thermodynamicProperties: {"heat":0.0441,"entropy":0.2446,"reactivity":1.6657,"gregsEnergy":-0.3634,"kalchm":0.4521,"monica":0.9862},
+          "substitutions": [
             {
               "originalIngredient": "red bean paste",
               "substituteOptions": [
@@ -3457,9 +3486,10 @@ export const chinese = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0004,"entropy":0.0009,"reactivity":0.8072,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.36,"Essence":3.41,"Matter":3.17,"Substance":2.84},
+          thermodynamicProperties: {"heat":0.0524,"entropy":0.2507,"reactivity":2.1205,"gregsEnergy":-0.4793,"kalchm":0.6622,"monica":0.2014},
+          "substitutions": [
             {
               "originalIngredient": "pork lard",
               "substituteOptions": [

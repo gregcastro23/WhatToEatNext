@@ -149,9 +149,10 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1849,"entropy":0.1928,"reactivity":1.2222,"gregsEnergy":-0.0507,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.16,"Essence":5.24,"Matter":6.36,"Substance":5.82},
+          thermodynamicProperties: {"heat":0.0315,"entropy":0.301,"reactivity":1.589,"gregsEnergy":-0.4467,"kalchm":0.0001,"monica":0.9674},
+          "substitutions": [
             {
               "originalIngredient": "eggs",
               "substituteOptions": [
@@ -260,9 +261,10 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":0},
-          thermodynamicProperties: {"heat":2.6568,"entropy":3.7438,"reactivity":9.5714,"gregsEnergy":-33.1767,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":0.84,"Essence":0.92,"Matter":1.04,"Substance":1.0},
+          thermodynamicProperties: {"heat":0.0635,"entropy":0.2918,"reactivity":1.4101,"gregsEnergy":-0.3479,"kalchm":0.768,"monica":0.4188},
+          "substitutions": [
             {
               "originalIngredient": "stale tortillas",
               "substituteOptions": [
@@ -281,9 +283,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.1,"Earth":0.4,"Air":0.15},
           astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":580,"proteinG":24,"carbsG":62,"fatG":26,"fiberG":12,"sodiumMg":1100,"sugarG":5,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Calcium","Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1598,"entropy":0.1832,"reactivity":1.0995,"gregsEnergy":-0.0416,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Bolillo rolls","substituteOptions":["Baguette","Ciabatta"]}]
+
+          alchemicalProperties: {"Spirit":1.11,"Essence":1.68,"Matter":2.11,"Substance":1.93},
+          thermodynamicProperties: {"heat":0.0334,"entropy":0.2772,"reactivity":1.2594,"gregsEnergy":-0.3158,"kalchm":0.1561,"monica":0.8752},
+          substitutions: [{"originalIngredient":"Bolillo rolls","substituteOptions":["Baguette","Ciabatta"]}]
         },
         {
           name: "Enfrijoladas",
@@ -295,9 +298,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.2,"Water":0.3,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":450,"proteinG":18,"carbsG":60,"fatG":16,"fiberG":14,"sodiumMg":700,"sugarG":4,"vitamins":["Folate","Calcium"],"minerals":["Iron","Magnesium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.072,"entropy":0.0767,"reactivity":0.3715,"gregsEnergy":0.0435,"kalchm":0.25,"monica":0.0845},
-                    substitutions: [{"originalIngredient":"Black bean purée","substituteOptions":["Pinto bean purée"]}]
+
+          alchemicalProperties: {"Spirit":1.69,"Essence":1.66,"Matter":1.79,"Substance":1.71},
+          thermodynamicProperties: {"heat":0.0815,"entropy":0.3385,"reactivity":1.8089,"gregsEnergy":-0.5308,"kalchm":0.7934,"monica":0.4188},
+          substitutions: [{"originalIngredient":"Black bean purée","substituteOptions":["Pinto bean purée"]}]
         },
         {
           name: "Huevos Motuleños",
@@ -309,9 +313,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Mars"],"signs":["leo","aries"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":650,"proteinG":28,"carbsG":65,"fatG":32,"fiberG":12,"sodiumMg":1100,"sugarG":18,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1716,"entropy":0.1872,"reactivity":1.3077,"gregsEnergy":-0.0732,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Cooked ham","substituteOptions":["Roasted turkey","Omit for vegetarian"]}]
+
+          alchemicalProperties: {"Spirit":1.81,"Essence":2.79,"Matter":3.65,"Substance":3.35},
+          thermodynamicProperties: {"heat":0.0318,"entropy":0.3046,"reactivity":1.4416,"gregsEnergy":-0.4072,"kalchm":0.0079,"monica":0.4188},
+          substitutions: [{"originalIngredient":"Cooked ham","substituteOptions":["Roasted turkey","Omit for vegetarian"]}]
         },
       ],
       summer: [
@@ -325,9 +330,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.05,"Water":0.5,"Earth":0.15,"Air":0.3},
           astrologicalAffinities: {"planets":["Moon","Mercury"],"signs":["cancer","gemini"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":220,"proteinG":9,"carbsG":38,"fatG":5,"fiberG":4,"sodiumMg":110,"sugarG":22,"vitamins":["Vitamin C","Calcium"],"minerals":["Potassium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0643,"entropy":0.298,"reactivity":2.5274,"gregsEnergy":-0.6888,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Almond milk","Oat milk"]}]
+
+          alchemicalProperties: {"Spirit":1.35,"Essence":2.0,"Matter":1.97,"Substance":1.88},
+          thermodynamicProperties: {"heat":0.0395,"entropy":0.2553,"reactivity":2.1581,"gregsEnergy":-0.5115,"kalchm":0.4814,"monica":0.111},
+          substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Almond milk","Oat milk"]}]
         },
       ],
     },
@@ -343,9 +349,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":420,"proteinG":35,"carbsG":30,"fatG":18,"fiberG":6,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Phosphorus"]},
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0028,"entropy":0.0032,"reactivity":0.9618,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}]
+
+          alchemicalProperties: {"Spirit":2.34,"Essence":3.13,"Matter":3.1,"Substance":2.94},
+          thermodynamicProperties: {"heat":0.0548,"entropy":0.2862,"reactivity":2.2315,"gregsEnergy":-0.5839,"kalchm":0.3272,"monica":-0.0188},
+          substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}]
         },
       ],
       summer: [
@@ -359,9 +366,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.5,"Water":0.4,"Earth":0.05,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Uranus"],"signs":["aries","aquarius"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":210,"proteinG":32,"carbsG":15,"fatG":2,"fiberG":3,"sodiumMg":950,"sugarG":5,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Zinc"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0123,"entropy":0.0128,"reactivity":1.05,"gregsEnergy":-0.001,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Raw shrimp","substituteOptions":["Scallops","Cauliflower (for vegan)"]}]
+
+          alchemicalProperties: {"Spirit":2.44,"Essence":3.13,"Matter":2.72,"Substance":2.68},
+          thermodynamicProperties: {"heat":0.0761,"entropy":0.3373,"reactivity":3.0426,"gregsEnergy":-0.9503,"kalchm":1.4684,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Raw shrimp","substituteOptions":["Scallops","Cauliflower (for vegan)"]}]
         },
       ],
       winter: [
@@ -427,9 +435,10 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0174,"entropy":0.0185,"reactivity":0.7984,"gregsEnergy":0.0027,"kalchm":1.0,"monica":1.0},
-                    "substitutions": []
+
+          alchemicalProperties: {"Spirit":0.2,"Essence":0.5,"Matter":0.75,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.024,"entropy":0.1914,"reactivity":1.0275,"gregsEnergy":-0.1726,"kalchm":0.8163,"monica":-0.0188},
+          "substitutions": []
         },
       ],
     },
@@ -445,9 +454,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":45,"carbsG":42,"fatG":38,"fiberG":12,"sodiumMg":850,"sugarG":15,"vitamins":["Vitamin A","Iron"],"minerals":["Magnesium","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0796,"entropy":0.0849,"reactivity":0.3715,"gregsEnergy":0.0481,"kalchm":0.25,"monica":0.0934},
-                    substitutions: [{"originalIngredient":"Poached chicken","substituteOptions":["Turkey","Enchilada filling"]}]
+
+          alchemicalProperties: {"Spirit":3.43,"Essence":4.47,"Matter":4.88,"Substance":4.69},
+          thermodynamicProperties: {"heat":0.0546,"entropy":0.342,"reactivity":1.9327,"gregsEnergy":-0.6065,"kalchm":0.0172,"monica":1.0328},
+          substitutions: [{"originalIngredient":"Poached chicken","substituteOptions":["Turkey","Enchilada filling"]}]
         },
         {
           name: "Chiles en Nogada",
@@ -459,9 +469,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.15,"Water":0.25,"Earth":0.4,"Air":0.2},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["libra","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":850,"proteinG":38,"carbsG":45,"fatG":58,"fiberG":8,"sodiumMg":650,"sugarG":28,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Copper","Manganese"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.069,"entropy":0.0798,"reactivity":2.6148,"gregsEnergy":-0.1396,"kalchm":4.0,"monica":0.0385},
-                    substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Lentils and mushrooms (vegetarian)"]}]
+
+          alchemicalProperties: {"Spirit":2.42,"Essence":4.31,"Matter":3.55,"Substance":3.34},
+          thermodynamicProperties: {"heat":0.0405,"entropy":0.2358,"reactivity":2.2889,"gregsEnergy":-0.4992,"kalchm":0.9137,"monica":0.8272},
+          substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Lentils and mushrooms (vegetarian)"]}]
         },
         {
           name: "Cochinita Pibil",
@@ -473,9 +484,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Sun"],"signs":["scorpio","leo"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":520,"proteinG":45,"carbsG":12,"fatG":32,"fiberG":3,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin C","Thiamin"],"minerals":["Iron","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1598,"entropy":0.1664,"reactivity":1.1046,"gregsEnergy":-0.024,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}]
+
+          alchemicalProperties: {"Spirit":2.63,"Essence":2.88,"Matter":2.82,"Substance":2.5},
+          thermodynamicProperties: {"heat":0.0899,"entropy":0.3349,"reactivity":2.0858,"gregsEnergy":-0.6086,"kalchm":1.4554,"monica":0.2511},
+          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}]
         },
         {
           name: "Birria",
@@ -487,9 +499,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.45,"Water":0.35,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["aries","scorpio"],"lunarPhases":["Last Quarter"]},
           nutritionPerServing: {"calories":750,"proteinG":55,"carbsG":25,"fatG":48,"fiberG":5,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin B12","Iron"],"minerals":["Zinc","Phosphorus"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0098,"entropy":0.0101,"reactivity":0.9362,"gregsEnergy":0.0003,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Goat","Lamb"]}]
+
+          alchemicalProperties: {"Spirit":2.81,"Essence":3.17,"Matter":3.34,"Substance":3.15},
+          thermodynamicProperties: {"heat":0.0777,"entropy":0.3668,"reactivity":2.3148,"gregsEnergy":-0.7713,"kalchm":0.339,"monica":0.4842},
+          substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Goat","Lamb"]}]
         },
         {
           name: "Tamales Verdes",
@@ -501,9 +514,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.4,"Air":0.2},
           astrologicalAffinities: {"planets":["Ceres","Jupiter"],"signs":["virgo","cancer"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":350,"proteinG":12,"carbsG":35,"fatG":18,"fiberG":4,"sodiumMg":650,"sugarG":3,"vitamins":["Niacin","Vitamin C"],"minerals":["Calcium","Iron"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
-          thermodynamicProperties: {"heat":0.2798,"entropy":0.3633,"reactivity":13.375,"gregsEnergy":-4.5797,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Pork lard","substituteOptions":["Vegetable shortening (for vegan)"]}]
+
+          alchemicalProperties: {"Spirit":1.44,"Essence":2.39,"Matter":3.48,"Substance":3.34},
+          thermodynamicProperties: {"heat":0.0204,"entropy":0.3076,"reactivity":1.2675,"gregsEnergy":-0.3695,"kalchm":0.0032,"monica":-0.2064},
+          substitutions: [{"originalIngredient":"Pork lard","substituteOptions":["Vegetable shortening (for vegan)"]}]
         },
             {
               "name": "Authentic Pozole Rojo",
@@ -586,9 +600,10 @@ export const mexican = {
                   "Potassium"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.1495,"entropy":0.1556,"reactivity":1.5938,"gregsEnergy":-0.0984,"kalchm":1.0,"monica":1.0},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.55,"Essence":0.85,"Matter":1.1,"Substance":1.05},
+              thermodynamicProperties: {"heat":0.0287,"entropy":0.2215,"reactivity":1.4334,"gregsEnergy":-0.2889,"kalchm":0.5363,"monica":0.0278},
+              "substitutions": []
             },
             {
               "name": "Authentic Carnitas",
@@ -670,9 +685,10 @@ export const mexican = {
                   "Selenium"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-              thermodynamicProperties: {"heat":0.0895,"entropy":0.0922,"reactivity":0.3464,"gregsEnergy":0.0576,"kalchm":0.25,"monica":0.1198},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.55,"Essence":0.85,"Matter":1.1,"Substance":1.05},
+              thermodynamicProperties: {"heat":0.0357,"entropy":0.2508,"reactivity":0.8955,"gregsEnergy":-0.1889,"kalchm":0.5363,"monica":0.8752},
+              "substitutions": []
             },
             {
               "name": "Authentic Chiles Rellenos",
@@ -754,9 +770,10 @@ export const mexican = {
                   "Iron"
                 ]
               },
-              alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":0,"Substance":1},
-              thermodynamicProperties: {"heat":1.5142,"entropy":25.4938,"reactivity":83.24,"gregsEnergy":-2120.5919,"kalchm":4.0,"monica":18.3768},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.57,"Essence":0.97,"Matter":0.7,"Substance":0.65},
+              thermodynamicProperties: {"heat":0.0507,"entropy":0.2025,"reactivity":2.0951,"gregsEnergy":-0.3734,"kalchm":1.1969,"monica":0.772},
+              "substitutions": []
             },
             {
               "name": "Authentic Sopa de Lima",
@@ -839,9 +856,10 @@ export const mexican = {
                   "Phosphorus"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-              thermodynamicProperties: {"heat":0.001,"entropy":0.0734,"reactivity":4.0775,"gregsEnergy":-0.2984,"kalchm":4.0,"monica":0.0528},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.83,"Essence":1.17,"Matter":0.78,"Substance":0.8},
+              thermodynamicProperties: {"heat":0.0549,"entropy":0.1867,"reactivity":3.573,"gregsEnergy":-0.6124,"kalchm":1.4938,"monica":0.4188},
+              "substitutions": []
             },
             {
               "name": "Authentic Churros",
@@ -921,9 +939,10 @@ export const mexican = {
                   "Manganese"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.1716,"entropy":0.2083,"reactivity":1.2085,"gregsEnergy":-0.0802,"kalchm":1.0,"monica":1.0},
-                            "substitutions": []
+
+              alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+              thermodynamicProperties: {"heat":0.0892,"entropy":0.3642,"reactivity":1.517,"gregsEnergy":-0.4633,"kalchm":1.0,"monica":0.4188},
+              "substitutions": []
             }
         ],
       winter: [
@@ -937,9 +956,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Sun"],"signs":["scorpio","leo"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":520,"proteinG":45,"carbsG":12,"fatG":32,"fiberG":3,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin C","Thiamin"],"minerals":["Iron","Zinc"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1598,"entropy":0.1664,"reactivity":1.1046,"gregsEnergy":-0.024,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}]
+
+          alchemicalProperties: {"Spirit":2.63,"Essence":2.88,"Matter":2.82,"Substance":2.5},
+          thermodynamicProperties: {"heat":0.0899,"entropy":0.3349,"reactivity":2.0858,"gregsEnergy":-0.6086,"kalchm":1.4554,"monica":0.2511},
+          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}]
         },
         {
           name: "Mole Negro",
@@ -951,9 +971,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn","Mars"],"signs":["scorpio","capricorn","aries"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":720,"proteinG":48,"carbsG":45,"fatG":38,"fiberG":14,"sodiumMg":820,"sugarG":18,"vitamins":["Vitamin A","Vitamin C","Iron"],"minerals":["Magnesium","Zinc","Potassium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":3,"Substance":0},
-          thermodynamicProperties: {"heat":0.0352,"entropy":0.0368,"reactivity":0.4609,"gregsEnergy":0.0182,"kalchm":0.1481,"monica":0.0207},
-                    substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Turkey","Duck"]},{"originalIngredient":"Mexican chocolate","substituteOptions":["Dark chocolate plus cinnamon"]}]
+
+          alchemicalProperties: {"Spirit":3.5,"Essence":4.1,"Matter":4.67,"Substance":4.5},
+          thermodynamicProperties: {"heat":0.0639,"entropy":0.3757,"reactivity":1.9636,"gregsEnergy":-0.6738,"kalchm":0.0225,"monica":1.0328},
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Turkey","Duck"]},{"originalIngredient":"Mexican chocolate","substituteOptions":["Dark chocolate plus cinnamon"]}]
         },
         {
           name: "Birria de Res",
@@ -965,9 +986,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn","Jupiter"],"signs":["aries","capricorn","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":580,"proteinG":52,"carbsG":18,"fatG":32,"fiberG":5,"sodiumMg":920,"sugarG":8,"vitamins":["Vitamin B12","Vitamin A","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.1852,"entropy":0.1938,"reactivity":1.6242,"gregsEnergy":-0.1296,"kalchm":4.0,"monica":0.0575},
-                    substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Lamb shoulder","Goat meat"]},{"originalIngredient":"Ancho chilies","substituteOptions":["Poblano dried","Dried New Mexico chilies"]}]
+
+          alchemicalProperties: {"Spirit":3.55,"Essence":4.65,"Matter":4.85,"Substance":4.5},
+          thermodynamicProperties: {"heat":0.0587,"entropy":0.323,"reactivity":2.1029,"gregsEnergy":-0.6206,"kalchm":0.0619,"monica":0.5308},
+          substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Lamb shoulder","Goat meat"]},{"originalIngredient":"Ancho chilies","substituteOptions":["Poblano dried","Dried New Mexico chilies"]}]
         },
         {
           name: "Pozole Rojo",
@@ -979,9 +1001,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Moon","Jupiter"],"signs":["capricorn","cancer","sagittarius"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":38,"carbsG":32,"fatG":16,"fiberG":7,"sodiumMg":780,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Niacin"],"minerals":["Iron","Zinc","Magnesium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.1852,"entropy":0.1893,"reactivity":1.5529,"gregsEnergy":-0.1088,"kalchm":4.0,"monica":0.0505},
-                    substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thighs","Beef chuck"]},{"originalIngredient":"Hominy","substituteOptions":["Canned white corn (texture differs)"]}]
+
+          alchemicalProperties: {"Spirit":3.56,"Essence":3.86,"Matter":4.01,"Substance":3.69},
+          thermodynamicProperties: {"heat":0.0849,"entropy":0.3634,"reactivity":2.2289,"gregsEnergy":-0.7252,"kalchm":0.5205,"monica":0.1388},
+          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thighs","Beef chuck"]},{"originalIngredient":"Hominy","substituteOptions":["Canned white corn (texture differs)"]}]
         },
         {
           name: "Chiles Rellenos",
@@ -993,9 +1016,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Sun","Venus"],"signs":["aries","leo","taurus"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":380,"proteinG":18,"carbsG":22,"fatG":26,"fiberG":4,"sodiumMg":620,"sugarG":6,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Calcium","Iron","Potassium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0519,"entropy":0.0565,"reactivity":0.9802,"gregsEnergy":-0.0035,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Oaxacan cheese","substituteOptions":["Mozzarella","Monterey Jack","Chihuahua cheese"]},{"originalIngredient":"Poblano peppers","substituteOptions":["Anaheim peppers (milder)"]}]
+
+          alchemicalProperties: {"Spirit":2.9,"Essence":3.55,"Matter":2.96,"Substance":2.78},
+          thermodynamicProperties: {"heat":0.0864,"entropy":0.3314,"reactivity":2.7218,"gregsEnergy":-0.8155,"kalchm":4.6216,"monica":1.3128},
+          substitutions: [{"originalIngredient":"Oaxacan cheese","substituteOptions":["Mozzarella","Monterey Jack","Chihuahua cheese"]},{"originalIngredient":"Poblano peppers","substituteOptions":["Anaheim peppers (milder)"]}]
         },
         {
           name: "Enfrijoladas",
@@ -1007,9 +1031,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.45,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon","Venus"],"signs":["capricorn","cancer","taurus"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":320,"proteinG":14,"carbsG":48,"fatG":10,"fiberG":10,"sodiumMg":580,"sugarG":3,"vitamins":["Folate","Vitamin B6","Thiamin"],"minerals":["Iron","Magnesium","Potassium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":3,"Substance":0},
-          thermodynamicProperties: {"heat":0.0299,"entropy":0.0312,"reactivity":0.4304,"gregsEnergy":0.0164,"kalchm":0.1481,"monica":0.02},
-                    substitutions: [{"originalIngredient":"Black beans","substituteOptions":["Pinto beans","Bayo beans"]},{"originalIngredient":"Queso fresco","substituteOptions":["Cotija","Feta cheese"]}]
+
+          alchemicalProperties: {"Spirit":2.8,"Essence":3.27,"Matter":4.02,"Substance":3.81},
+          thermodynamicProperties: {"heat":0.0551,"entropy":0.3463,"reactivity":1.6602,"gregsEnergy":-0.5199,"kalchm":0.0196,"monica":0.5298},
+          substitutions: [{"originalIngredient":"Black beans","substituteOptions":["Pinto beans","Bayo beans"]},{"originalIngredient":"Queso fresco","substituteOptions":["Cotija","Feta cheese"]}]
         },
         {
           name: "Agua de Horchata",
@@ -1021,9 +1046,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.1,"Water":0.4,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus","Jupiter"],"signs":["cancer","taurus","pisces"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":180,"proteinG":3,"carbsG":34,"fatG":4,"fiberG":1,"sodiumMg":40,"sugarG":22,"vitamins":["Calcium","Vitamin B1"],"minerals":["Magnesium","Phosphorus"]},
-          alchemicalProperties: {"Spirit":1,"Essence":3,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.029,"entropy":0.0303,"reactivity":1.7674,"gregsEnergy":-0.0246,"kalchm":6.75,"monica":0.0073},
-                    substitutions: [{"originalIngredient":"Almonds","substituteOptions":["Cashews","Tiger nuts (authentic Mexican variation)"]},{"originalIngredient":"Dairy milk","substituteOptions":["Oat milk","Coconut milk"]}]
+
+          alchemicalProperties: {"Spirit":1.86,"Essence":3.38,"Matter":2.59,"Substance":2.25},
+          thermodynamicProperties: {"heat":0.0417,"entropy":0.1864,"reactivity":2.2513,"gregsEnergy":-0.3779,"kalchm":2.6679,"monica":0.2861},
+          substitutions: [{"originalIngredient":"Almonds","substituteOptions":["Cashews","Tiger nuts (authentic Mexican variation)"]},{"originalIngredient":"Dairy milk","substituteOptions":["Oat milk","Coconut milk"]}]
         },
         {
           name: "Sopa de Lima",
@@ -1035,9 +1061,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.2,"Air":0.15},
           astrologicalAffinities: {"planets":["Sun","Mercury","Moon"],"signs":["leo","gemini","cancer"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":310,"proteinG":32,"carbsG":18,"fatG":12,"fiberG":2,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin C","Vitamin B12","Niacin"],"minerals":["Potassium","Phosphorus","Iron"]},
-          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.2798,"entropy":0.7209,"reactivity":4.3507,"gregsEnergy":-2.8566,"kalchm":4.0,"monica":0.4736},
-                    substitutions: [{"originalIngredient":"Yucatecan lima","substituteOptions":["Key limes","Regular limes plus a strip of bergamot zest"]},{"originalIngredient":"Habanero","substituteOptions":["Scotch bonnet","Serrano pepper"]}]
+
+          alchemicalProperties: {"Spirit":2.47,"Essence":4.2,"Matter":3.26,"Substance":2.9},
+          thermodynamicProperties: {"heat":0.0493,"entropy":0.2216,"reactivity":2.7077,"gregsEnergy":-0.5507,"kalchm":3.746,"monica":0.8564},
+          substitutions: [{"originalIngredient":"Yucatecan lima","substituteOptions":["Key limes","Regular limes plus a strip of bergamot zest"]},{"originalIngredient":"Habanero","substituteOptions":["Scotch bonnet","Serrano pepper"]}]
         },
       ],
     },
@@ -1053,9 +1080,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":10,"carbsG":55,"fatG":12,"fiberG":0,"sodiumMg":150,"sugarG":52,"vitamins":["Riboflavin","Vitamin B12"],"minerals":["Calcium","Phosphorus"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.7592,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Heavy cream","Coconut milk"]}]
+
+          alchemicalProperties: {"Spirit":1.21,"Essence":1.69,"Matter":1.67,"Substance":1.63},
+          thermodynamicProperties: {"heat":0.0436,"entropy":0.2459,"reactivity":1.7571,"gregsEnergy":-0.3885,"kalchm":0.5855,"monica":1.1538},
+          substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Heavy cream","Coconut milk"]}]
         },
         {
           "name": "Authentic Churros",
@@ -1119,9 +1147,10 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0311,"entropy":0.0354,"reactivity":0.7308,"gregsEnergy":0.0053,"kalchm":1.0,"monica":1.0},
-                    "substitutions": []
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.127,"entropy":0.3459,"reactivity":1.426,"gregsEnergy":-0.3664,"kalchm":1.0,"monica":0.4376},
+          "substitutions": []
         },
       ],
       summer: [
@@ -1135,9 +1164,10 @@ export const mexican = {
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.2,"Air":0.15},
           astrologicalAffinities: {"planets":["Sun","Mercury"],"signs":["gemini","leo"],"lunarPhases":["Waxing Crescent","First Quarter"]},
           nutritionPerServing: {"calories":85,"proteinG":1,"carbsG":22,"fatG":0,"fiberG":1.5,"sodiumMg":95,"sugarG":19,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Potassium","Magnesium"]},
-          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":0,"Substance":1},
-          thermodynamicProperties: {"heat":1.2469,"entropy":11.9822,"reactivity":131.625,"gregsEnergy":-1575.9165,"kalchm":4.0,"monica":8.6365},
-                    substitutions: [{"originalIngredient":"mango","substituteOptions":["fresh tamarind paste with piloncillo (for tamarindo paletas)","fresh hibiscus flowers steeped in water (for Jamaica paletas)","cucumber and lime with chile (pepino con chile)"]},{"originalIngredient":"Tajin","substituteOptions":["ancho chile powder mixed with salt","smoked paprika with sea salt"]}]
+
+          alchemicalProperties: {"Spirit":2.3,"Essence":3.46,"Matter":2.81,"Substance":2.56},
+          thermodynamicProperties: {"heat":0.0575,"entropy":0.2486,"reactivity":2.6578,"gregsEnergy":-0.6033,"kalchm":2.4616,"monica":0.2202},
+          substitutions: [{"originalIngredient":"mango","substituteOptions":["fresh tamarind paste with piloncillo (for tamarindo paletas)","fresh hibiscus flowers steeped in water (for Jamaica paletas)","cucumber and lime with chile (pepino con chile)"]},{"originalIngredient":"Tajin","substituteOptions":["ancho chile powder mixed with salt","smoked paprika with sea salt"]}]
         },
       ],
     },
@@ -1154,9 +1184,10 @@ export const mexican = {
         elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.2,"Air":0.05},
         astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
         nutritionPerServing: {"calories":420,"proteinG":35,"carbsG":30,"fatG":18,"fiberG":6,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Phosphorus"]},
-        alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-        thermodynamicProperties: {"heat":0.0028,"entropy":0.0032,"reactivity":0.9618,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
-                substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}]
+
+        alchemicalProperties: {"Spirit":2.34,"Essence":3.13,"Matter":3.1,"Substance":2.94},
+        thermodynamicProperties: {"heat":0.0548,"entropy":0.2862,"reactivity":2.2315,"gregsEnergy":-0.5839,"kalchm":0.3272,"monica":-0.0188},
+        substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}]
       },
       {
         name: "Elote",
@@ -1168,9 +1199,10 @@ export const mexican = {
         elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
         astrologicalAffinities: {"planets":["Sun","Mars"],"signs":["leo","aries"],"lunarPhases":["Full Moon","First Quarter"]},
         nutritionPerServing: {"calories":280,"proteinG":8,"carbsG":32,"fatG":15,"fiberG":3,"sodiumMg":480,"sugarG":8,"vitamins":["Vitamin C","Folate","Vitamin A"],"minerals":["Potassium","Magnesium","Phosphorus"]},
-        alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-        thermodynamicProperties: {"heat":0.1716,"entropy":0.1872,"reactivity":1.3077,"gregsEnergy":-0.0732,"kalchm":1.0,"monica":1.0},
-                substitutions: [{"originalIngredient":"cotija cheese","substituteOptions":["feta cheese (salty and crumbly)","Parmesan (sharper but effective)","vegan Parmesan for dairy-free"]},{"originalIngredient":"Mexican crema","substituteOptions":["full-fat sour cream thinned with lime juice","creme fraiche"]}]
+
+        alchemicalProperties: {"Spirit":3.57,"Essence":4.0,"Matter":3.08,"Substance":2.79},
+        thermodynamicProperties: {"heat":0.1177,"entropy":0.3603,"reactivity":3.2158,"gregsEnergy":-1.0408,"kalchm":42.9827,"monica":0.8752},
+        substitutions: [{"originalIngredient":"cotija cheese","substituteOptions":["feta cheese (salty and crumbly)","Parmesan (sharper but effective)","vegan Parmesan for dairy-free"]},{"originalIngredient":"Mexican crema","substituteOptions":["full-fat sour cream thinned with lime juice","creme fraiche"]}]
       },
     ],
   },

@@ -145,9 +145,10 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1327,"entropy":0.1696,"reactivity":1.2811,"gregsEnergy":-0.0846,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.01,"Essence":4.43,"Matter":3.31,"Substance":2.99},
+          thermodynamicProperties: {"heat":0.0685,"entropy":0.2634,"reactivity":2.8998,"gregsEnergy":-0.6954,"kalchm":14.4933,"monica":0.492},
+          "substitutions": [
             {
               "originalIngredient": "00 flour",
               "substituteOptions": [
@@ -301,9 +302,10 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1259,"entropy":0.1711,"reactivity":1.4096,"gregsEnergy":-0.1153,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.18,"Essence":4.37,"Matter":3.66,"Substance":3.35},
+          thermodynamicProperties: {"heat":0.0678,"entropy":0.2913,"reactivity":2.6579,"gregsEnergy":-0.7066,"kalchm":3.7617,"monica":0.4454},
+          "substitutions": [
             {
               "originalIngredient": "pine nuts/raisins",
               "substituteOptions": [
@@ -438,9 +440,10 @@ export const italian: Cuisine = {
               "Calcium"
             ]
           },
-          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":1.5142,"entropy":1.9798,"reactivity":2.125,"gregsEnergy":-2.6928,"kalchm":4.0,"monica":0.9141},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.43,"Essence":3.54,"Matter":3.68,"Substance":3.34},
+          thermodynamicProperties: {"heat":0.048,"entropy":0.2928,"reactivity":1.7876,"gregsEnergy":-0.4754,"kalchm":0.1119,"monica":0.9862},
+          "substitutions": [
             {
               "originalIngredient": "marmalade",
               "substituteOptions": [
@@ -591,9 +594,10 @@ export const italian: Cuisine = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1201,"entropy":0.1527,"reactivity":1.7561,"gregsEnergy":-0.1481,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.1,"Essence":4.65,"Matter":4.09,"Substance":3.68},
+          thermodynamicProperties: {"heat":0.0542,"entropy":0.2634,"reactivity":2.5085,"gregsEnergy":-0.6065,"kalchm":1.1031,"monica":1.0954},
+          "substitutions": [
             {
               "originalIngredient": "lemon juice",
               "substituteOptions": [
@@ -701,9 +705,10 @@ export const italian: Cuisine = {
               "Magnesium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0001,"entropy":0.0011,"reactivity":0.7266,"gregsEnergy":-0.0007,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.11,"Essence":1.91,"Matter":2.39,"Substance":2.34},
+          thermodynamicProperties: {"heat":0.0214,"entropy":0.2589,"reactivity":1.3541,"gregsEnergy":-0.3291,"kalchm":0.0659,"monica":0.4376},
+          "substitutions": [
             {
               "originalIngredient": "ricotta",
               "substituteOptions": [
@@ -829,9 +834,10 @@ export const italian: Cuisine = {
               "Magnesium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.8459,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.86,"Essence":2.58,"Matter":3.02,"Substance":3.0},
+          thermodynamicProperties: {"heat":0.039,"entropy":0.3098,"reactivity":1.8141,"gregsEnergy":-0.523,"kalchm":0.0481,"monica":0.4188},
+          "substitutions": [
             {
               "originalIngredient": "whole milk",
               "substituteOptions": [
@@ -966,9 +972,10 @@ export const italian: Cuisine = {
               "Manganese"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1405,"entropy":0.1527,"reactivity":1.2988,"gregsEnergy":-0.0579,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.93,"Essence":3.48,"Matter":3.12,"Substance":3.02},
+          thermodynamicProperties: {"heat":0.0804,"entropy":0.3382,"reactivity":2.5658,"gregsEnergy":-0.7874,"kalchm":1.8249,"monica":0.4},
+          "substitutions": [
             {
               "originalIngredient": "San Marzano tomatoes",
               "substituteOptions": [
@@ -1090,9 +1097,10 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1152,"entropy":0.1379,"reactivity":1.4672,"gregsEnergy":-0.0871,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.4,"Essence":3.28,"Matter":2.67,"Substance":2.62},
+          thermodynamicProperties: {"heat":0.0636,"entropy":0.2822,"reactivity":2.7767,"gregsEnergy":-0.7199,"kalchm":2.3434,"monica":0.4376},
+          "substitutions": [
             {
               "originalIngredient": "buffalo mozzarella",
               "substituteOptions": [
@@ -1234,9 +1242,10 @@ export const italian: Cuisine = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0003,"entropy":0.0015,"reactivity":0.5577,"gregsEnergy":-0.0006,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.53,"Essence":4.16,"Matter":3.49,"Substance":3.28},
+          thermodynamicProperties: {"heat":0.0883,"entropy":0.3215,"reactivity":2.6216,"gregsEnergy":-0.7547,"kalchm":8.3665,"monica":0.8752},
+          "substitutions": [
             {
               "originalIngredient": "Tuscan bread",
               "substituteOptions": [
@@ -1349,9 +1358,10 @@ export const italian: Cuisine = {
               "Manganese"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.2798,"entropy":0.2958,"reactivity":0.5044,"gregsEnergy":0.1305,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.5,"Essence":2.46,"Matter":2.27,"Substance":2.07},
+          thermodynamicProperties: {"heat":0.0381,"entropy":0.2103,"reactivity":1.658,"gregsEnergy":-0.3105,"kalchm":0.5802,"monica":0.4188},
+          "substitutions": [
             {
               "originalIngredient": "stale bread",
               "substituteOptions": [
@@ -1463,9 +1473,10 @@ export const italian: Cuisine = {
               "Zinc"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.2988,"entropy":0.3371,"reactivity":0.5893,"gregsEnergy":0.1001,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.16,"Essence":1.4,"Matter":2.08,"Substance":1.91},
+          thermodynamicProperties: {"heat":0.0351,"entropy":0.2809,"reactivity":1.1558,"gregsEnergy":-0.2895,"kalchm":0.1205,"monica":0.4},
+          "substitutions": [
             {
               "originalIngredient": "Parmesan rind",
               "substituteOptions": [
@@ -1540,9 +1551,10 @@ export const italian: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
-          thermodynamicProperties: {"heat":0.2988,"entropy":0.3371,"reactivity":13.4687,"gregsEnergy":-4.2421,"kalchm":1.0,"monica":1.0},
-                    "substitutions": []
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.0402,"entropy":0.132,"reactivity":0.9289,"gregsEnergy":-0.0824,"kalchm":1.0,"monica":0.0466},
+          "substitutions": []
         },
         {
           "name": "Authentic Risotto ai Funghi (Mushroom Risotto)",
@@ -1664,9 +1676,10 @@ export const italian: Cuisine = {
               "Potassium"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":0.3741,"gregsEnergy":0.0415,"kalchm":0.25,"monica":0.08},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.38,"Essence":3.08,"Matter":3.24,"Substance":2.83},
+          thermodynamicProperties: {"heat":0.0569,"entropy":0.2742,"reactivity":1.7597,"gregsEnergy":-0.4256,"kalchm":0.2939,"monica":0.4188},
+          "substitutions": [
             {
               "originalIngredient": "butter/Parmesan",
               "substituteOptions": [
@@ -1806,9 +1819,10 @@ export const italian: Cuisine = {
               "Potassium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.001,"entropy":0.002,"reactivity":0.6843,"gregsEnergy":-0.0004,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.15,"Essence":4.75,"Matter":4.15,"Substance":3.77},
+          thermodynamicProperties: {"heat":0.0544,"entropy":0.2624,"reactivity":2.212,"gregsEnergy":-0.526,"kalchm":1.1124,"monica":0.511},
+          "substitutions": [
             {
               "originalIngredient": "starchy potatoes",
               "substituteOptions": [
@@ -1922,9 +1936,10 @@ export const italian: Cuisine = {
                   "Potassium"
                 ]
               },
-              alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.5153,"entropy":0.5345,"reactivity":2.4411,"gregsEnergy":-0.7896,"kalchm":4.0,"monica":0.2333},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":1.55,"Essence":1.91,"Matter":2.47,"Substance":2.22},
+              thermodynamicProperties: {"heat":0.0446,"entropy":0.2802,"reactivity":1.3032,"gregsEnergy":-0.3205,"kalchm":0.1239,"monica":0.4842},
+              "substitutions": [
                 {
                   "originalIngredient": "Veal shanks",
                   "substituteOptions": [
@@ -2031,9 +2046,10 @@ export const italian: Cuisine = {
                   "Iron"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-              thermodynamicProperties: {"heat":0.0098,"entropy":0.0116,"reactivity":0.8006,"gregsEnergy":0.0005,"kalchm":1.0,"monica":1.0},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":1.27,"Essence":1.35,"Matter":1.72,"Substance":1.46},
+              thermodynamicProperties: {"heat":0.0703,"entropy":0.3297,"reactivity":1.4219,"gregsEnergy":-0.3984,"kalchm":0.46,"monica":0.8752},
+              "substitutions": [
                 {
                   "originalIngredient": "Veal",
                   "substituteOptions": [
@@ -2141,9 +2157,10 @@ export const italian: Cuisine = {
                   "Phosphorus"
                 ]
               },
-              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-              thermodynamicProperties: {"heat":0.0796,"entropy":0.0849,"reactivity":0.3715,"gregsEnergy":0.0481,"kalchm":0.25,"monica":0.0934},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":2.07,"Essence":1.53,"Matter":1.52,"Substance":1.63},
+              thermodynamicProperties: {"heat":0.1511,"entropy":0.5286,"reactivity":2.5561,"gregsEnergy":-1.1999,"kalchm":2.0624,"monica":0.4188},
+              "substitutions": [
                 {
                   "originalIngredient": "Guanciale",
                   "substituteOptions": [
@@ -2250,9 +2267,10 @@ export const italian: Cuisine = {
                   "Manganese"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-              thermodynamicProperties: {"heat":0.0083,"entropy":0.0126,"reactivity":0.574,"gregsEnergy":0.001,"kalchm":1.0,"monica":1.0},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":1.14,"Essence":1.99,"Matter":2.53,"Substance":2.39},
+              thermodynamicProperties: {"heat":0.0232,"entropy":0.2707,"reactivity":1.2926,"gregsEnergy":-0.3267,"kalchm":0.0544,"monica":0.4842},
+              "substitutions": [
                 {
                   "originalIngredient": "Bread flour",
                   "substituteOptions": [
@@ -2371,9 +2389,10 @@ export const italian: Cuisine = {
                   "Phosphorus"
                 ]
               },
-              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-              thermodynamicProperties: {"heat":0.0001,"entropy":0.0043,"reactivity":0.7968,"gregsEnergy":-0.0033,"kalchm":1.0,"monica":1.0},
-                            "substitutions": [
+
+              alchemicalProperties: {"Spirit":2.15,"Essence":2.58,"Matter":2.56,"Substance":2.46},
+              thermodynamicProperties: {"heat":0.0633,"entropy":0.3212,"reactivity":2.145,"gregsEnergy":-0.6256,"kalchm":0.5887,"monica":0.4454},
+              "substitutions": [
                 {
                   "originalIngredient": "Mascarpone",
                   "substituteOptions": [
@@ -2495,9 +2514,10 @@ export const italian: Cuisine = {
               "Potassium"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
-          thermodynamicProperties: {"heat":0.0004,"entropy":0.0767,"reactivity":4.4711,"gregsEnergy":-0.3425,"kalchm":4.0,"monica":0.0553},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":2.31,"Essence":3.0,"Matter":3.12,"Substance":2.96},
+          thermodynamicProperties: {"heat":0.0537,"entropy":0.3042,"reactivity":2.2672,"gregsEnergy":-0.636,"kalchm":0.216,"monica":-0.0376},
+          "substitutions": [
             {
               "originalIngredient": "Sea Bass",
               "substituteOptions": [
@@ -2571,9 +2591,10 @@ export const italian: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.0051,"entropy":0.0069,"reactivity":0.4844,"gregsEnergy":0.0018,"kalchm":1.0,"monica":1.0},
-                    "substitutions": []
+
+          alchemicalProperties: {"Spirit":0.1,"Essence":0.45,"Matter":0.55,"Substance":0.4},
+          thermodynamicProperties: {"heat":0.0103,"entropy":0.0761,"reactivity":0.4195,"gregsEnergy":-0.0216,"kalchm":1.1115,"monica":0.4376},
+          "substitutions": []
         },
         {
           name: "Cacio e Pepe",
@@ -2585,9 +2606,10 @@ export const italian: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.30,"Air":0.20},
           astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","capricorn"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":520,"proteinG":24,"carbsG":72,"fatG":14,"fiberG":3,"sodiumMg":720,"sugarG":2,"vitamins":["Vitamin B12","Vitamin D"],"minerals":["Calcium","Phosphorus"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0756,"entropy":0.0875,"reactivity":0.4093,"gregsEnergy":0.0398,"kalchm":0.25,"monica":0.0701},
-                    substitutions: [{"originalIngredient":"Pecorino Romano","substituteOptions":["Parmigiano-Reggiano (milder result)"]},{"originalIngredient":"Tonnarelli","substituteOptions":["Spaghetti","Bucatini"]}]
+
+          alchemicalProperties: {"Spirit":1.81,"Essence":1.82,"Matter":2.4,"Substance":2.42},
+          thermodynamicProperties: {"heat":0.0611,"entropy":0.4059,"reactivity":1.7298,"gregsEnergy":-0.6409,"kalchm":0.1254,"monica":0.2598},
+          substitutions: [{"originalIngredient":"Pecorino Romano","substituteOptions":["Parmigiano-Reggiano (milder result)"]},{"originalIngredient":"Tonnarelli","substituteOptions":["Spaghetti","Bucatini"]}]
         },
         {
           name: "Ossobuco alla Milanese",
@@ -2599,9 +2621,10 @@ export const italian: Cuisine = {
           elementalProperties: {"Fire":0.30,"Water":0.35,"Earth":0.25,"Air":0.10},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
           nutritionPerServing: {"calories":580,"proteinG":52,"carbsG":12,"fatG":32,"fiberG":2,"sodiumMg":640,"sugarG":4,"vitamins":["Vitamin B12","Vitamin C","Vitamin A"],"minerals":["Iron","Zinc","Phosphorus"]},
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0796,"entropy":0.0849,"reactivity":0.439,"gregsEnergy":0.0424,"kalchm":0.25,"monica":0.0696},
-                    substitutions: [{"originalIngredient":"Veal shanks","substituteOptions":["Beef ossobuco (longer braise time required)"]},{"originalIngredient":"White wine","substituteOptions":["Dry vermouth","Chicken stock"]}]
+
+          alchemicalProperties: {"Spirit":4.19,"Essence":4.93,"Matter":4.66,"Substance":4.2},
+          thermodynamicProperties: {"heat":0.084,"entropy":0.3399,"reactivity":2.4773,"gregsEnergy":-0.758,"kalchm":1.952,"monica":0.4842},
+          substitutions: [{"originalIngredient":"Veal shanks","substituteOptions":["Beef ossobuco (longer braise time required)"]},{"originalIngredient":"White wine","substituteOptions":["Dry vermouth","Chicken stock"]}]
         },
         {
           name: "Focaccia Genovese",
@@ -2613,9 +2636,10 @@ export const italian: Cuisine = {
           elementalProperties: {"Fire":0.20,"Water":0.30,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","libra"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":310,"proteinG":7,"carbsG":48,"fatG":10,"fiberG":2,"sodiumMg":580,"sugarG":1,"vitamins":["Vitamin E","Vitamin B1"],"minerals":["Iron","Magnesium"]},
-          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.072,"entropy":0.0798,"reactivity":2.8272,"gregsEnergy":-0.1535,"kalchm":4.0,"monica":0.0392},
-                    substitutions: [{"originalIngredient":"Strong bread flour","substituteOptions":["All-purpose flour (slightly denser result)"]},{"originalIngredient":"Extra virgin olive oil","substituteOptions":["Light olive oil (less flavor)"]}]
+
+          alchemicalProperties: {"Spirit":1.58,"Essence":2.98,"Matter":4.11,"Substance":3.88},
+          thermodynamicProperties: {"heat":0.0183,"entropy":0.294,"reactivity":1.3364,"gregsEnergy":-0.3746,"kalchm":0.0008,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Strong bread flour","substituteOptions":["All-purpose flour (slightly denser result)"]},{"originalIngredient":"Extra virgin olive oil","substituteOptions":["Light olive oil (less flavor)"]}]
         },
       ],
     },
@@ -2631,9 +2655,10 @@ export const italian: Cuisine = {
           elementalProperties: {"Fire":0.10,"Water":0.35,"Earth":0.30,"Air":0.25},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","libra"],"lunarPhases":["Waning Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":430,"proteinG":9,"carbsG":40,"fatG":26,"fiberG":1,"sodiumMg":110,"sugarG":28,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Phosphorus","Iron"]},
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0004,"entropy":0.0034,"reactivity":0.793,"gregsEnergy":-0.0022,"kalchm":1.0,"monica":1.0},
-                    substitutions: [{"originalIngredient":"Mascarpone cheese","substituteOptions":["Full-fat cream cheese blended with heavy cream (less rich result)"]},{"originalIngredient":"Marsala wine","substituteOptions":["Dark rum","Coffee liqueur","Omit for an alcohol-free version"]},{"originalIngredient":"Egg yolks (raw)","substituteOptions":["Pasteurized liquid egg yolks for food safety"]}]
+
+          alchemicalProperties: {"Spirit":2.2,"Essence":2.68,"Matter":3.29,"Substance":3.28},
+          thermodynamicProperties: {"heat":0.0471,"entropy":0.3576,"reactivity":1.7827,"gregsEnergy":-0.5904,"kalchm":0.0321,"monica":0.9844},
+          substitutions: [{"originalIngredient":"Mascarpone cheese","substituteOptions":["Full-fat cream cheese blended with heavy cream (less rich result)"]},{"originalIngredient":"Marsala wine","substituteOptions":["Dark rum","Coffee liqueur","Omit for an alcohol-free version"]},{"originalIngredient":"Egg yolks (raw)","substituteOptions":["Pasteurized liquid egg yolks for food safety"]}]
         },
       ],
       summer: [
@@ -2753,9 +2778,10 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
-          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
-          thermodynamicProperties: {"heat":0.0001,"entropy":0.0019,"reactivity":0.9524,"gregsEnergy":-0.0017,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":1.13,"Essence":2.54,"Matter":2.88,"Substance":2.83},
+          thermodynamicProperties: {"heat":0.0151,"entropy":0.245,"reactivity":1.758,"gregsEnergy":-0.4157,"kalchm":0.0307,"monica":0.9844},
+          "substitutions": [
             {
               "originalIngredient": "dextrose",
               "substituteOptions": [
@@ -2905,9 +2931,10 @@ export const italian: Cuisine = {
               "Iron"
             ]
           },
-          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
-          thermodynamicProperties: {"heat":0.1327,"entropy":0.2439,"reactivity":1.5972,"gregsEnergy":-0.2568,"kalchm":1.0,"monica":1.0},
-                    "substitutions": [
+
+          alchemicalProperties: {"Spirit":3.24,"Essence":4.39,"Matter":3.7,"Substance":3.18},
+          thermodynamicProperties: {"heat":0.0723,"entropy":0.2969,"reactivity":2.6418,"gregsEnergy":-0.712,"kalchm":5.95,"monica":1.0328},
+          "substitutions": [
             {
               "originalIngredient": "candied peel",
               "substituteOptions": [
