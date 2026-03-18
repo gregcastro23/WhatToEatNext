@@ -291,7 +291,9 @@ export const french: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1152,"entropy":0.1556,"reactivity":1.0143,"gregsEnergy":-0.0426,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "Croissant",
               "substituteOptions": [
@@ -419,7 +421,9 @@ export const french: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.0029,"reactivity":0.8812,"gregsEnergy":-0.0016,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "crème fraîche",
               "substituteOptions": [
@@ -551,7 +555,9 @@ export const french: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1327,"entropy":0.1513,"reactivity":1.1811,"gregsEnergy":-0.046,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "brioche",
               "substituteOptions": [
@@ -681,7 +687,9 @@ export const french: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":0.3741,"gregsEnergy":0.0415,"kalchm":0.25,"monica":0.08},
+                    "substitutions": [
             {
               "originalIngredient": "bacon",
               "substituteOptions": [
@@ -807,7 +815,9 @@ export const french: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1259,"entropy":0.1365,"reactivity":1.0995,"gregsEnergy":-0.0242,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "brioche",
               "substituteOptions": [
@@ -943,7 +953,9 @@ export const french: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1405,"entropy":0.1605,"reactivity":1.0842,"gregsEnergy":-0.0335,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "Gruyère cheese",
               "substituteOptions": [
@@ -1097,7 +1109,9 @@ export const french: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0001,"entropy":0.071,"reactivity":3.1213,"gregsEnergy":-0.2215,"kalchm":4.0,"monica":0.0512},
+                    "substitutions": [
             {
               "originalIngredient": "canned tuna and anchovies",
               "substituteOptions": [
@@ -1259,7 +1273,9 @@ export const french: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":1.2469,"entropy":1.4014,"reactivity":2.7216,"gregsEnergy":-2.5671,"kalchm":4.0,"monica":0.6804},
+                    "substitutions": [
             {
               "originalIngredient": "beef stock",
               "substituteOptions": [
@@ -1403,7 +1419,9 @@ export const french: Cuisine = {
               "Selenium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0051,"entropy":0.0118,"reactivity":0.5714,"gregsEnergy":-0.0017,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "frisée lettuce",
               "substituteOptions": [
@@ -1548,7 +1566,9 @@ export const french: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0051,"entropy":0.0089,"reactivity":0.5244,"gregsEnergy":0.0004,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "ham and egg",
               "substituteOptions": [
@@ -1729,7 +1749,9 @@ export const french: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.0741,"reactivity":0.3988,"gregsEnergy":0.0425,"kalchm":0.25,"monica":0.0768},
+                    "substitutions": [
             {
               "originalIngredient": "chicken",
               "substituteOptions": [
@@ -1856,7 +1878,9 @@ export const french: Cuisine = {
               "Phosphorus"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.005,"reactivity":0.9221,"gregsEnergy":-0.0028,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "Dover sole",
               "substituteOptions": [
@@ -1966,7 +1990,9 @@ export const french: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.321,"entropy":0.3404,"reactivity":0.6598,"gregsEnergy":0.0964,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "slab bacon",
               "substituteOptions": [
@@ -2081,7 +2107,9 @@ export const french: Cuisine = {
               "Selenium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0763,"reactivity":0.304,"gregsEnergy":0.0458,"kalchm":0.25,"monica":0.1086},
+                    "substitutions": [
             {
               "originalIngredient": "rendered duck fat",
               "substituteOptions": [
@@ -2218,7 +2246,9 @@ export const french: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.4952,"entropy":0.5134,"reactivity":2.1176,"gregsEnergy":-0.5919,"kalchm":4.0,"monica":0.2016},
+                    "substitutions": [
             {
               "originalIngredient": "Tarbais beans",
               "substituteOptions": [
@@ -2302,7 +2332,9 @@ export const french: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.2988,"entropy":0.3164,"reactivity":0.5458,"gregsEnergy":0.1261,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               name: "Bouillabaisse",
@@ -2314,7 +2346,9 @@ export const french: Cuisine = {
               elementalProperties: {"Fire":0.20,"Water":0.50,"Earth":0.20,"Air":0.10},
               astrologicalAffinities: {"planets":["Neptune","Moon"],"signs":["pisces","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
               nutritionPerServing: {"calories":480,"proteinG":55,"carbsG":22,"fatG":18,"fiberG":4,"sodiumMg":1150,"sugarG":6,"vitamins":["Vitamin B12","Vitamin C","Vitamin D"],"minerals":["Selenium","Iodine","Iron","Zinc"]},
-              substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}]
+              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+              thermodynamicProperties: {"heat":0.0017,"entropy":0.0767,"reactivity":3.6806,"gregsEnergy":-0.2806,"kalchm":4.0,"monica":0.055},
+                            substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}]
             },
             {
               name: "Quiche Lorraine",
@@ -2326,7 +2360,9 @@ export const french: Cuisine = {
               elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.35,"Air":0.15},
               astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
               nutritionPerServing: {"calories":510,"proteinG":15,"carbsG":24,"fatG":40,"fiberG":1,"sodiumMg":620,"sugarG":2,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Phosphorus"]},
-              substitutions: [{"originalIngredient":"Smoked bacon lardons","substituteOptions":["Sauteed mushrooms and leeks for a vegetarian version","Ham (cooked, diced)"]},{"originalIngredient":"Creme fraiche","substituteOptions":["Heavy whipping cream","Sour cream mixed with cream"]}]
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+              thermodynamicProperties: {"heat":0.069,"entropy":0.0763,"reactivity":0.3925,"gregsEnergy":0.039,"kalchm":0.25,"monica":0.0717},
+                            substitutions: [{"originalIngredient":"Smoked bacon lardons","substituteOptions":["Sauteed mushrooms and leeks for a vegetarian version","Ham (cooked, diced)"]},{"originalIngredient":"Creme fraiche","substituteOptions":["Heavy whipping cream","Sour cream mixed with cream"]}]
             },
             {
               "name": "Authentic Ratatouille (Confit Byaldi)",
@@ -2405,7 +2441,9 @@ export const french: Cuisine = {
                   "Potassium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":0},
+              thermodynamicProperties: {"heat":1.2469,"entropy":1.5937,"reactivity":7.375,"gregsEnergy":-10.507,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Soufflé au Chocolat",
@@ -2482,7 +2520,9 @@ export const french: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":1},
+              thermodynamicProperties: {"heat":0.2988,"entropy":18.551,"reactivity":36.52,"gregsEnergy":-677.1845,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             }
         ],
     },
@@ -2588,7 +2628,9 @@ export const french: Cuisine = {
               "Phosphorus"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0028,"entropy":0.005,"reactivity":0.8729,"gregsEnergy":-0.0016,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "heavy cream",
               "substituteOptions": [
@@ -2695,7 +2737,9 @@ export const french: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1598,"entropy":0.1742,"reactivity":1.0995,"gregsEnergy":-0.0316,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "apples",
               "substituteOptions": [
@@ -2815,7 +2859,9 @@ export const french: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.3603,"reactivity":2.2396,"gregsEnergy":-0.7348,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "eggs",
               "substituteOptions": [
@@ -2922,7 +2968,9 @@ export const french: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0001,"entropy":0.0128,"reactivity":0.8479,"gregsEnergy":-0.0107,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "eggs",
               "substituteOptions": [
@@ -3040,7 +3088,9 @@ export const french: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.3636,"reactivity":2.0624,"gregsEnergy":-0.6809,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "egg yolks",
               "substituteOptions": [

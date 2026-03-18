@@ -174,7 +174,9 @@ export const middleEastern: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0581,"entropy":0.0612,"reactivity":1.0899,"gregsEnergy":-0.0086,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "eggs",
               "substituteOptions": [
@@ -219,7 +221,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.55,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Sun"],"signs":["capricorn","taurus"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":350,"proteinG":14,"carbsG":38,"fatG":18,"fiberG":12,"sodiumMg":600,"sugarG":3,"vitamins":["Folate","Vitamin C"],"minerals":["Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"Fava beans","substituteOptions":["Chickpeas (for Balila)"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":1.1753,"entropy":1.3167,"reactivity":1.6951,"gregsEnergy":-1.0567,"kalchm":4.0,"monica":0.4497},
+                    substitutions: [{"originalIngredient":"Fava beans","substituteOptions":["Chickpeas (for Balila)"]}]
         },
         {
           name: "Manakish Za'atar",
@@ -231,7 +235,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.05,"Earth":0.45,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Earth"],"signs":["taurus","virgo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":480,"proteinG":10,"carbsG":65,"fatG":22,"fiberG":4,"sodiumMg":450,"sugarG":2,"vitamins":["Vitamin E","Thiamin"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Za'atar blend","substituteOptions":["Akkawi cheese (for Manakish Jebne)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0174,"entropy":0.0232,"reactivity":0.5458,"gregsEnergy":0.0048,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Za'atar blend","substituteOptions":["Akkawi cheese (for Manakish Jebne)"]}]
         },
         {
           name: "Labneh with Za'atar",
@@ -243,7 +249,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Earth":0.35,"Water":0.35,"Air":0.2,"Fire":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["taurus","cancer"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":220,"proteinG":10,"carbsG":18,"fatG":14,"fiberG":2,"sodiumMg":380,"sugarG":6,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"full-fat plain yogurt","substituteOptions":["Greek yogurt (shorter straining time)","goat milk yogurt for tangier flavor"]},{"originalIngredient":"za'atar blend","substituteOptions":["dried oregano with sesame seeds and sumac","dukkah spice blend"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0004,"entropy":0.0023,"reactivity":0.7555,"gregsEnergy":-0.0013,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"full-fat plain yogurt","substituteOptions":["Greek yogurt (shorter straining time)","goat milk yogurt for tangier flavor"]},{"originalIngredient":"za'atar blend","substituteOptions":["dried oregano with sesame seeds and sumac","dukkah spice blend"]}]
         },
       ],
     },
@@ -259,7 +267,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Jupiter","Sun"],"signs":["sagittarius","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":850,"proteinG":48,"carbsG":65,"fatG":42,"fiberG":3,"sodiumMg":1400,"sugarG":5,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Zinc","Calcium"]},
-          substitutions: [{"originalIngredient":"Jameed","substituteOptions":["Greek yogurt mixed with liquid kashk or buttermilk"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.2469,"entropy":1.32,"reactivity":32.2812,"gregsEnergy":-41.3643,"kalchm":4.0,"monica":0.9243},
+                    substitutions: [{"originalIngredient":"Jameed","substituteOptions":["Greek yogurt mixed with liquid kashk or buttermilk"]}]
         },
         {
           name: "Hummus",
@@ -271,7 +281,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","taurus"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":28,"fatG":18,"fiberG":9,"sodiumMg":420,"sugarG":3,"vitamins":["Folate","Vitamin B6"],"minerals":["Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":0.3376,"gregsEnergy":0.0426,"kalchm":0.25,"monica":0.0909},
+                    substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}]
         },
       ],
     },
@@ -287,7 +299,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.35,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Pluto"],"signs":["taurus","scorpio"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":380,"proteinG":8,"carbsG":32,"fatG":26,"fiberG":12,"sodiumMg":650,"sugarG":10,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Manganese"]},
-          substitutions: [{"originalIngredient":"Dried mint","substituteOptions":["Fresh mint","Oregano"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0028,"entropy":0.0034,"reactivity":0.793,"gregsEnergy":0.0001,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Dried mint","substituteOptions":["Fresh mint","Oregano"]}]
         },
         {
           name: "Kuzi",
@@ -299,7 +313,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.3,"Earth":0.35,"Water":0.2,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Sun"],"signs":["sagittarius","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":55,"fatG":32,"fiberG":4,"sodiumMg":620,"sugarG":8,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"bone-in lamb shoulder","substituteOptions":["bone-in goat shoulder","beef chuck roast"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","garam masala with extra allspice"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.4152,"entropy":1.7118,"reactivity":42.0612,"gregsEnergy":-70.5834,"kalchm":4.0,"monica":1.2105},
+                    substitutions: [{"originalIngredient":"bone-in lamb shoulder","substituteOptions":["bone-in goat shoulder","beef chuck roast"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","garam masala with extra allspice"]}]
         },
       ],
       summer: [
@@ -313,7 +329,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
           nutritionPerServing: {"calories":620,"proteinG":48,"carbsG":20,"fatG":38,"fiberG":2,"sodiumMg":780,"sugarG":4,"vitamins":["Niacin","Vitamin B12","Vitamin B6"],"minerals":["Zinc","Iron","Selenium"]},
-          substitutions: [{"originalIngredient":"lamb","substituteOptions":["beef sirloin for shish kebab","portobello mushrooms for vegetarian option"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","seven spice blend (allspice, black pepper, cinnamon, coriander, cumin, cloves, nutmeg)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2,"entropy":0.2188,"reactivity":1.4608,"gregsEnergy":-0.1195,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"lamb","substituteOptions":["beef sirloin for shish kebab","portobello mushrooms for vegetarian option"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","seven spice blend (allspice, black pepper, cinnamon, coriander, cumin, cloves, nutmeg)"]}]
         },
         {
           "name": "Authentic Mujaddara",
@@ -393,7 +411,9 @@ export const middleEastern: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.321,"entropy":0.3633,"reactivity":0.4141,"gregsEnergy":0.1705,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "rice",
               "substituteOptions": [
@@ -414,7 +434,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.2,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":580,"proteinG":42,"carbsG":38,"fatG":28,"fiberG":3,"sodiumMg":890,"sugarG":4,"vitamins":["Niacin","Vitamin B6"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.202,"reactivity":1.4416,"gregsEnergy":-0.1063,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}]
         },
 
         {
@@ -427,7 +449,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","libra"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
           nutritionPerServing: {"calories":245,"proteinG":4,"carbsG":28,"fatG":14,"fiberG":1.5,"sodiumMg":45,"sugarG":20,"vitamins":["Vitamin E","Thiamin"],"minerals":["Manganese","Copper","Magnesium"]},
-          substitutions: [{"originalIngredient":"walnuts","substituteOptions":["pecans","hazelnuts","mixed nuts"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a strip of lemon zest simmered in the syrup"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0796,"entropy":0.0883,"reactivity":2.8272,"gregsEnergy":-0.17,"kalchm":4.0,"monica":0.0434},
+                    substitutions: [{"originalIngredient":"walnuts","substituteOptions":["pecans","hazelnuts","mixed nuts"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a strip of lemon zest simmered in the syrup"]}]
         },
 
         {
@@ -492,7 +516,9 @@ export const middleEastern: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":0,"Essence":0,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":0.4444,"entropy":0.68,"reactivity":1.125,"gregsEnergy":-0.3206,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
 
         {
@@ -505,7 +531,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.3,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":8,"carbsG":42,"fatG":25,"fiberG":2,"sodiumMg":180,"sugarG":28,"vitamins":["Vitamin A","Riboflavin","Vitamin E"],"minerals":["Calcium","Magnesium","Copper"]},
-          substitutions: [{"originalIngredient":"croissants","substituteOptions":["puff pastry sheets (baked and broken)","brioche","day-old pan dulce"]},{"originalIngredient":"golden raisins","substituteOptions":["dried apricots, chopped","dried dates, pitted and sliced"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0028,"entropy":0.0034,"reactivity":0.7537,"gregsEnergy":0.0002,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"croissants","substituteOptions":["puff pastry sheets (baked and broken)","brioche","day-old pan dulce"]},{"originalIngredient":"golden raisins","substituteOptions":["dried apricots, chopped","dried dates, pitted and sliced"]}]
         },
 
         {
@@ -518,7 +546,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["libra","taurus"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
           nutritionPerServing: {"calories":480,"proteinG":12,"carbsG":55,"fatG":24,"fiberG":1.5,"sodiumMg":380,"sugarG":35,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus","Magnesium"]},
-          substitutions: [{"originalIngredient":"akkawi/mozzarella cheese","substituteOptions":["ricotta mixed with a small amount of mozzarella","sweet whey cheese (ricotta salata, desalted)"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a thin strip of lemon zest in the syrup"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0041,"entropy":0.0054,"reactivity":0.7519,"gregsEnergy":-0.0,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"akkawi/mozzarella cheese","substituteOptions":["ricotta mixed with a small amount of mozzarella","sweet whey cheese (ricotta salata, desalted)"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a thin strip of lemon zest in the syrup"]}]
         },
 
         {
@@ -531,33 +561,39 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":5,"fatG":38,"fiberG":1,"sodiumMg":720,"sugarG":2,"vitamins":["Niacin","Vitamin B12"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.102,"entropy":0.1052,"reactivity":0.4301,"gregsEnergy":0.0568,"kalchm":0.25,"monica":0.0952},
+                    substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
         },
 
         {
           name: "Chicken Makloubeh",
           description: "A magnificent Palestinian and Jordanian upside-down rice dish whose name literally means 'flipped.' Layers of spiced rice, fried or roasted vegetables (eggplant, cauliflower, tomatoes), and whole spiced chicken are packed tightly into a pot, cooked until the rice absorbs all the fragrant broth, then inverted dramatically onto a large platter so the caramelized bottom becomes the crown. The reveal at the table is a beloved ritual, exposing the glossy, crisp rice top beneath which the chicken and vegetables are hidden.",
           details: {"cuisine":"Middle Eastern","prepTimeMinutes":45,"cookTimeMinutes":60,"baseServingSize":6,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"whole","name":"chicken (3-4 lbs), cut into pieces","notes":"Bone-in pieces add flavor to the broth. The broth from simmering the chicken becomes the cooking liquid for the rice."},{"amount":2,"unit":"cups","name":"long-grain white rice","notes":"Rinsed until water runs clear, then soaked 30 minutes. Basmati works well."},{"amount":1,"unit":"large","name":"eggplant","notes":"Sliced into thick rounds, salted 30 minutes, patted dry, and fried in oil until golden."},{"amount":1,"unit":"head","name":"cauliflower","notes":"Broken into florets and fried or roasted until golden brown."},{"amount":2,"unit":"medium","name":"tomatoes","notes":"Sliced. Layered at the very bottom of the pot for a sweet, caramelized base."},{"amount":1,"unit":"large","name":"onion","notes":"Roughly chopped for the broth."},{"amount":2","unit":"tsp","name":"baharat spice blend","notes":"For the chicken broth and rice seasoning."},{"amount":1","unit":"tsp","name":"ground turmeric","notes":"For golden color in both the chicken broth and rice."},{"amount":3","unit":"cups","name":"chicken broth (from simmering the chicken)","notes":"Strained and measured. The ratio to rice is key - use 1.5 cups broth per cup of rice."},{"amount":0.25","unit":"cup","name":"toasted pine nuts and almonds","notes":"For garnish. Toast in butter until golden."},{"amount":3","unit":"tbsp","name":"vegetable oil or ghee","notes":"For frying vegetables and browning chicken."}],
+          ingredients: [{"amount":1,"unit":"whole","name":"chicken (3-4 lbs), cut into pieces","notes":"Bone-in pieces add flavor to the broth. The broth from simmering the chicken becomes the cooking liquid for the rice."},{"amount":2,"unit":"cups","name":"long-grain white rice","notes":"Rinsed until water runs clear, then soaked 30 minutes. Basmati works well."},{"amount":1,"unit":"large","name":"eggplant","notes":"Sliced into thick rounds, salted 30 minutes, patted dry, and fried in oil until golden."},{"amount":1,"unit":"head","name":"cauliflower","notes":"Broken into florets and fried or roasted until golden brown."},{"amount":2,"unit":"medium","name":"tomatoes","notes":"Sliced. Layered at the very bottom of the pot for a sweet, caramelized base."},{"amount":1,"unit":"large","name":"onion","notes":"Roughly chopped for the broth."},{"amount":2,"unit":"tsp","name":"baharat spice blend","notes":"For the chicken broth and rice seasoning."},{"amount":1,"unit":"tsp","name":"ground turmeric","notes":"For golden color in both the chicken broth and rice."},{"amount":3,"unit":"cups","name":"chicken broth (from simmering the chicken)","notes":"Strained and measured. The ratio to rice is key - use 1.5 cups broth per cup of rice."},{"amount":0.25,"unit":"cup","name":"toasted pine nuts and almonds","notes":"For garnish. Toast in butter until golden."},{"amount":3,"unit":"tbsp","name":"vegetable oil or ghee","notes":"For frying vegetables and browning chicken."}],
           instructions: ["Step 1: Simmer the chicken pieces with the onion, baharat, turmeric, salt, and pepper in water to cover for 30 minutes until par-cooked. Remove chicken and strain the broth. Reserve 3 cups of broth.","Step 2: Fry the eggplant slices in hot oil in batches until deep golden brown. Fry the cauliflower florets until charred at the edges. Brown the par-cooked chicken pieces in oil skin-side down until the skin is golden and crispy. Set everything aside.","Step 3: In a large, heavy-bottomed pot (at least 5 quarts), arrange the tomato slices across the bottom to create a protective, caramelizing layer. Place the browned chicken pieces over the tomatoes. Layer the fried eggplant over the chicken, then the fried cauliflower.","Step 4: Pour the drained, soaked rice evenly over all the layers. Carefully pour the warm, seasoned broth over the rice, enough to come just above the rice level. Bring to a boil over medium-high heat.","Step 5: Reduce heat to the absolute minimum and cover tightly. Cook undisturbed for 35 to 40 minutes until the rice has absorbed all the broth. Remove from heat and rest, still covered, for 10 minutes. Place a large serving platter over the pot and invert in one decisive movement. Lift the pot away slowly to reveal the makloubeh. Garnish with toasted nuts and fresh parsley, and serve with plain yogurt."],
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying","steaming"]},
           elementalProperties: {"Fire":0.3,"Water":0.25,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","virgo"],"lunarPhases":["Full Moon","Waning Gibbous"]},
           nutritionPerServing: {"calories":580,"proteinG":32,"carbsG":65,"fatG":20,"fiberG":6,"sodiumMg":680,"sugarG":8,"vitamins":["Niacin","Vitamin B6","Vitamin C"],"minerals":["Iron","Potassium","Magnesium"]},
-          substitutions: [{"originalIngredient":"chicken","substituteOptions":["lamb neck or shoulder pieces","chickpeas for a vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","bell peppers","potatoes"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.561,"entropy":0.6065,"reactivity":2.8326,"gregsEnergy":-1.157,"kalchm":4.0,"monica":0.2946},
+                    substitutions: [{"originalIngredient":"chicken","substituteOptions":["lamb neck or shoulder pieces","chickpeas for a vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","bell peppers","potatoes"]}]
         },
 
         {
           name: "Tabbouleh",
           description: "The quintessential Levantine herb salad - an enormous mound of finely hand-chopped flat-leaf parsley with minimal fine bulgur wheat, juicy tomatoes, green onions, fresh mint, and a sharp lemon and olive oil dressing. Authentic Lebanese tabbouleh is overwhelmingly parsley with bulgur as a textural accent, not the other way around as it is often made in Western adaptations. The parsley must be hand-chopped with a sharp knife - a food processor bruises and darkens it within minutes.",
           details: {"cuisine":"Middle Eastern","prepTimeMinutes":30,"cookTimeMinutes":0,"baseServingSize":4,"spiceLevel":"None","season":["spring","summer"]},
-          ingredients: [{"amount":3,"unit":"large bunches","name":"flat-leaf parsley","notes":"The main ingredient. Leaves only - stems removed. Must be completely dry before chopping or the salad will weep. Wash and spin dry, then spread on towels for 30 minutes."},{"amount":0.25,"unit":"cup","name":"fine bulgur wheat (#1 grade)","notes":"Soaked in cold water 15 minutes and squeezed bone-dry by hand. The soaking removes bitterness and the squeezing is essential - wet bulgur makes a waterlogged salad."},{"amount":3,"unit":"medium","name":"firm ripe tomatoes","notes":"Very finely diced. Salt them lightly, let stand 5 minutes, then squeeze out the liquid before adding to avoid watering down the salad."},{"amount":5,"unit":"stalks","name":"green onions (scallions)","notes":"Thinly sliced on the diagonal, including some green tops."},{"amount":0.5,"unit":"cup","name":"fresh mint leaves","notes":"Finely chopped. Added just before serving as it wilts and darkens rapidly."},{"amount":0.5,"unit":"cup","name":"fresh lemon juice","notes":"From about 3 to 4 lemons. The acidity is the backbone of the dressing - use more rather than less."},{"amount":0.33,"unit":"cup","name":"extra-virgin olive oil","notes":"A grassy, peppery Lebanese-style olive oil is traditional."},{"amount":1","unit":"tsp","name":"fine sea salt","notes":"Adjust to taste. The salad should be bright and assertively seasoned."},{"amount":0.25,"unit":"tsp","name":"ground allspice","notes":"Optional but traditional. Adds subtle warmth."}],
+          ingredients: [{"amount":3,"unit":"large bunches","name":"flat-leaf parsley","notes":"The main ingredient. Leaves only - stems removed. Must be completely dry before chopping or the salad will weep. Wash and spin dry, then spread on towels for 30 minutes."},{"amount":0.25,"unit":"cup","name":"fine bulgur wheat (#1 grade)","notes":"Soaked in cold water 15 minutes and squeezed bone-dry by hand. The soaking removes bitterness and the squeezing is essential - wet bulgur makes a waterlogged salad."},{"amount":3,"unit":"medium","name":"firm ripe tomatoes","notes":"Very finely diced. Salt them lightly, let stand 5 minutes, then squeeze out the liquid before adding to avoid watering down the salad."},{"amount":5,"unit":"stalks","name":"green onions (scallions)","notes":"Thinly sliced on the diagonal, including some green tops."},{"amount":0.5,"unit":"cup","name":"fresh mint leaves","notes":"Finely chopped. Added just before serving as it wilts and darkens rapidly."},{"amount":0.5,"unit":"cup","name":"fresh lemon juice","notes":"From about 3 to 4 lemons. The acidity is the backbone of the dressing - use more rather than less."},{"amount":0.33,"unit":"cup","name":"extra-virgin olive oil","notes":"A grassy, peppery Lebanese-style olive oil is traditional."},{"amount":1,"unit":"tsp","name":"fine sea salt","notes":"Adjust to taste. The salad should be bright and assertively seasoned."},{"amount":0.25,"unit":"tsp","name":"ground allspice","notes":"Optional but traditional. Adds subtle warmth."}],
           instructions: ["Step 1: Wash the parsley well in cold water. Spin completely dry and spread on clean kitchen towels. Let air-dry for 30 minutes - any moisture will cause the chopped parsley to clump and turn dark quickly.","Step 2: Soak the fine bulgur in cold water for 15 minutes until slightly softened. Drain, then squeeze as hard as possible with your hands to remove all moisture. The bulgur should be nearly dry.","Step 3: Dice the tomatoes into very fine, 5mm cubes. Place in a colander, sprinkle with salt, and let drain for 5 minutes. Squeeze gently to remove excess juice.","Step 4: Remove all parsley stems. Gather the leaves into tight bundles and chop with a very sharp chef knife using a rocking motion, working from coarse to fine. The final cut should be small but not dust - you want texture. Transfer to a large bowl.","Step 5: Add the squeezed bulgur, drained tomatoes, sliced green onions, and chopped mint to the parsley. Pour over the lemon juice and olive oil. Season with salt and allspice. Toss thoroughly and taste for seasoning - it should be bright, herbaceous, and assertively lemony. Serve immediately on a bed of romaine lettuce leaves, which can be used as scoops."],
           classifications: {"mealType":["salad","mezze","side"],"cookingMethods":["chopping","mixing"]},
           elementalProperties: {"Fire":0.1,"Water":0.35,"Earth":0.3,"Air":0.25},
           astrologicalAffinities: {"planets":["Mercury","Moon"],"signs":["gemini","virgo"],"lunarPhases":["New Moon","Waxing Crescent"]},
           nutritionPerServing: {"calories":145,"proteinG":4,"carbsG":16,"fatG":8,"fiberG":4,"sodiumMg":290,"sugarG":3,"vitamins":["Vitamin K","Vitamin C","Vitamin A","Folate"],"minerals":["Iron","Potassium","Calcium"]},
-          substitutions: [{"originalIngredient":"bulgur wheat","substituteOptions":["quinoa (gluten-free)","cooked millet","cauliflower rice (low-carb)"]},{"originalIngredient":"flat-leaf parsley","substituteOptions":["a mix of parsley and cilantro","arugula for a peppery variation"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.2951,"reactivity":1.8905,"gregsEnergy":-0.4915,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"bulgur wheat","substituteOptions":["quinoa (gluten-free)","cooked millet","cauliflower rice (low-carb)"]},{"originalIngredient":"flat-leaf parsley","substituteOptions":["a mix of parsley and cilantro","arugula for a peppery variation"]}]
         },
 
         {
@@ -570,7 +606,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.1,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":550,"proteinG":35,"carbsG":32,"fatG":28,"fiberG":6,"sodiumMg":750,"sugarG":2,"vitamins":["Iron","Niacin"],"minerals":["Zinc","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Lean beef","substituteOptions":["Potato and pumpkin (for vegan Kibbeh)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.0955,"reactivity":0.3785,"gregsEnergy":0.0534,"kalchm":0.25,"monica":0.1017},
+                    substitutions: [{"originalIngredient":"Lean beef","substituteOptions":["Potato and pumpkin (for vegan Kibbeh)"]}]
         },
 
         {
@@ -583,7 +621,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":6,"carbsG":65,"fatG":18,"fiberG":3,"sodiumMg":180,"sugarG":45,"vitamins":["Riboflavin"],"minerals":["Calcium","Iron"]},
-          substitutions: [{"originalIngredient":"Ghee","substituteOptions":["Coconut oil"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.7555,"gregsEnergy":0.0,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Ghee","substituteOptions":["Coconut oil"]}]
         },
           {
             "name": "Authentic Hummus bi Tahini",
@@ -665,7 +705,9 @@ export const middleEastern: Cuisine = {
                 "Magnesium"
               ]
             },
-            "substitutions": []
+            alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+            thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":0.3376,"gregsEnergy":0.0426,"kalchm":0.25,"monica":0.0909},
+                        "substitutions": []
           },
           {
             "name": "Authentic Falafel",
@@ -748,7 +790,9 @@ export const middleEastern: Cuisine = {
                 "Magnesium"
               ]
             },
-            "substitutions": []
+            alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+            thermodynamicProperties: {"heat":0.0954,"entropy":0.1019,"reactivity":0.4024,"gregsEnergy":0.0544,"kalchm":0.25,"monica":0.0975},
+                        "substitutions": []
           },
           {
             "name": "Authentic Shakshuka",
@@ -830,7 +874,9 @@ export const middleEastern: Cuisine = {
                 "Selenium"
               ]
             },
-            "substitutions": []
+            alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+            thermodynamicProperties: {"heat":0.1716,"entropy":0.1872,"reactivity":1.4288,"gregsEnergy":-0.0959,"kalchm":1.0,"monica":1.0},
+                        "substitutions": []
           },
           {
             "name": "Authentic Mujadara",
@@ -913,7 +959,9 @@ export const middleEastern: Cuisine = {
                 "Potassium"
               ]
             },
-            "substitutions": []
+            alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+            thermodynamicProperties: {"heat":0.321,"entropy":0.3404,"reactivity":0.4506,"gregsEnergy":0.1676,"kalchm":1.0,"monica":1.0},
+                        "substitutions": []
           },
           {
             "name": "Authentic Kunafa",
@@ -995,7 +1043,9 @@ export const middleEastern: Cuisine = {
                 "Phosphorus"
               ]
             },
-            "substitutions": []
+            alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+            thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.7214,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
+                        "substitutions": []
           },
         {
           name: "Hummus",
@@ -1007,7 +1057,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","taurus"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":28,"fatG":18,"fiberG":9,"sodiumMg":420,"sugarG":3,"vitamins":["Folate","Vitamin B6"],"minerals":["Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":0.3376,"gregsEnergy":0.0426,"kalchm":0.25,"monica":0.0909},
+                    substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}]
         },
         {
           name: "Falafel",
@@ -1019,7 +1071,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":380,"proteinG":18,"carbsG":45,"fatG":16,"fiberG":12,"sodiumMg":650,"sugarG":3,"vitamins":["Folate","Vitamin K"],"minerals":["Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"chickpeas","substituteOptions":["fava beans (Egyptian-style falafel)","half chickpeas and half fava beans"]},{"originalIngredient":"cilantro","substituteOptions":["additional parsley for cilantro-averse palates"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.0955,"reactivity":0.397,"gregsEnergy":0.0516,"kalchm":0.25,"monica":0.0937},
+                    substitutions: [{"originalIngredient":"chickpeas","substituteOptions":["fava beans (Egyptian-style falafel)","half chickpeas and half fava beans"]},{"originalIngredient":"cilantro","substituteOptions":["additional parsley for cilantro-averse palates"]}]
         },
         {
           name: "Baba Ghanoush",
@@ -1031,7 +1085,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":180,"proteinG":5,"carbsG":15,"fatG":13,"fiberG":7,"sodiumMg":320,"sugarG":6,"vitamins":["Vitamin C","Folate"],"minerals":["Potassium","Magnesium"]},
-          substitutions: [{"originalIngredient":"globe eggplants","substituteOptions":["Japanese eggplants (thinner, char faster)","zucchini for a milder version"]},{"originalIngredient":"tahini","substituteOptions":["Greek yogurt for a lighter, less smoky version"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0057,"entropy":0.0064,"reactivity":0.8341,"gregsEnergy":0.0003,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"globe eggplants","substituteOptions":["Japanese eggplants (thinner, char faster)","zucchini for a milder version"]},{"originalIngredient":"tahini","substituteOptions":["Greek yogurt for a lighter, less smoky version"]}]
         },
         {
           name: "Mujaddara",
@@ -1043,7 +1099,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.6,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":480,"proteinG":17,"carbsG":68,"fatG":17,"fiberG":12,"sodiumMg":480,"sugarG":10,"vitamins":["Vitamin B6","Folate"],"minerals":["Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"long-grain white rice","substituteOptions":["bulgur wheat (traditional variation)","brown rice (longer cook time)"]},{"originalIngredient":"brown or green lentils","substituteOptions":["Puy lentils (firmer texture)","split peas"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.071,"reactivity":0.3055,"gregsEnergy":0.0473,"kalchm":0.25,"monica":0.1117},
+                    substitutions: [{"originalIngredient":"long-grain white rice","substituteOptions":["bulgur wheat (traditional variation)","brown rice (longer cook time)"]},{"originalIngredient":"brown or green lentils","substituteOptions":["Puy lentils (firmer texture)","split peas"]}]
         },
         {
           name: "Maqluba",
@@ -1055,7 +1113,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.25,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Sun"],"signs":["sagittarius","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":620,"proteinG":38,"carbsG":58,"fatG":24,"fiberG":6,"sodiumMg":820,"sugarG":7,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"bone-in chicken pieces","substituteOptions":["lamb shoulder","cauliflower and chickpeas for vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","potatoes"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.4152,"entropy":1.6016,"reactivity":42.1429,"gregsEnergy":-66.0792,"kalchm":4.0,"monica":1.1311},
+                    substitutions: [{"originalIngredient":"bone-in chicken pieces","substituteOptions":["lamb shoulder","cauliflower and chickpeas for vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","potatoes"]}]
         },
         {
           name: "Lamb Kofta Kebabs",
@@ -1067,7 +1127,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":490,"proteinG":36,"carbsG":22,"fatG":30,"fiberG":3,"sodiumMg":680,"sugarG":2,"vitamins":["Niacin","Vitamin B12"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["80/20 ground beef","half lamb and half beef","ground turkey with added olive oil"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.102,"entropy":0.1052,"reactivity":0.4301,"gregsEnergy":0.0568,"kalchm":0.25,"monica":0.0952},
+                    substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["80/20 ground beef","half lamb and half beef","ground turkey with added olive oil"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
         },
         {
           name: "Persian Tahdig",
@@ -1079,7 +1141,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.3,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Sun"],"signs":["capricorn","leo"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":6,"carbsG":68,"fatG":10,"fiberG":1,"sodiumMg":420,"sugarG":0,"vitamins":["Niacin","Thiamine"],"minerals":["Iron","Manganese"]},
-          substitutions: [{"originalIngredient":"aged basmati rice","substituteOptions":["jasmine rice (shorter grain, different texture)","extra-long grain basmati"]},{"originalIngredient":"neutral oil","substituteOptions":["clarified butter (ghee) for richer flavor","coconut oil"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":1.3265,"entropy":1.4066,"reactivity":2.1199,"gregsEnergy":-1.6553,"kalchm":4.0,"monica":0.5632},
+                    substitutions: [{"originalIngredient":"aged basmati rice","substituteOptions":["jasmine rice (shorter grain, different texture)","extra-long grain basmati"]},{"originalIngredient":"neutral oil","substituteOptions":["clarified butter (ghee) for richer flavor","coconut oil"]}]
         },
         {
           name: "Lentil Soup (Shorbat Adas)",
@@ -1091,7 +1155,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":290,"proteinG":18,"carbsG":42,"fatG":7,"fiberG":10,"sodiumMg":580,"sugarG":4,"vitamins":["Folate","Vitamin B6"],"minerals":["Iron","Potassium"]},
-          substitutions: [{"originalIngredient":"red lentils","substituteOptions":["yellow split peas (longer cook time)","green lentils (will not dissolve, must be blended)"]},{"originalIngredient":"water","substituteOptions":["vegetable broth for more depth","chicken broth"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.0741,"reactivity":0.4244,"gregsEnergy":0.0406,"kalchm":0.25,"monica":0.0689},
+                    substitutions: [{"originalIngredient":"red lentils","substituteOptions":["yellow split peas (longer cook time)","green lentils (will not dissolve, must be blended)"]},{"originalIngredient":"water","substituteOptions":["vegetable broth for more depth","chicken broth"]}]
         },
         {
           name: "Harira",
@@ -1103,7 +1169,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.4,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Jupiter","Moon"],"signs":["sagittarius","cancer"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":340,"proteinG":22,"carbsG":38,"fatG":10,"fiberG":9,"sodiumMg":720,"sugarG":7,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"lamb shoulder","substituteOptions":["beef chuck","chicken thighs","omit for vegan version"]},{"originalIngredient":"all-purpose flour","substituteOptions":["cornstarch slurry (half the amount)","rice flour"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0778,"reactivity":3.0917,"gregsEnergy":-0.165,"kalchm":4.0,"monica":0.0385},
+                    substitutions: [{"originalIngredient":"lamb shoulder","substituteOptions":["beef chuck","chicken thighs","omit for vegan version"]},{"originalIngredient":"all-purpose flour","substituteOptions":["cornstarch slurry (half the amount)","rice flour"]}]
         },
         {
           name: "Dolma",
@@ -1115,7 +1183,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":320,"proteinG":14,"carbsG":42,"fatG":11,"fiberG":4,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"brined grape leaves","substituteOptions":["blanched Swiss chard leaves","blanched cabbage leaves"]},{"originalIngredient":"ground lamb","substituteOptions":["ground beef","omit and double the rice and herbs for vegan version"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.7214,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"brined grape leaves","substituteOptions":["blanched Swiss chard leaves","blanched cabbage leaves"]},{"originalIngredient":"ground lamb","substituteOptions":["ground beef","omit and double the rice and herbs for vegan version"]}]
         },
         {
           name: "Shawarma",
@@ -1127,7 +1197,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.2,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":580,"proteinG":42,"carbsG":38,"fatG":28,"fiberG":3,"sodiumMg":890,"sugarG":4,"vitamins":["Niacin","Vitamin B6"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.202,"reactivity":1.4416,"gregsEnergy":-0.1063,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}]
         },
         {
           name: "Kofta Kebab",
@@ -1139,7 +1211,9 @@ export const middleEastern: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":5,"fatG":38,"fiberG":1,"sodiumMg":720,"sugarG":2,"vitamins":["Niacin","Vitamin B12"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.102,"entropy":0.1052,"reactivity":0.4301,"gregsEnergy":0.0568,"kalchm":0.25,"monica":0.0952},
+                    substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
         },
     ],
     },

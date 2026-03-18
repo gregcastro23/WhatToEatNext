@@ -139,7 +139,9 @@ export const russian: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.7188,"gregsEnergy":0.0001,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "tvorog (farmer's cheese)",
               "substituteOptions": [
@@ -182,7 +184,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.55,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":290,"proteinG":8,"carbsG":38,"fatG":12,"fiberG":5,"sodiumMg":480,"sugarG":1,"vitamins":["Niacin","Riboflavin","Thiamin"],"minerals":["Magnesium","Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"roasted buckwheat groats","substituteOptions":["millet","whole oats","brown rice (longer cook time)"]},{"originalIngredient":"butter","substituteOptions":["ghee","cold-pressed sunflower oil (traditional vegan)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":0.3187,"gregsEnergy":0.0456,"kalchm":0.25,"monica":0.1032},
+                    substitutions: [{"originalIngredient":"roasted buckwheat groats","substituteOptions":["millet","whole oats","brown rice (longer cook time)"]},{"originalIngredient":"butter","substituteOptions":["ghee","cold-pressed sunflower oil (traditional vegan)"]}]
         },
         {
           name: "Blini",
@@ -213,7 +217,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.2,"Earth":0.3,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
           nutritionPerServing: {"calories":340,"proteinG":13,"carbsG":44,"fatG":13,"fiberG":3,"sodiumMg":460,"sugarG":5,"vitamins":["Thiamin","Riboflavin","Vitamin D"],"minerals":["Manganese","Selenium","Calcium"]},
-          substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1405,"entropy":0.18,"reactivity":1.2811,"gregsEnergy":-0.0901,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}]
         },
         {
           name: "Oladi",
@@ -225,7 +231,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.15,"Air":0.35},
           astrologicalAffinities: {"planets":["Moon","Uranus"],"signs":["cancer","aquarius"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":350,"proteinG":10,"carbsG":48,"fatG":12,"fiberG":2,"sodiumMg":600,"sugarG":8,"vitamins":["Vitamin D","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Kefir","substituteOptions":["Buttermilk","Plain yogurt thinned with water"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0028,"entropy":0.0096,"reactivity":0.9189,"gregsEnergy":-0.006,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Kefir","substituteOptions":["Buttermilk","Plain yogurt thinned with water"]}]
         },
       ],
     },
@@ -266,7 +274,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":310,"proteinG":20,"carbsG":26,"fatG":14,"fiberG":6,"sodiumMg":980,"sugarG":8,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Iron","Potassium","Manganese"]},
-          substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":0.4291,"gregsEnergy":0.0361,"kalchm":0.25,"monica":0.0607},
+                    substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}]
         },
         {
           name: "Pelmeni",
@@ -278,7 +288,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":580,"proteinG":28,"carbsG":65,"fatG":22,"fiberG":3,"sodiumMg":850,"sugarG":2,"vitamins":["Iron","Thiamin"],"minerals":["Selenium","Zinc"]},
-          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":0.397,"gregsEnergy":0.0398,"kalchm":0.25,"monica":0.0724},
+                    substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
         },
         {
           name: "Shchi",
@@ -290,7 +302,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":350,"proteinG":25,"carbsG":22,"fatG":16,"fiberG":6,"sodiumMg":1100,"sugarG":5,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Potassium"]},
-          substitutions: [{"originalIngredient":"Sauerkraut","substituteOptions":["Fresh cabbage (for Shchi iz svezhey kapusty)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":0.4509,"gregsEnergy":0.0359,"kalchm":0.25,"monica":0.0574},
+                    substitutions: [{"originalIngredient":"Sauerkraut","substituteOptions":["Fresh cabbage (for Shchi iz svezhey kapusty)"]}]
         },
         {
           name: "Ukha",
@@ -302,7 +316,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.7,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Moon"],"signs":["pisces","cancer"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":320,"proteinG":35,"carbsG":25,"fatG":8,"fiberG":3,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin D","Vitamin B12"],"minerals":["Iodine","Selenium"]},
-          substitutions: [{"originalIngredient":"Prized fish","substituteOptions":["Cod","Halibut"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0004,"entropy":0.0706,"reactivity":4.5537,"gregsEnergy":-0.3212,"kalchm":4.0,"monica":0.0509},
+                    substitutions: [{"originalIngredient":"Prized fish","substituteOptions":["Cod","Halibut"]}]
         },
       ],
       winter: [
@@ -316,7 +332,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.4,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":480,"proteinG":25,"carbsG":12,"fatG":36,"fiberG":3,"sodiumMg":1800,"sugarG":4,"vitamins":["Vitamin C","Niacin"],"minerals":["Sodium","Iron"]},
-          substitutions: [{"originalIngredient":"Mixed cured meats","substituteOptions":["Mixed fish (for Fish Solyanka)","Wild mushrooms (for Mushroom Solyanka)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0041,"entropy":0.0047,"reactivity":0.8802,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Mixed cured meats","substituteOptions":["Mixed fish (for Fish Solyanka)","Wild mushrooms (for Mushroom Solyanka)"]}]
         },
       ],
     },
@@ -332,7 +350,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Mars"],"signs":["taurus","leo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":550,"proteinG":42,"carbsG":10,"fatG":38,"fiberG":2,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Portobello mushrooms (vegetarian)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0076,"entropy":0.0084,"reactivity":0.7958,"gregsEnergy":0.0009,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Portobello mushrooms (vegetarian)"]}]
         },
         {
           name: "Golubtsy",
@@ -344,7 +364,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":28,"fatG":25,"fiberG":5,"sodiumMg":700,"sugarG":8,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Iron"]},
-          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushrooms and buckwheat (vegetarian)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0051,"entropy":0.0069,"reactivity":0.6433,"gregsEnergy":0.0007,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushrooms and buckwheat (vegetarian)"]}]
         },
         {
           name: "Kotlety",
@@ -356,7 +378,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Venus"],"signs":["taurus","aries"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":480,"proteinG":28,"carbsG":18,"fatG":32,"fiberG":1,"sodiumMg":650,"sugarG":3,"vitamins":["Iron","Vitamin B12"],"minerals":["Zinc","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Ground chicken","Ground turkey"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0057,"entropy":0.0064,"reactivity":0.7555,"gregsEnergy":0.0008,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Ground chicken","Ground turkey"]}]
         },
         {
           name: "Olivier Salad",
@@ -368,7 +392,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.05,"Water":0.3,"Earth":0.5,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","virgo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":14,"carbsG":25,"fatG":28,"fiberG":4,"sodiumMg":850,"sugarG":5,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
-          substitutions: [{"originalIngredient":"Doctor's sausage","substituteOptions":["Boiled beef","Vegetarian sausage"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0643,"entropy":0.071,"reactivity":0.3384,"gregsEnergy":0.0402,"kalchm":0.25,"monica":0.0858},
+                    substitutions: [{"originalIngredient":"Doctor's sausage","substituteOptions":["Boiled beef","Vegetarian sausage"]}]
         },
             {
               "name": "Authentic Ukrainian Borscht",
@@ -450,7 +476,9 @@ export const russian: Cuisine = {
                   "Potassium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+              thermodynamicProperties: {"heat":0.001,"entropy":0.0011,"reactivity":0.8081,"gregsEnergy":0.0001,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               name: "Vinegret",
@@ -480,7 +508,9 @@ export const russian: Cuisine = {
               elementalProperties: {"Fire":0.05,"Water":0.3,"Earth":0.55,"Air":0.1},
               astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
               nutritionPerServing: {"calories":195,"proteinG":5,"carbsG":32,"fatG":7,"fiberG":7,"sodiumMg":620,"sugarG":9,"vitamins":["Vitamin C","Folate","Vitamin K"],"minerals":["Potassium","Manganese","Iron"]},
-              substitutions: [{"originalIngredient":"sauerkraut","substituteOptions":["fresh shredded cabbage marinated in vinegar","pickled red cabbage"]},{"originalIngredient":"sunflower oil","substituteOptions":["light olive oil","rapeseed oil"]}]
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+              thermodynamicProperties: {"heat":0.0643,"entropy":0.0683,"reactivity":0.3233,"gregsEnergy":0.0422,"kalchm":0.25,"monica":0.0941},
+                            substitutions: [{"originalIngredient":"sauerkraut","substituteOptions":["fresh shredded cabbage marinated in vinegar","pickled red cabbage"]},{"originalIngredient":"sunflower oil","substituteOptions":["light olive oil","rapeseed oil"]}]
             },
             {
               name: "Pirozhki",
@@ -513,7 +543,9 @@ export const russian: Cuisine = {
               elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
               astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["First Quarter","Waxing Gibbous"]},
               nutritionPerServing: {"calories":450,"proteinG":20,"carbsG":50,"fatG":19,"fiberG":3,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin B12","Niacin"],"minerals":["Zinc","Iron","Selenium"]},
-              substitutions: [{"originalIngredient":"ground beef","substituteOptions":["braised cabbage with hard-boiled egg (vegetarian)","mashed potato and cheese","sauteed mushrooms with onion"]},{"originalIngredient":"all-purpose flour","substituteOptions":["half whole wheat flour for a nuttier dough"]}]
+              alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.561,"entropy":0.6065,"reactivity":2.6224,"gregsEnergy":-1.0295,"kalchm":4.0,"monica":0.2832},
+                            substitutions: [{"originalIngredient":"ground beef","substituteOptions":["braised cabbage with hard-boiled egg (vegetarian)","mashed potato and cheese","sauteed mushrooms with onion"]},{"originalIngredient":"all-purpose flour","substituteOptions":["half whole wheat flour for a nuttier dough"]}]
             },
             {
               name: "Medovik",
@@ -543,7 +575,9 @@ export const russian: Cuisine = {
               elementalProperties: {"Fire":0.2,"Water":0.25,"Earth":0.45,"Air":0.1},
               astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
               nutritionPerServing: {"calories":560,"proteinG":9,"carbsG":72,"fatG":28,"fiberG":1,"sodiumMg":210,"sugarG":48,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
-              substitutions: [{"originalIngredient":"smetana","substituteOptions":["creme fraiche","heavy whipped cream sweetened with sugar","mascarpone mixed with sour cream"]},{"originalIngredient":"dark honey","substituteOptions":["maple syrup (different flavor profile but works)"]}]
+              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+              thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.6851,"gregsEnergy":0.0002,"kalchm":1.0,"monica":1.0},
+                            substitutions: [{"originalIngredient":"smetana","substituteOptions":["creme fraiche","heavy whipped cream sweetened with sugar","mascarpone mixed with sour cream"]},{"originalIngredient":"dark honey","substituteOptions":["maple syrup (different flavor profile but works)"]}]
             },
             {
               name: "Okroshka",
@@ -574,7 +608,9 @@ export const russian: Cuisine = {
               elementalProperties: {"Fire":0.05,"Water":0.55,"Earth":0.3,"Air":0.1},
               astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent","New Moon"]},
               nutritionPerServing: {"calories":285,"proteinG":18,"carbsG":28,"fatG":11,"fiberG":4,"sodiumMg":720,"sugarG":6,"vitamins":["Vitamin C","Vitamin B12","Folate"],"minerals":["Potassium","Iron","Phosphorus"]},
-              substitutions: [{"originalIngredient":"kvas","substituteOptions":["kefir thinned with water and lemon juice","sparkling mineral water with sour cream base only"]},{"originalIngredient":"boiled beef","substituteOptions":["cooked chicken breast","smoked salmon"]}]
+              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+              thermodynamicProperties: {"heat":0.0001,"entropy":0.0683,"reactivity":3.145,"gregsEnergy":-0.2147,"kalchm":4.0,"monica":0.0493},
+                            substitutions: [{"originalIngredient":"kvas","substituteOptions":["kefir thinned with water and lemon juice","sparkling mineral water with sour cream base only"]},{"originalIngredient":"boiled beef","substituteOptions":["cooked chicken breast","smoked salmon"]}]
             },
             {
               name: "Rassolnik",
@@ -607,7 +643,9 @@ export const russian: Cuisine = {
               elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
               astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","scorpio"],"lunarPhases":["Waning Gibbous","Last Quarter"]},
               nutritionPerServing: {"calories":340,"proteinG":22,"carbsG":32,"fatG":14,"fiberG":5,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Selenium","Potassium"]},
-              substitutions: [{"originalIngredient":"beef kidney","substituteOptions":["beef chuck (milder)","chicken thighs","pork ribs"]},{"originalIngredient":"pearl barley","substituteOptions":["brown rice","whole wheat berries"]}]
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+              thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":0.4291,"gregsEnergy":0.0361,"kalchm":0.25,"monica":0.0607},
+                            substitutions: [{"originalIngredient":"beef kidney","substituteOptions":["beef chuck (milder)","chicken thighs","pork ribs"]},{"originalIngredient":"pearl barley","substituteOptions":["brown rice","whole wheat berries"]}]
             },
             {
               name: "Plov",
@@ -641,7 +679,9 @@ export const russian: Cuisine = {
               elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
               astrologicalAffinities: {"planets":["Jupiter","Mars","Saturn"],"signs":["sagittarius","aries","capricorn"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
               nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":58,"fatG":32,"fiberG":5,"sodiumMg":820,"sugarG":7,"vitamins":["Niacin","Vitamin B12","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
-              substitutions: [{"originalIngredient":"bone-in lamb","substituteOptions":["beef chuck","chicken thighs (shorter cook time)"]},{"originalIngredient":"devzira or basmati rice","substituteOptions":["jasmine rice"]}]
+              alchemicalProperties: {"Spirit":2,"Essence":2,"Matter":2,"Substance":0},
+              thermodynamicProperties: {"heat":0.1852,"entropy":0.1938,"reactivity":1.4132,"gregsEnergy":-0.0887,"kalchm":4.0,"monica":0.0453},
+                            substitutions: [{"originalIngredient":"bone-in lamb","substituteOptions":["beef chuck","chicken thighs (shorter cook time)"]},{"originalIngredient":"devzira or basmati rice","substituteOptions":["jasmine rice"]}]
             }
         ],
       winter: [
@@ -655,7 +695,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.3,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":480,"proteinG":32,"carbsG":35,"fatG":22,"fiberG":5,"sodiumMg":680,"sugarG":6,"vitamins":["Vitamin A","Vitamin C","Niacin"],"minerals":["Iron","Potassium","Zinc"]},
-          substitutions: [{"originalIngredient":"beef chuck or pork shoulder","substituteOptions":["lamb shoulder","venison stew meat"]},{"originalIngredient":"tomato paste","substituteOptions":["fresh tomatoes, diced","adjika (Georgian chili paste) for a spicier version"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.0767,"reactivity":0.3715,"gregsEnergy":0.0435,"kalchm":0.25,"monica":0.0845},
+                    substitutions: [{"originalIngredient":"beef chuck or pork shoulder","substituteOptions":["lamb shoulder","venison stew meat"]},{"originalIngredient":"tomato paste","substituteOptions":["fresh tomatoes, diced","adjika (Georgian chili paste) for a spicier version"]}]
         },
       ],
     },
@@ -671,7 +713,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.25,"Earth":0.4,"Air":0.2},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
           nutritionPerServing: {"calories":350,"proteinG":12,"carbsG":38,"fatG":18,"fiberG":1,"sodiumMg":120,"sugarG":28,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta cheese (strained overnight)","cream cheese mixed with strained cottage cheese"]},{"originalIngredient":"heavy cream","substituteOptions":["mascarpone cheese","coconut cream (dairy-free)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.0029,"reactivity":0.7161,"gregsEnergy":-0.0011,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta cheese (strained overnight)","cream cheese mixed with strained cottage cheese"]},{"originalIngredient":"heavy cream","substituteOptions":["mascarpone cheese","coconut cream (dairy-free)"]}]
         },
         {
           name: "Sochnik",
@@ -683,7 +727,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","virgo"],"lunarPhases":["Waxing Crescent","Full Moon"]},
           nutritionPerServing: {"calories":165,"proteinG":5,"carbsG":18,"fatG":8,"fiberG":0.5,"sodiumMg":95,"sugarG":6,"vitamins":["Riboflavin","Vitamin A"],"minerals":["Calcium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta (strained overnight)","cream cheese softened to room temperature"]},{"originalIngredient":"sour cream in dough","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0041,"entropy":0.0047,"reactivity":0.7188,"gregsEnergy":0.0007,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta (strained overnight)","cream cheese softened to room temperature"]},{"originalIngredient":"sour cream in dough","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
         },
         {
           name: "Vareniki s Vishney",
@@ -695,7 +741,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":9,"carbsG":68,"fatG":9,"fiberG":3,"sodiumMg":210,"sugarG":22,"vitamins":["Vitamin C","Folate"],"minerals":["Iron","Potassium"]},
-          substitutions: [{"originalIngredient":"sour cherries","substituteOptions":["fresh blueberries","tart plums, pitted and diced","sweetened tvorog with raisins (a different but classic filling)"]},{"originalIngredient":"smetana","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.002,"reactivity":0.7546,"gregsEnergy":-0.0006,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"sour cherries","substituteOptions":["fresh blueberries","tart plums, pitted and diced","sweetened tvorog with raisins (a different but classic filling)"]},{"originalIngredient":"smetana","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
         },
         {
           name: "Pryaniki",
@@ -707,7 +755,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.15,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":120,"proteinG":2,"carbsG":22,"fatG":3,"fiberG":0.5,"sodiumMg":55,"sugarG":14,"vitamins":["Thiamin","Riboflavin"],"minerals":["Iron","Manganese"]},
-          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.587,"entropy":0.6632,"reactivity":2.8354,"gregsEnergy":-1.2934,"kalchm":4.0,"monica":0.329},
+                    substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
         },
       ],
       winter: [
@@ -721,7 +771,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.15,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":120,"proteinG":2,"carbsG":22,"fatG":3,"fiberG":0.5,"sodiumMg":55,"sugarG":14,"vitamins":["Thiamin","Riboflavin"],"minerals":["Iron","Manganese"]},
-          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.587,"entropy":0.6632,"reactivity":2.8354,"gregsEnergy":-1.2934,"kalchm":4.0,"monica":0.329},
+                    substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
         },
 
         {
@@ -734,7 +786,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":580,"proteinG":28,"carbsG":65,"fatG":22,"fiberG":3,"sodiumMg":850,"sugarG":2,"vitamins":["Iron","Thiamin"],"minerals":["Selenium","Zinc"]},
-          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":0.397,"gregsEnergy":0.0398,"kalchm":0.25,"monica":0.0724},
+                    substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
         },
       ],
     },

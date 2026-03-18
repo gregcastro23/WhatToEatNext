@@ -19,7 +19,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.15,"Earth":0.5,"Air":0.2},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["taurus","cancer"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":450,"proteinG":12,"carbsG":45,"fatG":24,"fiberG":1,"sodiumMg":950,"sugarG":1,"vitamins":["Choline","Vitamin B12"],"minerals":["Iron","Selenium"]},
-          substitutions: [{"originalIngredient":"Butter","substituteOptions":["Gochujang (for heat)","Omit for traditional"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0028,"entropy":0.0089,"reactivity":0.4822,"gregsEnergy":-0.0015,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Butter","substituteOptions":["Gochujang (for heat)","Omit for traditional"]}]
         },
         {
           name: "Juk",
@@ -31,7 +33,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.6,"Earth":0.25,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":280,"proteinG":6,"carbsG":42,"fatG":9,"fiberG":2,"sodiumMg":450,"sugarG":3,"vitamins":["Vitamin A","Vitamin K"],"minerals":["Manganese","Magnesium"]},
-          substitutions: [{"originalIngredient":"Minced vegetables","substituteOptions":["Abalone (for Jeonbokjuk)","Minced beef"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0004,"entropy":0.0683,"reactivity":3.4384,"gregsEnergy":-0.2345,"kalchm":4.0,"monica":0.0492},
+                    substitutions: [{"originalIngredient":"Minced vegetables","substituteOptions":["Abalone (for Jeonbokjuk)","Minced beef"]}]
         },
       ],
       summer: [
@@ -45,7 +49,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.05,"Water":0.55,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":58,"fatG":10,"fiberG":8,"sodiumMg":420,"sugarG":4,"vitamins":["Vitamin K","Folate"],"minerals":["Calcium","Magnesium"]},
-          substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Rice noodles"]},{"originalIngredient":"Soybeans","substituteOptions":["Black soybeans for a grey broth"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0001,"entropy":0.0005,"reactivity":0.8157,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Rice noodles"]},{"originalIngredient":"Soybeans","substituteOptions":["Black soybeans for a grey broth"]}]
         },
       ],
     },
@@ -114,7 +120,9 @@ export const korean: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.625,"entropy":3.0,"reactivity":7.0,"gregsEnergy":-19.375,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           name: "Kimchi Jjigae",
@@ -126,7 +134,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.55,"Water":0.25,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["aries","scorpio"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":480,"proteinG":22,"carbsG":14,"fatG":38,"fiberG":4,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Canned tuna","More tofu (vegan)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0153,"entropy":0.0158,"reactivity":0.9448,"gregsEnergy":0.0004,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Canned tuna","More tofu (vegan)"]}]
         },
       ],
       summer: [
@@ -140,7 +150,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":450,"proteinG":28,"carbsG":62,"fatG":8,"fiberG":5,"sodiumMg":900,"sugarG":3,"vitamins":["Vitamin B12","Vitamin K"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken breast","Tofu for vegetarian"]},{"originalIngredient":"Dongchimi brine","substituteOptions":["Diluted apple cider vinegar with a pinch of sugar"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":0.4588,"gregsEnergy":0.034,"kalchm":0.25,"monica":0.0535},
+                    substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken breast","Tofu for vegetarian"]},{"originalIngredient":"Dongchimi brine","substituteOptions":["Diluted apple cider vinegar with a pinch of sugar"]}]
         },
       ],
       winter: [
@@ -154,7 +166,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["capricorn","cancer"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":390,"proteinG":22,"carbsG":52,"fatG":10,"fiberG":2,"sodiumMg":820,"sugarG":2,"vitamins":["Vitamin B12","Choline"],"minerals":["Iron","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken for a lighter broth","Omit for vegetarian with kelp-only stock"]},{"originalIngredient":"Garaetteok","substituteOptions":["Mandu (dumplings) for Tteok-mandu-guk"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.071,"reactivity":0.4301,"gregsEnergy":0.0385,"kalchm":0.25,"monica":0.0645},
+                    substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken for a lighter broth","Omit for vegetarian with kelp-only stock"]},{"originalIngredient":"Garaetteok","substituteOptions":["Mandu (dumplings) for Tteok-mandu-guk"]}]
         },
       ],
     },
@@ -170,7 +184,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.05,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Venus"],"signs":["taurus","aries"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":850,"proteinG":35,"carbsG":12,"fatG":72,"fiberG":3,"sodiumMg":850,"sugarG":4,"vitamins":["Vitamin K","Thiamin"],"minerals":["Zinc","Selenium"]},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Beef short ribs (Galbi)","Thick-cut mushrooms"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0123,"entropy":0.0134,"reactivity":0.7718,"gregsEnergy":0.002,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Beef short ribs (Galbi)","Thick-cut mushrooms"]}]
         },
         {
           name: "Sundubu Jjigae",
@@ -182,7 +198,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.6,"Water":0.3,"Earth":0.05,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":350,"proteinG":28,"carbsG":12,"fatG":22,"fiberG":3,"sodiumMg":1100,"sugarG":3,"vitamins":["Vitamin A","Vitamin B12"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Pork belly","Enoki mushrooms"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0186,"entropy":0.0192,"reactivity":1.0595,"gregsEnergy":-0.0017,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Pork belly","Enoki mushrooms"]}]
         },
         {
           "name": "Authentic Korean Bulgogi",
@@ -245,7 +263,9 @@ export const korean: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0311,"entropy":0.0354,"reactivity":0.7308,"gregsEnergy":0.0053,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           name: "Dakgalbi",
@@ -257,7 +277,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.55,"Water":0.1,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":65,"fatG":12,"fiberG":8,"sodiumMg":1250,"sugarG":14,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
-          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Spicy pork","Extra tofu and mushrooms"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1094,"entropy":0.117,"reactivity":3.4064,"gregsEnergy":-0.289,"kalchm":4.0,"monica":0.0612},
+                    substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Spicy pork","Extra tofu and mushrooms"]}]
         },
         {
           name: "Haemul Pajeon",
@@ -269,7 +291,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter"],"signs":["sagittarius"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":450,"proteinG":20,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":600,"sugarG":4,"vitamins":["Vitamin D"],"minerals":["Zinc"]},
-          substitutions: [{"originalIngredient":"Core element of Haemul Pajeon","substituteOptions":["Alternative element"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":0.3469,"entropy":0.5,"reactivity":35.0,"gregsEnergy":-17.1531,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Core element of Haemul Pajeon","substituteOptions":["Alternative element"]}]
         },
         {
           name: "Gamjatang",
@@ -281,7 +305,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.35,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":580,"proteinG":42,"carbsG":28,"fatG":32,"fiberG":4,"sodiumMg":980,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Iron","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Pork neck bones","substituteOptions":["Pork ribs","Beef neck bones"]},{"originalIngredient":"Perilla leaves","substituteOptions":["Fresh basil","Sesame leaves"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0954,"entropy":0.0984,"reactivity":0.5035,"gregsEnergy":0.0459,"kalchm":0.25,"monica":0.0657},
+                    substitutions: [{"originalIngredient":"Pork neck bones","substituteOptions":["Pork ribs","Beef neck bones"]},{"originalIngredient":"Perilla leaves","substituteOptions":["Fresh basil","Sesame leaves"]}]
         },
         {
           name: "Bossam",
@@ -293,7 +319,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":620,"proteinG":38,"carbsG":12,"fatG":48,"fiberG":3,"sodiumMg":1050,"sugarG":4,"vitamins":["Vitamin B1","Vitamin B6"],"minerals":["Zinc","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Pork shoulder for leaner version","Beef brisket"]},{"originalIngredient":"Fresh oysters","substituteOptions":["Omit for a simpler version"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.0019,"reactivity":0.8025,"gregsEnergy":0.0002,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Pork shoulder for leaner version","Beef brisket"]},{"originalIngredient":"Fresh oysters","substituteOptions":["Omit for a simpler version"]}]
         },
             {
               "name": "Authentic Jeonju Bibimbap",
@@ -375,7 +403,9 @@ export const korean: Cuisine = {
                   "Manganese"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":1.2469,"entropy":1.4922,"reactivity":1.8156,"gregsEnergy":-1.4622,"kalchm":4.0,"monica":0.581},
+                            "substitutions": []
             },
             {
               "name": "Authentic Japchae",
@@ -455,7 +485,9 @@ export const korean: Cuisine = {
                   "Zinc"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+              thermodynamicProperties: {"heat":0.0756,"entropy":0.3233,"reactivity":1.7243,"gregsEnergy":-0.482,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Beef Bulgogi",
@@ -536,7 +568,9 @@ export const korean: Cuisine = {
                   "Selenium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.2,"entropy":0.2188,"reactivity":1.3432,"gregsEnergy":-0.0938,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Haemul Pajeon",
@@ -617,7 +651,9 @@ export const korean: Cuisine = {
                   "Calcium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+              thermodynamicProperties: {"heat":0.0098,"entropy":0.0116,"reactivity":0.839,"gregsEnergy":0.0,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Hotteok",
@@ -697,7 +733,9 @@ export const korean: Cuisine = {
                   "Manganese"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.1598,"entropy":0.1832,"reactivity":1.0995,"gregsEnergy":-0.0416,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
         {
           name: "Tteokbokki",
@@ -709,7 +747,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.25,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["aries","scorpio"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":16,"carbsG":72,"fatG":8,"fiberG":3,"sodiumMg":1100,"sugarG":18,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Eomuk fish cakes","substituteOptions":["Tofu puffs","Sliced mushrooms"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock","Water with a pinch of dashi powder"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0123,"entropy":0.0128,"reactivity":0.8915,"gregsEnergy":0.001,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Eomuk fish cakes","substituteOptions":["Tofu puffs","Sliced mushrooms"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock","Water with a pinch of dashi powder"]}]
         },
         {
           name: "Kimbap",
@@ -721,7 +761,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.5,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Mercury"],"signs":["cancer","virgo"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":480,"proteinG":22,"carbsG":68,"fatG":14,"fiberG":4,"sodiumMg":820,"sugarG":5,"vitamins":["Vitamin A","Vitamin K"],"minerals":["Iron","Manganese"]},
-          substitutions: [{"originalIngredient":"Beef bulgogi","substituteOptions":["Tuna with mayonnaise","Imitation crab sticks"]},{"originalIngredient":"Danmuji","substituteOptions":["Regular pickle strips"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.2805,"reactivity":1.3711,"gregsEnergy":-0.3156,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Beef bulgogi","substituteOptions":["Tuna with mayonnaise","Imitation crab sticks"]},{"originalIngredient":"Danmuji","substituteOptions":["Regular pickle strips"]}]
         },
         {
           name: "Mandu",
@@ -733,7 +775,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.3,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":360,"proteinG":20,"carbsG":42,"fatG":12,"fiberG":3,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin B6","Vitamin K"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground chicken","Mushroom and tofu for vegetarian"]},{"originalIngredient":"Mandu wrappers","substituteOptions":["Gyoza wrappers","Homemade flour wrappers"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.7188,"gregsEnergy":0.0001,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground chicken","Mushroom and tofu for vegetarian"]},{"originalIngredient":"Mandu wrappers","substituteOptions":["Gyoza wrappers","Homemade flour wrappers"]}]
         },
         {
           name: "Doenjang Jjigae",
@@ -745,7 +789,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.5,"Earth":0.25,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":280,"proteinG":18,"carbsG":28,"fatG":9,"fiberG":6,"sodiumMg":1050,"sugarG":5,"vitamins":["Vitamin C","Vitamin B2"],"minerals":["Calcium","Iron"]},
-          substitutions: [{"originalIngredient":"Doenjang","substituteOptions":["Japanese miso (milder result)","Red miso"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock for vegetarian"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.0741,"reactivity":0.4528,"gregsEnergy":0.0385,"kalchm":0.25,"monica":0.0613},
+                    substitutions: [{"originalIngredient":"Doenjang","substituteOptions":["Japanese miso (milder result)","Red miso"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock for vegetarian"]}]
         },
         {
           name: "Galbijjim",
@@ -757,7 +803,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.35,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Jupiter"],"signs":["capricorn","sagittarius"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":45,"carbsG":38,"fatG":38,"fiberG":4,"sodiumMg":1200,"sugarG":22,"vitamins":["Vitamin B12","Vitamin A"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"Asian pear","substituteOptions":["Kiwi fruit","Grated apple"]},{"originalIngredient":"Chestnuts","substituteOptions":["Water chestnuts","Omit"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.5372,"entropy":0.5576,"reactivity":2.8464,"gregsEnergy":-1.05,"kalchm":4.0,"monica":0.2661},
+                    substitutions: [{"originalIngredient":"Asian pear","substituteOptions":["Kiwi fruit","Grated apple"]},{"originalIngredient":"Chestnuts","substituteOptions":["Water chestnuts","Omit"]}]
         },
         {
           name: "Seolleongtang",
@@ -769,7 +817,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":320,"proteinG":28,"carbsG":22,"fatG":14,"fiberG":1,"sodiumMg":680,"sugarG":1,"vitamins":["Vitamin B12","Choline"],"minerals":["Calcium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Ox leg bones","substituteOptions":["Pork neck bones","Chicken carcasses for a lighter version"]},{"originalIngredient":"Somyeon noodles","substituteOptions":["Rice cakes","Udon noodles"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.071,"reactivity":0.4928,"gregsEnergy":0.034,"kalchm":0.25,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Ox leg bones","substituteOptions":["Pork neck bones","Chicken carcasses for a lighter version"]},{"originalIngredient":"Somyeon noodles","substituteOptions":["Rice cakes","Udon noodles"]}]
         },
         {
           name: "Jjimdak",
@@ -781,7 +831,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.35,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":52,"fatG":18,"fiberG":4,"sodiumMg":1150,"sugarG":12,"vitamins":["Vitamin B6","Vitamin A"],"minerals":["Potassium","Iron"]},
-          substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Bone-in thighs only","Duck pieces"]},{"originalIngredient":"Oyster sauce","substituteOptions":["Additional soy sauce with a pinch of sugar"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.5372,"entropy":0.5799,"reactivity":3.074,"gregsEnergy":-1.2455,"kalchm":4.0,"monica":0.2923},
+                    substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Bone-in thighs only","Duck pieces"]},{"originalIngredient":"Oyster sauce","substituteOptions":["Additional soy sauce with a pinch of sugar"]}]
         },
         {
           name: "Bibim Guksu",
@@ -793,7 +845,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":380,"proteinG":16,"carbsG":62,"fatG":8,"fiberG":5,"sodiumMg":950,"sugarG":14,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Iron","Manganese"]},
-          substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Udon noodles"]},{"originalIngredient":"Gochujang","substituteOptions":["Sambal oelek mixed with miso"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0954,"entropy":0.3686,"reactivity":2.4972,"gregsEnergy":-0.825,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Udon noodles"]},{"originalIngredient":"Gochujang","substituteOptions":["Sambal oelek mixed with miso"]}]
         },
         {
           name: "Haemul Dubu Jorim",
@@ -805,7 +859,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.3,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["scorpio","aries"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":32,"carbsG":18,"fatG":22,"fiberG":4,"sodiumMg":1100,"sugarG":6,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Additional tofu","Chicken pieces"]},{"originalIngredient":"Anchovy stock","substituteOptions":["Vegetable stock","Water with dashi"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0123,"entropy":0.0128,"reactivity":0.9394,"gregsEnergy":0.0004,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Additional tofu","Chicken pieces"]},{"originalIngredient":"Anchovy stock","substituteOptions":["Vegetable stock","Water with dashi"]}]
         }
         ],
       winter: [
@@ -819,7 +875,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":550,"proteinG":22,"carbsG":48,"fatG":30,"fiberG":5,"sodiumMg":1400,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Iron","Sodium"]},
-          substitutions: [{"originalIngredient":"Spam","substituteOptions":["Turkey Spam","Sliced ham"]},{"originalIngredient":"Hot dogs","substituteOptions":["Smoked sausage","Tofu puffs"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0954,"entropy":0.1019,"reactivity":4.0095,"gregsEnergy":-0.313,"kalchm":4.0,"monica":0.0563},
+                    substitutions: [{"originalIngredient":"Spam","substituteOptions":["Turkey Spam","Sliced ham"]},{"originalIngredient":"Hot dogs","substituteOptions":["Smoked sausage","Tofu puffs"]}]
         },
       ],
       summer: [
@@ -833,7 +891,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Water":0.45,"Earth":0.3,"Fire":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Jupiter"],"signs":["cancer","sagittarius"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":45,"carbsG":35,"fatG":38,"fiberG":2,"sodiumMg":320,"sugarG":4,"vitamins":["Vitamin B6","Vitamin C"],"minerals":["Iron","Potassium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Fresh ginseng","substituteOptions":["Dried ginseng slices","Ginseng tea bags"]},{"originalIngredient":"Ginkgo nuts","substituteOptions":["Pine nuts","Chestnuts"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":3.0976,"gregsEnergy":-0.1585,"kalchm":4.0,"monica":0.0369},
+                    substitutions: [{"originalIngredient":"Fresh ginseng","substituteOptions":["Dried ginseng slices","Ginseng tea bags"]},{"originalIngredient":"Ginkgo nuts","substituteOptions":["Pine nuts","Chestnuts"]}]
         },
       ],
     },
@@ -849,7 +909,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Water":0.5,"Air":0.3,"Earth":0.15,"Fire":0.05},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":320,"proteinG":6,"carbsG":62,"fatG":8,"fiberG":3,"sodiumMg":85,"sugarG":42,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Calcium","Iron"]},
-          substitutions: [{"originalIngredient":"Milk ice","substituteOptions":["Plain shaved ice with evaporated milk"]},{"originalIngredient":"Mochi","substituteOptions":["Chewy tteok pieces","Jelly cubes"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0001,"entropy":0.0043,"reactivity":0.9394,"gregsEnergy":-0.0039,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Milk ice","substituteOptions":["Plain shaved ice with evaporated milk"]},{"originalIngredient":"Mochi","substituteOptions":["Chewy tteok pieces","Jelly cubes"]}]
         },
       ],
       winter: [
@@ -863,7 +925,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary ingredient for Hotteok","substituteOptions":["Elemental equivalent"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1405,"entropy":0.18,"reactivity":1.4,"gregsEnergy":-0.1115,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Primary ingredient for Hotteok","substituteOptions":["Elemental equivalent"]}]
         },
       ],
       all: [
@@ -877,7 +941,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary ingredient for Songpyeon","substituteOptions":["Elemental equivalent"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1405,"entropy":0.18,"reactivity":1.4,"gregsEnergy":-0.1115,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Primary ingredient for Songpyeon","substituteOptions":["Elemental equivalent"]}]
         },
         {
           name: "Japchae",
@@ -889,7 +955,9 @@ export const korean: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary ingredient for Japchae","substituteOptions":["Elemental equivalent"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1405,"entropy":0.18,"reactivity":1.4,"gregsEnergy":-0.1115,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Primary ingredient for Japchae","substituteOptions":["Elemental equivalent"]}]
         },
       ],
     },

@@ -351,7 +351,9 @@ export const african: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1598,"entropy":0.1937,"reactivity":1.2929,"gregsEnergy":-0.0906,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "coconut milk",
               "substituteOptions": [
@@ -490,7 +492,9 @@ export const african: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.202,"reactivity":1.5799,"gregsEnergy":-0.1342,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "eggs",
               "substituteOptions": [
@@ -631,7 +635,9 @@ export const african: Cuisine = {
               "Manganese"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2798,"entropy":0.3148,"reactivity":0.5434,"gregsEnergy":0.1087,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "dried fava beans",
               "substituteOptions": [
@@ -775,7 +781,9 @@ export const african: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0843,"entropy":0.0899,"reactivity":0.3934,"gregsEnergy":0.0489,"kalchm":0.25,"monica":0.0897},
+                    "substitutions": [
             {
               "originalIngredient": "niter kibbeh",
               "substituteOptions": [
@@ -908,7 +916,9 @@ export const african: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.3819,"reactivity":1.8994,"gregsEnergy":-0.636,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "dried black-eyed peas",
               "substituteOptions": [
@@ -1083,7 +1093,9 @@ export const african: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.202,"reactivity":1.3225,"gregsEnergy":-0.0822,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "chicken bouillon or stock",
               "substituteOptions": [
@@ -1226,7 +1238,9 @@ export const african: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0123,"entropy":0.0134,"reactivity":0.8459,"gregsEnergy":0.001,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "niter kibbeh",
               "substituteOptions": [
@@ -1375,7 +1389,9 @@ export const african: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":0,"Substance":1},
+          thermodynamicProperties: {"heat":1.5142,"entropy":25.4938,"reactivity":130.625,"gregsEnergy":-3328.6169,"kalchm":4.0,"monica":18.3815},
+                    "substitutions": [
             {
               "originalIngredient": "chicken",
               "substituteOptions": [
@@ -1552,7 +1568,9 @@ export const african: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0028,"entropy":0.0805,"reactivity":3.074,"gregsEnergy":-0.2447,"kalchm":4.0,"monica":0.0574},
+                    "substitutions": [
             {
               "originalIngredient": "firm white fish",
               "substituteOptions": [
@@ -1721,7 +1739,9 @@ export const african: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2361,"entropy":0.259,"reactivity":1.5184,"gregsEnergy":-0.1571,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "beef sirloin",
               "substituteOptions": [
@@ -1891,7 +1911,9 @@ export const african: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.321,"entropy":0.3633,"reactivity":0.4844,"gregsEnergy":0.145,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "macaroni",
               "substituteOptions": [
@@ -2052,7 +2074,9 @@ export const african: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.2469,"entropy":1.4922,"reactivity":25.1975,"gregsEnergy":-36.3527,"kalchm":4.0,"monica":1.0407},
+                    "substitutions": [
             {
               "originalIngredient": "ground beef",
               "substituteOptions": [
@@ -2187,7 +2211,9 @@ export const african: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.0767,"reactivity":0.3715,"gregsEnergy":0.0435,"kalchm":0.25,"monica":0.0845},
+                    "substitutions": [
             {
               "originalIngredient": "Ndolé leaves",
               "substituteOptions": [
@@ -2341,7 +2367,9 @@ export const african: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":0.2988,"entropy":0.3371,"reactivity":13.4687,"gregsEnergy":-4.2421,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "meat",
               "substituteOptions": [
@@ -2488,7 +2516,9 @@ export const african: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.2469,"entropy":1.4922,"reactivity":42.0612,"gregsEnergy":-61.5166,"kalchm":4.0,"monica":1.055},
+                    "substitutions": [
             {
               "originalIngredient": "lamb shoulder",
               "substituteOptions": [
@@ -2623,7 +2653,9 @@ export const african: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.0955,"reactivity":0.4178,"gregsEnergy":0.0496,"kalchm":0.25,"monica":0.0857},
+                    "substitutions": [
             {
               "originalIngredient": "lamb",
               "substituteOptions": [
@@ -2734,7 +2766,9 @@ export const african: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0186,"entropy":0.0186,"reactivity":0.7569,"gregsEnergy":0.0045,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "raw beef",
               "substituteOptions": [
@@ -2817,7 +2851,9 @@ export const african: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
+              thermodynamicProperties: {"heat":0.3469,"entropy":0.3939,"reactivity":10.4321,"gregsEnergy":-3.7627,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Peri-Peri Chicken",
@@ -2893,7 +2929,9 @@ export const african: Cuisine = {
                   "Zinc"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.0765,"entropy":0.0854,"reactivity":0.9965,"gregsEnergy":-0.0086,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Bunny Chow",
@@ -2970,7 +3008,9 @@ export const african: Cuisine = {
                   "Zinc"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.4531,"entropy":0.4839,"reactivity":0.5577,"gregsEnergy":0.1833,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Suya",
@@ -3047,7 +3087,9 @@ export const african: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.0504,"entropy":0.0566,"reactivity":0.7781,"gregsEnergy":0.0064,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Ndolé",
@@ -3125,7 +3167,9 @@ export const african: Cuisine = {
                   "Magnesium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.2988,"entropy":0.3164,"reactivity":0.4956,"gregsEnergy":0.142,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             }
         ],
       spring: [],
@@ -3278,7 +3322,9 @@ export const african: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.002,"reactivity":0.839,"gregsEnergy":-0.0008,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "apricot jam",
               "substituteOptions": [
@@ -3413,7 +3459,9 @@ export const african: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0076,"entropy":0.0084,"reactivity":0.7257,"gregsEnergy":0.0015,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "coconut milk",
               "substituteOptions": [
@@ -3560,7 +3608,9 @@ export const african: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0041,"entropy":0.0047,"reactivity":0.8802,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "cream of tartar",
               "substituteOptions": [

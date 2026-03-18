@@ -180,7 +180,9 @@ export const japanese: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1327,"entropy":0.1598,"reactivity":1.284,"gregsEnergy":-0.0725,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "salmon",
               "substituteOptions": [
@@ -292,7 +294,9 @@ export const japanese: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1259,"entropy":0.1605,"reactivity":1.4128,"gregsEnergy":-0.1009,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "dashi",
               "substituteOptions": [
@@ -407,7 +411,9 @@ export const japanese: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0643,"entropy":0.071,"reactivity":0.3055,"gregsEnergy":0.0426,"kalchm":0.25,"monica":0.1005},
+                    "substitutions": [
             {
               "originalIngredient": "egg yolk",
               "substituteOptions": [
@@ -525,7 +531,9 @@ export const japanese: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0003,"entropy":0.0032,"reactivity":0.3848,"gregsEnergy":-0.0009,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "umeboshi",
               "substituteOptions": [
@@ -667,7 +675,9 @@ export const japanese: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0643,"entropy":0.2701,"reactivity":2.3229,"gregsEnergy":-0.5631,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "ham/shrimp",
               "substituteOptions": [
@@ -787,7 +797,9 @@ export const japanese: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":1},
+          thermodynamicProperties: {"heat":0.2798,"entropy":4.1837,"reactivity":13.375,"gregsEnergy":-55.6769,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "soba",
               "substituteOptions": [
@@ -920,7 +932,9 @@ export const japanese: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":0.3469,"entropy":0.3939,"reactivity":10.4321,"gregsEnergy":-3.7627,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "beef",
               "substituteOptions": [
@@ -996,7 +1010,9 @@ export const japanese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0003,"entropy":0.0056,"reactivity":0.7367,"gregsEnergy":-0.0039,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           name: "Miso Soup (Miso Shiru)",
@@ -1020,7 +1036,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":65,"proteinG":5,"carbsG":7,"fatG":2,"fiberG":1,"sodiumMg":620,"sugarG":2,"vitamins":["Vitamin K","Folate"],"minerals":["Manganese","Calcium"]},
-          substitutions: [{"originalIngredient":"silken tofu","substituteOptions":["abura-age (fried tofu pouches)","nameko mushrooms"]},{"originalIngredient":"wakame seaweed","substituteOptions":["spinach","shredded napa cabbage"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0004,"entropy":0.0683,"reactivity":3.145,"gregsEnergy":-0.2144,"kalchm":4.0,"monica":0.0492},
+                    substitutions: [{"originalIngredient":"silken tofu","substituteOptions":["abura-age (fried tofu pouches)","nameko mushrooms"]},{"originalIngredient":"wakame seaweed","substituteOptions":["spinach","shredded napa cabbage"]}]
         },
         {
           name: "Yakisoba (Stir-Fried Noodles)",
@@ -1048,7 +1066,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":520,"proteinG":22,"carbsG":58,"fatG":22,"fiberG":4,"sodiumMg":980,"sugarG":9,"vitamins":["Vitamin C","Thiamin"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"pork belly","substituteOptions":["chicken thigh","shrimp","firm tofu"]},{"originalIngredient":"yakisoba noodles","substituteOptions":["ramen noodles","udon noodles"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.0993,"reactivity":3.3424,"gregsEnergy":-0.2426,"kalchm":4.0,"monica":0.0523},
+                    substitutions: [{"originalIngredient":"pork belly","substituteOptions":["chicken thigh","shrimp","firm tofu"]},{"originalIngredient":"yakisoba noodles","substituteOptions":["ramen noodles","udon noodles"]}]
         },
         {
           name: "Takoyaki (Octopus Balls)",
@@ -1078,7 +1098,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Venus"],"signs":["pisces","taurus"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":18,"carbsG":42,"fatG":14,"fiberG":2,"sodiumMg":760,"sugarG":6,"vitamins":["Vitamin B12","Choline"],"minerals":["Iodine","Phosphorus"]},
-          substitutions: [{"originalIngredient":"cooked octopus (tako)","substituteOptions":["shrimp","squid","melting cheese (for cheese takoyaki)"]},{"originalIngredient":"tenkasu (tempura scraps)","substituteOptions":["corn","pickled daikon"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0057,"entropy":0.0899,"reactivity":3.3424,"gregsEnergy":-0.2947,"kalchm":4.0,"monica":0.0636},
+                    substitutions: [{"originalIngredient":"cooked octopus (tako)","substituteOptions":["shrimp","squid","melting cheese (for cheese takoyaki)"]},{"originalIngredient":"tenkasu (tempura scraps)","substituteOptions":["corn","pickled daikon"]}]
         },
         {
           name: "Zaru Soba (Cold Buckwheat Noodles)",
@@ -1103,7 +1125,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.05,"Water":0.45,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Moon"],"signs":["virgo","cancer"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":62,"fatG":2,"fiberG":4,"sodiumMg":720,"sugarG":5,"vitamins":["Thiamin","Niacin"],"minerals":["Manganese","Magnesium"]},
-          substitutions: [{"originalIngredient":"dried soba noodles","substituteOptions":["udon noodles (for zaru udon)","rice noodles"]},{"originalIngredient":"mentsuyu dipping sauce","substituteOptions":["homemade soy sauce, mirin, and dashi blend"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0643,"entropy":0.2583,"reactivity":1.7709,"gregsEnergy":-0.3932,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"dried soba noodles","substituteOptions":["udon noodles (for zaru udon)","rice noodles"]},{"originalIngredient":"mentsuyu dipping sauce","substituteOptions":["homemade soy sauce, mirin, and dashi blend"]}]
         },
         {
           name: "Gyudon (Beef Rice Bowl)",
@@ -1131,7 +1155,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["taurus","capricorn"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":590,"proteinG":30,"carbsG":68,"fatG":18,"fiberG":2,"sodiumMg":860,"sugarG":10,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"thinly sliced beef ribeye or chuck","substituteOptions":["pork belly (for butadon)","chicken thigh (for toriniku don)"]},{"originalIngredient":"dashi stock","substituteOptions":["chicken broth","water with kombu"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.0767,"reactivity":0.3934,"gregsEnergy":0.0418,"kalchm":0.25,"monica":0.0767},
+                    substitutions: [{"originalIngredient":"thinly sliced beef ribeye or chuck","substituteOptions":["pork belly (for butadon)","chicken thigh (for toriniku don)"]},{"originalIngredient":"dashi stock","substituteOptions":["chicken broth","water with kombu"]}]
         },
         {
           name: "Ochazuke (Tea Over Rice)",
@@ -1158,7 +1184,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Mercury"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":230,"proteinG":9,"carbsG":38,"fatG":4,"fiberG":1,"sodiumMg":480,"sugarG":1,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Manganese","Selenium"]},
-          substitutions: [{"originalIngredient":"hot green tea (sencha or hojicha)","substituteOptions":["hot dashi","hot kombu water"]},{"originalIngredient":"umeboshi (pickled plum)","substituteOptions":["salted cod roe (mentaiko)","pickled daikon"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.2577,"reactivity":1.9349,"gregsEnergy":-0.4321,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"hot green tea (sencha or hojicha)","substituteOptions":["hot dashi","hot kombu water"]},{"originalIngredient":"umeboshi (pickled plum)","substituteOptions":["salted cod roe (mentaiko)","pickled daikon"]}]
         },
         {
           name: "Tamago Kake Gohan (Raw Egg Over Rice)",
@@ -1183,7 +1211,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.45,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["leo","cancer"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":44,"fatG":8,"fiberG":0,"sodiumMg":380,"sugarG":1,"vitamins":["Choline","Vitamin B12","Vitamin D"],"minerals":["Selenium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"egg","substituteOptions":["onsen tamago (slow-poached egg) for a safer alternative"]},{"originalIngredient":"soy sauce","substituteOptions":["tamari","ponzu"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1259,"entropy":0.1365,"reactivity":1.0095,"gregsEnergy":-0.0119,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"egg","substituteOptions":["onsen tamago (slow-poached egg) for a safer alternative"]},{"originalIngredient":"soy sauce","substituteOptions":["tamari","ponzu"]}]
         },
         {
           name: "Nikujaga (Meat and Potato Stew)",
@@ -1213,7 +1243,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.45,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":440,"proteinG":26,"carbsG":52,"fatG":12,"fiberG":5,"sodiumMg":820,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Potassium","Iron"]},
-          substitutions: [{"originalIngredient":"thinly sliced beef","substituteOptions":["pork belly (more traditional in Osaka)","chicken thigh"]},{"originalIngredient":"shirataki noodles","substituteOptions":["snap peas","green beans"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.071,"reactivity":0.4033,"gregsEnergy":0.0404,"kalchm":0.25,"monica":0.0722},
+                    substitutions: [{"originalIngredient":"thinly sliced beef","substituteOptions":["pork belly (more traditional in Osaka)","chicken thigh"]},{"originalIngredient":"shirataki noodles","substituteOptions":["snap peas","green beans"]}]
         },
       ],
       winter: [
@@ -1339,7 +1371,9 @@ export const japanese: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1598,"entropy":0.1742,"reactivity":1.2988,"gregsEnergy":-0.0664,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "beef",
               "substituteOptions": [
@@ -1359,7 +1393,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.5,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":850,"proteinG":35,"carbsG":65,"fatG":45,"fiberG":4,"sodiumMg":1500,"sugarG":5,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"Chashu pork","substituteOptions":["Braised tofu","Roasted chicken"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0028,"entropy":0.0034,"reactivity":0.9351,"gregsEnergy":-0.0004,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Chashu pork","substituteOptions":["Braised tofu","Roasted chicken"]}]
         },
       ],
       summer: [
@@ -1373,7 +1409,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.6,"Water":0.1,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":38,"carbsG":12,"fatG":22,"fiberG":1,"sodiumMg":680,"sugarG":8,"vitamins":["Niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Pork belly","Shiitake mushrooms"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2361,"entropy":0.259,"reactivity":1.6528,"gregsEnergy":-0.1919,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Pork belly","Shiitake mushrooms"]}]
         },
         {
           name: "Oyakodon (Chicken and Egg Rice Bowl)",
@@ -1402,7 +1440,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":510,"proteinG":36,"carbsG":52,"fatG":14,"fiberG":2,"sodiumMg":780,"sugarG":7,"vitamins":["Choline","Vitamin B12","Niacin"],"minerals":["Selenium","Phosphorus","Iron"]},
-          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["salmon (for sake don)","ground pork"]},{"originalIngredient":"mitsuba","substituteOptions":["scallions","shiso leaves"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.0014,"reactivity":0.7592,"gregsEnergy":-0.0001,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["salmon (for sake don)","ground pork"]},{"originalIngredient":"mitsuba","substituteOptions":["scallions","shiso leaves"]}]
         },
         {
           name: "Okonomiyaki",
@@ -1414,7 +1454,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","sagittarius"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":550,"proteinG":22,"carbsG":45,"fatG":32,"fiberG":5,"sodiumMg":950,"sugarG":12,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Iron"]},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Shrimp","Mochi"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0796,"entropy":0.0883,"reactivity":2.8272,"gregsEnergy":-0.17,"kalchm":4.0,"monica":0.0434},
+                    substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Shrimp","Mochi"]}]
         },
         {
           name: "Tempura",
@@ -1426,7 +1468,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.1,"Air":0.3},
           astrologicalAffinities: {"planets":["Uranus","Mercury"],"signs":["aquarius","gemini"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":480,"proteinG":20,"carbsG":40,"fatG":28,"fiberG":3,"sodiumMg":520,"sugarG":2,"vitamins":["Vitamin A","Vitamin E"],"minerals":["Iodine","Copper"]},
-          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Kabocha squash","Mushroom"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0954,"entropy":0.4528,"reactivity":2.7397,"gregsEnergy":-1.1452,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Kabocha squash","Mushroom"]}]
         },
         {
           name: "Udon Noodle Soup",
@@ -1438,7 +1482,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":380,"proteinG":12,"carbsG":75,"fatG":2,"fiberG":3,"sodiumMg":1100,"sugarG":4,"vitamins":["Folate","Thiamin"],"minerals":["Manganese","Selenium"]},
-          substitutions: [{"originalIngredient":"Kamaboko","substituteOptions":["Fried tofu (Abura-age)","Poached egg"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.0734,"reactivity":4.0775,"gregsEnergy":-0.2984,"kalchm":4.0,"monica":0.0528},
+                    substitutions: [{"originalIngredient":"Kamaboko","substituteOptions":["Fried tofu (Abura-age)","Poached egg"]}]
         },
         {
           name: "Tonkatsu",
@@ -1450,7 +1496,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.1,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":680,"proteinG":42,"carbsG":45,"fatG":35,"fiberG":4,"sodiumMg":750,"sugarG":8,"vitamins":["Thiamin","Vitamin B6"],"minerals":["Zinc","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Pork loin chops","substituteOptions":["Chicken breast (for Chicken Katsu)","Firm tofu"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.0955,"reactivity":0.3785,"gregsEnergy":0.0534,"kalchm":0.25,"monica":0.1017},
+                    substitutions: [{"originalIngredient":"Pork loin chops","substituteOptions":["Chicken breast (for Chicken Katsu)","Firm tofu"]}]
         },
         {
           name: "Chawanmushi",
@@ -1462,7 +1510,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.1,"Air":0.3},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":180,"proteinG":18,"carbsG":6,"fatG":9,"fiberG":1,"sodiumMg":650,"sugarG":3,"vitamins":["Choline","Vitamin D"],"minerals":["Selenium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Ginkgo nuts","Extra mushrooms"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0004,"entropy":0.0047,"reactivity":0.9864,"gregsEnergy":-0.0042,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Ginkgo nuts","Extra mushrooms"]}]
         },
         {
           name: "Yakitori",
@@ -1474,7 +1524,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.1,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":350,"proteinG":28,"carbsG":8,"fatG":22,"fiberG":0,"sodiumMg":720,"sugarG":5,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
-          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","chicken hearts","chicken skin skewers"]},{"originalIngredient":"bamboo skewers","substituteOptions":["metal skewers"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.225,"reactivity":1.4416,"gregsEnergy":-0.1394,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","chicken hearts","chicken skin skewers"]},{"originalIngredient":"bamboo skewers","substituteOptions":["metal skewers"]}]
         },
         {
           name: "Miso Ramen",
@@ -1486,7 +1538,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":680,"proteinG":32,"carbsG":65,"fatG":32,"fiberG":4,"sodiumMg":1200,"sugarG":6,"vitamins":["Vitamin B12","Niacin","Folate"],"minerals":["Iron","Zinc","Manganese"]},
-          substitutions: [{"originalIngredient":"pork bones","substituteOptions":["chicken bones (for tori paitan)","vegetable stock with soy milk (for vegan)"]},{"originalIngredient":"chashu pork belly","substituteOptions":["braised chicken thigh","marinated tofu"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0041,"entropy":0.0047,"reactivity":0.8341,"gregsEnergy":0.0001,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"pork bones","substituteOptions":["chicken bones (for tori paitan)","vegetable stock with soy milk (for vegan)"]},{"originalIngredient":"chashu pork belly","substituteOptions":["braised chicken thigh","marinated tofu"]}]
         },
         {
           name: "Katsudon (Breaded Pork Cutlet Rice Bowl)",
@@ -1517,7 +1571,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":820,"proteinG":46,"carbsG":72,"fatG":36,"fiberG":4,"sodiumMg":920,"sugarG":9,"vitamins":["Thiamin","Vitamin B6","Choline"],"minerals":["Zinc","Iron","Phosphorus"]},
-          substitutions: [{"originalIngredient":"pork loin chops","substituteOptions":["chicken breast (for chicken katsudon)","firm tofu (for vegan katsudon)"]},{"originalIngredient":"panko breadcrumbs","substituteOptions":["crushed cornflakes","regular breadcrumbs"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.0955,"reactivity":0.4178,"gregsEnergy":0.0496,"kalchm":0.25,"monica":0.0857},
+                    substitutions: [{"originalIngredient":"pork loin chops","substituteOptions":["chicken breast (for chicken katsudon)","firm tofu (for vegan katsudon)"]},{"originalIngredient":"panko breadcrumbs","substituteOptions":["crushed cornflakes","regular breadcrumbs"]}]
         },
         {
           name: "Gyoza",
@@ -1529,7 +1585,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","virgo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":320,"proteinG":18,"carbsG":28,"fatG":16,"fiberG":2,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin K","Vitamin C","Thiamin"],"minerals":["Iron","Manganese","Selenium"]},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp and pork mix"]},{"originalIngredient":"napa cabbage","substituteOptions":["regular green cabbage","bok choy"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0843,"entropy":0.3432,"reactivity":1.8846,"gregsEnergy":-0.5625,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp and pork mix"]},{"originalIngredient":"napa cabbage","substituteOptions":["regular green cabbage","bok choy"]}]
         },
         {
           name: "Karaage",
@@ -1541,7 +1599,9 @@ export const japanese: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.1,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["leo","aries"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":450,"proteinG":32,"carbsG":22,"fatG":26,"fiberG":1,"sodiumMg":780,"sugarG":2,"vitamins":["Niacin","Vitamin B6","Vitamin C"],"minerals":["Zinc","Iron","Selenium"]},
-          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","firm tofu"]},{"originalIngredient":"potato starch","substituteOptions":["cornstarch","tapioca starch"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.225,"reactivity":1.4416,"gregsEnergy":-0.1394,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","firm tofu"]},{"originalIngredient":"potato starch","substituteOptions":["cornstarch","tapioca starch"]}]
         },
       ],
     },

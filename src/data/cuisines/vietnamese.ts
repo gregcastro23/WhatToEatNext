@@ -214,7 +214,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":3,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0321,"entropy":0.0958,"reactivity":9.4008,"gregsEnergy":-0.8689,"kalchm":27.0,"monica":0.028},
+                    "substitutions": [
             {
               "originalIngredient": "beef bones and meat",
               "substituteOptions": [
@@ -241,7 +243,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.6,"Earth":0.25,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":350,"proteinG":22,"carbsG":48,"fatG":6,"fiberG":2,"sodiumMg":850,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork ribs (for Cháo Sườn)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0012,"entropy":0.0015,"reactivity":0.8784,"gregsEnergy":-0.0002,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork ribs (for Cháo Sườn)"]}]
         },
         {
           name: "Bánh Cuốn",
@@ -253,7 +257,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.45,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Venus","Mercury"],"signs":["libra","gemini"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":420,"proteinG":18,"carbsG":55,"fatG":14,"fiberG":4,"sodiumMg":950,"sugarG":8,"vitamins":["Thiamin","Niacin"],"minerals":["Iron","Manganese"]},
-          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["More mushrooms and tofu (vegetarian)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.2812,"reactivity":2.0816,"gregsEnergy":-0.519,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["More mushrooms and tofu (vegetarian)"]}]
         },
         {
           "name": "Authentic Xôi Xéo",
@@ -374,7 +380,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":2,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":1.1753,"entropy":1.3997,"reactivity":1.8156,"gregsEnergy":-1.3658,"kalchm":4.0,"monica":0.5427},
+                    "substitutions": [
             {
               "originalIngredient": "short-grain glutinous rice",
               "substituteOptions": [
@@ -406,7 +414,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Bánh Mì Ốp La","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Bánh Mì Ốp La","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
       winter: [
@@ -420,7 +430,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Cháo","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Cháo","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
     },
@@ -504,7 +516,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0237,"entropy":0.0347,"reactivity":0.7824,"gregsEnergy":-0.0035,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "pork shoulder",
               "substituteOptions": [
@@ -523,7 +537,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":32,"carbsG":65,"fatG":34,"fiberG":4,"sodiumMg":1800,"sugarG":18,"vitamins":["Vitamin C","Niacin"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Chicken thighs"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.202,"reactivity":1.741,"gregsEnergy":-0.1668,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Chicken thighs"]}]
         },
         {
           name: "Bún Bò Huế",
@@ -535,7 +551,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.45,"Earth":0.1,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":650,"proteinG":45,"carbsG":68,"fatG":22,"fiberG":4,"sodiumMg":2100,"sugarG":5,"vitamins":["Vitamin B12","Iron"],"minerals":["Zinc","Sodium"]},
-          substitutions: [{"originalIngredient":"Congealed pork blood","substituteOptions":["Omit entirely (common in diaspora)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0076,"entropy":0.0078,"reactivity":0.9898,"gregsEnergy":-0.0002,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Congealed pork blood","substituteOptions":["Omit entirely (common in diaspora)"]}]
         },
         {
           name: "Gỏi Cuốn",
@@ -547,7 +565,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0,"Water":0.5,"Earth":0.2,"Air":0.3},
           astrologicalAffinities: {"planets":["Venus","Mercury"],"signs":["libra","gemini"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":280,"proteinG":18,"carbsG":35,"fatG":8,"fiberG":3,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Calcium","Iron"]},
-          substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Fried tofu (for vegetarian)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0625,"entropy":0.2867,"reactivity":2.3194,"gregsEnergy":-0.6025,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Fried tofu (for vegetarian)"]}]
         },
         {
           name: "Cơm Gà Hội An",
@@ -559,7 +579,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.4,"Air":0.15},
           astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":550,"proteinG":35,"carbsG":65,"fatG":15,"fiberG":2,"sodiumMg":750,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc"]},
-          substitutions: [{"originalIngredient":"Free-range chicken","substituteOptions":["Standard chicken (though less authentic in texture)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1259,"entropy":0.1433,"reactivity":1.0893,"gregsEnergy":-0.0303,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Free-range chicken","substituteOptions":["Standard chicken (though less authentic in texture)"]}]
         },
         {
           name: "Bánh Xèo",
@@ -571,7 +593,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":480,"proteinG":18,"carbsG":55,"fatG":22,"fiberG":4,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Calcium","Iron"]},
-          substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Mushrooms and tofu"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1716,"entropy":0.2083,"reactivity":1.4224,"gregsEnergy":-0.1247,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Mushrooms and tofu"]}]
         },
       ],
     },
@@ -587,7 +611,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":350,"proteinG":22,"carbsG":18,"fatG":18,"fiberG":1,"sodiumMg":1600,"sugarG":15,"vitamins":["Vitamin D","Vitamin B12"],"minerals":["Potassium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Catfish","substituteOptions":["Salmon","Pork belly (for Thịt Kho)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0843,"entropy":0.0899,"reactivity":0.439,"gregsEnergy":0.0448,"kalchm":0.25,"monica":0.0736},
+                    substitutions: [{"originalIngredient":"Catfish","substituteOptions":["Salmon","Pork belly (for Thịt Kho)"]}]
         },
         {
           "name": "Authentic Cơm Tấm",
@@ -666,7 +692,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":0,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":0.2899,"entropy":0.438,"reactivity":0.9687,"gregsEnergy":-0.1344,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "broken rice",
               "substituteOptions": [
@@ -685,7 +713,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Thịt Kho Tàu","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Thịt Kho Tàu","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Lẩu Thái",
@@ -697,7 +727,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Lẩu Thái","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Lẩu Thái","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Bò Lúc Lắc",
@@ -709,7 +741,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.6,"Water":0.1,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":450,"proteinG":45,"carbsG":12,"fatG":22,"fiberG":2,"sodiumMg":850,"sugarG":8,"vitamins":["Vitamin B12","Vitamin K"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Firm tofu (cut large and deep-fried first)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2361,"entropy":0.259,"reactivity":1.6528,"gregsEnergy":-0.1919,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Firm tofu (cut large and deep-fried first)"]}]
         },
             {
               "name": "Authentic Phở Bò",
@@ -790,7 +824,9 @@ export const vietnamese: Cuisine = {
                   "Potassium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.0664,"entropy":0.0706,"reactivity":4.1153,"gregsEnergy":-0.2243,"kalchm":4.0,"monica":0.0393},
+                            "substitutions": []
             },
             {
               "name": "Authentic Bánh Mì",
@@ -871,7 +907,9 @@ export const vietnamese: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+              thermodynamicProperties: {"heat":0.0796,"entropy":0.3586,"reactivity":1.7353,"gregsEnergy":-0.5426,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Bún Thịt Nướng",
@@ -953,7 +991,9 @@ export const vietnamese: Cuisine = {
                   "Zinc"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+              thermodynamicProperties: {"heat":0.0843,"entropy":0.3432,"reactivity":2.2465,"gregsEnergy":-0.6868,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Chả Cá Lã Vọng",
@@ -1035,7 +1075,9 @@ export const vietnamese: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.0954,"entropy":0.1107,"reactivity":4.3843,"gregsEnergy":-0.39,"kalchm":4.0,"monica":0.0642},
+                            "substitutions": []
             },
             {
               "name": "Authentic Chè Trôi Nước",
@@ -1115,7 +1157,9 @@ export const vietnamese: Cuisine = {
                   "Potassium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+              thermodynamicProperties: {"heat":0.001,"entropy":0.071,"reactivity":3.4096,"gregsEnergy":-0.2411,"kalchm":4.0,"monica":0.051},
+                            "substitutions": []
             }
         ,
         {
@@ -1128,7 +1172,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.3,"Air":0.2},
           astrologicalAffinities: {"planets":["Mars","Mercury","Sun"],"signs":["aries","gemini","leo"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":480,"proteinG":32,"carbsG":48,"fatG":18,"fiberG":3,"sodiumMg":1100,"sugarG":10,"vitamins":["Vitamin C","Thiamin","Niacin"],"minerals":["Iron","Potassium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thigh","Tofu (for vegetarian banh mi)"]},{"originalIngredient":"Fish sauce","substituteOptions":["Soy sauce plus a drop of lime"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.2988,"entropy":0.8208,"reactivity":3.6509,"gregsEnergy":-2.6979,"kalchm":4.0,"monica":0.5331},
+                    substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thigh","Tofu (for vegetarian banh mi)"]},{"originalIngredient":"Fish sauce","substituteOptions":["Soy sauce plus a drop of lime"]}]
         },
         {
           name: "Com Tam",
@@ -1140,7 +1186,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.25,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Mars","Saturn"],"signs":["leo","aries","capricorn"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":520,"proteinG":36,"carbsG":55,"fatG":16,"fiberG":2,"sodiumMg":980,"sugarG":8,"vitamins":["Thiamin","Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Pork chops","substituteOptions":["Chicken thigh","Grilled tofu steak"]},{"originalIngredient":"Broken rice","substituteOptions":["Jasmine rice","Steamed rice"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.2988,"entropy":0.3164,"reactivity":0.9348,"gregsEnergy":0.003,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Pork chops","substituteOptions":["Chicken thigh","Grilled tofu steak"]},{"originalIngredient":"Broken rice","substituteOptions":["Jasmine rice","Steamed rice"]}]
         },
         {
           name: "Bun Bo Hue",
@@ -1152,7 +1200,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.35,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Pluto","Saturn"],"signs":["aries","scorpio","capricorn"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":550,"proteinG":42,"carbsG":48,"fatG":20,"fiberG":3,"sodiumMg":1400,"sugarG":5,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
-          substitutions: [{"originalIngredient":"Shrimp paste","substituteOptions":["Fish sauce (milder flavor)","Anchovy paste"]},{"originalIngredient":"Beef shank","substituteOptions":["Beef brisket","Pork shoulder"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":3,"Substance":0},
+          thermodynamicProperties: {"heat":0.037,"entropy":0.0387,"reactivity":0.5334,"gregsEnergy":0.0164,"kalchm":0.1481,"monica":0.0161},
+                    substitutions: [{"originalIngredient":"Shrimp paste","substituteOptions":["Fish sauce (milder flavor)","Anchovy paste"]},{"originalIngredient":"Beef shank","substituteOptions":["Beef brisket","Pork shoulder"]}]
         },
         {
           name: "Cao Lau",
@@ -1164,7 +1214,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Venus","Mercury"],"signs":["capricorn","taurus","gemini"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":490,"proteinG":28,"carbsG":58,"fatG":16,"fiberG":3,"sodiumMg":860,"sugarG":12,"vitamins":["Niacin","Vitamin B6","Thiamin"],"minerals":["Iron","Phosphorus","Zinc"]},
-          substitutions: [{"originalIngredient":"Cao Lau noodles","substituteOptions":["Thick udon noodles","Wide rice noodles"]},{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Ga Nuong)","Firm tofu"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":2,"Substance":1},
+          thermodynamicProperties: {"heat":0.1801,"entropy":0.3807,"reactivity":1.0651,"gregsEnergy":-0.2255,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Cao Lau noodles","substituteOptions":["Thick udon noodles","Wide rice noodles"]},{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Ga Nuong)","Firm tofu"]}]
         },
         {
           name: "Mi Quang",
@@ -1176,7 +1228,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.3,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Mars","Mercury"],"signs":["leo","aries","virgo"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":460,"proteinG":30,"carbsG":52,"fatG":14,"fiberG":4,"sodiumMg":920,"sugarG":6,"vitamins":["Vitamin C","Niacin","Vitamin B6"],"minerals":["Iron","Potassium","Magnesium"]},
-          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken breast","Crab meat"]},{"originalIngredient":"Shrimp","substituteOptions":["Squid","Tofu"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.2988,"entropy":0.7544,"reactivity":3.6627,"gregsEnergy":-2.4645,"kalchm":4.0,"monica":0.4854},
+                    substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken breast","Crab meat"]},{"originalIngredient":"Shrimp","substituteOptions":["Squid","Tofu"]}]
         },
         {
           name: "Banh Cuon",
@@ -1188,7 +1242,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","taurus","virgo"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":350,"proteinG":20,"carbsG":44,"fatG":10,"fiberG":2,"sodiumMg":720,"sugarG":3,"vitamins":["Thiamin","Niacin","Vitamin B6"],"minerals":["Iron","Phosphorus","Potassium"]},
-          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground shrimp","Ground chicken","Tofu and mushroom mix"]},{"originalIngredient":"Wood ear mushrooms","substituteOptions":["Shiitake mushrooms","King oyster mushrooms"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":2,"Substance":1},
+          thermodynamicProperties: {"heat":0.0299,"entropy":0.0901,"reactivity":1.1213,"gregsEnergy":-0.0711,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground shrimp","Ground chicken","Tofu and mushroom mix"]},{"originalIngredient":"Wood ear mushrooms","substituteOptions":["Shiitake mushrooms","King oyster mushrooms"]}]
         },
         {
           name: "Che Ba Mau",
@@ -1200,7 +1256,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.45,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus","Neptune"],"signs":["cancer","taurus","pisces"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":280,"proteinG":8,"carbsG":52,"fatG":8,"fiberG":6,"sodiumMg":90,"sugarG":32,"vitamins":["Folate","Thiamin","Vitamin B6"],"minerals":["Potassium","Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"Pandan leaves","substituteOptions":["Pandan extract","Matcha powder for green color"]},{"originalIngredient":"Adzuki beans","substituteOptions":["Red kidney beans","Black-eyed peas"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":3,"Matter":2,"Substance":1},
+          thermodynamicProperties: {"heat":0.0002,"entropy":0.0303,"reactivity":1.8511,"gregsEnergy":-0.0559,"kalchm":6.75,"monica":0.0158},
+                    substitutions: [{"originalIngredient":"Pandan leaves","substituteOptions":["Pandan extract","Matcha powder for green color"]},{"originalIngredient":"Adzuki beans","substituteOptions":["Red kidney beans","Black-eyed peas"]}]
         },
         ],
     },
@@ -1216,7 +1274,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Chè Ba Màu","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Chè Ba Màu","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Chè Chuối",
@@ -1228,7 +1288,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":350,"proteinG":3,"carbsG":55,"fatG":16,"fiberG":4,"sodiumMg":300,"sugarG":28,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Potassium","Manganese"]},
-          substitutions: [{"originalIngredient":"Saba bananas","substituteOptions":["Plantains"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0004,"entropy":0.0005,"reactivity":0.7718,"gregsEnergy":0.0,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Saba bananas","substituteOptions":["Plantains"]}]
         },
         {
           name: "Bánh Flan",
@@ -1240,7 +1302,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.45,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","capricorn"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":280,"proteinG":8,"carbsG":38,"fatG":10,"fiberG":0,"sodiumMg":95,"sugarG":35,"vitamins":["Riboflavin","Vitamin B12"],"minerals":["Calcium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Evaporated milk"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.069,"entropy":0.0734,"reactivity":0.4225,"gregsEnergy":0.038,"kalchm":0.25,"monica":0.0648},
+                    substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Evaporated milk"]}]
         },
       ],
     },

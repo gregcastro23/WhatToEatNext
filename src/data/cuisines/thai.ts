@@ -156,7 +156,9 @@ export const thai: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.001,"entropy":0.0011,"reactivity":0.906,"gregsEnergy":-0.0,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "ground pork",
               "substituteOptions": [
@@ -184,49 +186,57 @@ export const thai: Cuisine = {
           name: "Khao Tom",
           description: "Thai rice porridge, the comfort food eaten for breakfast or when ill, simmered until the jasmine rice breaks down into a silky, slightly thick broth. Unlike Chinese congee which is thick and starchy, khao tom is thinner and more broth-forward, served with an array of condiments and side dishes - pickled mustard greens, soft-boiled eggs, fried garlic, ginger slices, and crispy shallots. The porridge itself is simple; the accompaniments provide all the complexity.",
           details: {"cuisine":"Thai","prepTimeMinutes":10,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
-          ingredients: [{"amount":1,"unit":"cup","name":"jasmine rice","notes":"Rinsed until the water runs clear. Day-old cooked rice breaks down even faster and produces a creamier texture."},{"amount":6,"unit":"cups","name":"chicken or pork broth","notes":"Homemade is significantly better. The porridge has very few components, so broth quality is paramount."},{"amount":0.5,"unit":"lb","name":"ground pork","notes":"Seasoned lightly and rolled into small meatballs for a classic khao tom moo (pork porridge) version."},{"amount":3,"unit":"cloves","name":"garlic","notes":"Thinly sliced and fried in oil until golden and crispy for garnish."},{"amount":2","unit":"inch","name":"fresh ginger","notes":"Peeled and cut into fine julienne. Served raw alongside as a palate-cleansing condiment."},{"amount":4","unit":"stalks","name":"green onions","notes":"Thinly sliced, for garnish."},{"amount":2","unit":"tbsp","name":"fish sauce","notes":"For seasoning the porridge. Start with 1 tablespoon and adjust."},{"amount":1","unit":"tsp","name":"white pepper","notes":"Ground white pepper is the traditional spice for porridge - more aromatic and less harsh than black pepper."},{"amount":2","unit":"tbsp","name":"vegetable oil","notes":"For frying the garlic."},{"amount":4","unit":"whole","name":"soft-boiled or poached eggs","notes":"Optional but classic accompaniment."}],
+          ingredients: [{"amount":1,"unit":"cup","name":"jasmine rice","notes":"Rinsed until the water runs clear. Day-old cooked rice breaks down even faster and produces a creamier texture."},{"amount":6,"unit":"cups","name":"chicken or pork broth","notes":"Homemade is significantly better. The porridge has very few components, so broth quality is paramount."},{"amount":0.5,"unit":"lb","name":"ground pork","notes":"Seasoned lightly and rolled into small meatballs for a classic khao tom moo (pork porridge) version."},{"amount":3,"unit":"cloves","name":"garlic","notes":"Thinly sliced and fried in oil until golden and crispy for garnish."},{"amount":2,"unit":"inch","name":"fresh ginger","notes":"Peeled and cut into fine julienne. Served raw alongside as a palate-cleansing condiment."},{"amount":4,"unit":"stalks","name":"green onions","notes":"Thinly sliced, for garnish."},{"amount":2,"unit":"tbsp","name":"fish sauce","notes":"For seasoning the porridge. Start with 1 tablespoon and adjust."},{"amount":1,"unit":"tsp","name":"white pepper","notes":"Ground white pepper is the traditional spice for porridge - more aromatic and less harsh than black pepper."},{"amount":2,"unit":"tbsp","name":"vegetable oil","notes":"For frying the garlic."},{"amount":4,"unit":"whole","name":"soft-boiled or poached eggs","notes":"Optional but classic accompaniment."}],
           instructions: ["Step 1: If making fresh, rinse the rice until water is clear. Bring the broth to a boil in a large pot. Add the rinsed rice and stir immediately to prevent clumping.","Step 2: Reduce heat to medium-low and simmer uncovered, stirring occasionally, for 25 to 35 minutes until the rice grains have swollen and split and the mixture has a smooth, porridge-like consistency. Add more broth or water if it becomes too thick.","Step 3: While the rice cooks, heat the oil in a small skillet over medium heat. Add the garlic slices and fry, stirring constantly, until golden and crispy. Watch carefully - they go from golden to burnt in seconds. Drain on paper towels.","Step 4: Season the pork with a pinch of salt and white pepper. Roll into small balls the size of a grape. When the porridge has reached the right consistency, drop the meatballs in one by one. They will cook in the simmering broth in 3 to 4 minutes.","Step 5: Season the porridge with fish sauce and white pepper. Ladle into bowls. Set the table with garnishes in small dishes: crispy fried garlic, julienned ginger, sliced green onions, and a small dish of fish sauce with white pepper and lime juice for individual seasoning."],
           classifications: {"mealType":["breakfast","comfort","sick food"],"cookingMethods":["simmering","poaching"]},
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["Waning Crescent","New Moon"]},
           nutritionPerServing: {"calories":285,"proteinG":18,"carbsG":35,"fatG":8,"fiberG":1,"sodiumMg":820,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Phosphorus","Potassium","Selenium"]},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["chicken breast, poached and shredded","firm tofu, crumbled (vegetarian)"]},{"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian/vegan)","tamari (gluten-free)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.0683,"reactivity":0.4376,"gregsEnergy":0.0365,"kalchm":0.25,"monica":0.0602},
+                    substitutions: [{"originalIngredient":"ground pork","substituteOptions":["chicken breast, poached and shredded","firm tofu, crumbled (vegetarian)"]},{"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian/vegan)","tamari (gluten-free)"]}]
         },
         {
           name: "Patongo with Sangkaya",
           description: "Thailand's most beloved breakfast: long, twin-twisted Chinese-origin fried dough sticks (patongo or pa thong ko) served with sangkaya - a silky, fragrant Thai coconut pandan custard for dipping. The hollow, airy, slightly salty-savory fried dough contrasts with the cool, sweet, intensely pandan-perfumed custard. Found at early-morning street carts where the dough is fried to order and the custard is made in advance and kept at room temperature or lightly chilled.",
           details: {"cuisine":"Thai","prepTimeMinutes":30,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
-          ingredients: [{"amount":2,"unit":"cups","name":"all-purpose flour","notes":"For the patongo dough."},{"amount":1,"unit":"tsp","name":"baking powder","notes":"Gives the dough its characteristic airy rise in the hot oil."},{"amount":0.5,"unit":"tsp","name":"baking soda","notes":"Works with the baking powder for maximum lift."},{"amount":0.5,"unit":"tsp","name":"salt","notes":"Essential savory note in the dough."},{"amount":0.75,"unit":"cup","name":"warm water","notes":"Mixed with the dry ingredients to form a soft dough. Too much water makes a sticky, unmanageable dough."},{"amount":2,"unit":"cups","name":"vegetable oil","notes":"For deep frying. At least 2 inches deep in the pot. Peanut oil is traditional."},{"amount":4,"unit":"large","name":"eggs","notes":"For the sangkaya custard."},{"amount":1,"unit":"cup","name":"full-fat coconut milk","notes":"For the custard. The fat content of the coconut milk determines the custard richness."},{"amount":0.5,"unit":"cup","name":"palm sugar or light brown sugar","notes":"For the custard. Palm sugar gives a more authentic, slightly caramel flavor."},{"amount":4","unit":"leaves","name":"fresh pandan leaves","notes":"Knotted and simmered in the coconut milk to infuse. The defining flavor of Thai custard. If unavailable, a few drops of pandan extract can substitute."}],
+          ingredients: [{"amount":2,"unit":"cups","name":"all-purpose flour","notes":"For the patongo dough."},{"amount":1,"unit":"tsp","name":"baking powder","notes":"Gives the dough its characteristic airy rise in the hot oil."},{"amount":0.5,"unit":"tsp","name":"baking soda","notes":"Works with the baking powder for maximum lift."},{"amount":0.5,"unit":"tsp","name":"salt","notes":"Essential savory note in the dough."},{"amount":0.75,"unit":"cup","name":"warm water","notes":"Mixed with the dry ingredients to form a soft dough. Too much water makes a sticky, unmanageable dough."},{"amount":2,"unit":"cups","name":"vegetable oil","notes":"For deep frying. At least 2 inches deep in the pot. Peanut oil is traditional."},{"amount":4,"unit":"large","name":"eggs","notes":"For the sangkaya custard."},{"amount":1,"unit":"cup","name":"full-fat coconut milk","notes":"For the custard. The fat content of the coconut milk determines the custard richness."},{"amount":0.5,"unit":"cup","name":"palm sugar or light brown sugar","notes":"For the custard. Palm sugar gives a more authentic, slightly caramel flavor."},{"amount":4,"unit":"leaves","name":"fresh pandan leaves","notes":"Knotted and simmered in the coconut milk to infuse. The defining flavor of Thai custard. If unavailable, a few drops of pandan extract can substitute."}],
           instructions: ["Step 1: Make the sangkaya first as it needs to chill. Simmer the coconut milk with the knotted pandan leaves for 5 minutes to infuse. Remove the pandan. Whisk the eggs with the sugar in a bowl until the sugar dissolves. Slowly pour the warm coconut milk into the eggs while whisking constantly. Pour into a steamer-safe dish.","Step 2: Steam the custard mixture over gently simmering water for 20 to 25 minutes until just set - it should wobble slightly in the center but not be liquid. Cool completely then refrigerate. Properly steamed sangkaya is smooth as silk with no bubbles.","Step 3: Make the patongo dough by mixing flour, baking powder, baking soda, and salt. Add warm water and mix to a shaggy dough. Knead briefly until smooth. Cover and rest 30 minutes.","Step 4: Heat oil in a wok or deep pot to 375F (190C). Roll the dough into a log and cut into small portions. Shape each into a rectangle. Place two rectangles on top of each other and press a chopstick down the center lengthwise to seal them together - this is the traditional shape that causes the dough to puff and split open.","Step 5: Drop the paired dough pieces into the hot oil and fry for 2 to 3 minutes, turning continuously with chopsticks, until puffed, golden, and hollow. Drain. Serve immediately alongside the cold sangkaya for dipping."],
           classifications: {"mealType":["breakfast","snack"],"cookingMethods":["deep-frying","steaming"]},
           elementalProperties: {"Fire":0.35,"Water":0.25,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Jupiter"],"signs":["leo","sagittarius"],"lunarPhases":["Waxing Crescent","Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":10,"carbsG":48,"fatG":22,"fiberG":1,"sodiumMg":380,"sugarG":18,"vitamins":["Riboflavin","Folate"],"minerals":["Manganese","Phosphorus","Iron"]},
-          substitutions: [{"originalIngredient":"palm sugar in custard","substituteOptions":["light brown sugar","coconut sugar"]},{"originalIngredient":"pandan leaves","substituteOptions":["pandan extract (a few drops)","vanilla bean (different flavor profile, but similar aromatic function)"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.5142,"entropy":1.7201,"reactivity":57.7222,"gregsEnergy":-97.7728,"kalchm":4.0,"monica":1.2219},
+                    substitutions: [{"originalIngredient":"palm sugar in custard","substituteOptions":["light brown sugar","coconut sugar"]},{"originalIngredient":"pandan leaves","substituteOptions":["pandan extract (a few drops)","vanilla bean (different flavor profile, but similar aromatic function)"]}]
         },
         {
           name: "Khao Kai Jeow",
           description: "The Thai omelette over rice - arguably the most comforting and complete single-dish meal in Thai cuisine. Eggs are beaten with fish sauce and possibly a little soy sauce, then dropped into a generous pool of very hot oil in a wok to create a dramatically puffed, lacy-edged, crispy-outside omelette in under 90 seconds. The contrast between the crunchy, golden exterior and the custardy, barely-set interior served over hot jasmine rice with sriracha is deeply satisfying. A proper kai jeow must use abundant oil for the characteristic texture.",
           details: {"cuisine":"Thai","prepTimeMinutes":5,"cookTimeMinutes":5,"baseServingSize":1,"spiceLevel":"None","season":["all"]},
-          ingredients: [{"amount":2,"unit":"large","name":"eggs","notes":"Room temperature eggs puff better than cold. Beat vigorously until completely homogeneous - no visible white streaks."},{"amount":1","unit":"tbsp","name":"fish sauce","notes":"The primary seasoning. Do not substitute soy sauce alone - fish sauce gives the characteristic umami and subtle fishiness that defines this dish."},{"amount":0.5","unit":"tsp","name":"white sugar","notes":"A tiny amount balances the saltiness of the fish sauce."},{"amount":3","unit":"tbsp","name":"vegetable oil","notes":"More oil than you think is necessary. The egg needs to be semi-submerged for the characteristic puffy, lacy edges. Peanut oil or lard is traditional."},{"amount":1","unit":"cup","name":"hot cooked jasmine rice","notes":"The canvas for the omelette. Must be freshly cooked and hot."},{"amount":1","unit":"tbsp","name":"sriracha or prik nam pla","notes":"Prik nam pla (fish sauce with fresh chilies and lime) is the more authentic condiment - mix fish sauce, chopped fresh chilies, and a squeeze of lime."}],
+          ingredients: [{"amount":2,"unit":"large","name":"eggs","notes":"Room temperature eggs puff better than cold. Beat vigorously until completely homogeneous - no visible white streaks."},{"amount":1,"unit":"tbsp","name":"fish sauce","notes":"The primary seasoning. Do not substitute soy sauce alone - fish sauce gives the characteristic umami and subtle fishiness that defines this dish."},{"amount":0.5,"unit":"tsp","name":"white sugar","notes":"A tiny amount balances the saltiness of the fish sauce."},{"amount":3,"unit":"tbsp","name":"vegetable oil","notes":"More oil than you think is necessary. The egg needs to be semi-submerged for the characteristic puffy, lacy edges. Peanut oil or lard is traditional."},{"amount":1,"unit":"cup","name":"hot cooked jasmine rice","notes":"The canvas for the omelette. Must be freshly cooked and hot."},{"amount":1,"unit":"tbsp","name":"sriracha or prik nam pla","notes":"Prik nam pla (fish sauce with fresh chilies and lime) is the more authentic condiment - mix fish sauce, chopped fresh chilies, and a squeeze of lime."}],
           instructions: ["Step 1: Beat the eggs vigorously in a bowl with the fish sauce and sugar until completely smooth and somewhat foamy. The more air beaten in, the better the puff.","Step 2: Heat the oil in a wok over maximum heat until the oil is shimmering and just beginning to smoke. This high heat is non-negotiable.","Step 3: Pour the beaten egg mixture into the center of the hot oil from a height of 6 to 8 inches - this height increases splashing and creates the lacy edges. The egg will immediately sizzle and puff dramatically.","Step 4: Using a wok spatula, quickly spoon the hot oil over the top of the egg to encourage even cooking and puffing. The entire process from pour to plate should take only 60 to 90 seconds.","Step 5: When the edges are crispy and golden and the center is just set but still custardy, fold in half or slide directly onto the hot jasmine rice. Drizzle with sriracha or prik nam pla. Eat immediately while the contrast between crispy exterior and soft interior remains at its peak."],
           classifications: {"mealType":["breakfast","lunch","dinner","comfort"],"cookingMethods":["deep-frying","wok cooking"]},
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Mars"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
           nutritionPerServing: {"calories":480,"proteinG":16,"carbsG":45,"fatG":26,"fiberG":1,"sodiumMg":920,"sugarG":2,"vitamins":["Vitamin A","Riboflavin","Vitamin B12"],"minerals":["Selenium","Phosphorus","Choline"]},
-          substitutions: [{"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a few drops of lime juice (vegetarian)","tamari"]},{"originalIngredient":"vegetable oil","substituteOptions":["lard (more traditional)","pork fat","coconut oil"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1716,"entropy":0.1872,"reactivity":1.3077,"gregsEnergy":-0.0732,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a few drops of lime juice (vegetarian)","tamari"]},{"originalIngredient":"vegetable oil","substituteOptions":["lard (more traditional)","pork fat","coconut oil"]}]
         },
         {
           name: "Khao Tom Moo",
           description: "Pork rice porridge, the Thai iteration of khao tom featuring seasoned ground pork meatballs, thinly sliced pork, or pork with preserved vegetables poached gently in a clean, clear rice-thickened broth. A deeply restorative early-morning meal sold at street stalls before dawn, khao tom moo is thinner and clearer than Chinese congee, with the rice acting more as a thickener than the main body. The garnishes - crispy garlic oil, fresh ginger, green onions - provide aromatic contrast.",
           details: {"cuisine":"Thai","prepTimeMinutes":15,"cookTimeMinutes":35,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
-          ingredients: [{"amount":1,"unit":"cup","name":"jasmine rice","notes":"Rinsed well. Day-old leftover rice breaks down faster."},{"amount":7,"unit":"cups","name":"pork or chicken stock","notes":"The quality of the stock determines everything. Use good homemade stock if possible."},{"amount":0.5","unit":"lb","name":"ground pork","notes":"Seasoned with fish sauce, white pepper, and a pinch of sugar, then rolled into small marble-sized balls."},{"amount":0.25","unit":"lb","name":"thinly sliced pork loin","notes":"Sliced against the grain into bite-sized pieces for additional texture."},{"amount":2","unit":"tbsp","name":"fish sauce","notes":"For seasoning both the meatballs and the finished broth. Adjust to taste."},{"amount":1","unit":"tsp","name":"white pepper","notes":"Ground white pepper is essential - black pepper gives a completely different character."},{"amount":3","unit":"cloves","name":"garlic","notes":"Minced and fried in oil until golden for the crispy garlic oil garnish."},{"amount":2","unit":"tbsp","name":"vegetable oil","notes":"For the garlic oil."},{"amount":4","unit":"stalks","name":"green onions","notes":"Thinly sliced."},{"amount":2","unit":"inch","name":"fresh ginger","notes":"Peeled and cut into fine julienne strips."},{"amount":2","unit":"tbsp","name":"preserved Chinese mustard greens (chai poh)","notes":"Rinsed of excess salt and roughly chopped. Optional but adds characteristic savory-salty depth."}],
+          ingredients: [{"amount":1,"unit":"cup","name":"jasmine rice","notes":"Rinsed well. Day-old leftover rice breaks down faster."},{"amount":7,"unit":"cups","name":"pork or chicken stock","notes":"The quality of the stock determines everything. Use good homemade stock if possible."},{"amount":0.5,"unit":"lb","name":"ground pork","notes":"Seasoned with fish sauce, white pepper, and a pinch of sugar, then rolled into small marble-sized balls."},{"amount":0.25,"unit":"lb","name":"thinly sliced pork loin","notes":"Sliced against the grain into bite-sized pieces for additional texture."},{"amount":2,"unit":"tbsp","name":"fish sauce","notes":"For seasoning both the meatballs and the finished broth. Adjust to taste."},{"amount":1,"unit":"tsp","name":"white pepper","notes":"Ground white pepper is essential - black pepper gives a completely different character."},{"amount":3,"unit":"cloves","name":"garlic","notes":"Minced and fried in oil until golden for the crispy garlic oil garnish."},{"amount":2,"unit":"tbsp","name":"vegetable oil","notes":"For the garlic oil."},{"amount":4,"unit":"stalks","name":"green onions","notes":"Thinly sliced."},{"amount":2,"unit":"inch","name":"fresh ginger","notes":"Peeled and cut into fine julienne strips."},{"amount":2,"unit":"tbsp","name":"preserved Chinese mustard greens (chai poh)","notes":"Rinsed of excess salt and roughly chopped. Optional but adds characteristic savory-salty depth."}],
           instructions: ["Step 1: Fry the minced garlic in oil in a small pan over medium heat until golden and crispy. Reserve the garlic and the fragrant oil separately.","Step 2: Bring the stock to a boil. Add the rinsed rice, reduce to a medium simmer, and cook for 20 to 25 minutes, stirring occasionally, until the rice grains have burst and the broth has thickened slightly to a porridge consistency. Add more stock if it thickens too much.","Step 3: Season the ground pork with fish sauce, white pepper, and a pinch of sugar. Roll into small balls. Season the sliced pork with fish sauce and white pepper as well.","Step 4: When the porridge reaches the right consistency, drop in the pork meatballs and sliced pork. Simmer gently for 4 to 5 minutes until the pork is cooked through. Season the broth with fish sauce and white pepper.","Step 5: Ladle into bowls. Garnish each bowl with crispy fried garlic, a drizzle of garlic oil, julienned ginger, sliced green onions, and a small amount of preserved mustard greens if using. Serve with a small dish of prik nam pla (fish sauce with chopped fresh chilies) for individual heat adjustment."],
           classifications: {"mealType":["breakfast","comfort","sick food"],"cookingMethods":["simmering","poaching"]},
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent","New Moon"]},
           nutritionPerServing: {"calories":310,"proteinG":22,"carbsG":36,"fatG":9,"fiberG":1,"sodiumMg":880,"sugarG":2,"vitamins":["Niacin","Vitamin B6","Thiamin"],"minerals":["Phosphorus","Potassium","Selenium"]},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp (added in last 2 minutes)"]},{"originalIngredient":"chai poh (preserved mustard greens)","substituteOptions":["sliced pickled ginger","finely chopped kimchi"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0664,"entropy":0.0683,"reactivity":0.4376,"gregsEnergy":0.0365,"kalchm":0.25,"monica":0.0602},
+                    substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp (added in last 2 minutes)"]},{"originalIngredient":"chai poh (preserved mustard greens)","substituteOptions":["sliced pickled ginger","finely chopped kimchi"]}]
         },
       ],
     },
@@ -236,25 +246,29 @@ export const thai: Cuisine = {
           name: "Pad Kra Pao",
           description: "Thailand's most popular workday lunch - a blazingly fast stir-fry of minced or ground pork (or chicken) with garlic, bird eye chilies, and holy basil (kra pao), sauced with fish sauce, oyster sauce, and a touch of sugar. Served over rice and crowned with a kai dao (Thai fried egg) with crispy, lacy edges and a runny yolk. The key is maximum heat and holy basil added at the very end with the heat off - not sweet Thai basil, which has a completely different character. This dish defines the energy of Bangkok street food.",
           details: {"cuisine":"Thai","prepTimeMinutes":10,"cookTimeMinutes":8,"baseServingSize":2,"spiceLevel":"Hot","season":["all"]},
-          ingredients: [{"amount":0.75,"unit":"lb","name":"ground pork or finely minced pork","notes":"80/20 fat ratio is ideal. Very lean pork will be dry and bland under the high heat."},{"amount":6","unit":"cloves","name":"garlic","notes":"Coarsely smashed and roughly chopped. Not minced fine - you want visible pieces."},{"amount":4","unit":"whole","name":"bird eye chilies","notes":"Coarsely sliced. Adjust quantity for heat level. Thais use 5 to 10 for a properly fiery version."},{"amount":2","unit":"tbsp","name":"oyster sauce","notes":"Provides the body and slight sweetness of the sauce."},{"amount":1","unit":"tbsp","name":"fish sauce","notes":"Seasoning and umami."},{"amount":1","unit":"tbsp","name":"light soy sauce","notes":"Additional salt and color."},{"amount":1","unit":"tsp","name":"dark soy sauce","notes":"For color only. A small amount gives the dish its characteristic mahogany color."},{"amount":1","unit":"tsp","name":"sugar","notes":"Palm sugar is traditional. Balances the salty elements."},{"amount":1","unit":"cup","name":"fresh holy basil leaves","notes":"Kra pao, not Thai sweet basil (horapa). Holy basil has a peppery, clove-like quality. Added off heat only."},{"amount":3","unit":"tbsp","name":"vegetable oil","notes":"For the stir-fry. The wok should be smoking before the garlic goes in."}],
+          ingredients: [{"amount":0.75,"unit":"lb","name":"ground pork or finely minced pork","notes":"80/20 fat ratio is ideal. Very lean pork will be dry and bland under the high heat."},{"amount":6,"unit":"cloves","name":"garlic","notes":"Coarsely smashed and roughly chopped. Not minced fine - you want visible pieces."},{"amount":4,"unit":"whole","name":"bird eye chilies","notes":"Coarsely sliced. Adjust quantity for heat level. Thais use 5 to 10 for a properly fiery version."},{"amount":2,"unit":"tbsp","name":"oyster sauce","notes":"Provides the body and slight sweetness of the sauce."},{"amount":1,"unit":"tbsp","name":"fish sauce","notes":"Seasoning and umami."},{"amount":1,"unit":"tbsp","name":"light soy sauce","notes":"Additional salt and color."},{"amount":1,"unit":"tsp","name":"dark soy sauce","notes":"For color only. A small amount gives the dish its characteristic mahogany color."},{"amount":1,"unit":"tsp","name":"sugar","notes":"Palm sugar is traditional. Balances the salty elements."},{"amount":1,"unit":"cup","name":"fresh holy basil leaves","notes":"Kra pao, not Thai sweet basil (horapa). Holy basil has a peppery, clove-like quality. Added off heat only."},{"amount":3,"unit":"tbsp","name":"vegetable oil","notes":"For the stir-fry. The wok should be smoking before the garlic goes in."}],
           instructions: ["Step 1: Mix the oyster sauce, fish sauce, soy sauces, and sugar together in a small bowl to create the sauce. Have all ingredients prepped and within reach - this cooks in under 5 minutes.","Step 2: Heat a wok or large skillet over maximum heat until smoking. Add oil. Immediately add the garlic and chilies and fry for 20 to 30 seconds until fragrant and slightly golden.","Step 3: Add the ground pork and spread it across the wok surface. Leave undisturbed for 30 seconds to sear. Then break it apart vigorously with a spatula and toss constantly to brown evenly. The meat should be getting crispy at the edges.","Step 4: When the pork is fully cooked and beginning to caramelize, pour the sauce over and toss to coat everything evenly. Cook for 30 more seconds until the sauce is absorbed and the pork looks glossy.","Step 5: Remove the wok from heat completely. Add the holy basil leaves and toss with the residual heat. They will wilt in seconds. Taste and adjust seasoning. Serve immediately over hot jasmine rice, topped with a Thai fried egg (kai dao) cooked in abundant oil until the edges are crispy and the yolk is just runny."],
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["stir-frying","wok cooking"]},
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
           nutritionPerServing: {"calories":520,"proteinG":32,"carbsG":48,"fatG":22,"fiberG":2,"sodiumMg":1180,"sugarG":6,"vitamins":["Niacin","Vitamin B6","Vitamin K"],"minerals":["Zinc","Iron","Selenium"]},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","firm tofu crumbled (vegetarian)"]},{"originalIngredient":"holy basil (kra pao)","substituteOptions":["Italian basil plus a few Thai sweet basil leaves (approximate substitute)","no perfect substitute - the dish is fundamentally different without it"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2,"entropy":0.2188,"reactivity":1.4608,"gregsEnergy":-0.1195,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","firm tofu crumbled (vegetarian)"]},{"originalIngredient":"holy basil (kra pao)","substituteOptions":["Italian basil plus a few Thai sweet basil leaves (approximate substitute)","no perfect substitute - the dish is fundamentally different without it"]}]
         },
         {
           name: "Khao Soi",
           description: "Northern Thailand's iconic curry noodle soup - a Northern Thai and Chiang Mai specialty influenced by Burmese and Yunnan Chinese cooking. Egg noodles are served in a coconut-curry broth with slow-braised chicken drumsticks, then topped with a handful of the same noodles deep-fried until shatteringly crispy. The contrast of silky boiled noodles in the creamy, aromatic curry broth topped with brittle, oily fried noodles is unique. Condiments of pickled mustard greens, shallots, lime, and nam prik pao complete the table.",
           details: {"cuisine":"Thai","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["winter","autumn"]},
-          ingredients: [{"amount":4,"unit":"whole","name":"chicken drumsticks","notes":"Bone-in for depth of flavor. Thighs work equally well."},{"amount":400,"unit":"g","name":"fresh or dried egg noodles","notes":"Medium-width. Half will be boiled for the bowl; the other half deep-fried for the topping."},{"amount":400,"unit":"ml","name":"full-fat coconut milk","notes":"Full-fat only. Light coconut milk produces a watery, thin broth."},{"amount":2","unit":"cups","name":"chicken stock","notes":"For thinning the curry to the right broth consistency."},{"amount":3","unit":"tbsp","name":"red curry paste","notes":"Or khao soi curry paste if available. Red curry paste gives an approximate flavor profile."},{"amount":1","unit":"tbsp","name":"curry powder","notes":"Mixed into the coconut milk before adding the curry paste. Gives the characteristic golden-orange color."},{"amount":2","unit":"tbsp","name":"fish sauce","notes":"For seasoning throughout."},{"amount":1","unit":"tbsp","name":"palm sugar","notes":"To balance the broth."},{"amount":2","unit":"cups","name":"vegetable oil","notes":"For deep-frying the noodle topping."},{"amount":4","unit":"tbsp","name":"pickled mustard greens (chai poh)","notes":"Rinsed and chopped, served alongside as a condiment."},{"amount":4","unit":"small","name":"shallots","notes":"Thinly sliced, for the condiment plate."}],
+          ingredients: [{"amount":4,"unit":"whole","name":"chicken drumsticks","notes":"Bone-in for depth of flavor. Thighs work equally well."},{"amount":400,"unit":"g","name":"fresh or dried egg noodles","notes":"Medium-width. Half will be boiled for the bowl; the other half deep-fried for the topping."},{"amount":400,"unit":"ml","name":"full-fat coconut milk","notes":"Full-fat only. Light coconut milk produces a watery, thin broth."},{"amount":2,"unit":"cups","name":"chicken stock","notes":"For thinning the curry to the right broth consistency."},{"amount":3,"unit":"tbsp","name":"red curry paste","notes":"Or khao soi curry paste if available. Red curry paste gives an approximate flavor profile."},{"amount":1,"unit":"tbsp","name":"curry powder","notes":"Mixed into the coconut milk before adding the curry paste. Gives the characteristic golden-orange color."},{"amount":2,"unit":"tbsp","name":"fish sauce","notes":"For seasoning throughout."},{"amount":1,"unit":"tbsp","name":"palm sugar","notes":"To balance the broth."},{"amount":2,"unit":"cups","name":"vegetable oil","notes":"For deep-frying the noodle topping."},{"amount":4,"unit":"tbsp","name":"pickled mustard greens (chai poh)","notes":"Rinsed and chopped, served alongside as a condiment."},{"amount":4,"unit":"small","name":"shallots","notes":"Thinly sliced, for the condiment plate."}],
           instructions: ["Step 1: Deep-fry a handful of the raw egg noodles in hot oil until golden and crispy (about 1 minute). Drain and set aside as the topping. This can be done in advance.","Step 2: In a large pot, heat a tablespoon of oil over medium heat. Add the curry paste and fry for 2 minutes until fragrant and darkened. Add the curry powder and stir for 30 seconds.","Step 3: Pour in half the coconut milk and stir constantly until the fat separates and the mixture is fragrant, about 3 to 5 minutes. Add the chicken drumsticks and turn to coat in the paste.","Step 4: Add the remaining coconut milk, chicken stock, fish sauce, and palm sugar. Bring to a gentle simmer. Cook partially covered for 30 to 35 minutes until the chicken is tender and beginning to pull from the bone.","Step 5: Cook the remaining egg noodles in boiling water until al dente. Drain and divide among bowls. Ladle the curry broth and a drumstick over each portion. Crown with a generous pile of crispy fried noodles. Set out a condiment plate of pickled mustard greens, sliced shallots, lime wedges, and nam prik pao for each diner to customize their bowl."],
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering","deep-frying","braising"]},
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":58,"fatG":32,"fiberG":4,"sodiumMg":980,"sugarG":10,"vitamins":["Niacin","Vitamin A","Vitamin B6"],"minerals":["Iron","Potassium","Phosphorus"]},
-          substitutions: [{"originalIngredient":"chicken drumsticks","substituteOptions":["firm tofu (vegetarian)","beef shank slices","shrimp (much shorter cooking time)"]},{"originalIngredient":"egg noodles","substituteOptions":["rice noodles (gluten-free)","ramen noodles"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.587,"entropy":0.6355,"reactivity":3.3424,"gregsEnergy":-1.5371,"kalchm":4.0,"monica":0.3317},
+                    substitutions: [{"originalIngredient":"chicken drumsticks","substituteOptions":["firm tofu (vegetarian)","beef shank slices","shrimp (much shorter cooking time)"]},{"originalIngredient":"egg noodles","substituteOptions":["rice noodles (gluten-free)","ramen noodles"]}]
         },
         {
           "name": "Authentic Som Tam",
@@ -318,7 +332,9 @@ export const thai: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0174,"entropy":0.0271,"reactivity":0.8507,"gregsEnergy":-0.0056,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           name: "Tom Yum Goong",
@@ -350,7 +366,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.35,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Neptune"],"signs":["aries","pisces"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":185,"proteinG":24,"carbsG":9,"fatG":5,"fiberG":2,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Iodine"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0098,"entropy":0.1019,"reactivity":4.4091,"gregsEnergy":-0.4394,"kalchm":4.0,"monica":0.0719},
+                    substitutions: [
             {"originalIngredient":"shrimp","substituteOptions":["chicken pieces (simmer longer)","squid rings","mixed seafood"]},
             {"originalIngredient":"straw mushrooms","substituteOptions":["oyster mushrooms","shiitake mushrooms"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus nori flakes (vegetarian)"]}
@@ -360,13 +378,15 @@ export const thai: Cuisine = {
           name: "Yum Woon Sen",
           description: "Thai glass noodle salad - a light, intensely flavored yum (salad) featuring mung bean vermicelli tossed with ground pork or shrimp, Chinese celery, tomatoes, shallots, dried shrimp, and toasted peanuts in a dressing that hits all the Thai flavor dimensions simultaneously: sour lime, salty fish sauce, fiery chilies, savory toasted shrimp, and a hint of sweet. Glass noodles have a translucent, slippery quality when soaked that absorbs the dressing while maintaining a pleasant chew. Served at room temperature.",
           details: {"cuisine":"Thai","prepTimeMinutes":20,"cookTimeMinutes":10,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":100,"unit":"g","name":"glass noodles (mung bean vermicelli)","notes":"Soaked in cold water for 10 minutes until pliable, then drained. Do not use boiling water or they become mushy."},{"amount":0.5","unit":"lb","name":"ground pork","notes":"Cooked by breaking into small pieces in boiling water or in a dry pan. Cooled before mixing."},{"amount":0.5","unit":"lb","name":"medium shrimp","notes":"Peeled, deveined, and briefly poached. Can use pork alone."},{"amount":0.25","unit":"cup","name":"dried shrimp","notes":"Briefly toasted in a dry pan. Adds an intense, funky, savory depth."},{"amount":2","unit":"stalks","name":"Chinese celery or regular celery","notes":"Thinly sliced on the diagonal. Chinese celery has a more intense flavor."},{"amount":3","unit":"small","name":"shallots","notes":"Thinly sliced. Their sharp sweetness is key to the salad."},{"amount":2","unit":"medium","name":"tomatoes","notes":"Cut into wedges."},{"amount":4","unit":"whole","name":"bird eye chilies","notes":"Finely sliced. Adjust for heat level."},{"amount":4","unit":"tbsp","name":"fresh lime juice","notes":"Freshly squeezed. The backbone of the dressing."},{"amount":3","unit":"tbsp","name":"fish sauce","notes":"For salinity and umami. Adjust to taste."},{"amount":1","unit":"tsp","name":"palm sugar","notes":"To slightly round the dressing."},{"amount":3","unit":"tbsp","name":"roasted peanuts","notes":"Roughly crushed. For crunch and richness."}],
+          ingredients: [{"amount":100,"unit":"g","name":"glass noodles (mung bean vermicelli)","notes":"Soaked in cold water for 10 minutes until pliable, then drained. Do not use boiling water or they become mushy."},{"amount":0.5,"unit":"lb","name":"ground pork","notes":"Cooked by breaking into small pieces in boiling water or in a dry pan. Cooled before mixing."},{"amount":0.5,"unit":"lb","name":"medium shrimp","notes":"Peeled, deveined, and briefly poached. Can use pork alone."},{"amount":0.25,"unit":"cup","name":"dried shrimp","notes":"Briefly toasted in a dry pan. Adds an intense, funky, savory depth."},{"amount":2,"unit":"stalks","name":"Chinese celery or regular celery","notes":"Thinly sliced on the diagonal. Chinese celery has a more intense flavor."},{"amount":3,"unit":"small","name":"shallots","notes":"Thinly sliced. Their sharp sweetness is key to the salad."},{"amount":2,"unit":"medium","name":"tomatoes","notes":"Cut into wedges."},{"amount":4,"unit":"whole","name":"bird eye chilies","notes":"Finely sliced. Adjust for heat level."},{"amount":4,"unit":"tbsp","name":"fresh lime juice","notes":"Freshly squeezed. The backbone of the dressing."},{"amount":3,"unit":"tbsp","name":"fish sauce","notes":"For salinity and umami. Adjust to taste."},{"amount":1,"unit":"tsp","name":"palm sugar","notes":"To slightly round the dressing."},{"amount":3,"unit":"tbsp","name":"roasted peanuts","notes":"Roughly crushed. For crunch and richness."}],
           instructions: ["Step 1: Soak the glass noodles in cold water for 10 minutes. Drain and cut into manageable 6-inch lengths with scissors. Blanch in boiling water for 30 seconds only. Drain and cool with cold water immediately to prevent clumping. The noodles should be translucent and slightly chewy.","Step 2: Cook the ground pork by either breaking it into small pieces in a skillet over high heat until cooked through, or simmering in boiling water. Season with a splash of fish sauce. Cool completely.","Step 3: Briefly poach the shrimp in boiling salted water until just pink. Drain and cool. Toast the dried shrimp in a dry skillet over medium heat for 2 minutes until fragrant.","Step 4: Make the dressing by combining lime juice, fish sauce, and palm sugar. Stir until the sugar dissolves. Add the sliced chilies.","Step 5: In a large bowl, combine the cooled glass noodles, pork, shrimp, dried shrimp, Chinese celery, shallots, and tomato wedges. Pour the dressing over and toss thoroughly. Taste and adjust the balance - it should be aggressively sour and salty with noticeable heat. Transfer to a serving plate and top with crushed peanuts. Serve at room temperature."],
           classifications: {"mealType":["salad","lunch","dinner"],"cookingMethods":["boiling","mixing","toasting"]},
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.2,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Mars"],"signs":["gemini","aries"],"lunarPhases":["Waxing Crescent","First Quarter"]},
           nutritionPerServing: {"calories":285,"proteinG":22,"carbsG":28,"fatG":9,"fiberG":3,"sodiumMg":980,"sugarG":6,"vitamins":["Vitamin C","Niacin","Vitamin B12"],"minerals":["Selenium","Iodine","Zinc"]},
-          substitutions: [{"originalIngredient":"glass noodles","substituteOptions":["rice vermicelli","shirataki noodles (low-carb)"]},{"originalIngredient":"dried shrimp","substituteOptions":["1 tbsp fish sauce plus toasted sesame seeds","nori flakes for umami (vegetarian)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0796,"entropy":0.3249,"reactivity":2.2465,"gregsEnergy":-0.6502,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"glass noodles","substituteOptions":["rice vermicelli","shirataki noodles (low-carb)"]},{"originalIngredient":"dried shrimp","substituteOptions":["1 tbsp fish sauce plus toasted sesame seeds","nori flakes for umami (vegetarian)"]}]
         },
       ],
       summer: [
@@ -374,13 +394,15 @@ export const thai: Cuisine = {
           name: "Som Tam Thai",
           description: "The Bangkok-style green papaya salad that balances four elemental Thai flavors - hot, sour, salty, sweet - in a single dish assembled with a large ceramic mortar and wooden pestle. Unlike the Isaan version which uses fermented fish sauce and whole crabs, som tam Thai uses regular fish sauce, peanuts, and dried shrimp for a cleaner, more accessible flavor profile. The pounding technique bruises but does not pulverize - the papaya shreds should remain intact but seasoned through and through.",
           details: {"cuisine":"Thai","prepTimeMinutes":20,"cookTimeMinutes":0,"baseServingSize":2,"spiceLevel":"Hot","season":["summer"]},
-          ingredients: [{"amount":2.5,"unit":"cups","name":"green papaya","notes":"Peeled, seeded, and shredded into fine julienne strips using a mandoline or julienne peeler. Green (unripe) papaya only - ripe papaya has the wrong texture and sweetness."},{"amount":6","unit":"whole","name":"bird eye chilies","notes":"Adjust for heat level. Thais often use 10 or more. Pound briefly with the garlic."},{"amount":4","unit":"cloves","name":"garlic","notes":"Pounded with the chilies in the first step."},{"amount":0.5","unit":"cup","name":"long beans or green beans","notes":"Cut into 2-inch lengths. Pounded lightly to bruise - creates pockets to absorb the dressing."},{"amount":1","unit":"cup","name":"cherry tomatoes","notes":"Halved. Added and bruised lightly - they should release some juice into the dressing."},{"amount":3","unit":"tbsp","name":"dried shrimp","notes":"Adds savory, oceanic depth. Briefly pounded to separate."},{"amount":3","unit":"tbsp","name":"roasted peanuts","notes":"Roughly crushed, not ground to powder."},{"amount":3","unit":"tbsp","name":"fresh lime juice","notes":"Freshly squeezed. The sourness is the dominant flavor note."},{"amount":2","unit":"tbsp","name":"fish sauce","notes":"For salinity. The quality of fish sauce matters here."},{"amount":1.5","unit":"tbsp","name":"palm sugar","notes":"Melted or very finely shaved. Balances the sourness and heat."},{"amount":1","unit":"tbsp","name":"tamarind paste","notes":"Diluted in a little water. Optional but adds more complex sourness."}],
+          ingredients: [{"amount":2.5,"unit":"cups","name":"green papaya","notes":"Peeled, seeded, and shredded into fine julienne strips using a mandoline or julienne peeler. Green (unripe) papaya only - ripe papaya has the wrong texture and sweetness."},{"amount":6,"unit":"whole","name":"bird eye chilies","notes":"Adjust for heat level. Thais often use 10 or more. Pound briefly with the garlic."},{"amount":4,"unit":"cloves","name":"garlic","notes":"Pounded with the chilies in the first step."},{"amount":0.5,"unit":"cup","name":"long beans or green beans","notes":"Cut into 2-inch lengths. Pounded lightly to bruise - creates pockets to absorb the dressing."},{"amount":1,"unit":"cup","name":"cherry tomatoes","notes":"Halved. Added and bruised lightly - they should release some juice into the dressing."},{"amount":3,"unit":"tbsp","name":"dried shrimp","notes":"Adds savory, oceanic depth. Briefly pounded to separate."},{"amount":3,"unit":"tbsp","name":"roasted peanuts","notes":"Roughly crushed, not ground to powder."},{"amount":3,"unit":"tbsp","name":"fresh lime juice","notes":"Freshly squeezed. The sourness is the dominant flavor note."},{"amount":2,"unit":"tbsp","name":"fish sauce","notes":"For salinity. The quality of fish sauce matters here."},{"amount":1.5,"unit":"tbsp","name":"palm sugar","notes":"Melted or very finely shaved. Balances the sourness and heat."},{"amount":1,"unit":"tbsp","name":"tamarind paste","notes":"Diluted in a little water. Optional but adds more complex sourness."}],
           instructions: ["Step 1: Using a large clay mortar and wooden pestle, pound the garlic and chilies into a rough paste. This should take about 30 seconds - you want visible pieces, not powder.","Step 2: Add the dried shrimp and pound briefly to mix and separate the shrimp into small pieces.","Step 3: Add the long bean pieces and pound lightly - three or four strikes to bruise and crack them. They should remain identifiable, not mushy.","Step 4: Add the cherry tomatoes and press with the pestle to lightly crush and release juice. Add the palm sugar and stir until it dissolves in the tomato juice.","Step 5: Add the shredded green papaya and the lime juice, fish sauce, and tamarind paste. Using the pestle and a large spoon, toss and lightly pound the salad to integrate the flavors - the papaya should be slightly compressed and absorbing the dressing. Taste and adjust: the balance should be simultaneously tart, savory, hot, and sweet, with no one element dominating. Transfer to a plate and top with crushed peanuts. Serve immediately."],
           classifications: {"mealType":["salad","appetizer","side"],"cookingMethods":["pounding","mixing"]},
           elementalProperties: {"Fire":0.4,"Water":0.3,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["New Moon","Waxing Crescent"]},
           nutritionPerServing: {"calories":175,"proteinG":8,"carbsG":24,"fatG":6,"fiberG":4,"sodiumMg":780,"sugarG":14,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Potassium","Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"green papaya","substituteOptions":["green mango (more sour)","kohlrabi (firm and mild)","cucumber (softer result)"]},{"originalIngredient":"dried shrimp","substituteOptions":["nori flakes plus toasted sesame (vegetarian)","no substitute if omitting - it creates a different dish"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.3472,"reactivity":2.2639,"gregsEnergy":-0.6965,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"green papaya","substituteOptions":["green mango (more sour)","kohlrabi (firm and mild)","cucumber (softer result)"]},{"originalIngredient":"dried shrimp","substituteOptions":["nori flakes plus toasted sesame (vegetarian)","no substitute if omitting - it creates a different dish"]}]
         },
       ],
       winter: [
@@ -388,13 +410,15 @@ export const thai: Cuisine = {
           name: "Khao Kha Moo",
           description: "Braised pork leg over rice - a Chinese-Thai street food classic of pork trotters or leg slow-braised for hours in a master stock of five-spice, star anise, cinnamon, oyster sauce, and dark soy sauce until the collagen transforms into a trembling, gelatinous richness. Served sliced over rice with the braising liquid reduced to a glossy sauce, accompanied by hard-boiled eggs stained mahogany from the braise, pickled mustard greens, and a fiery sriracha-garlic vinegar sauce. The fat and skin are inseparable from the dish's appeal.",
           details: {"cuisine":"Thai","prepTimeMinutes":20,"cookTimeMinutes":180,"baseServingSize":4,"spiceLevel":"Low","season":["winter","autumn"]},
-          ingredients: [{"amount":2,"unit":"lbs","name":"pork leg or pork trotter","notes":"With skin and some bone. The skin and connective tissue are essential - they provide the gelatinous sauce. Have the butcher cut into 2-inch cross sections."},{"amount":4","unit":"whole","name":"eggs","notes":"Hard-boiled, peeled, and added to the braise to absorb the flavors and turn deep mahogany."},{"amount":3","unit":"tbsp","name":"dark soy sauce","notes":"For deep color and mellow saltiness. Dark soy is sweeter and thicker than regular soy."},{"amount":2","unit":"tbsp","name":"light soy sauce","notes":"For additional salinity."},{"amount":2","unit":"tbsp","name":"oyster sauce","notes":"Adds body and sweetness to the braising liquid."},{"amount":2","unit":"tbsp","name":"palm sugar or brown sugar","notes":"Balances the saltiness and gives the sauce a glossy sheen."},{"amount":3","unit":"whole","name":"star anise","notes":"Central aromatic in the five-spice profile."},{"amount":1","unit":"whole","name":"cinnamon stick","notes":"Adds warmth."},{"amount":1","unit":"tsp","name":"five-spice powder","notes":"The defining seasoning blend."},{"amount":1","unit":"head","name":"garlic","notes":"Halved horizontally, unpeeled."},{"amount":4","unit":"cups","name":"water or light pork stock","notes":"For the braising liquid."},{"amount":4","unit":"portions","name":"hot jasmine rice","notes":"Served underneath the pork."},{"amount":0.5","unit":"cup","name":"pickled mustard greens","notes":"Sliced, for serving alongside. Their sourness cuts through the rich pork fat."}],
+          ingredients: [{"amount":2,"unit":"lbs","name":"pork leg or pork trotter","notes":"With skin and some bone. The skin and connective tissue are essential - they provide the gelatinous sauce. Have the butcher cut into 2-inch cross sections."},{"amount":4,"unit":"whole","name":"eggs","notes":"Hard-boiled, peeled, and added to the braise to absorb the flavors and turn deep mahogany."},{"amount":3,"unit":"tbsp","name":"dark soy sauce","notes":"For deep color and mellow saltiness. Dark soy is sweeter and thicker than regular soy."},{"amount":2,"unit":"tbsp","name":"light soy sauce","notes":"For additional salinity."},{"amount":2,"unit":"tbsp","name":"oyster sauce","notes":"Adds body and sweetness to the braising liquid."},{"amount":2,"unit":"tbsp","name":"palm sugar or brown sugar","notes":"Balances the saltiness and gives the sauce a glossy sheen."},{"amount":3,"unit":"whole","name":"star anise","notes":"Central aromatic in the five-spice profile."},{"amount":1,"unit":"whole","name":"cinnamon stick","notes":"Adds warmth."},{"amount":1,"unit":"tsp","name":"five-spice powder","notes":"The defining seasoning blend."},{"amount":1,"unit":"head","name":"garlic","notes":"Halved horizontally, unpeeled."},{"amount":4,"unit":"cups","name":"water or light pork stock","notes":"For the braising liquid."},{"amount":4,"unit":"portions","name":"hot jasmine rice","notes":"Served underneath the pork."},{"amount":0.5,"unit":"cup","name":"pickled mustard greens","notes":"Sliced, for serving alongside. Their sourness cuts through the rich pork fat."}],
           instructions: ["Step 1: Briefly blanch the pork pieces in boiling water for 3 minutes to remove impurities and tighten the skin. Drain and rinse.","Step 2: In a heavy-bottomed pot, combine the water or stock, dark soy sauce, light soy sauce, oyster sauce, palm sugar, star anise, cinnamon, five-spice powder, and garlic head. Bring to a boil and stir to dissolve the sugar.","Step 3: Add the blanched pork pieces to the braising liquid. Bring back to a simmer. Reduce heat to the lowest possible setting, cover, and braise for 2 to 2.5 hours. The liquid should barely quiver.","Step 4: After 1 hour, add the peeled hard-boiled eggs to the braise. They will absorb color and flavor in the remaining cook time. After 2 hours, test the pork - a chopstick should pierce through the skin and meat with no resistance. If not tender, braise another 30 minutes.","Step 5: Remove the pork and eggs. Increase heat and reduce the braising liquid to a slightly thicker, glossy sauce. Slice the pork into thick pieces showing the layers of skin, fat, and meat. Serve over jasmine rice with the sauce spooned generously over the top. Accompany with a halved stained egg, pickled mustard greens, and a small dish of garlic-chili vinegar sauce."],
           classifications: {"mealType":["dinner","lunch","street food"],"cookingMethods":["braising","simmering"]},
           elementalProperties: {"Fire":0.2,"Water":0.4,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Jupiter"],"signs":["capricorn","taurus"],"lunarPhases":["Waning Gibbous","Full Moon"]},
           nutritionPerServing: {"calories":620,"proteinG":38,"carbsG":55,"fatG":26,"fiberG":2,"sodiumMg":1080,"sugarG":12,"vitamins":["Niacin","Vitamin B12","Vitamin B6"],"minerals":["Iron","Zinc","Potassium"]},
-          substitutions: [{"originalIngredient":"pork leg","substituteOptions":["pork belly (richer)","chicken thighs (shorter braise, 45 minutes)"]},{"originalIngredient":"palm sugar","substituteOptions":["brown sugar","rock sugar (traditional Chinese substitute)"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.5153,"entropy":0.5345,"reactivity":2.8546,"gregsEnergy":-1.0106,"kalchm":4.0,"monica":0.2554},
+                    substitutions: [{"originalIngredient":"pork leg","substituteOptions":["pork belly (richer)","chicken thighs (shorter braise, 45 minutes)"]},{"originalIngredient":"palm sugar","substituteOptions":["brown sugar","rock sugar (traditional Chinese substitute)"]}]
         },
         {
           name: "Tom Kha Gai",
@@ -427,7 +451,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":26,"carbsG":10,"fatG":28,"fiberG":2,"sodiumMg":820,"sugarG":5,"vitamins":["Vitamin C","Niacin"],"minerals":["Potassium","Phosphorus"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.84,"gregsEnergy":-0.0002,"kalchm":1.0,"monica":1.0},
+                    substitutions: [
             {"originalIngredient":"chicken thighs","substituteOptions":["tofu (firm, pressed - vegan)","shrimp","mushrooms only (vegetarian)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"full-fat coconut milk","substituteOptions":["light coconut milk (less rich result)"]}
@@ -437,13 +463,15 @@ export const thai: Cuisine = {
           name: "Kuay Teow Reua",
           description: "Boat noodles - Bangkok's most intensely flavored noodle soup, historically sold from small wooden boats navigating the canals of Bangkok. Distinguished from other Thai noodle soups by its dark, almost black broth, which gets its depth and color from pig's blood cooked slowly into the broth base alongside dark soy sauce, five-spice, and roasted coriander. Served in very small portions (a tradition from the boat era when bowls had to be small), it is common to eat four to six bowls in a sitting. The broth is deep, complex, and slightly metallic from the blood.",
           details: {"cuisine":"Thai","prepTimeMinutes":30,"cookTimeMinutes":120,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":2,"unit":"lbs","name":"pork spare ribs or neck bones","notes":"For the broth. Blanched first to remove impurities. The bones provide gelatin and depth."},{"amount":0.5","unit":"lb","name":"pork loin","notes":"Thinly sliced against the grain into bite-sized pieces. Added raw to each bowl and cooked by the hot broth."},{"amount":0.25","unit":"cup","name":"pork blood","notes":"Fresh or frozen. Stirred into the broth near the end. Optional but traditional - creates the characteristic dark color and metallic richness."},{"amount":200","unit":"g","name":"flat rice noodles or rice vermicelli","notes":"Either width works. Soaked in warm water until pliable, then blanched briefly in boiling water."},{"amount":3","unit":"tbsp","name":"dark soy sauce","notes":"For color and sweetness in the broth."},{"amount":2","unit":"tbsp","name":"fish sauce","notes":"Primary seasoning."},{"amount":1","unit":"tbsp","name":"oyster sauce","notes":"Adds body."},{"amount":2","unit":"whole","name":"star anise","notes":"Key aromatic in the broth."},{"amount":1","unit":"stick","name":"cinnamon","notes":"For warmth."},{"amount":1","unit":"tbsp","name":"roasted coriander seeds","notes":"Toasted dry until fragrant then roughly crushed."},{"amount":1","unit":"tbsp","name":"sugar","notes":"Palm or white sugar to balance the broth."},{"amount":1","unit":"cup","name":"morning glory (water spinach)","notes":"Blanched briefly. Or substitute bean sprouts."},{"amount":2","unit":"tbsp","name":"fried garlic in oil","notes":"Essential finishing garnish. Store-bought is acceptable."}],
+          ingredients: [{"amount":2,"unit":"lbs","name":"pork spare ribs or neck bones","notes":"For the broth. Blanched first to remove impurities. The bones provide gelatin and depth."},{"amount":0.5,"unit":"lb","name":"pork loin","notes":"Thinly sliced against the grain into bite-sized pieces. Added raw to each bowl and cooked by the hot broth."},{"amount":0.25,"unit":"cup","name":"pork blood","notes":"Fresh or frozen. Stirred into the broth near the end. Optional but traditional - creates the characteristic dark color and metallic richness."},{"amount":200,"unit":"g","name":"flat rice noodles or rice vermicelli","notes":"Either width works. Soaked in warm water until pliable, then blanched briefly in boiling water."},{"amount":3,"unit":"tbsp","name":"dark soy sauce","notes":"For color and sweetness in the broth."},{"amount":2,"unit":"tbsp","name":"fish sauce","notes":"Primary seasoning."},{"amount":1,"unit":"tbsp","name":"oyster sauce","notes":"Adds body."},{"amount":2,"unit":"whole","name":"star anise","notes":"Key aromatic in the broth."},{"amount":1,"unit":"stick","name":"cinnamon","notes":"For warmth."},{"amount":1,"unit":"tbsp","name":"roasted coriander seeds","notes":"Toasted dry until fragrant then roughly crushed."},{"amount":1,"unit":"tbsp","name":"sugar","notes":"Palm or white sugar to balance the broth."},{"amount":1,"unit":"cup","name":"morning glory (water spinach)","notes":"Blanched briefly. Or substitute bean sprouts."},{"amount":2,"unit":"tbsp","name":"fried garlic in oil","notes":"Essential finishing garnish. Store-bought is acceptable."}],
           instructions: ["Step 1: Blanch the pork bones in boiling water for 5 minutes to remove impurities. Discard the water and rinse bones. Place in a fresh pot with 8 cups of water, star anise, cinnamon, and coriander seeds. Bring to a boil then simmer for 1.5 hours.","Step 2: Strain the broth. Return to the pot and season with dark soy sauce, fish sauce, oyster sauce, and sugar. If using pork blood, stir it in now and simmer for 10 minutes. The broth should be dark, almost black, with a complex depth.","Step 3: Prepare the noodles by soaking then blanching briefly in boiling water. Drain and portion into bowls.","Step 4: Add a portion of raw sliced pork loin to each bowl. Ladle the very hot, simmering broth over the noodles and pork - the boiling broth will cook the thin pork slices in the bowl. Add blanched morning glory.","Step 5: Garnish with fried garlic in oil. Set out the traditional condiment quartet on the table: white sugar, fish sauce, vinegar with sliced chilies, and dried chili flakes - each diner seasons their bowl individually. The boat noodle experience is about personally calibrating the bowl across multiple small servings."],
           classifications: {"mealType":["lunch","dinner","street food"],"cookingMethods":["simmering","blanching","assembling"]},
           elementalProperties: {"Fire":0.3,"Water":0.45,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Pluto"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous","Dark Moon"]},
           nutritionPerServing: {"calories":380,"proteinG":28,"carbsG":42,"fatG":12,"fiberG":2,"sodiumMg":1050,"sugarG":8,"vitamins":["Niacin","Vitamin B12","Iron"],"minerals":["Iron","Zinc","Potassium"]},
-          substitutions: [{"originalIngredient":"pork blood","substituteOptions":["extra dark soy sauce and a splash of balsamic for color and depth (vegetarian-adjacent)","omit entirely for a cleaner broth"]},{"originalIngredient":"pork","substituteOptions":["beef brisket and beef balls (Thai-Chinese beef boat noodles variant)","chicken"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0796,"entropy":0.082,"reactivity":0.4742,"gregsEnergy":0.0407,"kalchm":0.25,"monica":0.062},
+                    substitutions: [{"originalIngredient":"pork blood","substituteOptions":["extra dark soy sauce and a splash of balsamic for color and depth (vegetarian-adjacent)","omit entirely for a cleaner broth"]},{"originalIngredient":"pork","substituteOptions":["beef brisket and beef balls (Thai-Chinese beef boat noodles variant)","chicken"]}]
         },
       ],
     },
@@ -483,7 +511,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Mars"],"signs":["gemini","aries"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":560,"proteinG":28,"carbsG":72,"fatG":18,"fiberG":4,"sodiumMg":1350,"sugarG":10,"vitamins":["Vitamin B12","Niacin"],"minerals":["Selenium","Zinc"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.3636,"reactivity":1.8964,"gregsEnergy":-0.6,"kalchm":1.0,"monica":1.0},
+                    substitutions: [
             {"originalIngredient":"shrimp","substituteOptions":["chicken breast (sliced thin)","extra tofu (vegan)","pork tenderloin"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a pinch of salt (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice mixed with a small amount of rice vinegar (less depth)"]}
@@ -499,7 +529,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.55,"Water":0.05,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":520,"proteinG":32,"carbsG":8,"fatG":38,"fiberG":1,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin B6","Niacin"],"minerals":["Zinc","Iron"]},
-          substitutions: [{"originalIngredient":"Holy basil","substituteOptions":["Thai sweet basil (though structurally incorrect, it is common)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.217,"entropy":0.2505,"reactivity":1.4896,"gregsEnergy":-0.1561,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Holy basil","substituteOptions":["Thai sweet basil (though structurally incorrect, it is common)"]}]
         },
         {
           name: "Pla Neung Manao",
@@ -511,7 +543,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.5,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Mercury"],"signs":["pisces","virgo"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":280,"proteinG":45,"carbsG":12,"fatG":4,"fiberG":1,"sodiumMg":1500,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Potassium"]},
-          substitutions: [{"originalIngredient":"Whole fish","substituteOptions":["Fish fillets (reduce steaming time)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":2},
+          thermodynamicProperties: {"heat":0.0796,"entropy":1.9922,"reactivity":635.0,"gregsEnergy":-1264.9594,"kalchm":0.25,"monica":-1.437},
+                    substitutions: [{"originalIngredient":"Whole fish","substituteOptions":["Fish fillets (reduce steaming time)"]}]
         },
         {
           name: "Gaeng Keow Wan Gai",
@@ -542,7 +576,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.3,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":420,"proteinG":28,"carbsG":12,"fatG":30,"fiberG":4,"sodiumMg":880,"sugarG":7,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Potassium","Iron"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.3472,"reactivity":2.2639,"gregsEnergy":-0.6965,"kalchm":1.0,"monica":1.0},
+                    substitutions: [
             {"originalIngredient":"chicken thighs","substituteOptions":["shrimp (reduce cook time)","firm tofu (vegan)","beef sirloin strips"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"Thai eggplant","substituteOptions":["zucchini","bamboo shoots","baby corn"]}
@@ -577,7 +613,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":440,"proteinG":30,"carbsG":10,"fatG":32,"fiberG":3,"sodiumMg":920,"sugarG":6,"vitamins":["Vitamin B12","Niacin"],"minerals":["Zinc","Potassium"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0843,"entropy":0.0899,"reactivity":0.439,"gregsEnergy":0.0448,"kalchm":0.25,"monica":0.0736},
+                    substitutions: [
             {"originalIngredient":"pork tenderloin","substituteOptions":["chicken breast","duck breast","firm tofu (vegan)"]},
             {"originalIngredient":"bamboo shoots","substituteOptions":["hearts of palm","Thai eggplant","zucchini"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
@@ -611,7 +649,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","virgo"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":310,"proteinG":36,"carbsG":14,"fatG":12,"fiberG":2,"sodiumMg":980,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Iron","Zinc"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0895,"entropy":0.3636,"reactivity":2.0624,"gregsEnergy":-0.6604,"kalchm":1.0,"monica":1.0},
+                    substitutions: [
             {"originalIngredient":"ground chicken","substituteOptions":["ground pork","ground turkey","minced mushrooms (vegan)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"toasted rice powder","substituteOptions":["panko breadcrumbs, toasted (different texture but similar function)"]}
@@ -648,7 +688,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Jupiter"],"signs":["leo","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":480,"proteinG":34,"carbsG":22,"fatG":30,"fiberG":4,"sodiumMg":760,"sugarG":10,"vitamins":["Niacin","Vitamin B6"],"minerals":["Zinc","Magnesium"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":1.5142,"entropy":1.7201,"reactivity":42.2245,"gregsEnergy":-71.1154,"kalchm":4.0,"monica":1.2149},
+                    substitutions: [
             {"originalIngredient":"chicken thighs","substituteOptions":["pork loin strips","beef sirloin","king oyster mushroom strips (vegan)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"roasted peanuts","substituteOptions":["cashews (nut allergy note)","sunflower seed butter (nut-free)"]}
@@ -683,7 +725,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":590,"proteinG":32,"carbsG":65,"fatG":20,"fiberG":3,"sodiumMg":1450,"sugarG":8,"vitamins":["Vitamin C","Iron","Vitamin B12"],"minerals":["Zinc","Selenium"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1849,"entropy":0.202,"reactivity":1.3225,"gregsEnergy":-0.0822,"kalchm":1.0,"monica":1.0},
+                    substitutions: [
             {"originalIngredient":"pork tenderloin","substituteOptions":["chicken breast sliced thin","shrimp","extra-firm tofu (vegan)"]},
             {"originalIngredient":"Chinese broccoli","substituteOptions":["broccolini","bok choy","regular broccoli florets"]},
             {"originalIngredient":"fresh wide rice noodles","substituteOptions":["dried wide rice noodles, soaked"]}
@@ -719,7 +763,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.5,"Water":0.1,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["scorpio","aries"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":545,"proteinG":30,"carbsG":52,"fatG":24,"fiberG":2,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin B6","Niacin"],"minerals":["Iron","Zinc"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2,"entropy":0.2188,"reactivity":1.3432,"gregsEnergy":-0.0938,"kalchm":1.0,"monica":1.0},
+                    substitutions: [
             {"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","crumbled extra-firm tofu (vegan)"]},
             {"originalIngredient":"holy basil","substituteOptions":["Thai sweet basil (less peppery result)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
@@ -755,7 +801,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":45,"carbsG":8,"fatG":22,"fiberG":1,"sodiumMg":1050,"sugarG":5,"vitamins":["Vitamin B12","Niacin","Iron"],"minerals":["Zinc","Phosphorus"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0954,"entropy":0.1019,"reactivity":0.4225,"gregsEnergy":0.0524,"kalchm":0.25,"monica":0.0894},
+                    substitutions: [
             {"originalIngredient":"beef sirloin","substituteOptions":["pork shoulder steak","lamb leg steak","portobello mushrooms (vegetarian)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice plus a touch of brown sugar"]}
@@ -773,7 +821,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0,"Water":0.7,"Earth":0.15,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":250,"proteinG":4,"carbsG":55,"fatG":4,"fiberG":2,"sodiumMg":80,"sugarG":45,"vitamins":["Calcium"],"minerals":["Phosphorus"]},
-          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0,"entropy":0.069,"reactivity":4.1682,"gregsEnergy":-0.2875,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
         },
         {
           name: "Yum Woon Sen",
@@ -785,7 +835,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.4,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mercury","Uranus"],"signs":["gemini","aquarius"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":320,"proteinG":22,"carbsG":45,"fatG":8,"fiberG":2,"sodiumMg":1200,"sugarG":12,"vitamins":["Vitamin C","Niacin"],"minerals":["Selenium","Zinc"]},
-          substitutions: [{"originalIngredient":"Minced pork","substituteOptions":["Minced chicken","More seafood"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0843,"entropy":0.328,"reactivity":2.4896,"gregsEnergy":-0.7322,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Minced pork","substituteOptions":["Minced chicken","More seafood"]}]
         },
       ],
       winter: [
@@ -799,7 +851,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.25,"Earth":0.45,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":650,"proteinG":38,"carbsG":28,"fatG":45,"fiberG":5,"sodiumMg":950,"sugarG":14,"vitamins":["Iron","Vitamin B12"],"minerals":["Zinc","Potassium"]},
-          substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Chicken thighs (reduce braise time)"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.5153,"entropy":0.5556,"reactivity":2.4316,"gregsEnergy":-0.8356,"kalchm":4.0,"monica":0.2479},
+                    substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Chicken thighs (reduce braise time)"]}]
         },
         {
           name: "Tom Yum Goong Nam Khon",
@@ -811,7 +865,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.4,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Neptune"],"signs":["aries","pisces"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":280,"proteinG":24,"carbsG":12,"fatG":14,"fiberG":2,"sodiumMg":1400,"sugarG":6,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Selenium","Iodine"]},
-          substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0076,"entropy":0.0955,"reactivity":4.405,"gregsEnergy":-0.4132,"kalchm":4.0,"monica":0.0677},
+                    substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}]
         },
         {
           name: "Gaeng Panang Neua",
@@ -823,7 +879,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Gaeng Panang Neua","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Gaeng Panang Neua","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Khao Soi Gai",
@@ -835,7 +893,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Khao Soi Gai","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Khao Soi Gai","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
     },
@@ -865,7 +925,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.05,"Water":0.45,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":5,"carbsG":72,"fatG":14,"fiberG":3,"sodiumMg":280,"sugarG":28,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Potassium","Magnesium"]},
-          substitutions: [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0001,"entropy":0.0005,"reactivity":0.7318,"gregsEnergy":-0.0003,"kalchm":1.0,"monica":1.0},
+                    substitutions: [
             {"originalIngredient":"ripe mangoes","substituteOptions":["ripe peaches (summer)","ripe jackfruit","durian (for a richer result)"]},
             {"originalIngredient":"toasted mung beans","substituteOptions":["toasted sesame seeds","crispy fried shallots"]}
           ]
@@ -880,7 +942,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Tub Tim Grob","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Tub Tim Grob","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Bua Loi",
@@ -892,7 +956,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Bua Loi","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Bua Loi","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
           name: "Sangkaya Fak Thong",
@@ -904,7 +970,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Sangkaya Fak Thong","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Sangkaya Fak Thong","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
       summer: [
@@ -918,7 +986,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0,"Water":0.7,"Earth":0.15,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":250,"proteinG":4,"carbsG":55,"fatG":4,"fiberG":2,"sodiumMg":80,"sugarG":45,"vitamins":["Calcium"],"minerals":["Phosphorus"]},
-          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":1,"Substance":1},
+          thermodynamicProperties: {"heat":0.0,"entropy":0.069,"reactivity":4.1682,"gregsEnergy":-0.2875,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
         },
       ],
     },
@@ -934,7 +1004,9 @@ export const thai: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-          substitutions: [{"originalIngredient":"Foundation of Kluay Tod","substituteOptions":["Alternate protein or vegetable"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0756,"entropy":0.0918,"reactivity":3.32,"gregsEnergy":-0.2293,"kalchm":4.0,"monica":0.0498},
+                    substitutions: [{"originalIngredient":"Foundation of Kluay Tod","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
     },

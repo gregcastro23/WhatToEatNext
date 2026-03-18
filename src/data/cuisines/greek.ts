@@ -122,7 +122,9 @@ export const greek: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.0038,"reactivity":0.7883,"gregsEnergy":-0.0012,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "semolina custard",
               "substituteOptions": [
@@ -220,7 +222,9 @@ export const greek: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0001,"entropy":0.0011,"reactivity":0.7266,"gregsEnergy":-0.0007,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "Greek yogurt",
               "substituteOptions": [
@@ -348,7 +352,9 @@ export const greek: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1405,"entropy":0.1527,"reactivity":1.2988,"gregsEnergy":-0.0579,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "eggs",
               "substituteOptions": [
@@ -471,7 +477,9 @@ export const greek: Cuisine = {
               "Magnesium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.3469,"entropy":0.3939,"reactivity":0.4199,"gregsEnergy":0.1815,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "barley flour",
               "substituteOptions": [
@@ -611,7 +619,9 @@ export const greek: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2,"entropy":0.2439,"reactivity":1.5972,"gregsEnergy":-0.1895,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "pork neck",
               "substituteOptions": [
@@ -754,7 +764,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1201,"entropy":0.1301,"reactivity":1.3432,"gregsEnergy":-0.0547,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "feta cheese",
               "substituteOptions": [
@@ -920,7 +932,9 @@ export const greek: Cuisine = {
               "Manganese"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.1327,"entropy":0.144,"reactivity":1.3077,"gregsEnergy":-0.0557,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "short-grain rice",
               "substituteOptions": [
@@ -1004,7 +1018,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":0.321,"entropy":0.3903,"reactivity":10.3827,"gregsEnergy":-3.731,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           "name": "Authentic Spanakopita",
@@ -1069,7 +1085,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0051,"entropy":0.0158,"reactivity":0.6269,"gregsEnergy":-0.0048,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           "name": "Authentic Greek Pastitsio",
@@ -1235,7 +1253,9 @@ export const greek: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.072,"entropy":0.0798,"reactivity":2.4269,"gregsEnergy":-0.1215,"kalchm":4.0,"monica":0.0361},
+                    "substitutions": [
             {
               "originalIngredient": "ground beef",
               "substituteOptions": [
@@ -1399,7 +1419,9 @@ export const greek: Cuisine = {
               "Iron"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0012,"entropy":0.0069,"reactivity":0.5816,"gregsEnergy":-0.0028,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "grape leaves",
               "substituteOptions": [
@@ -1485,7 +1507,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0083,"entropy":0.0126,"reactivity":0.6953,"gregsEnergy":-0.0005,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           "name": "Authentic Fasolada",
@@ -1549,7 +1573,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
-          "substitutions": []
+          alchemicalProperties: {"Spirit":0,"Essence":0,"Matter":0,"Substance":0},
+          thermodynamicProperties: {"heat":0.0123,"entropy":0.0173,"reactivity":0.8519,"gregsEnergy":-0.0024,"kalchm":1.0,"monica":1.0},
+                    "substitutions": []
         },
         {
           "name": "Authentic Greek Youvetsi",
@@ -1697,7 +1723,9 @@ export const greek: Cuisine = {
               "Calcium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":2,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.5153,"entropy":0.5556,"reactivity":2.4316,"gregsEnergy":-0.8356,"kalchm":4.0,"monica":0.2479},
+                    "substitutions": [
             {
               "originalIngredient": "beef chuck",
               "substituteOptions": [
@@ -1838,7 +1866,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.2988,"entropy":0.3164,"reactivity":0.5458,"gregsEnergy":0.1261,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "dried chickpeas",
               "substituteOptions": [
@@ -1994,7 +2024,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.321,"entropy":0.3633,"reactivity":0.5816,"gregsEnergy":0.1097,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "Gigantes beans",
               "substituteOptions": [
@@ -2167,7 +2199,9 @@ export const greek: Cuisine = {
               "Zinc"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0076,"entropy":0.0084,"reactivity":0.7958,"gregsEnergy":0.0009,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "ground beef",
               "substituteOptions": [
@@ -2310,7 +2344,9 @@ export const greek: Cuisine = {
               "Phosphorus"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0017,"entropy":0.0023,"reactivity":0.7555,"gregsEnergy":0.0,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "semolina flour",
               "substituteOptions": [
@@ -2434,7 +2470,9 @@ export const greek: Cuisine = {
               "Manganese"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.0237,"entropy":0.0304,"reactivity":0.6543,"gregsEnergy":0.0038,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "potatoes",
               "substituteOptions": [
@@ -2578,7 +2616,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
-          "substitutions": [
+          alchemicalProperties: {"Spirit":0,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.0076,"entropy":0.0084,"reactivity":0.7958,"gregsEnergy":0.0009,"kalchm":1.0,"monica":1.0},
+                    "substitutions": [
             {
               "originalIngredient": "red wine vinegar",
               "substituteOptions": [
@@ -2672,7 +2712,9 @@ export const greek: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.321,"entropy":0.3633,"reactivity":0.4844,"gregsEnergy":0.145,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Spanakopita",
@@ -2752,7 +2794,9 @@ export const greek: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.0083,"entropy":0.0254,"reactivity":0.6379,"gregsEnergy":-0.0079,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Pastitsio",
@@ -2830,7 +2874,9 @@ export const greek: Cuisine = {
                   "Iron"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":1,"Matter":0,"Substance":0},
+              thermodynamicProperties: {"heat":0.321,"entropy":0.3404,"reactivity":6.8843,"gregsEnergy":-2.0225,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Gemista",
@@ -2910,7 +2956,9 @@ export const greek: Cuisine = {
                   "Potassium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":1,"Essence":0,"Matter":0,"Substance":0},
+              thermodynamicProperties: {"heat":1.4152,"entropy":1.6016,"reactivity":5.6667,"gregsEnergy":-7.6603,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             },
             {
               "name": "Authentic Galaktoboureko",
@@ -2988,7 +3036,9 @@ export const greek: Cuisine = {
                   "Calcium"
                 ]
               },
-              "substitutions": []
+              alchemicalProperties: {"Spirit":0,"Essence":1,"Matter":1,"Substance":0},
+              thermodynamicProperties: {"heat":0.0028,"entropy":0.0043,"reactivity":0.6543,"gregsEnergy":-0.0,"kalchm":1.0,"monica":1.0},
+                            "substitutions": []
             }
         ,
         {
@@ -3001,7 +3051,9 @@ export const greek: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.5,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Moon","Mercury"],"signs":["taurus","cancer","virgo"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":14,"carbsG":32,"fatG":24,"fiberG":4,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin A","Folate","Vitamin K"],"minerals":["Calcium","Iron","Magnesium"]},
-          substitutions: [{"originalIngredient":"Feta cheese","substituteOptions":["Ricotta plus salt","Goat cheese"]},{"originalIngredient":"Phyllo dough","substituteOptions":["Puff pastry (different texture)"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":2,"Substance":1},
+          thermodynamicProperties: {"heat":0.0299,"entropy":0.0926,"reactivity":0.9736,"gregsEnergy":-0.0603,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Feta cheese","substituteOptions":["Ricotta plus salt","Goat cheese"]},{"originalIngredient":"Phyllo dough","substituteOptions":["Puff pastry (different texture)"]}]
         },
         {
           name: "Dolmades",
@@ -3013,7 +3065,9 @@ export const greek: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.45,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus","Jupiter"],"signs":["cancer","taurus","pisces"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":340,"proteinG":6,"carbsG":42,"fatG":18,"fiberG":4,"sodiumMg":480,"sugarG":8,"vitamins":["Vitamin K","Folate","Vitamin C"],"minerals":["Iron","Magnesium","Potassium"]},
-          substitutions: [{"originalIngredient":"Brined grape leaves","substituteOptions":["Blanched cabbage leaves","Chard leaves"]},{"originalIngredient":"Currants","substituteOptions":["Raisins","Dried cranberries"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":3,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.029,"entropy":0.0312,"reactivity":1.6864,"gregsEnergy":-0.0236,"kalchm":6.75,"monica":0.0073},
+                    substitutions: [{"originalIngredient":"Brined grape leaves","substituteOptions":["Blanched cabbage leaves","Chard leaves"]},{"originalIngredient":"Currants","substituteOptions":["Raisins","Dried cranberries"]}]
         },
         {
           name: "Avgolemono",
@@ -3025,7 +3079,9 @@ export const greek: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","libra","gemini"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":220,"proteinG":18,"carbsG":18,"fatG":8,"fiberG":1,"sodiumMg":720,"sugarG":2,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Potassium","Phosphorus","Selenium"]},
-          substitutions: [{"originalIngredient":"Chicken broth","substituteOptions":["Vegetable broth","Lamb broth"]},{"originalIngredient":"Orzo","substituteOptions":["Short-grain rice","Broken vermicelli"]}]
+          alchemicalProperties: {"Spirit":1,"Essence":2,"Matter":2,"Substance":1},
+          thermodynamicProperties: {"heat":0.029,"entropy":0.0901,"reactivity":1.241,"gregsEnergy":-0.0828,"kalchm":1.0,"monica":1.0},
+                    substitutions: [{"originalIngredient":"Chicken broth","substituteOptions":["Vegetable broth","Lamb broth"]},{"originalIngredient":"Orzo","substituteOptions":["Short-grain rice","Broken vermicelli"]}]
         },
         {
           name: "Kleftiko",
@@ -3037,7 +3093,9 @@ export const greek: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.2,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars","Jupiter"],"signs":["capricorn","aries","sagittarius"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":620,"proteinG":52,"carbsG":28,"fatG":34,"fiberG":4,"sodiumMg":580,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
-          substitutions: [{"originalIngredient":"Lamb shoulder","substituteOptions":["Goat shoulder","Bone-in chicken (reduce time)"]},{"originalIngredient":"Kefalotyri cheese","substituteOptions":["Pecorino Romano","Aged Manchego"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":2,"Matter":2,"Substance":0},
+          thermodynamicProperties: {"heat":0.1753,"entropy":0.1833,"reactivity":1.2944,"gregsEnergy":-0.062,"kalchm":4.0,"monica":0.0345},
+                    substitutions: [{"originalIngredient":"Lamb shoulder","substituteOptions":["Goat shoulder","Bone-in chicken (reduce time)"]},{"originalIngredient":"Kefalotyri cheese","substituteOptions":["Pecorino Romano","Aged Manchego"]}]
         },
         {
           name: "Loukoumades",
@@ -3049,7 +3107,9 @@ export const greek: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Venus","Sun"],"signs":["sagittarius","taurus","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":6,"carbsG":58,"fatG":20,"fiberG":2,"sodiumMg":220,"sugarG":28,"vitamins":["Thiamin","Niacin","Folate"],"minerals":["Iron","Calcium","Magnesium"]},
-          substitutions: [{"originalIngredient":"Greek thyme honey","substituteOptions":["Maple syrup","Date syrup"]},{"originalIngredient":"Walnuts","substituteOptions":["Pistachios","Almonds"]}]
+          alchemicalProperties: {"Spirit":2,"Essence":2,"Matter":1,"Substance":0},
+          thermodynamicProperties: {"heat":0.3094,"entropy":0.3384,"reactivity":4.8432,"gregsEnergy":-1.3293,"kalchm":16.0,"monica":0.099},
+                    substitutions: [{"originalIngredient":"Greek thyme honey","substituteOptions":["Maple syrup","Date syrup"]},{"originalIngredient":"Walnuts","substituteOptions":["Pistachios","Almonds"]}]
         },
         ],
     },
