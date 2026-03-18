@@ -194,7 +194,7 @@ function calculateApproximateAscendant(
     Math.cos(lstRad),
     -(Math.sin(oblRad) * Math.tan(latRad) + Math.cos(oblRad) * Math.sin(lstRad))
   );
-  let ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
+  const ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
 
   const signIndex = Math.floor(ascLongitude / 30);
   const degreeInSign = ascLongitude - signIndex * 30;

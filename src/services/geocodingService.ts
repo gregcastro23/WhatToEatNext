@@ -70,7 +70,7 @@ export async function geocodeLocation(
     }));
   } catch (error) {
     _logger.error("Geocoding error:", error);
-    throw new Error("Failed to geocode location");
+    throw new Error("Failed to geocode location", { cause: error });
   }
 }
 

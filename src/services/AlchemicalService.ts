@@ -64,7 +64,7 @@ export class AlchemicalService {
       return result;
     } catch (error) {
       logger.error("Error calculating alchemical properties:", error);
-      throw new Error("Failed to calculate alchemical properties");
+      throw new Error("Failed to calculate alchemical properties", { cause: error });
     }
   }
 
@@ -90,7 +90,7 @@ export class AlchemicalService {
       return await this.calculateAlchemicalProperties(planetaryPositions);
     } catch (error) {
       logger.error("Error calculating current alchemical properties:", error);
-      throw new Error("Failed to calculate current alchemical properties");
+      throw new Error("Failed to calculate current alchemical properties", { cause: error });
     }
   }
 
@@ -127,6 +127,7 @@ export class AlchemicalService {
       );
       throw new Error(
         "Failed to calculate alchemical properties for date/time",
+        { cause: error },
       );
     }
   }

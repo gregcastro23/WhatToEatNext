@@ -286,6 +286,7 @@ export class UnifiedCalculationEngine {
       this.logger.error("SMES calculation failed:", error);
       throw new Error(
         `SMES calculation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+        { cause: error },
       );
     }
   }
@@ -357,6 +358,7 @@ export class UnifiedCalculationEngine {
       this.logger.error("Recipe optimization failed:", error);
       throw new Error(
         `Recipe optimization failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+        { cause: error },
       );
     }
   }
@@ -413,6 +415,7 @@ export class UnifiedCalculationEngine {
       this.logger.error("Culinary recommendations failed:", error);
       throw new Error(
         `Culinary recommendations failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+        { cause: error },
       );
     }
   }

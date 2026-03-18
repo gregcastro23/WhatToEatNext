@@ -56,7 +56,7 @@ function normalizeData(data: any) {
 
     // Build positions from the chart's planetaryPositions (Record<Planet, ZodiacSign>)
     // or from the planets array
-    let positions: Record<string, any> = {};
+    const positions: Record<string, any> = {};
     if (chart.planetaryPositions && typeof chart.planetaryPositions === 'object') {
       // If values are simple strings (sign names), wrap them
       for (const [planet, val] of Object.entries(chart.planetaryPositions)) {

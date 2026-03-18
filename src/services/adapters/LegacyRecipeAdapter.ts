@@ -306,6 +306,7 @@ export class LegacyRecipeAdapter {
       logger.error("Error in generateRecipe:", error);
       throw new Error(
         `Recipe generation failed: ${error instanceof Error ? error.message : String(error)}`,
+        { cause: error },
       );
     }
   }

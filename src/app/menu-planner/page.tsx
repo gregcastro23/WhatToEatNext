@@ -305,33 +305,31 @@ function MenuPlannerContent() {
         </div>
 
         {/* Sidebars row - below calendar for better readability */}
-        {(showRecipeQueue || true) && (
-          <div className="flex flex-col lg:flex-row gap-4 mt-6">
-            {/* Recipe Queue */}
-            {showRecipeQueue && (
-              <div className="w-full lg:w-96 flex-shrink-0">
-                <RecipeQueue
-                  onSelectRecipe={(queuedRecipe) => {
-                    console.log("Selected from queue:", queuedRecipe.recipe.name);
-                    showInfo(
-                      "Drag recipes from the queue to meal slots on the calendar!",
-                    );
-                  }}
-                />
-              </div>
-            )}
-
-            {/* Smart Suggestions - right side */}
-            <div className="flex-1 hidden lg:block">
-              <SmartSuggestionsSidebar
-                weekPlan={currentMenu}
-                weeklyNutrition={weeklyNutrition}
-                isCollapsed={sidebarCollapsed}
-                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        <div className="flex flex-col lg:flex-row gap-4 mt-6">
+          {/* Recipe Queue */}
+          {showRecipeQueue && (
+            <div className="w-full lg:w-96 flex-shrink-0">
+              <RecipeQueue
+                onSelectRecipe={(queuedRecipe) => {
+                  console.log("Selected from queue:", queuedRecipe.recipe.name);
+                  showInfo(
+                    "Drag recipes from the queue to meal slots on the calendar!",
+                  );
+                }}
               />
             </div>
+          )}
+
+          {/* Smart Suggestions - right side */}
+          <div className="flex-1 hidden lg:block">
+            <SmartSuggestionsSidebar
+              weekPlan={currentMenu}
+              weeklyNutrition={weeklyNutrition}
+              isCollapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+            />
           </div>
-        )}
+        </div>
         {/* Mobile: Suggestions Bottom Sheet */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-amber-200 shadow-xl z-40">
           <button

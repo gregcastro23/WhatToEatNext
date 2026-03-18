@@ -84,7 +84,7 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({
     setError(null);
     try {
       // Fetch real planetary positions from the astrologize API
-      let planetSigns: Record<string, string> = {};
+      const planetSigns: Record<string, string> = {};
 
       try {
         const response = await fetch("/api/astrologize", {

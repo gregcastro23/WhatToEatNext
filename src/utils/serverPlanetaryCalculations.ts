@@ -198,10 +198,9 @@ function calculatePositionsWithAstronomyEngine(
           // Check retrograde by comparing geocentric longitude 2 days ago vs today
           const prevDate = new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000);
           const prevAstroTime = new Astronomy.AstroTime(prevDate);
-          let prevLongitude: number;
           const prevGeoVec = Astronomy.GeoVector(planet.body, prevAstroTime, true);
           const prevEcliptic = Astronomy.Ecliptic(prevGeoVec);
-          prevLongitude = prevEcliptic.elon;
+          const prevLongitude = prevEcliptic.elon;
 
           // Adjust for crossing 0/360 boundary
           let diff = longitude - prevLongitude;

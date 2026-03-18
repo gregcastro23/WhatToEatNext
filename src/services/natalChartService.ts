@@ -240,6 +240,7 @@ export async function calculateNatalChart(
     _logger.error("Error calculating natal chart: ", error as any);
     throw new Error(
       "Failed to calculate natal chart. Please check birth data and try again.",
+      { cause: error },
     );
   }
 }

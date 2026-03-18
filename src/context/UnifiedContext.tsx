@@ -54,7 +54,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       // 1. Fetch live planetary positions from the astrologize API
-      let astroData: Record<string, PlanetPosition> = {};
+      const astroData: Record<string, PlanetPosition> = {};
       try {
         const response = await fetch("/api/astrologize", {
           method: "GET",
