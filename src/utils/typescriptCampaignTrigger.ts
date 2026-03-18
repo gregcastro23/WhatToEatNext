@@ -280,6 +280,7 @@ async function getTypeScriptErrors(): Promise<string> {
     if ((error as any)?.stderr || (error as any)?.message) {
       throw new Error(
         `TypeScript compilation failed: ${(error as any)?.stderr || (error as any)?.message}`,
+        { cause: error },
       );
     }
 

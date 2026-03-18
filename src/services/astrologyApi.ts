@@ -210,6 +210,7 @@ const getFallbackPositions = async (
     _logger.error("Error getting fallback positions: ", error);
     throw new Error(
       `Cannot get celestial positions for date ${date.toISOString()}: ${error instanceof Error ? error.message : "Unknown error"}`,
+      { cause: error },
     );
   }
 };
