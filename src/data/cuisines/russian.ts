@@ -139,6 +139,9 @@ export const russian: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":2.48,"Essence":3.73,"Matter":4.85,"Substance":4.5},
+          thermodynamicProperties: {"heat":0.0321,"entropy":0.3071,"reactivity":1.4677,"gregsEnergy":-0.4187,"kalchm":0.0007,"monica":0.5486},
           "substitutions": [
             {
               "originalIngredient": "tvorog (farmer's cheese)",
@@ -173,81 +176,53 @@ export const russian: Cuisine = {
           ]
         },
         {
-          name: "Kasha",
-          description: "The primordial staple of Russian existence. Buckwheat groats are aggressively toasted to seal their structure before being steamed, resulting in separated, fiercely earthy grains dressed heavily in butter.",
-          details: {"cuisine":"Russian","prepTimeMinutes":5,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"None","season":["winter","autumn"]},
-          ingredients: [{"amount":1,"unit":"cup","name":"Buckwheat groats","notes":"Roasted (grechka)."},{"amount":1,"unit":"large","name":"Egg","notes":"Optional, used historically to coat grains before boiling."},{"amount":2,"unit":"cups","name":"Water or broth","notes":"Boiling."},{"amount":4,"unit":"tbsp","name":"Butter","notes":"Unsalted, added aggressively at the end."},{"amount":1,"unit":"tsp","name":"Salt","notes":"Kosher."}],
-          instructions: ["Step 1: The Toast. Place the dry buckwheat groats in a heavy skillet over high heat. Stir continuously until they emit a highly fragrant, nutty aroma. This prevents them from turning into mush during boiling.","Step 2: The Egg Matrix (Optional). Remove from heat and stir a beaten egg violently into the hot grains, coating them completely, then return to heat to dry the egg. This ancient technique guarantees individual, fluffy grains.","Step 3: The Steam. Pour the boiling water or broth over the hot buckwheat (it will spit violently). Add salt.","Step 4: The Submersion. Cover the pot with a tight-fitting lid, reduce the heat to the absolute minimum, and do not disturb it for 15-20 minutes until all liquid is absorbed.","Step 5: The Buttering. Remove from heat. Bury the massive pats of butter into the hot grains. Cover and let sit for 5 minutes, then fluff with a fork. It should be rich, separate, and earthy."],
-          classifications: {"mealType":["breakfast","side","comfort"],"cookingMethods":["toasting","steaming"]},
-          elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.6,"Air":0.05},
-          astrologicalAffinities: {"planets":["Saturn","Ceres"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":280,"proteinG":6,"carbsG":32,"fatG":14,"fiberG":4,"sodiumMg":500,"sugarG":1,"vitamins":["Niacin","Riboflavin"],"minerals":["Magnesium","Zinc"]},
-          substitutions: [{"originalIngredient":"Buckwheat","substituteOptions":["Millet","Oats"]}]
+          name: "Grechnevaya Kasha",
+          description: "The primordial grain of Russia, buckwheat porridge is a staple eaten at breakfast, as a side dish, or as a meal on its own. Whole roasted buckwheat groats are steamed in a precise ratio of water until every grain swells separately, then finished with a lavish knob of butter that melts into the nutty, earthy mass. The optional egg-coating technique, used for generations, guarantees each grain remains distinct rather than clumping.",
+          details: {"cuisine":"Russian","prepTimeMinutes":5,"cookTimeMinutes":25,"baseServingSize":4,"spiceLevel":"None","season":["winter","autumn","all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"roasted buckwheat groats (grechka)","notes":"Must be pre-roasted for full nutty flavor. Raw green buckwheat will not taste authentic."},{"amount":1,"unit":"large","name":"egg","notes":"Optional. Beat lightly and use to coat grains before boiling to guarantee separation."},{"amount":2,"unit":"cups","name":"water or light beef broth","notes":"Must be boiling when added to the hot buckwheat."},{"amount":3,"unit":"tbsp","name":"unsalted butter","notes":"Added generously at the end. Do not reduce."},{"amount":1,"unit":"tsp","name":"kosher salt","notes":"Added with the boiling water."}],
+          instructions: ["Step 1: Dry-toast the buckwheat groats in a heavy-bottomed saucepan over medium-high heat, stirring constantly, for 2 to 3 minutes until they deepen in color and release a strong toasted, nutty aroma. This step is essential to prevent mushiness.","Step 2 (Optional egg matrix): Remove the pan from heat and immediately pour the lightly beaten egg over the hot grains, stirring rapidly to coat every single groat. Return to medium heat and stir for 1 minute until the egg coating dries completely and each grain is sealed.","Step 3: Carefully pour the boiling water or broth over the hot grains. It will hiss and steam violently. Add the salt and stir once to combine.","Step 4: Bring the mixture back to a full boil, then reduce the heat to the absolute minimum. Cover the pot with a tight-fitting lid. Cook undisturbed for 15 to 18 minutes until all the liquid is fully absorbed. Do not lift the lid during this time.","Step 5: Remove the pan from heat. Drop the butter in pats directly onto the hot buckwheat. Cover again and let rest off the heat for 5 minutes to allow the butter to melt fully into the grains.","Step 6: Fluff gently with a fork, folding the melted butter through. Serve hot as a breakfast porridge with additional butter, as a side dish to kotlety or goulash, or topped with a fried egg and sauteed mushrooms."],
+          classifications: {"mealType":["breakfast","side","comfort"],"cookingMethods":["toasting","steaming","simmering"]},
+          elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.55,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":290,"proteinG":8,"carbsG":38,"fatG":12,"fiberG":5,"sodiumMg":480,"sugarG":1,"vitamins":["Niacin","Riboflavin","Thiamin"],"minerals":["Magnesium","Zinc","Iron"]},
+
+          alchemicalProperties: {"Spirit":0.6,"Essence":1.33,"Matter":2.49,"Substance":2.06},
+          thermodynamicProperties: {"heat":0.0084,"entropy":0.222,"reactivity":0.6974,"gregsEnergy":-0.1464,"kalchm":0.025,"monica":0.3156},
+          substitutions: [{"originalIngredient":"roasted buckwheat groats","substituteOptions":["millet","whole oats","brown rice (longer cook time)"]},{"originalIngredient":"butter","substituteOptions":["ghee","cold-pressed sunflower oil (traditional vegan)"]}]
         },
         {
-          "name": "Authentic Blini",
-          "description": "Pre-dating Christianity, Blini symbolize the sun.",
-          "details": {
-            "cuisine": "Russian",
-            "prepTimeMinutes": 180,
-            "cookTimeMinutes": 30,
-            "baseServingSize": 6,
-            "spiceLevel": "None",
-            "season": [
-              "spring"
-            ]
-          },
-          "ingredients": [
-            {
-              "amount": 2,
-              "unit": "tsp",
-              "name": "active dry yeast",
-              "notes": "For the sponge."
-            }
+          name: "Blini",
+          description: "Thin yeasted buckwheat pancakes that pre-date Christianity in Russia, traditionally eaten during Maslenitsa (Butter Week) to symbolize the sun. A proper blin is made from a yeasted sponge fermented for at least an hour, then enriched with separated eggs and scalded with boiling milk. The result is a paper-thin, slightly sour, deeply aerated disc riddled with characteristic bubbles. They are meant to be eaten immediately, brushed with butter and loaded with smetana, smoked salmon, or red caviar.",
+          details: {"cuisine":"Russian","prepTimeMinutes":90,"cookTimeMinutes":30,"baseServingSize":6,"spiceLevel":"None","season":["spring","all"]},
+          ingredients: [
+            {"amount":1,"unit":"cup","name":"buckwheat flour","notes":"Provides the characteristic earthy, slightly sour flavor of authentic blini."},
+            {"amount":1,"unit":"cup","name":"all-purpose flour","notes":"Balances the buckwheat and gives structure."},
+            {"amount":2,"unit":"tsp","name":"active dry yeast","notes":"For the sponge. Dissolve in warm milk first."},
+            {"amount":2,"unit":"cups","name":"whole milk","notes":"Divided. Half warmed for the sponge, half scalded and added later."},
+            {"amount":3,"unit":"large","name":"eggs","notes":"Separated. Yolks go into the batter, whites beaten stiff and folded in last."},
+            {"amount":1,"unit":"tsp","name":"sugar","notes":"To feed the yeast and add slight sweetness."},
+            {"amount":1,"unit":"tsp","name":"kosher salt","notes":"Essential."},
+            {"amount":4,"unit":"tbsp","name":"unsalted butter, melted","notes":"Plus extra for brushing the pan between each blin."},
+            {"amount":0.5,"unit":"cup","name":"smetana or creme fraiche","notes":"For serving."},
+            {"amount":100,"unit":"g","name":"smoked salmon or red caviar","notes":"Traditional toppings for serving."}
           ],
-          "instructions": [
-            "Step 1: Make sponge.",
-            "Step 2: Rise dough.",
-            "Step 3: Scald with boiling water.",
-            "Step 4: Fry."
+          instructions: [
+            "Step 1: Make the sponge. Warm 1 cup of the milk to 110F (just warm to the touch). Dissolve the yeast and sugar in it. Add the buckwheat flour and whisk into a smooth paste. Cover with a clean towel and let ferment in a warm place for 1 hour until the sponge is doubled, bubbly, and smells faintly sour.",
+            "Step 2: Scald the remaining 1 cup of milk in a small saucepan until it just comes to a boil. Remove from heat and let cool for 2 minutes until it is hot but not boiling (around 160F).",
+            "Step 3: Whisk the egg yolks, salt, and melted butter into the fermented sponge. Gradually add the all-purpose flour, alternating with the hot scalded milk, whisking until completely smooth. The scalded milk gelatinizes the starch slightly, which is what gives blini their unique, slightly glossy texture.",
+            "Step 4: Beat the egg whites with a clean whisk or stand mixer until they hold stiff peaks. Gently fold the beaten whites into the batter in two additions, preserving as much air as possible. Let the final batter rest for 15 minutes.",
+            "Step 5: Heat a small (6-inch) non-stick pan or crepe pan over medium-high heat. Brush lightly with melted butter. Pour in just enough batter (about 3 tablespoons) to coat the bottom in a thin, even layer, swirling the pan immediately. Bubbles should begin appearing on the surface within 30 seconds.",
+            "Step 6: Cook until the surface is set and covered in burst bubbles, about 1 to 1.5 minutes. Flip carefully and cook for 30 seconds more on the second side. The first blin is traditionally discarded as a test (hence the Russian saying).",
+            "Step 7: Stack the finished blini on a warm plate, brushing each one immediately with melted butter to keep them pliable. Serve warm with smetana, smoked salmon, and red caviar."
           ],
-          "classifications": {
-            "mealType": [
-              "breakfast"
-            ],
-            "cookingMethods": [
-              "frying"
-            ]
-          },
-          "elementalProperties": {
-            "Fire": 0.2,
-            "Water": 0.25,
-            "Earth": 0.35,
-            "Air": 0.2
-          },
-          "astrologicalAffinities": {
-            "planets": [
-              "Sun"
-            ],
-            "signs": [
-              "Leo"
-            ],
-            "lunarPhases": [
-              "Full Moon"
-            ]
-          },
-          "nutritionPerServing": {
-            "calories": 320,
-            "proteinG": 9,
-            "carbsG": 42,
-            "fatG": 12,
-            "fiberG": 2,
-              "sodiumMg": 493,
-              "sugarG": 12,
-              "vitamins": ["Vitamin C","Vitamin A"],
-              "minerals": ["Iron","Calcium"]
-        },
-          "substitutions": []
+          classifications: {"mealType":["breakfast","celebration","appetizer"],"cookingMethods":["fermenting","griddling","folding"]},
+          elementalProperties: {"Fire":0.25,"Water":0.2,"Earth":0.3,"Air":0.25},
+          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+          nutritionPerServing: {"calories":340,"proteinG":13,"carbsG":44,"fatG":13,"fiberG":3,"sodiumMg":460,"sugarG":5,"vitamins":["Thiamin","Riboflavin","Vitamin D"],"minerals":["Manganese","Selenium","Calcium"]},
+
+          alchemicalProperties: {"Spirit":2.28,"Essence":4.39,"Matter":4.72,"Substance":4.44},
+          thermodynamicProperties: {"heat":0.0257,"entropy":0.2711,"reactivity":1.7599,"gregsEnergy":-0.4514,"kalchm":0.0038,"monica":0.5952},
+          substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}]
         },
         {
           name: "Oladi",
@@ -259,6 +234,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.15,"Air":0.35},
           astrologicalAffinities: {"planets":["Moon","Uranus"],"signs":["cancer","aquarius"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":350,"proteinG":10,"carbsG":48,"fatG":12,"fiberG":2,"sodiumMg":600,"sugarG":8,"vitamins":["Vitamin D","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.79,"Essence":2.38,"Matter":3.09,"Substance":2.59},
+          thermodynamicProperties: {"heat":0.0421,"entropy":0.293,"reactivity":1.5074,"gregsEnergy":-0.3996,"kalchm":0.0581,"monica":0.8752},
           substitutions: [{"originalIngredient":"Kefir","substituteOptions":["Buttermilk","Plain yogurt thinned with water"]}]
         },
       ],
@@ -266,90 +244,44 @@ export const russian: Cuisine = {
     lunch: {
       all: [
         {
-          "name": "Authentic Traditional Borscht",
-          "description": "A foundational Slavic root-vegetable soup, instantly recognizable by its deep, resonant magenta hue.",
-          "details": {
-            "cuisine": "Russian",
-            "prepTimeMinutes": 30,
-            "cookTimeMinutes": 150,
-            "baseServingSize": 8,
-            "spiceLevel": "None",
-            "season": [
-              "winter"
-            ]
-          },
-          "ingredients": [
-            {
-              "amount": 1,
-              "unit": "kg",
-              "name": "beef soup bones",
-              "notes": "For stock."
-            },
-            {
-              "amount": 3,
-              "unit": "medium",
-              "name": "beets",
-              "notes": "Julienned."
-            },
-            {
-              "amount": 2,
-              "unit": "tbsp",
-              "name": "white vinegar",
-              "notes": "Preserves red color."
-            }
+          name: "Borscht",
+          description: "The defining soup of Russian and Eastern European cuisine. A deeply layered, magenta-hued broth built on a slow-simmered beef bone stock, then enriched with sauteed beets preserved in vinegar, a golden zazharka of onions and carrots, shredded cabbage, and earthy potatoes. The acid-preserved beet color is the signature of a properly made borscht; the tang of smetana stirred in at the table completes the alchemy of this restorative dish.",
+          details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":150,"baseServingSize":8,"spiceLevel":"None","season":["winter","autumn"]},
+          ingredients: [
+            {"amount":1,"unit":"kg","name":"beef soup bones with marrow","notes":"Blanch in cold water first to remove impurities; this produces a clear, deep stock."},
+            {"amount":500,"unit":"g","name":"beef chuck or brisket","notes":"Cut into large pieces; this becomes the soup meat."},
+            {"amount":3,"unit":"medium","name":"beets","notes":"Peeled and julienned into matchsticks; do not grate, as julienne retains more texture."},
+            {"amount":2,"unit":"tbsp","name":"white wine vinegar or lemon juice","notes":"Added during beet saute to preserve their crimson color through acid fixation."},
+            {"amount":1,"unit":"tsp","name":"sugar","notes":"Balances the acid in the beet saute."},
+            {"amount":2,"unit":"tbsp","name":"tomato paste","notes":"Sauteed with the beets for depth and color."},
+            {"amount":1,"unit":"large","name":"onion","notes":"Finely diced for the zazharka."},
+            {"amount":2,"unit":"medium","name":"carrots","notes":"Grated for the zazharka."},
+            {"amount":3,"unit":"tbsp","name":"neutral oil or lard","notes":"For frying the zazharka and beets."},
+            {"amount":3,"unit":"medium","name":"waxy potatoes","notes":"Peeled and cut into 3 cm cubes."},
+            {"amount":0.5,"unit":"small head","name":"white cabbage","notes":"Thinly shredded; add in the last 20 minutes to retain some texture."},
+            {"amount":4,"unit":"cloves","name":"garlic","notes":"Crushed and stirred in off the heat at the end."},
+            {"amount":1,"unit":"bunch","name":"fresh dill","notes":"Stirred in off the heat; do not boil."},
+            {"amount":1,"unit":"tsp","name":"black peppercorns","notes":"For the stock."},
+            {"amount":2,"unit":"leaves","name":"bay leaf","notes":"For the stock."},
+            {"amount":1,"unit":"cup","name":"smetana (sour cream)","notes":"For serving at the table."}
           ],
-          "instructions": [
-            "Step 1: Make beef bone broth.",
-            "Step 2: Prepare zazharka (sautéed onions, carrots).",
-            "Step 3: Sauté beets with vinegar and sugar.",
-            "Step 4: Simmer potatoes and cabbage in broth.",
-            "Step 5: Add zazharka to broth, simmer briefly.",
-            "Step 6: Add fresh dill and garlic off heat. Serve with sour cream."
+          instructions: [
+            "Step 1: Make the stock. Place the bones and beef chunks in a large pot, cover with cold water, and bring to a rapid boil. Drain entirely and rinse the bones and pot. This blanching step removes impurities and guarantees a clear, clean stock. Return to the pot, cover with 3 liters of fresh cold water, and add peppercorns and bay leaves. Bring to a gentle simmer and cook for 90 minutes, skimming any foam that rises. Remove the beef, shred it, and set aside. Strain the stock.",
+            "Step 2: Make the zazharka. Heat 2 tbsp oil in a heavy skillet over medium heat. Saute the diced onion until softened and translucent, about 7 minutes. Add the grated carrot and cook for another 5 minutes until both are lightly golden. Remove from skillet and set aside.",
+            "Step 3: Saute the beets. In the same skillet, heat the remaining oil over medium heat. Add the julienned beets and saute for 5 minutes, stirring. Add the tomato paste and cook for 2 minutes. Pour in the vinegar and add the sugar. The beets will sizzle and deepen in color. Stir well and cook for another 3 minutes. The acid fixes the pigment so the soup remains red.",
+            "Step 4: Build the soup. Bring the strained stock to a boil. Add the potato cubes and cook for 10 minutes.",
+            "Step 5: Add the zazharka and the acid-fixed beets to the simmering stock. Stir to combine. Add the shredded cabbage. Cook for another 20 minutes until the potatoes are fully tender and the cabbage has softened but retains a slight bite.",
+            "Step 6: Off the heat, add the shredded reserved beef, crushed garlic, and chopped fresh dill. Taste and adjust salt. Cover and let rest for 10 minutes for the flavors to marry.",
+            "Step 7: Serve in deep bowls with a large spoonful of cold smetana stirred in at the table, alongside a thick slice of dark rye bread."
           ],
-          "classifications": {
-            "mealType": [
-              "soup"
-            ],
-            "cookingMethods": [
-              "simmering"
-            ]
-          },
-          "elementalProperties": {
-            "Fire": 0.1,
-            "Water": 0.5,
-            "Earth": 0.35,
-            "Air": 0.05
-          },
-          "astrologicalAffinities": {
-            "planets": [
-              "Saturn"
-            ],
-            "signs": [
-              "Capricorn"
-            ],
-            "lunarPhases": [
-              "New Moon"
-            ]
-          },
-          "nutritionPerServing": {
-            "calories": 320,
-            "proteinG": 18,
-            "carbsG": 28,
-            "fatG": 15,
-            "fiberG": 6,
-              "sodiumMg": 1067,
-              "sugarG": 3,
-              "vitamins": ["Vitamin C","Vitamin A"],
-              "minerals": ["Iron","Calcium"]
-        },
-          "substitutions": [
-            {
-              "originalIngredient": "beef bones",
-              "substituteOptions": [
-                "mushroom broth"
-              ]
-            }
-          ]
+          classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["simmering","sauteing","braising"]},
+          elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":310,"proteinG":20,"carbsG":26,"fatG":14,"fiberG":6,"sodiumMg":980,"sugarG":8,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Iron","Potassium","Manganese"]},
+
+          alchemicalProperties: {"Spirit":5.92,"Essence":6.77,"Matter":7.53,"Substance":6.83},
+          thermodynamicProperties: {"heat":0.0722,"entropy":0.3584,"reactivity":2.0845,"gregsEnergy":-0.6748,"kalchm":0.0078,"monica":0.3064},
+          substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}]
         },
         {
           name: "Pelmeni",
@@ -361,6 +293,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":580,"proteinG":28,"carbsG":65,"fatG":22,"fiberG":3,"sodiumMg":850,"sugarG":2,"vitamins":["Iron","Thiamin"],"minerals":["Selenium","Zinc"]},
+
+          alchemicalProperties: {"Spirit":1.43,"Essence":3.12,"Matter":3.67,"Substance":3.08},
+          thermodynamicProperties: {"heat":0.018,"entropy":0.2034,"reactivity":1.3278,"gregsEnergy":-0.2521,"kalchm":0.0154,"monica":0.5298},
           substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
         },
         {
@@ -373,6 +308,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":350,"proteinG":25,"carbsG":22,"fatG":16,"fiberG":6,"sodiumMg":1100,"sugarG":5,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Potassium"]},
+
+          alchemicalProperties: {"Spirit":2.47,"Essence":2.75,"Matter":3.75,"Substance":3.44},
+          thermodynamicProperties: {"heat":0.0526,"entropy":0.3418,"reactivity":1.6112,"gregsEnergy":-0.4982,"kalchm":0.0151,"monica":0.2598},
           substitutions: [{"originalIngredient":"Sauerkraut","substituteOptions":["Fresh cabbage (for Shchi iz svezhey kapusty)"]}]
         },
         {
@@ -385,6 +323,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.7,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Moon"],"signs":["pisces","cancer"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":320,"proteinG":35,"carbsG":25,"fatG":8,"fiberG":3,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin D","Vitamin B12"],"minerals":["Iodine","Selenium"]},
+
+          alchemicalProperties: {"Spirit":2.36,"Essence":2.42,"Matter":3.03,"Substance":2.84},
+          thermodynamicProperties: {"heat":0.0661,"entropy":0.3496,"reactivity":2.0416,"gregsEnergy":-0.6476,"kalchm":0.1155,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Prized fish","substituteOptions":["Cod","Halibut"]}]
         },
       ],
@@ -399,6 +340,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.3,"Water":0.4,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":480,"proteinG":25,"carbsG":12,"fatG":36,"fiberG":3,"sodiumMg":1800,"sugarG":4,"vitamins":["Vitamin C","Niacin"],"minerals":["Sodium","Iron"]},
+
+          alchemicalProperties: {"Spirit":3.17,"Essence":3.29,"Matter":3.1,"Substance":2.98},
+          thermodynamicProperties: {"heat":0.1,"entropy":0.3895,"reactivity":2.7561,"gregsEnergy":-0.9734,"kalchm":2.2571,"monica":0.2598},
           substitutions: [{"originalIngredient":"Mixed cured meats","substituteOptions":["Mixed fish (for Fish Solyanka)","Wild mushrooms (for Mushroom Solyanka)"]}]
         },
       ],
@@ -415,6 +359,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Mars"],"signs":["taurus","leo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":550,"proteinG":42,"carbsG":10,"fatG":38,"fiberG":2,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Zinc","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.17,"Essence":3.4,"Matter":4.56,"Substance":3.97},
+          thermodynamicProperties: {"heat":0.031,"entropy":0.2884,"reactivity":1.365,"gregsEnergy":-0.3626,"kalchm":0.0014,"monica":0.8752},
           substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Portobello mushrooms (vegetarian)"]}]
         },
         {
@@ -427,6 +374,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":28,"fatG":25,"fiberG":5,"sodiumMg":700,"sugarG":8,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Iron"]},
+
+          alchemicalProperties: {"Spirit":1.6,"Essence":3.23,"Matter":4.02,"Substance":3.57},
+          thermodynamicProperties: {"heat":0.0193,"entropy":0.2429,"reactivity":1.3568,"gregsEnergy":-0.3104,"kalchm":0.0037,"monica":0.4654},
           substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushrooms and buckwheat (vegetarian)"]}]
         },
         {
@@ -439,6 +389,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Venus"],"signs":["taurus","aries"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":480,"proteinG":28,"carbsG":18,"fatG":32,"fiberG":1,"sodiumMg":650,"sugarG":3,"vitamins":["Iron","Vitamin B12"],"minerals":["Zinc","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.66,"Essence":2.89,"Matter":3.57,"Substance":3.06},
+          thermodynamicProperties: {"heat":0.0278,"entropy":0.2493,"reactivity":1.3434,"gregsEnergy":-0.3071,"kalchm":0.0173,"monica":0.5486},
           substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Ground chicken","Ground turkey"]}]
         },
         {
@@ -451,6 +404,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.05,"Water":0.3,"Earth":0.5,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","virgo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":420,"proteinG":14,"carbsG":25,"fatG":28,"fiberG":4,"sodiumMg":850,"sugarG":5,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.01,"Essence":2.37,"Matter":2.94,"Substance":2.94},
+          thermodynamicProperties: {"heat":0.0478,"entropy":0.3404,"reactivity":1.5562,"gregsEnergy":-0.482,"kalchm":0.0554,"monica":0.5298},
           substitutions: [{"originalIngredient":"Doctor's sausage","substituteOptions":["Boiled beef","Vegetarian sausage"]}]
         },
             {
@@ -533,344 +489,236 @@ export const russian: Cuisine = {
                   "Potassium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.5,"Essence":0.75,"Matter":1.2,"Substance":1.15},
+              thermodynamicProperties: {"heat":0.0175,"entropy":0.2112,"reactivity":1.0711,"gregsEnergy":-0.2088,"kalchm":0.3899,"monica":0.2598},
               "substitutions": []
             },
             {
-              "name": "Authentic Blini",
-              "description": "The sun-symbol of Slavic spring. Yeasted, aerated pancakes made with buckwheat and wheat flour, relying on a long fermentation to develop their characteristic 'holes' and slightly sour flavor, designed to be vessels for fat and brine.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 120,
-                "cookTimeMinutes": 20,
-                "baseServingSize": 4,
-                "spiceLevel": "None",
-                "season": [
-                  "spring",
-                  "Maslenitsa"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 1,
-                  "unit": "cup",
-                  "name": "Buckwheat flour",
-                  "notes": "For earthy depth."
-                },
-                {
-                  "amount": 1,
-                  "unit": "tbsp",
-                  "name": "Active dry yeast",
-                  "notes": "For aeration."
-                }
+              name: "Vinegret",
+              description: "The quintessential Russian beet salad, a mosaic of boiled root vegetables, sauerkraut, and pickled cucumber bound lightly with sunflower oil. Unlike mayonnaise-dressed salads, vinegret relies on natural acidity and the bold earthy sweetness of beet to create a dish that is simultaneously tart, rich, and deeply satisfying. It is the cornerstone of any zakuski spread and a staple of Soviet-era home cooking that has endured because its flavors are genuinely exceptional.",
+              details: {"cuisine":"Russian","prepTimeMinutes":20,"cookTimeMinutes":40,"baseServingSize":6,"spiceLevel":"None","season":["winter","all"]},
+              ingredients: [
+                {"amount":3,"unit":"medium","name":"beets","notes":"Boiled whole in their skins until a knife slides through easily, about 40 minutes. Peel and dice after cooling."},
+                {"amount":3,"unit":"medium","name":"waxy potatoes","notes":"Boiled whole in their skins, then peeled and diced. Waxy varieties hold their shape."},
+                {"amount":2,"unit":"medium","name":"carrots","notes":"Boiled whole in their skins until tender. Peel and dice."},
+                {"amount":1,"unit":"cup","name":"sauerkraut","notes":"Drained and roughly chopped. The primary acid element."},
+                {"amount":2,"unit":"whole","name":"Russian dill pickles","notes":"Diced to the same size as other vegetables. Squeeze out excess brine."},
+                {"amount":1,"unit":"can","name":"cooked green peas","notes":"Drained. Added last to prevent discoloration."},
+                {"amount":1,"unit":"small","name":"white onion","notes":"Very finely minced or pickled for 10 minutes in cold water to remove sharpness."},
+                {"amount":3,"unit":"tbsp","name":"cold-pressed sunflower oil","notes":"The traditional dressing. Olive oil is not authentic."},
+                {"amount":1,"unit":"tsp","name":"salt","notes":"To taste."},
+                {"amount":0.5,"unit":"tsp","name":"black pepper","notes":"Freshly ground."}
               ],
-              "instructions": [
-                "Step 1: Prepare a yeasted sponge; let ferment for 1 hour.",
-                "Step 2: Whisk in remaining flour, yolks, and warm milk.",
-                "Step 3: Fold in stiffly beaten egg whites for extreme lightness.",
-                "Step 4: Fry in a hot buttered skillet into large, paper-thin discs.",
-                "Step 5: Brush each hot blin with melted butter immediately."
+              instructions: [
+                "Step 1: Boil the beets, potatoes, and carrots separately (beets take longest, about 40 minutes). A key technique: boil each vegetable whole and in its skin to prevent waterlogging. Let all cool completely before peeling.",
+                "Step 2: Dice all boiled vegetables into uniform 1 cm cubes. Consistency in size is important for both texture and presentation.",
+                "Step 3: Important step: dress the diced beets with 1 tbsp of the sunflower oil immediately before combining them with the other vegetables. This oil coating prevents the intensely pigmented beet juice from staining everything else uniformly red.",
+                "Step 4: Combine the oil-coated beets with the potatoes, carrots, drained sauerkraut, diced pickles, and minced onion. Toss gently.",
+                "Step 5: Add the remaining sunflower oil and season with salt and pepper. Fold in the drained peas last.",
+                "Step 6: Press the salad into a serving bowl and refrigerate for at least 1 hour before serving. The resting period allows the flavors to unify. Serve cold as a zakuska (appetizer) or side dish."
               ],
-              "classifications": {
-                "mealType": [
-                  "breakfast",
-                  "celebration"
-                ],
-                "cookingMethods": [
-                  "fermenting",
-                  "griddling"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.25,
-                "Water": 0.15,
-                "Earth": 0.35,
-                "Air": 0.25
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Sun",
-                  "Venus"
-                ],
-                "signs": [
-                  "leo",
-                  "taurus"
-                ],
-                "lunarPhases": [
-                  "New Moon"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 350,
-                "proteinG": 12,
-                "carbsG": 45,
-                "fatG": 14,
-                "fiberG": 4,
-                "sodiumMg": 450,
-                "sugarG": 4,
-                "vitamins": [
-                  "Thiamin"
-                ],
-                "minerals": [
-                  "Manganese",
-                  "Selenium"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["appetizer","side","lunch"],"cookingMethods":["boiling","mixing"]},
+              elementalProperties: {"Fire":0.05,"Water":0.3,"Earth":0.55,"Air":0.1},
+              astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
+              nutritionPerServing: {"calories":195,"proteinG":5,"carbsG":32,"fatG":7,"fiberG":7,"sodiumMg":620,"sugarG":9,"vitamins":["Vitamin C","Folate","Vitamin K"],"minerals":["Potassium","Manganese","Iron"]},
+
+              alchemicalProperties: {"Spirit":3.67,"Essence":3.11,"Matter":3.68,"Substance":3.55},
+              thermodynamicProperties: {"heat":0.1057,"entropy":0.4469,"reactivity":2.0034,"gregsEnergy":-0.7896,"kalchm":0.3708,"monica":0.0922},
+              substitutions: [{"originalIngredient":"sauerkraut","substituteOptions":["fresh shredded cabbage marinated in vinegar","pickled red cabbage"]},{"originalIngredient":"sunflower oil","substituteOptions":["light olive oil","rapeseed oil"]}]
             },
             {
-              "name": "Authentic Piroshki",
-              "description": "The portable survival pockets of Russia. A soft, rich yeasted dough encapsulates a variety of fillings (meat, cabbage, or potato), then either deep-fried or baked until the structure is pillowy and golden.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 120,
-                "cookTimeMinutes": 20,
-                "baseServingSize": 6,
-                "spiceLevel": "None",
-                "season": [
-                  "all"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 3,
-                  "unit": "cups",
-                  "name": "All-purpose flour",
-                  "notes": "Enriched dough."
-                },
-                {
-                  "amount": 1,
-                  "unit": "lb",
-                  "name": "Ground beef and onion",
-                  "notes": "For the filling."
-                }
+              name: "Pirozhki",
+              description: "The iconic stuffed buns of Russian street food and home kitchens alike. A soft, enriched yeasted dough, slightly sweet from milk and egg, envelops a filling of seasoned ground beef and onion or braised cabbage and hard-boiled egg. They can be fried in oil for a crisp, golden shell or baked in the oven for a pillowy, bread-like exterior. Either way they are best eaten warm, brushed with butter, and consumed in multiples.",
+              details: {"cuisine":"Russian","prepTimeMinutes":120,"cookTimeMinutes":30,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+              ingredients: [
+                {"amount":3,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for kneading. Sifted for a lighter dough."},
+                {"amount":2,"unit":"tsp","name":"active dry yeast","notes":"Proofed in warm milk with the sugar first."},
+                {"amount":0.75,"unit":"cup","name":"whole milk","notes":"Warmed to 110F to activate yeast without killing it."},
+                {"amount":1,"unit":"tsp","name":"sugar","notes":"For the yeast proof and slight sweetness."},
+                {"amount":1,"unit":"tsp","name":"salt","notes":"For the dough."},
+                {"amount":1,"unit":"large","name":"egg","notes":"Beaten into the dough for richness."},
+                {"amount":3,"unit":"tbsp","name":"unsalted butter, softened","notes":"Folded into the dough after first rise for tenderness."},
+                {"amount":0.75,"unit":"lb","name":"ground beef","notes":"For the meat filling."},
+                {"amount":1,"unit":"large","name":"onion","notes":"Finely diced and cooked with the beef until the liquid has fully evaporated. A wet filling tears the dough."},
+                {"amount":2,"unit":"hard-boiled","name":"eggs","notes":"Chopped; added to the meat filling off heat."},
+                {"amount":1,"unit":"tbsp","name":"fresh dill","notes":"Chopped and mixed into the filling."},
+                {"amount":1,"unit":"egg yolk","name":"for glaze","notes":"Beaten with 1 tbsp water and brushed on before baking."},
+                {"amount":1,"unit":"cup","name":"neutral oil","notes":"For frying, if using the frying method."}
               ],
-              "instructions": [
-                "Step 1: Knead an enriched yeast dough; let rise twice.",
-                "Step 2: Prepare a dry filling of sautéed meat, cabbage, and egg.",
-                "Step 3: Flatten dough circles; stuff and pinch into ovals.",
-                "Step 4: Deep fry until golden or bake at 375°F.",
-                "Step 5: Rest under a towel to soften the crust."
+              instructions: [
+                "Step 1: Make the dough. Combine the warm milk, yeast, and sugar. Let stand 10 minutes until foamy. In a large bowl, combine the flour, salt, beaten egg, and the yeast mixture. Knead for 8 minutes until smooth and slightly tacky. Flatten the dough, place the softened butter in the center, fold and knead for another 3 minutes to incorporate. The dough should be soft, smooth, and not sticky. Cover with a towel and let rise in a warm place for 1 hour until doubled.",
+                "Step 2: Make the filling. In a skillet over high heat, cook the ground beef, breaking it up, until all liquid evaporates and the meat begins to brown. Add the diced onion and cook for another 5 minutes. Season generously with salt and pepper. Remove from heat. Fold in the chopped hard-boiled eggs and dill. The filling must be completely cool and dry before use.",
+                "Step 3: Shape. Punch down the risen dough. On a lightly floured surface, divide it into 16 equal pieces. Flatten each piece into a 4-inch circle. Place a generous tablespoon of filling in the center. Bring the edges of the dough circle up and over the filling, pinching them firmly together to seal. Shape into an oval, seam-side down.",
+                "Step 4, Baking method: Arrange the pirozhki seam-side down on a parchment-lined baking sheet. Let rest, covered, for 20 minutes. Brush generously with egg yolk glaze. Bake at 375F (190C) for 20 to 25 minutes until a deep, glossy golden brown.",
+                "Step 5, Frying method: Heat 1 inch of neutral oil in a heavy skillet to 350F. Fry the pirozhki seam-side down first, in batches, for 2 to 3 minutes per side until deep golden. Drain on paper towels. Brush immediately with melted butter.",
+                "Step 6: Serve warm. Pirozhki are best eaten the day they are made."
               ],
-              "classifications": {
-                "mealType": [
-                  "lunch",
-                  "snack"
-                ],
-                "cookingMethods": [
-                  "baking",
-                  "deep-frying"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.35,
-                "Water": 0.1,
-                "Earth": 0.4,
-                "Air": 0.15
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Jupiter",
-                  "Saturn"
-                ],
-                "signs": [
-                  "sagittarius",
-                  "capricorn"
-                ],
-                "lunarPhases": [
-                  "First Quarter"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 420,
-                "proteinG": 18,
-                "carbsG": 48,
-                "fatG": 22,
-                "fiberG": 3,
-                "sodiumMg": 650,
-                "sugarG": 5,
-                "vitamins": [
-                  "Vitamin B12"
-                ],
-                "minerals": [
-                  "Zinc",
-                  "Iron"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["lunch","snack","dinner"],"cookingMethods":["baking","deep-frying","yeasting","kneading"]},
+              elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
+              astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["First Quarter","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":450,"proteinG":20,"carbsG":50,"fatG":19,"fiberG":3,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin B12","Niacin"],"minerals":["Zinc","Iron","Selenium"]},
+
+              alchemicalProperties: {"Spirit":3.37,"Essence":5.32,"Matter":6.07,"Substance":5.25},
+              thermodynamicProperties: {"heat":0.0381,"entropy":0.2714,"reactivity":1.6092,"gregsEnergy":-0.3987,"kalchm":0.0013,"monica":1.4238},
+              substitutions: [{"originalIngredient":"ground beef","substituteOptions":["braised cabbage with hard-boiled egg (vegetarian)","mashed potato and cheese","sauteed mushrooms with onion"]},{"originalIngredient":"all-purpose flour","substituteOptions":["half whole wheat flour for a nuttier dough"]}]
             },
             {
-              "name": "Authentic Medovik",
-              "description": "The 'Honey Cake' architectural titan. Eight to twelve layers of honey-infused biscuit are stacked with a tangy sour cream frosting, then rested for 24 hours until the layers structurally merge into a singular, melting texture.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 90,
-                "cookTimeMinutes": 30,
-                "baseServingSize": 12,
-                "spiceLevel": "None",
-                "season": [
-                  "celebration"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 0.5,
-                  "unit": "cup",
-                  "name": "Honey",
-                  "notes": "Heated until dark amber."
-                },
-                {
-                  "amount": 3,
-                  "unit": "cups",
-                  "name": "Sour cream",
-                  "notes": "For the frosting."
-                }
+              name: "Medovik",
+              description: "The honey layer cake that became a national obsession. Ten or more paper-thin honey-infused biscuit layers are stacked with a generous sour cream and condensed milk frosting, then the entire structure is pressed under weight and refrigerated for a full 24 hours. During this rest the biscuits absorb the cream entirely, transforming from rigid discs into a unified, impossibly moist, melting torte that is nothing like its components. The crushed biscuit crumb coating is made from the cake trimmings themselves, completing a recipe with zero waste.",
+              details: {"cuisine":"Russian","prepTimeMinutes":90,"cookTimeMinutes":60,"baseServingSize":12,"spiceLevel":"None","season":["celebration","winter"]},
+              ingredients: [
+                {"amount":0.5,"unit":"cup","name":"dark honey","notes":"Use a strong buckwheat or forest honey; mild clover honey produces a blander cake."},
+                {"amount":0.5,"unit":"cup","name":"granulated sugar","notes":"For the dough."},
+                {"amount":3,"unit":"tbsp","name":"unsalted butter","notes":"Melted into the honey mixture over a double boiler."},
+                {"amount":2,"unit":"tsp","name":"baking soda","notes":"Stirred into the hot honey mixture, which will foam and caramelize; do not skip this step."},
+                {"amount":3,"unit":"large","name":"eggs","notes":"Beaten and whisked into the cooled honey mixture."},
+                {"amount":3,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for rolling. Added until a soft, pliable dough forms."},
+                {"amount":700,"unit":"g","name":"smetana (sour cream)","notes":"Full-fat, at least 20 percent fat. The foundation of the frosting."},
+                {"amount":0.5,"unit":"cup","name":"powdered sugar","notes":"Sifted and whisked into the sour cream for the frosting."},
+                {"amount":1,"unit":"tsp","name":"pure vanilla extract","notes":"For the frosting."}
               ],
-              "instructions": [
-                "Step 1: Melt honey, sugar, and butter; stir in baking soda.",
-                "Step 2: Roll out 10 paper-thin dough discs; bake for 5 mins each.",
-                "Step 3: Frost each layer heavily with sweetened sour cream.",
-                "Step 4: Coat the entire cake in crushed biscuit crumbs.",
-                "Step 5: Rest in fridge for 24 hours (Mandatory structural step)."
+              instructions: [
+                "Step 1: Make the honey dough. In a heatproof bowl set over a pot of barely simmering water (double boiler), melt together the honey, sugar, and butter, stirring until combined. Add the baking soda and stir constantly for 2 to 3 minutes; the mixture will foam vigorously and turn a light amber. Remove from heat. Whisk in the beaten eggs quickly. Let cool to room temperature.",
+                "Step 2: Stir in the flour gradually until a soft, slightly sticky dough forms. It will be warm and pliable. Wrap and refrigerate for 30 minutes to firm up.",
+                "Step 3: Make the frosting. Whisk the cold smetana, sifted powdered sugar, and vanilla together until smooth and thick. Refrigerate until needed.",
+                "Step 4: Bake the layers. Preheat oven to 375F (190C). Line a baking sheet with parchment. Divide the dough into 10 equal balls. On a well-floured surface, roll each ball into an extremely thin, 9-inch circle. Using a plate as a template, cut a clean circle. Preserve the trimmings. Transfer each circle to the lined baking sheet and bake for 4 to 5 minutes until just golden at the edges. They burn quickly; watch them carefully. Let cool completely on a rack.",
+                "Step 5: Bake the trimmings on the same sheet until golden and crisp. Let cool, then crush them to fine crumbs in a food processor or zip-lock bag. These become the crumb coating.",
+                "Step 6: Assemble. Place the first cake layer on a serving plate. Spread a generous, even layer of frosting on top. Continue stacking, pressing each layer down gently and spreading frosting between each one. Spread the remaining frosting over the top and sides of the cake. Press the biscuit crumbs firmly onto the top and sides.",
+                "Step 7: Refrigerate the assembled cake under a light weight for a minimum of 8 hours, ideally 24 hours. The layers will absorb the cream and the cake will transform into a unified, moist, sliceable structure. Serve cold, sliced with a sharp knife."
               ],
-              "classifications": {
-                "mealType": [
-                  "dessert"
-                ],
-                "cookingMethods": [
-                  "baking",
-                  "layering"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.15,
-                "Water": 0.3,
-                "Earth": 0.4,
-                "Air": 0.15
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Venus",
-                  "Saturn"
-                ],
-                "signs": [
-                  "taurus",
-                  "capricorn"
-                ],
-                "lunarPhases": [
-                  "Full Moon"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 580,
-                "proteinG": 8,
-                "carbsG": 75,
-                "fatG": 34,
-                "fiberG": 1,
-                "sodiumMg": 250,
-                "sugarG": 52,
-                "vitamins": [
-                  "Vitamin A"
-                ],
-                "minerals": [
-                  "Calcium"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["dessert","celebration"],"cookingMethods":["baking","layering","double boiler"]},
+              elementalProperties: {"Fire":0.2,"Water":0.25,"Earth":0.45,"Air":0.1},
+              astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":560,"proteinG":9,"carbsG":72,"fatG":28,"fiberG":1,"sodiumMg":210,"sugarG":48,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
+
+              alchemicalProperties: {"Spirit":2.51,"Essence":2.88,"Matter":3.49,"Substance":3.09},
+              thermodynamicProperties: {"heat":0.0602,"entropy":0.3181,"reactivity":1.5625,"gregsEnergy":-0.4367,"kalchm":0.0828,"monica":1.3128},
+              substitutions: [{"originalIngredient":"smetana","substituteOptions":["creme fraiche","heavy whipped cream sweetened with sugar","mascarpone mixed with sour cream"]},{"originalIngredient":"dark honey","substituteOptions":["maple syrup (different flavor profile but works)"]}]
             },
             {
-              "name": "Authentic Syrniki",
-              "description": "The dense, protein-heavy Slavic breakfast. Small, thick patties made from farmer's cheese (Tvorog) and minimal flour, pan-fried to a crisp exterior while the interior remains a soft, warm, slightly tart cheesecake.",
-              "details": {
-                "cuisine": "Russian",
-                "prepTimeMinutes": 15,
-                "cookTimeMinutes": 10,
-                "baseServingSize": 2,
-                "spiceLevel": "None",
-                "season": [
-                  "all"
-                ]
-              },
-              "ingredients": [
-                {
-                  "amount": 500,
-                  "unit": "g",
-                  "name": "Tvorog (Farmer's Cheese)",
-                  "notes": "Dry, curdled cheese."
-                },
-                {
-                  "amount": 2,
-                  "unit": "tbsp",
-                  "name": "Semolina",
-                  "notes": "For binding."
-                }
+              name: "Okroshka",
+              description: "The cold summer soup that defies Western logic. A sharp, fermented kvas or kefir base is poured over a precisely diced mixture of boiled potatoes, hard-boiled eggs, cucumbers, radishes, and boiled beef or smoked sausage. No cooking occurs after assembly; the dish is assembled like a salad and the liquid is added tableside. The result is an intensely refreshing, bracingly sour, and deeply savory cold soup that is one of the most effective antidotes to summer heat in the Russian culinary repertoire.",
+              details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":25,"baseServingSize":4,"spiceLevel":"None","season":["summer"]},
+              ingredients: [
+                {"amount":3,"unit":"medium","name":"waxy potatoes","notes":"Boiled whole in their skins until tender, cooled, peeled, and diced small."},
+                {"amount":3,"unit":"large","name":"eggs","notes":"Hard-boiled; whites diced small, yolks reserved for the base dressing."},
+                {"amount":200,"unit":"g","name":"boiled beef or cooked sausage","notes":"Diced small. Doktorskaya sausage is traditional; boiled chicken also works."},
+                {"amount":2,"unit":"small","name":"fresh cucumbers","notes":"Diced small. Do not use pickled cucumbers here."},
+                {"amount":5,"unit":"whole","name":"radishes","notes":"Thinly sliced then halved; provide crunch and a peppery bite."},
+                {"amount":3,"unit":"stalks","name":"spring onions","notes":"Thinly sliced; mash slightly with a pinch of salt to release their oils."},
+                {"amount":1,"unit":"bunch","name":"fresh dill","notes":"Finely chopped; essential and not optional."},
+                {"amount":1,"unit":"liter","name":"cold kvas","notes":"Traditional fermented bread kvas for a tangy, slightly sweet base. Cold kefir thinned with water is a common alternative."},
+                {"amount":0.5,"unit":"cup","name":"smetana (sour cream)","notes":"Whisked into the yolks to form the base dressing."},
+                {"amount":1,"unit":"tbsp","name":"prepared horseradish or mustard","notes":"Stirred into the yolk and smetana base for bite."},
+                {"amount":1,"unit":"tsp","name":"salt","notes":"Plus more to taste."}
               ],
-              "instructions": [
-                "Step 1: Mash tvorog until smooth; mix with egg and sugar.",
-                "Step 2: Add semolina; let sit for 10 minutes to hydrate.",
-                "Step 3: Form into thick, small discs; dredge in flour.",
-                "Step 4: Pan-fry in butter over medium-low heat.",
-                "Step 5: Serve hot with smetana and blackcurrant jam."
+              instructions: [
+                "Step 1: Boil the potatoes whole in salted water until a skewer passes through easily, about 20 to 25 minutes. Drain and let cool completely. Peel and dice into small, uniform cubes. Hard-boil the eggs for 10 minutes in boiling water, then cool in ice water. Peel and separate whites from yolks.",
+                "Step 2: Make the base. In the bottom of a large serving bowl, mash the egg yolks with the smetana, mustard, and a pinch of salt until a smooth paste forms. This enriches the broth when the kvas is added.",
+                "Step 3: Add the diced potatoes, diced egg whites, diced meat, diced cucumbers, sliced radishes, and scallions to the bowl. Season with salt. Toss gently.",
+                "Step 4: Refrigerate the bowl of diced ingredients for at least 30 minutes until everything is very cold.",
+                "Step 5: At the table or just before serving, pour the very cold kvas or kefir mixture over the ingredients, stirring it into the yolk-smetana base. The liquid should be generous; okroshka is a soup, not a salad.",
+                "Step 6: Scatter the chopped dill over the top. Serve immediately with additional smetana on the side and a wedge of dark bread."
               ],
-              "classifications": {
-                "mealType": [
-                  "breakfast",
-                  "dessert"
-                ],
-                "cookingMethods": [
-                  "pan-frying"
-                ]
-              },
-              "elementalProperties": {
-                "Fire": 0.25,
-                "Water": 0.25,
-                "Earth": 0.35,
-                "Air": 0.15
-              },
-              "astrologicalAffinities": {
-                "planets": [
-                  "Moon",
-                  "Venus"
-                ],
-                "signs": [
-                  "cancer",
-                  "taurus"
-                ],
-                "lunarPhases": [
-                  "First Quarter"
-                ]
-              },
-              "nutritionPerServing": {
-                "calories": 380,
-                "proteinG": 32,
-                "carbsG": 25,
-                "fatG": 18,
-                "fiberG": 1,
-                "sodiumMg": 150,
-                "sugarG": 12,
-                "vitamins": [
-                  "Vitamin D",
-                  "Riboflavin"
-                ],
-                "minerals": [
-                  "Calcium",
-                  "Phosphorus"
-                ]
-              },
-              "substitutions": []
+              classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["boiling","assembling","chilling"]},
+              elementalProperties: {"Fire":0.05,"Water":0.55,"Earth":0.3,"Air":0.1},
+              astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent","New Moon"]},
+              nutritionPerServing: {"calories":285,"proteinG":18,"carbsG":28,"fatG":11,"fiberG":4,"sodiumMg":720,"sugarG":6,"vitamins":["Vitamin C","Vitamin B12","Folate"],"minerals":["Potassium","Iron","Phosphorus"]},
+
+              alchemicalProperties: {"Spirit":2.77,"Essence":3.84,"Matter":5.55,"Substance":4.76},
+              thermodynamicProperties: {"heat":0.0337,"entropy":0.2894,"reactivity":1.3264,"gregsEnergy":-0.3501,"kalchm":0.0001,"monica":0.528},
+              substitutions: [{"originalIngredient":"kvas","substituteOptions":["kefir thinned with water and lemon juice","sparkling mineral water with sour cream base only"]},{"originalIngredient":"boiled beef","substituteOptions":["cooked chicken breast","smoked salmon"]}]
+            },
+            {
+              name: "Rassolnik",
+              description: "A rich, tangy, restorative soup built on beef broth and distinguished by two defining ingredients: briny dill pickles and pearl barley. The pickle brine is added directly to the broth, giving the soup its characteristic sharp, saline backbone. The barley absorbs the fat and broth as it cooks, becoming tender and slightly gelatinous, binding the soup into a hearty, sustaining meal. It is a soup of contrasts: the sharp acid of the pickles against the richness of the meat and grain.",
+              details: {"cuisine":"Russian","prepTimeMinutes":20,"cookTimeMinutes":90,"baseServingSize":6,"spiceLevel":"None","season":["winter","autumn"]},
+              ingredients: [
+                {"amount":1,"unit":"lb","name":"beef kidney or beef chuck","notes":"Kidney is traditional; soak in cold water for 30 minutes and change water twice to remove bitterness. Chuck is a milder alternative."},
+                {"amount":0.5,"unit":"cup","name":"pearl barley","notes":"Rinsed and soaked in cold water for 30 minutes for faster, more even cooking."},
+                {"amount":4,"unit":"whole","name":"Russian dill pickles","notes":"Medium-sized, heavily brined, not vinegar-pickled. Diced into small cubes."},
+                {"amount":0.5,"unit":"cup","name":"pickle brine","notes":"The liquid from the pickle jar; added to sharpen the broth at the end."},
+                {"amount":2,"unit":"medium","name":"potatoes","notes":"Peeled and diced into 2 cm cubes."},
+                {"amount":1,"unit":"large","name":"onion","notes":"Finely diced."},
+                {"amount":2,"unit":"medium","name":"carrots","notes":"Diced or grated."},
+                {"amount":2,"unit":"stalks","name":"celery","notes":"Diced; adds a clean aromatic note."},
+                {"amount":2,"unit":"tbsp","name":"butter or oil","notes":"For the saute."},
+                {"amount":2,"unit":"leaves","name":"bay leaf","notes":"For the broth."},
+                {"amount":1,"unit":"bunch","name":"fresh parsley and dill","notes":"Chopped, for finishing."},
+                {"amount":1,"unit":"cup","name":"smetana (sour cream)","notes":"For serving."}
+              ],
+              instructions: [
+                "Step 1: If using kidney, trim the fat and tubes, slice it, and soak in cold water for 30 minutes, changing the water twice. Bring a fresh pot of water to a boil, add the kidney, boil for 5 minutes, drain, and rinse. This step removes the strong gamey flavor. If using chuck, skip the soaking.",
+                "Step 2: Place the meat (kidney or chuck) in a large pot. Cover with 2 liters of cold water. Add the bay leaves and bring to a gentle simmer, skimming foam. Simmer for 45 minutes for kidney or 60 minutes for chuck until tender. Remove the meat, dice it, and return to the broth.",
+                "Step 3: Add the drained soaked barley directly to the simmering broth. Cook for 20 minutes.",
+                "Step 4: Meanwhile, saute the onion and carrot in butter over medium heat for 7 minutes until softened. Add the diced pickles and cook for another 5 minutes. Add this mixture to the soup pot.",
+                "Step 5: Add the diced potatoes to the pot. Cook for another 15 minutes until the potatoes are tender and the barley is fully soft and swollen.",
+                "Step 6: Pour in the pickle brine. Taste and adjust salt; remember the brine is very salty. Simmer for 5 more minutes.",
+                "Step 7: Off the heat, add the chopped parsley and dill. Serve with a generous spoonful of smetana."
+              ],
+              classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["simmering","sauteing","braising"]},
+              elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
+              astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","scorpio"],"lunarPhases":["Waning Gibbous","Last Quarter"]},
+              nutritionPerServing: {"calories":340,"proteinG":22,"carbsG":32,"fatG":14,"fiberG":5,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Selenium","Potassium"]},
+
+              alchemicalProperties: {"Spirit":3.17,"Essence":4.76,"Matter":5.55,"Substance":4.93},
+              thermodynamicProperties: {"heat":0.0386,"entropy":0.2785,"reactivity":1.6738,"gregsEnergy":-0.4275,"kalchm":0.0019,"monica":0.3064},
+              substitutions: [{"originalIngredient":"beef kidney","substituteOptions":["beef chuck (milder)","chicken thighs","pork ribs"]},{"originalIngredient":"pearl barley","substituteOptions":["brown rice","whole wheat berries"]}]
+            },
+            {
+              name: "Plov",
+              description: "The Central Asian rice pilaf that became beloved throughout Russia and the former Soviet republics. Fragrant long-grain rice is cooked in an extraordinary amount of rendered lamb fat and oil alongside grated carrot, whole heads of garlic, and a robust combination of cumin and coriander. The defining technique is the zirvak: the meat, onion, and carrot base is cooked to a deep caramelization before the rice is laid on top and steamed to completion with the lid sealed. The result is a golden, aromatic, magnificently fatty and satisfying communal dish.",
+              details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":90,"baseServingSize":6,"spiceLevel":"Mild","season":["all","winter"]},
+              ingredients: [
+                {"amount":1,"unit":"kg","name":"bone-in lamb shoulder or lamb leg","notes":"Cut into large 5 cm chunks. Bone-in provides the most flavor; beef can substitute."},
+                {"amount":2,"unit":"cups","name":"long-grain white rice","notes":"Devzira rice is the Uzbek traditional variety; basmati is an acceptable substitute. Rinse until water runs clear, then soak for 30 minutes."},
+                {"amount":500,"unit":"g","name":"carrots","notes":"Cut into large matchsticks (julienne), not grated. The large pieces hold their shape during the long cook and sweeten the rice."},
+                {"amount":2,"unit":"large","name":"onions","notes":"Sliced into thin half-moons; cooked until very dark and almost blackened for deep caramelization."},
+                {"amount":2,"unit":"whole heads","name":"garlic","notes":"Left completely whole with the papery outer skin mostly removed but the head intact. Pressed into the rice."},
+                {"amount":0.5,"unit":"cup","name":"neutral oil or rendered lamb tail fat","notes":"The traditional fat is from the fat-tailed sheep; oil works fine but loses some richness."},
+                {"amount":1,"unit":"tbsp","name":"ground cumin","notes":"The defining aromatic spice of plov."},
+                {"amount":1,"unit":"tsp","name":"coriander seeds","notes":"Crushed in a mortar."},
+                {"amount":1,"unit":"tsp","name":"black pepper","notes":"Freshly ground."},
+                {"amount":2,"unit":"tsp","name":"salt","notes":"Plus more to taste."},
+                {"amount":2.5,"unit":"cups","name":"hot water or light broth","notes":"Must be boiling when added to the rice."}
+              ],
+              instructions: [
+                "Step 1: Heat the oil (or render the lamb fat) in a very large, heavy-bottomed pot or traditional kazan (cast-iron cauldron) over the highest heat possible until it begins to smoke lightly. This extreme heat is essential to create the correct flavor.",
+                "Step 2: Add the lamb pieces to the smoking oil and sear without stirring for 4 to 5 minutes until a deep, dark brown crust forms on all sides. The caramelized crust is fundamental to the flavor. Remove the lamb and set aside.",
+                "Step 3: Add the sliced onions to the hot fat. Fry, stirring occasionally, over high heat for 10 to 15 minutes until they are a deep mahogany brown. Do not rush this step; the onions must almost blacken.",
+                "Step 4: Add the carrot matchsticks to the caramelized onions. Fry for another 10 minutes, stirring occasionally, until the carrots soften and turn golden. This is the zirvak base.",
+                "Step 5: Return the lamb to the pot. Add the cumin, crushed coriander, pepper, and salt. Stir to coat everything. Pour in enough hot water to just cover the meat. Bring to a boil, reduce to a simmer, and cook the zirvak for 30 minutes.",
+                "Step 6: Taste the zirvak broth and season heavily; it should taste slightly over-seasoned, as the rice will absorb much of the salt.",
+                "Step 7: Spread the drained rice in an even layer directly over the zirvak. Do not stir. Press the whole garlic heads deep into the rice. Pour the boiling water carefully over the back of a spoon to distribute it evenly. The water should come 2 cm above the rice surface.",
+                "Step 8: Bring to a boil uncovered over high heat until the surface water is absorbed, about 10 minutes. Reduce heat to the absolute minimum, cover with a tight lid or seal with foil, and cook for 20 minutes undisturbed.",
+                "Step 9: Remove from heat. Let rest, covered, for 10 minutes. Uncover, remove the garlic heads, and use a large spoon to gently turn the rice from the bottom up, mixing it with the zirvak. Serve the garlic as a centerpiece garnish."
+              ],
+              classifications: {"mealType":["dinner","lunch","celebration"],"cookingMethods":["searing","sauteing","steaming","braising"]},
+              elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
+              astrologicalAffinities: {"planets":["Jupiter","Mars","Saturn"],"signs":["sagittarius","aries","capricorn"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":58,"fatG":32,"fiberG":5,"sodiumMg":820,"sugarG":7,"vitamins":["Niacin","Vitamin B12","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
+
+              alchemicalProperties: {"Spirit":4.41,"Essence":4.24,"Matter":4.77,"Substance":4.25},
+              thermodynamicProperties: {"heat":0.1003,"entropy":0.4073,"reactivity":2.0812,"gregsEnergy":-0.7473,"kalchm":0.3934,"monica":0.6596},
+              substitutions: [{"originalIngredient":"bone-in lamb","substituteOptions":["beef chuck","chicken thighs (shorter cook time)"]},{"originalIngredient":"devzira or basmati rice","substituteOptions":["jasmine rice"]}]
             }
         ],
       winter: [
         {
           name: "Zharkoe",
-          description: "A profound alchemical execution of Zharkoe, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Zharkoe","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary foundation of Zharkoe","substituteOptions":["Elemental equivalent"]}]
+          description: "Chunks of beef or pork slowly braised with potatoes, carrots, onions, and tomato paste in a clay pot. A quintessential Russian comfort dish where the long, low heat renders tough cuts into fork-tender morsels while the vegetables absorb the rich, meaty broth. Traditionally prepared in a gorshok (clay pot) and served directly from the vessel.",
+          details: {"cuisine":"Russian","prepTimeMinutes":25,"cookTimeMinutes":120,"baseServingSize":4,"spiceLevel":"Mild","season":["winter","autumn"]},
+          ingredients: [{"amount":1.5,"unit":"lbs","name":"beef chuck or pork shoulder","notes":"Cut into 1.5-inch chunks. Bone-in pieces add depth to the braising liquid."},{"amount":4,"unit":"medium","name":"potatoes","notes":"Peeled and quartered. Yukon Gold hold their shape best during the long braise."},{"amount":2,"unit":"large","name":"carrots","notes":"Cut into thick rounds. They sweeten as they slowly cook in the pot juices."},{"amount":2,"unit":"medium","name":"onions","notes":"Quartered. They dissolve into the sauce, thickening it naturally."},{"amount":2,"unit":"tbsp","name":"tomato paste","notes":"Adds acidity and color to the braising liquid. Fry it briefly before adding liquid."},{"amount":2,"unit":"tbsp","name":"sunflower oil","notes":"For searing the meat. Traditional Russian cooking oil."},{"amount":2,"unit":"cups","name":"beef broth or water","notes":"Just enough to come halfway up the ingredients. Too much liquid makes a soup, not a zharkoe."},{"amount":3,"unit":"cloves","name":"garlic","notes":"Smashed and added in the last 30 minutes of cooking."},{"amount":2,"unit":"whole","name":"bay leaves","notes":"Removed before serving."},{"amount":1,"unit":"tbsp","name":"fresh dill","notes":"Chopped, for finishing."}],
+          instructions: ["Step 1: Pat the meat chunks completely dry with paper towels. Season generously with salt and black pepper. Heat sunflower oil in a heavy-bottomed Dutch oven or clay pot over high heat. Sear the meat in batches until deeply browned on all sides, about 3 minutes per side. Remove and set aside.","Step 2: Reduce heat to medium. Add the onions to the rendered fat and cook until softened and golden, about 5 minutes. Stir in the tomato paste and cook for 1 minute until it darkens slightly and becomes fragrant.","Step 3: Return the seared meat to the pot. Add the potatoes, carrots, bay leaves, and enough broth to come halfway up the ingredients. Bring to a gentle simmer.","Step 4: Cover the pot tightly with a lid or foil. Transfer to a 325F (160C) oven and braise undisturbed for 1.5 to 2 hours until the meat is completely tender and the potatoes are soft but not disintegrated. Add the smashed garlic in the last 30 minutes.","Step 5: Remove the bay leaves. Taste the braising liquid and adjust salt and pepper. Serve directly from the pot, spooning the thick sauce over each portion and finishing with freshly chopped dill."],
+          classifications: {"mealType":["dinner","comfort"],"cookingMethods":["searing","braising","roasting"]},
+          elementalProperties: {"Fire":0.2,"Water":0.3,"Earth":0.4,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":480,"proteinG":32,"carbsG":35,"fatG":22,"fiberG":5,"sodiumMg":680,"sugarG":6,"vitamins":["Vitamin A","Vitamin C","Niacin"],"minerals":["Iron","Potassium","Zinc"]},
+
+          alchemicalProperties: {"Spirit":3.39,"Essence":3.77,"Matter":4.81,"Substance":4.4},
+          thermodynamicProperties: {"heat":0.0607,"entropy":0.3588,"reactivity":1.6654,"gregsEnergy":-0.5369,"kalchm":0.0072,"monica":0.9218},
+          substitutions: [{"originalIngredient":"beef chuck or pork shoulder","substituteOptions":["lamb shoulder","venison stew meat"]},{"originalIngredient":"tomato paste","substituteOptions":["fresh tomatoes, diced","adjika (Georgian chili paste) for a spicier version"]}]
         },
       ],
     },
@@ -878,65 +726,80 @@ export const russian: Cuisine = {
       all: [
         {
           name: "Pashka",
-          description: "A profound alchemical execution of Pashka, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Pashka","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary foundation of Pashka","substituteOptions":["Elemental equivalent"]}]
+          description: "Rich pressed dessert made from tvorog (farmers cheese), butter, cream, sugar, dried fruits, and vanilla, molded in a pyramid shape. This iconic Easter dessert is never baked - the mixture is pressed in a special perforated pyramidal mold called a paskhotnitsa, allowing whey to drain while the filling firms into a dense, creamy confection stamped with the letters XB (Christ is Risen).",
+          details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":0,"baseServingSize":8,"spiceLevel":"None","season":["spring"]},
+          ingredients: [{"amount":2,"unit":"lbs","name":"tvorog (farmers cheese)","notes":"Must be very dry and fresh. Press through a fine sieve twice for the smoothest texture. Wet tvorog will not set properly."},{"amount":0.5,"unit":"cup","name":"unsalted butter, softened","notes":"Must be room temperature to incorporate smoothly into the cheese without lumps."},{"amount":0.75,"unit":"cup","name":"heavy cream","notes":"Lightly whipped to soft peaks before folding in. This gives the pashka its airy richness."},{"amount":0.75,"unit":"cup","name":"powdered sugar","notes":"Sifted. Granulated sugar will not dissolve properly in the uncooked mixture."},{"amount":0.5,"unit":"cup","name":"mixed dried fruits and candied peel","notes":"Raisins, candied orange peel, and dried cherries soaked briefly in rum or warm water and drained."},{"amount":0.25,"unit":"cup","name":"blanched almonds","notes":"Coarsely chopped. Toast lightly for deeper flavor."},{"amount":2,"unit":"tsp","name":"pure vanilla extract","notes":"Or scrape the seeds from one whole vanilla bean for authentic flavor."},{"amount":1,"unit":"pinch","name":"kosher salt","notes":"To balance the sweetness and bring out the dairy flavor."}],
+          instructions: ["Step 1: Press the tvorog through a fine-mesh sieve twice into a large bowl to eliminate all curds and achieve a perfectly smooth, paste-like consistency. This step cannot be skipped or the texture will be grainy.","Step 2: In a separate bowl, cream the softened butter with the powdered sugar until light and fluffy. Beat in the vanilla extract and salt. Gradually fold this butter mixture into the sieved tvorog, working gently to keep the mixture light.","Step 3: Whip the heavy cream to soft peaks in a chilled bowl. Fold the whipped cream into the tvorog mixture in three additions, using a broad spatula and turning the bowl. The goal is a billowy, mousse-like consistency.","Step 4: Fold in the drained dried fruits, candied peel, and chopped almonds, distributing them evenly throughout the mixture.","Step 5: Line the paskhotnitsa (pyramid mold) or a clean flowerpot with dampened cheesecloth, leaving generous overhang. Spoon the mixture into the mold, pressing firmly to eliminate air pockets. Fold the cheesecloth over the top, set a small plate and weight on top, and refrigerate over a drip tray for 12 to 24 hours until firm and fully drained. Unmold onto a serving plate, peel away the cheesecloth, and decorate with additional candied fruits and almonds."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["pressing","mixing","chilling"]},
+          elementalProperties: {"Fire":0.15,"Water":0.25,"Earth":0.4,"Air":0.2},
+          astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+          nutritionPerServing: {"calories":350,"proteinG":12,"carbsG":38,"fatG":18,"fiberG":1,"sodiumMg":120,"sugarG":28,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.51,"Essence":2.62,"Matter":3.98,"Substance":3.68},
+          thermodynamicProperties: {"heat":0.0186,"entropy":0.3022,"reactivity":1.1891,"gregsEnergy":-0.3408,"kalchm":0.0008,"monica":0.3312},
+          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta cheese (strained overnight)","cream cheese mixed with strained cottage cheese"]},{"originalIngredient":"heavy cream","substituteOptions":["mascarpone cheese","coconut cream (dairy-free)"]}]
         },
         {
           name: "Sochnik",
-          description: "A profound alchemical execution of Sochnik, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Sochnik","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary foundation of Sochnik","substituteOptions":["Elemental equivalent"]}]
+          description: "Open-faced cottage cheese pastries with a flaky, buttery shortcrust dough folded around a sweet tvorog filling seasoned with vanilla and egg yolk. A beloved Russian snack and school cafeteria classic, sochniki feature a distinctive half-open shape where the dough cradles the cheese without fully enclosing it, creating a crisp golden crust that contrasts with the soft, lightly sweet filling.",
+          details: {"cuisine":"Russian","prepTimeMinutes":40,"cookTimeMinutes":20,"baseServingSize":12,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for rolling. Sifted for a lighter dough."},{"amount":0.5,"unit":"cup","name":"unsalted butter, cold","notes":"Cut into small cubes. Cold butter creates flakiness in the shortcrust."},{"amount":0.5,"unit":"cup","name":"sour cream","notes":"Full-fat. This is the liquid binder for the dough, giving it its characteristic tenderness."},{"amount":2,"unit":"tbsp","name":"sugar","notes":"For the dough."},{"amount":1,"unit":"pinch","name":"salt","notes":"To balance the dough."},{"amount":1,"unit":"cup","name":"tvorog (farmers cheese)","notes":"Pressed through a sieve until smooth and dry. Wet tvorog will make soggy pastries."},{"amount":1,"unit":"large","name":"egg yolk","notes":"For the filling. Reserve the white for brushing."},{"amount":3,"unit":"tbsp","name":"powdered sugar","notes":"For the filling. Dissolves evenly into the cheese."},{"amount":1,"unit":"tsp","name":"vanilla extract","notes":"Pure vanilla for the filling."},{"amount":1,"unit":"large","name":"egg white","notes":"Lightly beaten, for glazing the pastries before baking."}],
+          instructions: ["Step 1: Make the dough by combining flour, sugar, and salt in a bowl. Add cold butter cubes and cut in with your fingertips until the mixture resembles coarse breadcrumbs. Add the sour cream and mix just until the dough comes together. Do not overwork. Wrap in plastic and refrigerate for 30 minutes.","Step 2: Make the filling by pressing the tvorog through a fine sieve into a clean bowl. Beat in the egg yolk, powdered sugar, and vanilla extract until smooth and uniform. The mixture should be thick enough to hold its shape.","Step 3: Preheat the oven to 375F (190C). Line a baking sheet with parchment. On a lightly floured surface, roll the dough to 4mm thickness. Cut out circles approximately 3 inches in diameter using a glass or cookie cutter.","Step 4: Place a heaping teaspoon of cheese filling on one half of each dough circle, leaving a border. Fold the other half of the dough over the filling at a slight angle so the top edge does not fully meet the bottom, leaving the filling partially exposed. Press the overlapping edge gently to seal.","Step 5: Arrange the sochniki on the baking sheet. Brush the exposed dough with beaten egg white. Bake for 18 to 20 minutes until the pastry is golden and the exposed filling has set and lightly browned at the edges. Cool slightly before serving."],
+          classifications: {"mealType":["snack","breakfast","dessert"],"cookingMethods":["baking","mixing"]},
+          elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
+          astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","virgo"],"lunarPhases":["Waxing Crescent","Full Moon"]},
+          nutritionPerServing: {"calories":165,"proteinG":5,"carbsG":18,"fatG":8,"fiberG":0.5,"sodiumMg":95,"sugarG":6,"vitamins":["Riboflavin","Vitamin A"],"minerals":["Calcium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":2.55,"Essence":3.73,"Matter":4.24,"Substance":3.66},
+          thermodynamicProperties: {"heat":0.0434,"entropy":0.2723,"reactivity":1.5769,"gregsEnergy":-0.386,"kalchm":0.028,"monica":0.5486},
+          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta (strained overnight)","cream cheese softened to room temperature"]},{"originalIngredient":"sour cream in dough","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
         },
         {
           name: "Vareniki s Vishney",
-          description: "A profound alchemical execution of Vareniki s Vishney, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Vareniki s Vishney","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary foundation of Vareniki s Vishney","substituteOptions":["Elemental equivalent"]}]
+          description: "Sweet boiled dumplings stuffed with tart sour cherries, a beloved Ukrainian and Russian summer dessert. Unlike savory pelmeni, vareniki are boiled fresh and served warm with butter and sour cream, the bittersweet cherry juices staining the tender dough purple as they cook. Pit fresh cherries or drain frozen ones meticulously - excess moisture collapses the dumplings from within.",
+          details: {"cuisine":"Russian","prepTimeMinutes":60,"cookTimeMinutes":15,"baseServingSize":4,"spiceLevel":"None","season":["summer"]},
+          ingredients: [{"amount":2.5,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for dusting. A high-gluten flour creates a more elastic, forgiving dough."},{"amount":0.75,"unit":"cup","name":"warm water","notes":"Not boiling. The warmth helps the gluten relax quickly."},{"amount":1,"unit":"large","name":"egg","notes":"Beaten into the dough for richness and structure."},{"amount":0.5,"unit":"tsp","name":"salt","notes":"For the dough."},{"amount":3,"unit":"cups","name":"fresh or frozen sour cherries","notes":"Pitted. If using frozen, thaw completely and drain in a colander for 30 minutes, pressing out excess juice. Excess liquid is the enemy of this dumpling."},{"amount":4,"unit":"tbsp","name":"sugar","notes":"Tossed with the drained cherries. Adjusts to taste based on cherry tartness."},{"amount":4,"unit":"tbsp","name":"unsalted butter","notes":"Melted, for tossing the cooked vareniki before serving."},{"amount":0.5,"unit":"cup","name":"smetana or sour cream","notes":"Full-fat, for serving. The cool creaminess is the essential counterpoint to the tart cherry filling."}],
+          instructions: ["Step 1: Combine flour and salt in a bowl. Make a well, add the egg and warm water. Mix then knead for 8 to 10 minutes until the dough is smooth, supple, and not sticky. If it tears, it needs more kneading. Cover with a damp cloth and rest for 30 minutes.","Step 2: Drain the pitted cherries thoroughly in a colander, pressing gently to remove as much juice as possible. Pat dry with paper towels. Toss with the sugar and set aside. Do not let them sit too long or they will weep more juice.","Step 3: On a lightly floured surface, roll the dough to about 2mm thickness. Cut circles approximately 3 to 3.5 inches in diameter. Working quickly so the dough does not dry out, place 2 to 3 cherries in the center of each circle.","Step 4: Fold the dough over the cherries to form a half-moon. Press the edges firmly together, then crimp with your fingers or a fork to create a tight seal. Any opening will cause them to burst during boiling.","Step 5: Bring a large pot of salted water to a rolling boil. Cook the vareniki in batches - do not crowd them. They are done 3 to 4 minutes after they float to the surface. Remove with a slotted spoon, toss immediately in melted butter to prevent sticking, and serve hot with smetana."],
+          classifications: {"mealType":["dessert","snack"],"cookingMethods":["boiling","kneading"]},
+          elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+          nutritionPerServing: {"calories":380,"proteinG":9,"carbsG":68,"fatG":9,"fiberG":3,"sodiumMg":210,"sugarG":22,"vitamins":["Vitamin C","Folate"],"minerals":["Iron","Potassium"]},
+
+          alchemicalProperties: {"Spirit":1.4,"Essence":2.64,"Matter":3.27,"Substance":2.56},
+          thermodynamicProperties: {"heat":0.0228,"entropy":0.1959,"reactivity":1.1943,"gregsEnergy":-0.2111,"kalchm":0.0389,"monica":0.0922},
+          substitutions: [{"originalIngredient":"sour cherries","substituteOptions":["fresh blueberries","tart plums, pitted and diced","sweetened tvorog with raisins (a different but classic filling)"]},{"originalIngredient":"smetana","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
         },
         {
           name: "Pryaniki",
-          description: "A profound alchemical execution of Pryaniki, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Pryaniki","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary foundation of Pryaniki","substituteOptions":["Elemental equivalent"]}]
+          description: "Soft, spiced Russian gingerbread cookies with a shiny sugar glaze, one of Russia's oldest confections with roots going back to 9th-century Novgorod. Unlike hard European gingerbreads, pryaniki are tender and yielding, fragrant with a warm blend of cinnamon, cloves, cardamom, and black pepper. The Tula region is famous for its printed pryaniki stamped with elaborate wooden molds depicting folk scenes and flowers.",
+          details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":12,"baseServingSize":24,"spiceLevel":"None","season":["winter","autumn"]},
+          ingredients: [{"amount":3,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for rolling. Do not pack the measuring cup."},{"amount":0.75,"unit":"cup","name":"honey","notes":"Dark buckwheat honey is traditional and gives the deepest flavor. Light honey produces milder pryaniki."},{"amount":0.5,"unit":"cup","name":"sugar","notes":"Granulated white sugar."},{"amount":2,"unit":"large","name":"eggs","notes":"One for the dough, one yolk for the glaze."},{"amount":0.5,"unit":"cup","name":"unsalted butter","notes":"Softened to room temperature."},{"amount":1,"unit":"tsp","name":"baking soda","notes":"Dissolved in a teaspoon of warm water before adding."},{"amount":2,"unit":"tsp","name":"ground cinnamon","notes":"The dominant spice."},{"amount":0.5,"unit":"tsp","name":"ground cloves","notes":"Use sparingly - very pungent."},{"amount":0.5,"unit":"tsp","name":"ground cardamom","notes":"For aromatic warmth."},{"amount":0.25,"unit":"tsp","name":"freshly ground black pepper","notes":"The secret ingredient that gives pryaniki their characteristic bite."},{"amount":1.5,"unit":"cups","name":"powdered sugar","notes":"For the white fondant glaze. Sifted to prevent lumps."},{"amount":3,"unit":"tbsp","name":"warm water","notes":"For the glaze. Added gradually to achieve a thick, pourable consistency."}],
+          instructions: ["Step 1: Warm the honey and sugar together in a small saucepan over low heat, stirring until the sugar dissolves. Remove from heat and let cool to room temperature. Do not boil.","Step 2: Beat the softened butter and one egg into the cooled honey mixture. Add the baking soda mixture, cinnamon, cloves, cardamom, and black pepper. Stir to combine well.","Step 3: Add the flour in batches, mixing after each addition until a soft, slightly sticky dough forms. The dough should be pliable and smooth, not stiff. Wrap in plastic and refrigerate for 1 hour or overnight - rested dough rolls more smoothly.","Step 4: Preheat oven to 375F (190C). On a lightly floured surface, roll the dough to 5mm thickness. Cut into rounds, rectangles, or use traditional carved wooden stamps to press designs. Place on parchment-lined baking sheets.","Step 5: Bake for 10 to 12 minutes until set and lightly golden at the edges - they should not darken significantly. Let cool completely on a wire rack. Make the glaze by whisking powdered sugar with warm water until thick and smooth. Dip or brush each pryanik with glaze and let set at room temperature until the coating turns white and matte."],
+          classifications: {"mealType":["dessert","snack"],"cookingMethods":["baking","mixing"]},
+          elementalProperties: {"Fire":0.35,"Water":0.15,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
+          nutritionPerServing: {"calories":120,"proteinG":2,"carbsG":22,"fatG":3,"fiberG":0.5,"sodiumMg":55,"sugarG":14,"vitamins":["Thiamin","Riboflavin"],"minerals":["Iron","Manganese"]},
+
+          alchemicalProperties: {"Spirit":3.78,"Essence":4.29,"Matter":3.98,"Substance":3.55},
+          thermodynamicProperties: {"heat":0.0927,"entropy":0.3515,"reactivity":2.4248,"gregsEnergy":-0.7597,"kalchm":3.5918,"monica":0.5486},
+          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
         },
       ],
       winter: [
         {
           name: "Pryaniki",
-          description: "A profound alchemical execution of Pryaniki, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Pryaniki","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary foundation of Pryaniki","substituteOptions":["Elemental equivalent"]}]
+          description: "Soft, spiced Russian gingerbread cookies with a shiny sugar glaze, one of Russia's oldest confections with roots going back to 9th-century Novgorod. Unlike hard European gingerbreads, pryaniki are tender and yielding, fragrant with a warm blend of cinnamon, cloves, cardamom, and black pepper. The Tula region is famous for its printed pryaniki stamped with elaborate wooden molds depicting folk scenes and flowers.",
+          details: {"cuisine":"Russian","prepTimeMinutes":30,"cookTimeMinutes":12,"baseServingSize":24,"spiceLevel":"None","season":["winter","autumn"]},
+          ingredients: [{"amount":3,"unit":"cups","name":"all-purpose flour","notes":"Plus extra for rolling. Do not pack the measuring cup."},{"amount":0.75,"unit":"cup","name":"honey","notes":"Dark buckwheat honey is traditional and gives the deepest flavor. Light honey produces milder pryaniki."},{"amount":0.5,"unit":"cup","name":"sugar","notes":"Granulated white sugar."},{"amount":2,"unit":"large","name":"eggs","notes":"One for the dough, one yolk for the glaze."},{"amount":0.5,"unit":"cup","name":"unsalted butter","notes":"Softened to room temperature."},{"amount":1,"unit":"tsp","name":"baking soda","notes":"Dissolved in a teaspoon of warm water before adding."},{"amount":2,"unit":"tsp","name":"ground cinnamon","notes":"The dominant spice."},{"amount":0.5,"unit":"tsp","name":"ground cloves","notes":"Use sparingly - very pungent."},{"amount":0.5,"unit":"tsp","name":"ground cardamom","notes":"For aromatic warmth."},{"amount":0.25,"unit":"tsp","name":"freshly ground black pepper","notes":"The secret ingredient that gives pryaniki their characteristic bite."},{"amount":1.5,"unit":"cups","name":"powdered sugar","notes":"For the white fondant glaze. Sifted to prevent lumps."},{"amount":3,"unit":"tbsp","name":"warm water","notes":"For the glaze. Added gradually to achieve a thick, pourable consistency."}],
+          instructions: ["Step 1: Warm the honey and sugar together in a small saucepan over low heat, stirring until the sugar dissolves. Remove from heat and let cool to room temperature. Do not boil.","Step 2: Beat the softened butter and one egg into the cooled honey mixture. Add the baking soda mixture, cinnamon, cloves, cardamom, and black pepper. Stir to combine well.","Step 3: Add the flour in batches, mixing after each addition until a soft, slightly sticky dough forms. The dough should be pliable and smooth, not stiff. Wrap in plastic and refrigerate for 1 hour or overnight - rested dough rolls more smoothly.","Step 4: Preheat oven to 375F (190C). On a lightly floured surface, roll the dough to 5mm thickness. Cut into rounds, rectangles, or use traditional carved wooden stamps to press designs. Place on parchment-lined baking sheets.","Step 5: Bake for 10 to 12 minutes until set and lightly golden at the edges - they should not darken significantly. Let cool completely on a wire rack. Make the glaze by whisking powdered sugar with warm water until thick and smooth. Dip or brush each pryanik with glaze and let set at room temperature until the coating turns white and matte."],
+          classifications: {"mealType":["dessert","snack"],"cookingMethods":["baking","mixing"]},
+          elementalProperties: {"Fire":0.35,"Water":0.15,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
+          nutritionPerServing: {"calories":120,"proteinG":2,"carbsG":22,"fatG":3,"fiberG":0.5,"sodiumMg":55,"sugarG":14,"vitamins":["Thiamin","Riboflavin"],"minerals":["Iron","Manganese"]},
+
+          alchemicalProperties: {"Spirit":3.78,"Essence":4.29,"Matter":3.98,"Substance":3.55},
+          thermodynamicProperties: {"heat":0.0927,"entropy":0.3515,"reactivity":2.4248,"gregsEnergy":-0.7597,"kalchm":3.5918,"monica":0.5486},
+          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
         },
 
         {
@@ -949,6 +812,9 @@ export const russian: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":580,"proteinG":28,"carbsG":65,"fatG":22,"fiberG":3,"sodiumMg":850,"sugarG":2,"vitamins":["Iron","Thiamin"],"minerals":["Selenium","Zinc"]},
+
+          alchemicalProperties: {"Spirit":1.43,"Essence":3.12,"Matter":3.67,"Substance":3.08},
+          thermodynamicProperties: {"heat":0.018,"entropy":0.2034,"reactivity":1.3278,"gregsEnergy":-0.2521,"kalchm":0.0154,"monica":0.5298},
           substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
         },
       ],

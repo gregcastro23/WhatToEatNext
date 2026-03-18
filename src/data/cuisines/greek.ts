@@ -122,6 +122,9 @@ export const greek: Cuisine = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.33,"Essence":2.97,"Matter":2.89,"Substance":2.69},
+          thermodynamicProperties: {"heat":0.0626,"entropy":0.3054,"reactivity":2.1281,"gregsEnergy":-0.5874,"kalchm":0.5916,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "semolina custard",
@@ -220,6 +223,9 @@ export const greek: Cuisine = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.05,"Essence":1.05,"Matter":1.05,"Substance":1.05},
+          thermodynamicProperties: {"heat":0.0657,"entropy":0.2652,"reactivity":1.6611,"gregsEnergy":-0.3747,"kalchm":1.0,"monica":0.4376},
           "substitutions": [
             {
               "originalIngredient": "Greek yogurt",
@@ -348,6 +354,9 @@ export const greek: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.9,"Essence":2.93,"Matter":3.12,"Substance":3.1},
+          thermodynamicProperties: {"heat":0.0864,"entropy":0.403,"reactivity":2.2913,"gregsEnergy":-0.837,"kalchm":0.4404,"monica":0.4188},
           "substitutions": [
             {
               "originalIngredient": "eggs",
@@ -471,6 +480,9 @@ export const greek: Cuisine = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.51,"Essence":2.82,"Matter":2.98,"Substance":2.7},
+          thermodynamicProperties: {"heat":0.0274,"entropy":0.2318,"reactivity":1.373,"gregsEnergy":-0.2909,"kalchm":0.0916,"monica":0.9862},
           "substitutions": [
             {
               "originalIngredient": "barley flour",
@@ -611,6 +623,9 @@ export const greek: Cuisine = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.3,"Essence":3.88,"Matter":3.92,"Substance":3.88},
+          thermodynamicProperties: {"heat":0.1263,"entropy":0.5157,"reactivity":2.8807,"gregsEnergy":-1.3592,"kalchm":2.5017,"monica":0.2511},
           "substitutions": [
             {
               "originalIngredient": "pork neck",
@@ -754,6 +769,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.22,"Essence":4.56,"Matter":4.34,"Substance":4.01},
+          thermodynamicProperties: {"heat":0.0544,"entropy":0.2813,"reactivity":2.2068,"gregsEnergy":-0.5664,"kalchm":0.285,"monica":0.4376},
           "substitutions": [
             {
               "originalIngredient": "feta cheese",
@@ -920,6 +938,9 @@ export const greek: Cuisine = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.01,"Essence":5.13,"Matter":6.18,"Substance":5.63},
+          thermodynamicProperties: {"heat":0.0512,"entropy":0.3316,"reactivity":1.7695,"gregsEnergy":-0.5355,"kalchm":0.0009,"monica":0.8564},
           "substitutions": [
             {
               "originalIngredient": "short-grain rice",
@@ -1004,6 +1025,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.1,"Essence":0.45,"Matter":0.55,"Substance":0.4},
+          thermodynamicProperties: {"heat":0.0103,"entropy":0.0854,"reactivity":0.475,"gregsEnergy":-0.0302,"kalchm":1.1115,"monica":0.4376},
           "substitutions": []
         },
         {
@@ -1069,6 +1093,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.0475,"entropy":0.2224,"reactivity":1.0408,"gregsEnergy":-0.184,"kalchm":1.0,"monica":0.4376},
           "substitutions": []
         },
         {
@@ -1235,6 +1262,9 @@ export const greek: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.97,"Essence":5.86,"Matter":5.98,"Substance":5.55},
+          thermodynamicProperties: {"heat":0.0748,"entropy":0.3562,"reactivity":2.1755,"gregsEnergy":-0.7001,"kalchm":0.1532,"monica":0.8376},
           "substitutions": [
             {
               "originalIngredient": "ground beef",
@@ -1399,6 +1429,9 @@ export const greek: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.73,"Essence":4.95,"Matter":4.97,"Substance":4.56},
+          thermodynamicProperties: {"heat":0.0589,"entropy":0.3082,"reactivity":2.0581,"gregsEnergy":-0.5754,"kalchm":0.1273,"monica":0.3156},
           "substitutions": [
             {
               "originalIngredient": "grape leaves",
@@ -1485,6 +1518,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.2662,"reactivity":1.645,"gregsEnergy":-0.37,"kalchm":1.0,"monica":0.4376},
           "substitutions": []
         },
         {
@@ -1549,6 +1585,9 @@ export const greek: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.3,"Essence":0.31,"Matter":0.22,"Substance":0.17},
+          thermodynamicProperties: {"heat":0.0391,"entropy":0.069,"reactivity":0.8632,"gregsEnergy":-0.0205,"kalchm":0.914,"monica":-0.0188},
           "substitutions": []
         },
         {
@@ -1697,6 +1736,9 @@ export const greek: Cuisine = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.15,"Essence":5.51,"Matter":6.17,"Substance":5.53},
+          thermodynamicProperties: {"heat":0.0532,"entropy":0.3122,"reactivity":1.7861,"gregsEnergy":-0.5045,"kalchm":0.0046,"monica":0.9218},
           "substitutions": [
             {
               "originalIngredient": "beef chuck",
@@ -1838,6 +1880,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.35,"Essence":2.85,"Matter":3.47,"Substance":3.22},
+          thermodynamicProperties: {"heat":0.1042,"entropy":0.4264,"reactivity":1.9433,"gregsEnergy":-0.7244,"kalchm":0.3507,"monica":1.3128},
           "substitutions": [
             {
               "originalIngredient": "dried chickpeas",
@@ -1994,6 +2039,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.06,"Essence":4.42,"Matter":5.05,"Substance":4.6},
+          thermodynamicProperties: {"heat":0.0747,"entropy":0.3644,"reactivity":1.9298,"gregsEnergy":-0.6286,"kalchm":0.0529,"monica":0.4},
           "substitutions": [
             {
               "originalIngredient": "Gigantes beans",
@@ -2167,6 +2215,9 @@ export const greek: Cuisine = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":5.1,"Essence":5.37,"Matter":6.24,"Substance":5.75},
+          thermodynamicProperties: {"heat":0.0811,"entropy":0.404,"reactivity":2.0602,"gregsEnergy":-0.7511,"kalchm":0.0158,"monica":0.5486},
           "substitutions": [
             {
               "originalIngredient": "ground beef",
@@ -2310,6 +2361,9 @@ export const greek: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.78,"Essence":3.87,"Matter":3.52,"Substance":3.12},
+          thermodynamicProperties: {"heat":0.0607,"entropy":0.2676,"reactivity":2.1775,"gregsEnergy":-0.5219,"kalchm":1.1048,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "semolina flour",
@@ -2434,6 +2488,9 @@ export const greek: Cuisine = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.23,"Essence":2.68,"Matter":3.37,"Substance":3.23},
+          thermodynamicProperties: {"heat":0.0526,"entropy":0.369,"reactivity":1.6462,"gregsEnergy":-0.5548,"kalchm":0.0317,"monica":0.8564},
           "substitutions": [
             {
               "originalIngredient": "potatoes",
@@ -2578,6 +2635,9 @@ export const greek: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.44,"Essence":3.47,"Matter":4.09,"Substance":3.74},
+          thermodynamicProperties: {"heat":0.0847,"entropy":0.4001,"reactivity":1.9755,"gregsEnergy":-0.7057,"kalchm":0.1192,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "red wine vinegar",
@@ -2672,6 +2732,9 @@ export const greek: Cuisine = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.45,"Essence":0.9,"Matter":1.35,"Substance":1.15},
+              thermodynamicProperties: {"heat":0.0137,"entropy":0.181,"reactivity":0.7085,"gregsEnergy":-0.1145,"kalchm":0.3606,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -2752,6 +2815,9 @@ export const greek: Cuisine = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.49,"Essence":0.59,"Matter":0.68,"Substance":0.64},
+              thermodynamicProperties: {"heat":0.0428,"entropy":0.2712,"reactivity":1.0937,"gregsEnergy":-0.2538,"kalchm":0.8932,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -2830,6 +2896,9 @@ export const greek: Cuisine = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.5,"Essence":0.75,"Matter":1.2,"Substance":1.15},
+              thermodynamicProperties: {"heat":0.0191,"entropy":0.2215,"reactivity":0.7241,"gregsEnergy":-0.1413,"kalchm":0.3899,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -2910,6 +2979,9 @@ export const greek: Cuisine = {
                   "Potassium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.48,"Essence":1.12,"Matter":0.95,"Substance":0.85},
+              thermodynamicProperties: {"heat":0.0178,"entropy":0.1187,"reactivity":1.2014,"gregsEnergy":-0.1248,"kalchm":0.9622,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -2988,8 +3060,87 @@ export const greek: Cuisine = {
                   "Calcium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.43,"Essence":1.1,"Matter":0.7,"Substance":0.65},
+              thermodynamicProperties: {"heat":0.019,"entropy":0.0984,"reactivity":1.823,"gregsEnergy":-0.1604,"kalchm":1.3121,"monica":0.8564},
               "substitutions": []
             }
+        ,
+        {
+          name: "Spanakopita",
+          description: "The definitive Greek savory pastry, Spanakopita is a masterclass in contrasting textures and flavors. Dozens of paper-thin phyllo sheets, each individually brushed with golden olive oil or clarified butter, are layered to create a shatteringly crisp pastry shell that encases a dense, rich filling of wilted spinach, creamy feta cheese, eggs, fresh dill, and green onions. The salt of the feta penetrates the spinach while the eggs bind everything into a cohesive, custardy interior.",
+          details: {"cuisine":"Greek","prepTimeMinutes":45,"cookTimeMinutes":50,"baseServingSize":8,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2,"unit":"lbs","name":"Fresh spinach","notes":"Or 20 oz frozen spinach, thawed and squeezed completely dry."},{"amount":0.75,"unit":"lb","name":"Feta cheese","notes":"High-quality Greek PDO feta, crumbled."},{"amount":4,"unit":"large","name":"Eggs","notes":"Lightly beaten."},{"amount":1,"unit":"bunch","name":"Green onions","notes":"Finely sliced."},{"amount":0.5,"unit":"cup","name":"Fresh dill","notes":"Finely chopped. This is non-negotiable."},{"amount":1,"unit":"lb","name":"Phyllo dough","notes":"Thawed if frozen, kept covered with a damp towel."},{"amount":0.75,"unit":"cup","name":"Olive oil or melted butter","notes":"For brushing each phyllo layer."}],
+          instructions: ["Step 1: If using fresh spinach, blanch briefly in boiling water, then drain and squeeze until completely dry in a clean kitchen towel. The spinach must be as dry as possible or the filling will be watery and the phyllo will become soggy. Chop roughly.","Step 2: Combine the squeezed spinach with crumbled feta, beaten eggs, sliced green onions, fresh dill, and black pepper in a large bowl. Mix well. Taste - the feta is salty, so add salt only if needed.","Step 3: Unroll the phyllo dough. Keep it covered with a barely damp towel at all times to prevent it from drying and cracking.","Step 4: Brush a 13x9 inch baking pan with olive oil. Lay one phyllo sheet in the pan and brush it generously with olive oil. Continue layering and brushing for 10 to 12 sheets, building the base.","Step 5: Spread the entire spinach and feta filling evenly over the phyllo base. Continue layering the remaining phyllo sheets on top, brushing each one with oil, for another 10 to 12 sheets. Tuck in any overhanging edges.","Step 6: With a sharp knife, score the top layers of phyllo into serving portions before baking - this prevents cracking. Bake at 375F for 45 to 50 minutes until deep golden brown and shatteringly crisp. Allow to cool for 15 minutes before serving."],
+          classifications: {"mealType":["lunch","dinner","snack","appetizer"],"cookingMethods":["baking","layering"]},
+          elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.5,"Air":0.15},
+          astrologicalAffinities: {"planets":["Venus","Moon","Mercury"],"signs":["taurus","cancer","virgo"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":380,"proteinG":14,"carbsG":32,"fatG":24,"fiberG":4,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin A","Folate","Vitamin K"],"minerals":["Calcium","Iron","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":1.78,"Essence":2.83,"Matter":2.99,"Substance":2.73},
+          thermodynamicProperties: {"heat":0.0361,"entropy":0.2509,"reactivity":1.5365,"gregsEnergy":-0.3494,"kalchm":0.1292,"monica":0.8752},
+          substitutions: [{"originalIngredient":"Feta cheese","substituteOptions":["Ricotta plus salt","Goat cheese"]},{"originalIngredient":"Phyllo dough","substituteOptions":["Puff pastry (different texture)"]}]
+        },
+        {
+          name: "Dolmades",
+          description: "Dolmades - stuffed grape leaves - represent one of the most ancient and meditative preparations in Greek cuisine. Each tender, slightly tart brined grape leaf is individually filled with a mixture of short-grain rice, pine nuts, currants, fresh herbs, and lemon zest, then rolled into a precise cylinder, packed tightly in a pot, and steamed under pressure in a bath of olive oil and lemon juice until the rice cooks from the steam and the flavors meld into a remarkably complex, lemony, herbal whole.",
+          details: {"cuisine":"Greek","prepTimeMinutes":60,"cookTimeMinutes":45,"baseServingSize":6,"spiceLevel":"None","season":["spring","summer"]},
+          ingredients: [{"amount":40,"unit":"whole","name":"Brined grape leaves","notes":"Rinsed well to remove excess salt, stems trimmed."},{"amount":1.5,"unit":"cups","name":"Short-grain rice","notes":"Arborio or similar - not rinsed."},{"amount":0.25,"unit":"cup","name":"Pine nuts","notes":"Lightly toasted."},{"amount":0.25,"unit":"cup","name":"Currants or raisins","notes":"For sweetness contrast."},{"amount":0.5,"unit":"bunch","name":"Fresh flat-leaf parsley","notes":"Finely chopped."},{"amount":0.25,"unit":"cup","name":"Fresh dill","notes":"Finely chopped."},{"amount":2,"unit":"whole","name":"Lemons","notes":"Juice and zest for filling and cooking."},{"amount":0.75,"unit":"cup","name":"Extra virgin olive oil","notes":"Generously used - this is not a low-fat dish."},{"amount":1,"unit":"whole","name":"White onion","notes":"Very finely diced."}],
+          instructions: ["Step 1: Combine the raw rice, toasted pine nuts, currants, finely chopped parsley, dill, lemon zest, grated onion, a generous pour of olive oil, and salt and pepper. Mix well. The filling should be fragrant and well-seasoned.","Step 2: Lay a grape leaf flat on a work surface, smooth side down. Place a generous teaspoon of rice filling at the stem end. Fold the stem end up over the filling, fold in the sides, then roll tightly away from you into a compact cylinder. The roll should be snug but not so tight that the rice cannot expand during cooking.","Step 3: Line the bottom of a wide, heavy pot with a single layer of unstuffed grape leaves (this prevents the dolmades from burning).","Step 4: Pack the dolmades tightly in the pot in layers, seam side down. They should be packed so they support each other and do not unroll during cooking.","Step 5: Mix together the remaining olive oil, fresh lemon juice, and enough water to just cover the dolmades. Pour over the packed rolls.","Step 6: Place a heavy plate directly on top of the dolmades to weigh them down and keep them submerged. Cover the pot tightly and cook over medium-low heat for 45 minutes. The steam inside the pot cooks the rice. Allow to cool completely before serving - they are traditionally served at room temperature with lemon wedges and thick yogurt."],
+          classifications: {"mealType":["appetizer","lunch","snack"],"cookingMethods":["steaming","simmering"]},
+          elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.45,"Air":0.15},
+          astrologicalAffinities: {"planets":["Moon","Venus","Jupiter"],"signs":["cancer","taurus","pisces"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":340,"proteinG":6,"carbsG":42,"fatG":18,"fiberG":4,"sodiumMg":480,"sugarG":8,"vitamins":["Vitamin K","Folate","Vitamin C"],"minerals":["Iron","Magnesium","Potassium"]},
+
+          alchemicalProperties: {"Spirit":3.06,"Essence":4.25,"Matter":3.56,"Substance":3.23},
+          thermodynamicProperties: {"heat":0.0658,"entropy":0.2706,"reactivity":2.362,"gregsEnergy":-0.5734,"kalchm":3.5406,"monica":-0.122},
+          substitutions: [{"originalIngredient":"Brined grape leaves","substituteOptions":["Blanched cabbage leaves","Chard leaves"]},{"originalIngredient":"Currants","substituteOptions":["Raisins","Dried cranberries"]}]
+        },
+        {
+          name: "Avgolemono",
+          description: "Avgolemono - egg-lemon - is both a sauce and a soup, and the technique defines a cornerstone of Greek cooking. In its soup form, a rich chicken broth is tempered with a stabilizing emulsion of beaten eggs and fresh lemon juice that is whisked together and then slowly introduced to the hot broth, transforming it from a clear consomme into a silky, cloud-like, pale golden elixir of remarkable gentleness. The science lies in the egg proteins denaturing gradually in the hot broth to create a natural thickener without curdling.",
+          details: {"cuisine":"Greek","prepTimeMinutes":20,"cookTimeMinutes":40,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":8,"unit":"cups","name":"Rich chicken broth","notes":"Homemade strongly preferred for depth of flavor."},{"amount":0.5,"unit":"cup","name":"Orzo or short-grain rice","notes":"For body."},{"amount":3,"unit":"large","name":"Eggs","notes":"Room temperature - cold eggs are harder to temper."},{"amount":2,"unit":"whole","name":"Lemons","notes":"Freshly squeezed - bottled juice will not work."},{"amount":1,"unit":"cup","name":"Cooked shredded chicken","notes":"From making the broth."},{"amount":1,"unit":"tsp","name":"Salt","notes":"Adjusted to taste."}],
+          instructions: ["Step 1: Bring the chicken broth to a boil in a medium saucepan. Add the orzo or rice and cook until just tender, about 8 to 10 minutes. Reduce heat to a low simmer.","Step 2: In a medium bowl, whisk the eggs vigorously until frothy and pale - this takes about 2 minutes of vigorous whisking. The air incorporated into the eggs is crucial for the silky texture.","Step 3: While still whisking, gradually add the fresh lemon juice to the beaten eggs in a thin stream. Continue whisking until the mixture is well combined.","Step 4: The critical step - tempering. Using a ladle, slowly add hot broth from the pot to the egg-lemon mixture, one ladle at a time, whisking constantly between each addition. Add 4 to 6 ladles, whisking continuously. This brings the eggs up to temperature gradually so they thicken without scrambling.","Step 5: Pour the tempered egg-lemon mixture back into the pot of broth in a slow, steady stream while stirring constantly. Do not allow the soup to boil after adding the avgolemono - a boil will cause the eggs to curdle.","Step 6: Add the shredded chicken and warm through. Serve immediately in warm bowls with freshly cracked black pepper and a final squeeze of lemon."],
+          classifications: {"mealType":["lunch","dinner","starter"],"cookingMethods":["simmering","tempering"]},
+          elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.25,"Air":0.15},
+          astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","libra","gemini"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":220,"proteinG":18,"carbsG":18,"fatG":8,"fiberG":1,"sodiumMg":720,"sugarG":2,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Potassium","Phosphorus","Selenium"]},
+
+          alchemicalProperties: {"Spirit":1.63,"Essence":2.54,"Matter":2.79,"Substance":2.67},
+          thermodynamicProperties: {"heat":0.0337,"entropy":0.2656,"reactivity":1.7876,"gregsEnergy":-0.4411,"kalchm":0.0982,"monica":0.0922},
+          substitutions: [{"originalIngredient":"Chicken broth","substituteOptions":["Vegetable broth","Lamb broth"]},{"originalIngredient":"Orzo","substituteOptions":["Short-grain rice","Broken vermicelli"]}]
+        },
+        {
+          name: "Kleftiko",
+          description: "Kleftiko - literally meaning stolen or bandit-style - is a legendary slow-cooked lamb preparation with origins in the Greek mountains, where bandits (kleftes) would cook lamb in sealed pits in the ground to avoid detection by the smoke. The lamb is marinated in garlic, lemon, and wild oregano, wrapped tightly in parchment paper with slices of potato and tomato, and slow-roasted until the connective tissue completely dissolves and the meat can be pulled apart with a spoon, permeated by its own concentrated juices.",
+          details: {"cuisine":"Greek","prepTimeMinutes":30,"cookTimeMinutes":240,"baseServingSize":6,"spiceLevel":"None","season":["spring","winter"]},
+          ingredients: [{"amount":3,"unit":"lbs","name":"Bone-in lamb shoulder or leg","notes":"Cut into large pieces, or use a small whole leg."},{"amount":8,"unit":"cloves","name":"Garlic","notes":"Some sliced for studding the meat, some minced for marinade."},{"amount":3,"unit":"whole","name":"Lemons","notes":"Juice and zest."},{"amount":3,"unit":"tbsp","name":"Dried Greek oregano","notes":"Genuine rigani - Greek mountain oregano is key."},{"amount":0.5,"unit":"cup","name":"Extra virgin olive oil","notes":"For the marinade."},{"amount":4,"unit":"medium","name":"Potatoes","notes":"Cut into large chunks, they cook in the lamb juices."},{"amount":2,"unit":"whole","name":"Tomatoes","notes":"Cut into wedges."},{"amount":0.5,"unit":"lb","name":"Kefalotyri or Kefalograviera cheese","notes":"Optional, added in the last 30 minutes."}],
+          instructions: ["Step 1: Using a small knife, make deep incisions all over the lamb pieces and insert slices of garlic deep into the meat. This ensures the garlic infuses the interior as it roasts.","Step 2: Prepare the marinade: whisk together olive oil, lemon juice, lemon zest, minced garlic, dried oregano, salt, and black pepper. Coat the lamb thoroughly in the marinade. For best results, marinate overnight in the refrigerator.","Step 3: Preheat the oven to 325F. Tear off large sheets of parchment paper. Place lamb pieces in the center, surround with potato chunks and tomato wedges. Season the vegetables as well.","Step 4: Wrap each portion tightly in the parchment, folding the edges over multiple times to create an absolutely airtight seal. The steam that builds inside is what braises the lamb without drying it.","Step 5: Place the sealed parcels in a roasting pan. Roast at 325F for 3.5 to 4 hours. The meat should be completely tender and falling off the bone when done.","Step 6: Carefully open the parchment at the table (the steam is very hot). If using cheese, add chunks of kefalotyri on top of the opened parcels and return to a 400F oven for 15 minutes to brown. Serve with crusty bread to soak up the extraordinary juices."],
+          classifications: {"mealType":["dinner","celebration"],"cookingMethods":["slow-roasting","braising"]},
+          elementalProperties: {"Fire":0.2,"Water":0.2,"Earth":0.5,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Mars","Jupiter"],"signs":["capricorn","aries","sagittarius"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":620,"proteinG":52,"carbsG":28,"fatG":34,"fiberG":4,"sodiumMg":580,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
+
+          alchemicalProperties: {"Spirit":3.3,"Essence":4.2,"Matter":3.95,"Substance":3.63},
+          thermodynamicProperties: {"heat":0.0691,"entropy":0.3079,"reactivity":2.1107,"gregsEnergy":-0.5809,"kalchm":0.8704,"monica":0.4842},
+          substitutions: [{"originalIngredient":"Lamb shoulder","substituteOptions":["Goat shoulder","Bone-in chicken (reduce time)"]},{"originalIngredient":"Kefalotyri cheese","substituteOptions":["Pecorino Romano","Aged Manchego"]}]
+        },
+        {
+          name: "Loukoumades",
+          description: "Loukoumades are Greece ancient answer to the donut - golden spheres of yeasted dough dropped into hot oil and fried until they puff into perfectly round, crispy-shelled, hollow-centered fritters. They are the oldest recorded sweet in Western culture, awarded to Olympic winners in ancient Greece. Fresh from the oil, the hot fritters are immediately drizzled with wildflower or thyme honey, dusted with cinnamon, and scattered with crushed walnuts, creating the perfect contrast of hot crispy exterior and warm, pillowy interior.",
+          details: {"cuisine":"Greek","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"All-purpose flour","notes":"Sifted."},{"amount":1,"unit":"packet","name":"Active dry yeast","notes":"7g, dissolved in warm water with a pinch of sugar."},{"amount":1,"unit":"cup","name":"Warm water","notes":"For the dough - should feel warm to the touch."},{"amount":1,"unit":"tsp","name":"Salt","notes":"Fine salt."},{"amount":1,"unit":"tsp","name":"Sugar","notes":"For the dough."},{"amount":4,"unit":"cups","name":"Vegetable oil","notes":"For deep frying."},{"amount":0.5,"unit":"cup","name":"Greek thyme honey","notes":"Or wildflower honey."},{"amount":0.5,"unit":"cup","name":"Crushed walnuts","notes":"Coarsely chopped."},{"amount":1,"unit":"tsp","name":"Ground cinnamon","notes":"For dusting."}],
+          instructions: ["Step 1: Dissolve the yeast in 1/4 cup of the warm water with a pinch of sugar. Let sit for 10 minutes until foamy and active - if the yeast does not foam, it is dead and must be replaced.","Step 2: In a large bowl, combine the sifted flour, salt, and sugar. Make a well in the center and add the yeast mixture and remaining warm water. Beat vigorously with a whisk or wooden spoon until a smooth, elastic batter forms - it should be thicker than pancake batter but still pourable.","Step 3: Cover the bowl with a clean towel and let rise in a warm place for 1 hour until doubled and very bubbly.","Step 4: Heat the oil in a deep pot to 375F. Use a thermometer - temperature control is critical. Too cool and the loukoumades absorb oil and are greasy; too hot and they burn outside while staying raw inside.","Step 5: Using two wet spoons or a small ice cream scoop, drop spoonfuls of batter into the hot oil. They will sink, then rise and puff dramatically as the yeast in the batter reacts to the heat. Fry for 3 to 4 minutes, turning, until uniformly deep golden brown.","Step 6: Remove with a slotted spoon and drain briefly. Immediately pile onto a plate and drizzle generously with honey, scatter crushed walnuts over the top, and dust with cinnamon. Loukoumades must be eaten hot - they lose their magic within minutes of frying."],
+          classifications: {"mealType":["dessert","snack","celebration"],"cookingMethods":["deep-frying","proofing"]},
+          elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
+          astrologicalAffinities: {"planets":["Jupiter","Venus","Sun"],"signs":["sagittarius","taurus","leo"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":420,"proteinG":6,"carbsG":58,"fatG":20,"fiberG":2,"sodiumMg":220,"sugarG":28,"vitamins":["Thiamin","Niacin","Folate"],"minerals":["Iron","Calcium","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":2.6,"Essence":2.72,"Matter":2.76,"Substance":2.47},
+          thermodynamicProperties: {"heat":0.0931,"entropy":0.3637,"reactivity":2.1834,"gregsEnergy":-0.701,"kalchm":1.186,"monica":0.8752},
+          substitutions: [{"originalIngredient":"Greek thyme honey","substituteOptions":["Maple syrup","Date syrup"]},{"originalIngredient":"Walnuts","substituteOptions":["Pistachios","Almonds"]}]
+        },
         ],
     },
     dessert: {

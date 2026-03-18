@@ -7,6 +7,22 @@ export interface AlchemicalIngredient {
   notes: string;
 }
 
+export interface RecipeAlchemicalProperties {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+}
+
+export interface RecipeThermodynamicProperties {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
+}
+
 export interface AlchemicalRecipe {
   id?: string;
   name: string;
@@ -36,6 +52,8 @@ export interface AlchemicalRecipe {
     signs: ZodiacSignType[];
     lunarPhases: string[];
   };
+  alchemicalProperties: RecipeAlchemicalProperties;
+  thermodynamicProperties: RecipeThermodynamicProperties;
   nutritionPerServing: {
     calories: number;
     proteinG: number;

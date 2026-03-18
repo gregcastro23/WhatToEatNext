@@ -133,6 +133,9 @@ export const american: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.04,"Essence":2.14,"Matter":3.92,"Substance":3.48},
+          thermodynamicProperties: {"heat":0.0393,"entropy":0.3748,"reactivity":1.1514,"gregsEnergy":-0.3922,"kalchm":0.0013,"monica":0.5486},
           "substitutions": [
             {
               "originalIngredient": "buttermilk",
@@ -259,6 +262,9 @@ export const american: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.24,"Essence":2.77,"Matter":2.82,"Substance":2.87},
+          thermodynamicProperties: {"heat":0.0581,"entropy":0.342,"reactivity":2.1688,"gregsEnergy":-0.6836,"kalchm":0.2669,"monica":0.4188},
           "substitutions": [
             {
               "originalIngredient": "eggs",
@@ -353,6 +359,9 @@ export const american: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.68,"Essence":0.79,"Matter":1.05,"Substance":0.88},
+          thermodynamicProperties: {"heat":0.0436,"entropy":0.2345,"reactivity":0.8771,"gregsEnergy":-0.1621,"kalchm":0.679,"monica":0.4376},
           "substitutions": [
             {
               "originalIngredient": "buttermilk",
@@ -491,6 +500,9 @@ export const american: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.73,"Essence":2.79,"Matter":3.72,"Substance":3.69},
+          thermodynamicProperties: {"heat":0.0251,"entropy":0.3301,"reactivity":1.52,"gregsEnergy":-0.4767,"kalchm":0.0028,"monica":0.7162},
           "substitutions": [
             {
               "originalIngredient": "fontina cheese",
@@ -622,6 +634,9 @@ export const american: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.7,"Essence":2.46,"Matter":2.6,"Substance":2.49},
+          thermodynamicProperties: {"heat":0.04,"entropy":0.2654,"reactivity":1.9804,"gregsEnergy":-0.4857,"kalchm":0.1941,"monica":0.111},
           "substitutions": [
             {
               "originalIngredient": "banana",
@@ -758,6 +773,9 @@ export const american: Cuisine = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.81,"Essence":2.8,"Matter":3.61,"Substance":3.28},
+          thermodynamicProperties: {"heat":0.0293,"entropy":0.2704,"reactivity":1.3715,"gregsEnergy":-0.3415,"kalchm":0.0103,"monica":-0.0188},
           "substitutions": [
             {
               "originalIngredient": "old-fashioned rolled oats",
@@ -914,6 +932,9 @@ export const american: Cuisine = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.85,"Essence":4.25,"Matter":4.85,"Substance":4.24},
+          thermodynamicProperties: {"heat":0.0408,"entropy":0.2782,"reactivity":1.6066,"gregsEnergy":-0.4062,"kalchm":0.0096,"monica":0.5486},
           "substitutions": [
             {
               "originalIngredient": "cranberries",
@@ -1078,6 +1099,9 @@ export const american: Cuisine = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.1,"Essence":3.77,"Matter":5.0,"Substance":4.69},
+          thermodynamicProperties: {"heat":0.0506,"entropy":0.379,"reactivity":1.6408,"gregsEnergy":-0.5712,"kalchm":0.0011,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "ground beef (80/20)",
@@ -1254,6 +1278,9 @@ export const american: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.64,"Essence":6.64,"Matter":6.08,"Substance":5.57},
+          thermodynamicProperties: {"heat":0.0585,"entropy":0.2898,"reactivity":2.3422,"gregsEnergy":-0.6203,"kalchm":0.4279,"monica":1.294},
           "substitutions": [
             {
               "originalIngredient": "roasted chicken breast",
@@ -1342,6 +1369,9 @@ export const american: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.0348,"entropy":0.1072,"reactivity":1.2857,"gregsEnergy":-0.103,"kalchm":1.0,"monica":-0.0188},
           "substitutions": []
         },
       ],
@@ -1462,6 +1492,9 @@ export const american: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.13,"Essence":3.32,"Matter":2.81,"Substance":2.54},
+          thermodynamicProperties: {"heat":0.051,"entropy":0.2529,"reactivity":2.2933,"gregsEnergy":-0.529,"kalchm":1.3819,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "goat cheese",
@@ -1606,6 +1639,9 @@ export const american: Cuisine = {
               "Copper"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.82,"Essence":3.19,"Matter":3.58,"Substance":3.44},
+          thermodynamicProperties: {"heat":0.0652,"entropy":0.3605,"reactivity":2.176,"gregsEnergy":-0.7193,"kalchm":0.1117,"monica":0.5486},
           "substitutions": [
             {
               "originalIngredient": "lobster meat",
@@ -1737,6 +1773,9 @@ export const american: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.45,"Essence":2.85,"Matter":3.03,"Substance":2.9},
+          thermodynamicProperties: {"heat":0.0634,"entropy":0.3288,"reactivity":1.8169,"gregsEnergy":-0.534,"kalchm":0.2819,"monica":0.4376},
           "substitutions": [
             {
               "originalIngredient": "roast turkey",
@@ -1906,6 +1945,9 @@ export const american: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.68,"Essence":4.97,"Matter":6.74,"Substance":6.25},
+          thermodynamicProperties: {"heat":0.0383,"entropy":0.339,"reactivity":1.5417,"gregsEnergy":-0.4844,"kalchm":0.0,"monica":0.8564},
           "substitutions": [
             {
               "originalIngredient": "bacon",
@@ -2051,6 +2093,9 @@ export const american: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.52,"Essence":3.72,"Matter":4.33,"Substance":3.99},
+          thermodynamicProperties: {"heat":0.0804,"entropy":0.4001,"reactivity":2.0228,"gregsEnergy":-0.729,"kalchm":0.0781,"monica":0.7628},
           "substitutions": [
             {
               "originalIngredient": "pork spare ribs",
@@ -2227,6 +2272,9 @@ export const american: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.29,"Essence":5.42,"Matter":7.09,"Substance":6.6},
+          thermodynamicProperties: {"heat":0.0468,"entropy":0.3582,"reactivity":1.6306,"gregsEnergy":-0.5373,"kalchm":0.0,"monica":0.9674},
           "substitutions": [
             {
               "originalIngredient": "ground pork",
@@ -2382,6 +2430,9 @@ export const american: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.48,"Essence":4.63,"Matter":4.55,"Substance":4.45},
+          thermodynamicProperties: {"heat":0.0606,"entropy":0.3424,"reactivity":2.277,"gregsEnergy":-0.719,"kalchm":0.1222,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "chicken",
@@ -2534,6 +2585,9 @@ export const american: Cuisine = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.59,"Essence":3.73,"Matter":4.76,"Substance":4.3},
+          thermodynamicProperties: {"heat":0.0369,"entropy":0.3025,"reactivity":1.5352,"gregsEnergy":-0.4275,"kalchm":0.0018,"monica":0.8564},
           "substitutions": [
             {
               "originalIngredient": "lamb chops",
@@ -2686,6 +2740,9 @@ export const american: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.72,"Essence":4.4,"Matter":4.31,"Substance":4.23},
+          thermodynamicProperties: {"heat":0.0764,"entropy":0.3761,"reactivity":2.5246,"gregsEnergy":-0.8731,"kalchm":0.3712,"monica":1.1538},
           "substitutions": [
             {
               "originalIngredient": "salmon fillet",
@@ -2841,6 +2898,9 @@ export const american: Cuisine = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.27,"Essence":4.0,"Matter":5.73,"Substance":5.18},
+          thermodynamicProperties: {"heat":0.0431,"entropy":0.3387,"reactivity":1.4053,"gregsEnergy":-0.4328,"kalchm":0.0001,"monica":0.4842},
           "substitutions": [
             {
               "originalIngredient": "beef chuck roast",
@@ -2998,6 +3058,9 @@ export const american: Cuisine = {
               "Selenium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.88,"Essence":4.04,"Matter":4.69,"Substance":4.13},
+          thermodynamicProperties: {"heat":0.0456,"entropy":0.2924,"reactivity":1.6139,"gregsEnergy":-0.4263,"kalchm":0.0121,"monica":0.8564},
           "substitutions": [
             {
               "originalIngredient": "turkey",
@@ -3141,6 +3204,9 @@ export const american: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.79,"Essence":3.78,"Matter":3.1,"Substance":2.76},
+          thermodynamicProperties: {"heat":0.0727,"entropy":0.2729,"reactivity":2.2982,"gregsEnergy":-0.5545,"kalchm":4.8532,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "Granny Smith apples",
@@ -3293,6 +3359,9 @@ export const american: Cuisine = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.33,"Essence":2.34,"Matter":4.71,"Substance":4.3},
+          thermodynamicProperties: {"heat":0.037,"entropy":0.4101,"reactivity":1.0862,"gregsEnergy":-0.4084,"kalchm":0.0001,"monica":0.9844},
           "substitutions": [
             {
               "originalIngredient": "semi-sweet chocolate chips",
@@ -3426,6 +3495,9 @@ export const american: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.75,"Essence":2.57,"Matter":2.89,"Substance":2.54},
+          thermodynamicProperties: {"heat":0.0394,"entropy":0.2476,"reactivity":1.5538,"gregsEnergy":-0.3453,"kalchm":0.1314,"monica":0.9862},
           "substitutions": [
             {
               "originalIngredient": "graham cracker crumbs",
@@ -3576,6 +3648,9 @@ export const american: Cuisine = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.06,"Essence":2.57,"Matter":4.14,"Substance":3.81},
+          thermodynamicProperties: {"heat":0.033,"entropy":0.3475,"reactivity":1.296,"gregsEnergy":-0.4173,"kalchm":0.0009,"monica":0.772},
           "substitutions": [
             {
               "originalIngredient": "strawberries",
@@ -3712,6 +3787,9 @@ export const american: Cuisine = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.85,"Essence":2.45,"Matter":2.74,"Substance":2.56},
+          thermodynamicProperties: {"heat":0.0474,"entropy":0.3,"reactivity":1.7474,"gregsEnergy":-0.4768,"kalchm":0.1597,"monica":0.8812},
           "substitutions": [
             {
               "originalIngredient": "meringue topping",
@@ -3867,6 +3945,9 @@ export const american: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.52,"Essence":4.41,"Matter":5.18,"Substance":4.88},
+          thermodynamicProperties: {"heat":0.0529,"entropy":0.3389,"reactivity":1.7924,"gregsEnergy":-0.5546,"kalchm":0.0051,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "pumpkin puree",
@@ -4032,6 +4113,9 @@ export const american: Cuisine = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.63,"Essence":3.58,"Matter":5.22,"Substance":4.63},
+          thermodynamicProperties: {"heat":0.0647,"entropy":0.3883,"reactivity":1.4268,"gregsEnergy":-0.4893,"kalchm":0.0015,"monica":1.3128},
           "substitutions": [
             {
               "originalIngredient": "unsulphured molasses",

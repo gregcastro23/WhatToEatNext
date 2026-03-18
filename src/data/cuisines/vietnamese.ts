@@ -214,6 +214,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":8.36,"Essence":8.85,"Matter":10.24,"Substance":9.41},
+          thermodynamicProperties: {"heat":0.0818,"entropy":0.4068,"reactivity":2.218,"gregsEnergy":-0.8205,"kalchm":0.0004,"monica":0.8376},
           "substitutions": [
             {
               "originalIngredient": "beef bones and meat",
@@ -241,6 +244,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.6,"Earth":0.25,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":350,"proteinG":22,"carbsG":48,"fatG":6,"fiberG":2,"sodiumMg":850,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":3.37,"Essence":4.19,"Matter":3.92,"Substance":3.9},
+          thermodynamicProperties: {"heat":0.0682,"entropy":0.3311,"reactivity":2.5588,"gregsEnergy":-0.779,"kalchm":0.568,"monica":0.4188},
           substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork ribs (for Cháo Sườn)"]}]
         },
         {
@@ -253,6 +259,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.45,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Venus","Mercury"],"signs":["libra","gemini"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":420,"proteinG":18,"carbsG":55,"fatG":14,"fiberG":4,"sodiumMg":950,"sugarG":8,"vitamins":["Thiamin","Niacin"],"minerals":["Iron","Manganese"]},
+
+          alchemicalProperties: {"Spirit":2.54,"Essence":3.66,"Matter":3.56,"Substance":3.14},
+          thermodynamicProperties: {"heat":0.051,"entropy":0.2608,"reactivity":2.0639,"gregsEnergy":-0.4874,"kalchm":0.3691,"monica":0.3344},
           substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["More mushrooms and tofu (vegetarian)"]}]
         },
         {
@@ -374,6 +383,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":1.77,"Essence":3.07,"Matter":4.18,"Substance":4.01},
+          thermodynamicProperties: {"heat":0.0215,"entropy":0.3047,"reactivity":1.3114,"gregsEnergy":-0.3781,"kalchm":0.0008,"monica":0.772},
           "substitutions": [
             {
               "originalIngredient": "short-grain glutinous rice",
@@ -406,6 +418,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
           substitutions: [{"originalIngredient":"Foundation of Bánh Mì Ốp La","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
@@ -420,6 +435,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
           substitutions: [{"originalIngredient":"Foundation of Cháo","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
@@ -504,6 +522,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":1.33,"Essence":1.5,"Matter":1.25,"Substance":1.23},
+          thermodynamicProperties: {"heat":0.092,"entropy":0.3509,"reactivity":2.5575,"gregsEnergy":-0.8055,"kalchm":1.5745,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "pork shoulder",
@@ -523,6 +544,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":32,"carbsG":65,"fatG":34,"fiberG":4,"sodiumMg":1800,"sugarG":18,"vitamins":["Vitamin C","Niacin"],"minerals":["Zinc","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.63,"Essence":4.61,"Matter":4.03,"Substance":3.67},
+          thermodynamicProperties: {"heat":0.043,"entropy":0.2493,"reactivity":2.4004,"gregsEnergy":-0.5553,"kalchm":0.4492,"monica":0.2511},
           substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Chicken thighs"]}]
         },
         {
@@ -535,6 +559,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.45,"Earth":0.1,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":650,"proteinG":45,"carbsG":68,"fatG":22,"fiberG":4,"sodiumMg":2100,"sugarG":5,"vitamins":["Vitamin B12","Iron"],"minerals":["Zinc","Sodium"]},
+
+          alchemicalProperties: {"Spirit":3.62,"Essence":4.54,"Matter":4.88,"Substance":4.56},
+          thermodynamicProperties: {"heat":0.0624,"entropy":0.3427,"reactivity":2.2126,"gregsEnergy":-0.6958,"kalchm":0.0438,"monica":-0.2053},
           substitutions: [{"originalIngredient":"Congealed pork blood","substituteOptions":["Omit entirely (common in diaspora)"]}]
         },
         {
@@ -547,6 +574,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0,"Water":0.5,"Earth":0.2,"Air":0.3},
           astrologicalAffinities: {"planets":["Venus","Mercury"],"signs":["libra","gemini"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":280,"proteinG":18,"carbsG":35,"fatG":8,"fiberG":3,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Calcium","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.19,"Essence":3.34,"Matter":3.72,"Substance":3.55},
+          thermodynamicProperties: {"heat":0.0356,"entropy":0.2904,"reactivity":1.8803,"gregsEnergy":-0.5105,"kalchm":0.0263,"monica":0.6236},
           substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Fried tofu (for vegetarian)"]}]
         },
         {
@@ -559,6 +589,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.4,"Air":0.15},
           astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":550,"proteinG":35,"carbsG":65,"fatG":15,"fiberG":2,"sodiumMg":750,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc"]},
+
+          alchemicalProperties: {"Spirit":2.41,"Essence":3.24,"Matter":3.23,"Substance":3.15},
+          thermodynamicProperties: {"heat":0.0532,"entropy":0.3069,"reactivity":2.0007,"gregsEnergy":-0.5608,"kalchm":0.2293,"monica":0.5298},
           substitutions: [{"originalIngredient":"Free-range chicken","substituteOptions":["Standard chicken (though less authentic in texture)"]}]
         },
         {
@@ -571,6 +604,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":480,"proteinG":18,"carbsG":55,"fatG":22,"fiberG":4,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Calcium","Iron"]},
+
+          alchemicalProperties: {"Spirit":1.78,"Essence":3.39,"Matter":3.35,"Substance":3.23},
+          thermodynamicProperties: {"heat":0.0298,"entropy":0.2707,"reactivity":1.9534,"gregsEnergy":-0.499,"kalchm":0.0691,"monica":0.3344},
           substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Mushrooms and tofu"]}]
         },
       ],
@@ -587,6 +623,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":350,"proteinG":22,"carbsG":18,"fatG":18,"fiberG":1,"sodiumMg":1600,"sugarG":15,"vitamins":["Vitamin D","Vitamin B12"],"minerals":["Potassium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":3.23,"Essence":3.05,"Matter":2.7,"Substance":2.6},
+          thermodynamicProperties: {"heat":0.1303,"entropy":0.4365,"reactivity":3.0701,"gregsEnergy":-1.2099,"kalchm":7.5548,"monica":0.3252},
           substitutions: [{"originalIngredient":"Catfish","substituteOptions":["Salmon","Pork belly (for Thịt Kho)"]}]
         },
         {
@@ -666,6 +705,9 @@ export const vietnamese: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.76,"Essence":1.54,"Matter":1.57,"Substance":1.5},
+          thermodynamicProperties: {"heat":0.0253,"entropy":0.221,"reactivity":1.3796,"gregsEnergy":-0.2796,"kalchm":0.4232,"monica":0.3344},
           "substitutions": [
             {
               "originalIngredient": "broken rice",
@@ -685,6 +727,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
           substitutions: [{"originalIngredient":"Foundation of Thịt Kho Tàu","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
@@ -697,6 +742,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
           substitutions: [{"originalIngredient":"Foundation of Lẩu Thái","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
@@ -709,6 +757,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.6,"Water":0.1,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":450,"proteinG":45,"carbsG":12,"fatG":22,"fiberG":2,"sodiumMg":850,"sugarG":8,"vitamins":["Vitamin B12","Vitamin K"],"minerals":["Zinc","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.7,"Essence":4.08,"Matter":3.63,"Substance":3.16},
+          thermodynamicProperties: {"heat":0.0602,"entropy":0.275,"reactivity":2.3384,"gregsEnergy":-0.5829,"kalchm":1.1084,"monica":0.8752},
           substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Firm tofu (cut large and deep-fried first)"]}]
         },
             {
@@ -790,6 +841,9 @@ export const vietnamese: Cuisine = {
                   "Potassium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.7,"Essence":0.9,"Matter":1.4,"Substance":1.25},
+              thermodynamicProperties: {"heat":0.0252,"entropy":0.2157,"reactivity":1.3757,"gregsEnergy":-0.2714,"kalchm":0.3347,"monica":-0.0188},
               "substitutions": []
             },
             {
@@ -871,6 +925,9 @@ export const vietnamese: Cuisine = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+              thermodynamicProperties: {"heat":0.074,"entropy":0.3309,"reactivity":1.4807,"gregsEnergy":-0.416,"kalchm":1.0,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -953,6 +1010,9 @@ export const vietnamese: Cuisine = {
                   "Zinc"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.83,"Essence":1.17,"Matter":0.8,"Substance":0.73},
+              thermodynamicProperties: {"heat":0.0723,"entropy":0.224,"reactivity":2.8257,"gregsEnergy":-0.5607,"kalchm":1.5485,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -1035,6 +1095,9 @@ export const vietnamese: Cuisine = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.49,"Essence":0.59,"Matter":0.68,"Substance":0.64},
+              thermodynamicProperties: {"heat":0.0731,"entropy":0.34,"reactivity":2.1414,"gregsEnergy":-0.6548,"kalchm":0.8932,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -1115,8 +1178,117 @@ export const vietnamese: Cuisine = {
                   "Potassium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.58,"Essence":0.92,"Matter":1.3,"Substance":1.1},
+              thermodynamicProperties: {"heat":0.0206,"entropy":0.1723,"reactivity":1.1323,"gregsEnergy":-0.1744,"kalchm":0.4323,"monica":-0.0376},
               "substitutions": []
             }
+        ,
+        {
+          name: "Banh Mi Thit Nuong",
+          description: "The Vietnamese banh mi is one of the most perfect sandwiches in the world - a product of French colonial culinary fusion where a crispy, airy Vietnamese baguette made with rice flour for lightness meets a profoundly savory filling of grilled lemongrass pork. The pork is marinated in a complex mixture of fish sauce, lemongrass, shallots, garlic, sugar, and five-spice, then grilled over charcoal until caramelized at the edges, the fat rendering into sweet, smoky beads.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Pork shoulder or tenderloin","notes":"Sliced thin against the grain."},{"amount":2,"unit":"stalks","name":"Lemongrass","notes":"White part only, minced very fine."},{"amount":3,"unit":"tbsp","name":"Fish sauce","notes":"High quality, such as Phu Quoc brand."},{"amount":2,"unit":"tbsp","name":"Sugar","notes":"For caramelization."},{"amount":4,"unit":"cloves","name":"Garlic","notes":"Minced."},{"amount":2,"unit":"whole","name":"Shallots","notes":"Minced."},{"amount":4,"unit":"whole","name":"Vietnamese baguettes (banh mi)","notes":"Or short French baguettes."},{"amount":1,"unit":"cup","name":"Do chua (pickled daikon and carrot)","notes":"Vietnamese quick pickle."},{"amount":0.5,"unit":"bunch","name":"Fresh cilantro","notes":"Whole sprigs."},{"amount":2,"unit":"whole","name":"Jalapeno or Fresno chilies","notes":"Sliced thin."}],
+          instructions: ["Step 1: Combine minced lemongrass, fish sauce, sugar, garlic, shallots, oyster sauce, and a pinch of five-spice in a bowl. Marinate the sliced pork in this mixture for at least 30 minutes or up to 4 hours in the refrigerator.","Step 2: Make the do chua if not already prepared: julienne daikon and carrot, toss with salt, let stand 10 minutes, rinse, then cover with rice vinegar, sugar, and warm water. Let pickle for at least 20 minutes.","Step 3: Grill the marinated pork over the highest possible heat - a charcoal grill is ideal - for 2 to 3 minutes per side. The edges should blacken and caramelize from the sugar in the marinade. The interior should remain juicy.","Step 4: While the pork rests, split the baguettes lengthwise without fully separating them. Toast the cut faces on the grill for 1 minute until lightly crispy.","Step 5: Spread Vietnamese mayonnaise (or regular) generously on both cut faces. Add a smear of pate if using.","Step 6: Layer the grilled pork slices, generous amounts of do chua, whole cilantro sprigs, sliced chilies, and cucumber slices. Press down firmly and serve immediately while the bread is still warm and crispy."],
+          classifications: {"mealType":["lunch","breakfast","snack"],"cookingMethods":["grilling","pickling"]},
+          elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.3,"Air":0.2},
+          astrologicalAffinities: {"planets":["Mars","Mercury","Sun"],"signs":["aries","gemini","leo"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":480,"proteinG":32,"carbsG":48,"fatG":18,"fiberG":3,"sodiumMg":1100,"sugarG":10,"vitamins":["Vitamin C","Thiamin","Niacin"],"minerals":["Iron","Potassium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":4.05,"Essence":4.44,"Matter":3.98,"Substance":3.72},
+          thermodynamicProperties: {"heat":0.1,"entropy":0.3817,"reactivity":2.7363,"gregsEnergy":-0.9444,"kalchm":6.6776,"monica":0.4842},
+          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thigh","Tofu (for vegetarian banh mi)"]},{"originalIngredient":"Fish sauce","substituteOptions":["Soy sauce plus a drop of lime"]}]
+        },
+        {
+          name: "Com Tam",
+          description: "Com Tam - broken rice - is the soul food of Saigon (Ho Chi Minh City). The broken rice grains, which are irregular fragments produced during the milling process and once considered inferior, have a unique starchy texture that adheres better to grilled meats and absorbs nuoc cham more readily than whole-grain rice. The dish is served with suon nuong (grilled pork chop marinated in fish sauce, lemongrass, and sugar), bi (pork skin shreds), and cha trung (steamed egg cake).",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"Broken jasmine rice (gao tam)","notes":"Or substitute jasmine rice broken in a food processor."},{"amount":4,"unit":"whole","name":"Pork loin chops","notes":"Thin cut, about 0.5 inch thick."},{"amount":3,"unit":"tbsp","name":"Fish sauce","notes":"For the marinade."},{"amount":2,"unit":"tbsp","name":"Sugar","notes":"For caramelization in the marinade."},{"amount":2,"unit":"stalks","name":"Lemongrass","notes":"White part only, minced."},{"amount":3,"unit":"cloves","name":"Garlic","notes":"Minced."},{"amount":2,"unit":"large","name":"Eggs","notes":"For the cha trung steamed egg cake."},{"amount":3,"unit":"tbsp","name":"Nuoc cham dipping sauce","notes":"Fish sauce, lime, sugar, chili, garlic, water."}],
+          instructions: ["Step 1: Marinate the pork chops for at least 2 hours: combine fish sauce, sugar, minced lemongrass, garlic, shallots, and a splash of oil. The pork should be coated generously.","Step 2: Cook the broken rice in a rice cooker or pot with slightly less water than normal rice (the starchier broken grains absorb differently). The cooked broken rice should be slightly firmer and chewier than regular rice.","Step 3: For the cha trung, beat eggs with fish sauce, a pinch of sugar, and a small amount of vermicelli noodles and minced pork or mushrooms. Steam in a small greased container for 15 minutes until set. Cut into wedges.","Step 4: Grill the marinated pork chops over very high heat on a charcoal grill or cast iron grill pan. Cook 3 to 4 minutes per side until deeply caramelized with char marks and the meat is just cooked through.","Step 5: While the pork rests, make the nuoc cham by combining fish sauce, fresh lime juice, sugar, minced garlic, and sliced chilies. Balance sweet, sour, salty, and spicy.","Step 6: Plate the broken rice mounded on one side of the plate. Add the grilled pork chop, a wedge of cha trung, and any garnishes. Serve with a small bowl of nuoc cham for dipping."],
+          classifications: {"mealType":["lunch","dinner","breakfast"],"cookingMethods":["grilling","steaming"]},
+          elementalProperties: {"Fire":0.3,"Water":0.25,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Sun","Mars","Saturn"],"signs":["leo","aries","capricorn"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":520,"proteinG":36,"carbsG":55,"fatG":16,"fiberG":2,"sodiumMg":980,"sugarG":8,"vitamins":["Thiamin","Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":3.22,"Essence":3.92,"Matter":3.45,"Substance":3.23},
+          thermodynamicProperties: {"heat":0.0819,"entropy":0.329,"reactivity":2.5159,"gregsEnergy":-0.746,"kalchm":2.8892,"monica":0.3344},
+          substitutions: [{"originalIngredient":"Pork chops","substituteOptions":["Chicken thigh","Grilled tofu steak"]},{"originalIngredient":"Broken rice","substituteOptions":["Jasmine rice","Steamed rice"]}]
+        },
+        {
+          name: "Bun Bo Hue",
+          description: "The fiercest and most complex of all Vietnamese noodle soups, Bun Bo Hue originates from the ancient imperial capital of Hue in central Vietnam. Unlike the delicate pho of Hanoi, Bun Bo Hue is unapologetically bold - its broth is built on lemongrass, shrimp paste, and fiery annatto oil, creating a deep reddish-orange color with a sharp, complex heat from the Sa Te chili paste. Thick round rice noodles replace the flat rice noodles of pho, and the soup contains multiple cuts of beef and pork.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":45,"cookTimeMinutes":180,"baseServingSize":6,"spiceLevel":"High","season":["all"]},
+          ingredients: [{"amount":1.5,"unit":"lbs","name":"Beef shank","notes":"Bone-in."},{"amount":1,"unit":"lb","name":"Pork hocks","notes":"For richness and collagen."},{"amount":3,"unit":"stalks","name":"Lemongrass","notes":"Bruised with the back of a knife."},{"amount":2,"unit":"tbsp","name":"Shrimp paste (mam ruoc Hue)","notes":"Fermented shrimp paste, the defining flavor."},{"amount":2,"unit":"tbsp","name":"Annatto seeds or annatto oil","notes":"For the characteristic red color."},{"amount":3,"unit":"tbsp","name":"Sa te chili paste","notes":"Or make from dried chilies, lemongrass, and shallots."},{"amount":1,"unit":"lb","name":"Thick round rice noodles (bun bo Hue noodles)","notes":"Soaked and drained."},{"amount":8,"unit":"cups","name":"Water","notes":"For the broth."}],
+          instructions: ["Step 1: Blanch the beef shank and pork hocks in boiling water for 5 minutes. Drain, rinse under cold water, and clean the bones thoroughly. This removes impurities for a cleaner broth.","Step 2: Return the blanched meat to a clean stockpot with 8 cups of fresh water, bruised lemongrass stalks, halved onion (charred), and fish sauce. Bring to a boil, skim carefully, then simmer on low heat for 2 hours.","Step 3: Make the annatto oil: heat vegetable oil with annatto seeds over medium heat until the oil turns deep red, about 5 minutes. Strain and reserve the red oil.","Step 4: In a small pan, fry the minced shallots and garlic in the annatto oil until golden. Add the sa te chili paste and fry for 2 minutes. Add the shrimp paste and fry briefly until aromatic.","Step 5: Add the fried spice mixture to the simmering broth. Season with fish sauce and salt to taste. The broth should be deeply flavorful, significantly salty, with a sharp lemongrass fragrance and visible red oil on the surface.","Step 6: Remove the beef shank, slice against the grain. Prepare noodles according to package directions. Assemble bowls: noodles first, then sliced beef shank, a piece of pork hock, ladle over extremely hot broth. Serve with bean sprouts, banana blossom, sawgrass herb, lime, and fresh chilies."],
+          classifications: {"mealType":["lunch","dinner","breakfast"],"cookingMethods":["simmering","slow-cooking","frying"]},
+          elementalProperties: {"Fire":0.4,"Water":0.35,"Earth":0.15,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Pluto","Saturn"],"signs":["aries","scorpio","capricorn"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":550,"proteinG":42,"carbsG":48,"fatG":20,"fiberG":3,"sodiumMg":1400,"sugarG":5,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
+
+          alchemicalProperties: {"Spirit":2.58,"Essence":4.01,"Matter":4.26,"Substance":4.0},
+          thermodynamicProperties: {"heat":0.0412,"entropy":0.2968,"reactivity":2.0068,"gregsEnergy":-0.5544,"kalchm":0.0246,"monica":0.4654},
+          substitutions: [{"originalIngredient":"Shrimp paste","substituteOptions":["Fish sauce (milder flavor)","Anchovy paste"]},{"originalIngredient":"Beef shank","substituteOptions":["Beef brisket","Pork shoulder"]}]
+        },
+        {
+          name: "Cao Lau",
+          description: "Cao Lau is one of the most geographically specific dishes in the world - it is said to be impossible to replicate authentically outside of Hoi An because the noodles require water drawn specifically from the ancient Cham wells of Ba Le in the old town. The thick, chewy, slightly yellow noodles have a unique texture from lye water and rice ash, topped with sliced char siu-style pork, crispy croutons made from the same noodle dough, and a small amount of broth that barely pools beneath the ingredients.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":40,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Cao Lau noodles","notes":"Or substitute thick udon noodles as the closest approximation."},{"amount":0.5,"unit":"lb","name":"Pork shoulder","notes":"For roasting char siu style."},{"amount":3,"unit":"tbsp","name":"Five-spice powder","notes":"For the pork marinade."},{"amount":2,"unit":"tbsp","name":"Hoisin sauce","notes":"For the pork glaze."},{"amount":2,"unit":"tbsp","name":"Honey","notes":"For caramelization."},{"amount":2,"unit":"tbsp","name":"Soy sauce","notes":"For the pork marinade."},{"amount":2,"unit":"cups","name":"Bean sprouts","notes":"Fresh."},{"amount":0.5,"unit":"bunch","name":"Fresh herbs","notes":"Mint, rau ram (Vietnamese coriander), Thai basil."}],
+          instructions: ["Step 1: Marinate pork shoulder overnight in a mixture of five-spice powder, hoisin sauce, honey, soy sauce, garlic, and a splash of rice wine. The pork should be thoroughly coated.","Step 2: Roast the marinated pork at 400F for 25 minutes, basting every 10 minutes with the reserved marinade mixed with additional honey. The exterior should be caramelized, slightly charred at the edges, and deeply red.","Step 3: Slice the pork thin against the grain. Reserve some marinade glaze.","Step 4: For the crispy croutons (banh da), take a handful of noodles and fry them in 1 cm of hot oil until puffed and crispy. Drain on paper towels.","Step 5: Cook the cao lau noodles according to package directions - they should be briefly boiled and then briefly dry-fried in a wok with a touch of oil. Season with a small amount of the pork braising liquid.","Step 6: Arrange noodles in shallow bowls. Top with sliced pork, fresh bean sprouts, fresh herbs, and a scattering of crispy noodle croutons. Add only a small amount of the rich pork braising liquid - Cao Lau is deliberately drier than most Vietnamese noodle dishes."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["roasting","frying","braising"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.4,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Venus","Mercury"],"signs":["capricorn","taurus","gemini"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":490,"proteinG":28,"carbsG":58,"fatG":16,"fiberG":3,"sodiumMg":860,"sugarG":12,"vitamins":["Niacin","Vitamin B6","Thiamin"],"minerals":["Iron","Phosphorus","Zinc"]},
+
+          alchemicalProperties: {"Spirit":1.83,"Essence":3.59,"Matter":3.46,"Substance":3.16},
+          thermodynamicProperties: {"heat":0.0284,"entropy":0.2261,"reactivity":1.769,"gregsEnergy":-0.3716,"kalchm":0.1069,"monica":0.9218},
+          substitutions: [{"originalIngredient":"Cao Lau noodles","substituteOptions":["Thick udon noodles","Wide rice noodles"]},{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Ga Nuong)","Firm tofu"]}]
+        },
+        {
+          name: "Mi Quang",
+          description: "Mi Quang is the defining noodle dish of Quang Nam province in central Vietnam. Fat, turmeric-yellow rice noodles are arranged in a shallow bowl over a small amount of richly flavored, turmeric-bright broth that barely covers the noodles - this is a wet noodle dish, not a soup. The broth is built on pork bones, shrimp, and an aromatic base of turmeric, shallots, and chilies. It is topped with a lavish garnish station of roasted peanuts, sesame rice crackers, fresh herbs, and bean sprouts.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":60,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Wide rice noodles","notes":"Fresh or dried, ideally turmeric-yellow Mi Quang noodles."},{"amount":0.5,"unit":"lb","name":"Pork shoulder","notes":"Thinly sliced."},{"amount":0.25,"unit":"lb","name":"Large shrimp","notes":"Peeled and deveined."},{"amount":2,"unit":"tsp","name":"Ground turmeric","notes":"The defining color and flavor."},{"amount":4,"unit":"whole","name":"Shallots","notes":"Minced."},{"amount":2,"unit":"tbsp","name":"Fish sauce","notes":"For seasoning."},{"amount":0.25,"unit":"cup","name":"Roasted peanuts","notes":"Coarsely crushed, for topping."},{"amount":4,"unit":"whole","name":"Sesame rice crackers (banh trang)","notes":"For serving."},{"amount":0.5,"unit":"bunch","name":"Fresh herbs","notes":"Mint, rau ram, Vietnamese coriander, banana blossom."}],
+          instructions: ["Step 1: Make a rich broth: simmer pork bones with 4 cups water, fish sauce, and a little sugar for 45 minutes. Strain and reserve the clear broth.","Step 2: Heat annatto oil or neutral oil in a wok over high heat. Add minced shallots and fry until golden and fragrant. Add the turmeric and stir-fry for 30 seconds.","Step 3: Add the sliced pork and shrimp. Stir-fry over very high heat until just cooked, about 3 minutes. Season with fish sauce, sugar, and a pinch of black pepper.","Step 4: Add 2 cups of the pork broth to the wok with the meat and shrimp. Bring to a boil, reduce to simmer, and let the flavors meld for 5 minutes. The broth should be deeply golden from the turmeric.","Step 5: Prepare the noodles according to package directions. Arrange a generous portion in each bowl. Ladle only a small amount of the turmeric broth over the noodles - just enough to moisten, not submerge.","Step 6: Top with the braised pork and shrimp, crushed roasted peanuts, fresh herbs, bean sprouts, and a sesame rice cracker. Squeeze fresh lime over everything. The cracker softens as you eat."],
+          classifications: {"mealType":["lunch","dinner","breakfast"],"cookingMethods":["stir-frying","simmering","braising"]},
+          elementalProperties: {"Fire":0.3,"Water":0.3,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Sun","Mars","Mercury"],"signs":["leo","aries","virgo"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":460,"proteinG":30,"carbsG":52,"fatG":14,"fiberG":4,"sodiumMg":920,"sugarG":6,"vitamins":["Vitamin C","Niacin","Vitamin B6"],"minerals":["Iron","Potassium","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":2.59,"Essence":4.01,"Matter":4.2,"Substance":3.91},
+          thermodynamicProperties: {"heat":0.0414,"entropy":0.2847,"reactivity":1.8897,"gregsEnergy":-0.4966,"kalchm":0.036,"monica":0.3064},
+          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken breast","Crab meat"]},{"originalIngredient":"Shrimp","substituteOptions":["Squid","Tofu"]}]
+        },
+        {
+          name: "Banh Cuon",
+          description: "Banh Cuon are paper-thin steamed rice rolls - one of the most technically demanding dishes in Vietnamese cuisine. A loose batter of fine rice flour and tapioca starch is spread in an ultra-thin layer over a cloth stretched over a pot of boiling water, steamed for literally 30 seconds until just set, then peeled off in a translucent sheet and immediately rolled around a filling of seasoned ground pork and wood ear mushrooms. The final rolls have the delicate, silky texture of fine silk.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"Rice flour","notes":"Fine, not glutinous rice flour."},{"amount":0.25,"unit":"cup","name":"Tapioca starch","notes":"For translucency and elasticity."},{"amount":2.5,"unit":"cups","name":"Water","notes":"Cold, for the batter."},{"amount":0.5,"unit":"lb","name":"Ground pork","notes":"For the filling."},{"amount":1,"unit":"cup","name":"Wood ear mushrooms","notes":"Dried, soaked and finely chopped."},{"amount":4,"unit":"whole","name":"Shallots","notes":"Minced, for the pork filling."},{"amount":2,"unit":"tbsp","name":"Fish sauce","notes":"For seasoning the filling."},{"amount":0.5,"unit":"cup","name":"Fried shallots","notes":"For garnish."},{"amount":0.5,"unit":"lb","name":"Cha lua (Vietnamese pork loaf)","notes":"Sliced, for serving."}],
+          instructions: ["Step 1: Whisk the rice flour, tapioca starch, water, and a pinch of salt until completely smooth. Strain through a fine sieve. Let rest for 30 minutes. The batter should be the consistency of very thin cream.","Step 2: For the filling, saute minced shallots in oil until golden. Add the ground pork, breaking it up, and cook until no pink remains. Add finely chopped wood ear mushrooms, fish sauce, sugar, and white pepper. Cook until aromatic and well-seasoned. Cool completely.","Step 3: Set up the steamer: stretch a piece of muslin or a fine cloth tightly over a pot of vigorously boiling water. Brush lightly with oil.","Step 4: Ladle a thin layer of batter onto the cloth and spread quickly with a flat spatula to form a nearly transparent round sheet about 8 inches across. Cover with a lid for 30 seconds only.","Step 5: Uncover and use a flat scraper or the back of a wet spatula to peel the delicate sheet off the cloth in one motion. Place flat on an oiled cutting board. Add a thin line of pork and mushroom filling across the center and immediately roll into a cylinder.","Step 6: Arrange on a plate, garnish with fried shallots and sliced cha lua. Serve immediately with nuoc cham, sliced cucumber, and fresh herbs."],
+          classifications: {"mealType":["breakfast","lunch","snack"],"cookingMethods":["steaming","sauteing"]},
+          elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","taurus","virgo"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":350,"proteinG":20,"carbsG":44,"fatG":10,"fiberG":2,"sodiumMg":720,"sugarG":3,"vitamins":["Thiamin","Niacin","Vitamin B6"],"minerals":["Iron","Phosphorus","Potassium"]},
+
+          alchemicalProperties: {"Spirit":2.18,"Essence":4.23,"Matter":5.11,"Substance":4.49},
+          thermodynamicProperties: {"heat":0.0222,"entropy":0.245,"reactivity":1.4423,"gregsEnergy":-0.3312,"kalchm":0.0007,"monica":0.1754},
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground shrimp","Ground chicken","Tofu and mushroom mix"]},{"originalIngredient":"Wood ear mushrooms","substituteOptions":["Shiitake mushrooms","King oyster mushrooms"]}]
+        },
+        {
+          name: "Che Ba Mau",
+          description: "Che Ba Mau - Three Color Dessert Drink - is the most festive and visually dramatic of all Vietnamese sweet soups. Three distinct layers are carefully constructed in a tall glass: a bottom layer of green pandan-flavored mung bean paste, a middle layer of translucent red bean jelly, and a top layer of split mung beans, all crowned with a generous pour of sweet coconut cream. When presented with shaved ice, the colors remain distinct, mingling only when the diner stirs them together into a complex, subtly sweet, tropical dessert.",
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":60,"cookTimeMinutes":40,"baseServingSize":6,"spiceLevel":"None","season":["summer","spring"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Split mung beans","notes":"Soaked overnight, cooked until tender."},{"amount":1,"unit":"cup","name":"Red adzuki beans","notes":"Cooked with sugar until soft."},{"amount":2,"unit":"cups","name":"Pandan jelly","notes":"Agar-agar mixed with pandan leaf extract and sugar."},{"amount":1,"unit":"can","name":"Coconut cream","notes":"Full fat, 13.5 oz can."},{"amount":0.5,"unit":"cup","name":"Granulated sugar","notes":"For sweetening each component."},{"amount":3,"unit":"leaves","name":"Fresh pandan leaves","notes":"For the green jelly and coconut cream infusion."},{"amount":4,"unit":"cups","name":"Shaved ice","notes":"Finely shaved for the best texture."}],
+          instructions: ["Step 1: Prepare each component separately. For the mung bean layer: simmer soaked split mung beans with water and sugar until completely soft and mashable. Cool and refrigerate.","Step 2: For the pandan jelly: blend fresh pandan leaves with water and strain through muslin to extract vivid green pandan juice. Mix agar-agar powder with water and pandan juice, bring to a boil until dissolved, add sugar, pour into a tray, and allow to set at room temperature. Cut into small cubes or strips.","Step 3: For the red bean layer: simmer adzuki beans with sugar until very tender and sweet. The syrup should be thick. Cool.","Step 4: Make the coconut cream topping: heat coconut cream with pandan leaves, a pinch of salt, and a little sugar until fragrant and steaming. Strain to remove pandan. Keep warm.","Step 5: When ready to assemble, fill tall glasses or bowls with shaved ice. Layer from bottom to top: cooked sweet mung beans, then red bean in syrup, then pandan jelly cubes.","Step 6: Pour warm coconut cream over the top just before serving. The contrast of cold ice and warm coconut cream is intentional. The colors will remain distinct until stirred - present to the diner unmixed so they can appreciate the visual layering before combining."],
+          classifications: {"mealType":["dessert","snack","drink"],"cookingMethods":["simmering","gelling"]},
+          elementalProperties: {"Fire":0.1,"Water":0.45,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Moon","Venus","Neptune"],"signs":["cancer","taurus","pisces"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":280,"proteinG":8,"carbsG":52,"fatG":8,"fiberG":6,"sodiumMg":90,"sugarG":32,"vitamins":["Folate","Thiamin","Vitamin B6"],"minerals":["Potassium","Iron","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":1.89,"Essence":2.38,"Matter":2.54,"Substance":2.44},
+          thermodynamicProperties: {"heat":0.0525,"entropy":0.2918,"reactivity":1.8454,"gregsEnergy":-0.4859,"kalchm":0.2788,"monica":0.4188},
+          substitutions: [{"originalIngredient":"Pandan leaves","substituteOptions":["Pandan extract","Matcha powder for green color"]},{"originalIngredient":"Adzuki beans","substituteOptions":["Red kidney beans","Black-eyed peas"]}]
+        },
         ],
     },
     dessert: {
@@ -1131,6 +1303,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
+
+          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
           substitutions: [{"originalIngredient":"Foundation of Chè Ba Màu","substituteOptions":["Alternate protein or vegetable"]}]
         },
         {
@@ -1143,6 +1318,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Crescent"]},
           nutritionPerServing: {"calories":350,"proteinG":3,"carbsG":55,"fatG":16,"fiberG":4,"sodiumMg":300,"sugarG":28,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Potassium","Manganese"]},
+
+          alchemicalProperties: {"Spirit":1.93,"Essence":2.6,"Matter":2.7,"Substance":2.4},
+          thermodynamicProperties: {"heat":0.0505,"entropy":0.2511,"reactivity":1.7745,"gregsEnergy":-0.3951,"kalchm":0.3572,"monica":-0.0188},
           substitutions: [{"originalIngredient":"Saba bananas","substituteOptions":["Plantains"]}]
         },
         {
@@ -1155,6 +1333,9 @@ export const vietnamese: Cuisine = {
           elementalProperties: {"Fire":0.15,"Water":0.45,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","capricorn"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":280,"proteinG":8,"carbsG":38,"fatG":10,"fiberG":0,"sodiumMg":95,"sugarG":35,"vitamins":["Riboflavin","Vitamin B12"],"minerals":["Calcium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.68,"Essence":2.65,"Matter":2.17,"Substance":2.18},
+          thermodynamicProperties: {"heat":0.0462,"entropy":0.2452,"reactivity":2.4312,"gregsEnergy":-0.55,"kalchm":1.0769,"monica":0.1754},
           substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Evaporated milk"]}]
         },
       ],

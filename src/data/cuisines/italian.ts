@@ -145,6 +145,9 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.01,"Essence":4.43,"Matter":3.31,"Substance":2.99},
+          thermodynamicProperties: {"heat":0.0685,"entropy":0.2634,"reactivity":2.8998,"gregsEnergy":-0.6954,"kalchm":14.4933,"monica":0.492},
           "substitutions": [
             {
               "originalIngredient": "00 flour",
@@ -299,6 +302,9 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.18,"Essence":4.37,"Matter":3.66,"Substance":3.35},
+          thermodynamicProperties: {"heat":0.0678,"entropy":0.2913,"reactivity":2.6579,"gregsEnergy":-0.7066,"kalchm":3.7617,"monica":0.4454},
           "substitutions": [
             {
               "originalIngredient": "pine nuts/raisins",
@@ -434,6 +440,9 @@ export const italian: Cuisine = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.43,"Essence":3.54,"Matter":3.68,"Substance":3.34},
+          thermodynamicProperties: {"heat":0.048,"entropy":0.2928,"reactivity":1.7876,"gregsEnergy":-0.4754,"kalchm":0.1119,"monica":0.9862},
           "substitutions": [
             {
               "originalIngredient": "marmalade",
@@ -585,6 +594,9 @@ export const italian: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.1,"Essence":4.65,"Matter":4.09,"Substance":3.68},
+          thermodynamicProperties: {"heat":0.0542,"entropy":0.2634,"reactivity":2.5085,"gregsEnergy":-0.6065,"kalchm":1.1031,"monica":1.0954},
           "substitutions": [
             {
               "originalIngredient": "lemon juice",
@@ -693,6 +705,9 @@ export const italian: Cuisine = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.11,"Essence":1.91,"Matter":2.39,"Substance":2.34},
+          thermodynamicProperties: {"heat":0.0214,"entropy":0.2589,"reactivity":1.3541,"gregsEnergy":-0.3291,"kalchm":0.0659,"monica":0.4376},
           "substitutions": [
             {
               "originalIngredient": "ricotta",
@@ -819,6 +834,9 @@ export const italian: Cuisine = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.86,"Essence":2.58,"Matter":3.02,"Substance":3.0},
+          thermodynamicProperties: {"heat":0.039,"entropy":0.3098,"reactivity":1.8141,"gregsEnergy":-0.523,"kalchm":0.0481,"monica":0.4188},
           "substitutions": [
             {
               "originalIngredient": "whole milk",
@@ -954,6 +972,9 @@ export const italian: Cuisine = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.93,"Essence":3.48,"Matter":3.12,"Substance":3.02},
+          thermodynamicProperties: {"heat":0.0804,"entropy":0.3382,"reactivity":2.5658,"gregsEnergy":-0.7874,"kalchm":1.8249,"monica":0.4},
           "substitutions": [
             {
               "originalIngredient": "San Marzano tomatoes",
@@ -1076,6 +1097,9 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.4,"Essence":3.28,"Matter":2.67,"Substance":2.62},
+          thermodynamicProperties: {"heat":0.0636,"entropy":0.2822,"reactivity":2.7767,"gregsEnergy":-0.7199,"kalchm":2.3434,"monica":0.4376},
           "substitutions": [
             {
               "originalIngredient": "buffalo mozzarella",
@@ -1218,6 +1242,9 @@ export const italian: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.53,"Essence":4.16,"Matter":3.49,"Substance":3.28},
+          thermodynamicProperties: {"heat":0.0883,"entropy":0.3215,"reactivity":2.6216,"gregsEnergy":-0.7547,"kalchm":8.3665,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "Tuscan bread",
@@ -1331,6 +1358,9 @@ export const italian: Cuisine = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.5,"Essence":2.46,"Matter":2.27,"Substance":2.07},
+          thermodynamicProperties: {"heat":0.0381,"entropy":0.2103,"reactivity":1.658,"gregsEnergy":-0.3105,"kalchm":0.5802,"monica":0.4188},
           "substitutions": [
             {
               "originalIngredient": "stale bread",
@@ -1443,6 +1473,9 @@ export const italian: Cuisine = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.16,"Essence":1.4,"Matter":2.08,"Substance":1.91},
+          thermodynamicProperties: {"heat":0.0351,"entropy":0.2809,"reactivity":1.1558,"gregsEnergy":-0.2895,"kalchm":0.1205,"monica":0.4},
           "substitutions": [
             {
               "originalIngredient": "Parmesan rind",
@@ -1518,6 +1551,9 @@ export const italian: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.0402,"entropy":0.132,"reactivity":0.9289,"gregsEnergy":-0.0824,"kalchm":1.0,"monica":0.0466},
           "substitutions": []
         },
         {
@@ -1640,6 +1676,9 @@ export const italian: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.38,"Essence":3.08,"Matter":3.24,"Substance":2.83},
+          thermodynamicProperties: {"heat":0.0569,"entropy":0.2742,"reactivity":1.7597,"gregsEnergy":-0.4256,"kalchm":0.2939,"monica":0.4188},
           "substitutions": [
             {
               "originalIngredient": "butter/Parmesan",
@@ -1780,6 +1819,9 @@ export const italian: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.15,"Essence":4.75,"Matter":4.15,"Substance":3.77},
+          thermodynamicProperties: {"heat":0.0544,"entropy":0.2624,"reactivity":2.212,"gregsEnergy":-0.526,"kalchm":1.1124,"monica":0.511},
           "substitutions": [
             {
               "originalIngredient": "starchy potatoes",
@@ -1894,6 +1936,9 @@ export const italian: Cuisine = {
                   "Potassium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":1.55,"Essence":1.91,"Matter":2.47,"Substance":2.22},
+              thermodynamicProperties: {"heat":0.0446,"entropy":0.2802,"reactivity":1.3032,"gregsEnergy":-0.3205,"kalchm":0.1239,"monica":0.4842},
               "substitutions": [
                 {
                   "originalIngredient": "Veal shanks",
@@ -2001,6 +2046,9 @@ export const italian: Cuisine = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":1.27,"Essence":1.35,"Matter":1.72,"Substance":1.46},
+              thermodynamicProperties: {"heat":0.0703,"entropy":0.3297,"reactivity":1.4219,"gregsEnergy":-0.3984,"kalchm":0.46,"monica":0.8752},
               "substitutions": [
                 {
                   "originalIngredient": "Veal",
@@ -2109,6 +2157,9 @@ export const italian: Cuisine = {
                   "Phosphorus"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":2.07,"Essence":1.53,"Matter":1.52,"Substance":1.63},
+              thermodynamicProperties: {"heat":0.1511,"entropy":0.5286,"reactivity":2.5561,"gregsEnergy":-1.1999,"kalchm":2.0624,"monica":0.4188},
               "substitutions": [
                 {
                   "originalIngredient": "Guanciale",
@@ -2216,6 +2267,9 @@ export const italian: Cuisine = {
                   "Manganese"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":1.14,"Essence":1.99,"Matter":2.53,"Substance":2.39},
+              thermodynamicProperties: {"heat":0.0232,"entropy":0.2707,"reactivity":1.2926,"gregsEnergy":-0.3267,"kalchm":0.0544,"monica":0.4842},
               "substitutions": [
                 {
                   "originalIngredient": "Bread flour",
@@ -2335,6 +2389,9 @@ export const italian: Cuisine = {
                   "Phosphorus"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":2.15,"Essence":2.58,"Matter":2.56,"Substance":2.46},
+              thermodynamicProperties: {"heat":0.0633,"entropy":0.3212,"reactivity":2.145,"gregsEnergy":-0.6256,"kalchm":0.5887,"monica":0.4454},
               "substitutions": [
                 {
                   "originalIngredient": "Mascarpone",
@@ -2457,6 +2514,9 @@ export const italian: Cuisine = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.31,"Essence":3.0,"Matter":3.12,"Substance":2.96},
+          thermodynamicProperties: {"heat":0.0537,"entropy":0.3042,"reactivity":2.2672,"gregsEnergy":-0.636,"kalchm":0.216,"monica":-0.0376},
           "substitutions": [
             {
               "originalIngredient": "Sea Bass",
@@ -2531,82 +2591,74 @@ export const italian: Cuisine = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.1,"Essence":0.45,"Matter":0.55,"Substance":0.4},
+          thermodynamicProperties: {"heat":0.0103,"entropy":0.0761,"reactivity":0.4195,"gregsEnergy":-0.0216,"kalchm":1.1115,"monica":0.4376},
           "substitutions": []
+        },
+        {
+          name: "Cacio e Pepe",
+          description: "A deceptively simple Roman pasta dish whose mastery lies in the emulsification of Pecorino Romano and Parmigiano-Reggiano into a glossy, clinging sauce. The starch-rich pasta water acts as the emulsifying agent, binding fat and protein into a smooth coating. Freshly cracked black pepper blooms in a dry pan to release volatile aromatic compounds before the cheeses are incorporated off-heat to prevent curdling.",
+          details: {"cuisine":"Italian","prepTimeMinutes":10,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":400,"unit":"g","name":"Tonnarelli or spaghetti","notes":"Thick spaghetti preferred for sauce adhesion."},{"amount":150,"unit":"g","name":"Pecorino Romano","notes":"Finely grated, at room temperature."},{"amount":50,"unit":"g","name":"Parmigiano-Reggiano","notes":"Finely grated, at room temperature."},{"amount":2,"unit":"tsp","name":"Black pepper","notes":"Coarsely cracked in a mortar, not pre-ground."},{"amount":1,"unit":"tsp","name":"Fine sea salt","notes":"For pasta water."},{"amount":120,"unit":"ml","name":"Pasta cooking water","notes":"Reserved starchy water, used hot."}],
+          instructions: ["Step 1: Bring a large pot of salted water to a boil. Cook pasta until just under al dente, about 2 minutes less than package directions, reserving 250ml of starchy cooking water before draining.","Step 2: Toast the cracked black pepper in a large dry skillet over medium heat for 1 minute until fragrant. Add 80ml of the hot pasta water to the pan and let it simmer briefly.","Step 3: Add the drained pasta to the skillet and toss vigorously over medium heat, adding more pasta water gradually to build a starchy base.","Step 4: Remove the pan from heat entirely. Add the grated Pecorino Romano and Parmigiano-Reggiano in two additions, tossing rapidly and adding splashes of pasta water to emulsify the cheese into a smooth, creamy sauce. The off-heat step is critical to prevent the cheese from seizing.","Step 5: Plate immediately, finishing with an additional generous grind of black pepper and a small dusting of extra Pecorino."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["boiling","sauteing"]},
+          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.30,"Air":0.20},
+          astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","capricorn"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":520,"proteinG":24,"carbsG":72,"fatG":14,"fiberG":3,"sodiumMg":720,"sugarG":2,"vitamins":["Vitamin B12","Vitamin D"],"minerals":["Calcium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.81,"Essence":1.82,"Matter":2.4,"Substance":2.42},
+          thermodynamicProperties: {"heat":0.0611,"entropy":0.4059,"reactivity":1.7298,"gregsEnergy":-0.6409,"kalchm":0.1254,"monica":0.2598},
+          substitutions: [{"originalIngredient":"Pecorino Romano","substituteOptions":["Parmigiano-Reggiano (milder result)"]},{"originalIngredient":"Tonnarelli","substituteOptions":["Spaghetti","Bucatini"]}]
+        },
+        {
+          name: "Ossobuco alla Milanese",
+          description: "A Milanese braise of cross-cut veal shanks, where the bone marrow renders into the braising liquid to create a luxuriously rich sauce. The classical technique involves a soffritto base of celery, carrot, and onion that builds the aromatic foundation. The dish is finished with gremolata, a raw condiment of lemon zest, garlic, and parsley that cuts through the richness with bright volatile compounds and provides textural contrast.",
+          details: {"cuisine":"Italian","prepTimeMinutes":20,"cookTimeMinutes":120,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":4,"unit":"pieces","name":"Veal shanks (ossobuco cut)","notes":"Cross-cut, about 4cm thick, tied with kitchen twine to hold shape."},{"amount":2,"unit":"tbsp","name":"Olive oil","notes":"Extra virgin."},{"amount":1,"unit":"medium","name":"White onion","notes":"Finely diced."},{"amount":2,"unit":"stalks","name":"Celery","notes":"Finely diced."},{"amount":1,"unit":"medium","name":"Carrot","notes":"Finely diced."},{"amount":200,"unit":"ml","name":"Dry white wine","notes":"Pinot Grigio or Gavi."},{"amount":400,"unit":"ml","name":"Veal or chicken stock","notes":"Warm."},{"amount":1,"unit":"tbsp","name":"Tomato paste","notes":"Concentrated."},{"amount":1,"unit":"whole","name":"Lemon","notes":"Zested for gremolata."},{"amount":2,"unit":"cloves","name":"Garlic","notes":"Minced, for gremolata."},{"amount":3,"unit":"tbsp","name":"Fresh flat-leaf parsley","notes":"Finely chopped, for gremolata."}],
+          instructions: ["Step 1: Pat the veal shanks dry and season generously with salt and pepper. Dredge lightly in flour, shaking off any excess. Heat olive oil in a heavy Dutch oven over high heat and sear the shanks on both cut faces until deeply golden brown, about 4 minutes per side. Remove and set aside.","Step 2: Reduce heat to medium. Add the onion, celery, and carrot to the same pot and cook, stirring occasionally, for 8 to 10 minutes until softened and beginning to caramelize. Add the tomato paste and stir for 2 minutes.","Step 3: Increase heat and pour in the white wine, scraping up all the browned fond from the bottom of the pot. Allow to reduce by half, about 3 minutes.","Step 4: Return the veal shanks to the pot, marrow-bone side up to preserve the marrow. Pour in enough warm stock to come two-thirds up the shanks. Bring to a gentle simmer, cover tightly, and cook on low heat for 90 minutes, turning the shanks once halfway through, until the meat is completely tender and pulling away from the bone.","Step 5: While the shanks finish, prepare the gremolata by combining the lemon zest, minced garlic, and chopped parsley. Plate each shank over a bed of saffron risotto or polenta, spoon the braising juices over the top, and finish with a generous pinch of gremolata."],
+          classifications: {"mealType":["dinner"],"cookingMethods":["braising","searing"]},
+          elementalProperties: {"Fire":0.30,"Water":0.35,"Earth":0.25,"Air":0.10},
+          astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+          nutritionPerServing: {"calories":580,"proteinG":52,"carbsG":12,"fatG":32,"fiberG":2,"sodiumMg":640,"sugarG":4,"vitamins":["Vitamin B12","Vitamin C","Vitamin A"],"minerals":["Iron","Zinc","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":4.19,"Essence":4.93,"Matter":4.66,"Substance":4.2},
+          thermodynamicProperties: {"heat":0.084,"entropy":0.3399,"reactivity":2.4773,"gregsEnergy":-0.758,"kalchm":1.952,"monica":0.4842},
+          substitutions: [{"originalIngredient":"Veal shanks","substituteOptions":["Beef ossobuco (longer braise time required)"]},{"originalIngredient":"White wine","substituteOptions":["Dry vermouth","Chicken stock"]}]
+        },
+        {
+          name: "Focaccia Genovese",
+          description: "The definitive flatbread of Liguria, characterized by its extraordinarily high hydration dough (70 to 75 percent) and the double olive oil treatment that creates its signature crisp, blistered crust with a pillowy, open crumb structure. The indentations pressed into the surface, known as ditini, create wells that pool olive oil and brine during baking, producing the characteristic oily, chewy, and savory character of authentic Genovese focaccia.",
+          details: {"cuisine":"Italian","prepTimeMinutes":30,"cookTimeMinutes":25,"baseServingSize":8,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":500,"unit":"g","name":"Strong bread flour","notes":"High protein (12g+) for gluten structure."},{"amount":375,"unit":"ml","name":"Warm water","notes":"About 35C, for high-hydration dough."},{"amount":7,"unit":"g","name":"Instant yeast","notes":"One standard sachet."},{"amount":10,"unit":"g","name":"Fine sea salt","notes":"Dissolved in the water before mixing."},{"amount":60,"unit":"ml","name":"Extra virgin olive oil","notes":"Divided: half in dough, half for topping."},{"amount":1,"unit":"tsp","name":"Sugar","notes":"To activate yeast."},{"amount":2,"unit":"tbsp","name":"Coarse flaky sea salt","notes":"For the surface finish."},{"amount":3,"unit":"tbsp","name":"Warm water","notes":"Mixed with olive oil for the salamoia (brine topping)."}],
+          instructions: ["Step 1: Combine warm water, sugar, and yeast in a large bowl and let stand for 5 minutes until foamy. Add the salt, then gradually incorporate the flour and 30ml of olive oil, mixing until a shaggy, very wet dough forms. Do not knead; instead, perform three sets of stretch-and-fold every 30 minutes over 1.5 hours to develop gluten strength.","Step 2: Generously oil a rimmed baking sheet (about 30x40cm) with 15ml of olive oil. Turn the dough out onto the pan and gently stretch it towards the edges. If it springs back, let it rest for 10 minutes, then continue. Cover and let the dough proof for 45 minutes until puffy.","Step 3: Prepare the salamoia by whisking together the remaining olive oil and warm water until emulsified. Pour the salamoia over the surface of the proofed dough.","Step 4: Using all ten fingers, vigorously dimple the entire surface of the dough, pressing nearly through to the pan. This simultaneously deflates large gas pockets and creates the characteristic texture. Sprinkle generously with coarse flaky salt. Let rest for 20 more minutes while the oven preheats to 230C (fan 210C).","Step 5: Bake on the lowest rack for 20 to 25 minutes until the top is deep golden and the underside is crisp when lifted. Cool on a wire rack for at least 10 minutes before cutting. Best consumed within 4 hours of baking."],
+          classifications: {"mealType":["lunch","dinner","snack"],"cookingMethods":["baking"]},
+          elementalProperties: {"Fire":0.20,"Water":0.30,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","libra"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":310,"proteinG":7,"carbsG":48,"fatG":10,"fiberG":2,"sodiumMg":580,"sugarG":1,"vitamins":["Vitamin E","Vitamin B1"],"minerals":["Iron","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":1.58,"Essence":2.98,"Matter":4.11,"Substance":3.88},
+          thermodynamicProperties: {"heat":0.0183,"entropy":0.294,"reactivity":1.3364,"gregsEnergy":-0.3746,"kalchm":0.0008,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Strong bread flour","substituteOptions":["All-purpose flour (slightly denser result)"]},{"originalIngredient":"Extra virgin olive oil","substituteOptions":["Light olive oil (less flavor)"]}]
         },
       ],
     },
     dessert: {
       all: [
         {
-          "name": "Authentic Tiramisù",
-          "description": "A modernist Italian classic born in Treviso.",
-          "details": {
-            "cuisine": "Italian",
-            "prepTimeMinutes": 30,
-            "cookTimeMinutes": 0,
-            "baseServingSize": 8,
-            "spiceLevel": "None",
-            "season": [
-              "all"
-            ]
-          },
-          "ingredients": [
-            {
-              "amount": 500,
-              "unit": "g",
-              "name": "mascarpone cheese",
-              "notes": "Room temp."
-            },
-            {
-              "amount": 300,
-              "unit": "g",
-              "name": "Savoiardi (Ladyfingers)",
-              "notes": "Crisp Italian variety."
-            }
-          ],
-          "instructions": [
-            "Step 1: Whisk yolks and sugar.",
-            "Step 2: Fold in mascarpone.",
-            "Step 3: Dip biscuits in espresso.",
-            "Step 4: Layer and chill."
-          ],
-          "classifications": {
-            "mealType": [
-              "dessert"
-            ],
-            "cookingMethods": [
-              "assembling"
-            ]
-          },
-          "elementalProperties": {
-            "Fire": 0.05,
-            "Water": 0.4,
-            "Earth": 0.15,
-            "Air": 0.4
-          },
-          "astrologicalAffinities": {
-            "planets": [
-              "Venus"
-            ],
-            "signs": [
-              "Libra"
-            ],
-            "lunarPhases": [
-              "Waning Gibbous"
-            ]
-          },
-          "nutritionPerServing": {
-            "calories": 420,
-            "proteinG": 8,
-            "carbsG": 38,
-            "fatG": 26,
-            "fiberG": 1,
-              "sodiumMg": 104,
-              "sugarG": 21,
-              "vitamins": ["Vitamin C","Vitamin A"],
-              "minerals": ["Iron","Calcium"]
-        },
-          "substitutions": []
+          name: "Tiramisu",
+          description: "A classic Italian dessert originating in Treviso, Veneto, in which espresso-soaked Savoiardi biscuits are layered with a rich zabaione-mascarpone cream. The dessert relies on the science of emulsification: egg yolks whisked with sugar over a bain-marie create a stable foam that, when folded with cold mascarpone, forms a mousse-like structure that sets overnight in the refrigerator. The contrast of bitter espresso, sweet cream, and bitter cocoa powder creates a complex layered flavor profile.",
+          details: {"cuisine":"Italian","prepTimeMinutes":40,"cookTimeMinutes":0,"baseServingSize":8,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":500,"unit":"g","name":"Mascarpone cheese","notes":"Full-fat, at room temperature for smooth incorporation."},{"amount":300,"unit":"g","name":"Savoiardi ladyfinger biscuits","notes":"Crisp Italian variety, not soft sponge fingers."},{"amount":6,"unit":"large","name":"Egg yolks","notes":"Fresh, pasteurized or from a known source."},{"amount":150,"unit":"g","name":"Caster sugar","notes":"Fine white sugar for smooth zabaione."},{"amount":300,"unit":"ml","name":"Strong espresso coffee","notes":"Cooled to room temperature before use."},{"amount":2,"unit":"tbsp","name":"Marsala wine or dark rum","notes":"Added to the espresso for soaking."},{"amount":4,"unit":"tbsp","name":"Unsweetened cocoa powder","notes":"High-quality Dutch-process, for dusting between layers."},{"amount":1,"unit":"pinch","name":"Fine sea salt","notes":"Enhances the sweetness of the cream."}],
+          instructions: ["Step 1: Prepare the zabaione base. Place egg yolks and caster sugar in a heatproof bowl set over a pot of barely simmering water, ensuring the bowl does not touch the water. Whisk vigorously and continuously for 8 to 10 minutes until the mixture is pale, thick, and has doubled in volume, reaching the ribbon stage where it falls from the whisk in a slow, thick ribbon.","Step 2: Remove the bowl from the heat and continue whisking for another 2 minutes to cool slightly. Transfer to a large clean bowl. Add the mascarpone in three additions, folding gently with a spatula after each addition until the mixture is completely smooth and homogeneous with no white streaks remaining.","Step 3: Combine the cooled espresso and Marsala wine in a shallow bowl wide enough to dip the biscuits. Working quickly, dip each Savoiardo biscuit briefly into the espresso mixture, about 1 to 2 seconds per side. The biscuit should be moistened but not waterlogged or it will disintegrate.","Step 4: Arrange a single layer of dipped biscuits in a rectangular dish approximately 30x20cm. Spread half of the mascarpone cream over the biscuit layer using an offset spatula, smoothing it to an even thickness. Dust generously and evenly with cocoa powder through a fine sieve.","Step 5: Arrange a second layer of espresso-dipped biscuits on top, then spread the remaining mascarpone cream over the surface. Smooth the top completely. Dust with a final, even layer of cocoa powder. Cover tightly with plastic wrap and refrigerate for a minimum of 4 hours, and ideally overnight, to allow the cream to firm and the flavors to meld before serving."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["whisking","assembling","chilling"]},
+          elementalProperties: {"Fire":0.10,"Water":0.35,"Earth":0.30,"Air":0.25},
+          astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","libra"],"lunarPhases":["Waning Gibbous","Full Moon"]},
+          nutritionPerServing: {"calories":430,"proteinG":9,"carbsG":40,"fatG":26,"fiberG":1,"sodiumMg":110,"sugarG":28,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Phosphorus","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.2,"Essence":2.68,"Matter":3.29,"Substance":3.28},
+          thermodynamicProperties: {"heat":0.0471,"entropy":0.3576,"reactivity":1.7827,"gregsEnergy":-0.5904,"kalchm":0.0321,"monica":0.9844},
+          substitutions: [{"originalIngredient":"Mascarpone cheese","substituteOptions":["Full-fat cream cheese blended with heavy cream (less rich result)"]},{"originalIngredient":"Marsala wine","substituteOptions":["Dark rum","Coffee liqueur","Omit for an alcohol-free version"]},{"originalIngredient":"Egg yolks (raw)","substituteOptions":["Pasteurized liquid egg yolks for food safety"]}]
         },
       ],
       summer: [
@@ -2726,6 +2778,9 @@ export const italian: Cuisine = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.13,"Essence":2.54,"Matter":2.88,"Substance":2.83},
+          thermodynamicProperties: {"heat":0.0151,"entropy":0.245,"reactivity":1.758,"gregsEnergy":-0.4157,"kalchm":0.0307,"monica":0.9844},
           "substitutions": [
             {
               "originalIngredient": "dextrose",
@@ -2876,6 +2931,9 @@ export const italian: Cuisine = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.24,"Essence":4.39,"Matter":3.7,"Substance":3.18},
+          thermodynamicProperties: {"heat":0.0723,"entropy":0.2969,"reactivity":2.6418,"gregsEnergy":-0.712,"kalchm":5.95,"monica":1.0328},
           "substitutions": [
             {
               "originalIngredient": "candied peel",

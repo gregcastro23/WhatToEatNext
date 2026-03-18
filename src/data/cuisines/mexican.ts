@@ -149,6 +149,9 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":3.16,"Essence":5.24,"Matter":6.36,"Substance":5.82},
+          thermodynamicProperties: {"heat":0.0315,"entropy":0.301,"reactivity":1.589,"gregsEnergy":-0.4467,"kalchm":0.0001,"monica":0.9674},
           "substitutions": [
             {
               "originalIngredient": "eggs",
@@ -258,6 +261,9 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.84,"Essence":0.92,"Matter":1.04,"Substance":1.0},
+          thermodynamicProperties: {"heat":0.0635,"entropy":0.2918,"reactivity":1.4101,"gregsEnergy":-0.3479,"kalchm":0.768,"monica":0.4188},
           "substitutions": [
             {
               "originalIngredient": "stale tortillas",
@@ -277,6 +283,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.1,"Earth":0.4,"Air":0.15},
           astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":580,"proteinG":24,"carbsG":62,"fatG":26,"fiberG":12,"sodiumMg":1100,"sugarG":5,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Calcium","Iron"]},
+
+          alchemicalProperties: {"Spirit":1.11,"Essence":1.68,"Matter":2.11,"Substance":1.93},
+          thermodynamicProperties: {"heat":0.0334,"entropy":0.2772,"reactivity":1.2594,"gregsEnergy":-0.3158,"kalchm":0.1561,"monica":0.8752},
           substitutions: [{"originalIngredient":"Bolillo rolls","substituteOptions":["Baguette","Ciabatta"]}]
         },
         {
@@ -289,6 +298,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.2,"Water":0.3,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["First Quarter"]},
           nutritionPerServing: {"calories":450,"proteinG":18,"carbsG":60,"fatG":16,"fiberG":14,"sodiumMg":700,"sugarG":4,"vitamins":["Folate","Calcium"],"minerals":["Iron","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":1.69,"Essence":1.66,"Matter":1.79,"Substance":1.71},
+          thermodynamicProperties: {"heat":0.0815,"entropy":0.3385,"reactivity":1.8089,"gregsEnergy":-0.5308,"kalchm":0.7934,"monica":0.4188},
           substitutions: [{"originalIngredient":"Black bean purée","substituteOptions":["Pinto bean purée"]}]
         },
         {
@@ -301,6 +313,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Mars"],"signs":["leo","aries"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":650,"proteinG":28,"carbsG":65,"fatG":32,"fiberG":12,"sodiumMg":1100,"sugarG":18,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
+
+          alchemicalProperties: {"Spirit":1.81,"Essence":2.79,"Matter":3.65,"Substance":3.35},
+          thermodynamicProperties: {"heat":0.0318,"entropy":0.3046,"reactivity":1.4416,"gregsEnergy":-0.4072,"kalchm":0.0079,"monica":0.4188},
           substitutions: [{"originalIngredient":"Cooked ham","substituteOptions":["Roasted turkey","Omit for vegetarian"]}]
         },
       ],
@@ -315,6 +330,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.05,"Water":0.5,"Earth":0.15,"Air":0.3},
           astrologicalAffinities: {"planets":["Moon","Mercury"],"signs":["cancer","gemini"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":220,"proteinG":9,"carbsG":38,"fatG":5,"fiberG":4,"sodiumMg":110,"sugarG":22,"vitamins":["Vitamin C","Calcium"],"minerals":["Potassium"]},
+
+          alchemicalProperties: {"Spirit":1.35,"Essence":2.0,"Matter":1.97,"Substance":1.88},
+          thermodynamicProperties: {"heat":0.0395,"entropy":0.2553,"reactivity":2.1581,"gregsEnergy":-0.5115,"kalchm":0.4814,"monica":0.111},
           substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Almond milk","Oat milk"]}]
         },
       ],
@@ -331,6 +349,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
           nutritionPerServing: {"calories":420,"proteinG":35,"carbsG":30,"fatG":18,"fiberG":6,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":2.34,"Essence":3.13,"Matter":3.1,"Substance":2.94},
+          thermodynamicProperties: {"heat":0.0548,"entropy":0.2862,"reactivity":2.2315,"gregsEnergy":-0.5839,"kalchm":0.3272,"monica":-0.0188},
           substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}]
         },
       ],
@@ -345,6 +366,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.5,"Water":0.4,"Earth":0.05,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Uranus"],"signs":["aries","aquarius"],"lunarPhases":["New Moon"]},
           nutritionPerServing: {"calories":210,"proteinG":32,"carbsG":15,"fatG":2,"fiberG":3,"sodiumMg":950,"sugarG":5,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Zinc"]},
+
+          alchemicalProperties: {"Spirit":2.44,"Essence":3.13,"Matter":2.72,"Substance":2.68},
+          thermodynamicProperties: {"heat":0.0761,"entropy":0.3373,"reactivity":3.0426,"gregsEnergy":-0.9503,"kalchm":1.4684,"monica":0.4376},
           substitutions: [{"originalIngredient":"Raw shrimp","substituteOptions":["Scallops","Cauliflower (for vegan)"]}]
         },
       ],
@@ -411,6 +435,9 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.2,"Essence":0.5,"Matter":0.75,"Substance":0.7},
+          thermodynamicProperties: {"heat":0.024,"entropy":0.1914,"reactivity":1.0275,"gregsEnergy":-0.1726,"kalchm":0.8163,"monica":-0.0188},
           "substitutions": []
         },
       ],
@@ -427,6 +454,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":680,"proteinG":45,"carbsG":42,"fatG":38,"fiberG":12,"sodiumMg":850,"sugarG":15,"vitamins":["Vitamin A","Iron"],"minerals":["Magnesium","Zinc"]},
+
+          alchemicalProperties: {"Spirit":3.43,"Essence":4.47,"Matter":4.88,"Substance":4.69},
+          thermodynamicProperties: {"heat":0.0546,"entropy":0.342,"reactivity":1.9327,"gregsEnergy":-0.6065,"kalchm":0.0172,"monica":1.0328},
           substitutions: [{"originalIngredient":"Poached chicken","substituteOptions":["Turkey","Enchilada filling"]}]
         },
         {
@@ -439,6 +469,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.15,"Water":0.25,"Earth":0.4,"Air":0.2},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["libra","taurus"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":850,"proteinG":38,"carbsG":45,"fatG":58,"fiberG":8,"sodiumMg":650,"sugarG":28,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Copper","Manganese"]},
+
+          alchemicalProperties: {"Spirit":2.42,"Essence":4.31,"Matter":3.55,"Substance":3.34},
+          thermodynamicProperties: {"heat":0.0405,"entropy":0.2358,"reactivity":2.2889,"gregsEnergy":-0.4992,"kalchm":0.9137,"monica":0.8272},
           substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Lentils and mushrooms (vegetarian)"]}]
         },
         {
@@ -451,6 +484,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Sun"],"signs":["scorpio","leo"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":520,"proteinG":45,"carbsG":12,"fatG":32,"fiberG":3,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin C","Thiamin"],"minerals":["Iron","Zinc"]},
+
+          alchemicalProperties: {"Spirit":2.63,"Essence":2.88,"Matter":2.82,"Substance":2.5},
+          thermodynamicProperties: {"heat":0.0899,"entropy":0.3349,"reactivity":2.0858,"gregsEnergy":-0.6086,"kalchm":1.4554,"monica":0.2511},
           substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}]
         },
         {
@@ -463,6 +499,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.45,"Water":0.35,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["aries","scorpio"],"lunarPhases":["Last Quarter"]},
           nutritionPerServing: {"calories":750,"proteinG":55,"carbsG":25,"fatG":48,"fiberG":5,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin B12","Iron"],"minerals":["Zinc","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":2.81,"Essence":3.17,"Matter":3.34,"Substance":3.15},
+          thermodynamicProperties: {"heat":0.0777,"entropy":0.3668,"reactivity":2.3148,"gregsEnergy":-0.7713,"kalchm":0.339,"monica":0.4842},
           substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Goat","Lamb"]}]
         },
         {
@@ -475,6 +514,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.4,"Air":0.2},
           astrologicalAffinities: {"planets":["Ceres","Jupiter"],"signs":["virgo","cancer"],"lunarPhases":["Full Moon"]},
           nutritionPerServing: {"calories":350,"proteinG":12,"carbsG":35,"fatG":18,"fiberG":4,"sodiumMg":650,"sugarG":3,"vitamins":["Niacin","Vitamin C"],"minerals":["Calcium","Iron"]},
+
+          alchemicalProperties: {"Spirit":1.44,"Essence":2.39,"Matter":3.48,"Substance":3.34},
+          thermodynamicProperties: {"heat":0.0204,"entropy":0.3076,"reactivity":1.2675,"gregsEnergy":-0.3695,"kalchm":0.0032,"monica":-0.2064},
           substitutions: [{"originalIngredient":"Pork lard","substituteOptions":["Vegetable shortening (for vegan)"]}]
         },
             {
@@ -558,6 +600,9 @@ export const mexican = {
                   "Potassium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.55,"Essence":0.85,"Matter":1.1,"Substance":1.05},
+              thermodynamicProperties: {"heat":0.0287,"entropy":0.2215,"reactivity":1.4334,"gregsEnergy":-0.2889,"kalchm":0.5363,"monica":0.0278},
               "substitutions": []
             },
             {
@@ -640,6 +685,9 @@ export const mexican = {
                   "Selenium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.55,"Essence":0.85,"Matter":1.1,"Substance":1.05},
+              thermodynamicProperties: {"heat":0.0357,"entropy":0.2508,"reactivity":0.8955,"gregsEnergy":-0.1889,"kalchm":0.5363,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -722,6 +770,9 @@ export const mexican = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.57,"Essence":0.97,"Matter":0.7,"Substance":0.65},
+              thermodynamicProperties: {"heat":0.0507,"entropy":0.2025,"reactivity":2.0951,"gregsEnergy":-0.3734,"kalchm":1.1969,"monica":0.772},
               "substitutions": []
             },
             {
@@ -805,6 +856,9 @@ export const mexican = {
                   "Phosphorus"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.83,"Essence":1.17,"Matter":0.78,"Substance":0.8},
+              thermodynamicProperties: {"heat":0.0549,"entropy":0.1867,"reactivity":3.573,"gregsEnergy":-0.6124,"kalchm":1.4938,"monica":0.4188},
               "substitutions": []
             },
             {
@@ -885,6 +939,9 @@ export const mexican = {
                   "Manganese"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+              thermodynamicProperties: {"heat":0.0892,"entropy":0.3642,"reactivity":1.517,"gregsEnergy":-0.4633,"kalchm":1.0,"monica":0.4188},
               "substitutions": []
             }
         ],
@@ -899,7 +956,115 @@ export const mexican = {
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Sun"],"signs":["scorpio","leo"],"lunarPhases":["Waning Gibbous"]},
           nutritionPerServing: {"calories":520,"proteinG":45,"carbsG":12,"fatG":32,"fiberG":3,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin C","Thiamin"],"minerals":["Iron","Zinc"]},
+
+          alchemicalProperties: {"Spirit":2.63,"Essence":2.88,"Matter":2.82,"Substance":2.5},
+          thermodynamicProperties: {"heat":0.0899,"entropy":0.3349,"reactivity":2.0858,"gregsEnergy":-0.6086,"kalchm":1.4554,"monica":0.2511},
           substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}]
+        },
+        {
+          name: "Mole Negro",
+          description: "The most profound and complex sauce in Mexican cuisine, originating from Oaxaca. Mole Negro is built on a foundation of charred chilhuacle negro, mulato, and pasilla chilies that are blackened until nearly carbonized, lending the sauce its characteristic inky darkness. This deliberate charring creates bitter polycyclic compounds that marry with roasted chocolate, plantain, and over twenty spices into a sauce of extraordinary depth and geological complexity.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":90,"cookTimeMinutes":240,"baseServingSize":8,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":6,"unit":"whole","name":"Chilhuacle negro chilies","notes":"Stemmed, seeded, veins removed."},{"amount":4,"unit":"whole","name":"Mulato chilies","notes":"Stemmed and seeded."},{"amount":3,"unit":"whole","name":"Pasilla chilies","notes":"Stemmed and seeded."},{"amount":1,"unit":"tablet","name":"Mexican chocolate","notes":"Such as Abuelita or Ibarra brand."},{"amount":0.5,"unit":"ripe","name":"Plantain","notes":"Fried until deeply golden."},{"amount":0.25,"unit":"cup","name":"Mixed nuts and seeds","notes":"Almonds, sesame seeds, pepitas - toasted."},{"amount":1,"unit":"whole","name":"Charred white onion half","notes":"Blackened directly on flame."},{"amount":4,"unit":"cloves","name":"Garlic","notes":"Charred in skin."},{"amount":1,"unit":"whole","name":"Chicken","notes":"Cut into pieces for serving."},{"amount":8,"unit":"cups","name":"Chicken broth","notes":"Rich, homemade preferred."}],
+          instructions: ["Step 1: Char the chilies directly over an open flame until the skins are blackened and nearly completely carbonized - this controlled burning is intentional and defines Mole Negro from all other moles. Soak in hot water for 30 minutes, then drain, reserving liquid.","Step 2: Toast all nuts, seeds, and whole spices (cinnamon stick, cumin, black pepper, cloves, thyme) individually in a dry comal until fragrant. Set aside.","Step 3: Char the onion half and garlic directly on the comal until blackened on all sides. Fry the plantain in oil until deeply golden. Fry a stale tortilla until dark.","Step 4: Blend the rehydrated blackened chilies, charred vegetables, fried plantain, toasted nuts and spices, and fried tortilla with enough chicken broth to form an extremely thick, almost black paste.","Step 5: Heat lard or oil in a heavy cazuela until smoking. Add the mole paste all at once - it will spit and roar. Fry the paste, stirring constantly, for 20 minutes until it darkens further and releases its oils.","Step 6: Gradually whisk in remaining chicken broth. Add the broken chocolate. Simmer over lowest heat for 2 to 3 hours, stirring frequently, until the mole is glossy, thick, and perfectly unified. Serve over braised chicken pieces."],
+          classifications: {"mealType":["dinner","celebration"],"cookingMethods":["charring","toasting","blending","stewing"]},
+          elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Pluto","Saturn","Mars"],"signs":["scorpio","capricorn","aries"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":720,"proteinG":48,"carbsG":45,"fatG":38,"fiberG":14,"sodiumMg":820,"sugarG":18,"vitamins":["Vitamin A","Vitamin C","Iron"],"minerals":["Magnesium","Zinc","Potassium"]},
+
+          alchemicalProperties: {"Spirit":3.5,"Essence":4.1,"Matter":4.67,"Substance":4.5},
+          thermodynamicProperties: {"heat":0.0639,"entropy":0.3757,"reactivity":1.9636,"gregsEnergy":-0.6738,"kalchm":0.0225,"monica":1.0328},
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Turkey","Duck"]},{"originalIngredient":"Mexican chocolate","substituteOptions":["Dark chocolate plus cinnamon"]}]
+        },
+        {
+          name: "Birria de Res",
+          description: "Originally from Jalisco, Birria de Res is a deeply aromatic beef stew of extraordinary complexity, built on a foundation of dried ancho, guajillo, and pasilla chilies rehydrated and blended with roasted tomatoes, charred onion, vinegar, and an intricate spice blend including cinnamon, cloves, cumin, and thyme. The beef is marinated overnight and then slow-braised until it falls apart into rich, chile-soaked shreds, served in its own consomme broth.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":60,"cookTimeMinutes":300,"baseServingSize":6,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":3,"unit":"lbs","name":"Beef chuck or short ribs","notes":"Bone-in preferred for richness."},{"amount":4,"unit":"whole","name":"Ancho chilies","notes":"Stemmed, seeded, toasted and rehydrated."},{"amount":3,"unit":"whole","name":"Guajillo chilies","notes":"Stemmed, seeded, toasted and rehydrated."},{"amount":2,"unit":"whole","name":"Pasilla chilies","notes":"Stemmed, seeded, toasted and rehydrated."},{"amount":3,"unit":"whole","name":"Roma tomatoes","notes":"Roasted on comal until charred."},{"amount":1,"unit":"whole","name":"White onion","notes":"Halved and charred."},{"amount":6,"unit":"cloves","name":"Garlic","notes":"Charred in skin."},{"amount":1,"unit":"tbsp","name":"Apple cider vinegar","notes":"For the marinade."},{"amount":1,"unit":"tsp","name":"Ground cinnamon","notes":"Mexican Ceylon cinnamon."},{"amount":8,"unit":"cups","name":"Beef broth","notes":"For braising."}],
+          instructions: ["Step 1: Toast the dried chilies in a dry comal over medium heat for about 30 seconds per side until they blister and become fragrant. Immediately transfer to a bowl and cover with boiling water. Soak for 25 minutes.","Step 2: Char the tomatoes, onion halves, and unpeeled garlic directly on the comal until blackened on all sides.","Step 3: Blend the soaked chilies (drained), charred vegetables (peeled garlic), vinegar, cinnamon, cumin, cloves, black pepper, thyme, and oregano with 1 cup of broth until completely smooth. Strain through a fine-mesh sieve.","Step 4: Season the beef generously with salt and coat with half of the chile marinade. Refrigerate for at least 4 hours or overnight.","Step 5: In a large heavy pot or Dutch oven, sear the marinated beef in hot oil on all sides until deeply browned. Add the remaining chile sauce and enough beef broth to cover the meat completely.","Step 6: Bring to a boil, skim the foam, reduce heat, cover tightly and braise for 3 to 4 hours until the beef is completely tender and falling from the bone. Shred the beef and serve in warm bowls with the consomme broth, garnished with white onion, cilantro, and lime."],
+          classifications: {"mealType":["dinner","lunch","celebration"],"cookingMethods":["braising","slow-cooking","searing"]},
+          elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Saturn","Jupiter"],"signs":["aries","capricorn","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":580,"proteinG":52,"carbsG":18,"fatG":32,"fiberG":5,"sodiumMg":920,"sugarG":8,"vitamins":["Vitamin B12","Vitamin A","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
+
+          alchemicalProperties: {"Spirit":3.55,"Essence":4.65,"Matter":4.85,"Substance":4.5},
+          thermodynamicProperties: {"heat":0.0587,"entropy":0.323,"reactivity":2.1029,"gregsEnergy":-0.6206,"kalchm":0.0619,"monica":0.5308},
+          substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Lamb shoulder","Goat meat"]},{"originalIngredient":"Ancho chilies","substituteOptions":["Poblano dried","Dried New Mexico chilies"]}]
+        },
+        {
+          name: "Pozole Rojo",
+          description: "One of the most ancient dishes in the Mexican culinary canon, Pozole Rojo is a ceremonial hominy soup that dates to pre-Columbian times when it held profound ritual significance. Giant bloomed hominy kernels (maize nixtamalized to become cacahuazintle corn) float in a brick-red broth built from ancho and guajillo chilies, simmered with pork shoulder and head until the collagen renders into a silky, deeply savory mineral broth.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":45,"cookTimeMinutes":180,"baseServingSize":8,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":2,"unit":"lbs","name":"Pork shoulder","notes":"Cut into large chunks."},{"amount":1,"unit":"lb","name":"Pork trotters or neck bones","notes":"For collagen richness in broth."},{"amount":2,"unit":"cans","name":"Hominy","notes":"29 oz cans, drained and rinsed. Or use dried prepared hominy."},{"amount":5,"unit":"whole","name":"Ancho chilies","notes":"Stemmed, seeded, toasted and soaked."},{"amount":3,"unit":"whole","name":"Guajillo chilies","notes":"Stemmed, seeded, toasted and soaked."},{"amount":1,"unit":"whole","name":"White onion","notes":"Quartered."},{"amount":6,"unit":"cloves","name":"Garlic","notes":"Whole."},{"amount":1,"unit":"tsp","name":"Mexican oregano","notes":"Dried, crumbled."},{"amount":8,"unit":"cups","name":"Water or pork broth","notes":"For cooking."}],
+          instructions: ["Step 1: Place pork shoulder and trotters in a large stockpot with the quartered onion, garlic cloves, and salt. Cover with water and bring to a boil. Skim the foam thoroughly for the first 20 minutes, then reduce heat and simmer for 90 minutes until the pork is very tender.","Step 2: While the pork cooks, toast the ancho and guajillo chilies briefly on a dry comal, then soak in boiling water for 25 minutes until completely softened.","Step 3: Blend the soaked chilies with 2 cups of the pork cooking broth, the soaked garlic (removed from the pot), and Mexican oregano until completely smooth. Strain through a fine-mesh sieve, pressing firmly.","Step 4: Remove the cooked pork from the broth. Discard the trotters after straining all gelatin from the broth. Shred the pork shoulder into large pieces.","Step 5: Pour the chile sauce into the broth through the sieve. Add the drained hominy. Simmer together for 30 minutes until the hominy has absorbed the chile broth.","Step 6: Return the shredded pork to the pot. Adjust seasoning. Serve in deep bowls with tostadas on the side and a garnish station of shredded cabbage, sliced radishes, dried oregano, lime wedges, and diced white onion."],
+          classifications: {"mealType":["dinner","lunch","celebration"],"cookingMethods":["simmering","slow-cooking","blending"]},
+          elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.3,"Air":0.05},
+          astrologicalAffinities: {"planets":["Saturn","Moon","Jupiter"],"signs":["capricorn","cancer","sagittarius"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":420,"proteinG":38,"carbsG":32,"fatG":16,"fiberG":7,"sodiumMg":780,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Niacin"],"minerals":["Iron","Zinc","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":3.56,"Essence":3.86,"Matter":4.01,"Substance":3.69},
+          thermodynamicProperties: {"heat":0.0849,"entropy":0.3634,"reactivity":2.2289,"gregsEnergy":-0.7252,"kalchm":0.5205,"monica":0.1388},
+          substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thighs","Beef chuck"]},{"originalIngredient":"Hominy","substituteOptions":["Canned white corn (texture differs)"]}]
+        },
+        {
+          name: "Chiles Rellenos",
+          description: "Whole poblano peppers are charred directly over an open flame until the skins blister and blacken, then peeled to reveal the sweet, smoky flesh beneath. Each pepper is stuffed with either picadillo (spiced ground meat with raisins and olives) or Oaxacan cheese, then dipped in a billowing egg white batter and fried until golden and puffed - creating a dramatic textural contrast between the crispy egg exterior, the soft smoky chile wall, and the molten interior.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":45,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"Mild","season":["summer","autumn"]},
+          ingredients: [{"amount":8,"unit":"whole","name":"Poblano peppers","notes":"Large, firm, and unblemished."},{"amount":0.5,"unit":"lb","name":"Oaxacan string cheese or Monterey Jack","notes":"Torn into strips for filling."},{"amount":3,"unit":"large","name":"Eggs","notes":"Separated, whites beaten to stiff peaks."},{"amount":3,"unit":"tbsp","name":"All-purpose flour","notes":"For dredging the peppers."},{"amount":1,"unit":"cup","name":"Vegetable oil","notes":"For frying."},{"amount":3,"unit":"whole","name":"Roma tomatoes","notes":"For the salsa ranchera sauce."},{"amount":0.5,"unit":"whole","name":"White onion","notes":"For the sauce."},{"amount":2,"unit":"cloves","name":"Garlic","notes":"For the sauce."}],
+          instructions: ["Step 1: Char the poblano peppers directly over a gas flame or under a broiler, turning with tongs, until the skin is completely blackened on all sides. Place in a plastic bag for 15 minutes to steam. Peel off all the charred skin under running water - do not rinse the pepper flesh.","Step 2: Make a careful slit along one side of each pepper, leaving the stem intact. Remove the seed pod and any remaining seeds with your fingers. Pat dry thoroughly.","Step 3: Stuff each pepper with strips of cheese, pressing gently to reshape the pepper around the filling. Secure with a toothpick if needed. Dredge lightly in flour, tapping off any excess.","Step 4: Beat the egg whites with a pinch of salt to stiff, glossy peaks. Beat the yolks briefly and fold gently into the whites to create a light batter.","Step 5: Dip each stuffed pepper into the egg batter, coating completely. Lower carefully into 350F oil and fry for 3 to 4 minutes per side until deeply golden and puffed.","Step 6: For the salsa ranchera, blend roasted tomatoes, onion, and garlic then fry in a little oil until thickened. Serve the chiles rellenos resting in a shallow pool of the warm tomato sauce."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["charring","frying","roasting"]},
+          elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
+          astrologicalAffinities: {"planets":["Mars","Sun","Venus"],"signs":["aries","leo","taurus"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":380,"proteinG":18,"carbsG":22,"fatG":26,"fiberG":4,"sodiumMg":620,"sugarG":6,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Calcium","Iron","Potassium"]},
+
+          alchemicalProperties: {"Spirit":2.9,"Essence":3.55,"Matter":2.96,"Substance":2.78},
+          thermodynamicProperties: {"heat":0.0864,"entropy":0.3314,"reactivity":2.7218,"gregsEnergy":-0.8155,"kalchm":4.6216,"monica":1.3128},
+          substitutions: [{"originalIngredient":"Oaxacan cheese","substituteOptions":["Mozzarella","Monterey Jack","Chihuahua cheese"]},{"originalIngredient":"Poblano peppers","substituteOptions":["Anaheim peppers (milder)"]}]
+        },
+        {
+          name: "Enfrijoladas",
+          description: "A humble but profoundly satisfying dish from the Mexican heartland, Enfrijoladas are corn tortillas dipped in a thick, velvety sauce made by blending refried black or pinto beans with chicken broth, garlic, and epazote into a smooth, deeply savory liquid. The tortillas are briefly fried, dipped in the warm bean sauce until completely saturated, folded into quarters, and topped with crumbled queso fresco, sliced onion, and Mexican crema.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":20,"cookTimeMinutes":25,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":12,"unit":"whole","name":"Corn tortillas","notes":"Day-old tortillas work best."},{"amount":2,"unit":"cups","name":"Cooked black beans","notes":"With their cooking liquid."},{"amount":2,"unit":"cups","name":"Chicken or vegetable broth","notes":"For thinning the bean sauce."},{"amount":3,"unit":"cloves","name":"Garlic","notes":"Minced."},{"amount":3,"unit":"sprigs","name":"Fresh epazote","notes":"Or substitute Mexican oregano."},{"amount":0.5,"unit":"cup","name":"Queso fresco","notes":"Crumbled for topping."},{"amount":0.25,"unit":"cup","name":"Mexican crema","notes":"For drizzling."},{"amount":0.5,"unit":"whole","name":"White onion","notes":"Thinly sliced for garnish."},{"amount":2,"unit":"tbsp","name":"Vegetable oil","notes":"For frying tortillas and cooking sauce."}],
+          instructions: ["Step 1: Blend the cooked black beans with their liquid, chicken broth, garlic, and epazote until completely smooth. The sauce should be about the consistency of a thin cream soup.","Step 2: Heat a tablespoon of oil in a saucepan over medium heat. Pour in the blended bean sauce - it will sizzle and foam. Cook, stirring, for 8 to 10 minutes until the sauce thickens slightly and the raw garlic flavor mellows. Season generously with salt.","Step 3: In a separate skillet, heat 1 cm of oil over medium-high heat. Quickly pass each corn tortilla through the hot oil for 15 seconds per side - just enough to soften and warm them without making them crispy.","Step 4: Working quickly while the tortillas are warm and pliable, dip each one into the warm bean sauce, coating both sides completely.","Step 5: Fold each sauced tortilla into quarters and arrange three per plate, overlapping slightly.","Step 6: Top generously with crumbled queso fresco, thin rings of raw white onion, a drizzle of Mexican crema, and a final spoonful of the warm bean sauce. Serve immediately."],
+          classifications: {"mealType":["breakfast","lunch","dinner"],"cookingMethods":["frying","blending","simmering"]},
+          elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.45,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Moon","Venus"],"signs":["capricorn","cancer","taurus"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":320,"proteinG":14,"carbsG":48,"fatG":10,"fiberG":10,"sodiumMg":580,"sugarG":3,"vitamins":["Folate","Vitamin B6","Thiamin"],"minerals":["Iron","Magnesium","Potassium"]},
+
+          alchemicalProperties: {"Spirit":2.8,"Essence":3.27,"Matter":4.02,"Substance":3.81},
+          thermodynamicProperties: {"heat":0.0551,"entropy":0.3463,"reactivity":1.6602,"gregsEnergy":-0.5199,"kalchm":0.0196,"monica":0.5298},
+          substitutions: [{"originalIngredient":"Black beans","substituteOptions":["Pinto beans","Bayo beans"]},{"originalIngredient":"Queso fresco","substituteOptions":["Cotija","Feta cheese"]}]
+        },
+        {
+          name: "Agua de Horchata",
+          description: "The quintessential Mexican agua fresca, Horchata is a milky, ice-cold beverage made from long-soaked raw rice blended with blanched almonds, Ceylon cinnamon, and vanilla, then strained through muslin into a sweet, refreshing liquid that is at once creamy, aromatic, and cooling. It is the perfect elemental counterbalance to the fiery heat of chiles, offering the sweet earthiness of rice and the floral warmth of cinnamon as counterweight.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":20,"cookTimeMinutes":0,"baseServingSize":8,"spiceLevel":"None","season":["summer","spring"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Long-grain white rice","notes":"Raw, rinsed."},{"amount":0.5,"unit":"cup","name":"Blanched almonds","notes":"Raw, unsalted."},{"amount":2,"unit":"sticks","name":"Ceylon cinnamon","notes":"True cinnamon, not cassia."},{"amount":4,"unit":"cups","name":"Warm water","notes":"For soaking."},{"amount":4,"unit":"cups","name":"Cold water","notes":"For blending and diluting."},{"amount":0.5,"unit":"cup","name":"Granulated sugar","notes":"Adjusted to taste."},{"amount":1,"unit":"tsp","name":"Pure vanilla extract","notes":"Or 1 whole vanilla bean."},{"amount":1,"unit":"cup","name":"Whole milk","notes":"Optional, for a creamier texture."}],
+          instructions: ["Step 1: Combine the raw rice, blanched almonds, and cinnamon sticks in a large bowl. Pour in the warm water and soak for a minimum of 4 hours, or overnight in the refrigerator. The water will turn milky and the cinnamon will perfume the soaking liquid.","Step 2: Pour the entire soaking mixture, including the cinnamon sticks, into a blender. Blend on the highest speed for 3 full minutes until the mixture is as smooth as the blender can achieve.","Step 3: Set a fine-mesh strainer lined with two layers of cheesecloth over a large pitcher. Pour the blended mixture through the cloth, pressing firmly with a spoon to extract every drop of liquid. Discard the solids.","Step 4: Add the remaining cold water to the strained liquid. Stir in the sugar until completely dissolved. Add vanilla extract and milk if using.","Step 5: Taste and adjust sweetness or cinnamon intensity. Refrigerate until very cold.","Step 6: Serve over a generous amount of ice in tall glasses. Stir well before each serving as the rice starch will settle. Garnish with a dusting of ground cinnamon."],
+          classifications: {"mealType":["drink","snack"],"cookingMethods":["blending","soaking","straining"]},
+          elementalProperties: {"Fire":0.1,"Water":0.4,"Earth":0.4,"Air":0.1},
+          astrologicalAffinities: {"planets":["Moon","Venus","Jupiter"],"signs":["cancer","taurus","pisces"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":180,"proteinG":3,"carbsG":34,"fatG":4,"fiberG":1,"sodiumMg":40,"sugarG":22,"vitamins":["Calcium","Vitamin B1"],"minerals":["Magnesium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.86,"Essence":3.38,"Matter":2.59,"Substance":2.25},
+          thermodynamicProperties: {"heat":0.0417,"entropy":0.1864,"reactivity":2.2513,"gregsEnergy":-0.3779,"kalchm":2.6679,"monica":0.2861},
+          substitutions: [{"originalIngredient":"Almonds","substituteOptions":["Cashews","Tiger nuts (authentic Mexican variation)"]},{"originalIngredient":"Dairy milk","substituteOptions":["Oat milk","Coconut milk"]}]
+        },
+        {
+          name: "Sopa de Lima",
+          description: "A signature dish of the Yucatan Peninsula, Sopa de Lima is a bright, aromatic chicken soup that uses the distinctive Yucatecan lima agria - a local variety of bitter lime with a floral, almost bergamot-like perfume - as its defining flavor. Shredded chicken floats in a clear golden broth perfumed with the local lime, habanero, and the herb epazote, topped with crispy fried tortilla strips that soften at the edges while remaining crunchy at their centers.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":30,"cookTimeMinutes":60,"baseServingSize":6,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":1,"unit":"whole","name":"Chicken (3-4 lbs)","notes":"Cut into pieces or use bone-in breasts and thighs."},{"amount":3,"unit":"whole","name":"Limes","notes":"Yucatecan lima if available, otherwise key limes plus regular lime."},{"amount":1,"unit":"whole","name":"White onion","notes":"Quartered, plus extra thinly sliced for garnish."},{"amount":1,"unit":"whole","name":"Tomato","notes":"Roasted or charred."},{"amount":0.5,"unit":"whole","name":"Habanero pepper","notes":"Whole, for aromatics - remove before serving for mild heat."},{"amount":4,"unit":"sprigs","name":"Fresh epazote","notes":"Or substitute a small handful of flat-leaf parsley."},{"amount":4,"unit":"whole","name":"Corn tortillas","notes":"Cut in thin strips and fried until crispy."},{"amount":8,"unit":"cups","name":"Water","notes":"For making the broth."},{"amount":2,"unit":"tbsp","name":"Vegetable oil","notes":"For frying tortillas and sauteing vegetables."}],
+          instructions: ["Step 1: Place the chicken pieces in a large pot with the quartered onion, whole garlic cloves, epazote sprigs, half habanero, and water. Bring to a boil, skim foam thoroughly, then reduce heat and simmer for 45 minutes until the chicken is completely cooked and the broth is richly flavored.","Step 2: Remove the chicken from the broth. Allow to cool enough to handle, then shred the meat, discarding skin and bones. Strain the broth through a fine-mesh sieve, discarding the solids. Reserve 8 cups of clear broth.","Step 3: In a medium skillet, char the tomato and a slice of onion directly on the comal or dry pan until blackened. Finely chop and add to the strained broth.","Step 4: Return the broth to medium heat. Squeeze the juice of the limes into the broth and add the squeezed lime halves as well - the oils in the peel add significant aroma. Simmer for 10 minutes. Remove the lime halves.","Step 5: Cut the corn tortillas into thin strips. Fry in a centimeter of hot oil until golden and crispy. Drain on paper towels and salt immediately.","Step 6: Add the shredded chicken back to the warm lime broth. Season with salt. Ladle into bowls over the crispy tortilla strips. Garnish with thinly sliced raw onion and fresh lime wedges."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering","frying","charring"]},
+          elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.2,"Air":0.15},
+          astrologicalAffinities: {"planets":["Sun","Mercury","Moon"],"signs":["leo","gemini","cancer"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":310,"proteinG":32,"carbsG":18,"fatG":12,"fiberG":2,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin C","Vitamin B12","Niacin"],"minerals":["Potassium","Phosphorus","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.47,"Essence":4.2,"Matter":3.26,"Substance":2.9},
+          thermodynamicProperties: {"heat":0.0493,"entropy":0.2216,"reactivity":2.7077,"gregsEnergy":-0.5507,"kalchm":3.746,"monica":0.8564},
+          substitutions: [{"originalIngredient":"Yucatecan lima","substituteOptions":["Key limes","Regular limes plus a strip of bergamot zest"]},{"originalIngredient":"Habanero","substituteOptions":["Scotch bonnet","Serrano pepper"]}]
         },
       ],
     },
@@ -915,6 +1080,9 @@ export const mexican = {
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Gibbous"]},
           nutritionPerServing: {"calories":380,"proteinG":10,"carbsG":55,"fatG":12,"fiberG":0,"sodiumMg":150,"sugarG":52,"vitamins":["Riboflavin","Vitamin B12"],"minerals":["Calcium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.21,"Essence":1.69,"Matter":1.67,"Substance":1.63},
+          thermodynamicProperties: {"heat":0.0436,"entropy":0.2459,"reactivity":1.7571,"gregsEnergy":-0.3885,"kalchm":0.5855,"monica":1.1538},
           substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Heavy cream","Coconut milk"]}]
         },
         {
@@ -979,21 +1147,27 @@ export const mexican = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.127,"entropy":0.3459,"reactivity":1.426,"gregsEnergy":-0.3664,"kalchm":1.0,"monica":0.4376},
           "substitutions": []
         },
       ],
       summer: [
         {
           name: "Paletas",
-          description: "A profound alchemical execution of Paletas, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Paletas","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-          instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-          substitutions: [{"originalIngredient":"Primary foundation of Paletas","substituteOptions":["Elemental equivalent"]}]
+          description: "Mexican fruit ice pops sold by paleteros pushing insulated carts through neighborhoods - available in two fundamental styles: agua (water-based, intensely fruity and crystalline) and leche (cream-based, rich and dairy-smooth). The best paletas prioritize authentic fruit chunks suspended in the base, not artificial flavoring. Classic summer flavors include mango con chile (ripe mango with chili and lime), tamarindo (tart and complex), Jamaica (hibiscus), and pepino (cucumber). The agua style with spicy-sour flavors is distinctly Mexican with no equivalent elsewhere.",
+          details: {"cuisine":"Mexican","prepTimeMinutes":20,"cookTimeMinutes":0,"baseServingSize":8,"spiceLevel":"Low","season":["summer"]},
+          ingredients: [{"amount":3,"unit":"cups","name":"fresh mango, diced","notes":"From about 3 ripe Ataulfo or Manila mangoes. Over-ripe mangoes produce the most intensely flavored paletas."},{"amount":0.5,"unit":"cup","name":"fresh lime juice","notes":"From about 4 to 5 limes. The tartness is essential to balance the mango sweetness."},{"amount":0.33,"unit":"cup","name":"sugar","notes":"Dissolved in a small amount of warm water to make a simple syrup before mixing, ensuring even sweetness throughout."},{"amount":0.5,"unit":"cup","name":"water","notes":"For the simple syrup and to thin the base if needed."},{"amount":1,"unit":"tsp","name":"Tajin or ancho chile powder","notes":"Mixed into the base for the mango con chile style. Adjust heat level to taste."},{"amount":0.5,"unit":"tsp","name":"fine sea salt","notes":"A pinch enhances the fruit flavor dramatically and is traditional in Mexican sweets."},{"amount":1,"unit":"tbsp","name":"chamoy sauce","notes":"Optional. Drizzled inside the mold before adding the fruit mixture for swirled, salty-sweet pops."}],
+          instructions: ["Step 1: Make a simple syrup by dissolving the sugar in 0.5 cup warm water. Stir until completely clear and let cool.","Step 2: Blend two-thirds of the diced mango with the lime juice, cooled simple syrup, chile powder, and salt until smooth. Taste and adjust - the base should be slightly sweeter and more intensely flavored than you want the final pop to taste, as freezing dulls sweetness and intensity.","Step 3: Fold in the remaining diced mango pieces by hand so that chunks will be visible and provide textural contrast in the finished paletas.","Step 4: If using chamoy, drizzle a thin spiral of chamoy inside each ice pop mold. Carefully pour or ladle the mango mixture into the molds, filling to about 5mm below the rim (the mixture expands when it freezes).","Step 5: Insert wooden sticks and freeze for at least 6 hours, or overnight until completely solid. To unmold, run warm water over the outside of the mold for 10 to 15 seconds then pull gently. Serve immediately, optionally dipped in additional Tajin and drizzled with chamoy."],
+          classifications: {"mealType":["dessert","snack"],"cookingMethods":["freezing","blending"]},
+          elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.2,"Air":0.15},
+          astrologicalAffinities: {"planets":["Sun","Mercury"],"signs":["gemini","leo"],"lunarPhases":["Waxing Crescent","First Quarter"]},
+          nutritionPerServing: {"calories":85,"proteinG":1,"carbsG":22,"fatG":0,"fiberG":1.5,"sodiumMg":95,"sugarG":19,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Potassium","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":2.3,"Essence":3.46,"Matter":2.81,"Substance":2.56},
+          thermodynamicProperties: {"heat":0.0575,"entropy":0.2486,"reactivity":2.6578,"gregsEnergy":-0.6033,"kalchm":2.4616,"monica":0.2202},
+          substitutions: [{"originalIngredient":"mango","substituteOptions":["fresh tamarind paste with piloncillo (for tamarindo paletas)","fresh hibiscus flowers steeped in water (for Jamaica paletas)","cucumber and lime with chile (pepino con chile)"]},{"originalIngredient":"Tajin","substituteOptions":["ancho chile powder mixed with salt","smoked paprika with sea salt"]}]
         },
       ],
     },
@@ -1010,19 +1184,25 @@ export const mexican = {
         elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.2,"Air":0.05},
         astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
         nutritionPerServing: {"calories":420,"proteinG":35,"carbsG":30,"fatG":18,"fiberG":6,"sodiumMg":850,"sugarG":6,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Phosphorus"]},
+
+        alchemicalProperties: {"Spirit":2.34,"Essence":3.13,"Matter":3.1,"Substance":2.94},
+        thermodynamicProperties: {"heat":0.0548,"entropy":0.2862,"reactivity":2.2315,"gregsEnergy":-0.5839,"kalchm":0.3272,"monica":-0.0188},
         substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}]
       },
       {
         name: "Elote",
-        description: "A profound alchemical execution of Elote, meticulously calibrated to balance its cultural essence with perfect thermodynamic execution.",
-        details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
-        ingredients: [{"amount":1,"unit":"unit","name":"Primary foundation of Elote","notes":"Sourced for absolute quality."},{"amount":2,"unit":"tbsp","name":"Aromatic complex","notes":"To bind the flavor matrix."}],
-        instructions: ["Step 1: The Foundation. Establish the base aromatics using precise, controlled heat to avoid scorching.","Step 2: The Integration. Fold the primary components into the matrix, ensuring even distribution of mass and flavor.","Step 3: The Climax. Apply maximum required heat or acidity to trigger the fundamental structural transformation.","Step 4: The Finish. Garnish correctly to provide necessary textural contrast. Serve immediately."],
-        classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-        elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-        astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon"]},
-        nutritionPerServing: {"calories":500,"proteinG":20,"carbsG":45,"fatG":25,"fiberG":6,"sodiumMg":750,"sugarG":8,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Calcium"]},
-        substitutions: [{"originalIngredient":"Primary foundation of Elote","substituteOptions":["Elemental equivalent"]}]
+        description: "Mexican street corn - ears of corn roasted or grilled over charcoal until charred and sweet, then slathered with a creamy, tangy mixture of mayonnaise and crema, rolled in crumbled cotija cheese, dusted with chile powder and Tajin, and finished with a generous squeeze of lime. The combination of sweet corn, salty cheese, rich cream, tart lime, and smoky heat is one of Mexico's most brilliant flavor combinations. Sold on sticks as elote (whole ear) or in cups as esquites (cut off the cob and mixed).",
+        details: {"cuisine":"Mexican","prepTimeMinutes":10,"cookTimeMinutes":15,"baseServingSize":4,"spiceLevel":"Medium","season":["summer"]},
+        ingredients: [{"amount":4,"unit":"ears","name":"fresh corn on the cob, husked","notes":"The freshest, sweetest corn produces the best result. Roast directly over the grill flame until charred in spots."},{"amount":0.33,"unit":"cup","name":"Mexican crema","notes":"Full-fat. Thinner and tangier than sour cream. If unavailable, mix sour cream with a little lime juice and thin with milk."},{"amount":3,"unit":"tbsp","name":"mayonnaise","notes":"Mixed with the crema to create the binding paste. Duke's or Hellmann's work well."},{"amount":0.75,"unit":"cup","name":"cotija cheese, crumbled","notes":"The salty, dry, crumbly cow's milk cheese is non-negotiable for authentic elote. Finely crumble it in a bowl and roll the corn in it."},{"amount":2,"unit":"tsp","name":"Tajin or chile-lime powder","notes":"Dusted over the cheese for heat and additional tartness."},{"amount":1,"unit":"tsp","name":"ancho or guajillo chile powder","notes":"For deeper red chile flavor and color."},{"amount":2,"unit":"whole","name":"limes","notes":"Cut into wedges for squeezing over at the last moment. The acidity is essential."},{"amount":2,"unit":"cloves","name":"garlic","notes":"Optional. A clove of garlic pressed into the crema-mayo mixture adds depth."},{"amount":2,"unit":"tbsp","name":"fresh cilantro, chopped","notes":"Optional garnish for freshness."}],
+        instructions: ["Step 1: Prepare a grill or gas stovetop burner. For the grill, get charcoal to high heat. For stovetop, place a grill pan over high heat or roast the corn directly over the gas flame using tongs.","Step 2: Mix the crema and mayonnaise together in a shallow bowl wide enough to roll a corn cob in. Season with a small pinch of salt and the garlic if using. Have the cotija cheese crumbled in another shallow bowl. Prepare all toppings within reach - this goes fast.","Step 3: Roast the corn ears over high heat, turning every 2 to 3 minutes with tongs, until they are charred in multiple spots and the kernels are cooked through. This takes 10 to 12 minutes total and should leave visible blackened patches - this char is not a mistake, it is the point.","Step 4: While the corn is still very hot, brush or roll each ear generously in the crema-mayo mixture, coating all sides. Immediately roll the coated ear in the crumbled cotija cheese. The warmth helps the cheese adhere.","Step 5: Dust each elote with chile powder and Tajin. Squeeze a lime wedge over the entire ear. Garnish with chopped cilantro if desired. Serve immediately on a stick or wrapped in a piece of foil to catch drips. The entire operation from grill to table should take under 2 minutes."],
+        classifications: {"mealType":["snack","side","street food"],"cookingMethods":["grilling","roasting"]},
+        elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
+        astrologicalAffinities: {"planets":["Sun","Mars"],"signs":["leo","aries"],"lunarPhases":["Full Moon","First Quarter"]},
+        nutritionPerServing: {"calories":280,"proteinG":8,"carbsG":32,"fatG":15,"fiberG":3,"sodiumMg":480,"sugarG":8,"vitamins":["Vitamin C","Folate","Vitamin A"],"minerals":["Potassium","Magnesium","Phosphorus"]},
+
+        alchemicalProperties: {"Spirit":3.57,"Essence":4.0,"Matter":3.08,"Substance":2.79},
+        thermodynamicProperties: {"heat":0.1177,"entropy":0.3603,"reactivity":3.2158,"gregsEnergy":-1.0408,"kalchm":42.9827,"monica":0.8752},
+        substitutions: [{"originalIngredient":"cotija cheese","substituteOptions":["feta cheese (salty and crumbly)","Parmesan (sharper but effective)","vegan Parmesan for dairy-free"]},{"originalIngredient":"Mexican crema","substituteOptions":["full-fat sour cream thinned with lime juice","creme fraiche"]}]
       },
     ],
   },

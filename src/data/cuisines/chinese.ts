@@ -322,6 +322,9 @@ export const chinese = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.51,"Essence":4.21,"Matter":4.21,"Substance":3.91},
+          thermodynamicProperties: {"heat":0.0704,"entropy":0.3214,"reactivity":2.2977,"gregsEnergy":-0.6681,"kalchm":0.3968,"monica":-0.0376},
           "substitutions": [
             {
               "originalIngredient": "chicken broth",
@@ -453,6 +456,9 @@ export const chinese = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.02,"Essence":1.82,"Matter":3.28,"Substance":2.76},
+          thermodynamicProperties: {"heat":0.0176,"entropy":0.306,"reactivity":1.0111,"gregsEnergy":-0.2918,"kalchm":0.0037,"monica":0.9862},
           "substitutions": [
             {
               "originalIngredient": "egg",
@@ -596,6 +602,9 @@ export const chinese = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.25,"Essence":4.51,"Matter":3.67,"Substance":3.65},
+          thermodynamicProperties: {"heat":0.0658,"entropy":0.2999,"reactivity":3.0576,"gregsEnergy":-0.8512,"kalchm":3.0851,"monica":0.9674},
           "substitutions": [
             {
               "originalIngredient": "black vinegar",
@@ -738,6 +747,9 @@ export const chinese = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.62,"Essence":3.67,"Matter":3.14,"Substance":3.03},
+          thermodynamicProperties: {"heat":0.1174,"entropy":0.4133,"reactivity":2.8631,"gregsEnergy":-1.0659,"kalchm":11.9047,"monica":0.9862},
           "substitutions": [
             {
               "originalIngredient": "mung bean flour",
@@ -876,6 +888,9 @@ export const chinese = {
               "Selenium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.76,"Essence":2.93,"Matter":3.06,"Substance":2.9},
+          thermodynamicProperties: {"heat":0.0354,"entropy":0.2767,"reactivity":1.6913,"gregsEnergy":-0.4325,"kalchm":0.0939,"monica":0.9862},
           "substitutions": [
             {
               "originalIngredient": "scallions",
@@ -1046,6 +1061,9 @@ export const chinese = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":5.09,"Essence":5.45,"Matter":5.04,"Substance":4.74},
+          thermodynamicProperties: {"heat":0.1075,"entropy":0.4187,"reactivity":2.8574,"gregsEnergy":-1.0889,"kalchm":7.364,"monica":0.6974},
           "substitutions": [
             {
               "originalIngredient": "ground pork",
@@ -1145,6 +1163,9 @@ export const chinese = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":1.2,"Essence":1.45,"Matter":1.9,"Substance":1.85},
+          thermodynamicProperties: {"heat":0.0574,"entropy":0.3928,"reactivity":1.7507,"gregsEnergy":-0.6302,"kalchm":0.2019,"monica":0.2598},
           "substitutions": [
             {
               "originalIngredient": "ground beef",
@@ -1288,6 +1309,9 @@ export const chinese = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.62,"Essence":3.79,"Matter":5.79,"Substance":5.56},
+          thermodynamicProperties: {"heat":0.0267,"entropy":0.358,"reactivity":1.4362,"gregsEnergy":-0.4874,"kalchm":0.0,"monica":0.5564},
           "substitutions": [
             {
               "originalIngredient": "wheat starch",
@@ -1442,6 +1466,9 @@ export const chinese = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.72,"Essence":4.82,"Matter":4.1,"Substance":3.83},
+          thermodynamicProperties: {"heat":0.0802,"entropy":0.3312,"reactivity":2.6865,"gregsEnergy":-0.8095,"kalchm":4.6627,"monica":0.6887},
           "substitutions": [
             {
               "originalIngredient": "pork shoulder",
@@ -1592,6 +1619,9 @@ export const chinese = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.28,"Essence":4.56,"Matter":4.28,"Substance":4.1},
+          thermodynamicProperties: {"heat":0.0964,"entropy":0.3823,"reactivity":2.8695,"gregsEnergy":-1.0006,"kalchm":3.1079,"monica":0.511},
           "substitutions": [
             {
               "originalIngredient": "shrimp and pork",
@@ -1744,6 +1774,9 @@ export const chinese = {
               "Selenium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.64,"Essence":4.21,"Matter":3.59,"Substance":3.39},
+          thermodynamicProperties: {"heat":0.0513,"entropy":0.2935,"reactivity":2.6818,"gregsEnergy":-0.7357,"kalchm":0.8935,"monica":1.7504},
           "substitutions": [
             {
               "originalIngredient": "whole duck",
@@ -1896,6 +1929,9 @@ export const chinese = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":4.25,"Essence":4.76,"Matter":4.18,"Substance":4.29},
+          thermodynamicProperties: {"heat":0.0992,"entropy":0.4315,"reactivity":3.1017,"gregsEnergy":-1.2391,"kalchm":3.8575,"monica":0.7162},
           "substitutions": [
             {
               "originalIngredient": "chicken thigh",
@@ -2037,6 +2073,9 @@ export const chinese = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.37,"Essence":4.04,"Matter":3.75,"Substance":3.48},
+          thermodynamicProperties: {"heat":0.0767,"entropy":0.3263,"reactivity":2.5694,"gregsEnergy":-0.7616,"kalchm":1.5509,"monica":0.4266},
           "substitutions": [
             {
               "originalIngredient": "pork skin aspic",
@@ -2174,6 +2213,9 @@ export const chinese = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.95,"Essence":4.6,"Matter":4.19,"Substance":3.96},
+          thermodynamicProperties: {"heat":0.0497,"entropy":0.2911,"reactivity":2.3757,"gregsEnergy":-0.6418,"kalchm":0.2889,"monica":0.7162},
           "substitutions": [
             {
               "originalIngredient": "pork tenderloin",
@@ -2314,6 +2356,9 @@ export const chinese = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.98,"Essence":4.22,"Matter":3.74,"Substance":3.38},
+          thermodynamicProperties: {"heat":0.111,"entropy":0.3783,"reactivity":2.7048,"gregsEnergy":-0.9122,"kalchm":12.476,"monica":0.6974},
           "substitutions": [
             {
               "originalIngredient": "flank steak",
@@ -2398,6 +2443,9 @@ export const chinese = {
                   "Zinc"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.55,"Essence":0.85,"Matter":1.1,"Substance":1.05},
+              thermodynamicProperties: {"heat":0.0219,"entropy":0.1972,"reactivity":1.2054,"gregsEnergy":-0.2158,"kalchm":0.5363,"monica":0.0466},
               "substitutions": []
             },
             {
@@ -2476,6 +2524,9 @@ export const chinese = {
                   "Manganese"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.52,"Essence":0.86,"Matter":0.55,"Substance":0.54},
+              thermodynamicProperties: {"heat":0.0513,"entropy":0.1897,"reactivity":1.5973,"gregsEnergy":-0.2517,"kalchm":1.2114,"monica":-0.2053},
               "substitutions": []
             },
             {
@@ -2557,6 +2608,9 @@ export const chinese = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":1.13,"Essence":0.8,"Matter":0.9,"Substance":0.83},
+              thermodynamicProperties: {"heat":0.1663,"entropy":0.5047,"reactivity":2.184,"gregsEnergy":-0.936,"kalchm":1.2325,"monica":0.8564},
               "substitutions": []
             },
             {
@@ -2635,6 +2689,9 @@ export const chinese = {
                   "Selenium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.7,"Essence":1.45,"Matter":0.57,"Substance":0.48},
+              thermodynamicProperties: {"heat":0.0676,"entropy":0.1572,"reactivity":5.9518,"gregsEnergy":-0.8678,"kalchm":2.6164,"monica":0.8752},
               "substitutions": []
             },
             {
@@ -2714,8 +2771,87 @@ export const chinese = {
                   "Zinc"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":0.5,"Essence":0.78,"Matter":0.94,"Substance":0.93},
+              thermodynamicProperties: {"heat":0.0206,"entropy":0.1707,"reactivity":1.0795,"gregsEnergy":-0.1636,"kalchm":0.6605,"monica":-0.0566},
               "substitutions": []
             }
+        ,
+        {
+          name: "Har Gow",
+          description: "Har Gow - steamed shrimp dumplings - are the crown jewel of Cantonese dim sum, considered the benchmark by which all dim sum chefs are judged. A perfectly made Har Gow has a translucent, slightly chewy wrapper made from wheat starch and tapioca starch that is thin enough to see the pink shrimp filling through it, yet strong enough to hold without tearing. The filling is classically pure: coarsely chopped shrimp seasoned with sesame oil, white pepper, and a touch of bamboo shoot for crunch, steamed until the shrimp is just barely cooked.",
+          details: {"cuisine":"Chinese","prepTimeMinutes":60,"cookTimeMinutes":15,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":0.75,"unit":"lb","name":"Large shrimp","notes":"Peeled, deveined, and coarsely chopped - not minced."},{"amount":0.25,"unit":"cup","name":"Bamboo shoots","notes":"Canned, finely diced for texture."},{"amount":1,"unit":"tsp","name":"Sesame oil","notes":"Toasted, for the filling."},{"amount":0.5,"unit":"tsp","name":"White pepper","notes":"Freshly ground - this is the defining spice."},{"amount":1,"unit":"tsp","name":"Cornstarch","notes":"To bind the filling."},{"amount":1.5,"unit":"cups","name":"Wheat starch (tang mian fen)","notes":"Not regular wheat flour - wheat starch is essential for the translucent wrapper."},{"amount":0.5,"unit":"cup","name":"Tapioca starch","notes":"Mixed with wheat starch for elasticity."},{"amount":1.25,"unit":"cups","name":"Boiling water","notes":"For the dough - must be boiling."}],
+          instructions: ["Step 1: For the filling, coarsely chop the shrimp into rough pieces - some should be nearly whole, others smaller. Do not mince. Combine with finely diced bamboo shoots, sesame oil, white pepper, cornstarch, a pinch of sugar, and salt. Mix in one direction until slightly sticky. Refrigerate.","Step 2: For the wrapper dough, combine wheat starch and tapioca starch in a bowl. Pour the boiling water over the starches all at once and stir immediately with a chopstick or spatula until a rough dough forms. The starches will gelatinize instantly.","Step 3: Turn out the hot dough and knead quickly (it will be very hot) into a smooth, translucent dough. Cover tightly and rest for 5 minutes.","Step 4: Divide the dough into small pieces. Using a cleaver or the flat side of a knife, press each piece between plastic wrap into a thin round disk about 3 inches across. The wrapper should be translucent.","Step 5: Place a generous teaspoon of shrimp filling in the center of each wrapper. Fold one side over the other and crimp the edge with a series of small folds - the traditional har gow has 7 to 10 pleats on one side only, a mark of technical skill.","Step 6: Place each dumpling on an oiled bamboo steamer basket. Steam over vigorously boiling water for exactly 6 minutes. The wrappers will be translucent and slightly sticky, the shrimp just cooked through. Serve immediately with a dipping sauce of soy sauce and chili oil."],
+          classifications: {"mealType":["lunch","breakfast","snack","appetizer"],"cookingMethods":["steaming","folding"]},
+          elementalProperties: {"Fire":0.1,"Water":0.4,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","taurus","virgo"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":220,"proteinG":18,"carbsG":28,"fatG":4,"fiberG":1,"sodiumMg":580,"sugarG":1,"vitamins":["Vitamin B12","Niacin","Selenium"],"minerals":["Phosphorus","Potassium","Zinc"]},
+
+          alchemicalProperties: {"Spirit":2.39,"Essence":2.91,"Matter":3.87,"Substance":3.71},
+          thermodynamicProperties: {"heat":0.0441,"entropy":0.3441,"reactivity":1.58,"gregsEnergy":-0.4995,"kalchm":0.0074,"monica":0.0078},
+          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Scallop and shrimp blend","Crab meat"]},{"originalIngredient":"Wheat starch","substituteOptions":["Tapioca starch alone (slightly different texture)"]}]
+        },
+        {
+          name: "Mapo Tofu",
+          description: "Mapo Tofu is one of the most electrifying dishes in the entire Chinese culinary canon - a Sichuan preparation of silken tofu trembling in a sauce of extraordinary complexity and layered heat. The dish is named for a pock-marked old woman (ma po) who reportedly invented it. The sauce combines doubanjiang (fermented bean and chili paste), ground pork, Sichuan peppercorn (which creates a unique numbing sensation called ma la on the tongue), fermented black beans, and chili oil into a volcanic, rust-red gravy that envelops the delicate tofu cubes.",
+          details: {"cuisine":"Chinese","prepTimeMinutes":20,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"High","season":["all"]},
+          ingredients: [{"amount":1,"unit":"block","name":"Silken or soft tofu","notes":"About 14 oz, cut into 1-inch cubes - handle gently."},{"amount":0.25,"unit":"lb","name":"Ground pork","notes":"Or ground beef."},{"amount":2,"unit":"tbsp","name":"Doubanjiang (spicy bean paste)","notes":"Pixian doubanjiang is the authentic choice - red and intensely fermented."},{"amount":1,"unit":"tbsp","name":"Fermented black beans","notes":"Rinsed and roughly chopped."},{"amount":1,"unit":"tsp","name":"Sichuan peppercorns","notes":"Toasted and ground - creates the numbing sensation."},{"amount":3,"unit":"cloves","name":"Garlic","notes":"Minced."},{"amount":1,"unit":"inch","name":"Fresh ginger","notes":"Minced."},{"amount":1,"unit":"cup","name":"Chicken broth","notes":"For the sauce."},{"amount":1,"unit":"tbsp","name":"Cornstarch","notes":"Mixed with water, for thickening."}],
+          instructions: ["Step 1: Toast the Sichuan peppercorns in a dry pan until fragrant, about 2 minutes. Grind to a coarse powder. Set aside - this will be added at the very end to preserve its numbing quality.","Step 2: Gently lower the tofu cubes into lightly salted simmering water for 2 minutes to firm them slightly and season them. Drain carefully and set aside.","Step 3: Heat wok or pan over high heat until smoking. Add oil, then ground pork. Stir-fry, breaking it up, until completely browned and starting to crisp at the edges.","Step 4: Add the doubanjiang to the pork - it will spit and the oil will turn deep red from the fermented chili. Add garlic and ginger and fry for 1 minute. Add the fermented black beans and chili oil if using.","Step 5: Pour in the chicken broth. Bring to a vigorous boil. Gently slide the tofu cubes into the sauce. Cook without aggressive stirring for 3 minutes, tilting the wok gently to baste the tofu.","Step 6: Pour in the cornstarch slurry to thicken the sauce. Let it boil once more until glossy. Plate in a shallow bowl. Finish with a generous dusting of ground Sichuan peppercorn, sliced green onions, and a drizzle of chili oil. Serve with steamed white rice."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["stir-frying","simmering","braising"]},
+          elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Pluto","Uranus"],"signs":["aries","scorpio","aquarius"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":320,"proteinG":22,"carbsG":12,"fatG":22,"fiberG":3,"sodiumMg":980,"sugarG":3,"vitamins":["Calcium","Vitamin B12","Iron"],"minerals":["Iron","Magnesium","Potassium"]},
+
+          alchemicalProperties: {"Spirit":3.55,"Essence":3.98,"Matter":4.75,"Substance":4.45},
+          thermodynamicProperties: {"heat":0.0679,"entropy":0.387,"reactivity":2.022,"gregsEnergy":-0.7147,"kalchm":0.0174,"monica":0.3064},
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Shiitake mushrooms (vegetarian version)"]},{"originalIngredient":"Doubanjiang","substituteOptions":["Gochujang plus soy sauce (different flavor profile)"]}]
+        },
+        {
+          name: "Zhajiangmian",
+          description: "Zhajiangmian is the definitive noodle dish of Beijing - thick wheat noodles topped with a deeply savory, slow-cooked ground pork and fermented bean paste sauce called zhajiang, meaning fried sauce. The sauce is built by slowly frying ground pork with yellow soybean paste (huangdoujiang) and sweet bean sauce (tianmianjiang) over low heat for 20 minutes until the pork fat renders into the sauce and the fermented notes mellow and deepen into something rich, complex, and almost caramel-like. It is served over thick noodles with fresh julienned cucumber.",
+          details: {"cuisine":"Chinese","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":0.5,"unit":"lb","name":"Ground pork","notes":"Fatty pork preferred for richness."},{"amount":3,"unit":"tbsp","name":"Yellow soybean paste (huangdoujiang)","notes":"Fermented, the defining ingredient."},{"amount":2,"unit":"tbsp","name":"Sweet bean sauce (tianmianjiang)","notes":"For balance and sweetness."},{"amount":1,"unit":"tbsp","name":"Shaoxing rice wine","notes":"For depth."},{"amount":3,"unit":"cloves","name":"Garlic","notes":"Minced."},{"amount":1,"unit":"whole","name":"White onion","notes":"Finely diced."},{"amount":1,"unit":"lb","name":"Thick fresh wheat noodles","notes":"Or dried thick spaghetti or udon."},{"amount":2,"unit":"whole","name":"Persian cucumbers","notes":"Julienned into thin matchsticks, for garnish."}],
+          instructions: ["Step 1: Heat a wok or heavy pan over medium heat. Add a small amount of oil. Add the ground pork and cook over medium heat, breaking it up, until the fat begins to render - do not rush this stage.","Step 2: Once the pork is cooked through and the fat has rendered, drain any excess liquid from the pan. The pork should be lightly browned.","Step 3: Add minced garlic and diced onion to the pork. Stir fry for 2 minutes over medium heat.","Step 4: Add the yellow soybean paste and sweet bean sauce. Stir to combine with the pork. Reduce heat to medium-low. This is the critical stage - cook the sauce over low heat for 20 minutes, stirring occasionally, until the pork fat fully integrates with the bean paste and the sauce becomes thick, glossy, and deeply fragrant. Add a splash of water if it becomes too dry.","Step 5: Add Shaoxing rice wine and a small amount of sugar to balance the saltiness. The finished sauce should be thick and coat the pork heavily, with visible oil glistening on the surface.","Step 6: Cook the noodles according to package directions. Drain and toss with a small amount of sesame oil to prevent sticking. Divide into bowls, add a generous ladle of zhajiang sauce on top. Garnish with julienned cucumber and bean sprouts. The diner mixes everything together at the table."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["stir-frying","slow-cooking"]},
+          elementalProperties: {"Fire":0.2,"Water":0.2,"Earth":0.5,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Earth","Jupiter"],"signs":["capricorn","taurus","virgo"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":560,"proteinG":28,"carbsG":64,"fatG":22,"fiberG":4,"sodiumMg":1200,"sugarG":8,"vitamins":["Thiamin","Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":2.64,"Essence":3.34,"Matter":3.85,"Substance":3.35},
+          thermodynamicProperties: {"heat":0.0545,"entropy":0.293,"reactivity":1.5557,"gregsEnergy":-0.4014,"kalchm":0.0707,"monica":0.3252},
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Firm tofu crumbled (vegetarian)"]},{"originalIngredient":"Yellow soybean paste","substituteOptions":["Miso paste plus soy sauce"]}]
+        },
+        {
+          name: "Congee",
+          description: "Congee (zhou in Mandarin, jook in Cantonese) is the most elemental and nourishing preparation in the Chinese culinary tradition - a thick, silky rice porridge that is made by cooking rice in a volume of water or broth eight to ten times greater than the rice itself, over a long period, until the grains completely dissolve and surrender their starch into a smooth, flowing, porcelain-white liquid of remarkable soothing power. It is served from birth to death, as everyday breakfast, as restorative food for the sick, and as the template for many of the most refined toppings.",
+          details: {"cuisine":"Chinese","prepTimeMinutes":15,"cookTimeMinutes":90,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Jasmine or long-grain white rice","notes":"Rinsed well."},{"amount":8,"unit":"cups","name":"Chicken broth or water","notes":"Chicken broth creates a richer congee."},{"amount":2,"unit":"inch","name":"Fresh ginger","notes":"Sliced, for the broth."},{"amount":0.5,"unit":"lb","name":"Chicken breast or thigh","notes":"Optional but recommended - poached directly in the congee."},{"amount":2,"unit":"tbsp","name":"Soy sauce","notes":"Light soy sauce, for seasoning."},{"amount":1,"unit":"tbsp","name":"Sesame oil","notes":"For serving."},{"amount":2,"unit":"whole","name":"Green onions","notes":"Thinly sliced, for garnish."},{"amount":2,"unit":"tbsp","name":"Fresh ginger","notes":"Julienned, for garnish."},{"amount":0.25,"unit":"cup","name":"Fried shallots or garlic","notes":"For crispy topping."}],
+          instructions: ["Step 1: Rinse the rice thoroughly in several changes of water. Combine with the broth or water and sliced ginger in a large, heavy-bottomed pot. Bring to a vigorous boil.","Step 2: Once boiling, reduce heat to a low but active simmer. Cook uncovered, stirring occasionally (especially the bottom to prevent scorching), for 60 to 90 minutes. The rice grains should completely break down and dissolve into a smooth, thick porridge.","Step 3: If adding chicken, lower the raw chicken pieces directly into the simmering congee after the first 30 minutes of cooking. Poach gently until fully cooked, about 20 minutes. Remove, shred finely, and set aside.","Step 4: As the congee cooks, it will thicken significantly. Add more broth or water if needed to maintain a flowing, creamy consistency - it should pour from a spoon but not be watery.","Step 5: Season with soy sauce and white pepper. The congee base should be gently savory, serving as a neutral canvas for the toppings.","Step 6: Ladle into deep bowls. Top with shredded chicken, julienned fresh ginger, sliced green onions, a drizzle of sesame oil, and crispy fried shallots. Optional toppings include century egg, salted egg yolk, or a soft-poached egg cracked into the hot congee just before serving."],
+          classifications: {"mealType":["breakfast","lunch","dinner"],"cookingMethods":["long-simmering","poaching"]},
+          elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.35,"Air":0.05},
+          astrologicalAffinities: {"planets":["Moon","Saturn","Neptune"],"signs":["cancer","capricorn","pisces"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":240,"proteinG":16,"carbsG":32,"fatG":6,"fiberG":1,"sodiumMg":680,"sugarG":1,"vitamins":["Niacin","Vitamin B6","Vitamin B12"],"minerals":["Potassium","Phosphorus","Selenium"]},
+
+          alchemicalProperties: {"Spirit":4.27,"Essence":4.68,"Matter":3.61,"Substance":3.26},
+          thermodynamicProperties: {"heat":0.1177,"entropy":0.3456,"reactivity":3.2538,"gregsEnergy":-1.0069,"kalchm":138.9912,"monica":0.4188},
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork (pork congee)","Fish fillet","Shrimp"]},{"originalIngredient":"Chicken broth","substituteOptions":["Pork bone broth","Vegetable broth"]}]
+        },
+        {
+          name: "Wonton Soup",
+          description: "Wonton Soup is one of the most perfectly balanced soups in existence - a crystalline, golden broth of extraordinary clarity and depth, in which thin-skinned wontons filled with seasoned pork and shrimp float like translucent packets, their wrappers simultaneously silky and slightly springy from the egg in the dough. The Cantonese version prized for its purity demands a broth made from dried flounder, shrimp roe, and pork bones that is clarified to jewel-like clarity - a broth so well-made it is considered a dish in itself.",
+          details: {"cuisine":"Chinese","prepTimeMinutes":45,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":0.5,"unit":"lb","name":"Ground pork","notes":"With some fat content for juiciness."},{"amount":0.25,"unit":"lb","name":"Shrimp","notes":"Finely chopped."},{"amount":1,"unit":"tbsp","name":"Soy sauce","notes":"Light soy sauce."},{"amount":1,"unit":"tsp","name":"Sesame oil","notes":"For the filling."},{"amount":0.5,"unit":"tsp","name":"White pepper","notes":"The essential seasoning in the filling."},{"amount":30,"unit":"whole","name":"Wonton wrappers","notes":"Thin, square, store-bought or homemade."},{"amount":8,"unit":"cups","name":"Chicken or pork broth","notes":"The best quality available."},{"amount":2,"unit":"whole","name":"Green onions","notes":"Sliced, for the broth and garnish."},{"amount":1,"unit":"cup","name":"Bok choy or baby spinach","notes":"Blanched, for the soup."}],
+          instructions: ["Step 1: Combine ground pork and chopped shrimp in a bowl. Add soy sauce, sesame oil, white pepper, a pinch of sugar, and minced ginger. Stir vigorously in one direction with a chopstick for 2 minutes until the mixture becomes sticky and develops a slight springy texture - this is the protein binding.","Step 2: To fold wontons: place a wrapper on your palm with a corner pointing toward you. Add a teaspoon of filling slightly below center. Fold the bottom corner up over the filling. Press to seal, squeezing out any air. Bring the two side corners together around your finger and press firmly to seal. The result is a nurse-hat shape.","Step 3: Bring a large pot of water to a vigorous boil. Cook the wontons in batches of 10, never crowding the pot. They are done approximately 2 minutes after they float to the surface (about 4 minutes total). Remove with a spider.","Step 4: While the wontons cook, heat the broth in a separate pot. Season generously with soy sauce, white pepper, and sesame oil. The broth should be savory and clear.","Step 5: Blanch the bok choy or spinach briefly in the wonton cooking water.","Step 6: Divide the cooked wontons between deep bowls. Ladle the hot seasoned broth over them. Add blanched greens and garnish with sliced green onions, a few drops of sesame oil, and a pinch of white pepper. Serve immediately."],
+          classifications: {"mealType":["lunch","dinner","breakfast"],"cookingMethods":["boiling","folding","simmering"]},
+          elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.25,"Air":0.1},
+          astrologicalAffinities: {"planets":["Moon","Mercury","Neptune"],"signs":["cancer","gemini","pisces"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":340,"proteinG":24,"carbsG":38,"fatG":10,"fiberG":2,"sodiumMg":860,"sugarG":2,"vitamins":["Niacin","Vitamin B12","Vitamin C"],"minerals":["Iron","Potassium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":3.28,"Essence":4.35,"Matter":3.81,"Substance":3.87},
+          thermodynamicProperties: {"heat":0.065,"entropy":0.3246,"reactivity":2.7264,"gregsEnergy":-0.8199,"kalchm":0.9588,"monica":0.0734},
+          substitutions: [{"originalIngredient":"Wonton wrappers","substituteOptions":["Gyoza wrappers","Homemade egg dough wrappers"]},{"originalIngredient":"Ground pork","substituteOptions":["Chicken and shrimp","Tofu and water chestnuts"]}]
+        },
         ],
       spring: [],
       summer: [],
@@ -2831,6 +2967,9 @@ export const chinese = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.54,"Essence":2.12,"Matter":2.06,"Substance":1.88},
+          thermodynamicProperties: {"heat":0.0501,"entropy":0.2622,"reactivity":1.988,"gregsEnergy":-0.4711,"kalchm":0.6586,"monica":0.8752},
           "substitutions": [
             {
               "originalIngredient": "evaporated milk",
@@ -2962,6 +3101,9 @@ export const chinese = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.92,"Essence":2.94,"Matter":3.18,"Substance":2.96},
+          thermodynamicProperties: {"heat":0.0371,"entropy":0.2604,"reactivity":1.5656,"gregsEnergy":-0.3705,"kalchm":0.0847,"monica":0.3344},
           "substitutions": [
             {
               "originalIngredient": "pork lard",
@@ -3084,6 +3226,9 @@ export const chinese = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.35,"Essence":3.17,"Matter":1.91,"Substance":1.64},
+          thermodynamicProperties: {"heat":0.031,"entropy":0.1287,"reactivity":3.3683,"gregsEnergy":-0.4024,"kalchm":7.5022,"monica":0.2014},
           "substitutions": [
             {
               "originalIngredient": "pomelo",
@@ -3208,6 +3353,9 @@ export const chinese = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.43,"Essence":2.26,"Matter":2.28,"Substance":1.93},
+          thermodynamicProperties: {"heat":0.0441,"entropy":0.2446,"reactivity":1.6657,"gregsEnergy":-0.3634,"kalchm":0.4521,"monica":0.9862},
           "substitutions": [
             {
               "originalIngredient": "red bean paste",
@@ -3338,6 +3486,9 @@ export const chinese = {
               "Iron"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.36,"Essence":3.41,"Matter":3.17,"Substance":2.84},
+          thermodynamicProperties: {"heat":0.0524,"entropy":0.2507,"reactivity":2.1205,"gregsEnergy":-0.4793,"kalchm":0.6622,"monica":0.2014},
           "substitutions": [
             {
               "originalIngredient": "pork lard",

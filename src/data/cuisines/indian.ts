@@ -135,6 +135,9 @@ export const indian = {
               "Calcium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.32,"Essence":3.9,"Matter":4.6,"Substance":4.22},
+          thermodynamicProperties: {"heat":0.0611,"entropy":0.3533,"reactivity":1.7666,"gregsEnergy":-0.563,"kalchm":0.0223,"monica":0.4842},
           "substitutions": [
             {
               "originalIngredient": "urad dal",
@@ -262,6 +265,9 @@ export const indian = {
               "Potassium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.75,"Essence":3.47,"Matter":3.55,"Substance":3.06},
+          thermodynamicProperties: {"heat":0.0262,"entropy":0.2093,"reactivity":1.4241,"gregsEnergy":-0.2719,"kalchm":0.0726,"monica":0.5486},
           "substitutions": [
             {
               "originalIngredient": "atta",
@@ -396,6 +402,9 @@ export const indian = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.3,"Essence":2.99,"Matter":3.29,"Substance":3.07},
+          thermodynamicProperties: {"heat":0.1049,"entropy":0.4243,"reactivity":2.3523,"gregsEnergy":-0.8932,"kalchm":0.8635,"monica":-0.0754},
           "substitutions": [
             {
               "originalIngredient": "idli rice",
@@ -531,6 +540,9 @@ export const indian = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.65,"Essence":3.62,"Matter":4.04,"Substance":3.77},
+          thermodynamicProperties: {"heat":0.0893,"entropy":0.4048,"reactivity":2.0209,"gregsEnergy":-0.7286,"kalchm":0.2833,"monica":0.0078},
           "substitutions": [
             {
               "originalIngredient": "flattened rice",
@@ -661,6 +673,9 @@ export const indian = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.75,"Essence":2.99,"Matter":3.52,"Substance":3.32},
+          thermodynamicProperties: {"heat":0.07,"entropy":0.3755,"reactivity":1.8493,"gregsEnergy":-0.6245,"kalchm":0.0947,"monica":0.0922},
           "substitutions": [
             {
               "originalIngredient": "ghee",
@@ -788,6 +803,9 @@ export const indian = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.36,"Essence":3.21,"Matter":3.0,"Substance":2.91},
+          thermodynamicProperties: {"heat":0.1151,"entropy":0.4148,"reactivity":2.965,"gregsEnergy":-1.1149,"kalchm":4.1029,"monica":0.5298},
           "substitutions": [
             {
               "originalIngredient": "yogurt",
@@ -921,6 +939,9 @@ export const indian = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.71,"Essence":3.24,"Matter":2.49,"Substance":2.29},
+          thermodynamicProperties: {"heat":0.0936,"entropy":0.3006,"reactivity":2.5929,"gregsEnergy":-0.6857,"kalchm":10.3981,"monica":0.6786},
           "substitutions": [
             {
               "originalIngredient": "heavy cream",
@@ -1059,6 +1080,9 @@ export const indian = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.95,"Essence":3.68,"Matter":3.89,"Substance":3.53},
+          thermodynamicProperties: {"heat":0.0631,"entropy":0.3186,"reactivity":1.9877,"gregsEnergy":-0.57,"kalchm":0.1737,"monica":0.6887},
           "substitutions": [
             {
               "originalIngredient": "chicken",
@@ -1195,6 +1219,9 @@ export const indian = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.75,"Essence":3.93,"Matter":3.91,"Substance":3.7},
+          thermodynamicProperties: {"heat":0.0965,"entropy":0.4014,"reactivity":2.3909,"gregsEnergy":-0.8633,"kalchm":1.1771,"monica":0.1479},
           "substitutions": [
             {
               "originalIngredient": "goat meat",
@@ -1330,6 +1357,9 @@ export const indian = {
               "Magnesium"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.67,"Essence":3.51,"Matter":4.08,"Substance":3.6},
+          thermodynamicProperties: {"heat":0.0493,"entropy":0.2893,"reactivity":1.6225,"gregsEnergy":-0.42,"kalchm":0.0362,"monica":-0.0376},
           "substitutions": [
             {
               "originalIngredient": "paneer",
@@ -1455,6 +1485,9 @@ export const indian = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.53,"Essence":3.08,"Matter":2.59,"Substance":2.28},
+          thermodynamicProperties: {"heat":0.0914,"entropy":0.3154,"reactivity":2.5527,"gregsEnergy":-0.7136,"kalchm":4.346,"monica":0.4654},
           "substitutions": [
             {
               "originalIngredient": "yogurt (bhature)",
@@ -1570,6 +1603,9 @@ export const indian = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.28,"Essence":2.61,"Matter":3.2,"Substance":2.89},
+          thermodynamicProperties: {"heat":0.0182,"entropy":0.2368,"reactivity":1.3466,"gregsEnergy":-0.3007,"kalchm":0.0189,"monica":0.4188},
           "substitutions": [
             {
               "originalIngredient": "paneer",
@@ -1688,6 +1724,9 @@ export const indian = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":1.88,"Essence":2.27,"Matter":2.91,"Substance":2.74},
+          thermodynamicProperties: {"heat":0.0509,"entropy":0.3475,"reactivity":1.8239,"gregsEnergy":-0.583,"kalchm":0.0595,"monica":0.5486},
           "substitutions": [
             {
               "originalIngredient": "puris",
@@ -1805,6 +1844,9 @@ export const indian = {
               "Manganese"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.37,"Essence":2.83,"Matter":2.44,"Substance":2.13},
+          thermodynamicProperties: {"heat":0.0921,"entropy":0.3168,"reactivity":2.3619,"gregsEnergy":-0.6563,"kalchm":3.3268,"monica":1.1538},
           "substitutions": [
             {
               "originalIngredient": "eggplant",
@@ -1923,6 +1965,9 @@ export const indian = {
                   "Potassium"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":3.1,"Essence":2.74,"Matter":2.94,"Substance":2.85},
+              thermodynamicProperties: {"heat":0.1155,"entropy":0.4603,"reactivity":2.3478,"gregsEnergy":-0.9652,"kalchm":1.1205,"monica":0.4842},
               "substitutions": [
                 {
                   "originalIngredient": "Lamb shoulder",
@@ -2038,6 +2083,9 @@ export const indian = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":1.75,"Essence":2.9,"Matter":2.53,"Substance":2.25},
+              thermodynamicProperties: {"heat":0.047,"entropy":0.2359,"reactivity":2.0167,"gregsEnergy":-0.4287,"kalchm":0.8994,"monica":0.8752},
               "substitutions": [
                 {
                   "originalIngredient": "Butter",
@@ -2157,6 +2205,9 @@ export const indian = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":2.78,"Essence":2.95,"Matter":3.12,"Substance":2.95},
+              thermodynamicProperties: {"heat":0.0866,"entropy":0.3854,"reactivity":2.3811,"gregsEnergy":-0.8311,"kalchm":0.4928,"monica":0.4188},
               "substitutions": [
                 {
                   "originalIngredient": "Prawns",
@@ -2272,6 +2323,9 @@ export const indian = {
                   "Iron"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":1.55,"Essence":2.97,"Matter":2.93,"Substance":2.61},
+              thermodynamicProperties: {"heat":0.0287,"entropy":0.2165,"reactivity":1.4961,"gregsEnergy":-0.2951,"kalchm":0.1753,"monica":0.5486},
               "substitutions": [
                 {
                   "originalIngredient": "Atta",
@@ -2384,6 +2438,9 @@ export const indian = {
                   "Phosphorus"
                 ]
               },
+
+              alchemicalProperties: {"Spirit":2.41,"Essence":2.68,"Matter":2.53,"Substance":2.4},
+              thermodynamicProperties: {"heat":0.0815,"entropy":0.3266,"reactivity":2.2838,"gregsEnergy":-0.6644,"kalchm":1.3667,"monica":0.8752},
               "substitutions": [
                 {
                   "originalIngredient": "Khoya",
@@ -2505,6 +2562,9 @@ export const indian = {
               "Zinc"
             ]
           },
+
+          alchemicalProperties: {"Spirit":3.1,"Essence":2.74,"Matter":2.94,"Substance":2.85},
+          thermodynamicProperties: {"heat":0.1172,"entropy":0.4687,"reactivity":2.3496,"gregsEnergy":-0.9842,"kalchm":1.1205,"monica":0.4842},
           "substitutions": [
             {
               "originalIngredient": "lamb",
@@ -2514,6 +2574,81 @@ export const indian = {
               ]
             }
           ]
+        },
+        {
+          name: "Dal Tadka",
+          description: "Dal Tadka is the everyday soul food of the Indian subcontinent - a preparation of split yellow lentils (toor dal) cooked until they dissolve into a thick, golden, mineral-rich liquid, then dramatically elevated by the tadka (tempering) technique: a sizzling ladle of ghee, smoking with whole cumin seeds, dried red chilies, mustard seeds, and curry leaves, is poured directly onto the dal at the table, the fat extracting and concentrating volatile aromatic compounds into an explosive bloom of fragrance that transforms the humble lentil soup into something transcendent.",
+          details: {"cuisine":"Indian","prepTimeMinutes":15,"cookTimeMinutes":45,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Toor dal (split yellow pigeon peas)","notes":"Rinsed well."},{"amount":1,"unit":"medium","name":"Tomato","notes":"Finely chopped."},{"amount":1,"unit":"medium","name":"White onion","notes":"Finely diced."},{"amount":1,"unit":"tsp","name":"Ground turmeric","notes":"Essential for color and anti-inflammatory properties."},{"amount":3,"unit":"cloves","name":"Garlic","notes":"Minced."},{"amount":1,"unit":"inch","name":"Fresh ginger","notes":"Grated."},{"amount":3,"unit":"tbsp","name":"Ghee","notes":"Clarified butter - for the tadka. Do not substitute oil for best results."},{"amount":1,"unit":"tsp","name":"Cumin seeds","notes":"Whole, for the tadka."},{"amount":2,"unit":"whole","name":"Dried red chilies","notes":"For the tadka."},{"amount":8,"unit":"leaves","name":"Curry leaves","notes":"Fresh, for the tadka - dried are inferior."}],
+          instructions: ["Step 1: Rinse the toor dal in several changes of water until the water runs clear. Combine with 3 cups of water, turmeric, and a pinch of salt in a pressure cooker or heavy pot.","Step 2: If using a pressure cooker, cook for 3 whistles (about 15 minutes). If using a regular pot, cook covered for 45 minutes until the lentils completely dissolve into a smooth, porridge-like consistency. Whisk vigorously to help them break down completely.","Step 3: In a separate pan, heat 1 tablespoon of ghee over medium heat. Fry the onions until deeply golden and caramelized, about 15 minutes. Add garlic and ginger and fry for 2 more minutes. Add tomato and cook until the tomato breaks down and the oil separates to the edges of the pan.","Step 4: Add the cooked lentils to the pan with the onion-tomato base. Add 1 cup of hot water to adjust consistency to a thick, flowing soup. Season generously with salt. Simmer together for 10 minutes.","Step 5: For the tadka, heat the remaining ghee in a small pan over high heat until it shimmers and just begins to smoke. Add the whole cumin seeds - they should spit and sizzle violently. Add dried red chilies and curry leaves (stand back - the curry leaves will explode). Cook for 15 seconds only.","Step 6: Pour the sizzling, smoking tadka directly over the dal. Serve immediately with basmati rice and hot roti."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["pressure-cooking","tempering","simmering"]},
+          elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Jupiter","Sun"],"signs":["capricorn","sagittarius","leo"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":320,"proteinG":16,"carbsG":42,"fatG":10,"fiberG":12,"sodiumMg":480,"sugarG":4,"vitamins":["Folate","Thiamin","Vitamin B6"],"minerals":["Iron","Magnesium","Potassium"]},
+
+          alchemicalProperties: {"Spirit":4.5,"Essence":4.16,"Matter":4.14,"Substance":3.74},
+          thermodynamicProperties: {"heat":0.1253,"entropy":0.4335,"reactivity":2.686,"gregsEnergy":-1.0391,"kalchm":6.576,"monica":0.5298},
+          substitutions: [{"originalIngredient":"Toor dal","substituteOptions":["Red lentils (masoor dal)","Chana dal (chickpea lentils)"]},{"originalIngredient":"Ghee","substituteOptions":["Coconut oil","Butter"]}]
+        },
+        {
+          name: "Palak Paneer",
+          description: "Palak Paneer is one of the most celebrated vegetarian dishes in the world - a vividly green spinach gravy of remarkable richness and depth, studded with golden-fried cubes of fresh paneer (Indian cottage cheese) that hold their form while absorbing the spiced spinach sauce around them. The technique requires blanching fresh spinach briefly, then blending it into a smooth vivid puree before combining with a deeply cooked onion-tomato base perfumed with garam masala, ensuring the finished dish retains its vivid chlorophyll color.",
+          details: {"cuisine":"Indian","prepTimeMinutes":25,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Fresh spinach","notes":"Baby or mature leaves, stems removed."},{"amount":0.75,"unit":"lb","name":"Paneer","notes":"Cut into 1-inch cubes and shallow-fried until golden."},{"amount":2,"unit":"medium","name":"Onions","notes":"Finely diced."},{"amount":3,"unit":"medium","name":"Tomatoes","notes":"Pureed or finely chopped."},{"amount":1,"unit":"tbsp","name":"Ginger-garlic paste","notes":"Fresh ginger and garlic blended together."},{"amount":1,"unit":"tsp","name":"Garam masala","notes":"Good quality, added at the end."},{"amount":1,"unit":"tsp","name":"Ground cumin","notes":"For the base."},{"amount":0.5,"unit":"cup","name":"Heavy cream or yogurt","notes":"For richness."},{"amount":3,"unit":"tbsp","name":"Ghee or oil","notes":"For cooking."}],
+          instructions: ["Step 1: Blanch the fresh spinach in heavily salted boiling water for just 2 minutes until wilted but still vivid green. Immediately transfer to ice water to stop the cooking and preserve the chlorophyll. Drain and blend into a smooth, bright green puree. Do not cook longer or the puree will turn dull and grey.","Step 2: Cut the paneer into cubes and shallow fry in hot ghee until golden brown on all sides. Remove and set aside on paper towels. (This step prevents the paneer from dissolving in the gravy.)","Step 3: In the same pan, heat ghee over medium-high heat. Add the finely diced onions and cook, stirring frequently, for 20 minutes until deeply caramelized and turning reddish-brown. This foundational stage is non-negotiable.","Step 4: Add the ginger-garlic paste and fry for 2 minutes. Add pureed tomatoes and cook vigorously until the oil completely separates from the masala and pools at the edges - about 15 minutes. This oil separation signals the masala is cooked.","Step 5: Add cumin, coriander powder, and red chili powder. Stir for 1 minute. Fold in the spinach puree. Simmer for 5 minutes.","Step 6: Gently add the fried paneer cubes. Stir in cream and garam masala. Simmer for 3 minutes more. Serve with warm naan or steamed basmati rice, with a drizzle of cream."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["blanching","sauteing","simmering"]},
+          elementalProperties: {"Fire":0.25,"Water":0.3,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Venus","Moon","Jupiter"],"signs":["taurus","cancer","pisces"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":18,"fatG":30,"fiberG":5,"sodiumMg":540,"sugarG":8,"vitamins":["Vitamin A","Vitamin C","Vitamin K","Folate"],"minerals":["Calcium","Iron","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":3.02,"Essence":3.93,"Matter":4.08,"Substance":3.68},
+          thermodynamicProperties: {"heat":0.0593,"entropy":0.3032,"reactivity":1.9501,"gregsEnergy":-0.5318,"kalchm":0.1628,"monica":0.241},
+          substitutions: [{"originalIngredient":"Paneer","substituteOptions":["Extra-firm tofu","Halloumi cheese"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew cream"]}]
+        },
+        {
+          name: "Chicken Tikka Masala",
+          description: "Chicken Tikka Masala is the product of Indian tandoor cooking meeting a creamy tomato-based sauce that many food historians trace to the post-independence diaspora. Chicken pieces are marinated in spiced yogurt, threaded on skewers, and charred at extreme heat in a clay tandoor oven until they develop a deep char on the exterior while remaining moist within. These charred tikka pieces are then simmered in a velvety, orange-red sauce of tomatoes, cream, butter, and an aromatic spice blend until the flavors integrate completely.",
+          details: {"cuisine":"Indian","prepTimeMinutes":45,"cookTimeMinutes":40,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":1.5,"unit":"lbs","name":"Chicken thighs or breasts","notes":"Cut into 2-inch pieces."},{"amount":0.75,"unit":"cup","name":"Full-fat yogurt","notes":"For the marinade."},{"amount":2,"unit":"tbsp","name":"Tikka masala spice blend","notes":"Or: cumin, coriander, turmeric, paprika, garam masala, ginger."},{"amount":3,"unit":"medium","name":"Tomatoes","notes":"Pureed, or 1 can crushed tomatoes."},{"amount":2,"unit":"medium","name":"Onions","notes":"Finely diced."},{"amount":0.5,"unit":"cup","name":"Heavy cream","notes":"For the sauce richness."},{"amount":2,"unit":"tbsp","name":"Butter","notes":"For the makhani-style richness."},{"amount":1,"unit":"tbsp","name":"Kashmiri red chili powder","notes":"For color without excessive heat."},{"amount":1,"unit":"tsp","name":"Dried fenugreek leaves (kasuri methi)","notes":"The secret ingredient - adds a distinctive bittersweet note."}],
+          instructions: ["Step 1: Combine the chicken pieces with yogurt, tikka spice blend, lemon juice, salt, and oil. Marinate for at least 4 hours or overnight in the refrigerator. The yogurt proteins tenderize the meat while the spices penetrate.","Step 2: Grill the marinated chicken on skewers over very high heat - or broil under the highest broiler setting - until deeply charred with black spots on the edges. The exterior should be slightly burnt. Set aside.","Step 3: Heat butter and oil in a heavy pan. Add onions and cook over medium heat for 20 minutes until deeply caramelized and golden brown. Add ginger-garlic paste and fry for 2 minutes.","Step 4: Add Kashmiri chili powder for color, then pureed tomatoes. Cook vigorously, stirring frequently, until the tomatoes reduce to a thick paste and the oil separates - about 20 minutes. The masala is ready when it looks like a dry, fragrant paste.","Step 5: Add 1 cup of water and simmer for 10 minutes. Blend the sauce until completely smooth for a restaurant-style result. Return to the pan.","Step 6: Add the grilled chicken tikka pieces and any resting juices to the sauce. Simmer for 10 minutes. Stir in heavy cream, kasuri methi (crushed between palms), and garam masala. Simmer 5 more minutes. Serve with naan or basmati rice."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["grilling","sauteing","simmering"]},
+          elementalProperties: {"Fire":0.35,"Water":0.25,"Earth":0.25,"Air":0.15},
+          astrologicalAffinities: {"planets":["Mars","Sun","Jupiter"],"signs":["aries","leo","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":520,"proteinG":42,"carbsG":18,"fatG":32,"fiberG":4,"sodiumMg":720,"sugarG":10,"vitamins":["Vitamin A","Vitamin C","Niacin"],"minerals":["Iron","Calcium","Potassium"]},
+
+          alchemicalProperties: {"Spirit":2.9,"Essence":3.69,"Matter":3.69,"Substance":3.47},
+          thermodynamicProperties: {"heat":0.0645,"entropy":0.3317,"reactivity":2.2079,"gregsEnergy":-0.6678,"kalchm":0.2924,"monica":0.6974},
+          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Paneer cubes","Cauliflower florets","Shrimp"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew paste"]}]
+        },
+        {
+          name: "Biryani",
+          description: "Biryani is the most celebrated and technically demanding rice dish in South Asian cuisine - a layered masterpiece of the Mughal court that requires separate preparation of the meat and rice, which are then assembled in alternating layers and sealed with dough or cloth before final slow-cooking (dum) in a sealed pot, where the steam from the meat permeates upward through the rice while the rice starches absorb the fragrant meat juices downward, creating a unified yet texturally complex whole.",
+          details: {"cuisine":"Indian","prepTimeMinutes":60,"cookTimeMinutes":60,"baseServingSize":6,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":2,"unit":"lbs","name":"Chicken pieces","notes":"Bone-in, skin-on thighs and drumsticks for best flavor."},{"amount":3,"unit":"cups","name":"Aged basmati rice","notes":"Soaked in water for 30 minutes."},{"amount":1,"unit":"cup","name":"Full-fat yogurt","notes":"For marinating the chicken."},{"amount":2,"unit":"large","name":"Onions","notes":"Thinly sliced and fried until deep golden-crispy (birista)."},{"amount":0.5,"unit":"cup","name":"Ghee","notes":"Generously used throughout."},{"amount":1,"unit":"tsp","name":"Saffron threads","notes":"Dissolved in 2 tbsp warm milk."},{"amount":2,"unit":"tbsp","name":"Biryani masala","notes":"Or whole spices: cardamom, cinnamon, cloves, star anise, bay leaf."},{"amount":0.5,"unit":"cup","name":"Fresh mint leaves","notes":"For the layers."},{"amount":0.5,"unit":"cup","name":"Fresh cilantro","notes":"For the layers."}],
+          instructions: ["Step 1: Marinate chicken in yogurt, biryani masala, ginger-garlic paste, red chili powder, and salt for minimum 4 hours. Meanwhile, fry sliced onions in ghee over medium heat for 30 minutes until deep golden-brown and crispy (birista). Drain on paper towels.","Step 2: Parboil the soaked basmati rice in heavily salted boiling water with whole spices (bay leaf, cardamom, cloves) until it is exactly 70 percent cooked - the grains should still have a firm, slightly raw center. Drain immediately.","Step 3: Cook the marinated chicken in the remaining ghee with the whole spices until it is about 80 percent cooked - it will finish cooking during the dum steaming stage.","Step 4: In a large heavy-bottomed pot (preferably clay), layer the chicken and its masala on the bottom. Add a generous layer of the parboiled rice. Sprinkle with half the crispy onions, fresh mint, fresh cilantro, and the saffron milk.","Step 5: Add a second layer of remaining rice. Top with remaining crispy onions, herbs, and a drizzle of ghee. Seal the pot airtight with aluminum foil pressed firmly around the rim, then the lid pressed down over it.","Step 6: Cook over very high heat for 5 minutes to build steam inside (you will hear a strong sizzle), then reduce to the absolute lowest heat for 25 minutes. The dum cooking is complete. Let rest sealed for 10 minutes before opening. Serve by scooping through all layers to mix."],
+          classifications: {"mealType":["dinner","celebration"],"cookingMethods":["dum-cooking","layering","frying"]},
+          elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Jupiter","Saturn","Sun"],"signs":["sagittarius","capricorn","leo"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":72,"fatG":26,"fiberG":4,"sodiumMg":780,"sugarG":6,"vitamins":["Niacin","Vitamin B6","Folate"],"minerals":["Iron","Zinc","Potassium"]},
+
+          alchemicalProperties: {"Spirit":3.11,"Essence":3.73,"Matter":3.94,"Substance":3.68},
+          thermodynamicProperties: {"heat":0.0672,"entropy":0.3452,"reactivity":2.0256,"gregsEnergy":-0.6321,"kalchm":0.1723,"monica":1.3128},
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Lamb (raan biryani)","Vegetables and paneer (veg biryani)"]},{"originalIngredient":"Saffron","substituteOptions":["Turmeric for color only (flavor differs)"]}]
+        },
+        {
+          name: "Aloo Chaat",
+          description: "Aloo Chaat is the quintessential Indian street food experience - a bold, irreverent plate of crispy fried potato cubes tossed with a dizzying complexity of contrasting flavors and textures: the tangy tamarind chutney, the cooling mint-cilantro green chutney, the crunch of papdi (fried wheat crisps) or sev (fried chickpea noodles), the cool shock of yogurt, the sweet complexity of chaat masala, and the heat of fresh chilies all collide on one plate in deliberate, joyful chaos.",
+          details: {"cuisine":"Indian","prepTimeMinutes":30,"cookTimeMinutes":20,"baseServingSize":4,"spiceLevel":"Medium","season":["all"]},
+          ingredients: [{"amount":4,"unit":"medium","name":"Potatoes","notes":"Boiled, peeled, and cut into 1-inch cubes."},{"amount":3,"unit":"tbsp","name":"Oil","notes":"For frying the potato cubes until crispy."},{"amount":2,"unit":"tbsp","name":"Tamarind chutney","notes":"Sweet-sour, store-bought or homemade."},{"amount":3,"unit":"tbsp","name":"Green mint-cilantro chutney","notes":"Blended with garlic, lime, and green chili."},{"amount":0.5,"unit":"cup","name":"Plain yogurt","notes":"Whisked smooth with a pinch of salt."},{"amount":1,"unit":"tsp","name":"Chaat masala","notes":"The defining street food spice blend."},{"amount":0.5,"unit":"tsp","name":"Red chili powder","notes":"For heat."},{"amount":0.5,"unit":"cup","name":"Sev (fried chickpea noodles)","notes":"For the essential crunch."},{"amount":1,"unit":"whole","name":"Red onion","notes":"Finely diced."},{"amount":0.5,"unit":"cup","name":"Fresh pomegranate seeds","notes":"For color and burst of tartness."}],
+          instructions: ["Step 1: Boil the potatoes in salted water until completely tender. Cool, peel, and cut into rough 1-inch cubes.","Step 2: Heat oil in a heavy skillet over medium-high heat. Fry the potato cubes in a single layer without stirring for 4 minutes until the bottoms form a golden-brown crust. Flip and fry the other sides. The goal is crispy-edged cubes with a soft interior. Season with salt immediately after frying.","Step 3: Make or prepare the green chutney: blend fresh cilantro, mint leaves, green chilies, garlic, ginger, lime juice, and salt until smooth. Adjust acidity with more lime.","Step 4: Assemble while the potatoes are still warm (or reheat them): place fried potatoes in a bowl or on a plate. Season with chaat masala, red chili powder, and a pinch of cumin powder.","Step 5: Drizzle the tamarind chutney over the potatoes, followed by the green chutney. Add spoonfuls of whisked yogurt. The three sauces should be visible as distinct colors - do not mix them in yet.","Step 6: Top with finely diced red onion, fresh pomegranate seeds, a generous handful of crunchy sev, and fresh cilantro. Serve immediately - the textures degrade quickly as the sev absorbs moisture. The diner mixes everything together at the table."],
+          classifications: {"mealType":["snack","appetizer","lunch"],"cookingMethods":["frying","boiling","assembly"]},
+          elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Mars","Mercury","Sun"],"signs":["aries","gemini","leo"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":320,"proteinG":8,"carbsG":48,"fatG":12,"fiberG":6,"sodiumMg":580,"sugarG":12,"vitamins":["Vitamin C","Vitamin B6","Folate"],"minerals":["Potassium","Iron","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":3.13,"Essence":4.31,"Matter":4.68,"Substance":4.3},
+          thermodynamicProperties: {"heat":0.0505,"entropy":0.312,"reactivity":1.8583,"gregsEnergy":-0.5293,"kalchm":0.0266,"monica":0.8564},
+          substitutions: [{"originalIngredient":"Sev","substituteOptions":["Crushed papdi","Crushed puffed rice (murmura)"]},{"originalIngredient":"Pomegranate seeds","substituteOptions":["Diced mango","Diced apple"]}]
         },
       ],
     },
@@ -2581,6 +2716,9 @@ export const indian = {
               "vitamins": ["Vitamin C","Vitamin A"],
               "minerals": ["Iron","Calcium"]
         },
+
+          alchemicalProperties: {"Spirit":0.35,"Essence":0.35,"Matter":0.35,"Substance":0.35},
+          thermodynamicProperties: {"heat":0.0848,"entropy":0.2416,"reactivity":2.0579,"gregsEnergy":-0.4124,"kalchm":1.0,"monica":0.4376},
           "substitutions": []
         },
         {
@@ -2691,6 +2829,9 @@ export const indian = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.68,"Essence":3.25,"Matter":1.68,"Substance":1.63},
+          thermodynamicProperties: {"heat":0.1312,"entropy":0.3118,"reactivity":5.5436,"gregsEnergy":-1.5975,"kalchm":122.0778,"monica":-0.0298},
           "substitutions": [
             {
               "originalIngredient": "whole milk",
@@ -2815,6 +2956,9 @@ export const indian = {
               "Phosphorus"
             ]
           },
+
+          alchemicalProperties: {"Spirit":2.48,"Essence":3.14,"Matter":1.98,"Substance":1.86},
+          thermodynamicProperties: {"heat":0.1058,"entropy":0.2968,"reactivity":3.9599,"gregsEnergy":-1.0694,"kalchm":28.1779,"monica":-0.0128},
           "substitutions": [
             {
               "originalIngredient": "whole milk",
