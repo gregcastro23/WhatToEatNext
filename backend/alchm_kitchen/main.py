@@ -51,6 +51,8 @@ from backend.utils.alchemical_quantities import calculate_alchemical_quantities
 from backend.utils.wellness_analytics import analyze_alchemical_balance
 # Transmutation Oracle import
 from backend.utils.transmutation_oracle import TransmutationOracle
+# Image Generator import
+from backend.utils.image_generator import generate_visual_prompt, NanoBananaPro
 # Collective Synastry Engine import
 from backend.utils.collective_engine import ChartData, CollectiveSynastryEngine # New imports
 # Centralized celestial config
@@ -402,6 +404,41 @@ class ChartSummary(BaseModel):
 class RecipeGeneratorResponse(BaseModel):
     chart: ChartSummary
     recommendations: List[str]
+
+# ==========================================
+# IMAGE GENERATION (Alchemical Pipeline)
+# ==========================================
+
+class ImageGenerationRequest(BaseModel):
+    name: str
+    description: Optional[str] = ""
+    cuisine: Optional[str] = "Global"
+    elementalProperties: Optional[Dict[str, float]] = None
+    monicaScore: Optional[float] = None
+    energyProfile: Optional[Dict[str, Any]] = None
+    cookingMethods: Optional[List[str]] = None
+
+class ImageGenerationResponse(BaseModel):
+    url: str
+    prompt: str
+
+@app.post("/api/generate-alchemical-image", response_model=ImageGenerationResponse)
+async def generate_alchemical_image_endpoint(request: ImageGenerationRequest):
+    """
+    Generate an alchemical visual prompt and bridge to Nano Banana Pro for image generation.
+    """
+    try:
+        recipe_data = request.dict()
+        # Synthesize the 150-word visual prompt
+        prompt = generate_visual_prompt(recipe_data)
+        
+        # Call the Nano Banana Pro bridge
+        engine = NanoBananaPro()
+        image_url = await engine.generate(prompt)
+        
+        return ImageGenerationResponse(url=image_url, prompt=prompt)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Image generation failed: {str(e)}")
 
 class RecommendationRequest(BaseModel):
     current_time: str

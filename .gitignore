@@ -133,3 +133,4 @@ reports/
 backend/.env
 .env*.local
 .jest-cache/
+.vercel

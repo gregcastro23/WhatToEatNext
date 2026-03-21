@@ -1,6 +1,7 @@
 // app/layout.tsx
 import Link from "next/link";
 import React from "react";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientProviders from "./ClientProviders";
@@ -246,6 +247,7 @@ export default function RootLayout({
             </div>
           </footer>
         </ClientProviders>
+        <Analytics />
       </body>
     </html>
   );

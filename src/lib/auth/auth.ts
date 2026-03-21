@@ -25,7 +25,17 @@ const ADMIN_EMAILS = [
   "xalchm@gmail.com",
 ];
 
+/** Emails that automatically get full premium access (but NOT admin role) */
+const PREMIUM_EMAILS = [
+  "alchmnft@gmail.com",
+  "liskater@gmail.com",
+  "roberttcastro1@gmail.com",
+  "zaby250@gmail.com",
+  "atd250@gmail.com",
+];
+
 const isAdminEmail = (email: string) => ADMIN_EMAILS.includes(email);
+const isPremiumEmail = (email: string) => PREMIUM_EMAILS.includes(email);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -59,8 +69,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
         }
 
-        // Auto-provision premium access for admin accounts
-        if (isAdminEmail(user.email) && dbUser) {
+        // Auto-provision premium access for admin and premium accounts
+        if ((isAdminEmail(user.email) || isPremiumEmail(user.email)) && dbUser) {
           try {
             const { subscriptionService } = await import(
               "@/services/subscriptionService"
@@ -69,7 +79,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (sub.tier !== "premium") {
               const now = new Date();
               const yearFromNow = new Date(now);
-              yearFromNow.setFullYear(yearFromNow.getFullYear() + 10); // admins get 10-year access
+              yearFromNow.setFullYear(yearFromNow.getFullYear() + 10); // get 10-year access
               await subscriptionService.updateSubscription(dbUser.id, {
                 tier: "premium",
                 status: "active",
@@ -78,7 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               });
             }
           } catch (subError) {
-            console.warn("[auth] Could not auto-provision admin premium:", subError);
+            console.warn("[auth] Could not auto-provision premium:", subError);
           }
         }
 
