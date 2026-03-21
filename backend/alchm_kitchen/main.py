@@ -1626,6 +1626,67 @@ async def generate_personalized_recipe(request: RecipeGeneratorRequest, db: Sess
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate personalized recipe: {str(e)}")
 
+class AlchemicalImageRequest(BaseModel):
+    recipe_id: Optional[str] = None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    elemental_properties: Optional[Dict[str, float]] = None
+
+@app.post("/api/generate-alchemical-image")
+async def generate_alchemical_image(
+    request: AlchemicalImageRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    Synthesizes a 150-word alchemical visual prompt based on recipe properties 
+    and returns a generated image URL via OpenAI DALL-E 3.
+    """
+    try:
+        title = request.title or "Cosmic Dish"
+        desc = request.description or "A mystical culinary creation"
+        
+        if request.recipe_id:
+            recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
+            if recipe:
+                title = recipe.name
+                desc = recipe.description or ""
+                
+        prompt = f"Professional, high-end culinary photography of {title}. {desc}. Incorporate subtle mystical and alchemical visual elements. Cinematic lighting, depth of field, 8k resolution, food photography style."
+        
+        import os
+        from openai import AsyncOpenAI
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY is not set in the environment.")
+            
+        client = AsyncOpenAI(api_key=api_key)
+        
+        response = await client.images.generate(
+            model="dall-e-3",
+            prompt=prompt[:1000], # DALL-E prompt length limit
+            size="1024x1024",
+            quality="standard",
+            n=1,
+        )
+        
+        image_url = response.data[0].url
+        
+        # Save to DB if recipe_id provided
+        if request.recipe_id:
+            recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
+            if recipe:
+                recipe.image_url = image_url
+                db.commit()
+                
+        return {
+            "url": image_url,
+            "prompt": prompt
+        }
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to generate alchemical image: {str(e)}")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

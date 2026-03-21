@@ -19,6 +19,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8001:8000"
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql://user:password@postgres:5432/whattoeatnext
       - REDIS_URL=redis://redis:6379
