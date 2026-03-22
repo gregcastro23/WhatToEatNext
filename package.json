@@ -127,7 +127,9 @@
     "batch-process:execute:safe": "yarn batch-process execute unused-variables-analysis-report.json --max-batch 10 --max-critical 3",
     "batch-process:review": "yarn batch-process review",
     "batch-process:status": "yarn batch-process status",
-    "batch-process:integration": "node --loader ts-node/esm src/scripts/batch-processing/integration.ts"
+    "batch-process:integration": "node --loader ts-node/esm src/scripts/batch-processing/integration.ts",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.41",
@@ -181,6 +183,7 @@
     "@babel/parser": "^7.27.7",
     "@babel/plugin-transform-runtime": "^7.29.0",
     "@eslint/js": "^10.0.1",
+    "@opennextjs/cloudflare": "^1.17.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.1.0",
     "@types/bcryptjs": "^2.4.6",
@@ -224,7 +227,8 @@
     "ts-jest": "^29.4.6",
     "ts-morph": "^27.0.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "wrangler": "^4.76.0"
   },
   "packageManager": "yarn@3.6.4"
 }
