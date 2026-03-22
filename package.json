@@ -218,7 +218,7 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^16.1.0",
     "postcss-nesting": "^14.0.0",
-    "postcss-preset-env": "^10.1.5",
+    "postcss-preset-env": "^11.2.0",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.2",
