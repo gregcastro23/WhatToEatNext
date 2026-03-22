@@ -2942,22 +2942,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:9.39.4":
+"@eslint/js@npm:9.39.4, @eslint/js@npm:^9.28.0":
   version: 9.39.4
   resolution: "@eslint/js@npm:9.39.4"
   checksum: 5b1cd1e6c13bc119c92911e6cef7cf886d942c9e047db0c923bbdd539ed6b9820d986b4559be1f2e24836de7fbad95bbfe268b2bf3d1fef76de37bdc8fae19d8
-  languageName: node
-  linkType: hard
-
-"@eslint/js@npm:^10.0.1":
-  version: 10.0.1
-  resolution: "@eslint/js@npm:10.0.1"
-  peerDependencies:
-    eslint: ^10.0.0
-  peerDependenciesMeta:
-    eslint:
-      optional: true
-  checksum: 5e60b80ec48d303c9273d5c2803ae3fe12fd5335d57d889d4f9df9249910a97e2921118403765bff26a00b734182437f91a0f6f552654cf12ad73bb49995e22e
   languageName: node
   linkType: hard
 
@@ -16585,7 +16573,7 @@ next-auth@beta:
     "@chakra-ui/react": ^3.27.0
     "@emotion/react": ^11.14.0
     "@emotion/styled": ^11.14.1
-    "@eslint/js": ^10.0.1
+    "@eslint/js": ^9.28.0
     "@heroicons/react": ^2.2.0
     "@hookform/resolvers": ^5.2.2
     "@mui/icons-material": ^5.11.16
@@ -16640,7 +16628,7 @@ next-auth@beta:
     next: ^15.5.12
     next-auth: beta
     node-fetch: 2
-    nodemailer: ^8.0.2
+    nodemailer: ^7.0.13
     nodemon: ^3.1.10
     open: ^11.0.0
     openapi-typescript: ^7.9.1
@@ -17121,7 +17109,7 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.23.0, zod@npm:^3.25.0 || ^4.0.0":
+"zod@npm:^3.23.0":
   version: 3.25.76
   resolution: "zod@npm:3.25.76"
   checksum: c9a403a62b329188a5f6bd24d5d935d2bba345f7ab8151d1baa1505b5da9f227fb139354b043711490c798e91f3df75991395e40142e6510a4b16409f302b849
