@@ -16,8 +16,8 @@
     "nodemailer": "^7.0.7"
   },
   "scripts": {
-    "build": "next build && opennextjs-cloudflare build",
-    "build:cloudflare": "next build && opennextjs-cloudflare build",
+    "build": "opennextjs-cloudflare build",
+    "build:cloudflare": "opennextjs-cloudflare build",
     "types:api": "node scripts/generate-types-from-backend.cjs",
     "predev": "node scripts/check-node-version.cjs",
     "prebuild": "node scripts/check-node-version.cjs",
