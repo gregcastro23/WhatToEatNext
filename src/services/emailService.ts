@@ -836,10 +836,9 @@ This is an automated notification from alchm.kitchen.
   }
 }
 
-// Create singleton instance
+// Create singleton instance — initialization is lazy.
+// ensureInitialized() is called in auth.ts and API routes before sending
+// any email, so env vars are available at that point (not at build time).
 const emailService = new EmailService();
-
-// Initialize on module load (may re-initialize later if env vars weren't available)
-emailService.initialize();
 
 export default emailService;
