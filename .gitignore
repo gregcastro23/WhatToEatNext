@@ -134,3 +134,6 @@ backend/.env
 .env*.local
 .jest-cache/
 .vercel
+
+# OpenNext
+.open-next

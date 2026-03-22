@@ -4124,7 +4124,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opennextjs/cloudflare@npm:^1.17.1":
+"@opennextjs/cloudflare@npm:latest":
   version: 1.17.1
   resolution: "@opennextjs/cloudflare@npm:1.17.1"
   dependencies:
@@ -16524,7 +16524,7 @@ next-auth@beta:
     "@hookform/resolvers": ^5.2.2
     "@mui/icons-material": ^5.11.16
     "@mui/material": ^5.13.6
-    "@opennextjs/cloudflare": ^1.17.1
+    "@opennextjs/cloudflare": latest
     "@radix-ui/react-tabs": ^1.1.12
     "@stripe/stripe-js": ^8.9.0
     "@tailwindcss/line-clamp": ^0.4.4
@@ -16604,7 +16604,7 @@ next-auth@beta:
     ts-morph: ^27.0.2
     ts-node: ^10.9.2
     typescript: 5.8.3
-    wrangler: ^4.76.0
+    wrangler: latest
     zod: ^3.23.0
   languageName: unknown
   linkType: soft
@@ -16779,7 +16779,7 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"wrangler@npm:^4.76.0":
+"wrangler@npm:latest":
   version: 4.76.0
   resolution: "wrangler@npm:4.76.0"
   dependencies:
