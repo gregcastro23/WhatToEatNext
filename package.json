@@ -15,12 +15,13 @@
     "typescript": "5.8.3"
   },
   "scripts": {
+    "build": "next build",
+    "build:cloudflare": "next build && opennextjs-cloudflare build",
     "types:api": "node scripts/generate-types-from-backend.cjs",
     "predev": "node scripts/check-node-version.cjs",
     "prebuild": "node scripts/check-node-version.cjs",
     "check-pm": "bash scripts/check-package-manager.sh",
     "dev": "next dev",
-    "build": "next build",
     "start": "next start",
     "lint": "eslint --config eslint.config.mjs src --max-warnings=10000",
     "lint:fix": "eslint --config eslint.config.mjs --fix src",
@@ -129,7 +130,9 @@
     "batch-process:status": "yarn batch-process status",
     "batch-process:integration": "node --loader ts-node/esm src/scripts/batch-processing/integration.ts",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.41",
@@ -183,7 +186,7 @@
     "@babel/parser": "^7.27.7",
     "@babel/plugin-transform-runtime": "^7.29.0",
     "@eslint/js": "^10.0.1",
-    "@opennextjs/cloudflare": "^1.17.1",
+    "@opennextjs/cloudflare": "latest",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.1.0",
     "@types/bcryptjs": "^2.4.6",
@@ -228,7 +231,7 @@
     "ts-morph": "^27.0.2",
     "ts-node": "^10.9.2",
     "typescript": "5.8.3",
-    "wrangler": "^4.76.0"
+    "wrangler": "latest"
   },
   "packageManager": "yarn@3.6.4"
 }
