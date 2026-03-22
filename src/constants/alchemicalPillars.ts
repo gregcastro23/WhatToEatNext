@@ -1480,7 +1480,6 @@ export function calculatePillarMonicaModifiers(monica: number): {
  * @returns {EnhancedCookingMethod[]}
  */
 export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
-  console.warn("getAllEnhancedCookingMethods is a placeholder function.");
   return ALCHEMICAL_PILLARS.map((pillar) => ({
     id: String(pillar.id),
     name: pillar.name,
