@@ -8,6 +8,8 @@
  * @created 2026-01-10
  */
 
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
@@ -17,8 +19,8 @@ import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard
 import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
 import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
-import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import TodaysMealsWidget from "@/components/menu-planner/TodaysMealsWidget";
+import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
     MenuPlannerProvider,
@@ -30,8 +32,6 @@ import {
 } from "@/contexts/RecipeQueueContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import type { Recipe } from "@/types/recipe";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
 interface SavedChart {
   id: string;

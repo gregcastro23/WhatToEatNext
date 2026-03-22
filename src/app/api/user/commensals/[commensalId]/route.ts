@@ -15,12 +15,12 @@ export const runtime = "nodejs";
 /** PUT /api/user/commensals/[commensalId] */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { commensalId: string } },
+  { params }: { params: Promise<{ commensalId: string }> },
 ) {
+  const { commensalId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const { commensalId } = params;
   const userId = authResult.user.userId;
 
   const user = await userDatabase.getUserById(userId);
@@ -50,12 +50,12 @@ export async function PUT(
 /** DELETE /api/user/commensals/[commensalId] */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { commensalId: string } },
+  { params }: { params: Promise<{ commensalId: string }> },
 ) {
+  const { commensalId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const { commensalId } = params;
   const userId = authResult.user.userId;
 
   const user = await userDatabase.getUserById(userId);

@@ -12,9 +12,9 @@
 
 import Link from "next/link";
 import React, { useRef, type TouchEvent as ReactTouchEvent } from "react";
-import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
 import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
+import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
 
 const logger = createLogger("RecipeSuggestionCarousel");
 

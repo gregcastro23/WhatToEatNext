@@ -7,11 +7,11 @@
  */
 
 import { NextResponse } from "next/server";
+import { CUISINES } from "@/data/cuisines/index";
 import { validateRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
-import { CUISINES } from "@/data/cuisines/index";
-import type { GroupMember, CompositeNatalChart } from "@/types/natalChart";
 import type { Element, Modality } from "@/types/celestial";
+import type { GroupMember, CompositeNatalChart } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";

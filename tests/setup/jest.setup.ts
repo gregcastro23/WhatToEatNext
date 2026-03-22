@@ -1,9 +1,17 @@
 // jest.setup.js
 
+import React, { act } from "react";
 import "@testing-library/jest-dom";
 import { TextEncoder } from "util";
 
 global.TextEncoder = TextEncoder;
+
+console.log("NODE_ENV:", process.env.NODE_ENV);
+
+// In React 19, act should be imported from 'react', but some utilities still expect React.act
+if (typeof React.act === "undefined") {
+  (React as any).act = act;
+}
 
 // Mock window.matchMedia
 Object.defineProperty(window, "matchMedia", {

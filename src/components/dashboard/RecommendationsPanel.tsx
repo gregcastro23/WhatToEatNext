@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import type { NatalChart } from '@/types/natalChart';
-import { useUser } from '@/contexts/UserContext';
-import { SavedRestaurant } from '@/types/restaurant';
 import { RestaurantBuilder } from '@/components/profile/RestaurantBuilder';
 import { RestaurantSearch } from '@/components/profile/RestaurantSearch';
+import { useUser } from '@/contexts/UserContext';
+import type { NatalChart } from '@/types/natalChart';
+import type { SavedRestaurant } from '@/types/restaurant';
 
 interface RecommendationsPanelProps {
   email: string;
@@ -418,7 +418,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                         <div className="flex items-center gap-3">
                           <div className="hidden sm:flex gap-1">
                             {Object.entries(cuisine.elemental_properties || {})
-                              .sort(([, a], [, b]) => (b as number) - (a as number))
+                              .sort(([, a], [, b]) => (b) - (a))
                               .slice(0, 2)
                               .map(([el]) => {
                                 const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
@@ -443,8 +443,8 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                               <p className="text-xs font-medium text-gray-600 mb-2">Flavor Profile</p>
                               <div className="flex flex-wrap gap-2">
                                 {Object.entries(cuisine.flavor_profile)
-                                  .filter(([, v]) => (v as number) > 0)
-                                  .sort(([, a], [, b]) => (b as number) - (a as number))
+                                  .filter(([, v]) => (v) > 0)
+                                  .sort(([, a], [, b]) => (b) - (a))
                                   .map(([flavor, value]) => (
                                     <span
                                       key={flavor}

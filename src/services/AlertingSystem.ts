@@ -368,21 +368,20 @@ class AlertingSystem {
   private checkAlertConditions() {
     for (const rule of this.alertRules) {
       if (!rule.enabled) continue;
-
-      // Check cooldown
-      const lastAlertTime = this.lastAlertTimes.get(rule.id);
-      if (
-        lastAlertTime &&
-        Date.now() - lastAlertTime.getTime() < rule.cooldownMinutes * 60 * 1000
-      ) {
-        continue;
-      }
-
       this.evaluateRule(rule);
     }
   }
 
   private evaluateRule(rule: AlertRule) {
+    // Check cooldown
+    const lastAlertTime = this.lastAlertTimes.get(rule.id);
+    if (
+      lastAlertTime &&
+      Date.now() - lastAlertTime.getTime() < rule.cooldownMinutes * 60 * 1000
+    ) {
+      return;
+    }
+
     let currentValue: number;
     let shouldAlert = false;
 
@@ -864,7 +863,7 @@ class AlertingSystem {
   }
 
   public addAlertRule(rule: Omit<AlertRule, "id">): string {
-    const id = `rule-${Date.now()}`;
+    const id = `rule-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const newRule: AlertRule = { ...rule, id };
 
     this.alertRules.push(newRule);

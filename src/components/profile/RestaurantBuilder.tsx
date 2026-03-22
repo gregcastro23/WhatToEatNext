@@ -328,7 +328,7 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
                                     onClick={() => toggleTag(tag.key)}
                                     className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
                                       isSelected
-                                        ? tag.color + ' ring-2 ring-offset-1 ring-purple-300 shadow-sm'
+                                        ? `${tag.color  } ring-2 ring-offset-1 ring-purple-300 shadow-sm`
                                         : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
                                     }`}
                                   >

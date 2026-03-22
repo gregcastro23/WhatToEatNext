@@ -419,7 +419,7 @@ export default function SmartSuggestionsSidebar({
     return groups;
   }, [suggestions]);
 
-  const categoryOrder: Suggestion["type"][] = [
+  const categoryOrder: Array<Suggestion["type"]> = [
     "progress",
     "nutritional",
     "variety",

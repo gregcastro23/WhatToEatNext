@@ -39,7 +39,7 @@ function normalizeData(data: any) {
         .reduce((a, b) => (a[1] > b[1] ? a : b), ['Fire', 0])[0],
       planetaryPositions: natal_chart ?? {},
       location: birth_data?.city_name
-        ? `${birth_data.city_name}${birth_data.state_country ? ', ' + birth_data.state_country : ''}`
+        ? `${birth_data.city_name}${birth_data.state_country ? `, ${  birth_data.state_country}` : ''}`
         : null,
     };
   }
@@ -70,7 +70,7 @@ function normalizeData(data: any) {
 
     const bd = data.birthData ?? chart.birthData;
     const location = bd?.cityName
-      ? `${bd.cityName}${bd.stateCountry ? ', ' + bd.stateCountry : ''}`
+      ? `${bd.cityName}${bd.stateCountry ? `, ${  bd.stateCountry}` : ''}`
       : null;
 
     return {

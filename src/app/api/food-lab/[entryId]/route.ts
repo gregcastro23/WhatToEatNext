@@ -24,14 +24,14 @@ export const runtime = "nodejs";
 /** GET /api/food-lab/[entryId] */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { entryId: string } },
+  { params }: { params: Promise<{ entryId: string }> },
 ) {
+  const { entryId } = await params;
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
-  const { entryId } = params;
   const db = await getDbModule();
 
   if (db) {
@@ -58,13 +58,13 @@ export async function GET(
 /** PUT /api/food-lab/[entryId] */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { entryId: string } },
+  { params }: { params: Promise<{ entryId: string }> },
 ) {
+  const { entryId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
   const userId = authResult.user.userId;
-  const { entryId } = params;
   const body = await request.json();
   const now = new Date().toISOString();
 
@@ -185,13 +185,13 @@ export async function PUT(
 /** DELETE /api/food-lab/[entryId] */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { entryId: string } },
+  { params }: { params: Promise<{ entryId: string }> },
 ) {
+  const { entryId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
   const userId = authResult.user.userId;
-  const { entryId } = params;
 
   const db = await getDbModule();
   if (db) {

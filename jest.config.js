@@ -6,6 +6,8 @@ const config = {
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "^react$": "<rootDir>/node_modules/react",
+    "^react-dom$": "<rootDir>/node_modules/react-dom",
   },
   transform: {
     "^.+\\.(ts|tsx)$": [
@@ -32,7 +34,8 @@ const config = {
     "tests/cross-backend-rectification",
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  modulePathIgnorePatterns: ["<rootDir>/Alchm Kitchen/", "<rootDir>/docs/Alchm Kitchen/"],
+  setupFilesAfterEnv: ["<rootDir>/tests/setup/jest.setup.ts"],
 
   // Memory Management Configuration
   testTimeout: 30000, // 30s timeout for CI environment

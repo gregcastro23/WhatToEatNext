@@ -1,7 +1,7 @@
 import { openai } from '@ai-sdk/openai';
 import { streamObject } from 'ai';
-import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { NextResponse } from 'next/server';
+import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 
 export async function POST(req: Request) {
   try {

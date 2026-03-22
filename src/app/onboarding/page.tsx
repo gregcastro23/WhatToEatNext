@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import type { BirthData } from "@/types/natalChart";
 

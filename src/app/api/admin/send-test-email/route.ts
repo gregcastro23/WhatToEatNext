@@ -9,8 +9,8 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import emailService from "@/services/emailService";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

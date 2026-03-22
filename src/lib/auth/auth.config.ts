@@ -11,8 +11,8 @@
  * @file src/lib/auth/auth.config.ts
  */
 
-import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
+import type { NextAuthConfig } from "next-auth";
 
 /**
  * Resolve the auth secret. In preview/development environments where AUTH_SECRET

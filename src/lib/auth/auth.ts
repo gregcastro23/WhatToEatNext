@@ -106,7 +106,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (emailService.isConfigured()) {
             const userName = user.name || user.email;
 
-            const emailPromises: Promise<void>[] = [];
+            const emailPromises: Array<Promise<void>> = [];
 
             // Login notification to admin team on EVERY sign-in
             emailPromises.push(
@@ -150,7 +150,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (failures.length > 0) {
               console.error(
                 `[auth] ${failures.length} email(s) failed for ${user.email}:`,
-                failures.map((f) => (f as PromiseRejectedResult).reason),
+                failures.map((f) => (f).reason),
               );
             }
           } else {
@@ -190,7 +190,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
 
           const dbUser = await userDatabase.getUserByEmail(
-            token.email as string,
+            token.email,
           );
           if (dbUser) {
             token.userId = dbUser.id;
@@ -200,14 +200,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               dbUser.profile.birthData && dbUser.profile.natalChart
             );
           } else {
-            token.role = isAdminEmail(token.email as string) ? "admin" : "user";
+            token.role = isAdminEmail(token.email) ? "admin" : "user";
             token.onboardingComplete = false;
           }
         } catch {
           // Fallback if DB unavailable - preserve existing token values
           // so returning users don't get incorrectly redirected to onboarding
           if (!token.role) {
-            token.role = isAdminEmail(token.email as string) ? "admin" : "user";
+            token.role = isAdminEmail(token.email) ? "admin" : "user";
           }
           if (token.onboardingComplete === undefined) {
             token.onboardingComplete = false;

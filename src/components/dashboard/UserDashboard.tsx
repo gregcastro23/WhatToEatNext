@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
 import { signOut } from 'next-auth/react';
+import React, { useState } from 'react';
 import type { NatalChart } from '@/types/natalChart';
+import type { SavedRestaurant } from '@/types/restaurant';
+import { CommensalManager } from './CommensalManager';
+import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 import { DashboardOverview } from './DashboardOverview';
+import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
 import { RecommendationsPanel } from './RecommendationsPanel';
-import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
-import { CommensalManager } from './CommensalManager';
-import { FoodLabBook } from './FoodLabBook';
-import { SavedRestaurant } from '@/types/restaurant';
 
 export interface UserPreferences {
   dietaryRestrictions: string[];

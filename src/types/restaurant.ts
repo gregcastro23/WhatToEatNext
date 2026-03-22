@@ -11,7 +11,7 @@ export const MENU_CATEGORIES: MenuCategory[] = [
   'Specials',
 ];
 
-export const DIETARY_TAGS: { key: DietaryTag; label: string; icon: string; color: string }[] = [
+export const DIETARY_TAGS: Array<{ key: DietaryTag; label: string; icon: string; color: string }> = [
   { key: 'GF', label: 'Gluten-Free', icon: '🌾', color: 'bg-amber-100 text-amber-700 border-amber-200' },
   { key: 'V', label: 'Vegetarian', icon: '🥬', color: 'bg-green-100 text-green-700 border-green-200' },
   { key: 'VG', label: 'Vegan', icon: '🌱', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' },

@@ -9,6 +9,21 @@ import type { ElementalProperties } from "@/types/alchemy";
 import { logger } from "@/utils/logger";
 
 /**
+ * Constants for elemental calculations
+ */
+export const ELEMENTAL_CONSTANTS = {
+  MIN_ELEMENT_VALUE: 0.05,
+  MAX_ELEMENT_VALUE: 1.0,
+  DEFAULT_ELEMENT_VALUE: 0.25,
+  SELF_REINFORCEMENT_THRESHOLD: 0.3,
+  HARMONY_THRESHOLD: 0.7,
+  SAME_ELEMENT_COMPATIBILITY: 0.9,
+  DIFFERENT_ELEMENT_COMPATIBILITY: 0.7,
+  FIRE_AIR_COMPATIBILITY: 0.8,
+  WATER_EARTH_COMPATIBILITY: 0.8,
+} as const;
+
+/**
  * Validate elemental properties structure and values
  */
 export function validateElementalProperties(
@@ -58,10 +73,10 @@ export function normalizeElementalProperties(
   }
 
   const normalized: ElementalProperties = {
-    Fire: 0,
-    Water: 0,
-    Earth: 0,
-    Air: 0,
+    Fire: ELEMENTAL_CONSTANTS.DEFAULT_ELEMENT_VALUE,
+    Water: ELEMENTAL_CONSTANTS.DEFAULT_ELEMENT_VALUE,
+    Earth: ELEMENTAL_CONSTANTS.DEFAULT_ELEMENT_VALUE,
+    Air: ELEMENTAL_CONSTANTS.DEFAULT_ELEMENT_VALUE,
   };
 
   let hasValidElement = false;
@@ -115,7 +130,7 @@ export function calculateElementalHarmony(
 
     if (sourceStrength > 0 && targetStrength > 0) {
       // Self-reinforcement: same elements have highest compatibility (0.9)
-      const compatibility = 0.9;
+      const compatibility = ELEMENTAL_CONSTANTS.SAME_ELEMENT_COMPATIBILITY;
       const weight = Math.min(sourceStrength, targetStrength);
 
       totalHarmony += compatibility * weight;
@@ -152,7 +167,7 @@ export function calculateElementalHarmony(
   }
 
   // Ensure minimum compatibility of 0.7 (per project design: all combinations work)
-  return Math.max(0.7, totalHarmony / weightedSum);
+  return Math.max(ELEMENTAL_CONSTANTS.HARMONY_THRESHOLD, totalHarmony / weightedSum);
 }
 
 /**
@@ -163,13 +178,29 @@ function getElementalCompatibility(
   target: keyof ElementalProperties,
 ): number {
   const compatibilityMatrix = {
-    Fire: { Water: 0.7, Earth: 0.7, Air: 0.8 },
-    Water: { Fire: 0.7, Earth: 0.8, Air: 0.7 },
-    Earth: { Fire: 0.7, Water: 0.8, Air: 0.7 },
-    Air: { Fire: 0.8, Water: 0.7, Earth: 0.7 },
+    Fire: { 
+      Water: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
+      Earth: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
+      Air: ELEMENTAL_CONSTANTS.FIRE_AIR_COMPATIBILITY 
+    },
+    Water: { 
+      Fire: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
+      Earth: ELEMENTAL_CONSTANTS.WATER_EARTH_COMPATIBILITY, 
+      Air: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY 
+    },
+    Earth: { 
+      Fire: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
+      Water: ELEMENTAL_CONSTANTS.WATER_EARTH_COMPATIBILITY, 
+      Air: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY 
+    },
+    Air: { 
+      Fire: ELEMENTAL_CONSTANTS.FIRE_AIR_COMPATIBILITY, 
+      Water: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
+      Earth: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY 
+    },
   };
 
-  return compatibilityMatrix[source][target] || 0.7;
+  return compatibilityMatrix[source][target] || ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY;
 }
 
 /**
@@ -256,8 +287,8 @@ export function validateSelfReinforcement(
   const dominant = getDominantElement(properties);
   const dominantValue = properties[dominant];
 
-  // Dominant element should be at least 0.3 for clear self-reinforcement
-  if (dominantValue < 0.3) {
+  // Dominant element should be at least threshold for clear self-reinforcement
+  if (dominantValue < ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD) {
     logger.warn(
       `Dominant element ${dominant} strength ${dominantValue} is too low for self-reinforcement`,
     );
@@ -266,18 +297,3 @@ export function validateSelfReinforcement(
 
   return true;
 }
-
-/**
- * Constants for elemental calculations
- */
-export const _ELEMENTAL_CONSTANTS = {
-  _MIN_ELEMENT_VALUE: 0.05,
-  _MAX_ELEMENT_VALUE: 1.0,
-  _DEFAULT_ELEMENT_VALUE: 0.25,
-  _SELF_REINFORCEMENT_THRESHOLD: 0.3,
-  _HARMONY_THRESHOLD: 0.7,
-  _SAME_ELEMENT_COMPATIBILITY: 0.9,
-  _DIFFERENT_ELEMENT_COMPATIBILITY: 0.7,
-  _FIRE_AIR_COMPATIBILITY: 0.8,
-  WATER_EARTH_COMPATIBILITY: 0.8,
-} as const;

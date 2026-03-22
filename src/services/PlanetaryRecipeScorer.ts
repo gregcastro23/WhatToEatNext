@@ -12,10 +12,9 @@ import type { ElementalProperties } from '@/types/alchemy';
 import type { BirthChartData } from '@/types/astrology';
 import type { Recipe } from '@/types/recipe';
 import { createLogger } from '@/utils/logger';
-
 import { _celestialCalculator as celestialCalculator } from './celestialCalculations';
 
-/* eslint-disable @typescript-eslint/no-explicit-any -- Required for CelestialAlignment property access */
+ 
 
 const logger = createLogger('PlanetaryRecipeScorer');
 

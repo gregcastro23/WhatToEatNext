@@ -150,7 +150,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
   // Calculate current transit element counts
   const currentElementCounts = useMemo((): Record<string, number> => {
     const counts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const positions = Object.values(transitPositions) as TransitPosition[];
+    const positions = Object.values(transitPositions);
     for (const pos of positions) {
       const el = SIGN_ELEMENTS[pos.sign];
       if (el) counts[el]++;
@@ -162,7 +162,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
   const currentDominantElement = useMemo(() => {
     let max = 0;
     let dominant = 'Fire';
-    const entries = Object.entries(currentElementCounts) as Array<[string, number]>;
+    const entries = Object.entries(currentElementCounts);
     for (const [el, count] of entries) {
       if (count > max) { max = count; dominant = el; }
     }
@@ -172,7 +172,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
   // Calculate current modality counts
   const currentModalityCounts = useMemo((): Record<string, number> => {
     const counts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
-    const positions = Object.values(transitPositions) as TransitPosition[];
+    const positions = Object.values(transitPositions);
     for (const pos of positions) {
       const mod = SIGN_MODALITIES[pos.sign];
       if (mod) counts[mod]++;
@@ -183,7 +183,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
   const currentDominantModality = useMemo(() => {
     let max = 0;
     let dominant = 'Cardinal';
-    const entries = Object.entries(currentModalityCounts) as Array<[string, number]>;
+    const entries = Object.entries(currentModalityCounts);
     for (const [mod, count] of entries) {
       if (count > max) { max = count; dominant = mod; }
     }
@@ -192,7 +192,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
 
   // Find retrograde planets
   const retrogradePlanets = useMemo(() => {
-    return (Object.entries(transitPositions) as Array<[string, TransitPosition]>)
+    return (Object.entries(transitPositions))
       .filter(([, pos]) => pos.isRetrograde)
       .map(([name]) => name);
   }, [transitPositions]);

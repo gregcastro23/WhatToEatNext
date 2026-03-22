@@ -1,5 +1,5 @@
 import type { CuisineType, Element, ElementalProperties } from '@/types/alchemy';
-import { Ingredient, Recipe, UnifiedIngredient } from '@/types/unified';
+import type { Ingredient, Recipe, UnifiedIngredient } from '@/types/unified';
 
 // Import needed from ./ingredients.js.ts
 import { RecipeEnhancer } from './recipes';
@@ -359,9 +359,9 @@ export class CuisineEnhancer {
     ).length;
 
     if (fireMethodCount > waterMethodCount * 2) {
-      return baseClassification + ' (Fire-Focused)';
+      return `${baseClassification  } (Fire-Focused)`;
     } else if (waterMethodCount > fireMethodCount * 2) {
-      return baseClassification + ' (Water-Focused)';
+      return `${baseClassification  } (Water-Focused)`;
     }
 
     return baseClassification;
@@ -440,7 +440,7 @@ export class CuisineEnhancer {
     // Determine alchemical classification
     const alchemicalClassification = this.determineCuisineAlchemicalClassification(
       kalchmAnalysis.totalKalchm,
-      (kalchmAnalysis.cookingMethodInfluence?.primaryMethods as unknown as string[]) || [],
+      (kalchmAnalysis.cookingMethodInfluence?.primaryMethods as string[]) || [],
     );
 
     // Calculate cuisine optimization
@@ -540,7 +540,7 @@ export class CuisineAnalyzer {
     const enhanced = (cuisines || []).filter(c => c.enhancementMetadata?.phase3Enhanced);
     const kalchmValues = enhanced
       .map(c => c.alchemicalProperties?.totalKalchm)
-      .filter(k => k !== undefined) as number[];
+      .filter(k => k !== undefined);
 
     const totalRecipesAnalyzed = enhanced.reduce(
       (sum, c) => sum + (c.enhancementMetadata?.recipesAnalyzed || 0),
@@ -579,7 +579,7 @@ export class CuisineAnalyzer {
             : b,
         )[0];
 
-        const dominantKey = dominant.toLowerCase() + '-dominant';
+        const dominantKey = `${dominant.toLowerCase()  }-dominant`;
         if (elementalDistribution[dominantKey] !== undefined) {
           elementalDistribution[dominantKey]++;
         } else {

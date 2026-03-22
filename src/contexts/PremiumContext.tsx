@@ -10,6 +10,7 @@
 
 "use client";
 
+import { useSession } from "next-auth/react";
 import React, {
   createContext,
   useContext,
@@ -18,7 +19,6 @@ import React, {
   useCallback,
   type ReactNode,
 } from "react";
-import { useSession } from "next-auth/react";
 import type {
   SubscriptionTier,
   UserSubscription,

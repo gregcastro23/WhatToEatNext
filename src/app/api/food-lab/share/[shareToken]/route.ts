@@ -20,9 +20,9 @@ export const runtime = "nodejs";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { shareToken: string } },
+  { params }: { params: Promise<{ shareToken: string }> },
 ) {
-  const { shareToken } = params;
+  const { shareToken } = await params;
 
   const db = await getDbModule();
   if (!db) {

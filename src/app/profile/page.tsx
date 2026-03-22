@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LocationSearch } from '@/components/onboarding/LocationSearch';
+import React, { useEffect, useState, useCallback } from 'react';
 import { UserDashboard } from '@/components/dashboard';
+import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { FoodPreferences } from '@/components/profile/FoodPreferences';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { BirthData } from '@/types/natalChart';
 
 type ProfileStep = 'birth-data' | 'preferences' | 'dashboard';

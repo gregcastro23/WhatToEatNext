@@ -1,11 +1,12 @@
 import type { AlchemicalRecipe } from "./alchemicalRecipe";
+
 export interface SeasonalDishes {
-  all?: (unknown | AlchemicalRecipe)[];
-  summer?: (unknown | AlchemicalRecipe)[];
-  winter?: (unknown | AlchemicalRecipe)[];
-  spring?: (unknown | AlchemicalRecipe)[];
-  fall?: (unknown | AlchemicalRecipe)[];
-  autumn?: (unknown | AlchemicalRecipe)[];
+  all?: Array<unknown | AlchemicalRecipe>;
+  summer?: Array<unknown | AlchemicalRecipe>;
+  winter?: Array<unknown | AlchemicalRecipe>;
+  spring?: Array<unknown | AlchemicalRecipe>;
+  fall?: Array<unknown | AlchemicalRecipe>;
+  autumn?: Array<unknown | AlchemicalRecipe>;
 }
 
 export interface CuisineDishes {

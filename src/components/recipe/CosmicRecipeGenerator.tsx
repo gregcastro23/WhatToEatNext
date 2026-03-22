@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from 'react';
 import { experimental_useObject as useObject } from '@ai-sdk/react';
-import type { z } from 'zod';
-import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
-import { useUser } from '@/contexts/UserContext';
 import { SparklesIcon, Cog6ToothIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'; // Need to ensure heroicons is present, or fallback to text if not
+import { useState } from 'react';
+import { useUser } from '@/contexts/UserContext';
+import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
+import type { z } from 'zod';
 
 type CosmicRecipe = z.infer<typeof cosmicRecipeSchema>;
 
@@ -109,7 +109,7 @@ export default function CosmicRecipeGenerator() {
           >
             {isLoading ? (
               <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Manifesting...
               </>
             ) : (
@@ -194,7 +194,7 @@ export default function CosmicRecipeGenerator() {
                 {imageUrl ? (
                   <div className="relative group rounded-2xl overflow-hidden shadow-2xl">
                      <img src={imageUrl} alt={object.title || "Recipe Result"} className="w-full h-96 object-cover transform group-hover:scale-105 transition-transform duration-700" />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
                 ) : isGeneratingImage ? (
                    <div className="w-full h-96 bg-gradient-to-br from-slate-200 to-slate-100 dark:from-slate-800 dark:to-slate-900 animate-pulse rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-700">

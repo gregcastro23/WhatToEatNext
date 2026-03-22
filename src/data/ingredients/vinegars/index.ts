@@ -1,8 +1,8 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
+import { vinegars as seasoningsVinegars } from "../seasonings/vinegars";
 import { _vinegars as consolidatedVinegars } from "./consolidated_vinegars";
 import { vinegars as baseVinegars } from "./vinegars";
-import { vinegars as seasoningsVinegars } from "../seasonings/vinegars";
 
 // Combine all vinegar sources into one comprehensive collection
 export const vinegars: Record<string, IngredientMapping> =

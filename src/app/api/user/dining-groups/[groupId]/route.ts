@@ -15,12 +15,12 @@ export const runtime = "nodejs";
 /** PUT /api/user/dining-groups/[groupId] */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { groupId: string } },
+  { params }: { params: Promise<{ groupId: string }> },
 ) {
+  const { groupId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const { groupId } = params;
   const userId = authResult.user.userId;
 
   const user = await userDatabase.getUserById(userId);
@@ -64,12 +64,12 @@ export async function PUT(
 /** DELETE /api/user/dining-groups/[groupId] */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { groupId: string } },
+  { params }: { params: Promise<{ groupId: string }> },
 ) {
+  const { groupId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const { groupId } = params;
   const userId = authResult.user.userId;
 
   const user = await userDatabase.getUserById(userId);

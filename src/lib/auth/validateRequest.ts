@@ -8,10 +8,10 @@
 
 import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth/auth";
 import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
-import { auth } from "@/lib/auth/auth";
 
 // JWT Secret - lazy initialization
 let _jwtSecret: Uint8Array | null = null;

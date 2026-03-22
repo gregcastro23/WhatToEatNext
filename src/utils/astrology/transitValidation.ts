@@ -8,6 +8,41 @@
 import { logger } from "@/utils/logger";
 
 /**
+ * Constants for transit validation
+ */
+export const TRANSIT_CONSTANTS = {
+  VALID_SIGNS: [
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
+  ],
+  DEGREES_PER_SIGN: 30,
+  MAX_LONGITUDE: 360,
+  DATE_FORMAT: "YYYY-MM-DD",
+  RETROGRADE_PLANETS: [
+    "mercury",
+    "venus",
+    "mars",
+    "jupiter",
+    "saturn",
+    "uranus",
+    "neptune",
+    "pluto",
+  ],
+  ALWAYS_DIRECT: ["sun", "moon"],
+  ALWAYS_RETROGRADE: ["northNode", "southNode"],
+} as const;
+
+/**
  * Transit date structure
  */
 export interface TransitDate {
@@ -351,38 +386,3 @@ export async function validatePlanetaryPosition(
     return false;
   }
 }
-
-/**
- * Constants for transit validation
- */
-export const _TRANSIT_CONSTANTS = {
-  _VALID_SIGNS: [
-    "aries",
-    "taurus",
-    "gemini",
-    "cancer",
-    "leo",
-    "virgo",
-    "libra",
-    "scorpio",
-    "sagittarius",
-    "capricorn",
-    "aquarius",
-    "pisces",
-  ],
-  _DEGREES_PER_SIGN: 30,
-  _MAX_LONGITUDE: 360,
-  _DATE_FORMAT: "YYYY-MM-DD",
-  _RETROGRADE_PLANETS: [
-    "mercury",
-    "venus",
-    "mars",
-    "jupiter",
-    "saturn",
-    "uranus",
-    "neptune",
-    "pluto",
-  ],
-  _ALWAYS_DIRECT: ["sun", "moon"],
-  _ALWAYS_RETROGRADE: ["northNode", "southNode"],
-} as const;

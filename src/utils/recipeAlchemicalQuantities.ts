@@ -121,7 +121,7 @@ function buildIngredientAlchemicalMap(): Map<string, { key: string; alchemical: 
   for (const [key, ingredient] of Object.entries(allCollections)) {
     if (!ingredient || typeof ingredient !== "object") continue;
 
-    const ing = ingredient as Record<string, unknown>;
+    const ing = ingredient;
     const alchProps = ing.alchemicalProperties as Record<string, number> | undefined;
     if (!alchProps) continue;
 

@@ -1,5 +1,5 @@
-import { fixIngredientMappings } from "@/utils/elementalUtils";
 import type { IngredientMapping } from "@/data/ingredients/types";
+import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 // Spices ingredients extracted from cuisine files
 const rawSpices: Record<string, Partial<IngredientMapping>> = {
@@ -557,7 +557,4 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Export spices ingredients for use in spices/index.ts
-export const spicesIngredients = fixIngredientMappings(rawSpices) as Record<
-  string,
-  IngredientMapping
->;
+export const spicesIngredients = fixIngredientMappings(rawSpices);

@@ -617,7 +617,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </div>
           {method.pillar && (
             <div className="mt-3 text-center text-xs text-gray-500">
-              Pillar Effects: {Object.entries(method.pillar.effects).map(([p, v]) => `${p} ${(v as number) > 0 ? "+" : ""}${v}`).join(", ")}
+              Pillar Effects: {Object.entries(method.pillar.effects).map(([p, v]) => `${p} ${(v) > 0 ? "+" : ""}${v}`).join(", ")}
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 // app/layout.tsx
+import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
 import React from "react";
-import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientProviders from "./ClientProviders";

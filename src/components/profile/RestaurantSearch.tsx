@@ -84,7 +84,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       name: place.name,
       cuisine: place.categories?.[0]?.name || 'Restaurant',
       location: place.location?.locality
-        ? `${place.location.locality}${place.location.region ? ', ' + place.location.region : ''}`
+        ? `${place.location.locality}${place.location.region ? `, ${  place.location.region}` : ''}`
         : undefined,
       address: place.location?.formatted_address || place.location?.address,
       menuItems: [],

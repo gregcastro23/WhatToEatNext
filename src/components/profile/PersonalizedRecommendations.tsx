@@ -278,7 +278,7 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
                       {/* Element badges */}
                       <div className="hidden sm:flex gap-1">
                         {Object.entries(cuisine.elemental_properties || {})
-                          .sort(([, a], [, b]) => (b as number) - (a as number))
+                          .sort(([, a], [, b]) => (b) - (a))
                           .slice(0, 2)
                           .map(([el]) => {
                             const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
@@ -304,8 +304,8 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
                           <p className="text-xs font-medium text-gray-600 mb-2">Flavor Profile</p>
                           <div className="flex flex-wrap gap-2">
                             {Object.entries(cuisine.flavor_profile)
-                              .filter(([, v]) => (v as number) > 0)
-                              .sort(([, a], [, b]) => (b as number) - (a as number))
+                              .filter(([, v]) => (v) > 0)
+                              .sort(([, a], [, b]) => (b) - (a))
                               .map(([flavor, value]) => (
                                 <span
                                   key={flavor}

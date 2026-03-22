@@ -16,8 +16,8 @@
 
 import Link from "next/link";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import RecipeBuilderPanel from "@/components/recipe-builder/RecipeBuilderPanel";
 import GenerateRecipeButton from "@/components/recipe-builder/GenerateRecipeButton";
+import RecipeBuilderPanel from "@/components/recipe-builder/RecipeBuilderPanel";
 import RecipeSuggestionCarousel from "@/components/recipe-builder/RecipeSuggestionCarousel";
 import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";

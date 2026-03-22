@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-
 import { _logger } from '@/lib/logger';
 import type { RecipeQuery } from '@/services/PlanetaryRecipeScorer';
 import { planetaryRecipeScorer } from '@/services/PlanetaryRecipeScorer';

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
@@ -1292,9 +1292,9 @@ export default function RecipePage(props: any) {
                           <div key={taste} className="flex items-center gap-2">
                             <span className="w-14 text-xs text-slate-500 capitalize">{taste}</span>
                             <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
-                              <div className="h-full bg-amber-500/60 rounded-full" style={{ width: `${(value as number / 10) * 100}%` }} />
+                              <div className="h-full bg-amber-500/60 rounded-full" style={{ width: `${(value / 10) * 100}%` }} />
                             </div>
-                            <span className="w-5 text-xs text-slate-500 text-right">{value as number}</span>
+                            <span className="w-5 text-xs text-slate-500 text-right">{value}</span>
                           </div>
                         ))}
                       </div>

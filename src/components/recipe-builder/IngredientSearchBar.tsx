@@ -102,6 +102,7 @@ interface IngredientCardProps {
   ingredient: {
     name: string;
     category?: string;
+    description?: string;
     elementalProperties?: Record<string, number>;
   };
   isSelected: boolean;

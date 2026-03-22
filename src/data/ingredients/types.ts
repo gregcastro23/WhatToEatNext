@@ -183,6 +183,7 @@ export type OilSubcategory = "cooking" | "finishing" | "infused";
 export type VinegarSubcategory = "wine" | "fruit" | "grain" | "specialty";
 
 import type { AlchemicalProperties } from "@/types/celestial";
+
 export type { AlchemicalProperties };
 
 // Updated ThermodynamicProperties interface based on the FoodAlchemySystem

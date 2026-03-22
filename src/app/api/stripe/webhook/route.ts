@@ -8,8 +8,8 @@
  * @file src/app/api/stripe/webhook/route.ts
  */
 
-import { NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
 import type Stripe from "stripe";
 
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
 
     switch (event.type) {
       case "checkout.session.completed": {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object;
         const userId = session.metadata?.userId;
         const tier = (session.metadata?.tier || "premium") as SubscriptionTier;
 
@@ -122,7 +122,7 @@ export async function POST(request: Request) {
       }
 
       case "customer.subscription.updated": {
-        const subscription = event.data.object as Stripe.Subscription;
+        const subscription = event.data.object;
         const stripeCustomerId = subscription.customer as string;
         const period = getSubscriptionPeriod(subscription);
 
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
       }
 
       case "customer.subscription.deleted": {
-        const subscription = event.data.object as Stripe.Subscription;
+        const subscription = event.data.object;
         const stripeCustomerId = subscription.customer as string;
 
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
@@ -157,7 +157,7 @@ export async function POST(request: Request) {
       }
 
       case "invoice.payment_succeeded": {
-        const invoice = event.data.object as Stripe.Invoice;
+        const invoice = event.data.object;
         const subscriptionId = getInvoiceSubscriptionId(invoice);
         if (subscriptionId) {
           const subscription = await stripe.subscriptions.retrieve(subscriptionId);
@@ -178,7 +178,7 @@ export async function POST(request: Request) {
       }
 
       case "invoice.payment_failed": {
-        const invoice = event.data.object as Stripe.Invoice;
+        const invoice = event.data.object;
         const stripeCustomerId = invoice.customer as string;
 
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);

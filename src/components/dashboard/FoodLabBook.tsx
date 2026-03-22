@@ -125,7 +125,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
   const instagramCaption = `${localEntry.dishName}${localEntry.cuisineType ? ` • ${localEntry.cuisineType}` : ''}${localEntry.cookingMethod ? ` • ${localEntry.cookingMethod}` : ''}\n\n${
     localEntry.notes ? `${localEntry.notes}\n\n` : ''
   }${localEntry.rating ? `${'⭐'.repeat(localEntry.rating)} Rating\n\n` : ''}${
-    localEntry.tags.length > 0 ? localEntry.tags.map((t) => `#${t.replace(/\s/g, '')}`).join(' ') + '\n' : ''
+    localEntry.tags.length > 0 ? `${localEntry.tags.map((t) => `#${t.replace(/\s/g, '')}`).join(' ')  }\n` : ''
   }#WhatToEatNext #AlchemicalCooking #${(localEntry.cookingMethod ?? 'Cooking').replace(/\s/g, '')}`;
 
   const [igCopied, setIgCopied] = useState(false);
@@ -443,7 +443,7 @@ function EntryDetail({
                       ELEMENT_COLORS[el] ?? 'bg-gray-100 text-gray-600'
                     }`}
                   >
-                    {el}: {Math.round((v as number) * 100)}%
+                    {el}: {Math.round((v) * 100)}%
                   </span>
                 ))}
               </div>

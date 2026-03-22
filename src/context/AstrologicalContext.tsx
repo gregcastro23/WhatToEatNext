@@ -8,8 +8,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import type { ReactNode } from "react";
 import type { ElementalProperties, AlchemicalProperties } from "@/types/celestial";
+import type { ReactNode } from "react";
 
 interface ChakraEnergies {
   root: number;

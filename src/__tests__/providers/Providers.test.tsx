@@ -6,6 +6,7 @@ import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 
 describe("AlchemicalProvider", () => {
   it("renders children without crashing", () => {
@@ -21,7 +22,6 @@ describe("AlchemicalProvider", () => {
 
   it("provides default state values to children", () => {
     function TestConsumer() {
-      const { useAlchemical } = require("@/contexts/AlchemicalContext/hooks");
       const ctx = useAlchemical();
       return (
         <div>

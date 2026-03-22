@@ -797,6 +797,7 @@ export function calculateMonicaOptimizationScore(
         alchemicalEquilibrium: 50,
         monicaAlignment: 50,
       },
+      monicaSum: 0,
       methodScores: [],
     };
   }

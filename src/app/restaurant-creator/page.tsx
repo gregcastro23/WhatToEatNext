@@ -9,9 +9,9 @@
 
 "use client";
 
-import React, { useState, useCallback } from "react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import React, { useState, useCallback } from "react";
 import { usePremium } from "@/contexts/PremiumContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type {
@@ -402,7 +402,7 @@ export default function RestaurantCreatorPage() {
                         }
                         className={`px-3 py-1 rounded-full text-xs font-bold border transition-all ${
                           newItem.tags.includes(tag.key)
-                            ? tag.color + " border-current"
+                            ? `${tag.color  } border-current`
                             : "bg-white text-slate-400 border-slate-200"
                         }`}
                       >

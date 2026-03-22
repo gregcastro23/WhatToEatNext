@@ -74,7 +74,15 @@ vercel --prod
 
 ### **Custom Domain Setup**
 
-To connect your custom domain to Vercel, configure the following DNS records at your domain provider:
+To connect your custom domain to Vercel, you have two options:
+
+#### **Option 1: Nameservers (Recommended)**
+Update your domain's nameservers at your registrar to:
+- `ns1.vercel-dns.com`
+- `ns2.vercel-dns.com`
+
+#### **Option 2: DNS Records**
+If you prefer to keep your existing nameservers, configure the following records:
 
 | Type  | Name  | Value                                      |
 | ----- | ----- | ------------------------------------------ |
