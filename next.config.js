@@ -99,7 +99,7 @@ const nextConfig = {
   generateEtags: true,
   pageExtensions: ["js", "jsx", "ts", "tsx"],
 
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, nextRuntime }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@": path.resolve(__dirname, "src"),
@@ -114,6 +114,17 @@ const nextConfig = {
         tls: false,
         dns: false,
         "pg-native": false,
+      };
+    }
+
+    // Stub out jose's deflate module in edge bundles to silence the
+    // CompressionStream/DecompressionStream Edge Runtime warnings.
+    // next-auth uses jose/webapi for JWT, but the deflate (JWE) code path
+    // is never reached for our jwt-strategy sessions.
+    if (nextRuntime === "edge") {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        "jose/dist/webapi/lib/deflate.js": false,
       };
     }
 
@@ -132,4 +143,6 @@ const nextConfig = {
 
 export default nextConfig;
 
-import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
+if (process.env.NODE_ENV === 'development') {
+  import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
+}
