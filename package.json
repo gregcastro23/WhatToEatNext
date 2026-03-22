@@ -15,7 +15,7 @@
     "typescript": "5.8.3"
   },
   "scripts": {
-    "build": "next build",
+    "build": "next build && opennextjs-cloudflare build",
     "build:cloudflare": "next build && opennextjs-cloudflare build",
     "types:api": "node scripts/generate-types-from-backend.cjs",
     "predev": "node scripts/check-node-version.cjs",
