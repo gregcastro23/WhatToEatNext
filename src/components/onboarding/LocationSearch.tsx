@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import type { GeocodingResult } from "@/services/geocodingService";
 
+import { getEdgeApiUrl } from "@/utils/urlUtils";
+
 interface LocationSearchProps {
   onLocationSelect: (location: {
     displayName: string;
@@ -61,7 +63,7 @@ export function LocationSearch({
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/geocoding?q=${encodeURIComponent(query)}`,
+          `${getEdgeApiUrl("/api/geocoding")}?q=${encodeURIComponent(query)}`,
         );
         const data = await response.json();
 

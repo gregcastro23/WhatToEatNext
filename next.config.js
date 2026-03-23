@@ -137,14 +137,19 @@ const nextConfig = {
       };
     }
 
-    // Stub out jose's deflate module in edge bundles to silence the
-    // CompressionStream/DecompressionStream Edge Runtime warnings.
-    // next-auth uses jose/webapi for JWT, but the deflate (JWE) code path
-    // is never reached for our jwt-strategy sessions.
+    // Stub out modules that are not compatible with Edge Runtime.
+    // These modules use Node.js built-ins (stream, fs, path, crypto, net, etc.)
+    // that are not available in Cloudflare Workers.
     if (nextRuntime === "edge") {
       config.resolve.alias = {
         ...config.resolve.alias,
+        // jose deflate - not needed for JWT sessions
         "jose/dist/webapi/lib/deflate.js": false,
+        // nodemailer - uses stream, fs, path, crypto (use Resend API instead)
+        nodemailer: false,
+        // pg - PostgreSQL client (use dynamic imports in server-only code)
+        pg: false,
+        "pg-native": false,
       };
     }
 

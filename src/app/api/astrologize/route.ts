@@ -17,7 +17,8 @@ import {
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-export const runtime = "edge";
+// Note: Removed `runtime = "edge"` - Cloudflare Workers are already edge functions
+// and OpenNext requires edge functions to be configured separately.
 
 /** Map lowercase zodiac key to title-case label */
 const zodiacLabels: Record<string, string> = {

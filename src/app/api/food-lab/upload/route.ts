@@ -12,7 +12,8 @@ import { validateRequest } from "@/lib/auth/validateRequest";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-export const runtime = "edge";
+// Note: Removed `runtime = "edge"` - Cloudflare Workers are already edge functions
+// and OpenNext requires edge functions to be configured separately.
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];

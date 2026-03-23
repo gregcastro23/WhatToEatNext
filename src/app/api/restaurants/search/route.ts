@@ -10,7 +10,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
+// Note: Removed `runtime = 'edge'` - Cloudflare Workers are already edge functions
+// and OpenNext requires edge functions to be configured separately.
 
 const FOURSQUARE_BASE = 'https://api.foursquare.com/v3/places/search';
 const RESTAURANT_CATEGORY_ID = '13065'; // Foursquare "Dining and Drinking" parent category

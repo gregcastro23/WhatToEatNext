@@ -8,10 +8,29 @@
 
 import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth/auth";
-import { userDatabase } from "@/services/userDatabaseService";
-import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
+
+// Dynamic import for auth to avoid pulling in Node.js deps at bundle time
+// This allows edge routes to use validateRequest when auth callbacks aren't needed
+const getAuth = async () => {
+  try {
+    const { auth } = await import("@/lib/auth/auth");
+    return auth;
+  } catch {
+    return null;
+  }
+};
+
+// Dynamic import for userDatabase to support edge runtime
+// Edge routes will gracefully skip DB lookups
+const getUserDatabase = async () => {
+  try {
+    const { userDatabase } = await import("@/services/userDatabaseService");
+    return userDatabase;
+  } catch {
+    return null;
+  }
+};
 
 // JWT Secret - lazy initialization
 let _jwtSecret: Uint8Array | null = null;
@@ -88,15 +107,19 @@ export async function validateToken(token: string): Promise<ValidationResult> {
 
     const decoded = payload as unknown as TokenPayload;
 
-    // Verify user still exists and is active (optional, depending on requirements)
-    const user = await userDatabase.getUserById(decoded.userId);
-    if (!user || !user.isActive) {
-      return {
-        valid: false,
-        error: "User account is inactive or deleted",
-        statusCode: 401,
-      };
+    // Try to verify user still exists and is active (skipped on edge runtime)
+    const userDatabase = await getUserDatabase();
+    if (userDatabase) {
+      const user = await userDatabase.getUserById(decoded.userId);
+      if (!user || !user.isActive) {
+        return {
+          valid: false,
+          error: "User account is inactive or deleted",
+          statusCode: 401,
+        };
+      }
     }
+    // On edge runtime, skip DB check and trust the JWT
 
     return {
       valid: true,
@@ -136,24 +159,27 @@ export async function validateToken(token: string): Promise<ValidationResult> {
 export async function validateRequest(
   request: NextRequest,
 ): Promise<{ user: TokenPayload } | { error: NextResponse }> {
-  // 1. Try NextAuth session first
+  // 1. Try NextAuth session first (dynamically imported for edge compatibility)
   try {
-    const session = await auth();
-    if (session?.user) {
-      const sessionRole = session.user.role || "user";
-      const roles =
-        sessionRole === "admin" ? ["admin", "user"] : ["user"];
-      return {
-        user: {
-          userId: session.user.id || "",
-          email: session.user.email || "",
-          roles,
-          scopes: [],
-          iat: 0,
-          exp: 0,
-          iss: "next-auth",
-        },
-      };
+    const auth = await getAuth();
+    if (auth) {
+      const session = await auth();
+      if (session?.user) {
+        const sessionRole = session.user.role || "user";
+        const roles =
+          sessionRole === "admin" ? ["admin", "user"] : ["user"];
+        return {
+          user: {
+            userId: session.user.id || "",
+            email: session.user.email || "",
+            roles,
+            scopes: [],
+            iat: 0,
+            exp: 0,
+            iss: "next-auth",
+          },
+        };
+      }
     }
   } catch {
     // NextAuth session check failed, fall through to JWT
@@ -215,11 +241,14 @@ export async function validateAdminRequest(
 export async function getUserIdFromRequest(
   request: NextRequest,
 ): Promise<string | null> {
-  // Try NextAuth session first
+  // Try NextAuth session first (dynamically imported for edge compatibility)
   try {
-    const session = await auth();
-    if (session?.user?.id) {
-      return session.user.id;
+    const auth = await getAuth();
+    if (auth) {
+      const session = await auth();
+      if (session?.user?.id) {
+        return session.user.id;
+      }
     }
   } catch {
     // Fall through

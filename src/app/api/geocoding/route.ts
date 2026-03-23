@@ -8,7 +8,8 @@ import { geocodeLocation } from "@/services/geocodingService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-export const runtime = "edge";
+// Note: Removed `runtime = "edge"` - Cloudflare Workers are already edge functions
+// and OpenNext requires edge functions to be configured separately.
 
 export async function GET(request: NextRequest) {
   try {

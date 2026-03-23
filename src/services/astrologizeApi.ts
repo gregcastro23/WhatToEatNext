@@ -2,20 +2,12 @@ import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
+import { getEdgeWorkerBaseUrl } from "@/utils/urlUtils";
 
 // Use local API endpoint instead of external
 // On server-side, we need an absolute URL since relative URLs don't work in Node.js
 const getBackendBaseUrl = () => {
-  if (typeof window === "undefined") {
-    // Server-side: use absolute URL from environment variables
-    return (
-      process.env.NEXT_PUBLIC_BACKEND_URL ||
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
-      "http://localhost:8001"
-    ); // Fallback to local Docker port
-  }
-  // Client-side: use relative URL if backend is proxied, or absolute if explicitly set
-  return process.env.NEXT_PUBLIC_BACKEND_URL || "";
+  return getEdgeWorkerBaseUrl();
 };
 
 const getAstrologizeApiUrl = () => {
