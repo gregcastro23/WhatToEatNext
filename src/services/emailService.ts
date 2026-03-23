@@ -4,8 +4,9 @@
  * Fallback: Nodemailer SMTP (via SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS)
  */
 
-import nodemailer from "nodemailer";
-import type { Transporter } from "nodemailer";
+// Remove top-level nodemailer import to support Edge runtime
+// import nodemailer from "nodemailer";
+// import type { Transporter } from "nodemailer";
 
 interface EmailOptions {
   to: string;
@@ -16,7 +17,7 @@ interface EmailOptions {
 
 class EmailService {
   private resendApiKey: string | null = null;
-  private smtpTransporter: Transporter | null = null;
+  private smtpTransporter: any | null = null; // Use any for Transporter to avoid type issues with dynamic import
   private fromName: string = "alchm.kitchen";
   private fromAddress: string = "noreply@alchm.kitchen";
 
@@ -47,15 +48,22 @@ class EmailService {
 
     if (host && port && user && pass) {
       const portNum = parseInt(port, 10);
-      this.smtpTransporter = nodemailer.createTransport({
-        host,
-        port: portNum,
-        secure: portNum === 465,
-        auth: { user, pass },
+      
+      // Dynamic import nodemailer only when SMTP is needed
+      // Note: This will still fail at runtime on Edge, but won't crash the BUILD for Edge routes
+      void import("nodemailer").then((nodemailer) => {
+        this.smtpTransporter = nodemailer.createTransport({
+          host,
+          port: portNum,
+          secure: portNum === 465,
+          auth: { user, pass },
+        });
+        console.log(
+          `Email service initialized with SMTP (${host}:${port}, from: ${this.fromAddress})`,
+        );
+      }).catch((err) => {
+        console.error("Failed to load nodemailer for SMTP fallback:", err);
       });
-      console.log(
-        `Email service initialized with SMTP (${host}:${port}, from: ${this.fromAddress})`,
-      );
       return;
     }
 
