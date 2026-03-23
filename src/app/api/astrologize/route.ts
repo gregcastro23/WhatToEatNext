@@ -17,7 +17,7 @@ import {
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
+export const runtime = "edge";
 
 /** Map lowercase zodiac key to title-case label */
 const zodiacLabels: Record<string, string> = {

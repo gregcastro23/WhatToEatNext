@@ -78,6 +78,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+    unoptimized: true, // Cloudflare handles image optimization via its own service
   },
   compiler: {
     removeConsole:
@@ -98,6 +99,22 @@ const nextConfig = {
   compress: true,
   generateEtags: true,
   pageExtensions: ["js", "jsx", "ts", "tsx"],
+  bundlePagesRouterDependencies: true,
+
+  experimental: {
+    optimizePackageImports: [
+      "@mui/material",
+      "@mui/icons-material",
+      "@chakra-ui/react",
+      "lucide-react",
+      "react-icons",
+      "@heroicons/react",
+      "framer-motion",
+      "date-fns",
+      "lodash",
+    ],
+    serverExternalPackages: ["astronomy-engine", "pg"],
+  },
 
   webpack: (config, { isServer, nextRuntime }) => {
     config.resolve.alias = {
