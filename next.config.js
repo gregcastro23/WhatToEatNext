@@ -113,7 +113,10 @@ const nextConfig = {
       "date-fns",
       "lodash",
     ],
-    serverExternalPackages: ["astronomy-engine", "pg"],
+    // astronomy-engine is pure JS — must be bundled into the worker bundle
+    // so the edge /api/astrologize route can use it as a fallback.
+    // pg uses TCP sockets and is handled by nodejs_compat in the Worker.
+    serverExternalPackages: ["pg"],
   },
 
   webpack: (config, { isServer, nextRuntime }) => {

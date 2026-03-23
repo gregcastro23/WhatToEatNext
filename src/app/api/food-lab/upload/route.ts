@@ -54,7 +54,10 @@ export async function POST(request: NextRequest) {
   }
 
   const bytes = await file.arrayBuffer();
-  const base64 = Buffer.from(bytes).toString("base64");
+  // Use Web API for base64 encoding — Buffer is not available in Edge runtime
+  const uint8Array = new Uint8Array(bytes);
+  const binary = Array.from(uint8Array, (b) => String.fromCharCode(b)).join("");
+  const base64 = btoa(binary);
   const dataUrl = `data:${file.type};base64,${base64}`;
 
   return NextResponse.json({
