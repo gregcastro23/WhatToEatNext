@@ -8340,9 +8340,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"critters@npm:^0.0.24":
-  version: 0.0.24
-  resolution: "critters@npm:0.0.24"
+"critters@npm:^0.0.25":
+  version: 0.0.25
+  resolution: "critters@npm:0.0.25"
   dependencies:
     chalk: ^4.1.0
     css-select: ^5.1.0
@@ -8351,7 +8351,7 @@ __metadata:
     htmlparser2: ^8.0.2
     postcss: ^8.4.23
     postcss-media-query-parser: ^0.2.3
-  checksum: 6abf1e512d27c4adcac5dfc40d1c755242ee2cb3f9cbb467c2a279835f37c53c013363b0b4bf4db402a58bbc387eb4c3cee68a25dc3781758a6df403528efd23
+  checksum: d3fc1c78402c3dfc10aa823ee3ceeab17c189aae10bee8df13337a095233f5fc8373e926a31e4454cd332312f39246689a9fc28f04ad2ffc45926b2375620013
   languageName: node
   linkType: hard
 
@@ -16604,7 +16604,7 @@ next-auth@beta:
     axios: ^1.13.6
     bcryptjs: ^3.0.3
     clsx: ^2.1.1
-    critters: ^0.0.24
+    critters: ^0.0.25
     date-fns: ^2.30.0
     eslint: ^9.17.0
     eslint-config-next: ^15.5.12
