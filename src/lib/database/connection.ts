@@ -108,22 +108,27 @@ export function initializeDatabase(): Pool {
     });
   });
 
-  // Graceful shutdown handling
-  process.on("SIGINT", () => {
-    void (async () => {
-      void logger.info("Received SIGINT, closing database pool...");
-      await closeDatabase();
-      process.exit(0);
-    })();
-  });
+  // Graceful shutdown handling — guarded because Cloudflare Workers
+  // don't support process signal events (process.on throws there).
+  try {
+    process.on("SIGINT", () => {
+      void (async () => {
+        void logger.info("Received SIGINT, closing database pool...");
+        await closeDatabase();
+        process.exit(0);
+      })();
+    });
 
-  process.on("SIGTERM", () => {
-    void (async () => {
-      void logger.info("Received SIGTERM, closing database pool...");
-      await closeDatabase();
-      process.exit(0);
-    })();
-  });
+    process.on("SIGTERM", () => {
+      void (async () => {
+        void logger.info("Received SIGTERM, closing database pool...");
+        await closeDatabase();
+        process.exit(0);
+      })();
+    });
+  } catch {
+    // Cloudflare Workers / Edge environments don't support process signals
+  }
 
   void logger.info("Database connection pool initialized", {
     database: config.database,
