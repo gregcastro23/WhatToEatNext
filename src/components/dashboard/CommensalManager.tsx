@@ -71,8 +71,31 @@ function AddCommensalForm({
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [timezone, setTimezone] = useState('');
+  const [placeName, setPlaceName] = useState('');
+  const [isGeocoding, setIsGeocoding] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handlePlaceNameBlur = async () => {
+    if (!placeName.trim()) return;
+    setIsGeocoding(true);
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(placeName)}`);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        setLatitude(data[0].lat);
+        setLongitude(data[0].lon);
+        setError(null);
+      } else {
+        setError('Could not find location coordinates. Please enter latitude and longitude manually.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Failed to fetch location coordinates.');
+    } finally {
+      setIsGeocoding(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,6 +184,24 @@ function AddCommensalForm({
             placeholder="e.g. America/New_York"
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
+        </div>
+        <div>
+          <label className="block text-xs text-gray-500 mb-1">Birth Place</label>
+          <div className="relative">
+            <input
+              type="text"
+              value={placeName}
+              onChange={(e) => setPlaceName(e.target.value)}
+              onBlur={handlePlaceNameBlur}
+              placeholder="e.g. New York, NY"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+            />
+            {isGeocoding && (
+              <div className="absolute right-3 top-2.5 text-xs text-gray-400">
+                Finding...
+              </div>
+            )}
+          </div>
         </div>
         <div>
           <label className="block text-xs text-gray-500 mb-1">Latitude *</label>

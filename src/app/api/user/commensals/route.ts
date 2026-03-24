@@ -5,7 +5,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
@@ -82,8 +82,10 @@ export async function GET(request: NextRequest) {
 
 /** POST /api/user/commensals - Add a new commensal */
 export async function POST(request: NextRequest) {
-  const authResult = await validateRequest(request);
-  if ("error" in authResult) return authResult.error;
+  const userId = await getUserIdFromRequest(request);
+  if (!userId) {
+    return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
+  }
 
   const body = await request.json();
   const { name, relationship, birthData } = body as {
@@ -99,7 +101,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const userId = authResult.user.userId;
   const user = await userDatabase.getUserById(userId);
   if (!user) {
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
