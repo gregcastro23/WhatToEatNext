@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type { GroupMember, DiningGroup, CompositeNatalChart } from '@/types/natalChart';
+import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedFriend } from '@/types/natalChart';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 
 /* ─── Types ────────────────────────────────────────────── */
@@ -21,6 +21,12 @@ interface GroupRecommendationResult {
   recommendations: CuisineRec[];
   memberCount: number;
   strategy: string;
+}
+
+interface SearchResult {
+  id: string;
+  name: string;
+  email: string;
 }
 
 /* ─── Constants ─────────────────────────────────────────── */
@@ -57,7 +63,169 @@ function ScoreBar({ value, color = 'purple' }: { value: number; color?: string }
   );
 }
 
-/* ─── Add Commensal Form ─────────────────────────────────── */
+/* ─── Add Mode Toggle ────────────────────────────────────── */
+
+type AddMode = 'manual' | 'email';
+
+function AddModeToggle({ mode, onModeChange }: { mode: AddMode; onModeChange: (m: AddMode) => void }) {
+  return (
+    <div className="flex rounded-lg border border-gray-200 overflow-hidden mb-4">
+      <button
+        type="button"
+        onClick={() => onModeChange('manual')}
+        className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
+          mode === 'manual'
+            ? 'bg-purple-600 text-white'
+            : 'bg-white text-gray-600 hover:bg-gray-50'
+        }`}
+      >
+        Add Manual Chart
+      </button>
+      <button
+        type="button"
+        onClick={() => onModeChange('email')}
+        className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
+          mode === 'email'
+            ? 'bg-purple-600 text-white'
+            : 'bg-white text-gray-600 hover:bg-gray-50'
+        }`}
+      >
+        Search by Email
+      </button>
+    </div>
+  );
+}
+
+/* ─── Email Search Form ──────────────────────────────────── */
+
+function AddByEmailForm({
+  onRequestSent,
+  onCancel,
+}: {
+  onRequestSent: () => void;
+  onCancel: () => void;
+}) {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [sending, setSending] = useState<string | null>(null);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleSearch = useCallback(async () => {
+    if (query.length < 3) {
+      setResults([]);
+      return;
+    }
+    setSearching(true);
+    setMessage(null);
+    try {
+      const res = await fetch(`/api/users/search?q=${encodeURIComponent(query)}`, {
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (data.success) setResults(data.users ?? []);
+    } catch {
+      setMessage({ type: 'error', text: 'Search failed' });
+    } finally {
+      setSearching(false);
+    }
+  }, [query]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (query.length >= 3) void handleSearch();
+      else setResults([]);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [query, handleSearch]);
+
+  const handleSendRequest = async (email: string) => {
+    setSending(email);
+    setMessage(null);
+    try {
+      const res = await fetch('/api/friends/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: `Friend request sent to ${email}` });
+        onRequestSent();
+      } else {
+        setMessage({ type: 'error', text: data.message || 'Failed to send request' });
+      }
+    } catch {
+      setMessage({ type: 'error', text: 'Failed to send request' });
+    } finally {
+      setSending(null);
+    }
+  };
+
+  return (
+    <div className="space-y-3 bg-gray-50 border border-gray-200 rounded-xl p-4">
+      <h4 className="text-sm font-semibold text-gray-800">Find a Friend on Alchm.kitchen</h4>
+      <p className="text-xs text-gray-500">
+        Search by their email. When they accept, their birth chart syncs automatically.
+      </p>
+
+      {message && (
+        <div className={`text-sm px-3 py-2 rounded-lg border ${
+          message.type === 'success'
+            ? 'text-green-700 bg-green-50 border-green-200'
+            : 'text-red-600 bg-red-50 border-red-200'
+        }`}>
+          {message.text}
+        </div>
+      )}
+
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search by email (min 3 characters)..."
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+      />
+
+      {searching && <p className="text-xs text-gray-400">Searching...</p>}
+
+      {results.length > 0 && (
+        <div className="space-y-1.5">
+          {results.map((u) => (
+            <div key={u.id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-gray-100">
+              <div>
+                <span className="text-sm font-medium text-gray-800">{u.name || 'User'}</span>
+                <span className="text-xs text-gray-400 ml-2">{u.email}</span>
+              </div>
+              <button
+                onClick={() => handleSendRequest(u.email)}
+                disabled={sending === u.email}
+                className="px-3 py-1 text-xs bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
+              >
+                {sending === u.email ? 'Sending...' : 'Add Friend'}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {query.length >= 3 && !searching && results.length === 0 && (
+        <p className="text-xs text-gray-400 italic">No users found matching that email.</p>
+      )}
+
+      <button
+        type="button"
+        onClick={onCancel}
+        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+      >
+        Cancel
+      </button>
+    </div>
+  );
+}
+
+/* ─── Add Commensal Form (Manual Chart) ───────────────────── */
 
 function AddCommensalForm({
   onAdded,
@@ -113,7 +281,10 @@ function AddCommensalForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-4">
-      <h4 className="text-sm font-semibold text-gray-800">New Dining Companion</h4>
+      <h4 className="text-sm font-semibold text-gray-800">New Manual Chart</h4>
+      <p className="text-xs text-gray-500">
+        For friends/family who do NOT have an alchm.kitchen account.
+      </p>
 
       {error && (
         <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
@@ -155,7 +326,7 @@ function AddCommensalForm({
         </div>
         <div className="sm:col-span-1">
           <label className="block text-xs text-gray-500 mb-1">Birth Location *</label>
-          <LocationSearch 
+          <LocationSearch
             onLocationSelect={(loc) => {
               setLatitude(loc.latitude.toString());
               setLongitude(loc.longitude.toString());
@@ -192,7 +363,7 @@ function AddCommensalForm({
           disabled={saving}
           className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
         >
-          {saving ? 'Calculating chart…' : 'Add Companion'}
+          {saving ? 'Calculating chart...' : 'Add Companion'}
         </button>
         <button
           type="button"
@@ -208,19 +379,22 @@ function AddCommensalForm({
 
 /* ─── Commensal Card ─────────────────────────────────────── */
 
-function CommensalCard({
-  member,
-  selected,
-  onToggle,
-  onDelete,
-}: {
-  member: GroupMember;
+interface CompanionCardProps {
+  name: string;
+  element: string;
+  modality?: string;
+  ascendant?: string;
+  relationship?: string;
+  isLinked?: boolean;
   selected: boolean;
   onToggle: () => void;
-  onDelete: () => void;
-}) {
-  const el = member.natalChart?.dominantElement ?? 'Fire';
-  const colorClass = ELEMENT_COLORS[el] ?? ELEMENT_COLORS.Fire;
+  onDelete?: () => void;
+}
+
+const CompanionCard: React.FC<CompanionCardProps> = ({
+  name, element, modality, ascendant, relationship, isLinked, selected, onToggle, onDelete,
+}) => {
+  const colorClass = ELEMENT_COLORS[element] ?? ELEMENT_COLORS.Fire;
 
   return (
     <div
@@ -238,60 +412,69 @@ function CommensalCard({
       />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-gray-800">{member.name}</span>
-          {member.relationship && (
-            <span className="text-xs text-gray-400 capitalize">{member.relationship}</span>
+          <span className="text-sm font-semibold text-gray-800">{name}</span>
+          {relationship && (
+            <span className="text-xs text-gray-400 capitalize">{relationship}</span>
+          )}
+          {isLinked && (
+            <span className="text-xs px-1.5 py-0.5 rounded bg-green-50 text-green-600 border border-green-200 font-medium">
+              Linked
+            </span>
           )}
         </div>
         <div className="flex items-center gap-2 mt-0.5">
           <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${colorClass}`}>
-            {ELEMENT_EMOJI[el]} {el}
+            {ELEMENT_EMOJI[element]} {element}
           </span>
-          <span className="text-xs text-gray-400 capitalize">
-            {member.natalChart?.dominantModality}
-          </span>
-          {member.natalChart?.ascendant && (
-            <span className="text-xs text-gray-400 capitalize">
-              {member.natalChart.ascendant} rising
-            </span>
+          {modality && (
+            <span className="text-xs text-gray-400 capitalize">{modality}</span>
+          )}
+          {ascendant && (
+            <span className="text-xs text-gray-400 capitalize">{ascendant} rising</span>
           )}
         </div>
       </div>
-      <button
-        onClick={(e) => { e.stopPropagation(); onDelete(); }}
-        className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-        title="Remove companion"
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+      {onDelete && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onDelete(); }}
+          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+          title="Remove companion"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      )}
     </div>
   );
-}
+};
 
 /* ─── Group Recommendations Panel ────────────────────────── */
 
 function GroupRecommendationsPanel({
   commensalIds,
+  linkedUserIds,
   allMembers,
+  linkedFriends,
 }: {
   commensalIds: string[];
+  linkedUserIds: string[];
   allMembers: GroupMember[];
+  linkedFriends: LinkedFriend[];
 }) {
   const [result, setResult] = useState<GroupRecommendationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [strategy, setStrategy] = useState<'average' | 'minimum' | 'consensus'>('average');
 
   const fetchRecs = useCallback(async () => {
-    if (!commensalIds.length) return;
+    if (!commensalIds.length && !linkedUserIds.length) return;
     setLoading(true);
     try {
       const res = await fetch('/api/group-recommendations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ commensalIds, strategy }),
+        body: JSON.stringify({ commensalIds, linkedUserIds, strategy }),
       });
       const data = await res.json();
       if (data.success) setResult(data);
@@ -300,18 +483,22 @@ function GroupRecommendationsPanel({
     } finally {
       setLoading(false);
     }
-  }, [commensalIds, strategy]);
+  }, [commensalIds, linkedUserIds, strategy]);
 
   useEffect(() => {
-    if (commensalIds.length > 0) void fetchRecs();
+    if (commensalIds.length > 0 || linkedUserIds.length > 0) void fetchRecs();
     else setResult(null);
-  }, [commensalIds, fetchRecs]);
+  }, [commensalIds, linkedUserIds, fetchRecs]);
 
-  if (!commensalIds.length) return null;
+  if (!commensalIds.length && !linkedUserIds.length) return null;
 
-  const selectedNames = allMembers
+  const manualNames = allMembers
     .filter((m) => commensalIds.includes(m.id))
     .map((m) => m.name);
+  const linkedNames = linkedFriends
+    .filter((f) => linkedUserIds.includes(f.userId))
+    .map((f) => f.name);
+  const selectedNames = [...manualNames, ...linkedNames];
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-4">
@@ -339,14 +526,14 @@ function GroupRecommendationsPanel({
             disabled={loading}
             className="px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >
-            {loading ? '…' : 'Refresh'}
+            {loading ? '...' : 'Refresh'}
           </button>
         </div>
       </div>
 
       {loading && (
         <div className="text-center py-6 text-sm text-gray-400">
-          Calculating group harmony…
+          Calculating group harmony...
         </div>
       )}
 
@@ -401,21 +588,28 @@ function GroupRecommendationsPanel({
 function DiningGroupSection({
   groups,
   members,
+  linkedFriends,
   onGroupCreated,
   onGroupDeleted,
   onGetRecs,
 }: {
   groups: DiningGroup[];
   members: GroupMember[];
+  linkedFriends: LinkedFriend[];
   onGroupCreated: (g: DiningGroup) => void;
   onGroupDeleted: (id: string) => void;
-  onGetRecs: (ids: string[]) => void;
+  onGetRecs: (manualIds: string[], linkedIds: string[]) => void;
 }) {
   const [showCreate, setShowCreate] = useState(false);
   const [groupName, setGroupName] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const allCompanions = [
+    ...members.map((m) => ({ id: m.id, name: m.name, element: m.natalChart?.dominantElement, isLinked: false })),
+    ...linkedFriends.map((f) => ({ id: f.userId, name: f.name, element: f.natalChart?.dominantElement, isLinked: true })),
+  ];
 
   const toggleMember = (id: string) =>
     setSelectedIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
@@ -427,12 +621,22 @@ function DiningGroupSection({
     }
     setSaving(true);
     setError(null);
+
+    // Separate manual vs linked IDs
+    const manualMemberIds = new Set(members.map((m) => m.id));
+    const groupManualIds = selectedIds.filter((id) => manualMemberIds.has(id));
+    const groupLinkedIds = selectedIds.filter((id) => !manualMemberIds.has(id));
+
     try {
       const res = await fetch('/api/user/dining-groups', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ name: groupName.trim(), memberIds: selectedIds }),
+        body: JSON.stringify({
+          name: groupName.trim(),
+          memberIds: groupManualIds,
+          linkedUserIds: groupLinkedIds,
+        }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
@@ -487,19 +691,22 @@ function DiningGroupSection({
           />
           <div className="space-y-1.5">
             <span className="text-xs text-gray-500">Select members:</span>
-            {members.length === 0 && (
+            {allCompanions.length === 0 && (
               <p className="text-xs text-gray-400 italic">No companions added yet.</p>
             )}
-            {members.map((m) => (
-              <label key={m.id} className="flex items-center gap-2 cursor-pointer">
+            {allCompanions.map((c) => (
+              <label key={c.id} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={selectedIds.includes(m.id)}
-                  onChange={() => toggleMember(m.id)}
+                  checked={selectedIds.includes(c.id)}
+                  onChange={() => toggleMember(c.id)}
                   className="accent-purple-600"
                 />
-                <span className="text-sm text-gray-700">{m.name}</span>
-                <span className="text-xs text-gray-400 capitalize">{m.natalChart?.dominantElement}</span>
+                <span className="text-sm text-gray-700">{c.name}</span>
+                <span className="text-xs text-gray-400 capitalize">{c.element}</span>
+                {c.isLinked && (
+                  <span className="text-[10px] text-green-600 font-medium">Linked</span>
+                )}
               </label>
             ))}
           </div>
@@ -508,7 +715,7 @@ function DiningGroupSection({
             disabled={saving}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >
-            {saving ? 'Creating…' : 'Create Group'}
+            {saving ? 'Creating...' : 'Create Group'}
           </button>
         </div>
       )}
@@ -523,20 +730,23 @@ function DiningGroupSection({
         const groupMemberNames = members
           .filter((m) => group.memberIds.includes(m.id))
           .map((m) => m.name);
+        const groupLinkedNames = linkedFriends
+          .filter((f) => ((group as any).linkedUserIds ?? []).includes(f.userId))
+          .map((f) => f.name);
+        const allNames = [...groupMemberNames, ...groupLinkedNames];
+
         return (
           <div key={group.id} className="bg-white border border-gray-200 rounded-xl p-3">
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-sm font-semibold text-gray-800">{group.name}</span>
                 <p className="text-xs text-gray-400 mt-0.5">
-                  {groupMemberNames.length > 0
-                    ? groupMemberNames.join(', ')
-                    : 'No members'}
+                  {allNames.length > 0 ? allNames.join(', ') : 'No members'}
                 </p>
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => onGetRecs(group.memberIds)}
+                  onClick={() => onGetRecs(group.memberIds, (group as any).linkedUserIds ?? [])}
                   className="px-3 py-1.5 text-xs bg-orange-50 text-orange-700 border border-orange-200 rounded-lg font-medium hover:bg-orange-100 transition-colors"
                 >
                   Recommend
@@ -562,23 +772,29 @@ function DiningGroupSection({
 
 export const CommensalManager: React.FC = () => {
   const [commensals, setCommensals] = useState<GroupMember[]>([]);
+  const [linkedFriends, setLinkedFriends] = useState<LinkedFriend[]>([]);
   const [groups, setGroups] = useState<DiningGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [activeGroupIds, setActiveGroupIds] = useState<string[]>([]);
+  const [addMode, setAddMode] = useState<AddMode>('manual');
+  const [selectedManualIds, setSelectedManualIds] = useState<string[]>([]);
+  const [selectedLinkedIds, setSelectedLinkedIds] = useState<string[]>([]);
+  const [activeManualIds, setActiveManualIds] = useState<string[]>([]);
+  const [activeLinkedIds, setActiveLinkedIds] = useState<string[]>([]);
 
-  // Load commensals + groups
+  // Load commensals + groups + linked friends
   useEffect(() => {
     const load = async () => {
       try {
-        const [cRes, gRes] = await Promise.all([
+        const [cRes, gRes, fRes] = await Promise.all([
           fetch('/api/user/commensals', { credentials: 'include' }),
           fetch('/api/user/dining-groups', { credentials: 'include' }),
+          fetch('/api/friends', { credentials: 'include' }),
         ]);
-        const [cData, gData] = await Promise.all([cRes.json(), gRes.json()]);
+        const [cData, gData, fData] = await Promise.all([cRes.json(), gRes.json(), fRes.json()]);
         if (cData.success) setCommensals(cData.commensals ?? []);
         if (gData.success) setGroups(gData.diningGroups ?? []);
+        if (fData.success) setLinkedFriends(fData.linkedFriends ?? []);
       } catch {
         // ignore
       } finally {
@@ -588,32 +804,50 @@ export const CommensalManager: React.FC = () => {
     void load();
   }, []);
 
-  const handleDelete = async (commensalId: string) => {
+  const refreshLinkedFriends = async () => {
+    try {
+      const res = await fetch('/api/friends', { credentials: 'include' });
+      const data = await res.json();
+      if (data.success) setLinkedFriends(data.linkedFriends ?? []);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleDeleteCommensal = async (commensalId: string) => {
     try {
       await fetch(`/api/user/commensals/${commensalId}`, {
         method: 'DELETE',
         credentials: 'include',
       });
       setCommensals((prev) => prev.filter((m) => m.id !== commensalId));
-      setSelectedIds((prev) => prev.filter((id) => id !== commensalId));
+      setSelectedManualIds((prev) => prev.filter((id) => id !== commensalId));
     } catch {
       // ignore
     }
   };
 
-  const toggleSelect = (id: string) =>
-    setSelectedIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+  const toggleManualSelect = (id: string) =>
+    setSelectedManualIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
 
-  // IDs to show in recommendation panel: from group or manual selection
-  const recIds = activeGroupIds.length > 0 ? activeGroupIds : selectedIds;
+  const toggleLinkedSelect = (id: string) =>
+    setSelectedLinkedIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+
+  // IDs for recommendation panel
+  const recManualIds = activeManualIds.length > 0 ? activeManualIds : selectedManualIds;
+  const recLinkedIds = activeLinkedIds.length > 0 ? activeLinkedIds : selectedLinkedIds;
+  const hasSelection = recManualIds.length > 0 || recLinkedIds.length > 0;
+  const totalSelected = selectedManualIds.length + selectedLinkedIds.length;
 
   if (loading) {
     return (
       <div className="text-center py-10 text-sm text-gray-400">
-        Loading companions…
+        Loading companions...
       </div>
     );
   }
+
+  const totalCompanions = commensals.length + linkedFriends.length;
 
   return (
     <div className="space-y-5">
@@ -637,44 +871,52 @@ export const CommensalManager: React.FC = () => {
         </div>
       </div>
 
-      {/* Add form */}
+      {/* Dual-track add form */}
       {showAddForm && (
         <div className="bg-white rounded-xl shadow-sm p-5">
-          <AddCommensalForm
-            onAdded={(c) => {
-              setCommensals((prev) => [...prev, c]);
-              setShowAddForm(false);
-            }}
-            onCancel={() => setShowAddForm(false)}
-          />
+          <AddModeToggle mode={addMode} onModeChange={setAddMode} />
+          {addMode === 'manual' ? (
+            <AddCommensalForm
+              onAdded={(c) => {
+                setCommensals((prev) => [...prev, c]);
+                setShowAddForm(false);
+              }}
+              onCancel={() => setShowAddForm(false)}
+            />
+          ) : (
+            <AddByEmailForm
+              onRequestSent={refreshLinkedFriends}
+              onCancel={() => setShowAddForm(false)}
+            />
+          )}
         </div>
       )}
 
-      {/* Commensals list */}
+      {/* Companions list (manual + linked) */}
       <div className="bg-white rounded-xl shadow-sm p-5">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-semibold text-gray-800">
             Your Companions
-            {commensals.length > 0 && (
+            {totalCompanions > 0 && (
               <span className="ml-2 text-xs text-gray-400 font-normal">
-                ({commensals.length})
+                ({totalCompanions})
               </span>
             )}
           </h4>
-          {selectedIds.length > 0 && (
+          {totalSelected > 0 && (
             <button
               onClick={() => {
-                setActiveGroupIds([]);
-                // Trigger recs via the recIds derived state
+                setActiveManualIds([]);
+                setActiveLinkedIds([]);
               }}
               className="text-xs text-orange-600 font-medium hover:text-orange-800"
             >
-              Get Recs for {selectedIds.length} selected
+              Get Recs for {totalSelected} selected
             </button>
           )}
         </div>
 
-        {commensals.length === 0 ? (
+        {totalCompanions === 0 ? (
           <div className="text-center py-8">
             <div className="text-3xl mb-2">👨‍👩‍👧‍👦</div>
             <p className="text-sm text-gray-500">No companions yet.</p>
@@ -684,18 +926,38 @@ export const CommensalManager: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-2">
+            {/* Manual commensals */}
             {commensals.map((m) => (
-              <CommensalCard
+              <CompanionCard
                 key={m.id}
-                member={m}
-                selected={selectedIds.includes(m.id)}
-                onToggle={() => toggleSelect(m.id)}
-                onDelete={() => handleDelete(m.id)}
+                name={m.name}
+                element={m.natalChart?.dominantElement ?? 'Fire'}
+                modality={m.natalChart?.dominantModality}
+                ascendant={m.natalChart?.ascendant}
+                relationship={m.relationship}
+                selected={selectedManualIds.includes(m.id)}
+                onToggle={() => { toggleManualSelect(m.id); }}
+                onDelete={() => { void handleDeleteCommensal(m.id); }}
               />
             ))}
-            {selectedIds.length > 0 && (
+
+            {/* Linked friends */}
+            {linkedFriends.map((f) => (
+              <CompanionCard
+                key={f.userId}
+                name={f.name}
+                element={f.natalChart?.dominantElement ?? 'Fire'}
+                modality={f.natalChart?.dominantModality}
+                ascendant={f.natalChart?.ascendant}
+                isLinked
+                selected={selectedLinkedIds.includes(f.userId)}
+                onToggle={() => { toggleLinkedSelect(f.userId); }}
+              />
+            ))}
+
+            {totalSelected > 0 && (
               <p className="text-xs text-gray-400 text-center pt-1">
-                {selectedIds.length} companion{selectedIds.length > 1 ? 's' : ''} selected
+                {totalSelected} companion{totalSelected > 1 ? 's' : ''} selected
                 &mdash; see recommendations below
               </p>
             )}
@@ -704,11 +966,13 @@ export const CommensalManager: React.FC = () => {
       </div>
 
       {/* Group recommendations (auto-shown when selection exists) */}
-      {recIds.length > 0 && (
+      {hasSelection && (
         <div className="bg-white rounded-xl shadow-sm p-5">
           <GroupRecommendationsPanel
-            commensalIds={recIds}
+            commensalIds={recManualIds}
+            linkedUserIds={recLinkedIds}
             allMembers={commensals}
+            linkedFriends={linkedFriends}
           />
         </div>
       )}
@@ -718,11 +982,14 @@ export const CommensalManager: React.FC = () => {
         <DiningGroupSection
           groups={groups}
           members={commensals}
+          linkedFriends={linkedFriends}
           onGroupCreated={(g) => setGroups((prev) => [...prev, g])}
           onGroupDeleted={(id) => setGroups((prev) => prev.filter((g) => g.id !== id))}
-          onGetRecs={(ids) => {
-            setActiveGroupIds(ids);
-            setSelectedIds([]);
+          onGetRecs={(manualIds, linkedIds) => {
+            setActiveManualIds(manualIds);
+            setActiveLinkedIds(linkedIds);
+            setSelectedManualIds([]);
+            setSelectedLinkedIds([]);
           }}
         />
       </div>
