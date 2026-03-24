@@ -132,3 +132,70 @@ export interface GroupScoringStrategy {
   weights?: Record<string, number>; // Optional member weights (memberId -> weight)
   minimumConsensus?: number; // For consensus strategy (0-1)
 }
+
+// ─── Social & Multi-Chart Types ──────────────────────────
+
+/**
+ * Friendship status between two registered users
+ */
+export type FriendshipStatus = "pending" | "accepted" | "blocked";
+
+/**
+ * Friendship record between two registered users
+ */
+export interface Friendship {
+  id: string;
+  requesterId: string;
+  requesterName?: string;
+  requesterEmail?: string;
+  addresseeId: string;
+  addresseeName?: string;
+  addresseeEmail?: string;
+  status: FriendshipStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * A saved birth chart — can be a primary chart, cosmic identity, or manual companion chart.
+ * Decoupled from the monolithic user_profiles JSONB for easier querying and sharing.
+ */
+export interface SavedChart {
+  id: string;
+  ownerId: string;
+  label: string;
+  chartType: "primary" | "cosmic_identity" | "manual";
+  birthData: BirthData;
+  natalChart: NatalChart;
+  isPrimary: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * A linked friend in the dining companions list.
+ * When a friendship is accepted, the friend's chart data is synced here.
+ */
+export interface LinkedFriend {
+  userId: string;
+  name: string;
+  email: string;
+  natalChart: NatalChart;
+  birthData: BirthData;
+  friendshipId: string;
+  syncedAt: string;
+}
+
+/**
+ * Union type for dining companion entries — either a manual GroupMember or a LinkedFriend
+ */
+export type DiningCompanion =
+  | ({ type: "manual" } & GroupMember)
+  | ({ type: "linked" } & LinkedFriend);
+
+/**
+ * Extended DiningGroup that supports a mix of manual and linked members
+ */
+export interface ExtendedDiningGroup extends DiningGroup {
+  linkedUserIds?: string[]; // IDs of linked registered users in this group
+}

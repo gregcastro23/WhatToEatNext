@@ -13,6 +13,9 @@ import type {
   NatalChart,
   GroupMember,
   DiningGroup,
+  Friendship,
+  LinkedFriend,
+  SavedChart,
 } from "@/types/natalChart";
 import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import { logger } from "@/utils/logger";
@@ -38,7 +41,7 @@ interface AlchemicalProfile {
   monicaConstant: number;
 }
 
-// Extended UserProfile interface with natal chart and group support
+// Extended UserProfile interface with natal chart, group, and social support
 interface UserProfile {
   userId: string;
   name?: string;
@@ -49,6 +52,11 @@ interface UserProfile {
   groupMembers?: GroupMember[];
   diningGroups?: DiningGroup[];
   stats?: AlchemicalProfile;
+  // Social features
+  friendships?: Friendship[];
+  linkedFriends?: LinkedFriend[];
+  // Multi-chart cosmic identities
+  savedCharts?: SavedChart[];
 }
 
 // Keys for localStorage
@@ -139,6 +147,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 groupMembers: data.profile.groupMembers || [],
                 diningGroups: data.profile.diningGroups || [],
                 stats: data.profile.stats,
+                friendships: data.profile.friendships || [],
+                linkedFriends: data.profile.linkedFriends || [],
+                savedCharts: data.profile.savedCharts || [],
               };
               setCurrentUser(profile);
               checkProfileCompleteness(profile);
@@ -191,6 +202,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             groupMembers: data.profile.groupMembers || [],
             diningGroups: data.profile.diningGroups || [],
             stats: data.profile.stats,
+            friendships: data.profile.friendships || [],
+            linkedFriends: data.profile.linkedFriends || [],
+            savedCharts: data.profile.savedCharts || [],
           };
           setCurrentUser(profile);
           checkProfileCompleteness(profile);
@@ -253,6 +267,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               groupMembers: result.profile.groupMembers || [],
               diningGroups: result.profile.diningGroups || [],
               stats: result.profile.stats,
+              friendships: result.profile.friendships || [],
+              linkedFriends: result.profile.linkedFriends || [],
+              savedCharts: result.profile.savedCharts || [],
             };
             setCurrentUser(serverProfile);
             checkProfileCompleteness(serverProfile);

@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { CUISINES } from "@/data/cuisines/index";
 import { validateRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
+import { socialDatabase } from "@/services/socialDatabaseService";
 import type { Element, Modality } from "@/types/celestial";
 import type { GroupMember, CompositeNatalChart } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
@@ -134,32 +135,53 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
-  // Resolve member list
+  // Resolve member list from group or explicit IDs
   let memberIds: string[] = commensalIds ?? [];
-  if (!memberIds.length && groupId) {
+  const { linkedUserIds } = body as { linkedUserIds?: string[] };
+  let linkedIds: string[] = linkedUserIds ?? [];
+
+  if (!memberIds.length && !linkedIds.length && groupId) {
     const group = (user.profile.diningGroups ?? []).find((g) => g.id === groupId);
     if (!group) {
       return NextResponse.json({ success: false, message: "Dining group not found" }, { status: 404 });
     }
     memberIds = group.memberIds;
+    // If this is an ExtendedDiningGroup, also pull linked user IDs
+    linkedIds = (group as any).linkedUserIds ?? [];
   }
 
-  if (!memberIds.length) {
+  if (!memberIds.length && !linkedIds.length) {
     return NextResponse.json(
-      { success: false, message: "Provide commensalIds or a valid groupId" },
+      { success: false, message: "Provide commensalIds, linkedUserIds, or a valid groupId" },
       { status: 400 },
     );
   }
 
+  // Resolve manual commensals
   const allMembers = user.profile.groupMembers ?? [];
   const selectedMembers = allMembers.filter((m) => memberIds.includes(m.id));
 
-  if (selectedMembers.length === 0) {
-    return NextResponse.json({ success: false, message: "No valid commensals found" }, { status: 400 });
+  // Resolve linked friends (registered users with accepted friendships)
+  const allLinkedFriends = await socialDatabase.getLinkedFriendsForUser(userId);
+  const selectedLinked: GroupMember[] = allLinkedFriends
+    .filter((lf) => linkedIds.includes(lf.userId))
+    .map((lf) => ({
+      id: lf.userId,
+      name: lf.name,
+      relationship: "friend" as const,
+      birthData: lf.birthData,
+      natalChart: lf.natalChart,
+      createdAt: lf.syncedAt,
+    }));
+
+  const combinedMembers = [...selectedMembers, ...selectedLinked];
+
+  if (combinedMembers.length === 0) {
+    return NextResponse.json({ success: false, message: "No valid commensals or linked friends found" }, { status: 400 });
   }
 
   // Include the requesting user as a member if they have a natal chart
-  const membersForCalc: GroupMember[] = [...selectedMembers];
+  const membersForCalc: GroupMember[] = [...combinedMembers];
   if (user.profile.natalChart && user.profile.birthData) {
     membersForCalc.unshift({
       id: userId,
