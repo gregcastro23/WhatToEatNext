@@ -5,7 +5,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
@@ -87,6 +87,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
+  let user = await userDatabase.getUserById(userId);
+
+  // If userId lookup failed (e.g. Google sub vs DB id mismatch), try email
+  if (!user) {
+    try {
+      const { auth } = await import("@/lib/auth/auth");
+      const session = await auth();
+      if (session?.user?.email) {
+        user = await userDatabase.getUserByEmail(session.user.email);
+      }
+    } catch {
+      // Auth session unavailable
+    }
+  }
+
+  if (!user) {
+    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+  }
+
   const body = await request.json();
   const { name, relationship, birthData } = body as {
     name: string;
@@ -99,11 +118,6 @@ export async function POST(request: NextRequest) {
       { success: false, message: "name, birthData.dateTime, latitude, and longitude are required" },
       { status: 400 },
     );
-  }
-
-  const user = await userDatabase.getUserById(userId);
-  if (!user) {
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
   // Calculate natal chart for the commensal

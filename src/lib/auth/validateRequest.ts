@@ -268,10 +268,46 @@ export async function getUserIdFromRequest(
   return searchParams.get("userId");
 }
 
+/**
+ * Helper to get the actual UserWithProfile from the database, resolving ID mismatches.
+ * Tries userId first, then falls back to session email.
+ */
+export async function getDatabaseUserFromRequest(
+  request: NextRequest,
+) {
+  const userId = await getUserIdFromRequest(request);
+  let user = null;
+  
+  const userDb = await getUserDatabase();
+  if (!userDb) return null;
+
+  if (userId) {
+    user = await userDb.getUserById(userId);
+  }
+
+  // If userId lookup failed (e.g. Google sub vs DB id mismatch), try email
+  if (!user) {
+    try {
+      const auth = await getAuth();
+      if (auth) {
+        const session = await auth();
+        if (session?.user?.email) {
+          user = await userDb.getUserByEmail(session.user.email);
+        }
+      }
+    } catch {
+      // Auth session unavailable
+    }
+  }
+
+  return user;
+}
+
 export default {
   extractToken,
   validateToken,
   validateRequest,
   validateAdminRequest,
   getUserIdFromRequest,
+  getDatabaseUserFromRequest,
 };

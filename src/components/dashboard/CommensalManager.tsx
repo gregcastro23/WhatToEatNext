@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import type { GroupMember, DiningGroup, CompositeNatalChart } from '@/types/natalChart';
+import { LocationSearch } from '@/components/onboarding/LocationSearch';
 
 /* ─── Types ────────────────────────────────────────────── */
 
@@ -71,38 +72,15 @@ function AddCommensalForm({
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [timezone, setTimezone] = useState('');
-  const [placeName, setPlaceName] = useState('');
-  const [isGeocoding, setIsGeocoding] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const handlePlaceNameBlur = async () => {
-    if (!placeName.trim()) return;
-    setIsGeocoding(true);
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(placeName)}`);
-      const data = await res.json();
-      if (data && data.length > 0) {
-        setLatitude(data[0].lat);
-        setLongitude(data[0].lon);
-        setError(null);
-      } else {
-        setError('Could not find location coordinates. Please enter latitude and longitude manually.');
-      }
-    } catch (err) {
-      console.error(err);
-      setError('Failed to fetch location coordinates.');
-    } finally {
-      setIsGeocoding(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     if (!name.trim() || !dateTime || !latitude || !longitude) {
-      setError('Name, birth date/time, latitude and longitude are all required.');
+      setError('Name, birth date/time, and birth location are all required.');
       return;
     }
 
@@ -144,7 +122,7 @@ function AddCommensalForm({
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
+        <div className="sm:col-span-1">
           <label className="block text-xs text-gray-500 mb-1">Name *</label>
           <input
             type="text"
@@ -154,7 +132,7 @@ function AddCommensalForm({
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
         </div>
-        <div>
+        <div className="sm:col-span-1">
           <label className="block text-xs text-gray-500 mb-1">Relationship</label>
           <select
             value={relationship}
@@ -166,7 +144,7 @@ function AddCommensalForm({
             ))}
           </select>
         </div>
-        <div>
+        <div className="sm:col-span-1">
           <label className="block text-xs text-gray-500 mb-1">Birth Date &amp; Time *</label>
           <input
             type="datetime-local"
@@ -175,7 +153,16 @@ function AddCommensalForm({
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
         </div>
-        <div>
+        <div className="sm:col-span-1">
+          <label className="block text-xs text-gray-500 mb-1">Birth Location *</label>
+          <LocationSearch 
+            onLocationSelect={(loc) => {
+              setLatitude(loc.latitude.toString());
+              setLongitude(loc.longitude.toString());
+            }}
+          />
+        </div>
+        <div className="sm:col-span-1">
           <label className="block text-xs text-gray-500 mb-1">Timezone (optional)</label>
           <input
             type="text"
@@ -185,46 +172,18 @@ function AddCommensalForm({
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
         </div>
-        <div>
-          <label className="block text-xs text-gray-500 mb-1">Birth Place</label>
-          <div className="relative">
-            <input
-              type="text"
-              value={placeName}
-              onChange={(e) => setPlaceName(e.target.value)}
-              onBlur={handlePlaceNameBlur}
-              placeholder="e.g. New York, NY"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-            />
-            {isGeocoding && (
-              <div className="absolute right-3 top-2.5 text-xs text-gray-400">
-                Finding...
-              </div>
-            )}
+        {(latitude || longitude) && (
+          <div className="sm:col-span-1 flex gap-2">
+            <div className="flex-1">
+              <label className="block text-[10px] text-gray-400 uppercase tracking-tighter">Lat</label>
+              <div className="text-xs text-gray-500 font-mono">{parseFloat(latitude).toFixed(4)}</div>
+            </div>
+            <div className="flex-1">
+              <label className="block text-[10px] text-gray-400 uppercase tracking-tighter">Long</label>
+              <div className="text-xs text-gray-500 font-mono">{parseFloat(longitude).toFixed(4)}</div>
+            </div>
           </div>
-        </div>
-        <div>
-          <label className="block text-xs text-gray-500 mb-1">Latitude *</label>
-          <input
-            type="number"
-            step="0.0001"
-            value={latitude}
-            onChange={(e) => setLatitude(e.target.value)}
-            placeholder="e.g. 40.7128"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-          />
-        </div>
-        <div>
-          <label className="block text-xs text-gray-500 mb-1">Longitude *</label>
-          <input
-            type="number"
-            step="0.0001"
-            value={longitude}
-            onChange={(e) => setLongitude(e.target.value)}
-            placeholder="e.g. -74.0060"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-          />
-        </div>
+        )}
       </div>
 
       <div className="flex gap-2 pt-1">
