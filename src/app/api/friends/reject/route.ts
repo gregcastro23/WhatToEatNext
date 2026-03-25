@@ -18,7 +18,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
-  const body = await request.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Invalid JSON in request body" },
+      { status: 400 },
+    );
+  }
   const { friendshipId, block } = body as { friendshipId?: string; block?: boolean };
 
   if (!friendshipId) {

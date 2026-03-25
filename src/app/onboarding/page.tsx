@@ -109,6 +109,7 @@ export default function OnboardingPage() {
         body: JSON.stringify({ email, name, birthData }),
       });
 
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const data = await response.json();
 
       if (!data.success) {

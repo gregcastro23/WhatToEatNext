@@ -65,6 +65,7 @@ export function LocationSearch({
         const response = await fetch(
           `${getEdgeApiUrl("/api/geocoding")}?q=${encodeURIComponent(query)}`,
         );
+        if (!response.ok) throw new Error('Geocoding failed');
         const data = await response.json();
 
         if (data.success) {

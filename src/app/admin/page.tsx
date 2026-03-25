@@ -36,6 +36,7 @@ export default function AdminDashboardPage() {
     try {
       setLoading(true);
       const response = await fetch("/api/admin/dashboard");
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const data = await response.json();
 
       if (data.success) {

@@ -122,6 +122,7 @@ function AddByEmailForm({
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(query)}`, {
         credentials: 'include',
       });
+      if (!res.ok) throw new Error('Search failed');
       const data = await res.json();
       if (data.success) setResults(data.users ?? []);
     } catch {
@@ -149,6 +150,7 @@ function AddByEmailForm({
         credentials: 'include',
         body: JSON.stringify({ email }),
       });
+      if (!res.ok) throw new Error('Failed to send request');
       const data = await res.json();
       if (data.success) {
         setMessage({ type: 'success', text: `Friend request sent to ${email}` });
@@ -484,6 +486,7 @@ function GroupRecommendationsPanel({
         credentials: 'include',
         body: JSON.stringify({ commensalIds, linkedUserIds, strategy }),
       });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setResult(data);
     } catch {
@@ -646,6 +649,7 @@ function DiningGroupSection({
           linkedUserIds: groupLinkedIds,
         }),
       });
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       onGroupCreated(data.diningGroup);
@@ -799,6 +803,7 @@ export const CommensalManager: React.FC = () => {
           fetch('/api/user/dining-groups', { credentials: 'include' }),
           fetch('/api/friends', { credentials: 'include' }),
         ]);
+        if (!cRes.ok || !gRes.ok || !fRes.ok) throw new Error('Failed to load data');
         const [cData, gData, fData] = await Promise.all([cRes.json(), gRes.json(), fRes.json()]);
         if (cData.success) setCommensals(cData.commensals ?? []);
         if (gData.success) setGroups(gData.diningGroups ?? []);
@@ -815,6 +820,7 @@ export const CommensalManager: React.FC = () => {
   const refreshLinkedFriends = async () => {
     try {
       const res = await fetch('/api/friends', { credentials: 'include' });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setLinkedFriends(data.linkedFriends ?? []);
     } catch {
