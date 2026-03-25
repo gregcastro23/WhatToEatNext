@@ -269,9 +269,17 @@ function AddCommensalForm({
           },
         }),
       });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message || 'Failed to add commensal');
-      onAdded(data.commensal);
+      let data: { success: boolean; message?: string; commensal?: GroupMember };
+      const contentType = res.headers.get('content-type') ?? '';
+      if (contentType.includes('application/json')) {
+        data = await res.json();
+      } else {
+        const raw = await res.text();
+        console.error('Non-JSON response from /api/user/commensals:', res.status, raw);
+        throw new Error(`Server error (${res.status}): ${raw.slice(0, 200)}`);
+      }
+      if (!res.ok || !data.success) throw new Error(data.message || 'Failed to add commensal');
+      onAdded(data.commensal!);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add commensal');
     } finally {

@@ -5,7 +5,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
