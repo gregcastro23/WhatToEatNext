@@ -136,7 +136,44 @@ export interface GroupScoringStrategy {
 // ─── Social & Multi-Chart Types ──────────────────────────
 
 /**
+ * Commensalship status between two registered users (dining companions)
+ */
+export type CommensalshipStatus = "pending" | "accepted" | "blocked";
+
+/**
+ * Commensalship record between two registered users
+ * Represents a linked dining companion relationship
+ */
+export interface Commensalship {
+  id: string;
+  requesterId: string;
+  requesterName?: string;
+  requesterEmail?: string;
+  addresseeId: string;
+  addresseeName?: string;
+  addresseeEmail?: string;
+  status: CommensalshipStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * A linked commensal in the dining companions list.
+ * When a commensalship is accepted, the commensal's chart data is synced here.
+ */
+export interface LinkedCommensal {
+  userId: string;
+  name: string;
+  email: string;
+  natalChart: NatalChart;
+  birthData: BirthData;
+  commensalshipId: string;
+  syncedAt: string;
+}
+
+/**
  * Friendship status between two registered users
+ * @deprecated Use CommensalshipStatus instead
  */
 export type FriendshipStatus = "pending" | "accepted" | "blocked";
 
