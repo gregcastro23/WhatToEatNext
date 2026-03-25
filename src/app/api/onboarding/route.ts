@@ -1,8 +1,246 @@
 /**
- * Cloudflare Proxy: /api/onboarding
+ * Onboarding API Route
+ * POST /api/onboarding — Save birth data, compute natal chart, mark onboarding complete
+ *
+ * Accepts: { email?, name?, birthData: BirthData }
+ * Returns: { success, profile, natalChart }
+ *
+ * @file src/app/api/onboarding/route.ts
  */
-import { createProxyHandlers } from "@/utils/createCloudflareProxy";
-export const { GET, POST, PUT } = createProxyHandlers({
-  path: "/api/onboarding",
-  methods: ["GET", "POST", "PUT"]
-});
+
+import { NextResponse } from "next/server";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { userDatabase } from "@/services/userDatabaseService";
+import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
+import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
+import type { NextRequest } from "next/server";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
+const SIGN_TO_ELEMENT: Record<ZodiacSignType, Element> = {
+  aries: "Fire", leo: "Fire", sagittarius: "Fire",
+  taurus: "Earth", virgo: "Earth", capricorn: "Earth",
+  gemini: "Air", libra: "Air", aquarius: "Air",
+  cancer: "Water", scorpio: "Water", pisces: "Water",
+};
+
+const SIGN_TO_MODALITY: Record<ZodiacSignType, Modality> = {
+  aries: "Cardinal", cancer: "Cardinal", libra: "Cardinal", capricorn: "Cardinal",
+  taurus: "Fixed", leo: "Fixed", scorpio: "Fixed", aquarius: "Fixed",
+  gemini: "Mutable", virgo: "Mutable", sagittarius: "Mutable", pisces: "Mutable",
+};
+
+function calcDominantElement(positions: Record<Planet, ZodiacSignType>): Element {
+  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  Object.values(positions).forEach((sign) => {
+    const el = SIGN_TO_ELEMENT[sign];
+    if (el) counts[el]++;
+  });
+  return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Element;
+}
+
+function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modality {
+  const counts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
+  Object.values(positions).forEach((sign) => {
+    const m = SIGN_TO_MODALITY[sign];
+    if (m) counts[m]++;
+  });
+  return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Modality;
+}
+
+function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {
+  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  Object.values(positions).forEach((sign) => {
+    const el = SIGN_TO_ELEMENT[sign];
+    if (el) counts[el]++;
+  });
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+  return {
+    Fire: counts.Fire / total,
+    Water: counts.Water / total,
+    Earth: counts.Earth / total,
+    Air: counts.Air / total,
+  };
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    let body: Record<string, unknown>;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON in request body" },
+        { status: 400 },
+      );
+    }
+
+    const { email, name, birthData } = body as {
+      email?: string;
+      name?: string;
+      birthData?: BirthData;
+    };
+
+    if (!birthData?.dateTime || birthData.latitude === undefined || birthData.longitude === undefined) {
+      return NextResponse.json(
+        { success: false, message: "birthData.dateTime, latitude, and longitude are required" },
+        { status: 400 },
+      );
+    }
+
+    // Resolve userId from session or email
+    let userId = await getUserIdFromRequest(request);
+    let user = userId ? await userDatabase.getUserById(userId) : null;
+
+    // If userId lookup failed (e.g. Google sub vs DB id), try email fallback
+    if (!user) {
+      try {
+        const { auth } = await import("@/lib/auth/auth");
+        const session = await auth();
+        if (session?.user?.email) {
+          user = await userDatabase.getUserByEmail(session.user.email);
+          if (user) userId = user.id;
+        }
+      } catch {
+        // Auth session unavailable
+      }
+    }
+
+    if (!user && email) {
+      user = await userDatabase.getUserByEmail(email);
+      if (user) userId = user.id;
+    }
+
+    if (!user || !userId) {
+      return NextResponse.json(
+        { success: false, message: "User not found. Please sign in first." },
+        { status: 401 },
+      );
+    }
+
+    // Compute natal chart from birth data
+    const birthDate = new Date(birthData.dateTime);
+    if (isNaN(birthDate.getTime())) {
+      return NextResponse.json(
+        { success: false, message: "Invalid birthData.dateTime — must be a valid ISO date string" },
+        { status: 400 },
+      );
+    }
+
+    let rawPositions;
+    try {
+      rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
+        latitude: birthData.latitude,
+        longitude: birthData.longitude,
+      });
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Planetary calculation service unavailable. Please try again later." },
+        { status: 503 },
+      );
+    }
+
+    const positions: Record<Planet, ZodiacSignType> = {
+      Sun: rawPositions.Sun?.sign,
+      Moon: rawPositions.Moon?.sign,
+      Mercury: rawPositions.Mercury?.sign,
+      Venus: rawPositions.Venus?.sign,
+      Mars: rawPositions.Mars?.sign,
+      Jupiter: rawPositions.Jupiter?.sign,
+      Saturn: rawPositions.Saturn?.sign,
+      Uranus: rawPositions.Uranus?.sign,
+      Neptune: rawPositions.Neptune?.sign,
+      Pluto: rawPositions.Pluto?.sign,
+      Ascendant: rawPositions.Ascendant?.sign || "aries",
+    };
+
+    const planets: PlanetInfo[] = Object.entries(positions).map(([pname, sign]) => ({
+      name: pname as Planet,
+      sign,
+      position: rawPositions[pname]?.exactLongitude ?? 0,
+    }));
+
+    const natalChart: NatalChart = {
+      birthData: {
+        dateTime: birthData.dateTime,
+        latitude: birthData.latitude,
+        longitude: birthData.longitude,
+        timezone: birthData.timezone,
+      },
+      planets,
+      ascendant: positions.Ascendant,
+      planetaryPositions: positions,
+      dominantElement: calcDominantElement(positions),
+      dominantModality: calcDominantModality(positions),
+      elementalBalance: calcElementalBalance(positions),
+      alchemicalProperties: calculateAlchemicalFromPlanets(positions),
+      calculatedAt: new Date().toISOString(),
+    };
+
+    // Persist birth data, natal chart, and onboarding status
+    const profileUpdates = {
+      birthData: natalChart.birthData,
+      natalChart,
+      onboardingComplete: true,  // stored as onboarding_completed in DB
+      ...(name ? { name } : {}),
+    };
+
+    const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any);
+
+    return NextResponse.json({
+      success: true,
+      profile: updatedUser?.profile ?? null,
+      natalChart,
+    });
+  } catch (error) {
+    console.error("Onboarding POST error:", error);
+    return NextResponse.json(
+      { success: false, message: "Onboarding failed. Please try again." },
+      { status: 500 },
+    );
+  }
+}
+
+/** GET /api/onboarding — Check onboarding status */
+export async function GET(request: NextRequest) {
+  try {
+    let userId = await getUserIdFromRequest(request);
+    let user = userId ? await userDatabase.getUserById(userId) : null;
+
+    if (!user) {
+      try {
+        const { auth } = await import("@/lib/auth/auth");
+        const session = await auth();
+        if (session?.user?.email) {
+          user = await userDatabase.getUserByEmail(session.user.email);
+          if (user) userId = user.id;
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      onboardingComplete: user.profile.onboardingComplete ?? false,
+      hasNatalChart: !!user.profile.natalChart,
+      hasBirthData: !!user.profile.birthData,
+    });
+  } catch (error) {
+    console.error("Onboarding GET error:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to check onboarding status" },
+      { status: 500 },
+    );
+  }
+}
