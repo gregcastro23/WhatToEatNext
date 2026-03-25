@@ -1,6 +1,6 @@
 /**
  * User Search API Route
- * GET /api/users/search?q=email - Search registered users by email
+ * GET /api/users/search?q=query - Search registered users by email or name
  * Returns basic info only (id, name, email) for friend request UI.
  */
 
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const users = await socialDatabase.searchUsersByEmail(query, userId, 10);
+  const users = await socialDatabase.searchUsers(query, userId, 10);
 
   return NextResponse.json({ success: true, users });
 }

@@ -90,7 +90,7 @@ function AddModeToggle({ mode, onModeChange }: { mode: AddMode; onModeChange: (m
             : 'bg-white text-gray-600 hover:bg-gray-50'
         }`}
       >
-        Search by Email
+        Search Users
       </button>
     </div>
   );
@@ -169,7 +169,7 @@ function AddByEmailForm({
     <div className="space-y-3 bg-gray-50 border border-gray-200 rounded-xl p-4">
       <h4 className="text-sm font-semibold text-gray-800">Find a Friend on Alchm.kitchen</h4>
       <p className="text-xs text-gray-500">
-        Search by their email. When they accept, their birth chart syncs automatically.
+        Search by email or name. When they accept, their birth chart syncs automatically.
       </p>
 
       {message && (
@@ -186,7 +186,7 @@ function AddByEmailForm({
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search by email (min 3 characters)..."
+        placeholder="Search by email or name (min 3 characters)..."
         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
       />
 
@@ -213,7 +213,7 @@ function AddByEmailForm({
       )}
 
       {query.length >= 3 && !searching && results.length === 0 && (
-        <p className="text-xs text-gray-400 italic">No users found matching that email.</p>
+        <p className="text-xs text-gray-400 italic">No users found matching that search.</p>
       )}
 
       <button
@@ -891,6 +891,7 @@ export const CommensalManager: React.FC = () => {
           <AddModeToggle mode={addMode} onModeChange={setAddMode} />
           {addMode === 'manual' ? (
             <AddCommensalForm
+              key="manual-form"
               onAdded={(c) => {
                 setCommensals((prev) => [...prev, c]);
                 setShowAddForm(false);
@@ -899,6 +900,7 @@ export const CommensalManager: React.FC = () => {
             />
           ) : (
             <AddByEmailForm
+              key="email-form"
               onRequestSent={refreshLinkedFriends}
               onCancel={() => setShowAddForm(false)}
             />
