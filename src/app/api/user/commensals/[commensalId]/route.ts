@@ -5,9 +5,10 @@
  */
 
 import { NextResponse } from "next/server";
-import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -18,13 +19,9 @@ export async function PUT(
   { params }: { params: Promise<{ commensalId: string }> },
 ) {
   const { commensalId } = await params;
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
-    return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
-  }
-
-  const user = await userDatabase.getUserById(userId);
+  const user = await getDatabaseUserFromRequest(request);
   if (!user) {
+    _logger.warn(`[PUT /api/user/commensals/${commensalId}] User not found or not authenticated`);
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
@@ -43,16 +40,20 @@ export async function PUT(
       { status: 400 },
     );
   }
-  const { name, relationship } = body;
+  const { name, relationship } = body as { name?: string; relationship?: string };
 
   const updated = { ...members[idx] };
   if (name) updated.name = name;
   if (relationship) updated.relationship = relationship;
 
   members[idx] = updated;
-  await userDatabase.updateUserProfile(userId, { groupMembers: members });
-
-  return NextResponse.json({ success: true, commensal: updated });
+  try {
+    await userDatabase.updateUserProfile(user.id, { groupMembers: members });
+    return NextResponse.json({ success: true, commensal: updated });
+  } catch (error) {
+    _logger.error(`[PUT /api/user/commensals/${commensalId}] Failed to update profile`, error as any);
+    return NextResponse.json({ success: false, message: "Failed to update companion" }, { status: 500 });
+  }
 }
 
 /** DELETE /api/user/commensals/[commensalId] */
@@ -61,13 +62,9 @@ export async function DELETE(
   { params }: { params: Promise<{ commensalId: string }> },
 ) {
   const { commensalId } = await params;
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
-    return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
-  }
-
-  const user = await userDatabase.getUserById(userId);
+  const user = await getDatabaseUserFromRequest(request);
   if (!user) {
+    _logger.warn(`[DELETE /api/user/commensals/${commensalId}] User not found or not authenticated`);
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
@@ -84,7 +81,11 @@ export async function DELETE(
     memberIds: g.memberIds.filter((id) => id !== commensalId),
   }));
 
-  await userDatabase.updateUserProfile(userId, { groupMembers: filtered, diningGroups: groups });
-
-  return NextResponse.json({ success: true });
+  try {
+    await userDatabase.updateUserProfile(user.id, { groupMembers: filtered, diningGroups: groups });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    _logger.error(`[DELETE /api/user/commensals/${commensalId}] Failed to update profile`, error as any);
+    return NextResponse.json({ success: false, message: "Failed to remove companion" }, { status: 500 });
+  }
 }

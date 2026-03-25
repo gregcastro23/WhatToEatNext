@@ -5,23 +5,20 @@
  */
 
 import { NextResponse } from "next/server";
-import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { DiningGroup } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 /** GET /api/user/dining-groups */
 export async function GET(request: NextRequest) {
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
-    return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
-  }
-
-  const user = await userDatabase.getUserById(userId);
+  const user = await getDatabaseUserFromRequest(request);
   if (!user) {
+    _logger.warn("[GET /api/user/dining-groups] User not found or not authenticated");
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
@@ -33,8 +30,11 @@ export async function GET(request: NextRequest) {
 
 /** POST /api/user/dining-groups */
 export async function POST(request: NextRequest) {
-  const authResult = await validateRequest(request);
-  if ("error" in authResult) return authResult.error;
+  const user = await getDatabaseUserFromRequest(request);
+  if (!user) {
+    _logger.warn("[POST /api/user/dining-groups] User not found or not authenticated");
+    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+  }
 
   let body: Record<string, unknown>;
   try {
@@ -52,12 +52,6 @@ export async function POST(request: NextRequest) {
       { success: false, message: "name and memberIds array are required" },
       { status: 400 },
     );
-  }
-
-  const userId = authResult.user.userId;
-  const user = await userDatabase.getUserById(userId);
-  if (!user) {
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
   // Validate that all memberIds exist as commensals
@@ -80,7 +74,11 @@ export async function POST(request: NextRequest) {
   };
 
   const existing = user.profile.diningGroups || [];
-  await userDatabase.updateUserProfile(userId, { diningGroups: [...existing, newGroup] });
-
-  return NextResponse.json({ success: true, diningGroup: newGroup }, { status: 201 });
+  try {
+    await userDatabase.updateUserProfile(user.id, { diningGroups: [...existing, newGroup] });
+    return NextResponse.json({ success: true, diningGroup: newGroup }, { status: 201 });
+  } catch (error) {
+    _logger.error("[POST /api/user/dining-groups] Failed to update profile", error as any);
+    return NextResponse.json({ success: false, message: "Failed to create dining group" }, { status: 500 });
+  }
 }

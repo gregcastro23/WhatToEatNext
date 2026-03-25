@@ -16,7 +16,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
 import { socialDatabase } from "@/services/socialDatabaseService";
 import { CUISINES } from "@/data/cuisines/index";
@@ -35,6 +35,7 @@ type ElementalProperties = Record<string, number> & {
   Fire: number; Water: number; Earth: number; Air: number;
 };
 import type { NextRequest } from "next/server";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -95,8 +96,17 @@ function dominantElement(e: ElementalProperties): Element {
 
 export async function POST(request: NextRequest) {
   try {
-    // Auth: try session first, then query param
-    let userId = await getUserIdFromRequest(request);
+    const currentUser = await getDatabaseUserFromRequest(request);
+
+    if (!currentUser) {
+      _logger.warn("[POST /api/group-recommendations] User not found or not authenticated");
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
+    }
+
+    const userId = currentUser.id;
 
     let body: Record<string, unknown>;
     try {
@@ -105,15 +115,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, message: "Invalid JSON in request body" },
         { status: 400 },
-      );
-    }
-
-    if (!userId) userId = body.userId as string | null;
-
-    if (!userId) {
-      return NextResponse.json(
-        { success: false, message: "Authentication required" },
-        { status: 401 },
       );
     }
 
@@ -127,38 +128,24 @@ export async function POST(request: NextRequest) {
       strategy?: "average" | "minimum" | "consensus";
     };
 
-    // Load the current user's profile
-    let currentUser = await userDatabase.getUserById(userId);
-    if (!currentUser) {
-      try {
-        const { auth } = await import("@/lib/auth/auth");
-        const session = await auth();
-        if (session?.user?.email) {
-          currentUser = await userDatabase.getUserByEmail(session.user.email);
-        }
-      } catch {
-        // ignore
-      }
-    }
-
     // Collect elemental + alchemical data from all group members
     const elementalList: ElementalProperties[] = [];
     const alchemicalList: AlchemicalProperties[] = [];
     const memberInfo: Array<{ id: string; name: string; element: Element }> = [];
 
     // Include the current user if they have a natal chart
-    const ownerChart = currentUser?.profile?.natalChart;
+    const ownerChart = currentUser.profile.natalChart;
     if (ownerChart) {
       const el = (ownerChart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
       const alch = (ownerChart.alchemicalProperties ?? calculateAlchemicalFromPlanets(ownerChart.planetaryPositions ?? {})) as any;
       elementalList.push(el);
       alchemicalList.push(alch);
-      memberInfo.push({ id: userId, name: currentUser?.profile?.name ?? "You", element: dominantElement(el) });
+      memberInfo.push({ id: userId, name: currentUser.profile.name ?? "You", element: dominantElement(el) });
     }
 
     // Manual commensals from the user's groupMembers
     if ((commensalIds as string[]).length > 0) {
-      const groupMembers = currentUser?.profile?.groupMembers ?? [];
+      const groupMembers = currentUser.profile.groupMembers || [];
       for (const commensal of groupMembers) {
         if (!(commensalIds as string[]).includes(commensal.id)) continue;
         const chart = commensal.natalChart;
@@ -185,7 +172,8 @@ export async function POST(request: NextRequest) {
           alchemicalList.push(alch);
           memberInfo.push({ id: friend.userId, name: friend.name, element: dominantElement(el) });
         }
-      } catch {
+      } catch (err) {
+        _logger.error(`[POST /api/group-recommendations] Social DB error for user ${userId}`, err as any);
         // Social DB unavailable — skip linked friends
       }
     }
@@ -283,7 +271,7 @@ export async function POST(request: NextRequest) {
       strategy,
     });
   } catch (error) {
-    console.error("Group recommendations error:", error);
+    _logger.error("[POST /api/group-recommendations] Compute error", error as any);
     return NextResponse.json(
       { success: false, message: "Failed to compute group recommendations" },
       { status: 500 },

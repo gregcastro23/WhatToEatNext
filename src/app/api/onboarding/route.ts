@@ -9,13 +9,14 @@
  */
 
 import { NextResponse } from "next/server";
-import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -78,8 +79,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { email, name, birthData } = body as {
-      email?: string;
+    const { name, birthData } = body as {
       name?: string;
       birthData?: BirthData;
     };
@@ -91,35 +91,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Resolve userId from session or email
-    let userId = await getUserIdFromRequest(request);
-    let user = userId ? await userDatabase.getUserById(userId) : null;
+    // Resolve user from session or fallback
+    const user = await getDatabaseUserFromRequest(request);
 
-    // If userId lookup failed (e.g. Google sub vs DB id), try email fallback
     if (!user) {
-      try {
-        const { auth } = await import("@/lib/auth/auth");
-        const session = await auth();
-        if (session?.user?.email) {
-          user = await userDatabase.getUserByEmail(session.user.email);
-          if (user) userId = user.id;
-        }
-      } catch {
-        // Auth session unavailable
-      }
-    }
-
-    if (!user && email) {
-      user = await userDatabase.getUserByEmail(email);
-      if (user) userId = user.id;
-    }
-
-    if (!user || !userId) {
+      _logger.warn("[POST /api/onboarding] User not found or not authenticated");
       return NextResponse.json(
         { success: false, message: "User not found. Please sign in first." },
         { status: 401 },
       );
     }
+
+    const userId = user.id;
 
     // Compute natal chart from birth data
     const birthDate = new Date(birthData.dateTime);
@@ -136,7 +119,8 @@ export async function POST(request: NextRequest) {
         latitude: birthData.latitude,
         longitude: birthData.longitude,
       });
-    } catch {
+    } catch (error) {
+      _logger.error("[POST /api/onboarding] Planetary calculation failed", error as any);
       return NextResponse.json(
         { success: false, message: "Planetary calculation service unavailable. Please try again later." },
         { status: 503 },
@@ -196,7 +180,7 @@ export async function POST(request: NextRequest) {
       natalChart,
     });
   } catch (error) {
-    console.error("Onboarding POST error:", error);
+    _logger.error("[POST /api/onboarding] Onboarding error", error as any);
     return NextResponse.json(
       { success: false, message: "Onboarding failed. Please try again." },
       { status: 500 },
@@ -207,23 +191,10 @@ export async function POST(request: NextRequest) {
 /** GET /api/onboarding — Check onboarding status */
 export async function GET(request: NextRequest) {
   try {
-    let userId = await getUserIdFromRequest(request);
-    let user = userId ? await userDatabase.getUserById(userId) : null;
+    const user = await getDatabaseUserFromRequest(request);
 
     if (!user) {
-      try {
-        const { auth } = await import("@/lib/auth/auth");
-        const session = await auth();
-        if (session?.user?.email) {
-          user = await userDatabase.getUserByEmail(session.user.email);
-          if (user) userId = user.id;
-        }
-      } catch {
-        // ignore
-      }
-    }
-
-    if (!user) {
+      _logger.warn("[GET /api/onboarding] User not found or not authenticated");
       return NextResponse.json(
         { success: false, message: "Authentication required" },
         { status: 401 },
@@ -237,7 +208,7 @@ export async function GET(request: NextRequest) {
       hasBirthData: !!user.profile.birthData,
     });
   } catch (error) {
-    console.error("Onboarding GET error:", error);
+    _logger.error("[GET /api/onboarding] Failed to check status", error as any);
     return NextResponse.json(
       { success: false, message: "Failed to check onboarding status" },
       { status: 500 },

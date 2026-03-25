@@ -9,11 +9,11 @@
 import { NextResponse } from "next/server";
 import type { UserProfile } from "@/contexts/UserContext";
 import {
-  validateRequest,
-  getUserIdFromRequest,
+  getDatabaseUserFromRequest,
 } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -21,55 +21,13 @@ export const runtime = "nodejs";
 /**
  * GET /api/user/profile
  * Get current user's profile (authenticated)
- * Falls back to query params for development/testing
  */
 export async function GET(request: NextRequest) {
   try {
-    // Try to get userId from authenticated token
-    const userId = await getUserIdFromRequest(request);
-
-    // Also allow email query param as fallback
-    const { searchParams } = new URL(request.url);
-    const email = searchParams.get("email");
-
-    if (!userId && !email) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Authentication required or provide email parameter",
-        },
-        { status: 401 },
-      );
-    }
-
-    // Try userId first, then email param
-    let user = userId
-      ? await userDatabase.getUserById(userId)
-      : null;
-
-    // If userId lookup failed (e.g. Google sub vs DB id mismatch), try email
-    // from the auth session before giving up
-    if (!user) {
-      // Try email from query param
-      if (email) {
-        user = await userDatabase.getUserByEmail(email);
-      }
-
-      // Try email from the auth session itself
-      if (!user) {
-        try {
-          const { auth } = await import("@/lib/auth/auth");
-          const session = await auth();
-          if (session?.user?.email) {
-            user = await userDatabase.getUserByEmail(session.user.email);
-          }
-        } catch {
-          // Auth session unavailable
-        }
-      }
-    }
+    const user = await getDatabaseUserFromRequest(request);
 
     if (!user) {
+      _logger.warn("[GET /api/user/profile] User not found or not authenticated");
       return NextResponse.json(
         {
           success: false,
@@ -84,7 +42,7 @@ export async function GET(request: NextRequest) {
       profile: user.profile,
     });
   } catch (error) {
-    console.error("Get profile error:", error);
+    _logger.error("[GET /api/user/profile] Failed to get profile", error as any);
     return NextResponse.json(
       {
         success: false,
@@ -101,20 +59,24 @@ export async function GET(request: NextRequest) {
  */
 export async function PUT(request: NextRequest) {
   try {
-    // Validate authentication
-    const authResult = await validateRequest(request);
-    if ("error" in authResult) {
-      return authResult.error;
+    const user = await getDatabaseUserFromRequest(request);
+
+    if (!user) {
+      _logger.warn("[PUT /api/user/profile] User not found or not authenticated");
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User not found",
+        },
+        { status: 404 },
+      );
     }
 
     const body = await request.json();
     const { userId: bodyUserId, ...profileData } = body;
 
-    // Use authenticated user's ID, or allow body userId for admin
-    const userId =
-      authResult.user.roles.includes("admin") && bodyUserId
-        ? bodyUserId
-        : authResult.user.userId;
+    // Use authenticated user's ID
+    const userId = user.id;
 
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
@@ -125,7 +87,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "User not found",
+          message: "User not found during update",
         },
         { status: 404 },
       );
@@ -136,7 +98,7 @@ export async function PUT(request: NextRequest) {
       profile: updatedUser.profile,
     });
   } catch (error) {
-    console.error("Update profile error:", error);
+    _logger.error("[PUT /api/user/profile] Update profile error", error as any);
     return NextResponse.json(
       {
         success: false,

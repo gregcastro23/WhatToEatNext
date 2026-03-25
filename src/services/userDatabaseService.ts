@@ -62,8 +62,10 @@ class UserDatabaseService {
     await this.ensureInitialized();
     const db = await getDbModule();
 
+    const email = data.email.toLowerCase();
+
     // Check if email already exists
-    if (await this.emailExists(data.email)) {
+    if (await this.emailExists(email)) {
       throw new Error("User with this email already exists");
     }
 
@@ -72,7 +74,7 @@ class UserDatabaseService {
 
     const user: UserWithProfile = {
       id: userId,
-      email: data.email,
+      email: email,
       passwordHash: data.passwordHash || "TEMP_NO_PASSWORD",
       roles: data.roles || ["user" as UserRole],
       isActive: true,
@@ -80,7 +82,7 @@ class UserDatabaseService {
       profile: {
         userId,
         name: data.name,
-        email: data.email,
+        email: email,
         preferences: {},
         groupMembers: [],
         diningGroups: [],
@@ -188,6 +190,7 @@ class UserDatabaseService {
   async getUserByEmail(email: string): Promise<UserWithProfile | null> {
     await this.ensureInitialized();
     const db = await getDbModule();
+    const normalizedEmail = email.toLowerCase();
 
     // Try PostgreSQL first
     if (db) {
@@ -198,7 +201,7 @@ class UserDatabaseService {
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
            WHERE u.email = $1`,
-          [email],
+          [normalizedEmail],
         );
 
         if (result.rows.length > 0) {
@@ -210,7 +213,7 @@ class UserDatabaseService {
     }
 
     // Fallback to in-memory
-    const userId = this.emailIndex.get(email);
+    const userId = this.emailIndex.get(normalizedEmail);
     return userId ? this.users.get(userId) || null : null;
   }
 
@@ -455,13 +458,14 @@ class UserDatabaseService {
   async emailExists(email: string): Promise<boolean> {
     await this.ensureInitialized();
     const db = await getDbModule();
+    const normalizedEmail = email.toLowerCase();
 
     // Try PostgreSQL first
     if (db) {
       try {
         const result = await db.executeQuery(
           `SELECT 1 FROM users WHERE email = $1 LIMIT 1`,
-          [email],
+          [normalizedEmail],
         );
         return result.rows.length > 0;
       } catch (error) {
@@ -470,7 +474,7 @@ class UserDatabaseService {
     }
 
     // Fallback to in-memory
-    return this.emailIndex.has(email);
+    return this.emailIndex.has(normalizedEmail);
   }
 
   /**

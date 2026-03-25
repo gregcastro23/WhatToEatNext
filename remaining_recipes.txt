@@ -1,0 +1,152 @@
+
+### American
+- S
+
+### Greek
+- Horiatiki
+- Keftedes
+- Melitzanosalata
+- Pastitsio
+- Revithia
+- Skordalia
+- Souvlaki
+- Youvetsi
+
+### Indian
+- Kulfi
+
+### Italian
+- Cioccolata Calda con Biscotti
+- Cornetto e Cappuccino
+- Fette Biscottate con Marmellata
+- Gelato Artigianale
+- Gnocchi alla Sorrentina
+- Granita con Brioche
+- Insalata Caprese
+- Maritozzo con Panna
+- Panettone
+- Panzanella
+- Pasta al Pomodoro
+- Pasta e Fagioli
+- Ribollita
+- Ricotta e Fichi
+- Risotto ai Funghi
+
+### Japanese
+- Chawanmushi
+- Curry Rice
+- Gyoza
+- Hiyashi Chuka
+- Karaage
+- Natto Gohan
+- Onigiri Selection
+- Ramen
+- Soba Salad
+- Sukiyaki
+- Tamagoyaki
+- Tempura
+- Tonkatsu
+- Traditional Japanese Breakfast Set
+- Udon Noodle Soup
+- Yakitori
+- Yakitori Assortment
+
+### Korean
+- Bossam
+- Budae Jjigae
+- Dakgalbi
+- Gamjatang
+- Gyeran Bap
+- Haemul Pajeon
+- Hotteok
+- Japchae
+- Juk
+- Kimchi Jjigae
+- Kong Guksu
+- Naengmyeon
+- Patbingsu
+- Samgye-tang
+- Samgyeopsal-gui
+- Songpyeon
+- Sundubu Jjigae
+- Tteokguk
+
+### Mexican
+- Caldo de Pollo
+- Chiles en Nogada
+- Enfrijoladas
+- Flan
+- Licuado de Frutas
+- Molletes
+- Paletas
+- Tamales Verdes
+
+### Middle Eastern
+- Baklava
+- Basbousa
+- Ful Medames
+- Kofta Kebab
+- Kuzi
+- Mixed Grill Platter
+- Moussaka
+- Shawarma
+
+### Russian
+- Beef Stroganoff
+- Golubtsy
+- Kasha
+- Kotlety
+- Oladi
+- Olivier Salad
+- Pashka
+- Pelmeni
+- Pryaniki
+- Shchi
+- Sochnik
+- Solyanka
+- Ukha
+- Vareniki s Vishney
+- Zharkoe
+
+### Thai
+- Bua Loi
+- Gaeng Massaman Neua
+- Gaeng Panang Neua
+- Khao Kai Jeow
+- Khao Kha Moo
+- Khao Niao Mamuang
+- Khao Soi
+- Khao Soi Gai
+- Khao Tom
+- Khao Tom Moo
+- Kluay Tod
+- Kuay Teow Reua
+- Nam Kang Sai
+- Pad Kra Pao
+- Pad Krapow Moo
+- Patongo with Sangkaya
+- Pla Neung Manao
+- Sangkaya Fak Thong
+- Som Tam Thai
+- Tom Kha Gai
+- Tom Yum Goong Nam Khon
+- Tub Tim Grob
+- Yum Woon Sen
+
+### Vietnamese
+- Bánh Cuốn
+- Bánh Flan
+- Bánh Mì Ốp La
+- Bánh Xèo
+- Bò Lúc Lắc
+- Bún Bò Huế
+- Bún Chả
+- Cháo
+- Cháo Gà
+- Chè Ba Màu
+- Chè Chuối
+- Cá Kho Tộ
+- Cơm Gà Hội An
+- Gỏi Cuốn
+- Lẩu Thái
+- Thịt Kho Tàu

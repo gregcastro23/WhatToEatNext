@@ -52,7 +52,8 @@ async def test_alchemize_api():
             response2.raise_for_status()
             result2 = response2.json()
 
-            print("✅ Date-specific API call successful"            print(f"   Kalchm: {result2.get('kalchm', 'N/A')}")
+            print("✅ Date-specific API call successful")
+            print(f"   Kalchm: {result2.get('kalchm', 'N/A')}")
             print(f"   Monica: {result2.get('monica', 'N/A')}")
 
             # Test 3: Test our unified backend endpoint (if running)
@@ -61,7 +62,8 @@ async def test_alchemize_api():
                 response3 = await client.post("http://localhost:8000/alchemize", json={})
                 response3.raise_for_status()
                 result3 = response3.json()
-                print("✅ Unified backend responding"                print(f"   Kalchm: {result3.get('kalchm', 'N/A')}")
+                print("✅ Unified backend responding")
+                print(f"   Kalchm: {result3.get('kalchm', 'N/A')}")
             except Exception as e:
                 print(f"⚠️  Unified backend not responding: {e}")
                 print("   (This is expected if backend service isn't running)")
