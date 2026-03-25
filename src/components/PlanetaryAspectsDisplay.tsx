@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ArrowLeft, Circle, RefreshCw } from "lucide-react";
+import { FaArrowRight, FaArrowLeft, FaCircle, FaSyncAlt } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 
 interface AspectEntry {
@@ -125,13 +125,13 @@ function AspectCard({ aspect }: { aspect: AspectEntry }) {
         <div className="flex items-center gap-1">
           {aspect.applying ? (
             <>
-              <ArrowRight className="h-3 w-3 text-amber-400" />
+              <FaArrowRight className="h-3 w-3 text-amber-400" />
               <span className="text-amber-300 font-semibold">Applying</span>
               <span className="text-gray-400 ml-1">exact in {formatDays(aspect.daysToExact)}</span>
             </>
           ) : (
             <>
-              <ArrowLeft className="h-3 w-3 text-gray-400" />
+              <FaArrowLeft className="h-3 w-3 text-gray-400" />
               <span className="text-gray-400 font-semibold">Separating</span>
               <span className="text-gray-500 ml-1">{formatDays(aspect.daysToExact)} ago</span>
             </>
@@ -227,14 +227,14 @@ export default function PlanetaryAspectsDisplay() {
           className="p-1.5 rounded-lg bg-gray-800/40 hover:bg-indigo-900/30 border border-gray-700/40 hover:border-indigo-500/30 text-gray-400 hover:text-indigo-300 transition-colors"
           title="Refresh aspects"
         >
-          <RefreshCw className="h-3.5 w-3.5" />
+          <FaSyncAlt className="h-3.5 w-3.5" />
         </button>
       </div>
 
       {/* Legend */}
       <div className="flex flex-wrap gap-3 text-xs text-gray-400">
-        <span className="flex items-center gap-1"><ArrowRight className="h-3 w-3 text-amber-400" /> Applying = orb shrinking</span>
-        <span className="flex items-center gap-1"><ArrowLeft className="h-3 w-3 text-gray-500" /> Separating = orb growing</span>
+        <span className="flex items-center gap-1"><FaArrowRight className="h-3 w-3 text-amber-400" /> Applying = orb shrinking</span>
+        <span className="flex items-center gap-1"><FaArrowLeft className="h-3 w-3 text-gray-500" /> Separating = orb growing</span>
         <span className="flex items-center gap-1"><span className="text-emerald-400">△ ✶</span> Harmonious</span>
         <span className="flex items-center gap-1"><span className="text-red-400">□ ☍</span> Challenging</span>
         <span className="flex items-center gap-1"><span className="text-amber-400">☌</span> Conjunction</span>

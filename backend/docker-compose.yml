@@ -44,7 +44,8 @@ services:
       POSTGRES_MULTIPLE_DATABASES: alchm_kitchen,whattoeatnext
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh
+      - ./init-databases.sh:/docker-entrypoint-initdb.d/00-init-databases.sh
+      - ../database/init:/docker-entrypoint-initdb.d/init:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d alchm_kitchen"]
       interval: 5s

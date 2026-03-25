@@ -1,5 +1,3 @@
-import axios from "axios";
-
 interface FoodNutrient {
   nutrientNumber: string;
   nutrientName: string;
@@ -26,13 +24,16 @@ export class FoodDataCentral {
    */
   static async getFood(fdcId: string): Promise<FoodData> {
     try {
-      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
-        params: {
-          api_key: this.apiKey,
-        },
-      });
+      const url = new URL(`${this.baseUrl}/food/${fdcId}`);
+      url.searchParams.append("api_key", this.apiKey);
 
-      return response.data;
+      const response = await fetch(url.toString());
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
     } catch (error) {
       console.error("Error fetching food data:", error);
       // Return a minimal valid structure if the API call fails
@@ -49,21 +50,27 @@ export class FoodDataCentral {
    */
   static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
     try {
-      const response = await axios.post(
-        `${this.baseUrl}/foods/search`,
-        {
+      const url = new URL(`${this.baseUrl}/foods/search`);
+      url.searchParams.append("api_key", this.apiKey);
+
+      const response = await fetch(url.toString(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           query,
           pageSize,
           dataType: ["Foundation", "SR Legacy", "Survey (FNDDS)"],
-        },
-        {
-          params: {
-            api_key: this.apiKey,
-          },
-        },
-      );
+        }),
+      });
 
-      return response.data.foods || [];
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.foods || [];
     } catch (error) {
       console.error("Error searching foods:", error);
       return [];

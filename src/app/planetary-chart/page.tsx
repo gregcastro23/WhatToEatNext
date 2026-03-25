@@ -8,11 +8,15 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import AlchemicalDisplay from "@/components/AlchemicalDisplay";
 import KineticsDisplay from "@/components/KineticsDisplay";
-import PlanetaryChart from "@/components/PlanetaryChart";
 import PlanetaryChartControls from "@/components/PlanetaryChartControls";
 import { useChartData } from "@/hooks/useChartData";
+
+const PlanetaryChart = dynamic(() => import("@/components/PlanetaryChart"), {
+  ssr: false,
+});
 
 export default function PlanetaryChartPage() {
   const [dateTime, setDateTime] = useState<Date | undefined>(undefined);

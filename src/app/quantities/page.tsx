@@ -1,12 +1,16 @@
 "use client";
 
-import { Flame, Droplets, Wind, Mountain, Activity } from "lucide-react";
+import { FaFire, FaTint, FaWind, FaMountain, FaBolt } from "react-icons/fa";
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import AlchmKinetics from "@/components/alchm-kinetics";
 import AlchmQuantitiesDisplay from "@/components/alchm-quantities-display";
-import AlchmQuantitiesTrends from "@/components/alchm-quantities-trends";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
 import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
+
+const AlchmQuantitiesTrends = dynamic(() => import("@/components/alchm-quantities-trends"), {
+  ssr: false,
+});
 
 export default function QuantitiesPage() {
   return (
@@ -29,19 +33,19 @@ export default function QuantitiesPage() {
           {/* ESMS badges */}
           <div className="mt-4 flex justify-center gap-4 text-sm flex-wrap">
             <div className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-lg border border-red-500/30 flex items-center gap-2">
-              <Flame className="h-3 w-3 text-red-400" />
+              <FaFire className="h-3 w-3 text-red-400" />
               <span className="text-gray-300">Spirit = Creative Force</span>
             </div>
             <div className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-lg border border-blue-500/30 flex items-center gap-2">
-              <Droplets className="h-3 w-3 text-blue-400" />
+              <FaTint className="h-3 w-3 text-blue-400" />
               <span className="text-gray-300">Essence = Life Energy</span>
             </div>
             <div className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-lg border border-green-500/30 flex items-center gap-2">
-              <Mountain className="h-3 w-3 text-green-400" />
+              <FaMountain className="h-3 w-3 text-green-400" />
               <span className="text-gray-300">Matter = Physical Form</span>
             </div>
             <div className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-lg border border-purple-500/30 flex items-center gap-2">
-              <Wind className="h-3 w-3 text-purple-400" />
+              <FaWind className="h-3 w-3 text-purple-400" />
               <span className="text-gray-300">Substance = Etheric Field</span>
             </div>
           </div>
@@ -96,7 +100,7 @@ export default function QuantitiesPage() {
             {/* Kinetic Analysis */}
             <div className="p-6 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 rounded-lg border border-cyan-500/30 backdrop-blur-sm">
               <h2 className="text-xl font-bold text-cyan-300 mb-1 flex items-center gap-2">
-                <Activity className="h-5 w-5" />
+                <FaBolt className="h-5 w-5" />
                 Kinetic Analysis
               </h2>
               <p className="text-sm text-gray-400 mb-6">

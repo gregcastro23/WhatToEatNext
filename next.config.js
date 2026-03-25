@@ -87,7 +87,6 @@ const nextConfig = {
             exclude: ["error", "warn"],
           }
         : false,
-    styledComponents: true,
   },
   typescript: {
     ignoreBuildErrors: true,
@@ -99,24 +98,19 @@ const nextConfig = {
   compress: true,
   generateEtags: true,
   pageExtensions: ["js", "jsx", "ts", "tsx"],
-  bundlePagesRouterDependencies: true,
+  bundlePagesRouterDependencies: false,
+
+  // Move serverExternalPackages out of experimental for Next.js 15
+  serverExternalPackages: ["pg", "astronomy-engine"],
 
   experimental: {
     optimizePackageImports: [
       "@mui/material",
       "@mui/icons-material",
       "@chakra-ui/react",
-      "lucide-react",
       "react-icons",
-      "@heroicons/react",
       "framer-motion",
-      "date-fns",
-      "lodash",
     ],
-    // astronomy-engine is pure JS — must be bundled into the worker bundle
-    // so the edge /api/astrologize route can use it as a fallback.
-    // pg uses TCP sockets and is handled by nodejs_compat in the Worker.
-    serverExternalPackages: ["pg"],
   },
 
   webpack: (config, { isServer, nextRuntime }) => {
@@ -162,6 +156,47 @@ const nextConfig = {
         source: "/(.*)",
         headers: getSecurityHeaders(),
       },
+    ];
+  },
+
+  // Proxy heavy API routes to Vercel deployment (for Cloudflare bundle size reduction)
+  // Note: These rewrites take priority over local route handlers in the Cloudflare build.
+  async rewrites() {
+    const vercelApiUrl = process.env.VERCEL_API_URL || "https://v0-alchm-kitchen.vercel.app";
+
+    // Only enable rewrites when VERCEL_API_URL is set (Cloudflare deployment)
+    if (!process.env.VERCEL_API_URL) {
+      return [];
+    }
+
+    return [
+      // Heavy data routes - proxy to Vercel
+      {
+        source: "/api/cuisines/:path*",
+        destination: `${vercelApiUrl}/api/cuisines/:path*`,
+      },
+      {
+        source: "/api/recipes/:path*",
+        destination: `${vercelApiUrl}/api/recipes/:path*`,
+      },
+      {
+        source: "/api/menu-planner/:path*",
+        destination: `${vercelApiUrl}/api/menu-planner/:path*`,
+      },
+      {
+        source: "/api/alchm-quantities/:path*",
+        destination: `${vercelApiUrl}/api/alchm-quantities/:path*`,
+      },
+      {
+        source: "/api/astrologize/:path*",
+        destination: `${vercelApiUrl}/api/astrologize/:path*`,
+      },
+      {
+        source: "/api/alchemize/:path*",
+        destination: `${vercelApiUrl}/api/alchemize/:path*`,
+      },
+      // Note: /api/auth/* stays local for session cookies to work
+      // Note: /api/user/* stays local for auth context
     ];
   },
 };

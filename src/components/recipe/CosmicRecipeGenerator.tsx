@@ -1,7 +1,7 @@
 "use client";
 
 import { experimental_useObject as useObject } from '@ai-sdk/react';
-import { SparklesIcon, Cog6ToothIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'; // Need to ensure heroicons is present, or fallback to text if not
+import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useState } from 'react';
 import { useUser } from '@/contexts/UserContext';
 import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
@@ -84,7 +84,7 @@ export default function CosmicRecipeGenerator() {
     <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 font-sans">
       <div className="mb-8 text-center sm:text-left">
         <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 bg-clip-text text-transparent flex items-center justify-center sm:justify-start gap-3">
-          <SparklesIcon className="w-8 h-8 text-purple-600" />
+          <FaMagic className="w-8 h-8 text-purple-600" />
           The Alchemist's Kitchen
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-lg">
@@ -115,7 +115,7 @@ export default function CosmicRecipeGenerator() {
             ) : (
               <>
                 Generate
-                <SparklesIcon className="w-5 h-5" />
+                <FaMagic className="w-5 h-5" />
               </>
             )}
           </button>
@@ -127,9 +127,9 @@ export default function CosmicRecipeGenerator() {
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-purple-600 transition-colors"
           >
-            <Cog6ToothIcon className="w-4 h-4" />
+            <FaCog className="w-4 h-4" />
             {showAdvanced ? 'Hide Elements & Restrictions' : 'Expand Culinary Settings'}
-            {showAdvanced ? <ChevronUpIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
+            {showAdvanced ? <FaChevronUp className="w-4 h-4" /> : <FaChevronDown className="w-4 h-4" />}
           </button>
           
           {showAdvanced && (
@@ -198,7 +198,7 @@ export default function CosmicRecipeGenerator() {
                   </div>
                 ) : isGeneratingImage ? (
                    <div className="w-full h-96 bg-gradient-to-br from-slate-200 to-slate-100 dark:from-slate-800 dark:to-slate-900 animate-pulse rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-700">
-                     <SparklesIcon className="w-10 h-10 text-purple-400 mb-3 animate-bounce" />
+                     <FaMagic className="w-10 h-10 text-purple-400 mb-3 animate-bounce" />
                      <p className="text-slate-500 font-semibold uppercase tracking-wider">Nanobanana 2 Visualizing...</p>
                    </div>
                 ) : null}

@@ -1,15 +1,15 @@
 "use client";
 
 import {
-  Flame,
-  Droplets,
-  Wind,
-  Mountain,
-  Coins,
-  RefreshCw,
-  Sun,
-  Moon,
-} from "lucide-react";
+  FaFire,
+  FaTint,
+  FaWind,
+  FaMountain,
+  FaCoins,
+  FaSyncAlt,
+  FaSun,
+  FaMoon,
+} from "react-icons/fa";
 import { useState, useEffect } from "react";
 
 interface AlchemyQuantities {
@@ -118,9 +118,9 @@ export default function AlchmQuantitiesDisplay() {
               }`}
             >
               {data.isDiurnal ? (
-                <Sun className="h-3.5 w-3.5" />
+                <FaSun className="h-3.5 w-3.5" />
               ) : (
-                <Moon className="h-3.5 w-3.5" />
+                <FaMoon className="h-3.5 w-3.5" />
               )}
               {data.isDiurnal ? "Day Sect" : "Night Sect"}
             </div>
@@ -130,7 +130,7 @@ export default function AlchmQuantitiesDisplay() {
           onClick={fetchData}
           className="px-3 py-2 rounded-lg bg-orange-900/30 hover:bg-orange-800/40 text-orange-300 font-semibold text-sm transition-all duration-200 hover:scale-105 border border-orange-500/30 flex items-center gap-2"
         >
-          <RefreshCw className="h-4 w-4" />
+          <FaSyncAlt className="h-4 w-4" />
           Refresh
         </button>
       </div>
@@ -140,7 +140,7 @@ export default function AlchmQuantitiesDisplay() {
         {/* Spirit */}
         <div className="p-4 bg-gradient-to-br from-red-900/30 to-orange-900/20 border border-red-500/30 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <Flame className="h-5 w-5 text-red-400" />
+            <FaFire className="h-5 w-5 text-red-400" />
             <span className="font-semibold text-gray-200">Spirit</span>
           </div>
           <div className="text-2xl font-bold mb-2 text-red-300">
@@ -157,7 +157,7 @@ export default function AlchmQuantitiesDisplay() {
         {/* Essence */}
         <div className="p-4 bg-gradient-to-br from-blue-900/30 to-cyan-900/20 border border-blue-500/30 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <Droplets className="h-5 w-5 text-blue-400" />
+            <FaTint className="h-5 w-5 text-blue-400" />
             <span className="font-semibold text-gray-200">Essence</span>
           </div>
           <div className="text-2xl font-bold mb-2 text-blue-300">
@@ -174,7 +174,7 @@ export default function AlchmQuantitiesDisplay() {
         {/* Matter */}
         <div className="p-4 bg-gradient-to-br from-green-900/30 to-emerald-900/20 border border-green-500/30 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <Mountain className="h-5 w-5 text-green-400" />
+            <FaMountain className="h-5 w-5 text-green-400" />
             <span className="font-semibold text-gray-200">Matter</span>
           </div>
           <div className="text-2xl font-bold mb-2 text-green-300">
@@ -191,7 +191,7 @@ export default function AlchmQuantitiesDisplay() {
         {/* Substance */}
         <div className="p-4 bg-gradient-to-br from-purple-900/30 to-violet-900/20 border border-purple-500/30 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <Wind className="h-5 w-5 text-purple-400" />
+            <FaWind className="h-5 w-5 text-purple-400" />
             <span className="font-semibold text-gray-200">Substance</span>
           </div>
           <div className="text-2xl font-bold mb-2 text-purple-300">
@@ -209,7 +209,7 @@ export default function AlchmQuantitiesDisplay() {
       {/* A-Number Display */}
       <div className="p-6 bg-gradient-to-r from-amber-900/30 to-yellow-900/20 border border-amber-500/30 rounded-lg">
         <div className="flex items-center gap-3 mb-3">
-          <Coins className="h-6 w-6 text-amber-400" />
+          <FaCoins className="h-6 w-6 text-amber-400" />
           <span className="text-xl font-bold text-amber-300">A-Number</span>
         </div>
         <div className="text-3xl font-bold text-amber-300">

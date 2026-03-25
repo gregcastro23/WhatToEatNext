@@ -1,6 +1,5 @@
 'use client';
 
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -14,17 +13,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
       <SessionProvider>
-        <ChakraProvider value={defaultSystem}>
-          <ThemeProvider>
-            <UserProvider>
-              <PremiumProvider>
-                <AlchemicalProvider>
-                  <RecipeBuilderProvider>{children}</RecipeBuilderProvider>
-                </AlchemicalProvider>
-              </PremiumProvider>
-            </UserProvider>
-          </ThemeProvider>
-        </ChakraProvider>
+        <ThemeProvider>
+          <UserProvider>
+            <PremiumProvider>
+              <AlchemicalProvider>
+                <RecipeBuilderProvider>{children}</RecipeBuilderProvider>
+              </AlchemicalProvider>
+            </PremiumProvider>
+          </UserProvider>
+        </ThemeProvider>
       </SessionProvider>
     </ErrorBoundary>
   );
