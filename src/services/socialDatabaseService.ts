@@ -41,7 +41,7 @@ class SocialDatabaseService {
    * Search for registered users by email (partial match).
    * Returns basic info only (no sensitive data).
    */
-  async searchUsersByEmail(
+  async searchUsers(
     query: string,
     excludeUserId: string,
     limit = 10,
@@ -54,7 +54,7 @@ class SocialDatabaseService {
         `SELECT u.id, COALESCE(up.name, u.name, '') as name, u.email
          FROM users u
          LEFT JOIN user_profiles up ON u.id = up.user_id
-         WHERE u.email ILIKE $1
+         WHERE (u.email ILIKE $1 OR u.name ILIKE $1 OR COALESCE(up.name, '') ILIKE $1)
            AND u.id != $2
            AND u.is_active = true
          ORDER BY u.email
@@ -67,7 +67,7 @@ class SocialDatabaseService {
         email: r.email,
       }));
     } catch (error) {
-      _logger.error("searchUsersByEmail failed:", error as any);
+      _logger.error("searchUsers failed:", error as any);
       return [];
     }
   }

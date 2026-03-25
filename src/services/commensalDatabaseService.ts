@@ -39,7 +39,7 @@ class CommensalDatabaseService {
    * Search for registered users by email (partial match).
    * Returns basic info only with obscured email (no sensitive data).
    */
-  async searchUsersByEmail(
+  async searchUsers(
     query: string,
     excludeUserId: string,
     limit = 10,
@@ -51,7 +51,7 @@ class CommensalDatabaseService {
       const result = await db.executeQuery(
         `SELECT u.id, COALESCE(u.name, '') as name, u.email
          FROM users u
-         WHERE u.email ILIKE $1
+         WHERE (u.email ILIKE $1 OR u.name ILIKE $1)
            AND u.id::text != $2
            AND u.is_active = true
          ORDER BY u.email
@@ -74,7 +74,7 @@ class CommensalDatabaseService {
         };
       });
     } catch (error) {
-      _logger.error("searchUsersByEmail failed:", error as any);
+      _logger.error("searchUsers failed:", error as any);
       return [];
     }
   }

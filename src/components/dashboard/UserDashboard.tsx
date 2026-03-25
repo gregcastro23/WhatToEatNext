@@ -4,6 +4,13 @@ import { signOut } from 'next-auth/react';
 import React, { useState } from 'react';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
+import type { UserTier } from '@/lib/tiers';
+import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
+import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
+import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
+import { ElementalWheel } from '@/components/profile/ElementalWheel';
+import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
+import { FeatureGate } from '@/components/profile/FeatureGate';
 import { CommensalManager } from './CommensalManager';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 import { DashboardOverview } from './DashboardOverview';
@@ -30,33 +37,62 @@ interface UserDashboardProps {
   onEditPreferences: () => void;
 }
 
-type DashboardTab = 'overview' | 'transits' | 'chart' | 'recommendations' | 'commensals' | 'social' | 'labbook' | 'settings';
+/* ─── Collapsible Section ────────────────────────────────── */
 
-const TAB_CONFIG: Array<{ key: DashboardTab; label: string; icon: string }> = [
-  { key: 'overview', label: 'Overview', icon: '\u2728' },
-  { key: 'transits', label: 'Transits', icon: '\uD83C\uDF0C' },
-  { key: 'chart', label: 'My Chart', icon: '\uD83D\uDD2E' },
-  { key: 'recommendations', label: 'Recommendations', icon: '\uD83C\uDF7D\uFE0F' },
-  { key: 'commensals', label: 'Companions', icon: '\uD83D\uDC65' },
-  { key: 'social', label: 'Social', icon: '\uD83E\uDD1D' },
-  { key: 'labbook', label: 'Lab Book', icon: '\uD83E\uDDEA' },
-  { key: 'settings', label: 'Settings', icon: '\u2699\uFE0F' },
-];
+function CollapsibleSection({
+  title,
+  icon,
+  defaultOpen = false,
+  children,
+}: {
+  title: string;
+  icon: string;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
 
-export const UserDashboard: React.FC<UserDashboardProps> = ({
-  session,
-  profileData,
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <span className="text-base">{icon}</span>
+          <h3 className="text-base font-bold text-gray-800">{title}</h3>
+        </div>
+        <svg
+          className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && <div className="px-5 pb-5">{children}</div>}
+    </div>
+  );
+}
+
+/* ─── Settings Panel ─────────────────────────────────────── */
+
+function SettingsPanel({
+  userName,
+  email,
   natalChart,
   preferences,
   onEditBirthData,
   onEditPreferences,
-}) => {
-  const [activeTab, setActiveTab] = useState<DashboardTab>('overview');
-
-  const email = session?.user?.email || '';
-  const userName = session?.user?.name || 'User';
-
-  // Extract birth chart date for display
+}: {
+  userName: string;
+  email: string;
+  natalChart: NatalChart;
+  preferences: UserPreferences;
+  onEditBirthData: () => void;
+  onEditPreferences: () => void;
+}) {
   const chartDate = natalChart?.birthData?.dateTime
     ? new Date(natalChart.birthData.dateTime).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -69,307 +105,322 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Dashboard Header */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-orange-500 p-5 text-white">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-            <div>
-              <h1 className="text-2xl font-bold">
-                Welcome back, {userName.split(' ')[0]}
-              </h1>
-              <p className="text-purple-100 text-sm mt-1">
-                {natalChart.dominantElement} dominant &middot; {natalChart.dominantModality} modality
-                {natalChart.ascendant && (
-                  <span className="capitalize"> &middot; {natalChart.ascendant} rising</span>
-                )}
-              </p>
-            </div>
-            <button
-              onClick={() => signOut({ callbackUrl: '/' })}
-              className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors text-sm font-medium border border-white/30"
-            >
-              Log Out
-            </button>
+      <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+        <h3 className="text-base font-bold text-gray-800 mb-4">Account</h3>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between py-2 border-b border-gray-100">
+            <span className="text-sm text-gray-600">Name</span>
+            <span className="text-sm font-medium text-gray-800">{userName}</span>
           </div>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="px-4 py-0 border-b border-gray-200">
-          <div className="flex gap-0 overflow-x-auto">
-            {TAB_CONFIG.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
-                  activeTab === tab.key
-                    ? 'border-purple-600 text-purple-700'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <span className="mr-1.5">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
+          <div className="flex items-center justify-between py-2 border-b border-gray-100">
+            <span className="text-sm text-gray-600">Email</span>
+            <span className="text-sm font-medium text-gray-800">{email}</span>
+          </div>
+          <div className="flex items-center justify-between py-2">
+            <span className="text-sm text-gray-600">Dominant Element</span>
+            <span className="text-sm font-medium text-gray-800">{natalChart.dominantElement}</span>
           </div>
         </div>
       </div>
 
-      {/* Tab Content */}
-      {activeTab === 'overview' && (
-        <DashboardOverview
-          profileData={profileData}
-          natalChart={natalChart}
-          email={email}
-        />
-      )}
-
-      {activeTab === 'transits' && (
-        <CurrentTransitAnalysis natalChart={natalChart} />
-      )}
-
-      {activeTab === 'chart' && (
-        <div className="space-y-4">
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-lg font-bold text-gray-800">Natal &amp; Transit Chart</h3>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  Your natal placements (purple) overlaid with current transits (orange)
-                </p>
-              </div>
-              {chartDate && (
-                <span className="text-xs text-gray-400 bg-gray-50 px-3 py-1 rounded-full">
-                  Born: {chartDate}
-                </span>
-              )}
-            </div>
-            <NatalTransitChart natalChart={natalChart} />
-          </div>
-
-          {/* Core Chart Summary */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <h3 className="text-base font-bold text-gray-800 mb-3">Chart Summary</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <DetailCard
-                label="Sun Sign"
-                value={natalChart.planetaryPositions?.Sun}
-                icon={"\u2609"}
-              />
-              <DetailCard
-                label="Moon Sign"
-                value={natalChart.planetaryPositions?.Moon}
-                icon={"\u263D"}
-              />
-              <DetailCard
-                label="Rising Sign"
-                value={natalChart.ascendant}
-                icon="AC"
-              />
-              <DetailCard
-                label="Dominant Element"
-                value={natalChart.dominantElement}
-                icon={"\u2B50"}
-              />
-              <DetailCard
-                label="Modality"
-                value={natalChart.dominantModality}
-                icon={"\u2B53"}
-              />
-              <DetailCard
-                label="Chart Date"
-                value={natalChart.calculatedAt ? new Date(natalChart.calculatedAt).toLocaleDateString() : "\u2014"}
-                icon={"\uD83D\uDCC5"}
-              />
-            </div>
-          </div>
-
-          {/* Full Planetary Placements */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <h3 className="text-base font-bold text-gray-800 mb-3">All Natal Placements</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {(['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] as const).map((planet) => {
-                const sign = natalChart.planetaryPositions?.[planet];
-                if (!sign) return null;
-                const planetInfo = natalChart.planets?.find(p => p.name === planet);
-                const degree = planetInfo?.position ? Math.floor(planetInfo.position % 30) : null;
-                const signStr = typeof sign === 'string' ? sign : '';
-                return (
-                  <div key={planet} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                    <span className="text-xl w-8 text-center">{
-                      planet === 'Sun' ? '\u2609' : planet === 'Moon' ? '\u263D' :
-                      planet === 'Mercury' ? '\u263F' : planet === 'Venus' ? '\u2640' :
-                      planet === 'Mars' ? '\u2642' : planet === 'Jupiter' ? '\u2643' :
-                      planet === 'Saturn' ? '\u2644' : planet === 'Uranus' ? '\u2645' :
-                      planet === 'Neptune' ? '\u2646' : '\u2647'
-                    }</span>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs text-gray-500 font-medium">{planet}</div>
-                      <div className="text-sm font-semibold text-gray-800 capitalize">
-                        {signStr}{degree !== null ? ` ${degree}\u00B0` : ''}
-                      </div>
-                    </div>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
-                      {signStr === 'aries' || signStr === 'leo' || signStr === 'sagittarius' ? 'Fire' :
-                       signStr === 'taurus' || signStr === 'virgo' || signStr === 'capricorn' ? 'Earth' :
-                       signStr === 'gemini' || signStr === 'libra' || signStr === 'aquarius' ? 'Air' : 'Water'}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+      <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-base font-bold text-gray-800">Birth Data</h3>
+          <button onClick={onEditBirthData} className="text-sm text-purple-600 font-medium hover:text-purple-800 transition-colors">
+            Edit
+          </button>
         </div>
-      )}
+        {chartDate && <p className="text-sm text-gray-700 mb-1">{chartDate}</p>}
+        {natalChart.birthData && (
+          <p className="text-xs text-gray-500">
+            Lat: {natalChart.birthData.latitude.toFixed(4)}, Long: {natalChart.birthData.longitude.toFixed(4)}
+          </p>
+        )}
+      </div>
 
-      {activeTab === 'recommendations' && (
-        <RecommendationsPanel
+      <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-base font-bold text-gray-800">Food Preferences</h3>
+          <button onClick={onEditPreferences} className="text-sm text-purple-600 font-medium hover:text-purple-800 transition-colors">
+            Edit
+          </button>
+        </div>
+        <div className="space-y-2 text-sm">
+          {preferences.dietaryRestrictions.length > 0 && (
+            <div>
+              <span className="text-gray-500">Dietary: </span>
+              <span className="text-gray-800">{preferences.dietaryRestrictions.join(', ')}</span>
+            </div>
+          )}
+          {preferences.preferredCuisines.length > 0 && (
+            <div>
+              <span className="text-gray-500">Preferred cuisines: </span>
+              <span className="text-gray-800">{preferences.preferredCuisines.join(', ')}</span>
+            </div>
+          )}
+          <div>
+            <span className="text-gray-500">Spice: </span>
+            <span className="text-gray-800 capitalize">{preferences.spicePreference}</span>
+            <span className="text-gray-300 mx-2">|</span>
+            <span className="text-gray-500">Complexity: </span>
+            <span className="text-gray-800 capitalize">{preferences.complexity}</span>
+          </div>
+          {preferences.dislikedIngredients.length > 0 && (
+            <div>
+              <span className="text-gray-500">Avoiding: </span>
+              <span className="text-gray-800">{preferences.dislikedIngredients.join(', ')}</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-sm p-5 border border-red-100">
+        <h3 className="text-base font-bold text-red-700 mb-3">Actions</h3>
+        <button
+          onClick={() => signOut({ callbackUrl: '/' })}
+          className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium border border-red-200"
+        >
+          Log Out
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Birth Chart Section ────────────────────────────────── */
+
+function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
+  const sunSign = natalChart.planetaryPositions?.Sun;
+  const moonSign = natalChart.planetaryPositions?.Moon;
+  const rising = natalChart.ascendant;
+
+  return (
+    <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+      <h3 className="text-base font-bold text-gray-800 mb-3">Birth Chart</h3>
+      <div className="flex flex-wrap gap-3 mb-4">
+        {sunSign && (
+          <span className="text-sm px-3 py-1.5 bg-amber-50 text-amber-800 rounded-lg border border-amber-200 capitalize">
+            &#x2609; Sun in {sunSign}
+          </span>
+        )}
+        {moonSign && (
+          <span className="text-sm px-3 py-1.5 bg-blue-50 text-blue-800 rounded-lg border border-blue-200 capitalize">
+            &#x263D; Moon in {moonSign}
+          </span>
+        )}
+        {rising && (
+          <span className="text-sm px-3 py-1.5 bg-purple-50 text-purple-800 rounded-lg border border-purple-200 capitalize">
+            AC {rising} Rising
+          </span>
+        )}
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        {(['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] as const).map((planet) => {
+          const sign = natalChart.planetaryPositions?.[planet];
+          if (!sign) return null;
+          const signStr = typeof sign === 'string' ? sign : '';
+          return (
+            <div key={planet} className="text-center p-2 bg-gray-50 rounded-lg">
+              <div className="text-[10px] text-gray-500 uppercase">{planet}</div>
+              <div className="text-xs font-semibold text-gray-700 capitalize">{signStr}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main Dashboard ─────────────────────────────────────── */
+
+type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'social' | 'labbook' | 'settings';
+
+export const UserDashboard: React.FC<UserDashboardProps> = ({
+  session,
+  profileData,
+  natalChart,
+  preferences,
+  onEditBirthData,
+  onEditPreferences,
+}) => {
+  const [viewMode, setViewMode] = useState<ViewMode>('dashboard');
+
+  const email = session?.user?.email || '';
+  const userName = session?.user?.name || 'User';
+
+  // Default to free tier (real tier would come from subscription service)
+  const tier: UserTier = (profileData?.subscription?.tier as UserTier) || 'free';
+
+  if (viewMode === 'chart-detail') {
+    return (
+      <div className="space-y-4">
+        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
+          &larr; Back to Dashboard
+        </button>
+        <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+          <h3 className="text-lg font-bold text-gray-800 mb-2">Natal &amp; Transit Chart</h3>
+          <p className="text-xs text-gray-500 mb-4">Your natal placements (purple) overlaid with current transits (orange)</p>
+          <NatalTransitChart natalChart={natalChart} />
+        </div>
+        <BirthChartSection natalChart={natalChart} />
+      </div>
+    );
+  }
+
+  if (viewMode === 'recommendations') {
+    return (
+      <div className="space-y-4">
+        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
+          &larr; Back to Dashboard
+        </button>
+        <RecommendationsPanel email={email} natalChart={natalChart} preferences={preferences} />
+      </div>
+    );
+  }
+
+  if (viewMode === 'companions') {
+    return (
+      <div className="space-y-4">
+        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
+          &larr; Back to Dashboard
+        </button>
+        <CommensalManager />
+      </div>
+    );
+  }
+
+  if (viewMode === 'social') {
+    return (
+      <div className="space-y-4">
+        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
+          &larr; Back to Dashboard
+        </button>
+        <SocialManager />
+      </div>
+    );
+  }
+
+  if (viewMode === 'labbook') {
+    return (
+      <div className="space-y-4">
+        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
+          &larr; Back to Dashboard
+        </button>
+        <FoodLabBook />
+      </div>
+    );
+  }
+
+  if (viewMode === 'settings') {
+    return (
+      <div className="space-y-4">
+        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
+          &larr; Back to Dashboard
+        </button>
+        <SettingsPanel
+          userName={userName}
           email={email}
           natalChart={natalChart}
           preferences={preferences}
+          onEditBirthData={onEditBirthData}
+          onEditPreferences={onEditPreferences}
         />
-      )}
+      </div>
+    );
+  }
 
-      {activeTab === 'commensals' && (
-        <CommensalManager />
-      )}
+  return (
+    <div className="space-y-5">
+      {/* Hero Identity Card */}
+      <ProfileHeroCard
+        userName={userName}
+        email={email}
+        natalChart={natalChart}
+        tier={tier}
+        onEditProfile={onEditBirthData}
+        onOpenSettings={() => setViewMode('settings')}
+      />
 
-      {activeTab === 'social' && (
+      {/* Alchemical Self + Cosmic Alignment */}
+      <div className="grid md:grid-cols-2 gap-5">
+        <AlchemicalConstitutionPanel natalChart={natalChart} />
+        <CosmicAlignmentCard natalChart={natalChart} />
+      </div>
+
+      {/* Elemental Wheel + Birth Chart Summary */}
+      <div className="grid md:grid-cols-2 gap-5">
+        <ElementalWheel natalChart={natalChart} />
+        <BirthChartSection natalChart={natalChart} />
+      </div>
+
+      {/* Quick Navigation Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <NavCard
+          icon="&#x1F52E;"
+          label="Full Chart"
+          description="Natal & transit overlay"
+          onClick={() => setViewMode('chart-detail')}
+        />
+        <NavCard
+          icon="&#x1F37D;&#xFE0F;"
+          label="Recommendations"
+          description="Cuisines & methods"
+          onClick={() => setViewMode('recommendations')}
+        />
+        <NavCard
+          icon="&#x1F465;"
+          label="Companions"
+          description="Dining group harmony"
+          onClick={() => setViewMode('companions')}
+        />
+        <NavCard
+          icon="&#x1F9EA;"
+          label="Lab Book"
+          description="Experiments & notes"
+          onClick={() => setViewMode('labbook')}
+        />
+      </div>
+
+      {/* Cosmic Harmony Overview (from existing DashboardOverview) */}
+      <DashboardOverview profileData={profileData} natalChart={natalChart} email={email} />
+
+      {/* Transits (collapsible) */}
+      <CollapsibleSection title="Current Transits" icon="&#x1F30C;" defaultOpen={false}>
+        <CurrentTransitAnalysis natalChart={natalChart} />
+      </CollapsibleSection>
+
+      {/* Social (collapsible) */}
+      <CollapsibleSection title="Social &amp; Friends" icon="&#x1F91D;" defaultOpen={false}>
         <SocialManager />
-      )}
+      </CollapsibleSection>
 
-      {activeTab === 'labbook' && (
-        <FoodLabBook />
-      )}
-
-      {activeTab === 'settings' && (
-        <div className="space-y-4">
-          {/* Account Info */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <h3 className="text-base font-bold text-gray-800 mb-4">Account</h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-600">Name</span>
-                <span className="text-sm font-medium text-gray-800">{userName}</span>
-              </div>
-              <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-600">Email</span>
-                <span className="text-sm font-medium text-gray-800">{email}</span>
-              </div>
-              <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-600">Dominant Element</span>
-                <span className="text-sm font-medium text-gray-800">{natalChart.dominantElement}</span>
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <span className="text-sm text-gray-600">Chart Calculated</span>
-                <span className="text-sm font-medium text-gray-800">
-                  {natalChart.calculatedAt ? new Date(natalChart.calculatedAt).toLocaleDateString() : '—'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Birth Data */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-base font-bold text-gray-800">Birth Data</h3>
-              <button
-                onClick={onEditBirthData}
-                className="text-sm text-purple-600 font-medium hover:text-purple-800 transition-colors"
-              >
-                Edit
-              </button>
-            </div>
-            {chartDate && (
-              <p className="text-sm text-gray-700 mb-1">
-                {chartDate}
-              </p>
-            )}
-            {natalChart.birthData && (
-              <p className="text-xs text-gray-500">
-                Lat: {natalChart.birthData.latitude.toFixed(4)}, Long: {natalChart.birthData.longitude.toFixed(4)}
-              </p>
-            )}
-          </div>
-
-          {/* Food Preferences */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-base font-bold text-gray-800">Food Preferences</h3>
-              <button
-                onClick={onEditPreferences}
-                className="text-sm text-purple-600 font-medium hover:text-purple-800 transition-colors"
-              >
-                Edit
-              </button>
-            </div>
-            <div className="space-y-3 text-sm">
-              {preferences.dietaryRestrictions.length > 0 && (
-                <div>
-                  <span className="text-gray-500">Dietary: </span>
-                  <span className="text-gray-800">{preferences.dietaryRestrictions.join(', ')}</span>
-                </div>
-              )}
-              {preferences.preferredCuisines.length > 0 && (
-                <div>
-                  <span className="text-gray-500">Preferred cuisines: </span>
-                  <span className="text-gray-800">{preferences.preferredCuisines.join(', ')}</span>
-                </div>
-              )}
-              <div>
-                <span className="text-gray-500">Spice: </span>
-                <span className="text-gray-800 capitalize">{preferences.spicePreference}</span>
-                <span className="text-gray-300 mx-2">|</span>
-                <span className="text-gray-500">Complexity: </span>
-                <span className="text-gray-800 capitalize">{preferences.complexity}</span>
-              </div>
-              {preferences.dislikedIngredients.length > 0 && (
-                <div>
-                  <span className="text-gray-500">Avoiding: </span>
-                  <span className="text-gray-800">{preferences.dislikedIngredients.join(', ')}</span>
-                </div>
-              )}
-              {preferences.dietaryRestrictions.length === 0 &&
-                preferences.preferredCuisines.length === 0 &&
-                preferences.dislikedIngredients.length === 0 && (
-                  <p className="text-gray-400 italic">No preferences set yet</p>
-                )}
-            </div>
-          </div>
-
-          {/* Danger Zone */}
-          <div className="bg-white rounded-xl shadow-sm p-5 border border-red-100">
-            <h3 className="text-base font-bold text-red-700 mb-3">Actions</h3>
-            <button
-              onClick={() => signOut({ callbackUrl: '/' })}
-              className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium border border-red-200"
-            >
-              Log Out
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Premium Upsell (only for free tier) */}
+      {tier === 'free' && <TierUpgradePrompt />}
     </div>
   );
 };
 
-/* ─── Detail Card ──────────────────────────────────────────── */
+/* ─── Navigation Card ────────────────────────────────────── */
 
-function DetailCard({
-  label,
-  value,
+function NavCard({
   icon,
+  label,
+  description,
+  onClick,
 }: {
-  label: string;
-  value?: string;
   icon: string;
+  label: string;
+  description: string;
+  onClick: () => void;
 }) {
   return (
-    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-      <div className="flex items-center gap-2 mb-1">
-        <span className="text-base">{icon}</span>
-        <span className="text-xs text-gray-500 font-medium uppercase">{label}</span>
-      </div>
-      <span className="text-sm font-semibold text-gray-800 capitalize">{value || '—'}</span>
-    </div>
+    <button
+      onClick={onClick}
+      className="bg-white rounded-2xl shadow-sm p-4 border border-gray-100 text-left hover:border-purple-200 hover:shadow-md transition-all group"
+    >
+      <span className="text-2xl block mb-2" dangerouslySetInnerHTML={{ __html: icon }} />
+      <div className="text-sm font-bold text-gray-800 group-hover:text-purple-700 transition-colors">{label}</div>
+      <div className="text-xs text-gray-500 mt-0.5">{description}</div>
+    </button>
   );
 }
