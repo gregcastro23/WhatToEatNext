@@ -100,6 +100,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
         credentials: 'include',
         body: JSON.stringify({ isPublic: true }),
       });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setLocalEntry(data.entry);
     } finally {
@@ -543,6 +544,7 @@ function NewEntryForm({
         credentials: 'include',
         body: fd,
       });
+      if (!res.ok) throw new Error(`Upload failed (${res.status})`);
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       setPhotos((prev) => [
@@ -600,6 +602,7 @@ function NewEntryForm({
           isPublic: form.isPublic,
         }),
       });
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       onSaved(data.entry);
@@ -853,6 +856,7 @@ export const FoodLabBook: React.FC = () => {
     setLoading(true);
     try {
       const res = await fetch('/api/food-lab', { credentials: 'include' });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setEntries(data.entries ?? []);
     } catch {

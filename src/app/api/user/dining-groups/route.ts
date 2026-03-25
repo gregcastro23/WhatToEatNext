@@ -36,7 +36,15 @@ export async function POST(request: NextRequest) {
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const body = await request.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Invalid JSON in request body" },
+      { status: 400 },
+    );
+  }
   const { name, memberIds } = body as { name: string; memberIds: string[] };
 
   if (!name || !Array.isArray(memberIds)) {

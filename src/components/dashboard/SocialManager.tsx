@@ -16,6 +16,7 @@ export const SocialManager: React.FC = () => {
   const loadFriendships = useCallback(async () => {
     try {
       const res = await fetch('/api/friends', { credentials: 'include' });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) {
         setFriendships(data.friendships ?? []);
@@ -43,6 +44,7 @@ export const SocialManager: React.FC = () => {
         credentials: 'include',
         body: JSON.stringify({ friendshipId }),
       });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) {
         await loadFriendships();

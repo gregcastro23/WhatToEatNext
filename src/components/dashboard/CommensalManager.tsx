@@ -122,6 +122,7 @@ function AddByEmailForm({
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(query)}`, {
         credentials: 'include',
       });
+      if (!res.ok) throw new Error('Search failed');
       const data = await res.json();
       if (data.success) setResults(data.users ?? []);
     } catch {
@@ -149,6 +150,7 @@ function AddByEmailForm({
         credentials: 'include',
         body: JSON.stringify({ email }),
       });
+      if (!res.ok) throw new Error('Failed to send request');
       const data = await res.json();
       if (data.success) {
         setMessage({ type: 'success', text: `Friend request sent to ${email}` });
@@ -269,9 +271,17 @@ function AddCommensalForm({
           },
         }),
       });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message || 'Failed to add commensal');
-      onAdded(data.commensal);
+      let data: { success: boolean; message?: string; commensal?: GroupMember };
+      const contentType = res.headers.get('content-type') ?? '';
+      if (contentType.includes('application/json')) {
+        data = await res.json();
+      } else {
+        const raw = await res.text();
+        console.error('Non-JSON response from /api/user/commensals:', res.status, raw);
+        throw new Error(`Server error (${res.status}): ${raw.slice(0, 200)}`);
+      }
+      if (!res.ok || !data.success) throw new Error(data.message || 'Failed to add commensal');
+      onAdded(data.commensal!);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add commensal');
     } finally {
@@ -476,6 +486,7 @@ function GroupRecommendationsPanel({
         credentials: 'include',
         body: JSON.stringify({ commensalIds, linkedUserIds, strategy }),
       });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setResult(data);
     } catch {
@@ -638,6 +649,7 @@ function DiningGroupSection({
           linkedUserIds: groupLinkedIds,
         }),
       });
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       onGroupCreated(data.diningGroup);
@@ -791,6 +803,7 @@ export const CommensalManager: React.FC = () => {
           fetch('/api/user/dining-groups', { credentials: 'include' }),
           fetch('/api/friends', { credentials: 'include' }),
         ]);
+        if (!cRes.ok || !gRes.ok || !fRes.ok) throw new Error('Failed to load data');
         const [cData, gData, fData] = await Promise.all([cRes.json(), gRes.json(), fRes.json()]);
         if (cData.success) setCommensals(cData.commensals ?? []);
         if (gData.success) setGroups(gData.diningGroups ?? []);
@@ -807,6 +820,7 @@ export const CommensalManager: React.FC = () => {
   const refreshLinkedFriends = async () => {
     try {
       const res = await fetch('/api/friends', { credentials: 'include' });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setLinkedFriends(data.linkedFriends ?? []);
     } catch {

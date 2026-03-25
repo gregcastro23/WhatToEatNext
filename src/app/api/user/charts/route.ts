@@ -80,7 +80,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
-  const body = await request.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Invalid JSON in request body" },
+      { status: 400 },
+    );
+  }
   const { label, birthData } = body as {
     label?: string;
     birthData?: BirthData;
@@ -95,10 +103,18 @@ export async function POST(request: NextRequest) {
 
   // Calculate natal chart
   const birthDate = new Date(birthData.dateTime);
-  const rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
-    latitude: birthData.latitude,
-    longitude: birthData.longitude,
-  });
+  let rawPositions;
+  try {
+    rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
+      latitude: birthData.latitude,
+      longitude: birthData.longitude,
+    });
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Planetary calculation service unavailable. Please try again later." },
+      { status: 503 },
+    );
+  }
 
   const positions: Record<Planet, ZodiacSignType> = {
     Sun: rawPositions.Sun?.sign,

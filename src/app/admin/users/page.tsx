@@ -40,6 +40,7 @@ export default function AdminUsersPage() {
       if (statusFilter !== "all") params.set("status", statusFilter);
 
       const response = await fetch(`/api/admin/users?${params}`);
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const data = await response.json();
 
       if (data.success) {
@@ -67,6 +68,7 @@ export default function AdminUsersPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isActive }),
       });
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const data = await response.json();
 
       if (data.success) {
@@ -101,6 +103,7 @@ export default function AdminUsersPage() {
       const response = await fetch(`/api/admin/users/${userId}`, {
         method: "DELETE",
       });
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const data = await response.json();
 
       if (data.success) {

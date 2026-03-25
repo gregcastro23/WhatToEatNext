@@ -25,6 +25,7 @@ export default function AdminLayout({
   const checkAuth = async () => {
     try {
       const response = await fetch("/api/auth/session");
+      if (!response.ok) return;
       const data = await response.json();
 
       if (data.authenticated && data.user?.roles?.includes("admin")) {

@@ -119,6 +119,7 @@ export default function AlchmKinetics() {
     const fetchData = async () => {
       try {
         const response = await fetch("/api/alchm-quantities");
+        if (!response.ok) return;
         const data = await response.json();
         if (data.kinetics && data.circuit) {
           setApiData({ kinetics: data.kinetics, circuit: data.circuit });

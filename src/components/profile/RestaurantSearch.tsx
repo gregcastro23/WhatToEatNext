@@ -38,6 +38,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       if (loc.trim()) params.set('near', loc.trim());
 
       const res = await fetch(`/api/restaurants/search?${params.toString()}`);
+      if (!res.ok && res.status !== 501) throw new Error(`Server error (${res.status})`);
       const data = await res.json();
 
       if (res.status === 501) {

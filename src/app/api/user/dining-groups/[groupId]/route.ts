@@ -34,7 +34,15 @@ export async function PUT(
     return NextResponse.json({ success: false, message: "Dining group not found" }, { status: 404 });
   }
 
-  const body = await request.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Invalid JSON in request body" },
+      { status: 400 },
+    );
+  }
   const { name, memberIds } = body;
 
   // Validate memberIds if provided

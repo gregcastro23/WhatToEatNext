@@ -33,6 +33,10 @@ async function proxyRequest(
     const auth = request.headers.get('Authorization');
     if (auth) headers['Authorization'] = auth;
 
+    // Forward session cookies for NextAuth authentication
+    const cookie = request.headers.get('Cookie') || request.headers.get('cookie');
+    if (cookie) headers['Cookie'] = cookie;
+
     // Add internal secret for Vercel API verification
     const internalSecret = process.env.INTERNAL_API_SECRET;
     if (internalSecret) {
