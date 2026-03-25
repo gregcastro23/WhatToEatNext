@@ -7,7 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken } from "../route";
+import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken } from "../shared";
 import type { NextRequest } from "next/server";
 
 let _dbMod: typeof import("@/lib/database") | null = null;

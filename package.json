@@ -14,7 +14,9 @@
     "@typescript-eslint/visitor-keys": "8.47.0",
     "typescript": "5.8.3",
     "zod": "^3.23.0",
-    "nodemailer": "^7.0.7"
+    "nodemailer": "^7.0.7",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "scripts": {
     "build": "opennextjs-cloudflare build",
@@ -156,8 +158,8 @@
     "nodemailer": "^7.0.13",
     "pg": "^8.16.3",
     "postcss": "8.4.24",
-    "react": "19.1.2",
-    "react-dom": "19.1.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "react-error-boundary": "^6.0.0",
     "react-hook-form": "^7.71.1",
     "react-icons": "^5.5.0",

@@ -4,7 +4,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { rowToEntry } from "../../route";
+import { rowToEntry } from "../../shared";
 import type { NextRequest } from "next/server";
 
 let _dbMod: typeof import("@/lib/database") | null = null;
