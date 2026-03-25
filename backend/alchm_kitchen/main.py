@@ -43,6 +43,7 @@ from backend.utils.lunar_engine import get_current_lunar_phase, get_lunar_modifi
 from backend.utils.seasonal_engine import get_seasonal_modifiers
 # Transit Engine import
 from backend.utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
+from backend.schemas.planetary import CelestialCoordinates
 # Lunar Oracle import
 from backend.utils.lunar_oracle import get_optimal_cooking_windows
 # Alchemical Quantities import
@@ -218,7 +219,7 @@ async def calculate_alchemical_quantities_endpoint(request: AlchemicalQuantities
             request.planetary_hour_ruler,
             request.thermo_rating
         )
-        return result
+        return result.model_dump()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Calculation failed: {str(e)}")
 
@@ -1223,7 +1224,7 @@ async def get_recipe_recommendations_by_chart(
             raise HTTPException(status_code=500, detail=common_transit_info["error"])
         common_dominant_transit = common_transit_info.get("dominant_transit")
         common_sun_element = common_transit_info.get("sun_element")
-        common_planetary_hour_ruler = get_planetary_hour(current_latitude, current_longitude)
+        common_planetary_hour_ruler = get_planetary_hour(CelestialCoordinates(latitude=current_latitude, longitude=current_longitude))
         # --- End common data acquisition ---
 
         # --- Collective Synastry Logic (if secondary charts are provided) ---
@@ -1326,14 +1327,14 @@ async def get_recipe_recommendations_by_chart(
                 common_planetary_hour_ruler
             )
             # Apply collective potency modifier
-            potency_scores_and_physics["total_potency_score"] *= collective_potency_modifier
+            potency_scores_and_physics.total_potency_score *= collective_potency_modifier
 
             # Calculate SMES scores using the updated alchemical_quantities function
             smes_quantities = calculate_alchemical_quantities(
                 full_recipe,
-                potency_scores_and_physics["kinetic_rating"],
+                potency_scores_and_physics.kinetic_rating,
                 common_planetary_hour_ruler,
-                potency_scores_and_physics["thermo_rating"]
+                potency_scores_and_physics.thermo_rating
             )
 
             recommendations.append({
@@ -1351,13 +1352,13 @@ async def get_recipe_recommendations_by_chart(
                     "Air": elemental_properties.air,
                 } if elemental_properties else None,
                 # --- New SMES and Physical Quantities ---
-                "spirit_score": smes_quantities["spirit_score"],
-                "matter_score": smes_quantities["matter_score"],
-                "essence_score": smes_quantities["essence_score"],
-                "substance_score": smes_quantities["substance_score"],
-                "kinetic_val": smes_quantities["kinetic_val"],
-                "thermo_val": smes_quantities["thermo_val"],
-                "total_potency_score": potency_scores_and_physics["total_potency_score"],
+                "spirit_score": smes_quantities.spirit_score,
+                "matter_score": smes_quantities.matter_score,
+                "essence_score": smes_quantities.essence_score,
+                "substance_score": smes_quantities.substance_score,
+                "kinetic_val": smes_quantities.kinetic_val,
+                "thermo_val": smes_quantities.thermo_val,
+                "total_potency_score": potency_scores_and_physics.total_potency_score,
                 "collective_potency_modifier_applied": collective_potency_modifier, # Indicate if modifier was applied
                 # --- End New Quantities ---
             })
@@ -1405,8 +1406,9 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         # Using hardcoded coordinates for Forest Hills, Queens
         latitude = FOREST_HILLS_COORDINATES["latitude"]
         longitude = FOREST_HILLS_COORDINATES["longitude"]
-        planetary_hour_ruler = get_planetary_hour(latitude, longitude)
+        planetary_hour_ruler = get_planetary_hour(CelestialCoordinates(latitude=latitude, longitude=longitude))
         potency_scores = calculate_total_potency_score(recipe, dominant_transit, sun_element, planetary_hour_ruler)
+        smes_quantities = calculate_alchemical_quantities(recipe, potency_scores.kinetic_rating, planetary_hour_ruler, potency_scores.thermo_rating)
 
         # Get optimal cooking window
         optimal_windows = get_optimal_cooking_windows(days=1)
@@ -1422,21 +1424,21 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         num_participants = (len(request.secondary_chart_ids) + 1) if is_collective_ritual else 1
 
         # Use collective scores if provided, otherwise use individual recipe scores
-        spirit_score_to_log = request.collective_smes_scores.get("spirit_score", 0.0) if request.collective_smes_scores else potency_scores["spirit_score"]
-        essence_score_to_log = request.collective_smes_scores.get("essence_score", 0.0) if request.collective_smes_scores else potency_scores["essence_score"]
-        matter_score_to_log = request.collective_smes_scores.get("matter_score", 0.0) if request.collective_smes_scores else potency_scores["matter_score"]
-        substance_score_to_log = request.collective_smes_scores.get("substance_score", 0.0) if request.collective_smes_scores else potency_scores["substance_score"]
+        spirit_score_to_log = request.collective_smes_scores.get("spirit_score", 0.0) if request.collective_smes_scores else smes_quantities.spirit_score
+        essence_score_to_log = request.collective_smes_scores.get("essence_score", 0.0) if request.collective_smes_scores else smes_quantities.essence_score
+        matter_score_to_log = request.collective_smes_scores.get("matter_score", 0.0) if request.collective_smes_scores else smes_quantities.matter_score
+        substance_score_to_log = request.collective_smes_scores.get("substance_score", 0.0) if request.collective_smes_scores else smes_quantities.substance_score
 
         # Potency scores already include kinetic_rating and thermo_rating, so these are individual
         # For now, we log the recipe's inherent kinetic/thermo from potency_scores
-        kinetic_rating_to_log = potency_scores["kinetic_rating"]
-        thermo_rating_to_log = potency_scores["thermo_rating"]
+        kinetic_rating_to_log = potency_scores.kinetic_rating
+        thermo_rating_to_log = potency_scores.thermo_rating
 
         new_ritual_log = TransitHistory(
             recipe_id=request.recipe_id,
             dominant_transit=dominant_transit,
             ritual_instruction=ritual,
-            potency_score=potency_scores["total_potency_score"],
+            potency_score=potency_scores.total_potency_score,
             kinetic_rating=kinetic_rating_to_log,
             thermo_rating=thermo_rating_to_log,
             spirit_score=spirit_score_to_log,
@@ -1454,7 +1456,7 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
             "dominant_transit": dominant_transit,
             "ritual_instruction": ritual,
             "suggested_timestamp": suggested_timestamp,
-            "total_potency_score": potency_scores["total_potency_score"],
+            "total_potency_score": potency_scores.total_potency_score,
             "current_elemental_balance": transit_info.get("current_elemental_balance"),
         }
     except Exception as e:

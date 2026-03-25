@@ -26,12 +26,15 @@ BIRTH_DATA = {
     "longitude": FOREST_HILLS_COORDINATES["longitude"],
 }
 
-def get_planetary_hour(latitude, longitude):
+from backend.schemas.planetary import CelestialCoordinates, PotencyScore
+
+def get_planetary_hour(coords: CelestialCoordinates):
     """Calculates the current planetary hour."""
     if not sun or not LocationInfo:
         return None
 
-    city = LocationInfo("Forest Hills", "USA", FOREST_HILLS_COORDINATES["timezone"], latitude, longitude)
+    latitude, longitude = coords.latitude, coords.longitude
+    city = LocationInfo("Forest Hills", "USA", coords.timezone or FOREST_HILLS_COORDINATES["timezone"], latitude, longitude)
     s = sun(city.observer, date=datetime.datetime.now())
     sunrise = s["sunrise"]
     sunset = s["sunset"]
@@ -193,11 +196,11 @@ def calculate_total_potency_score(recipe, dominant_transit, sun_sign_element, pl
     # 7. Thermo Rating
     thermo_rating = thermodynamic_parity
 
-    return {
-        "total_potency_score": total_potency_score,
-        "kinetic_rating": kinetic_rating,
-        "thermo_rating": thermo_rating,
-    }
+    return PotencyScore(
+        total_potency_score=total_potency_score,
+        kinetic_rating=kinetic_rating,
+        thermo_rating=thermo_rating,
+    )
 
 
 def get_zodiac_sign_and_element(longitude):

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session # For potential DB interaction
 from pydantic import BaseModel # New import for Pydantic model
 from ..utils.alchemical_quantities import calculate_alchemical_quantities # To get SMES
 from ..utils.transit_engine import get_transit_details, calculate_total_potency_score, get_planetary_hour, get_zodiac_sign_and_element # Added get_zodiac_sign_and_element
+from backend.schemas.planetary import CelestialCoordinates
 from ..config.celestial_config import FOREST_HILLS_COORDINATES # For common location
 from backend.database import Recipe, ElementalProperties # For fetching recipes and their properties
 from fastapi import HTTPException # For consistency with other backend errors
@@ -44,7 +45,7 @@ class CollectiveSynastryEngine:
         # (Assuming participant_chart_data.latitude/longitude is their current location, or using Forest Hills)
         current_latitude = participant_chart_data.latitude if participant_chart_data.latitude else self.latitude
         current_longitude = participant_chart_data.longitude if participant_chart_data.longitude else self.longitude
-        planetary_hour_ruler = get_planetary_hour(current_latitude, current_longitude)
+        planetary_hour_ruler = get_planetary_hour(CelestialCoordinates(latitude=current_latitude, longitude=current_longitude))
 
         # Determine the participant's natal Sun Sign Element
         # We need their natal Sun longitude. Reusing calculate_planetary_positions_swisseph
@@ -81,9 +82,9 @@ class CollectiveSynastryEngine:
         # Calculate SMES for the individual based on this neutral profile and current transits
         smes_quantities = calculate_alchemical_quantities(
             dummy_recipe,
-            potency_and_physics["kinetic_rating"],
+            potency_and_physics.kinetic_rating,
             planetary_hour_ruler,
-            potency_and_physics["thermo_rating"]
+            potency_and_physics.thermo_rating
         )
 
         return {
@@ -91,8 +92,8 @@ class CollectiveSynastryEngine:
             "current_transit_info": transit_info,
             "planetary_hour_ruler": planetary_hour_ruler,
             "natal_sun_element": natal_sun_element,
-            "potency_and_physics": potency_and_physics,
-            "smes_scores": smes_quantities
+            "potency_and_physics": potency_and_physics.model_dump(),
+            "smes_scores": smes_quantities.model_dump()
         }
 
     async def calculate_collective_elemental_deficits(self, participant_charts: List[ChartData]) -> Dict[str, Any]:
