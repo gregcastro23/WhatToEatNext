@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
   const existingMembers = user.profile.groupMembers || [];
   const updatedMembers = [...existingMembers, newCommensal];
 
-  await userDatabase.updateUserProfile(userId, { groupMembers: updatedMembers });
+  await userDatabase.updateUserProfile(user.id, { groupMembers: updatedMembers });
 
   return NextResponse.json({ success: true, commensal: newCommensal }, { status: 201 });
 }

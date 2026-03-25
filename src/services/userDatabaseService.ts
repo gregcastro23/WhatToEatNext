@@ -227,6 +227,19 @@ class UserDatabaseService {
     // Get existing user
     const user = await this.getUserById(userId);
     if (!user) {
+      // Fallback: try resolving by email (handles Google sub vs DB id mismatch)
+      try {
+        const { auth } = await import("@/lib/auth/auth");
+        const session = await auth();
+        if (session?.user?.email) {
+          const byEmail = await this.getUserByEmail(session.user.email);
+          if (byEmail) {
+            return this.updateUserProfile(byEmail.id, profileData);
+          }
+        }
+      } catch {
+        // Auth unavailable — true not-found case
+      }
       return null;
     }
 
