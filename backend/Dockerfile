@@ -74,6 +74,7 @@ COPY scripts/ ./backend/scripts/
 COPY alembic/ ./backend/alembic/
 COPY alembic.ini ./backend/
 COPY config/ ./backend/config/
+COPY schemas/ ./backend/schemas/
 
 # Create __init__.py for the backend package
 RUN touch /app/backend/__init__.py
