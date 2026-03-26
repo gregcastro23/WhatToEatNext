@@ -35,7 +35,7 @@ WORKDIR /app
 FROM base AS dependencies
 
 # Copy requirements file
-COPY backend/requirements.txt .
+COPY requirements.txt .
 
 # Install Python dependencies
 # Separate scientific packages for better layer caching
@@ -67,13 +67,13 @@ RUN mkdir -p /app/backend
 
 # Copy all backend modules INTO /app/backend/ so imports like
 # "from backend.database import ..." resolve correctly
-COPY backend/database/ ./backend/database/
-COPY backend/alchm_kitchen/ ./backend/alchm_kitchen/
-COPY backend/utils/ ./backend/utils/
-COPY backend/scripts/ ./backend/scripts/
-COPY backend/alembic/ ./backend/alembic/
-COPY backend/alembic.ini ./backend/
-COPY backend/config/ ./backend/config/
+COPY database/ ./backend/database/
+COPY alchm_kitchen/ ./backend/alchm_kitchen/
+COPY utils/ ./backend/utils/
+COPY scripts/ ./backend/scripts/
+COPY alembic/ ./backend/alembic/
+COPY alembic.ini ./backend/
+COPY config/ ./backend/config/
 
 # Create __init__.py for the backend package
 RUN touch /app/backend/__init__.py
