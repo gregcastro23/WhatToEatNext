@@ -1,22 +1,24 @@
 services:
   alchemical-core:
     build:
-      context: ./alchemical_service
+      context: ..
+      dockerfile: backend/Dockerfile
     ports:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://user:password@postgres:5432/alchm_kitchen
       - REDIS_URL=redis://redis:6379
+      - SERVICE_NAME=alchemical-core
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_started
 
-  alchm-kitchen:
+  alchm-websocket:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: backend/Dockerfile
     ports:
       - "8001:8000"
     env_file:
@@ -25,7 +27,7 @@ services:
       - DATABASE_URL=postgresql://user:password@postgres:5432/whattoeatnext
       - REDIS_URL=redis://redis:6379
       - ALCHEMIZE_API_URL=https://alchmize.onrender.com/api/alchemize
-      - PLANETARY_AGENTS_URL=http://localhost:8000
+      - SERVICE_NAME=websocket-service
     depends_on:
       postgres:
         condition: service_healthy
