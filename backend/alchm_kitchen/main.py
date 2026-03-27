@@ -186,19 +186,7 @@ app.add_middleware(
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint for Docker and monitoring."""
-    import os
-    from datetime import datetime
-    # Log health check call for Railway debugging
-    print(f"DEBUG: Health check called at {datetime.now().isoformat()} - Status: healthy")
-    return {
-        "status": "healthy",
-        "service": "alchm.kitchen",
-        "version": "2.0.0",
-        "port": os.getenv("PORT", "8000"),
-        "public_url": os.getenv("API_BASE_URL", "not set"),
-        "timestamp": datetime.now().isoformat()
-    }
+    return {"status": "healthy"}
 
 # ==========================================
 # PROTECTED USER ROUTE
