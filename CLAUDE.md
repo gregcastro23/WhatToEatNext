@@ -1,6 +1,6 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-_Last Updated: March 17, 2026_
+_Last Updated: March 27, 2026_
 
 ## Project Overview
 
@@ -8,16 +8,25 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ## Current Project Status (March 2026)
 
-### 🎉 **ALCHEMICAL RECIPE UPGRADE COMPLETE - 351 RECIPES!**
+### 🎉 **ALCHEMICAL INFRASTRUCTURE UPGRADE COMPLETE**
 
+- **Backend Hosting**: ✅ **MIGRATED TO RAILWAY** (Standalone Service)
+- **Frontend Hosting**: ✅ **VERCEL** (Next.js)
+- **Database**: ✅ **NEON POSTGRESQL** (High-availability)
 - **Recipe Catalog**: ✅ **100% UPGRADED (351 total)**
-- **Build Status**: ✅ **FULLY OPERATIONAL**
-- **Cuisine Coverage**: 14 Cuisines fully alchemized
-- **Latest Milestone**: All defunct recipe objects transformed into full AlchemicalReference models.
+- **Build Status**: ✅ **BUILDING ON RAILWAY** (93s build time)
+- **Latest Milestone**: Backend decoupled from Vercel for better performance and reliability.
 
-### 🚀 **MAJOR CHANGES SINCE JANUARY 14, 2026** (105+ commits)
+### 🚀 **MAJOR CHANGES (March 2026)**
 
-#### **Alchemical Recipe Overhaul** (March 2026)
+#### **Railway Backend Migration**
+- ✅ **Decoupling**: Backend moved from Vercel to a standalone Railway service.
+- ✅ **Railway Config**: Added `Dockerfile.railway` and `railway.json` for monorepo deployments.
+- ✅ **Dynamic CORS**: Updated `main.py` with `CORS_ALLOWED_ORIGINS` for flexible frontend linking.
+- ✅ **Optimized Uploads**: Added `.railwayignore` to exclude `node_modules` and speed up deployment.
+- ✅ **Health Monitoring**: Added `/health` endpoint with versioning and environment metadata.
+
+#### **Alchemical Recipe Overhaul**
 - ✅ **Schema Migration**: All recipes migrated to strict `AlchemicalRecipe` interface.
 - ✅ **Nutritional Payloads**: Full macros, sodium, sugar, vitamins, and minerals for all 351 recipes.
 - ✅ **Authentic Procedures**: Replaced all placeholder instructions with culturally rigorous step-by-step guides.
@@ -115,29 +124,29 @@ _Total: 252+ pull requests merged since November 2025._
 
 **Three-Tier Architecture:**
 
-1. **Tier 1 - Ingredients** (Elemental Only)
-   - Store ONLY elemental properties: Fire, Water, Earth, Air (normalized to 1.0)
-   - NO alchemical properties at ingredient level
-   - Rationale: Ingredients lack astrological context for ESMS
+1.  **Tier 1 - Ingredients** (Elemental Only)
+    -   Store ONLY elemental properties: Fire, Water, Earth, Air (normalized to 1.0)
+    -   NO alchemical properties at ingredient level
+    -   Rationale: Ingredients lack astrological context for ESMS
 
-2. **Tier 2 - Recipes** (Computed - Full Alchemical)
-   - Alchemical properties from planetary positions via `calculateAlchemicalFromPlanets()`
-   - Elemental properties: 70% ingredients + 30% zodiac signs
-   - Thermodynamic metrics from ESMS + elementals
-   - Kinetic properties (P=IV circuit model)
-   - Planetary mass-weight constants applied to alchemical scoring
+2.  **Tier 2 - Recipes** (Computed - Full Alchemical)
+    -   Alchemical properties from planetary positions via `calculateAlchemicalFromPlanets()`
+    -   Elemental properties: 70% ingredients + 30% zodiac signs
+    -   Thermodynamic metrics from ESMS + elementals
+    -   Kinetic properties (P=IV circuit model)
+    -   Planetary mass-weight constants applied to alchemical scoring
 
-3. **Tier 3 - Cuisines** (Aggregated - Statistical)
-   - Weighted average properties across recipes
-   - Cultural signatures (z-score > 1.5σ)
-   - Statistical variance and diversity metrics
+3.  **Tier 3 - Cuisines** (Aggregated - Statistical)
+    -   Weighted average properties across recipes
+    -   Cultural signatures (z-score > 1.5σ)
+    -   Statistical variance and diversity metrics
 
 **Key Modules:**
 
-- `src/utils/planetaryAlchemyMapping.ts` — Authoritative ESMS calculation
-- `src/utils/hierarchicalRecipeCalculations.ts` — Recipe computation
-- `src/utils/cuisineAggregations.ts` — Statistical signatures
-- `src/types/celestial.ts` — Core type definitions
+-   `src/utils/planetaryAlchemyMapping.ts` — Authoritative ESMS calculation
+-   `src/utils/hierarchicalRecipeCalculations.ts` — Recipe computation
+-   `src/utils/cuisineAggregations.ts` — Statistical signatures
+-   `src/types/celestial.ts` — Core type definitions
 
 ### **Authentication System (NextAuth.js v5)**
 
@@ -157,12 +166,12 @@ Server Runtime (API routes, server components)
 
 **Key Files:**
 
-- `src/lib/auth/auth.config.ts` — Edge-safe config (middleware uses this)
-- `src/lib/auth/auth.ts` — Full server config (API route uses this)
-- `src/lib/auth/roles.ts` — UserRole enum (ADMIN, USER)
-- `src/lib/auth/validateRequest.ts` — Server-side session validation
-- `src/app/api/auth/[...nextauth]/route.ts` — NextAuth catch-all route
-- `src/middleware.ts` — Route protection (/profile, /onboarding, /admin)
+-   `src/lib/auth/auth.config.ts` — Edge-safe config (middleware uses this)
+-   `src/lib/auth/auth.ts` — Full server config (API route uses this)
+-   `src/lib/auth/roles.ts` — UserRole enum (ADMIN, USER)
+-   `src/lib/auth/validateRequest.ts` — Server-side session validation
+-   `src/app/api/auth/[...nextauth]/route.ts` — NextAuth catch-all route
+-   `src/middleware.ts` — Route protection (/profile, /onboarding, /admin)
 
 **Required Environment Variables (Auth):**
 
@@ -176,37 +185,32 @@ AUTH_ADMIN_EMAIL=xalchm@gmail.com    # Admin user email
 ```
 
 **Session Strategy:**
-- JWT-based, 30-day max age, refreshed daily
-- Session contains: `user.id`, `user.email`, `user.name`, `user.roles`, `user.birthInfo`
-- Graceful degradation: Missing AUTH_SECRET in preview/dev uses placeholder (app works, auth features don't)
+-   JWT-based, 30-day max age, refreshed daily
+-   Session contains: `user.id`, `user.email`, `user.name`, `user.roles`, `user.birthInfo`
+-   Graceful degradation: Missing AUTH_SECRET in preview/dev uses placeholder (app works, auth features don't)
 
 ### **Primary APIs**
 
-- **astrologize API** (`/api/astrologize`): Astrological calculations and planetary positions
-- **alchemize API** (`/api/alchemize`): Alchemical transformations and elemental harmony
-- **cuisines API** (`/api/cuisines/recommend`): Cuisine recommendations with real planetary data
-- **recipes API** (`/api/recipes`): Recipe retrieval and generation
-- **user API** (`/api/user/*`): User profile, dining groups, commensals
-- **onboarding API** (`/api/onboarding`): User onboarding flow
-- **food-diary API** (`/api/food-diary`): Food tracking/diary
+-   **astrologize API** (`/api/astrologize`): Astrological calculations and planetary positions
+-   **alchemize API** (`/api/alchemize`): Alchemical transformations and elemental harmony
+-   **cuisines API** (`/api/cuisines/recommend`): Cuisine recommendations with real planetary data
+-   **recipes API** (`/api/recipes`): Recipe retrieval and generation
+-   **user API** (`/api/user/*`): User profile, dining groups, commensals
+-   **onboarding API** (`/api/onboarding`): User onboarding flow
+-   **food-diary API** (`/api/food-diary`): Food tracking/diary
 
 ### **Backend Architecture (Python FastAPI)**
 
 ```
 Next.js Frontend (Vercel)
   └─→ /api/astrologize/route.ts
-      ├─→ Primary: Call Python backend /api/planetary/positions
-      │   └─→ Uses pyswisseph 2.10.3.2 (NASA JPL DE - sub-arcsecond)
-      └─→ Fallback: astronomy-engine (moderate precision)
-          └─→ Used when backend unavailable
+      ├─→ Primary: Call Railway Backend /api/planetary/positions
+      │   └─→ URL: https://whattoeatnext-production.up.railway.app
+      └─→ Fallback: astronomy-engine (local)
 
-Python Backend (localhost:8000 / production)
+Python Backend (Railway)
   └─→ /api/planetary/positions
       ├─→ Primary: pyswisseph (Swiss Ephemeris)
-      └─→ Fallback: pyephem (moderate precision)
-```
-
-- **Backend**: `/backend/alchm_kitchen/main.py`
 - **Config**: `BACKEND_URL` environment variable
 - **Start backend**: `cd backend && ./dev_start.sh`
 
@@ -550,8 +554,10 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_TELEMETRY_DISABLED=1
 
 # Backend (Python)
-BACKEND_URL=http://localhost:8000
-NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+BACKEND_URL=https://whattoeatnext-production.up.railway.app
+NEXT_PUBLIC_BACKEND_URL=https://whattoeatnext-production.up.railway.app
+CORS_ALLOWED_ORIGINS=https://alchm.kitchen,http://localhost:3000
+INTERNAL_API_SECRET=882133EA-3D06-4DF2-A63C-F4114AB4EFBC
 
 # Auth (NextAuth.js v5) — ALL REQUIRED for auth to work
 AUTH_SECRET=<random-secret-min-32-chars>
@@ -776,4 +782,4 @@ rm -rf node_modules && yarn install  # Refresh deps
 
 ---
 
-_Updated March 6, 2026 — NextAuth.js v5 migration complete, Recipe Generator launched, User Dashboard enhanced with Dining Companions and Food Lab Book, 252+ PRs merged. Zero TypeScript errors maintained._
+_Updated March 27, 2026 — Backend successfully migrated to Railway, Build context fixed via .railwayignore, Neon Database integrated, NextAuth.js v5 migration complete. Zero TypeScript errors maintained._

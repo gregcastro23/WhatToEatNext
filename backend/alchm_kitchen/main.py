@@ -108,17 +108,51 @@ app = FastAPI(
 # Startup event to log configuration
 @app.on_event("startup")
 async def startup_event():
-    """Log startup configuration for debugging Railway deployment."""
+    """Log startup configuration and test database connection for Railway deployment."""
     import os
+    import socket
     port = os.getenv("PORT", "8000")
     database_url = os.getenv("DATABASE_URL", "not set")
+    
+    # Get hostname/IP for debugging
+    hostname = socket.gethostname()
+    try:
+        ip_addr = socket.gethostbyname(hostname)
+    except:
+        ip_addr = "unknown"
+        
     # Mask the password in the URL for logging
-    masked_db = database_url[:30] + "..." if len(database_url) > 30 else database_url
+    masked_db = database_url
+    if "@" in database_url:
+        try:
+            prefix, suffix = database_url.split("@", 1)
+            if "://" in prefix:
+                protocol, creds = prefix.split("://", 1)
+                masked_db = f"{protocol}://***@{suffix}"
+            else:
+                masked_db = f"***@{suffix}"
+        except:
+            masked_db = "masked"
+            
     print(f"🚀 alchm.kitchen Backend Starting...")
+    print(f"   Hostname: {hostname} ({ip_addr})")
     print(f"   PORT: {port}")
     print(f"   DATABASE_URL: {masked_db}")
     print(f"   Environment: {os.getenv('ENVIRONMENT', 'development')}")
-    print(f"✅ Startup complete - ready to accept requests")
+    
+    # Test Database Connection explicitly on startup
+    try:
+        from backend.database.connection import get_db_engine
+        from sqlalchemy import text
+        print(f"   Testing database connection...")
+        engine = get_db_engine()
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        print(f"   ✅ Database connection successful")
+    except Exception as e:
+        print(f"   ❌ Database connection failed: {str(e)}")
+    
+    print(f"✅ Startup complete - ready to accept requests on port {port}")
 
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = os.getenv(
@@ -141,6 +175,10 @@ app.add_middleware(
 @app.get("/health")
 async def health_check():
     """Health check endpoint for Docker and monitoring."""
+    import os
+    from datetime import datetime
+    # Log health check call for Railway debugging
+    print(f"DEBUG: Health check called at {datetime.now().isoformat()} - Status: healthy")
     return {
         "status": "healthy",
         "service": "alchm.kitchen",
