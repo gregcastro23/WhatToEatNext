@@ -394,19 +394,19 @@ export default function CookingMethodPage() {
                 <div className="mt-8 pt-6 border-t border-gray-100">
                   <h3 className="text-lg font-bold text-gray-800 mb-4">Alchemical Properties</h3>
                   <div className="space-y-3 text-sm">
-                    {method.alchemical_properties.element && (
+                    {!!method.alchemical_properties.element && (
                       <p className="text-gray-700">
                         <strong className="text-gray-900">Element:</strong>{" "}
                         {String(method.alchemical_properties.element)}
                       </p>
                     )}
-                    {method.alchemical_properties.planetary_influence && (
+                    {!!method.alchemical_properties.planetary_influence && (
                       <p className="text-gray-700">
                         <strong className="text-gray-900">Planetary Influence:</strong>{" "}
                         {String(method.alchemical_properties.planetary_influence)}
                       </p>
                     )}
-                    {method.alchemical_properties.effect_on_ingredients && (
+                    {!!method.alchemical_properties.effect_on_ingredients && (
                       <p className="text-gray-700 leading-snug">
                         <strong className="text-gray-900">Effect on Ingredients:</strong>{" "}
                         {String(method.alchemical_properties.effect_on_ingredients)}

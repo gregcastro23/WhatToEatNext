@@ -9,6 +9,7 @@
 import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import type { UserWithProfile } from "@/services/userDatabaseService";
 
 // Dynamic import for auth to avoid pulling in Node.js deps at bundle time
 // This allows edge routes to use validateRequest when auth callbacks aren't needed
@@ -274,9 +275,9 @@ export async function getUserIdFromRequest(
  */
 export async function getDatabaseUserFromRequest(
   request: NextRequest,
-) {
+): Promise<UserWithProfile | null> {
   const userId = await getUserIdFromRequest(request);
-  let user = null;
+  let user: any = null;
   
   const userDb = await getUserDatabase();
   if (!userDb) return null;

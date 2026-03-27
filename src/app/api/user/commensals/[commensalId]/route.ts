@@ -44,7 +44,7 @@ export async function PUT(
 
   const updated = { ...members[idx] };
   if (name) updated.name = name;
-  if (relationship) updated.relationship = relationship;
+  if (relationship) updated.relationship = relationship as any;
 
   members[idx] = updated;
   try {
