@@ -121,6 +121,7 @@ Python Backend (Railway)
 - **Backend Code**: `/backend/alchm_kitchen/main.py`
 - **Railway Domain**: `https://whattoeatnext-production.up.railway.app`
 - **Config Tokens**: `INTERNAL_API_SECRET` must match between Vercel and Railway.
+- **Optional**: Set `API_BASE_URL` in Railway to the domain above for health check diagnostics.
 - **Manual Start**: `cd backend && ./dev_start.sh`
 
 ---

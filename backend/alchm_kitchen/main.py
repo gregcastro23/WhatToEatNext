@@ -184,6 +184,7 @@ async def health_check():
         "service": "alchm.kitchen",
         "version": "2.0.0",
         "port": os.getenv("PORT", "8000"),
+        "public_url": os.getenv("API_BASE_URL", "not set"),
         "timestamp": datetime.now().isoformat()
     }
 
