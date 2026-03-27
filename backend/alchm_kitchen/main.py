@@ -105,6 +105,21 @@ app = FastAPI(
     version="2.0.0"
 )
 
+# Startup event to log configuration
+@app.on_event("startup")
+async def startup_event():
+    """Log startup configuration for debugging Railway deployment."""
+    import os
+    port = os.getenv("PORT", "8000")
+    database_url = os.getenv("DATABASE_URL", "not set")
+    # Mask the password in the URL for logging
+    masked_db = database_url[:30] + "..." if len(database_url) > 30 else database_url
+    print(f"🚀 alchm.kitchen Backend Starting...")
+    print(f"   PORT: {port}")
+    print(f"   DATABASE_URL: {masked_db}")
+    print(f"   Environment: {os.getenv('ENVIRONMENT', 'development')}")
+    print(f"✅ Startup complete - ready to accept requests")
+
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = os.getenv(
     "CORS_ALLOWED_ORIGINS", 
@@ -126,7 +141,13 @@ app.add_middleware(
 @app.get("/health")
 async def health_check():
     """Health check endpoint for Docker and monitoring."""
-    return {"status": "healthy", "service": "alchm.kitchen", "version": "2.0.0"}
+    return {
+        "status": "healthy",
+        "service": "alchm.kitchen",
+        "version": "2.0.0",
+        "port": os.getenv("PORT", "8000"),
+        "timestamp": datetime.now().isoformat()
+    }
 
 # ==========================================
 # PROTECTED USER ROUTE

@@ -1,8 +1,15 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "dockerfilePath": "backend/Dockerfile"
+  },
   "deploy": {
-    "startCommand": "uvicorn alchm_kitchen.main:app --host 0.0.0.0 --port $PORT",
     "numReplicas": 1,
-    "restartPolicyType": "ON_FAILURE"
+    "restartPolicyType": "ON_FAILURE",
+    "startCommand": "uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port $PORT",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 60,
+    "healthcheckInterval": 10,
+    "sleepApplication": false
   }
 }

@@ -91,15 +91,15 @@ RUN groupadd -r alchm && \
 # Switch to non-root user
 USER alchm
 
-# Expose port
+# Expose port (documentation only - actual port set by Railway via $PORT)
 EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:8000/health || exit 1
+# NOTE: Railway handles health checks externally via railway.json
+# Docker HEALTHCHECK removed to avoid conflicts with Railway's monitoring
 
 # Default command: run uvicorn server
-CMD ["uvicorn", "backend.alchm_kitchen.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Railway sets $PORT dynamically - this CMD is overridden by railway.json startCommand
+CMD ["sh", "-c", "uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 
 # =============================================================================
 # Build arguments for metadata
