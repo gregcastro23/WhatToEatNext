@@ -140,17 +140,29 @@ async def startup_event():
     print(f"   DATABASE_URL: {masked_db}")
     print(f"   Environment: {os.getenv('ENVIRONMENT', 'development')}")
     
-    # Test Database Connection explicitly on startup
-    try:
-        from backend.database.connection import get_db_engine
-        from sqlalchemy import text
-        print(f"   Testing database connection...")
-        engine = get_db_engine()
-        with engine.connect() as conn:
-            conn.execute(text("SELECT 1"))
-        print(f"   ✅ Database connection successful")
-    except Exception as e:
-        print(f"   ❌ Database connection failed: {str(e)}")
+    # Test Database Connection (Non-blocking)
+    async def test_db():
+        try:
+            from backend.database.connection import get_db_engine
+            from sqlalchemy import text
+            print(f"   Testing database connection in background...")
+            engine = get_db_engine()
+            
+            # Define connection test
+            def check():
+                with engine.connect() as conn:
+                    conn.execute(text("SELECT 1"))
+            
+            # Run in executor with timeout to avoid blocking startup
+            loop = asyncio.get_event_loop()
+            await asyncio.wait_for(loop.run_in_executor(None, check), timeout=5.0)
+            print(f"   ✅ Database connection successful")
+        except asyncio.TimeoutError:
+            print(f"   ⚠️ Database connection test timed out (may still be connecting...)")
+        except Exception as e:
+            print(f"   ❌ Database connection failed: {str(e)}")
+
+    asyncio.create_task(test_db())
     
     print(f"✅ Startup complete - ready to accept requests on port {port}")
 
