@@ -1,18 +1,25 @@
+# Node/Frontend - exclude from backend build
 node_modules
 .next
 .git
 dist
 build
+
+# Large files
 *.ipynb
 *.patch
 *.sql
 bfg.jar
+
+# Cache directories
 .jest-cache
 .open-next
 .wrangler
 .yarn
 .astro
 .pytest_cache
+
+# Misc directories
 logs
 backups
 temp
@@ -26,8 +33,14 @@ dist-scripts
 venv
 swisseph_ephe
 SYSTEMATIC REDUCTION CAMPAIGN PROMPTS
-src
-public
-tests
-docs
-scripts
+
+# Frontend directories (not needed for backend)
+/src
+/public
+/tests
+/docs
+/scripts
+
+# Keep backend directories - explicitly NOT excluding:
+# backend/scripts - needed for DB operations
+# backend/schemas - needed for Pydantic models
