@@ -24,7 +24,11 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - ✅ **Railway Config**: Added `Dockerfile.railway` and `railway.json` for monorepo deployments.
 - ✅ **Dynamic CORS**: Updated `main.py` with `CORS_ALLOWED_ORIGINS` for flexible frontend linking.
 - ✅ **Optimized Uploads**: Added `.railwayignore` to exclude `node_modules` and speed up deployment.
-- ✅ **Health Monitoring**: Added `/health` endpoint with versioning and environment metadata.
+
+#### **Deployment Optimizations (March 27)**
+- ✅ **Standalone Railway Backend**: Builds in < 60s.
+- ✅ **Lazy DB Startup**: Database connectivity test is now non-blocking (backgrounded) to ensure the FastAPI server binds to `$PORT` immediately, passing Railway health checks even during initial DB latency.
+- ✅ **Health Monitoring**: `/health` endpoint updated with explicit metadata.
 - ✅ **Startup Diagnostics**: Added robust logging and database connectivity tests in `main.py`.
 
 #### **Alchemical Recipe Overhaul**
