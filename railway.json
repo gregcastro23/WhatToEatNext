@@ -6,7 +6,7 @@
   "deploy": {
     "numReplicas": 1,
     "restartPolicyType": "ON_FAILURE",
-    "startCommand": "uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port $PORT",
+    "startCommand": "sh -c 'uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port $PORT'",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 100,
     "healthcheckInterval": 10,
