@@ -7,6 +7,7 @@
  * @file src/services/subscriptionService.ts
  */
 
+import { randomUUID } from "crypto";
 import type {
   SubscriptionTier,
   SubscriptionStatus,
@@ -75,7 +76,7 @@ class SubscriptionService {
 
     const period = getCurrentPeriod();
     const sub: UserSubscription = {
-      id: `sub_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      id: randomUUID(),
       userId,
       tier: "free",
       status: "active",
