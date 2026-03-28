@@ -29,8 +29,7 @@ const config = {
     "/archive/",
     "/__tests__/temp-validation/", // Exclude temp validation components (not actual tests)
     "/docs/Alchm Kitchen/", // Exclude Alchm Kitchen docs from tests to resolve Haste collision
-    // Orphaned tests referencing deleted modules
-    "src/services/__tests__/EnterpriseIntelligenceIntegration",
+    // Excluded integration tests
     "tests/cross-backend-rectification",
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
