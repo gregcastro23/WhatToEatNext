@@ -211,6 +211,16 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
     try {
       const res = await fetch("/api/user/subscription");
+
+      // Session expired — the subscription API now returns a fallback
+      // shape even on server errors, but handle 401 for re-auth
+      if (res.status === 401) {
+        // Don't redirect immediately — the JWT tier is still usable
+        console.warn("[PremiumContext] Session expired, using JWT tier");
+        setIsLoading(false);
+        return;
+      }
+
       if (res.ok) {
         const data = await res.json();
         setSubscription(data.subscription);
@@ -220,10 +230,21 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
           writeCache(data.subscription, data.recipeUsage || 0);
           broadcastUpdate(data.subscription, data.recipeUsage || 0);
         }
+      } else {
+        // Non-200 response — try to parse fallback data
+        try {
+          const data = await res.json();
+          if (data.subscription) {
+            setSubscription(data.subscription);
+            setRecipeUsage(data.recipeUsage || 0);
+          }
+        } catch {
+          // Couldn't parse — JWT tier is still our fallback (via jwtTier state)
+        }
       }
     } catch (error) {
       console.error("[PremiumContext] Failed to fetch subscription:", error);
-      // If cache was already loaded, we have data — no error state needed
+      // If cache was loaded or JWT tier is available, we still have data
     } finally {
       setIsLoading(false);
     }
