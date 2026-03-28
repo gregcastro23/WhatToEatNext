@@ -71,19 +71,28 @@ export const authConfig = {
     authorized({ auth: session, request }) {
       const { pathname } = request.nextUrl;
 
+      // Routes that require authentication
       const isProtected =
         pathname.startsWith("/profile") ||
         pathname.startsWith("/onboarding") ||
         pathname.startsWith("/admin");
 
+      // Routes that require premium tier (authenticated users without premium
+      // get redirected to /upgrade instead of seeing errors)
+      const isPremiumRoute =
+        pathname.startsWith("/recipe-generator") ||
+        pathname.startsWith("/planetary-chart");
+
       // Not authenticated -> redirect to login for protected routes
-      if (isProtected && !session?.user) {
+      if ((isProtected || isPremiumRoute) && !session?.user) {
         return Response.redirect(new URL("/login", request.nextUrl.origin));
       }
 
       if (session?.user) {
         const user = session.user as Record<string, unknown>;
         const onboardingComplete = user.onboardingComplete === true;
+        const tier = (user.tier as string) || "free";
+        const isAdmin = user.role === "admin";
 
         // Also check the short-lived cookie set after onboarding completes.
         // This prevents a redirect loop when the JWT hasn't propagated yet
@@ -110,6 +119,14 @@ export const authConfig = {
             new URL("/profile", request.nextUrl.origin),
           );
         }
+
+        // Premium route gating — free users see upgrade page, not errors.
+        // Admins always have premium access.
+        if (isPremiumRoute && tier !== "premium" && !isAdmin) {
+          const upgradeUrl = new URL("/upgrade", request.nextUrl.origin);
+          upgradeUrl.searchParams.set("from", pathname);
+          return Response.redirect(upgradeUrl);
+        }
       }
 
       return true;
@@ -127,6 +144,7 @@ export const authConfig = {
         session.user.name = (token.name as string) || "";
         session.user.image = (token.picture as string) || "";
         session.user.role = (token.role as string) || "user";
+        session.user.tier = (token.tier as "free" | "premium") || "free";
         session.user.onboardingComplete =
           (token.onboardingComplete as boolean) ?? false;
       }

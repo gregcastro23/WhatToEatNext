@@ -10,6 +10,7 @@ import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalCons
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
+import { PremiumGate } from '@/components/PremiumGate';
 import { CommensalManager } from './CommensalManager';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 import { DashboardOverview } from './DashboardOverview';
@@ -384,7 +385,9 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     return (
       <div className="space-y-4">
         <BackButton />
-        <CommensalManager />
+        <PremiumGate feature="diningCompanions" showPreview>
+          <CommensalManager />
+        </PremiumGate>
       </div>
     );
   }
@@ -393,7 +396,9 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     return (
       <div className="space-y-4">
         <BackButton />
-        <SocialManager />
+        <PremiumGate feature="diningCompanions" showPreview>
+          <SocialManager />
+        </PremiumGate>
       </div>
     );
   }
