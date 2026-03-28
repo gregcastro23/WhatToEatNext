@@ -1,7 +1,7 @@
 'use client';
 
 import { signOut } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
 import type { UserTier } from '@/lib/tiers';
@@ -10,7 +10,6 @@ import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalCons
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
-import { FeatureGate } from '@/components/profile/FeatureGate';
 import { CommensalManager } from './CommensalManager';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 import { DashboardOverview } from './DashboardOverview';
@@ -37,17 +36,81 @@ interface UserDashboardProps {
   onEditPreferences: () => void;
 }
 
+/* ─── Live Transit Status Bar ──────────────────────────────── */
+
+function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const sunSign = natalChart.planetaryPositions?.Sun;
+  const moonSign = natalChart.planetaryPositions?.Moon;
+  const ascendant = natalChart.ascendant;
+
+  // Determine season emoji from Sun sign
+  const seasonInfo: Record<string, string> = {
+    aries: 'Aries Season', taurus: 'Taurus Season', gemini: 'Gemini Season',
+    cancer: 'Cancer Season', leo: 'Leo Season', virgo: 'Virgo Season',
+    libra: 'Libra Season', scorpio: 'Scorpio Season', sagittarius: 'Sagittarius Season',
+    capricorn: 'Capricorn Season', aquarius: 'Aquarius Season', pisces: 'Pisces Season',
+  };
+
+  const currentSeason = sunSign ? seasonInfo[sunSign] || '' : '';
+
+  return (
+    <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 rounded-xl px-4 py-3 text-white">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+          <span className="text-xs font-medium text-purple-200">LIVE TRANSITS</span>
+          <span className="text-xs text-purple-300">
+            {now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+          </span>
+        </div>
+        <div className="flex items-center gap-4 text-xs">
+          {sunSign && (
+            <span className="flex items-center gap-1">
+              <span className="text-amber-300">&#x2609;</span>
+              <span className="capitalize">{sunSign}</span>
+            </span>
+          )}
+          {moonSign && (
+            <span className="flex items-center gap-1">
+              <span className="text-blue-300">&#x263D;</span>
+              <span className="capitalize">{moonSign}</span>
+            </span>
+          )}
+          {ascendant && (
+            <span className="flex items-center gap-1">
+              <span className="text-purple-300">AC</span>
+              <span className="capitalize">{ascendant}</span>
+            </span>
+          )}
+          {currentSeason && (
+            <span className="text-purple-300 hidden sm:inline">{currentSeason}</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Collapsible Section ────────────────────────────────── */
 
 function CollapsibleSection({
   title,
   icon,
   defaultOpen = false,
+  badge,
   children,
 }: {
   title: string;
   icon: string;
   defaultOpen?: boolean;
+  badge?: number;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -61,6 +124,11 @@ function CollapsibleSection({
         <div className="flex items-center gap-2">
           <span className="text-base">{icon}</span>
           <h3 className="text-base font-bold text-gray-800">{title}</h3>
+          {badge !== undefined && badge > 0 && (
+            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-purple-100 text-purple-700 rounded-full">
+              {badge}
+            </span>
+          )}
         </div>
         <svg
           className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
@@ -231,6 +299,30 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
   );
 }
 
+/* ─── Pending Requests Badge ────────────────────────────────── */
+
+function usePendingRequestCount(): number {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchCount() {
+      try {
+        const res = await fetch('/api/friends', { credentials: 'include' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.success) {
+          setCount(data.pendingReceived?.length ?? 0);
+        }
+      } catch {
+        // ignore
+      }
+    }
+    void fetchCount();
+  }, []);
+
+  return count;
+}
+
 /* ─── Main Dashboard ─────────────────────────────────────── */
 
 type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'social' | 'labbook' | 'settings';
@@ -244,6 +336,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   onEditPreferences,
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('dashboard');
+  const pendingRequests = usePendingRequestCount();
 
   const email = session?.user?.email || '';
   const userName = session?.user?.name || 'User';
@@ -251,12 +344,23 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   // Default to free tier (real tier would come from subscription service)
   const tier: UserTier = (profileData?.subscription?.tier as UserTier) || 'free';
 
+  // Back button component
+  const BackButton = () => (
+    <button
+      onClick={() => setViewMode('dashboard')}
+      className="inline-flex items-center gap-1.5 text-sm text-purple-600 font-medium hover:text-purple-800 transition-colors mb-1"
+    >
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      </svg>
+      Dashboard
+    </button>
+  );
+
   if (viewMode === 'chart-detail') {
     return (
       <div className="space-y-4">
-        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
-          &larr; Back to Dashboard
-        </button>
+        <BackButton />
         <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
           <h3 className="text-lg font-bold text-gray-800 mb-2">Natal &amp; Transit Chart</h3>
           <p className="text-xs text-gray-500 mb-4">Your natal placements (purple) overlaid with current transits (orange)</p>
@@ -270,9 +374,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   if (viewMode === 'recommendations') {
     return (
       <div className="space-y-4">
-        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
-          &larr; Back to Dashboard
-        </button>
+        <BackButton />
         <RecommendationsPanel email={email} natalChart={natalChart} preferences={preferences} />
       </div>
     );
@@ -281,9 +383,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   if (viewMode === 'companions') {
     return (
       <div className="space-y-4">
-        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
-          &larr; Back to Dashboard
-        </button>
+        <BackButton />
         <CommensalManager />
       </div>
     );
@@ -292,9 +392,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   if (viewMode === 'social') {
     return (
       <div className="space-y-4">
-        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
-          &larr; Back to Dashboard
-        </button>
+        <BackButton />
         <SocialManager />
       </div>
     );
@@ -303,9 +401,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   if (viewMode === 'labbook') {
     return (
       <div className="space-y-4">
-        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
-          &larr; Back to Dashboard
-        </button>
+        <BackButton />
         <FoodLabBook />
       </div>
     );
@@ -314,9 +410,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   if (viewMode === 'settings') {
     return (
       <div className="space-y-4">
-        <button onClick={() => setViewMode('dashboard')} className="text-sm text-purple-600 font-medium hover:text-purple-800">
-          &larr; Back to Dashboard
-        </button>
+        <BackButton />
         <SettingsPanel
           userName={userName}
           email={email}
@@ -331,6 +425,9 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
   return (
     <div className="space-y-5">
+      {/* Live Transit Status Bar */}
+      <LiveTransitBar natalChart={natalChart} />
+
       {/* Hero Identity Card */}
       <ProfileHeroCard
         userName={userName}
@@ -354,7 +451,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
       </div>
 
       {/* Quick Navigation Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <NavCard
           icon="&#x1F52E;"
           label="Full Chart"
@@ -374,6 +471,13 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           onClick={() => setViewMode('companions')}
         />
         <NavCard
+          icon="&#x1F91D;"
+          label="Social"
+          description="Friends & connections"
+          onClick={() => setViewMode('social')}
+          badge={pendingRequests}
+        />
+        <NavCard
           icon="&#x1F9EA;"
           label="Lab Book"
           description="Experiments & notes"
@@ -384,13 +488,13 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
       {/* Cosmic Harmony Overview (from existing DashboardOverview) */}
       <DashboardOverview profileData={profileData} natalChart={natalChart} email={email} />
 
-      {/* Transits (collapsible) */}
-      <CollapsibleSection title="Current Transits" icon="&#x1F30C;" defaultOpen={false}>
+      {/* Transits (collapsible - default open for live feel) */}
+      <CollapsibleSection title="Current Transits" icon="&#x1F30C;" defaultOpen>
         <CurrentTransitAnalysis natalChart={natalChart} />
       </CollapsibleSection>
 
-      {/* Social (collapsible) */}
-      <CollapsibleSection title="Social &amp; Friends" icon="&#x1F91D;" defaultOpen={false}>
+      {/* Social (collapsible, show badge for pending requests) */}
+      <CollapsibleSection title="Social &amp; Friends" icon="&#x1F91D;" defaultOpen={false} badge={pendingRequests}>
         <SocialManager />
       </CollapsibleSection>
 
@@ -407,17 +511,24 @@ function NavCard({
   label,
   description,
   onClick,
+  badge,
 }: {
   icon: string;
   label: string;
   description: string;
   onClick: () => void;
+  badge?: number;
 }) {
   return (
     <button
       onClick={onClick}
-      className="bg-white rounded-2xl shadow-sm p-4 border border-gray-100 text-left hover:border-purple-200 hover:shadow-md transition-all group"
+      className="relative bg-white rounded-2xl shadow-sm p-4 border border-gray-100 text-left hover:border-purple-200 hover:shadow-md transition-all group"
     >
+      {badge !== undefined && badge > 0 && (
+        <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold bg-red-500 text-white rounded-full">
+          {badge}
+        </span>
+      )}
       <span className="text-2xl block mb-2" dangerouslySetInnerHTML={{ __html: icon }} />
       <div className="text-sm font-bold text-gray-800 group-hover:text-purple-700 transition-colors">{label}</div>
       <div className="text-xs text-gray-500 mt-0.5">{description}</div>
