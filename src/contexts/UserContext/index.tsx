@@ -6,8 +6,10 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react";
+import { signIn } from "next-auth/react";
 import type {
   BirthData,
   NatalChart,
@@ -61,13 +63,20 @@ interface UserProfile {
 
 // Keys for localStorage
 const STORAGE_KEY = "userProfile";
+const PENDING_UPDATES_KEY = "alchm_pending_updates";
+
+interface PendingUpdate {
+  data: Partial<UserProfile>;
+  timestamp: number;
+}
 
 interface UserContextType {
   currentUser: UserProfile | null;
   isLoading: boolean;
   error: string | null;
-  isNewUser: boolean; // Flag for first-time users
-  isProfileIncomplete: boolean; // Flag for users with missing data
+  isNewUser: boolean;
+  isProfileIncomplete: boolean;
+  isOffline: boolean;
   loadProfile: () => void;
   updateProfile: (data: Partial<UserProfile>) => Promise<UserProfile | null>;
   logout: () => void;
@@ -80,6 +89,27 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
+/** Parse a server profile response into our UserProfile shape */
+function parseServerProfile(
+  data: Record<string, unknown>,
+  fallbackUserId?: string,
+): UserProfile {
+  return {
+    userId: (data.userId || data.id || fallbackUserId || "") as string,
+    name: data.name as string | undefined,
+    email: data.email as string | undefined,
+    preferences: data.preferences as Record<string, unknown> | undefined,
+    birthData: data.birthData as BirthData | undefined,
+    natalChart: data.natalChart as NatalChart | undefined,
+    groupMembers: (data.groupMembers || []) as GroupMember[],
+    diningGroups: (data.diningGroups || []) as DiningGroup[],
+    stats: data.stats as AlchemicalProfile | undefined,
+    friendships: (data.friendships || []) as Friendship[],
+    linkedFriends: (data.linkedFriends || []) as LinkedFriend[],
+    savedCharts: (data.savedCharts || []) as SavedChart[],
+  };
+}
+
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -87,6 +117,30 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isNewUser, setIsNewUser] = useState<boolean>(false);
   const [isProfileIncomplete, setIsProfileIncomplete] =
     useState<boolean>(false);
+  const [isOffline, setIsOffline] = useState<boolean>(false);
+  const pendingUpdatesRef = useRef<PendingUpdate[]>([]);
+
+  // Track online/offline status
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const goOnline = () => {
+      setIsOffline(false);
+      // Flush pending updates when coming back online
+      void flushPendingUpdates();
+    };
+    const goOffline = () => setIsOffline(true);
+
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+    setIsOffline(!navigator.onLine);
+
+    return () => {
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Check if the profile is missing essential information
   const checkProfileCompleteness = (profile: UserProfile | null) => {
@@ -96,6 +150,51 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setIsProfileIncomplete(false);
     }
   };
+
+  /** Handle 401 responses — session expired, trigger silent re-auth */
+  const handleAuthError = useCallback(() => {
+    logger.warn("Session expired, redirecting to sign in");
+    // Don't clear localStorage — preserve profile for fast reload after re-auth
+    void signIn(undefined, { callbackUrl: window.location.href });
+  }, []);
+
+  /** Flush queued updates that were made while offline */
+  const flushPendingUpdates = useCallback(async () => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const raw = localStorage.getItem(PENDING_UPDATES_KEY);
+      if (!raw) return;
+
+      const pending: PendingUpdate[] = JSON.parse(raw);
+      if (pending.length === 0) return;
+
+      logger.info(`Flushing ${pending.length} pending profile updates`);
+
+      // Merge all pending updates into one
+      const merged: Partial<UserProfile> = {};
+      for (const update of pending) {
+        Object.assign(merged, update.data);
+      }
+
+      const response = await fetch("/api/user/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(merged),
+      });
+
+      if (response.ok) {
+        localStorage.removeItem(PENDING_UPDATES_KEY);
+        pendingUpdatesRef.current = [];
+        logger.info("Pending updates flushed successfully");
+      } else if (response.status === 401) {
+        handleAuthError();
+      }
+    } catch (err) {
+      logger.error("Failed to flush pending updates", err as any);
+    }
+  }, [handleAuthError]);
 
   // Load profile from localStorage first, then optionally sync with server
   const loadProfile = useCallback(async () => {
@@ -134,23 +233,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             credentials: "include",
           });
 
-          if (response.ok) {
+          if (response.status === 401) {
+            // Not authenticated — this is normal for unauthenticated visitors
+            setIsNewUser(true);
+          } else if (response.ok) {
             const data = await response.json();
             if (data.success && data.profile) {
-              const profile: UserProfile = {
-                userId: data.profile.userId || data.profile.id,
-                name: data.profile.name,
-                email: data.profile.email,
-                preferences: data.profile.preferences,
-                birthData: data.profile.birthData,
-                natalChart: data.profile.natalChart,
-                groupMembers: data.profile.groupMembers || [],
-                diningGroups: data.profile.diningGroups || [],
-                stats: data.profile.stats,
-                friendships: data.profile.friendships || [],
-                linkedFriends: data.profile.linkedFriends || [],
-                savedCharts: data.profile.savedCharts || [],
-              };
+              const profile = parseServerProfile(data.profile);
               setCurrentUser(profile);
               checkProfileCompleteness(profile);
               localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
@@ -161,6 +250,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             }
           }
         } catch (fetchError) {
+          if (!profileLoaded) {
+            setIsOffline(true);
+          }
           logger.info("No authenticated session found");
         }
       }
@@ -188,24 +280,18 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         credentials: "include",
       });
 
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
+
       if (response.ok) {
         const data = await response.json();
         if (data.success && data.profile) {
-          const profile: UserProfile = {
-            userId:
-              data.profile.userId || data.profile.id || currentUser.userId,
-            name: data.profile.name,
-            email: data.profile.email,
-            preferences: data.profile.preferences,
-            birthData: data.profile.birthData,
-            natalChart: data.profile.natalChart,
-            groupMembers: data.profile.groupMembers || [],
-            diningGroups: data.profile.diningGroups || [],
-            stats: data.profile.stats,
-            friendships: data.profile.friendships || [],
-            linkedFriends: data.profile.linkedFriends || [],
-            savedCharts: data.profile.savedCharts || [],
-          };
+          const profile = parseServerProfile(
+            data.profile,
+            currentUser.userId,
+          );
           setCurrentUser(profile);
           checkProfileCompleteness(profile);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
@@ -213,9 +299,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
       }
     } catch (err) {
+      setIsOffline(true);
       logger.error("Failed to refresh profile from server", err as any);
     }
-  }, [currentUser?.userId]);
+  }, [currentUser?.userId, handleAuthError]);
 
   const updateProfile = async (
     data: Partial<UserProfile>,
@@ -225,7 +312,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       // For a new user, create a basic profile structure
       const baseProfile = currentUser || {
-        userId: `local-${new Date().getTime()}`, // Create a temporary local ID
+        userId: `local-${new Date().getTime()}`,
       };
 
       // Merge with existing profile
@@ -250,30 +337,21 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           body: JSON.stringify(updatedProfile),
         });
 
+        if (response.status === 401) {
+          handleAuthError();
+          return null;
+        }
+
         if (response.ok) {
           const result = await response.json();
           if (result.success && result.profile) {
-            // Use server response as source of truth
-            const serverProfile: UserProfile = {
-              userId:
-                result.profile.userId ||
-                result.profile.id ||
-                updatedProfile.userId,
-              name: result.profile.name,
-              email: result.profile.email,
-              preferences: result.profile.preferences,
-              birthData: result.profile.birthData,
-              natalChart: result.profile.natalChart,
-              groupMembers: result.profile.groupMembers || [],
-              diningGroups: result.profile.diningGroups || [],
-              stats: result.profile.stats,
-              friendships: result.profile.friendships || [],
-              linkedFriends: result.profile.linkedFriends || [],
-              savedCharts: result.profile.savedCharts || [],
-            };
+            const serverProfile = parseServerProfile(
+              result.profile,
+              updatedProfile.userId,
+            );
             setCurrentUser(serverProfile);
             checkProfileCompleteness(serverProfile);
-            setIsNewUser(false); // No longer a new user
+            setIsNewUser(false);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(serverProfile));
             logger.info("Profile updated on server", {
               userId: serverProfile.userId,
@@ -283,12 +361,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
       } catch (fetchError) {
         logger.warn("Server update failed, saving locally", fetchError as any);
+        setIsOffline(true);
+
+        // Queue update for later sync
+        const pending: PendingUpdate = { data, timestamp: Date.now() };
+        pendingUpdatesRef.current.push(pending);
+        try {
+          localStorage.setItem(
+            PENDING_UPDATES_KEY,
+            JSON.stringify(pendingUpdatesRef.current),
+          );
+        } catch {
+          // localStorage full — non-critical
+        }
       }
 
       // Fallback: Save locally if server update fails
       setCurrentUser(updatedProfile);
       checkProfileCompleteness(updatedProfile);
-      setIsNewUser(false); // No longer a new user after first update
+      setIsNewUser(false);
       if (typeof window !== "undefined") {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
       }
@@ -310,9 +401,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setCurrentUser(null);
     setIsNewUser(false);
     setIsProfileIncomplete(false);
+    setIsOffline(false);
     // Clear localStorage on logout
     if (typeof window !== "undefined") {
       localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(PENDING_UPDATES_KEY);
+      sessionStorage.removeItem("alchm_subscription_cache");
     }
     logger.info("User logged out");
   };
@@ -327,6 +421,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     error,
     isNewUser,
     isProfileIncomplete,
+    isOffline,
     loadProfile,
     updateProfile,
     logout,

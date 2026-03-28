@@ -2,8 +2,9 @@
  * Premium Context Provider
  *
  * Provides subscription state, feature gating, and usage tracking
- * to the entire application. Replaces any localStorage-based mocks
- * with real API-backed subscription checks.
+ * to the entire application. Uses JWT-embedded tier for instant hydration,
+ * sessionStorage caching for fast reloads, and BroadcastChannel for
+ * cross-tab synchronization.
  *
  * @file src/contexts/PremiumContext.tsx
  */
@@ -17,6 +18,7 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react";
 import type {
@@ -25,10 +27,20 @@ import type {
 } from "@/types/subscription";
 import { TIER_LIMITS } from "@/types/subscription";
 
+const CACHE_KEY = "alchm_subscription_cache";
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const BROADCAST_CHANNEL = "alchm_subscription_sync";
+
+interface CachedSubscription {
+  subscription: UserSubscription;
+  recipeUsage: number;
+  cachedAt: number;
+}
+
 interface PremiumContextValue {
   /** Current subscription (null while loading) */
   subscription: UserSubscription | null;
-  /** Current tier (defaults to "starter") */
+  /** Current tier (defaults to "free") */
   tier: SubscriptionTier;
   /** Whether the subscription data is still loading */
   isLoading: boolean;
@@ -46,6 +58,8 @@ interface PremiumContextValue {
   openPortal: () => Promise<void>;
   /** Refresh subscription state from API */
   refresh: () => Promise<void>;
+  /** Whether the user has premium access (premium tier or admin) */
+  isPremium: boolean;
 }
 
 const PremiumContext = createContext<PremiumContextValue>({
@@ -59,19 +73,126 @@ const PremiumContext = createContext<PremiumContextValue>({
   openCheckout: async () => {},
   openPortal: async () => {},
   refresh: async () => {},
+  isPremium: false,
 });
+
+/** Read cached subscription from sessionStorage */
+function readCache(): CachedSubscription | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const cached: CachedSubscription = JSON.parse(raw);
+    if (Date.now() - cached.cachedAt > CACHE_TTL_MS) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return cached;
+  } catch {
+    return null;
+  }
+}
+
+/** Write subscription to sessionStorage cache */
+function writeCache(subscription: UserSubscription, recipeUsage: number) {
+  if (typeof window === "undefined") return;
+  try {
+    const cached: CachedSubscription = {
+      subscription,
+      recipeUsage,
+      cachedAt: Date.now(),
+    };
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(cached));
+  } catch {
+    // sessionStorage full or unavailable — non-critical
+  }
+}
 
 export function PremiumProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
+
+  // Optimistic tier from JWT (available instantly, no API call needed)
+  const jwtTier: SubscriptionTier =
+    (session?.user as Record<string, unknown>)?.tier as SubscriptionTier || "free";
+  const isAdmin = (session?.user as Record<string, unknown>)?.role === "admin";
+
   const [subscription, setSubscription] = useState<UserSubscription | null>(
     null,
   );
   const [isLoading, setIsLoading] = useState(true);
   const [recipeUsage, setRecipeUsage] = useState(0);
+  const broadcastRef = useRef<BroadcastChannel | null>(null);
 
-  const tier: SubscriptionTier = subscription?.tier || "free";
+  // Effective tier: JWT tier is the instant source of truth,
+  // overridden by full subscription data once loaded.
+  // Admins always get premium.
+  const tier: SubscriptionTier = isAdmin
+    ? "premium"
+    : subscription?.tier || jwtTier;
+  const isPremium = tier === "premium";
   const limits = TIER_LIMITS[tier];
   const recipeLimit = limits.monthlyRecipeGenerations;
+
+  // Cross-tab synchronization via BroadcastChannel
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const channel = new BroadcastChannel(BROADCAST_CHANNEL);
+      broadcastRef.current = channel;
+
+      channel.onmessage = (event) => {
+        const data = event.data as {
+          type: string;
+          subscription?: UserSubscription;
+          recipeUsage?: number;
+        };
+        if (data.type === "subscription_updated" && data.subscription) {
+          setSubscription(data.subscription);
+          if (data.recipeUsage !== undefined) {
+            setRecipeUsage(data.recipeUsage);
+          }
+          writeCache(data.subscription, data.recipeUsage || 0);
+        }
+      };
+
+      return () => {
+        channel.close();
+        broadcastRef.current = null;
+      };
+    } catch {
+      // BroadcastChannel not supported — fall back to storage events
+      const handleStorage = (e: StorageEvent) => {
+        if (e.key === CACHE_KEY && e.newValue) {
+          try {
+            const cached: CachedSubscription = JSON.parse(e.newValue);
+            setSubscription(cached.subscription);
+            setRecipeUsage(cached.recipeUsage);
+          } catch {
+            // Ignore parse errors
+          }
+        }
+      };
+      window.addEventListener("storage", handleStorage);
+      return () => window.removeEventListener("storage", handleStorage);
+    }
+  }, []);
+
+  /** Broadcast subscription update to other tabs */
+  const broadcastUpdate = useCallback(
+    (sub: UserSubscription, usage: number) => {
+      try {
+        broadcastRef.current?.postMessage({
+          type: "subscription_updated",
+          subscription: sub,
+          recipeUsage: usage,
+        });
+      } catch {
+        // Channel closed or unavailable — non-critical
+      }
+    },
+    [],
+  );
 
   const fetchSubscription = useCallback(async () => {
     if (status !== "authenticated" || !session?.user) {
@@ -79,19 +200,55 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    // Try sessionStorage cache first for fast hydration
+    const cached = readCache();
+    if (cached) {
+      setSubscription(cached.subscription);
+      setRecipeUsage(cached.recipeUsage);
+      setIsLoading(false);
+      // Still fetch fresh data in background
+    }
+
     try {
       const res = await fetch("/api/user/subscription");
+
+      // Session expired — the subscription API now returns a fallback
+      // shape even on server errors, but handle 401 for re-auth
+      if (res.status === 401) {
+        // Don't redirect immediately — the JWT tier is still usable
+        console.warn("[PremiumContext] Session expired, using JWT tier");
+        setIsLoading(false);
+        return;
+      }
+
       if (res.ok) {
         const data = await res.json();
         setSubscription(data.subscription);
         setRecipeUsage(data.recipeUsage || 0);
+        // Cache for fast subsequent loads
+        if (data.subscription) {
+          writeCache(data.subscription, data.recipeUsage || 0);
+          broadcastUpdate(data.subscription, data.recipeUsage || 0);
+        }
+      } else {
+        // Non-200 response — try to parse fallback data
+        try {
+          const data = await res.json();
+          if (data.subscription) {
+            setSubscription(data.subscription);
+            setRecipeUsage(data.recipeUsage || 0);
+          }
+        } catch {
+          // Couldn't parse — JWT tier is still our fallback (via jwtTier state)
+        }
       }
     } catch (error) {
       console.error("[PremiumContext] Failed to fetch subscription:", error);
+      // If cache was loaded or JWT tier is available, we still have data
     } finally {
       setIsLoading(false);
     }
-  }, [status, session?.user]);
+  }, [status, session?.user, broadcastUpdate]);
 
   useEffect(() => {
     fetchSubscription();
@@ -99,13 +256,16 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
   const hasFeature = useCallback(
     (feature: string): boolean => {
+      // Admins have access to everything
+      if (isAdmin) return true;
+
       const tierLimits = TIER_LIMITS[tier];
       if (feature === "monthlyRecipeGenerations") {
         return recipeUsage < tierLimits.monthlyRecipeGenerations;
       }
       return !!(tierLimits as Record<string, unknown>)[feature];
     },
-    [tier, recipeUsage],
+    [tier, recipeUsage, isAdmin],
   );
 
   const trackRecipeGeneration = useCallback(async (): Promise<number> => {
@@ -118,6 +278,11 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       if (res.ok) {
         const data = await res.json();
         setRecipeUsage(data.count);
+        // Update cache and broadcast
+        if (subscription) {
+          writeCache(subscription, data.count);
+          broadcastUpdate(subscription, data.count);
+        }
         return data.count;
       }
     } catch (error) {
@@ -127,7 +292,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     const newCount = recipeUsage + 1;
     setRecipeUsage(newCount);
     return newCount;
-  }, [recipeUsage]);
+  }, [recipeUsage, subscription, broadcastUpdate]);
 
   const openCheckout = useCallback(
     async (targetTier: SubscriptionTier) => {
@@ -173,6 +338,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
         openCheckout,
         openPortal,
         refresh: fetchSubscription,
+        isPremium,
       }}
     >
       {children}

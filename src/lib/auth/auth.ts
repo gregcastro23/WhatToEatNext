@@ -182,7 +182,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.provider = account.provider;
       }
 
-      // Resolve role and onboarding status from DB (on sign-in or session update)
+      // Resolve role, tier, and onboarding status from DB (on sign-in or session update)
       if (token.email && (user || trigger === "update")) {
         try {
           const { userDatabase } = await import(
@@ -199,9 +199,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.onboardingComplete = !!(
               dbUser.profile.birthData && dbUser.profile.natalChart
             );
+
+            // Embed subscription tier into JWT for instant access everywhere
+            // Admins always get premium regardless of subscription state
+            if (isAdmin) {
+              token.tier = "premium";
+            } else {
+              try {
+                const { subscriptionService } = await import(
+                  "@/services/subscriptionService"
+                );
+                const sub = await subscriptionService.getUserSubscription(dbUser.id);
+                token.tier = sub?.tier || "free";
+              } catch {
+                // Preserve existing tier if DB unavailable
+                if (!token.tier) token.tier = "free";
+              }
+            }
           } else {
             token.role = isAdminEmail(token.email) ? "admin" : "user";
             token.onboardingComplete = false;
+            // Admin emails always get premium tier
+            token.tier = isAdminEmail(token.email) ? "premium" : "free";
           }
         } catch {
           // Fallback if DB unavailable - preserve existing token values
@@ -211,6 +230,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
           if (token.onboardingComplete === undefined) {
             token.onboardingComplete = false;
+          }
+          if (!token.tier) {
+            token.tier = isAdminEmail(token.email) ? "premium" : "free";
           }
           // If token already has onboardingComplete=true from a previous
           // successful DB lookup, keep it rather than resetting to false

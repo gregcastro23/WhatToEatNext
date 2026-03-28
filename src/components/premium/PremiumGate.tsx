@@ -29,7 +29,8 @@ export default function PremiumGate({
   const [showModal, setShowModal] = useState(false);
   const isPremium = tier !== "free";
 
-  if (isLoading) return null;
+  // Show children optimistically during loading to avoid blank flash
+  if (isLoading) return <>{children}</>;
   if (isPremium) return <>{children}</>;
 
   return (

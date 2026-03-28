@@ -1755,6 +1755,301 @@ async def generate_alchemical_image(
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Failed to generate alchemical image: {str(e)}")
 
+# ==========================================
+# PREMIUM TIER CHECK DEPENDENCY
+# ==========================================
+
+def require_premium(user: dict = Depends(get_current_user)):
+    """
+    Dependency that ensures the authenticated user has premium access.
+    Admins always pass. Returns the user dict if authorized.
+    """
+    role = user.get("role", "user")
+    tier = user.get("tier", "free")
+    if role == "admin" or tier == "premium":
+        return user
+    raise HTTPException(
+        status_code=403,
+        detail={
+            "upgrade_required": True,
+            "message": "This feature requires a Premium subscription.",
+            "feature": "group_recommendations",
+        },
+    )
+
+# ==========================================
+# GROUP RECOMMENDATION ENDPOINTS (PREMIUM)
+# ==========================================
+
+class GroupMemberChart(BaseModel):
+    """Birth chart data for a group member"""
+    user_id: Optional[str] = None
+    name: Optional[str] = None
+    year: int
+    month: int
+    day: int
+    hour: int
+    minute: int
+    latitude: float
+    longitude: float
+    timezone_str: str = "America/New_York"
+
+class GroupRecommendationRequest(BaseModel):
+    """Request for group dining recommendations"""
+    members: List[GroupMemberChart]
+    strategy: str = "consensus"  # average, minimum, consensus
+    cuisine_filter: Optional[str] = None
+    max_results: int = 10
+
+class GroupCompatibilityRequest(BaseModel):
+    """Request for group elemental compatibility analysis"""
+    members: List[GroupMemberChart]
+
+@app.post("/api/group/recommendations")
+async def get_group_recommendations(
+    request: GroupRecommendationRequest,
+    db: Session = Depends(get_db),
+    user: dict = Depends(require_premium),
+):
+    """
+    Calculate personalized group dining recommendations.
+    Aggregates natal charts across multiple members and scores
+    cuisines/recipes based on collective elemental harmony.
+    Requires Premium subscription.
+    """
+    try:
+        if len(request.members) < 2:
+            raise HTTPException(status_code=400, detail="Group must have at least 2 members")
+        if len(request.members) > 10:
+            raise HTTPException(status_code=400, detail="Group size limited to 10 members")
+
+        engine = CollectiveSynastryEngine(db)
+
+        # Convert to ChartData for the engine
+        chart_data_list = [
+            ChartData(
+                year=m.year, month=m.month, day=m.day,
+                hour=m.hour, minute=m.minute,
+                latitude=m.latitude, longitude=m.longitude,
+                timezone_str=m.timezone_str,
+                user_id=m.user_id,
+            )
+            for m in request.members
+        ]
+
+        # Get individual snapshots for per-member scores
+        individual_snapshots = []
+        for chart_data in chart_data_list:
+            snapshot = await engine._get_individual_elemental_snapshot(chart_data)
+            individual_snapshots.append(snapshot)
+
+        # Get collective deficit analysis
+        collective_result = await engine.calculate_collective_elemental_deficits(chart_data_list)
+        collective_smes = collective_result.get("collective_smes_averages", {})
+
+        # Generate harmonizing recipe profile
+        harmonizing_profile = await engine.generate_harmonizing_recipe_profile(collective_result)
+
+        # Score cuisines from database if available
+        cuisine_recommendations = []
+        if CUISINES_AVAILABLE and cuisines:
+            for cuisine_name, cuisine_data in cuisines.items():
+                if request.cuisine_filter and cuisine_name.lower() != request.cuisine_filter.lower():
+                    continue
+
+                elemental = cuisine_data.get("elementalProperties", {})
+                cuisine_fire = elemental.get("Fire", 0.25)
+                cuisine_water = elemental.get("Water", 0.25)
+                cuisine_earth = elemental.get("Earth", 0.25)
+                cuisine_air = elemental.get("Air", 0.25)
+
+                # Calculate harmony score between collective SMES and cuisine elementals
+                collective_spirit = collective_smes.get("spirit_score", 0.5)
+                collective_matter = collective_smes.get("matter_score", 0.5)
+                collective_essence = collective_smes.get("essence_score", 0.5)
+                collective_substance = collective_smes.get("substance_score", 0.5)
+
+                # Harmony = alignment between cuisine elementals and group needs
+                harmony = (
+                    cuisine_fire * collective_spirit * 0.3 +
+                    cuisine_water * collective_essence * 0.3 +
+                    cuisine_earth * collective_matter * 0.2 +
+                    cuisine_air * collective_substance * 0.2
+                )
+
+                # Per-member scores
+                per_member = []
+                for i, snapshot in enumerate(individual_snapshots):
+                    member_smes = snapshot["smes_scores"]
+                    member_harmony = (
+                        cuisine_fire * member_smes.get("spirit_score", 0.5) * 0.3 +
+                        cuisine_water * member_smes.get("essence_score", 0.5) * 0.3 +
+                        cuisine_earth * member_smes.get("matter_score", 0.5) * 0.2 +
+                        cuisine_air * member_smes.get("substance_score", 0.5) * 0.2
+                    )
+                    member_info = request.members[i]
+                    per_member.append({
+                        "name": member_info.name or member_info.user_id or f"Member {i+1}",
+                        "score": round(member_harmony, 4),
+                        "natal_sun_element": snapshot.get("natal_sun_element", "Unknown"),
+                    })
+
+                # Strategy-based scoring
+                member_scores = [m["score"] for m in per_member]
+                if request.strategy == "minimum":
+                    final_score = min(member_scores) if member_scores else 0
+                elif request.strategy == "average":
+                    final_score = sum(member_scores) / len(member_scores) if member_scores else 0
+                else:  # consensus
+                    avg = sum(member_scores) / len(member_scores) if member_scores else 0
+                    variance = sum((s - avg) ** 2 for s in member_scores) / len(member_scores) if member_scores else 0
+                    # Higher consensus = lower variance
+                    consensus_bonus = max(0, 1 - variance * 10)
+                    final_score = avg * 0.6 + consensus_bonus * 0.4
+
+                cuisine_recommendations.append({
+                    "cuisine": cuisine_name,
+                    "score": round(final_score, 4),
+                    "harmony": round(harmony, 4),
+                    "per_member_scores": per_member,
+                    "description": cuisine_data.get("description", ""),
+                })
+
+            cuisine_recommendations.sort(key=lambda x: x["score"], reverse=True)
+            cuisine_recommendations = cuisine_recommendations[:request.max_results]
+
+        return {
+            "strategy": request.strategy,
+            "group_size": len(request.members),
+            "collective_profile": collective_smes,
+            "deficit_analysis": collective_result.get("collective_deficit_analysis", {}),
+            "harmonizing_profile": harmonizing_profile,
+            "recommendations": cuisine_recommendations,
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Group recommendation error: {str(e)}")
+
+
+@app.post("/api/group/compatibility")
+async def get_group_compatibility(
+    request: GroupCompatibilityRequest,
+    db: Session = Depends(get_db),
+    user: dict = Depends(require_premium),
+):
+    """
+    Calculate elemental compatibility matrix between group members.
+    Returns pairwise harmony scores and complementary element analysis.
+    Requires Premium subscription.
+    """
+    try:
+        if len(request.members) < 2:
+            raise HTTPException(status_code=400, detail="Need at least 2 members for compatibility")
+        if len(request.members) > 10:
+            raise HTTPException(status_code=400, detail="Group size limited to 10 members")
+
+        engine = CollectiveSynastryEngine(db)
+
+        chart_data_list = [
+            ChartData(
+                year=m.year, month=m.month, day=m.day,
+                hour=m.hour, minute=m.minute,
+                latitude=m.latitude, longitude=m.longitude,
+                timezone_str=m.timezone_str,
+                user_id=m.user_id,
+            )
+            for m in request.members
+        ]
+
+        # Get individual snapshots
+        snapshots = []
+        for chart_data in chart_data_list:
+            snapshot = await engine._get_individual_elemental_snapshot(chart_data)
+            snapshots.append(snapshot)
+
+        # Build compatibility matrix
+        members_info = []
+        for i, (member, snapshot) in enumerate(zip(request.members, snapshots)):
+            smes = snapshot["smes_scores"]
+            members_info.append({
+                "index": i,
+                "name": member.name or member.user_id or f"Member {i+1}",
+                "natal_sun_element": snapshot.get("natal_sun_element", "Unknown"),
+                "smes": {
+                    "spirit": round(smes.get("spirit_score", 0), 4),
+                    "essence": round(smes.get("essence_score", 0), 4),
+                    "matter": round(smes.get("matter_score", 0), 4),
+                    "substance": round(smes.get("substance_score", 0), 4),
+                },
+            })
+
+        # Pairwise compatibility
+        compatibility_matrix = []
+        for i in range(len(snapshots)):
+            for j in range(i + 1, len(snapshots)):
+                smes_i = snapshots[i]["smes_scores"]
+                smes_j = snapshots[j]["smes_scores"]
+
+                # Cosine similarity between SMES vectors
+                vec_i = [smes_i.get("spirit_score", 0), smes_i.get("essence_score", 0),
+                         smes_i.get("matter_score", 0), smes_i.get("substance_score", 0)]
+                vec_j = [smes_j.get("spirit_score", 0), smes_j.get("essence_score", 0),
+                         smes_j.get("matter_score", 0), smes_j.get("substance_score", 0)]
+
+                dot = sum(a * b for a, b in zip(vec_i, vec_j))
+                mag_i = sum(a ** 2 for a in vec_i) ** 0.5
+                mag_j = sum(a ** 2 for a in vec_j) ** 0.5
+                similarity = dot / (mag_i * mag_j) if (mag_i > 0 and mag_j > 0) else 0
+
+                # Complementary analysis
+                complementary_elements = []
+                element_names = ["Spirit", "Essence", "Matter", "Substance"]
+                for k, name in enumerate(element_names):
+                    diff = abs(vec_i[k] - vec_j[k])
+                    if diff > 0.2:
+                        stronger = members_info[i]["name"] if vec_i[k] > vec_j[k] else members_info[j]["name"]
+                        complementary_elements.append({
+                            "element": name,
+                            "difference": round(diff, 4),
+                            "stronger_in": stronger,
+                        })
+
+                compatibility_matrix.append({
+                    "member_a": members_info[i]["name"],
+                    "member_b": members_info[j]["name"],
+                    "harmony_score": round(similarity, 4),
+                    "complementary_elements": complementary_elements,
+                })
+
+        # Overall group harmony
+        if compatibility_matrix:
+            avg_harmony = sum(c["harmony_score"] for c in compatibility_matrix) / len(compatibility_matrix)
+        else:
+            avg_harmony = 0
+
+        return {
+            "group_size": len(request.members),
+            "members": members_info,
+            "compatibility_matrix": compatibility_matrix,
+            "overall_harmony": round(avg_harmony, 4),
+            "harmony_rating": (
+                "Excellent" if avg_harmony > 0.85 else
+                "Good" if avg_harmony > 0.7 else
+                "Moderate" if avg_harmony > 0.5 else
+                "Challenging"
+            ),
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Compatibility analysis error: {str(e)}")
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

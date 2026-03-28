@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ToastProvider } from "@/components/ToastProvider";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { PremiumProvider } from "@/contexts/PremiumContext";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
@@ -13,15 +14,17 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
       <SessionProvider>
-        <ThemeProvider>
-          <UserProvider>
-            <PremiumProvider>
-              <AlchemicalProvider>
-                <RecipeBuilderProvider>{children}</RecipeBuilderProvider>
-              </AlchemicalProvider>
-            </PremiumProvider>
-          </UserProvider>
-        </ThemeProvider>
+        <ToastProvider>
+          <ThemeProvider>
+            <UserProvider>
+              <PremiumProvider>
+                <AlchemicalProvider>
+                  <RecipeBuilderProvider>{children}</RecipeBuilderProvider>
+                </AlchemicalProvider>
+              </PremiumProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </ToastProvider>
       </SessionProvider>
     </ErrorBoundary>
   );
