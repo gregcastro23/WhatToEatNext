@@ -4,6 +4,7 @@
  * Uses PostgreSQL for persistent storage with in-memory fallback
  */
 
+import { randomUUID } from "crypto";
 import type { UserProfile } from "@/contexts/UserContext";
 import type { User, UserRole } from "@/lib/auth/jwt-auth";
 import { _logger } from "@/lib/logger";
@@ -69,7 +70,7 @@ class UserDatabaseService {
       throw new Error("User with this email already exists");
     }
 
-    const userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const userId = randomUUID();
     const now = new Date();
 
     const user: UserWithProfile = {
@@ -102,7 +103,7 @@ class UserDatabaseService {
            VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)`,
           [
             userId,
-            data.email,
+            email,
             user.passwordHash,
             primaryRole,
             true,
@@ -146,9 +147,9 @@ class UserDatabaseService {
 
     // Always update in-memory cache
     this.users.set(userId, user);
-    this.emailIndex.set(data.email, userId);
+    this.emailIndex.set(email, userId);
 
-    _logger.info("User created:", { userId, email: data.email });
+    _logger.info("User created:", { userId, email });
     return user;
   }
 

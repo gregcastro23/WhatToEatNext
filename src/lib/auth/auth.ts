@@ -46,6 +46,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn({ user, account }) {
       if (!user.email || !account) return true;
 
+      // Track whether this is a brand-new user. Declared outside the try block
+      // so the email section can reliably read it even if DB lookup succeeds but
+      // a later step throws.
+      let isNewUser = false;
+
       try {
         // Dynamic import keeps Node.js deps (pg) out of the Edge bundle
         const { userDatabase } = await import(
@@ -53,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
 
         let dbUser = await userDatabase.getUserByEmail(user.email);
-        const isNewUser = !dbUser;
+        isNewUser = !dbUser;
 
         if (!dbUser) {
           const allUsers = await userDatabase.getAllUsers();
@@ -150,7 +155,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (failures.length > 0) {
               console.error(
                 `[auth] ${failures.length} email(s) failed for ${user.email}:`,
-                failures.map((f) => (f).reason),
+                failures.map((f) => (f as PromiseRejectedResult).reason),
               );
             }
           } else {
