@@ -45,6 +45,13 @@ interface AstrologizePlanetData {
   isRetrograde: boolean;
 }
 
+interface AscendantData {
+  sign: string;
+  degree?: number;
+  minute?: number;
+  exactLongitude: number;
+}
+
 interface AstrologizeResponse {
   _celestialBodies: {
     all: AstrologizePlanetData[];
@@ -59,6 +66,7 @@ interface AstrologizeResponse {
     neptune: AstrologizePlanetData;
     pluto: AstrologizePlanetData;
   };
+  ascendant?: AscendantData;
   birth_info: {
     year: number;
     month: number;
@@ -94,6 +102,58 @@ function normalizeSignName(signName: string): ZodiacSignType {
 }
 
 /**
+ * Calculate approximate Ascendant sign from birth data using Local Sidereal Time.
+ * This is a fallback when the server doesn't return Ascendant data.
+ */
+function calculateApproximateAscendant(birthData: BirthData): ZodiacSignType {
+  const zodiacSigns: ZodiacSignType[] = [
+    "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+    "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
+  ] as ZodiacSignType[];
+
+  const date = new Date(birthData.dateTime);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const longitude = birthData.longitude;
+  const latitude = birthData.latitude;
+
+  // Julian Day Number (simplified)
+  const a = Math.floor((14 - month) / 12);
+  const y = year + 4800 - a;
+  const m = month + 12 * a - 3;
+  const jdn = day + Math.floor((153 * m + 2) / 5) + 365 * y
+    + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+
+  // Greenwich Sidereal Time in degrees
+  const T = (jdn - 2451545.0) / 36525.0;
+  const gst0 = 280.46061837 + 360.98564736629 * (jdn - 2451545.0)
+    + 0.000387933 * T * T;
+  const utcHours = hour + minute / 60.0;
+  const gst = ((gst0 + utcHours * 1.00273790935 * 15) % 360 + 360) % 360;
+
+  // Local Sidereal Time
+  const lst = ((gst + longitude) % 360 + 360) % 360;
+
+  // Obliquity of the ecliptic and RAMC-to-Ascendant conversion
+  const obliquity = 23.4393 - 0.0130 * T;
+  const oblRad = obliquity * Math.PI / 180;
+  const latRad = latitude * Math.PI / 180;
+  const lstRad = lst * Math.PI / 180;
+
+  const ascRad = Math.atan2(
+    Math.cos(lstRad),
+    -(Math.sin(oblRad) * Math.tan(latRad) + Math.cos(oblRad) * Math.sin(lstRad))
+  );
+  const ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
+
+  const signIndex = Math.floor(ascLongitude / 30) % 12;
+  return zodiacSigns[signIndex];
+}
+
+/**
  * Call astrologize API with birth data
  */
 async function fetchPlanetaryPositions(
@@ -125,6 +185,17 @@ async function fetchPlanetaryPositions(
 
     const data = (await response.json()) as AstrologizeResponse;
 
+    // Determine Ascendant from server response or calculate locally
+    let ascendantSign: ZodiacSignType = "aries" as ZodiacSignType;
+    if (data.ascendant?.sign) {
+      ascendantSign = normalizeSignName(data.ascendant.sign);
+      _logger.info(`Ascendant from API: ${data.ascendant.sign} (${data.ascendant.exactLongitude?.toFixed(2)}°)`);
+    } else {
+      // Calculate approximate Ascendant from birth data using Local Sidereal Time
+      ascendantSign = calculateApproximateAscendant(birthData);
+      _logger.info(`Ascendant calculated locally: ${ascendantSign}`);
+    }
+
     // Extract planetary positions
     const positions: Record<Planet, ZodiacSignType> = {
       Sun: normalizeSignName(data._celestialBodies.sun.Sign.label),
@@ -137,7 +208,7 @@ async function fetchPlanetaryPositions(
       Uranus: normalizeSignName(data._celestialBodies.uranus.Sign.label),
       Neptune: normalizeSignName(data._celestialBodies.neptune.Sign.label),
       Pluto: normalizeSignName(data._celestialBodies.pluto.Sign.label),
-      Ascendant: "aries" as ZodiacSignType, // Placeholder - would need more calculation
+      Ascendant: ascendantSign,
     };
 
     return positions;

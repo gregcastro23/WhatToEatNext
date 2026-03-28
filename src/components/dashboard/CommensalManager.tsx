@@ -109,6 +109,7 @@ function AddByEmailForm({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searching, setSearching] = useState(false);
   const [sending, setSending] = useState<string | null>(null);
+  const [sentTo, setSentTo] = useState<Set<string>>(new Set());
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const handleSearch = useCallback(async () => {
@@ -126,7 +127,7 @@ function AddByEmailForm({
       const data = await res.json();
       if (data.success) setResults(data.users ?? []);
     } catch {
-      setMessage({ type: 'error', text: 'Search failed' });
+      setMessage({ type: 'error', text: 'Search failed. Please check your connection.' });
     } finally {
       setSearching(false);
     }
@@ -140,20 +141,33 @@ function AddByEmailForm({
     return () => clearTimeout(timer);
   }, [query, handleSearch]);
 
-  const handleSendRequest = async (email: string) => {
-    setSending(email);
+  const handleSendRequest = async (userEmail: string) => {
+    setSending(userEmail);
     setMessage(null);
     try {
-      const res = await fetch('/api/friends/request', {
+      // Try the commensal-specific request endpoint first, fall back to friends
+      let res = await fetch('/api/commensals/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: userEmail }),
       });
+
+      // If commensal endpoint doesn't exist (404), try the friends endpoint
+      if (res.status === 404) {
+        res = await fetch('/api/friends/request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email: userEmail }),
+        });
+      }
+
       if (!res.ok) throw new Error('Failed to send request');
       const data = await res.json();
       if (data.success) {
-        setMessage({ type: 'success', text: `Friend request sent to ${email}` });
+        setMessage({ type: 'success', text: `Commensal request sent to ${userEmail}` });
+        setSentTo((prev) => new Set(prev).add(userEmail));
         onRequestSent();
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to send request' });
@@ -167,9 +181,9 @@ function AddByEmailForm({
 
   return (
     <div className="space-y-3 bg-gray-50 border border-gray-200 rounded-xl p-4">
-      <h4 className="text-sm font-semibold text-gray-800">Find a Friend on Alchm.kitchen</h4>
+      <h4 className="text-sm font-semibold text-gray-800">Find a Dining Companion on Alchm.kitchen</h4>
       <p className="text-xs text-gray-500">
-        Search by email or name. When they accept, their birth chart syncs automatically.
+        Search by email or name. When they accept, their birth chart syncs automatically for group recommendations.
       </p>
 
       {message && (
@@ -182,38 +196,58 @@ function AddByEmailForm({
         </div>
       )}
 
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search by email or name (min 3 characters)..."
-        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-      />
+      <div className="relative">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search by email or name (min 3 characters)..."
+          className="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+        />
+        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
 
-      {searching && <p className="text-xs text-gray-400">Searching...</p>}
+      {searching && (
+        <div className="flex items-center gap-2 text-xs text-gray-400">
+          <div className="w-3 h-3 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin" />
+          Searching users...
+        </div>
+      )}
 
       {results.length > 0 && (
-        <div className="space-y-1.5">
-          {results.map((u) => (
-            <div key={u.id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-gray-100">
-              <div>
-                <span className="text-sm font-medium text-gray-800">{u.name || 'User'}</span>
-                <span className="text-xs text-gray-400 ml-2">{u.email}</span>
+        <div className="space-y-1.5 max-h-48 overflow-y-auto">
+          {results.map((u) => {
+            const alreadySent = sentTo.has(u.email);
+            return (
+              <div key={u.id} className="flex items-center justify-between p-2.5 bg-white rounded-lg border border-gray-100 hover:border-purple-200 transition-colors">
+                <div className="min-w-0">
+                  <div className="text-sm font-medium text-gray-800 truncate">{u.name || 'User'}</div>
+                  <div className="text-xs text-gray-400 truncate">{u.email}</div>
+                </div>
+                <button
+                  onClick={() => handleSendRequest(u.email)}
+                  disabled={sending === u.email || alreadySent}
+                  className={`ml-2 px-3 py-1.5 text-xs rounded-lg font-medium transition-colors flex-shrink-0 ${
+                    alreadySent
+                      ? 'bg-green-50 text-green-600 border border-green-200'
+                      : 'bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60'
+                  }`}
+                >
+                  {alreadySent ? 'Sent' : sending === u.email ? 'Sending...' : 'Add Companion'}
+                </button>
               </div>
-              <button
-                onClick={() => handleSendRequest(u.email)}
-                disabled={sending === u.email}
-                className="px-3 py-1 text-xs bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
-              >
-                {sending === u.email ? 'Sending...' : 'Add Friend'}
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
       {query.length >= 3 && !searching && results.length === 0 && (
-        <p className="text-xs text-gray-400 italic">No users found matching that search.</p>
+        <div className="text-center py-3">
+          <p className="text-xs text-gray-400 italic">No users found matching &ldquo;{query}&rdquo;</p>
+          <p className="text-[10px] text-gray-300 mt-1">They may not have an account yet. Try adding them manually.</p>
+        </div>
       )}
 
       <button
@@ -334,34 +368,24 @@ function AddCommensalForm({
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
         </div>
-        <div className="sm:col-span-1">
+        <div className="sm:col-span-2">
           <label className="block text-xs text-gray-500 mb-1">Birth Location *</label>
           <LocationSearch
+            compact
+            showCoordinates
+            placeholder="Search birth city..."
             onLocationSelect={(loc) => {
               setLatitude(loc.latitude.toString());
               setLongitude(loc.longitude.toString());
+              if (loc.timezone) setTimezone(loc.timezone);
             }}
           />
         </div>
-        <div className="sm:col-span-1">
-          <label className="block text-xs text-gray-500 mb-1">Timezone (optional)</label>
-          <input
-            type="text"
-            value={timezone}
-            onChange={(e) => setTimezone(e.target.value)}
-            placeholder="e.g. America/New_York"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-          />
-        </div>
-        {(latitude || longitude) && (
-          <div className="sm:col-span-1 flex gap-2">
-            <div className="flex-1">
-              <label className="block text-[10px] text-gray-400 uppercase tracking-tighter">Lat</label>
-              <div className="text-xs text-gray-500 font-mono">{parseFloat(latitude).toFixed(4)}</div>
-            </div>
-            <div className="flex-1">
-              <label className="block text-[10px] text-gray-400 uppercase tracking-tighter">Long</label>
-              <div className="text-xs text-gray-500 font-mono">{parseFloat(longitude).toFixed(4)}</div>
+        {timezone && (
+          <div className="sm:col-span-1">
+            <label className="block text-xs text-gray-500 mb-1">Timezone</label>
+            <div className="px-3 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg border border-gray-200">
+              {timezone}
             </div>
           </div>
         )}
