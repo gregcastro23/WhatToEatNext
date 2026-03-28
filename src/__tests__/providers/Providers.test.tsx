@@ -79,6 +79,9 @@ describe("ErrorBoundary", () => {
   });
 
   it("displays error details when expanded", () => {
+    const originalEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "development";
+
     function ThrowingComponent(): React.ReactElement {
       throw new Error("Detailed crash info");
     }
@@ -89,8 +92,10 @@ describe("ErrorBoundary", () => {
       </ErrorBoundary>
     );
 
-    expect(screen.getByText("Error Details")).toBeInTheDocument();
+    expect(screen.getByText("Developer Details")).toBeInTheDocument();
     expect(screen.getByText(/Detailed crash info/)).toBeInTheDocument();
+
+    process.env.NODE_ENV = originalEnv;
   });
 
   it("recovers when Try Again is clicked", () => {
