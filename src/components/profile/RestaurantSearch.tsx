@@ -66,7 +66,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
   const handleInputChange = useCallback((newQuery: string, newLocation: string) => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      performSearch(newQuery, newLocation);
+      void performSearch(newQuery, newLocation);
     }, 400);
   }, [performSearch]);
 
@@ -134,6 +134,8 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       {/* Search Input Fields */}
       <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
         <div className="sm:col-span-3">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Search</label>
           <input
             type="text"
@@ -144,6 +146,8 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
           />
         </div>
         <div className="sm:col-span-2">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Location</label>
           <input
             type="text"

@@ -54,6 +54,7 @@ interface EnhancedRecipeMatch {
   season: string[];
   mealType: string[];
 }
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _TimeFactors {
   planetaryDay: PlanetaryDay;
   planetaryHour: PlanetaryHour;

@@ -13,7 +13,7 @@ interface KalchmRecommenderProps {
 
 export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
   maxRecommendations = 18,
-  _showFilters = false,
+  showFilters: _showFilters = false,
   showScoring = true,
 }) => {
   const [view, setView] = useState<"all" | "top">("all");
@@ -356,6 +356,8 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
         {/* Group Selector */}
         {diningGroups.length > 0 && (
           <div>
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Recommendation Mode
             </label>

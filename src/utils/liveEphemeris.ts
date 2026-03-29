@@ -20,7 +20,7 @@ import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import {
   PLANETARY_ALCHEMY,
-  _PLANETARY_SECTARIAN_ELEMENTS,
+  PLANETARY_SECTARIAN_ELEMENTS as _PLANETARY_SECTARIAN_ELEMENTS,
   isSectDiurnal,
   getPlanetarySectElement,
   getZodiacQuality,

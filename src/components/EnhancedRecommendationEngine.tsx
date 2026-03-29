@@ -50,12 +50,12 @@ const _CUISINE_OPTIONS = [
 ] as const;
 
 export function EnhancedRecommendationEngine({
-  _filters = { dietaryRestrictions: [], cuisinePreferences: [] },
+  filters: _filters = { dietaryRestrictions: [], cuisinePreferences: [] },
   maxRecommendations = 5,
   showScoring = true,
   className = "",
 }: EnhancedRecommendationEngineProps) {
-  const { _currentUser } = useUser();
+  const { currentUser: _currentUser } = useUser();
   const {
     positions,
     alchemical,

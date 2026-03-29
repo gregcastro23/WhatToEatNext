@@ -19,7 +19,7 @@ import { consolidatedRecipeService } from "../ConsolidatedRecipeService";
 import { FoodAlchemySystem } from "../FoodAlchemySystem";
 import type { UnifiedIngredient } from "../../data/unified/unifiedTypes";
 import type {
-  _FoodCompatibility,
+  FoodCompatibility as _FoodCompatibility,
   SystemState,
 } from "../../lib/FoodAlchemySystem";
 

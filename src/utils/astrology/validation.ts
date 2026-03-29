@@ -45,6 +45,7 @@ interface TransitDate {
 }
 
 // Interface for planet data with transits
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _UNUSED_PlanetDataWithTransits {
   PlanetSpecific?: {
     ZodiacTransit?: { [key: string]: unknown };

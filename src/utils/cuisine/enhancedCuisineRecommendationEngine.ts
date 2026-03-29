@@ -18,7 +18,7 @@
 import type {
   AlchemicalProperties,
   CuisineComputedProperties,
-  _ElementalProperties,
+  ElementalProperties as _ElementalProperties,
 } from "@/types/hierarchy";
 import {
   rankRecipesByCircuitCompatibility,

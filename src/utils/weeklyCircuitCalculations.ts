@@ -20,7 +20,7 @@ import type { WeeklyMenu, DayOfWeek } from "@/types/menuPlanner";
 import { getWeekEndDate } from "@/types/menuPlanner";
 import {
   calculateAllDayCircuits,
-  _getMealsForDay,
+  getMealsForDay as _getMealsForDay,
 } from "./dayCircuitCalculations";
 
 /**

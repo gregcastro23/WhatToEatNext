@@ -5,16 +5,16 @@
 import type {
   Element,
   AlchemicalProperties,
-  _IngredientMapping,
+  IngredientMapping as _IngredientMapping,
   ElementalProperties,
   NutritionalProfile,
   Season,
   PlanetName,
-  _ZodiacSignType,
+  ZodiacSignType as _ZodiacSignType,
   ThermodynamicMetrics,
   ThermodynamicProperties,
-  _FlavorProfile,
-  _CookingMethod,
+  FlavorProfile as _FlavorProfile,
+  CookingMethod as _CookingMethod,
 } from "@/types/alchemy";
 
 type PlanetaryFlavorInfluence = unknown;

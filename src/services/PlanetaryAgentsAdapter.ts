@@ -10,7 +10,7 @@
 import { _logger } from "@/lib/logger";
 import type {
   KineticsResponse,
-  _KineticsRequest,
+  KineticsRequest as _KineticsRequest,
   KineticsLocation,
   KineticsOptions,
   GroupDynamicsResponse,

@@ -160,6 +160,7 @@ const minorArcana = [
 ];
 
 // Major arcana cards
+      // eslint-disable-next-line @typescript-eslint/naming-convention
 const _UNUSED_majorArcana = [
   "The Fool",
   "The Magician",
@@ -186,6 +187,7 @@ const _UNUSED_majorArcana = [
 ];
 
 // Keywords for minor arcana
+      // eslint-disable-next-line @typescript-eslint/naming-convention
 const _UNUSED_minorArcanaKeywords: Record<string, string[]> = {
   "Ace of Wands": ["inspiration", "new energy", "spark", "potential"],
   "Two of Wands": ["planning", "discovery", "future vision", "choice"],

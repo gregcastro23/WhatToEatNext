@@ -55,7 +55,7 @@ export const useAlchemicalRecommendations = ({
   cuisines,
   planetPositions,
   isDaytime,
-  _targetElement,
+  targetElement: _targetElement,
   targetAlchemicalProperty: _targetAlchemicalProperty,
   count = 5,
   currentZodiac = null,

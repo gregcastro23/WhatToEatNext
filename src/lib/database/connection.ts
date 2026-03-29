@@ -191,7 +191,7 @@ export async function executeQuery<_T extends any = any>(
     timeout?: number;
   } = {},
 ): Promise<QueryResult<any>> {
-  const { logQuery = databaseConfig.logQueries, _timeout = 30000 } = options;
+  const { logQuery = databaseConfig.logQueries, timeout: _timeout = 30000 } = options;
   const startTime = Date.now();
   try {
     if (logQuery) {

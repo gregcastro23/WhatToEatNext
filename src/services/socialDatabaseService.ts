@@ -153,6 +153,8 @@ class SocialDatabaseService {
         );
         if (check.rows.length === 0) return null;
 
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                              // eslint-disable-next-line @typescript-eslint/naming-convention
         const { requester_id, addressee_id, status } = check.rows[0];
         const isParty = actingUserId === requester_id || actingUserId === addressee_id;
         if (!isParty) return null;

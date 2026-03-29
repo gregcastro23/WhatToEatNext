@@ -4,7 +4,7 @@ import type { ElementalData, ScoredItem } from "@/types/common";
 import type { Element } from "@/types/unified";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type {
-  _KineticMetrics,
+  KineticMetrics as _KineticMetrics,
   ThermodynamicMetrics,
 } from "@/utils/kineticCalculations";
 import type {
@@ -16,12 +16,14 @@ import type {
 } from "../../data/ingredients/types";
 
 // Phase 10: Calculation Type Interfaces
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _CalculationData {
   value: number;
   weight?: number;
   score?: number;
 }
 
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _CuisineData {
   id: string;
   name: string;
@@ -34,6 +36,7 @@ interface _CuisineData {
   [key: string]: unknown;
 }
 
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _NutrientData {
   nutrient?: { name?: string };
   nutrientName?: string;
@@ -43,6 +46,7 @@ interface _NutrientData {
   [key: string]: unknown;
 }
 
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _MatchingResult {
   score: number;
   elements: ElementalData;

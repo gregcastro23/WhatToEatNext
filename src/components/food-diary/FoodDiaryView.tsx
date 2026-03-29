@@ -395,7 +395,8 @@ function FoodEntryCard({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    if (confirm("Delete this entry?")) {
+    // eslint-disable-next-line no-alert
+    if (window.confirm("Delete this entry?")) {
       setIsDeleting(true);
       await onDelete();
       setIsDeleting(false);

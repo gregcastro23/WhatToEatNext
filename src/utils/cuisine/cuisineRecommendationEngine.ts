@@ -241,7 +241,7 @@ export function calculateSeasonalRelevance(
     return 0.5; // Neutral if no seasonal data
   }
 
-  const { _currentSeason } = userProfile.locationPreferences;
+  const { currentSeason: _currentSeason } = userProfile.locationPreferences;
 
   // This would be enhanced with actual seasonal cuisine data
   // For now, return neutral score

@@ -141,7 +141,7 @@ function RecipeDisplay({
   onRemove,
   onUpdateServings,
   onCopyMeal,
-  _weeklyNutrition,
+  weeklyNutrition: _weeklyNutrition,
 }: {
   recipe: MonicaOptimizedRecipe;
   servings: number;
@@ -496,7 +496,8 @@ export default function MealSlot({
         if (hasRecipe) {
           // Target slot is occupied - ask to swap
           if (
-            confirm(
+            // eslint-disable-next-line no-alert
+            window.confirm(
               "This slot already has a recipe. Would you like to swap the meals?",
             )
           ) {
@@ -512,7 +513,8 @@ export default function MealSlot({
           onAddRecipe?.(data.recipe);
         } else {
           if (
-            confirm(
+            // eslint-disable-next-line no-alert
+            window.confirm(
               "This slot already has a recipe. Would you like to replace it?",
             )
           ) {

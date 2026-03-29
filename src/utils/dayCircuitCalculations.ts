@@ -13,7 +13,7 @@ import type { Element } from "@/types/celestial";
 import type {
   DayCircuitMetrics,
   MealCircuitMetrics,
-  _KineticMetrics,
+  KineticMetrics as _KineticMetrics,
 } from "@/types/kinetics";
 import type { MealSlot, DayOfWeek } from "@/types/menuPlanner";
 import { PLANETARY_DAY_RULERS } from "@/types/menuPlanner";

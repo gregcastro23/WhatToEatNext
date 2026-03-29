@@ -19,6 +19,7 @@ interface SafePlanetaryData {
   [key: string]: unknown;
 }
 
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _ {
   [key: string]: SafePlanetaryData;
 }

@@ -14,7 +14,7 @@ import {
   _getEnhancedIngredient,
   searchIngredients,
   getIngredientsByCategory,
-  _generateIngredientRecommendations,
+  generateIngredientRecommendations as _generateIngredientRecommendations,
 } from "../../data/unified/enhancedIngredients";
 import {
   unifiedFlavorProfileSystem,

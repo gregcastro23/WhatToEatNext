@@ -513,6 +513,7 @@ export interface RecipeSearchCriteria {
   tags?: string[];
 }
 // ingredient (lowercase - likely a simple ingredient type)
+                 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface ingredient {
   id: string;
   name: string;
@@ -526,6 +527,7 @@ export interface IngredientMapping {
   [key: string]: ingredient;
 }
 // nutritionInfo (causing error in recipeMatching.ts)
+                 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface nutritionInfo {
   calories?: number;
   protein?: number;

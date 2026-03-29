@@ -136,7 +136,7 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
       }
     }
 
-    loadRecommendations();
+    void loadRecommendations();
   }, [email, natalChart, preferences.preferredCuisines]);
 
   if (isLoading) {

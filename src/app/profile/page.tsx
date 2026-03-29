@@ -33,7 +33,7 @@ function getStorageItem(key: string): string | null {
 
 export default function ProfilePage() {
   const { data: session, status, update: updateSession } = useSession();
-  const { _state } = useAlchemical();
+  const { state: _state } = useAlchemical();
 
   const [profileData, setProfileData] = useState<any>(null);
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_PREFERENCES);
@@ -121,7 +121,7 @@ export default function ProfilePage() {
       setCurrentStep(determineStep(profile, loadedPrefs, prefsComplete));
       setIsFetchingProfile(false);
     }
-    fetchProfile();
+    void fetchProfile();
   }, [status, session, determineStep]);
 
   // Handle birth data submission
@@ -355,7 +355,7 @@ export default function ProfilePage() {
 function BirthDataStep({
   birthDateTime,
   setBirthDateTime,
-  _birthLocation,
+  birthLocation: _birthLocation,
   setBirthLocation,
   onSubmit,
   isLoading,
@@ -384,6 +384,8 @@ function BirthDataStep({
 
       <form onSubmit={onSubmit} className="space-y-5">
         <div>
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Birth Date &amp; Time
             <span className="text-red-500 ml-1">*</span>

@@ -28,8 +28,8 @@ import type {
   QuickFoodPreset,
   QuickFoodCategory,
   ServingSize,
-  _calculateEntryNutrition,
-  _createEmptyDailySummary,
+  calculateEntryNutrition as _calculateEntryNutrition,
+  createEmptyDailySummary as _createEmptyDailySummary,
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
 import type { NutritionalSummary } from "@/types/nutrition";

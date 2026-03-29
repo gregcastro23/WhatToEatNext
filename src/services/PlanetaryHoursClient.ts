@@ -20,6 +20,7 @@ export interface PlanetaryHourResult {
   end?: Date;
 }
 
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _BackendPlanetaryHourPayload {
   planet: Planet;
   hourNumber?: number;

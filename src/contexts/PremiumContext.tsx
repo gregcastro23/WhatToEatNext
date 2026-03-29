@@ -258,7 +258,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   }, [status, session?.user, broadcastUpdate]);
 
   useEffect(() => {
-    fetchSubscription();
+    void fetchSubscription();
   }, [fetchSubscription]);
 
   const hasFeature = useCallback(

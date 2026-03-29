@@ -20,9 +20,9 @@ import type {
 } from "@/types/menuPlanner";
 import {
   getDayName,
-  _getShortDayName,
+  getShortDayName as _getShortDayName,
   getPlanetaryDayCharacteristics,
-  _PLANETARY_DAY_RULERS,
+  PLANETARY_DAY_RULERS as _PLANETARY_DAY_RULERS,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
 import CopyMealModal from "./CopyMealModal";
@@ -40,7 +40,7 @@ function DayColumn({
   dayOfWeek,
   date,
   meals,
-  _onMealClick,
+  onMealClick: _onMealClick,
   onCopyMealClick,
   onFocusDay,
   currentPlanetaryHour,
@@ -275,14 +275,14 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
   // Handle copy operation
   const handleCopy = (targetSlotIds: string[], servings?: number) => {
     if (!copyMealModalState.sourceMeal) return;
-    copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
+    void copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 
   // Handle move operation
   const handleMove = (targetSlotIds: string[], servings?: number) => {
     if (!copyMealModalState.sourceMeal) return;
-    moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
+    void moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 

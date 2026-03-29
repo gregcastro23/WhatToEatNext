@@ -13,7 +13,7 @@ import type {
   DayCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
-  _MealCircuitMetrics,
+  MealCircuitMetrics as _MealCircuitMetrics,
 } from "@/types/kinetics";
 import type { WeeklyMenu, MealSlot, DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";

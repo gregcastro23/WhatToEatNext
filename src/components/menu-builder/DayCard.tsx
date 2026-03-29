@@ -142,9 +142,9 @@ export default function DayCard({
   dayOfWeek,
   date,
   meals,
-  _onGenerateMeal,
+  onGenerateMeal: _onGenerateMeal,
   dragState,
-  _isValidDrop,
+  isValidDrop: _isValidDrop,
   renderMealSlot,
 }: DayCardProps) {
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);

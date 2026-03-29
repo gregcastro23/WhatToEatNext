@@ -301,7 +301,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
   }, []);
 
   useEffect(() => {
-    loadRecommendations();
+    void loadRecommendations();
     const interval = setInterval(loadRecommendations, 15 * 60 * 1000);
     return () => clearInterval(interval);
   }, [loadRecommendations]);

@@ -4,7 +4,7 @@ import type {
   ThermodynamicProperties,
   CookingMethod,
   ZodiacSignType,
-  _BasicThermodynamicProperties,
+  BasicThermodynamicProperties as _BasicThermodynamicProperties,
 } from "@/types/alchemy";
 import type { Planet } from "@/types/celestial";
 import type { UnifiedIngredient } from "@/types/ingredient";

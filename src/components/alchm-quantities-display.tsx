@@ -57,7 +57,7 @@ export default function AlchmQuantitiesDisplay() {
   };
 
   useEffect(() => {
-    fetchData();
+    void fetchData();
     const interval = setInterval(fetchData, 30000); // Update every 30 seconds
     return () => clearInterval(interval);
   }, []);

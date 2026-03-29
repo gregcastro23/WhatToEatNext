@@ -39,10 +39,10 @@ export function calculateKinetics(
   const currentThermo = alchemize(currentPlanetaryPositions);
   const {
     heat: currentHeat,
-    _entropy,
+    entropy: _entropy,
     reactivity,
     gregsEnergy,
-    _kalchm,
+    kalchm: _kalchm,
     monica,
   } = currentThermo;
 

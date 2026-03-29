@@ -268,6 +268,8 @@ function AddToMealPlannerModal({ recipe, onClose, onAdded }: AddToMealPlannerPro
 
         {/* Day Selection */}
         <div className="mb-4">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block">
             Day
           </label>
@@ -290,6 +292,8 @@ function AddToMealPlannerModal({ recipe, onClose, onAdded }: AddToMealPlannerPro
 
         {/* Meal Type Selection */}
         <div className="mb-6">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block">
             Meal
           </label>
@@ -345,7 +349,7 @@ function FullRecipeCard({
   recommendation,
   index,
   total,
-  _isPersonalized,
+  isPersonalized: _isPersonalized,
   onAddToPlanner,
   onSave,
 }: FullRecipeCardProps) {
@@ -1183,26 +1187,26 @@ export default function RecipeGeneratorPage() {
       else if (hour < 18) smartMealTypes = ["snack", "dinner"];
       else smartMealTypes = ["dinner", "snack"];
 
-      generateRecipes(smartMealTypes);
+      void generateRecipes(smartMealTypes);
     }
   }, [astroState.isReady, isGenerating, hasGenerated, generateRecipes]);
 
   const handleQuickGenerate = useCallback(
     (mealType: MealType) => {
-      generateRecipes([mealType]);
+      void generateRecipes([mealType]);
     },
     [generateRecipes],
   );
 
   const handleGenerateAll = useCallback(() => {
-    generateRecipes(["breakfast", "lunch", "dinner", "snack"]);
+    void generateRecipes(["breakfast", "lunch", "dinner", "snack"]);
   }, [generateRecipes]);
 
   const handleBuilderGenerate = useCallback(() => {
     const mealTypes: MealType[] = builder.mealType
       ? [builder.mealType.toLowerCase() as MealType]
       : ["breakfast", "lunch", "dinner", "snack"];
-    generateRecipes(mealTypes);
+    void generateRecipes(mealTypes);
   }, [builder.mealType, generateRecipes]);
 
   const handleSave = useCallback(

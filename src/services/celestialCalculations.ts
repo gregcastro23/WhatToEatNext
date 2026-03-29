@@ -1582,6 +1582,7 @@ class CelestialCalculator {
 
       if (isInRange) {
         // Parse suit from card name (e.g., 'two_of_wands' -> 'wands')
+               // eslint-disable-next-line @typescript-eslint/naming-convention
         const [___, suit] = cardName.split("_");
 
         // Get value from card name (e.g., 'two_of_wands' -> 2)

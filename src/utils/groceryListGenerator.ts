@@ -213,7 +213,7 @@ export function generateGroceryList(
     const {
       consolidateBy = "ingredient",
       convertUnits = true,
-      _excludePantryItems = false,
+      excludePantryItems: _excludePantryItems = false,
     } = options;
 
     logger.debug("Generating grocery list", {

@@ -4,11 +4,11 @@
 
 import {
   culinaryTraditions,
-  _CuisineProfile,
+  CuisineProfile as _CuisineProfile,
 } from "@/data/cuisines/culinaryTraditions";
 import {
   culturalRules,
-  _getCulturalRecommendations,
+  getCulturalRecommendations as _getCulturalRecommendations,
 } from "@/data/culturalrules";
 import type { ElementalProperties, LunarPhase } from "@/types/alchemy";
 import { logger } from "@/utils/logger";

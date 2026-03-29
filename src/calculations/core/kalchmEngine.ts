@@ -172,12 +172,12 @@ export function calculateMonicaConstant(
 ): number {
   // Check for valid K_alchm
   if (K_alchm <= 0) return NaN;
-  const ln_K = Math.log(K_alchm);
+  const lnK = Math.log(K_alchm);
 
   // Check for valid natural log
-  if (ln_K === 0) return NaN;
+  if (lnK === 0) return NaN;
 
-  return -gregsEnergy / (reactivity * ln_K);
+  return -gregsEnergy / (reactivity * lnK);
 }
 
 /**

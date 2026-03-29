@@ -6,7 +6,7 @@
  * @file src/lib/auth/validateRequest.ts
  */
 
-import { jwtVerify, type, errors as JOSEerrors } from "jose";
+import { jwtVerify, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";

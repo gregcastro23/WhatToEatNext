@@ -6,7 +6,7 @@
  */
 
 import {
-  _PLANETARY_DIGNITIES,
+  PLANETARY_DIGNITIES as _PLANETARY_DIGNITIES,
   calculatePlanetaryDignity,
   calculatePlanetaryStrength,
 } from "@/calculations/core/planetaryInfluences";
@@ -19,7 +19,7 @@ import {
 } from "@/data/planets/locationService";
 import {
   COMPREHENSIVE_TRANSIT_DATABASE,
-  _TransitAnalysisService,
+  TransitAnalysisService as _TransitAnalysisService,
   type TransitSeason,
 } from "@/data/transits/comprehensiveTransitDatabase";
 import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";

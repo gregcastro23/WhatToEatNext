@@ -11,9 +11,9 @@
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type {
   ElementalProperties,
-  _Season,
-  _ZodiacSignType,
-  _PlanetName,
+  Season as _Season,
+  ZodiacSignType as _ZodiacSignType,
+  PlanetName as _PlanetName,
 } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "../../utils/logger";

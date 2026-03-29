@@ -76,6 +76,7 @@ interface CuisineCalculationsModule {
   ) => unknown[];
 }
 
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _SunTimesModule {
   _calculateSunTimes: (
     date: Date,

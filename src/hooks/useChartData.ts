@@ -64,8 +64,8 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     dateTime,
     location: optionLocation, // Rename to avoid conflict
     zodiacSystem = "tropical",
-    _autoRefresh = false,
-    _refreshInterval = 60000, // 1 minute default
+    autoRefresh: _autoRefresh = false,
+    refreshInterval: _refreshInterval = 60000, // 1 minute default
   } = options;
   const { currentUser } = useUser();
   const userLocation = currentUser?.birthData

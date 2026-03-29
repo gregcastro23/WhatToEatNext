@@ -49,7 +49,7 @@ export const DEFAULT_LUNAR_PHASE: LunarPhase = "new moon";
  * Default zodiac signs
  */
 export const DEFAULT_SUN_SIGN: any = "aries";
-export const DEFAULT_moon_SIGN: any = "taurus";
+export const DEFAULT_MOON_SIGN: any = "taurus";
 export const DEFAULT_RISING_SIGN: any = "leo";
 
 /**
@@ -547,7 +547,7 @@ export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
  */
 export const DEFAULT_ASTROLOGICAL_STATE = {
   sunSign: DEFAULT_SUN_SIGN,
-  moonSign: DEFAULT_moon_SIGN,
+  moonSign: DEFAULT_MOON_SIGN,
   lunarPhase: DEFAULT_LUNAR_PHASE,
   risingSign: DEFAULT_RISING_SIGN,
   planetaryHour: "Sun",
@@ -881,7 +881,7 @@ export default {
   // Astrological defaults
   DEFAULT_LUNAR_PHASE,
   DEFAULT_SUN_SIGN,
-  DEFAULT_moon_SIGN,
+  DEFAULT_MOON_SIGN,
   DEFAULT_RISING_SIGN,
   DEFAULT_PLANETARY_ALIGNMENT,
   DEFAULT_PLANETARY_POSITIONS,

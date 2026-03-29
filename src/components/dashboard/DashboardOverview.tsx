@@ -43,7 +43,7 @@ const ELEMENT_COLORS: Record<string, { bg: string; text: string; border: string;
 };
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
-  _profileData,
+  profileData: _profileData,
   natalChart,
   email,
 }) => {
@@ -77,7 +77,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       }
     }
 
-    loadData();
+    void loadData();
   }, [email, natalChart]);
 
   // Normalize ESMS from natal chart

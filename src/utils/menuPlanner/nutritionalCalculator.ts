@@ -24,7 +24,7 @@ import type {
   MacronutrientBreakdown,
   NutritionalGoals,
   NutritionalProgress,
-  _ChartDataPoint,
+  ChartDataPoint as _ChartDataPoint,
   NutritionalChart,
 } from "@/types/menuPlanner";
 import type { ElementalProperties} from "@/types/recipe";

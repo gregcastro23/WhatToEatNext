@@ -47,7 +47,7 @@ import {
   calculateHarmonyIndex,
   type FocusMode,
   type UserIntent,
-  type _HarmonyResult,
+  type HarmonyResult as _HarmonyResult,
 } from "@/utils/resonanceGapScoring";
 
 // ============================================================================
@@ -530,7 +530,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // RENDER: Overview Tab
   // ============================================================================
   const renderOverviewTab = (method: (typeof currentMethods)[0]) => {
-    const { _monicaClass, kalchm, gregsEnergy, pillar, harmony } = method;
+    const { monicaClass: _monicaClass, kalchm, gregsEnergy, pillar, harmony } = method;
     const pillarColors = pillar ? getPillarColors(pillar.id) : null;
 
     return (
@@ -1022,6 +1022,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
         {/* Focus dropdown */}
         <div className="flex items-center gap-2">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="text-xs font-semibold text-gray-500">Focus:</label>
           <select
             value={focusMode}

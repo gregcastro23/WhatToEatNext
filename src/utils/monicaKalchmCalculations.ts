@@ -138,9 +138,9 @@ export function calculateMonicaConstant(
   reactivity: number,
   K_alchm: number,
 ): number {
-  const ln_K = Math.log(K_alchm);
-  if (K_alchm > 0 && ln_K !== 0 && reactivity !== 0) {
-    return -gregsEnergy / (reactivity * ln_K);
+  const lnK = Math.log(K_alchm);
+  if (K_alchm > 0 && lnK !== 0 && reactivity !== 0) {
+    return -gregsEnergy / (reactivity * lnK);
   } else {
     return 1.0; // Default neutral value
   }

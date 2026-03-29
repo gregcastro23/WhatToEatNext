@@ -194,7 +194,7 @@ function generatePowerFlowDescription(
   kinetics: KineticMetrics,
   validation: CircuitValidationResult,
 ): string {
-  const { forceClassification, thermalDirection, _power } = kinetics;
+  const { forceClassification, thermalDirection, power: _power } = kinetics;
   const { efficiency } = validation;
 
   let description = "";

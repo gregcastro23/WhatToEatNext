@@ -27,7 +27,7 @@ export default function RecipeRitualModal({
   ritualInstruction,
   dominantTransit,
   totalPotencyScore,
-  _elementalProperties,
+  elementalProperties: _elementalProperties,
   alchemicalQuantities,
 }: RecipeRitualModalProps) {
   if (!isOpen) return null;

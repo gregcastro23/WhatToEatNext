@@ -166,7 +166,7 @@ export default function PlanetaryAspectsDisplay() {
   };
 
   useEffect(() => {
-    fetchData();
+    void fetchData();
     // Aspects change slowly — refresh every 2 minutes
     const iv = setInterval(fetchData, 120_000);
     return () => clearInterval(iv);

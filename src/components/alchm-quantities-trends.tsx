@@ -50,7 +50,7 @@ export default function AlchmQuantitiesTrends() {
       }
     };
 
-    fetchTrendData();
+    void fetchTrendData();
     const interval = setInterval(fetchTrendData, 300000); // 5 min
     return () => clearInterval(interval);
   }, []);

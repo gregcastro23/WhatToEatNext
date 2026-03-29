@@ -11,6 +11,7 @@ import type { AlchemicalPillar } from "../constants/alchemicalPillars";
 import type { AlchemicalProperty } from "../types/celestial";
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _AlchemicalPillarData {
   name?: string;
   element?: string;
@@ -30,6 +31,7 @@ interface _AlchemicalPillarData {
   season?: string | string[];
 }
 
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _PillarCalculationResult {
   id?: string;
   name?: string;

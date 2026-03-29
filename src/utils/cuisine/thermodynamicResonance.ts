@@ -17,8 +17,8 @@ import type {
 } from "@/types/alchemy";
 import {
   calculateThermodynamicMetrics,
-  _calculateMonicaKalchmCompatibility,
-  _calculateKalchmHarmony,
+  calculateMonicaKalchmCompatibility as _calculateMonicaKalchmCompatibility,
+  calculateKalchmHarmony as _calculateKalchmHarmony,
 } from "@/utils/monicaKalchmCalculations";
 
 // ========== TYPE DEFINITIONS ==========

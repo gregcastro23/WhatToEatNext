@@ -269,10 +269,10 @@ export default function GroceryListModal({
 
       if (format === "clipboard") {
         // Show temporary success message
-        alert("Grocery list copied to clipboard!");
+        console.warn("Grocery list copied to clipboard!");
       }
     } catch (_error) {
-      alert("Failed to export grocery list. Please try again.");
+      console.warn("Failed to export grocery list. Please try again.");
     }
   };
 

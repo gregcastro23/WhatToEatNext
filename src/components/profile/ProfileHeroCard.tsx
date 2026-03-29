@@ -67,7 +67,7 @@ function CosmicSigil({ natalChart }: { natalChart: NatalChart }) {
 
 export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   userName,
-  _email,
+  email: _email,
   natalChart,
   tier,
   onEditProfile,

@@ -9,7 +9,7 @@
 import React, { useMemo } from "react";
 import type {
   NutritionalSummary,
-  _WeeklyNutritionResult,
+  WeeklyNutritionResult as _WeeklyNutritionResult,
 } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
 import type { Recipe, IngredientMapping } from "@/types/recipe";

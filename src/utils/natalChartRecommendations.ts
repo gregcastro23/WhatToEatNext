@@ -16,7 +16,7 @@ import type {
   GroupRecipeScore,
   MemberRecipeScore,
   GroupScoringStrategy,
-  _CompositeNatalChart,
+  CompositeNatalChart as _CompositeNatalChart,
 } from "@/types/natalChart";
 
 /**

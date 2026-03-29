@@ -30,7 +30,7 @@ import type {
   MealCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
-  _CircuitOptimizationGoal,
+  CircuitOptimizationGoal as _CircuitOptimizationGoal,
 } from "@/types/kinetics";
 import type {
   WeeklyMenu,
@@ -62,7 +62,7 @@ import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
 import {
   generateDayRecommendations,
-  type _RecommendedMeal,
+  type RecommendedMeal as _RecommendedMeal,
   type AstrologicalState,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
@@ -360,7 +360,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    initializeMenu();
+    void initializeMenu();
 
     return () => {
       isMountedRef.current = false;
@@ -472,7 +472,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       try {
         const updatedMeals = currentMenu.meals.map((meal) => {
           if (meal.id === mealSlotId) {
-            const { _recipe, ...mealWithoutRecipe } = meal;
+            const { recipe: _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -608,7 +608,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           }
           if (meal.id === sourceMealSlotId) {
             // Clear source slot
-            const { _recipe, ...mealWithoutRecipe } = meal;
+            const { recipe: _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -770,7 +770,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           }
           if (meal.id === sourceMealSlotId) {
             // Clear source slot
-            const { _recipe, ...mealWithoutRecipe } = meal;
+            const { recipe: _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -807,7 +807,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       try {
         const updatedMeals = currentMenu.meals.map((meal) => {
           if (meal.dayOfWeek === dayOfWeek) {
-            const { _recipe, ...mealWithoutRecipe } = meal;
+            const { recipe: _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -840,7 +840,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
     try {
       const updatedMeals = currentMenu.meals.map((meal) => {
-        const { _recipe, ...mealWithoutRecipe } = meal;
+        const { recipe: _recipe, ...mealWithoutRecipe } = meal;
         return {
           ...mealWithoutRecipe,
           updatedAt: new Date(),
@@ -979,7 +979,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         logger.error("Failed to calculate chart comparison:", err);
       }
     };
-    updateChartComparison();
+    void updateChartComparison();
   }, [natalChart]);
 
   /**
@@ -1480,7 +1480,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     if (currentMenu && isMountedRef.current) {
       // Debounce circuit refresh to avoid excessive calculations
       const timeoutId = setTimeout(() => {
-        refreshCircuitMetrics();
+        void refreshCircuitMetrics();
       }, 500); // 500ms debounce
 
       return () => clearTimeout(timeoutId);

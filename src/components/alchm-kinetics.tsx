@@ -131,7 +131,7 @@ export default function AlchmKinetics() {
       }
     };
 
-    fetchData();
+    void fetchData();
     const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, []);

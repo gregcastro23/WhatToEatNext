@@ -292,7 +292,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
       }
     }
 
-    loadRecommendations();
+    void loadRecommendations();
   }, [email, natalChart, preferences.preferredCuisines]);
 
   // Derive natal chart info for inline display

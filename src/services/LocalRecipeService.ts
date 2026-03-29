@@ -1,7 +1,7 @@
 import { cuisinesMap } from "@/data/cuisines";
 import { allRecipes } from "@/data/recipes/index";
 import type {
-  _ZodiacSignType,
+  ZodiacSignType as _ZodiacSignType,
   LunarPhase,
   ElementalProperties,
 } from "@/types/alchemy";

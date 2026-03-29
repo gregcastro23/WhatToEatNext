@@ -67,7 +67,7 @@ export default function CelestialEquilibrium({
     // Only fetch if alchemicalQuantities is available, as imbalance depends on it.
     // In a real scenario, the API call might implicitly derive imbalance or take it as a parameter.
     if (alchemicalQuantities) {
-      fetchRecommendations();
+      void fetchRecommendations();
     } else {
       setLoadingRecommendations(false); // No data, so no recommendations to fetch
     }

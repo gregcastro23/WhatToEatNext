@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchDashboardData();
+    void fetchDashboardData();
   }, []);
 
   const fetchDashboardData = async () => {

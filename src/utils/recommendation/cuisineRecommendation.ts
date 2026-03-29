@@ -82,9 +82,9 @@ export function generateEnhancedCuisineRecommendations(
     preferences = [],
     dietaryRestrictions = [],
     astrologicalProfile,
-    _useAdvancedAnalysis = true,
-    _includePlanetaryData = true,
-    _includeSignatures = true,
+    useAdvancedAnalysis: _useAdvancedAnalysis = true,
+    includePlanetaryData: _includePlanetaryData = true,
+    includeSignatures: _includeSignatures = true,
   } = params;
 
   try {

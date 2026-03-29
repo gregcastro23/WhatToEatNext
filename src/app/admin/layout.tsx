@@ -19,7 +19,7 @@ export default function AdminLayout({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkAuth();
+    void checkAuth();
   }, []);
 
   const checkAuth = async () => {

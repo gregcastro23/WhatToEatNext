@@ -902,7 +902,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       "seasoning",
     ];
 
-    let validCategories_count = 0;
+    let validCategoriesCount = 0;
     let totalIngredients = 0;
 
     for (const ingredient of Object.values(ingredients)) {
@@ -911,11 +911,11 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
         ingredient.category &&
         validCategories.includes(ingredient.category)
       ) {
-        validCategories_count++;
+        validCategoriesCount++;
       }
     }
 
-    const passed = validCategories_count === totalIngredients;
+    const passed = validCategoriesCount === totalIngredients;
     const duration = Date.now() - startTime;
 
     return {
@@ -923,11 +923,11 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       passed,
       duration,
       details: {
-        validCategories: validCategories_count,
+        validCategories: validCategoriesCount,
         totalIngredients,
         successRate:
           totalIngredients > 0
-            ? (validCategories_count / totalIngredients) * 100
+            ? (validCategoriesCount / totalIngredients) * 100
             : 0,
       },
     };

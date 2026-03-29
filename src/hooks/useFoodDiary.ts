@@ -117,12 +117,12 @@ export function useFoodDiary(): UseFoodDiaryReturn {
 
   // Load data on mount and when date changes
   useEffect(() => {
-    loadData();
+    void loadData();
   }, [userId, selectedDate]);
 
   // Load weekly summary when week changes
   useEffect(() => {
-    loadWeeklySummary();
+    void loadWeeklySummary();
   }, [userId, selectedDate]);
 
   /**
@@ -457,7 +457,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
 
   // Load insights on mount
   useEffect(() => {
-    refreshInsights();
+    void refreshInsights();
   }, [refreshInsights]);
 
   return {
