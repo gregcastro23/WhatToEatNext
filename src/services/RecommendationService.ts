@@ -615,7 +615,7 @@ export class RecommendationService implements RecommendationServiceInterface {
   ): ThermodynamicMetrics {
     // Simplified thermodynamic calculation
     // In a full implementation, this would use the alchemizer engine
-    const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalProperties;
+    const { Fire = 0, Water = 0, _Earth = 0, Air = 0 } = elementalProperties;
 
     // Heat: Fire + Air (active elements)
     const heat = (Fire + Air) / 2;

@@ -1,4 +1,3 @@
-import { ZodiacSignType, CookingMethod } from "../types/alchemy";
 import {
   _transformIngredients,
   _transformCookingMethods,
@@ -260,7 +259,7 @@ export class AlchemicalTransformationService {
    */
   getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
     // Get alchemical recommendations to determine optimal elements and properties
-    const recommendations = this.getRecommendations();
+    const _recommendations = this.getRecommendations();
 
     // Get the transformed data we need for calculations
     const transformedIngredients = this.getTransformedIngredients();

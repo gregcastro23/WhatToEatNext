@@ -126,7 +126,7 @@ export class RecipeService {
    */
   async searchRecipes(
     criteria: RecipeSearchCriteriaInternal,
-    options: RecipeRecommendationOptions = {},
+    _options: RecipeRecommendationOptions = {},
   ): Promise<Recipe[]> {
     try {
       logger.debug("Searching recipes with criteria:", criteria);

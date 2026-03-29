@@ -4,12 +4,11 @@
 import type {
   ElementalProperties,
   PlanetaryPosition,
-  AstrologicalState,
+  _AstrologicalState,
   ZodiacSignType,
   LunarPhase,
-  Ingredient,
+  _Ingredient,
 } from "../alchemy";
-import type { Recipe } from "../recipe";
 
 // Re-export all astrological types from their sources
 export type {

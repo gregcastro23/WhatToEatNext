@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ZodiacSignType, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Broiling cooking method

@@ -24,7 +24,7 @@ interface EnhancedRecommendationEngineProps {
   className?: string;
 }
 
-const DIETARY_OPTIONS = [
+const _DIETARY_OPTIONS = [
   "vegetarian",
   "vegan",
   "gluten-free",
@@ -36,7 +36,7 @@ const DIETARY_OPTIONS = [
   "low-sodium",
 ] as const;
 
-const CUISINE_OPTIONS = [
+const _CUISINE_OPTIONS = [
   "italian",
   "chinese",
   "indian",
@@ -50,12 +50,12 @@ const CUISINE_OPTIONS = [
 ] as const;
 
 export function EnhancedRecommendationEngine({
-  filters = { dietaryRestrictions: [], cuisinePreferences: [] },
+  _filters = { dietaryRestrictions: [], cuisinePreferences: [] },
   maxRecommendations = 5,
   showScoring = true,
   className = "",
 }: EnhancedRecommendationEngineProps) {
-  const { currentUser } = useUser();
+  const { _currentUser } = useUser();
   const {
     positions,
     alchemical,

@@ -729,7 +729,7 @@ export function processQueryWithKinetics(
       kineticsContext,
       kineticsFilters,
     };
-  } catch (error) {
+  } catch (_error) {
     // Return base intent if kinetics processing fails
     return processNaturalLanguageQuery(query);
   }

@@ -6,7 +6,7 @@ import { planetInfo, signInfo } from "../data/astrology";
 import {
   backendCalculations,
   getElementalProperties,
-  getSeasonalModifier,
+  _getSeasonalModifier,
 } from "../utils/backendAdapter";
 import type {
   ElementalProperties,

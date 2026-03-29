@@ -52,11 +52,11 @@ function MenuPlannerContent() {
   const {
     currentMenu,
     weeklyStats,
-    groceryList,
+    _groceryList,
     regenerateGroceryList,
-    clearWeek,
+    _clearWeek,
     saveAsTemplate,
-    refreshStats,
+    _refreshStats,
     syncWithLunarCycle,
     toggleSyncWithLunarCycle,
   } = menuPlannerActions;
@@ -74,7 +74,7 @@ function MenuPlannerContent() {
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
   const [showRecipeBrowser, setShowRecipeBrowser] = useState(false);
   const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
-  const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
+  const [_showDetailedNutrition, _setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
   const [isWeeklyDashboardExpanded, setIsWeeklyDashboardExpanded] =

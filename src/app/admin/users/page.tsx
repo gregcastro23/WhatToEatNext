@@ -48,7 +48,7 @@ export default function AdminUsersPage() {
       } else {
         setError(data.message || "Failed to load users");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to connect to server");
     } finally {
       setLoading(false);
@@ -82,7 +82,7 @@ export default function AdminUsersPage() {
       } else {
         alert(data.message || "Failed to update status");
       }
-    } catch (err) {
+    } catch (_err) {
       alert("Failed to update status");
     } finally {
       setActionLoading(false);
@@ -112,7 +112,7 @@ export default function AdminUsersPage() {
       } else {
         alert(data.message || "Failed to delete user");
       }
-    } catch (err) {
+    } catch (_err) {
       alert("Failed to delete user");
     } finally {
       setActionLoading(false);

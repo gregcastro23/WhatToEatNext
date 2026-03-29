@@ -586,7 +586,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const weakPairings = (pairings || []).filter((p) => p.score < 0.4);
 
     // Calculate overall harmony
-    const overallHarmony =
+    const _overallHarmony =
       pairings.reduce((sum, p) => sum + p.score, 0) /
       ((pairings || []).length || 1);
 
@@ -617,7 +617,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Calculate thermodynamic metrics
    */
   calculateThermodynamicMetrics(
-    ingredient: UnifiedIngredient,
+    _ingredient: UnifiedIngredient,
   ): ThermodynamicProperties {
     // TODO: Implement actual calculation or import from utility
     return { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 };

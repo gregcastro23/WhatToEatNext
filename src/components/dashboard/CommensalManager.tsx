@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedFriend } from '@/types/natalChart';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
+import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedFriend } from '@/types/natalChart';
 
 /* ─── Types ────────────────────────────────────────────── */
 

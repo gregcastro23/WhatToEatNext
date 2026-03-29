@@ -1,8 +1,8 @@
 "use client";
 
 import { experimental_useObject as useObject } from '@ai-sdk/react';
-import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useState } from 'react';
+import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useUser } from '@/contexts/UserContext';
 import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import type { z } from 'zod';

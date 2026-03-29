@@ -47,7 +47,7 @@ import {
   calculateHarmonyIndex,
   type FocusMode,
   type UserIntent,
-  type HarmonyResult,
+  type _HarmonyResult,
 } from "@/utils/resonanceGapScoring";
 
 // ============================================================================
@@ -530,7 +530,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // RENDER: Overview Tab
   // ============================================================================
   const renderOverviewTab = (method: (typeof currentMethods)[0]) => {
-    const { monicaClass, kalchm, gregsEnergy, pillar, harmony } = method;
+    const { _monicaClass, kalchm, gregsEnergy, pillar, harmony } = method;
     const pillarColors = pillar ? getPillarColors(pillar.id) : null;
 
     return (

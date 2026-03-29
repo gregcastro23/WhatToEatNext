@@ -149,7 +149,7 @@ export const AstrologicalRecommendations: React.FC = () => {
     }
   }, [fetchCookingPlan]);
 
-  const getElementIcon = (element: string) => {
+  const _getElementIcon = (element: string) => {
     switch (element) {
       case "Fire":
         return FaFire;

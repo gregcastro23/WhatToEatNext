@@ -177,7 +177,7 @@ export function EnergyVisualization({
             borderRadius: "8px",
           }}
         >
-          {displayHistory.map((reading, index) => {
+          {displayHistory.map((reading, _index) => {
             const dominant = getMaxElement();
             return (
               <div

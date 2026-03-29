@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import {
   FaFire,
   FaTint,
@@ -10,7 +11,6 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
-import { useState, useEffect } from "react";
 
 interface AlchemyQuantities {
   Spirit: number;

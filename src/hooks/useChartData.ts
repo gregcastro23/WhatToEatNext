@@ -5,7 +5,7 @@
  * Calculates planetary aspects and provides alchemical properties.
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useUser } from "@/contexts/UserContext"; // Import the useUser hook
 import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
 
@@ -50,8 +50,6 @@ export interface ChartData {
   refetch: () => void;
 }
 import type { KineticMetrics } from "@/types/kinetics";
-import { calculateAspects } from "@/utils/astrologyUtils";
-import { calculateKineticProperties } from "@/utils/kineticCalculations";
 
 export interface ChartDataOptions {
   dateTime?: Date;
@@ -71,8 +69,8 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     dateTime,
     location: optionLocation, // Rename to avoid conflict
     zodiacSystem = "tropical",
-    autoRefresh = false,
-    refreshInterval = 60000, // 1 minute default
+    _autoRefresh = false,
+    _refreshInterval = 60000, // 1 minute default
   } = options;
 
   const { currentUser } = useUser();
@@ -86,14 +84,14 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
   // Determine the location to use: option > user > null
   const location = optionLocation || userLocation;
 
-  const [positions, setPositions] = useState<Record<
+  const [positions, _setPositions] = useState<Record<
     string,
     PlanetPosition
   > | null>(null);
-  const [aspects, setAspects] = useState<PlanetaryAspect[]>([]);
-  const [alchemical, setAlchemical] = useState<AlchemicalResult | null>(null);
-  const [kinetics, setKinetics] = useState<KineticMetrics | null>(null);
-  const [timestamp, setTimestamp] = useState<string | null>(null);
+  const [aspects, _setAspects] = useState<PlanetaryAspect[]>([]);
+  const [alchemical, _setAlchemical] = useState<AlchemicalResult | null>(null);
+  const [kinetics, _setKinetics] = useState<KineticMetrics | null>(null);
+  const [timestamp, _setTimestamp] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -110,7 +108,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
 
     try {
       // Build query parameters
-      const params = new URLSearchParams({
+      const _params = new URLSearchParams({
         latitude: location.latitude.toString(),
         longitude: location.longitude.toString(),
         zodiacSystem,

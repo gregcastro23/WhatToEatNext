@@ -252,7 +252,7 @@ export default function QuickActionsToolbar() {
   /**
    * Fallback: fill slots using UnifiedRecipeService
    */
-  const fillWithRecipeService = async () => {
+  const _fillWithRecipeService = async () => {
     if (!currentMenu) return;
 
     try {

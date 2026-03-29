@@ -1,19 +1,19 @@
 import { _logger } from "@/lib/logger";
-import type { ElementalProperties, CookingMethod } from "@/types/alchemy";
+import type { ElementalProperties} from "@/types/alchemy";
 import {
   calculatePlanetaryPositions,
   calculateSunSign,
   calculateLunarPhase,
 } from "../utils/astrologyUtils";
 import {
-  elementalUtils,
+  _elementalUtils,
   // _getCurrentElementalState,
 } from "../utils/elementalUtils";
 
 const _getCurrentElementalState: any = null; // Commented out non-existent export
 import {
   AstrologicalService,
-  getLatestAstrologicalState,
+  _getLatestAstrologicalState,
 } from "./AstrologicalService";
 
 interface CelestialPosition {
@@ -216,7 +216,7 @@ const getFallbackPositions = async (
 };
 
 // Helper function to calculate sun sign from date
-function getSunSignFromDate(date: Date): string {
+function _getSunSignFromDate(date: Date): string {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 

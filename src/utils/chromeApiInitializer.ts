@@ -102,7 +102,7 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.extension) {
       chromeObj.extension = {
-        getURL(path, string) {
+        getURL(path, _string) {
           return `${window.location.origin}/${path}`;
         },
         _getBackgroundPage() {

@@ -348,7 +348,7 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
     modality.Substance *
     _magnitude;
 
-  const raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance };
+  const _raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance };
   const sum = Spirit + Essence + Matter + Substance || 1;
   return {
     Spirit: Spirit / sum,

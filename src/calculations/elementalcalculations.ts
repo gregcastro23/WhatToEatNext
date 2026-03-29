@@ -177,7 +177,7 @@ export class ElementalCalculator {
    */
   calculateElementalState(
     baseProperties: ElementalProperties,
-    phase = "default",
+    _phase = "default",
     time = "neutral",
   ): {
     properties: ElementalProperties;
@@ -268,7 +268,7 @@ export function getElementRanking(
   const entries = Object.entries(properties).sort(([, a], [, b]) => b - a);
   const ranking: Record<number, string> = {};
 
-  entries.forEach(([element, value], index) => {
+  entries.forEach(([element, _value], index) => {
     ranking[index + 1] = element;
   });
 

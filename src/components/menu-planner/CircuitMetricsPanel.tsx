@@ -410,7 +410,7 @@ export default function CircuitMetricsPanel() {
   const hasEnoughMeals = totalMeals >= 6;
 
   // Auto-collapse when not enough meals
-  const shouldShowFullPanel = hasEnoughMeals && !isCollapsed;
+  const _shouldShowFullPanel = hasEnoughMeals && !isCollapsed;
 
   return (
     <div className="bg-white rounded-xl shadow-md border-2 border-purple-200 overflow-hidden">

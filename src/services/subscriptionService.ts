@@ -9,8 +9,8 @@
 
 import { randomUUID } from "crypto";
 import type {
-  SubscriptionTier,
-  SubscriptionStatus,
+  _SubscriptionTier,
+  _SubscriptionStatus,
   UserSubscription,
   UsageRecord,
 } from "@/types/subscription";

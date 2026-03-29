@@ -61,7 +61,7 @@ const PLANETARY_DATA = {
 };
 
 export const LivePlanetaryTracker: React.FC = () => {
-  const { isConnected, lastPlanetaryHour, lastEnergyUpdate } =
+  const { isConnected, lastPlanetaryHour, _lastEnergyUpdate } =
     useAlchmWebSocket();
   const [planetaryData, setPlanetaryData] =
     useState<PlanetaryDisplayData | null>(null);

@@ -9,7 +9,7 @@ export interface CustomHookResult {
 export function useCustomHook(initialValue: unknown = null): CustomHookResult {
   const [data, setData] = useState<unknown>(initialValue);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, _setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Mock async operation

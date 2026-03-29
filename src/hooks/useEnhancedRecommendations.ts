@@ -72,7 +72,7 @@ import { KitchenBackendClient } from "@/services/KitchenBackendClient";
 const kitchenBackendClient = new KitchenBackendClient();
 
 // Fallback mock recipes only used if backend is not available
-const mockRecipes: Recipe[] = [
+const _mockRecipes: Recipe[] = [
   {
     id: "1",
     name: "Celestial Pasta Primavera",

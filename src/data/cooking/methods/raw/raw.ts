@@ -1,4 +1,3 @@
-import type { ZodiacSignType, ThermodynamicProperties } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**

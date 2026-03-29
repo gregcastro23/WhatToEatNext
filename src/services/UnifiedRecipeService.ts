@@ -223,7 +223,7 @@ export class UnifiedRecipeService {
    * Get best recipe matches (Phase 11 addition)
    */
   async getBestRecipeMatches(
-    criteria: RecipeSearchCriteria,
+    _criteria: RecipeSearchCriteria,
   ): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();

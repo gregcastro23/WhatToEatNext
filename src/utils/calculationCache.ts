@@ -30,7 +30,7 @@ if (typeof window === "undefined") {
     .then((mod) => {
       CacheService = mod.CacheService;
     })
-    .catch((err) => {
+    .catch((_err) => {
       log.warn("Database not available, using memory-only cache");
     });
 }

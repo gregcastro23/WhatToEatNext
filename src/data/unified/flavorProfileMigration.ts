@@ -5,7 +5,7 @@ import { log } from "@/services/LoggingService";
 import type { UnifiedFlavorProfile, BaseFlavorNotes } from "./unifiedTypes";
 import type {
   AlchemicalProperties,
-  AlchemicalValues,
+  _AlchemicalValues,
   ElementalProperties,
   PlanetName,
   Season,
@@ -20,7 +20,7 @@ import {
 import { flavorProfiles as integrationFlavorProfiles } from "../integrations/flavorProfiles";
 import {
   planetaryFlavorProfiles,
-  type PlanetaryFlavorProfile,
+  type _PlanetaryFlavorProfile,
 } from "../planetaryFlavorProfiles";
 // ingredientFlavorMap import disabled - not exported
 // import { ingredientFlavorMap } from '../ingredients/flavorProfiles';

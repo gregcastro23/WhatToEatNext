@@ -629,7 +629,7 @@ export default function FocusedDayView({
   const generateReasons = (
     recipe: ScoredRecipe,
     mealType: MealType,
-    day: DayOfWeek,
+    _day: DayOfWeek,
   ): string[] => {
     const reasons: string[] = [];
 

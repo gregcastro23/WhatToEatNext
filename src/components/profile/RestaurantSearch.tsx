@@ -54,7 +54,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       }
 
       setResults(data.results || []);
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to search. Please try again.');
       setResults([]);
     } finally {

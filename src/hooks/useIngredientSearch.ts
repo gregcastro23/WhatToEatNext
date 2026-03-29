@@ -7,7 +7,7 @@ import { _logger } from "@/lib/logger";
 import { useState, useEffect, useMemo } from "react";
 import {
   ingredientsMap,
-  getAllIngredientsByCategory,
+  _getAllIngredientsByCategory,
   getAllVegetables,
   getAllProteins,
   getAllHerbs,

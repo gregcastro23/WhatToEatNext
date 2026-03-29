@@ -4,14 +4,13 @@
 
 import {
   culinaryTraditions,
-  CuisineProfile,
+  _CuisineProfile,
 } from "@/data/cuisines/culinaryTraditions";
 import {
   culturalRules,
-  getCulturalRecommendations,
+  _getCulturalRecommendations,
 } from "@/data/culturalrules";
 import type { ElementalProperties, LunarPhase } from "@/types/alchemy";
-import { ZodiacSignType } from "@/types/alchemy";
 import { logger } from "@/utils/logger";
 
 // ===== INTERFACES =====
@@ -432,7 +431,7 @@ export class CulturalAnalyticsService {
   ): CulturalAnalytics {
     try {
       const culturalRulesData = culturalRules[cuisineName];
-      const culinaryTradition = culinaryTraditions[cuisineName];
+      const _culinaryTradition = culinaryTraditions[cuisineName];
       const historicalContext = HISTORICAL_CONTEXTS[cuisineName];
 
       // Calculate cultural compatibility with current astrological state

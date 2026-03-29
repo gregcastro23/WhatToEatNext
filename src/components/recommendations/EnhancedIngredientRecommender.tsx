@@ -426,7 +426,7 @@ export const EnhancedIngredientRecommender: React.FC<
 > = ({
   initialCategory,
   initialSelectedIngredient,
-  isFullPageVersion = false,
+  _isFullPageVersion = false,
   onCategoryChange,
   onIngredientSelect,
   onDoubleClickIngredient,

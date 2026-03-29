@@ -66,7 +66,7 @@ export async function GET(request: Request) {
     const jwtTier = (session.user as Record<string, unknown>).tier as string || "free";
     // Case-insensitive admin check
     const isAdmin = (session.user as Record<string, unknown>).role?.toString().toLowerCase() === "admin";
-    const effectiveFallbackTier = isAdmin ? "premium" : jwtTier;
+    const _effectiveFallbackTier = isAdmin ? "premium" : jwtTier;
 
     if (shouldSync) {
       console.log(`[api/user/subscription] Syncing status for user: ${session.user.id}`);
@@ -95,7 +95,7 @@ export async function GET(request: Request) {
       status: subscription.status,
       subscription: {
         ...subscription,
-        tier: tier // Ensure subscription object reflects admin status
+        tier // Ensure subscription object reflects admin status
       },
       recipeUsage,
     });

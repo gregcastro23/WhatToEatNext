@@ -8,7 +8,7 @@
 
 import { scoreRecommendation } from "./UnifiedScoringService";
 import type { ScoringContext } from "./UnifiedScoringService";
-import type { ElementalProperties, Season } from "../types/alchemy";
+import type { ElementalProperties} from "../types/alchemy";
 import type { Planet } from "../types/celestial";
 import type { CookingMethod } from "../types/cooking";
 import type { UnifiedIngredient } from "../types/ingredient";

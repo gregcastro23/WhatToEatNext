@@ -25,7 +25,7 @@ const getDbModule = async () => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
-    } catch (error) {
+    } catch (_error) {
       _logger.warn("Database module not available, using in-memory storage");
     }
   }
@@ -75,7 +75,7 @@ class UserDatabaseService {
 
     const user: UserWithProfile = {
       id: userId,
-      email: email,
+      email,
       passwordHash: data.passwordHash || "TEMP_NO_PASSWORD",
       roles: data.roles || ["user" as UserRole],
       isActive: true,
@@ -83,7 +83,7 @@ class UserDatabaseService {
       profile: {
         userId,
         name: data.name,
-        email: email,
+        email,
         preferences: {},
         groupMembers: [],
         diningGroups: [],

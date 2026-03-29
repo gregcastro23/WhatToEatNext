@@ -1,0 +1,557 @@
+  51:6  warning  'PlanetName' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   77:11  warning  'realAspects' is assigned a value but never used. Allowed unused vars must match /^_/u                              @typescript-eslint/no-unused-vars
+   96:13  warning  'deltas' is assigned a value but never used. Allowed unused vars must match /^_/u                                   @typescript-eslint/no-unused-vars
+  16:9   warning  'router' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                   @typescript-eslint/no-unused-vars
+  48:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                      @typescript-eslint/no-unused-vars
+   51:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                      @typescript-eslint/no-unused-vars
+   85:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                      @typescript-eslint/no-unused-vars
+  115:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                      @typescript-eslint/no-unused-vars
+  23:10  warning  'userDatabase' is defined but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+  31:47  warning  'CelestialElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    4:15  warning  'ThermodynamicMetrics' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  245:10  warning  'getComplementaryElements' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  76:21  warning  'bodyUserId' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  69:11  warning  'effectiveFallbackTier' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  5:3  warning  'variant' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   55:5   warning  'groceryList' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                              @typescript-eslint/no-unused-vars
+   57:5   warning  'clearWeek' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                @typescript-eslint/no-unused-vars
+   59:5   warning  'refreshStats' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                             @typescript-eslint/no-unused-vars
+   77:10  warning  'showDetailedNutrition' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                         @typescript-eslint/no-unused-vars
+   77:33  warning  'setShowDetailedNutrition' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                      @typescript-eslint/no-unused-vars
+   36:11  warning  'state' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+  358:3   warning  'birthLocation' is defined but never used. Allowed unused args must match /^_/u                                                                                     @typescript-eslint/no-unused-vars
+   348:3   warning  'isPersonalized' is defined but never used. Allowed unused args must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+   18:3   warning  'SavedRestaurant' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+   57:17  warning  'session' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   58:11  warning  'tier' is assigned a value but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  42:10  warning  'safeGetElementValue' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   7:47  warning  'params' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  11:38  warning  'from' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+  11:49  warning  'to' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+   40:10  warning  'safeGetNumber' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  206:3   warning  'context' is assigned a value but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  24:3  warning  'recipe' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  25:3  warning  'state' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  180:5   warning  'phase' is assigned a value but never used. Allowed unused args must match /^_/u                    @typescript-eslint/no-unused-vars
+  271:30  warning  'value' is defined but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  119:3  warning  'decanA' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+  120:3  warning  'decanB' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+  130:3  warning  'degreeA' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  131:3  warning  'degreeB' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  161:3  warning  'elementA' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  162:3  warning  'elementB' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   61:11  warning  'TimeFactors' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+  152:32  warning  'cuisineName' is defined but never used. Allowed unused args must match /^_/u          @typescript-eslint/no-unused-vars
+  165:5   warning  'mealType' is defined but never used. Allowed unused args must match /^_/u             @typescript-eslint/no-unused-vars
+  166:5   warning  'dietaryRestrictions' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  250:34  warning  'recipe' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  259:5   warning  'recipe' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  260:5   warning  'astroState' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+  270:5   warning  'recipe' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  271:5   warning  'astroState' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+  281:5   warning  'recipe' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  282:5   warning  'astroState' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+  292:5   warning  'recipe' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  293:5   warning  'astroState' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+  302:35  warning  'recipe' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  313:5   warning  'astroState' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+  2:15  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  24:3  warning  'PlanetaryPosition' is defined but never used. Allowed unused vars must match /^_/u                       @typescript-eslint/no-unused-vars
+  25:3  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u                          @typescript-eslint/no-unused-vars
+  26:3  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u                                 @typescript-eslint/no-unused-vars
+  35:3  warning  'ELEMENTAL_ANALYSIS_INTELLIGENCE' is defined but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+  39:8  warning  'AlchemicalProperties' is defined but never used. Allowed unused vars must match /^_/u                    @typescript-eslint/no-unused-vars
+  40:8  warning  'KalchmResult' is defined but never used. Allowed unused vars must match /^_/u                            @typescript-eslint/no-unused-vars
+  54:7  warning  'calculateCuisineCompatibility' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  42:5  warning  'entropy' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  45:5  warning  'kalchm' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+   48:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                                @typescript-eslint/no-unused-vars
+   77:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                                @typescript-eslint/no-unused-vars
+  180:41  warning  'index' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  27:7   warning  'DIETARY_OPTIONS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  39:7   warning  'CUISINE_OPTIONS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  53:3   warning  'filters' is assigned a value but never used. Allowed unused args must match /^_/u          @typescript-eslint/no-unused-vars
+  58:11  warning  'currentUser' is assigned a value but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  14:53  warning  'module' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  15:28  warning  'props' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+   64:43  warning  'lastEnergyUpdate' is assigned a value but never used. Allowed unused vars must match /^_/u                                @typescript-eslint/no-unused-vars
+    4:37  warning  'FaCircle' is defined but never used. Allowed unused vars must match /^_/u                                                                                          @typescript-eslint/no-unused-vars
+   70:9   warning  'style' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+  152:9  warning  'getElementIcon' is assigned a value but never used. Allowed unused vars must match /^_/u                                     @typescript-eslint/no-unused-vars
+  94:17  warning  'ElementIcon' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  96:17  warning  'elementColor' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   11:11  warning  'UserIdentity' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+   17:11  warning  'BirthData' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+   25:11  warning  'KitchenPreferences' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   255:9   warning  'bgColor' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  46:3  warning  'profileData' is defined but never used. Allowed unused args must match /^_/u                                                                                       @typescript-eslint/no-unused-vars
+  181:18  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                        @typescript-eslint/no-unused-vars
+  203:18  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                        @typescript-eslint/no-unused-vars
+  227:18  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                        @typescript-eslint/no-unused-vars
+    9:10  warning  'friendships' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  29:7  warning  'NUTRIENT_LABELS' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  71:9  warning  'priorityInsights' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   16:3   warning  'ServingSize' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+   47:7   warning  'CATEGORY_ICONS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  245:39  warning  'value' is defined but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  131:7  warning  'PLANET_SYMBOLS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  145:3  warning  'onGenerateMeal' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+  147:3  warning  'isValidDrop' is defined but never used. Allowed unused args must match /^_/u              @typescript-eslint/no-unused-vars
+  255:9   warning  'fillWithRecipeService' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                    @typescript-eslint/no-unused-vars
+  553:3  warning  'onApply' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  413:9   warning  'shouldShowFullPanel' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  632:5   warning  'day' is defined but never used. Allowed unused args must match /^_/u                                                 @typescript-eslint/no-unused-vars
+  274:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u   @typescript-eslint/no-unused-vars
+  3:27  warning  'useEffect' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  5:15  warning  'NatalChart' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  144:3   warning  'weeklyNutrition' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   14:15  warning  'MealType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  30:3  warning  'elementalProperties' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   23:3   warning  'getShortDayName' is defined but never used. Allowed unused vars must match /^_/u                                                                                   @typescript-eslint/no-unused-vars
+   25:3   warning  'PLANETARY_DAY_RULERS' is defined but never used. Allowed unused vars must match /^_/u                                                                              @typescript-eslint/no-unused-vars
+   28:15  warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u                                                                                            @typescript-eslint/no-unused-vars
+   44:3   warning  'onMealClick' is defined but never used. Allowed unused args must match /^_/u                                                                                       @typescript-eslint/no-unused-vars
+  262:10  warning  'formatNutrientName' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  4:10  warning  'NutritionalTargets' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:3   warning  'WeeklyNutritionResult' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  16:10  warning  'formatNutrientName' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+   1:17  warning  'useState' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+   5:3   warning  'ComplianceSeverity' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:10  warning  'NutritionRing' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+  13:28  warning  'feature' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  70:3  warning  'email' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   57:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                      @typescript-eslint/no-unused-vars
+  234:9  warning  'lastCategory' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    50:8   warning  'HarmonyResult' is defined but never used. Allowed unused vars must match /^_/u                                       @typescript-eslint/no-unused-vars
+   533:13  warning  'monicaClass' is assigned a value but never used. Allowed unused vars must match /^_/u                                @typescript-eslint/no-unused-vars
+  429:3  warning  'isFullPageVersion' is assigned a value but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   7:3   warning  'getUnifiedIngredientsByCategory' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  35:3   warning  'isFullPageVersion' is assigned a value but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+  49:11  warning  'recommendations' is assigned a value but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+   16:3   warning  'showFilters' is assigned a value but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+   36:9   warning  'selectedGroup' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+     4:56  warning  'PlanetName' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1328:30  warning  'input' is defined but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+  259:5  warning  'symbols' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  260:5  warning  'colors' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  21:15  warning  'CelestialPosition' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  10:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    33:3   warning  'CircuitOptimizationGoal' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                     @typescript-eslint/no-unused-vars
+    65:8   warning  'RecommendedMeal' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                             @typescript-eslint/no-unused-vars
+   475:21  warning  'recipe' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                             @typescript-eslint/no-unused-vars
+   611:21  warning  'recipe' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                             @typescript-eslint/no-unused-vars
+   773:21  warning  'recipe' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                             @typescript-eslint/no-unused-vars
+   810:21  warning  'recipe' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                             @typescript-eslint/no-unused-vars
+   843:17  warning  'recipe' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                             @typescript-eslint/no-unused-vars
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  252:18  warning  'fetchError' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  2:31  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  2:31  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  1:31  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  2:31  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  1:31  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  2:31  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:25  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:25  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'Cuisine' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:25  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:10  warning  'cuisines' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:15  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:25  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:25  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:15  warning  'IngredientMapping' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  68:12  warning  'name_' is defined but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  6:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:15  warning  'CuisineType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   8:3   warning  'AlchemicalValues' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+  23:8   warning  'PlanetaryFlavorProfile' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:45  warning  'Season' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  18:3  warning  'getCookingMethodPillar' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  337:11  warning  'flavorHarmony' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   8:3  warning  'IngredientMapping' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  13:3  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  16:3  warning  'FlavorProfile' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  17:3  warning  'CookingMethod' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+   3:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  59:3   warning  'targetElement' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  3:10  warning  'AstrologicalState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    7:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u                                     @typescript-eslint/no-unused-vars
+    8:10  warning  'longitudeToZodiacPosition' is defined but never used. Allowed unused vars must match /^_/u                          @typescript-eslint/no-unused-vars
+  278:9   warning  'currentPlanetaryAlignment' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+    8:20  warning  'useEffect' is defined but never used. Allowed unused vars must match /^_/u                                          @typescript-eslint/no-unused-vars
+   53:10  warning  'calculateAspects' is defined but never used. Allowed unused vars must match /^_/u                                   @typescript-eslint/no-unused-vars
+   54:10  warning  'calculateKineticProperties' is defined but never used. Allowed unused vars must match /^_/u                         @typescript-eslint/no-unused-vars
+   74:5   warning  'autoRefresh' is assigned a value but never used. Allowed unused vars must match /^_/u                               @typescript-eslint/no-unused-vars
+   75:5   warning  'refreshInterval' is assigned a value but never used. Allowed unused vars must match /^_/u                           @typescript-eslint/no-unused-vars
+   89:21  warning  'setPositions' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u   @typescript-eslint/no-unused-vars
+   93:19  warning  'setAspects' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u     @typescript-eslint/no-unused-vars
+   94:22  warning  'setAlchemical' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+   95:20  warning  'setKinetics' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u    @typescript-eslint/no-unused-vars
+   96:21  warning  'setTimestamp' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u   @typescript-eslint/no-unused-vars
+  113:13  warning  'params' is assigned a value but never used. Allowed unused vars must match /^_/u                                    @typescript-eslint/no-unused-vars
+  1:31  warning  'useMemo' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  213:21  warning  'angle' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:17  warning  'setError' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  105:6  warning  'e' is defined but never used. Allowed unused args must match /^_/u                                                                          @typescript-eslint/no-unused-vars
+  205:6  warning  'e' is defined but never used. Allowed unused args must match /^_/u                                                                          @typescript-eslint/no-unused-vars
+  1:10  warning  'useState' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  1:20  warning  'useEffect' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  75:7  warning  'mockRecipes' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  390:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+  12:15  warning  'KineticsEnhancedRecommendation' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  284:10  warning  'calculateElementalAlignment' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  10:3  warning  'getAllIngredientsByCategory' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  78:7  warning  'operationName' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  36:5  warning  'testConnection' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:15  warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  248:5  warning  'cookingMethods' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   95:16  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                            @typescript-eslint/no-unused-vars
+  109:16  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                            @typescript-eslint/no-unused-vars
+  124:16  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u                                            @typescript-eslint/no-unused-vars
+  300:6   warning  'sourceProps' is defined but never used. Allowed unused args must match /^_/u                                           @typescript-eslint/no-unused-vars
+  300:40  warning  'targetProps' is defined but never used. Allowed unused args must match /^_/u                                           @typescript-eslint/no-unused-vars
+  148:28  warning  'setAlchemicalValues' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                @typescript-eslint/no-unused-vars
+  375:9   warning  'calculateTarotEnergyBoosts' is assigned a value but never used. Allowed unused vars must match /^_/u                                                    @typescript-eslint/no-unused-vars
+  888:21  warning  'otherPlanet' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  214:11  warning  'planetName' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  314:11  warning  'planetName' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  111:12  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  9:26  warning  'JWTPayload' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  6:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  9:10  warning  'logger' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   96:23  warning  'client' is defined but never used. Allowed unused args must match /^_/u            @typescript-eslint/no-unused-vars
+  103:33  warning  'client' is defined but never used. Allowed unused args must match /^_/u            @typescript-eslint/no-unused-vars
+  211:36  warning  'T' is defined but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+  219:49  warning  'timeout' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  90:11  warning  'element' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  156:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  175:24  warning  'element' is defined but never used. Allowed unused args must match /^_/u         @typescript-eslint/no-unused-vars
+  582:9  warning  'decanRuler' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                           @typescript-eslint/no-unused-vars
+  4:13  warning  'elementalConstants' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  5:13  warning  'ingredientTypes' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  6:13  warning  'alchemyTypes' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+    7:3   warning  'BasicThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  110:5   warning  'thermodynamics' is defined but never used. Allowed unused args must match /^_/u                @typescript-eslint/no-unused-vars
+  148:18  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                @typescript-eslint/no-unused-vars
+  176:5   warning  'thermodynamics' is defined but never used. Allowed unused args must match /^_/u                @typescript-eslint/no-unused-vars
+  181:34  warning  'Earth' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    1:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+    1:26  warning  'CookingMethod' is defined but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+  263:11  warning  'recommendations' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  743:37  warning  'data' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  753:31  warning  'data' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  763:33  warning  'data' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   29:31  warning  'CentralizedAstrologicalState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  104:5   warning  'testData' is defined but never used. Allowed unused args must match /^_/u                      @typescript-eslint/no-unused-vars
+  178:17  warning  'key' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  308:39  warning  'date' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  26:27  warning  'query' is defined but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+  31:5   warning  'criteria' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+  32:5   warning  'options' is defined but never used. Allowed unused args must match /^_/u     @typescript-eslint/no-unused-vars
+  37:32  warning  'planet' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+  42:5   warning  'ingredient' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  43:5   warning  'maxResults' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  48:27  warning  'filters' is defined but never used. Allowed unused args must match /^_/u     @typescript-eslint/no-unused-vars
+  25:23  warning  'query' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+  29:30  warning  'criteria' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  29:45  warning  'limit' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+  34:5   warning  'alignment' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  35:5   warning  'minScore' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+    5:3   warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u                        @typescript-eslint/no-unused-vars
+    6:3   warning  'Element' is defined but never used. Allowed unused vars must match /^_/u                       @typescript-eslint/no-unused-vars
+    8:10  warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+    9:15  warning  'CookingMethod' is defined but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+   13:10  warning  'getIngredientRecommendations' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    7:3   warning  'CuisineProfile' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+   11:3   warning  'getCulturalRecommendations' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   14:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+  435:13  warning  'culinaryTradition' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    9:3  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  398:5  warning  'alignment' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  9:3  warning  'getSeasonalModifier' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  20:5  warning  'elementalProperties' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  232:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  290:5   warning  'date' is defined but never used. Allowed unused args must match /^_/u            @typescript-eslint/no-unused-vars
+  14:29  warning  'params' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+    9:3  warning  'PLANETARY_DIGNITIES' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+   22:3  warning  'TransitAnalysisService' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  152:5  warning  'date' is defined but never used. Allowed unused args must match /^_/u                    @typescript-eslint/no-unused-vars
+  304:5  warning  'location' is defined but never used. Allowed unused args must match /^_/u                @typescript-eslint/no-unused-vars
+  491:5  warning  'preferences' is assigned a value but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+  176:13  warning  'result' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  583:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u   @typescript-eslint/no-unused-vars
+  31:3   warning  'calculateEntryNutrition' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  32:3   warning  'createEmptyDailySummary' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  50:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u           @typescript-eslint/no-unused-vars
+  289:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u            @typescript-eslint/no-unused-vars
+  442:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u            @typescript-eslint/no-unused-vars
+  470:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u            @typescript-eslint/no-unused-vars
+  489:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u            @typescript-eslint/no-unused-vars
+  571:11  warning  'ingredientNames' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  696:7   warning  'Earth' is assigned a value but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+  8:15  warning  'CuisineType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  9:15  warning  'Ingredient' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  4:3   warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  9:24  warning  'SeasonalDishes' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  27:3  warning  'aggregateNutrition' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  251:15  warning  'operation' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  15:25  warning  'metrics' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  222:53  warning  'error' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  13:3  warning  'KineticsRequest' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   4:31  warning  'APIPlanetaryHourResult' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+  23:11  warning  'BackendPlanetaryHourPayload' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  31:10  warning  'parseBackendResult' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  553:5  warning  'context' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  54:5  warning  'chakraEnergyStates' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  9:8  warning  'NutritionalSummary' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  10:39  warning  'recipe' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  27:23  warning  'recipe1' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  27:37  warning  'recipe2' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  129:5  warning  'options' is assigned a value but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  618:34  warning  'Earth' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  4:22  warning  'APIRuneResult' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  151:13  warning  'result' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  589:11  warning  'overallHarmony' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  620:5   warning  'ingredient' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  11:15  warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+  86:7   warning  'SEASON_MONTHS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  226:5  warning  'criteria' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   11:10  warning  'QuantityScaledProperties' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  651:5   warning  'elementalProperties' is defined but never used. Allowed unused args must match /^_/u         @typescript-eslint/no-unused-vars
+  675:11  warning  'ingredientService' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  817:11  warning  'ingredientService' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  901:11  warning  'ingredientService' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  967:5   warning  'ingredientQuantities' is defined but never used. Allowed unused args must match /^_/u        @typescript-eslint/no-unused-vars
+  972:5   warning  'cookingMethod' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+  974:11  warning  'ingredientService' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  11:36  warning  'Season' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  648:9   warning  'elem' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  904:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  916:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  983:34  warning  'context' is defined but never used. Allowed unused args must match /^_/u         @typescript-eslint/no-unused-vars
+   16:10  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+   17:10  warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+   24:3   warning  'FoodCompatibility' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+  136:15  warning  'signFormatted' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  15:10  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+  19:10  warning  'FoodAlchemySystem' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:15  warning  'ThermodynamicMetrics' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  15:3   warning  'Season' is defined but never used. Allowed unused vars must match /^_/u                @typescript-eslint/no-unused-vars
+  16:3   warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+  17:3   warning  'PlanetName' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+  20:10  warning  'RecipeIngredient' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  21:10  warning  'Ingredient' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+  79:5  warning  'options' is assigned a value but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   11:10  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u                           @typescript-eslint/no-unused-vars
+   14:3   warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u                            @typescript-eslint/no-unused-vars
+   15:3   warning  'Season' is defined but never used. Allowed unused vars must match /^_/u                            @typescript-eslint/no-unused-vars
+   17:3   warning  'LunarPhase' is defined but never used. Allowed unused vars must match /^_/u                        @typescript-eslint/no-unused-vars
+   18:3   warning  'PlanetName' is defined but never used. Allowed unused vars must match /^_/u                        @typescript-eslint/no-unused-vars
+   21:10  warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u                @typescript-eslint/no-unused-vars
+   24:23  warning  'ScoredRecipe' is defined but never used. Allowed unused vars must match /^_/u                      @typescript-eslint/no-unused-vars
+  257:13  warning  'defaultElementalBalance' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   9:10  warning  'UnifiedIngredient' is defined but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+  14:10  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u                            @typescript-eslint/no-unused-vars
+  14:19  warning  'PlanetName' is defined but never used. Allowed unused vars must match /^_/u                         @typescript-eslint/no-unused-vars
+  14:31  warning  'Season' is defined but never used. Allowed unused vars must match /^_/u                             @typescript-eslint/no-unused-vars
+  19:3   warning  'generateIngredientRecommendations' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:10  warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    2:36  warning  'CookingMethod' is defined but never used. Allowed unused vars must match /^_/u               @typescript-eslint/no-unused-vars
+    9:3   warning  'elementalUtils' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+   16:3   warning  'getLatestAstrologicalState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  219:10  warning  'getSunSignFromDate' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+    11:3   warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u                                @typescript-eslint/no-unused-vars
+   237:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                                @typescript-eslint/no-unused-vars
+   357:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                                @typescript-eslint/no-unused-vars
+   422:7   warning  'elementalAssociation' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+   634:9   warning  'jupiterDignityName' is assigned a value but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+   651:9   warning  'saturnDignityName' is assigned a value but never used. Allowed unused vars must match /^_/u                    @typescript-eslint/no-unused-vars
+  1600:15  warning  'value' is assigned a value but never used. Allowed unused vars must match /^_/u                                @typescript-eslint/no-unused-vars
+  1606:17  warning  'element' is assigned a value but never used. Allowed unused vars must match /^_/u                              @typescript-eslint/no-unused-vars
+   70:7  warning  'isFatal' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  374:5  warning  'message' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  10:23  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  13:3  warning  'NatalChart' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   3:3   warning  'IngredientMapping' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+   4:3   warning  'NutritionalProfile' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  11:10  warning  'RecipeIngredient' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  15:10  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+  16:10  warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  17:10  warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+  16:10  warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  3:26  warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:46  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+  22:10  warning  'fruits' is defined but never used. Allowed unused vars must match /^_/u                       @typescript-eslint/no-unused-vars
+  23:10  warning  'herbs' is defined but never used. Allowed unused vars must match /^_/u                        @typescript-eslint/no-unused-vars
+  24:10  warning  'seasonings' is defined but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+  25:10  warning  'spices' is defined but never used. Allowed unused vars must match /^_/u                       @typescript-eslint/no-unused-vars
+  26:10  warning  'vegetables' is defined but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+  28:10  warning  'validateElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  43:13  warning  'celestialInfluence' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:3  warning  'SubscriptionTier' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  13:3  warning  'SubscriptionStatus' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  11:3  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   28:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  7:10  warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   2:20  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+  11:33  warning  'RecipeElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  5:10  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1:31  warning  'LunarPhase' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+     6:3   warning  'AlchemicalProperties' is defined but never used. Allowed unused vars must match /^_/u                @typescript-eslint/no-unused-vars
+     7:3   warning  'AstrologicalState' is defined but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+  1068:27  warning  'typeData' is defined but never used. Allowed unused args must match /^_/u                            @typescript-eslint/no-unused-vars
+  1069:31  warning  'thermoData' is defined but never used. Allowed unused args must match /^_/u                          @typescript-eslint/no-unused-vars
+  1070:24  warning  'recipeData' is defined but never used. Allowed unused args must match /^_/u                          @typescript-eslint/no-unused-vars
+  1071:30  warning  'astroData' is defined but never used. Allowed unused args must match /^_/u                           @typescript-eslint/no-unused-vars
+  1072:24  warning  'energyData' is defined but never used. Allowed unused args must match /^_/u                          @typescript-eslint/no-unused-vars
+  21:6  warning  'Element' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  22:6  warning  'PlanetName' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  4:3  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:35  warning  'NutritionalProfile' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   7:3   warning  'AstrologicalState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  10:3   warning  'Ingredient' is defined but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+  12:15  warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+  161:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+    1:13  warning  'Astronomy' is defined but never used. Allowed unused vars must match /^_/u                     @typescript-eslint/no-unused-vars
+   10:7   warning  'debugLog' is assigned a value but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+   10:40  warning  'args' is defined but never used. Allowed unused args must match /^_/u                          @typescript-eslint/no-unused-vars
+  135:7   warning  'REFERENCE_POSITIONS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    14:11  warning  'AlchemicalPillarData' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+    33:11  warning  'PillarCalculationResult' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+   893:10  warning  'calculateAlchemicalScore' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  1176:11  warning  'methods' is assigned a value but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+  4:15  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  18:3  warning  'latitude' is assigned a value but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  19:3  warning  'longitude' is assigned a value but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  5:27  warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:27  warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  48:11  warning  'UNUSED_PlanetDataWithTransits' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  1761:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  2846:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  2997:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  3054:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  3084:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  297:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  366:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  549:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  985:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  33:13  warning  'err' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   9:3  warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  11:3  warning  'PlanetaryAspect' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  105:22  warning  'string' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   16:3   warning  'MealCircuitMetrics' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  301:3   warning  'planetaryPositions' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  302:3   warning  'recipeDatabase' is defined but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+  318:11  warning  'dayCircuit' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   488:24  warning  'Earth' is assigned a value but never used. Allowed unused vars must match /^_/u                @typescript-eslint/no-unused-vars
+   949:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                @typescript-eslint/no-unused-vars
+  1599:11  warning  'planetaryAffinity' is assigned a value but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  1614:10  warning  'calculateLunarMethodAffinity' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   754:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+   829:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  1201:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  11:3  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+  18:3  warning  'validateMultiRecipeCircuit' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  389:27  warning  'optionsHash' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  455:45  warning  'reason' is defined but never used. Allowed unused args must match /^_/u                                           @typescript-eslint/no-unused-vars
+  238:3   warning  'cuisineProperties' is defined but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+  244:11  warning  'currentSeason' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  18:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  22:3   warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  24:15  warning  'KineticMetrics' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  611:3  warning  'elementalScore' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+  612:3  warning  'alchemicalScore' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  16:15  warning  'ThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  17:15  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  311:30  warning  'includeCulturalNotes' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   20:3  warning  'calculateMonicaKalchmCompatibility' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   21:3  warning  'calculateKalchmHarmony' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+  480:3  warning  'userReactivityPref' is defined but never used. Allowed unused args must match /^_/u                  @typescript-eslint/no-unused-vars
+  16:3  warning  'KineticMetrics' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  193:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  81:11  warning  'SunTimesModule' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  16:15  warning  'KineticMetrics' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  135:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  216:7  warning  'excludePantryItems' is assigned a value but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  298:9  warning  'key' is defined but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  388:51  warning  'kalchm' is assigned a value but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  388:59  warning  'monica' is assigned a value but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  486:28  warning  'planetaryPositions' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  168:64  warning  'modifiers' is defined but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+  417:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+   654:9   warning  'safeAstroContext' is assigned a value but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  3211:35  warning  'Date' is defined but never used. Allowed unused args must match /^_/u                           @typescript-eslint/no-unused-vars
+  3322:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                 @typescript-eslint/no-unused-vars
+   795:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                                  @typescript-eslint/no-unused-vars
+  1254:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                                  @typescript-eslint/no-unused-vars
+  117:9  warning  'monica' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  43:3  warning  'userPreferences' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  2:10  warning  'lazy' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  23:3  warning  'PLANETARY_SECTARIAN_ELEMENTS' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  22:15  warning  'EnhancedRecipe' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  59:3   warning  'planetaryPositions' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  27:3   warning  'ChartDataPoint' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  30:36  warning  'EnhancedRecipe' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  847:3  warning  'astroState' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  3:30  warning  'AlchemicalPillar' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  551:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                 @typescript-eslint/no-unused-vars
+  597:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                 @typescript-eslint/no-unused-vars
+  647:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                 @typescript-eslint/no-unused-vars
+  19:3  warning  'CompositeNatalChart' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  732:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  8:3  warning  'multiplyNutrition' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  126:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u          @typescript-eslint/no-unused-vars
+  132:14  warning  'fallbackError' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  603:3  warning  'mealType' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   71:3   warning  'baseUnit' is assigned a value but never used. Allowed unused args must match /^_/u          @typescript-eslint/no-unused-vars
+  223:11  warning  'scaledAlchemical' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  620:11  warning  'categories' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:23  warning  'RecipeIngredient' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  5:8  warning  'NutritionalSummary' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  10:3  warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u               @typescript-eslint/no-unused-vars
+  11:3  warning  'RecipeIngredient' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  12:3  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   10:3   warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u                    @typescript-eslint/no-unused-vars
+   11:3   warning  'RecipeIngredient' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+   88:7   warning  'OPTIONAL_FIELDS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  830:11  warning  'set1' is assigned a value but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+  848:11  warning  'methodSet1' is assigned a value but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+   34:3   warning  'recipe' is defined but never used. Allowed unused args must match /^_/u                        @typescript-eslint/no-unused-vars
+   37:31  warning  'potentialDifference' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  197:50  warning  'power' is assigned a value but never used. Allowed unused vars must match /^_/u                @typescript-eslint/no-unused-vars
+   104:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+   990:14  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u      @typescript-eslint/no-unused-vars
+  1007:14  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u      @typescript-eslint/no-unused-vars
+  1115:14  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u      @typescript-eslint/no-unused-vars
+   85:5   warning  'useAdvancedAnalysis' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+   86:5   warning  'includePlanetaryData' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   87:5   warning  'includeSignatures' is assigned a value but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  119:11  warning  'cache' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+  120:11  warning  'availableCuisines' is assigned a value but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+   7:3   warning  'KineticMetrics' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+  48:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  351:9  warning  'raw' is assigned a value but never used. Allowed unused vars must match /^_/u                      @typescript-eslint/no-unused-vars
+  227:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  3:3  warning  'ErrorHandler' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  104:40  warning  'date' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   23:3  warning  'getMealsForDay' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  257:3  warning  'planetaryPositions' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars

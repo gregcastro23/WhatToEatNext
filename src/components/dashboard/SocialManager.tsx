@@ -6,7 +6,7 @@ import type { Friendship } from '@/types/natalChart';
 /* ─── Social Manager Component ─────────────────────────── */
 
 export const SocialManager: React.FC = () => {
-  const [friendships, setFriendships] = useState<Friendship[]>([]);
+  const [_friendships, setFriendships] = useState<Friendship[]>([]);
   const [incoming, setIncoming] = useState<Friendship[]>([]);
   const [outgoing, setOutgoing] = useState<Friendship[]>([]);
   const [accepted, setAccepted] = useState<Friendship[]>([]);

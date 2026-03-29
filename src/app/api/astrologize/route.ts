@@ -9,8 +9,8 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 
@@ -87,7 +87,7 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
     const seconds = Math.floor(((degreeInSign - degrees) * 60 - minutes) * 60);
 
     const body = {
-      key: key,
+      key,
       label: key.charAt(0).toUpperCase() + key.slice(1),
       Sign: {
         key: sign,
@@ -219,11 +219,11 @@ function calculateLocally(params: PlanetaryRequest) {
 function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
   const now = new Date();
   return {
-    year: parseInt(searchParams.get("year") || "") || now.getFullYear(),
-    month: parseInt(searchParams.get("month") || "") || (now.getMonth() + 1),
-    date: parseInt(searchParams.get("date") || searchParams.get("day") || "") || now.getDate(),
-    hour: parseInt(searchParams.get("hour") || "") || now.getHours(),
-    minute: parseInt(searchParams.get("minute") || "") || now.getMinutes(),
+    year: parseInt(searchParams.get("year") || "", 10) || now.getFullYear(),
+    month: parseInt(searchParams.get("month") || "", 10) || (now.getMonth() + 1),
+    date: parseInt(searchParams.get("date") || searchParams.get("day") || "", 10) || now.getDate(),
+    hour: parseInt(searchParams.get("hour") || "", 10) || now.getHours(),
+    minute: parseInt(searchParams.get("minute") || "", 10) || now.getMinutes(),
     latitude: parseFloat(searchParams.get("latitude") || "") || undefined,
     longitude: parseFloat(searchParams.get("longitude") || "") || undefined,
     zodiacSystem: (searchParams.get("zodiacSystem") as "tropical" | "sidereal") || "tropical",

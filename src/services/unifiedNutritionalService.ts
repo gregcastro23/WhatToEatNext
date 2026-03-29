@@ -8,7 +8,7 @@ import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type {
   Element,
   ElementalProperties,
-  ZodiacSignType,
+  _ZodiacSignType,
   PlanetName,
   Season,
   CookingMethod,

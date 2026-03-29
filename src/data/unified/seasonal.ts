@@ -15,7 +15,7 @@ import type {
 import { memoize } from "@/utils/memoize";
 import {
   getAllEnhancedCookingMethods,
-  getCookingMethodPillar,
+  _getCookingMethodPillar,
   type EnhancedCookingMethod,
 } from "../../constants/alchemicalPillars";
 import { unifiedIngredients } from "./ingredients";

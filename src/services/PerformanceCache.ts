@@ -248,7 +248,7 @@ export class PerformanceMonitor {
   /**
    * Start timing an operation
    */
-  startTiming(operation: string): () => void {
+  startTiming(_operation: string): () => void {
     const startTime = performance.now();
 
     return () => {

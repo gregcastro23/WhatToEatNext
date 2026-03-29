@@ -13,7 +13,6 @@
 
 import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/celestial";
-import type { KineticMetrics } from "@/types/kinetics";
 
 const log = _logger;
 

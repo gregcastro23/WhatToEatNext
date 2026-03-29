@@ -334,7 +334,7 @@ export class UnifiedFlavorEngine {
     );
 
     // 8. Base Flavor Harmony
-    const flavorHarmony = this.calculateFlavorHarmony(
+    const _flavorHarmony = this.calculateFlavorHarmony(
       _profile1.baseNotes,
       _profile2.baseNotes,
     );

@@ -5,7 +5,7 @@
 
 import {
   addNutrition,
-  multiplyNutrition,
+  _multiplyNutrition,
 } from "@/data/nutritional/rdaStandards";
 import type {
   NutritionalSummary,

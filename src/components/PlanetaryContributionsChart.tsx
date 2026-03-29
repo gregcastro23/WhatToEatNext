@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import {
   FaFire,
   FaTint,
@@ -10,7 +11,6 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
-import React, { useState, useEffect } from "react";
 import {
   formatTransitionTime,
   capitalizeFirstLetter,

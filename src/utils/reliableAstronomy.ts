@@ -45,7 +45,7 @@ export async function getReliablePlanetaryPositions(
       );
       // Skip MCP integration and go directly to fallback
       throw new Error("MCP integration removed - using fallback positions");
-    } catch (error) {
+    } catch (_error) {
       logger.warn(
         "MCP server integration removed, continuing to fallback positions",
       );

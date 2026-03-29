@@ -6,7 +6,7 @@ import type { Season, ElementalProperties } from "@/types/alchemy";
 import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
 import {
   createEmptyNutritionalSummary,
-  type NutritionalSummary,
+  type _NutritionalSummary,
 } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
 

@@ -24,7 +24,7 @@ import {
 import {
   buildDailyResult,
   buildWeeklyResult,
-  aggregateNutrition,
+  _aggregateNutrition,
   formatNutrientName,
 } from "@/utils/nutritionAggregation";
 

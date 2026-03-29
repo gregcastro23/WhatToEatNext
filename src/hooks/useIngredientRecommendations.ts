@@ -281,7 +281,7 @@ function calculateElementalCompatibility(
   return Math.max(0, 1 - diff / 2); // Convert difference to compatibility score
 }
 
-function calculateElementalAlignment(
+function _calculateElementalAlignment(
   ingredientProfile: {
     Fire: number;
     Water: number;

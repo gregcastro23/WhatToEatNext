@@ -67,7 +67,7 @@ class ErrorHandlerService {
       component = "unknown",
       context = {},
       data = {},
-      isFatal = false,
+      _isFatal = false,
       silent = false,
     } = options;
 
@@ -371,7 +371,7 @@ export function handlePropertyAccessError(
   ) {
     message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`;
   } else if (error instanceof Error) {
-    message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
+    _message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
   }
 
   ErrorHandler.log(error, {

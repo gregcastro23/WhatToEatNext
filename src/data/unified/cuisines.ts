@@ -1,4 +1,4 @@
-import type { CuisineType, Element, ElementalProperties } from '@/types/alchemy';
+import type { Element, ElementalProperties } from '@/types/alchemy';
 import type { Ingredient, Recipe, UnifiedIngredient } from '@/types/unified';
 
 // Import needed from ./ingredients.js.ts

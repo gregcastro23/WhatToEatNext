@@ -17,8 +17,8 @@ import type {
 } from "@/types/alchemy";
 import {
   calculateThermodynamicMetrics,
-  calculateMonicaKalchmCompatibility,
-  calculateKalchmHarmony,
+  _calculateMonicaKalchmCompatibility,
+  _calculateKalchmHarmony,
 } from "@/utils/monicaKalchmCalculations";
 
 // ========== TYPE DEFINITIONS ==========
@@ -477,7 +477,7 @@ function calculateReactivityAlignment(
  */
 function determineTransformationPotential(
   thermo: ThermodynamicProperties,
-  userReactivityPref?: number,
+  _userReactivityPref?: number,
 ): "low" | "moderate" | "high" | "exceptional" {
   const reactivity = thermo.reactivity;
   const kalchm = thermo.kalchm ?? 1;

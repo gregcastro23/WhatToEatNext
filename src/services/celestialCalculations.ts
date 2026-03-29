@@ -642,13 +642,13 @@ class CelestialCalculator {
       }
     }
 
-    let saturnDignityName = "";
+    let _saturnDignityName = "";
     if (saturnPos.sign) {
       const saturnSign = saturnPos.sign.toLowerCase();
       const dignity = saturnDignities[saturnSign];
       if (dignity) {
         saturnInfluence = 0.5 + dignity.strength;
-        saturnDignityName = dignity.type;
+        _saturnDignityName = dignity.type;
 
         // Determine effect based on dignity
         if (dignity.type === "Domicile" || dignity.type === "Exaltation") {

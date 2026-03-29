@@ -6,7 +6,6 @@
  * and environment-specific settings
  */
 
-import { logger } from "../logger";
 
 // Environment variable validation and defaults
 export const databaseConfig = {

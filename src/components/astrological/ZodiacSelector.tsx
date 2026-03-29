@@ -91,9 +91,9 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
       >
         {ZODIAC_SIGNS.map((sign) => {
           const element = ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS];
-          const ElementIcon =
+          const _ElementIcon =
             ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS];
-          const elementColor =
+          const _elementColor =
             ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS];
 
           return (

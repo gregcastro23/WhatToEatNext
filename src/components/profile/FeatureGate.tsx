@@ -10,7 +10,7 @@ interface FeatureGateProps {
   fallback?: React.ReactNode;
 }
 
-function DefaultFallback({ feature }: { feature: string }) {
+function DefaultFallback({ _feature }: { feature: string }) {
   return (
     <div className="relative rounded-2xl border border-dashed border-purple-200 bg-purple-50/50 p-6 text-center">
       <svg className="w-8 h-8 text-purple-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

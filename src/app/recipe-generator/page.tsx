@@ -345,7 +345,7 @@ function FullRecipeCard({
   recommendation,
   index,
   total,
-  isPersonalized,
+  _isPersonalized,
   onAddToPlanner,
   onSave,
 }: FullRecipeCardProps) {

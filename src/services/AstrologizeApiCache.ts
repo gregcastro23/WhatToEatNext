@@ -175,7 +175,7 @@ class AstrologizeApiCache {
   ): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
     const targetTime = date.getTime();
-    for (const [key, data] of this.cache.entries()) {
+    for (const [_key, data] of this.cache.entries()) {
       // Check distance
       const distance = this.calculateDistance(
         lat,

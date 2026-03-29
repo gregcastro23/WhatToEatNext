@@ -155,7 +155,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (failures.length > 0) {
               console.error(
                 `[auth] ${failures.length} email(s) failed for ${user.email}:`,
-                failures.map((f) => (f as PromiseRejectedResult).reason),
+                failures.map((f) => (f).reason),
               );
             }
           } else {

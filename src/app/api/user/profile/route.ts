@@ -11,9 +11,9 @@ import type { UserProfile } from "@/contexts/UserContext";
 import {
   getDatabaseUserFromRequest,
 } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
-import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -73,7 +73,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { userId: bodyUserId, ...profileData } = body;
+    const { userId: _bodyUserId, ...profileData } = body;
 
     // Use authenticated user's ID
     const userId = user.id;

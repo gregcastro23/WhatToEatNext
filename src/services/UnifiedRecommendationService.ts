@@ -8,7 +8,6 @@ import type {
   // ThermodynamicProperties, // unused - removed for performance
   ThermodynamicMetrics,
 } from "@/types/alchemy";
-import { QuantityScaledProperties } from "@/types/alchemy";
 // Removed unused, import: PlanetaryAlignment
 
 import { IngredientService } from "./IngredientService";
@@ -648,7 +647,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Calculate thermodynamic metrics based on elemental properties
    */
   calculateThermodynamics(
-    elementalProperties: ElementalProperties,
+    _elementalProperties: ElementalProperties,
   ): ThermodynamicMetrics {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
     return {
@@ -672,7 +671,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   async getQuantityAwareRecipeRecommendations(
     criteria: QuantityAwareRecipeCriteria,
   ): Promise<RecommendationResult<Recipe>> {
-    const ingredientService = IngredientService.getInstance();
+    const _ingredientService = IngredientService.getInstance();
     const allRecipesResult = recipeDataService.getAllRecipes();
     const allRecipes = Array.isArray(allRecipesResult)
       ? allRecipesResult
@@ -814,7 +813,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   async getQuantityAwareIngredientRecommendations(
     criteria: QuantityAwareIngredientCriteria,
   ): Promise<RecommendationResult<Ingredient>> {
-    const ingredientService = IngredientService.getInstance();
+    const _ingredientService = IngredientService.getInstance();
     const allIngredients = unifiedIngredientService.getAllIngredientsFlat();
 
     // Score ingredients based on criteria with quantity scaling
@@ -898,7 +897,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       unit: string;
     }>,
   ): number {
-    const ingredientService = IngredientService.getInstance();
+    const _ingredientService = IngredientService.getInstance();
 
     // Calculate scaled elemental properties for recipe ingredients
     const scaledElementals: ElementalProperties[] = [];
@@ -964,14 +963,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Calculate kinetics bonus for cooking method compatibility
    */
   private calculateKineticsCookingBonus(
-    ingredientQuantities: Array<{
+    _ingredientQuantities: Array<{
       ingredient: string;
       quantity: number;
       unit: string;
     }>,
-    cookingMethod: string,
+    _cookingMethod: string,
   ): number {
-    const ingredientService = IngredientService.getInstance();
+    const _ingredientService = IngredientService.getInstance();
     const totalBonus = 0;
     const ingredientCount = 0;
 

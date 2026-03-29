@@ -579,7 +579,7 @@ export const _getTarotFoodRecommendations = (
 } => {
   const tarotCards = getTarotCardsForDate(date);
   const decan = getCurrentDecan(date);
-  const decanRuler = _DECAN_RULERS[decan] as PlanetKey;
+  const _decanRuler = _DECAN_RULERS[decan] as PlanetKey;
 
   // Extract element from tarot cards
   const { element } = tarotCards.minorCard;

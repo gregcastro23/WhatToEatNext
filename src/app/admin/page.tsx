@@ -45,7 +45,7 @@ export default function AdminDashboardPage() {
       } else {
         setError(data.message || "Failed to load dashboard");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to connect to server");
     } finally {
       setLoading(false);

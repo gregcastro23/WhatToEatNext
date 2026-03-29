@@ -58,7 +58,7 @@ interface EnhancedRecipeMatch {
   mealType: string[];
 }
 
-interface TimeFactors {
+interface _TimeFactors {
   planetaryDay: PlanetaryDay;
   planetaryHour: PlanetaryHour;
   timeOfDay: TimeOfDay;
@@ -149,7 +149,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Get recipes for a specific cuisine
    */
-  private getRecipesForCuisine(cuisineName: string): RecipeData[] {
+  private getRecipesForCuisine(_cuisineName: string): RecipeData[] {
     // This would typically load recipes from the cuisine data files
     // For now, return empty array - can be expanded
     return [];
@@ -162,8 +162,8 @@ export class EnhancedCuisineRecommender {
     recipe: RecipeData,
     cuisineName: string,
     astroState: AstrologicalState,
-    mealType?: string,
-    dietaryRestrictions?: string[],
+    _mealType?: string,
+    _dietaryRestrictions?: string[],
   ): EnhancedRecipeMatch {
     try {
       // Calculate individual scores
@@ -247,7 +247,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate seasonal compatibility score
    */
-  private calculateSeasonalScore(recipe: RecipeData): number {
+  private calculateSeasonalScore(_recipe: RecipeData): number {
     // Simple implementation - can be expanded
     return 0.7;
   }
@@ -256,8 +256,8 @@ export class EnhancedCuisineRecommender {
    * Calculate planetary day compatibility score
    */
   private calculatePlanetaryDayScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.6;
@@ -267,8 +267,8 @@ export class EnhancedCuisineRecommender {
    * Calculate planetary hour compatibility score
    */
   private calculatePlanetaryHourScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.6;
@@ -278,8 +278,8 @@ export class EnhancedCuisineRecommender {
    * Calculate elemental compatibility score
    */
   private calculateElementalScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.7;
@@ -289,8 +289,8 @@ export class EnhancedCuisineRecommender {
    * Calculate astrological compatibility score
    */
   private calculateAstrologicalScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.6;
@@ -299,7 +299,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate time of day compatibility score
    */
-  private calculateTimeOfDayScore(recipe: RecipeData): number {
+  private calculateTimeOfDayScore(_recipe: RecipeData): number {
     // Simple implementation - can be expanded
     return 0.8;
   }
@@ -310,7 +310,7 @@ export class EnhancedCuisineRecommender {
    */
   private calculateKineticScore(
     recipe: RecipeData,
-    astroState: AstrologicalState,
+    _astroState: AstrologicalState,
   ): number {
     try {
       // Extract elemental properties from recipe

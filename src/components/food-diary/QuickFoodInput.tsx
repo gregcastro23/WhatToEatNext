@@ -13,7 +13,7 @@ import type {
   QuickFoodPreset,
   QuickFoodCategory,
   FoodSearchResult,
-  ServingSize,
+  _ServingSize,
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
 
@@ -44,7 +44,7 @@ const CATEGORY_LABELS: Record<QuickFoodCategory, string> = {
   prepared_foods: "Prepared Foods",
 };
 
-const CATEGORY_ICONS: Record<QuickFoodCategory, string> = {
+const _CATEGORY_ICONS: Record<QuickFoodCategory, string> = {
   fruits: "fruit",
   vegetables: "veg",
   proteins: "protein",

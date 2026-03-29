@@ -1,8 +1,8 @@
 "use client";
 
-import { FaFire, FaTint, FaWind, FaMountain, FaBolt } from "react-icons/fa";
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
+import { FaFire, FaTint, FaWind, FaMountain, FaBolt } from "react-icons/fa";
 import AlchmKinetics from "@/components/alchm-kinetics";
 import AlchmQuantitiesDisplay from "@/components/alchm-quantities-display";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";

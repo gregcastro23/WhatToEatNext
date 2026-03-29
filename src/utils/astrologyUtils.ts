@@ -1758,7 +1758,7 @@ export async function getCurrentAstrologicalState(
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {},
     };
-  } catch (error) {
+  } catch (_error) {
     errorLog("Error in getCurrentAstrologicalState");
 
     // Provide fallback state with basic data
@@ -2843,7 +2843,7 @@ function getDominantElementFromProperties(
     );
 
     return dominant.element;
-  } catch (error) {
+  } catch (_error) {
     return "Fire";
   }
 }
@@ -2994,7 +2994,7 @@ function calculateElementalTransformations(
     });
 
     return transformations;
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 }
@@ -3051,7 +3051,7 @@ function calculatePlanetaryStrength(planetaryPositions: {
     });
 
     return planetCount > 0 ? totalStrength / planetCount : 0.5;
-  } catch (error) {
+  } catch (_error) {
     return 0.5;
   }
 }
@@ -3081,7 +3081,7 @@ function calculateOverallAlchemicalScore(
     const score =
       (balance * 0.6 + influenceBalance * 0.4 + gregsEnergy * 0.1) / 1.1;
     return Math.max(0, Math.min(1, score));
-  } catch (error) {
+  } catch (_error) {
     return 0.5;
   }
 }

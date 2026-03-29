@@ -305,7 +305,7 @@ export class AstrologyService {
     return "waning crescent";
   }
 
-  private calculatePlanetaryPositions(date: Date): PlanetaryAlignment {
+  private calculatePlanetaryPositions(_date: Date): PlanetaryAlignment {
     // This would contain complex astronomical calculations in a real implementation
     // For now, return default positions
     return {};

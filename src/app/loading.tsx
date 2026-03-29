@@ -2,7 +2,7 @@ import React from "react";
 
 const LoadingComponent = ({
   fullScreen,
-  variant,
+  _variant,
   text,
 }: {
   fullScreen?: boolean;

@@ -1,8 +1,8 @@
 
-import { performAlchemicalAnalysis, deriveAlchemicalFromElemental } from '@/data/unified/alchemicalCalculations';
 import { PLANET_WEIGHTS, normalizePlanetWeight } from '@/data/planets';
+import { performAlchemicalAnalysis, deriveAlchemicalFromElemental } from '@/data/unified/alchemicalCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
-import type { NatalChart, Planet } from '@/types/natalChart';
+import type { NatalChart} from '@/types/natalChart';
 import type { AlchemicalState } from '@/utils/monica/types';
 
 /**

@@ -1,12 +1,12 @@
 import { cuisinesMap } from "@/data/cuisines";
 import { allRecipes } from "@/data/recipes/index";
 import type {
-  ZodiacSignType,
+  _ZodiacSignType,
   LunarPhase,
   ElementalProperties,
 } from "@/types/alchemy";
 import { _createAstrologicalBridge } from "@/types/bridges/astrologicalBridge";
-import type { Cuisine, SeasonalDishes } from "@/types/cuisine";
+import type { Cuisine} from "@/types/cuisine";
 import {
   createEmptyNutritionalSummary,
   type NutritionalSummary,

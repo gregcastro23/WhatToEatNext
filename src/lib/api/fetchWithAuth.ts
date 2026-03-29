@@ -108,7 +108,7 @@ export async function fetchWithAuth<T = unknown>(
     // Success
     const data = await response.json() as T;
     return { ok: true, data, status: response.status };
-  } catch (err) {
+  } catch (_err) {
     // Network error — likely offline
     const isOffline =
       typeof navigator !== "undefined" && !navigator.onLine;

@@ -1,7 +1,7 @@
 "use client";
 
-import { FaArrowRight, FaArrowLeft, FaCircle, FaSyncAlt } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
+import { FaArrowRight, FaArrowLeft, FaSyncAlt } from "react-icons/fa";
 
 interface AspectEntry {
   planet1: string;
@@ -67,7 +67,7 @@ function formatDays(days: number): string {
 // ── Strength bar ─────────────────────────────────────────────────────────────
 
 function StrengthBar({ strength, applying, type }: { strength: number; applying: boolean; type: string }) {
-  const style = aspectStyle(type);
+  const _style = aspectStyle(type);
   const pct = `${(strength * 100).toFixed(0)}%`;
   return (
     <div className="h-1.5 w-full bg-gray-900/40 rounded-full overflow-hidden mt-1">

@@ -210,7 +210,7 @@ export function useCurrentChart() {
         <g class='zodiac-ring'>;
           ${Array.from({ length: 12 })
             .map((_, i) => {
-              const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
+              const _angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
               const sign = Object.keys(zodiacSymbols)[i];
               const color = signColors[sign] || "#999";
               const startAngle = ((i * 30 - 90) * Math.PI) / 180;

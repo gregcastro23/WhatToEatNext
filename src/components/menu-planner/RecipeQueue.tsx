@@ -11,7 +11,6 @@
 import React, { useState } from "react";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import type { QueuedRecipe } from "@/contexts/RecipeQueueContext";
-import type { MealType } from "@/types/menuPlanner";
 
 interface RecipeQueueProps {
   onSelectRecipe?: (recipe: QueuedRecipe) => void;

@@ -2,15 +2,15 @@
 
 import { signOut } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
-import type { NatalChart } from '@/types/natalChart';
-import type { SavedRestaurant } from '@/types/restaurant';
-import type { UserTier } from '@/lib/tiers';
-import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
+import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
+import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
 import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
-import { PremiumGate } from '@/components/PremiumGate';
+import type { UserTier } from '@/lib/tiers';
+import type { NatalChart } from '@/types/natalChart';
+import type { SavedRestaurant } from '@/types/restaurant';
 import { CommensalManager } from './CommensalManager';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 import { DashboardOverview } from './DashboardOverview';

@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   unifiedIngredients,
-  getUnifiedIngredientsByCategory,
+  _getUnifiedIngredientsByCategory,
 } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
@@ -32,7 +32,7 @@ const CATEGORIES = [
 export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   initialCategory,
   initialSelectedIngredient,
-  isFullPageVersion = false,
+  _isFullPageVersion = false,
   onCategoryChange,
   onIngredientSelect,
 }) => {
@@ -46,7 +46,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   const [searchQuery, setSearchQuery] = useState("");
 
   // Hooks
-  const { recommendations, loading, error, getRecommendations } =
+  const { _recommendations, loading, error, getRecommendations } =
     useEnhancedRecommendations();
 
   // Get alchemical context (hook must be called unconditionally)

@@ -271,7 +271,7 @@ export default function GroceryListModal({
         // Show temporary success message
         alert("Grocery list copied to clipboard!");
       }
-    } catch (error) {
+    } catch (_error) {
       alert("Failed to export grocery list. Please try again.");
     }
   };

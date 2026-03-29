@@ -385,7 +385,7 @@ export function calculateRecipeKinetics(
   planetaryPositions: { [planet: string]: string },
 ): KineticMetrics {
   const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
-  const { heat, entropy, reactivity, gregsEnergy, kalchm, monica } =
+  const { heat, entropy, reactivity, gregsEnergy, _kalchm, _monica } =
     thermodynamicMetrics;
 
   // Recipe circuit parameters (30-minute standard time interval)
@@ -483,7 +483,7 @@ export function calculateRecipeKinetics(
  * Get the dominant planet from planetary positions
  * Used for kinetics calculation weighting
  */
-function getDominantPlanet(planetaryPositions: {
+function getDominantPlanet(_planetaryPositions: {
   [planet: string]: string;
 }): string {
   // Default to Sun if no clear dominant planet

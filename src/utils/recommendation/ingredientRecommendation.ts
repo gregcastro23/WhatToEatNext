@@ -4,7 +4,7 @@ import type { ElementalData, ScoredItem } from "@/types/common";
 import type { Element } from "@/types/unified";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type {
-  KineticMetrics,
+  _KineticMetrics,
   ThermodynamicMetrics,
 } from "@/utils/kineticCalculations";
 import type {

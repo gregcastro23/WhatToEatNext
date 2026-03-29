@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import type { NatalChart } from '@/types/natalChart';
 import type { UserTier } from '@/lib/tiers';
+import type { NatalChart } from '@/types/natalChart';
 
 interface ProfileHeroCardProps {
   userName: string;
@@ -67,7 +67,7 @@ function CosmicSigil({ natalChart }: { natalChart: NatalChart }) {
 
 export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   userName,
-  email,
+  _email,
   natalChart,
   tier,
   onEditProfile,

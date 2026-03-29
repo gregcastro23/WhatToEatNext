@@ -3,8 +3,8 @@ import type {
   LunarPhase,
   Modality,
   PlanetName,
-  AlchemicalProperties, // Added AlchemicalProperties from celestial
-  AstrologicalState, // Added AstrologicalState from celestial
+  _AlchemicalProperties, // Added AlchemicalProperties from celestial
+  _AstrologicalState, // Added AstrologicalState from celestial
   CelestialPosition, // Added CelestialPosition from celestial
   ZodiacSignType,
 } from "@/types/celestial";
@@ -1065,11 +1065,11 @@ export type { Season } from "@/constants/seasons";
 
 // Simplified ALCHEMY_TYPE_INTELLIGENCE_SYSTEM for compilation
 export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
-  analyzeElementalTypes: (typeData: any) => ({}),
-  analyzeThermodynamicTypes: (thermoData: any) => ({}),
-  analyzeRecipeTypes: (recipeData: any) => ({}),
-  analyzeAstrologicalTypes: (astroData: any) => ({}),
-  analyzeEnergyTypes: (energyData: any) => ({}),
+  analyzeElementalTypes: (_typeData: any) => ({}),
+  analyzeThermodynamicTypes: (_thermoData: any) => ({}),
+  analyzeRecipeTypes: (_recipeData: any) => ({}),
+  analyzeAstrologicalTypes: (_astroData: any) => ({}),
+  analyzeEnergyTypes: (_energyData: any) => ({}),
 };
 
 /**

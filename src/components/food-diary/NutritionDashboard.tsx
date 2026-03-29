@@ -26,7 +26,7 @@ interface NutritionDashboardProps {
   onRefreshInsights?: () => void;
 }
 
-const NUTRIENT_LABELS: Partial<
+const _NUTRIENT_LABELS: Partial<
   Record<
     keyof NutritionalSummary,
     { label: string; unit: string; color: string }
@@ -68,7 +68,7 @@ export default function NutritionDashboard({
     };
   }, [dailySummary]);
 
-  const priorityInsights = useMemo(() => {
+  const _priorityInsights = useMemo(() => {
     return insights.filter((i) => i.priority === "high").slice(0, 3);
   }, [insights]);
 

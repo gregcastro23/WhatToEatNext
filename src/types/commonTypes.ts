@@ -18,8 +18,8 @@ import type {
 // Import LunarPhase as type from constants.ts
 
 // Define types directly since they're not exported from constants
-type Element = "Fire" | "Water" | "Earth" | "Air";
-type PlanetName =
+type _Element = "Fire" | "Water" | "Earth" | "Air";
+type _PlanetName =
   | "Sun"
   | "Moon"
   | "Mercury"

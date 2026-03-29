@@ -1,5 +1,5 @@
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
-import type { ElementalProperties, Element, Season } from "@/types/alchemy";
+import type { ElementalProperties, Element} from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 
 // ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====

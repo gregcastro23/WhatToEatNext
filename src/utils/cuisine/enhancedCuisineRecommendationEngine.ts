@@ -15,13 +15,11 @@
  * @see cuisineRecommendationEngine.ts - Base engine
  */
 
-import type { ThermodynamicProperties } from "@/types/alchemy";
 import type {
   AlchemicalProperties,
   CuisineComputedProperties,
-  ElementalProperties,
+  _ElementalProperties,
 } from "@/types/hierarchy";
-import type { KineticMetrics } from "@/types/kinetics";
 import {
   rankRecipesByCircuitCompatibility,
   validateMultiCoursePowerFlow,

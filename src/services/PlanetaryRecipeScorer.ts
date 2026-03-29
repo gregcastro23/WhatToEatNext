@@ -550,7 +550,7 @@ export class PlanetaryRecipeScorer {
   private calculateBirthChartModifier(
     recipe: Recipe,
     birthChart: BirthChartData,
-    context: CelestialContext,
+    _context: CelestialContext,
   ): number {
     let modifier = 1.0;
 

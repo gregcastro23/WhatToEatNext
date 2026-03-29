@@ -13,7 +13,7 @@ interface KalchmRecommenderProps {
 
 export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
   maxRecommendations = 18,
-  showFilters = false,
+  _showFilters = false,
   showScoring = true,
 }) => {
   const [view, setView] = useState<"all" | "top">("all");
@@ -33,7 +33,7 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
   const groupMembers = currentUser?.groupMembers || [];
 
   // Get selected group details
-  const selectedGroup = diningGroups.find((g) => g.id === selectedGroupId);
+  const _selectedGroup = diningGroups.find((g) => g.id === selectedGroupId);
   const isGroupMode = selectedGroupId !== null;
 
   // Fetch recommendations when group selection changes

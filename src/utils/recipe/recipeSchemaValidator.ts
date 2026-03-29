@@ -7,8 +7,8 @@
  */
 
 import type {
-  Recipe,
-  RecipeIngredient,
+  _Recipe,
+  _RecipeIngredient,
   ElementalProperties,
 } from "@/types/recipe";
 
@@ -85,7 +85,7 @@ const RECOMMENDED_FIELDS = [
 ] as const;
 
 // Optional fields that enhance the recipe
-const OPTIONAL_FIELDS = [
+const _OPTIONAL_FIELDS = [
   "tools",
   "substitutions",
   "culturalNotes",
@@ -827,7 +827,7 @@ function calculateRecipeSimilarity(
     : [];
 
   if (ingredients1.length > 0 && ingredients2.length > 0) {
-    const set1 = new Set(ingredients1);
+    const _set1 = new Set(ingredients1);
     const set2 = new Set(ingredients2);
     const intersection = ingredients1.filter((i) => set2.has(i)).length;
     const union = new Set([...ingredients1, ...ingredients2]).size;
@@ -845,7 +845,7 @@ function calculateRecipeSimilarity(
     : [];
 
   if (methods1.length > 0 && methods2.length > 0) {
-    const methodSet1 = new Set(methods1);
+    const _methodSet1 = new Set(methods1);
     const methodSet2 = new Set(methods2);
     const methodIntersection = methods1.filter((m) => methodSet2.has(m)).length;
     const methodUnion = new Set([...methods1, ...methods2]).size;

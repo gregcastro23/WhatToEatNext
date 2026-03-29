@@ -39,7 +39,7 @@ const DEFAULT_ELEMENT_VALUE = 0.25;
 /**
  * Safely gets an element value from elemental properties
  */
-function safeGetElementValue(
+function _safeGetElementValue(
   props: Partial<ElementalProperties> | null | undefined,
   element: keyof ElementalProperties,
 ): number {

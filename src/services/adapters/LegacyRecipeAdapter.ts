@@ -76,7 +76,7 @@ export class LegacyRecipeAdapter {
    */
   public async searchRecipes(
     criteria: RecipeSearchCriteria,
-    options: RecipeRecommendationOptions = {},
+    _options: RecipeRecommendationOptions = {},
   ): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Safe type conversion for search criteria

@@ -10,7 +10,7 @@ import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Element, Modality , AlchemicalProperties } from "@/types/celestial";
 import type {
-  NatalChart,
+  _NatalChart,
   GroupMember,
   CompositeNatalChart,
 } from "@/types/natalChart";

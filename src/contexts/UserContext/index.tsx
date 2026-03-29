@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import React, {
   createContext,
   useContext,
@@ -9,7 +10,6 @@ import React, {
   useRef,
   type ReactNode,
 } from "react";
-import { signIn } from "next-auth/react";
 import type {
   BirthData,
   NatalChart,
@@ -249,7 +249,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               });
             }
           }
-        } catch (fetchError) {
+        } catch (_fetchError) {
           if (!profileLoaded) {
             setIsOffline(true);
           }

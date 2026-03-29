@@ -485,7 +485,7 @@ function calculateThermodynamicCompatibility(
   methodThermodynamics: BasicThermodynamicProperties,
 ): number {
   // Calculate user's thermodynamic state from elemental properties
-  const { Fire, Water, Earth, Air } = userElemental;
+  const { Fire, Water, _Earth, Air } = userElemental;
 
   // Estimate user's thermodynamic properties
   const userHeat = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / 4;
@@ -946,7 +946,7 @@ export async function getRecommendedCookingMethods(
         elementalComposition,
         methodThermodynamics,
       );
-    } catch (error) {
+    } catch (_error) {
       thermodynamicScore = 0.5; // Default if calculation fails
     }
 
@@ -1596,7 +1596,7 @@ export async function getRecommendedCookingMethods(
 
     // Add the recommendation with calculated score
     // Extract affinity data with safe property access
-    const planetaryAffinity = methodData.planetaryAffinity || 0;
+    const _planetaryAffinity = methodData.planetaryAffinity || 0;
     const _scoreDetailsForUI = scoreDetails;
 
     // Store score on the method object and push the method itself
@@ -1611,7 +1611,7 @@ export async function getRecommendedCookingMethods(
   return recommendations.sort((a, b) => (b.score || 0) - (a.score || 0));
 }
 
-function calculateLunarMethodAffinity(
+function _calculateLunarMethodAffinity(
   method: CookingMethod,
   phase: LunarPhase,
 ): number {

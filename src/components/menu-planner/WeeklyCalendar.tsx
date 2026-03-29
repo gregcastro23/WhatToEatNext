@@ -20,12 +20,11 @@ import type {
 } from "@/types/menuPlanner";
 import {
   getDayName,
-  getShortDayName,
+  _getShortDayName,
   getPlanetaryDayCharacteristics,
-  PLANETARY_DAY_RULERS,
+  _PLANETARY_DAY_RULERS,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
-import type { Recipe } from "@/types/recipe";
 import CopyMealModal from "./CopyMealModal";
 import FocusedDayView from "./FocusedDayView";
 import MealSlot from "./MealSlot";
@@ -41,7 +40,7 @@ function DayColumn({
   dayOfWeek,
   date,
   meals,
-  onMealClick,
+  _onMealClick,
   onCopyMealClick,
   onFocusDay,
   currentPlanetaryHour,

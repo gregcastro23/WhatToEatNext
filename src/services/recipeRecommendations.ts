@@ -40,7 +40,7 @@ export class RecipeRecommender {
       }
 
       // Get current celestial influences if not provided
-      const celestialInfluence =
+      const _celestialInfluence =
         criteria.celestialInfluence ||
         _celestialCalculator.calculateCurrentInfluences();
 

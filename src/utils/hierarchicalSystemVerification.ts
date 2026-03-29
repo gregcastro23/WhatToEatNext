@@ -165,7 +165,7 @@ export function verifyLevel1Ingredients(): {
     }
 
     // Test 3: Cooking method transformations
-    Object.entries(COOKING_METHOD_MODIFIERS).forEach(([method, modifiers]) => {
+    Object.entries(COOKING_METHOD_MODIFIERS).forEach(([method, _modifiers]) => {
       const transformed = applyCookingMethodTransforms(aggregatedElementals, [
         method,
       ]);

@@ -1,7 +1,7 @@
 "use client";
 
-import { FaHeartbeat, FaChartLine, FaBolt, FaTachometerAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import { FaHeartbeat, FaChartLine, FaBolt, FaTachometerAlt } from "react-icons/fa";
 
 interface ESMSKinetics {
   velocity:     { Spirit: number; Essence: number; Matter: number; Substance: number };

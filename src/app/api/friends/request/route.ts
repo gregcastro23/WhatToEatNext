@@ -5,8 +5,8 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { userDatabase } from "@/services/userDatabaseService";
 import { socialDatabase } from "@/services/socialDatabaseService";
+import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";

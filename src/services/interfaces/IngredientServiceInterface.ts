@@ -1,14 +1,13 @@
 import type {
   ElementalProperties,
-  IngredientMapping,
-  NutritionalProfile,
+  _IngredientMapping,
+  _NutritionalProfile,
   ThermodynamicMetrics,
   Season,
   PlanetName,
   ZodiacSignType,
 } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
-import { RecipeIngredient } from "@/types/unified";
 
 /**
  * IngredientServiceInterface.ts

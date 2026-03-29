@@ -68,7 +68,7 @@ const UNIT_CONVERSIONS: Record<string, number> = {
 export function calculateQuantityFactor(
   amount: number,
   unit: string,
-  baseUnit = "g",
+  _baseUnit = "g",
 ): number {
   // Convert to base unit (grams)
   const conversionFactor = UNIT_CONVERSIONS[unit.toLowerCase()] || 1;
@@ -220,7 +220,7 @@ export function createQuantityScaledProperties(
   let kineticsImpact;
   if (kinetics) {
     const baseAlchemical = deriveESMSFromElemental(baseElemental);
-    const scaledAlchemical = scaleAlchemicalProperties(
+    const _scaledAlchemical = scaleAlchemicalProperties(
       baseAlchemical,
       factor,
       kinetics,

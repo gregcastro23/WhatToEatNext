@@ -19,13 +19,7 @@ import {
   createEmptyNutritionalSummary,
   type NutritionalSummary,
 } from "@/types/nutrition";
-import { fruits } from "../data/ingredients/fruits";
-import { herbs } from "../data/ingredients/herbs";
-import { seasonings } from "../data/ingredients/seasonings";
-import { spices } from "../data/ingredients/spices";
-import { vegetables } from "../data/ingredients/vegetables";
 import { recipeElementalMappings } from "../data/recipes/elementalMappings";
-import { validateElementalProperties } from "../types/recipe";
 import { cache } from "../utils/cache";
 import { logger } from "../utils/logger";
 import { ErrorHandler } from "./errorHandler";

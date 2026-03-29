@@ -93,14 +93,14 @@ export function initializeDatabase(): Pool {
   pool = new Pool(config);
 
   // Connection event handlers
-  pool.on("connect", (client: PoolClient) => {
+  pool.on("connect", (_client: PoolClient) => {
     void logger.info("New database connection established", {
       database: config.database,
       host: config.host,
     });
   });
 
-  pool.on("error", (err: Error, client: PoolClient) => {
+  pool.on("error", (err: Error, _client: PoolClient) => {
     void logger.error("Unexpected database pool error", {
       error: err.message,
       stack: err.stack,
@@ -208,7 +208,7 @@ export async function withTransaction<T>(
 }
 
 // Query execution with error handling and logging
-export async function executeQuery<T extends any = any>(
+export async function executeQuery<_T extends any = any>(
   query: string,
   params: any[] = [],
   options: {
@@ -216,7 +216,7 @@ export async function executeQuery<T extends any = any>(
     timeout?: number;
   } = {},
 ): Promise<QueryResult<any>> {
-  const { logQuery = databaseConfig.logQueries, timeout = 30000 } = options;
+  const { logQuery = databaseConfig.logQueries, _timeout = 30000 } = options;
   const startTime = Date.now();
 
   try {

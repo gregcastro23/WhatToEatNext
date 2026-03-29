@@ -145,7 +145,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   const [signEnergyStates, setSignEnergyStates] = useState<SignEnergyState[]>(
     [],
   );
-  const [alchemicalValues, setAlchemicalValues] = useState<{
+  const [alchemicalValues, _setAlchemicalValues] = useState<{
     Spirit: number;
     Essence: number;
     Matter: number;
@@ -372,7 +372,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   };
 
   // This function will calculate alchemical values from tarot cards
-  const calculateTarotEnergyBoosts = useCallback(
+  const _calculateTarotEnergyBoosts = useCallback(
     (
       cards: TarotCard[],
     ): {

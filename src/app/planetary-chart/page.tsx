@@ -7,12 +7,12 @@
 
 "use client";
 
-import React, { useState } from "react";
 import dynamic from "next/dynamic";
+import React, { useState } from "react";
 import AlchemicalDisplay from "@/components/AlchemicalDisplay";
 import KineticsDisplay from "@/components/KineticsDisplay";
-import { PremiumGate } from "@/components/PremiumGate";
 import PlanetaryChartControls from "@/components/PlanetaryChartControls";
+import { PremiumGate } from "@/components/PremiumGate";
 import { useChartData } from "@/hooks/useChartData";
 
 const PlanetaryChart = dynamic(() => import("@/components/PlanetaryChart"), {

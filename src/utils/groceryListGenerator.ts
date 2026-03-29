@@ -213,7 +213,7 @@ export function generateGroceryList(
     const {
       consolidateBy = "ingredient",
       convertUnits = true,
-      excludePantryItems = false,
+      _excludePantryItems = false,
     } = options;
 
     logger.debug("Generating grocery list", {
@@ -295,7 +295,7 @@ export function generateGroceryList(
 
     // Convert to grocery items
     const groceryItems: GroceryItem[] = Array.from(ingredientMap.entries()).map(
-      ([key, data], index) => {
+      ([_key, data], index) => {
         // Convert back to display units if requested
         let displayAmount = data.baseAmount;
         let displayUnit = data.baseUnit;

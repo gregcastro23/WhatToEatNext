@@ -651,7 +651,7 @@ export async function getIngredientRecommendations(
   const astroContext =
     (ingredientData as { astrologicalContext?: Record<string, unknown> })
       .astrologicalContext || {};
-  const safeAstroContext = {
+  const _safeAstroContext = {
     zodiacSign: astroContext.zodiacSign ?? "aries",
     lunarPhase:
       typeof astroContext.lunarPhase === "string"
@@ -3208,7 +3208,7 @@ export async function recommendIngredients(
   const astrologicalBridge = _createAstrologicalBridge();
   // Note: Bridge configuration moved to separate initialization if needed
   const planetaryCalculator = {
-    calculatePlanetaryDay: (date, Date) => {
+    calculatePlanetaryDay: (date, _Date) => {
       const days = [
         "Sun",
         "Moon",
@@ -3319,7 +3319,7 @@ export async function recommendIngredients(
             ? enhancementResult
             : null;
       }
-    } catch (error) {
+    } catch (_error) {
       // Enterprise enhancement failed, continue without it
       enterpriseEnhancement = null;
     }

@@ -252,7 +252,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
 
-  const bgColor = "gray.50";
+  const _bgColor = "gray.50";
   const cardBg = "white";
 
   const fetchCuisineRecommendations = useCallback(async () => {

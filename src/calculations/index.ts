@@ -21,9 +21,9 @@ import {
 import { alchemize } from "@/services/RealAlchemizeService";
 import type {
   ElementalProperties,
-  PlanetaryPosition,
-  ZodiacSignType,
-  Element,
+  _PlanetaryPosition,
+  _ZodiacSignType,
+  _Element,
 } from "@/types/alchemy";
 import { Cache } from "@/utils/cache";
 import { createLogger } from "@/utils/logger";
@@ -32,12 +32,12 @@ import { createLogger } from "@/utils/logger";
 import {
   calculateBaseElementalProperties,
   analyzeElementalCompatibility,
-  ELEMENTAL_ANALYSIS_INTELLIGENCE,
+  _ELEMENTAL_ANALYSIS_INTELLIGENCE,
 } from "./core/elementalCalculations";
 import {
   calculateKalchmResults,
-  type AlchemicalProperties,
-  type KalchmResult,
+  type _AlchemicalProperties,
+  type _KalchmResult,
   type ThermodynamicResults,
 } from "./core/kalchmEngine";
 import {
@@ -51,7 +51,7 @@ import {
   // calculateCuisineCompatibility,
 } from "./culinary/cuisineRecommendations";
 
-const calculateCuisineCompatibility: any = null; // Commented out non-existent export
+const _calculateCuisineCompatibility: any = null; // Commented out non-existent export
 import { calculateRecipeCompatibility } from "./culinary/recipeMatching";
 import { calculateGregsEnergy } from "./gregsEnergy";
 import { calculateKinetics } from "./kinetics";

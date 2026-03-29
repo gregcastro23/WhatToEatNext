@@ -792,7 +792,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
         if (selfCompatibility >= 0.9) {
           validCalculations++;
         }
-      } catch (error) {
+      } catch (_error) {
         // Calculation failed
       }
     }
@@ -1251,7 +1251,7 @@ async function calculateKineticsValidationMetrics(): Promise<{
       forceMagnitude: avgForceMagnitude,
       thermalDirection: dominantThermal,
     };
-  } catch (error) {
+  } catch (_error) {
     // Return default values on error
     return {
       powerConservationEfficiency: 0.5,

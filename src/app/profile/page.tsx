@@ -33,7 +33,7 @@ function getStorageItem(key: string): string | null {
 
 export default function ProfilePage() {
   const { data: session, status, update: updateSession } = useSession();
-  const { state } = useAlchemical();
+  const { _state } = useAlchemical();
 
   const [profileData, setProfileData] = useState<any>(null);
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_PREFERENCES);
@@ -355,7 +355,7 @@ export default function ProfilePage() {
 function BirthDataStep({
   birthDateTime,
   setBirthDateTime,
-  birthLocation,
+  _birthLocation,
   setBirthLocation,
   onSubmit,
   isLoading,

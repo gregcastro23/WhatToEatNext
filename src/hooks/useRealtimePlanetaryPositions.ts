@@ -33,7 +33,7 @@ export function useRealtimePlanetaryPositions(
     location,
     autoStart = false, // Disabled by default to prevent unnecessary API calls
     zodiacSystem = "tropical",
-    testConnection = false,
+    _testConnection = false,
   } = _options;
 
   const [state, setState] = useState<PlanetaryPositionsState>({

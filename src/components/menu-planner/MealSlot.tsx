@@ -141,7 +141,7 @@ function RecipeDisplay({
   onRemove,
   onUpdateServings,
   onCopyMeal,
-  weeklyNutrition,
+  _weeklyNutrition,
 }: {
   recipe: MonicaOptimizedRecipe;
   servings: number;

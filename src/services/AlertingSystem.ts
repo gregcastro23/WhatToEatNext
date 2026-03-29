@@ -740,7 +740,7 @@ class AlertingSystem {
   }
 
   // Intentionally, any: Performance monitoring data comes from various sources with different metrics
-  private evaluatePerformanceAlerts(data: {
+  private evaluatePerformanceAlerts(_data: {
     metrics?: Record<string, number>;
     buildTime?: number;
     [key: string]: unknown;
@@ -750,7 +750,7 @@ class AlertingSystem {
   }
 
   // Intentionally, any: Error tracking data varies significantly across different error types and sources
-  private evaluateErrorAlerts(data: {
+  private evaluateErrorAlerts(_data: {
     errorCount?: number;
     errorRate?: number;
     [key: string]: unknown;
@@ -760,7 +760,7 @@ class AlertingSystem {
   }
 
   // Intentionally, any: Code quality metrics include diverse analysis results from various quality tools
-  private evaluateQualityAlerts(data: {
+  private evaluateQualityAlerts(_data: {
     qualityScore?: number;
     testCoverage?: number;
     [key: string]: unknown;

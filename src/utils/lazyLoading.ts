@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { lazy } from "react";
 import { _logger } from "@/lib/logger";
 import type { ComponentType } from "react";
 /**

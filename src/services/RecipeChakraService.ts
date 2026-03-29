@@ -51,7 +51,7 @@ export class RecipeChakraService {
    */
   public evaluateRecipeChakraBalance(
     recipe: Recipe,
-    chakraEnergyStates: ChakraEnergyState[],
+    _chakraEnergyStates: ChakraEnergyState[],
   ): {
     score: number;
     balancedChakras: Chakra[];

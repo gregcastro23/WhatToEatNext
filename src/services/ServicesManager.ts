@@ -148,7 +148,7 @@ export class ServicesManager {
         Pluto: "capricorn",
         Ascendant: "aquarius",
       };
-      const result = alchemicalEngine.alchemize(dummyPositions);
+      const _result = alchemicalEngine.alchemize(dummyPositions);
       logger.info("AlchemicalEngine test calculation completed");
 
       this._serviceResults.push({

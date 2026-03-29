@@ -1,7 +1,7 @@
 import type {
   CookingMethod,
   ElementalProperties,
-  ZodiacSignType,
+  _ZodiacSignType,
   ThermodynamicProperties,
 } from "./shared";
 

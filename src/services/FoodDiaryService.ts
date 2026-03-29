@@ -28,8 +28,8 @@ import type {
   QuickFoodPreset,
   QuickFoodCategory,
   ServingSize,
-  calculateEntryNutrition,
-  createEmptyDailySummary,
+  _calculateEntryNutrition,
+  _createEmptyDailySummary,
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
 import type { NutritionalSummary } from "@/types/nutrition";
@@ -47,7 +47,7 @@ const getDbModule = async () => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
-    } catch (error) {
+    } catch (_error) {
       _logger.warn("Database module not available, using in-memory storage");
     }
   }

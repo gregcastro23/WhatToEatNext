@@ -1,4 +1,4 @@
-import type { ZodiacSignType, LunarPhase } from "./alchemy";
+import type { ZodiacSignType} from "./alchemy";
 
 export interface AlchemicalIngredient {
   amount: number;

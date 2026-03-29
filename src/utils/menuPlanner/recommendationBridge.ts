@@ -844,7 +844,7 @@ export function getDailyIngredientRecommendations(
  */
 export function getDailyCuisineRecommendations(
   dayOfWeek: DayOfWeek,
-  astroState: AstrologicalState,
+  _astroState: AstrologicalState,
 ): Array<{ cuisine: string; score: number; reason: string }> {
   const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
 

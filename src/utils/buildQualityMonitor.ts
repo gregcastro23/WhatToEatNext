@@ -294,7 +294,7 @@ async function getBuildTiming(): Promise<{
         duration: buildEnd - buildStart,
         success: true,
       };
-    } catch (error) {
+    } catch (_error) {
       const buildEnd = Date.now();
       const endTime = new Date();
 
@@ -363,7 +363,7 @@ async function getErrorAndWarningCounts(): Promise<{
           total + (result.warningCount || 0),
         0,
       );
-    } catch (error) {
+    } catch (_error) {
       // ESLint might not be configured or might fail
       warnings = 0;
     }
@@ -546,7 +546,7 @@ async function getDirectorySize(dir: string): Promise<number> {
     }
 
     return Math.round(size / 1024); // Convert to KB
-  } catch (error) {
+  } catch (_error) {
     return 0;
   }
 }
@@ -982,7 +982,7 @@ async function getLintingWarningCount(): Promise<number> {
         total + (result.warningCount || 0),
       0,
     );
-  } catch (error) {
+  } catch (_error) {
     return 0;
   }
 }

@@ -2,15 +2,12 @@ import type {
   ElementalProperties,
   ThermodynamicMetrics} from "@/types/alchemy";
 import {
-  Planet,
-  Element,
+  _Planet,
+  _Element,
 } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
-import type { CookingMethod } from "@/types/cooking";
 // Import utility functions
 import { getCuisineRecommendations } from "../utils/cuisineRecommender";
 import { calculateElementalCompatibility } from "../utils/elemental/elementalUtils";
-import { getIngredientRecommendations } from "../utils/recommendation/foodRecommendation";
 import { getCookingMethodRecommendations } from "../utils/recommendation/methodRecommendation";
 
 // Import consolidated services

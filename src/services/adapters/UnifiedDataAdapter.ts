@@ -6,17 +6,15 @@
  * the unified data system and the application's services.
  */
 
-import { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type {
   ElementalProperties,
   IngredientSearchCriteria,
 } from "@/types/alchemy";
-import { Element, PlanetName, Season } from "@/types/alchemy";
 import {
   _getEnhancedIngredient,
   searchIngredients,
   getIngredientsByCategory,
-  generateIngredientRecommendations,
+  _generateIngredientRecommendations,
 } from "../../data/unified/enhancedIngredients";
 import {
   unifiedFlavorProfileSystem,

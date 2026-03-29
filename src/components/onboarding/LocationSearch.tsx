@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import type { GeocodingResult } from "@/services/geocodingService";
-
 import { getEdgeApiUrl } from "@/utils/urlUtils";
 
 interface LocationData {

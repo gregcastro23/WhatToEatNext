@@ -355,7 +355,7 @@ export function validateAstrologicalElementalProperties(
       return { isValid: false, errors, warnings, correctedData };
     }
 
-    const props = properties as ElementalProperties;
+    const props = properties;
 
     // Check for elemental balance
     const total = Object.values(props).reduce((sum, val) => sum + val, 0);
@@ -366,7 +366,7 @@ export function validateAstrologicalElementalProperties(
     }
 
     // Check for self-reinforcement patterns
-    const elements = Object.entries(props) as Array<[string, number]>;
+    const elements = Object.entries(props);
     const dominant = elements.reduce((max, current) =>
       current[1] > max[1] ? current : max,
     );

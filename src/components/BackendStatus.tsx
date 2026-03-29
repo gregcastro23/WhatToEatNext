@@ -45,7 +45,7 @@ export const BackendStatus: React.FC = () => {
         lastCheck: new Date().toISOString(),
       }));
       setServices(healthData);
-    } catch (error) {
+    } catch (_error) {
       _logger.info("Backend services offline - using fallback mode");
       setServices(services.map((s) => ({ ...s, status: "offline" as const })));
     }
@@ -74,7 +74,7 @@ export const BackendStatus: React.FC = () => {
         planetary: { ...planetary, responseTime: planetaryTime },
         recommendations: { ...recommendations, responseTime: recTime },
       });
-    } catch (error) {
+    } catch (_error) {
       _logger.info("Demo using fallback calculations");
       setDemoResults({
         elements: {

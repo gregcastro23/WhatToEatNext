@@ -9,16 +9,13 @@
  */
 
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
-import type { ThermodynamicMetrics } from "@/types/alchemical";
 import type {
   ElementalProperties,
-  Season,
-  ZodiacSignType,
-  PlanetName,
+  _Season,
+  _ZodiacSignType,
+  _PlanetName,
 } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
-import { RecipeIngredient } from "@/types/recipe";
-import { Ingredient } from "@/types/unified";
 import { createLogger } from "../../utils/logger";
 import { IngredientService } from "../IngredientService";
 import { unifiedIngredientService } from "../UnifiedIngredientService";

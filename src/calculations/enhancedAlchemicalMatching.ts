@@ -116,8 +116,8 @@ export function calculateAstrologicalAffinity(
  * Compare decanic rulers between two signs for compatibility
  */
 function compareDecanRulers(
-  decanA: Record<string, unknown>,
-  decanB: Record<string, unknown>,
+  _decanA: Record<string, unknown>,
+  _decanB: Record<string, unknown>,
 ): number {
   // Simple implementation - can be expanded
   return 0.5; // Neutral compatibility
@@ -127,8 +127,8 @@ function compareDecanRulers(
  * Calculate degree overlap between two signs
  */
 function calculateDegreeOverlap(
-  degreeA: Record<string, unknown>,
-  degreeB: Record<string, unknown>,
+  _degreeA: Record<string, unknown>,
+  _degreeB: Record<string, unknown>,
 ): number {
   // Simple implementation - can be expanded
   return 0.5; // Neutral compatibility
@@ -158,8 +158,8 @@ function compareTarotArcana(cardA: string, cardB: string): number {
 function compareModalities(
   modalityA: string,
   modalityB: string,
-  elementA: string,
-  elementB: string,
+  _elementA: string,
+  _elementB: string,
 ): number {
   try {
     // Same modality = higher compatibility

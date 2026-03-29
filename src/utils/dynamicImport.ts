@@ -78,7 +78,7 @@ interface CuisineCalculationsModule {
   ) => unknown[];
 }
 
-interface SunTimesModule {
+interface _SunTimesModule {
   _calculateSunTimes: (
     date: Date,
     latitude: number,

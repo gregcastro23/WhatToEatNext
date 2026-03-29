@@ -6,7 +6,7 @@
  */
 
 import {
-  PLANETARY_DIGNITIES,
+  _PLANETARY_DIGNITIES,
   calculatePlanetaryDignity,
   calculatePlanetaryStrength,
 } from "@/calculations/core/planetaryInfluences";
@@ -19,7 +19,7 @@ import {
 } from "@/data/planets/locationService";
 import {
   COMPREHENSIVE_TRANSIT_DATABASE,
-  TransitAnalysisService,
+  _TransitAnalysisService,
   type TransitSeason,
 } from "@/data/transits/comprehensiveTransitDatabase";
 import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
@@ -149,7 +149,7 @@ export class EnhancedTransitAnalysisService {
   private static calculateEnhancedPlanetaryPositions(
     planetaryPlacements: Record<string, Record<string, string>>,
     locationInfluences: LocationPlanetaryInfluence[],
-    date: Date,
+    _date: Date,
   ): EnhancedPlanetaryPosition[] {
     return Object.entries(planetaryPlacements).map(([planet, position]) => {
       // Calculate dignity
@@ -301,7 +301,7 @@ export class EnhancedTransitAnalysisService {
     aspect: PlanetaryAspect,
     planet1Data: EnhancedPlanetaryPosition | undefined,
     planet2Data: EnhancedPlanetaryPosition | undefined,
-    location: GeographicCoordinates,
+    _location: GeographicCoordinates,
   ): string[] {
     const effects: string[] = [];
 
@@ -488,7 +488,7 @@ export class EnhancedTransitAnalysisService {
    */
   static async getFoodRecommendationsForLocation(
     location: GeographicCoordinates,
-    preferences: {
+    _preferences: {
       dietaryRestrictions?: string[];
       preferredCuisines?: string[];
       mealType?: "breakfast" | "lunch" | "dinner" | "snack";

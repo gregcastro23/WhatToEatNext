@@ -102,7 +102,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
   );
 
   const handleMouseUp = useCallback(
-    (e: MouseEvent) => {
+    (_e: MouseEvent) => {
       if (!isDragging.current || !elementRef.current) return;
 
       isDragging.current = false;
@@ -202,7 +202,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
   );
 
   const handleTouchEnd = useCallback(
-    (e: TouchEvent) => {
+    (_e: TouchEvent) => {
       if (!isDragging.current || !elementRef.current) return;
 
       isDragging.current = false;

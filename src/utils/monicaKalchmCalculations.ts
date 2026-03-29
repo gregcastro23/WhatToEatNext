@@ -548,7 +548,7 @@ export function calculateThermodynamicMetricsWithKinetics(
     };
 
     return enhancedMetrics;
-  } catch (error) {
+  } catch (_error) {
     // Return base metrics if kinetics calculation fails
     return baseMetrics;
   }
@@ -594,7 +594,7 @@ export function calculateKineticsCompatibility(
     }
 
     return Math.min(1.0, baseCompatibility + powerFactor * 0.2 + thermalBonus);
-  } catch (error) {
+  } catch (_error) {
     // Return base compatibility if kinetics fails
     return baseCompatibility;
   }
@@ -644,7 +644,7 @@ export function performEnhancedAnalysisWithKinetics(
       compatibilityScore: enhancedCompatibility,
       confidence: enhancedConfidence,
     };
-  } catch (error) {
+  } catch (_error) {
     // Return base result if kinetics enhancement fails
     return baseResult;
   }

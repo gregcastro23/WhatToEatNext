@@ -30,7 +30,7 @@ import type {
   MealCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
-  CircuitOptimizationGoal,
+  _CircuitOptimizationGoal,
 } from "@/types/kinetics";
 import type {
   WeeklyMenu,
@@ -62,7 +62,7 @@ import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
 import {
   generateDayRecommendations,
-  type RecommendedMeal,
+  type _RecommendedMeal,
   type AstrologicalState,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
@@ -472,7 +472,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       try {
         const updatedMeals = currentMenu.meals.map((meal) => {
           if (meal.id === mealSlotId) {
-            const { recipe, ...mealWithoutRecipe } = meal;
+            const { _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -608,7 +608,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           }
           if (meal.id === sourceMealSlotId) {
             // Clear source slot
-            const { recipe, ...mealWithoutRecipe } = meal;
+            const { _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -770,7 +770,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           }
           if (meal.id === sourceMealSlotId) {
             // Clear source slot
-            const { recipe, ...mealWithoutRecipe } = meal;
+            const { _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -807,7 +807,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       try {
         const updatedMeals = currentMenu.meals.map((meal) => {
           if (meal.dayOfWeek === dayOfWeek) {
-            const { recipe, ...mealWithoutRecipe } = meal;
+            const { _recipe, ...mealWithoutRecipe } = meal;
             return {
               ...mealWithoutRecipe,
               updatedAt: new Date(),
@@ -840,7 +840,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
     try {
       const updatedMeals = currentMenu.meals.map((meal) => {
-        const { recipe, ...mealWithoutRecipe } = meal;
+        const { _recipe, ...mealWithoutRecipe } = meal;
         return {
           ...mealWithoutRecipe,
           updatedAt: new Date(),

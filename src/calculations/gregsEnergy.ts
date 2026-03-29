@@ -1,5 +1,4 @@
 // Type imports
-import type { ElementalProperties } from "@/types/unified";
 
 // Internal imports
 import { createLogger } from "@/utils/logger";

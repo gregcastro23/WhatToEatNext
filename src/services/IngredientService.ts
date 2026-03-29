@@ -286,7 +286,7 @@ export class IngredientService implements IngredientServiceInterface {
         .sort((a, b) => b.score - a.score); // Sort by score descending
 
       return ingredientsWithScores.map((item) => item.ingredient);
-    } catch (error) {
+    } catch (_error) {
       // Fallback to returning all ingredients if flavor matching fails
       return allIngredients;
     }
@@ -439,7 +439,7 @@ export class IngredientService implements IngredientServiceInterface {
           ing2.flavorProfile,
         );
       }
-    } catch (error) {
+    } catch (_error) {
       // Fallback to default if calculation fails
       flavorCompatibility = 0.7;
     }
@@ -467,7 +467,7 @@ export class IngredientService implements IngredientServiceInterface {
         }
         seasonalCompatibility = count > 0 ? totalCompat / count : 0.8;
       }
-    } catch (error) {
+    } catch (_error) {
       // Fallback to default if calculation fails
       seasonalCompatibility = 0.8;
     }
@@ -486,7 +486,7 @@ export class IngredientService implements IngredientServiceInterface {
         );
         energeticCompatibility = thermoCompat.overall;
       }
-    } catch (error) {
+    } catch (_error) {
       // Fallback to default if calculation fails
       energeticCompatibility = 0.75;
     }
@@ -568,7 +568,7 @@ export class IngredientService implements IngredientServiceInterface {
   } {
     // Simplified analysis - in a full implementation this would be more sophisticated
     const ingredients = recipe.ingredients || [];
-    const ingredientNames = ingredients
+    const _ingredientNames = ingredients
       .map((ing: any) => ing.name || "")
       .filter(Boolean);
 
@@ -693,7 +693,7 @@ export class IngredientService implements IngredientServiceInterface {
     const {
       Fire = 0,
       Water = 0,
-      Earth = 0,
+      _Earth = 0,
       Air = 0,
     } = ingredient.elementalProperties;
 

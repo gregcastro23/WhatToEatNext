@@ -9,7 +9,7 @@
  * @created 2026-01-29
  */
 
-import type { Recipe, RecipeIngredient } from "@/types/recipe";
+import type { Recipe} from "@/types/recipe";
 import { createLogger } from "../logger";
 import {
   RecipeDataEnricher,

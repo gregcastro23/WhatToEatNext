@@ -1,6 +1,6 @@
 import type { AlchemicalState } from "@/contexts/alchemicalTypes";
 import {
-  ErrorHandler,
+  _ErrorHandler,
   _errorHandler as errorHandler,
 } from "@/services/errorHandler";
 import { logger } from "@/utils/logger";
