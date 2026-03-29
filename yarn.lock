@@ -4864,10 +4864,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bcryptjs@npm:^2.4.6":
-  version: 2.4.6
-  resolution: "@types/bcryptjs@npm:2.4.6"
-  checksum: 25ae1fd1e8a9bd688e22a8de905581d6d7bf26e823b797f895d2c488100b1f15d3c12a7d1a94f553087b010d316bf3978106df860e8e58fd13f52b4c708df5fd
+"@types/bcryptjs@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/bcryptjs@npm:3.0.0"
+  dependencies:
+    bcryptjs: "*"
+  checksum: 15fcb37f90ff9726b436bad453248402c6a6d6c0f1b9689faf2c0c0f0f5eab519e04b34848c99ea7603821a07cd494df995bec29f020130665133570b5a5185e
   languageName: node
   linkType: hard
 
@@ -6985,7 +6987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bcryptjs@npm:^3.0.3":
+"bcryptjs@npm:*, bcryptjs@npm:^3.0.3":
   version: 3.0.3
   resolution: "bcryptjs@npm:3.0.3"
   bin:
@@ -15537,7 +15539,7 @@ next-auth@beta:
     "@testing-library/dom": ^10.4.1
     "@testing-library/jest-dom": ^6.9.1
     "@testing-library/react": ^16.1.0
-    "@types/bcryptjs": ^2.4.6
+    "@types/bcryptjs": ^3.0.0
     "@types/jest": ^30.0.0
     "@types/jsonwebtoken": ^9.0.10
     "@types/node": 20.19.37
