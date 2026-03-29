@@ -1698,6 +1698,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@csstools/cascade-layer-name-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@csstools/cascade-layer-name-parser@npm:3.0.0"
+  peerDependencies:
+    "@csstools/css-parser-algorithms": ^4.0.0
+    "@csstools/css-tokenizer": ^4.0.0
+  checksum: 271e3e76c9543e7a41ef8e05a0c680619bd8655e2cbb242635a45c3963bdd0b5b8d8e4509ce645917e870572f2064a4700afcb3e9ce2af2b4fa35b8198ad2d77
+  languageName: node
+  linkType: hard
+
 "@csstools/color-helpers@npm:^5.1.0":
   version: 5.1.0
   resolution: "@csstools/color-helpers@npm:5.1.0"
@@ -1737,10 +1747,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@csstools/css-parser-algorithms@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@csstools/css-parser-algorithms@npm:4.0.0"
+  peerDependencies:
+    "@csstools/css-tokenizer": ^4.0.0
+  checksum: 5e7003224ac756586163f36d64d5c8fd49af24d2ec218b084a22026b4e8a6d652cbffcaf042f542cf3d2662becea2fc112f5ab2c5a61355a4a2e0f6ebeebffb2
+  languageName: node
+  linkType: hard
+
 "@csstools/css-tokenizer@npm:^3.0.3, @csstools/css-tokenizer@npm:^3.0.4":
   version: 3.0.4
   resolution: "@csstools/css-tokenizer@npm:3.0.4"
   checksum: adc6681d3a0d7a75dc8e5ee0488c99ad4509e4810ae45dd6549a2e64a996e8d75512e70bb244778dc0c6ee85723e20eaeea8c083bf65b51eb19034e182554243
+  languageName: node
+  linkType: hard
+
+"@csstools/css-tokenizer@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@csstools/css-tokenizer@npm:4.0.0"
+  checksum: 924d1223561c035c7e9d8cde747d0ea37c4cba5b635b401901fe3f67ef0ccc33106a7c78b9751e80519457e432d950954717497093a5df56900f258ab4a50641
   languageName: node
   linkType: hard
 
@@ -2297,6 +2323,15 @@ __metadata:
   peerDependencies:
     postcss: ^8.4
   checksum: c9c8d82063ec5156d56b056c9124fed95714f05d7c1a64043174b0559aa099989f17a826579f22045384defe152e32d6355b7a9660cfed96819f43fccf277941
+  languageName: node
+  linkType: hard
+
+"@csstools/utilities@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@csstools/utilities@npm:3.0.0"
+  peerDependencies:
+    postcss: ^8.4
+  checksum: 964c1a2868807b3e6e0e5975633fc4b87a4ff429a1596c2db57bee510149426b50bbad2ea9d3512be7405c0194286c68a40405f940019580706fd335edce9ddc
   languageName: node
   linkType: hard
 
@@ -12758,7 +12793,7 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"postcss-custom-properties@npm:^14.0.4, postcss-custom-properties@npm:^14.0.6":
+"postcss-custom-properties@npm:^14.0.6":
   version: 14.0.6
   resolution: "postcss-custom-properties@npm:14.0.6"
   dependencies:
@@ -12770,6 +12805,21 @@ next-auth@beta:
   peerDependencies:
     postcss: ^8.4
   checksum: f78999e036e8406efcbbd2d7dec599910de88a32a3e829b0c2e78abf6d8944a79fe61fb2cc2ecd07bb96a392249846c363af40c5dc7d3ab8c36606a79c324a28
+  languageName: node
+  linkType: hard
+
+"postcss-custom-properties@npm:^15.0.1":
+  version: 15.0.1
+  resolution: "postcss-custom-properties@npm:15.0.1"
+  dependencies:
+    "@csstools/cascade-layer-name-parser": ^3.0.0
+    "@csstools/css-parser-algorithms": ^4.0.0
+    "@csstools/css-tokenizer": ^4.0.0
+    "@csstools/utilities": ^3.0.0
+    postcss-value-parser: ^4.2.0
+  peerDependencies:
+    postcss: ^8.4
+  checksum: 6135838607c9e1ef2325a71cc85765e4cc6d2e89ea7d732933210667f5f971dd78cd87ff6c67c6c0ea2c0e9862a44d37e940d36d3099b7312f82880e5fc2b196
   languageName: node
   linkType: hard
 
@@ -15578,7 +15628,7 @@ next-auth@beta:
     openapi-typescript: ^7.9.1
     pg: ^8.16.3
     postcss: 8.4.24
-    postcss-custom-properties: ^14.0.4
+    postcss-custom-properties: ^15.0.1
     postcss-flexbugs-fixes: ^5.0.2
     postcss-import: ^16.1.0
     postcss-nesting: ^14.0.0

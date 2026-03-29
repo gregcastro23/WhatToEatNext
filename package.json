@@ -206,7 +206,7 @@
     "nodemon": "^3.1.10",
     "open": "^11.0.0",
     "openapi-typescript": "^7.9.1",
-    "postcss-custom-properties": "^14.0.4",
+    "postcss-custom-properties": "^15.0.1",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^16.1.0",
     "postcss-nesting": "^14.0.0",
