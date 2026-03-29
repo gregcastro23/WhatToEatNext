@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useReducer, useState } from "react";
 import { AstrologicalService } from "@/services/AstrologicalService";
 import { defaultState, _AlchemicalContext } from "./context";
@@ -13,7 +15,6 @@ import type { ReactNode } from "react";
  * Provides alchemical state management with real-time updates,
  * planetary calculations, and elemental harmony tracking.
  */
-"use client";
 type AlchemicalAction = any; // Type not exported
 // Structured logger for browser console visibility
 const logger = {

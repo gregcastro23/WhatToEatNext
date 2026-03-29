@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
 import {
@@ -11,7 +13,6 @@ import {
  * SVG-based visualization of planetary positions in a zodiac wheel.
  * Displays planets, zodiac signs, and aspects.
  */
-"use client";
 type PlanetPosition = PlanetaryPosition;
 export interface PlanetaryChartProps {
   positions: Record<string, PlanetPosition>;
