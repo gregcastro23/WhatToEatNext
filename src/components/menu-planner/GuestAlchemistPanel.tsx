@@ -68,7 +68,7 @@ export default function GuestAlchemistPanel({
 
         <p className="text-gray-600 mb-6 text-sm">
           Add friends to calculate your collective alchemical equilibrium. Menu
-          recommendations will balance the group's energy.
+          recommendations will balance the group&apos;s energy.
         </p>
 
         {/* Add Guest Form */}

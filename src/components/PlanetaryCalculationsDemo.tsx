@@ -443,7 +443,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
                       </span>
                       <span>
                         {pos.sign.charAt(0).toUpperCase() + pos.sign.slice(1)}{" "}
-                        {pos.degree}° {pos.minute}'
+                        {pos.degree}° {pos.minute}&apos;
                       </span>
                     </div>
                     <div className="text-xs text-gray-500 mt-1">

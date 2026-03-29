@@ -3,20 +3,18 @@ import type { ElementalProperties } from "@/types/alchemy";
 import type { Ingredient } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
-
-// Import recommendation criteria and result interfaces
 import { RecipeService } from "./RecipeService";
 import type {
-  CookingMethodRecommendationCriteria,
-  CuisineRecommendationCriteria,
-  IngredientRecommendationCriteria,
-  RecipeRecommendationCriteria,
-  RecommendationResult,
-  RecommendationServiceInterface,
+    CookingMethodRecommendationCriteria,
+    CuisineRecommendationCriteria,
+    IngredientRecommendationCriteria,
+    RecipeRecommendationCriteria,
+    RecommendationResult,
+    RecommendationServiceInterface
 } from "./interfaces/RecommendationServiceInterface";
 
+// Import recommendation criteria and result interfaces
 // Import data services
-
 /**
  * Consolidated Recommendation Service
  *
@@ -32,14 +30,12 @@ import type {
 export class RecommendationService implements RecommendationServiceInterface {
   private static instance: RecommendationService;
   private recipeService: RecipeService;
-
   /**
    * Private constructor for singleton pattern
    */
   private constructor() {
     this.recipeService = RecipeService.getInstance();
   }
-
   /**
    * Get singleton instance of the service
    */
@@ -49,7 +45,6 @@ export class RecommendationService implements RecommendationServiceInterface {
     }
     return RecommendationService.instance;
   }
-
   /**
    * Get recommended recipes based on criteria
    */
@@ -58,10 +53,8 @@ export class RecommendationService implements RecommendationServiceInterface {
   ): Promise<RecommendationResult<Recipe>> {
     try {
       logger.info("Getting recommended recipes with criteria:", criteria);
-
       // Get all recipes from the recipe service
       const allRecipes = await this.recipeService.getAllRecipes();
-
       if (!allRecipes || allRecipes.length === 0) {
         logger.warn("No recipes available for recommendations");
         return {
@@ -70,14 +63,11 @@ export class RecommendationService implements RecommendationServiceInterface {
           context: { criteria, totalRecipes: 0, filteredCount: 0 },
         };
       }
-
       let filteredRecipes = [...allRecipes];
-
       // Filter by elemental properties compatibility
       if (criteria.elementalProperties) {
         filteredRecipes = filteredRecipes.filter((recipe) => {
           if (!recipe.elementalProperties) return false;
-
           const compatibility = this.calculateElementalCompatibility(
             criteria.elementalProperties!,
             recipe.elementalProperties,
@@ -85,7 +75,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           return compatibility >= (criteria.minCompatibility || 0.3);
         });
       }
-
       // Filter by planetary positions if provided
       if (criteria.planetaryPositions) {
         // For now, use elemental properties as proxy for planetary influence
@@ -94,7 +83,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           return recipe.elementalProperties !== undefined;
         });
       }
-
       // Filter by cooking method
       if (criteria.cookingMethod) {
         const targetMethod = criteria.cookingMethod.toLowerCase();
@@ -107,7 +95,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           return String(methods).toLowerCase() === targetMethod;
         });
       }
-
       // Filter by cuisine
       if (criteria.cuisine) {
         const targetCuisine = criteria.cuisine.toLowerCase();
@@ -116,7 +103,6 @@ export class RecommendationService implements RecommendationServiceInterface {
             recipe.cuisine?.toLowerCase() === targetCuisine,
         );
       }
-
       // Filter by included ingredients
       if (
         criteria.includeIngredients &&
@@ -133,7 +119,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           );
         });
       }
-
       // Filter by excluded ingredients
       if (
         criteria.excludeIngredients &&
@@ -150,11 +135,9 @@ export class RecommendationService implements RecommendationServiceInterface {
           );
         });
       }
-
       // Calculate scores for each recipe
       const scores: { [key: string]: number } = {};
       const elementalState = criteria.elementalProperties;
-
       filteredRecipes.forEach((recipe) => {
         if (recipe.elementalProperties && elementalState) {
           scores[recipe.id] = this.calculateElementalCompatibility(
@@ -165,17 +148,13 @@ export class RecommendationService implements RecommendationServiceInterface {
           scores[recipe.id] = 0.5; // Default score if we can't calculate compatibility
         }
       });
-
       // Sort recipes by score (highest first)
       filteredRecipes.sort((a, b) => scores[b.id] - scores[a.id]);
-
       // Apply limit if specified
       if (criteria.limit && criteria.limit > 0) {
         filteredRecipes = filteredRecipes.slice(0, criteria.limit);
       }
-
       logger.info(`Returning ${filteredRecipes.length} recommended recipes`);
-
       return {
         items: filteredRecipes,
         scores,
@@ -196,7 +175,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       };
     }
   }
-
   /**
    * Get recommended ingredients based on criteria
    */
@@ -205,10 +183,8 @@ export class RecommendationService implements RecommendationServiceInterface {
   ): Promise<RecommendationResult<Ingredient>> {
     try {
       logger.info("Getting recommended ingredients with criteria:", criteria);
-
       // Get all ingredients
       const allIngredients: Ingredient[] = []; // ingredientService.getAllIngredientsFlat();
-
       if (!allIngredients || allIngredients.length === 0) {
         logger.warn("No ingredients available for recommendations");
         return {
@@ -217,11 +193,9 @@ export class RecommendationService implements RecommendationServiceInterface {
           context: { criteria, totalIngredients: 0, filteredCount: 0 },
         };
       }
-
       // Score ingredients based on criteria
       const scoredIngredients = allIngredients.map((ingredient) => {
         let score = 0;
-
         // Calculate elemental compatibility if criteria includes elemental properties
         if (criteria.elementalProperties && ingredient.elementalProperties) {
           const elementalScore = this.calculateElementalCompatibility(
@@ -230,7 +204,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           );
           score += elementalScore * 0.7; // Elemental compatibility is weighted heavily
         }
-
         // Check for category match
         if (criteria.categories && criteria.categories.length > 0) {
           const categoryMatch = criteria.categories.some((cat) =>
@@ -238,7 +211,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           );
           score += categoryMatch ? 0.2 : 0;
         }
-
         // Check for exclusion
         if (
           criteria.excludeIngredients &&
@@ -251,14 +223,12 @@ export class RecommendationService implements RecommendationServiceInterface {
             score = 0; // Automatic disqualification
           }
         }
-
         // Check for planetary ruler match (simplified)
         if (criteria.planetaryRuler && ingredient.planetaryRuler) {
           const rulerMatch =
             ingredient.planetaryRuler === criteria.planetaryRuler;
           score += rulerMatch ? 0.1 : 0;
         }
-
         // Check for season match
         if (criteria.season && ingredient.season) {
           const seasonMatch = Array.isArray(ingredient.season)
@@ -266,36 +236,29 @@ export class RecommendationService implements RecommendationServiceInterface {
             : ingredient.season === criteria.season;
           score += seasonMatch ? 0.1 : 0;
         }
-
         return {
           ingredient,
           score,
         };
       });
-
       // Filter by minimum compatibility score
       const minScore = criteria.minCompatibility || 0.3;
       const filteredIngredients = scoredIngredients.filter(
         (item) => item.score >= minScore,
       );
-
       // Sort by score (highest first)
       filteredIngredients.sort((a, b) => b.score - a.score);
-
       // Apply limit if specified
       const limit = criteria.limit || 10;
       const limitedIngredients = filteredIngredients.slice(0, limit);
-
       // Build scores record
       const scores: { [key: string]: number } = {};
       limitedIngredients.forEach((item) => {
         scores[item.ingredient.id || item.ingredient.name] = item.score;
       });
-
       logger.info(
         `Returning ${limitedIngredients.length} recommended ingredients`,
       );
-
       return {
         items: limitedIngredients.map((item) => item.ingredient),
         scores,
@@ -316,7 +279,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       };
     }
   }
-
   /**
    * Get recommended cuisines based on criteria
    */
@@ -325,7 +287,6 @@ export class RecommendationService implements RecommendationServiceInterface {
   ): Promise<RecommendationResult<string>> {
     try {
       logger.info("Getting recommended cuisines with criteria:", criteria);
-
       // For now, return some default cuisines based on elemental properties
       // TODO: Implement full cuisine recommendation logic
       const defaultCuisines = [
@@ -340,10 +301,8 @@ export class RecommendationService implements RecommendationServiceInterface {
         "Greek",
         "Middle-Eastern",
       ];
-
       let filteredCuisines = [...defaultCuisines];
       const scores: { [key: string]: number } = {};
-
       // Apply elemental filtering (simplified)
       if (criteria.elementalProperties) {
         // For now, assign random-ish scores based on elemental properties
@@ -351,7 +310,6 @@ export class RecommendationService implements RecommendationServiceInterface {
         filteredCuisines.forEach((cuisine) => {
           scores[cuisine] = Math.random() * 0.5 + 0.5; // Random score between 0.5-1.0
         });
-
         // Sort by score
         filteredCuisines.sort((a, b) => scores[b] - scores[a]);
       } else {
@@ -360,7 +318,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           scores[cuisine] = 0.8;
         });
       }
-
       // Apply exclusions
       if (criteria.excludeCuisines && criteria.excludeCuisines.length > 0) {
         filteredCuisines = filteredCuisines.filter(
@@ -370,14 +327,11 @@ export class RecommendationService implements RecommendationServiceInterface {
             ),
         );
       }
-
       // Apply limit
       if (criteria.limit && criteria.limit > 0) {
         filteredCuisines = filteredCuisines.slice(0, criteria.limit);
       }
-
       logger.info(`Returning ${filteredCuisines.length} recommended cuisines`);
-
       return {
         items: filteredCuisines,
         scores,
@@ -398,7 +352,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       };
     }
   }
-
   /**
    * Get recommended cooking methods based on criteria
    */
@@ -410,7 +363,6 @@ export class RecommendationService implements RecommendationServiceInterface {
         "Getting recommended cooking methods with criteria:",
         criteria,
       );
-
       const defaultMethods: string[] = [
         "Grilling",
         "Baking",
@@ -423,16 +375,13 @@ export class RecommendationService implements RecommendationServiceInterface {
         "Frying",
         "Slow-cooking",
       ];
-
       let filteredMethods = [...defaultMethods];
       const scores: { [key: string]: number } = {};
-
       // Apply elemental filtering (simplified)
       if (criteria.elementalProperties) {
         filteredMethods.forEach((method) => {
           scores[method] = Math.random() * 0.5 + 0.5;
         });
-
         // Sort by score
         filteredMethods.sort((a, b) => scores[b] - scores[a]);
       } else {
@@ -441,7 +390,6 @@ export class RecommendationService implements RecommendationServiceInterface {
           scores[method] = 0.8;
         });
       }
-
       // Apply exclusions
       if (criteria.excludeMethods && criteria.excludeMethods.length > 0) {
         filteredMethods = filteredMethods.filter(
@@ -451,16 +399,13 @@ export class RecommendationService implements RecommendationServiceInterface {
             ),
         );
       }
-
       // Apply limit
       if (criteria.limit && criteria.limit > 0) {
         filteredMethods = filteredMethods.slice(0, criteria.limit);
       }
-
       logger.info(
         `Returning ${filteredMethods.length} recommended cooking methods`,
       );
-
       return {
         items: filteredMethods,
         scores,
@@ -481,7 +426,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       };
     }
   }
-
   /**
    * Calculate compatibility score between elemental properties
    */
@@ -492,25 +436,20 @@ export class RecommendationService implements RecommendationServiceInterface {
     // Simple compatibility calculation based on elemental balance
     // Elements work best when they complement each other, not oppose
     const elements = ["Fire", "Water", "Earth", "Air"] as const;
-
     let totalCompatibility = 0;
     let elementCount = 0;
-
     for (const element of elements) {
       const sourceValue = source[element] || 0;
       const targetValue = target[element] || 0;
-
       if (sourceValue > 0 && targetValue > 0) {
         // Same element reinforcement (like strengthens like)
         totalCompatibility += Math.min(sourceValue, targetValue);
         elementCount++;
       }
     }
-
     // Return average compatibility or minimum score
     return elementCount > 0 ? totalCompatibility / elementCount : 0.5;
   }
-
   /**
    * Get recommendations based on elemental properties
    */
@@ -524,32 +463,27 @@ export class RecommendationService implements RecommendationServiceInterface {
         `Getting ${type} recommendations for elemental properties:`,
         elementalProperties,
       );
-
       switch (type) {
         case "recipe":
           return await this.getRecommendedRecipes({
             elementalProperties,
             limit,
           });
-
         case "ingredient":
           return await this.getRecommendedIngredients({
             elementalProperties,
             limit,
           });
-
         case "cuisine":
           return await this.getRecommendedCuisines({
             elementalProperties,
             limit,
           });
-
         case "cookingMethod":
           return await this.getRecommendedCookingMethods({
             elementalProperties,
             limit,
           });
-
         default:
           throw new Error(`Unknown recommendation type: ${type}`);
       }
@@ -567,7 +501,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       };
     }
   }
-
   /**
    * Get recommendations based on planetary alignment
    */
@@ -581,12 +514,10 @@ export class RecommendationService implements RecommendationServiceInterface {
         `Getting ${type} recommendations for planetary alignment:`,
         planetaryPositions,
       );
-
       // For now, convert planetary positions to elemental properties
       // TODO: Implement direct planetary compatibility calculation
       const elementalProperties =
         this.planetaryPositionsToElemental(planetaryPositions);
-
       return await this.getRecommendationsForElements(
         elementalProperties,
         type,
@@ -606,7 +537,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       };
     }
   }
-
   /**
    * Calculate thermodynamic metrics based on elemental properties
    */
@@ -616,19 +546,14 @@ export class RecommendationService implements RecommendationServiceInterface {
     // Simplified thermodynamic calculation
     // In a full implementation, this would use the alchemizer engine
     const { Fire = 0, Water = 0, _Earth = 0, Air = 0 } = elementalProperties;
-
     // Heat: Fire + Air (active elements)
     const heat = (Fire + Air) / 2;
-
     // Entropy: Air + Fire (chaotic elements)
     const entropy = (Air + Fire) / 2;
-
     // Reactivity: Fire + Water (opposing elements create reactivity)
     const reactivity = Math.abs(Fire - Water) / 2;
-
     // Greg's Energy: Balance between heat and entropy
     const gregsEnergy = heat - entropy * reactivity;
-
     return {
       heat,
       entropy,
@@ -638,7 +563,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       monica: 0, // Placeholder
     };
   }
-
   /**
    * Convert planetary positions to elemental properties (simplified)
    */
@@ -652,7 +576,6 @@ export class RecommendationService implements RecommendationServiceInterface {
       Earth: 0,
       Air: 0,
     };
-
     // Count planets in each element's signs
     const elementSigns = {
       Fire: ["aries", "leo", "sagittarius"],
@@ -660,20 +583,16 @@ export class RecommendationService implements RecommendationServiceInterface {
       Earth: ["taurus", "virgo", "capricorn"],
       Air: ["gemini", "libra", "aquarius"],
     };
-
     let totalPlanets = 0;
-
     Object.values(positions).forEach((position) => {
       const sign = position.sign.toLowerCase();
       totalPlanets++;
-
       for (const [element, signs] of Object.entries(elementSigns)) {
         if (signs.includes(sign)) {
           elements[element as keyof ElementalProperties] += 1;
         }
       }
     });
-
     // Normalize to sum to 1
     if (totalPlanets > 0) {
       Object.keys(elements).forEach((key) => {
@@ -685,10 +604,8 @@ export class RecommendationService implements RecommendationServiceInterface {
         elements[key as keyof ElementalProperties] = 0.25;
       });
     }
-
     return elements;
   }
 }
-
 // Export singleton instance
 export const recommendationService = RecommendationService.getInstance();

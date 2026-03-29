@@ -4,10 +4,10 @@
  */
 
 import { Box, HStack, Icon, Select as _Select, Text } from "@chakra-ui/react";
-
-const Select = _Select as any;
 import React from "react";
 import { FaFire, FaLeaf, FaSnowflake, FaSun } from "react-icons/fa";
+
+const Select = _Select as any;
 
 interface ZodiacSelectorProps {
   value: string;

@@ -629,7 +629,7 @@ export default function CookingMethodPreview() {
                         </div>
                         <div className="pt-2 border-t border-red-200 flex justify-between">
                           <span className="text-gray-700">
-                            ⚙️ Greg's Energy:
+                            ⚙️ Greg&apos;s Energy:
                           </span>
                           <span
                             className={`font-bold ${method.gregsEnergy >= 0 ? "text-green-700" : "text-red-700"}`}

@@ -8,40 +8,35 @@
  */
 
 import {
-  AlertRoot,
-  AlertIndicator,
-  Badge,
-  Box,
-  Button,
-  Card as _Card,
-  CardBody,
-  CardHeader,
-  ChakraProvider,
-  defaultSystem,
-  Flex,
-  HStack,
-  Heading,
-  Icon,
-  Select as _Select,
-  SimpleGrid,
-  Spinner,
-  Text,
-  Tooltip as _Tooltip,
-  VStack,
+    AlertIndicator, AlertRoot, Badge,
+    Box,
+    Button,
+    Card as _Card,
+    CardBody,
+    CardHeader,
+    ChakraProvider,
+    defaultSystem,
+    Flex, Heading, HStack, Icon,
+    Select as _Select,
+    SimpleGrid,
+    Spinner,
+    Text,
+    Tooltip as _Tooltip,
+    VStack
 } from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+    FaFire,
+    FaLeaf,
+    FaSnowflake,
+    FaStar,
+    FaSun,
+    FaUtensils
+} from "react-icons/fa";
 
 const Card = _Card as any;
 const Select = _Select as any;
 const Tooltip = _Tooltip as any;
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  FaFire,
-  FaLeaf,
-  FaSnowflake,
-  FaStar,
-  FaSun,
-  FaUtensils,
-} from "react-icons/fa";
 
 interface AstrologicalRecommendation {
   recipe_id: string;

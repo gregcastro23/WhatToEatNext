@@ -357,7 +357,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
               <div className="flex items-center gap-2">
                 <span className="text-purple-600">✨</span>
                 <span>
-                  Click "Generate" on any day for planetary-aligned suggestions
+                  Click &quot;Generate&quot; on any day for planetary-aligned suggestions
                 </span>
               </div>
               <div className="hidden sm:block text-gray-400">•</div>
@@ -471,7 +471,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       {/* Helper Text */}
       <div className="text-center text-sm text-gray-500 mt-6">
         <p>
-          Click "+ Add Recipe" to add meals. Drag between slots to rearrange.
+          Click &quot;+ Add Recipe&quot; to add meals. Drag between slots to rearrange.
           Click 📋 to copy/move to multiple slots.
         </p>
       </div>

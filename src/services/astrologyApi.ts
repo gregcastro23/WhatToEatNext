@@ -1,20 +1,14 @@
 import { _logger } from "@/lib/logger";
-import type { ElementalProperties} from "@/types/alchemy";
+import type { ElementalProperties } from "@/types/alchemy";
 import {
-  calculatePlanetaryPositions,
-  calculateSunSign,
-  calculateLunarPhase,
+    calculateLunarPhase, calculatePlanetaryPositions,
+    calculateSunSign
 } from "../utils/astrologyUtils";
 import {
-  _elementalUtils,
-  // _getCurrentElementalState,
-} from "../utils/elementalUtils";
+    AstrologicalService
+} from "./AstrologicalService";
 
 const _getCurrentElementalState: any = null; // Commented out non-existent export
-import {
-  AstrologicalService,
-  _getLatestAstrologicalState,
-} from "./AstrologicalService";
 
 interface CelestialPosition {
   sunSign: string;

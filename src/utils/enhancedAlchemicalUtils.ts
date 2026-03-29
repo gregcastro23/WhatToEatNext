@@ -1,16 +1,15 @@
 import type {
-  AlchemicalResult,
-  ElementalProperties,
-  ZodiacSignType,
+    AlchemicalResult,
+    ElementalProperties,
+    ZodiacSignType
 } from "@/types/alchemy";
 import {
-  calculateAlchemicalCompatibility,
-  calculateAstrologicalAffinity,
-  // validateAlgorithms,
+    calculateAlchemicalCompatibility,
+    calculateAstrologicalAffinity
 } from "../calculations/enhancedAlchemicalMatching";
+import { getZodiacElementalInfluence } from "./zodiacUtils";
 
 const validateAlgorithms: any = () => ({}); // Function not exported
-import { getZodiacElementalInfluence } from "./zodiacUtils";
 
 /**
  * Utility function to get enhanced food recommendations based on

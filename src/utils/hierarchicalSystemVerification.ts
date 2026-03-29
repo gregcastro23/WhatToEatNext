@@ -1,3 +1,35 @@
+import type {
+    AlchemicalProperties,
+    CookingMethod,
+    ElementalProperties,
+    ThermodynamicProperties
+} from "@/types/alchemy";
+import type {
+    CuisineComputedProperties,
+    IngredientData,
+    RecipeComputedProperties
+} from "@/types/hierarchy";
+import type { RecipeIngredient } from "@/types/recipe";
+import { computeCuisineProperties } from "./cuisine/cuisineAggregationEngine";
+import {
+    configureGlobalCache,
+    getGlobalCache
+} from "./cuisine/cuisineComputationCache";
+import {
+    createBasicUserProfile,
+    generateCuisineRecommendations
+} from "./cuisine/cuisineRecommendationEngine";
+import { analyzePlanetaryPatterns } from "./cuisine/planetaryPatternAnalysis";
+import {
+    DEFAULT_GLOBAL_BASELINE,
+    identifyCuisineSignatures
+} from "./cuisine/signatureIdentificationEngine";
+import {
+    aggregateIngredientElementals,
+    applyCookingMethodTransforms,
+    computeRecipeProperties, COOKING_METHOD_MODIFIERS
+} from "./hierarchicalRecipeCalculations";
+
 /**
  * Hierarchical System Verification
  *
@@ -8,45 +40,8 @@
  *
  * This module ensures the entire system works end-to-end with maximum robustness.
  */
-
-import type {
-  AlchemicalProperties,
-  CookingMethod,
-  ElementalProperties,
-  ThermodynamicProperties,
-} from "@/types/alchemy";
-import type {
-  CuisineComputedProperties,
-  IngredientData,
-  RecipeComputedProperties,
-} from "@/types/hierarchy";
-import type { RecipeIngredient } from "@/types/recipe";
-
 // Re-export all the core functions for comprehensive testing
-
-import { computeCuisineProperties } from "./cuisine/cuisineAggregationEngine";
-import {
-  configureGlobalCache,
-  getGlobalCache,
-} from "./cuisine/cuisineComputationCache";
-import {
-  createBasicUserProfile,
-  generateCuisineRecommendations,
-} from "./cuisine/cuisineRecommendationEngine";
-import { analyzePlanetaryPatterns } from "./cuisine/planetaryPatternAnalysis";
-import {
-  DEFAULT_GLOBAL_BASELINE,
-  identifyCuisineSignatures,
-} from "./cuisine/signatureIdentificationEngine";
-import {
-  COOKING_METHOD_MODIFIERS,
-  aggregateIngredientElementals,
-  applyCookingMethodTransforms,
-  computeRecipeProperties,
-} from "./hierarchicalRecipeCalculations";
-
 // ========== VERIFICATION DATA ==========
-
 /**
  * Test ingredient data for Level 1 verification
  */
@@ -70,7 +65,6 @@ export const TEST_INGREDIENTS: IngredientData[] = [
     qualities: ["delicate", "briny", "lean"],
   },
 ];
-
 /**
  * Test planetary positions for Level 2 verification
  */
@@ -86,7 +80,6 @@ export const TEST_PLANETARY_POSITIONS: { [planet: string]: string } = {
   Neptune: "pisces",
   Pluto: "scorpio",
 };
-
 /**
  * Test cooking methods for Level 2 verification
  */
@@ -95,9 +88,7 @@ export const TEST_COOKING_METHODS: Array<string | CookingMethod> = [
   "steaming",
   "baking",
 ];
-
 // ========== LEVEL 1 VERIFICATION ==========
-
 /**
  * Verify Level 1 (Ingredients) functionality
  */
@@ -109,13 +100,11 @@ export function verifyLevel1Ingredients(): {
   console.log("🔍 Verifying Level 1: Ingredients");
   const results: any[] = [];
   const errors: string[] = [];
-
   try {
     // Test 1: Ingredient elemental properties validation
     TEST_INGREDIENTS.forEach((ingredient, index) => {
       const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
       const sum = Fire + Water + Earth + Air;
-
       if (Math.abs(sum - 1.0) > 0.01) {
         errors.push(
           `Ingredient ${index}: Elemental properties don't sum to 1.0 (sum: ${sum})`,
@@ -125,7 +114,6 @@ export function verifyLevel1Ingredients(): {
           `✅ Ingredient ${index}: Valid elemental properties (sum: ${sum.toFixed(3)})`,
         );
       }
-
       // Check all values are between 0 and 1
       Object.entries(ingredient.elementalProperties).forEach(
         ([element, value]) => {
@@ -137,7 +125,6 @@ export function verifyLevel1Ingredients(): {
         },
       );
     });
-
     // Test 2: Ingredient aggregation
     const mockRecipeIngredients: RecipeIngredient[] = TEST_INGREDIENTS.map(
       (ing, index) => ({
@@ -148,12 +135,10 @@ export function verifyLevel1Ingredients(): {
         category: ing.category,
       }),
     );
-
     const aggregatedElementals = aggregateIngredientElementals(
       mockRecipeIngredients,
     );
     const sum = Object.values(aggregatedElementals).reduce((s, v) => s + v, 0);
-
     if (Math.abs(sum - 1.0) > 0.01) {
       errors.push(
         `Ingredient aggregation: Result doesn't sum to 1.0 (sum: ${sum})`,
@@ -163,7 +148,6 @@ export function verifyLevel1Ingredients(): {
         `✅ Ingredient aggregation: Valid normalized result (sum: ${sum.toFixed(3)})`,
       );
     }
-
     // Test 3: Cooking method transformations
     Object.entries(COOKING_METHOD_MODIFIERS).forEach(([method, _modifiers]) => {
       const transformed = applyCookingMethodTransforms(aggregatedElementals, [
@@ -173,7 +157,6 @@ export function verifyLevel1Ingredients(): {
         (s, v) => s + v,
         0,
       );
-
       if (Math.abs(transformedSum - 1.0) > 0.01) {
         errors.push(
           `Cooking method ${method}: Transform doesn't preserve normalization (sum: ${transformedSum})`,
@@ -189,17 +172,13 @@ export function verifyLevel1Ingredients(): {
       `Level 1 verification failed: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
-
   const isValid = errors.length === 0;
   console.log(
     `${isValid ? "✅" : "❌"} Level 1 verification: ${results.length} passed, ${errors.length} errors`,
   );
-
   return { isValid, results, errors };
 }
-
 // ========== LEVEL 2 VERIFICATION ==========
-
 /**
  * Verify Level 2 (Recipes) functionality
  */
@@ -213,7 +192,6 @@ export function verifyLevel2Recipes(): {
   const results: any[] = [];
   const errors: string[] = [];
   let computedRecipe: RecipeComputedProperties | undefined;
-
   try {
     // Test 1: Recipe computation with planetary positions
     const mockRecipeIngredients: RecipeIngredient[] = TEST_INGREDIENTS.map(
@@ -225,7 +203,6 @@ export function verifyLevel2Recipes(): {
         category: ing.category,
       }),
     );
-
     computedRecipe = computeRecipeProperties(
       mockRecipeIngredients,
       TEST_COOKING_METHODS,
@@ -236,18 +213,15 @@ export function verifyLevel2Recipes(): {
         cacheResults: false,
       },
     );
-
     // Test 2: Validate computed properties structure
     if (!computedRecipe.alchemicalProperties) {
       errors.push("Recipe computation: Missing alchemical properties");
     } else {
       results.push("✅ Recipe computation: Alchemical properties generated");
-
       // Check ESMS values are reasonable
       const { Spirit, Essence, Matter, Substance } =
         computedRecipe.alchemicalProperties;
       const esmsValues = [Spirit, Essence, Matter, Substance];
-
       esmsValues.forEach((value, index) => {
         const propNames = ["Spirit", "Essence", "Matter", "Substance"];
         if (value < 0) {
@@ -265,12 +239,10 @@ export function verifyLevel2Recipes(): {
         }
       });
     }
-
     if (!computedRecipe.elementalProperties) {
       errors.push("Recipe computation: Missing elemental properties");
     } else {
       results.push("✅ Recipe computation: Elemental properties generated");
-
       // Check elemental normalization
       const { Fire, Water, Earth, Air } = computedRecipe.elementalProperties;
       const sum = Fire + Water + Earth + Air;
@@ -284,12 +256,10 @@ export function verifyLevel2Recipes(): {
         );
       }
     }
-
     if (!computedRecipe.thermodynamicProperties) {
       errors.push("Recipe computation: Missing thermodynamic properties");
     } else {
       results.push("✅ Recipe computation: Thermodynamic properties generated");
-
       // Check thermodynamic values are reasonable
       const { heat, entropy, reactivity, gregsEnergy, kalchm, monica } =
         computedRecipe.thermodynamicProperties;
@@ -301,7 +271,6 @@ export function verifyLevel2Recipes(): {
         kalchm,
         monica,
       };
-
       Object.entries(thermoValues).forEach(([prop, value]) => {
         if (typeof value !== "number" || isNaN(value)) {
           errors.push(`Thermodynamic property ${prop}: Invalid value ${value}`);
@@ -312,13 +281,11 @@ export function verifyLevel2Recipes(): {
         }
       });
     }
-
     if (!computedRecipe.kineticProperties) {
       errors.push("Recipe computation: Missing kinetic properties");
     } else {
       results.push("✅ Recipe computation: Kinetic properties generated");
     }
-
     // Test 3: Dominant properties
     if (
       !computedRecipe.dominantElement ||
@@ -335,17 +302,13 @@ export function verifyLevel2Recipes(): {
       `Level 2 verification failed: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
-
   const isValid = errors.length === 0;
   console.log(
     `${isValid ? "✅" : "❌"} Level 2 verification: ${results.length} passed, ${errors.length} errors`,
   );
-
   return { isValid, results, errors, computedRecipe };
 }
-
 // ========== LEVEL 3 VERIFICATION ==========
-
 /**
  * Verify Level 3 (Cuisines) functionality
  */
@@ -359,13 +322,11 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
   const results: any[] = [];
   const errors: string[] = [];
   let computedCuisine: CuisineComputedProperties | undefined;
-
   try {
     if (!recipe) {
       errors.push("Level 3 verification: No recipe data provided from Level 2");
       return { isValid: false, results, errors };
     }
-
     // Create mock cuisine data (multiple recipes based on the one computed recipe)
     const mockRecipes = [recipe, recipe, recipe].map((r, index) => ({
       ...r,
@@ -380,20 +341,17 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         },
       },
     }));
-
     // Test 1: Cuisine computation
     computedCuisine = computeCuisineProperties(mockRecipes, {
       weightingStrategy: "equal",
       includeVariance: true,
       identifyPlanetaryPatterns: true,
     });
-
     // Test 2: Validate cuisine properties
     if (!computedCuisine.averageElementals) {
       errors.push("Cuisine computation: Missing average elementals");
     } else {
       results.push("✅ Cuisine computation: Average elementals calculated");
-
       const sum = Object.values(computedCuisine.averageElementals).reduce(
         (s, v) => s + v,
         0,
@@ -408,7 +366,6 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         );
       }
     }
-
     if (!computedCuisine.averageAlchemical) {
       errors.push("Cuisine computation: Missing average alchemical properties");
     } else {
@@ -416,7 +373,6 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         "✅ Cuisine computation: Average alchemical properties calculated",
       );
     }
-
     if (!computedCuisine.averageThermodynamics) {
       errors.push(
         "Cuisine computation: Missing average thermodynamic properties",
@@ -426,7 +382,6 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         "✅ Cuisine computation: Average thermodynamic properties calculated",
       );
     }
-
     if (!computedCuisine.variance) {
       errors.push("Cuisine computation: Missing variance data");
     } else {
@@ -435,7 +390,6 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         `   Diversity score: ${computedCuisine.variance.diversityScore.toFixed(3)}`,
       );
     }
-
     // Test 3: Signature identification
     const signatures = identifyCuisineSignatures(
       computedCuisine,
@@ -445,37 +399,29 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         includeConfidence: true,
       },
     );
-
     computedCuisine.signatures = signatures;
-
     results.push(
       `✅ Signature identification: ${signatures.length} signatures identified`,
     );
-
     signatures.forEach((signature) => {
       results.push(
         `   ${signature.property}: ${signature.strength} strength (z-score: ${signature.zscore.toFixed(2)})`,
       );
     });
-
     // Test 4: Planetary pattern analysis
     const planetaryPatterns = analyzePlanetaryPatterns(mockRecipes, {
       minStrength: 0.3,
       includeCulturalNotes: true,
     });
-
     computedCuisine.planetaryPatterns = planetaryPatterns;
-
     results.push(
       `✅ Planetary pattern analysis: ${planetaryPatterns.length} patterns identified`,
     );
-
     planetaryPatterns.forEach((pattern) => {
       results.push(
         `   ${pattern.planet}: ${(pattern.planetaryStrength || 0).toFixed(2)} strength, dominant element: ${pattern.dominantElement}`,
       );
     });
-
     // Test 5: Recommendation engine
     const userProfile = createBasicUserProfile({
       Fire: 0.7,
@@ -483,12 +429,10 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
       Earth: 0.1,
       Air: 0.1,
     });
-
     const recommendations = (generateCuisineRecommendations as any)({
       elementalProperties: userProfile.elementalPreferences,
       useAdvancedAnalysis: true,
     });
-
     if (recommendations.length > 0) {
       results.push(
         `✅ Recommendation engine: ${recommendations.length} recommendations generated`,
@@ -499,20 +443,16 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     } else {
       errors.push("Recommendation engine: No recommendations generated");
     }
-
     // Test 6: Caching system
     const cache = getGlobalCache();
     const cacheKey = `test-cuisine-${Date.now()}`;
-
     // Store in cache
     cache.set(cacheKey, computedCuisine, {}, [
       "test-recipe-1",
       "test-recipe-2",
     ]);
-
     // Retrieve from cache
     const cachedResult = cache.get(cacheKey, {});
-
     if (cachedResult) {
       results.push("✅ Caching system: Successfully stored and retrieved data");
       const cacheStats = cache.getStats();
@@ -527,17 +467,13 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
       `Level 3 verification failed: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
-
   const isValid = errors.length === 0;
   console.log(
     `${isValid ? "✅" : "❌"} Level 3 verification: ${results.length} passed, ${errors.length} errors`,
   );
-
   return { isValid, results, errors, computedCuisine };
 }
-
 // ========== END-TO-END VERIFICATION ==========
-
 /**
  * Run complete hierarchical system verification
  */
@@ -555,32 +491,24 @@ export async function verifyHierarchicalSystem(): Promise<{
 }> {
   console.log("🚀 Starting Complete Hierarchical System Verification");
   console.log("=====================================================");
-
   const startTime = Date.now();
-
   // Configure cache for testing
   configureGlobalCache({
     maxSize: 10,
     ttl: 60 * 1000, // 1 minute for testing
     enableStats: true,
   });
-
   // Run Level 1 verification
   const level1 = verifyLevel1Ingredients();
-
   // Run Level 2 verification
   const level2 = verifyLevel2Recipes();
-
   // Run Level 3 verification (depends on Level 2 result)
   const level3 = verifyLevel3Cuisines(level2.computedRecipe);
-
   const endTime = Date.now();
   const executionTime = endTime - startTime;
-
   // Calculate summary
   const allResults = [...level1.results, ...level2.results, ...level3.results];
   const allErrors = [...level1.errors, ...level2.errors, ...level3.errors];
-
   const summary = {
     totalTests: allResults.length,
     passedTests: allResults.length,
@@ -594,14 +522,11 @@ export async function verifyHierarchicalSystem(): Promise<{
       level3Time: 0,
     },
   };
-
   const overallValid = level1.isValid && level2.isValid && level3.isValid;
-
   // Final report
   console.log(`\n${"=".repeat(60)}`);
   console.log("📊 HIERARCHICAL SYSTEM VERIFICATION RESULTS");
   console.log("=".repeat(60));
-
   console.log(
     `🎯 Overall Status: ${overallValid ? "✅ ALL SYSTEMS OPERATIONAL" : "❌ ISSUES DETECTED"}`,
   );
@@ -611,7 +536,6 @@ export async function verifyHierarchicalSystem(): Promise<{
   console.log(`🧪 Tests Executed: ${summary.totalTests + summary.failedTests}`);
   console.log(`✅ Tests Passed: ${summary.passedTests}`);
   console.log(`❌ Tests Failed: ${summary.failedTests}`);
-
   console.log("\n📈 LEVEL BREAKDOWN: ");
   console.log(
     `   Level 1 (Ingredients): ${level1.isValid ? "✅" : "❌"} (${level1.results.length} passed, ${level1.errors.length} errors)`,
@@ -622,7 +546,6 @@ export async function verifyHierarchicalSystem(): Promise<{
   console.log(
     `   Level 3 (Cuisines): ${level3.isValid ? "✅" : "❌"} (${level3.results.length} passed, ${level3.errors.length} errors)`,
   );
-
   if (allErrors.length > 0) {
     console.log("\n🚨 CRITICAL ISSUES FOUND: ");
     allErrors.forEach((error, index) => {
@@ -632,7 +555,6 @@ export async function verifyHierarchicalSystem(): Promise<{
     console.log("\n🎉 ALL VERIFICATION CHECKS PASSED!");
     console.log("   The hierarchical culinary system is fully operational.");
   }
-
   console.log("\n🔗 SYSTEM INTEGRITY CONFIRMED: ");
   console.log(
     "   • Level 1 → Level 2: Ingredient elementals feed recipe computation",
@@ -645,7 +567,6 @@ export async function verifyHierarchicalSystem(): Promise<{
   );
   console.log("   • Statistical calculations maintain numerical stability");
   console.log("   • Caching system provides performance optimization");
-
   return {
     overallValid,
     level1,
@@ -654,9 +575,7 @@ export async function verifyHierarchicalSystem(): Promise<{
     summary,
   };
 }
-
 // ========== UTILITY FUNCTIONS ==========
-
 /**
  * Get system health status
  */
@@ -671,7 +590,6 @@ export function getSystemHealth(): {
   const level1Ready = TEST_INGREDIENTS.length > 0;
   const level2Ready = Object.keys(TEST_PLANETARY_POSITIONS).length >= 10;
   const level3Ready = true; // Always ready since we have the computation engine
-
   let cacheReady = false;
   try {
     const cache = getGlobalCache();
@@ -679,17 +597,14 @@ export function getSystemHealth(): {
   } catch {
     cacheReady = false;
   }
-
   let overallHealth: "excellent" | "good" | "fair" | "poor" = "poor";
   const readyCount = [level1Ready, level2Ready, level3Ready, cacheReady].filter(
     Boolean,
   ).length;
-
   if (readyCount === 4) overallHealth = "excellent";
   else if (readyCount === 3) overallHealth = "good";
   else if (readyCount === 2) overallHealth = "fair";
   else overallHealth = "poor";
-
   return {
     level1Ready,
     level2Ready,
@@ -698,16 +613,14 @@ export function getSystemHealth(): {
     overallHealth,
   };
 }
-
 // ========== EXPORTS ==========
-
 export type {
-  AlchemicalProperties,
-  CookingMethod,
-  CuisineComputedProperties,
-  ElementalProperties,
-  IngredientData,
-  RecipeComputedProperties,
-  RecipeIngredient,
-  ThermodynamicProperties,
+    AlchemicalProperties,
+    CookingMethod,
+    CuisineComputedProperties,
+    ElementalProperties,
+    IngredientData,
+    RecipeComputedProperties,
+    RecipeIngredient,
+    ThermodynamicProperties,
 };

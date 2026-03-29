@@ -2,40 +2,35 @@
 
 import React, { useState } from "react";
 import {
-  _ELEMENT_AFFINITIES,
-  _ZODIAC_ELEMENTS,
+    _ELEMENT_AFFINITIES,
+    _ZODIAC_ELEMENTS
 } from "@/constants/elementalConstants";
-
 import "@/styles/popup.css";
 import { _PopupContext } from "./context";
 import type {
-  ElementalInfluence,
-  Popup,
-  PopupOptions,
-  PopupProviderProps,
+    ElementalInfluence,
+    Popup,
+    PopupOptions,
+    PopupProviderProps
 } from "./types";
 
 export const PopupProvider = ({
   children,
 }: PopupProviderProps): React.ReactElement => {
   const [popups, setPopups] = useState<Popup[]>([]);
-
   const calculateElementalInfluence = (
     sunSign?: string,
     moonSign?: string,
   ): ElementalInfluence => {
     if (!sunSign || !moonSign) return {};
-
     const sunElement =
       _ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
     const moonElement =
       _ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
-
     const isHarmonious =
       sunElement && moonElement
         ? _ELEMENT_AFFINITIES[sunElement].includes(moonElement)
         : false;
-
     return {
       sunElement,
       moonElement,
@@ -44,7 +39,6 @@ export const PopupProvider = ({
       secondaryElement: moonElement,
     };
   };
-
   const showPopup = (message: string, options: PopupOptions = {}): number => {
     const {
       duration = 3000,
@@ -56,12 +50,9 @@ export const PopupProvider = ({
       animation = "fade",
       className = "",
     } = options;
-
     const id = Date.now();
-
     // Calculate elemental influences
     const elemental = calculateElementalInfluence(sunSign, moonSign);
-
     // Build class list
     const classes = [
       "popup",
@@ -70,7 +61,6 @@ export const PopupProvider = ({
       `popup-${animation}`,
       className,
     ];
-
     // Add elemental classes if applicable
     if (elemental.sunElement) {
       classes.push(`popup-${elemental.sunElement.toLowerCase()}`);
@@ -84,7 +74,6 @@ export const PopupProvider = ({
     if (season) {
       classes.push(`popup-${season.toLowerCase()}`);
     }
-
     const newPopup: Popup = {
       id,
       message,
@@ -99,9 +88,7 @@ export const PopupProvider = ({
         season,
       },
     };
-
     setPopups((current) => [...current, newPopup]);
-
     // Handle animation timing
     const animationDuration = 300; // ms
     setTimeout(() => {
@@ -110,15 +97,12 @@ export const PopupProvider = ({
         popupElement.classList.add("popup-exit");
       }
     }, duration - animationDuration);
-
     // Remove popup after animation
     setTimeout(() => {
       setPopups((current) => current.filter((popup) => popup.id !== id));
     }, duration);
-
     return id;
   };
-
   const closePopup = (id: number): void => {
     const popupElement = document.getElementById(`popup-${id}`);
     if (popupElement) {
@@ -128,7 +112,6 @@ export const PopupProvider = ({
       }, 300);
     }
   };
-
   const getElementalIcon = (element?: string): string => {
     if (!element) return "";
     switch (element.toLowerCase()) {
@@ -144,7 +127,6 @@ export const PopupProvider = ({
         return "";
     }
   };
-
   return (
     <_PopupContext.Provider value={{ showPopup, closePopup }}>
       {children}

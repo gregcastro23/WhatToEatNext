@@ -1,21 +1,13 @@
-import { _logger } from "@/lib/logger";
-// Created: 2025-01-02T23:30:00.000Z
-// Enhanced ingredient search hook with auto-complete and filtering
-
-("use client");
-
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-  ingredientsMap,
-  _getAllIngredientsByCategory,
-  getAllVegetables,
-  getAllProteins,
-  getAllHerbs,
-  getAllSpices,
-  getAllGrains,
+    getAllGrains, getAllHerbs, getAllProteins, getAllSpices, getAllVegetables, ingredientsMap
 } from "@/data/ingredients";
+import { _logger } from "@/lib/logger";
 import type { Ingredient } from "@/types/alchemy";
 
+// Created: 2025-01-02T23:30:00.000Z
+// Enhanced ingredient search hook with auto-complete and filtering
+("use client");
 export interface IngredientSearchOptions {
   category?: string;
   elementalPreference?: {
@@ -28,18 +20,15 @@ export interface IngredientSearchOptions {
   dietary?: string[];
   maxResults?: number;
 }
-
 export interface IngredientSearchResult extends Ingredient {
   searchScore: number;
   matchReasons: string[];
 }
-
 export function useIngredientSearch() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
-
   // Load all ingredients on mount
   useEffect(() => {
     const loadIngredients = async () => {
@@ -55,7 +44,6 @@ export function useIngredientSearch() {
             Boolean,
           ) as unknown as Ingredient[]),
         ] as Ingredient[];
-
         // Remove duplicates by name
         const uniqueIngredients = ingredients.reduce((acc, ingredient) => {
           if (!acc.find((item) => item.name === ingredient.name)) {
@@ -63,7 +51,6 @@ export function useIngredientSearch() {
           }
           return acc;
         }, [] as Ingredient[]);
-
         setAllIngredients(uniqueIngredients);
       } catch (error) {
         _logger.warn("Error loading ingredients: ", error);
@@ -72,37 +59,29 @@ export function useIngredientSearch() {
         setIsLoading(false);
       }
     };
-
     void loadIngredients();
   }, []);
-
   // Fuzzy search function
   const fuzzyMatch = (searchTerm: string, target: string): number => {
     const search = searchTerm.toLowerCase();
     const text = target.toLowerCase();
-
     // Exact match gets highest score
     if (text === search) return 1.0;
     // Starts with gets high score
     if (text.startsWith(search)) return 0.9;
-
     // Contains gets medium score
     if (text.includes(search)) return 0.7;
-
     // Fuzzy character matching
     let searchIndex = 0;
     let matches = 0;
-
     for (let i = 0; i < text.length && searchIndex < search.length; i++) {
       if (text[i] === search[searchIndex]) {
         matches++;
         searchIndex++;
       }
     }
-
     return searchIndex === search.length ? (matches / text.length) * 0.5 : 0;
   };
-
   // Search and filter ingredients
   const searchResults = useMemo(() => {
     if (!searchTerm && !selectedCategory) {
@@ -112,16 +91,13 @@ export function useIngredientSearch() {
         matchReasons: ["All ingredients"],
       }));
     }
-
     let filteredIngredients = allIngredients;
-
     // Filter by category
     if (selectedCategory) {
       filteredIngredients = filteredIngredients.filter(
         (ingredient) => ingredient.category === selectedCategory,
       );
     }
-
     // Search by term
     if (searchTerm) {
       const results = filteredIngredients
@@ -134,14 +110,11 @@ export function useIngredientSearch() {
               .map((quality: string) => fuzzyMatch(searchTerm, quality))
               .reduce((max: number, score: number) => Math.max(max, score), 0) *
             0.3;
-
           const totalScore = Math.max(nameScore, categoryScore, qualitiesScore);
-
           const matchReasons: string[] = [];
           if (nameScore > 0.7) matchReasons.push("Name match");
           if (categoryScore > 0.3) matchReasons.push("Category match");
           if (qualitiesScore > 0.2) matchReasons.push("Properties match");
-
           return {
             ...ingredient,
             searchScore: totalScore,
@@ -153,20 +126,17 @@ export function useIngredientSearch() {
         .slice(0, 50);
       return results;
     }
-
     return filteredIngredients.slice(0, 50).map((ingredient) => ({
       ...ingredient,
       searchScore: 1,
       matchReasons: ["Category filter"],
     }));
   }, [searchTerm, selectedCategory, allIngredients]);
-
   // Get ingredient suggestions based on current selection
   const getSuggestions = (
     selectedIngredients: Ingredient[],
   ): IngredientSearchResult[] => {
     if (selectedIngredients.length === 0) return [];
-
     // Calculate average elemental properties of selected ingredients
     const avgElemental = selectedIngredients.reduce(
       (acc, ingredient) => {
@@ -185,13 +155,11 @@ export function useIngredientSearch() {
       },
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     );
-
     const count = selectedIngredients.length;
     avgElemental.Fire /= count;
     avgElemental.Water /= count;
     avgElemental.Earth /= count;
     avgElemental.Air /= count;
-
     // Find complementary ingredients
     return allIngredients
       .filter(
@@ -207,7 +175,6 @@ export function useIngredientSearch() {
           Earth: 0.25,
           Air: 0.25,
         };
-
         // Calculate elemental harmony (prefer ingredients that balance the current selection)
         const harmony =
           1 -
@@ -216,7 +183,6 @@ export function useIngredientSearch() {
             Math.abs((props.Earth || 0) - avgElemental.Earth) +
             Math.abs((props.Air || 0) - avgElemental.Air)) /
             4;
-
         return {
           ...ingredient,
           searchScore: harmony,
@@ -226,11 +192,9 @@ export function useIngredientSearch() {
       .sort((a, b) => b.searchScore - a.searchScore)
       .slice(0, 10);
   };
-
   // Get ingredients by category
   const getIngredientsByCategory = (category: string): Ingredient[] =>
     allIngredients.filter((ingredient) => ingredient.category === category);
-
   // Get available categories
   const availableCategories = useMemo(() => {
     const categories = new Set(
@@ -238,7 +202,6 @@ export function useIngredientSearch() {
     );
     return Array.from(categories).sort();
   }, [allIngredients]);
-
   return {
     searchTerm,
     setSearchTerm,

@@ -1,17 +1,25 @@
+import type { Season } from "@/constants/seasons"; // Manually added as it was removed accidentally
 import type { TarotCard } from "@/contexts/TarotContext/types";
 import type {
-  LunarPhase,
-  Modality,
-  PlanetName,
-  _AlchemicalProperties, // Added AlchemicalProperties from celestial
-  _AstrologicalState, // Added AstrologicalState from celestial
-  CelestialPosition, // Added CelestialPosition from celestial
-  ZodiacSignType,
+    CelestialPosition, LunarPhase,
+    Modality,
+    PlanetName, // Added CelestialPosition from celestial
+    ZodiacSignType
 } from "@/types/celestial";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
+export type { Season } from "@/constants/seasons";
+// ---------------------------------------------------------------------------
+// Re-export types from other modules for convenience and backward compatibility
+export type {
+    AlchemicalProperties,
+    AstrologicalState,
+    LunarPhase,
+    Modality,
+    PlanetName,
+    ZodiacSignType
+} from "@/types/celestial";
 export type { RecipeIngredient } from "@/types/recipe";
-import type { Season } from "@/constants/seasons"; // Manually added as it was removed accidentally
 
 // src/types/alchemy.ts
 
@@ -1043,18 +1051,6 @@ export type _NormalizedElementalProperties = NormalizedElementalProperties;
 
 export type BaseIngredient = Ingredient;
 
-// ---------------------------------------------------------------------------
-
-// Re-export types from other modules for convenience and backward compatibility
-export type {
-  AlchemicalProperties,
-  AstrologicalState,
-  LunarPhase,
-  Modality,
-  PlanetName,
-  ZodiacSignType,
-} from "@/types/celestial";
-export type { Season } from "@/constants/seasons";
 
 // ========== PHASE 45: ALCHEMY TYPE INTELLIGENCE SYSTEM ==========
 

@@ -4,22 +4,22 @@
  */
 
 import {
-  Box,
-  HStack,
-  Icon,
-  Select as _Select,
-  Text,
-  VStack,
+    Box,
+    HStack,
+    Icon,
+    Select as _Select,
+    Text,
+    VStack
 } from "@chakra-ui/react";
-
-const Select = _Select as any;
 import React from "react";
 import {
-  FaLeaf as FaAutumnLeaf,
-  FaLeaf,
-  FaSnowflake,
-  FaSun,
+    FaLeaf as FaAutumnLeaf,
+    FaLeaf,
+    FaSnowflake,
+    FaSun
 } from "react-icons/fa";
+
+const Select = _Select as any;
 
 interface SeasonSelectorProps {
   value: string;

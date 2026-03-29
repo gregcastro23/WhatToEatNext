@@ -389,7 +389,7 @@ function EmptyStatePrompt({ mealCount }: { mealCount: number }) {
       {mealCount === 0 && (
         <div className="mt-4 text-xs text-gray-500 max-w-md mx-auto">
           <p>
-            💡 Tip: Click "✨ Generate" on any day or search recipes below to
+            💡 Tip: Click &quot;✨ Generate&quot; on any day or search recipes below to
             get started!
           </p>
         </div>

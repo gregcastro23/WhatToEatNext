@@ -1,33 +1,38 @@
+import type {
+    AstrologicalState,
+    CookingMethod,
+    ElementalProperties,
+    Season
+} from "@/types/alchemy";
+import type { CookingMethodData } from "@/types/cookingMethod";
+import {
+    allCookingMethods,
+    dryCookingMethods,
+    molecularCookingMethods,
+    rawCookingMethods,
+    traditionalCookingMethods,
+    wetCookingMethods
+} from "./methods";
+
 /**
  * Main cooking data entry point
  *
  * This file exports cooking methods from the new modular structure
  */
-
-import type {
-  AstrologicalState,
-  CookingMethod,
-  ElementalProperties,
-  Season,
-} from "@/types/alchemy";
-import type { CookingMethodData } from "@/types/cookingMethod";
-
 // Export everything from the new methods system
 export * from "./methods";
-
+// Re-export everything
+export {
+    allCookingMethods,
+    dryCookingMethods,
+    molecularCookingMethods,
+    rawCookingMethods,
+    traditionalCookingMethods,
+    wetCookingMethods,
+};
 // Re-export methods from the methods module for backward compatibility
-import {
-  allCookingMethods,
-  dryCookingMethods,
-  molecularCookingMethods,
-  rawCookingMethods,
-  traditionalCookingMethods,
-  wetCookingMethods,
-} from "./methods";
-
 // For backwards compatibility - provide cookingMethods export from the new allCookingMethods
 export const cookingMethods = allCookingMethods;
-
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
  */
@@ -39,7 +44,6 @@ export const _getAstrologicalEffect = (
     allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
   let effectScore = 0.5; // Neutral score as default
-
   // Check zodiac sign
   if (
     astroState.sunSign &&
@@ -56,7 +60,6 @@ export const _getAstrologicalEffect = (
   ) {
     effectScore -= 0.2;
   }
-
   // Check lunar phase if available
   if (
     astroState.lunarPhase &&
@@ -65,11 +68,9 @@ export const _getAstrologicalEffect = (
     effectScore *=
       methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
   }
-
   // Keep score within 0.0-1.0 range
   return Math.max(0.0, Math.min(1.0, effectScore));
 };
-
 /**
  * Calculate modified elemental effect for a cooking method (simplified version for backwards compatibility)
  */
@@ -85,10 +86,8 @@ export const _calculateModifiedElementalEffect = (
   if (!methodData || !methodData.elementalEffect) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
-
   // Start with base elemental effect
   const baseEffect = { ...methodData.elementalEffect };
-
   // Apply duration modifier (simplified)
   const normalizedDuration = Math.min(
     1.0,
@@ -99,11 +98,9 @@ export const _calculateModifiedElementalEffect = (
     baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2);
     baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8);
   }
-
   // Return the modified effect
   return baseEffect;
 };
-
 // Export interface for backwards compatibility
 export interface CookingState {
   method: CookingMethod;
@@ -115,17 +112,6 @@ export interface CookingState {
     techniques?: string[];
   };
 }
-
-// Re-export everything
-export {
-  allCookingMethods,
-  dryCookingMethods,
-  molecularCookingMethods,
-  rawCookingMethods,
-  traditionalCookingMethods,
-  wetCookingMethods,
-};
-
 /**
  * Get a specific cooking method by name
  * @param name The name of the cooking method to retrieve
@@ -134,7 +120,6 @@ export {
 export function getCookingMethod(name: string): CookingMethodData | undefined {
   return allCookingMethods[name] || allCookingMethods[name.toLowerCase()];
 }
-
 /**
  * Get multiple cooking methods by name
  * @param names Array of cooking method names to retrieve
@@ -154,7 +139,6 @@ export function getCookingMethods(
     {} as Record<string, CookingMethodData>,
   );
 }
-
 /**
  * Get all available cooking method names
  * @returns Array of all cooking method names
@@ -162,7 +146,6 @@ export function getCookingMethods(
 export function getAllCookingMethodNames(): string[] {
   return Object.keys(allCookingMethods);
 }
-
 /**
  * Get cooking methods by category
  * @param category The category name: 'dry', 'wet', 'molecular', 'traditional', 'raw'
@@ -186,7 +169,6 @@ export function getCookingMethodsByCategory(
       return {};
   }
 }
-
 /**
  * Filter cooking methods by temperature range
  * @param minTemp Minimum temperature in Fahrenheit
@@ -215,7 +197,6 @@ export function getCookingMethodsByTemperature(
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 }
-
 /**
  * Get cooking methods sorted by sustainability rating
  * @param descending Whether to sort in descending order (most sustainable first)

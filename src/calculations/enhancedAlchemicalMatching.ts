@@ -1,15 +1,13 @@
+import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
+import type { ZodiacSignType } from "@/types/unified";
+import { createLogger } from "@/utils/logger";
+
 // Type imports
 // import { signs } from "@/data/astrology";
 const signs: any = null; // Commented out non-existent export
-import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
-import type { ZodiacSignType } from "@/types/unified";
-
 // Internal imports
-import { createLogger } from "@/utils/logger";
-
 // Logger
 const logger = createLogger("EnhancedAlchemicalMatching");
-
 /**
  * Calculate astrological affinity between two signs
  * This integrates multiple data sources including:
@@ -32,14 +30,11 @@ export function calculateAstrologicalAffinity(
     // Base elemental compatibility
     const elementA = signs[signA]?.Element;
     const elementB = signs[signB]?.Element;
-
     // Get modalities
     const modalityA = signs[signA]?.Modality;
     const modalityB = signs[signB]?.Modality;
-
     // Start with base elemental compatibility score
     let baseScore = 0.5; // Neutral starting point
-
     // Elemental compatibility matrix
     // Elements are only harmonious with themselves
     if (elementA && elementB) {
@@ -62,37 +57,31 @@ export function calculateAstrologicalAffinity(
         baseScore = 0.4;
       }
     }
-
     // Calculate decanic compatibility
     const decanCompat = compareDecanRulers(
       signs[signA]?.["Decan Effects"] || {},
       signs[signB]?.["Decan Effects"] || {},
     );
-
     // Calculate degree-specific influences
     const degreeCompat = calculateDegreeOverlap(
       signs[signA]?.["Degree Effects"] || {},
       signs[signB]?.["Degree Effects"] || {},
     );
-
     // Calculate tarot correspondences influence
     const tarotCompat = compareTarotArcana(
       signs[signA]?.["Major Tarot Card"] || "",
       signs[signB]?.["Major Tarot Card"] || "",
     );
-
     // Calculate modality compatibility with elements
     const modalityCompat =
       modalityA && modalityB
         ? compareModalities(modalityA, modalityB, elementA, elementB)
         : 0.5;
-
     // Calculate rulership compatibility
     const rulerCompat = compareRulers(
       signs[signA]?.Ruler || "",
       signs[signB]?.Ruler || "",
     );
-
     // Weight components based on their relative importance
     return (
       baseScore * 0.35 + // Element base compatibility (35%)
@@ -111,7 +100,6 @@ export function calculateAstrologicalAffinity(
     return 0.5; // Return neutral score on error
   }
 }
-
 /**
  * Compare decanic rulers between two signs for compatibility
  */
@@ -122,7 +110,6 @@ function compareDecanRulers(
   // Simple implementation - can be expanded
   return 0.5; // Neutral compatibility
 }
-
 /**
  * Calculate degree overlap between two signs
  */
@@ -133,7 +120,6 @@ function calculateDegreeOverlap(
   // Simple implementation - can be expanded
   return 0.5; // Neutral compatibility
 }
-
 /**
  * Compare tarot arcana between two signs
  */
@@ -151,7 +137,6 @@ function compareTarotArcana(cardA: string, cardB: string): number {
     return 0.5;
   }
 }
-
 /**
  * Compare modalities with element context
  */
@@ -166,7 +151,6 @@ function compareModalities(
     if (modalityA === modalityB) {
       return 0.8;
     }
-
     // Different modalities = lower compatibility
     return 0.4;
   } catch (error) {
@@ -176,7 +160,6 @@ function compareModalities(
     return 0.5;
   }
 }
-
 /**
  * Compare planetary rulers
  */
@@ -186,7 +169,6 @@ function compareRulers(rulerA: string, rulerB: string): number {
     if (rulerA && rulerB && rulerA === rulerB) {
       return 0.9;
     }
-
     // Different rulers = neutral compatibility
     return 0.5;
   } catch (error) {
@@ -196,7 +178,6 @@ function compareRulers(rulerA: string, rulerB: string): number {
     return 0.5;
   }
 }
-
 /**
  * Calculate enhanced elemental matching between recipe and current state
  */
@@ -207,20 +188,16 @@ export function calculateEnhancedElementalMatch(
   try {
     let totalScore = 0;
     let elementCount = 0;
-
     // Compare each element
     (["Fire", "Water", "Earth", "Air"] as const).forEach((element) => {
       const recipeValue = recipeElements[element] || 0;
       const currentValue = currentElements[element] || 0;
-
       // Calculate similarity (inverse of difference)
       const difference = Math.abs(recipeValue - currentValue);
       const similarity = 1 - Math.min(1, difference);
-
       totalScore += similarity;
       elementCount++;
     });
-
     return elementCount > 0 ? totalScore / elementCount : 0.5;
   } catch (error) {
     logger.error("Error calculating enhanced elemental match:", {
@@ -229,7 +206,6 @@ export function calculateEnhancedElementalMatch(
     return 0.5;
   }
 }
-
 /**
  * Calculate overall alchemical compatibility score
  */
@@ -244,16 +220,12 @@ export function calculateAlchemicalCompatibility(
       recipeElements,
       currentElements,
     );
-
     // Astrological affinity (30% weight) - simplified
     const astrologicalScore = 0.5; // Could be expanded
-
     // Seasonal alignment (20% weight) - simplified
     const seasonalScore = 0.5; // Could be expanded
-
     // Planetary harmony (10% weight) - simplified
     const planetaryScore = 0.5; // Could be expanded
-
     return (
       elementalScore * 0.4 +
       astrologicalScore * 0.3 +

@@ -490,7 +490,7 @@ export default function CookingMethodPage() {
               <div className="space-y-6">
                 {method.astrologicalInfluence && (
                   <p className="text-gray-700 leading-relaxed italic border-l-4 border-purple-200 pl-4">
-                    "{method.astrologicalInfluence}"
+                    &quot;{method.astrologicalInfluence}&quot;
                   </p>
                 )}
 

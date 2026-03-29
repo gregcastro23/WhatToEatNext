@@ -1,6 +1,4 @@
 import type { Cuisine } from "@/types/cuisine";
-
-// Import all cuisines
 import { african } from "./african";
 import { american } from "./american";
 import { chinese } from "./chinese";
@@ -16,6 +14,7 @@ import { russian } from "./russian";
 import { thai } from "./thai";
 import { vietnamese } from "./vietnamese";
 
+// Import all cuisines
 // Create a base cuisine structure
 const baseCuisine: Cuisine = {
   id: "base",
@@ -67,22 +66,17 @@ const baseCuisine: Cuisine = {
   },
   astrologicalInfluences: [],
 };
-
 // Process the recipes to combine seasonal and 'all' categories
 const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
   if (!cuisine) return { ...baseCuisine };
-
   // Helper to combine 'all' recipes with seasonal ones, deduplicating by normalized name
   const combineRecipes = (mealType: unknown) => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
-
     // Use safe type casting for mealType property access
     const mealData = mealType as any;
-
     // Extract the 'all' recipes that should be added to each season
     // Make sure 'all' is an array even if it's not defined
     const allRecipes = Array.isArray(mealData.all) ? mealData.all : [];
-
     // Deduplicate recipes within a single season array by normalized name.
     // If a recipe name exists in both the seasonal list and the 'all' list,
     // keep the seasonal version (it's usually more specific).
@@ -107,7 +101,6 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       }
       return result;
     };
-
     return {
       spring: deduplicateByName(
         Array.isArray(mealData.spring) ? mealData.spring : [],
@@ -127,11 +120,9 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       ),
     };
   };
-
   // Ensure the cuisine has at least a valid ID and name
   const name = cuisine.name || "";
   const id = cuisine.id || `cuisine-${name.toLowerCase().replace(/\s+/g, "-")}`;
-
   return {
     id,
     name,
@@ -166,7 +157,6 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       : [],
   } as Cuisine; // Use type assertion to ensure the return type is Cuisine
 };
-
 // Pre-process all cuisines once for efficiency
 const processedCuisines = {
   African: processCuisineRecipes(african as unknown as Partial<Cuisine>),
@@ -186,7 +176,6 @@ const processedCuisines = {
   Thai: processCuisineRecipes(thai as unknown as Partial<Cuisine>),
   Vietnamese: processCuisineRecipes(vietnamese as unknown as Partial<Cuisine>),
 };
-
 // Create and export the cuisines map with validated structures
 // Includes both capitalized and lowercase keys for backward compatibility
 // but references the SAME processed objects to avoid duplication
@@ -209,13 +198,10 @@ export const cuisinesMap = {
   thai: processedCuisines.Thai,
   vietnamese: processedCuisines.Vietnamese,
 } as const;
-
 // Export only primary cuisines for iteration (avoids duplicates)
 export const primaryCuisines = processedCuisines;
-
 export type CuisineName = keyof typeof cuisinesMap;
 export default cuisinesMap;
-
 // Element properties for the refined culinary search
 export const CUISINES = {
   american: {
@@ -345,7 +331,6 @@ export const CUISINES = {
     },
   },
 } as const;
-
 // Type for cuisine data
 export interface CuisineData {
   name: string;
@@ -356,6 +341,5 @@ export interface CuisineData {
     Air: number;
   };
 }
-
 // Ensure type safety
 export type Cuisines = typeof CUISINES;

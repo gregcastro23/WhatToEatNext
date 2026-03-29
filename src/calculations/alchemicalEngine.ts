@@ -1,41 +1,35 @@
-// Type imports
 import { DEFAULT_ELEMENTAL_PROPERTIES } from "@/constants/defaults";
 import { PLANETARY_MODIFIERS, type RulingPlanet } from "@/constants/planets";
 import type { AlchemicalCalculationResult, BirthInfo } from "@/types/alchemy";
 import type { ChakraEnergies } from "@/types/chakra";
 import type {
-  AstrologicalState,
-  ElementalProperties,
-  PlanetPosition,
-  StandardizedAlchemicalResult,
-  ZodiacSignType,
+    AstrologicalState,
+    ElementalProperties,
+    PlanetPosition,
+    StandardizedAlchemicalResult,
+    ZodiacSignType
 } from "@/types/unified";
-
-// Internal imports
 import { createLogger } from "@/utils/logger";
 
+// Type imports
+// Internal imports
 // Logger
 const logger = createLogger("AlchemicalEngine");
-
 // Define interfaces
 interface Decan {
   ruler: RulingPlanet;
   element: keyof ElementalProperties;
   degree: number;
 }
-
 // Interface for horoscope data
 interface HoroscopeData {
   tropical: Record<string, unknown>;
   [key: string]: unknown;
 }
-
 // Use StandardizedAlchemicalResult
 export type AlchemicalResult = StandardizedAlchemicalResult;
-
 // Default elemental value
 const DEFAULT_ELEMENT_VALUE = 0.25;
-
 /**
  * Safely gets an element value from elemental properties
  */
@@ -47,12 +41,10 @@ function _safeGetElementValue(
     if (!props || typeof props !== "object") {
       return DEFAULT_ELEMENT_VALUE;
     }
-
     const value = props[element];
     if (typeof value !== "number" || isNaN(value)) {
       return DEFAULT_ELEMENT_VALUE;
     }
-
     return Math.max(0, Math.min(1, value));
   } catch (error) {
     logger.error("Error in safeGetElementValue", {
@@ -62,7 +54,6 @@ function _safeGetElementValue(
     return DEFAULT_ELEMENT_VALUE;
   }
 }
-
 /**
  * AlchemicalEngineAdvanced class handles calculations related to
  * astrological and elemental influences.
@@ -74,7 +65,6 @@ export class AlchemicalEngineAdvanced {
     Water: 1,
     Earth: 1,
   };
-
   private readonly zodiacElements: Record<
     ZodiacSignType,
     keyof ElementalProperties
@@ -92,7 +82,6 @@ export class AlchemicalEngineAdvanced {
     scorpio: "Water",
     pisces: "Water",
   };
-
   private readonly lunarPhaseModifiers: Record<string, ElementalProperties> = {
     "new moon": { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
     "waxing crescent": { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
@@ -103,7 +92,6 @@ export class AlchemicalEngineAdvanced {
     "last quarter": { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
     "waning crescent": { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
   };
-
   private readonly seasonalModifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
@@ -111,7 +99,6 @@ export class AlchemicalEngineAdvanced {
     fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
   };
-
   private readonly decans: Record<ZodiacSignType, Decan[]> = {
     aries: [
       { ruler: "Mars", element: "Fire", degree: 0 },
@@ -174,7 +161,6 @@ export class AlchemicalEngineAdvanced {
       { ruler: "Pluto", element: "Water", degree: 20 },
     ],
   };
-
   /**
    * Calculate the astrological match between a recipe and the current astrological state
    */
@@ -193,29 +179,23 @@ export class AlchemicalEngineAdvanced {
       const dominantElement = (entries.reduce((max, current) =>
         current[1] > max[1] ? current : max,
       ) || ["Fire", DEFAULT_ELEMENT_VALUE])[0];
-
       // Validate season
       const validSeason = this.getValidSeason(season);
-
       // Function to check if string is a valid RulingPlanet
       const isRulingPlanet = (planet: string): planet is RulingPlanet =>
         Object.prototype.hasOwnProperty.call(PLANETARY_MODIFIERS, planet);
-
       // Calculate astronomical score
       const astronomicalScore = astrologicalState?.activePlanets
         ? astrologicalState.activePlanets.filter(
             (p) => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0,
           ).length * 10
         : 0;
-
       // Cuisine compatibility score (placeholder)
       const cuisineScore = cuisine
         ? this.getCuisineCompatibility(cuisine, astrologicalState, validSeason)
         : 0;
-
       // Calculate total score
       const totalScore = astronomicalScore + cuisineScore;
-
       return {
         result: {
           elementalProperties: baseElements,
@@ -250,7 +230,6 @@ export class AlchemicalEngineAdvanced {
       } as any;
     }
   }
-
   /**
    * Get valid season string
    */
@@ -267,7 +246,6 @@ export class AlchemicalEngineAdvanced {
     }
     return "winter";
   }
-
   /**
    * Get cuisine compatibility score (placeholder)
    */
@@ -279,7 +257,6 @@ export class AlchemicalEngineAdvanced {
     return 50; // Default compatibility score
   }
 }
-
 /**
  * Main alchemize function for birth chart calculations
  */
@@ -292,7 +269,6 @@ export function alchemize(
     if (!birthInfo || typeof birthInfo !== "object") {
       throw new TypeError("Invalid birth info: expected an object");
     }
-
     if (
       !horoscopeDict ||
       typeof horoscopeDict !== "object" ||
@@ -300,7 +276,6 @@ export function alchemize(
     ) {
       throw new TypeError("Invalid horoscope data: missing tropical data");
     }
-
     // Basic implementation - returns default values
     // This can be expanded with full alchemical calculations
     return {
@@ -333,7 +308,6 @@ export function alchemize(
     throw error;
   }
 }
-
 /**
  * Calculate current planetary positions
  */
@@ -341,14 +315,12 @@ export function calculateCurrentPlanetaryPositions(): PlanetPosition[] {
   // Placeholder implementation
   return [];
 }
-
 /**
  * Calculate zodiac energies
  */
 export function calculateZodiacEnergies(): Record<string, number> {
   return {};
 }
-
 /**
  * Calculate chakra energies
  */
@@ -366,7 +338,6 @@ export function calculateChakraEnergies(
     brow: 0,
   };
 }
-
 /**
  * Safe alchemize wrapper
  */
@@ -401,7 +372,6 @@ export function safeAlchemize(
     } as any;
   }
 }
-
 /**
  * Alchemize with safety wrapper
  */

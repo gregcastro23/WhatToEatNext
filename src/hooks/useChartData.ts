@@ -1,16 +1,16 @@
+import { useCallback, useState } from "react";
+import { useUser } from "@/contexts/UserContext";
+import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
+import type { KineticMetrics } from "@/types/kinetics";
+
 /**
  * useChartData Hook
  *
  * Fetches and manages planetary chart data from the astrologize and alchemize APIs.
  * Calculates planetary aspects and provides alchemical properties.
  */
-
-import { useState, useCallback } from "react";
-import { useUser } from "@/contexts/UserContext"; // Import the useUser hook
-import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
-
+ // Import the useUser hook
 type PlanetPosition = PlanetaryPosition;
-
 // Define the expected structure of AlchemicalResult
 export interface AlchemicalResult {
   // Properties expected by AlchemicalDisplay.tsx
@@ -37,7 +37,6 @@ export interface AlchemicalResult {
   matter: number;
   substance: number;
 }
-
 // Define the return type of the useChartData hook
 export interface ChartData {
   positions: Record<string, PlanetPosition> | null;
@@ -49,8 +48,6 @@ export interface ChartData {
   error: string | null;
   refetch: () => void;
 }
-import type { KineticMetrics } from "@/types/kinetics";
-
 export interface ChartDataOptions {
   dateTime?: Date;
   location?: {
@@ -61,9 +58,7 @@ export interface ChartDataOptions {
   autoRefresh?: boolean;
   refreshInterval?: number; // milliseconds
 }
-
 // ... (interfaces remain the same)
-
 export function useChartData(options: ChartDataOptions = {}): ChartData {
   const {
     dateTime,
@@ -72,7 +67,6 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     _autoRefresh = false,
     _refreshInterval = 60000, // 1 minute default
   } = options;
-
   const { currentUser } = useUser();
   const userLocation = currentUser?.birthData
     ? {
@@ -80,10 +74,8 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         longitude: currentUser.birthData.longitude,
       }
     : undefined;
-
   // Determine the location to use: option > user > null
   const location = optionLocation || userLocation;
-
   const [positions, _setPositions] = useState<Record<
     string,
     PlanetPosition
@@ -94,7 +86,6 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
   const [timestamp, _setTimestamp] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const fetchChartData = useCallback(async () => {
     // If no location is available, do not fetch data
     if (!location) {
@@ -102,10 +93,8 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       setIsLoading(false);
       return;
     }
-
     setIsLoading(true);
     setError(null);
-
     try {
       // Build query parameters
       const _params = new URLSearchParams({
@@ -113,7 +102,6 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         longitude: location.longitude.toString(),
         zodiacSystem,
       });
-
       // ... (rest of the fetch logic remains the same)
     } catch (err) {
       const errorMessage =
@@ -124,9 +112,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       setIsLoading(false);
     }
   }, [dateTime, location, zodiacSystem]);
-
   // ... (useEffect hooks remain the same)
-
   return {
     positions,
     aspects,
