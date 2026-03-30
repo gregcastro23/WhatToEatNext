@@ -5150,7 +5150,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:8.47.0, @typescript-eslint/parser@npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0":
+"@typescript-eslint/parser@npm:8.57.2":
+  version: 8.57.2
+  resolution: "@typescript-eslint/parser@npm:8.57.2"
+  dependencies:
+    "@typescript-eslint/scope-manager": 8.57.2
+    "@typescript-eslint/types": 8.57.2
+    "@typescript-eslint/typescript-estree": 8.57.2
+    "@typescript-eslint/visitor-keys": 8.57.2
+    debug: ^4.4.3
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+    typescript: ">=4.8.4 <6.0.0"
+  checksum: 1fc084d26ad1baa8b04fc8045ab881f2035ed9390ad4b58bf100f27aa3871c4179397f53d383d321068d46d7a9ecde48d3b490a1d8f8d1cf6308c54aa6aac0fb
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/parser@npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0":
   version: 8.47.0
   resolution: "@typescript-eslint/parser@npm:8.47.0"
   dependencies:
@@ -15546,7 +15562,7 @@ next-auth@beta:
     "@types/react": ^19.0.5
     "@types/react-dom": ^19.0.2
     "@typescript-eslint/eslint-plugin": 8.47.0
-    "@typescript-eslint/parser": 8.47.0
+    "@typescript-eslint/parser": 8.57.2
     "@typescript-eslint/utils": 8.47.0
     "@vercel/analytics": ^2.0.1
     ai: ^6.0.116
