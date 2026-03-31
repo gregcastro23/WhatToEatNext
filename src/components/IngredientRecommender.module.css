@@ -1,0 +1,396 @@
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: rgba(10, 10, 30, 0.02);
+  border-radius: 12px;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.header h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.celestialInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: rgba(30, 30, 60, 0.05);
+  border-radius: 8px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.infoLabel {
+  font-size: 0.7rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.infoValue {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #333;
+  text-transform: capitalize;
+}
+
+.refreshButton {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.refreshButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(107, 70, 193, 0.2);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(107, 70, 193, 0.2);
+  border-radius: 50%;
+  border-top-color: #6b46c1;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ingredientsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ingredientCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 3px solid transparent;
+}
+
+.ingredientCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ingredientCard.selected {
+  border-color: #6b46c1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ingredientName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+  text-transform: capitalize;
+}
+
+.elementTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.elementTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: white;
+}
+
+.elementIcon {
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+.fire {
+  background-color: #e53e3e;
+}
+
+.water {
+  background-color: #3182ce;
+}
+
+.earth {
+  background-color: #38a169;
+}
+
+.air {
+  background-color: #d69e2e;
+}
+
+.scoreBar {
+  width: 100%;
+  height: 6px;
+  background-color: #edf2f7;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 0.375rem;
+}
+
+.scoreBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6b46c1, #805ad5);
+  border-radius: 3px;
+}
+
+.scoreValue {
+  position: absolute;
+  right: 0;
+  top: -15px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b46c1;
+}
+
+.matchScore {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.125rem 0.375rem;
+  border-radius: 2px;
+}
+
+.matchScoreHigh {
+  background-color: rgba(72, 187, 120, 0.1);
+  color: #38a169;
+}
+
+.matchScoreMedium {
+  background-color: rgba(237, 137, 54, 0.1);
+  color: #dd6b20;
+}
+
+.matchScoreLow {
+  background-color: rgba(229, 62, 62, 0.1);
+  color: #c53030;
+}
+
+.emptyMessage {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 1.5rem;
+  color: #666;
+  font-style: italic;
+}
+
+.detailSection {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-top: 1.5rem;
+}
+
+.detailSection h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #4a5568;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-bottom: 0.375rem;
+}
+
+.qualityTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.qualityTag {
+  font-size: 0.65rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 9999px;
+  background-color: rgba(107, 70, 193, 0.1);
+  color: #6b46c1;
+}
+
+.elementBars {
+  margin-top: 0.5rem;
+  margin-bottom: 0.375rem;
+}
+
+.elementBar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.375rem;
+}
+
+.elementLabel {
+  width: 2.5rem;
+  font-size: 0.65rem;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+}
+
+.elementBarContainer {
+  flex: 1;
+  height: 0.25rem;
+  background-color: #edf2f7;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin: 0 0.375rem;
+}
+
+.elementBarFill {
+  height: 100%;
+  border-radius: 9999px;
+}
+
+.elementValue {
+  width: 1.75rem;
+  font-size: 0.65rem;
+  color: #4a5568;
+  text-align: right;
+}
+
+/* Element-specific styles */
+.fireFill {
+  background: linear-gradient(90deg, #f56565, #ed8936);
+}
+
+.waterFill {
+  background: linear-gradient(90deg, #4299e1, #63b3ed);
+}
+
+.earthFill {
+  background: linear-gradient(90deg, #48bb78, #68d391);
+}
+
+.airFill {
+  background: linear-gradient(90deg, #9f7aea, #d6bcfa);
+}
+
+.seasonalityBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  background-color: rgba(72, 187, 120, 0.1);
+  color: #38a169;
+  margin-bottom: 0.375rem;
+}
+
+/* Dark mode styles */
+.darkMode .ingredientCard {
+  background-color: #2d3748;
+  color: #e2e8f0;
+}
+
+.darkMode .ingredientName {
+  color: #f7fafc;
+}
+
+.darkMode .scoreBar {
+  background-color: #4a5568;
+}
+
+.darkMode .elementLabel, 
+.darkMode .elementValue {
+  color: #cbd5e0;
+}
+
+.darkMode .elementBarContainer {
+  background-color: #4a5568;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.75rem;
+  }
+  
+  .ingredientsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .celestialInfo {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .infoItem {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ingredientsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .elementBar {
+    margin-bottom: 0.5rem;
+  }
+  
+  .ingredientCard {
+    padding: 0.5rem;
+  }
+} 
