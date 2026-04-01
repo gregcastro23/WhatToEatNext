@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import NavAuthLink from "@/components/nav/NavAuthLink";
 import PayPalButton from "@/components/PayPalButton";
+import PremiumLink from "@/components/nav/PremiumLink";
 import SignInModal from "@/components/auth/SignInModal";
 import ClientProviders from "./ClientProviders";
 import type { Metadata } from "next";
@@ -113,13 +114,7 @@ export default function RootLayout({
                   >
                     🏪 Restaurant Creator
                   </Link>
-                  <Link
-                    href="/premium"
-                    className="px-3 py-2 rounded-lg bg-gradient-to-r from-amber-100 to-yellow-100 hover:from-amber-200 hover:to-yellow-200 text-amber-800 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-300"
-                    aria-label="Premium subscription plans"
-                  >
-                    ⭐ Premium
-                  </Link>
+                  <PremiumLink />
                   <Link
                     href="https://planetary-agents.vercel.app/planetary-agents"
                     target="_blank"
