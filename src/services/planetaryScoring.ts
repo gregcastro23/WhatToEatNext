@@ -174,6 +174,7 @@ export class PlanetaryScoringService {
       const response = await fetch("/api/astrologize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(4000), // 4 second timeout
         body: JSON.stringify({
           year: now.getFullYear(),
           month: now.getMonth() + 1,
