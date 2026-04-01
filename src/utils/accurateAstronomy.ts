@@ -1,4 +1,4 @@
-import * as Astronomy from "astronomy-engine";
+import Astronomy from "astronomy-engine";
 import { _logger } from "@/lib/logger";
 // Removed: import { getDegreeForDate } from '@/services/degreeCalendarMapping'; - service was removed during external API cleanup campaign
 // Removed: import from '@/services/vsop87EphemerisService'; - service was removed during external API cleanup campaign

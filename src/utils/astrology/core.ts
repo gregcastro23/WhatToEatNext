@@ -17,10 +17,8 @@ import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from "@/ut
 import { PlanetaryHourCalculator } from "../../lib/PlanetaryHourCalculator";
 import { getCurrentSeason, getTimeOfDay } from "../dateUtils";
 import type { ElementalCharacter } from "../../constants/planetaryElements";
+import { getAccuratePlanetaryPositions } from "./positions";
 
-// Add missing imports for TS2304 fixes
-// import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
-const getAccuratePlanetaryPositions: any = null; // Function not available
 // Robust debug, logger: logs in development, silent in production
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production;

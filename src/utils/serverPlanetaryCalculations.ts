@@ -4,7 +4,7 @@
  * without needing to make HTTP calls to the astrologize API.
  */
 
-import * as Astronomy from "astronomy-engine";
+import Astronomy from "astronomy-engine";
 import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
