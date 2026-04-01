@@ -425,6 +425,27 @@ class UserDatabaseService {
   }
 
   /**
+   * Get the total number of active users
+   */
+  async getUserCount(): Promise<number> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          "SELECT COUNT(*) as count FROM users WHERE is_active = true",
+        );
+        return parseInt(result.rows[0].count, 10);
+      } catch (error) {
+        _logger.warn("PostgreSQL count failed:", error as any);
+      }
+    }
+
+    return this.users.size;
+  }
+
+  /**
    * Get all users (admin only)
    */
   async getAllUsers(): Promise<UserWithProfile[]> {

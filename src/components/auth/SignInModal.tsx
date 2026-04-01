@@ -73,11 +73,22 @@ export default function SignInModal() {
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true);
     setError(null);
+    
+    // Safety timeout: if we haven't redirected in 10 seconds, something is wrong
+    const timeoutId = setTimeout(() => {
+      if (isSigningIn) {
+        setIsSigningIn(false);
+        setError('The sign-in request timed out. Please check your connection and try again.');
+      }
+    }, 10000);
+
     try {
       // Use profile as callback so they go to onboarding if needed
       await signIn('google', { callbackUrl: '/profile' });
-    } catch {
-      setError('Something went wrong. Please try again.');
+      // Note: Full page redirect happens here, so code below usually won't run on success
+    } catch (err) {
+      clearTimeout(timeoutId);
+      setError('Could not start the Google sign-in process. Please try again.');
       setIsSigningIn(false);
     }
   };

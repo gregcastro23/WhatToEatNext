@@ -1,6 +1,7 @@
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { getEdgeWorkerBaseUrl } from "@/utils/urlUtils";
 
