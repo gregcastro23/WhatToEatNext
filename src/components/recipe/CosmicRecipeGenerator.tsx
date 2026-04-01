@@ -82,6 +82,22 @@ export default function CosmicRecipeGenerator() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 font-sans">
+      {!currentUser && (
+        <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-xl border border-purple-100 dark:border-purple-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="text-2xl">✨</div>
+            <p className="text-sm text-purple-800 dark:text-purple-300 font-medium">
+              Sign in to unlock personalized recipes woven from your unique <span className="font-bold underline decoration-purple-300">astrological blueprint</span>.
+            </p>
+          </div>
+          <button 
+            onClick={() => window.dispatchEvent(new Event('open-signin-modal'))}
+            className="whitespace-nowrap px-4 py-2 bg-white dark:bg-slate-800 text-purple-700 dark:text-purple-300 text-xs font-bold rounded-lg border border-purple-200 dark:border-purple-700 shadow-sm hover:bg-purple-50 dark:hover:bg-slate-700 transition-all"
+          >
+            Sign In Now
+          </button>
+        </div>
+      )}
       <div className="mb-8 text-center sm:text-left">
         <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 bg-clip-text text-transparent flex items-center justify-center sm:justify-start gap-3">
           <FaMagic className="w-8 h-8 text-purple-600" />

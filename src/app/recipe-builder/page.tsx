@@ -240,6 +240,22 @@ export default function RecipeBuilderPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-orange-50">
       <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
+        {!isPersonalized && (
+          <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-500">
+            <div className="flex items-center gap-3">
+              <div className="text-2xl">✨</div>
+              <p className="text-sm text-amber-800 font-medium">
+                Unlock <span className="font-bold">Natal Chart Integration</span> for deeper alchemical alignment scores and personalized cosmic recipes.
+              </p>
+            </div>
+            <button 
+              onClick={() => window.dispatchEvent(new Event('open-signin-modal'))}
+              className="whitespace-nowrap px-4 py-2 bg-white text-orange-700 text-xs font-bold rounded-lg border border-orange-200 shadow-sm hover:bg-orange-50 transition-all"
+            >
+              Connect Your Chart
+            </button>
+          </div>
+        )}
 
         {/* Header */}
         <div className="flex items-center justify-between">

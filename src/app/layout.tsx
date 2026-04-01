@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import NavAuthLink from "@/components/nav/NavAuthLink";
 import PayPalButton from "@/components/PayPalButton";
+import SignInModal from "@/components/auth/SignInModal";
 import ClientProviders from "./ClientProviders";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -238,6 +239,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
+          <SignInModal />
         </ClientProviders>
         <Analytics />
       </body>

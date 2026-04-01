@@ -174,6 +174,23 @@ export async function POST(request: NextRequest) {
 
     const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any);
 
+    // Send admin notification about completed onboarding
+    // This provides the admin team with the user's dominant element
+    try {
+      const emailService = (await import("@/services/emailService")).default;
+      emailService.ensureInitialized();
+      if (emailService.isConfigured()) {
+        const userName = name || user.profile.name || user.email;
+        void emailService.sendAdminNotificationEmail(
+          user.email,
+          userName,
+          natalChart.dominantElement,
+        );
+      }
+    } catch (err) {
+      _logger.error("[POST /api/onboarding] Failed to send admin notification:", err as any);
+    }
+
     return NextResponse.json({
       success: true,
       profile: updatedUser?.profile ?? null,
