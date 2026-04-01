@@ -1,4 +1,5 @@
-import Astronomy from "astronomy-engine";
+import * as AstronomyModule from "astronomy-engine";
+const Astronomy = (AstronomyModule as any).default || AstronomyModule;
 import { _logger } from "@/lib/logger";
 // Removed: import { getDegreeForDate } from '@/services/degreeCalendarMapping'; - service was removed during external API cleanup campaign
 // Removed: import from '@/services/vsop87EphemerisService'; - service was removed during external API cleanup campaign

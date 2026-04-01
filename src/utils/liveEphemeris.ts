@@ -15,7 +15,8 @@
  *   - A unified snapshot interface consumed by the alchemizer and UI
  */
 
-import Astronomy from "astronomy-engine";
+import * as AstronomyModule from "astronomy-engine";
+const Astronomy = (AstronomyModule as any).default || AstronomyModule;
 import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import {
