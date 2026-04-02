@@ -193,6 +193,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      user: {
+        id: updatedUser?.id || userId,
+        email: updatedUser?.email || user.email,
+        name: updatedUser?.profile?.name || name || "",
+      },
       profile: updatedUser?.profile ?? null,
       natalChart,
     });
