@@ -138,10 +138,10 @@ class UserDatabaseService {
         });
       } catch (error) {
         _logger.error(
-          "PostgreSQL user creation failed, using in-memory:",
+          "PostgreSQL user creation failed:",
           error as any,
         );
-        // Fall through to in-memory storage
+        throw new Error("Failed to create user in database", { cause: error });
       }
     }
 
@@ -208,8 +208,10 @@ class UserDatabaseService {
         if (result.rows.length > 0) {
           return this.rowToUserWithProfile(result.rows[0]);
         }
+        return null; // Return null explicitly if not found in DB
       } catch (error) {
-        _logger.warn("PostgreSQL query failed, using in-memory:", error as any);
+        _logger.error("PostgreSQL query failed in getUserByEmail:", error as any);
+        throw new Error("Database lookup failed", { cause: error });
       }
     }
 

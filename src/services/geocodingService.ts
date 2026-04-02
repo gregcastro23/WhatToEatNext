@@ -47,13 +47,13 @@ export async function geocodeLocation(
     const params = new URLSearchParams({
       q: locationName,
       format: "json",
-      limit: "5",
+      limit: "10", // fetch slightly more to allow for deduping
       addressdetails: "1",
     });
 
     const response = await fetch(`${NOMINATIM_API_URL}?${params.toString()}`, {
       headers: {
-        "User-Agent": "WhatToEatNext/1.0", // Required by Nominatim
+        "User-Agent": "WhatToEatNext/1.0 (cookingwithcastrollc@gmail.com)", // Required by Nominatim
       },
     });
 
@@ -63,21 +63,45 @@ export async function geocodeLocation(
 
     const data: NominatimResult[] = await response.json();
 
-    return data.map((result) => {
-      const lat = parseFloat(result.lat);
-      const lon = parseFloat(result.lon);
-      const offsetHours = Math.round(lon / 15);
-      const absOffset = Math.abs(offsetHours);
-      const sign = offsetHours >= 0 ? "+" : "-";
-      return {
-        displayName: result.display_name,
-        latitude: lat,
-        longitude: lon,
-        type: result.type,
-        country: result.address.country,
-        estimatedTimezone: `UTC${sign}${absOffset}`,
-      };
-    });
+    const uniqueResults: GeocodingResult[] = [];
+    const seen = new Set<string>();
+
+    for (const result of data) {
+      const { primary, secondary } = (() => {
+        // Simple distinct location key creation based on displayName primary/secondary
+        const parts = result.display_name.split(",").map((p) => p.trim());
+        if (parts.length <= 2) {
+          return { primary: parts[0], secondary: parts.slice(1).join(", ") };
+        }
+        const primary = parts[0];
+        const secondary = [parts[1], parts[parts.length - 1]].filter(Boolean).join(", ");
+        return { primary, secondary };
+      })();
+
+      const dedupKey = `${primary}-${secondary}`;
+      if (!seen.has(dedupKey)) {
+        seen.add(dedupKey);
+        
+        const lat = parseFloat(result.lat);
+        const lon = parseFloat(result.lon);
+        const offsetHours = Math.round(lon / 15);
+        const absOffset = Math.abs(offsetHours);
+        const sign = offsetHours >= 0 ? "+" : "-";
+
+        uniqueResults.push({
+          displayName: result.display_name,
+          latitude: lat,
+          longitude: lon,
+          type: result.type,
+          country: result.address.country,
+          estimatedTimezone: `UTC${sign}${absOffset}`,
+        });
+
+        if (uniqueResults.length >= 5) break; // Limit to 5 unique results
+      }
+    }
+
+    return uniqueResults;
   } catch (error) {
     _logger.error("Geocoding error:", error);
     throw new Error("Failed to geocode location", { cause: error });

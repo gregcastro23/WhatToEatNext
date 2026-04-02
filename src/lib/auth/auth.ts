@@ -63,7 +63,7 @@ async function getCachedUser(email: string) {
       // Set a timeout for the DB lookup
       const dbUser = await Promise.race([
         userDatabase.getUserByEmail(email),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 15000))
       ]);
       
       if (dbUser) {
@@ -203,6 +203,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         })();
       } catch (error) {
         console.error(`[auth] Error during signIn callback for ${user.email}:`, error);
+        throw new Error("Unable to connect to database. Please try again in a moment.");
       }
 
       console.log(`[auth] signIn callback completed for ${user.email}`);
