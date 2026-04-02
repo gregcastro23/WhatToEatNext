@@ -113,7 +113,6 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
           </div>
           <form onSubmit={handleCreateRestaurant} className="space-y-4">
             <div>
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-xs font-semibold text-purple-700 mb-1.5 uppercase tracking-wide">Restaurant Name *</label>
               <input
@@ -124,7 +123,6 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block text-xs font-semibold text-purple-700 mb-1.5 uppercase tracking-wide">Cuisine Style *</label>
                 <input
@@ -134,7 +132,6 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
                 />
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block text-xs font-semibold text-purple-700 mb-1.5 uppercase tracking-wide">Location (Optional)</label>
                 <input
@@ -327,7 +324,6 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
 
                           {/* Dietary Tags */}
                           <div>
-                            // eslint-disable-next-line jsx-a11y/label-has-associated-control
                             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                             <label className="block text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Dietary Tags</label>
                             <div className="flex flex-wrap gap-2">

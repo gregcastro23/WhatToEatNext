@@ -310,7 +310,6 @@ export default function QuickFoodInput({
 
             {/* Quantity Selector */}
             <div className="mb-4">
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Quantity
@@ -401,7 +400,6 @@ export default function QuickFoodInput({
 
             {/* Meal Type */}
             <div className="mb-4">
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Meal

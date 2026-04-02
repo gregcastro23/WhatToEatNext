@@ -268,7 +268,6 @@ function AddToMealPlannerModal({ recipe, onClose, onAdded }: AddToMealPlannerPro
 
         {/* Day Selection */}
         <div className="mb-4">
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block">
             Day
@@ -292,7 +291,6 @@ function AddToMealPlannerModal({ recipe, onClose, onAdded }: AddToMealPlannerPro
 
         {/* Meal Type Selection */}
         <div className="mb-6">
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block">
             Meal

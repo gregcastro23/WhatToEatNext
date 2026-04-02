@@ -635,7 +635,6 @@ function NewEntryForm({
 
         {/* Photos */}
         <div>
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs font-medium text-gray-600 mb-2">Photos</label>
           <div className="flex gap-2 flex-wrap">
@@ -771,7 +770,6 @@ function NewEntryForm({
 
         {/* Elemental tags */}
         <div>
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-2">Elemental Properties (select all that apply)</label>
           <div className="flex gap-2 flex-wrap">
@@ -794,7 +792,6 @@ function NewEntryForm({
 
         {/* Rating */}
         <div>
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-2">Your Rating</label>
           <StarRating

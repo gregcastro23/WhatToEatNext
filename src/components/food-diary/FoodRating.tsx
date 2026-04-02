@@ -209,7 +209,6 @@ export default function FoodRating({
       {isExpanded && (
         <>
           <div className="mb-4">
-            // eslint-disable-next-line jsx-a11y/label-has-associated-control
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-sm font-medium text-gray-700 mb-2">
               How did it make you feel?

@@ -77,7 +77,6 @@ export default function GuestAlchemistPanel({
           className="space-y-4 mb-8 border-b pb-6"
         >
           <div>
-            // eslint-disable-next-line jsx-a11y/label-has-associated-control
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Name
@@ -92,7 +91,6 @@ export default function GuestAlchemistPanel({
             />
           </div>
           <div>
-            // eslint-disable-next-line jsx-a11y/label-has-associated-control
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Birth Date
@@ -106,7 +104,6 @@ export default function GuestAlchemistPanel({
             />
           </div>
           <div>
-            // eslint-disable-next-line jsx-a11y/label-has-associated-control
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Birth Time (Optional)

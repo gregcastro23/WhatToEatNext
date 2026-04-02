@@ -413,7 +413,6 @@ export default function RecipeSelector({
           <div className="flex flex-wrap gap-4">
             {/* Cuisine Filter */}
             <div className="flex-1 min-w-[200px]">
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Cuisine
@@ -440,7 +439,6 @@ export default function RecipeSelector({
 
             {/* Dietary Filters */}
             <div className="flex-1 min-w-[200px]">
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Dietary
@@ -470,7 +468,6 @@ export default function RecipeSelector({
 
             {/* Prep Time Filter */}
             <div className="flex-1 min-w-[200px]">
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Max Prep Time
@@ -495,7 +492,6 @@ export default function RecipeSelector({
 
             {/* Ingredient Search Filter */}
             <div className="flex-1 min-w-[250px] relative">
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Search by Ingredients

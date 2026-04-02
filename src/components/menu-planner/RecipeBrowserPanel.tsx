@@ -335,7 +335,6 @@ export default function RecipeBrowserPanel({
         <div className="p-4 border-b border-gray-200 bg-gray-50 space-y-4">
           {/* Cuisine chips */}
           <div>
-            // eslint-disable-next-line jsx-a11y/label-has-associated-control
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-xs font-semibold text-gray-600 mb-1.5">
               Cuisine
@@ -359,7 +358,6 @@ export default function RecipeBrowserPanel({
 
           {/* Dietary chips */}
           <div>
-            // eslint-disable-next-line jsx-a11y/label-has-associated-control
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-xs font-semibold text-gray-600 mb-1.5">
               Dietary
@@ -383,7 +381,6 @@ export default function RecipeBrowserPanel({
 
           {/* Max Cook Time */}
           <div className="flex items-center gap-3">
-            // eslint-disable-next-line jsx-a11y/label-has-associated-control
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="text-xs font-semibold text-gray-600">
               Max Time:

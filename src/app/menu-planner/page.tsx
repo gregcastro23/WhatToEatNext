@@ -544,7 +544,6 @@ function MenuPlannerContent() {
               </div>
 
               <div className="p-6">
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block mb-2 text-sm font-medium text-gray-700">
                   Template Name

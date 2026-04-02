@@ -151,7 +151,6 @@ export default function CosmicRecipeGenerator() {
           {showAdvanced && (
             <div className="mt-4 grid sm:grid-cols-2 gap-4 animate-in slide-in-from-top-2 fade-in duration-200">
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                   Key Ingredients (use comma)
@@ -165,7 +164,6 @@ export default function CosmicRecipeGenerator() {
                 />
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                   Avoid Ingredients

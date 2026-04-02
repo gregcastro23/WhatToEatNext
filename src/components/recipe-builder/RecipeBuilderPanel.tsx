@@ -60,7 +60,6 @@ function MealTypeSelector() {
 
   return (
     <div>
-      // eslint-disable-next-line jsx-a11y/label-has-associated-control
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label className="text-xs font-medium text-gray-600 mb-1.5 block">
         Meal Type
@@ -89,7 +88,6 @@ function FlavorSelector() {
 
   return (
     <div>
-      // eslint-disable-next-line jsx-a11y/label-has-associated-control
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label className="text-xs font-medium text-gray-600 mb-1.5 block">
         Flavor Preferences
@@ -119,7 +117,6 @@ function DietarySelector() {
 
   return (
     <div>
-      // eslint-disable-next-line jsx-a11y/label-has-associated-control
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label className="text-xs font-medium text-gray-600 mb-1.5 block">
         Dietary Preferences
@@ -164,7 +161,6 @@ function AllergySelector() {
 
   return (
     <div>
-      // eslint-disable-next-line jsx-a11y/label-has-associated-control
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label className="text-xs font-medium text-gray-600 mb-1.5 block">
         Allergies / Exclusions
@@ -259,7 +255,6 @@ export default function RecipeBuilderPanel({
 
       {/* Ingredient Search */}
       <div>
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label className="text-xs font-medium text-gray-600 mb-1.5 block">
           Search Ingredients

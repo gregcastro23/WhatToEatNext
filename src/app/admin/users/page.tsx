@@ -360,19 +360,16 @@ export default function AdminUsersPage() {
             </div>
             <div className="p-6 space-y-4">
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="text-sm text-gray-500">Name</label>
                 <p className="font-medium">{selectedUser.name || "No name"}</p>
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="text-sm text-gray-500">Email</label>
                 <p className="font-medium">{selectedUser.email}</p>
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="text-sm text-gray-500">Roles</label>
                 <div className="flex gap-2 mt-1">
@@ -391,7 +388,6 @@ export default function AdminUsersPage() {
                 </div>
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="text-sm text-gray-500">
                   Dominant Element
@@ -411,7 +407,6 @@ export default function AdminUsersPage() {
                 </p>
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="text-sm text-gray-500">Status</label>
                 <p>
@@ -427,7 +422,6 @@ export default function AdminUsersPage() {
                 </p>
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="text-sm text-gray-500">Onboarding</label>
                 <p>
@@ -445,14 +439,12 @@ export default function AdminUsersPage() {
                 </p>
               </div>
               <div>
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="text-sm text-gray-500">Joined</label>
                 <p>{new Date(selectedUser.createdAt).toLocaleString()}</p>
               </div>
               {selectedUser.lastLoginAt && (
                 <div>
-                  // eslint-disable-next-line jsx-a11y/label-has-associated-control
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label className="text-sm text-gray-500">Last Login</label>
                   <p>{new Date(selectedUser.lastLoginAt).toLocaleString()}</p>

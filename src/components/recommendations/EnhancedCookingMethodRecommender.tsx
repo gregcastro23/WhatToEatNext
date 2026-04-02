@@ -1022,7 +1022,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
         {/* Focus dropdown */}
         <div className="flex items-center gap-2">
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="text-xs font-semibold text-gray-500">Focus:</label>
           <select
