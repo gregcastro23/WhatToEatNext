@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import React, {
   createContext,
   useContext,
@@ -111,6 +111,7 @@ function parseServerProfile(
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const { status } = useSession();
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -119,28 +120,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     useState<boolean>(false);
   const [isOffline, setIsOffline] = useState<boolean>(false);
   const pendingUpdatesRef = useRef<PendingUpdate[]>([]);
-
-  // Track online/offline status
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const goOnline = () => {
-      setIsOffline(false);
-      // Flush pending updates when coming back online
-      void flushPendingUpdates();
-    };
-    const goOffline = () => setIsOffline(true);
-
-    window.addEventListener("online", goOnline);
-    window.addEventListener("offline", goOffline);
-    setIsOffline(!navigator.onLine);
-
-    return () => {
-      window.removeEventListener("online", goOnline);
-      window.removeEventListener("offline", goOffline);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Check if the profile is missing essential information
   const checkProfileCompleteness = (profile: UserProfile | null) => {
@@ -198,6 +177,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   // Load profile from localStorage first, then optionally sync with server
   const loadProfile = useCallback(async () => {
+    // Only proceed if session is not loading
+    if (status === "loading") return;
+
     setIsLoading(true);
     setError(null);
     setIsNewUser(false);
@@ -225,18 +207,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
       }
 
-      // If no stored profile (or missing natalChart), try fetching from server
-      if (!profileLoaded) {
+      // If authenticated but no stored profile (or missing essential data), try fetching from server
+      if (status === "authenticated") {
         try {
           const response = await fetch("/api/user/profile", {
             method: "GET",
             credentials: "include",
           });
 
-          if (response.status === 401) {
-            // Not authenticated — this is normal for unauthenticated visitors
-            setIsNewUser(true);
-          } else if (response.ok) {
+          if (response.ok) {
             const data = await response.json();
             if (data.success && data.profile) {
               const profile = parseServerProfile(data.profile);
@@ -253,14 +232,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           if (!profileLoaded) {
             setIsOffline(true);
           }
-          logger.info("No authenticated session found");
+          logger.info("Failed to sync profile from server");
         }
       }
 
-      // If no profile was loaded from either source, it's a new user
-      if (!profileLoaded) {
+      // If no profile was loaded and not authenticated, it's a new user (guest)
+      if (!profileLoaded && status === "unauthenticated") {
         setIsNewUser(true);
-        logger.info("No profile found, marking as new user.");
+        logger.info("Guest session - marking as new user.");
       }
     } catch (err) {
       setError("Failed to load user profile");
@@ -268,7 +247,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [status]);
 
   // Refresh profile from server (for manual sync)
   const refreshFromServer = useCallback(async () => {
@@ -410,6 +389,28 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
     logger.info("User logged out");
   };
+
+  // Track online/offline status
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const goOnline = () => {
+      setIsOffline(false);
+      // Flush pending updates when coming back online
+      void flushPendingUpdates();
+    };
+    const goOffline = () => setIsOffline(true);
+
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+    setIsOffline(!navigator.onLine);
+
+    return () => {
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     void loadProfile();

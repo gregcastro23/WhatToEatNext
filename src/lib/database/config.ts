@@ -24,7 +24,7 @@ export const databaseConfig = {
   // Connection pool settings
   maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || "10", 10),
   idleTimeout: parseInt(process.env.DB_IDLE_TIMEOUT || "30000", 10),
-  connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || "2000", 10),
+  connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || "10000", 10),
 
   // Application settings
   environment: process.env.NODE_ENV || "development",

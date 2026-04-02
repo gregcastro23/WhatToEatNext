@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
@@ -8,11 +8,17 @@ export default function SignInModal() {
   const { status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const isSigningInRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
   
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  // Sync ref with state
+  useEffect(() => {
+    isSigningInRef.current = isSigningIn;
+  }, [isSigningIn]);
 
   // Open modal if ?signin=true is in URL
   useEffect(() => {
@@ -28,7 +34,10 @@ export default function SignInModal() {
         setIsOpen(true);
       }
     };
-    const handleClose = () => setIsOpen(false);
+    const handleClose = () => {
+      setIsOpen(false);
+      setIsSigningIn(false); // Reset spinner on close
+    };
     
     window.addEventListener('open-signin-modal', handleOpen);
     window.addEventListener('close-signin-modal', handleClose);
@@ -60,6 +69,7 @@ export default function SignInModal() {
 
   const handleCloseModal = () => {
     setIsOpen(false);
+    setIsSigningIn(false); // Reset spinner
     
     // Remove query param if present
     if (searchParams?.get('signin') === 'true') {
@@ -74,20 +84,24 @@ export default function SignInModal() {
     setIsSigningIn(true);
     setError(null);
     
-    // Safety timeout: if we haven't redirected in 10 seconds, something is wrong
+    // Safety timeout: if we haven't redirected in 10 seconds, reset state
+    // so the user isn't stuck with a pinwheel if the popup fails to open
     const timeoutId = setTimeout(() => {
-      if (isSigningIn) {
+      if (isSigningInRef.current) {
         setIsSigningIn(false);
-        setError('The sign-in request timed out. Please check your connection and try again.');
+        setError('The sign-in request is taking longer than expected. Please check your connection.');
       }
     }, 10000);
 
     try {
       // Use profile as callback so they go to onboarding if needed
-      await signIn('google', { callbackUrl: '/profile' });
-      // Note: Full page redirect happens here, so code below usually won't run on success
+      await signIn('google', { 
+        callbackUrl: '/profile',
+        redirect: true 
+      });
     } catch (err) {
       clearTimeout(timeoutId);
+      console.error('SignIn error:', err);
       setError('Could not start the Google sign-in process. Please try again.');
       setIsSigningIn(false);
     }
