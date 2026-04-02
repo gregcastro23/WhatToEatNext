@@ -14,6 +14,7 @@ import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
+import type { InstacartShoppingListRequest } from "@/types/instacart";
 
 const logger = createLogger("GroceryListModal");
 
@@ -104,6 +105,49 @@ async function exportGroceryList(
     logger.error("Failed to export grocery list:", error);
     throw error;
   }
+}
+
+/**
+ * Send grocery list to Instacart to create a shoppable shopping list page.
+ * Returns the Instacart URL on success.
+ */
+async function createInstacartShoppingList(
+  items: GroceryItem[],
+  title?: string,
+): Promise<string> {
+  const activeItems = items.filter((item) => !item.purchased && !item.inPantry);
+
+  if (activeItems.length === 0) {
+    throw new Error("No items to order — all items are either purchased or already in your pantry.");
+  }
+
+  const UNITLESS = new Set(["count", "pieces", "piece"]);
+  const payload: InstacartShoppingListRequest = {
+    title: title || "Grocery List from WhatToEatNext",
+    line_items: activeItems.map((item) => {
+      const unit = UNITLESS.has(item.unit) ? undefined : item.unit;
+      return {
+        name: item.ingredient,
+        ...(unit !== undefined && {
+          line_item_measurements: [{ quantity: item.quantity, unit }],
+        }),
+      };
+    }),
+  };
+
+  const response = await fetch("/api/instacart/shopping-list", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const data = await response.json() as { error?: string; details?: string };
+    throw new Error(data.details || data.error || "Failed to create Instacart list");
+  }
+
+  const data = await response.json() as { url: string };
+  return data.url;
 }
 
 /**
@@ -214,6 +258,8 @@ export default function GroceryListModal({
     useMenuPlanner();
 
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
+  const [instacartLoading, setInstacartLoading] = useState(false);
+  const [instacartError, setInstacartError] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<
     Record<GroceryCategory, boolean>
   >({
@@ -273,6 +319,22 @@ export default function GroceryListModal({
       }
     } catch (_error) {
       console.warn("Failed to export grocery list. Please try again.");
+    }
+  };
+
+  // Handle Instacart order
+  const handleOrderOnInstacart = async () => {
+    setInstacartLoading(true);
+    setInstacartError(null);
+    try {
+      const url = await createInstacartShoppingList(groceryList);
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to connect to Instacart";
+      setInstacartError(message);
+      logger.error("Instacart order failed:", error);
+    } finally {
+      setInstacartLoading(false);
     }
   };
 
@@ -357,6 +419,21 @@ export default function GroceryListModal({
           >
             🔄 Regenerate
           </button>
+          <button
+            onClick={handleOrderOnInstacart}
+            disabled={instacartLoading || stats.remaining === 0}
+            className="px-3 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+            title={stats.remaining === 0 ? "No items to order" : "Order groceries via Instacart"}
+          >
+            {instacartLoading ? (
+              <>
+                <span className="animate-spin inline-block">⟳</span>
+                Connecting...
+              </>
+            ) : (
+              "🛒 Order on Instacart"
+            )}
+          </button>
           <select
             value={groupBy}
             onChange={(e) =>
@@ -374,6 +451,19 @@ export default function GroceryListModal({
             🏺 View Pantry
           </button>
         </div>
+
+        {/* Instacart error message */}
+        {instacartError && (
+          <div className="px-4 py-2 bg-red-50 border-b border-red-200 flex items-center justify-between text-sm text-red-700">
+            <span>⚠️ {instacartError}</span>
+            <button
+              onClick={() => setInstacartError(null)}
+              className="ml-2 text-red-500 hover:text-red-700 font-bold"
+            >
+              ×
+            </button>
+          </div>
+        )}
 
         {/* List */}
         <div className="flex-1 overflow-y-auto p-4">
