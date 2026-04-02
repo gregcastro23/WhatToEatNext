@@ -63,7 +63,7 @@ async function getCachedUser(email: string) {
       // Set a timeout for the DB lookup
       const dbUser = await Promise.race([
         userDatabase.getUserByEmail(email),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 15000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
       ]);
       
       if (dbUser) {
@@ -202,8 +202,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         })();
       } catch (error) {
-        console.error(`[auth] Error during signIn callback for ${user.email}:`, error);
-        throw new Error("Unable to connect to database. Please try again in a moment.");
+        // DB failure during sign-in (e.g. Neon cold-start timeout).
+        // Do NOT throw here — throwing inside the NextAuth signIn callback causes
+        // the "Configuration" error page. Instead log the error and return true
+        // so the user can still sign in. The JWT callback will handle missing data.
+        console.error(`[auth] DB error during signIn for ${user.email} (non-blocking):`, error);
       }
 
       console.log(`[auth] signIn callback completed for ${user.email}`);
