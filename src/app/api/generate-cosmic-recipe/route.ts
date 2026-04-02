@@ -20,6 +20,13 @@ const SIGN_TO_ELEMENT: Record<string, string> = {
 };
 
 export async function POST(request: Request) {
+  if (!process.env.OPENAI_API_KEY) {
+    return new Response(JSON.stringify({ error: "Recipe generation not configured" }), {
+      status: 503,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const body = await request.json();
   const { prompt, diet, ingredients_main, disallowed_ingredients, birthData } = body;
 
