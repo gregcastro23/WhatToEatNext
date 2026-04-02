@@ -4,8 +4,6 @@ import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 import type { CelestialPosition } from "@/types/celestial";
 import type { PlanetaryAlignment } from "@/types/common";
-import { ZodiacSignType } from "@/types/common";
-import { longitudeToZodiacPosition } from "@/utils/astrologyUtils";
 import { logger } from "@/utils/logger";
 
 // Interface for hook return value
@@ -275,7 +273,7 @@ export function useAstrologicalState(): AstrologyHookData {
   }, [memoizedPlanetaryPositions, getActivePlanets]);
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
-  const currentPlanetaryAlignment = useMemo(
+  const _currentPlanetaryAlignment = useMemo(
     () => astroState.currentPlanetaryAlignment,
     [astroState.currentPlanetaryAlignment],
   );

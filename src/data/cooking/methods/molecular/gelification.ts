@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Gelification cooking method

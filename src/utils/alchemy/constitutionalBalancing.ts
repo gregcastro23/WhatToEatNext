@@ -1,7 +1,6 @@
 
 import type { AlchemicalProfile } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
-import type { ElementalProperties } from '@/types/alchemy';
 
 /**
  * Calculates a constitutional compatibility score between a user's alchemical profile and a recipe.

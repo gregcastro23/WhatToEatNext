@@ -209,8 +209,14 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       // Still fetch fresh data in background
     }
 
+    // Use AbortController for defensive timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     try {
-      const res = await fetch("/api/user/subscription");
+      const res = await fetch("/api/user/subscription", {
+        signal: controller.signal
+      });
 
       // Session expired — the subscription API now returns a fallback
       // shape even on server errors, but handle 401 for re-auth
@@ -221,8 +227,9 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      const data = await res.json();
+      
       if (res.ok) {
-        const data = await res.json();
         setSubscription(data.subscription);
         setRecipeUsage(data.recipeUsage || 0);
         // Cache for fast subsequent loads
@@ -231,27 +238,27 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
           broadcastUpdate(data.subscription, data.recipeUsage || 0);
         }
       } else {
-        // Non-200 response — try to parse fallback data
-        try {
-          const data = await res.json();
-          if (data.subscription) {
-            setSubscription(data.subscription);
-            setRecipeUsage(data.recipeUsage || 0);
-          }
-        } catch {
-          // Couldn't parse — JWT tier is still our fallback (via jwtTier state)
+        // Non-200 response — try to use parsed data if available as it might be a fallback
+        if (data.subscription) {
+          setSubscription(data.subscription);
+          setRecipeUsage(data.recipeUsage || 0);
         }
       }
-    } catch (error) {
-      console.error("[PremiumContext] Failed to fetch subscription:", error);
+    } catch (error: any) {
+      if (error.name === "AbortError") {
+        console.warn("[PremiumContext] Subscription fetch timed out after 8s");
+      } else {
+        console.error("[PremiumContext] Failed to fetch subscription:", error);
+      }
       // If cache was loaded or JWT tier is available, we still have data
     } finally {
+      clearTimeout(timeoutId);
       setIsLoading(false);
     }
   }, [status, session?.user, broadcastUpdate]);
 
   useEffect(() => {
-    fetchSubscription();
+    void fetchSubscription();
   }, [fetchSubscription]);
 
   const hasFeature = useCallback(

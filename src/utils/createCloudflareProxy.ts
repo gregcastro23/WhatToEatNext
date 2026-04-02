@@ -13,7 +13,7 @@ interface ProxyOptions {
   /** The API path (e.g., "/api/cuisines/recommend") */
   path: string;
   /** Methods to support (default: ["GET", "POST"]) */
-  methods?: ("GET" | "POST" | "PUT" | "DELETE" | "PATCH")[];
+  methods?: Array<"GET" | "POST" | "PUT" | "DELETE" | "PATCH">;
 }
 
 async function proxyRequest(

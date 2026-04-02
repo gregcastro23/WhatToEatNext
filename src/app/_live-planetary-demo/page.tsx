@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 
 /**
  * Live Planetary Demo Page - Phase 26 Feature Showcase

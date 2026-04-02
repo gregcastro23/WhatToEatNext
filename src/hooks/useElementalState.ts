@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import type { ElementalProperties } from "@/types/alchemy";
 import { useAlchemical } from "./useAlchemical";
 

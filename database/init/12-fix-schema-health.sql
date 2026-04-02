@@ -4,29 +4,25 @@
 -- Designed to be idempotent: safe to run on both fresh and existing databases.
 
 -- ==========================================
+-- 0. INFRASTRUCTURE PREREQUISITES
+-- Ensure common utility functions exist.
+-- ==========================================
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- ==========================================
 -- 1. ENUM NORMALIZATION
 -- Ensure user_role ENUM contains the exact values the application uses.
--- Migration 01 created lowercase values; migration 07 added uppercase ones.
--- The application code inserts 'ADMIN' and 'USER' (uppercase) via ::user_role cast.
+-- We run these individually as ADD VALUE cannot run in a transaction block.
 -- ==========================================
-DO $$
-BEGIN
-    -- Add canonical uppercase values if they don't already exist
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_enum
-        WHERE enumtypid = 'user_role'::regtype AND enumlabel = 'USER'
-    ) THEN
-        ALTER TYPE user_role ADD VALUE 'USER';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_enum
-        WHERE enumtypid = 'user_role'::regtype AND enumlabel = 'ADMIN'
-    ) THEN
-        ALTER TYPE user_role ADD VALUE 'ADMIN';
-    END IF;
-END
-$$;
+ALTER TYPE user_role ADD VALUE IF NOT EXISTS 'USER';
+ALTER TYPE user_role ADD VALUE IF NOT EXISTS 'ADMIN';
+-- Note: 'IF NOT EXISTS' for ADD VALUE was added in PostgreSQL 13.
 
 -- ==========================================
 -- 2. users TABLE — ensure role column exists with correct default
@@ -45,7 +41,7 @@ BEGIN
     ) THEN
         UPDATE users
         SET role = CASE
-            WHEN 'admin' = ANY(roles) OR 'ADMIN' = ANY(roles::text[]) THEN 'ADMIN'::user_role
+            WHEN 'ADMIN' = ANY(roles::text[]) THEN 'ADMIN'::user_role
             ELSE 'USER'::user_role
         END
         WHERE role IS NULL OR role = 'USER'::user_role;
@@ -172,7 +168,7 @@ CREATE INDEX IF NOT EXISTS idx_usage_period ON usage_records(period_start, perio
 INSERT INTO user_subscriptions (user_id, tier, status, current_period_end)
 SELECT
     u.id,
-    CASE WHEN u.role IN ('ADMIN', 'admin') THEN 'premium'::subscription_tier ELSE 'free'::subscription_tier END,
+    CASE WHEN u.role = 'ADMIN' THEN 'premium'::subscription_tier ELSE 'free'::subscription_tier END,
     'active',
     NOW() + INTERVAL '10 years'
 FROM users u
@@ -191,7 +187,7 @@ SET
     updated_at = NOW()
 FROM users u
 WHERE user_subscriptions.user_id = u.id
-  AND u.role IN ('ADMIN', 'admin')
+  AND u.role = 'ADMIN'
   AND user_subscriptions.tier != 'premium';
 
 -- ==========================================

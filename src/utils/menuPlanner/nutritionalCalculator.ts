@@ -24,10 +24,10 @@ import type {
   MacronutrientBreakdown,
   NutritionalGoals,
   NutritionalProgress,
-  ChartDataPoint,
+  ChartDataPoint as _ChartDataPoint,
   NutritionalChart,
 } from "@/types/menuPlanner";
-import type { ElementalProperties, EnhancedRecipe } from "@/types/recipe";
+import type { ElementalProperties} from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("NutritionalCalculator");

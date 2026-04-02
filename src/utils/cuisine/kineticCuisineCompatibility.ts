@@ -13,8 +13,6 @@
  */
 
 import { calculateKinetics } from "@/calculations/kinetics";
-import type { ThermodynamicProperties } from "@/types/alchemy";
-import type { ElementalProperties } from "@/types/hierarchy";
 import type { KineticMetrics } from "@/types/kinetics";
 import { validateRecipeCircuit } from "@/utils/recipeCircuit";
 

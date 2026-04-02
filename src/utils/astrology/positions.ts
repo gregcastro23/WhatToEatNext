@@ -1,4 +1,5 @@
-import * as Astronomy from "astronomy-engine";
+import * as AstronomyModule from "astronomy-engine";
+const Astronomy = (AstronomyModule as any).default || AstronomyModule;
 import { _logger } from "@/lib/logger";
 
 // Removed unused log import
@@ -91,7 +92,7 @@ interface PlanetPositionData {
 }
 
 // Map our planet names to astronomy-engine bodies (Capitalized per casing convention)
-const PLANET_MAPPING: Record<string, Astronomy.Body> = {
+const PLANET_MAPPING: Record<string, AstronomyModule.Body> = {
   Sun: Astronomy.Body.Sun,
   Moon: Astronomy.Body.Moon,
   Mercury: Astronomy.Body.Mercury,
@@ -509,7 +510,7 @@ export function getLongitudeToZodiacPosition(longitude: number): {
  * @param date Date to check
  * @returns Boolean indicating if planet is retrograde
  */
-function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
+function isPlanetRetrograde(body: AstronomyModule.Body, date: Date): boolean {
   try {
     // Skip for Sun and Moon as they don't have retrograde motion
     if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {

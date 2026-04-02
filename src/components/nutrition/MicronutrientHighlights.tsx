@@ -1,7 +1,6 @@
 // src/components/nutrition/MicronutrientHighlights.tsx
 import React from "react";
 import type { NutritionalSummary} from "@/types/nutrition";
-import { NutritionalTargets } from "@/types/nutrition";
 import { formatNutrientName, getNutrientUnit } from "../../utils/nutrition";
 import styles from "./MicronutrientHighlights.module.css";
 

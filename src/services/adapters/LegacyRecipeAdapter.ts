@@ -1,3 +1,15 @@
+import type {
+    Element,
+    ElementalProperties, LunarPhase,
+    PlanetName, Season,
+    ZodiacSignType
+} from "@/types/alchemy";
+import type { Recipe, RecipeSearchCriteria, ScoredRecipe } from "@/types/recipe";
+import { createLogger } from "../../utils/logger";
+import { LocalRecipeService } from "../LocalRecipeService";
+import { unifiedRecipeService } from "../UnifiedRecipeService";
+import type { RecipeRecommendationOptions } from "../interfaces/RecipeServiceInterface";
+
 /**
  * LegacyRecipeAdapter.ts
  *
@@ -7,28 +19,10 @@
  *
  * The adapter implements legacy methods but delegates to modern services.
  */
-
 // ← Pattern HH-2: Unified Recipe type imports from primary source (@/types/alchemy)
-import type {
-  Element,
-  ElementalProperties,
-  Season,
-  ZodiacSignType,
-  LunarPhase,
-  PlanetName,
-} from "@/types/alchemy";
-import type { Recipe, RecipeSearchCriteria, ScoredRecipe } from "@/types/recipe";
-
 // Import recipe search criteria from recipe types if needed
-
-import { createLogger } from "../../utils/logger";
-import { LocalRecipeService } from "../LocalRecipeService";
-import { unifiedRecipeService } from "../UnifiedRecipeService";
-import type { RecipeRecommendationOptions } from "../interfaces/RecipeServiceInterface";
-
 // Initialize logger
 const logger = createLogger("LegacyRecipeAdapter");
-
 /**
  * LegacyRecipeAdapter
  *
@@ -37,14 +31,12 @@ const logger = createLogger("LegacyRecipeAdapter");
  */
 export class LegacyRecipeAdapter {
   private static _instance: LegacyRecipeAdapter;
-
   /**
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
     logger.info("LegacyRecipeAdapter initialized");
   }
-
   /**
    * Get singleton instance
    */
@@ -54,7 +46,6 @@ export class LegacyRecipeAdapter {
     }
     return LegacyRecipeAdapter._instance;
   }
-
   /**
    * Get all recipes using modern service
    */
@@ -70,13 +61,12 @@ export class LegacyRecipeAdapter {
       return recipes as unknown as Recipe[];
     }
   }
-
   /**
    * Search recipes using modern service
    */
   public async searchRecipes(
     criteria: RecipeSearchCriteria,
-    options: RecipeRecommendationOptions = {},
+    _options: RecipeRecommendationOptions = {},
   ): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Safe type conversion for search criteria
@@ -103,7 +93,6 @@ export class LegacyRecipeAdapter {
       return [];
     }
   }
-
   /**
    * Get recipes by cuisine using modern service
    */
@@ -119,7 +108,6 @@ export class LegacyRecipeAdapter {
       return recipes as unknown as Recipe[];
     }
   }
-
   /**
    * Get recipes by zodiac sign using modern service
    */
@@ -143,7 +131,6 @@ export class LegacyRecipeAdapter {
       return filtered as unknown as Recipe[];
     }
   }
-
   /**
    * Get recipes by season using modern service
    */
@@ -173,7 +160,6 @@ export class LegacyRecipeAdapter {
       return recipes as unknown as Recipe[];
     }
   }
-
   /**
    * Get recipes by lunar phase using modern service
    */
@@ -215,7 +201,6 @@ export class LegacyRecipeAdapter {
       return filtered as unknown as Recipe[];
     }
   }
-
   /**
    * Get recipes by meal type using modern service
    */
@@ -245,7 +230,6 @@ export class LegacyRecipeAdapter {
       return recipes as unknown as Recipe[];
     }
   }
-
   /**
    * Get best recipe matches using modern service
    */
@@ -273,7 +257,6 @@ export class LegacyRecipeAdapter {
       return [];
     }
   }
-
   /**
    * Generate recipe using modern service
    */
@@ -310,7 +293,6 @@ export class LegacyRecipeAdapter {
       );
     }
   }
-
   /**
    * Calculate elemental properties using modern service
    */
@@ -337,7 +319,6 @@ export class LegacyRecipeAdapter {
         Earth: 0.25,
         Air: 0.25,
       };
-
       // Basic calculation based on recipe properties if available
       if (recipe.elementalState && typeof recipe.elementalState === "object") {
         // Ensure it has all required properties
@@ -351,7 +332,6 @@ export class LegacyRecipeAdapter {
           return recipe.elementalState as ElementalProperties;
         }
       }
-
       return defaultProperties;
     } catch (error) {
       logger.error(
@@ -362,7 +342,6 @@ export class LegacyRecipeAdapter {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
   }
-
   /**
    * Clear cache in modern service
    */
@@ -384,9 +363,6 @@ export class LegacyRecipeAdapter {
     }
   }
 }
-
 // Export singleton instance
-
 // Export default for compatibility with existing code
-
 export default LegacyRecipeAdapter;

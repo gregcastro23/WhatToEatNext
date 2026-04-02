@@ -31,10 +31,10 @@ export interface RecipeCircuitRecommendation {
  */
 export function validateRecipeCircuit(
   kinetics: KineticMetrics,
-  recipe: Recipe,
+  _recipe: Recipe,
 ): CircuitValidationResult {
   const kineticsData = kinetics as any;
-  const { power, currentFlow, potentialDifference, entropy } = kineticsData;
+  const { power, currentFlow, _potentialDifference, entropy } = kineticsData;
 
   // Input power
   const inputPower = power;
@@ -194,7 +194,7 @@ function generatePowerFlowDescription(
   kinetics: KineticMetrics,
   validation: CircuitValidationResult,
 ): string {
-  const { forceClassification, thermalDirection, power } = kinetics;
+  const { forceClassification, thermalDirection, power: _power } = kinetics;
   const { efficiency } = validation;
 
   let description = "";

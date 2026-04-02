@@ -9,7 +9,6 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import type { Recipe } from "@/types/recipe";
 
 const STORAGE_KEYS = {
   favorites: "alchm-recipe-favorites",

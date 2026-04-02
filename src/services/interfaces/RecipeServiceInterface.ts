@@ -13,7 +13,6 @@
 
 import type { ElementalProperties, Season } from "@/types/alchemy";
 import type { LunarPhase, PlanetName, ZodiacSignType } from "@/types/celestial";
-import { PlanetaryAlignment } from "@/types/celestial";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import type {
   ApiResponse,

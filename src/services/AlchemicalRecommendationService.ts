@@ -4,7 +4,7 @@ import type {
   ThermodynamicProperties,
   CookingMethod,
   ZodiacSignType,
-  BasicThermodynamicProperties,
+  BasicThermodynamicProperties as _BasicThermodynamicProperties,
 } from "@/types/alchemy";
 import type { Planet } from "@/types/celestial";
 import type { UnifiedIngredient } from "@/types/ingredient";
@@ -107,7 +107,7 @@ export class AlchemicalRecommendationService {
   private async findCompatibleIngredients(
     ingredients: UnifiedIngredient[],
     elementalProperties: ElementalProperties,
-    thermodynamics: ThermodynamicProperties,
+    _thermodynamics: ThermodynamicProperties,
   ): Promise<UnifiedIngredient[]> {
     // Import the unified scoring service
     const { scoreRecommendation } = await import("./UnifiedScoringService");
@@ -145,7 +145,7 @@ export class AlchemicalRecommendationService {
             confidence: result.confidence,
             dominantEffects: result.metadata.dominantEffects,
           };
-        } catch (error) {
+        } catch (_error) {
           // Fallback to basic elemental compatibility
           return {
             ingredient,
@@ -173,7 +173,7 @@ export class AlchemicalRecommendationService {
   private findCompatibleCookingMethods(
     methods: CookingMethod[],
     elementalProperties: ElementalProperties,
-    thermodynamics: ThermodynamicProperties,
+    _thermodynamics: ThermodynamicProperties,
   ): CookingMethod[] {
     return methods
       .map((method) => ({

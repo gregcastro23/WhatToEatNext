@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { alchemize } from "@/constants/alchemicalPillars";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
-import type { ThermodynamicMetrics } from "@/types/alchemy";
 import { logger } from "@/utils/logger";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -242,7 +241,7 @@ function getDominantElement(properties: any): string {
 /**
  * Helper function to get complementary elements
  */
-function getComplementaryElements(properties: any): string[] {
+function _getComplementaryElements(properties: any): string[] {
   const elements = [
     { name: "Fire", value: properties.Fire || 0 },
     { name: "Water", value: properties.Water || 0 },

@@ -92,7 +92,7 @@ export function useSafeFlavorEngine() {
       if (!isReady) return undefined;
       try {
         return flavorEngine.getProfile(id);
-      } catch (err) {
+      } catch (_err) {
         // logger.error('Error getting flavor profile: ', err)
         return undefined;
       }
@@ -106,7 +106,7 @@ export function useSafeFlavorEngine() {
       if (!isReady) return [];
       try {
         return flavorEngine.searchProfiles(_criteria as any);
-      } catch (err) {
+      } catch (_err) {
         // logger.error('Error searching flavor profiles: ', err)
         return [];
       }
@@ -121,7 +121,7 @@ export function useSafeFlavorEngine() {
 
       try {
         return flavorEngine.calculateCompatibility(profile1, profile2);
-      } catch (err) {
+      } catch (_err) {
         // logger.error('Error calculating compatibility: ', err)
         return null;
       }

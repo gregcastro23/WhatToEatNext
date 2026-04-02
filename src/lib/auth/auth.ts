@@ -37,33 +37,71 @@ const PREMIUM_EMAILS = [
 const isAdminEmail = (email: string) => ADMIN_EMAILS.includes(email);
 const isPremiumEmail = (email: string) => PREMIUM_EMAILS.includes(email);
 
+/** 
+ * Simple short-lived cache to prevent redundant DB hits during the 
+ * multi-step auth handshake (signIn -> jwt -> session).
+ * Keys are email addresses, values are UserWithProfile.
+ */
+const userCache = new Map<string, { data: any; timestamp: number }>();
+const pendingLookups = new Map<string, Promise<any>>();
+const CACHE_TTL = 30000; // 30 seconds
+
+async function getCachedUser(email: string) {
+  const cached = userCache.get(email);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data;
+  }
+  
+  // Check if there is already a lookup in progress for this email
+  if (pendingLookups.has(email)) {
+    return pendingLookups.get(email);
+  }
+  
+  const lookupPromise = (async () => {
+    try {
+      const { userDatabase } = await import("@/services/userDatabaseService");
+      // Set a timeout for the DB lookup
+      const dbUser = await Promise.race([
+        userDatabase.getUserByEmail(email),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
+      ]);
+      
+      if (dbUser) {
+        userCache.set(email, { data: dbUser, timestamp: Date.now() });
+      }
+      return dbUser;
+    } finally {
+      pendingLookups.delete(email);
+    }
+  })();
+  
+  pendingLookups.set(email, lookupPromise);
+  return lookupPromise;
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
+  debug: process.env.NODE_ENV === "development" || process.env.DEBUG === "true",
   callbacks: {
     // Preserve the edge-safe authorized and session callbacks
     ...authConfig.callbacks,
 
     async signIn({ user, account }) {
-      if (!user.email || !account) return true;
-
-      // Track whether this is a brand-new user. Declared outside the try block
-      // so the email section can reliably read it even if DB lookup succeeds but
-      // a later step throws.
-      let isNewUser = false;
+      console.log(`[auth] signIn callback started for ${user.email}`);
+      if (!user.email || !account) {
+        console.warn("[auth] signIn failed: Missing email or account");
+        return true;
+      }
 
       try {
-        // Dynamic import keeps Node.js deps (pg) out of the Edge bundle
-        const { userDatabase } = await import(
-          "@/services/userDatabaseService"
-        );
-
-        let dbUser = await userDatabase.getUserByEmail(user.email);
-        isNewUser = !dbUser;
+        let dbUser = await getCachedUser(user.email);
+        const isNewUser = !dbUser;
+        console.log(`[auth] User lookup complete. isNewUser: ${isNewUser}`);
 
         if (!dbUser) {
-          const allUsers = await userDatabase.getAllUsers();
-          const isAdmin =
-            isAdminEmail(user.email) || allUsers.length === 0;
+          const { userDatabase } = await import("@/services/userDatabaseService");
+          const isAdmin = isAdminEmail(user.email);
+          console.log(`[auth] Creating new user. isAdmin: ${isAdmin}`);
 
           dbUser = await userDatabase.createUser({
             email: user.email,
@@ -72,143 +110,102 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               ? [UserRole.ADMIN, UserRole.USER]
               : [UserRole.USER],
           });
+          
+          if (dbUser) {
+            userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
+          }
         }
 
-        // Auto-provision premium access for admin and premium accounts
-        if ((isAdminEmail(user.email) || isPremiumEmail(user.email)) && dbUser) {
+        // Fire-and-forget non-critical tasks
+        (async () => {
           try {
-            const { subscriptionService } = await import(
-              "@/services/subscriptionService"
-            );
-            const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
-            if (sub.tier !== "premium") {
-              const now = new Date();
-              const yearFromNow = new Date(now);
-              yearFromNow.setFullYear(yearFromNow.getFullYear() + 10); // get 10-year access
-              await subscriptionService.updateSubscription(dbUser.id, {
-                tier: "premium",
-                status: "active",
-                currentPeriodStart: now.toISOString(),
-                currentPeriodEnd: yearFromNow.toISOString(),
-              });
+            if (!dbUser) return;
+            console.log(`[auth] Starting background tasks for ${user.email}`);
+            
+            // 1. Auto-provision premium
+            if (isAdminEmail(user.email!) || isPremiumEmail(user.email!)) {
+              const { subscriptionService } = await import("@/services/subscriptionService");
+              const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
+              if (sub.tier !== "premium") {
+                const now = new Date();
+                const yearFromNow = new Date(now);
+                yearFromNow.setFullYear(yearFromNow.getFullYear() + 10);
+                await subscriptionService.updateSubscription(dbUser.id, {
+                  tier: "premium",
+                  status: "active",
+                  currentPeriodStart: now.toISOString(),
+                  currentPeriodEnd: yearFromNow.toISOString(),
+                });
+                console.log(`[auth] Auto-provisioned premium for ${user.email}`);
+              }
             }
-          } catch (subError) {
-            console.warn("[auth] Could not auto-provision premium:", subError);
-          }
-        }
 
-        // ─── In-app notifications (fire-and-forget) ────────────
-        // These must not block the sign-in flow to prevent the login
-        // page from spinning indefinitely.
-        try {
-          const { notificationDatabase } = await import(
-            "@/services/notificationDatabaseService"
-          );
-          const userName = user.name || user.email;
+            // 2. Send emails
+            const emailService = (await import("@/services/emailService")).default;
+            emailService.ensureInitialized();
+            if (emailService.isConfigured()) {
+              const userName = user.name || user.email;
+              const emailPromises = [
+                emailService.sendLoginNotificationEmail(user.email!, userName!, isNewUser)
+              ];
+              if (isNewUser) {
+                emailPromises.push(emailService.sendWelcomeEmail(user.email!, userName!));
+              }
+              await Promise.allSettled(emailPromises);
+              console.log(`[auth] Background emails sent for ${user.email}`);
+            }
 
-          if (isNewUser) {
-            notificationDatabase.createNotification(
-              dbUser!.id,
-              "welcome",
-              "Welcome to Alchm Kitchen!",
-              `Welcome, ${userName}! Your personalized culinary journey begins now. Complete your birth chart to unlock cosmic food recommendations.`,
-            ).catch(() => {});
-          } else {
-            notificationDatabase.createNotification(
-              dbUser!.id,
-              "login_greeting",
-              "Welcome Back!",
-              `Good to see you again, ${userName}. Check out your latest cosmic insights.`,
-              { expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() },
-            ).catch(() => {});
-          }
 
-          // Premium daily insight — only if user has a natal chart
-          const isPremium =
-            isAdminEmail(user.email) ||
-            isPremiumEmail(user.email) ||
-            (dbUser as any)?.tier === "premium";
-          const natalChart =
-            (dbUser as any)?.profile?.natalChart ||
-            (dbUser as any)?.profile?.natal_chart;
-
-          if (isPremium && natalChart?.planetaryPositions) {
-            import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
-              generateDailyInsightNotification(dbUser!.id, natalChart).catch(() => {});
-            }).catch(() => {});
-          }
-        } catch (notifError) {
-          console.error("[auth] Notification creation failed (non-blocking):", notifError);
-        }
-
-        // ─── Email notifications ─────────────────────────────
-        // Capped at 5 seconds to prevent the login from spinning
-        // indefinitely when SMTP is slow or unreachable.
-        const emailTimeout = <T,>(promise: Promise<T>, ms = 5000): Promise<T> =>
-          Promise.race([
-            promise,
-            new Promise<T>((_, reject) =>
-              setTimeout(() => reject(new Error("Email timeout")), ms),
-            ),
-          ]);
-
-        try {
-          const emailService = (
-            await import("@/services/emailService")
-          ).default;
-
-          // Re-check env vars in case they weren't available at module load
-          emailService.ensureInitialized();
-
-          if (emailService.isConfigured()) {
-            const userName = user.name || user.email;
-
-            const emailPromises: Array<Promise<void>> = [];
-
-            // Login notification to admin team on EVERY sign-in
-            emailPromises.push(
-              emailTimeout(
-                emailService
-                  .sendLoginNotificationEmail(user.email, userName, isNewUser)
-                  .then((success) => {
-                    if (success) {
-                      console.log(
-                        `[auth] Login notification sent for ${isNewUser ? "new" : "returning"} user: ${user.email}`,
-                      );
-                    }
-                  }),
-              ),
-            );
-
-            // Welcome email only for brand-new users
-            if (isNewUser) {
-              emailPromises.push(
-                emailTimeout(
-                  emailService
-                    .sendWelcomeEmail(user.email, userName)
-                    .then((success) => {
-                      if (success) {
-                        console.log(
-                          `[auth] Welcome email sent to new user: ${user.email}`,
-                        );
-                      }
-                    }),
-                ),
+            // 3. In-app notifications
+            try {
+              const { notificationDatabase } = await import(
+                "@/services/notificationDatabaseService"
               );
-            }
+              const userName = user.name || user.email;
 
-            // Await all emails — allSettled + timeout ensures we never block sign-in
-            await Promise.allSettled(emailPromises);
+              if (isNewUser) {
+                notificationDatabase.createNotification(
+                  dbUser.id,
+                  "welcome",
+                  "Welcome to Alchm Kitchen!",
+                  `Welcome, ${userName}! Your personalized culinary journey begins now. Complete your birth chart to unlock cosmic food recommendations.`,
+                ).catch(() => {});
+              } else {
+                notificationDatabase.createNotification(
+                  dbUser.id,
+                  "login_greeting",
+                  "Welcome Back!",
+                  `Good to see you again, ${userName}. Check out your latest cosmic insights.`,
+                  { expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() },
+                ).catch(() => {});
+              }
+
+              // Premium daily insight — only if user has a natal chart
+              const isPremium =
+                isAdminEmail(user.email) ||
+                isPremiumEmail(user.email) ||
+                (dbUser as any)?.tier === "premium";
+              const natalChart =
+                (dbUser as any)?.profile?.natalChart ||
+                (dbUser as any)?.profile?.natal_chart;
+
+              if (isPremium && natalChart?.planetaryPositions) {
+                import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
+                  generateDailyInsightNotification(dbUser!.id, natalChart).catch(() => {});
+                }).catch(() => {});
+              }
+            } catch (notifError) {
+              console.error("[auth] Notification creation failed (non-blocking):", notifError);
+            }
+          } catch (bgError) {
+            console.error("[auth] Background task error:", bgError);
           }
-        } catch (emailError) {
-          // Never block sign-in due to email issues
-          console.error("[auth] Error initializing email service:", emailError);
-        }
+        })();
       } catch (error) {
-        // Don't block sign-in if DB is unavailable
-        console.error("Error during signIn callback DB sync:", error);
+        console.error(`[auth] Error during signIn callback for ${user.email}:`, error);
       }
 
+      console.log(`[auth] signIn callback completed for ${user.email}`);
       return true;
     },
 
@@ -227,13 +224,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Resolve role, tier, and onboarding status from DB (on sign-in or session update)
       if (token.email && (user || trigger === "update")) {
         try {
-          const { userDatabase } = await import(
-            "@/services/userDatabaseService"
-          );
-
-          const dbUser = await userDatabase.getUserByEmail(
-            token.email,
-          );
+          const dbUser = await getCachedUser(token.email);
+          
           if (dbUser) {
             token.userId = dbUser.id;
             const isAdmin = dbUser.roles.includes(UserRole.ADMIN as never);
@@ -265,8 +257,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.tier = isAdminEmail(token.email) ? "premium" : "free";
           }
         } catch {
-          // Fallback if DB unavailable - preserve existing token values
-          // so returning users don't get incorrectly redirected to onboarding
+          // Fallback if DB unavailable
           if (!token.role) {
             token.role = isAdminEmail(token.email) ? "admin" : "user";
           }
@@ -276,8 +267,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!token.tier) {
             token.tier = isAdminEmail(token.email) ? "premium" : "free";
           }
-          // If token already has onboardingComplete=true from a previous
-          // successful DB lookup, keep it rather than resetting to false
         }
       }
 

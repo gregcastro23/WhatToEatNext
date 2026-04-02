@@ -11,7 +11,6 @@
 import React, { useState } from "react";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import type { QueuedRecipe } from "@/contexts/RecipeQueueContext";
-import type { MealType } from "@/types/menuPlanner";
 
 interface RecipeQueueProps {
   onSelectRecipe?: (recipe: QueuedRecipe) => void;
@@ -168,7 +167,7 @@ function QueueItemCard({
 
       {/* Notes */}
       {item.notes && (
-        <div className="mb-2 text-xs text-gray-600 italic">"{item.notes}"</div>
+        <div className="mb-2 text-xs text-gray-600 italic">&quot;{item.notes}&quot;</div>
       )}
 
       {/* Action Buttons */}
@@ -296,7 +295,7 @@ export default function RecipeQueue({
       {/* Footer Info */}
       {!isCollapsed && queueSize > 0 && (
         <div className="px-4 pb-3 text-xs text-gray-500 text-center">
-          💡 Tip: Click "Use Recipe" to add to your meal plan
+          💡 Tip: Click &quot;Use Recipe&quot; to add to your meal plan
         </div>
       )}
     </div>

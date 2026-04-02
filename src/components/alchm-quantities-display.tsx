@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import {
   FaFire,
   FaTint,
@@ -10,7 +11,6 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
-import { useState, useEffect } from "react";
 
 interface AlchemyQuantities {
   Spirit: number;
@@ -57,7 +57,7 @@ export default function AlchmQuantitiesDisplay() {
   };
 
   useEffect(() => {
-    fetchData();
+    void fetchData();
     const interval = setInterval(fetchData, 30000); // Update every 30 seconds
     return () => clearInterval(interval);
   }, []);

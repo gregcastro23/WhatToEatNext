@@ -2,7 +2,7 @@ import type { RecipeData } from "@/data/recipes";
 import type { LunarPhase, ZodiacSignType } from "@/types/alchemy";
 import {
   createEmptyNutritionalSummary,
-  type NutritionalSummary,
+  type NutritionalSummary as _NutritionalSummary,
 } from "@/types/nutrition";
 import type {
   ElementalProperties,

@@ -160,6 +160,7 @@ const minorArcana = [
 ];
 
 // Major arcana cards
+      // eslint-disable-next-line @typescript-eslint/naming-convention
 const _UNUSED_majorArcana = [
   "The Fool",
   "The Magician",
@@ -186,6 +187,7 @@ const _UNUSED_majorArcana = [
 ];
 
 // Keywords for minor arcana
+      // eslint-disable-next-line @typescript-eslint/naming-convention
 const _UNUSED_minorArcanaKeywords: Record<string, string[]> = {
   "Ace of Wands": ["inspiration", "new energy", "spark", "potential"],
   "Two of Wands": ["planning", "discovery", "future vision", "choice"],
@@ -579,7 +581,7 @@ export const _getTarotFoodRecommendations = (
 } => {
   const tarotCards = getTarotCardsForDate(date);
   const decan = getCurrentDecan(date);
-  const decanRuler = _DECAN_RULERS[decan] as PlanetKey;
+  const _decanRuler = _DECAN_RULERS[decan] as PlanetKey;
 
   // Extract element from tarot cards
   const { element } = tarotCards.minorCard;

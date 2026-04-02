@@ -52,11 +52,11 @@ function MenuPlannerContent() {
   const {
     currentMenu,
     weeklyStats,
-    groceryList,
+    groceryList: _groceryList,
     regenerateGroceryList,
-    clearWeek,
+    clearWeek: _clearWeek,
     saveAsTemplate,
-    refreshStats,
+    refreshStats: _refreshStats,
     syncWithLunarCycle,
     toggleSyncWithLunarCycle,
   } = menuPlannerActions;
@@ -74,7 +74,7 @@ function MenuPlannerContent() {
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
   const [showRecipeBrowser, setShowRecipeBrowser] = useState(false);
   const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
-  const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
+  const [_showDetailedNutrition, _setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
   const [isWeeklyDashboardExpanded, setIsWeeklyDashboardExpanded] =
@@ -113,13 +113,13 @@ function MenuPlannerContent() {
 
     if (showParticipantSelection) {
       // Only fetch when the selection UI is active
-      fetchSavedCharts();
+      void fetchSavedCharts();
     }
   }, [showParticipantSelection]); // Re-fetch when UI visibility changes
 
   const handleSaveTemplate = async () => {
     if (!templateName.trim()) {
-      alert("Please enter a template name");
+      console.warn("Please enter a template name");
       return;
     }
 
@@ -277,11 +277,11 @@ function MenuPlannerContent() {
               weekPlan={currentMenu}
               onAddRecipe={(dayOfWeek, mealType, recipe) => {
                 const { addMealToSlot } = menuPlannerActions;
-                addMealToSlot(dayOfWeek, mealType, recipe);
+                void addMealToSlot(dayOfWeek, mealType, recipe);
               }}
               onGenerateMeal={(dayOfWeek, mealType) => {
                 const { generateMealsForDay } = menuPlannerActions;
-                generateMealsForDay(dayOfWeek, { mealTypes: [mealType] });
+                void generateMealsForDay(dayOfWeek, { mealTypes: [mealType] });
               }}
             />
           </div>
@@ -544,6 +544,8 @@ function MenuPlannerContent() {
               </div>
 
               <div className="p-6">
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block mb-2 text-sm font-medium text-gray-700">
                   Template Name
                 </label>

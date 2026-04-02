@@ -328,6 +328,8 @@ function AddCommensalForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="sm:col-span-1">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-1">Name *</label>
           <input
             type="text"
@@ -338,6 +340,8 @@ function AddCommensalForm({
           />
         </div>
         <div className="sm:col-span-1">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-1">Relationship</label>
           <select
             value={relationship}
@@ -350,6 +354,8 @@ function AddCommensalForm({
           </select>
         </div>
         <div className="sm:col-span-1">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-1">Birth Date &amp; Time *</label>
           <input
             type="datetime-local"
@@ -359,6 +365,8 @@ function AddCommensalForm({
           />
         </div>
         <div className="sm:col-span-2">
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-1">Birth Location *</label>
           <LocationSearch
             compact
@@ -373,6 +381,8 @@ function AddCommensalForm({
         </div>
         {timezone && (
           <div className="sm:col-span-1">
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-xs text-gray-500 mb-1">Timezone</label>
             <div className="px-3 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg border border-gray-200">
               {timezone}

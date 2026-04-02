@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { 
   FaClock, 
   FaUtensils, 
@@ -10,9 +13,6 @@ import {
   FaBolt,
   FaArrowLeft
 } from "react-icons/fa";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
 import { allCookingMethods } from "@/data/cooking/methods";
 import type { CookingMethodInfo } from "@/types/cooking";
 
@@ -148,7 +148,7 @@ export default function CookingMethodPage() {
               )}
             </ul>
 
-            <div className="my-8 border-t border-gray-100"></div>
+            <div className="my-8 border-t border-gray-100" />
 
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Suitable Foods</h2>
             <div className="flex flex-wrap gap-2">
@@ -171,7 +171,7 @@ export default function CookingMethodPage() {
               "variations" in method &&
               (method as unknown as { variations?: string[] }).variations && (
                 <>
-                  <div className="my-8 border-t border-gray-100"></div>
+                  <div className="my-8 border-t border-gray-100" />
                   <h2 className="text-2xl font-bold mb-4 text-gray-800">Variations</h2>
                   <ul className="space-y-2">
                     {Array.isArray((method as unknown as { variations?: string[] }).variations) &&
@@ -187,7 +187,7 @@ export default function CookingMethodPage() {
 
             {method.commonMistakes && (
               <>
-                <div className="my-8 border-t border-gray-100"></div>
+                <div className="my-8 border-t border-gray-100" />
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">Common Mistakes</h2>
                 <ul className="space-y-2">
                   {Array.isArray(method.commonMistakes) ? (
@@ -206,7 +206,7 @@ export default function CookingMethodPage() {
 
             {method.pairingSuggestions && (
               <>
-                <div className="my-8 border-t border-gray-100"></div>
+                <div className="my-8 border-t border-gray-100" />
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">Pairing Suggestions</h2>
                 <ul className="space-y-2">
                   {Array.isArray(method.pairingSuggestions) ? (
@@ -225,7 +225,7 @@ export default function CookingMethodPage() {
 
             {method.scientificPrinciples && (
               <>
-                <div className="my-8 border-t border-gray-100"></div>
+                <div className="my-8 border-t border-gray-100" />
                 <h2 className="text-2xl font-bold mb-4 text-gray-800 flex items-center gap-2">
                   <FaFlask className="text-indigo-500" /> Scientific Principles
                 </h2>
@@ -246,7 +246,7 @@ export default function CookingMethodPage() {
 
             {method.history && (
               <>
-                <div className="my-8 border-t border-gray-100"></div>
+                <div className="my-8 border-t border-gray-100" />
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">Historical Context</h2>
                 <p className="text-gray-700 leading-relaxed">{method.history}</p>
               </>
@@ -254,7 +254,7 @@ export default function CookingMethodPage() {
 
             {method.science && (
               <>
-                <div className="my-8 border-t border-gray-100"></div>
+                <div className="my-8 border-t border-gray-100" />
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">Science Behind It</h2>
                 <p className="text-gray-700 leading-relaxed">{method.science}</p>
               </>
@@ -423,7 +423,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.tools) &&
                       method.tools.map((tool, index) => (
                         <li key={index} className="flex items-center gap-2 text-sm text-gray-700">
-                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
                           {tool}
                         </li>
                       ))}
@@ -438,7 +438,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.famous_dishes) &&
                       method.famous_dishes.map((dish, index) => (
                         <li key={index} className="flex items-center gap-2 text-sm text-gray-700">
-                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
                           {dish}
                         </li>
                       ))}
@@ -490,7 +490,7 @@ export default function CookingMethodPage() {
               <div className="space-y-6">
                 {method.astrologicalInfluence && (
                   <p className="text-gray-700 leading-relaxed italic border-l-4 border-purple-200 pl-4">
-                    "{method.astrologicalInfluence}"
+                    &quot;{method.astrologicalInfluence}&quot;
                   </p>
                 )}
 

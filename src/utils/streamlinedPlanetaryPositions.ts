@@ -101,7 +101,7 @@ export function getCurrentPlanetaryPositions(): {
  * Calculate approximate planetary positions for a given date
  * This is used as a fallback when the API is unavailable
  */
-function calculateApproximatePositions(date: Date): {
+function calculateApproximatePositions(_date: Date): {
   [key: string]: CelestialPosition;
 } {
   // Base positions for September 29, 2025 (current date)

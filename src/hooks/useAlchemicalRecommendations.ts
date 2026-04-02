@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { RecommendationAdapter } from "../services/RecommendationAdapter";
-import { ZodiacSignType } from "../types/alchemy";
 import type { ElementalItem } from "../calculations/alchemicalTransformation";
 import type {
   ElementalCharacter,
@@ -56,7 +55,7 @@ export const useAlchemicalRecommendations = ({
   cuisines,
   planetPositions,
   isDaytime,
-  targetElement,
+  targetElement: _targetElement,
   targetAlchemicalProperty: _targetAlchemicalProperty,
   count = 5,
   currentZodiac = null,

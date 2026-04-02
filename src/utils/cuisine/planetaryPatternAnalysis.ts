@@ -308,7 +308,7 @@ export function analyzePlanetaryPatterns(
     includeCulturalNotes?: boolean;
   } = {},
 ): PlanetaryPattern[] {
-  const { minStrength = 0.3, includeCulturalNotes = true } = options;
+  const { minStrength = 0.3, includeCulturalNotes: _includeCulturalNotes = true } = options;
 
   if (recipes.length === 0) {
     return [];

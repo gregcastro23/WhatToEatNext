@@ -40,7 +40,7 @@ export interface UserPreferences {
  */
 export function getTemporalFoodRecommendations(
   kinetics: KineticsResponse,
-  userPreferences: UserPreferences,
+  _userPreferences: UserPreferences,
 ): TemporalFoodRecommendation {
   const currentHour = new Date().getHours();
   const powerData = kinetics.data.base.power.find(

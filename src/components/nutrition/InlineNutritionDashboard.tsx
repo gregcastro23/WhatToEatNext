@@ -259,7 +259,7 @@ function VarietyBar({ label, value }: { label: string; value: number }) {
   );
 }
 
-function formatNutrientName(nutrient: string): string {
+function _formatNutrientName(nutrient: string): string {
   const map: Record<string, string> = {
     vitaminA: "Vitamin A",
     vitaminC: "Vitamin C",

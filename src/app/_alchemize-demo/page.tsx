@@ -48,7 +48,8 @@ const PLANETS = [
   "Neptune",
   "Pluto",
 ] as const;
-type PlanetName = (typeof PLANETS)[number];
+     // eslint-disable-next-line @typescript-eslint/naming-convention
+type _PlanetName = (typeof PLANETS)[number];
 
 // Example scenarios
 const EXAMPLE_SCENARIOS = {

@@ -712,7 +712,7 @@ export default function RecipePage(props: any) {
         }
       };
 
-      fetchRecipe();
+      void fetchRecipe();
     }
   }, [params.recipeId]);
 

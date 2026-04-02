@@ -8,20 +8,18 @@
  * The adapter implements legacy methods but delegates to modern services.
  */
 
-import { Element } from "@/types/alchemy";
 import type {
   ThermodynamicProperties,
-  Planet,
-  Season,
+  _Planet,
+  _Season,
   ZodiacSignType,
-  LunarPhase,
-  PlanetName,
+  _LunarPhase,
+  _PlanetName,
   ElementalProperties,
 } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
 import type { CookingMethod } from "@/types/cooking";
 import type { UnifiedIngredient } from "@/types/ingredient";
-import type { Recipe, ScoredRecipe } from "@/types/recipe";
+import type { Recipe} from "@/types/recipe";
 import { createLogger } from "../../utils/logger";
 import { alchemicalRecommendationService } from "../AlchemicalRecommendationService";
 import { unifiedRecommendationService } from "../UnifiedRecommendationService";
@@ -254,7 +252,7 @@ export class LegacyRecommendationAdapter {
     } catch (error) {
       logger.error("Error in generateAlchemicalRecommendations:", error);
       // Return minimal result with default values
-      const defaultElementalBalance = {
+      const _defaultElementalBalance = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,

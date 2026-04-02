@@ -5,8 +5,6 @@ import {
 } from "@/lib/api/alchm-client";
 import { logger } from "@/lib/logger";
 import type { EnhancedRecommendationResult } from "@/services/EnhancedRecommendationService";
-import type { CuisineType } from "@/types/constants";
-import type { Ingredient } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 
 export interface KitchenBackendContext {

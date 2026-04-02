@@ -245,7 +245,7 @@ export function useRecipeValidation() {
   // Main validation function
   const validateRecipe = (
     ingredients: Ingredient[],
-    cookingMethods?: string[],
+    _cookingMethods?: string[],
   ): ValidationResult => {
     const errors: ValidationError[] = [];
     const warnings: ValidationWarning[] = [];

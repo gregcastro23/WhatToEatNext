@@ -20,7 +20,7 @@ import type { WeeklyMenu, DayOfWeek } from "@/types/menuPlanner";
 import { getWeekEndDate } from "@/types/menuPlanner";
 import {
   calculateAllDayCircuits,
-  getMealsForDay,
+  getMealsForDay as _getMealsForDay,
 } from "./dayCircuitCalculations";
 
 /**
@@ -254,7 +254,7 @@ function findWeeklyBottlenecks(
 function generateWeeklySuggestions(
   dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
   currentMenu: WeeklyMenu,
-  planetaryPositions?: PlanetaryPositions,
+  _planetaryPositions?: PlanetaryPositions,
 ): CircuitImprovementSuggestion[] {
   const suggestions: CircuitImprovementSuggestion[] = [];
 

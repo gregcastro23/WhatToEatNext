@@ -9,11 +9,10 @@
 import React, { useMemo } from "react";
 import type {
   NutritionalSummary,
-  WeeklyNutritionResult,
+  WeeklyNutritionResult as _WeeklyNutritionResult,
 } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
 import type { Recipe, IngredientMapping } from "@/types/recipe";
-import { formatNutrientName } from "@/utils/nutritionAggregation";
 
 interface RecipeNutritionModalProps {
   recipe: Recipe;

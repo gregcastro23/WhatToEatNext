@@ -19,7 +19,6 @@ import type {
 import type { PlanetaryPositions } from "@/types/astrology";
 import type { MealCircuitMetrics, KineticMetrics } from "@/types/kinetics";
 import type { MealSlot } from "@/types/menuPlanner";
-import type { EnhancedRecipe } from '@/types/recipe';
 import { calculateKineticProperties } from "./kineticCalculations";
 import { validateRecipeCircuit } from "./recipeCircuit";
 
@@ -56,7 +55,7 @@ function countElementalAlchemical(
  */
 export function calculateMealCircuit(
   mealSlot: MealSlot,
-  planetaryPositions?: PlanetaryPositions,
+  _planetaryPositions?: PlanetaryPositions,
 ): MealCircuitMetrics | null {
   // Empty slot check
   if (!mealSlot.recipe) {

@@ -15,8 +15,8 @@ interface AstroEvent {
  */
 export function getUpcomingAstroEvents(
   days = 30,
-  latitude = 40.7128,
-  longitude = -74.006,
+  _latitude = 40.7128,
+  _longitude = -74.006,
 ): AstroEvent[] {
   const events: AstroEvent[] = [];
   const now = new Date();

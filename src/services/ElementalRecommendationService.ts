@@ -17,7 +17,7 @@ interface ElementalRecommendation {
 
 export class ElementalRecommendationService {
   static generateRecommendation(
-    elementalProperties: ElementalProperties,
+    _elementalProperties: ElementalProperties,
   ): ElementalRecommendation {
     // Simple stub implementation
     return {

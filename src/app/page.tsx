@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import DynamicCuisineRecommender from "@/components/home/DynamicCuisineRecommender";
 import { HeroSection } from "@/components/home/HeroSection";
+import EnhancedSauceRecommender from "@/components/recommendations/EnhancedSauceRecommender";
 import EnhancedCookingMethodRecommender from "@/components/recommendations/EnhancedCookingMethodRecommender";
 import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
 
@@ -24,6 +25,11 @@ export default function Home() {
           <Suspense fallback={<SectionLoader />}>
             <DynamicCuisineRecommender />
           </Suspense>
+          <div className="mt-8">
+            <Suspense fallback={<SectionLoader />}>
+              <EnhancedSauceRecommender />
+            </Suspense>
+          </div>
         </section>
 
         <section id="ingredients">

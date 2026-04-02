@@ -6,9 +6,9 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
-import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

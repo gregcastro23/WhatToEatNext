@@ -9,7 +9,7 @@
 import type { ElementalProperties } from "./alchemy";
 import type { StandardZodiacSignType } from "./astrology";
 import type { MealType } from "./menuPlanner";
-import type { NutritionalSummary, NutritionalProfile } from "./nutrition";
+import type { NutritionalSummary} from "./nutrition";
 
 /**
  * Food entry source type - where the food data comes from

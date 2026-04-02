@@ -8,9 +8,9 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";

@@ -82,7 +82,7 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
     ) {
       onLocationChange({ latitude: lat, longitude: lon });
     } else {
-      alert("Invalid coordinates. Latitude: -90 to 90, Longitude: -180 to 180");
+      console.warn("Invalid coordinates. Latitude: -90 to 90, Longitude: -180 to 180");
     }
   };
 
@@ -116,11 +116,11 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
           onLocationChange({ latitude: lat, longitude: lon });
         },
         (error) => {
-          alert(`Error getting location: ${error.message}`);
+          console.warn(`Error getting location: ${error.message}`);
         },
       );
     } else {
-      alert("Geolocation is not supported by your browser");
+      console.warn("Geolocation is not supported by your browser");
     }
   };
 
@@ -164,6 +164,8 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
 
         <div className="grid grid-cols-2 gap-3">
           <div>
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-xs text-gray-400 mb-1">Latitude</label>
             <input
               type="number"
@@ -178,6 +180,8 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
           </div>
 
           <div>
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="block text-xs text-gray-400 mb-1">
               Longitude
             </label>

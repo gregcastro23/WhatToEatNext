@@ -1,5 +1,5 @@
 // src/data/cuisines/african.ts
-import type { /* _ , */ ZodiacSignType } from "@/types/alchemy";
+import type { /* _ , */} from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
 
 export const african: Cuisine = {

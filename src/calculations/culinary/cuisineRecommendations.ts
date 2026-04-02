@@ -262,6 +262,7 @@ function getSuggestedDishes(
   ];
 
   // Filter based on dominant element
+        // eslint-disable-next-line @typescript-eslint/naming-convention
   const _UNUSED_dominantElement = Object.entries(elementals).reduce((a, b) =>
     elementals[a[0] as keyof ElementalProperties] >
     elementals[b[0] as keyof ElementalProperties]

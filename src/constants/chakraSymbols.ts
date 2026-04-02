@@ -256,8 +256,8 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
    * @returns Enhanced visual analysis with symbolic insights
    */
   analyzeVisualSymbols: (
-    symbols: typeof CHAKRA_SYMBOLS,
-    colors: typeof CHAKRA_BG_COLORS,
+    _symbols: typeof CHAKRA_SYMBOLS,
+    _colors: typeof CHAKRA_BG_COLORS,
   ) => {
     const visualAnalysis = {
       // Symbolic effectiveness metrics

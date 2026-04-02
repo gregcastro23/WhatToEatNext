@@ -7,7 +7,7 @@
  */
 
 import { log } from "@/services/LoggingService";
-import type { Season, ElementalProperties } from "@/types/alchemy";
+import type { Season} from "@/types/alchemy";
 import type { Planet } from "@/types/celestial";
 import {
   UnifiedScoringService,

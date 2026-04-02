@@ -645,7 +645,7 @@ export function calculateKineticCompatibilityEffect(
   // Get user's kinetic state from current alchemical state
   // Calculate using P=IV circuit model
   const alch = currentState.esms;
-  const elem = currentState.elementalProperties;
+  const _elem = currentState.elementalProperties;
 
   // Charge: Q = Matter + Substance
   const userCharge = alch.Matter + alch.Substance;
@@ -901,7 +901,7 @@ export class UnifiedScoringService {
           confidence: 0.95,
         } as AstrologicalData;
       }
-    } catch (error) {
+    } catch (_error) {
       log.warn("Astrologize API unavailable, falling back to Swiss Ephemeris");
     }
 
@@ -913,7 +913,7 @@ export class UnifiedScoringService {
         source: "swiss_ephemeris" as const,
         confidence: 0.7,
       } as AstrologicalData;
-    } catch (error) {
+    } catch (_error) {
       log.warn("Swiss Ephemeris unavailable, using minimal fallback data");
 
       // Last resort: basic fallback data
@@ -980,7 +980,7 @@ export class UnifiedScoringService {
   /**
    * Get minimal fallback data when all else fails
    */
-  private getMinimalFallbackData(context: ScoringContext): AstrologicalData {
+  private getMinimalFallbackData(_context: ScoringContext): AstrologicalData {
     return {
       planetaryPositions: {} as Record<Planet, PlanetaryPosition>,
       aspects: [],

@@ -1,3 +1,13 @@
+import { NextResponse } from "next/server";
+import { CUISINES } from "@/data/cuisines/index";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
+import type { AlchemicalProperties } from "@/types/alchemy";
+import type { Element } from "@/types/celestial";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import type { NextRequest } from "next/server";
+
 /**
  * Group Recommendations API Route
  * POST /api/group-recommendations
@@ -14,34 +24,18 @@
  *
  * @file src/app/api/group-recommendations/route.ts
  */
-
-import { NextResponse } from "next/server";
-import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { userDatabase } from "@/services/userDatabaseService";
-import { commensalDatabase } from "@/services/commensalDatabaseService";
-import { CUISINES } from "@/data/cuisines/index";
-
 // Normalize CUISINES object into an iterable array with id field
 const CUISINE_LIST = Object.entries(CUISINES).map(([key, val]) => ({
   id: key,
   ...val,
 }));
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
-import type { Element, ElementalProperties as CelestialElementalProperties } from "@/types/celestial";
-import type { AlchemicalProperties } from "@/types/alchemy";
-
 // Use a unified elemental type that satisfies both celestial and alchemy interfaces
 type ElementalProperties = Record<string, number> & {
   Fire: number; Water: number; Earth: number; Air: number;
 };
-import type { NextRequest } from "next/server";
-import { _logger } from "@/lib/logger";
-
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
 const ELEMENT_ORDER: Element[] = ["Fire", "Water", "Earth", "Air"];
-
 /** Average a list of elemental property objects */
 function avgElemental(items: ElementalProperties[]): ElementalProperties {
   if (items.length === 0) return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -59,7 +53,6 @@ function avgElemental(items: ElementalProperties[]): ElementalProperties {
     Air: sum.Air / items.length,
   };
 }
-
 /** Average a list of alchemical property objects */
 function avgAlchemical(items: AlchemicalProperties[]): AlchemicalProperties {
   if (items.length === 0) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -77,7 +70,6 @@ function avgAlchemical(items: AlchemicalProperties[]): AlchemicalProperties {
     Substance: sum.Substance / items.length,
   };
 }
-
 /** Cosine similarity between two elemental property vectors */
 function elementalHarmony(a: ElementalProperties, b: ElementalProperties): number {
   const va = ELEMENT_ORDER.map((e) => (a as any)[e] ?? 0);
@@ -88,16 +80,13 @@ function elementalHarmony(a: ElementalProperties, b: ElementalProperties): numbe
   if (magA === 0 || magB === 0) return 0.7; // Neutral harmony for empty vectors
   return Math.max(0, Math.min(1, dot / (magA * magB)));
 }
-
 /** Dominant element from an elemental property object */
 function dominantElement(e: ElementalProperties): Element {
   return (Object.entries(e).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Fire") as Element;
 }
-
 export async function POST(request: NextRequest) {
   try {
     const currentUser = await getDatabaseUserFromRequest(request);
-
     if (!currentUser) {
       _logger.warn("[POST /api/group-recommendations] User not found or not authenticated");
       return NextResponse.json(
@@ -105,9 +94,7 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
-
     const userId = currentUser.id;
-
     let body: Record<string, unknown>;
     try {
       body = await request.json();
@@ -117,7 +104,6 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-
     const {
       commensalIds = [],
       linkedUserIds = [],
@@ -127,12 +113,10 @@ export async function POST(request: NextRequest) {
       linkedUserIds?: string[];
       strategy?: "average" | "minimum" | "consensus";
     };
-
     // Collect elemental + alchemical data from all group members
     const elementalList: ElementalProperties[] = [];
     const alchemicalList: AlchemicalProperties[] = [];
     const memberInfo: Array<{ id: string; name: string; element: Element }> = [];
-
     // Include the current user if they have a natal chart
     const ownerChart = currentUser.profile.natalChart;
     if (ownerChart) {
@@ -142,12 +126,11 @@ export async function POST(request: NextRequest) {
       alchemicalList.push(alch);
       memberInfo.push({ id: userId, name: currentUser.profile.name ?? "You", element: dominantElement(el) });
     }
-
     // Manual commensals from the user's groupMembers
-    if ((commensalIds as string[]).length > 0) {
+    if ((commensalIds).length > 0) {
       const groupMembers = currentUser.profile.groupMembers || [];
       for (const commensal of groupMembers) {
-        if (!(commensalIds as string[]).includes(commensal.id)) continue;
+        if (!(commensalIds).includes(commensal.id)) continue;
         const chart = commensal.natalChart;
         if (!chart) continue;
         const el = (chart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
@@ -157,13 +140,12 @@ export async function POST(request: NextRequest) {
         memberInfo.push({ id: commensal.id, name: commensal.name, element: dominantElement(el) });
       }
     }
-
     // Linked friends (accepted friendships)
-    if ((linkedUserIds as string[]).length > 0) {
+    if ((linkedUserIds).length > 0) {
       try {
         const linkedFriends = await commensalDatabase.getLinkedCommensalsForUser(userId);
         for (const friend of linkedFriends) {
-          if (!(linkedUserIds as string[]).includes(friend.userId)) continue;
+          if (!(linkedUserIds).includes(friend.userId)) continue;
           const chart = friend.natalChart;
           if (!chart) continue;
           const el = (chart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
@@ -177,19 +159,16 @@ export async function POST(request: NextRequest) {
         // Social DB unavailable — skip linked friends
       }
     }
-
     if (elementalList.length === 0) {
       return NextResponse.json(
         { success: false, message: "No natal chart data available for selected members. Please ensure all members have birth data entered." },
         { status: 422 },
       );
     }
-
     // Compute composite chart
     const compositeElemental = avgElemental(elementalList);
     const compositeAlchemical = avgAlchemical(alchemicalList);
     const compositeEl = dominantElement(compositeElemental);
-
     // Build element distribution
     const elementCounts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     memberInfo.forEach((m) => { elementCounts[m.element]++; });
@@ -200,14 +179,12 @@ export async function POST(request: NextRequest) {
       Earth: elementCounts.Earth / total,
       Air: elementCounts.Air / total,
     };
-
     // Score all cuisines
     const allCuisines: Array<{ id: string; name: string; elemental: ElementalProperties }> = CUISINE_LIST.map((c) => ({
       id: c.id,
       name: (c as any).name ?? c.id,
       elemental: ((c as any).elementalProperties ?? (c as any).elementalState ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as ElementalProperties,
     }));
-
     // Compute harmony for each cuisine using the requested aggregation strategy
     const scoredCuisines = allCuisines.map((cuisine) => {
       let groupScore: number;
@@ -219,7 +196,6 @@ export async function POST(request: NextRequest) {
           score: elementalHarmony(memberEl, cuisine.elemental),
         };
       });
-
       const scores = memberScores.map((ms) => ms.score);
       if (strategy === "minimum") {
         groupScore = Math.min(...scores);
@@ -232,9 +208,7 @@ export async function POST(request: NextRequest) {
         // average
         groupScore = scores.reduce((a, b) => a + b, 0) / scores.length;
       }
-
       const harmony = elementalHarmony(compositeElemental, cuisine.elemental);
-
       return {
         cuisineId: cuisine.id,
         cuisineName: cuisine.name,
@@ -248,11 +222,9 @@ export async function POST(request: NextRequest) {
         ],
       };
     });
-
     // Sort by aggregated score desc and return top results
     scoredCuisines.sort((a, b) => b.aggregatedScore - a.aggregatedScore);
     const recommendations = scoredCuisines.slice(0, 10);
-
     return NextResponse.json({
       success: true,
       composite: {

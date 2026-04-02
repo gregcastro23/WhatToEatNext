@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import {
   FaFire,
   FaTint,
@@ -10,7 +11,6 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
-import React, { useState, useEffect } from "react";
 import {
   formatTransitionTime,
   capitalizeFirstLetter,
@@ -74,7 +74,7 @@ export default function PlanetaryContributionsChart() {
   };
 
   useEffect(() => {
-    fetchData();
+    void fetchData();
     const interval = setInterval(fetchData, 60000); // Update every minute
     return () => clearInterval(interval);
   }, []);

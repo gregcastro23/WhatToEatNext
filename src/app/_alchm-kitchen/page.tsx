@@ -1,31 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-
-export const dynamic = "force-dynamic";
-
 import dynamic_import from "next/dynamic";
+import React, { useEffect, useState } from "react";
 import { AstrologicalProvider } from "@/context/AstrologicalContext";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { createLogger } from "@/utils/logger";
+import DevSettings from "./DevSettings";
+import SignVectorPanel from "./SignVectorPanel";
 
+export const dynamic = "force-dynamic";
 const AlchmKitchenTab = dynamic_import(
   () => import("../../../docs/Alchm Kitchen/AlchmKitchenTab"),
   { ssr: false },
 );
-
-import DevSettings from "./DevSettings";
-import SignVectorPanel from "./SignVectorPanel";
-
 const logger = createLogger("AlchmKitchenPage");
 function ClientOnly({ children }: { children: React.ReactNode }) {
   const [hasMounted, setHasMounted] = useState(false);
-
   useEffect(() => {
     setHasMounted(true);
     logger.debug("AlchmKitchen page client-side mount complete");
   }, []);
-
   if (!hasMounted) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center space-y-4">
@@ -38,10 +32,8 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
-
   return <>{children}</>;
 }
-
 export default function AlchmKitchenPage() {
   return (
     <AlchemicalProvider>

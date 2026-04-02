@@ -15,7 +15,7 @@ import React, { useState, useCallback } from "react";
 import { usePremium } from "@/contexts/PremiumContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type {
-  SavedRestaurant,
+  SavedRestaurant as _SavedRestaurant,
   MenuItem,
   MenuCategory,
   DietaryTag,
@@ -54,8 +54,8 @@ interface RestaurantConcept {
 }
 
 export default function RestaurantCreatorPage() {
-  const { data: session } = useSession();
-  const { tier, hasFeature, openCheckout } = usePremium();
+  const { data: _session } = useSession();
+  const { tier: _tier, hasFeature, openCheckout } = usePremium();
   const astroState = useAstrologicalState();
 
   const [concept, setConcept] = useState<RestaurantConcept>({

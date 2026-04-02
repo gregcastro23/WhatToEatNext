@@ -242,7 +242,7 @@ export default function IngredientPreview() {
                     {Object.entries(ingredient.elementalProperties)
                       .sort((a, b) => b[1] - a[1])
                       .slice(0, 2)
-                      .map(([element, value]) => (
+                      .map(([element, _value]) => (
                         <span
                           key={element}
                           className="text-xs bg-white bg-opacity-70 text-gray-700 px-2 py-1 rounded-full font-medium border border-gray-200"

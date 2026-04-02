@@ -7,9 +7,9 @@
  */
 
 import type {
-  Recipe,
-  RecipeIngredient,
-  ElementalProperties,
+  Recipe as _Recipe,
+  RecipeIngredient as _RecipeIngredient,
+  ElementalProperties as _ElementalProperties,
 } from "@/types/recipe";
 import {
   generateRecipeId,

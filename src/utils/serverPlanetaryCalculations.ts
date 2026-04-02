@@ -4,7 +4,8 @@
  * without needing to make HTTP calls to the astrologize API.
  */
 
-import * as Astronomy from "astronomy-engine";
+import * as AstronomyModule from "astronomy-engine";
+const Astronomy = (AstronomyModule as any).default || AstronomyModule;
 import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
@@ -321,11 +322,11 @@ export function calculateAscendantPosition(
   const astroTime = new Astronomy.AstroTime(date);
 
   // Greenwich Apparent Sidereal Time in hours [0, 24) — precise via astronomy-engine
-  const gast_hours = Astronomy.SiderealTime(astroTime);
+  const gastHours = Astronomy.SiderealTime(astroTime);
 
   // Local Sidereal Time in degrees [0, 360)
-  const lst_deg = ((gast_hours * 15 + longitude) % 360 + 360) % 360;
-  const lstRad = lst_deg * Math.PI / 180;
+  const lstDeg = ((gastHours * 15 + longitude) % 360 + 360) % 360;
+  const lstRad = lstDeg * Math.PI / 180;
 
   // Obliquity of the ecliptic (degrees → radians)
   // mean obliquity of ecliptic for J2000

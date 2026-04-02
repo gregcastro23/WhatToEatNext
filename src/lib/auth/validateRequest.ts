@@ -6,10 +6,10 @@
  * @file src/lib/auth/validateRequest.ts
  */
 
-import { jwtVerify, type JWTPayload, errors as JOSEerrors } from "jose";
+import { jwtVerify, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import type { UserWithProfile } from "@/services/userDatabaseService";
+import type { NextRequest } from "next/server";
 
 // Dynamic import for auth to avoid pulling in Node.js deps at bundle time
 // This allows edge routes to use validateRequest when auth callbacks aren't needed

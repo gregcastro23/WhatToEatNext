@@ -229,7 +229,7 @@ export class EnhancedAstrologyService {
       >;
       dataSource = "positions-service" as any;
       confidence = 0.95;
-    } catch (error) {
+    } catch (_error) {
       logger.warn(
         "Positions service failed, falling back to Swiss/fallback chain",
       );
@@ -287,7 +287,7 @@ export class EnhancedAstrologyService {
    * Get positions from Astrologize API
    */
   private async getAstrologizePositions(
-    date: Date,
+    _date: Date,
   ): Promise<Record<string, CelestialPosition>> {
     try {
       const astrologizePositions = await getCurrentPlanetaryPositions();

@@ -18,7 +18,7 @@ import type {
   AstrologicalStateType,
   ServiceResponseType,
 } from "../types/alchemy";
-import type { CelestialPosition, ZodiacSignType } from "../types/celestial";
+import type { ZodiacSignType } from "../types/celestial";
 
 // ========== PHASE, 2: TYPE DEFAULTS ==========
 

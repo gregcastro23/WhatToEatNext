@@ -21,8 +21,8 @@ export interface RecipeCompatibilityResult {
  * Calculate compatibility between a recipe and astrological state
  */
 export function calculateRecipeCompatibility(
-  recipe: Recipe,
-  state: AstrologicalState,
+  _recipe: Recipe,
+  _state: AstrologicalState,
 ): RecipeCompatibilityResult {
   // Simple compatibility calculation
   const elementalScore = 0.7; // Placeholder

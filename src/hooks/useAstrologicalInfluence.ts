@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
 import { _logger } from "@/lib/logger";
-import { AstrologicalState } from "@/types/celestial";
 import { getCurrentAstrologicalState } from "@/utils/astrologyUtils";
 import { useAlchemical } from "./useAlchemical";
 

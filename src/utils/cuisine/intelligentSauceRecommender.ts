@@ -608,8 +608,8 @@ function generateSauceReason(
   sauce: Sauce,
   role: SauceRecommendationCriteria["sauceRole"],
   overallScore: number,
-  elementalScore: number,
-  alchemicalScore?: number,
+  _elementalScore: number,
+  _alchemicalScore?: number,
 ): string {
   if (overallScore > 0.85) {
     return `Exceptional ${role} - perfectly balances ${sauce.flavorTags?.join(", ") || "flavors"}`;

@@ -4,11 +4,11 @@
  * Stub implementation for core alchemical operations
  */
 
-export function calculateAlchemicalProperties(params: any): any {
+export function calculateAlchemicalProperties(_params: any): any {
   return {};
 }
 
-export function computeTransmutation(from: any, to: any): any {
+export function computeTransmutation(_from: any, _to: any): any {
   return {};
 }
 

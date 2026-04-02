@@ -74,7 +74,7 @@ export default function SignVectorPanel({
           ]),
         ) as Record<string, { sign: string; degree: number }>;
         const { aspects: computed } = calculateAspects(minimal),
-          realAspects = computed as any;
+          _realAspects = computed as any;
       }
     } catch (_e) {
       // aspects remain undefined on failure
@@ -93,7 +93,7 @@ export default function SignVectorPanel({
     if (process.env.NODE_ENV !== "production") {
       const base = res.base.alchemical;
       const blended = res.blendedAlchemical;
-      const deltas = {
+      const _deltas = {
         Spirit: Number((blended.Spirit - base.Spirit).toFixed(4)),
         Essence: Number((blended.Essence - base.Essence).toFixed(4)),
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),

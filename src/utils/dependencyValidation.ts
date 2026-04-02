@@ -190,7 +190,7 @@ export async function validateFileImports(
       } else {
         invalidImports.push(importStatement);
       }
-    } catch (error) {
+    } catch (_error) {
       invalidImports.push(importStatement);
       warnings.push(`Failed to validate import '${importPath}' in ${filePath}`);
     }

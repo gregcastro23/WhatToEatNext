@@ -8,14 +8,14 @@
  */
 
 import type {
-  ElementalProperties,
+  ElementalProperties as _ElementalProperties,
   AlchemicalProperties,
 } from "@/types/hierarchy";
 import type { KineticMetrics } from "@/types/kinetics";
 import type { Recipe } from "@/types/recipe";
 import {
   validateRecipeCircuit,
-  validateMultiRecipeCircuit,
+  validateMultiRecipeCircuit as _validateMultiRecipeCircuit,
   calculateKineticsCompatibility,
   type CircuitValidationResult,
 } from "@/utils/recipeCircuit";

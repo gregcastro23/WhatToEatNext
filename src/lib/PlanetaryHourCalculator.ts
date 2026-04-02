@@ -211,7 +211,7 @@ export class PlanetaryHourCalculator {
 
     // Calculate the hour ruler
     const hourRulerIndex = (dayRulerIndex + hourIndex) % 7;
-    const planetName = this.planetaryRulers[hourRulerIndex];
+    const _planetName = this.planetaryRulers[hourRulerIndex];
 
     return {
       planet:
@@ -311,7 +311,7 @@ export class PlanetaryHourCalculator {
 
     const dayRulerIndex = dayOfWeek % 7;
     const hourRulerIndex = (dayRulerIndex + hourIndex) % 7;
-    const planetName = this.planetaryRulers[hourRulerIndex];
+    const _planetName = this.planetaryRulers[hourRulerIndex];
 
     return {
       planet:

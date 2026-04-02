@@ -7,8 +7,8 @@
  */
 
 import { NextResponse } from "next/server";
-import { foodDiaryService } from "@/services/FoodDiaryService";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
 
@@ -59,19 +59,19 @@ export async function GET(request: NextRequest) {
 
     // Compute basic daily summary from the returned entries
     const totalCalories = entries.reduce(
-      (sum, e) => sum + ((e.nutrition as any)?.calories ?? 0),
+      (sum, e) => sum + ((e.nutrition)?.calories ?? 0),
       0,
     );
     const totalProtein = entries.reduce(
-      (sum, e) => sum + ((e.nutrition as any)?.protein ?? 0),
+      (sum, e) => sum + ((e.nutrition)?.protein ?? 0),
       0,
     );
     const totalCarbs = entries.reduce(
-      (sum, e) => sum + ((e.nutrition as any)?.carbs ?? 0),
+      (sum, e) => sum + ((e.nutrition)?.carbs ?? 0),
       0,
     );
     const totalFat = entries.reduce(
-      (sum, e) => sum + ((e.nutrition as any)?.fat ?? 0),
+      (sum, e) => sum + ((e.nutrition)?.fat ?? 0),
       0,
     );
 

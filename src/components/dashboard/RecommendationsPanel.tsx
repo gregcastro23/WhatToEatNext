@@ -178,7 +178,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           const parsed = JSON.parse(stored);
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
-        } catch (e) {}
+        } catch (_e) {}
       }
     }
 
@@ -200,7 +200,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           const parsed = JSON.parse(stored);
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
-        } catch (e) {}
+        } catch (_e) {}
       }
     }
 
@@ -224,7 +224,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           const parsed = JSON.parse(stored);
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
-        } catch (e) {}
+        } catch (_e) {}
       }
     }
 
@@ -292,7 +292,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
       }
     }
 
-    loadRecommendations();
+    void loadRecommendations();
   }, [email, natalChart, preferences.preferredCuisines]);
 
   // Derive natal chart info for inline display

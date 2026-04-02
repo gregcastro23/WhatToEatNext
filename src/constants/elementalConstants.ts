@@ -7,6 +7,7 @@ import type {
 } from "../types/alchemy";
 
 // Define StringIndexed type inline since we're not importing it
+          // eslint-disable-next-line @typescript-eslint/naming-convention
 interface _<T = unknown> {
   [key: string]: T;
 }

@@ -67,7 +67,7 @@ export default function CelestialEquilibrium({
     // Only fetch if alchemicalQuantities is available, as imbalance depends on it.
     // In a real scenario, the API call might implicitly derive imbalance or take it as a parameter.
     if (alchemicalQuantities) {
-      fetchRecommendations();
+      void fetchRecommendations();
     } else {
       setLoadingRecommendations(false); // No data, so no recommendations to fetch
     }
@@ -218,7 +218,7 @@ export default function CelestialEquilibrium({
       {/* New: Oracle's Path Section */}
       <div className="mt-8 w-full max-w-md">
         <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-          Oracle's Path: Predictive Transmutation Windows
+          Oracle&apos;s Path: Predictive Transmutation Windows
         </h3>
         {loadingRecommendations && (
           <p className="text-gray-600 text-center">

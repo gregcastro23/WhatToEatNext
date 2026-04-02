@@ -617,7 +617,7 @@ export class RecipeDataEnricher {
     }
 
     // Category-based fallback
-    const categories: Record<
+    const _categories: Record<
       string,
       { Fire: number; Water: number; Earth: number; Air: number }
     > = {

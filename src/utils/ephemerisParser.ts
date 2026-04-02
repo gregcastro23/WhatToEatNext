@@ -132,7 +132,7 @@ export class EphemerisParser {
         absoluteLongitude: degrees,
         retrograde,
       };
-    } catch (error) {
+    } catch (_error) {
       log.warn(`Could not parse position string ${posStr}`);
       return {
         degrees: 0,

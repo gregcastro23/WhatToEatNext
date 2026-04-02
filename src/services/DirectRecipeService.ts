@@ -6,7 +6,7 @@ import type {
   ElementalProperties,
   CelestialAlignment,
   ThermodynamicMetrics,
-  Element,
+  _Element,
 } from "@/types/alchemy";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import { calculateElementalCompatibility } from "@/utils/elemental/elementalUtils";
@@ -395,7 +395,7 @@ export class DirectRecipeService {
    */
   private calculateSeasonalScore(
     recipe: Recipe,
-    alignment: CelestialAlignment,
+    _alignment: CelestialAlignment,
   ): number {
     // Apply safe type casting for currentSeason access
     const recipeData = recipe as any;

@@ -1,6 +1,6 @@
 // src/utils/monica/cache.ts
 
-import { ALCHEMICAL_PILLARS, AlchemicalPillar } from '@/constants/alchemicalPillars';
+import { ALCHEMICAL_PILLARS} from '@/constants/alchemicalPillars';
 import { calculateMonicaMetrics } from './calculations';
 import type { AlchemicalState, MonicaMetrics } from './types';
 

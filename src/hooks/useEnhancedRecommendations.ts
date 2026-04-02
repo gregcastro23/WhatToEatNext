@@ -1,14 +1,14 @@
 "use client";
 
+import { useCallback, useState } from "react";
+import { KitchenBackendClient } from "@/services/KitchenBackendClient";
+
 /**
  * Enhanced Recommendations Hook - Minimal Recovery Version
  *
  * Custom hook for managing enhanced recipe recommendations with backend integration,
  * astrological context, and personalized filtering.
  */
-
-import { useState, useCallback } from "react";
-
 // Type definitions
 interface EnhancedRecommendationContext {
   datetime?: string;
@@ -21,7 +21,6 @@ interface EnhancedRecommendationContext {
   useBackendInfluence?: boolean;
   groupId?: string; // Optional group ID for group recommendations
 }
-
 interface Recipe {
   id: string;
   name: string;
@@ -32,7 +31,6 @@ interface Recipe {
   rating: number;
   tags: string[];
 }
-
 interface RecommendationResult {
   recipe: Recipe;
   score: number;
@@ -47,7 +45,6 @@ interface RecommendationResult {
     score: number;
   }>; // Individual scores in group mode
 }
-
 interface EnhancedRecommendationsResponse {
   recommendations: RecommendationResult[];
   totalCount: number;
@@ -65,14 +62,10 @@ interface EnhancedRecommendationsResponse {
     harmony: number;
   }; // Present when in group mode
 }
-
-import { KitchenBackendClient } from "@/services/KitchenBackendClient";
-
 // Real backend client
 const kitchenBackendClient = new KitchenBackendClient();
-
 // Fallback mock recipes only used if backend is not available
-const mockRecipes: Recipe[] = [
+const _mockRecipes: Recipe[] = [
   {
     id: "1",
     name: "Celestial Pasta Primavera",
@@ -104,14 +97,12 @@ const mockRecipes: Recipe[] = [
     tags: ["raw", "lunar-aligned", "cleansing"],
   },
 ];
-
 // Hook implementation
 export const useEnhancedRecommendations = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [recommendations, setRecommendations] =
     useState<EnhancedRecommendationsResponse | null>(null);
-
   const getRecommendations = useCallback(
     async (
       context?: Partial<EnhancedRecommendationContext>,
@@ -119,7 +110,6 @@ export const useEnhancedRecommendations = () => {
     ) => {
       setLoading(true);
       setError(null);
-
       try {
         const payload: EnhancedRecommendationContext = {
           datetime: context?.datetime ?? initial?.datetime,
@@ -130,7 +120,6 @@ export const useEnhancedRecommendations = () => {
             initial?.useBackendInfluence ??
             true,
         };
-
         const result = await kitchenBackendClient.getCuisineRecommendations(
           payload as any,
         );
@@ -144,7 +133,6 @@ export const useEnhancedRecommendations = () => {
             ? err.message
             : "Failed to fetch recommendations";
         setError(errorMessage);
-
         // Return fallback response
         const fallbackResponse: EnhancedRecommendationsResponse = {
           recommendations: [],
@@ -156,7 +144,6 @@ export const useEnhancedRecommendations = () => {
             lunarPhase: "new moon",
           },
         };
-
         setRecommendations(fallbackResponse);
         return fallbackResponse;
       } finally {
@@ -165,12 +152,10 @@ export const useEnhancedRecommendations = () => {
     },
     [],
   );
-
   const clearRecommendations = useCallback(() => {
     setRecommendations(null);
     setError(null);
   }, []);
-
   const refreshRecommendations = useCallback(
     async (context?: Partial<EnhancedRecommendationContext>) => {
       if (!recommendations) return null;
@@ -178,7 +163,6 @@ export const useEnhancedRecommendations = () => {
     },
     [getRecommendations, recommendations],
   );
-
   return {
     recommendations,
     loading,

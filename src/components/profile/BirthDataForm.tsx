@@ -37,7 +37,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Birth Date</label>
+          <label htmlFor="birth_date" className="block text-sm font-medium text-gray-700">Birth Date</label>
           <input
             type="date"
             name="birth_date"
@@ -49,7 +49,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Birth Time</label>
+          <label htmlFor="birth_time" className="block text-sm font-medium text-gray-700">Birth Time</label>
           <input
             type="time"
             name="birth_time"
@@ -62,7 +62,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">City Name</label>
+            <label htmlFor="city_name" className="block text-sm font-medium text-gray-700">City Name</label>
             <input
               type="text"
               name="city_name"
@@ -73,7 +73,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">State / Country</label>
+            <label htmlFor="state_country" className="block text-sm font-medium text-gray-700">State / Country</label>
             <input
               type="text"
               name="state_country"
@@ -87,7 +87,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Latitude</label>
+            <label htmlFor="latitude" className="block text-sm font-medium text-gray-700">Latitude</label>
             <input
               type="number"
               step="any"
@@ -100,7 +100,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({ onSubmit, isLoadin
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Longitude</label>
+            <label htmlFor="longitude" className="block text-sm font-medium text-gray-700">Longitude</label>
             <input
               type="number"
               step="any"

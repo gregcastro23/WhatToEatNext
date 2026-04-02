@@ -23,29 +23,29 @@ export class ConsolidatedIngredientService {
     return [];
   }
 
-  async searchIngredients(query: string): Promise<UnifiedIngredient[]> {
+  async searchIngredients(_query: string): Promise<UnifiedIngredient[]> {
     return [];
   }
 
   async getRecommendedIngredients(
-    criteria: any,
-    options?: any,
+    _criteria: any,
+    _options?: any,
   ): Promise<UnifiedIngredient[]> {
     return [];
   }
 
-  async getIngredientsByPlanet(planet: any): Promise<UnifiedIngredient[]> {
+  async getIngredientsByPlanet(_planet: any): Promise<UnifiedIngredient[]> {
     return [];
   }
 
   async findComplementaryIngredients(
-    ingredient: any,
-    maxResults?: number,
+    _ingredient: any,
+    _maxResults?: number,
   ): Promise<UnifiedIngredient[]> {
     return [];
   }
 
-  async filterIngredients(filters: any): Promise<UnifiedIngredient[]> {
+  async filterIngredients(_filters: any): Promise<UnifiedIngredient[]> {
     return [];
   }
 }

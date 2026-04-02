@@ -9,7 +9,6 @@ import type {
   PlanetaryAspect,
 } from "@/types/celestial";
 import type { Season } from "@/types/common";
-import type { KineticsEnhancedRecommendation } from "@/types/kinetics";
 import type { EnhancedIngredient } from "@/utils/foodRecommender";
 import { getRecommendedIngredients } from "@/utils/foodRecommender";
 import { calculateKineticAlignment } from "@/utils/kineticsFoodMatcher";

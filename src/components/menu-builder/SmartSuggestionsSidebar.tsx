@@ -550,7 +550,7 @@ export default function SmartSuggestionsSidebar({
 /** Individual suggestion card */
 function SuggestionCard({
   suggestion,
-  onApply,
+  onApply: _onApply,
 }: {
   suggestion: Suggestion;
   onApply?: (s: ApplicableSuggestion) => void;

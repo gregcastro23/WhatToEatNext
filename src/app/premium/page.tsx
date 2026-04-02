@@ -59,7 +59,7 @@ export default function PremiumPage() {
     const checkoutStatus = searchParams.get("checkout");
     if (checkoutStatus === "success") {
       setCheckoutMessage("Your Premium subscription is now active! Welcome aboard.");
-      refresh();
+      void refresh();
     } else if (checkoutStatus === "canceled") {
       setCheckoutMessage("Checkout was canceled. No changes were made.");
     }

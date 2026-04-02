@@ -10,13 +10,13 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { userDatabase } from "@/services/userDatabaseService";
+import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
-import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -173,6 +173,23 @@ export async function POST(request: NextRequest) {
     };
 
     const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any);
+
+    // Send admin notification about completed onboarding
+    // This provides the admin team with the user's dominant element
+    try {
+      const emailService = (await import("@/services/emailService")).default;
+      emailService.ensureInitialized();
+      if (emailService.isConfigured()) {
+        const userName = name || user.profile.name || user.email;
+        void emailService.sendAdminNotificationEmail(
+          user.email,
+          userName,
+          natalChart.dominantElement,
+        );
+      }
+    } catch (err) {
+      _logger.error("[POST /api/onboarding] Failed to send admin notification:", err as any);
+    }
 
     return NextResponse.json({
       success: true,

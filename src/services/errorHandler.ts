@@ -67,7 +67,7 @@ class ErrorHandlerService {
       component = "unknown",
       context = {},
       data = {},
-      isFatal = false,
+      isFatal: _isFatal = false,
       silent = false,
     } = options;
 
