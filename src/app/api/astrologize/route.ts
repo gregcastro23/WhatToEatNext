@@ -121,6 +121,7 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
   }
 
   return {
+    success: true,
     _celestialBodies: {
       all: allBodies,
       ...bodies,
@@ -196,6 +197,7 @@ function calculateLocally(params: PlanetaryRequest) {
   }
 
   return {
+    success: true,
     _celestialBodies: {
       all: allBodies,
       ...bodies,
