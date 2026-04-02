@@ -14,7 +14,7 @@ import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
-import type { InstacartShoppingListRequest } from "@/app/api/instacart/shopping-list/route";
+import type { InstacartShoppingListRequest } from "@/types/instacart";
 
 const logger = createLogger("GroceryListModal");
 
@@ -121,18 +121,18 @@ async function createInstacartShoppingList(
     throw new Error("No items to order — all items are either purchased or already in your pantry.");
   }
 
+  const UNITLESS = new Set(["count", "pieces", "piece"]);
   const payload: InstacartShoppingListRequest = {
     title: title || "Grocery List from WhatToEatNext",
-    line_items: activeItems.map((item) => ({
-      name: item.ingredient,
-      quantity: item.quantity,
-      unit: item.unit !== "count" && item.unit !== "pieces" && item.unit !== "piece"
-        ? item.unit
-        : undefined,
-      display_text: `${item.quantity} ${item.unit} ${item.ingredient}`,
-    })),
-    partner_linkback_url:
-      typeof window !== "undefined" ? window.location.href : undefined,
+    line_items: activeItems.map((item) => {
+      const unit = UNITLESS.has(item.unit) ? undefined : item.unit;
+      return {
+        name: item.ingredient,
+        ...(unit !== undefined && {
+          line_item_measurements: [{ quantity: item.quantity, unit }],
+        }),
+      };
+    }),
   };
 
   const response = await fetch("/api/instacart/shopping-list", {
@@ -431,7 +431,7 @@ export default function GroceryListModal({
                 Connecting...
               </>
             ) : (
-              <>🛒 Order on Instacart</>
+              "🛒 Order on Instacart"
             )}
           </button>
           <select
