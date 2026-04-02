@@ -24,6 +24,7 @@ export const TIER_FEATURES = {
     'advancedTransits',
     'unlimitedCompanions',
     'planetaryRemedies',
+    'dailyInsights',
   ] as const,
 };
 
@@ -42,4 +43,5 @@ export const PREMIUM_FEATURES_DISPLAY: Array<{ feature: PremiumFeature; label: s
   { feature: 'advancedTransits', label: 'Advanced Transits', description: '7-day transit forecasts with dietary impact analysis' },
   { feature: 'unlimitedCompanions', label: 'Unlimited Companions', description: 'Add unlimited dining companions (free tier: 3)' },
   { feature: 'planetaryRemedies', label: 'Planetary Remedies', description: 'Personalized food remedies based on challenging transits' },
+  { feature: 'dailyInsights', label: 'Daily Cosmic Insights', description: 'Personalized daily insight comparing your birth chart to current transits' },
 ];

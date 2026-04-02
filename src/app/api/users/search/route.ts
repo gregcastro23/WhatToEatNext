@@ -6,7 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { socialDatabase } from "@/services/socialDatabaseService";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const users = await socialDatabase.searchUsers(query, userId, 10);
+  const users = await commensalDatabase.searchUsers(query, userId, 10);
 
   return NextResponse.json({ success: true, users });
 }

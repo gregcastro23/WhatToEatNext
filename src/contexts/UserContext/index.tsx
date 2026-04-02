@@ -15,8 +15,6 @@ import type {
   NatalChart,
   GroupMember,
   DiningGroup,
-  Friendship,
-  LinkedFriend,
   SavedChart,
 } from "@/types/natalChart";
 import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
@@ -54,9 +52,6 @@ interface UserProfile {
   groupMembers?: GroupMember[];
   diningGroups?: DiningGroup[];
   stats?: AlchemicalProfile;
-  // Social features
-  friendships?: Friendship[];
-  linkedFriends?: LinkedFriend[];
   // Multi-chart cosmic identities
   savedCharts?: SavedChart[];
 }
@@ -104,8 +99,6 @@ function parseServerProfile(
     groupMembers: (data.groupMembers || []) as GroupMember[],
     diningGroups: (data.diningGroups || []) as DiningGroup[],
     stats: data.stats as AlchemicalProfile | undefined,
-    friendships: (data.friendships || []) as Friendship[],
-    linkedFriends: (data.linkedFriends || []) as LinkedFriend[],
     savedCharts: (data.savedCharts || []) as SavedChart[],
   };
 }

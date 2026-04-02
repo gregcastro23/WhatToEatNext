@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
 import React from "react";
 import NavAuthLink from "@/components/nav/NavAuthLink";
+import NotificationBell from "@/components/nav/NotificationBell";
 import PayPalButton from "@/components/PayPalButton";
 import PremiumLink from "@/components/nav/PremiumLink";
 import SignInModal from "@/components/auth/SignInModal";
@@ -48,9 +49,12 @@ export default function RootLayout({
                       The Menu of the Moment in the Stars and Elements
                     </p>
                   </Link>
-                  {/* PayPal Button */}
-                  <div className="hidden md:block">
-                    <PayPalButton />
+                  <div className="flex items-center gap-3">
+                    <NotificationBell />
+                    {/* PayPal Button */}
+                    <div className="hidden md:block">
+                      <PayPalButton />
+                    </div>
                   </div>
                 </div>
                 {/* Navigation Menu */}

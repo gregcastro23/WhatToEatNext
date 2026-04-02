@@ -17,7 +17,7 @@ import { DashboardOverview } from './DashboardOverview';
 import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
 import { RecommendationsPanel } from './RecommendationsPanel';
-import { SocialManager } from './SocialManager';
+import { NotificationPanel } from './NotificationPanel';
 
 export interface UserPreferences {
   dietaryRestrictions: string[];
@@ -308,7 +308,7 @@ function usePendingRequestCount(): number {
   useEffect(() => {
     async function fetchCount() {
       try {
-        const res = await fetch('/api/friends', { credentials: 'include' });
+        const res = await fetch('/api/commensals', { credentials: 'include' });
         if (!res.ok) return;
         const data = await res.json();
         if (data.success) {
@@ -326,7 +326,7 @@ function usePendingRequestCount(): number {
 
 /* ─── Main Dashboard ─────────────────────────────────────── */
 
-type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'social' | 'labbook' | 'settings';
+type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'labbook' | 'settings';
 
 export const UserDashboard: React.FC<UserDashboardProps> = ({
   session,
@@ -392,17 +392,6 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     );
   }
 
-  if (viewMode === 'social') {
-    return (
-      <div className="space-y-4">
-        <BackButton />
-        <PremiumGate feature="diningCompanions" showPreview>
-          <SocialManager />
-        </PremiumGate>
-      </div>
-    );
-  }
-
   if (viewMode === 'labbook') {
     return (
       <div className="space-y-4">
@@ -432,6 +421,11 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     <div className="space-y-5">
       {/* Live Transit Status Bar */}
       <LiveTransitBar natalChart={natalChart} />
+
+      {/* Notifications — post-it board */}
+      <CollapsibleSection title="Notifications" icon="&#x1F9EA;" defaultOpen>
+        <NotificationPanel />
+      </CollapsibleSection>
 
       {/* Hero Identity Card */}
       <ProfileHeroCard
@@ -474,12 +468,6 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           label="Companions"
           description="Dining group harmony"
           onClick={() => setViewMode('companions')}
-        />
-        <NavCard
-          icon="&#x1F91D;"
-          label="Social"
-          description="Friends & connections"
-          onClick={() => setViewMode('social')}
           badge={pendingRequests}
         />
         <NavCard
@@ -496,11 +484,6 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
       {/* Transits (collapsible - default open for live feel) */}
       <CollapsibleSection title="Current Transits" icon="&#x1F30C;" defaultOpen>
         <CurrentTransitAnalysis natalChart={natalChart} />
-      </CollapsibleSection>
-
-      {/* Social (collapsible, show badge for pending requests) */}
-      <CollapsibleSection title="Social &amp; Friends" icon="&#x1F91D;" defaultOpen={false} badge={pendingRequests}>
-        <SocialManager />
       </CollapsibleSection>
 
       {/* Premium Upsell (only for free tier) */}

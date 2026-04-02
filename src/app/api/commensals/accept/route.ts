@@ -5,7 +5,9 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { userDatabase } from "@/services/userDatabaseService";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
+import { notificationDatabase } from "@/services/notificationDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -42,6 +44,19 @@ export async function PUT(request: NextRequest) {
         { success: false, message: "Could not accept request. You may not be the addressee or it may be blocked." },
         { status: 400 },
       );
+    }
+
+    // Notify the requester that their commensal request was accepted (fire-and-forget)
+    if (commensalship.requesterId) {
+      const accepter = await userDatabase.getUserById(userId);
+      const accepterName = (accepter as any)?.profile?.name || (accepter as any)?.name || "Someone";
+      notificationDatabase.createNotification(
+        commensalship.requesterId,
+        "commensal_accepted",
+        "Dining Companion Request Accepted",
+        `${accepterName} accepted your dining companion request`,
+        { relatedUserId: userId },
+      ).catch(() => {});
     }
 
     return NextResponse.json({

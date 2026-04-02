@@ -154,6 +154,49 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               await Promise.allSettled(emailPromises);
               console.log(`[auth] Background emails sent for ${user.email}`);
             }
+
+
+            // 3. In-app notifications
+            try {
+              const { notificationDatabase } = await import(
+                "@/services/notificationDatabaseService"
+              );
+              const userName = user.name || user.email;
+
+              if (isNewUser) {
+                notificationDatabase.createNotification(
+                  dbUser.id,
+                  "welcome",
+                  "Welcome to Alchm Kitchen!",
+                  `Welcome, ${userName}! Your personalized culinary journey begins now. Complete your birth chart to unlock cosmic food recommendations.`,
+                ).catch(() => {});
+              } else {
+                notificationDatabase.createNotification(
+                  dbUser.id,
+                  "login_greeting",
+                  "Welcome Back!",
+                  `Good to see you again, ${userName}. Check out your latest cosmic insights.`,
+                  { expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() },
+                ).catch(() => {});
+              }
+
+              // Premium daily insight — only if user has a natal chart
+              const isPremium =
+                isAdminEmail(user.email) ||
+                isPremiumEmail(user.email) ||
+                (dbUser as any)?.tier === "premium";
+              const natalChart =
+                (dbUser as any)?.profile?.natalChart ||
+                (dbUser as any)?.profile?.natal_chart;
+
+              if (isPremium && natalChart?.planetaryPositions) {
+                import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
+                  generateDailyInsightNotification(dbUser!.id, natalChart).catch(() => {});
+                }).catch(() => {});
+              }
+            } catch (notifError) {
+              console.error("[auth] Notification creation failed (non-blocking):", notifError);
+            }
           } catch (bgError) {
             console.error("[auth] Background task error:", bgError);
           }

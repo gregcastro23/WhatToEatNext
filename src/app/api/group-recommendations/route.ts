@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { CUISINES } from "@/data/cuisines/index";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
-import { socialDatabase } from "@/services/socialDatabaseService";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
     // Linked friends (accepted friendships)
     if ((linkedUserIds).length > 0) {
       try {
-        const linkedFriends = await socialDatabase.getLinkedFriendsForUser(userId);
+        const linkedFriends = await commensalDatabase.getLinkedCommensalsForUser(userId);
         for (const friend of linkedFriends) {
           if (!(linkedUserIds).includes(friend.userId)) continue;
           const chart = friend.natalChart;

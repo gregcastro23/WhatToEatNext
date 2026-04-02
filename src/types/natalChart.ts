@@ -172,28 +172,6 @@ export interface LinkedCommensal {
 }
 
 /**
- * Friendship status between two registered users
- * @deprecated Use CommensalshipStatus instead
- */
-export type FriendshipStatus = "pending" | "accepted" | "blocked";
-
-/**
- * Friendship record between two registered users
- */
-export interface Friendship {
-  id: string;
-  requesterId: string;
-  requesterName?: string;
-  requesterEmail?: string;
-  addresseeId: string;
-  addresseeName?: string;
-  addresseeEmail?: string;
-  status: FriendshipStatus;
-  createdAt: string;
-  updatedAt: string;
-}
-
-/**
  * A saved birth chart — can be a primary chart, cosmic identity, or manual companion chart.
  * Decoupled from the monolithic user_profiles JSONB for easier querying and sharing.
  */
@@ -210,25 +188,11 @@ export interface SavedChart {
 }
 
 /**
- * A linked friend in the dining companions list.
- * When a friendship is accepted, the friend's chart data is synced here.
- */
-export interface LinkedFriend {
-  userId: string;
-  name: string;
-  email: string;
-  natalChart: NatalChart;
-  birthData: BirthData;
-  friendshipId: string;
-  syncedAt: string;
-}
-
-/**
- * Union type for dining companion entries — either a manual GroupMember or a LinkedFriend
+ * Union type for dining companion entries — either a manual GroupMember or a linked LinkedCommensal
  */
 export type DiningCompanion =
   | ({ type: "manual" } & GroupMember)
-  | ({ type: "linked" } & LinkedFriend);
+  | ({ type: "linked" } & LinkedCommensal);
 
 /**
  * Extended DiningGroup that supports a mix of manual and linked members
