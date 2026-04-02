@@ -12,12 +12,13 @@
  * - Rate limit errors handled gracefully per IDP error handling guidelines
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { createLogger } from "@/utils/logger";
+import { NextResponse } from "next/server";
 import type {
   InstacartShoppingListRequest,
   InstacartShoppingListResponse,
 } from "@/types/instacart";
+import { createLogger } from "@/utils/logger";
+import type { NextRequest} from "next/server";
 
 const logger = createLogger("InstacartAPI");
 
@@ -28,6 +29,7 @@ const FETCH_TIMEOUT_MS = 15_000;
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as InstacartShoppingListRequest;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { title, line_items } = body;
 
     if (!line_items || line_items.length === 0) {
