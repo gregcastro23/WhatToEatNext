@@ -9,6 +9,7 @@ import type {
   Commensalship,
   CommensalshipStatus,
   LinkedCommensal,
+  SavedChart,
   BirthData,
   NatalChart,
 } from "@/types/natalChart";
@@ -29,8 +30,9 @@ const getDbModule = async () => {
   return dbModule;
 };
 
-// In-memory fallback store
+// In-memory fallback stores
 const commensalshipsStore: Map<string, Commensalship> = new Map();
+const savedChartsStore: Map<string, SavedChart> = new Map();
 
 class CommensalDatabaseService {
   // ─── User Search ─────────────────────────────────────────
@@ -360,6 +362,72 @@ class CommensalDatabaseService {
     }
   }
 
+  // ─── Saved Charts (Cosmic Identities) ───────────────────────
+  // Moved here from the removed socialDatabaseService.
+
+  async getSavedChartsForUser(userId: string): Promise<SavedChart[]> {
+    const db = await getDbModule();
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `SELECT * FROM saved_charts WHERE owner_id = $1 ORDER BY is_primary DESC, created_at ASC`,
+          [userId],
+        );
+        return result.rows.map((r: any) => this.rowToSavedChart(r));
+      } catch (error) {
+        _logger.error("getSavedChartsForUser failed:", error as any);
+        return [];
+      }
+    }
+    return Array.from(savedChartsStore.values()).filter((c) => c.ownerId === userId);
+  }
+
+  async createSavedChart(data: {
+    ownerId: string;
+    label: string;
+    chartType: SavedChart["chartType"];
+    birthData: BirthData;
+    natalChart: NatalChart;
+    isPrimary?: boolean;
+  }): Promise<SavedChart | null> {
+    const db = await getDbModule();
+    const id = `chart_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const now = new Date().toISOString();
+    const chart: SavedChart = {
+      id, ownerId: data.ownerId, label: data.label, chartType: data.chartType,
+      birthData: data.birthData, natalChart: data.natalChart,
+      isPrimary: data.isPrimary ?? false, createdAt: now, updatedAt: now,
+    };
+    if (db) {
+      try {
+        await db.executeQuery(
+          `INSERT INTO saved_charts (id, owner_id, label, chart_type, birth_data, natal_chart, is_primary)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [id, data.ownerId, data.label, data.chartType,
+           JSON.stringify(data.birthData), JSON.stringify(data.natalChart), data.isPrimary ?? false],
+        );
+        return chart;
+      } catch (error) {
+        _logger.error("createSavedChart failed:", error as any);
+        return null;
+      }
+    }
+    savedChartsStore.set(id, chart);
+    return chart;
+  }
+
+  private rowToSavedChart(row: any): SavedChart {
+    return {
+      id: row.id, ownerId: row.owner_id, label: row.label, chartType: row.chart_type,
+      birthData: typeof row.birth_data === "string" ? JSON.parse(row.birth_data) : row.birth_data,
+      natalChart: typeof row.natal_chart === "string" ? JSON.parse(row.natal_chart) : row.natal_chart,
+      isPrimary: row.is_primary,
+      createdAt: row.created_at?.toISOString?.() ?? row.created_at,
+      updatedAt: row.updated_at?.toISOString?.() ?? row.updated_at,
+    };
+  }
+
+  // ─── Internal helpers ────────────────────────────────────────
   private rowToCommensalship(row: any): Commensalship {
     return {
       id: row.id,

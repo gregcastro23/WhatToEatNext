@@ -58,8 +58,8 @@ export function NotificationPanel() {
   if (notifications.length === 0) {
     return (
       <div className="text-center py-6 text-gray-400 text-sm">
-        No notifications yet. They will appear here when you receive friend requests,
-        commensal invitations, or cosmic insights.
+        No notifications yet. They will appear here when you receive commensal
+        invitations, acceptances, or cosmic insights.
       </div>
     );
   }

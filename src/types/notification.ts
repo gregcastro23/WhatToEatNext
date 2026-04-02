@@ -10,8 +10,6 @@ export type NotificationType =
   | 'welcome'
   | 'login_greeting'
   | 'daily_insight'
-  | 'friend_request'
-  | 'friend_accepted'
   | 'commensal_request'
   | 'commensal_accepted';
 
@@ -41,8 +39,6 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   welcome:            { bg: '#FFF8E1', border: '#FFD54F', icon: '🌟' },
   login_greeting:     { bg: '#E8F5E9', border: '#81C784', icon: '👋' },
   daily_insight:      { bg: '#E8EAF6', border: '#7986CB', icon: '🔮' },
-  friend_request:     { bg: '#FFF3E0', border: '#FFB74D', icon: '🤝' },
-  friend_accepted:    { bg: '#E0F7FA', border: '#4DD0E1', icon: '✨' },
   commensal_request:  { bg: '#FCE4EC', border: '#F48FB1', icon: '🍽️' },
   commensal_accepted: { bg: '#F3E5F5', border: '#CE93D8', icon: '🎉' },
 };

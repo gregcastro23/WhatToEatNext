@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedFriend } from '@/types/natalChart';
+import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 
 /* ─── Types ────────────────────────────────────────────── */
@@ -152,16 +152,6 @@ function AddByEmailForm({
         credentials: 'include',
         body: JSON.stringify({ email: userEmail }),
       });
-
-      // If commensal endpoint doesn't exist (404), try the friends endpoint
-      if (res.status === 404) {
-        res = await fetch('/api/friends/request', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ email: userEmail }),
-        });
-      }
 
       if (!res.ok) throw new Error('Failed to send request');
       const data = await res.json();
@@ -489,12 +479,12 @@ function GroupRecommendationsPanel({
   commensalIds,
   linkedUserIds,
   allMembers,
-  linkedFriends,
+  linkedCommensals,
 }: {
   commensalIds: string[];
   linkedUserIds: string[];
   allMembers: GroupMember[];
-  linkedFriends: LinkedFriend[];
+  linkedCommensals: LinkedCommensal[];
 }) {
   const [result, setResult] = useState<GroupRecommendationResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -530,7 +520,7 @@ function GroupRecommendationsPanel({
   const manualNames = allMembers
     .filter((m) => commensalIds.includes(m.id))
     .map((m) => m.name);
-  const linkedNames = linkedFriends
+  const linkedNames = linkedCommensals
     .filter((f) => linkedUserIds.includes(f.userId))
     .map((f) => f.name);
   const selectedNames = [...manualNames, ...linkedNames];
@@ -642,14 +632,14 @@ function GroupRecommendationsPanel({
 function DiningGroupSection({
   groups,
   members,
-  linkedFriends,
+  linkedCommensals,
   onGroupCreated,
   onGroupDeleted,
   onGetRecs,
 }: {
   groups: DiningGroup[];
   members: GroupMember[];
-  linkedFriends: LinkedFriend[];
+  linkedCommensals: LinkedCommensal[];
   onGroupCreated: (g: DiningGroup) => void;
   onGroupDeleted: (id: string) => void;
   onGetRecs: (manualIds: string[], linkedIds: string[]) => void;
@@ -662,7 +652,7 @@ function DiningGroupSection({
 
   const allCompanions = [
     ...members.map((m) => ({ id: m.id, name: m.name, element: m.natalChart?.dominantElement, isLinked: false })),
-    ...linkedFriends.map((f) => ({ id: f.userId, name: f.name, element: f.natalChart?.dominantElement, isLinked: true })),
+    ...linkedCommensals.map((f) => ({ id: f.userId, name: f.name, element: f.natalChart?.dominantElement, isLinked: true })),
   ];
 
   const toggleMember = (id: string) =>
@@ -785,7 +775,7 @@ function DiningGroupSection({
         const groupMemberNames = members
           .filter((m) => group.memberIds.includes(m.id))
           .map((m) => m.name);
-        const groupLinkedNames = linkedFriends
+        const groupLinkedNames = linkedCommensals
           .filter((f) => ((group as any).linkedUserIds ?? []).includes(f.userId))
           .map((f) => f.name);
         const allNames = [...groupMemberNames, ...groupLinkedNames];
@@ -827,7 +817,7 @@ function DiningGroupSection({
 
 export const CommensalManager: React.FC = () => {
   const [commensals, setCommensals] = useState<GroupMember[]>([]);
-  const [linkedFriends, setLinkedFriends] = useState<LinkedFriend[]>([]);
+  const [linkedCommensals, setLinkedCommensals] = useState<LinkedCommensal[]>([]);
   const [groups, setGroups] = useState<DiningGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -841,16 +831,16 @@ export const CommensalManager: React.FC = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const [cRes, gRes, fRes] = await Promise.all([
+        const [cRes, gRes, lcRes] = await Promise.all([
           fetch('/api/user/commensals', { credentials: 'include' }),
           fetch('/api/user/dining-groups', { credentials: 'include' }),
-          fetch('/api/friends', { credentials: 'include' }),
+          fetch('/api/commensals', { credentials: 'include' }),
         ]);
-        if (!cRes.ok || !gRes.ok || !fRes.ok) throw new Error('Failed to load data');
-        const [cData, gData, fData] = await Promise.all([cRes.json(), gRes.json(), fRes.json()]);
+        if (!cRes.ok || !gRes.ok) throw new Error('Failed to load data');
+        const [cData, gData, lcData] = await Promise.all([cRes.json(), gRes.json(), lcRes.ok ? lcRes.json() : Promise.resolve({ success: false })]);
         if (cData.success) setCommensals(cData.commensals ?? []);
         if (gData.success) setGroups(gData.diningGroups ?? []);
-        if (fData.success) setLinkedFriends(fData.linkedFriends ?? []);
+        if (lcData.success) setLinkedCommensals(lcData.linkedCommensals ?? []);
       } catch {
         // ignore
       } finally {
@@ -860,12 +850,12 @@ export const CommensalManager: React.FC = () => {
     void load();
   }, []);
 
-  const refreshLinkedFriends = async () => {
+  const refreshLinkedCommensals = async () => {
     try {
-      const res = await fetch('/api/friends', { credentials: 'include' });
+      const res = await fetch('/api/commensals', { credentials: 'include' });
       if (!res.ok) return;
       const data = await res.json();
-      if (data.success) setLinkedFriends(data.linkedFriends ?? []);
+      if (data.success) setLinkedCommensals(data.linkedCommensals ?? []);
     } catch {
       // ignore
     }
@@ -904,7 +894,7 @@ export const CommensalManager: React.FC = () => {
     );
   }
 
-  const totalCompanions = commensals.length + linkedFriends.length;
+  const totalCompanions = commensals.length + linkedCommensals.length;
 
   return (
     <div className="space-y-5">
@@ -944,7 +934,7 @@ export const CommensalManager: React.FC = () => {
           ) : (
             <AddByEmailForm
               key="email-form"
-              onRequestSent={refreshLinkedFriends}
+              onRequestSent={refreshLinkedCommensals}
               onCancel={() => setShowAddForm(false)}
             />
           )}
@@ -1001,7 +991,7 @@ export const CommensalManager: React.FC = () => {
             ))}
 
             {/* Linked friends */}
-            {linkedFriends.map((f) => (
+            {linkedCommensals.map((f) => (
               <CompanionCard
                 key={f.userId}
                 name={f.name}
@@ -1031,7 +1021,7 @@ export const CommensalManager: React.FC = () => {
             commensalIds={recManualIds}
             linkedUserIds={recLinkedIds}
             allMembers={commensals}
-            linkedFriends={linkedFriends}
+            linkedCommensals={linkedCommensals}
           />
         </div>
       )}
@@ -1041,7 +1031,7 @@ export const CommensalManager: React.FC = () => {
         <DiningGroupSection
           groups={groups}
           members={commensals}
-          linkedFriends={linkedFriends}
+          linkedCommensals={linkedCommensals}
           onGroupCreated={(g) => setGroups((prev) => [...prev, g])}
           onGroupDeleted={(id) => setGroups((prev) => prev.filter((g) => g.id !== id))}
           onGetRecs={(manualIds, linkedIds) => {

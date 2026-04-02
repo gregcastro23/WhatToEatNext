@@ -24,11 +24,24 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { targetUserId } = body as { targetUserId?: string };
+    const { targetUserId: rawTargetUserId, email } = body as { targetUserId?: string; email?: string };
+
+    // Support lookup by email (replaces the old /api/friends/request flow)
+    let targetUserId = rawTargetUserId;
+    if (!targetUserId && email && typeof email === "string") {
+      const found = await userDatabase.getUserByEmail(email.trim().toLowerCase());
+      if (!found) {
+        return NextResponse.json(
+          { success: false, message: "No user found with that email" },
+          { status: 404 },
+        );
+      }
+      targetUserId = found.id;
+    }
 
     if (!targetUserId || typeof targetUserId !== "string") {
       return NextResponse.json(
-        { success: false, message: "targetUserId is required" },
+        { success: false, message: "targetUserId or email is required" },
         { status: 400 },
       );
     }

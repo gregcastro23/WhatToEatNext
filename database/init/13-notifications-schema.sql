@@ -8,8 +8,6 @@ DO $$ BEGIN
     'welcome',
     'login_greeting',
     'daily_insight',
-    'friend_request',
-    'friend_accepted',
     'commensal_request',
     'commensal_accepted'
   );

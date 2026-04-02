@@ -18,7 +18,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
-import { socialDatabase } from "@/services/socialDatabaseService";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { CUISINES } from "@/data/cuisines/index";
 
 // Normalize CUISINES object into an iterable array with id field
@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
     // Linked friends (accepted friendships)
     if ((linkedUserIds as string[]).length > 0) {
       try {
-        const linkedFriends = await socialDatabase.getLinkedFriendsForUser(userId);
+        const linkedFriends = await commensalDatabase.getLinkedCommensalsForUser(userId);
         for (const friend of linkedFriends) {
           if (!(linkedUserIds as string[]).includes(friend.userId)) continue;
           const chart = friend.natalChart;

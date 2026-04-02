@@ -6,7 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { socialDatabase } from "@/services/socialDatabaseService";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
-  const charts = await socialDatabase.getSavedChartsForUser(userId);
+  const charts = await commensalDatabase.getSavedChartsForUser(userId);
   return NextResponse.json({ success: true, charts });
 }
 
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
     calculatedAt: new Date().toISOString(),
   };
 
-  const chart = await socialDatabase.createSavedChart({
+  const chart = await commensalDatabase.createSavedChart({
     ownerId: userId,
     label,
     chartType: "cosmic_identity",
