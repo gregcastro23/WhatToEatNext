@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
 import { socialDatabase } from "@/services/socialDatabaseService";
+import { notificationDatabase } from "@/services/notificationDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -59,6 +60,17 @@ export async function POST(request: NextRequest) {
       { status: 409 },
     );
   }
+
+  // Notify the addressee of the friend request (fire-and-forget)
+  const requester = await userDatabase.getUserById(userId);
+  const requesterName = (requester as any)?.profile?.name || (requester as any)?.name || "Someone";
+  notificationDatabase.createNotification(
+    addressee.id,
+    "friend_request",
+    "New Friend Request",
+    `${requesterName} wants to be your friend`,
+    { relatedUserId: userId },
+  ).catch(() => {});
 
   return NextResponse.json({ success: true, friendship }, { status: 201 });
 }

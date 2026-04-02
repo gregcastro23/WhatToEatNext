@@ -5,7 +5,9 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { userDatabase } from "@/services/userDatabaseService";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
+import { notificationDatabase } from "@/services/notificationDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -46,6 +48,17 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
+
+    // Notify the target user of the commensal request (fire-and-forget)
+    const requester = await userDatabase.getUserById(userId);
+    const requesterName = (requester as any)?.profile?.name || (requester as any)?.name || "Someone";
+    notificationDatabase.createNotification(
+      targetUserId,
+      "commensal_request",
+      "New Dining Companion Request",
+      `${requesterName} wants to be your dining companion`,
+      { relatedUserId: userId },
+    ).catch(() => {});
 
     return NextResponse.json(
       { success: true, commensalship },

@@ -17,6 +17,7 @@ import { DashboardOverview } from './DashboardOverview';
 import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
 import { RecommendationsPanel } from './RecommendationsPanel';
+import { NotificationPanel } from './NotificationPanel';
 import { SocialManager } from './SocialManager';
 
 export interface UserPreferences {
@@ -432,6 +433,11 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     <div className="space-y-5">
       {/* Live Transit Status Bar */}
       <LiveTransitBar natalChart={natalChart} />
+
+      {/* Notifications — post-it board */}
+      <CollapsibleSection title="Notifications" icon="&#x1F9EA;" defaultOpen>
+        <NotificationPanel />
+      </CollapsibleSection>
 
       {/* Hero Identity Card */}
       <ProfileHeroCard

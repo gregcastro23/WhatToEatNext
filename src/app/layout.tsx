@@ -7,6 +7,7 @@ import "./globals.css";
 import ClientProviders from "./ClientProviders";
 import PayPalButton from "@/components/PayPalButton";
 import NavAuthLink from "@/components/nav/NavAuthLink";
+import NotificationBell from "@/components/nav/NotificationBell";
 
 // Force dynamic rendering for all pages - the app relies on runtime
 // context providers (Chakra, Theme, User, Alchemical) that require
@@ -48,9 +49,12 @@ export default function RootLayout({
                       The Menu of the Moment in the Stars and Elements
                     </p>
                   </Link>
-                  {/* PayPal Button */}
-                  <div className="hidden md:block">
-                    <PayPalButton />
+                  <div className="flex items-center gap-3">
+                    <NotificationBell />
+                    {/* PayPal Button */}
+                    <div className="hidden md:block">
+                      <PayPalButton />
+                    </div>
                   </div>
                 </div>
 

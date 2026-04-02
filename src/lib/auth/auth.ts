@@ -97,9 +97,61 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         }
 
-        // Send email notifications — AWAITED so they complete before the
-        // serverless function terminates, but wrapped in allSettled so a
-        // failure never blocks sign-in.
+        // ─── In-app notifications (fire-and-forget) ────────────
+        // These must not block the sign-in flow to prevent the login
+        // page from spinning indefinitely.
+        try {
+          const { notificationDatabase } = await import(
+            "@/services/notificationDatabaseService"
+          );
+          const userName = user.name || user.email;
+
+          if (isNewUser) {
+            notificationDatabase.createNotification(
+              dbUser!.id,
+              "welcome",
+              "Welcome to Alchm Kitchen!",
+              `Welcome, ${userName}! Your personalized culinary journey begins now. Complete your birth chart to unlock cosmic food recommendations.`,
+            ).catch(() => {});
+          } else {
+            notificationDatabase.createNotification(
+              dbUser!.id,
+              "login_greeting",
+              "Welcome Back!",
+              `Good to see you again, ${userName}. Check out your latest cosmic insights.`,
+              { expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() },
+            ).catch(() => {});
+          }
+
+          // Premium daily insight — only if user has a natal chart
+          const isPremium =
+            isAdminEmail(user.email) ||
+            isPremiumEmail(user.email) ||
+            (dbUser as any)?.tier === "premium";
+          const natalChart =
+            (dbUser as any)?.profile?.natalChart ||
+            (dbUser as any)?.profile?.natal_chart;
+
+          if (isPremium && natalChart?.planetaryPositions) {
+            import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
+              generateDailyInsightNotification(dbUser!.id, natalChart).catch(() => {});
+            }).catch(() => {});
+          }
+        } catch (notifError) {
+          console.error("[auth] Notification creation failed (non-blocking):", notifError);
+        }
+
+        // ─── Email notifications ─────────────────────────────
+        // Capped at 5 seconds to prevent the login from spinning
+        // indefinitely when SMTP is slow or unreachable.
+        const emailTimeout = <T,>(promise: Promise<T>, ms = 5000): Promise<T> =>
+          Promise.race([
+            promise,
+            new Promise<T>((_, reject) =>
+              setTimeout(() => reject(new Error("Email timeout")), ms),
+            ),
+          ]);
+
         try {
           const emailService = (
             await import("@/services/emailService")
@@ -115,53 +167,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             // Login notification to admin team on EVERY sign-in
             emailPromises.push(
-              emailService
-                .sendLoginNotificationEmail(user.email, userName, isNewUser)
-                .then((success) => {
-                  if (success) {
-                    console.log(
-                      `[auth] Login notification sent for ${isNewUser ? "new" : "returning"} user: ${user.email}`,
-                    );
-                  } else {
-                    console.error(
-                      `[auth] Failed to send login notification for: ${user.email}`,
-                    );
-                  }
-                }),
+              emailTimeout(
+                emailService
+                  .sendLoginNotificationEmail(user.email, userName, isNewUser)
+                  .then((success) => {
+                    if (success) {
+                      console.log(
+                        `[auth] Login notification sent for ${isNewUser ? "new" : "returning"} user: ${user.email}`,
+                      );
+                    }
+                  }),
+              ),
             );
 
             // Welcome email only for brand-new users
             if (isNewUser) {
               emailPromises.push(
-                emailService
-                  .sendWelcomeEmail(user.email, userName)
-                  .then((success) => {
-                    if (success) {
-                      console.log(
-                        `[auth] Welcome email sent to new user: ${user.email}`,
-                      );
-                    } else {
-                      console.error(
-                        `[auth] Failed to send welcome email to: ${user.email}`,
-                      );
-                    }
-                  }),
+                emailTimeout(
+                  emailService
+                    .sendWelcomeEmail(user.email, userName)
+                    .then((success) => {
+                      if (success) {
+                        console.log(
+                          `[auth] Welcome email sent to new user: ${user.email}`,
+                        );
+                      }
+                    }),
+                ),
               );
             }
 
-            // Await all emails — allSettled ensures one failure doesn't cancel the rest
-            const results = await Promise.allSettled(emailPromises);
-            const failures = results.filter((r) => r.status === "rejected");
-            if (failures.length > 0) {
-              console.error(
-                `[auth] ${failures.length} email(s) failed for ${user.email}:`,
-                failures.map((f) => (f as PromiseRejectedResult).reason),
-              );
-            }
-          } else {
-            console.warn(
-              `[auth] Email service not configured - skipping sign-in emails for ${user.email}. Set RESEND_API_KEY or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.`,
-            );
+            // Await all emails — allSettled + timeout ensures we never block sign-in
+            await Promise.allSettled(emailPromises);
           }
         } catch (emailError) {
           // Never block sign-in due to email issues
