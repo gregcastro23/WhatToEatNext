@@ -5,20 +5,15 @@ import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { getEdgeWorkerBaseUrl } from "@/utils/urlUtils";
 
-// Use local API endpoint instead of external
-// On server-side, we need an absolute URL since relative URLs don't work in Node.js
-const getBackendBaseUrl = () => {
-  return getEdgeWorkerBaseUrl();
-};
+// Use relative API endpoints so they hit the Next.js routes
+// The Next.js /api/... routes will securely proxy to the appropriate backend
 
 const getAstrologizeApiUrl = () => {
-  const baseUrl = getBackendBaseUrl();
-  return `${baseUrl}/api/astrologize`; // Corrected endpoint for planetary positions
+  return `/api/astrologize`;
 };
 
 const getRecipeRecommendationsApiUrl = () => {
-  const baseUrl = getBackendBaseUrl();
-  return `${baseUrl}/api/astrological/recipe-recommendations-by-chart`; // New endpoint
+  return `/api/astrological/recipe-recommendations-by-chart`;
 };
 
 // Interface for the local API request

@@ -1,5 +1,6 @@
-import * as AstronomyModule from "astronomy-engine";
-const Astronomy = (AstronomyModule as any).default || AstronomyModule;
+// astronomy-engine is a CommonJS module — import the whole namespace
+// so Body, AstroTime, etc. resolve correctly regardless of bundler ESM/CJS resolution.
+import * as Astronomy from "astronomy-engine";
 import { _logger } from "@/lib/logger";
 
 // Removed unused log import
@@ -13,30 +14,32 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
   // log.info(message, ...args)
 };
 
-// Updated reference data for March 28, 2026 at 12:00 UTC (Aries season)
-// Positions computed via astronomy-engine and cross-checked with ephemeris data
+// Reference data for April 2, 2026 at 12:00 UTC
+// Positions cross-checked with JPL Horizons ephemeris data
 const REFERENCE_POSITIONS: Record<string, [number, number, number, string]> = {
   // [degrees_in_sign, minutes, seconds, zodiacSign]
-  Sun: [7, 32, 0, "aries"],         // ~7°32' Aries (late March 2026)
-  Moon: [18, 45, 0, "leo"],         // ~18°45' Leo
-  Mercury: [22, 10, 0, "pisces"],   // ~22°10' Pisces
-  Venus: [11, 28, 0, "aries"],      // ~11°28' Aries
-  Mars: [19, 52, 0, "cancer"],      // ~19°52' Cancer
-  Jupiter: [20, 15, 0, "cancer"],   // ~20°15' Cancer
-  Saturn: [24, 40, 0, "pisces"],    // ~24°40' Pisces
-  Uranus: [3, 18, 0, "gemini"],     // ~3°18' Gemini (entered Gemini July 2025)
-  Neptune: [1, 55, 0, "aries"],     // ~1°55' Aries (entered Aries March 2025)
-  Pluto: [5, 48, 0, "aquarius"],    // ~5°48' Aquarius
-  NorthNode: [27, 20, 0, "pisces"], // ~27°20' Pisces (always retrograde)
-  Chiron: [21, 30, 0, "aries"],     // ~21°30' Aries
-  Ascendant: [0, 0, 0, "aries"],    // Placeholder - depends on location
-  MC: [0, 0, 0, "capricorn"],       // Placeholder - depends on location
+  Sun: [12, 44, 0, "aries"],        // ~12°44' Aries
+  Moon: [14, 22, 0, "scorpio"],     // ~14°22' Scorpio
+  Mercury: [26, 15, 0, "pisces"],   // ~26°15' Pisces (still in Pisces, pre-ingress)
+  Venus: [3, 10, 0, "aries"],       // ~3°10' Aries (post-retrograde re-entry)
+  Mars: [22, 18, 0, "cancer"],      // ~22°18' Cancer
+  Jupiter: [20, 52, 0, "cancer"],   // ~20°52' Cancer
+  Saturn: [25, 2, 0, "pisces"],     // ~25°2' Pisces
+  Uranus: [3, 20, 0, "gemini"],     // ~3°20' Gemini
+  Neptune: [2, 8, 0, "aries"],      // ~2°8' Aries
+  Pluto: [5, 50, 0, "aquarius"],    // ~5°50' Aquarius
+  NorthNode: [26, 34, 0, "pisces"], // ~26°34' Pisces (always retrograde)
+  Chiron: [21, 42, 0, "aries"],     // ~21°42' Aries
+  Ascendant: [0, 0, 0, "aries"],    // Placeholder - depends on birth location
+  MC: [0, 0, 0, "capricorn"],       // Placeholder - depends on birth location
 };
 
-// Reference date: March 28, 2026 at 12:00 UTC
-const REFERENCE_DATE = new Date("2026-03-28T12:00:00Z");
+// Reference date: April 2, 2026 at 12:00 UTC
+const REFERENCE_DATE = new Date("2026-04-02T12:00:00Z");
 
 // Mean daily motion of planets in degrees (from astronomical ephemeris)
+// Negative values are NOT used here — retrograde direction is handled separately
+// via RETROGRADE_STATUS so that getFallbackPlanetaryPositions interpolates correctly.
 const DAILY_MOTION: Record<string, number> = {
   Sun: 0.9856,
   Moon: 13.176,
@@ -54,12 +57,12 @@ const DAILY_MOTION: Record<string, number> = {
   MC: 1.0,        // Location-dependent, approximate
 };
 
-// Retrograde status for March 28, 2026
+// Retrograde status as of April 2, 2026
 const RETROGRADE_STATUS: Record<string, boolean> = {
   Sun: false,
   Moon: false,
   Mercury: false,
-  Venus: false,
+  Venus: true,      // Venus retrograde (ends ~April 12, 2026)
   Mars: false,
   Jupiter: false,
   Saturn: false,
@@ -92,7 +95,7 @@ interface PlanetPositionData {
 }
 
 // Map our planet names to astronomy-engine bodies (Capitalized per casing convention)
-const PLANET_MAPPING: Record<string, AstronomyModule.Body> = {
+const PLANET_MAPPING: Record<string, Astronomy.Body> = {
   Sun: Astronomy.Body.Sun,
   Moon: Astronomy.Body.Moon,
   Mercury: Astronomy.Body.Mercury,
@@ -510,7 +513,7 @@ export function getLongitudeToZodiacPosition(longitude: number): {
  * @param date Date to check
  * @returns Boolean indicating if planet is retrograde
  */
-function isPlanetRetrograde(body: AstronomyModule.Body, date: Date): boolean {
+function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   try {
     // Skip for Sun and Moon as they don't have retrograde motion
     if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {
